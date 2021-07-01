@@ -27,6 +27,14 @@ def projects(request):
     except Exception as e:
         return JsonResponse({'results':[], 'error':1, 'error-msg':show_exc(e)})
 
+def channels(request):
+    try:
+        items= Channel.objects.all()
+
+        return render (request, "web/channels.html",{'items':items} )
+    except Exception as e:
+        return JsonResponse({'results':[], 'error':1, 'error-msg':show_exc(e)})
+
 def companies(request):
     try:
         items= Company.objects.all()
