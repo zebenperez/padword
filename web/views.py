@@ -43,3 +43,10 @@ def companies(request):
     except Exception as e:
         return JsonResponse({'results':[], 'error':1, 'error-msg':show_exc(e)})
 
+def devices(request):
+    try:
+        items= Device.objects.all()
+        return render (request, "web/devices.html",{'items':items} )
+    except Exception as e:
+        return JsonResponse({'results':[], 'error':1, 'error-msg':show_exc(e)})
+
