@@ -1,4 +1,4 @@
-{% load i18n %}
+{% load i18n static %}
 <html lang="en">
     <head>
         <meta charset="utf-8">
@@ -10,39 +10,42 @@
 
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
 
+        <!-- JQuery -->
+        <script src="https://code.jquery.com/jquery-3.5.1.js" ></script>
+
+        <!-- Shidix -->
+        <script src="{% static "js/common.js" %}"></script>
+
         <!-- Favicons -->
         <meta name="theme-color" content="#7952b3">
 
         <style>
-            .bd-placeholder-img { font-size: 1.125rem; text-anchor: middle; -webkit-user-select: none; -moz-user-select: none; user-select: none; }
-            @media (min-width: 768px) { .bd-placeholder-img-lg { font-size: 3.5rem; } }
+.bd-placeholder-img { font-size: 1.125rem; text-anchor: middle; -webkit-user-select: none; -moz-user-select: none; user-select: none; }
+@media (min-width: 768px) { .bd-placeholder-img-lg { font-size: 3.5rem; } }
         </style>
     </head>
     <body>
 
-        <header class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow" style="line-height:3em;">
-            <a class="navbar-brand col-md-3 col-lg-2 me-0 px-3" href="#" style="background:url('http://padword.shidix.es/images/Padword.png?365a49d0b3ae15e08faa4efef479cfe2') no-repeat; background-size:contain; background-position:center center;">
-            </a>
-            <button class="navbar-toggler position-absolute d-md-none collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <input class="form-control form-control-dark w-100" type="text" placeholder="Search" aria-label="Search">
-            <div class="navbar-nav">
-                <div class="nav-item text-nowrap">
-                    <a class="nav-link px-3" href="#">Sign out</a>
+        <header class="navbar sticky-top bg-dark flex-md-nowrap p-0 shadow" style="line-height:3em;">
+            <nav class="navbar navbar-expand-lg navbar-dark bg-dark w-100">
+                <div class="container-fluid">
+                    <a class="navbar-brand" href="#">Padword</a>
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse " id="navbarSupportedContent">
+                        <div class="navbar-nav d-flex flex-row justify-content-end w-100">
+                            {% include 'main-menu.html' %}
+                        </div>
+                    </div>
                 </div>
-            </div>
+            </nav>
         </header>
 
         <div class="container-fluid">
             <div class="row">
                 <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
                     <div class="position-sticky pt-3">
-                        <ul class="nav flex-column">
-                            {% include "main-menu.html" %}
-                        </ul>
-                        <hr>
-
                         <ul class="nav flex-column mb-2">
                             {% block second_menu %}
                             {% endblock second_menu %}

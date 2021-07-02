@@ -19,6 +19,9 @@ def index(request):
     except Exception as e:
         return JsonResponse({'results':[], 'error':1, 'error-msg':show_exc(e)})
 
+'''
+    Projects
+'''
 def projects(request):
     try:
         items= Project.objects.all()
@@ -27,6 +30,20 @@ def projects(request):
     except Exception as e:
         return JsonResponse({'results':[], 'error':1, 'error-msg':show_exc(e)})
 
+def project_search(request):
+    try:
+        kwargs = {}
+        if request.GET["s-name"] != "":
+            kwargs["name__icontains"] = request.GET["s-name"]
+        items = Project.objects.filter(**kwargs)
+        return render(request, "web/project-list.html", {'items': items,})
+    except Exception as e:
+        return JsonResponse({'results':[], 'error':1, 'error-msg':show_exc(e)})
+
+
+'''
+    Channels
+'''
 def channels(request):
     try:
         items= Channel.objects.all()
