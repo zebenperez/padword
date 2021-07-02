@@ -36,6 +36,10 @@ def project_search(request):
         if request.GET["s-name"] != "":
             kwargs["name__icontains"] = request.GET["s-name"]
         items = Project.objects.filter(**kwargs)
+        kwargs = {}
+        if request.GET["s-name"] != "":
+            kwargs["company__name__icontains"] = request.GET["s-name"]
+        items = items.union(Project.objects.filter(**kwargs))
         return render(request, "web/project-list.html", {'items': items,})
     except Exception as e:
         return JsonResponse({'results':[], 'error':1, 'error-msg':show_exc(e)})
