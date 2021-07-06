@@ -1,3 +1,5 @@
 *.pyc
 migrations
 collect_static
+get_static.sh
+viewlog.sh

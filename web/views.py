@@ -10,11 +10,7 @@ from padword.commons import show_exc
 
 def index(request):
     try:
-        companies = Company.objects.all()
-        registers = [{'name':comp.name,'uuid':comp.uuid} for comp in companies]
-
-        return render (request, "web/index.html",{'items':registers} )
-        return JsonResponse({'results':registers, 'error':0})
+        return render (request, "base_nestor.html")
         #return JsonResponse({'results':serializers.serialize("json", companies, fields=('uuid','name')), 'error':0})
     except Exception as e:
         return JsonResponse({'results':[], 'error':1, 'error-msg':show_exc(e)})

@@ -1,0 +1,9 @@
+
+{% extends 'base.html' %}
+{% load i18n %}
+{% block second_menu %}{% include 'web/second_menu.html' %} {% endblock second_menu %}
+{% block central_content %}
+<h2>{% trans 'Huéspedes' %} (<span id="items-counter">{{items|length}}</span>)</h2>
+    <input type="text" class="autosearch form-control form-control-dark w-100" name="s-name" id="s-name" placeholder="Nombre" data-url="{% url "guest-search" %}" data-target="guest-list" data-related="s-name"/>
+    <div id="guest-list">{% include "guest/guest-list.html" %}</div>
+{% endblock central_content %}
