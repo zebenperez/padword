@@ -8,9 +8,14 @@ urlpatterns = [
     #--------------------- Projects --------------------
     path('projects/', views.projects, name='projects'),
     path('projects/search/', views.project_search, name='project-search'),
-
+    #--------------------- Channels --------------------
     path('channels/', views.channels, name='channels'),
+    path('channels/search/', views.channel_search, name='channel-search'),
+    #--------------------- Companies --------------------
     path('companies/', views.companies, name='companies'),
+    path('companies/search/', views.company_search, name='company-search'),
+    #--------------------- Devices --------------------
     path('devices/', views.devices, name='devices'),
+    path('devices/search/', views.device_search, name='device-search'),
 ]
 

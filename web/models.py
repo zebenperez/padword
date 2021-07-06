@@ -72,7 +72,6 @@ class Device(models.Model):
         try:
             return (Channel.objects.get(uuid=self.channel_id))
         except Exception as e:
-            print (show_exc(e))
             return (Channel(uuid='0000-0000-00000000', name='UNDEFINED'))
 
     @property
