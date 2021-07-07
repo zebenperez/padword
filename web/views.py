@@ -18,9 +18,12 @@ def index(request):
 '''
     Projects
 '''
-def projects(request):
+def projects(request, company_id = None):
     try:
-        items= Project.objects.all()
+        if company_id is None:
+            items = Project.objects.all()
+        else:
+            items = Project.objects.filter(company__pk = company_id)
 
         return render (request, "web/projects.html",{'items':items} )
     except Exception as e:
@@ -43,12 +46,15 @@ def project_search(request):
 '''
     Channels
 '''
-def channels(request, project_id=None):
+def channels(request, project_id=None, company_id=None):
     try:
-        if project_id is None:
-            items= Channel.objects.all()
-        else:
+        print ('{} - {}'.format(project_id, company_id))
+        if project_id is not None:
             items = Channel.objects.filter(project__pk = project_id)
+        elif company_id is not None:
+            items = Channel.objects.filter(project__company__pk = company_id)
+        else:
+            items= Channel.objects.all()
         return render (request, "web/channels.html",{'items':items} )
     except Exception as e:
         return JsonResponse({'results':[], 'error':1, 'error-msg':show_exc(e)})
@@ -94,12 +100,16 @@ def company_search(request):
 '''
     Devices
 '''
-def devices(request, project_id = None):
+def devices(request, project_id = None, company_id = None, channel_id = None):
     try:
-        if project_id is None:
-            items= Device.objects.all()
-        else:
+        if project_id is not None:
             items= Device.by_project(Project.objects.filter(pk = project_id))
+        elif company_id is not None:
+            items= Device.by_company(Company.objects.filter(pk = company_id))
+        elif channel_id is not None:
+            items= Device.by_channel(Channel.objects.filter(pk = channel_id))
+        else:
+            items= Device.objects.all()
         return render (request, "web/devices.html",{'items':items} )
     except Exception as e:
         return JsonResponse({'results':[], 'error':1, 'error-msg':show_exc(e)})

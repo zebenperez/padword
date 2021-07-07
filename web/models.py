@@ -92,3 +92,26 @@ class Device(models.Model):
             print (show_exc(e))
             return (Device.objects.none())
 
+    @classmethod
+    def by_company(cls, companies):
+        try:
+            items = Device.objects.none()
+            for company in companies:
+                projects = Project.objects.filter(company__pk = company.pk)
+                items = items.union(Device.objects.filter(project_uuid__in = projects.all().values_list('uuid', flat=True)))
+            return (items)
+        except Exception as e:
+            print (show_exc(e))
+            return (Device.objects.none())
+
+    @classmethod
+    def by_channel(cls, channels):
+        try:
+            items = Device.objects.none()
+            for channel in channels:
+                items = items.union(Device.objects.filter(channel_id = channel.uuid))
+            return (items)
+        except Exception as e:
+            print (show_exc(e))
+            return (Device.objects.none())
+

@@ -17,7 +17,9 @@
                 <td>{{ item.project.company.name }}</td>
                 <td>{% if item.active == 1 %}<i class="text-success fas fa-check-circle"></i>{% else %}<i class="text-danger fas fa-times-circle"></i>{% endif%}</td>
                 <td>{{ item.uuid }}</td>
-                <td></td>
+                <td class="text-right">
+                    <a class="btn btn-xs btn-dark" href="{% url 'devices-by-channel' item.pk %}" title="{% trans 'Dispositivos' %}"><i class="fas fa-tablet-alt"></i></a>
+                </td>
             </tr>
             {% endfor %}
         </tbody>
