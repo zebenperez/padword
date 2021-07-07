@@ -43,9 +43,12 @@ def project_search(request):
 '''
     Channels
 '''
-def channels(request):
+def channels(request, project_id=None):
     try:
-        items= Channel.objects.all()
+        if project_id is None:
+            items= Channel.objects.all()
+        else:
+            items = Channel.objects.filter(project__pk = project_id)
         return render (request, "web/channels.html",{'items':items} )
     except Exception as e:
         return JsonResponse({'results':[], 'error':1, 'error-msg':show_exc(e)})
@@ -91,16 +94,19 @@ def company_search(request):
 '''
     Devices
 '''
-def devices(request):
+def devices(request, project_id = None):
     try:
-        items= Device.objects.all()
+        if project_id is None:
+            items= Device.objects.all()
+        else:
+            items= Device.by_project(Project.objects.filter(pk = project_id))
         return render (request, "web/devices.html",{'items':items} )
     except Exception as e:
         return JsonResponse({'results':[], 'error':1, 'error-msg':show_exc(e)})
 
 def device_search(request):
     try:
-        filters_to_search = ["imei__icontains", "serial_number__icontains", "room__icontains"]
+        filters_to_search = ["imei__icontains", "serial_number__icontains", "room__icontains", "alias__icontains"]
         search_value = request.GET["s-name"]
         if search_value != "":
             items = Device.objects.none()

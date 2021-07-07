@@ -81,3 +81,14 @@ class Device(models.Model):
         except Exception as e:
             return (Project(uuid='0000-0000-00000000', name='UNDEFINED'))
 
+    @classmethod
+    def by_project(cls, projects):
+        try:
+            items = Device.objects.none()
+            for project in projects:
+                items = items.union(Device.objects.filter(project_uuid = project.uuid))
+            return (items)
+        except Exception as e:
+            print (show_exc(e))
+            return (Device.objects.none())
+
