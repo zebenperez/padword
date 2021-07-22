@@ -19,6 +19,8 @@
             <td>{{ item.get_devices|length }}</td>
             <td>{{ item.uuid }}</td>
             <td class="d-flex justify-content-end">
+                <a class="me-1 btn btn-xs btn-dark ark" data-url="{% url "project-form" %}" data-target-modal="common-modal" 
+                    data-obj_id="{{item.id}}"><i class="fas fa-edit"></i></a>  
                 <a class="me-1 btn btn-xs btn-dark" href="{% url 'channels-by-project' item.pk %}" title="{% trans 'Canales' %}"><i class="fas fa-comments"></i></a>
                 <a class="me-1 btn btn-xs btn-dark" href="{% url 'devices-by-project' item.pk %}" title="{% trans 'Dispositivos' %}"><i class="fas fa-tablet-alt"></i></a>
             </td>

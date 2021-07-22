@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% load i18n %}
+
+{% block second_menu %}{% include 'web/second_menu.html' %} {% endblock second_menu %}
+
+{% block central_content %}
+    <h2>{% trans 'Proyectos' %} (<span id="items-counter">{{items|length}}</span>)
+        {% if company %}{% trans "de la compañía" %} {{company.name}}{% endif %}</h2>
+
+    <input type="hidden" name="s-comp" id="s-comp" value="{{company.id}}" />
+    <input type="text" class="autosearch form-control form-control-dark w-100" name="s-name" id="s-name" 
+        placeholder="Nombre o Compa&ntilde;&iacute;a" data-url="{% url "project-search" %}" 
+        data-target="project-list" data-related="s-name,s-comp" />
+
+    <a class="btn btn-success ark" data-url="{% url "project-form" %}" data-target-modal="common-modal">Añadir</a>  
+    {% include "common-modal.html" %}
+
+    <div id="project-list">{% include "web/projects/project-list.html" %}</div>
+{% endblock central_content %}

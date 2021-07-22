@@ -5,7 +5,8 @@ class PadwordRouter(object):
     """
     apps = {
                 'default':['web'],
-                'guest':['guest'],
+                'default':['guest'],
+                #'guest':['guest'],
             }
 
     def db_for_read(self, model, **hints):
@@ -21,7 +22,7 @@ class PadwordRouter(object):
         """ 
         Attempts to write oldversion models go to version1.
         """
-        for database, apps in self.apps: 
+        for database, apps in self.apps.items(): 
             if model._meta.app_label in self.apps.items():
                 return database
         return None
@@ -32,7 +33,7 @@ class PadwordRouter(object):
         """
         db_00 = ""
         db_01 = ""
-        for database, apps in self.apps: 
+        for database, apps in self.apps.items(): 
             if obj1._meta.app_label in self.apps.items():
                 db_00 = database
             if obj2._meta.app_label in self.apps.items():

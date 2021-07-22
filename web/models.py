@@ -1,29 +1,30 @@
 from django.db import models
 from django.utils.translation import ugettext as _
 from padword.commons import show_exc
+import datetime
 
 # Create your models here.
 
 class Company(models.Model):
-    uuid = models.CharField(max_length=255, verbose_name='UUID')
-    name = models.CharField(max_length=255, verbose_name='Name')
-    active = models.IntegerField(verbose_name = 'Active')
-    created_at = models.DateTimeField(verbose_name='Created at')
+    uuid = models.CharField(max_length=255, verbose_name='UUID', default="", null=True)
+    name = models.CharField(max_length=255, verbose_name='Name', default="", null=True)
+    active = models.IntegerField(verbose_name = 'Active', default=1, null=True)
+    created_at = models.DateTimeField(verbose_name='Created at', default=datetime.datetime.now, null=True)
     class Meta:
-        managed = False
-        db_table = 'companies'
+        #managed = False
+        #db_table = 'companies'
         verbose_name = _('Company')
         ordering = ['name']
 
 class Project(models.Model):
-    uuid = models.CharField(max_length=255, verbose_name='UUID')
-    name = models.CharField(max_length=255, verbose_name='Name')
-    active = models.IntegerField(verbose_name = 'Active')
+    uuid = models.CharField(max_length=255, verbose_name='UUID', default="")
+    name = models.CharField(max_length=255, verbose_name='Name', default="")
+    active = models.IntegerField(verbose_name = 'Active', default=1)
     company = models.ForeignKey(Company, verbose_name = 'Company', on_delete=models.SET_NULL, null=True)
-    created_at = models.DateTimeField(verbose_name='Created at')
+    created_at = models.DateTimeField(verbose_name='Created at', default=datetime.datetime.now)
     class Meta:
-        managed = False
-        db_table = 'projects'
+        #managed = False
+        #db_table = 'projects'
         verbose_name = _('Project')
         ordering = ['company__name', 'name']
 
@@ -41,8 +42,8 @@ class Channel(models.Model):
     project = models.ForeignKey(Project, verbose_name = 'Project', on_delete=models.SET_NULL, null=True)
     created_at = models.DateTimeField(verbose_name='Created at')
     class Meta:
-        managed = False
-        db_table = 'channels'
+        #managed = False
+        #db_table = 'channels'
         verbose_name = _('Channel')
         ordering = ['project__name', 'name']
 
@@ -62,8 +63,8 @@ class Device(models.Model):
     project_uuid = models.CharField(max_length=255, verbose_name='Project UUID')
 
     class Meta:
-        managed = False
-        db_table = 'devices-by-projects'
+        #managed = False
+        #db_table = 'devices-by-projects'
         verbose_name = _('Device')
         ordering = ['wifi_mac']
 

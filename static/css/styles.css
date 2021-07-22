@@ -1,4 +1,110 @@
-.bd-placeholder-img { font-size: 1.125rem; text-anchor: middle; -webkit-user-select: none; -moz-user-select: none; user-select: none; }
-@media (min-width: 768px) { .bd-placeholder-img-lg { font-size: 3.5rem; } }
-.nav-link.active {background:white !important; color:black !important;border-radius:5px;}
-.second-menu .nav-link.active {background:black!important; color:white!important;}
+html {
+    font-family: Roboto,sans-serif;
+    letter-spacing: .0892857143em;
+	background: #eff0f1;
+}
+
+.bd-placeholder-img {
+	font-size: 1.125rem;
+	text-anchor: middle;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	user-select: none; 
+}
+
+@media (min-width: 768px) 
+	{ 
+		.bd-placeholder-img-lg { 
+			font-size: 3.5rem;
+		} 
+	}
+
+.navbar {
+	height: 64px;
+}
+
+.navbar-nav .nav-link {
+	color:#ffffff !important;
+	text-transform: uppercase;
+	font-size: x-small;
+	font-weight: bold;
+	height: 36px;
+}
+.nav-link:hover {
+	color:#35a6de;
+}
+
+
+/*********************/
+
+#main-content {
+	background-color: rgba(99, 110, 114, 0.1); 
+	max-width: 100%;
+	min-width: 100%;
+	overflow-x: hidden;
+	display: flex;
+	flex-direction: row;
+	height: 100vh;
+	max-height: 100vh;
+	align-items: stretch;
+}
+.drawerHeader {
+	border-bottom: solid;
+	border-bottom-color: #3490dc;
+	font-weight: bold;
+	height: 50px;
+	padding: 10px 0px 10px 16px;
+}
+
+#sidebar.expanded {
+	width: 15%;
+	max-width: var(--sidebar-collapsed);
+	padding: 10px 0px 10px 0px;
+	min-height: 100%;
+	overflow: hidden;
+	z-index: 1001;
+	transition: width 200ms linear;
+	border-right:1px solid #e0e0e0;
+	background: white;
+}
+	
+#sidebar a.nav-link {
+	color: #212529;
+	align-self: center;
+	font-size: 1rem;
+}
+.nav-link.active {
+	background:#5b5b5b !important;
+	color: #ffffff;
+}
+.second-menu .nav-link.active {
+	background:#e5e5e5 !important;
+	color: #212529;
+}
+
+.second-menu .nav-link:hover {
+	background:#f6f6f6;
+}
+
+#content-section {
+	flex-basis: 90%;
+	height: 95vh;
+	padding-top: 15px;
+	margin-left: 1%;
+/*	overflow-y: scroll;*/
+	border:1px solid #e0e0e0;
+	background: white;
+}
+
+.table-striped th {
+	border-bottom:1px solid #dee2e6 !important;
+	color: rgba(0,0,0,.6);
+	font-size: .75rem;
+}
+.table-striped>tbody>tr {
+	--bs-table-accent-bg: white !important;
+}
+
+.table-striped>tbody>tr:hover {
+	--bs-table-accent-bg: #eee !important;
+}
