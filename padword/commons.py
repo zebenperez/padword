@@ -41,4 +41,6 @@ def set_obj_field(obj, field, value):
         setattr(obj, field, value)
     obj.save()
 
+def get_param(dic, param, default=""):
+    return dic[param] if param in dic and dic[param] != "" else default
 

@@ -1,15 +1,24 @@
 html {
-    font-family: Roboto,sans-serif;
-    letter-spacing: .0892857143em;
 	background: #eff0f1;
+    letter-spacing: .0892857143em;
+}
+
+body {
+    font-family: Roboto,sans-serif !important;
+}
+
+.navbar-brand img {
+	background-position: center center;
+	background-size: contain;
+	height: 24px;
 }
 
 .bd-placeholder-img {
 	font-size: 1.125rem;
 	text-anchor: middle;
+	user-select: none; 
 	-webkit-user-select: none;
 	-moz-user-select: none;
-	user-select: none; 
 }
 
 @media (min-width: 768px) 
@@ -25,53 +34,52 @@ html {
 
 .navbar-nav .nav-link {
 	color:#ffffff !important;
-	text-transform: uppercase;
 	font-size: x-small;
 	font-weight: bold;
-	height: 36px;
+	text-transform: uppercase;
 }
 .nav-link:hover {
 	color:#35a6de;
 }
 
-
 /*********************/
 
 #main-content {
+	align-items: stretch;
 	background-color: rgba(99, 110, 114, 0.1); 
-	max-width: 100%;
-	min-width: 100%;
-	overflow-x: hidden;
 	display: flex;
 	flex-direction: row;
 	height: 100vh;
 	max-height: 100vh;
-	align-items: stretch;
+	max-width: 100%;
+	min-width: 100%;
+/*	overflow-x: hidden;*/
 }
 .drawerHeader {
-	border-bottom: solid;
-	border-bottom-color: #3490dc;
+	border-bottom: 3px solid #3490dc;
 	font-weight: bold;
 	height: 50px;
 	padding: 10px 0px 10px 16px;
 }
 
 #sidebar.expanded {
-	width: 15%;
+	background: white;
+	border-right:1px solid #e0e0e0;
 	max-width: var(--sidebar-collapsed);
-	padding: 10px 0px 10px 0px;
 	min-height: 100%;
 	overflow: hidden;
-	z-index: 1001;
+	padding: 10px 0px 10px 0px;
 	transition: width 200ms linear;
-	border-right:1px solid #e0e0e0;
-	background: white;
+	width: 15%;
+	z-index: 1001;
 }
 	
 #sidebar a.nav-link {
-	color: #212529;
 	align-self: center;
-	font-size: 1rem;
+	color: #212529;
+	font-size: 0.9rem;
+	line-height: 2;
+	min-height: 45px;
 }
 .nav-link.active {
 	background:#5b5b5b !important;
@@ -87,24 +95,109 @@ html {
 }
 
 #content-section {
-	flex-basis: 90%;
+	flex-basis: 82%;
 	height: 95vh;
-	padding-top: 15px;
 	margin-left: 1%;
-/*	overflow-y: scroll;*/
-	border:1px solid #e0e0e0;
-	background: white;
 }
 
 .table-striped th {
 	border-bottom:1px solid #dee2e6 !important;
 	color: rgba(0,0,0,.6);
 	font-size: .75rem;
+	padding: 1.2rem 1rem !important;
 }
 .table-striped>tbody>tr {
 	--bs-table-accent-bg: white !important;
 }
+.table>:not(caption)>*>*
+{
+	padding: 1.3rem 1rem 0.5rem 1rem;
+}
 
 .table-striped>tbody>tr:hover {
 	--bs-table-accent-bg: #eee !important;
+}
+
+
+/************************/
+/*		UTILITIES		*/
+/************************/
+
+.content {
+	background: white;
+	border:1px solid #e0e0e0;
+}
+.btn-primary {
+	background-color: #36abfc !important;
+	border-color: #36abfc !important;
+	font-size: 0.9rem !important;
+    text-transform: uppercase;
+}
+.toolbar-search {
+	background-color: #fff;
+	border-top-left-radius: 0px;
+	border-top-right-radius: 0px;
+	border-bottom-right-radius: 3px;
+	border-bottom-left-radius: 3px;
+	box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+	list-style-type: none;
+    padding: 6px 14px;
+	width: 100%;
+}
+.toolbar-search input {
+	border: none;
+}
+.toolbar-content {
+    box-shadow: 0 2px 4px -1px rgb(0 0 0 / 20%), 0 4px 5px 0 rgb(0 0 0 / 14%), 0 1px 10px 0 rgb(0 0 0 / 12%);
+	padding: 15px;
+	display: flex;
+	flex-direction: row;
+	align-items: stretch;
+	border:none;
+	justify-content: space-between;
+}
+.toolbar-content h2 {
+	font-size: 1.25rem;
+	line-height: 1.5;
+	margin-bottom:0;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+.b-right {
+	border-right:1px solid #e0e0e0;
+	padding-right: 15px;
+}
+.b-bottom {
+	border-color: solid #949494;
+	border-width: 0px 0px 1px 0px !important;
+	border-radius:0px;
+}
+.form-control {
+	padding: 0rem 0.5em 0.1rem 0.5em;
+	font-size: 0.9em;
+	color: 666666;
+	border-color: #ced4da;
+	border-width: 0px 0px 1px 0px !important;
+}
+#common-modal-body {
+	color: 666666;
+}
+
+.save, .cancel {
+	text-transform: uppercase;
+}
+.save {
+	color: #36abfc;
+}
+ .cancel {
+	color: #666;
+}
+
+.fa, .fas {
+	color: rgba(0,0,0,.54);
+	font-size: 13px;
 }

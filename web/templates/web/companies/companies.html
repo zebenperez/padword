@@ -4,13 +4,20 @@
 {% block second_menu %}{% include 'web/second_menu.html' %} {% endblock second_menu %}
 
 {% block central_content %}
-    <h2>{% trans 'Compañías' %} (<span id="items-counter">{{items|length}}</span>)</h2>
 
-    <input type="text" class="autosearch form-control form-control-dark w-100" name="s-name" id="s-name" 
-        placeholder="Nombre" data-url="{% url "company-search" %}" data-target="company-list" data-related="s-name"/>
+<div class="toolbar-search">
+	<input type="text" class="autosearch form-control form-control-dark w-100" name="s-name" id="s-name" 
+	placeholder="Nombre" data-url="{% url "company-search" %}" data-target="company-list" data-related="s-name"/>
+</div>
 
-    <a class="btn btn-success ark" data-url="{% url "company-form" %}" data-target-modal="common-modal">Añadir</a>  
-    {% include "common-modal.html" %}
-
+<div class="content mt-4">
+	<div class="toolbar-content">
+		<h2 class="b-right">{% trans 'Compañías' %} (<span id="items-counter">{{items|length}}</span>)</h2>
+	    <a class="btn btn-primary ark" data-url="{% url "company-form" %}" data-target-modal="common-modal">Nueva compañía</a>  
+    	{% include "common-modal.html" %}
+	</div>
     <div id="company-list">{% include "web/companies/company-list.html" %}</div>
+</div>
+
+
 {% endblock central_content %}

@@ -29,7 +29,15 @@
                 <td>{{ item.room}}</td>
                 <td>{{ item.android_id_padword }}</td>
                 <td>{% if item.active == 1 %}<i class="text-success fas fa-check-circle"></i>{% else %}<i class="text-danger fas fa-times-circle"></i>{% endif%}</td>
-                <td></td>
+                <td>
+                    <a class="me-1 btn btn-xs ark" data-url="{% url "device-form" %}" data-target-modal="common-modal" 
+                        data-obj_id="{{item.id}}" data-channel_id="{{channel.id}}" data-project_id="{{project.id}}" data-company_id="{{company.id}}">
+                        <i class="fas fa-edit"></i></a>  
+	                <a class="btn btn-sm autoremove" data-model-name="web.device" data-obj-id="{{item.id}}" 
+                        data-url="{% url "autoremove_obj" %}" data-target="row_{{item.id}}" data-channel_id="{{channel.id}}" 
+                        data-project_id="{{project.id}}" data-company_id="{{company.id}}"
+                        data-confirm="{% trans "Are you sure to remove this element?" %}"> <i class="fas fa-trash"></i></a>
+                </td>
             </tr>
             {% endfor %}
         </tbody>

@@ -20,8 +20,10 @@ class Project(models.Model):
     uuid = models.CharField(max_length=255, verbose_name='UUID', default="")
     name = models.CharField(max_length=255, verbose_name='Name', default="")
     active = models.IntegerField(verbose_name = 'Active', default=1)
-    company = models.ForeignKey(Company, verbose_name = 'Company', on_delete=models.SET_NULL, null=True)
     created_at = models.DateTimeField(verbose_name='Created at', default=datetime.datetime.now)
+
+    company = models.ForeignKey(Company, verbose_name = 'Company', on_delete=models.SET_NULL, null=True)
+
     class Meta:
         #managed = False
         #db_table = 'projects'
@@ -35,12 +37,14 @@ class Project(models.Model):
         return devices
 
 class Channel(models.Model):
-    uuid = models.CharField(max_length=255, verbose_name='UUID')
+    uuid = models.CharField(max_length=255, verbose_name='UUID', default="")
     ui_uuid = models.CharField(max_length=255, verbose_name='UI-UUID', default='00000000-0000-0000-0000-000000000000')
-    name = models.CharField(max_length=255, verbose_name='Name')
-    active = models.IntegerField(verbose_name = 'Active')
+    name = models.CharField(max_length=255, verbose_name='Name', default="")
+    active = models.IntegerField(verbose_name = 'Active', default=1)
+    created_at = models.DateTimeField(verbose_name='Created at', default=datetime.datetime.now)
+
     project = models.ForeignKey(Project, verbose_name = 'Project', on_delete=models.SET_NULL, null=True)
-    created_at = models.DateTimeField(verbose_name='Created at')
+
     class Meta:
         #managed = False
         #db_table = 'channels'
@@ -48,19 +52,21 @@ class Channel(models.Model):
         ordering = ['project__name', 'name']
 
 class Device(models.Model):
-    uuid = models.CharField(max_length=255, verbose_name='UUID')
-    alias = models.CharField(max_length=255, verbose_name='Alias', null=True)
-    imei = models.CharField(max_length=255, verbose_name='IMEI', null=True)
-    net_type = models.CharField(max_length=255, verbose_name='Tipo de red', null=True)
+    uuid = models.CharField(max_length=255, verbose_name='UUID', default="")
+    alias = models.CharField(max_length=255, verbose_name='Alias', default="", null=True)
+    imei = models.CharField(max_length=255, verbose_name='IMEI', default="", null=True)
+    net_type = models.CharField(max_length=255, verbose_name='Tipo de red', default="", null=True)
     mac = models.CharField(max_length=255, verbose_name='Mac', null=False, default='00:00:00:00:00:00')
     wifi_mac = models.CharField(max_length=255, verbose_name='WiFi Mac', null=False, default='00:00:00:00:00:00')
-    channel_id = models.CharField(max_length=255, verbose_name='Channel ID')
-    room = models.CharField(max_length=255, verbose_name='Room')
-    android_id_padword = models.CharField(max_length=255, verbose_name='Android ID')
-    serial_number = models.CharField(max_length=255, verbose_name='Serial Number')
-    active = models.IntegerField(verbose_name = 'Active')
-    created_at = models.DateTimeField(verbose_name='Created at')
-    project_uuid = models.CharField(max_length=255, verbose_name='Project UUID')
+    room = models.CharField(max_length=255, verbose_name='Room', default="")
+    android_id_padword = models.CharField(max_length=255, verbose_name='Android ID', default="")
+    serial_number = models.CharField(max_length=255, verbose_name='Serial Number', default="")
+    active = models.IntegerField(verbose_name = 'Active', default=1)
+    created_at = models.DateTimeField(verbose_name='Created at', default=datetime.datetime.now)
+    channel_id = models.CharField(max_length=255, verbose_name='Channel ID', default="")
+    project_uuid = models.CharField(max_length=255, verbose_name='Project UUID', default="")
+
+    #channel = models.ForeignKey(Channel, verbose_name = 'Channel', on_delete=models.SET_NULL, null=True)
 
     class Meta:
         #managed = False

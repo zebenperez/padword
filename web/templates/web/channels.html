@@ -1,8 +1,0 @@
-{% extends 'base.html' %}
-{% load i18n %}
-{% block second_menu %}{% include 'web/second_menu.html' %} {% endblock second_menu %}
-{% block central_content %}
-<h2>{% trans 'Canales' %} (<span id="items-counter">{{items|length}}</span>)</h2>
-    <input type="text" class="autosearch form-control form-control-dark w-100" name="s-name" id="s-name" placeholder="Nombre, Compa&ntilde;&iacute;a o Proyecto" data-url="{% url "channel-search" %}" data-target="channel-list" data-related="s-name"/>
-    <div id="channel-list">{% include "web/channel-list.html" %}</div>
-{% endblock central_content %}

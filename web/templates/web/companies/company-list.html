@@ -9,16 +9,21 @@
         </thead>
         <tbody>
             {% for item in items %}
-            <tr class="small">
+            <tr class="small" id="row_{{item.id}}">
                 <td>{{ item.name }}</td>
                 <td>{% if item.active == 1 %}<i class="text-success fas fa-check-circle"></i>{% else %}<i class="text-danger fas fa-times-circle"></i>{% endif%}</td>
                 <td>{{ item.uuid }}</td>
                 <td class="d-flex justify-content-end">
-                    <a class="me-1 btn btn-xs btn-dark ark" data-url="{% url "company-form" %}" data-target-modal="common-modal" 
+                    <a class="me-1 btn btn-xs" href="{% url 'projects-by-company' item.pk %}" title="{% trans 'Proyectos' %}">
+                        <i class="fas fa-project-diagram"></i></a>
+                    <a class="me-1 btn btn-xs" href="{% url 'channels-by-company' item.pk %}" title="{% trans 'Canales' %}">
+                        <i class="fas fa-comments"></i></a>
+                    <a class="me-1 btn btn-xs" href="{% url 'devices-by-company' item.pk %}" title="{% trans 'Dispositivos' %}">
+                        <i class="fas fa-tablet-alt"></i></a>
+                    <a class="me-1 btn btn-xs ark" data-url="{% url "company-form" %}" data-target-modal="common-modal" 
                         data-obj_id="{{item.id}}"><i class="fas fa-edit"></i></a>  
-                    <a class="me-1 btn btn-xs btn-dark" href="{% url 'projects-by-company' item.pk %}" title="{% trans 'Proyectos' %}"><i class="fas fa-project-diagram"></i></a>
-                    <a class="me-1 btn btn-xs btn-dark" href="{% url 'channels-by-company' item.pk %}" title="{% trans 'Canales' %}"><i class="fas fa-comments"></i></a>
-                    <a class="me-1 btn btn-xs btn-dark" href="{% url 'devices-by-company' item.pk %}" title="{% trans 'Dispositivos' %}"><i class="fas fa-tablet-alt"></i></a>
+	                <a class="btn btn-sm autoremove" data-model-name="web.project" data-obj-id="{{item.id}}" data-url="{% url "autoremove_obj" %}" 
+                        data-target="row_{{item.id}}" data-confirm="{%trans "Are you sure to remove this element?"%}"><i class="fas fa-trash"></i></a>
                 </td>
             </tr>
             {% endfor %}

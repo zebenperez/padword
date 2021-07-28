@@ -41,6 +41,25 @@ function ajaxGetAutosave(url, datas, target)
     }); 
 };
 
+function ajaxGetRemove(url, datas, target)
+{
+    $.ajax({
+        url : url,
+        type : 'GET',
+        data : datas,
+        dataType : 'html',
+        beforeSend : function(){},
+        success : function(data){
+            if(data != "")
+                $('#'+target).html(data);
+            else
+                $('#'+target).remove();
+        },
+        error : function(e){alert("Error: "+e.responseText);},
+        complete : function(){}
+    }); 
+};
+
 function autoSearch(obj, num_rows=0)
 {
 	url = obj.data("url");
@@ -124,6 +143,20 @@ $(document).ready(()=>{
         e.preventDefault();
     });
 
+    $("body").on("click", ".autoremove", function(e){
+        if (confirm("Esta seguro/a de que desea borrar el elemento?"))
+        {
+            model_name = $(this).data("model-name");
+            obj_id = $(this).data("obj-id");
+            url = $(this).data("url");
+            target = $(this).data("target");
+            datas = {'model_name': model_name, 'obj_id': obj_id};
+            ajaxGetRemove(url, datas, target);
+            if ($(this).data("hide"))
+                $("#" + $(this).data("hide")).hide();
+            e.preventDefault();
+        }
+    });
 
 });
 

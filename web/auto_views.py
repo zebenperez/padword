@@ -9,7 +9,6 @@ from padword.commons import get_or_none_str, set_obj_field
 
 #@login_required
 def autosave_field(request):
-    print(request.GET)
     try:
         app = request.GET["model_name"].split(".")[0]
         model = request.GET["model_name"].split(".")[1]

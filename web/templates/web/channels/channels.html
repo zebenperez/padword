@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% load i18n %}
+
+{% block second_menu %}{% include 'web/second_menu.html' %} {% endblock second_menu %}
+
+{% block central_content %}
+    <div class="toolbar-search">
+        <input type="hidden" name="project_id" id="project_id" value="{{project.id}}" />
+        <input type="hidden" name="company_id" id="company_id" value="{{company.id}}" />
+        <input type="text" class="autosearch form-control form-control-dark w-100" name="s-name" id="s-name" 
+            placeholder="Nombre, Compa&ntilde;&iacute;a o Proyecto" data-url="{% url "channel-search" %}" 
+            data-target="channel-list" data-related="s-name"/>
+    </div>
+
+    <div class="content mt-4">
+        <div class="toolbar-content">
+            <h2>{% trans 'Canales' %} (<span id="items-counter">{{items|length}}</span>)
+                {% if company %}{% trans "de la compañía" %} {{company.name}}{% endif %}
+                {% if project %}{% trans "del proyecto" %} {{project.name}}{% endif %}
+            </h2>
+            <a class="btn btn-primary ark" data-url="{% url "channel-form" %}" data-target-modal="common-modal"
+                data-project_id="{{project.id}}" data-company_id="{{company.id}}">Nuevo canal</a>  
+            {% include "common-modal.html" %}
+        </div>
+        <div id="channel-list">{% include "web/channels/channel-list.html" %}</div>
+    </div>
+{% endblock central_content %}
