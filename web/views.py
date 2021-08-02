@@ -18,6 +18,7 @@ def index(request):
 '''
     Projects
 '''
+@login_required
 def projects(request, company_id=None):
     try:
         company = get_or_none(Company, company_id)
@@ -26,6 +27,7 @@ def projects(request, company_id=None):
     except Exception as e:
         return JsonResponse({'results':[], 'error':1, 'error-msg':show_exc(e)})
 
+@login_required
 def project_search(request):
     try:
         company_id = get_param(request.GET, "company_id")
@@ -44,6 +46,7 @@ def project_search(request):
         print (show_exc(e))
         return JsonResponse({'results':[], 'error':1, 'error-msg':show_exc(e)})
 
+@login_required
 def project_form(request):
     obj = get_or_none(Project, request.GET["obj_id"]) if "obj_id" in request.GET else Project.objects.create()
 
@@ -56,6 +59,7 @@ def project_form(request):
 
     return render(request, "web/projects/project-form.html", {'obj': obj, 'companies': Company.objects.all(), 'company_id': company_id})
 
+@login_required
 def project_remove(request):
     company_id = get_param(request.GET, "company_id", None)
     obj = get_or_none(Project, request.GET["obj_id"]) if "obj_id" in request.GET else None
@@ -83,6 +87,7 @@ def get_channels(project, company):
     context["items"] = items
     return context
 
+@login_required
 def channels(request, project_id=None, company_id=None):
     try:
         context = get_channels(get_or_none(Project, project_id), get_or_none(Company, company_id))
@@ -90,6 +95,7 @@ def channels(request, project_id=None, company_id=None):
     except Exception as e:
         return JsonResponse({'results':[], 'error':1, 'error-msg':show_exc(e)})
 
+@login_required
 def channel_search(request):
     try:
         company_id = get_param(request.GET, "company_id")
@@ -111,6 +117,7 @@ def channel_search(request):
         print (show_exc(e))
         return JsonResponse({'results':[], 'error':1, 'error-msg':show_exc(e)})
 
+@login_required
 def channel_form(request):
     obj = get_or_none(Channel, request.GET["obj_id"]) if "obj_id" in request.GET else Channel.objects.create()
 
@@ -125,6 +132,7 @@ def channel_form(request):
     context = {'obj': obj, 'projects': Project.objects.all(), 'project_id': project_id, 'company_id': company_id}
     return render(request, "web/channels/channel-form.html", context)
 
+@login_required
 def channel_remove(request):
     company_id = get_param(request.GET, "company_id", None)
     project_id = get_param(request.GET, "project_id", None)
@@ -137,6 +145,7 @@ def channel_remove(request):
 '''
     Companies
 '''
+@login_required
 def companies(request):
     try:
         items = Company.objects.all()
@@ -144,6 +153,7 @@ def companies(request):
     except Exception as e:
         return JsonResponse({'results':[], 'error':1, 'error-msg':show_exc(e)})
 
+@login_required
 def company_search(request):
     try:
         filters_to_search = ["name__icontains", ]
@@ -158,10 +168,12 @@ def company_search(request):
         print (show_exc(e))
         return JsonResponse({'results':[], 'error':1, 'error-msg':show_exc(e)})
 
+@login_required
 def company_form(request):
     obj = get_or_none(Company, request.GET["obj_id"]) if "obj_id" in request.GET else Company.objects.create()
     return render(request, "web/companies/company-form.html", {'obj': obj,})
 
+@login_required
 def company_remove(request):
     obj = get_or_none(Company, request.GET["obj_id"]) if "obj_id" in request.GET else None
     if obj != None:
@@ -176,7 +188,7 @@ def get_devices(channel, project, company):
     context = {}
     if channel is not None:
         #items = Device.by_channel(channel)
-        items = Device.objects.filter(channel_id = channel.id)
+        items = Device.objects.filter(channel_uuid = channel.uuid)
         context["channel"] = channel
     elif project is not None:
         #items = Device.by_project(project)
@@ -193,6 +205,7 @@ def get_devices(channel, project, company):
     return context
 
 
+@login_required
 def devices(request, project_id = None, company_id = None, channel_id = None):
     try:
         context = get_devices(get_or_none(Channel, channel_id), get_or_none(Project, project_id), get_or_none(Company, company_id))
@@ -224,6 +237,7 @@ def devices(request, project_id = None, company_id = None, channel_id = None):
 #        print (show_exc(e))
 #        return JsonResponse({'results':[], 'error':1, 'error-msg':show_exc(e)})
 #
+@login_required
 def device_search(request):
     try:
         company_id = get_param(request.GET, "company_id")
@@ -243,7 +257,7 @@ def device_search(request):
             if project != None:
                 kwargs["project_uuid"] = project.uuid
             if channel != None:
-                kwargs["channel_id"] = channel.id
+                kwargs["channel_uuid"] = channel.uuid
             if name != "":
                 kwargs[myfilter] = name
             items = items.union(Device.objects.filter(**kwargs))
@@ -252,6 +266,7 @@ def device_search(request):
         print (show_exc(e))
         return JsonResponse({'results':[], 'error':1, 'error-msg':show_exc(e)})
 
+@login_required
 def device_form(request):
     obj = get_or_none(Device, request.GET["obj_id"]) if "obj_id" in request.GET else Device.objects.create()
 
@@ -259,8 +274,10 @@ def device_form(request):
     project_id = get_param(request.GET, "project_id")
     channel_id = get_param(request.GET, "channel_id")
     if channel_id != "":
-        obj.channel_id = channel_id
-        obj.save()
+        channel = get_or_none(Channel, channel_id)
+        if channel != None:
+            obj.channel_uuid = channel.uuid
+            obj.save()
     if project_id != "":
         project = get_or_none(Project, project_id)
         if project != None:
@@ -270,6 +287,7 @@ def device_form(request):
     context = {'obj': obj, 'channel_id': channel_id, 'project_id': project_id, 'company_id': company_id}
     return render(request, "web/devices/device-form.html", context)
 
+@login_required
 def device_remove(request):
     company_id = get_param(request.GET, "company_id", None)
     project_id = get_param(request.GET, "project_id", None)

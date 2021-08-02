@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block central_content %}
+	{% if form.errors %}
+		<p>Your username and password didn't match. Please try again.</p>
+	{% endif %}
+
+	<div class="row login">
+		<div class="col-md-6  col-md-push-3 text-center">
+			<div class="panel panel-default panel-ull color-336699">
+				<div class="panel-heading">
+					<h1 class="panel-title"> Login </h1>
+                </div>
+                <div class="panel-body">
+					<br/>
+					<form class="form-horizontal" method="post" action="{% url "auth_login" %}">
+						{% csrf_token %}
+						<input type="hidden" name="next" value="{% url 'projects' %}" />
+                        <div class="form-group">
+							<label class="col-sm-4 control-label">Nombre de usuario: </label>
+							<div class="col-sm-6"><div class="form-group">
+                                <input placeholder="" class="form-control" type="text" name="username" id="id_username"/></div></div>
+                        </div>
+                        <div class="form-group">
+							<label class="col-sm-4 control-label">Contraseña: </label>
+                            <div class="col-sm-6"><div class="form-group">
+							    <input placeholder="" class="form-control" type="password" name="password" id="id_password"/></div></div>
+                        </div>
+                        <div class="form-group"> <div class="col-sm-12">
+						    <div class="form-inline"><div class="form-group"><input value="Entrar" class="btn btn-primary" type="submit"></div></div>
+		                </div></div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock %}

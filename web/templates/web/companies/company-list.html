@@ -22,7 +22,7 @@
                         <i class="fas fa-tablet-alt"></i></a>
                     <a class="me-1 btn btn-xs ark" data-url="{% url "company-form" %}" data-target-modal="common-modal" 
                         data-obj_id="{{item.id}}"><i class="fas fa-edit"></i></a>  
-	                <a class="btn btn-sm autoremove" data-model-name="web.project" data-obj-id="{{item.id}}" data-url="{% url "autoremove_obj" %}" 
+	                <a class="btn btn-sm autoremove" data-model-name="web.company" data-obj-id="{{item.id}}" data-url="{% url "autoremove_obj" %}" 
                         data-target="row_{{item.id}}" data-confirm="{%trans "Are you sure to remove this element?"%}"><i class="fas fa-trash"></i></a>
                 </td>
             </tr>
