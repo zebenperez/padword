@@ -1,6 +1,7 @@
 from django.db import models
 from django.utils.translation import ugettext as _
 from padword.commons import show_exc
+from django.conf import settings
 import datetime
 
 # Create your models here.
@@ -11,8 +12,9 @@ class Company(models.Model):
     active = models.IntegerField(verbose_name = 'Active', default=1, null=True)
     created_at = models.DateTimeField(verbose_name='Created at', default=datetime.datetime.now, null=True)
     class Meta:
-        managed = False
-        db_table = 'companies'
+        if (len(settings.DATABASES) > 1):
+            managed = False
+            db_table = 'companies'
         verbose_name = _('Company')
         ordering = ['name']
 
@@ -30,8 +32,9 @@ class Project(models.Model):
     company = models.ForeignKey(Company, verbose_name = 'Company', on_delete=models.SET_NULL, null=True)
 
     class Meta:
-        managed = False
-        db_table = 'projects'
+        if (len(settings.DATABASES) > 1):
+            managed = False
+            db_table = 'projects'
         verbose_name = _('Project')
         ordering = ['company__name', 'name']
 
@@ -51,8 +54,9 @@ class Channel(models.Model):
     project = models.ForeignKey(Project, verbose_name = 'Project', on_delete=models.SET_NULL, null=True)
 
     class Meta:
-        managed = False
-        db_table = 'channels'
+        if (len(settings.DATABASES) > 1):
+            managed = False
+            db_table = 'channels'
         verbose_name = _('Channel')
         ordering = ['project__name', 'name']
 
@@ -74,8 +78,9 @@ class Device(models.Model):
     #channel = models.ForeignKey(Channel, verbose_name = 'Channel', on_delete=models.SET_NULL, null=True)
 
     class Meta:
-        managed = False
-        db_table = 'devices-by-projects'
+        if (len(settings.DATABASES) > 1):
+            managed = False
+            db_table = 'devices-by-projects'
         verbose_name = _('Device')
         ordering = ['wifi_mac']
 

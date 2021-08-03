@@ -1,6 +1,7 @@
 from django.db import models
 from django.utils.translation import ugettext as _
 from padword.commons import show_exc
+from django.conf import settings
 
 from web.models import Channel, Project
 
@@ -69,8 +70,9 @@ class Guest(models.Model):
         
 
     class Meta:
-        managed = False
-        db_table = 'guests'
+        if len (settings.DATABASES) > 1:
+            managed = False
+            db_table = 'guests'
         verbose_name = _('Guest')
 
 class GuestByChannel(models.Model):
@@ -131,6 +133,7 @@ class GuestByChannel(models.Model):
         
 
     class Meta:
-        managed = False
-        db_table = 'guests-by-channel'
+        if len (settings.DATABASES) > 1:
+            managed = False
+            db_table = 'guests-by-channel'
         verbose_name = _('Guest')

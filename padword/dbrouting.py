@@ -1,3 +1,6 @@
+from django.conf import settings
+from padword.commons import show_exc
+
 class PadwordRouter(object):
     """ 
     A router to control all database operations on models in the
@@ -17,7 +20,10 @@ class PadwordRouter(object):
         """
         for database, apps in self.apps.items(): 
             if model._meta.app_label in apps:
-                return database
+                if database in settings.DATABASES.keys():
+                    return database
+                else:
+                    return 'default'
         return None
 
     def db_for_write(self, model, **hints):
@@ -26,7 +32,10 @@ class PadwordRouter(object):
         """
         for database, apps in self.apps.items(): 
             if model._meta.app_label in apps:
-                return database
+                if database in settings.DATABASES.keys():
+                    return database
+                else:
+                    return 'default'
         return None
 
     def allow_relation(self, obj1, obj2, **hints):

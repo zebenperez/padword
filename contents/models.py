@@ -1,6 +1,7 @@
 from django.db import models
 from django.utils.translation import ugettext as _
 from padword.commons import show_exc
+from django.conf import settings
 
 from web.models import Channel, Project
 
@@ -10,7 +11,7 @@ class Category(models.Model):
     ALLOWCHOICES = (('yes','Yes'), ('no','No'), ('inherit', 'Inherit'),)
     ISACTIVECHOICES = ((0,'No'), (1,'Yes'),)
 
-    uuid = models.CharField(max_length=36, verbose_name='UUID')
+    uuid = models.CharField(max_length=36, verbose_name='UUID', unique=True)
     #parent_uuid = models.CharField(max_length=36, verbose_name='UUID Parent', blank=True, null=True)
     parent_uuid = models.ForeignKey('Category', db_column = 'parent_uuid', to_field='uuid', on_delete=models.SET_NULL, null=True)
     project_uuid = models.CharField(max_length=36, verbose_name='UUID Project')
@@ -18,7 +19,7 @@ class Category(models.Model):
     name = models.TextField(verbose_name='Name')
     description = models.TextField(verbose_name='Description')
     translation = models.TextField(verbose_name='Translation')
-    allow_reservation = models.CharField(max_length='10', choices=ALLOWCHOICES, verbose_name='Allow Reservations', blank=True, null=True)
+    allow_reservation = models.CharField(max_length=10, choices=ALLOWCHOICES, verbose_name='Allow Reservations', blank=True, null=True)
     minimum_reservation = models.IntegerField(verbose_name='Minimum Reservation', blank=True, null=True)
     supplement_cost = models.TextField(verbose_name='Supplement Cost', blank=True, null=True)
     emergency_supplement_cost = models.TextField(verbose_name='Emergency Supplement Cost', blank=True, null=True)
@@ -67,6 +68,7 @@ class Category(models.Model):
             return Guest.objects.none()
 
     class Meta:
-        managed = False
-        db_table = 'categories'
+        if len(settings.DATABASES) > 1:
+            managed = False
+            db_table = 'categories'
         verbose_name = _('Category')
