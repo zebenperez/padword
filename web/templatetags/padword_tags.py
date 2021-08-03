@@ -1,5 +1,6 @@
 from django import template
 from django.urls import reverse
+import json
 
 register = template.Library()
 
@@ -25,4 +26,14 @@ def current_exact(context, url, **kwargs):
             return ""
     except:
         return ""
+
+@register.simple_tag(takes_context=True)
+def padword_translate(context, json_str):
+    try:
+        request = context['request']
+        lang = request.LANGUAGE_CODE
+        json_dict = json.loads(json_str)
+        return json_dict[lang.upper()]
+    except:
+        return json.loads(json_str)['ES']
 

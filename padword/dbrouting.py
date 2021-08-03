@@ -4,9 +4,11 @@ class PadwordRouter(object):
     oldversion application.
     """
     apps = {
-                'default':['web'],
-                'default':['guest'],
-                #'guest':['guest'],
+                'default':['auth'],
+                'cfg':['web'],
+                #'default':['guest'],
+                'guest':['guest'],
+                'content':['contents'],
             }
 
     def db_for_read(self, model, **hints):
@@ -23,7 +25,7 @@ class PadwordRouter(object):
         Attempts to write oldversion models go to version1.
         """
         for database, apps in self.apps.items(): 
-            if model._meta.app_label in self.apps.items():
+            if model._meta.app_label in apps:
                 return database
         return None
 

@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% load i18n %}
+
+{% block second_menu %}{% include 'web/second_menu.html' %} {% endblock second_menu %}
+
+{% block central_content %}
+    <div class="toolbar-search">
+        <input type="hidden" name="project_id" id="project_id" value="{{project.id}}" />
+        <input type="text" class="autosearch form-control form-control-dark w-100" name="s-name" id="s-name" 
+            placeholder="Nombre o Compa&ntilde;&iacute;a" data-url="{% url "project-search" %}" 
+            data-target="project-list" data-related="s-name,s-comp" />
+    </div>
+
+    <div class="content mt-4">
+        <div class="toolbar-content">
+            <h2 class="b-right">{% trans 'Categorías' %} (<span id="items-counter">{{items|length}}</span>)
+                {% if project %}{% trans "del proyecto" %} {{project.name}}{% endif %}</h2>
+            <a class="btn btn-primary ark" data-url="{% url "category-form" %}" data-target-modal="common-modal"
+                data-project_id="{{project.id}}">Nueva Categoría</a>  
+            {% include "common-modal.html" %}
+        </div>
+        <div id="project-list">{% include "contents/categories-list.html" %}</div>
+    </div>
+{% endblock central_content %}

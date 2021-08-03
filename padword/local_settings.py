@@ -1,20 +1,37 @@
-import os
+ALLOWED_HOSTS = ['*']
 
-DATABASES = {
+DATABASES = { 
     'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
-        'NAME': 'padword',                      # Or path to database file if using sqlite3.
-        # The following settings are not used with sqlite3:
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'padword_ms_shidix', 
+        'USER': 'padword_shidix',
+        'PASSWORD': 'padword_shidix',
+        'HOST': 'db-cfg',   
+        'PORT': '3306', # Set to empty string for default.
+    }   ,
+    'cfg': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'padword-ms-configuration', 
         'USER': 'padword',
-        'PASSWORD': '',
-        'HOST': '',                      # Empty for localhost through domain sockets or '127.0.0.1' for localhost through TCP.
-        'PORT': '5432',                      # Set to empty string for default.
-    }
+        'PASSWORD': 'padword',
+        'HOST': 'db-cfg',   
+        'PORT': '3306', # Set to empty string for default.
+    }   ,
+    'content': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'padword-ms-content', 
+        'USER': 'padword',
+        'PASSWORD': 'padword',
+        'HOST': 'db-cont',   
+        'PORT': '3306', # Set to empty string for default.
+    }   ,
+    'guest': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'padword-ms-guests', 
+        'USER': 'padword',
+        'PASSWORD': 'padword',
+        'HOST': 'db-cfg',   
+        'PORT': '3306', # Set to empty string for default.
+    }   
 }
-
-EMAIL_USE_TLS = True
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_HOST_USER = 'shidixtenerife@gmail.com'
-EMAIL_HOST_PASSWORD = 'shShidix2005'
-EMAIL_PORT = 587
 

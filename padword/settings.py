@@ -41,11 +41,13 @@ INSTALLED_APPS = [
     'web',
     'guest',
     'bookings',
+    'contents',
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.locale.LocaleMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -84,7 +86,7 @@ WSGI_APPLICATION = 'padword.wsgi.application'
 #    }
 #}
 #
-#DATABASE_ROUTERS = ['padword.dbrouting.PadwordRouter']
+DATABASE_ROUTERS = ['padword.dbrouting.PadwordRouter']
 #
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators

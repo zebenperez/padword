@@ -69,8 +69,8 @@ class Guest(models.Model):
         
 
     class Meta:
-        #managed = False
-        #db_table = 'guests'
+        managed = False
+        db_table = 'guests'
         verbose_name = _('Guest')
 
 class GuestByChannel(models.Model):
@@ -131,6 +131,6 @@ class GuestByChannel(models.Model):
         
 
     class Meta:
-        #managed = False
-        #db_table = 'guests-by-channel'
+        managed = False
+        db_table = 'guests-by-channel'
         verbose_name = _('Guest')

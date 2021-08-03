@@ -25,9 +25,10 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('web/', include('web.urls')),
     path('guest/', include('guest.urls')),
+    path('contents/', include('contents.urls')),
 
     path('accounts/login/', auth_views.LoginView.as_view(template_name='login.html'), name='auth_login'),
-    path('logout/', auth_views.LogoutView.as_view(next_page='/local/accounts/login/'), name='auth_logout'),
+    path('logout/', auth_views.LogoutView.as_view(next_page='/accounts/login/'), name='auth_logout'),
 ]
 
 from django.conf import settings

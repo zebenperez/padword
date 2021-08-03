@@ -11,22 +11,27 @@ class Company(models.Model):
     active = models.IntegerField(verbose_name = 'Active', default=1, null=True)
     created_at = models.DateTimeField(verbose_name='Created at', default=datetime.datetime.now, null=True)
     class Meta:
-        #managed = False
-        #db_table = 'companies'
+        managed = False
+        db_table = 'companies'
         verbose_name = _('Company')
         ordering = ['name']
 
 class Project(models.Model):
     uuid = models.CharField(max_length=255, verbose_name='UUID', default="")
     name = models.CharField(max_length=255, verbose_name='Name', default="")
+    longitude = models.CharField(max_length=255, verbose_name='Longitud', default="", blank=True)
+    latitude = models.CharField(max_length=255, verbose_name='Latitud', default="", blank=True)
+    default_language = models.CharField(max_length=255, verbose_name='Idioma por defecto', default="ES", blank=True)
+    currency = models.CharField(max_length=255, verbose_name='Moneda', default="EUR", blank=True)
+    radius = models.IntegerField(verbose_name = 'Radio (Km)', default=100)
     active = models.IntegerField(verbose_name = 'Active', default=1)
     created_at = models.DateTimeField(verbose_name='Created at', default=datetime.datetime.now)
 
     company = models.ForeignKey(Company, verbose_name = 'Company', on_delete=models.SET_NULL, null=True)
 
     class Meta:
-        #managed = False
-        #db_table = 'projects'
+        managed = False
+        db_table = 'projects'
         verbose_name = _('Project')
         ordering = ['company__name', 'name']
 
@@ -46,8 +51,8 @@ class Channel(models.Model):
     project = models.ForeignKey(Project, verbose_name = 'Project', on_delete=models.SET_NULL, null=True)
 
     class Meta:
-        #managed = False
-        #db_table = 'channels'
+        managed = False
+        db_table = 'channels'
         verbose_name = _('Channel')
         ordering = ['project__name', 'name']
 
@@ -69,8 +74,8 @@ class Device(models.Model):
     #channel = models.ForeignKey(Channel, verbose_name = 'Channel', on_delete=models.SET_NULL, null=True)
 
     class Meta:
-        #managed = False
-        #db_table = 'devices-by-projects'
+        managed = False
+        db_table = 'devices-by-projects'
         verbose_name = _('Device')
         ordering = ['wifi_mac']
 

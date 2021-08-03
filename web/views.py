@@ -48,16 +48,19 @@ def project_search(request):
 
 @login_required
 def project_form(request):
-    obj = get_or_none(Project, request.GET["obj_id"]) if "obj_id" in request.GET else Project.objects.create()
+    try:
+        obj = get_or_none(Project, request.GET["obj_id"]) if "obj_id" in request.GET else Project.objects.create(company=Company.objects.filter(active=1).first())
 
-    company_id = get_param(request.GET, "company_id")
-    if company_id != "":
-        company = get_or_none(Company, company_id)
-        if company != None:
-            obj.company = company
-            obj.save()
+        company_id = get_param(request.GET, "company_id")
+        if company_id != "":
+            company = get_or_none(Company, company_id)
+            if company != None:
+                obj.company = company
+                obj.save()
 
-    return render(request, "web/projects/project-form.html", {'obj': obj, 'companies': Company.objects.all(), 'company_id': company_id})
+        return render(request, "web/projects/project-form.html", {'obj': obj, 'companies': Company.objects.all(), 'company_id': company_id})
+    except Exception as e:
+        return render(request, 'error_exception.html', {'exc':show_exc(e)})
 
 @login_required
 def project_remove(request):
