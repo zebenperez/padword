@@ -4,3 +4,6 @@ collect_static
 get_static.sh
 viewlog.sh
 **.deprecated
+**.zeben
+**.dani
+local_settings.py
