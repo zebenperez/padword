@@ -1,5 +1,6 @@
 from django.apps import apps
 import sys
+import datetime
 
 
 '''
@@ -37,6 +38,10 @@ def set_obj_field(obj, field, value):
         setattr(obj, field, get_or_none_str(obj._meta.app_label, obj_field.remote_field.model.__name__, value))
     elif obj_field.get_internal_type() == "FloatField":
         setattr(obj, field, value.replace(",", "."))
+    elif obj_field.get_internal_type() == "DateTimeField":
+        date = datetime.datetime.strptime(value, '%Y-%m-%d')
+        if date >= datetime.datetime(1970,1,1):
+            setattr(obj, field, date)
     else:
         setattr(obj, field, value)
     obj.save()

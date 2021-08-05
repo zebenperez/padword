@@ -16,7 +16,7 @@
             <td>{{ item.name }}</td>
             <td>{{ item.company.name }}</td>
             <td>{% if item.active == 1 %}<i class="text-success fas fa-check-circle"></i>{% else %}<i class="text-danger fas fa-times-circle"></i>{% endif%}</td>
-            <td>{{ item.get_devices|length }}</td>
+            <td>{{ item.get_devices | length }}</td>
             <td>{{ item.uuid }}</td>
             <td class="d-flex justify-content-end">
                 <a class="me-1 btn btn-xs" href="{% url 'channels-by-project' item.pk %}" title="{% trans 'Canales' %}">
