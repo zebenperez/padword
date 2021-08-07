@@ -1,6 +1,7 @@
 from django.apps import apps
 import sys
 import datetime
+import json
 
 
 '''
@@ -48,4 +49,13 @@ def set_obj_field(obj, field, value):
 
 def get_param(dic, param, default=""):
     return dic[param] if param in dic and dic[param] != "" else default
+
+def translate(request, json_str):
+    try:
+        lang = request.LANGUAGE_CODE
+        json_dict = json.loads(json_str)
+        return json_dict[lang.upper()]
+    except Exception as e:
+        print (show_exc(e))
+        return json.loads(json_str)['ES']
 

@@ -4,21 +4,34 @@
     <thead>
         <tr class="small small">
             <th> {% trans 'Nombre' %}</th>
-            <th> {% trans 'Rango' %} </th>
             <th colspan="2"> {% trans 'Activo' %} </th>
         </tr>
     </thead>
     <tbody>
         {% for item in items %}
         <tr class="small" id="row_{{item.id}}">
-            <td>{% padword_translate item.name %}</td>
-            <td>{{ item.rank }}</td>
+            <td>
+                {% if not item.price %}
+                <a id="btn-show-{{item.pk}}" class="ark" data-url="{% url 'items-by-category' item.uuid %}" data-target="items-list-{{item.pk}}"><i class="text-success fas fa-sitemap"></i></a>
+                <a id="btn-hide-{{item.pk}}" class="d-none" onclick="hideTree({{item.pk}});"><i class="text-danger fas fa-sitemap"></i></a>
+                {% endif %}
+                {% padword_translate item.name %} 
+                <div id="items-list-{{item.pk}}" class="p-2"></div>
+            </td>
             <td>{% if item.is_active == 1 %}<i class="text-success fas fa-check-circle"></i>{% else %}<i class="text-danger fas fa-times-circle"></i>{% endif%}</td>
             <td class="">
+                <a target="_blank" href="{% url 'items-by-category' item.uuid %}"><i class="text-success fas fa-sitemap"></i></a>
             </td>
         </tr>
         {% endfor %}
     </tbody>
 </table>
-<script>$('#items-counter').html('{{items|length}}');</script>
+<script>
+    $('#items-counter').html('{{items|length}}');
+    function hideTree(id) {
+        $('#btn-hide-'+id).addClass('d-none');
+        $('#btn-show-'+id).removeClass('d-none');
+        $('#items-list-'+id).empty();
+    }
+</script>
 
