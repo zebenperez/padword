@@ -3,13 +3,14 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, JsonResponse
 from .models import *
 from django.core import serializers
-from padword.commons import show_exc, get_or_none, get_param
+from padword.commons import show_exc, get_or_none, get_param, new_ui_slug
 
 
 # Create your views here.
 
 def index(request):
     try:
+        return redirect('projects')
         return render (request, "base_nestor.html")
         #return JsonResponse({'results':serializers.serialize("json", companies, fields=('uuid','name')), 'error':0})
     except Exception as e:
@@ -50,6 +51,10 @@ def project_search(request):
 def project_form(request):
     try:
         obj = get_or_none(Project, request.GET["obj_id"]) if "obj_id" in request.GET else Project.objects.create(company=Company.objects.filter(active=1).first())
+        slug = new_ui_slug()
+        while Project.objects.filter(uuid=slug).exists():
+            slug = new_ui_slug()
+        obj.uuid = slug
 
         company_id = get_param(request.GET, "company_id")
         if company_id != "":
@@ -226,10 +231,8 @@ def get_devices(channel, project, company):
 
 @login_required
 def devices(request, project_id = None, company_id = None, channel_id = None):
-    print(project_id, company_id, channel_id)
     try:
         context = get_devices(get_or_none(Channel, channel_id), get_or_none(Project, project_id), get_or_none(Company, company_id))
-        print(context)
         return render (request, "web/devices/devices.html", context)
     except Exception as e:
         return JsonResponse({'results':[], 'error':1, 'error-msg':show_exc(e)})

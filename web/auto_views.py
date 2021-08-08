@@ -28,6 +28,7 @@ def autosave_field(request):
     except Exception as e:
         #logger.error("[autosave_field]: %s" % e)
         print(show_exc(e))
+        return render(request, 'simple-error-plane.html', {'msg': str(e)})
         return render(request, 'simple-error.html', {'msg': str(e)})
 
 #@login_required

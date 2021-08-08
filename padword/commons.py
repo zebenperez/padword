@@ -2,6 +2,8 @@ from django.apps import apps
 import sys
 import datetime
 import json
+import string
+import random
 
 
 '''
@@ -59,3 +61,6 @@ def translate(request, json_str):
         print (show_exc(e))
         return json.loads(json_str)['ES']
 
+def new_ui_slug():
+    slug = '{}-{}-{}-{}-{}'.format(''.join([random.choice(string.digits+'abcdef') for i in range(8)]),''.join([random.choice(string.digits+'abcdef') for i in range(4)]),''.join([random.choice(string.digits+'abcdef') for i in range(4)]),''.join([random.choice(string.digits+'abcdef') for i in range(4)]),''.join([random.choice(string.digits+'abcdef') for i in range(12)]))
+    return slug

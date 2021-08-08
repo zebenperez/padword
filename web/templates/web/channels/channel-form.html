@@ -28,8 +28,8 @@
 		{% trans "Active" %}:
 		<select class="form-control autosave b-bottom mb-4" id="active" name="active" value="{{obj.active}}" title="{{obj.active}}" 
 			data-model-name="web.channel" data-obj-id="{{obj.id}}" data-url="{% url "autosave_field" %}" data-target="div-notification"/>
-		    <option value="1" {%if obj.active == "1"%}selected{%endif%}>{% trans "Yes" %}</option>
-		    <option value="0" {%if obj.active == "0"%}selected{%endif%}>{% trans "No" %}</option>
+		    <option value="1" {%if obj.active == 1%}selected{%endif%}>{% trans "Yes" %}</option>
+		    <option value="0" {%if obj.active == 0%}selected{%endif%}>{% trans "No" %}</option>
 		</select>
 		<span id="active__msg"></span>
 	</div>
@@ -38,7 +38,7 @@
 <div class="row justify-center">
 	<div class="col-sm-6 col-md-6 col-12">
 		{% trans "Created at" %}:
-		<input type="date" class="form-control autosave b-bottom mb-4" id="created_at" name="created_at" value="{{obj.created_at}}" title="{{obj.created_at}}" 
+		<input type="date" class="form-control autosave b-bottom mb-4" id="created_at" name="created_at" value="{{obj.created_at|date:'Y-m-d'}}" title="{{obj.created_at}}" 
 			data-model-name="web.channel" data-obj-id="{{obj.id}}" data-url="{% url "autosave_field" %}" data-target="div-notification"/>
 			<span id="created_at__msg"></span>	
 	</div>

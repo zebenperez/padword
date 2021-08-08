@@ -3,7 +3,7 @@
     {% for item in cat.get_items %}
     <tr>
         <td>{% padword_translate item.name %}</td>
-        <td>{{item.price|currency}}</td>
+        <td align="right">{{item.price|currency}}</td>
     </tr>
     {% endfor %}
 </table>

@@ -3,12 +3,9 @@
         <thead>
             <tr class="small small">
                 <th> # </th>
-                <th> {% trans 'IMEI' %} </th>
-                <th> {% trans 'Serial' %} </th>
-                <th> {% trans 'Alias' %} </th>
+                <th> {% trans 'IMEI - Serial - Alias' %} </th>
                 <th> {% trans 'Proyecto' %} </th>
                 <th> {% trans 'Canal' %} </th>
-                <th> {% trans 'Compañía' %} </th>
                 <th> {% trans 'Red' %} </th>
                 <th> {% trans 'Habitación' %} </th>
                 <th> {% trans 'Android Id' %} </th>
@@ -17,19 +14,16 @@
         </thead>
         <tbody>
             {% for item in items %}
-            <tr class="small" id="row_{{item.id}}">
+            <tr class="small small" id="row_{{item.id}}">
                 <td>{{ forloop.counter }}</td>
-                <td>{{ item.imei }}</td>
-                <td>{{ item.serial_number }}</td>
-                <td>{{ item.alias }}</td>
+                <td>{{ item.imei }}<br> {{ item.serial_number }} <br> {{item.alias}}</td>
                 <td>{{ item.project.name }}</td>
                 <td>{{ item.channel.name }}</td>
-                <td>{{ item.project.company.name }}</td>
                 <td>{{ item.net_type }}</td>
                 <td>{{ item.room}}</td>
                 <td>{{ item.android_id_padword }}</td>
                 <td>{% if item.active == 1 %}<i class="text-success fas fa-check-circle"></i>{% else %}<i class="text-danger fas fa-times-circle"></i>{% endif%}</td>
-                <td>
+                <td class="text-nowrap">
                     <a class="me-1 btn btn-xs ark" data-url="{% url "device-form" %}" data-target-modal="common-modal" 
                         data-obj_id="{{item.id}}" data-channel_id="{{channel.id}}" data-project_id="{{project.id}}" data-company_id="{{company.id}}">
                         <i class="fas fa-edit"></i></a>  
@@ -42,4 +36,4 @@
             {% endfor %}
         </tbody>
     </table>
-    <script>$('#items-counter').html('{{items|length}}');</script>
+    {% if items %} <script>$('#items-counter').html('{{items|length}}');</script> {%endif%}
