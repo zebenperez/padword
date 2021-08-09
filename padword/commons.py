@@ -37,10 +37,31 @@ def set_obj_field(obj, field, value):
         setattr(obj, field, get_or_none_str(obj._meta.app_label, obj_field.remote_field.model.__name__, value))
     elif obj_field.get_internal_type() == "FloatField":
         setattr(obj, field, value.replace(",", "."))
+    elif obj_field.get_internal_type() == "BooleanField":
+        setattr(obj, field, (value == "True"))
     else:
         setattr(obj, field, value)
     obj.save()
 
+#def set_obj_field(obj, field, value):
+#    obj_field = obj._meta.get_field(field)
+#    if obj_field.get_internal_type() == "ManyToManyField":
+#        getattr(obj, field).clear()
+#        for item in value:
+#            getattr(obj, field).add(get_or_none_str(obj._meta.app_label, obj_field.remote_field.model.__name__, item))
+#    elif obj_field.get_internal_type() == "ForeignKey":
+#        setattr(obj, field, get_or_none_str(obj._meta.app_label, obj_field.remote_field.model.__name__, value))
+#    elif obj_field.get_internal_type() == "FloatField":
+#        setattr(obj, field, value.replace(",", "."))
+#    else:
+#        setattr(obj, field, value)
+#    obj.save()
+#
 def get_param(dic, param, default=""):
     return dic[param] if param in dic and dic[param] != "" else default
 
+def get_float(val):
+    try:
+        return float(val)
+    except:
+        return 0.0

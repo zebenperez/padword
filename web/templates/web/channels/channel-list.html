@@ -18,7 +18,7 @@
                 <td>{% if item.active == 1 %}<i class="text-success fas fa-check-circle"></i>{% else %}<i class="text-danger fas fa-times-circle"></i>{% endif%}</td>
                 <td>{{ item.uuid }}</td>
                 <td class="text-right">
-                    <a class="btn btn-xs btn-dark" href="{% url 'devices-by-channel' item.pk %}" title="{% trans 'Dispositivos' %}">
+                    <a class="btn btn-xs" href="{% url 'devices-by-channel' item.pk %}" title="{% trans 'Dispositivos' %}">
                         <i class="fas fa-tablet-alt"></i></a>
                     <a class="me-1 btn btn-xs ark" data-url="{% url "channel-form" %}" data-target-modal="common-modal" 
                         data-obj_id="{{item.id}}" data-project_id="{{project.id}}" data-company_id="{{company.id}}"><i class="fas fa-edit"></i></a>  

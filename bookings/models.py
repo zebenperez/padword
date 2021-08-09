@@ -65,8 +65,8 @@ class Block(models.Model):
         return self.question_set.filter(parent__isnull=True)
 
     class Meta:
-        verbose_name = '2.- Bloque de preguntas'
-        verbose_name_plural = '2.- Bloques de preguntas'
+        verbose_name = '3.- Bloque de preguntas'
+        verbose_name_plural = '3.- Bloques de preguntas'
         ordering = ['order']
 
 class Question(models.Model):
@@ -82,8 +82,8 @@ class Question(models.Model):
         return self.text
 
     class Meta:
-        verbose_name = '3.- Pregunta'
-        verbose_name_plural = '3.- Preguntas'
+        verbose_name = '4.- Pregunta'
+        verbose_name_plural = '4.- Preguntas'
         ordering = ['order']
 
 class Field(models.Model):
@@ -105,6 +105,7 @@ class Field(models.Model):
 
 class Form(models.Model):
     name = models.CharField(max_length=200, verbose_name="Nombre")
+    channel = models.CharField(max_length=200, verbose_name="Canal", default="")
 
     form_type = models.ForeignKey(FormType, on_delete=models.CASCADE, verbose_name="Tipo Formulario", blank=True, null=True)
     blocks = models.ManyToManyField(Block, blank=True, verbose_name="Bloques de preguntas")
@@ -117,30 +118,12 @@ class Form(models.Model):
         verbose_name_plural = '2.- Formularios'
 
 class FormInstance(models.Model):
-    DRAFT = 's01'
-    CONFIRMED = 's02'
-    STATUS_CHOICES = [
-        (DRAFT, 'Borrador'),
-        (CONFIRMED, 'Confirmado'),
-    ]
-
     code = models.CharField(verbose_name="Código", max_length=20, default="")
 
-    status = models.CharField(max_length=3, choices=STATUS_CHOICES, default=DRAFT)
     form = models.ForeignKey(Form, on_delete=models.CASCADE, verbose_name="Formulario", blank=True, null=True)
 
     def __str__(self):
         return "%s" % (self.code)
-
-    def set_status(self, status_code):
-        if status_code in {self.DRAFT, self.CONFIRMED}:
-            self.status = status_code
-            self.save()
-            return True
-        return False
-
-    def is_confirmed(self):
-        return (self.status != self.DRAFT)
 
     def check_obligatory(self, q, index):
         answers = self.answerinstance_set.filter(question=q, index=index, field__obligatory=True)
