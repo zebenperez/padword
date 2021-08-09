@@ -16,18 +16,18 @@
             <td>{{ item.name }}</td>
             <td>{{ item.company.name }}</td>
             <td>{% if item.active == 1 %}<i class="text-success fas fa-check-circle"></i>{% else %}<i class="text-danger fas fa-times-circle"></i>{% endif%}</td>
-            <td>{{ item.get_devices|length }}</td>
+            <td>{{ item.get_devices | length }}</td>
             <td>{{ item.uuid }}</td>
-            <td class="d-flex justify-content-end">
-                <a class="me-1 btn btn-xs" href="{% url 'channels-by-project' item.pk %}" title="{% trans 'Canales' %}">
+            <td class="justify-content-end text-nowrap">
+                <a class="btn btn-xs" href="{% url 'channels-by-project' item.pk %}" title="{% trans 'Canales' %}">
                     <i class="fas fa-comments"></i></a>
-                <a class="me-1 btn btn-xs" href="{% url 'devices-by-project' item.pk %}" title="{% trans 'Dispositivos' %}">
+                <a class="btn btn-xs" href="{% url 'devices-by-project' item.pk %}" title="{% trans 'Dispositivos' %}">
                     <i class="fas fa-tablet-alt"></i></a>
                 {% if item.uuid %}
-                <a class="me-1 btn btn-xs" href="{% url 'categories-by-project' item.uuid %}" title="{% trans 'Categorías' %}">
+                <a class="btn btn-xs" href="{% url 'categories-by-project' item.uuid %}" title="{% trans 'Categorías' %}">
                     <i class="fas fa-project-diagram"></i></a>
                 {% endif %}
-                <a class="me-1 btn btn-xs ark" data-url="{% url "project-form" %}" data-target-modal="common-modal" 
+                <a class="btn btn-xs ark" data-url="{% url "project-form" %}" data-target-modal="common-modal" 
                     data-obj_id="{{item.id}}" data-company_id="{{company.id}}"><i class="fas fa-edit"></i></a>  
 	            <a class="btn btn-sm autoremove" data-model-name="web.project" data-obj-id="{{item.id}}" data-url="{% url "autoremove_obj" %}" 
                     data-target="row_{{item.id}}" data-confirm="{% trans "Are you sure to remove this element?" %}"

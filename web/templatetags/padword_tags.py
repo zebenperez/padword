@@ -1,6 +1,7 @@
 from django import template
 from django.urls import reverse
 import json
+from padword.commons import show_exc
 
 register = template.Library()
 
@@ -36,4 +37,13 @@ def padword_translate(context, json_str):
         return json_dict[lang.upper()]
     except:
         return json.loads(json_str)['ES']
+
+@register.filter
+def currency(json_str):
+    try:
+        json_dict = json.loads(json_str)
+        return "{:.2f} {}".format(float(json_dict["value"]), json_dict["type"])
+    except Exception as e:
+        print (show_exc(e))
+        return "UNSETTING"
 

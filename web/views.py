@@ -3,13 +3,14 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, JsonResponse
 from .models import *
 from django.core import serializers
-from padword.commons import show_exc, get_or_none, get_param
+from padword.commons import show_exc, get_or_none, get_param, new_ui_slug
 
 
 # Create your views here.
 
 def index(request):
     try:
+        return redirect('projects')
         return render (request, "base_nestor.html")
         #return JsonResponse({'results':serializers.serialize("json", companies, fields=('uuid','name')), 'error':0})
     except Exception as e:
@@ -50,6 +51,10 @@ def project_search(request):
 def project_form(request):
     try:
         obj = get_or_none(Project, request.GET["obj_id"]) if "obj_id" in request.GET else Project.objects.create(company=Company.objects.filter(active=1).first())
+        slug = new_ui_slug()
+        while Project.objects.filter(uuid=slug).exists():
+            slug = new_ui_slug()
+        obj.uuid = slug
 
         company_id = get_param(request.GET, "company_id")
         if company_id != "":
@@ -122,18 +127,25 @@ def channel_search(request):
 
 @login_required
 def channel_form(request):
-    obj = get_or_none(Channel, request.GET["obj_id"]) if "obj_id" in request.GET else Channel.objects.create()
-
-    company_id = get_param(request.GET, "company_id")
-    project_id= get_param(request.GET, "project_id")
-    if project_id != "":
+    try:
+        company_id = get_param(request.GET, "company_id")
+        project_id= get_param(request.GET, "project_id")
         project = get_or_none(Project, project_id)
-        if project != None:
-            obj.project = project
-            obj.save()
+        if project is None:
+            project = Project.objects.filter(active=1).first()
+        obj = get_or_none(Channel, request.GET["obj_id"]) if "obj_id" in request.GET else Channel.objects.create(project=project)
 
-    context = {'obj': obj, 'projects': Project.objects.all(), 'project_id': project_id, 'company_id': company_id}
-    return render(request, "web/channels/channel-form.html", context)
+        if project_id != "":
+            project = get_or_none(Project, project_id)
+            if project != None:
+                obj.project = project
+                obj.save()
+
+        context = {'obj': obj, 'projects': Project.objects.all(), 'project_id': project_id, 'company_id': company_id}
+        return render(request, "web/channels/channel-form.html", context)
+    except Exception as e:
+        print (show_exc(e))
+        return render(request, "error_exception.html", {'exc':e})
 
 @login_required
 def channel_remove(request):
@@ -188,24 +200,33 @@ def company_remove(request):
     Devices
 '''
 def get_devices(channel, project, company):
-    context = {}
-    if channel is not None:
-        #items = Device.by_channel(channel)
-        items = Device.objects.filter(channel_uuid = channel.uuid)
-        context["channel"] = channel
-    elif project is not None:
-        #items = Device.by_project(project)
-        items = Device.objects.filter(project_uuid = project.uuid)
-        context["project"] = project
-    elif company is not None:
-        #items = Device.by_company(company)
-        uuid_list = [item.uuid for item in Project.objects.filter(company=company)]
-        items = Device.objects.filter(project_uuid__in = uuid_list)
-        context["company"] = company
-    else:
-        items= Device.objects.all()
-    context["items"] = items
-    return context
+    try:
+        context = {}
+        if channel is not None:
+            #items = Device.by_channel(channel)
+            items = Device.objects.filter(channel= channel)
+            context["channel"] = channel
+        elif project is not None:
+            #items = Device.by_project(project)
+            items = project.get_devices
+            context["project"] = project
+        elif company is not None:
+            #items = Device.by_company(company)
+            projects = Projects.objects.filter(company=company)
+            items = Device.objects.none()
+            for project in projects:
+                items = items | project.get_devices
+#         uuid_list = [item.uuid for item in Project.objects.filter(company=company)]
+#         items = Device.objects.filter(project_uuid__in = uuid_list)
+            context["company"] = company
+        else:
+            items = Device.objects.all()
+        print(items)
+        context["items"] = items
+        return context
+    except Exception as e:
+        print(show_exc(e))
+        return {'items':Device.objects.none()}
 
 
 @login_required
@@ -271,24 +292,24 @@ def device_search(request):
 
 @login_required
 def device_form(request):
-    obj = get_or_none(Device, request.GET["obj_id"]) if "obj_id" in request.GET else Device.objects.create()
+    try:
+        obj = get_or_none(Device, request.GET["obj_id"]) if "obj_id" in request.GET else Device.objects.create()
 
-    company_id = get_param(request.GET, "company_id")
-    project_id = get_param(request.GET, "project_id")
-    channel_id = get_param(request.GET, "channel_id")
-    if channel_id != "":
-        channel = get_or_none(Channel, channel_id)
-        if channel != None:
-            obj.channel_uuid = channel.uuid
-            obj.save()
-    if project_id != "":
-        project = get_or_none(Project, project_id)
-        if project != None:
-            obj.project_uuid = project.uuid
-            obj.save()
+        company_id = get_param(request.GET, "company_id")
+        project_id = get_param(request.GET, "project_id")
+        channel_id = get_param(request.GET, "channel_id")
+        if channel_id != "":
+            channel = get_or_none(Channel, channel_id)
+            if channel != None:
+                obj.channel_uuid = channel.uuid
+                obj.save()
 
-    context = {'obj': obj, 'channel_id': channel_id, 'project_id': project_id, 'company_id': company_id}
-    return render(request, "web/devices/device-form.html", context)
+        context = {'obj': obj, 'channel_id': channel_id, 'project_id': project_id, 'company_id': company_id}
+        return render(request, "web/devices/device-form.html", context)
+    except Exception as e:
+        print (show_exc(e))
+        return render(request, 'error_exception.html', {'exc':show_exc(e)})
+
 
 @login_required
 def device_remove(request):

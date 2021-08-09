@@ -1,7 +1,7 @@
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from django.shortcuts import render
-from padword.commons import get_or_none_str, set_obj_field
+from padword.commons import get_or_none_str, set_obj_field, show_exc
 
 #import logging
 #logger = logging.getLogger(__name__)
@@ -27,6 +27,8 @@ def autosave_field(request):
         return HttpResponse("Not saved, object not found!")
     except Exception as e:
         #logger.error("[autosave_field]: %s" % e)
+        print(show_exc(e))
+        return render(request, 'simple-error-plane.html', {'msg': str(e)})
         return render(request, 'simple-error.html', {'msg': str(e)})
 
 #@login_required

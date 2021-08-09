@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, JsonResponse
 from .models import *
+import json
 from django.core import serializers
 from padword.commons import show_exc, get_or_none, get_param
 
@@ -16,12 +17,31 @@ def index(request):
         return JsonResponse({'results':[], 'error':1, 'error-msg':show_exc(e)})
 
 @login_required
+def category_search(request):
+    try:
+        project_id = get_param(request.GET, "project_id")
+        name = get_param(request.GET, "s-name")
+        filters_to_search = ["name__icontains"]
+        items = Channel.objects.none()
+        print ("DEB", project_id)
+        for myfilter in filters_to_search:
+            kwargs = {}
+            if project_id != "":
+                kwargs["project_uuid"] = project_id
+            if name != "":
+                kwargs[myfilter] = name
+            items = items.union(Category.objects.filter(**kwargs))
+        return render(request, "contents/categories-list.html", {'items': items, })
+    except Exception as e:
+        print (show_exc(e))
+        return JsonResponse({'results':[], 'error':1, 'error-msg':show_exc(e)})
+
+@login_required
 def categories_by_project(request, project_id):
     try:
         project = Project.objects.get(uuid=project_id)
-        categories = Category.objects.filter(project_uuid=project_id, parent_uuid__isnull =True, is_active=1).order_by('pk')
+        categories = Category.objects.filter(project_uuid=project_id, parent__isnull =True, is_active=1).order_by('pk')
         return render(request, "contents/categories.html", {'project':project, 'items':categories})
-        return JsonResponse({'results':len(categories), 'error':0})
     except Exception as e:
         return JsonResponse({'results':[], 'error':1, 'error-msg':show_exc(e)})
 
@@ -36,3 +56,11 @@ def category_form(request):
             obj.save()
 
     return render(request, "contents/category-form.html", {'obj': obj, 'company_id': company_id})
+
+@login_required
+def category_tree(request, category_id):
+    try:
+        category = Category.objects.get(uuid=category_id)
+        return render(request, 'contents/items-list.html', {'cat':category})
+    except Exception as e:
+        return JsonResponse({'results':[], 'error':1, 'error-msg':show_exc(e)})

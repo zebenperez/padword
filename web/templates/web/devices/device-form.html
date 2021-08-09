@@ -1,6 +1,6 @@
 {% load i18n %}
 
-<h2>{% trans 'Nuevo canal' %}</h2>
+<h2>{% trans 'Nuevo dispositivo' %}</h2>
 
 <span id="div-notification"></span><br/>
 
@@ -93,12 +93,6 @@
             data-target="div-notification"/> <span id="channel_id__msg"></span>	
 	</div>
 
-	<div class="col-sm-6 col-md-6 col-12">
-		{% trans "Project UUID" %}:
-		<input type="text" class="form-control autosave b-bottom mb-4" id="project_uuid" name="project_uuid" value="{{obj.project_uuid}}" 
-            title="{{obj.project_uuid}}" data-model-name="web.device" data-obj-id="{{obj.id}}" data-url="{% url "autosave_field" %}" 
-            data-target="div-notification"/> <span id="project_uuid__msg"></span>	
-	</div>
 </div>		
 
 
