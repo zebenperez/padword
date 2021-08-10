@@ -129,6 +129,10 @@ $(document).ready(()=>{
         url = obj.data("url");
         target = obj.data("target");
         field = obj.attr("name");
+        if (obj.data("ref-field"))
+            ref_field = obj.data("ref-field");
+        else
+            ref_field = "pk";
 
         if (obj.data("bool"))
             if (obj.is(':checked'))
@@ -138,7 +142,7 @@ $(document).ready(()=>{
         else
             value = obj.val();
 
-        datas = {'model_name': model_name, 'obj_id': obj_id, 'field': field, 'value': value};
+        datas = {'model_name': model_name, 'obj_id': obj_id, 'field': field, 'value': value, "ref_field":ref_field};
         ajaxGetAutosave(url, datas, target);
         e.preventDefault();
     });

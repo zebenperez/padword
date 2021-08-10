@@ -14,12 +14,19 @@ def autosave_field(request):
         model = request.GET["model_name"].split(".")[1]
         obj_id = request.GET["obj_id"]
         field = request.GET["field"]
+        print(request.GET)
+        try:
+            reffield = request.GET["ref_field"]
+        except:
+            reffield = "pk"
         try:
             value = request.GET["value"]
         except:
             value = request.GET.getlist("value[]")
 
-        obj = get_or_none_str(app, model, obj_id)
+        print(reffield)
+
+        obj = get_or_none_str(app, model, obj_id, field=reffield)
         if obj != None:
             set_obj_field(obj, field, value)
             obj.save()
