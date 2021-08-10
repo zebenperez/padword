@@ -1,0 +1,16 @@
+{% load i18n %}
+
+<h2>{% trans 'Log' %}</h2>
+
+<div class="row justify-center">
+    <ul>
+        {% for item in fi.logs.all %}
+            <li>({{item.date}}) {{item.text}}</li>
+        {% endfor %}
+    </ul>
+</div>
+
+<div class="d-flex justify-content-end">
+	<button type="button" class="btn btn-sm" data-bs-dismiss="modal">{% trans "Cerrar" %}</button>
+</div>
+

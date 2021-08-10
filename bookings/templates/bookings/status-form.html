@@ -1,0 +1,28 @@
+{% load i18n %}
+
+<h2>{% trans 'Status change' %}</h2>
+
+<form method="POST" action="{% url "change-status" %}"/>
+    {% csrf_token %}
+    <div class="row justify-center">
+        <div class="col-sm-6 col-md-5 col-12">
+            {% trans "Status" %}: 
+            <input type="hidden" id="fi_id" name="fi_id" value="{{obj.id}}" />
+            <select class="form-control b-bottom mb-4" id="status" name="status"/> 
+                <option value="02" {%if obj.status == "02"%}selected{%endif%}>{% trans "Sended" %}</option>
+                <option value="03" {%if obj.status == "03"%}selected{%endif%}>{% trans "Canceled" %}</option>
+                <option value="04" {%if obj.status == "04"%}selected{%endif%}>{% trans "Received" %}</option>
+                <option value="05" {%if obj.status == "05"%}selected{%endif%}>{% trans "Readed" %}</option>
+                <option value="06" {%if obj.status == "06"%}selected{%endif%}>{% trans "Confirmed" %}</option>
+                <option value="07" {%if obj.status == "07"%}selected{%endif%}>{% trans "Rejected" %}</option>
+                <option value="08" {%if obj.status == "08"%}selected{%endif%}>{% trans "Waiting" %}</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="d-flex justify-content-end">
+        <input type="submit" class="btn btn-sm save" data-bs-dismiss="modal" value="{% trans "Save" %}" />
+        <button type="button" class="btn btn-sm cancel" data-bs-dismiss="modal"> {% trans "Cancel" %}</button>
+    </div>
+</form>
+

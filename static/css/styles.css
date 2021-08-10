@@ -207,7 +207,7 @@ body {
 .form-control {
 	padding: 0rem 0.5em 0.1rem 0.5em;
 	font-size: 0.9em;
-	color: 666666;
+	color: #333;
 	border-color: #ced4da;
 	border-width: 0px 0px 1px 0px !important;
 }
@@ -242,9 +242,27 @@ input.form-control.login {
 	color: #666;
 }
 
-.fa, .fas {
+.fa, .fas, .far {
 	color: rgba(0,0,0,.54);
 	font-size: 13px;
+}
+.multiselect_btn {
+	border: 1px solid #ced4da;
+	border-radius: 5px;
+	padding: 5px;
+}
+.multiselect_btn_act {
+	border: 1px solid #36abfc !important;
+	border-radius: 3px;
+	color: #36abfc !important;
+	padding: 5px;
+}
+.multiselect_btn, .multiselect_btn_act {
+	font-size: 0.9rem !important;
+	float:left;
+	width:auto;
+	margin:5px;
+	cursor: pointer;
 }
 
 @media (min-width: 960px) {
