@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% load i18n bookings_tag common_tag %}
+
+{% block central_content %}
+    {% if msg == "02" %}
+        {% trans "Su reserva se ha enviado correctamente." %}
+    {% elif msg == "03" %}
+        {% trans "Su reserva se ha cancelado correctamente." %}
+    {% endif %}
+{% endblock %}
+
+

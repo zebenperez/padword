@@ -59,15 +59,16 @@ class BlockAdmin(admin.ModelAdmin):
 class FormAdmin(admin.ModelAdmin):
 	list_display = ('name',)
 	filter_horizontal = ('blocks',)
+	search_fields = ['channel']
 
 class FormInstanceAdmin(admin.ModelAdmin):
-	list_display = ('code', 'form', 'status', 'fill_form')
+	list_display = ('pk', 'code', 'form', 'fill_form')
 	search_fields = ['code']
-	list_filter = ('form__form_type', 'status')
+	list_filter = ('form__form_type',)
 	list_per_page = 500
 
 	def fill_form(self, obj):
-		return mark_safe("<a href='%s' target='_blank'>Editar</a>" % (reverse('fill-form', args=[obj.id])))
+		return mark_safe("<a href='%s' target='_blank'>Editar</a>" % (reverse('booking-edit', args=[obj.id])))
 	fill_form.short_description = 'Editar'
 
 class FormTypeAdmin(admin.ModelAdmin):

@@ -1,62 +1,63 @@
 from django.db import models
+from django.utils.translation import ugettext_lazy as _ 
 
 import datetime
 
 class AnswerType(models.Model):
-	field_type = models.CharField(max_length=20, verbose_name="Tipo de campo", default="")
-	code = models.CharField(max_length=20, verbose_name="Codigo", default="")
-	text = models.CharField(max_length=200, verbose_name="Nombre")
+	field_type = models.CharField(max_length=20, verbose_name=_("Field type"), default="")
+	code = models.CharField(max_length=20, verbose_name=_("Code"), default="")
+	text = models.CharField(max_length=200, verbose_name=_("Name"))
 
 	def __str__(self):
 		return self.text
 
 	class Meta:
-		verbose_name = 'Tipo de respuesta'
-		verbose_name_plural = 'Tipos de respuesta'
+		verbose_name = _('Answer type')
+		verbose_name_plural = _('Answers types')
 
 class QuestionType(models.Model):
-	code = models.CharField(max_length=10, verbose_name="Codigo", default="")
-	text = models.CharField(max_length=200, verbose_name="Nombre")
+	code = models.CharField(max_length=10, verbose_name=_("Code"), default="")
+	text = models.CharField(max_length=200, verbose_name=_("Name"))
 
 	def __str__(self):
 		return self.text
 
 	class Meta:
-		verbose_name = 'Tipo de pregunta'
-		verbose_name_plural = 'Tipos de pregunta'
+		verbose_name = _('Question type')
+		verbose_name_plural = _('Questions types')
 
 class Answer(models.Model):
-	hide = models.BooleanField(verbose_name="Ocultar", default = False)
-	text = models.CharField(max_length=200, verbose_name="Respuesta")
+	hide = models.BooleanField(verbose_name=_("Hide"), default = False)
+	text = models.CharField(max_length=200, verbose_name=_("Answer"))
 	#value = models.IntegerField(verbose_name="Valor", default=0)
-	answer_type = models.ForeignKey(AnswerType, on_delete=models.CASCADE, verbose_name="Tipo de respuesta")
+	answer_type = models.ForeignKey(AnswerType, on_delete=models.CASCADE, verbose_name=_("Answer type"))
 
 	def __str__(self):
 		return self.text
 
 	class Meta:
-		verbose_name = 'Respuesta'
-		verbose_name_plural = 'Respuestas'
+		verbose_name = _('Answer')
+		verbose_name_plural = _('Answers')
 		ordering = ['id']
 
 
 class FormType(models.Model):
-	code = models.CharField(max_length=10, verbose_name="Codigo", default="")
-	name = models.CharField(max_length=200, verbose_name="Nombre")
+	code = models.CharField(max_length=10, verbose_name=_("Code"), default="")
+	name = models.CharField(max_length=200, verbose_name=_("Name"))
 
 	def __str__(self):
 		return self.name
 
 	class Meta:
-		verbose_name = 'Tipo formulario'
-		verbose_name_plural = 'Tipos de formulario'
+		verbose_name = _('Form type')
+		verbose_name_plural = _('Forms type')
 
 class Block(models.Model):
-    private = models.BooleanField(verbose_name="Privado", default=False)
-    order = models.IntegerField(verbose_name="Orden", default=0)
-    code = models.CharField(max_length=10, verbose_name="Codigo", default="")
-    text = models.CharField(max_length=500, verbose_name="Texto")
-    form_type = models.ForeignKey(FormType, on_delete=models.CASCADE, verbose_name="Tipo Formulario", blank=True, null=True)
+    private = models.BooleanField(verbose_name=_("Private"), default=False)
+    order = models.IntegerField(verbose_name=_("Order"), default=0)
+    code = models.CharField(max_length=10, verbose_name=_("Code"), default="")
+    text = models.CharField(max_length=500, verbose_name=_("Text"))
+    form_type = models.ForeignKey(FormType, on_delete=models.CASCADE, verbose_name=_("Form type"), blank=True, null=True)
 
     def __str__(self):
         return "%s %s" % (self.code, self.text)
@@ -65,82 +66,88 @@ class Block(models.Model):
         return self.question_set.filter(parent__isnull=True)
 
     class Meta:
-        verbose_name = '2.- Bloque de preguntas'
-        verbose_name_plural = '2.- Bloques de preguntas'
+        verbose_name = _('3.- Question block')
+        verbose_name_plural = _('3.- Questions blocks')
         ordering = ['order']
 
 class Question(models.Model):
-    order = models.IntegerField(verbose_name="Orden", default=0)
-    max_answers = models.IntegerField(verbose_name="Numero máximo de respuestas", default=1)
-    code = models.CharField(max_length=10, verbose_name="Código", default="")
-    text = models.CharField(max_length=500, verbose_name="Pregunta", default="", blank=True)
-    question_type = models.ForeignKey(QuestionType, on_delete=models.CASCADE, verbose_name="Tipo de pregunta", blank=True, null=True)
-    block = models.ForeignKey(Block, on_delete=models.CASCADE, verbose_name="Bloque", blank=True, null=True)
-    parent = models.ForeignKey('self', verbose_name="Padre", on_delete=models.CASCADE, blank=True, null=True, related_name="childs")
+    order = models.IntegerField(verbose_name=_("Order"), default=0)
+    max_answers = models.IntegerField(verbose_name=_("Max number of answers"), default=1)
+    code = models.CharField(max_length=10, verbose_name=_("Code"), default="")
+    text = models.CharField(max_length=500, verbose_name=_("Question"), default="", blank=True)
+    question_type = models.ForeignKey(QuestionType, on_delete=models.CASCADE, verbose_name=_("Question type"), blank=True, null=True)
+    block = models.ForeignKey(Block, on_delete=models.CASCADE, verbose_name=_("Block"), blank=True, null=True)
+    parent = models.ForeignKey('self', verbose_name=_("Parent"), on_delete=models.CASCADE, blank=True, null=True, related_name="childs")
 
     def __str__(self):
         return self.text
 
     class Meta:
-        verbose_name = '3.- Pregunta'
-        verbose_name_plural = '3.- Preguntas'
+        verbose_name = _('4.- Question')
+        verbose_name_plural = _('4.- Questions')
         ordering = ['order']
 
 class Field(models.Model):
-    obligatory = models.BooleanField(verbose_name="Obligatorio", default = False)
-    read_only = models.BooleanField(verbose_name="Solo lectura", default = False)
-    order = models.IntegerField(verbose_name="Orden", default=0)
-    code = models.CharField(max_length=10, verbose_name="Codigo", default="")
-    text = models.CharField(max_length=500, verbose_name="Pregunta")
-    answer_type = models.ForeignKey(AnswerType, on_delete=models.CASCADE, verbose_name="Tipo de respuesta")
-    question = models.ForeignKey(Question, on_delete=models.CASCADE, verbose_name="Pregunta", blank=True, null=True)
+    obligatory = models.BooleanField(verbose_name=_("Obligatory"), default = False)
+    read_only = models.BooleanField(verbose_name=_("Read only"), default = False)
+    order = models.IntegerField(verbose_name=_("Order"), default=0)
+    code = models.CharField(max_length=10, verbose_name=_("Code"), default="")
+    text = models.CharField(max_length=500, verbose_name=_("Question"))
+    answer_type = models.ForeignKey(AnswerType, on_delete=models.CASCADE, verbose_name=_("Answer type"))
+    question = models.ForeignKey(Question, on_delete=models.CASCADE, verbose_name=_("Question"), blank=True, null=True)
 
     def __str__(self):
         return self.text
 
     class Meta:
-        verbose_name = 'Campo'
-        verbose_name_plural = 'Campos'
+        verbose_name = _('Field')
+        verbose_name_plural = _('Fields')
         ordering = ['order']
 
 class Form(models.Model):
-    name = models.CharField(max_length=200, verbose_name="Nombre")
+    name = models.CharField(max_length=200, verbose_name=_("Name"))
+    channel = models.CharField(max_length=200, verbose_name=_("Channel"), default="")
 
-    form_type = models.ForeignKey(FormType, on_delete=models.CASCADE, verbose_name="Tipo Formulario", blank=True, null=True)
-    blocks = models.ManyToManyField(Block, blank=True, verbose_name="Bloques de preguntas")
+    form_type = models.ForeignKey(FormType, on_delete=models.CASCADE, verbose_name=_("Form type"), blank=True, null=True)
+    blocks = models.ManyToManyField(Block, blank=True, verbose_name=_("Questions blocks"))
 
     def __str__(self):
         return self.name
 
     class Meta:
-        verbose_name = '2.- Formulario'
-        verbose_name_plural = '2.- Formularios'
+        verbose_name = _('2.- Form')
+        verbose_name_plural = _('2.- Forms')
 
 class FormInstance(models.Model):
-    DRAFT = 's01'
-    CONFIRMED = 's02'
+    CREATED= '01'
+    SENDED = '02'
+    CANCELED = '03'
+    RECEIVED = '04'
+    READED = '05'
+    CONFIRMED = '06'
+    REJECTED = '07'
+    WAITING = '08'
     STATUS_CHOICES = [
-        (DRAFT, 'Borrador'),
-        (CONFIRMED, 'Confirmado'),
+        (CREATED, _('Created')),
+        (SENDED, _('Sended')),
+        (CANCELED, _('Canceled')),
+        (RECEIVED, _('Received')),
+        (READED, _('Readed')),
+        (CONFIRMED, _('Confirmed')),
+        (REJECTED, _('Rejected')),
+        (WAITING, _('Waiting')),
     ]
 
-    code = models.CharField(verbose_name="Código", max_length=20, default="")
+    code = models.CharField(verbose_name=_("Code"), max_length=20, default="")
+    status = models.CharField(max_length=3, choices=STATUS_CHOICES, default=CREATED)
+    device = models.CharField(max_length=255, verbose_name=_("Device"), default="")
+    name = models.CharField(max_length=255, verbose_name=_("Name"), default="")
+    date = models.DateTimeField(_('Creation date'), default=datetime.datetime.now, null=True)
 
-    status = models.CharField(max_length=3, choices=STATUS_CHOICES, default=DRAFT)
-    form = models.ForeignKey(Form, on_delete=models.CASCADE, verbose_name="Formulario", blank=True, null=True)
+    form = models.ForeignKey(Form, on_delete=models.CASCADE, verbose_name=_("Form"), blank=True, null=True)
 
     def __str__(self):
         return "%s" % (self.code)
-
-    def set_status(self, status_code):
-        if status_code in {self.DRAFT, self.CONFIRMED}:
-            self.status = status_code
-            self.save()
-            return True
-        return False
-
-    def is_confirmed(self):
-        return (self.status != self.DRAFT)
 
     def check_obligatory(self, q, index):
         answers = self.answerinstance_set.filter(question=q, index=index, field__obligatory=True)
@@ -153,8 +160,8 @@ class FormInstance(models.Model):
         return self.form.blocks.filter(private=False)
 
     class Meta:
-        verbose_name = '1.- Instancia de formulario'
-        verbose_name_plural = '1.- Instancias de formulario'
+        verbose_name = _('1.- Form instance')
+        verbose_name_plural = _('1.- Form instances')
 
 def upload_document_file(instance, filename):
     ascii_filename = str(filename.encode('ascii', 'ignore'))
@@ -163,18 +170,31 @@ def upload_document_file(instance, filename):
     return '/'.join(['%s' % (folder), datetime.datetime.now().strftime("%Y%m%d%H%M%S") + ascii_filename])
 
 class AnswerInstance(models.Model):
-    index = models.IntegerField(verbose_name="Indice", default=0)
-    text = models.CharField(max_length=3000, verbose_name="Texto", default="")
-    document = models.FileField(upload_to=upload_document_file, blank=True, verbose_name="Documento acreditativo", help_text="Select file to upload")
-    question = models.ForeignKey(Question, on_delete=models.CASCADE, verbose_name="Pregunta", blank=True, null=True)
-    field = models.ForeignKey(Field, on_delete=models.CASCADE, verbose_name="Campo", blank=True, null=True)
-    form_instance = models.ForeignKey(FormInstance, on_delete=models.CASCADE, verbose_name="Formulario", blank=True, null=True)
+    index = models.IntegerField(verbose_name=_("Index"), default=0)
+    text = models.CharField(max_length=3000, verbose_name=_("Text"), default="")
+    document = models.FileField(upload_to=upload_document_file, blank=True, verbose_name=_("Document"), help_text="Select file to upload")
+    question = models.ForeignKey(Question, on_delete=models.CASCADE, verbose_name=_("Question"), blank=True, null=True)
+    field = models.ForeignKey(Field, on_delete=models.CASCADE, verbose_name=_("Field"), blank=True, null=True)
+    form_instance = models.ForeignKey(FormInstance, on_delete=models.CASCADE, verbose_name=_("Form"), blank=True, null=True)
 
     def __str__(self):
         return self.text
 
     class Meta:
-        verbose_name = 'Instancia de respuesta'
-        verbose_name_plural = 'Instancias de respuesta'
+        verbose_name = _('Answer instance')
+        verbose_name_plural = _('Answer instances')
+
+class FormInstanceLog(models.Model):
+	date = models.DateTimeField('date', auto_now_add=True)
+	user = models.CharField(max_length=100, verbose_name=_("User"), default="")
+	text = models.CharField(max_length=100, verbose_name=_("Text"), default="")
+	form_instance = models.ForeignKey(FormInstance, on_delete=models.CASCADE, verbose_name=_("Form instance"), blank=True, null=True, related_name="logs")
+
+	def __str__(self):
+		return self.text
+
+	class Meta:
+		verbose_name = _('Form log')
+		verbose_name_plural = _('Form logs')
 
 

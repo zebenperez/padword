@@ -2,6 +2,7 @@
 
 {% if request.user.is_authenticated %}
     <div class="nav-item"> <a class="nav-link {%current 'web-index'%}" aria-current="page" href="{%url 'projects'%}"> {% trans 'Admin' %} </a></div>
+    {#<div class="nav-item"> <a class="nav-link {%current 'forms'%}" aria-current="page" href="{%url 'forms'%}"> {% trans 'Forms' %} </a></div>#}
     <div class="nav-item"> <a class="nav-link {% current '' %}" href="#"> {% trans 'Proyecto' %} </a> </div>
     <div class="nav-item"> <a class="nav-link {% current '' %}" href="#"> {% trans 'Config UI' %} </a> </div>
     <div class="nav-item"> <a class="nav-link {% current '' %}" href="#"> {% trans 'Mensajes' %} </a> </div>

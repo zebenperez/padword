@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% load i18n %}
+
+{% block second_menu %}{% include 'web/second_menu.html' %} {% endblock second_menu %}
+
+{% block central_content %}
+    <div class="toolbar-search">
+        <input type="text" class="autosearch form-control form-control-dark w-100" name="s-name" id="s-name" 
+            placeholder="Nombre o Canal" data-url="{% url "form-search" %}" 
+            data-target="form-list" data-related="s-name" />
+    </div>
+
+    <div class="content mt-4">
+        <div class="toolbar-content">
+            <h2 class="b-right">{% trans 'Formularios' %} (<span id="items-counter">{{items|length}}</span>)
+                {% if channel %}{% trans "del canal" %} {{channel.name}}{% endif %}</h2>
+            <a class="btn btn-primary ark" data-url="{% url "form-form" %}" data-target-modal="common-modal"
+                data-company_id="{{company.id}}">Nuevo formulario</a>  
+            {% include "common-modal.html" %}
+        </div>
+        <div id="form-list">{% include "forms/form-list.html" %}</div>
+    </div>
+{% endblock central_content %}

@@ -1,0 +1,56 @@
+{% load i18n %}
+
+<h2>{% trans 'Nuevo formulario' %}</h2>
+
+<span id="div-notification"></span><br/>
+
+<div class="row justify-center">
+	<div class="col-sm-6 col-md-5 col-12">
+		{% trans "Name" %}:
+		<input type="text" class="form-control autosave b-bottom mb-4" id="name" name="name" value="{{obj.name}}" title="{{obj.name}}" 
+			data-model-name="web.project" data-obj-id="{{obj.id}}" data-url="{% url "autosave_field" %}" data-target="div-notification"/>
+			<span id="name__msg"></span>
+	</div>
+	<div class="col-sm-6 col-md-5 col-12">
+		{% trans "Channel" %}:
+		<input type="text" class="form-control autosave b-bottom mb-4" id="channel" name="channel" value="{{obj.channel}}" title="{{obj.channel}}" 
+			data-model-name="bookings.form" data-obj-id="{{obj.id}}" data-url="{% url "autosave_field" %}" data-target="div-notification"/>
+			<span id="channel__msg"></span>
+	</div>
+	<div class="col-sm-6 col-md-5 col-12">
+		{% trans "Form Type" %}:
+		<select class="form-control autosave b-bottom mb-4" id="form_type" name="form_type" value="{{obj.form_type.id}}" 
+            title="{{obj.form_type.name}}" data-model-name="bookings.form" data-obj-id="{{obj.id}}" data-url="{% url "autosave_field" %}" 
+            data-target="div-notification"/> <i class="fas fa-sort-down"></i>
+		    <option value="">{% trans "-- Selecciona un tipo de formulario --" %}</option>
+	    	{% for item in form_type_list %}
+		        <option value="{{item.id}}" {%if obj.form_type == item%}selected{%endif%}>{{item.name}}</option>
+		    {% endfor %}
+		</select>
+		<span id="form_type__msg"></span>
+	</div>
+	<div class="col-sm-6 col-md-5 col-12">
+		{% trans "Blocks" %}:
+        <select name="blocks" id="blocks" class="form-control autosave" data-model-name="bookings.form" data-obj-id="{{obj.id}}" 
+            data-url="{% url "autosave_field" %}" data-target="div-notification" multiple style="display:none">
+            <option value="">-- Seleccione un evaluador --</option>
+            {% for item in block_list %}
+                <option value="{{item.id}}" {%if item in obj.blocks.all%}selected{%endif%}>{{item.name}}</option>
+            {% endfor %}
+        </select> <span id="blocks__msg"></span>
+        <br/><br />
+        {% for item in block_list %}
+            <span class="{%if item in obj.blocks.all%}multiselect_btn_act{%else%}multiselect_btn{%endif%} set_multiselect" 
+                data-multiselect-id="blocks" data-obj-id="{{item.id}}" data-target="div-notification">{{item.text}}</span>
+        {% endfor %}
+	</div>
+</div>
+
+<div class="d-flex justify-content-end">
+	<button type="button" class="btn btn-sm ark save" data-bs-dismiss="modal" data-url="{% url "form-search" %}" 
+        data-target="form-list">{% trans "Save" %}</button>
+	<button type="button" class="btn btn-sm ark cancel" data-bs-dismiss="modal" data-url="{% url "form-remove" %}" 
+        data-target="form-list" data-obj_id="{{obj.id}}" data-confirm="{% trans "Are you sure to remove this element?" %}">
+        {% trans "Remove" %}</button>
+</div>
+

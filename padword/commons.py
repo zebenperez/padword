@@ -41,6 +41,8 @@ def set_obj_field(obj, field, value):
         setattr(obj, field, get_or_none_str(obj._meta.app_label, obj_field.remote_field.model.__name__, value))
     elif obj_field.get_internal_type() == "FloatField":
         setattr(obj, field, value.replace(",", "."))
+    elif obj_field.get_internal_type() == "BooleanField":
+        setattr(obj, field, (value == "True"))
     elif obj_field.get_internal_type() == "DateTimeField":
         date = datetime.datetime.strptime(value, '%Y-%m-%d')
         if date >= datetime.datetime(1970,1,1):
@@ -51,6 +53,12 @@ def set_obj_field(obj, field, value):
 
 def get_param(dic, param, default=""):
     return dic[param] if param in dic and dic[param] != "" else default
+
+def get_float(val):
+    try:
+        return float(val)
+    except:
+        return 0.0
 
 def translate(request, json_str):
     try:

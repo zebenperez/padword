@@ -2,10 +2,10 @@
     <table class="table table-striped table-hover">
         <thead>
             <tr class="small small">
-                <th> {% trans 'Nombre' %} </th>
-                <th> {% trans 'Proyecto' %} </th>
-                <th> {% trans 'Compañía' %} </th>
-                <th> {% trans 'Activo' %} </th>
+                <th> {% trans 'Name' %} </th>
+                <th> {% trans 'Project' %} </th>
+                <th> {% trans 'Company' %} </th>
+                <th> {% trans 'Active' %} </th>
                 <th colspan="2"> {% trans 'UUID' %} </th>
             </tr>
         </thead>
@@ -17,8 +17,9 @@
                 <td>{{ item.project.company.name }}</td>
                 <td>{% if item.active == 1 %}<i class="text-success fas fa-check-circle"></i>{% else %}<i class="text-danger fas fa-times-circle"></i>{% endif%}</td>
                 <td>{{ item.uuid }}</td>
+                {#<td class="text-right">#}
                 <td class="text-nowrap">
-                    <a class="btn btn-xs" href="{% url 'devices-by-channel' item.pk %}" title="{% trans 'Dispositivos' %}">
+                    <a class="btn btn-xs" href="{% url 'devices-by-channel' item.pk %}" title="{% trans 'Devices' %}">
                         <i class="fas fa-tablet-alt"></i></a>
                     <a class="me-1 btn btn-xs ark" data-url="{% url "channel-form" %}" data-target-modal="common-modal" title="{% trans 'Edit' %}"
                         data-obj_id="{{item.id}}" data-project_id="{{project.id}}" data-company_id="{{company.id}}"><i class="fas fa-edit"></i></a>  
