@@ -1,5 +1,6 @@
 from django.db import models
 from django.utils.translation import ugettext_lazy as _ 
+from contents.models import Category
 
 import datetime
 
@@ -106,7 +107,7 @@ class Field(models.Model):
 
 class Form(models.Model):
     name = models.CharField(max_length=200, verbose_name=_("Name"))
-    channel = models.CharField(max_length=200, verbose_name=_("Channel"), default="")
+    category = models.CharField(max_length=200, verbose_name=_("Channel"), default="")
 
     form_type = models.ForeignKey(FormType, on_delete=models.CASCADE, verbose_name=_("Form type"), blank=True, null=True)
     blocks = models.ManyToManyField(Block, blank=True, verbose_name=_("Questions blocks"))
@@ -114,9 +115,17 @@ class Form(models.Model):
     def __str__(self):
         return self.name
 
+    def get_category_items(self):
+        cat = Category.objects.filter(uuid = self.category).first()
+        return cat.get_items if cat != None else []
+
     class Meta:
         verbose_name = _('2.- Form')
         verbose_name_plural = _('2.- Forms')
+
+class FormChannel(models.Model):
+    channel = models.CharField(max_length=200, verbose_name=_("Channel"), default="")
+    form = models.ForeignKey(Form, on_delete=models.CASCADE, verbose_name=_("Form"), blank=True, null=True, related_name="channels")
 
 class FormInstance(models.Model):
     CREATED= '01'

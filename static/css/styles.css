@@ -142,6 +142,10 @@ body {
     text-transform: uppercase;
 }
 
+i.text-pad {
+	color: #36abfc !important;
+}
+
 .panel-login {
 	background-color: #fff;
 	border-radius: 0.25rem;
@@ -279,5 +283,5 @@ input.form-control.login {
 }
 
 .flex-row {
-	flex-direction: column!important;
+	/*flex-direction: column!important;*/
 	}

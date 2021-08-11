@@ -4,7 +4,9 @@
     {% for f in q.field_set.all %}
 		<div class="item p-3 mb-1">
 			<div class="item-left"><strong>{% if q.field_set.all|length > 0 %} <br/> {{f}} <br/> {% endif %} </strong></div>
-			<div class="item-right td_{{q.id}}_{{index}}"> {% field_form fi q f index request.user %} </div>
+			<div class="item-right td_{{q.id}}_{{index}}"> 
+                {% if ro %}{% field_form fi q f index request.user %} {%else%} {% field_value fi q f index %} {%endif%}
+            </div>
 		</div>
     {% endfor %}
 </div>

@@ -40,9 +40,15 @@ def field_form(fi, q, f, index, user):
     ai = get_answer_instance(fi, q, f, index)
 
     value = ai.text if ai != None else ""
+
     doc = None
     if ai != None and ai.field != None and ai.field.answer_type != None and ai.field.answer_type.field_type == "file" and ai.document:
         doc = ai.document 
+
+    item_list = []
+    if f != None and f.answer_type != None and f.answer_type.field_type == "items":
+        item_list = fi.form.get_category_items()
+
     readonly = (f.read_only and not user.is_staff and not user.is_superuser)
 
     answer_name = "question_%s_field_%s_%s" % (q.id, f.id, index)
@@ -55,6 +61,7 @@ def field_form(fi, q, f, index, user):
         'answer_name': answer_name, 
         'readonly': readonly,
         'doc': doc,
+        'item_list': item_list,
         'value': value
     }
     return context

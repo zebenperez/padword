@@ -9,7 +9,7 @@ from padword.commons import show_exc, get_or_none, get_param, get_float
 from web.models import Channel, Company, Project, Device
 
 from .common_lib import clone_form_instance, get_form_instance, get_max_index, get_or_create_answer_instance, user_in_group, write_log
-from .models import AnswerInstance, Field, Form, FormInstance, FormType, Question, Block
+from .models import AnswerInstance, Field, Form, FormChannel, FormInstance, FormType, Question, Block
 
 import logging
 logger = logging.getLogger(__name__)
@@ -113,6 +113,24 @@ def form_remove(request):
     context = get_forms(get_or_none(Channel, channel_id), get_or_none(Project, project_id), get_or_none(Company, company_id))
     return render (request, "forms/form-list.html", context)
 
+@login_required
+def channel_add(request):
+    value = request.GET["value"] if "value" in request.GET else None
+    obj = get_or_none(Form, request.GET["obj_id"]) if "obj_id" in request.GET else None
+    if obj != None and value != "":
+        FormChannel.objects.create(channel=value, form=obj)
+    return render (request, "forms/channel-form.html", {'obj': obj})
+
+@login_required
+def channel_remove(request):
+    obj = get_or_none(FormChannel, request.GET["obj_id"]) if "obj_id" in request.GET else None
+    form = None
+    if obj != None:
+        form = obj.form
+        obj.delete()
+    return render (request, "forms/channel-form.html", {'obj': form})
+
+
 '''
     Bookings
 '''
@@ -134,17 +152,17 @@ def booking_new(request, form_id):
         if form != None:
             fi = FormInstance.objects.create(form = form)
             write_log(request.user, fi, _("Booking created"))
-            return redirect(booking_edit, fi.id)
+            return redirect(booking_edit, fi.id, 1)
     except Exception as e:
         logger.error("[bookings-new_booking] {}".format(str(e)))
     return render(request, 'error_exception.html', {})
 
 @login_required
-def booking_edit(request, fi_id, rol=None):
+def booking_edit(request, fi_id, ro=0):
     try:
         fi = FormInstance.objects.get(pk = fi_id)
         block = fi.form.blocks.first()
-        context = {'fi': fi, 'b': block, 'index': "0",}
+        context = {'fi': fi, 'b': block, 'index': "0", "ro": (ro == 1)}
         return render(request, 'bookings/fillform.html', context)
     except Exception as e:
         print(e)
@@ -155,6 +173,7 @@ def booking_edit(request, fi_id, rol=None):
 def booking_remove(request, fi_id):
     try:
         fi = FormInstance.objects.get(pk = fi_id)
+        fi.delete()
         context = {'msg': FormInstance.CANCELED}
         return render(request, 'bookings/show_msg.html', context)
     except Exception as e:

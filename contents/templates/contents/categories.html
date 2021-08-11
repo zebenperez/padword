@@ -13,8 +13,8 @@
 
     <div class="content mt-4">
         <div class="toolbar-content">
-            <h2 class="b-right">{% trans 'Categorías' %} (<span id="items-counter">{{items|length}}</span>) {% if project %}{% trans "del proyecto" %} {{project.name}}{% endif %}</h2>
-            <a class="btn btn-primary ark" data-url="{% url "category-form" %}" data-target-modal="common-modal" data-project_id="{{project.id}}">Nueva Categoría</a>  
+            <h2 class="b-right">{% trans 'Categories' %} (<span id="items-counter">{{items|length}}</span>) {% if project %}{% trans "of the project" %} {{project.name}}{% endif %}</h2>
+            <a class="btn btn-primary ark" data-url="{% url "category-form" %}" data-target-modal="common-modal" data-project_id="{{project.id}}">{% trans "New Category" %}</a>  
             {% include "common-modal.html" %}
         </div>
         <div id="category-list">{% include "contents/categories-list.html" %}</div>

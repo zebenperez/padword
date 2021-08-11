@@ -8,12 +8,14 @@ urlpatterns = [
     path('forms/search/', views.form_search, name='form-search'),
     path('forms/form/', views.form_form, name='form-form'),
     path('forms/remove/', views.form_remove, name='form-remove'),
+    path('channel/add/', views.channel_add, name='channel-add'),
+    path('channel/remove/', views.channel_remove, name='channel-remove'),
 
     #------------- Bookings --------------#
 	path('bookings/<int:form_id>/', views.bookings, name='bookings'),
 	path('booking-new/<int:form_id>/', views.booking_new, name='booking-new'),
 	path('booking-edit/<int:fi_id>/', views.booking_edit, name='booking-edit'),
-	path('booking-edit/<int:fi_id>/<slug:rol>/', views.booking_edit, name='booking-edit'),
+	path('booking-edit/<int:fi_id>/<int:ro>/', views.booking_edit, name='booking-edit'),
 	path('booking-remove/<int:fi_id>/', views.booking_remove, name='booking-remove'),
 	path('booking-log/<int:fi_id>/', views.booking_log, name='booking-log'),
 	path('set-status/<int:fi_id>/<slug:status>/', views.set_status, name='set-status'),

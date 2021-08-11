@@ -86,6 +86,7 @@ $(document).ready(()=>{
 		}, 1000);
 		e.preventDefault();
 	});
+
     $("body").on("click", ".ark", function(e){
         var obj = $(this);
         if (((obj.data("confirm")) && confirm(obj.data("confirm"))) || !(obj.data("confirm")))
@@ -106,6 +107,32 @@ $(document).ready(()=>{
             ajaxGet(url, datas, target, target_modal);
             if (obj.data("show"))
                 $("#" + obj.data("show")).show();
+            e.preventDefault();
+        }
+    });
+
+    $("body").on("change", ".ark_change", function(e){
+        var obj = $(this);
+        if (((obj.data("confirm")) && confirm(obj.data("confirm"))) || !(obj.data("confirm")))
+        {
+            var url = obj.data("url");
+            var value = obj.val();
+            var target = "";
+            var target_modal = "";
+            if (obj.data("target"))
+                target = obj.data("target");
+            if (obj.data("target-modal"))
+                target_modal = obj.data("target-modal");
+
+            var datas = {'value': value};
+            var args = obj.data();
+            for(var i in args)
+                if (i != "url")
+                    datas[i] = args[i]
+            ajaxGet(url, datas, target, target_modal);
+
+            if (obj.data("clear"))
+                clearHtml($("#" + obj.data("clear")));
             e.preventDefault();
         }
     });
