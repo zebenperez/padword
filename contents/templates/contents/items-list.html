@@ -1,5 +1,5 @@
 {% load padword_tags %}
-{% if cat.get_childrens|length > 0 %} {% include "contents/categories-list.html" with items=cat.get_childrens noheader=True%} {% endif %}
+{% include "contents/categories-list.html" with items=cat.get_childrens noheader=True%}
 {% for item in cat.get_items %}
 <div class="row">
     <div class="col-9 ms-3 p-2">
