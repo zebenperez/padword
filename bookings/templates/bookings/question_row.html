@@ -1,13 +1,14 @@
-{% load i18n baremacion_tag common_tag %}
+{% load i18n bookings_tag common_tag %}
 
 <tr id="tr-{{q.id}}-{{index}}">
     {% for f in q.field_set.all %}
         <td class="td_{{q.id}}_{{index}}"> 
-            {% if not ro %}{% field_form fi q f index request.user %} {%else%} {% field_value fi q f index %} {%endif%}
+            {% if ro %}{% field_form fi q f index request.user %} {%else%} {% field_value fi q f index %} {%endif%}
         </td>
         {% if forloop.last and q.max_answers > 1 %} 
-            <td class="" width="2%"> <a class="btn btn-sm btn-info remove_row" data-url="{% url "remove-row" %}" data-target="tr-{{q.id}}-{{index}}" data-obj_id="{{q.id}}" 
-                data-fi_id="{{fi.id}}" data-index="{{index}}" data-confirm="Esta seguro/a de que desea borrar esta fila?"><i class="glyphicon glyphicon-trash"></i></a></td>
+            <td class="" width="2%"> <a class="btn btn-sm btn-info remove_row" data-url="{% url "remove-row" %}" data-target="tr-{{q.id}}-{{index}}" 
+                data-obj_id="{{q.id}}" data-fi_id="{{fi.id}}" data-index="{{index}}" data-confirm="Esta seguro/a de que desea borrar esta fila?">
+                <i class="glyphicon glyphicon-trash"></i></a></td>
         {% endif %}
     {% endfor %}
 </tr>

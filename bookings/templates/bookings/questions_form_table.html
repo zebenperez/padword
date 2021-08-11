@@ -15,8 +15,8 @@
 
     {% if q.max_answers > 1 %}
         <div class="text-right">
-            <a class="btn btn-info add_row" data-url="{% url "new-row" %}" data-target="table_{{q.id}}" data-obj_id="{{q.id}}" 
-                data-fi_id="{{fi.id}}"> Nueva Fila </a>
+            <a class="btn btn-info add_row" data-url="{% url "new-row" %}" data-target="table_{{q.id}}" data-obj_id="{{q.id}}" data-fi_id="{{fi.id}}">
+                {% trans "Add" %}</a>
         </div>
     {% endif %}
 </div>

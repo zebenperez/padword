@@ -249,7 +249,7 @@ def new_row(request):
         q = get_or_none(Question, request.GET["obj_id"])
         max_index = get_max_index(q, fi)
         if fi != None and q != None and max_index <= q.max_answers:
-            context = { 'fi': fi, 'q': q, 'index': (max_index + 1), }
+            context = { 'fi': fi, 'q': q, 'index': (max_index + 1), 'ro': True}
             return render(request, 'bookings/question_row.html', context)
     except Exception as e:
         logger.error("[bookings-get_block] {}".format(str(e)))
