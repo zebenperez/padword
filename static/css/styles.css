@@ -142,10 +142,6 @@ body {
     text-transform: uppercase;
 }
 
-i.text-pad {
-	color: #36abfc !important;
-}
-
 .panel-login {
 	background-color: #fff;
 	border-radius: 0.25rem;
@@ -268,6 +264,22 @@ input.form-control.login {
 	margin:5px;
 	cursor: pointer;
 }
+
+.categories-list, .items-list {
+	color: #666;
+	font-size: 14px;	
+	font-style: italic;
+	font-weight: normal;
+}
+
+i.text-blue, span.text-blue, a#btn-show {
+	color: #36abfc !important;
+}
+i.text-grey, i.fas.fa-box {
+	color: #999999 !important;
+}
+
+
 
 /*   MOBILE DEVICES   */
 

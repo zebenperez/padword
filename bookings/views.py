@@ -234,7 +234,7 @@ def booking_log(request, fi_id):
 def get_block(request):
     try:
         fi = get_or_none(FormInstance, request.GET["fi_id"])
-        block = get_or_none(QuestionBlock, request.GET["obj_id"])
+        block = get_or_none(Block, request.GET["obj_id"])
         if fi != None and block != None:
             context = { 'fi': fi, 'b': block, 'index': "0"}
             return render(request, 'bookings/block_form.html', context)

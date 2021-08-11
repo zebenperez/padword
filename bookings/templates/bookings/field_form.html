@@ -52,7 +52,7 @@
 
 	<select class="form-control autosave_form_field" name="{{answer_name}}"
         data-url="{% url "autosave-form-field" %}" data-fi="{{fi_id}}" data-question="{{q_id}}" data-field="{{f.id}}" data-index="{{index}}"> 
-		<option value=""> {% trans "Seleccione una opción" %}</option>
+		<option value=""> {% trans "Select an option" %}</option>
 		{% for a in f.answer_type.answer_set.all %}
 			{% if not a.hide or readonly%}
 				<option value="{{a.text}}" {% if a.text == value %} selected="selected" {% endif %}>{{a}}</option>
@@ -68,7 +68,7 @@
 
 	<select class="form-control autosave_form_field" name="{{answer_name}}" data-url="{% url "autosave-form-field" %}" 
         data-fi="{{fi_id}}" data-question="{{q_id}}" data-field="{{f.id}}" data-index="{{index}}"> 
-		<option value=""> {% trans "Seleccione una opción" %}</option>
+		<option value=""> {% trans "Select an option" %}</option>
 		{% for item in item_list %}
 			<option value="{{item.uuid}}" {% if a.uuid == value %} selected="selected" {% endif %}>{% padword_translate item.name %}</option>
 		{% endfor %}

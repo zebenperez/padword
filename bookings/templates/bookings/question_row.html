@@ -7,8 +7,8 @@
         </td>
         {% if forloop.last and q.max_answers > 1 %} 
             <td class="" width="2%"> <a class="btn btn-sm btn-info remove_row" data-url="{% url "remove-row" %}" data-target="tr-{{q.id}}-{{index}}" 
-                data-obj_id="{{q.id}}" data-fi_id="{{fi.id}}" data-index="{{index}}" data-confirm="Esta seguro/a de que desea borrar esta fila?">
-                <i class="glyphicon glyphicon-trash"></i></a></td>
+                data-obj_id="{{q.id}}" data-fi_id="{{fi.id}}" data-index="{{index}}" 
+                data-confirm="{% trans "Are you sure you want to delete this row?" %}"> <i class="glyphicon glyphicon-trash"></i></a></td>
         {% endif %}
     {% endfor %}
 </tr>

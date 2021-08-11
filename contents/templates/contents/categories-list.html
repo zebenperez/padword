@@ -2,16 +2,16 @@
 
 {% for item in items %}
 <div class="row" id="row_{{item.id}}">
-    <div class="col-12 ms-3 p-2">
+    <div class="col-12 ms-3 p-2 categories-list">
         <span class="p-2">
         {% if not item.price %}
-        <a id="btn-show-{{item.pk}}" class="ark" data-url="{% url 'items-by-category' item.uuid %}" data-target="items-list-{{item.pk}}"><i class="text-secondary fas fa-folder"></i></a>
-        <a id="btn-hide-{{item.pk}}" class="d-none" onclick="hideTree({{item.pk}});"><i class="text-pad fas fa-folder-open"></i></a>
+        <a id="btn-show-{{item.pk}}" class="ark" data-url="{% url 'items-by-category' item.uuid %}" data-target="items-list-{{item.pk}}"><i class="text-grey fas fa-folder"></i></a>
+        <a id="btn-hide-{{item.pk}}" class="d-none" onclick="hideTree({{item.pk}});"><i class="text-blue fas fa-folder-open"></i></a>
         {% endif %}
         </span>
         <span class=""> {% padword_translate item.name %} </span>
     </div>
-    <div id="items-list-{{item.pk}}" class="col-12 ps-5"></div>
+    <div id="items-list-{{item.pk}}" class="col-12 ps-5 items-list"></div>
 </div>
 {% endfor %}
 

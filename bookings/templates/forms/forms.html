@@ -12,8 +12,8 @@
 
     <div class="content mt-4">
         <div class="toolbar-content">
-            <h2 class="b-right">{% trans 'Formularios' %} (<span id="items-counter">{{items|length}}</span>)
-                {% if channel %}{% trans "del canal" %} {{channel.name}}{% endif %}</h2>
+            <h2 class="b-right">{% trans 'Forms' %} (<span id="items-counter">{{items|length}}</span>)
+                {% if channel %}{% trans "of the channel" %} {{channel.name}}{% endif %}</h2>
             <a class="btn btn-success" href="/admin/bookings/block/" target="_blank">{% trans "Blocks" %}</a>
             <a class="btn btn-success" href="/admin/bookings/question/" target="_blank">{% trans "Questions" %}</a>
             <a class="btn btn-primary ark" data-url="{% url "form-form" %}" data-target-modal="common-modal"
