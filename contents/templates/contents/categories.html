@@ -13,12 +13,15 @@
 
     <div class="content mt-4">
         <div class="toolbar-content">
-            <h2 class="b-right">{% trans 'Categories' %} (<span id="items-counter">{{items|length}}</span>) {% if project %}{% trans "of the project" %} {{project.name}}{% endif %}</h2>
+            {% comment %}
+			<h2 class="b-right">{% trans 'Categories' %} (<span id="items-counter">{{items|length}}</span>) {% if project %}{% trans "of the project" %} {{project.name}}{% endif %}</h2>
+			{% endcomment %}
+            <h2 class="b-right">{{project.name}} <span class="sub-h2"> {% trans 'Categories' %} {% if project %}{% trans "of the project" %} (<span id="items-counter">{{items|length}}</span>) {% endif %} </span> </h2>
             <a class="btn btn-primary ark" data-url="{% url "category-form" %}" data-target-modal="common-modal" data-project_id="{{project.id}}">{% trans "New Category" %}</a>  
             {% include "common-modal.html" %}
         </div>
         <div id="category-list">{% include "contents/categories-list.html" %}</div>
-    </div>
+    </div>(<span id="items-counter">{{items|length}}</span>) 
 <script>
     $('#items-counter').html('{{items|length}}');
     function hideTree(id) {

@@ -187,6 +187,7 @@ body {
 	justify-content: space-between;
 }
 .toolbar-content h2 {
+	color:#36abfc;
 	font-size: 1.25rem;
 	line-height: 1.5;
 	margin-bottom:0;
@@ -194,6 +195,12 @@ body {
 	text-overflow: ellipsis;
 	white-space: nowrap;
 }
+span.sub-h2 { 
+	font-style: italic;
+	font-size: 0.9rem;
+	color:#666;
+}
+
 .b-right {
 	border-right:1px solid #e0e0e0;
 	padding-right: 15px;
@@ -265,11 +272,22 @@ input.form-control.login {
 	cursor: pointer;
 }
 
+.row.category {
+	background: #f2f6fa;
+	margin: 2px 0px 0px 0px;
+}
+
+.row.category:hover {
+	background: #ebf1f6;
+}
+
 .categories-list, .items-list {
 	color: #666;
 	font-size: 14px;	
 	font-style: italic;
 	font-weight: normal;
+}
+.categories-list, .items-list {
 }
 
 .categories-list .open { color: #36abfc }
