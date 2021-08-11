@@ -272,6 +272,9 @@ input.form-control.login {
 	font-weight: normal;
 }
 
+.categories-list .open { color: #36abfc }
+.categories-list .close { color: #666}
+
 i.text-blue, span.text-blue, a#btn-show {
 	color: #36abfc !important;
 }

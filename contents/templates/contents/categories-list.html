@@ -9,18 +9,10 @@
         <a id="btn-hide-{{item.pk}}" class="d-none" onclick="hideTree({{item.pk}});"><i class="text-blue fas fa-folder-open"></i></a>
         {% endif %}
         </span>
-        <span class=""> {% padword_translate item.name %} </span>
+        <span id="title-cat-{{item.pk}}" class="close"> {% padword_translate item.name %} </span>
     </div>
     <div id="items-list-{{item.pk}}" class="col-12 ps-5 items-list"></div>
 </div>
 {% endfor %}
 
-<script>
-    $('#items-counter').html('{{items|length}}');
-    function hideTree(id) {
-        $('#btn-hide-'+id).addClass('d-none');
-        $('#btn-show-'+id).removeClass('d-none');
-        $('#items-list-'+id).empty();
-    }
-</script>
 

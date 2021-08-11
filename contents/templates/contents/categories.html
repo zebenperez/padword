@@ -19,4 +19,13 @@
         </div>
         <div id="category-list">{% include "contents/categories-list.html" %}</div>
     </div>
+<script>
+    $('#items-counter').html('{{items|length}}');
+    function hideTree(id) {
+        $('#btn-hide-'+id).addClass('d-none');
+        $('#btn-show-'+id).removeClass('d-none');
+        $('#items-list-'+id).empty();
+        $('#title-cat-'+id).removeClass('open').addClass('close');
+    }
+</script>
 {% endblock central_content %}
