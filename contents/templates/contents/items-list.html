@@ -1,15 +1,13 @@
 {% load padword_tags %}
-{% if cat.get_childrens|length > 0 %}
-{% include "contents/categories-list.html" with items=cat.get_childrens noheader=True%}
-{% endif %}
-<table class="table">
-    {% for item in cat.get_items %}
-    <tr>
-        <td><i class="fas fa-box"></i>&nbsp;{% padword_translate item.name %}</td>
-        <td align="right">{{item.price}}</td>
-    </tr>
-    {% endfor %}
-</table>
+{% if cat.get_childrens|length > 0 %} {% include "contents/categories-list.html" with items=cat.get_childrens noheader=True%} {% endif %}
+{% for item in cat.get_items %}
+<div class="row">
+    <div class="col-9 ms-3 p-2">
+        <span class="p-2"><i class="fas fa-box"></i>&nbsp;{% padword_translate item.name %}</span>
+    </div>
+    <div class="col-2 text-right"> {{ item.price }} &euro;</div>
+</div>
+{% endfor %}
 <script>
     $('#btn-show-{{cat.pk}}').addClass('d-none');
     $('#btn-hide-{{cat.pk}}').removeClass('d-none');

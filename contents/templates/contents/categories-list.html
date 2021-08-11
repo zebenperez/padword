@@ -1,35 +1,20 @@
 {% load i18n padword_tags %}
 
-<table class="table">
-    {% if not noheader %}
-    <thead>
-        <tr class="small small">
-            <th> {% trans 'Nombre' %}</th>
-            <th colspan="2"> {% trans 'Activo' %} </th>
-        </tr>
-    </thead>
-    {% endif %}
-    <tbody>
-        {% for item in items %}
-        <tr class="small" id="row_{{item.id}}">
-            <td>
-                {% if not item.price %}
-                <a id="btn-show-{{item.pk}}" class="ark" data-url="{% url 'items-by-category' item.uuid %}" data-target="items-list-{{item.pk}}"><i class="text-success fas fa-sitemap"></i></a>
-                <a id="btn-hide-{{item.pk}}" class="d-none" onclick="hideTree({{item.pk}});"><i class="text-danger fas fa-sitemap"></i></a>
-                {% endif %}
-                {% padword_translate item.name %} 
-                <div id="items-list-{{item.pk}}" class="p-2"></div>
-            </td>
-            {% if not noheader %}
-            <td>{% if item.is_active == 1 %}<i class="text-success fas fa-check-circle"></i>{% else %}<i class="text-danger fas fa-times-circle"></i>{% endif%}</td>
-            <td class="">
-                <a target="_blank" href="{% url 'items-by-category' item.uuid %}"><i class="text-success fas fa-sitemap"></i></a>
-            </td>
-            {% endif %}
-        </tr>
-        {% endfor %}
-    </tbody>
-</table>
+{% for item in items %}
+<div class="row" id="row_{{item.id}}">
+    <div class="col-12 ms-3 p-2">
+        <span class="p-2">
+        {% if not item.price %}
+        <a id="btn-show-{{item.pk}}" class="ark" data-url="{% url 'items-by-category' item.uuid %}" data-target="items-list-{{item.pk}}"><i class="text-success fas fa-folder"></i></a>
+        <a id="btn-hide-{{item.pk}}" class="d-none" onclick="hideTree({{item.pk}});"><i class="text-danger fas fa-folder-open"></i></a>
+        {% endif %}
+        </span>
+        <span class=""> {% padword_translate item.name %} </span>
+    </div>
+    <div id="items-list-{{item.pk}}" class="col-12 ps-5"></div>
+</div>
+{% endfor %}
+
 <script>
     $('#items-counter').html('{{items|length}}');
     function hideTree(id) {
