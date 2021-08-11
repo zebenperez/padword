@@ -9,19 +9,19 @@
         <input type="hidden" name="project_id" id="project_id" value="{{project.id}}" />
         <input type="hidden" name="company_id" id="company_id" value="{{company.id}}" />
 	    <input type="text" class="autosearch form-control form-control-dark w-100" name="s-name" id="s-name" 
-            placeholder="IMEI, Serial, Alias, Proyecto, Canal, Compa&ntilde;&iacute;a o Habitaci&oacute;n" 
+            placeholder="{% trans 'IMEI, Serial, Alias, Project, Channel, Company or Room' %}" 
 		    data-url="{% url "device-search" %}" data-target="device-list" data-related="s-name"/>
     </div>
 
     <div class="content mt-4">
 	    <div class="toolbar-content">
-		    <h2>{% trans 'Dispositivos' %} (<span id="items-counter">{{items|length}}</span>)
-                {% if company %}{% trans "de la compañía" %} {{company.name}}{% endif %}
-                {% if project %}{% trans "del proyecto" %} {{project.name}}{% endif %}
-                {% if channel %}{% trans "del canal" %} {{channel.name}}{% endif %}
+		    <h2>{% trans 'Devices' %} (<span id="items-counter">{{items|length}}</span>)
+                {% if company %}{% trans "of the company" %} {{company.name}}{% endif %}
+                {% if project %}{% trans "of the project" %} {{project.name}}{% endif %}
+                {% if channel %}{% trans "of the channel" %} {{channel.name}}{% endif %}
             </h2>
             <a class="btn btn-primary ark" data-url="{% url "device-form" %}" data-target-modal="common-modal"
-                data-channel_id="{{channel.id}}" data-project_id="{{project.id}}" data-company_id="{{company.id}}">Nuevo dispositivo</a>  
+                data-channel_id="{{channel.id}}" data-project_id="{{project.id}}" data-company_id="{{company.id}}">{% trans "New device" %}</a>  
             {% include "common-modal.html" %}
    	    </div>
 	    <div id="device-list">{% include "web/devices/device-list.html" %}</div>

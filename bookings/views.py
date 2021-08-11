@@ -134,7 +134,7 @@ def booking_new(request, form_id):
         if form != None:
             fi = FormInstance.objects.create(form = form)
             write_log(request.user, fi, _("Booking created"))
-            return redirect(fill_form, fi.id)
+            return redirect(booking_edit, fi.id)
     except Exception as e:
         logger.error("[bookings-new_booking] {}".format(str(e)))
     return render(request, 'error_exception.html', {})

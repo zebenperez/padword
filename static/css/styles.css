@@ -265,9 +265,19 @@ input.form-control.login {
 	cursor: pointer;
 }
 
+/*   MOBILE DEVICES   */
+
 @media (min-width: 960px) {
 
 	.text-right {
     	text-align: right!important;
 	}
 }
+
+#navbarSupportedContent {
+	background: black;
+}
+
+.flex-row {
+	flex-direction: column!important;
+	}

@@ -1,6 +1,6 @@
 {% load i18n %}
 
-<h2>{% trans 'Nuevo proyecto' %}</h2>
+<h2>{% trans 'New proyect' %}</h2>
 
 
 <span id="div-notification"></span><br/>
@@ -17,7 +17,7 @@
 		{% trans "Company" %}:
 		<select class="form-control autosave b-bottom mb-4" id="company" name="company" value="{{obj.company.id}}" title="{{obj.company.name}}" 
 			data-model-name="web.project" data-obj-id="{{obj.id}}" data-url="{% url "autosave_field" %}" data-target="div-notification"/>
-		    <option value="">{% trans "-- Selecciona una compañía" %}</option>
+		    <option value="">{% trans "-- Select a company" %}</option>
 	    	{% for comp in companies %}
 		        <option value="{{comp.id}}" {%if obj.company == comp%}selected{%endif%}>{{comp.name}}</option>
 		    {% endfor %}
