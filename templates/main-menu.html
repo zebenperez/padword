@@ -10,9 +10,10 @@
     <div class="nav-item"> <a class="nav-link {% current '' %}" href="#"> {% trans 'Peticiones' %} </a> </div>
     <div class="nav-item"> <a class="nav-link {% current '' %}" href="#"> {% trans 'Lugares y Eventos' %} </a> </div>
     <div class="nav-item"> <a class="nav-link {% current '' %}" href="{% url 'auth_logout' %}"> 
-        <i class="glyphicon glyphicon-off"></i> {% trans "Log out" %} </a> </div>
+        <i class="fas fa-sign-out-alt text-white""></i> {% trans "Log out" %} </a> </div>
 {% else %}
     <div class="nav-item"> <a class="nav-link {% current '' %}" href="{% url 'auth_login' %}"> 
-        <i class="glyphicon glyphicon-log-in"></i> {% trans "Log in" %}</a> </div>
+        <i class="fas fa-sign-in-alt"></i> {% trans "Log in" %}</a> </div>
 {% endif %}
+<div class="nav-item"><span class="text-white nav-link"><strong>Hola, {{request.user.username}}</strong></span></div>
 

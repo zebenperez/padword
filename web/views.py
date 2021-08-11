@@ -3,7 +3,7 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, JsonResponse
 from .models import *
 from django.core import serializers
-from padword.commons import show_exc, get_or_none, get_param, new_ui_slug
+from padword.commons import show_exc, get_or_none, get_param, new_ui_slug, translate
 
 
 # Create your views here.
@@ -304,7 +304,16 @@ def device_form(request):
                 obj.channel_uuid = channel.uuid
                 obj.save()
 
-        context = {'obj': obj, 'channel_id': channel_id, 'project_id': project_id, 'company_id': company_id}
+        if project_id:
+            channels = Channel.objects.filter(active=1, project=Project.objects.get(pk=project_id))
+        else:
+            channels = Channel.objects.filter(active=1)
+
+        #channels = sorted(channels, key=lambda x:translate(request,x.name))
+        channels = channels.all().order_by('project__company__name','project__name','name')
+
+
+        context = {'obj': obj, 'channel_id': channel_id, 'project_id': project_id, 'company_id': company_id, 'channels': channels}
         return render(request, "web/devices/device-form.html", context)
     except Exception as e:
         print (show_exc(e))
