@@ -14,10 +14,17 @@
 
     <div class="content mt-4">
         <div class="toolbar-content">
+			{% comment %}
             <h2>{% trans 'Channel' %} (<span id="items-counter">{{items|length}}</span>)
                 {% if company %}{% trans "of the company" %} {{company.name}}{% endif %}
                 {% if project %}{% trans "of the project" %} {{project.name}}{% endif %}
             </h2>
+			{% endcomment %}
+			<h2>{% trans 'Channel' %} <span class="sub-h2"> (<span id="items-counter">{{items|length}}</span>) </span>
+                {% if company %}{% trans "of the company" %} {{company.name}}{% endif %}
+                {% if project %}{% trans "of the project" %} {{project.name}}{% endif %}
+            </h2>
+
             <a class="btn btn-primary ark" data-url="{% url "channel-form" %}" data-target-modal="common-modal"
                 data-project_id="{{project.id}}" data-company_id="{{company.id}}">{% trans "New channel" %} </a>  
             {% include "common-modal.html" %}

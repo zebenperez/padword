@@ -12,7 +12,10 @@
 
 <div class="content mt-4">
 	<div class="toolbar-content">
+		{% comment %}
 		<h2 class="b-right">{% trans 'Companies' %} (<span id="items-counter">{{items|length}}</span>)</h2>
+		{% endcomment %}
+		<h2 class="b-right">{% trans 'Companies' %} <span class="sub-h2"> (<span id="items-counter">{{items|length}}</span>) </span></h2>
 	    <a class="btn btn-primary ark" data-url="{% url "company-form" %}" data-target-modal="common-modal">{% trans "New company" %}</a>  
     	{% include "common-modal.html" %}
 	</div>
