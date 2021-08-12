@@ -1,0 +1,46 @@
+{% load i18n padword_tags%}
+
+<h2>{% trans 'Category' %}</h2>
+
+
+<span id="div-notification"></span><br/>
+
+<div class="row justify-center">
+	<div class="col-sm-6 col-md-4 col-12">
+		{% trans "Name" %}:
+        <input type="text" class="form-control autosave b-bottom mb-4" id="name" name="name" value="{% padword_translate obj.name %}" title="{% padword_translate obj.name %}" 
+			data-model-name="contents.category" data-obj-id="{{obj.id}}" data-url="{% url "autosave_field" %}" data-target="div-notification"/>
+			<span id="name__msg"></span>
+	</div>
+	<div class="col-sm-6 col-md-8 col-12">
+		{% trans "Description" %}:
+        <input type="text" class="form-control autosave b-bottom mb-4" id="description" name="description" value="{% padword_translate obj.description %}" title="{% padword_translate obj.description%}" 
+			data-model-name="contents.category" data-obj-id="{{obj.id}}" data-url="{% url "autosave_field" %}" data-target="div-notification"/>
+			<span id="name__msg"></span>
+	</div>
+
+	<div class="col-sm-2 col-md-2 col-2">
+		{% trans "Position" %}:
+        <input type="number" class="form-control autosave b-bottom mb-4" id="position" name="position" value="{{ obj.position }}" title="{{ obj.position }}" 
+			data-model-name="contents.category" data-obj-id="{{obj.id}}" data-url="{% url "autosave_field" %}" data-target="div-notification"/>
+			<span id="name__msg"></span>
+	</div>
+
+	<div class="col-sm-6 col-md-6 col-12">
+		{% trans "Created at" %}:
+		<input type="date" class="form-control autosave b-bottom mb-4" id="created_at" name="created_at" value="{{obj.created_at|date:'Y-m-d'}}" title="{{obj.created_at}}" 
+			data-model-name="web.project" data-obj-id="{{obj.id}}" data-url="{% url "autosave_field" %}" data-target="div-notification"/>
+			<span id="created_at__msg"></span>	
+	</div>
+	
+</div>		
+
+<div class="d-flex justify-content-end">
+    {% if new_item %}
+	<a class="btn btn-sm" href="{% url "categories-by-project" obj.project_uuid %}" >{% trans "Save" %}</a>
+    {% else %}
+	<button type="button" class="btn btn-sm ark save" data-bs-dismiss="modal" data-url="{% url "items-by-category" obj.uuid %}" data-target="items-list-{{obj.pk}}" >{% trans "Save" %}</button>
+    {% endif %}
+	<button type="button" class="btn btn-sm ark cancel" data-bs-dismiss="modal" data-url="{% url "category-remove" obj.uuid %}" data-target="items-list-{{obj.parent.pk}}" data-confirm="{% trans "Are you sure to remove this element?" %}">{% trans "Remove" %}</button>
+</div>
+
