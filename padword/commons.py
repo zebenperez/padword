@@ -69,6 +69,9 @@ def translate(request, json_str):
         print (show_exc(e))
         return json.loads(json_str)['ES']
 
-def new_ui_slug():
+def new_ui_slug(model=None):
     slug = '{}-{}-{}-{}-{}'.format(''.join([random.choice(string.digits+'abcdef') for i in range(8)]),''.join([random.choice(string.digits+'abcdef') for i in range(4)]),''.join([random.choice(string.digits+'abcdef') for i in range(4)]),''.join([random.choice(string.digits+'abcdef') for i in range(4)]),''.join([random.choice(string.digits+'abcdef') for i in range(12)]))
+    if model is None:
+        while (model.objects.filter(uuid = slug).exists()):
+            slug = '{}-{}-{}-{}-{}'.format(''.join([random.choice(string.digits+'abcdef') for i in range(8)]),''.join([random.choice(string.digits+'abcdef') for i in range(4)]),''.join([random.choice(string.digits+'abcdef') for i in range(4)]),''.join([random.choice(string.digits+'abcdef') for i in range(4)]),''.join([random.choice(string.digits+'abcdef') for i in range(12)]))
     return slug

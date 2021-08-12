@@ -41,7 +41,7 @@ def padword_translate(context, json_str):
             return json.loads(json_str)['ES']
         except Exception as e:
             print (json_str)
-            return 'ERROR'
+            return ''
 
 @register.filter
 def currency(json_str):
