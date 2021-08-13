@@ -32,6 +32,7 @@ def category_search(request):
             if name != "":
                 kwargs[myfilter] = name
             items = items.union(Category.objects.filter(**kwargs))
+        print (kwargs)
         return render(request, "contents/categories-list.html", {'items': items, })
     except Exception as e:
         print (show_exc(e))
