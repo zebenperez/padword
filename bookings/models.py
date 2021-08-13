@@ -1,6 +1,7 @@
 from django.db import models
 from django.utils.translation import ugettext_lazy as _ 
 from contents.models import Category
+from web.models import Channel
 
 import datetime
 
@@ -42,23 +43,23 @@ class Answer(models.Model):
 		ordering = ['id']
 
 
-class FormType(models.Model):
-	code = models.CharField(max_length=10, verbose_name=_("Code"), default="")
-	name = models.CharField(max_length=200, verbose_name=_("Name"))
-
-	def __str__(self):
-		return self.name
-
-	class Meta:
-		verbose_name = _('Form type')
-		verbose_name_plural = _('Forms type')
-
+#class FormType(models.Model):
+#	code = models.CharField(max_length=10, verbose_name=_("Code"), default="")
+#	name = models.CharField(max_length=200, verbose_name=_("Name"))
+#
+#	def __str__(self):
+#		return self.name
+#
+#	class Meta:
+#		verbose_name = _('Form type')
+#		verbose_name_plural = _('Forms type')
+#
 class Block(models.Model):
     private = models.BooleanField(verbose_name=_("Private"), default=False)
     order = models.IntegerField(verbose_name=_("Order"), default=0)
     code = models.CharField(max_length=10, verbose_name=_("Code"), default="")
     text = models.CharField(max_length=500, verbose_name=_("Text"))
-    form_type = models.ForeignKey(FormType, on_delete=models.CASCADE, verbose_name=_("Form type"), blank=True, null=True)
+    #form_type = models.ForeignKey(FormType, on_delete=models.CASCADE, verbose_name=_("Form type"), blank=True, null=True)
 
     def __str__(self):
         return "%s %s" % (self.code, self.text)
@@ -109,7 +110,7 @@ class Form(models.Model):
     name = models.CharField(max_length=200, verbose_name=_("Name"))
     category = models.CharField(max_length=200, verbose_name=_("Channel"), default="")
 
-    form_type = models.ForeignKey(FormType, on_delete=models.CASCADE, verbose_name=_("Form type"), blank=True, null=True)
+    #form_type = models.ForeignKey(FormType, on_delete=models.CASCADE, verbose_name=_("Form type"), blank=True, null=True)
     blocks = models.ManyToManyField(Block, blank=True, verbose_name=_("Questions blocks"))
 
     def __str__(self):
@@ -126,6 +127,11 @@ class Form(models.Model):
 class FormChannel(models.Model):
     channel = models.CharField(max_length=200, verbose_name=_("Channel"), default="")
     form = models.ForeignKey(Form, on_delete=models.CASCADE, verbose_name=_("Form"), blank=True, null=True, related_name="channels")
+
+    @property
+    def channel_name(self):
+        channel = Channel.objects.filter(uuid=self.channel).first()
+        return channel.name if channel != None else ""
 
 class FormInstance(models.Model):
     CREATED= '01'

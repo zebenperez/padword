@@ -87,6 +87,12 @@ $(document).ready(()=>{
 		e.preventDefault();
 	});
 
+	$("body").on("change", ".autosearch_change", function(e){
+		var obj = $(this);
+		autoSearch(obj);
+		e.preventDefault();
+	});
+
     $("body").on("click", ".ark", function(e){
         var obj = $(this);
         if (((obj.data("confirm")) && confirm(obj.data("confirm"))) || !(obj.data("confirm")))

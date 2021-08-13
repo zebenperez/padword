@@ -17,6 +17,7 @@
             title="{{obj.category}}" data-model-name="bookings.form" data-obj-id="{{obj.id}}" data-url="{% url "autosave_field" %}" 
             data-target="div-notification"/> <span id="channel__msg"></span>
 	</div>
+    {%comment%}
 	<div class="col-sm-3 col-md-5 col-12">
 		{% trans "Form Type" %}:
 		<select class="form-control autosave b-bottom mb-4" id="form_type" name="form_type" value="{{obj.form_type.id}}" 
@@ -29,6 +30,7 @@
 		</select>
 		<span id="form_type__msg"></span>
 	</div>
+    {%endcomment%}
 	<div class="col-sm-12 col-md-12 col-12">
 		{% trans "Blocks" %}:
         <select name="blocks" id="blocks" class="form-control autosave" data-model-name="bookings.form" data-obj-id="{{obj.id}}" 

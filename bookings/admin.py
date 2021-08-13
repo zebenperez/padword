@@ -17,7 +17,8 @@ class InstanceForm(forms.Form):
 def duplicate_block(modeladmin, request, queryset):
 	for b in queryset:
 		block_order = b.order + 1
-		block = Block(order=block_order,code=b.code,text=b.text,form_type=b.form_type)
+		#block = Block(order=block_order,code=b.code,text=b.text,form_type=b.form_type)
+		block = Block(order=block_order,code=b.code,text=b.text)
 		block.save()
 		for q in b.question_set.all():
 			question_order = q.order + 1
@@ -52,8 +53,9 @@ class AnswerTypeAdmin(admin.ModelAdmin):
 	inlines = [AnswerInline, ]
 
 class BlockAdmin(admin.ModelAdmin):
-	list_display = ('code', 'form_type', 'text')
-	list_filter = ('form_type',)
+	#list_display = ('code', 'form_type', 'text')
+	list_display = ('code', 'text')
+	#list_filter = ('form_type',)
 	actions = [duplicate_block]
 
 class FormAdmin(admin.ModelAdmin):
@@ -64,15 +66,15 @@ class FormAdmin(admin.ModelAdmin):
 class FormInstanceAdmin(admin.ModelAdmin):
 	list_display = ('pk', 'code', 'form', 'fill_form')
 	search_fields = ['code']
-	list_filter = ('form__form_type',)
+	#list_filter = ('form__form_type',)
 	list_per_page = 500
 
 	def fill_form(self, obj):
 		return mark_safe("<a href='%s' target='_blank'>Editar</a>" % (reverse('booking-edit', args=[obj.id])))
 	fill_form.short_description = 'Editar'
 
-class FormTypeAdmin(admin.ModelAdmin):
-	list_display = ('code', 'name')
+#class FormTypeAdmin(admin.ModelAdmin):
+#	list_display = ('code', 'name')
 
 class QuestionAdmin(admin.ModelAdmin):
 	list_display = ('block', 'code', 'text', 'order')
@@ -80,12 +82,12 @@ class QuestionAdmin(admin.ModelAdmin):
 	list_filter = ('block',)
 
 
-admin.site.register(Answer)
+#admin.site.register(Answer)
 admin.site.register(AnswerType, AnswerTypeAdmin)
-admin.site.register(Field)
+#admin.site.register(Field)
 admin.site.register(Form, FormAdmin)
 admin.site.register(FormInstance, FormInstanceAdmin)
-admin.site.register(FormType, FormTypeAdmin)
+#admin.site.register(FormType, FormTypeAdmin)
 admin.site.register(Question, QuestionAdmin)
 admin.site.register(Block, BlockAdmin)
 admin.site.register(QuestionType)

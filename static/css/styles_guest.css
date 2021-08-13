@@ -1,0 +1,92 @@
+body {
+	position: relative;
+	background-image: url("/static/img/bg-test.jpg") !important;
+	background-position: center;
+	background-repeat: no-repeat;
+	background-size: cover;
+
+}
+
+#main {
+/*	border: 1px solid blue;*/
+	padding: 0px;
+}
+
+.div-transp {
+	background-size: cover;
+    background-color:black;
+    opacity:0.9;
+}
+
+.main-content-booking {
+	/*padding:125px;*/
+}
+
+.main-content-booking input, .main-content-booking select {
+
+	/*setting alpha = 0.1*/
+	background: #ccc;
+	border: none;
+	border-radius: 8px;
+	opacity: 0.9;
+	color: #000 !important;
+}
+
+.bookingHeader {
+	color: #fff;
+}
+.bookingHeader h1 {
+	border-bottom:1px solid #fff;
+}
+
+.div-info {
+	color: white;
+}
+
+#mask
+{
+	position: fixed;
+    top:0;
+    height:2000px;
+    width:100%;
+    z-index: -1000;
+    opacity:0.3;
+}
+
+.btn.btn-block {
+	background: #36abfc !important;
+	color: white;
+}
+
+/*****************************/
+/* table style*/
+/*****************************/
+
+.sh-td {
+	color: white;
+	padding: 0px !important;
+}
+
+tbody, td, tfoot, th, thead, tr {
+	border: 0px !important;
+	padding: 0px !important;
+}
+
+/*****************************/
+/* devices style*/
+/*****************************/
+
+@media (min-width: 768px) 
+{
+	.main-content-booking {
+		padding:50px !important;
+	}
+}
+
+@media (min-width: 480px) 
+{
+	.main-content-booking {
+		padding:50px !important;
+	}
+}
+

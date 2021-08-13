@@ -13,12 +13,15 @@
             <td>{{ item.name }}</td>
             <td>{{ item.channel }}</td>
             <td class="d-flex justify-content-end">
-                <a class="me-1 btn btn-xs" title="{% trans 'See bookings' %}" href="{% url "bookings" item.id %}"><i class="far fa-eye"></i></a>  
-                <a class="me-1 btn btn-xs" title="{% trans 'New booking' %}" href="{% url "booking-new" item.id %}" target="_blank"><i class="far fa-calendar-check"></i></a>  
+                <a class="me-1 btn btn-xs" title="{% trans 'See bookings' %}" href="{% url "bookings-by-form" item.id %}">
+                    <i class="far fa-eye"></i></a>  
+                <a class="me-1 btn btn-xs" title="{% trans 'New booking' %}" href="{% url "booking-new" item.id %}" target="_blank">
+                    <i class="far fa-calendar-check"></i></a>  
                 <a class="me-1 btn btn-xs ark" title="{% trans 'Edit' %}" data-url="{% url "form-form" %}" data-target-modal="common-modal" 
                     data-obj_id="{{item.id}}"><i class="fas fa-edit"></i></a>  
-	            <a class="btn btn-sm autoremove" title="{% trans 'Remove' %}" data-model-name="bookings.form" data-obj-id="{{item.id}}" data-url="{% url "autoremove_obj" %}" 
-                    data-target="row_{{item.id}}" data-confirm="{% trans "Are you sure to remove this element?" %}"><i class="fas fa-trash"></i></a>
+	            <a class="btn btn-sm autoremove" title="{% trans 'Remove' %}" data-model-name="bookings.form" data-obj-id="{{item.id}}" 
+                    data-url="{% url "autoremove_obj" %}" data-target="row_{{item.id}}" 
+                    data-confirm="{% trans "Are you sure to remove this element?" %}"><i class="fas fa-trash"></i></a>
             </td>
         </tr>
         {% endfor %}

@@ -60,6 +60,12 @@ def get_float(val):
     except:
         return 0.0
 
+def get_bool(val):
+    try:
+        return bool(val)
+    except:
+        return False
+
 def translate(request, json_str):
     try:
         lang = request.LANGUAGE_CODE
