@@ -1,19 +1,25 @@
 {% load i18n padword_tags %}
 
-{% if request.user.is_authenticated %}
-    <div class="nav-item"> <a class="nav-link {%current 'web-index'%}" aria-current="page" href="{%url 'projects'%}"> {% trans 'Admin' %} </a></div>
-    {#<div class="nav-item"> <a class="nav-link {%current 'forms'%}" aria-current="page" href="{%url 'forms'%}"> {% trans 'Forms' %} </a></div>#}
-    <div class="nav-item"> <a class="nav-link {% current '' %}" href="#"> {% trans 'Project' %} </a> </div>
-    <div class="nav-item"> <a class="nav-link {% current '' %}" href="#"> {% trans 'Config UI' %} </a> </div>
-    <div class="nav-item"> <a class="nav-link {% current '' %}" href="#"> {% trans 'Messages' %} </a> </div>
-    <div class="nav-item"> <a class="nav-link {% current 'guests' %}" href="{% url 'guests' %}"> {% trans 'Huéspedes' %} </a> </div>
-    <div class="nav-item"> <a class="nav-link {% current '' %}" href="#"> {% trans 'Requests' %} </a> </div>
-    <div class="nav-item"> <a class="nav-link {% current '' %}" href="#"> {% trans 'Places and Events' %} </a> </div>
+{% if user.is_authenticated %}
+    {% if menu == "admins" %}
+        <div class="nav-item"><a class="nav-link {%current 'web-index'%}" aria-current="page" href="{%url 'projects'%}">{% trans 'Admin' %}</a></div>
+        {#<div class="nav-item"> <a class="nav-link {%current 'forms'%}" aria-current="page" href="{%url 'forms'%}"> {% trans 'Forms' %} </a></div>#}
+        <div class="nav-item"> <a class="nav-link {% current '' %}" href="#"> {% trans 'Project' %} </a> </div>
+        <div class="nav-item"> <a class="nav-link {% current '' %}" href="#"> {% trans 'Config UI' %} </a> </div>
+        <div class="nav-item"> <a class="nav-link {% current '' %}" href="#"> {% trans 'Messages' %} </a> </div>
+        <div class="nav-item"> <a class="nav-link {% current 'guests' %}" href="{% url 'guests' %}"> {% trans 'Huéspedes' %} </a> </div>
+        <div class="nav-item"> <a class="nav-link {% current '' %}" href="#"> {% trans 'Requests' %} </a> </div>
+        <div class="nav-item"> <a class="nav-link {% current '' %}" href="#"> {% trans 'Places and Events' %} </a> </div>
+    {% elif menu == "projects" %}
+        <div class="nav-item"><a class="nav-link {%current 'channels-by-project'%}" aria-current="page" 
+            href="{%url 'channels-by-project' project.id %}"> {% trans 'Admin' %}</a></div>
+    {% elif menu == "clients" %}
+    {% endif %}
     <div class="nav-item"> <a class="nav-link {% current '' %}" href="{% url 'auth_logout' %}"> 
         <i class="fas fa-sign-out-alt text-white""></i> {% trans "Log out" %} </a> </div>
+    <div class="nav-item"><span class="text-white nav-link"><strong>Hola, {{user.username}}</strong></span></div>
 {% else %}
     <div class="nav-item"> <a class="nav-link {% current '' %}" href="{% url 'auth_login' %}"> 
         <i class="fas fa-sign-in-alt"></i> {% trans "Log in" %}</a> </div>
 {% endif %}
-<div class="nav-item"><span class="text-white nav-link"><strong>Hola, {{request.user.username}}</strong></span></div>
 

@@ -47,9 +47,10 @@
                         <span class="p-1 d-none d-lg-inline-flex">&nbsp;#&nbsp;</span> 
                         <span class="d-inline-flex"> {% trans 'IMEI - Serial - Alias' %} </span>
                     </div>
+                    <div class="p-1 col-2 col-lg-2"> {% trans 'UUID' %} </div>
                     <div class="p-1 col-2 col-lg-2"> {% trans 'Proyecto' %} </div>
                     <div class="p-1 col-2 col-lg-2"> {% trans 'Canal' %} </div>
-                    <div class="p-1 col-1 d-none d-lg-block"> {% trans 'Red' %} </div>
+                    {#<div class="p-1 col-1 d-none d-lg-block"> {% trans 'Red' %} </div>#}
                     <div class="p-1 col-2 col-lg-2"> {% trans 'Habitación' %} </div>
                     <div class="p-1 col-1 d-none d-lg-block"> {% trans 'Android Id' %} </div>
                     <div class="p-1 col-2 col-lg-1"></div>
@@ -66,9 +67,10 @@
                         {{item.alias}}
                         </span>
                     </div>
+                    <div class="p-1 col-2">{{ item.uuid }}</div>
                     <div class="p-1 col-2">{{ item.project.name }}</div>
                     <div class="p-1 col-2">{{ item.channel.name }}</div>
-                    <div class="p-1 col-1 d-none d-lg-block">{{ item.net_type }}</div>
+                    {#<div class="p-1 col-1 d-none d-lg-block">{{ item.net_type }}</div>#}
                     <div class="p-1 col-2">{{ item.room}}</div>
                     <div class="p-1 col-1 d-none d-lg-block">{{ item.android_id_padword }}</div>
                     <div class="p-1 col-2 col-lg-1 justify-content-end d-flex">

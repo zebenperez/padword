@@ -1,25 +1,30 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, JsonResponse
-from .models import *
 from django.core import serializers
 from padword.commons import show_exc, get_or_none, get_param, new_ui_slug, translate
+from padword.decorators import group_required
+from .models import *
 
 
 # Create your views here.
 
+@group_required("admins", "projects")
 def index(request):
-    try:
-        return redirect('projects')
-        return render (request, "base_nestor.html")
-        #return JsonResponse({'results':serializers.serialize("json", companies, fields=('uuid','name')), 'error':0})
-    except Exception as e:
-        return JsonResponse({'results':[], 'error':1, 'error-msg':show_exc(e)})
-
+    if hasattr(request, "project_id"):
+        return redirect('bookings-by-project', request.project_id)
+    return redirect('projects')
+#    try:
+#        return redirect('projects')
+#        return render (request, "base_nestor.html")
+#        #return JsonResponse({'results':serializers.serialize("json", companies, fields=('uuid','name')), 'error':0})
+#    except Exception as e:
+#        return JsonResponse({'results':[], 'error':1, 'error-msg':show_exc(e)})
+#
 '''
     Projects
 '''
-@login_required
+@group_required("admins")
 def projects(request, company_id=None):
     try:
         company = get_or_none(Company, company_id)
@@ -28,7 +33,7 @@ def projects(request, company_id=None):
     except Exception as e:
         return JsonResponse({'results':[], 'error':1, 'error-msg':show_exc(e)})
 
-@login_required
+@group_required("admins")
 def project_search(request):
     try:
         company_id = get_param(request.GET, "company_id")
@@ -47,7 +52,7 @@ def project_search(request):
         print (show_exc(e))
         return JsonResponse({'results':[], 'error':1, 'error-msg':show_exc(e)})
 
-@login_required
+@group_required("admins")
 def project_form(request):
     try:
         obj = get_or_none(Project, request.GET["obj_id"]) if "obj_id" in request.GET else Project.objects.create(company=Company.objects.filter(active=1).first())
@@ -67,7 +72,7 @@ def project_form(request):
     except Exception as e:
         return render(request, 'error_exception.html', {'exc':show_exc(e)})
 
-@login_required
+@group_required("admins")
 def project_remove(request):
     company_id = get_param(request.GET, "company_id", None)
     obj = get_or_none(Project, request.GET["obj_id"]) if "obj_id" in request.GET else None
@@ -95,7 +100,7 @@ def get_channels(project, company):
     context["items"] = items
     return context
 
-@login_required
+@group_required("admins", "projects")
 def channels(request, project_id=None, company_id=None):
     try:
         context = get_channels(get_or_none(Project, project_id), get_or_none(Company, company_id))
@@ -103,7 +108,7 @@ def channels(request, project_id=None, company_id=None):
     except Exception as e:
         return JsonResponse({'results':[], 'error':1, 'error-msg':show_exc(e)})
 
-@login_required
+@group_required("admins", "projects")
 def channel_search(request):
     try:
         company_id = get_param(request.GET, "company_id")
@@ -125,7 +130,7 @@ def channel_search(request):
         print (show_exc(e))
         return JsonResponse({'results':[], 'error':1, 'error-msg':show_exc(e)})
 
-@login_required
+@group_required("admins", "projects")
 def channel_form(request):
     try:
         company_id = get_param(request.GET, "company_id")
@@ -147,7 +152,7 @@ def channel_form(request):
         print (show_exc(e))
         return render(request, "error_exception.html", {'exc':e})
 
-@login_required
+@group_required("admins", "projects")
 def channel_remove(request):
     company_id = get_param(request.GET, "company_id", None)
     project_id = get_param(request.GET, "project_id", None)
@@ -160,7 +165,7 @@ def channel_remove(request):
 '''
     Companies
 '''
-@login_required
+@group_required("admins")
 def companies(request):
     try:
         items = Company.objects.all()
@@ -168,7 +173,7 @@ def companies(request):
     except Exception as e:
         return JsonResponse({'results':[], 'error':1, 'error-msg':show_exc(e)})
 
-@login_required
+@group_required("admins")
 def company_search(request):
     try:
         filters_to_search = ["name__icontains", ]
@@ -183,12 +188,12 @@ def company_search(request):
         print (show_exc(e))
         return JsonResponse({'results':[], 'error':1, 'error-msg':show_exc(e)})
 
-@login_required
+@group_required("admins")
 def company_form(request):
     obj = get_or_none(Company, request.GET["obj_id"]) if "obj_id" in request.GET else Company.objects.create()
     return render(request, "web/companies/company-form.html", {'obj': obj,})
 
-@login_required
+@group_required("admins")
 def company_remove(request):
     obj = get_or_none(Company, request.GET["obj_id"]) if "obj_id" in request.GET else None
     if obj != None:
@@ -229,7 +234,7 @@ def get_devices(channel, project, company):
         return {'items':Device.objects.none()}
 
 
-@login_required
+@group_required("admins", "projects")
 def devices(request, project_id = None, company_id = None, channel_id = None):
     try:
         context = get_devices(get_or_none(Channel, channel_id), get_or_none(Project, project_id), get_or_none(Company, company_id))
@@ -237,31 +242,7 @@ def devices(request, project_id = None, company_id = None, channel_id = None):
     except Exception as e:
         return JsonResponse({'results':[], 'error':1, 'error-msg':show_exc(e)})
 
-#def device_search(request):
-#    try:
-#        filters_to_search = ["imei__icontains", "serial_number__icontains", "room__icontains", "alias__icontains"]
-#        search_value = request.GET["s-name"]
-#        if search_value != "":
-#            items = Device.objects.none()
-#            for myfilter in filters_to_search:
-#                kwargs = {}
-#                kwargs[myfilter] = search_value
-#                items = items.union(Device.objects.filter(**kwargs))
-#
-#            projects = Project.objects.filter(name__icontains = search_value).values_list('uuid')
-#            items = items.union(Device.objects.filter(project_uuid__in = projects))
-#            projects = Project.objects.filter(company__in = Company.objects.filter(name__icontains = search_value)).values_list('uuid')
-#            items = items.union(Device.objects.filter(project_uuid__in = projects))
-#            channels = Channel.objects.filter(name__icontains = search_value).values_list('uuid')
-#            items = items.union(Device.objects.filter(channel_id__in = channels ))
-#        else:
-#            items = Device.objects.all()
-#        return render(request, "web/device-list.html", {'items': items,})
-#    except Exception as e:
-#        print (show_exc(e))
-#        return JsonResponse({'results':[], 'error':1, 'error-msg':show_exc(e)})
-#
-@login_required
+@group_required("admins", "projects")
 def device_search(request):
     try:
         company_id = get_param(request.GET, "company_id")
@@ -290,7 +271,7 @@ def device_search(request):
         print (show_exc(e))
         return JsonResponse({'results':[], 'error':1, 'error-msg':show_exc(e)})
 
-@login_required
+@group_required("admins", "projects")
 def device_form(request):
     try:
         obj = get_or_none(Device, request.GET["obj_id"]) if "obj_id" in request.GET else Device.objects.create()
@@ -320,7 +301,7 @@ def device_form(request):
         return render(request, 'error_exception.html', {'exc':show_exc(e)})
 
 
-@login_required
+@group_required("admins", "projects")
 def device_remove(request):
     company_id = get_param(request.GET, "company_id", None)
     project_id = get_param(request.GET, "project_id", None)

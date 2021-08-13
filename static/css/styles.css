@@ -187,7 +187,7 @@ body {
 	justify-content: space-between;
 }
 .toolbar-content h2 {
-	color:#36abfc;
+/*	color:#36abfc;*/
 	font-size: 1.25rem;
 	line-height: 1.5;
 	margin-bottom:0;
@@ -316,7 +316,7 @@ i.text-grey, i.fas.fa-box {
 }
 
 #navbarSupportedContent {
-	background: black;
+	background: #212529;
 }
 
 .flex-row {

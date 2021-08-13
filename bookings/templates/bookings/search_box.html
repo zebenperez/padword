@@ -1,0 +1,29 @@
+{% load i18n %}
+
+<div class="toolbar-search">
+    <input type="text" class="autosearch form-control form-control-dark w-30" name="s-project" id="s-project" 
+        placeholder="{% trans "Project uuid" %}" value="{{project_uuid}}" data-url="{% url "bookings-search" %}" 
+        data-target="booking-list" data-related="s-project,s-channel,s-form,s-ini_date,s-end_date,s-name" 
+        {%if request.project_id %}disabled{%endif%}/>
+
+    <input type="text" class="autosearch form-control form-control-dark w-30" name="s-channel" id="s-channel" 
+        placeholder="{% trans "Channel uuid" %}" data-url="{% url "bookings-search" %}" 
+        data-target="booking-list" data-related="s-project,s-channel,s-form,s-ini_date,s-end_date,s-name" />
+
+    <input type="text" class="autosearch form-control form-control-dark w-30" name="s-form" id="s-form" 
+        placeholder="{% trans "Form name" %}" value="{{form_name}}" data-url="{% url "bookings-search" %}" 
+        data-target="booking-list" data-related="s-project,s-channel,s-form,s-ini_date,s-end_date,s-name" />
+
+    <input type="date" class="autosearch_change form-control form-control-dark w-30" name="s-ini_date" id="s-ini_date" 
+        placeholder="{% trans "Initial date" %}" value="{{ini_date|date:'Y-m-d'}}" data-url="{% url "bookings-search" %}" 
+        data-target="booking-list" data-related="s-project,s-channel,s-form,s-ini_date,s-end_date,s-name" />
+
+    <input type="date" class="autosearch_change form-control form-control-dark w-30" name="s-end_date" id="s-end_date" 
+        placeholder="{% trans "End date" %}" value="{{end_date|date:'Y-m-d'}}" data-url="{% url "bookings-search" %}" 
+        data-target="booking-list" data-related="s-project,s-channel,s-form,s-ini_date,s-end_date,s-name" />
+
+    <input type="text" class="autosearch form-control form-control-dark w-30" name="s-name" id="s-name" 
+        placeholder="Nombre" data-url="{% url "bookings-search" %}" 
+        data-target="booking-list" data-related="s-project,s-channel,s-form,s-ini_date,s-end_date,s-name" />
+</div>
+ 

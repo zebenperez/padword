@@ -23,7 +23,6 @@ urlpatterns = [
     path('', RedirectView.as_view(pattern_name='projects')),
     path('web/', include('web.urls')),
     path('admin/', admin.site.urls),
-    path('web/', include('web.urls')),
     path('guest/', include('guest.urls')),
     path('contents/', include('contents.urls')),
     path('bookings/', include('bookings.urls')),

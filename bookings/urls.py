@@ -4,6 +4,8 @@ from bookings import views
 
 urlpatterns = [ 
     #--------------------- Forms --------------------
+    path('forms/project-<slug:project_id>/', views.forms, name='forms-by-project'),
+    path('forms/company-<slug:company_id>/', views.forms, name='forms-by-company'),
     path('forms/', views.forms, name='forms'),
     path('forms/search/', views.form_search, name='form-search'),
     path('forms/form/', views.form_form, name='form-form'),
@@ -12,8 +14,13 @@ urlpatterns = [
     path('channel/remove/', views.channel_remove, name='channel-remove'),
 
     #------------- Bookings --------------#
-	path('bookings/<int:form_id>/', views.bookings, name='bookings'),
+	path('bookings/', views.bookings, name='bookings'),
+	path('bookings_by_form/<int:form_id>/', views.bookings_by_form, name='bookings-by-form'),
+	path('bookings_by_project/<int:project_id>/', views.bookings_by_project, name='bookings-by-project'),
+    path('bookings/search/', views.bookings_search, name='bookings-search'),
+
 	path('booking-new/<int:form_id>/', views.booking_new, name='booking-new'),
+	path('booking-new/<int:form_id>/<int:device_id>/', views.booking_new, name='booking-new'),
 	path('booking-edit/<int:fi_id>/', views.booking_edit, name='booking-edit'),
 	path('booking-edit/<int:fi_id>/<int:ro>/', views.booking_edit, name='booking-edit'),
 	path('booking-remove/<int:fi_id>/', views.booking_remove, name='booking-remove'),

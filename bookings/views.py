@@ -5,12 +5,15 @@ from django.shortcuts import render, redirect
 from django.urls import reverse
 from django.utils.translation import ugettext_lazy as _ 
 
-from padword.commons import show_exc, get_or_none, get_param, get_float
+from padword.decorators import group_required
+from padword.commons import show_exc, get_or_none, get_param, get_float, get_bool
 from web.models import Channel, Company, Project, Device
 
 from .common_lib import clone_form_instance, get_form_instance, get_max_index, get_or_create_answer_instance, user_in_group, write_log
-from .models import AnswerInstance, Field, Form, FormChannel, FormInstance, FormType, Question, Block
+#from .models import AnswerInstance, Field, Form, FormChannel, FormInstance, FormType, Question, Block
+from .models import AnswerInstance, Field, Form, FormChannel, FormInstance, Question, Block
 
+import datetime
 import logging
 logger = logging.getLogger(__name__)
 
@@ -35,7 +38,7 @@ def get_forms(channel, project, company):
         else:
             items = Form.objects.all()
         context["items"] = items
-        context["form_type_list"] = FormType.objects.all()
+        #context["form_type_list"] = FormType.objects.all()
         context["block_list"] = Block.objects.all()
         return context
     except Exception as e:
@@ -51,6 +54,7 @@ def forms(request, project_id=None, company_id=None, channel_id=None):
     except Exception as e:
         return JsonResponse({'results':[], 'error':1, 'error-msg':show_exc(e)})
 
+@login_required
 def form_search(request):
     try:
         company_id = get_param(request.GET, "company_id")
@@ -95,7 +99,7 @@ def form_form(request):
                 obj.save()
 
         context = {'obj': obj, 'channel_id': channel_id, 'project_id': project_id, 'company_id': company_id}
-        context["form_type_list"] = FormType.objects.all()
+        #context["form_type_list"] = FormType.objects.all()
         context["block_list"] = Block.objects.all()
         return render(request, "forms/form-form.html", context)
     except Exception as e:
@@ -134,30 +138,167 @@ def channel_remove(request):
 '''
     Bookings
 '''
-@login_required
-def bookings(request, form_id):
+#def get_bookings(form, channel, project):
+#    try:
+#        context = {}
+#        if form is not None:
+#            items = FormInstance.objects.filter(form = form)
+#            context["form"] = form
+#        elif channel is not None:
+#            items = FormInstance.objects.filter(form__channel = channel.uuid)
+#            context["channel"] = channel
+#        elif project is not None:
+#            uuid_list = [item.uuid for item in Channel.objects.filter(project=project)]
+#            items = FormInstance.objects.filter(form__channel__in = uuid_list)
+#            context["project"] = project
+#        else:
+#            items = FormInstance.objects.all()
+#        context["items"] = items
+#        context["form_list"] = Form.objects.all()
+#        return context
+#    except Exception as e:
+#        print(show_exc(e))
+#        return {'items':FormInstance.objects.none()}
+#
+#
+#@login_required
+#def bookings(request, form_id=None, project_id=None, channel_id=None):
+#    try:
+#        context = get_bookings(get_or_none(Form, form_id), get_or_none(Channel, channel_id), get_or_none(Project, project_id))
+#        return render (request, "bookings/bookings.html", context)
+#    except Exception as e:
+#        logger.error("[bookings-bookings] {}".format(str(e)))
+#    return render(request, 'error_exception.html', {})
+#
+#@login_required
+#def bookings_search(request):
+#    try:
+#        project_id = get_param(request.GET, "s-project")
+#        channel_id = get_param(request.GET, "s-channel")
+#        project = get_or_none(Project, project_id)
+#        channel = get_or_none(Channel, channel_id)
+#        name = get_param(request.GET, "s-name")
+#        form_id = get_param(request.GET, "s-form")
+#        #filters_to_search = ["name__icontains", "channel__icontains"]
+#        #items = Form.objects.none()
+#        #for myfilter in filters_to_search:
+#
+#        kwargs = {}
+#        if project != None:
+#            uuid_list = [item.uuid for item in Channel.objects.filter(project=project)]
+#            kwargs["channel__in"] = uuid_list
+#        if channel != None:
+#            kwargs["channel"] = channel.uuid
+#        if name != "":
+#            #kwargs[myfilter] = name
+#            kwargs["name__icontains"] = name
+#        if form_id != "":
+#            kwargs["form__id"] = form_id
+#        items = FormInstance.objects.filter(**kwargs)
+#
+#            #items = items.union(Form.objects.filter(**kwargs))
+#
+#        return render(request, "bookings/booking-list.html", {'items':items,'channel_id':channel_id,'project_id':project_id,'form_id':form_id,})
+#    except Exception as e:
+#        print (show_exc(e))
+#        return JsonResponse({'results':[], 'error':1, 'error-msg':show_exc(e)})
+#
+
+def get_booking_context(form=None, project=None):
+    context = {}
+    today = datetime.datetime.today()
+
+    kwargs = {'date__year': today.year, 'date__month': today.month, 'date__day': today.day}
+    if form != None:
+        kwargs['form'] = form
+        context["form_name"] = form.name
+    if project != None:
+        uuid_list = [item.uuid for item in Channel.objects.filter(project=project)]
+        kwargs["form__channels__channel__in"] = uuid_list
+        context["project_uuid"] = project.uuid
+
+    items = FormInstance.objects.filter(**kwargs)
+
+    context["ini_date"] = today
+    context["end_date"] = today
+    context["items"] = items
+    return context
+
+@group_required("admins")
+def bookings(request):
     try:
-        form = get_or_none(Form, form_id)
-        if form != None:
-            items = FormInstance.objects.filter(form = form)
-            return render (request, "bookings/bookings.html", {'items': items, 'form': form})
+        context = get_booking_context()
+        return render (request, "bookings/bookings.html", context)
     except Exception as e:
         logger.error("[bookings-bookings] {}".format(str(e)))
     return render(request, 'error_exception.html', {})
 
+@group_required("admins", "projects")
+def bookings_by_form(request, form_id):
+    try:
+        if hasattr(request, "project_id"):
+            context = get_booking_context(form=get_or_none(Form, form_id), project=get_or_none(Project, request.session["project_id"]))
+        else:
+            context = get_booking_context(form=get_or_none(Form, form_id))
+        return render (request, "bookings/bookings.html", context)
+    except Exception as e:
+        logger.error("[bookings-bookings_by_form] {}".format(str(e)))
+    return render(request, 'error_exception.html', {})
+
+@group_required("admins", "projects")
+def bookings_by_project(request, project_id):
+    try:
+        context = get_booking_context(project=get_or_none(Project, project_id))
+        return render (request, "bookings/bookings.html", context)
+    except Exception as e:
+        logger.error("[bookings-bookings_by_project] {}".format(str(e)))
+    return render(request, 'error_exception.html', {})
+
+@group_required("admins", "projects")
+def bookings_search(request):
+    try:
+        project = get_param(request.GET, "s-project")
+        channel = get_param(request.GET, "s-channel")
+        form = get_param(request.GET, "s-form")
+        ini_date = get_param(request.GET, "s-ini_date")
+        end_date = get_param(request.GET, "s-end_date")
+        name = get_param(request.GET, "s-name")
+
+        kwargs = {}
+        if project != "":
+            uuid_list = [item.uuid for item in Channel.objects.filter(project__uuid=project)]
+            kwargs["form__channels__channel__in"] = uuid_list
+        if channel != "":
+            kwargs["form__channels__channel__in"] = channel
+        if form != "":
+            kwargs["form__name__icontains"] = form
+        if ini_date != "":
+            kwargs["date__gte"] = ini_date
+        if end_date != "":
+            kwargs["date__lte"] = end_date
+        if name != "":
+            kwargs["name__icontains"] = name
+        items = FormInstance.objects.filter(**kwargs)
+
+        return render(request, "bookings/booking-list.html", {'items':items,})
+    except Exception as e:
+        print (show_exc(e))
+        return JsonResponse({'results':[], 'error':1, 'error-msg':show_exc(e)})
+
+
 @login_required
-def booking_new(request, form_id):
+def booking_new(request, form_id, device_id=""):
     try:
         form = get_or_none(Form, form_id)
         if form != None:
-            fi = FormInstance.objects.create(form = form)
+            fi = FormInstance.objects.create(form = form, device = device_id)
             write_log(request.user, fi, _("Booking created"))
             return redirect(booking_edit, fi.id, 1)
     except Exception as e:
         logger.error("[bookings-new_booking] {}".format(str(e)))
     return render(request, 'error_exception.html', {})
 
-@login_required
+@group_required("admins", "projects")
 def booking_edit(request, fi_id, ro=0):
     try:
         fi = FormInstance.objects.get(pk = fi_id)
@@ -169,7 +310,7 @@ def booking_edit(request, fi_id, ro=0):
         logger.error("[bookings-fill_form] {}".format(str(e)))
     return render(request, 'error_exception.html', {})
 
-@login_required
+@group_required("admins")
 def booking_remove(request, fi_id):
     try:
         fi = FormInstance.objects.get(pk = fi_id)
@@ -181,7 +322,7 @@ def booking_remove(request, fi_id):
         logger.error("[bookings-remove_fi] {}".format(str(e)))
     return render(request, 'error_exception.html', {})
 
-@login_required
+@group_required("admins", "projects")
 def set_status(request, fi_id, status):
     try:
         fi = FormInstance.objects.get(pk = fi_id)
@@ -195,7 +336,7 @@ def set_status(request, fi_id, status):
         logger.error("[bookings-change_status] {}".format(str(e)))
     return render(request, 'error_exception.html', {})
 
-@login_required
+@group_required("admins", "projects")
 def change_status(request):
     try:
         if request.POST:
@@ -209,7 +350,7 @@ def change_status(request):
         logger.error("[bookings-change_status] {}".format(str(e)))
     return render(request, 'error_exception.html', {})
 
-@login_required
+@group_required("admins", "projects")
 def status_form(request):
     try:
         obj = get_or_none(FormInstance, request.GET["obj_id"]) if "obj_id" in request.GET else FormInstance.objects.create()
@@ -217,7 +358,7 @@ def status_form(request):
     except Exception as e:
         return render(request, 'error_exception.html', {'exc':show_exc(e)})
 
-@login_required
+@group_required("admins", "projects")
 def booking_log(request, fi_id):
     try:
         fi = get_or_none(FormInstance, fi_id)
@@ -235,8 +376,9 @@ def get_block(request):
     try:
         fi = get_or_none(FormInstance, request.GET["fi_id"])
         block = get_or_none(Block, request.GET["obj_id"])
+        ro = get_bool(request.GET["ro"])
         if fi != None and block != None:
-            context = { 'fi': fi, 'b': block, 'index': "0"}
+            context = { 'fi': fi, 'b': block, 'index': "0", "ro": ro}
             return render(request, 'bookings/block_form.html', context)
     except Exception as e:
         logger.error("[bookings-get_block] {}".format(str(e)))

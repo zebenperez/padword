@@ -1,4 +1,5 @@
-{% load i18n static %}
+{% load i18n static padword_tags %}
+
 <html lang="en">
     <head>
         <meta charset="utf-8">
@@ -36,31 +37,30 @@
                     </button>
                     <div class="collapse navbar-collapse " id="navbarSupportedContent">
                         <div class="navbar-nav d-flex flex-row justify-content-end w-100 main-menu">
-                            {% include 'main-menu.html' %}
+                            {#{% include 'main-menu.html' %}#}
+                            {% get_main_menu request.user %}
                         </div>
                     </div>
                 </div>
             </nav>
         </header>
-
 		
 		<main id="main-content">
 			<aside id="sidebar" class="expanded d-none d-sm-block">
+				{% block second_menu %} {% endblock second_menu %}
+                {%comment%}
 				<div id="side_menu">
-					<div class="drawerHeader">Admin</div>{% comment %} OJO: esto lo tiene que coger del menú principal {% endcomment %}
+					<div class="drawerHeader">Admin</div>{# OJO: esto lo tiene que coger del menú principal #}
 					<ul class="nav flex-column mb-2 second-menu">
-						{% block second_menu %}
-						{% endblock second_menu %}
 					</ul>
 				</div>
+                {%endcomment%}
 			</aside>
 
 			<section id="content-section" class="mt-5 ml-3">
 				{% block central_content %}
 				{% endblock central_content %}
 			</section>
-		
-
 		</main>
 
 

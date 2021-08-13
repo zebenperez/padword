@@ -14,7 +14,7 @@
 					<br/>
 					<form class="form-horizontal p-4" method="post" action="{% url "auth_login" %}">
 						{% csrf_token %}
-						<input type="hidden" name="next" value="{% url 'projects' %}" />
+						<input type="hidden" name="next" value="{% url 'web-index' %}" />
                         <div class="form-group row mb-4">
 							<label class="col-md-4 control-label text-right" tyle="border:1px solid red;">{% trans "User name:" %} </label>
 							<div class="col-md-6" tyle="border:1px solid red;"><div class="form-group">
