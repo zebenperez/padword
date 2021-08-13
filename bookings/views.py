@@ -29,12 +29,14 @@ def get_forms(channel, project, company):
             items = Form.objects.filter(channel = channel.uuid)
             context["channel"] = channel
         elif project is not None:
-            uuid_list = [item.uuid for item in Channel.objects.filter(project=project)]
-            items = Form.objects.filter(channel__in = uuid_list)
+            uuid_list = [item.uuid for item in Category.objects.filter(project_uuid=project.uuid)]
+
+            items = Form.objects.filter(category__in = uuid_list)
+            #items = Form.objects.filter(channels__in = uuid_list)
             context["project"] = project
         elif company is not None:
             uuid_list = [item.uuid for item in Channel.objects.filter(project__company=company)]
-            items = Form.objects.filter(channel__in = uuid_list)
+            items = Form.objects.filter(channels__in = uuid_list)
             context["company"] = company
         else:
             items = Form.objects.all()
