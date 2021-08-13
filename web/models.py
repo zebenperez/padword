@@ -20,17 +20,18 @@ class Company(models.Model):
         ordering = ['name']
 
 class Project(models.Model):
-    uuid = models.CharField(max_length=255, verbose_name=_('UUID'), default="")
-    name = models.CharField(max_length=255, verbose_name=_('Name'), default="")
-    longitude = models.CharField(max_length=255, verbose_name=_('Longitude'), default="", blank=True)
-    latitude = models.CharField(max_length=255, verbose_name=_('Latitude'), default="", blank=True)
-    default_language = models.CharField(max_length=255, verbose_name=_('Default languaje'), default="ES", blank=True)
-    currency = models.CharField(max_length=255, verbose_name=_('Currency'), default="EUR", blank=True)
-    radius = models.IntegerField(verbose_name=_('Radius (Km)'), default=100)
-    active = models.IntegerField(verbose_name=_('Active'), default=1)
-    created_at = models.DateTimeField(verbose_name=_('Created at'), default=datetime.datetime.now)
+    uuid = models.CharField(max_length=255, verbose_name='UUID', default="")
+    name = models.CharField(max_length=255, verbose_name='Name', default="")
+    longitude = models.CharField(max_length=255, verbose_name='Longitud', default="", blank=True)
+    latitude = models.CharField(max_length=255, verbose_name='Latitud', default="", blank=True)
+    used_languages = models.CharField(max_length=255, verbose_name=_('Used Languages'), default="ES", blank=True)
+    default_language = models.CharField(max_length=255, verbose_name='Idioma por defecto', default="ES", blank=True)
+    currency = models.CharField(max_length=255, verbose_name='Moneda', default="EUR", blank=True)
+    radius = models.IntegerField(verbose_name = 'Radio (Km)', default=100)
+    active = models.IntegerField(verbose_name = 'Active', default=1)
+    created_at = models.DateTimeField(verbose_name='Created at', default=datetime.datetime.now)
 
-    company = models.ForeignKey(Company, verbose_name=_('Company'), on_delete=models.SET_NULL, null=True)
+    company = models.ForeignKey(Company, verbose_name = 'Company', on_delete=models.SET_NULL, null=True)
 
     class Meta:
         if (len(settings.DATABASES) > 1):
@@ -41,6 +42,16 @@ class Project(models.Model):
 
     def __str__(self):
         return self.name
+
+    @property
+    def get_languages(self):
+        try:
+            return (self.used_languages.upper().replace(' ','').split(','))
+        except Exception as e:
+            print (show_exc(e))
+            return (['ES'])
+
+
 
     @property
     def get_devices(self):

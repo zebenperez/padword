@@ -300,6 +300,8 @@ i.text-grey, i.fas.fa-box {
 	color: #999999 !important;
 }
 
+.text-muted {text-decoration:line-through;}
+
 
 
 /*   MOBILE DEVICES   */

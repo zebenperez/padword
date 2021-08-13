@@ -2,10 +2,10 @@ from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.core import serializers
 from django.http import HttpResponse, JsonResponse
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, reverse
 from .models import *
 import json, os, time, datetime
-from padword.commons import show_exc, get_or_none, get_param
+from padword.commons import show_exc, get_or_none, get_param, new_ui_slug
 
 # Create your views here.
 
@@ -32,6 +32,7 @@ def category_search(request):
             if name != "":
                 kwargs[myfilter] = name
             items = items.union(Category.objects.filter(**kwargs))
+        print (kwargs)
         return render(request, "contents/categories-list.html", {'items': items, })
     except Exception as e:
         print (show_exc(e))
@@ -41,22 +42,40 @@ def category_search(request):
 def categories_by_project(request, project_id):
     try:
         project = Project.objects.get(uuid=project_id)
-        categories = Category.objects.filter(project_uuid=project_id, parent__isnull =True, is_active=1).order_by('position')
+        categories = Category.objects.filter(project_uuid=project_id, parent__isnull =True).order_by('position')
         return render(request, "contents/categories.html", {'project':project, 'items':categories})
     except Exception as e:
         return JsonResponse({'results':[], 'error':1, 'error-msg':show_exc(e)})
 
 @login_required
 def category_form(request):
-    obj = get_or_none(Category, request.GET["obj_id"]) if "obj_id" in request.GET else Category.objects.create()
-    project_id = get_param(request.GET, "project_id")
-    if project_id != "":
-        project = get_or_none(Project, project_id)
-        if project != None:
-            obj.project = project
-            obj.save()
+    try:
+        obj = get_or_none(Category, request.GET["objId"], 'uuid') if "objId" in request.GET else None
+        lang = request.GET['lang'] if 'lang' in request.GET else request.LANGUAGE_CODE
+        print(lang)
+        if obj is None:
+            new_item = True
+            if 'projectId' in request.GET:
+                project_id = get_param(request.GET, "projectId")
+                project = Project.objects.get(uuid=project_id)
+                parent = None
+            else:
+                parent_id = get_param(request.GET, "parentId")
+                parent = Category.objects.get(uuid=parent_id)
+                project = parent.project
+            obj = Category.objects.create(  uuid=new_ui_slug(Category), 
+                                                project_uuid = project.uuid, 
+                                                is_active = 1,
+                                                parent = parent,
+                                                updated_at = datetime.datetime.now(),
+                                                created_at = datetime.datetime.now())
+        else:
+            new_item = False
+            project = obj.project
 
-    return render(request, "contents/category-form.html", {'obj': obj, 'company_id': company_id})
+        return render(request, "contents/category-form.html", {'obj': obj, 'company_id': project.company.uuid, 'new_item':new_item })
+    except Exception as e:
+        return render(request, "error_exception.html", {'exc': show_exc(e)})
 
 @login_required
 def category_tree(request, category_id):
@@ -66,6 +85,36 @@ def category_tree(request, category_id):
     except Exception as e:
         return JsonResponse({'results':[], 'error':1, 'error-msg':show_exc(e)})
 
+@login_required
+def category_change_active(request, category_id):
+    try:
+        category = Category.objects.get(uuid=category_id)
+        category.is_active = (category.is_active + 1) % 2
+        category.save()
+        return render(request, "contents/category-row.html", {'item':category})
+    except Exception as e:
+        return JsonResponse({'results':[], 'error':1, 'error-msg':show_exc(e)})
+
+@login_required
+def category_remove(request, category_id):
+    try:
+        category = Category.objects.get(uuid=category_id)
+        project_uuid = category.project_uuid
+        parent = category.parent
+        category.delete()
+        if parent is None:
+            categories = Category.objects.filter(project_uuid=project_uuid, parent__isnull =True).order_by('position')
+            return render(request, "contents/categories-list.html", {'items': categories, })
+        else:
+            return redirect(reverse('items-by-category', kwargs={'category_id':parent.uuid}))
+    except Exception as e:
+        return JsonResponse({'results':[], 'error':1, 'error-msg':show_exc(e)})
+
+
+
+
+
+##### IMPORT #####
 class Node:
     def __init__(self, json_data, languages):
         self.data = json_data

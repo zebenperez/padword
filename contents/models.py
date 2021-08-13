@@ -163,9 +163,24 @@ class Category(models.Model):
     position = models.IntegerField(verbose_name=_('Position'), default=0)
 
     @property
+    def active(self):
+        try:
+            return (self.is_active == 1)
+        except Exception as e:
+            print (show_exc(e))
+            return False
+
+    @property
     def project(self):
         try:
-            return Project.get(uuid = self.project_uuid)
+            return Project.objects.get(uuid = self.project_uuid)
+        except Exception as e:
+            return Project(name='None', uuid='none')
+
+    @property
+    def company(self):
+        try:
+            return self.project.company
         except Exception as e:
             return Project(name='None', uuid='none')
 
@@ -224,6 +239,14 @@ class Item(models.Model):
     reservation_form_active = models.IntegerField(choices=ISACTIVECHOICES, verbose_name='Reservation Form Active', default=0)
     extras = models.TextField(verbose_name='Extras', blank=True, null=True)
     contains_allergens = models.IntegerField(choices=ISACTIVECHOICES, verbose_name='Active', default=0)
+
+    @property
+    def active(self):
+        try:
+            return (self.is_active == 1)
+        except Exception as e:
+            print (show_exc(e))
+            return False
 
     @property
     def project(self):

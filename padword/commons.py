@@ -68,13 +68,16 @@ def get_bool(val):
 
 def translate(request, json_str):
     try:
-        lang = request.LANGUAGE_CODE
+        lang = request.GET['lang'] if 'lang' in request.GET else request.LANGUAGE_CODE
         json_dict = json.loads(json_str)
         return json_dict[lang.upper()]
     except Exception as e:
         print (show_exc(e))
         return json.loads(json_str)['ES']
 
-def new_ui_slug():
+def new_ui_slug(model=None):
     slug = '{}-{}-{}-{}-{}'.format(''.join([random.choice(string.digits+'abcdef') for i in range(8)]),''.join([random.choice(string.digits+'abcdef') for i in range(4)]),''.join([random.choice(string.digits+'abcdef') for i in range(4)]),''.join([random.choice(string.digits+'abcdef') for i in range(4)]),''.join([random.choice(string.digits+'abcdef') for i in range(12)]))
+    if model is None:
+        while (model.objects.filter(uuid = slug).exists()):
+            slug = '{}-{}-{}-{}-{}'.format(''.join([random.choice(string.digits+'abcdef') for i in range(8)]),''.join([random.choice(string.digits+'abcdef') for i in range(4)]),''.join([random.choice(string.digits+'abcdef') for i in range(4)]),''.join([random.choice(string.digits+'abcdef') for i in range(4)]),''.join([random.choice(string.digits+'abcdef') for i in range(12)]))
     return slug

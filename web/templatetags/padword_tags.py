@@ -49,10 +49,20 @@ def current_exact(context, url, **kwargs):
         return ""
 
 @register.simple_tag(takes_context=True)
+def current_lang(context):
+    try:
+        request = context['request']
+        lang = request.GET['lang'] if 'lang' in request.GET else request.LANGUAGE_CODE
+        return lang.upper()
+    except:
+        return "ES"
+
+
+@register.simple_tag(takes_context=True)
 def padword_translate(context, json_str):
     try:
         request = context['request']
-        lang = request.LANGUAGE_CODE
+        lang = request.GET['lang'] if 'lang' in request.GET else request.LANGUAGE_CODE
         json_dict = json.loads(json_str)
         return json_dict[lang.upper()]
     except:
@@ -60,8 +70,12 @@ def padword_translate(context, json_str):
         try:
             return json.loads(json_str)['ES']
         except Exception as e:
-            print (json_str)
-            return 'ERROR'
+            try:
+                json_dict = json.loads(json_str)
+                keys = json_dict.keys()
+                return json_dict[keys[0]]
+            except Exception as e:
+                return ''
 
 '''
     Inclusion Tags
