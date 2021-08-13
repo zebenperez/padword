@@ -170,6 +170,8 @@ $(document).ready(()=>{
             value = obj.val();
 
         datas = {'model_name': model_name, 'obj_id': obj_id, 'field': field, 'value': value, "ref_field":ref_field};
+        if (obj.data('lang'))
+            datas['lang'] = obj.data('lang');
         ajaxGetAutosave(url, datas, target);
         e.preventDefault();
     });

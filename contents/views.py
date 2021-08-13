@@ -50,6 +50,8 @@ def categories_by_project(request, project_id):
 def category_form(request):
     try:
         obj = get_or_none(Category, request.GET["objId"], 'uuid') if "objId" in request.GET else None
+        lang = request.GET['lang'] if 'lang' in request.GET else request.LANGUAGE_CODE
+        print(lang)
         if obj is None:
             new_item = True
             if 'projectId' in request.GET:
@@ -58,7 +60,6 @@ def category_form(request):
                 parent = None
             else:
                 parent_id = get_param(request.GET, "parentId")
-                print (parent_id)
                 parent = Category.objects.get(uuid=parent_id)
                 project = parent.project
             obj = Category.objects.create(  uuid=new_ui_slug(Category), 

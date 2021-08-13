@@ -141,7 +141,7 @@ class Category(models.Model):
     name = models.TextField(verbose_name='Name')
     description = models.TextField(verbose_name='Description')
     translation = models.TextField(verbose_name='Translation')
-    allow_reservation = models.BooleanField(verbose_name='Allow Reservations', default=True)
+    allow_reservation = models.CharField(max_length=10, choices=ALLOWCHOICES, verbose_name='Allow Reservations', blank=True, null=True)
     minimum_reservation = models.IntegerField(verbose_name='Minimum Reservation', blank=True, null=True)
     supplement_cost = models.TextField(verbose_name='Supplement Cost', blank=True, null=True)
     emergency_supplement_cost = models.TextField(verbose_name='Emergency Supplement Cost', blank=True, null=True)

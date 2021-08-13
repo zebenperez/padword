@@ -45,7 +45,7 @@ def category_autosave_field(request):
         obj_id = request.GET["obj_id"]
         field = request.GET["field"]
         app = request.GET["model_name"].split(".")[0]
-        lang = request.LANGUAGE_CODE
+        lang = request.GET['lang'] if 'lang' in request.GET else request.LANGUAGE_CODE
 
         try:
             reffield = request.GET["ref_field"]
@@ -59,20 +59,15 @@ def category_autosave_field(request):
         obj = get_or_none(Category, obj_id, field=reffield)
         if field in ["name", "description"]:
             try:
-                value_json = json.loads(value)
+                value_json = json.loads(getattr(obj,field))
             except:
                 value_json = {}
             value_json[lang.upper()] = value
             value = json.dumps(value_json)
 
-        print (time.time(),obj.uuid, field, value)
-
-
         if obj != None:
-            print(1)
             set_obj_field(obj, field, value)
             obj.save()
-            print(2)
             return HttpResponse("Saved!")
         return HttpResponse("Not saved, object not found!")
     except Exception as e:

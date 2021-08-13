@@ -62,7 +62,7 @@ def get_float(val):
 
 def translate(request, json_str):
     try:
-        lang = request.LANGUAGE_CODE
+        lang = request.GET['lang'] if 'lang' in request.GET else request.LANGUAGE_CODE
         json_dict = json.loads(json_str)
         return json_dict[lang.upper()]
     except Exception as e:

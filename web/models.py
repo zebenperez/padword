@@ -23,6 +23,7 @@ class Project(models.Model):
     name = models.CharField(max_length=255, verbose_name='Name', default="")
     longitude = models.CharField(max_length=255, verbose_name='Longitud', default="", blank=True)
     latitude = models.CharField(max_length=255, verbose_name='Latitud', default="", blank=True)
+    used_languages = models.CharField(max_length=255, verbose_name=_('Used Languages'), default="ES", blank=True)
     default_language = models.CharField(max_length=255, verbose_name='Idioma por defecto', default="ES", blank=True)
     currency = models.CharField(max_length=255, verbose_name='Moneda', default="EUR", blank=True)
     radius = models.IntegerField(verbose_name = 'Radio (Km)', default=100)
@@ -37,6 +38,16 @@ class Project(models.Model):
             db_table = 'projects'
         verbose_name = _('Project')
         ordering = ['company__name', 'name']
+
+    @property
+    def get_languages(self):
+        try:
+            return (self.used_languages.upper().replace(' ','').split(','))
+        except Exception as e:
+            print (show_exc(e))
+            return (['ES'])
+
+
 
     @property
     def get_devices(self):
