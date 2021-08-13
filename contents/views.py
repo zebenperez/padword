@@ -24,7 +24,6 @@ def category_search(request):
         name = get_param(request.GET, "s-name")
         filters_to_search = ["name__icontains"]
         items = Channel.objects.none()
-        print ("DEB", project_id)
         for myfilter in filters_to_search:
             kwargs = {}
             if project_id != "":
@@ -32,7 +31,6 @@ def category_search(request):
             if name != "":
                 kwargs[myfilter] = name
             items = items.union(Category.objects.filter(**kwargs))
-        print (kwargs)
         return render(request, "contents/categories-list.html", {'items': items, })
     except Exception as e:
         print (show_exc(e))
@@ -52,7 +50,6 @@ def category_form(request):
     try:
         obj = get_or_none(Category, request.GET["objId"], 'uuid') if "objId" in request.GET else None
         lang = request.GET['lang'] if 'lang' in request.GET else request.LANGUAGE_CODE
-        print(lang)
         if obj is None:
             new_item = True
             if 'projectId' in request.GET:

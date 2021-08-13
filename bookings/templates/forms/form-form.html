@@ -54,6 +54,7 @@
 </div>
 
 <div class="d-flex justify-content-end">
+    <a class="btn btn-sm " href="{% url "form-search" %}" >{% trans 'SAVE' %}</a>
 	<button type="button" class="btn btn-sm ark save" data-bs-dismiss="modal" data-url="{% url "form-search" %}" 
         data-target="form-list">{% trans "Save" %}</button>
 	<button type="button" class="btn btn-sm ark cancel" data-bs-dismiss="modal" data-url="{% url "form-remove" %}" 

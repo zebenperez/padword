@@ -82,7 +82,7 @@ def padword_translate(context, json_str):
 '''
 @register.inclusion_tag('main-menu.html')
 def get_main_menu(user):
-    if user.groups.filter(name="admins").exists():
+    if user.groups.filter(name="admins").exists() or user.is_superuser:
         return {'user': user, 'menu': "admins"}
     if user.groups.filter(name="projects").exists():
         obj = ProjectUser.objects.filter(user=user).first()
@@ -94,7 +94,7 @@ def get_main_menu(user):
 
 @register.inclusion_tag('web/second-menu.html')
 def get_second_menu(user):
-    if user.groups.filter(name="admins").exists():
+    if user.groups.filter(name="admins").exists() or user.is_superuser:
         return {'user': user, 'menu': "admins"}
     if user.groups.filter(name="projects").exists():
         obj = ProjectUser.objects.filter(user=user).first()
