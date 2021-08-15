@@ -281,7 +281,7 @@ input.form-control.login {
 	background: #ebf1f6;
 }
 
-.cat-row { cursor:pointer; }
+.cat-row, .item-row { cursor:pointer; }
 
 .categories-list, .items-list {
 	color: #666;

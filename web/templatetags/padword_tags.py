@@ -66,7 +66,6 @@ def padword_translate(context, json_str):
         json_dict = json.loads(json_str)
         return json_dict[lang.upper()]
     except:
-        print (json_str)
         try:
             return json.loads(json_str)['ES']
         except Exception as e:
@@ -76,6 +75,18 @@ def padword_translate(context, json_str):
                 return json_dict[keys[0]]
             except Exception as e:
                 return ''
+
+@register.simple_tag(takes_context=True)
+def is_current_lang(context, language, true_alternative='current', false_alternative=''):
+    try:
+        request = context['request']
+        lang = request.GET['lang'] if 'lang' in request.GET else request.LANGUAGE_CODE
+        if (lang.upper() == language.upper()):
+            return (true_alternative)
+        return (false_alternative)
+    except Exception as e:
+        print (show_exc(e))
+        return true_alternative
 
 '''
     Inclusion Tags

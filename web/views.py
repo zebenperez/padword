@@ -56,9 +56,9 @@ def project_search(request):
 def project_form(request):
     try:
         obj = get_or_none(Project, request.GET["obj_id"]) if "obj_id" in request.GET else Project.objects.create(company=Company.objects.filter(active=1).first())
-        slug = new_ui_slug()
-        while Project.objects.filter(uuid=slug).exists():
-            slug = new_ui_slug()
+        slug = new_ui_slug(Project)
+#         while Project.objects.filter(uuid=slug).exists():
+#             slug = new_ui_slug()
         obj.uuid = slug
 
         company_id = get_param(request.GET, "company_id")

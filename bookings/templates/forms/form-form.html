@@ -1,4 +1,4 @@
-{% load i18n %}
+{% load i18n padword_tags %}
 
 <h2>{% trans 'New form' %}</h2>
 
@@ -12,10 +12,8 @@
 			<span id="name__msg"></span>
 	</div>
 	<div class="col-sm-3 col-md-5 col-12">
-		{% trans "Category" %}:
-		<input type="text" class="form-control autosave b-bottom mb-4" id="category" name="category" value="{{obj.category}}" 
-            title="{{obj.category}}" data-model-name="bookings.form" data-obj-id="{{obj.id}}" data-url="{% url "bookings-autosave-field" %}" 
-            data-target="div-notification"/> <span id="channel__msg"></span>
+        {% trans "Category" %} {% if obj.category %} ({% padword_translate obj.get_category.name %}) {% endif %}:
+        <input type="text" class="form-control autosave b-bottom mb-4" id="category" name="category" value="{{obj.category}}" title="{{obj.category}}" data-model-name="bookings.form" data-obj-id="{{obj.id}}" data-url="{% url "bookings-autosave-field" %}" {% if obj.category %} readonly {% endif%} data-target="div-notification" {/> <span id="channel__msg"></span>
 	</div>
     {%comment%}
 	<div class="col-sm-3 col-md-5 col-12">
@@ -54,9 +52,12 @@
 </div>
 
 <div class="d-flex justify-content-end">
+    {% if project_id %}
     <a class="btn btn-sm " href="{% url "forms-by-project" project_id %}" >{% trans 'SAVE' %}</a>
+    {% else %}
 	<button type="button" class="btn btn-sm ark save" data-bs-dismiss="modal" data-url="{% url "form-search" %}" 
         data-target="form-list">{% trans "Save" %}</button>
+    {% endif %}
 	<button type="button" class="btn btn-sm ark cancel" data-bs-dismiss="modal" data-url="{% url "form-remove" %}" 
         data-target="form-list" data-obj_id="{{obj.id}}" data-confirm="{% trans "Are you sure to remove this element?" %}">
         {% trans "Remove" %}</button>

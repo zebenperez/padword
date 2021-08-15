@@ -107,6 +107,59 @@ def category_remove(request, category_id):
     except Exception as e:
         return JsonResponse({'results':[], 'error':1, 'error-msg':show_exc(e)})
 
+@login_required
+def item_form (request):
+    try:
+        obj = get_or_none(Item, request.GET["objId"], 'uuid') if "objId" in request.GET else None
+        cat = get_or_none(Category, request.GET["catId"], 'uuid') if "catId" in request.GET else None
+        if cat is not None:
+            lang = request.GET['lang'] if 'lang' in request.GET else request.LANGUAGE_CODE
+            if obj is None:
+                new_item = True
+                obj = Item.objects.create(  uuid=new_ui_slug(Item), 
+                                            is_active = 1,
+                                            is_event = 0,
+                                            price = "0.0",
+                                            updated_at = datetime.datetime.now(),
+                                            created_at = datetime.datetime.now())
+                obj.save()
+                if ItemInCat.objects.filter(category=cat).exists():
+                    new_position = ItemInCat.objects.filter(category = cat).order_by('position').last().position + 1
+                else:
+                    new_position = 0
+                item_in_cat = ItemInCat(position=new_position, category=cat, item=obj)
+                item_in_cat.save()
+            else:
+                new_item = False
+
+        return render(request, "contents/item-form.html", {'obj': obj, 'new_item':new_item, 'cat':cat })
+    except Exception as e:
+        return render(request, "error_exception.html", {'exc': show_exc(e)})
+
+
+@login_required
+def item_change_active(request, item_id):
+    try:
+        item = Item.objects.get(uuid=item_id)
+        item.is_active = (item.is_active + 1) % 2
+        item.save()
+        return render(request, "contents/item-row.html", {'item':item})
+    except Exception as e:
+        return JsonResponse({'results':[], 'error':1, 'error-msg':show_exc(e)})
+
+@login_required
+def item_remove(request):
+    try:
+        obj = get_or_none(Item, request.GET["objId"], 'uuid') if "objId" in request.GET else None
+        cat = get_or_none(Category, request.GET["catId"], 'uuid') if "catId" in request.GET else None
+        if obj:
+            categories = ItemInCat.objects.filter(item=obj)
+            for cat_item in categories:
+                cat_item.delete()
+            obj.delete()
+        return redirect(reverse('items-by-category', kwargs={'category_id':cat.uuid}))
+    except Exception as e:
+        return JsonResponse({'results':[], 'error':1, 'error-msg':show_exc(e)})
 
 
 

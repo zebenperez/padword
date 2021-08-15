@@ -120,6 +120,16 @@ class Form(models.Model):
         cat = Category.objects.filter(uuid = self.category).first()
         return cat.get_items if cat != None else []
 
+    @property
+    def get_category(self):
+        cat = Category.objects.filter(uuid = self.category).first()
+        return cat
+
+    @property
+    def project(self):
+        cat = Category.objects.filter(uuid = self.category).first()
+        return cat.project
+
     class Meta:
         verbose_name = _('2.- Form')
         verbose_name_plural = _('2.- Forms')
