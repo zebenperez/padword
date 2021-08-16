@@ -2,7 +2,7 @@ from django import template
 from django.urls import reverse
 import json
 from padword.commons import show_exc
-from web.models import ProjectUser
+from web.models import ProjectUser, Project
 
 register = template.Library()
 
@@ -115,3 +115,11 @@ def get_second_menu(user):
         return {'user': user, 'menu': "clients"}
     return {}
 
+@register.filter
+def get_obj(uuid, model):
+    try:
+        obj = eval("{}.objects.get(uuid='{}')".format(model,uuid))
+        return obj
+    except Exception as e:
+        print (show_exc(e))
+        return None

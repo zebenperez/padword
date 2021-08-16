@@ -308,11 +308,10 @@ i.text-grey, i.fas.fa-box {
 
 /*   MOBILE DEVICES   */
 
-@media (min-width: 960px) {
+@media (max-width: 960px) {
 
-	.text-right {
-    	text-align: right!important;
-	}
+	.text-right { text-align: right!important; }
+    #navbarSupportedContent { width:100%; margin:-12px; padding-left:30px; position:fixed; top:75px;}
 }
 
 #navbarSupportedContent {
