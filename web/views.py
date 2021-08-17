@@ -329,9 +329,9 @@ def device_assign(request):
         if device is not None and device.channel is not None:
             device.channel = None
             device.save()
+            channel = get_or_none(Channel, get_param(request.GET, "channel_id", None), 'uuid')
             company = get_or_none(Company, get_param(request.GET, "company_id", None), 'uuid')
             project = get_or_none(Project, get_param(request.GET, "project_id", None), 'uuid')
-            channel = None
             context = get_devices(channel, project, company)
             if company:
                 context['company']=company
