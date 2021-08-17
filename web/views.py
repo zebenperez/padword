@@ -55,11 +55,7 @@ def project_search(request):
 @group_required("admins")
 def project_form(request):
     try:
-        obj = get_or_none(Project, request.GET["obj_id"]) if "obj_id" in request.GET else Project.objects.create(company=Company.objects.filter(active=1).first())
-        slug = new_ui_slug(Project)
-#         while Project.objects.filter(uuid=slug).exists():
-#             slug = new_ui_slug()
-        obj.uuid = slug
+        obj = get_or_none(Project, request.GET["obj_id"]) if "obj_id" in request.GET else Project.objects.create(company=Company.objects.filter(active=1).first(), uuid = new_ui_slug(Project))
 
         company_id = get_param(request.GET, "company_id")
         if company_id != "":
@@ -138,7 +134,7 @@ def channel_form(request):
         project = get_or_none(Project, project_id)
         if project is None:
             project = Project.objects.filter(active=1).first()
-        obj = get_or_none(Channel, request.GET["obj_id"]) if "obj_id" in request.GET else Channel.objects.create(project=project)
+        obj = get_or_none(Channel, request.GET["obj_id"]) if "obj_id" in request.GET else Channel.objects.create(project=project, uuid=new_ui_slug(Channel))
 
         if project_id != "":
             project = get_or_none(Project, project_id)
