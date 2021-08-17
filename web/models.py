@@ -86,11 +86,26 @@ class Channel(models.Model):
 
 class ProjectUser(models.Model):
     #channels = models.ManyToManyField(Channel, verbose_name=_("Channels"), blank=True)
-    project = models.ForeignKey(Project, verbose_name=_('Project'), on_delete=models.CASCADE, null=True)
-    user = models.ForeignKey(User, verbose_name=_('User'), on_delete=models.CASCADE, null=True)
+    project_uuid = models.CharField(max_length = 255, verbose_name= _('Project UUID'), default='admin')
+    username = models.CharField(max_length = 255, verbose_name= _('Username'), default='admin')
 
     class Meta:
         verbose_name = _('Project user')
+
+
+    @property
+    def user(self):
+        try:
+            return User.objects.get(username=self.username)
+        except:
+            return None
+
+    @property
+    def project(self):
+        try:
+            return Project.objects.get(uuid=self.project_uuid)
+        except:
+            return None
 
 class Device(models.Model):
     uuid = models.CharField(max_length=255, verbose_name=_('UUID'), default="")
@@ -125,7 +140,6 @@ class Device(models.Model):
     @property
     def project_uuid(self):
         try:
-            print (1)
             return (Channel.objects.get(uuid=self.channel_id).project.uuid)
         except Exception as e:
             return ('0000-0000-00000000')

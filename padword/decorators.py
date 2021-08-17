@@ -6,7 +6,7 @@ def group_required(*group_names):
         def _arguments_wrapper(request, *args, **kwargs) :
             if request.user.is_authenticated:
                 if bool(request.user.groups.filter(name__in=group_names)) or request.user.is_superuser:
-                    pu = ProjectUser.objects.filter(user=request.user).first()
+                    pu = ProjectUser.objects.filter(username=request.user.username).first()
                     if pu != None:
                         request.project_id = pu.project.id
                     return f(request, *args, **kwargs)

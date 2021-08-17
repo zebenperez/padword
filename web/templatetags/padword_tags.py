@@ -2,7 +2,7 @@ from django import template
 from django.urls import reverse
 import json
 from padword.commons import show_exc
-from web.models import ProjectUser, Project
+from web.models import Project #, ProjectUser
 
 register = template.Library()
 
@@ -93,27 +93,31 @@ def is_current_lang(context, language, true_alternative='current', false_alterna
 '''
 @register.inclusion_tag('main-menu.html')
 def get_main_menu(user):
-    if user.groups.filter(name="admins").exists() or user.is_superuser:
-        return {'user': user, 'menu': "admins"}
-    if user.groups.filter(name="projects").exists():
-        obj = ProjectUser.objects.filter(user=user).first()
-        if obj != None: 
-            return {'user': user, 'menu': "projects", "project": obj.project}
-    if user.groups.filter(name="clients").exists():
-        return {'user': user, 'menu': "clients"}
-    return {}
+    try:
+        if user.groups.filter(name="admins").exists() or user.is_superuser:
+            return {'user': user, 'menu': "admins"}
+        if user.groups.filter(name="projects").exists():
+            obj = ProjectUser.objects.filter(user=user).first()
+            if obj != None: 
+                return {'user': user, 'menu': "projects", "project": obj.project}
+        if user.groups.filter(name="clients").exists():
+            return {'user': user, 'menu': "clients"}
+    except:
+        return {}
 
 @register.inclusion_tag('web/second-menu.html')
 def get_second_menu(user):
-    if user.groups.filter(name="admins").exists() or user.is_superuser:
-        return {'user': user, 'menu': "admins"}
-    if user.groups.filter(name="projects").exists():
-        obj = ProjectUser.objects.filter(user=user).first()
-        if obj != None: 
-            return {'user': user, 'menu': "projects", "project": obj.project}
-    if user.groups.filter(name="clients").exists():
-        return {'user': user, 'menu': "clients"}
-    return {}
+    try:
+        if user.groups.filter(name="admins").exists() or user.is_superuser:
+            return {'user': user, 'menu': "admins"}
+        if user.groups.filter(name="projects").exists():
+            obj = ProjectUser.objects.filter(user=user).first()
+            if obj != None: 
+                return {'user': user, 'menu': "projects", "project": obj.project}
+        if user.groups.filter(name="clients").exists():
+            return {'user': user, 'menu': "clients"}
+    except:
+        return {}
 
 @register.filter
 def get_obj(uuid, model):
