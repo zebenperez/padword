@@ -325,30 +325,44 @@ def device_remove(request):
 @group_required("admins", "projects")
 def device_assign(request):
     try:
-        company = get_or_none(Company, get_param(request.GET, "company_id", None), 'uuid')
-        project = get_or_none(Project, get_param(request.GET, "project_id", None), 'uuid')
-        channel = get_or_none(Channel, get_param(request.GET, "channel_id", None), 'uuid')
         device  = get_or_none(Device,  get_param(request.GET, "obj_id",     None), 'uuid')
-        context = get_devices(channel, project, company)
-        if channel:
-            context['channel']=channel
-        if project:
-            context['project']=project
-            if channel is None:
-                try:
-                    channel = Channel.objects.get(name='DEFAULT', project= project)
-                    channel.active = 1
-                    channel.save()
-                except:
-                    channel = Channel(uuid=new_ui_slug(Channel), name='DEFAULT', project=project, active=1)
-                    channel.save()
-            context['channel'] = channel
-        if company:
-            context['company']=company
-
-        if channel and device:
-            device.channel = channel
+        if device is not None and device.channel is not None:
+            device.channel = None
             device.save()
+            company = get_or_none(Company, get_param(request.GET, "company_id", None), 'uuid')
+            project = get_or_none(Project, get_param(request.GET, "project_id", None), 'uuid')
+            channel = None
+            context = get_devices(channel, project, company)
+            if company:
+                context['company']=company
+            if channel:
+                context['channel']=channel
+            if project:
+                context['project']=project
+        else:
+            company = get_or_none(Company, get_param(request.GET, "company_id", None), 'uuid')
+            project = get_or_none(Project, get_param(request.GET, "project_id", None), 'uuid')
+            channel = get_or_none(Channel, get_param(request.GET, "channel_id", None), 'uuid')
+            context = get_devices(channel, project, company)
+            if channel:
+                context['channel']=channel
+            if project:
+                context['project']=project
+                if channel is None:
+                    try:
+                        channel = Channel.objects.get(name='DEFAULT', project= project)
+                        channel.active = 1
+                        channel.save()
+                    except:
+                        channel = Channel(uuid=new_ui_slug(Channel), name='DEFAULT', project=project, active=1)
+                        channel.save()
+                context['channel'] = channel
+            if company:
+                context['company']=company
+
+            if channel and device:
+                device.channel = channel
+                device.save()
 
         context['noassign'] = Device.objects.filter(channel__isnull = True)
         return render (request, "web/devices/device-assign.html", context)

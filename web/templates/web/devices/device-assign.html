@@ -4,18 +4,29 @@
 
 <span id="div-notification"></span><br/>
 
-<h2>{% trans 'No assigneds' %}</h2>
-    <div class="row d-grip gap-2 d-dm-block">
-        <div class="col-12 small">
-            {% for item in noassign %}
-            <a class="btn btn-secondary ark m-1" data-url="{% url "device-assign" %}" data-target-modal="common-modal" data-obj_id="{{item.uuid}}" data-channel_id="{{channel.uuid}}" data-project_id="{{project.uuid}}" data-company_id="{{company.uuid}}">{% if item.alias %}{{item.alias}}{% else %} {{item.imei}} {% endif %}</a>
-            {% endfor %}
-        </div>
-    </div>		
-
-
-    <div class="d-flex justify-content-end">
-        <button type="button" class="btn btn-sm ark save" data-bs-dismiss="modal" data-url="{% url "device-search" %}" data-target="device-list"
-                                                                                                                       data-channel_id="{{channel.pk}}" data-project_id="{{project.pk}}" data-company_id="{{company.pk}}">{% trans "Close" %}</button>
+<h2>{% trans 'Assigneds' %}</h2>
+<div class="row d-grip gap-2 d-dm-block">
+    <div class="col-12 small">
+        {% for item in items%}
+        <a class="btn btn-primary ark m-1" data-url="{% url "device-assign" %}" data-target-modal="common-modal" data-obj_id="{{item.uuid}}" data-channel_id="{{channel.uuid}}" data-project_id="{{project.uuid}}" data-company_id="{{company.uuid}}">{% if item.alias %}{{item.alias}}{% else %} {{item.imei}} {% endif %}</a>
+        {% endfor %}
     </div>
+</div>		
+
+
+
+<h2>{% trans 'Unassigneds' %}</h2>
+<div class="row d-grip gap-2 d-dm-block">
+    <div class="col-12 small">
+        {% for item in noassign %}
+        <a class="btn btn-secondary ark m-1" data-url="{% url "device-assign" %}" data-target-modal="common-modal" data-obj_id="{{item.uuid}}" data-channel_id="{{channel.uuid}}" data-project_id="{{project.uuid}}" data-company_id="{{company.uuid}}">{% if item.alias %}{{item.alias}}{% else %} {{item.imei}} {% endif %}</a>
+        {% endfor %}
+    </div>
+</div>		
+
+
+<div class="d-flex justify-content-end">
+    <button type="button" class="btn btn-sm ark save" data-bs-dismiss="modal" data-url="{% url "device-search" %}" data-target="device-list"
+                                                                                                                   data-channel_id="{{channel.pk}}" data-project_id="{{project.pk}}" data-company_id="{{company.pk}}">{% trans "Close" %}</button>
+</div>
 
