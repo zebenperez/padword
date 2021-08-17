@@ -118,6 +118,32 @@ def form_remove(request):
     return render (request, "forms/form-list.html", context)
 
 @login_required
+def form_add_image(request):
+    try:
+        obj_id = request.POST["obj_id"]
+        image = request.FILES["file"]
+
+        form = get_or_none(Form, obj_id)
+        if form != None:
+            form.image = image
+            form.save()
+        return render(request, "forms/form-document.html", {"obj": form,})
+    except Exception as e:
+        logger.error("[bookings-form_add_image]" + str(e))
+        return render(request, 'error_exception.html', {'msg': str(e)})
+
+@login_required
+def form_remove_image(request):
+    try:
+        obj_id = request.GET["obj_id"]
+        obj = get_or_none(Form, obj_id) 
+        obj.image.delete(save=False)
+        return render(request, "forms/form-document.html", {"obj": obj,})
+    except Exception as e:
+        logger.error("[remove_file]" + str(e))
+        return render(request, 'error_exception.html', {'msg': str(e)})
+
+@login_required
 def channel_add(request):
     value = request.GET["value"] if "value" in request.GET else None
     obj = get_or_none(Form, request.GET["obj_id"]) if "obj_id" in request.GET else None
@@ -306,7 +332,7 @@ def booking_new(request, form_id, device_id=""):
 def booking_edit(request, fi_id, ro=0):
     try:
         fi = FormInstance.objects.get(pk = fi_id)
-        context = {'fi': fi, 'index': "0", "ro": (ro == 1)}
+        context = {'fi': fi, 'index': "0", "ro": (ro == 0)}
         #block = fi.form.blocks.first()
         #context = {'fi': fi, 'b': block, 'index': "0", "ro": (ro == 1)}
         return render(request, 'bookings/fillform.html', context)
@@ -323,7 +349,6 @@ def booking_remove(request, fi_id):
         context = {'msg': FormInstance.CANCELED}
         return render(request, 'bookings/show_msg.html', context)
     except Exception as e:
-        print(e)
         logger.error("[bookings-remove_fi] {}".format(str(e)))
     return render(request, 'error_exception.html', {})
 

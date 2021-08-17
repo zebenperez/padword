@@ -78,6 +78,29 @@ function autoSearch(obj, num_rows=0)
 	ajaxGet(url, datas, target, '');
 }
 
+function uploadObjFile(obj, url, target, obj_id, field, token)
+{
+    var data = new FormData();
+    data.append("file", obj[0].files[0]);
+    data.append('obj_id', obj_id);
+    data.append('field', field);
+    data.append("csrfmiddlewaretoken", token);
+
+    $.ajax({
+        url: url,
+        data: data,
+        cache: false,
+        contentType: false,
+        processData: false,
+        type: 'post',
+        success: function (data) {
+            $('#'+target).html(data);
+			//$('#'+target).trigger('create');
+        },
+        error : function(e){alert("Error: "+e.responseText);},
+    });
+}
+
 $(document).ready(()=>{
 	$("body").on("keyup", ".autosearch", function(e){
 		var obj = $(this);
@@ -195,6 +218,19 @@ $(document).ready(()=>{
                 $("#" + $(this).data("hide")).hide();
             e.preventDefault();
         }
+    });
+
+    $("body").on("change", ".upload", function(e){
+        var obj = $(this);
+        var url = obj.data("url");
+        var target = obj.data("target");
+        var obj_id = obj.data("obj-id");
+        var field = "";
+        if (obj.data("field"))
+            field = obj.data("field");
+        var token = obj.data("csrf-token");
+        uploadObjFile(obj, url, target, obj_id, field, token);
+        e.preventDefault();
     });
 
 });

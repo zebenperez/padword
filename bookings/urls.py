@@ -10,6 +10,8 @@ urlpatterns = [
     path('forms/search/', views.form_search, name='form-search'),
     path('forms/form/', views.form_form, name='form-form'),
     path('forms/remove/', views.form_remove, name='form-remove'),
+    path('forms/add-image/', views.form_add_image, name='form-add-image'),
+    path('forms/remove-image/', views.form_remove_image, name='form-remove-image'),
     path('channel/add/', views.channel_add, name='channel-add'),
     path('channel/remove/', views.channel_remove, name='channel-remove'),
 

@@ -19,9 +19,7 @@
 	</div>
 	<div class="col-sm-3 col-md-5 col-12">
 		{% trans "Background image" %}:
-		<input type="text" class="form-control autosave b-bottom mb-4" id="category" name="category" value="{{obj.category}}" 
-            title="{{obj.category}}" data-model-name="bookings.form" data-obj-id="{{obj.id}}" data-url="{% url "autosave_field" %}" 
-            data-target="div-notification"/> <span id="channel__msg"></span>
+        <div id="div-files">{% include "forms/form-document.html" %}</div>
 	</div>
 
     {%comment%}
