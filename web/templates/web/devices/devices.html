@@ -17,7 +17,7 @@
 	    <div class="toolbar-content">
 		    <h2 class="pathway"> 
                 {% if company %}<a href="{% url "companies" %}">{{company.name}}</a> <i class="fas fa-angle-double-right"></i>{% endif %}
-                {% if project %}<a href="{% url "projects" %}">{{project.name}}</a> <i class="fas fa-angle-double-right"></i>{% endif %}
+                {% if project %}<a href="{% url "projects-by-uuid" project.uuid %}">{{project.name}}</a> <i class="fas fa-angle-double-right"></i>{% endif %}
                 {% if channel %}<a href="{% url "channels" %}">{{channel.name}}</a> <i class="fas fa-angle-double-right"></i>{% endif %}
                 {% trans 'Devices' %} <span id="items-counter" class="badge badge-secondary">{{items|length}}</span>
             </h2>

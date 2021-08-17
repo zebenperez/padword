@@ -12,8 +12,6 @@
 
     <a class="btn btn-primary ark" data-url="{% url "category-form" %}" data-target-modal="common-modal" data-obj-id="{{cat.uuid}}" href="#" title="{% trans 'Modify this category' %}"><i class="text-white fas fa-edit"></i></a>
     <a class="btn btn-primary ark" href="#" data-url="{% url 'category-remove' cat.uuid %}" data-target="items-list-{{cat.parent.pk}}" title="{% trans 'Delete' %}" data-confirm="{% trans "Are you sure to remove this element?" %}"><i class="text-white fas fa-trash"></i></a>
-    {%else %}
-    <a class="btn btn-primary ark" data-url="{% url "category-form" %}" data-target-modal="common-modal" data-project-id="{{project.uuid}}" href="#" title="{% trans 'Add category' %}"><i class="text-white fas fa-folder-plus"></i>&nbsp; {% trans 'New category' %}</a>
     {% endif %}
 </div>
 

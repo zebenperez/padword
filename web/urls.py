@@ -6,7 +6,8 @@ from . import views, auto_views
 urlpatterns = [ 
     path('', views.index, name='web-index'),
     #--------------------- Projects --------------------
-    path('projects/<int:company_id>/', views.projects, name='projects-by-company'),
+    path('projects/company-<int:company_id>/', views.projects, name='projects-by-company'),
+    path('projects/project-<slug:project_id>/', views.projects, name='projects-by-uuid'),
     path('projects/', views.projects, name='projects'),
     path('projects/search/', views.project_search, name='project-search'),
     path('projects/form/', views.project_form, name='project-form'),

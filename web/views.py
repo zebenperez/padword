@@ -25,13 +25,23 @@ def index(request):
     Projects
 '''
 @group_required("admins")
-def projects(request, company_id=None):
+def projects(request, company_id=None, project_id=None):
     try:
-        company = get_or_none(Company, company_id)
-        items = Project.objects.all() if company is None else Project.objects.filter(company = company)
+        company = None
+        if project_id is not None:
+            project = get_or_none(Project, project_id, 'uuid')
+            items = Project.objects.all() if project is None else Project.objects.filter(uuid = project.uuid)
+        elif company_id is not None:
+            company = get_or_none(Company, company_id)
+            items = Project.objects.all() if company is None else Project.objects.filter(company = company)
+        else:
+            items = Project.objects.all()
         return render(request, "web/projects/projects.html", {'items':items, 'company': company})
     except Exception as e:
-        return JsonResponse({'results':[], 'error':1, 'error-msg':show_exc(e)})
+        print (show_exc(e))
+        company = None
+        items = Project.objects.all()
+        return render(request, "web/projects/projects.html", {'items':items, 'company': company})
 
 @group_required("admins")
 def project_search(request):
