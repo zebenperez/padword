@@ -18,7 +18,7 @@ urlpatterns = [
     path('channels/', views.channels, name='channels'),
     path('channels/search/', views.channel_search, name='channel-search'),
     path('channels/form/', views.channel_form, name='channel-form'),
-    path('channels/remove/', views.channel_remove, name='channel-remove'),
+    path('channels/remove/', views.channel_remove, name='web-channel-remove'),
     #--------------------- Companies --------------------
     path('companies/', views.companies, name='companies'),
     path('companies/search/', views.company_search, name='company-search'),
@@ -31,6 +31,7 @@ urlpatterns = [
     path('devices/', views.devices, name='devices'),
     path('devices/search/', views.device_search, name='device-search'),
     path('devices/form/', views.device_form, name='device-form'),
+    path('devices/assign/', views.device_assign, name='device-assign'),
     path('devices/remove/', views.device_remove, name='device-remove'),
     #---------------------- AUTO -----------------------
 	path('autosave_field/', auto_views.autosave_field, name='autosave_field'),

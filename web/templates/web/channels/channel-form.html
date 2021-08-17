@@ -46,7 +46,7 @@
 	<div class="col-sm-6 col-md-6 col-12">
 		{% trans "UUID" %}:
 		<input type="text" class="form-control autosave b-bottom mb-4" id="uuid" name="uuid" value="{{obj.uuid}}" title="{{obj.uuid}}" 
-			data-model-name="web.channel" data-obj-id="{{obj.id}}" data-url="{% url "autosave_field" %}" data-target="div-notification"/>
+			data-model-name="web.channel" data-obj-id="{{obj.id}}" readonly data-url="{% url "autosave_field" %}" data-target="div-notification"/>
 			<span id="uuid__msg"></span>
 	</div>
 
@@ -62,7 +62,7 @@
 	<button type="button" class="btn btn-sm ark save" data-bs-dismiss="modal" data-url="{% url "channel-search" %}" data-target="channel-list"
          data-project_id="{{project_id}}" data-company_id="{{company_id}}">{% trans "Save" %}</button>
 	<button type="button" class="btn btn-sm ark cancel" data-bs-dismiss="modal"
-   		data-url="{% url "channel-remove" %}" data-target="channel-list" data-obj_id="{{obj.id}}" data-project_id="{{project_id}}" 
+   		data-url="{% url "web-channel-remove" %}" data-target="channel-list" data-obj_id="{{obj.id}}" data-project_id="{{project_id}}" 
         data-company_id="{{company_id}}" data-confirm="{% trans "Are you sure to remove this element?" %}">{% trans "Remove" %}</button>
 </div>
 
