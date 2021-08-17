@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+{#{% extends "base.html" %}#}
 {% load i18n bookings_tag common_tag %}
 
 {% block central_content %}
@@ -7,6 +7,7 @@
     {% elif msg == "03" %}
         {% trans "your reservation has been cancelled correctly." %}
     {% endif %}
+    <a href="">{% trans "My bookings" %}</a>
 {% endblock %}
 
 

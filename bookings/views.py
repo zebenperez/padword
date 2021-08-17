@@ -249,10 +249,15 @@ def get_booking_context(form=None, project=None):
     if form != None:
         kwargs['form'] = form
         context["form_name"] = form.name
+        if form.channels.all().count() == 1:
+            fc = form.channels.first()
+            channel = Channel.objects.filter(uuid = fc.channel).first()
+            context["channel_name"] = channel.name
+            context["project_name"] = channel.project.name
     if project != None:
         uuid_list = [item.uuid for item in Channel.objects.filter(project=project)]
         kwargs["form__channels__channel__in"] = uuid_list
-        context["project_uuid"] = project.uuid
+        context["project_name"] = project.name
 
     items = FormInstance.objects.filter(**kwargs)
 
