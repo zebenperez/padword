@@ -12,6 +12,7 @@ class Company(models.Model):
     name = models.CharField(max_length=255, verbose_name=_('Name'), default="", null=True)
     active = models.IntegerField(verbose_name=_('Active'), default=1, null=True)
     created_at = models.DateTimeField(verbose_name=_('Created at'), default=datetime.datetime.now, null=True)
+
     class Meta:
         if (len(settings.DATABASES) > 1):
             managed = False
@@ -52,8 +53,6 @@ class Project(models.Model):
             print (show_exc(e))
             return (['ES'])
 
-
-
     @property
     def get_devices(self):
         try:
@@ -91,7 +90,6 @@ class ProjectUser(models.Model):
 
     class Meta:
         verbose_name = _('Project user')
-
 
     @property
     def user(self):

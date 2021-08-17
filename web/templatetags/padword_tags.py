@@ -2,7 +2,7 @@ from django import template
 from django.urls import reverse
 import json
 from padword.commons import show_exc
-from web.models import Project #, ProjectUser
+from web.models import Project, ProjectUser
 
 register = template.Library()
 
@@ -97,7 +97,7 @@ def get_main_menu(user):
         if user.groups.filter(name="admins").exists() or user.is_superuser:
             return {'user': user, 'menu': "admins"}
         if user.groups.filter(name="projects").exists():
-            obj = ProjectUser.objects.filter(user=user).first()
+            obj = ProjectUser.objects.filter(username=user.username).first()
             if obj != None: 
                 return {'user': user, 'menu': "projects", "project": obj.project}
         if user.groups.filter(name="clients").exists():
@@ -111,12 +111,13 @@ def get_second_menu(user):
         if user.groups.filter(name="admins").exists() or user.is_superuser:
             return {'user': user, 'menu': "admins"}
         if user.groups.filter(name="projects").exists():
-            obj = ProjectUser.objects.filter(user=user).first()
+            obj = ProjectUser.objects.filter(username=user.username).first()
             if obj != None: 
                 return {'user': user, 'menu': "projects", "project": obj.project}
         if user.groups.filter(name="clients").exists():
             return {'user': user, 'menu': "clients"}
-    except:
+    except Exception as e:
+        print (show_exc(e))
         return {}
 
 @register.filter
