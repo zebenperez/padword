@@ -1,6 +1,6 @@
 from django.urls import include, path, re_path
 from django.contrib import admin
-from bookings import views, auto_views
+from bookings import views
 
 urlpatterns = [ 
     #--------------------- Forms --------------------
