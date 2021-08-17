@@ -13,6 +13,12 @@ urlpatterns = [
     path('tree/category-<slug:category_id>/', views.category_tree, name='items-by-category'),
     path('categories/change-active-category-<slug:category_id>/', views.category_change_active, name='change-active-category'),
     path('categories/remove-category-<slug:category_id>/', views.category_remove, name='category-remove'),
+
+    path('items/form/', views.item_form, name='item-form'),
+    path('items/change-active-item-<slug:item_id>/', views.item_change_active, name='change-active-item'),
+    path('items/remove-item/', views.item_remove, name='item-remove'),
+    #path('items/remove-item-<slug:item_id>/', views.item_remove, name='item-remove'),
+
     #---------------------- AUTO -----------------------
 	path('autosave_field/', auto_views.autosave_field, name='autosave_field'),
 	path('autoremove_obj/', auto_views.autoremove_obj, name='autoremove_obj'),

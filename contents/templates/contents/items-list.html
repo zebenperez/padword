@@ -1,7 +1,7 @@
-{% load padword_tags %}
+{% load padword_tags i18n %}
 {% include "contents/categories-list.html" with items=cat.get_childrens noheader=True%}
 {% for item in cat.get_items %}
-<div class="row">
+<div class="row ark item-row {% if not item.active %}text-muted{%endif%}" title="{% trans 'Edit item' %}" data-target-modal="common-modal" data-url="{% url "item-form" %}" data-target="row-item-{{cat.pk}}" data-obj-id="{{item.uuid}}" data-cat-id="{{cat.uuid}}">
     <div class="col-9 ms-3 p-2">
         <span class="p-2"><i class="fas fa-box"></i>&nbsp;{% padword_translate item.name %}</span>
     </div>

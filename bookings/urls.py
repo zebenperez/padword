@@ -1,6 +1,6 @@
 from django.urls import include, path, re_path
 from django.contrib import admin
-from bookings import views
+from bookings import views, auto_views
 
 urlpatterns = [ 
     #--------------------- Forms --------------------
@@ -32,6 +32,7 @@ urlpatterns = [
 	path('change-status/', views.change_status, name='change-status'),
 
 	path('autosave-form-field/', views.autosave_form_field, name='autosave-form-field'),
+	#path('autosave-field/', auto_views.autosave_field, name='bookings-autosave-field'),
 	path('get-block/', views.get_block, name='get-block'),
 	path('new-row/', views.new_row, name='new-row'),
 	path('remove-row/', views.remove_row, name='remove-row'),

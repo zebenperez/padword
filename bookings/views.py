@@ -8,6 +8,7 @@ from django.utils.translation import ugettext_lazy as _
 from padword.decorators import group_required
 from padword.commons import show_exc, get_or_none, get_param, get_float, get_bool
 from web.models import Channel, Company, Project, Device
+from contents.models import Category
 
 from .common_lib import clone_form_instance, get_form_instance, get_max_index, get_or_create_answer_instance, user_in_group, write_log
 #from .models import AnswerInstance, Field, Form, FormChannel, FormInstance, FormType, Question, Block
@@ -28,12 +29,14 @@ def get_forms(channel, project, company):
             items = Form.objects.filter(channel = channel.uuid)
             context["channel"] = channel
         elif project is not None:
-            uuid_list = [item.uuid for item in Channel.objects.filter(project=project)]
-            items = Form.objects.filter(channel__in = uuid_list)
+            uuid_list = [item.uuid for item in Category.objects.filter(project_uuid=project.uuid)]
+
+            items = Form.objects.filter(category__in = uuid_list)
+            #items = Form.objects.filter(channels__in = uuid_list)
             context["project"] = project
         elif company is not None:
             uuid_list = [item.uuid for item in Channel.objects.filter(project__company=company)]
-            items = Form.objects.filter(channel__in = uuid_list)
+            items = Form.objects.filter(channels__in = uuid_list)
             context["company"] = company
         else:
             items = Form.objects.all()
@@ -88,15 +91,23 @@ def form_search(request):
 def form_form(request):
     try:
         obj = get_or_none(Form, request.GET["obj_id"]) if "obj_id" in request.GET else Form.objects.create()
-
-        company_id = get_param(request.GET, "company_id")
-        project_id = get_param(request.GET, "project_id")
+        cat = get_or_none(Category, request.GET["category_id"], 'uuid') if "category_id" in request.GET else None
+        if cat is None:
+            company_id = get_param(request.GET, "company_id")
+            project_id = get_param(request.GET, "project_id")
+        else:
+            company_id = cat.company.pk
+            project_id = cat.project.pk
+            
         channel_id = get_param(request.GET, "channel_id")
         if channel_id != "":
             channel = get_or_none(Channel, channel_id)
             if channel != None:
                 obj.channel = channel.uuid
                 obj.save()
+        if cat != None:
+            obj.category = cat.uuid
+            obj.save()
 
         context = {'obj': obj, 'channel_id': channel_id, 'project_id': project_id, 'company_id': company_id}
         #context["form_type_list"] = FormType.objects.all()

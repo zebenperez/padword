@@ -2,7 +2,7 @@ from django import template
 from django.urls import reverse
 import json
 from padword.commons import show_exc
-from web.models import ProjectUser
+from web.models import ProjectUser, Project
 
 register = template.Library()
 
@@ -66,7 +66,6 @@ def padword_translate(context, json_str):
         json_dict = json.loads(json_str)
         return json_dict[lang.upper()]
     except:
-        print (json_str)
         try:
             return json.loads(json_str)['ES']
         except Exception as e:
@@ -77,12 +76,24 @@ def padword_translate(context, json_str):
             except Exception as e:
                 return ''
 
+@register.simple_tag(takes_context=True)
+def is_current_lang(context, language, true_alternative='current', false_alternative=''):
+    try:
+        request = context['request']
+        lang = request.GET['lang'] if 'lang' in request.GET else request.LANGUAGE_CODE
+        if (lang.upper() == language.upper()):
+            return (true_alternative)
+        return (false_alternative)
+    except Exception as e:
+        print (show_exc(e))
+        return true_alternative
+
 '''
     Inclusion Tags
 '''
 @register.inclusion_tag('main-menu.html')
 def get_main_menu(user):
-    if user.groups.filter(name="admins").exists():
+    if user.groups.filter(name="admins").exists() or user.is_superuser:
         return {'user': user, 'menu': "admins"}
     if user.groups.filter(name="projects").exists():
         obj = ProjectUser.objects.filter(user=user).first()
@@ -94,7 +105,7 @@ def get_main_menu(user):
 
 @register.inclusion_tag('web/second-menu.html')
 def get_second_menu(user):
-    if user.groups.filter(name="admins").exists():
+    if user.groups.filter(name="admins").exists() or user.is_superuser:
         return {'user': user, 'menu': "admins"}
     if user.groups.filter(name="projects").exists():
         obj = ProjectUser.objects.filter(user=user).first()
@@ -104,3 +115,11 @@ def get_second_menu(user):
         return {'user': user, 'menu': "clients"}
     return {}
 
+@register.filter
+def get_obj(uuid, model):
+    try:
+        obj = eval("{}.objects.get(uuid='{}')".format(model,uuid))
+        return obj
+    except Exception as e:
+        print (show_exc(e))
+        return None

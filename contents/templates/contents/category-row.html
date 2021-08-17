@@ -1,7 +1,6 @@
 {% load i18n padword_tags %}
-
     <div class="col-12 ms-3 p-2 categories-list">
-        <div class="d-flex">
+        <div class="d-flex cat-row">
             <div class="p-2">
             {% if not item.price %}
             <a id="btn-show-{{item.pk}}" class="ark btn-cat-{{item.pk}}" data-url="{% url 'items-by-category' item.uuid %}" data-target="items-list-{{item.pk}}"><i class="text-grey fas fa-folder"></i></a>

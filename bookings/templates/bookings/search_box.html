@@ -1,6 +1,6 @@
-{% load i18n %}
+{% load i18n padword_tags %}
 
-<div class="toolbar-search">
+<div class="toolbar-search row">
 	<div class="row w-100">
 		<div class="col-md-12">
 			<input type="text" class="autosearch form-control form-control-dark w-30" name="s-project" id="s-project" 
@@ -21,6 +21,17 @@
         		data-target="booking-list" data-related="s-project,s-channel,s-form,s-ini_date,s-end_date,s-name,s-status" />
 		</div>
 	</div>
+
+    {% comment %} 
+    <input type="text" class="autosearch form-control form-control-dark w-30" name="s-project" id="s-project" 
+        placeholder="{% trans "Project uuid" %}" value="{{project_uuid}}" data-url="{% url "bookings-search" %}" 
+        data-target="booking-list" data-related="s-project,s-channel,s-form,s-ini_date,s-end_date,s-name" 
+        {%if request.project_id %}disabled{%endif%}/>
+    {% endcomment %}
+    {% comment %} 
+    {% trans 'Project' %} {{project_uuid|get_obj:'Project'}}
+    <input type="hidden"  name="s-project" id="s-project" value="{{project_uuid}}" />
+    {% endcomment %}
 
 	<div class="row w-100 mt-1">
 		<div class="col-md-6 col-xs-6">

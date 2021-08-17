@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% load i18n padword_tags %}
 
-{% block second_menu %}{#{% include 'web/second_menu.html' %}#}{% get_second_menu request.user %} {% endblock second_menu %}
+{% block second_menu %}{#{% include 'web/second_menu.html' with menu='admins' %}#}{% get_second_menu request.user %} {% endblock second_menu %}
 
 {% block central_content %}
     <div class="toolbar-search">
@@ -13,18 +13,11 @@
 
     <div class="content mt-4">
         <div class="toolbar-content">
-            {% comment %}
-			<h2 class="b-right">{% trans 'Categories' %} (<span id="items-counter">{{items|length}}</span>) {% if project %}{% trans "of the project" %} {{project.name}}{% endif %}</h2>
-            <h2 class="b-right">{{project.name}} &raquo; {% trans 'Categories' %} {% if project %} (<span id="items-counter">{{items|length}}</span>) {% endif %} </h2>
-			{% endcomment %}
-            <h2 class="b-right">{{project.name}} <span class="sub-h2"> {% trans 'Categories' %} {% if project %}{% trans "of the project" %} (<span id="items-counter">{{items|length}}</span>) {% endif %} </span> </h2>
-            {% comment %}
-            <a class="btn btn-primary ark" data-url="{% url "category-form" %}" data-target-modal="common-modal" data-project_id="{{project.id}}">{% trans "New Category" %}</a>  
-            {% endcomment %}
+            <h2 class="b-right">{{project.name}} <span class="sub-h2 d-flex d-none d-md-inline"> {% trans 'Categories' %} {% if project %}{% trans "of the project" %} (<span id="items-counter">{{items|length}}</span>) {% endif %} </span> </h2>
             {% include "common-modal.html" %}
         </div>
         <div id="items-list-" class="mt-3">{% include "contents/categories-list.html" %}</div>
-    </div>(<span id="items-counter">{{items|length}}</span>) 
+    </div>
 <script>
     $('#items-counter').html('{{items|length}}');
     function hideTree(id) {
