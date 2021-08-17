@@ -8,7 +8,7 @@
 	<div class="col-sm-3 col-md-5 col-12">
 		{% trans "Name" %}:
 		<input type="text" class="form-control autosave b-bottom mb-4" id="name" name="name" value="{{obj.name}}" title="{{obj.name}}" 
-			data-model-name="web.project" data-obj-id="{{obj.id}}" data-url="{% url "autosave_field" %}" data-target="div-notification"/>
+			data-model-name="bookings.form" data-obj-id="{{obj.id}}" data-url="{% url "autosave_field" %}" data-target="div-notification"/>
 			<span id="name__msg"></span>
 	</div>
 	<div class="col-sm-3 col-md-5 col-12">
@@ -17,6 +17,13 @@
             title="{{obj.category}}" data-model-name="bookings.form" data-obj-id="{{obj.id}}" data-url="{% url "autosave_field" %}" 
             data-target="div-notification"/> <span id="channel__msg"></span>
 	</div>
+	<div class="col-sm-3 col-md-5 col-12">
+		{% trans "Background image" %}:
+		<input type="text" class="form-control autosave b-bottom mb-4" id="category" name="category" value="{{obj.category}}" 
+            title="{{obj.category}}" data-model-name="bookings.form" data-obj-id="{{obj.id}}" data-url="{% url "autosave_field" %}" 
+            data-target="div-notification"/> <span id="channel__msg"></span>
+	</div>
+
     {%comment%}
 	<div class="col-sm-3 col-md-5 col-12">
 		{% trans "Form Type" %}:

@@ -15,21 +15,25 @@
             <div class="row"> <div class="col-md-9 offset-md-1" id="div-notification"></div> </div>
 
             <div class="row bloque mt-3">
+                {% comment %}
                 <div id="div-menu" class="col-lg-10 offset-lg-1 col-md-9 offset-md-1 col-xs-6 text-center sidebar">
                     {% for item in fi.get_public_blocks %}
                     <a href="javascript:void(0)" class="btn btn-block ark p-2 block {%if item == b%}active{%endif%}" data-url="{% url "get-block" %}" 
                     data-target="div-block" data-obj_id="{{item.id}}" data-fi_id="{{fi.id}}" data-ro="{{ro}}" data-unactive="block">{{item.text}}</a>  
                     {% endfor%}
                 </div>
+                {% endcomment %}
 
                 <div id="main" class="col-lg-10 offset-lg-1 col-md-10 offset-md-1 col-xs-12">
-                    <div class="" id="div-block">{%include "bookings/block_form.html"%}</div> 
+                    {% for b in fi.get_public_blocks %}
+                        <div class="" id="div-block">{%include "bookings/block_form.html"%}</div> 
+                    {% endfor %}
                 </div>
             </div>
 
             <div class="row mt-4 mb-4">
                 <div class="col-lg-3 offset-lg-2 col-md-3 offset-md-2 col-xs-4 offset-xs-1 actions text-center">
-                    <a href="{% url "set-status" fi.id "02" %}" class="btn btn-primary btn-lg ark w-100">{% trans "Send" %}</a>
+                    <a href="{% url "set-status" fi.id "02" %}" class="btn btn-success btn-lg ark w-100">{% trans "Send" %}</a>
                 </div>
                 <div class="col-lg-3 offset-lg-2 col-md-3 offset-md-1 col-xs-4 offset-xs-1 actions text-center">
                     <a href="{% url "booking-remove" fi.id %}" class="btn btn-danger btn-lg ark w-100">{% trans "Cancel" %}</a>
@@ -59,10 +63,7 @@
                 }
             }
         }
-
-
     </script>
-
 </body>
 
 {% endblock %}

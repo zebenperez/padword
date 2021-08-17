@@ -176,6 +176,7 @@ body {
 }
 .toolbar-search input {
 	border: none;
+	color: #6c757d !important;
 }
 .toolbar-content {
     box-shadow: 0 2px 4px -1px rgb(0 0 0 / 20%), 0 4px 5px 0 rgb(0 0 0 / 14%), 0 1px 10px 0 rgb(0 0 0 / 12%);
@@ -187,7 +188,6 @@ body {
 	justify-content: space-between;
 }
 .toolbar-content h2 {
-/*	color:#36abfc;*/
 	font-size: 1.25rem;
 	line-height: 1.5;
 	margin-bottom:0;
@@ -199,6 +199,11 @@ span.sub-h2 {
 	font-style: italic;
 	font-size: 0.9rem;
 	color:#666;
+}
+
+h2.pathway a {
+	text-decoration: none;
+	color: #36abfc !important;
 }
 
 .b-right {

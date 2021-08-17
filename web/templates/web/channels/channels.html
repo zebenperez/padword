@@ -14,7 +14,7 @@
 
     <div class="content mt-4">
         <div class="toolbar-content">
-			<h2> 
+			<h2 class="pathway"> 
                 {% if company %}<a href="{% url "companies" %}">{{company.name}}</a> <i class="fas fa-angle-double-right"></i>{% endif %}
                 {% if project %}<a href="{% url "projects" %}">{{project.name}}</a> <i class="fas fa-angle-double-right"></i>{% endif %} 
                 {% trans 'Channel' %} <span id="items-counter" class="badge badge-secondary">{{items|length}}</span>

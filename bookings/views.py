@@ -263,13 +263,15 @@ def bookings_search(request):
         ini_date = get_param(request.GET, "s-ini_date")
         end_date = get_param(request.GET, "s-end_date")
         name = get_param(request.GET, "s-name")
+        status = get_param(request.GET, "s-status")
 
         kwargs = {}
         if project != "":
-            uuid_list = [item.uuid for item in Channel.objects.filter(project__uuid=project)]
+            uuid_list = [item.uuid for item in Channel.objects.filter(project__name__icontains=project)]
             kwargs["form__channels__channel__in"] = uuid_list
         if channel != "":
-            kwargs["form__channels__channel__in"] = channel
+            uuid_list = [item.uuid for item in Channel.objects.filter(name__icontains=channel)]
+            kwargs["form__channels__channel__in"] = uuid_list
         if form != "":
             kwargs["form__name__icontains"] = form
         if ini_date != "":
@@ -278,6 +280,8 @@ def bookings_search(request):
             kwargs["date__lte"] = end_date
         if name != "":
             kwargs["name__icontains"] = name
+        if status != "":
+            kwargs["status"] = status
         items = FormInstance.objects.filter(**kwargs)
 
         return render(request, "bookings/booking-list.html", {'items':items,})
@@ -302,8 +306,9 @@ def booking_new(request, form_id, device_id=""):
 def booking_edit(request, fi_id, ro=0):
     try:
         fi = FormInstance.objects.get(pk = fi_id)
-        block = fi.form.blocks.first()
-        context = {'fi': fi, 'b': block, 'index': "0", "ro": (ro == 1)}
+        context = {'fi': fi, 'index': "0", "ro": (ro == 1)}
+        #block = fi.form.blocks.first()
+        #context = {'fi': fi, 'b': block, 'index': "0", "ro": (ro == 1)}
         return render(request, 'bookings/fillform.html', context)
     except Exception as e:
         print(e)
