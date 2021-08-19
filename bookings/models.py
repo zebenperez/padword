@@ -43,17 +43,17 @@ class Answer(models.Model):
 		ordering = ['id']
 
 
-#class FormType(models.Model):
-#	code = models.CharField(max_length=10, verbose_name=_("Code"), default="")
-#	name = models.CharField(max_length=200, verbose_name=_("Name"))
-#
-#	def __str__(self):
-#		return self.name
-#
-#	class Meta:
-#		verbose_name = _('Form type')
-#		verbose_name_plural = _('Forms type')
-#
+class FormType(models.Model):
+	code = models.CharField(max_length=10, verbose_name=_("Code"), default="")
+	name = models.CharField(max_length=200, verbose_name=_("Name"))
+
+	def __str__(self):
+		return self.name
+
+	class Meta:
+		verbose_name = _('Form type')
+		verbose_name_plural = _('Forms type')
+
 class Block(models.Model):
     private = models.BooleanField(verbose_name=_("Private"), default=False)
     order = models.IntegerField(verbose_name=_("Order"), default=0)
@@ -117,7 +117,7 @@ class Form(models.Model):
     category = models.CharField(max_length=200, verbose_name=_("Category"), default="")
     image = models.ImageField(upload_to=upload_form_image, blank=True, verbose_name="Imagen de fondo", help_text="Select file to upload")
 
-    #form_type = models.ForeignKey(FormType, on_delete=models.CASCADE, verbose_name=_("Form type"), blank=True, null=True)
+    form_type = models.ForeignKey(FormType, on_delete=models.CASCADE, verbose_name=_("Form type"), blank=True, null=True)
     blocks = models.ManyToManyField(Block, blank=True, verbose_name=_("Questions blocks"))
 
     def __str__(self):

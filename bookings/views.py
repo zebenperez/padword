@@ -11,8 +11,7 @@ from web.models import Channel, Company, Project, Device
 from contents.models import Category
 
 from .common_lib import clone_form_instance, get_form_instance, get_max_index, get_or_create_answer_instance, user_in_group, write_log
-#from .models import AnswerInstance, Field, Form, FormChannel, FormInstance, FormType, Question, Block
-from .models import AnswerInstance, Field, Form, FormChannel, FormInstance, Question, Block
+from .models import AnswerInstance, Field, Form, FormChannel, FormInstance, FormType, Question, Block
 
 import datetime
 import logging
@@ -110,8 +109,8 @@ def form_form(request):
             obj.save()
 
         context = {'obj': obj, 'channel_id': channel_id, 'project_id': project_id, 'company_id': company_id}
-        #context["form_type_list"] = FormType.objects.all()
         context["block_list"] = Block.objects.all()
+        context["form_type_list"] = FormType.objects.all()
         return render(request, "forms/form-form.html", context)
     except Exception as e:
         print (show_exc(e))
@@ -175,72 +174,6 @@ def channel_remove(request):
 '''
     Bookings
 '''
-#def get_bookings(form, channel, project):
-#    try:
-#        context = {}
-#        if form is not None:
-#            items = FormInstance.objects.filter(form = form)
-#            context["form"] = form
-#        elif channel is not None:
-#            items = FormInstance.objects.filter(form__channel = channel.uuid)
-#            context["channel"] = channel
-#        elif project is not None:
-#            uuid_list = [item.uuid for item in Channel.objects.filter(project=project)]
-#            items = FormInstance.objects.filter(form__channel__in = uuid_list)
-#            context["project"] = project
-#        else:
-#            items = FormInstance.objects.all()
-#        context["items"] = items
-#        context["form_list"] = Form.objects.all()
-#        return context
-#    except Exception as e:
-#        print(show_exc(e))
-#        return {'items':FormInstance.objects.none()}
-#
-#
-#@login_required
-#def bookings(request, form_id=None, project_id=None, channel_id=None):
-#    try:
-#        context = get_bookings(get_or_none(Form, form_id), get_or_none(Channel, channel_id), get_or_none(Project, project_id))
-#        return render (request, "bookings/bookings.html", context)
-#    except Exception as e:
-#        logger.error("[bookings-bookings] {}".format(str(e)))
-#    return render(request, 'error_exception.html', {})
-#
-#@login_required
-#def bookings_search(request):
-#    try:
-#        project_id = get_param(request.GET, "s-project")
-#        channel_id = get_param(request.GET, "s-channel")
-#        project = get_or_none(Project, project_id)
-#        channel = get_or_none(Channel, channel_id)
-#        name = get_param(request.GET, "s-name")
-#        form_id = get_param(request.GET, "s-form")
-#        #filters_to_search = ["name__icontains", "channel__icontains"]
-#        #items = Form.objects.none()
-#        #for myfilter in filters_to_search:
-#
-#        kwargs = {}
-#        if project != None:
-#            uuid_list = [item.uuid for item in Channel.objects.filter(project=project)]
-#            kwargs["channel__in"] = uuid_list
-#        if channel != None:
-#            kwargs["channel"] = channel.uuid
-#        if name != "":
-#            #kwargs[myfilter] = name
-#            kwargs["name__icontains"] = name
-#        if form_id != "":
-#            kwargs["form__id"] = form_id
-#        items = FormInstance.objects.filter(**kwargs)
-#
-#            #items = items.union(Form.objects.filter(**kwargs))
-#
-#        return render(request, "bookings/booking-list.html", {'items':items,'channel_id':channel_id,'project_id':project_id,'form_id':form_id,})
-#    except Exception as e:
-#        print (show_exc(e))
-#        return JsonResponse({'results':[], 'error':1, 'error-msg':show_exc(e)})
-#
-
 def get_booking_context(form=None, project=None):
     context = {}
     today = datetime.datetime.today()

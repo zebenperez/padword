@@ -2,32 +2,26 @@
 {% load i18n bookings_tag common_tag %}
 
 {% block central_content %}
-
 <body>
     <div id="mask"> &nbsp; </div>
 
-    <div class="main-content-booking container-fluid">{% comment %} style="background: url('/static/img/bg-test.pg');"> {% endcomment%}
+    <div class="main-content-booking container-fluid">
         <div class="div-transp p-4 mt-3 mb-3">
             <div class="bookingHeader">
-                <div class="col-lg-10 offset-lg-1 col-md-9 offset-md-1 col-xs-6 text-center"><h1 class=""> {{fi.form.name}}</h1> <a id="full-screen" class="btn btn-info" onclick="javascript:toggleFullScreen();">Full screen</a></div>
+                <div class="col-lg-10 offset-lg-1 col-md-9 offset-md-1 col-xs-6 text-center"><h1 class=""> {{fi.form.name}}</h1> 
+                    <a id="full-screen" class="btn btn-info" onclick="javascript:toggleFullScreen();">Full screen</a></div>
             </div>
 
             <div class="row"> <div class="col-md-9 offset-md-1" id="div-notification"></div> </div>
 
             <div class="row bloque mt-3">
-                {% comment %}
-                <div id="div-menu" class="col-lg-10 offset-lg-1 col-md-9 offset-md-1 col-xs-6 text-center sidebar">
-                    {% for item in fi.get_public_blocks %}
-                    <a href="javascript:void(0)" class="btn btn-block ark p-2 block {%if item == b%}active{%endif%}" data-url="{% url "get-block" %}" 
-                    data-target="div-block" data-obj_id="{{item.id}}" data-fi_id="{{fi.id}}" data-ro="{{ro}}" data-unactive="block">{{item.text}}</a>  
-                    {% endfor%}
-                </div>
-                {% endcomment %}
-
                 <div id="main" class="col-lg-10 offset-lg-1 col-md-10 offset-md-1 col-xs-12">
-                    {% for b in fi.get_public_blocks %}
-                        <div class="" id="div-block">{%include "bookings/block_form.html"%}</div> 
-                    {% endfor %}
+                    {% if fi.form.form_type.code == "ecom" %}
+                    {% else %}
+                        {% for b in fi.get_public_blocks %}
+                            <div class="" id="div-block">{%include "bookings/block_form.html"%}</div> 
+                        {% endfor %}
+                    {% endif %}
                 </div>
             </div>
 
@@ -46,32 +40,8 @@
                 {% endif %}
             </div>
         </div>
-
     </div>
-    <script>
-        function toggleFullScreen() {
-            if (!document.fullscreenElement &&    // alternative standard method
-                !document.mozFullScreenElement && !document.webkitFullscreenElement) {  // current working methods
-                if (document.documentElement.requestFullscreen) {
-                    document.documentElement.requestFullscreen();
-                } else if (document.documentElement.mozRequestFullScreen) {
-                    document.documentElement.mozRequestFullScreen();
-                } else if (document.documentElement.webkitRequestFullscreen) {
-                    document.documentElement.webkitRequestFullscreen(Element.ALLOW_KEYBOARD_INPUT);
-                }
-            } else {
-                if (document.cancelFullScreen) {
-                    document.cancelFullScreen();
-                } else if (document.mozCancelFullScreen) {
-                    document.mozCancelFullScreen();
-                } else if (document.webkitCancelFullScreen) {
-                    document.webkitCancelFullScreen();
-                }
-            }
-        }
-    </script>
 </body>
-
 {% endblock %}
 
 
