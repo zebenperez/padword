@@ -4,27 +4,28 @@
 {% block second_menu %}{#{% include 'web/second_menu.html' %}#}{% get_second_menu request.user %} {% endblock second_menu %}
 
 {% block central_content %}
-    <div class="toolbar-search">
-        <input type="hidden" name="channel_id" id="channel_id" value="{{channel.id}}" />
-        <input type="hidden" name="project_id" id="project_id" value="{{project.id}}" />
-        <input type="hidden" name="company_id" id="company_id" value="{{company.id}}" />
-	    <input type="text" class="autosearch form-control form-control-dark w-100" name="s-name" id="s-name" 
-            placeholder="{% trans 'IMEI, Serial, Alias, Project, Channel, Company or Room' %}" 
-		    data-url="{% url "device-search" %}" data-target="device-list" data-related="s-name"/>
-    </div>
+<div class="toolbar-search">
+    <input type="hidden" name="channel_id" id="channel_id" value="{{channel.id}}" />
+    <input type="hidden" name="project_id" id="project_id" value="{{project.id}}" />
+    <input type="hidden" name="company_id" id="company_id" value="{{company.id}}" />
+    <input type="text" class="autosearch form-control form-control-dark w-100" name="s-name" id="s-name" placeholder="{% trans 'IMEI, Serial, Alias, Project, Channel, Company or Room' %}" data-url="{% url "device-search" %}" data-target="device-list" data-related="s-name"/> </div>
 
-    <div class="content mt-4">
-	    <div class="toolbar-content">
-		    <h2 class="pathway"> 
-                {% if company %}<a href="{% url "companies" %}">{{company.name}}</a> <i class="fas fa-angle-double-right"></i>{% endif %}
-                {% if project %}<a href="{% url "projects" %}">{{project.name}}</a> <i class="fas fa-angle-double-right"></i>{% endif %}
-                {% if channel %}<a href="{% url "channels" %}">{{channel.name}}</a> <i class="fas fa-angle-double-right"></i>{% endif %}
-                {% trans 'Devices' %} <span id="items-counter" class="badge badge-secondary">{{items|length}}</span>
-            </h2>
-            <a class="btn btn-primary ark" data-url="{% url "device-form" %}" data-target-modal="common-modal"
-                data-channel_id="{{channel.id}}" data-project_id="{{project.id}}" data-company_id="{{company.id}}">{% trans "New device" %}</a>  
-            {% include "common-modal.html" %}
-   	    </div>
-	    <div id="device-list" class="row p-3">{% include "web/devices/device-list.html" %}</div>
+<div class="content mt-4">
+    <div class="toolbar-content">
+        <h2 class="pathway"> 
+            {% if company %}<a href="{% url "companies" %}">{{company.name}}</a> <i class="fas fa-angle-double-right"></i>{% endif %}
+            {% if project %}<a href="{% url "projects-by-uuid" project.uuid %}">{{project.name}}</a> <i class="fas fa-angle-double-right"></i>{% endif %}
+            {% if channel %}<a href="{% url "channels" %}">{{channel.name}}</a> <i class="fas fa-angle-double-right"></i>{% endif %}
+            {% trans 'Devices' %} <span id="items-counter" class="badge badge-secondary">{{items|length}}</span>
+        </h2>
+        <div class="d-flex justify-content-end">
+            {% if project or company or channel %}
+            <a class="btn btn-primary ark mr-2" data-url="{% url "device-assign" %}" data-target-modal="common-modal" data-channel_id="{{channel.uuid}}" data-project_id="{{project.uuid}}" data-company_id="{{company.uuid}}">{% trans "Assign device" %}</a> &nbsp;&nbsp; 
+            {% endif %}
+            <a class="btn btn-primary ark" data-url="{% url "device-form" %}" data-target-modal="common-modal" data-channel_id="{{channel.id}}" data-project_id="{{project.id}}" data-company_id="{{company.id}}">{% trans "New device" %}</a>  
+        </div>
+        {% include "common-modal.html" %}
     </div>
+    <div id="device-list" class="row p-3">{% include "web/devices/device-list.html" %}</div>
+</div>
 {% endblock central_content %}

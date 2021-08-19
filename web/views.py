@@ -25,13 +25,23 @@ def index(request):
     Projects
 '''
 @group_required("admins")
-def projects(request, company_id=None):
+def projects(request, company_id=None, project_id=None):
     try:
-        company = get_or_none(Company, company_id)
-        items = Project.objects.all() if company is None else Project.objects.filter(company = company)
+        company = None
+        if project_id is not None:
+            project = get_or_none(Project, project_id, 'uuid')
+            items = Project.objects.all() if project is None else Project.objects.filter(uuid = project.uuid)
+        elif company_id is not None:
+            company = get_or_none(Company, company_id)
+            items = Project.objects.all() if company is None else Project.objects.filter(company = company)
+        else:
+            items = Project.objects.all()
         return render(request, "web/projects/projects.html", {'items':items, 'company': company})
     except Exception as e:
-        return JsonResponse({'results':[], 'error':1, 'error-msg':show_exc(e)})
+        print (show_exc(e))
+        company = None
+        items = Project.objects.all()
+        return render(request, "web/projects/projects.html", {'items':items, 'company': company})
 
 @group_required("admins")
 def project_search(request):
@@ -153,9 +163,10 @@ def channel_remove(request):
     company_id = get_param(request.GET, "company_id", None)
     project_id = get_param(request.GET, "project_id", None)
     obj = get_or_none(Channel, request.GET["obj_id"]) if "obj_id" in request.GET else None
+    project = obj.project
     if obj != None:
         obj.delete()
-    context = get_channels(get_or_none(Project, project_id), get_or_none(Company, company_id))
+    context = get_channels(project, get_or_none(Company, company_id))
     return render (request, "web/channels/channel-list.html", context)
 
 '''
@@ -222,7 +233,6 @@ def get_devices(channel, project, company):
             context["company"] = company
         else:
             items = Device.objects.all()
-        print(items)
         context["items"] = items
         return context
     except Exception as e:
@@ -250,18 +260,21 @@ def device_search(request):
         name = get_param(request.GET, "s-name")
         filters_to_search = ["imei__icontains", "serial_number__icontains", "room__icontains", "alias__icontains"]
         items = Device.objects.none()
+        if company != None:
+            projects = Projects.objects.filter(company=company)
+            for prj in projects:
+                items = items.union(prj.get_devices.all())
+        if project != None:
+            items = items.union(project.get_devices.all())
+        kwargs = {}
+        if channel != None:
+            kwargs["channel__uuid"] = channel.uuid
         for myfilter in filters_to_search:
-            kwargs = {}
-            if company != None:
-                uuid_list = [item.uuid for item in Project.objects.filter(company=company)]
-                kwargs["project_uuid__in"] = uuid_list
-            if project != None:
-                kwargs["project_uuid"] = project.uuid
-            if channel != None:
-                kwargs["channel_uuid"] = channel.uuid
             if name != "":
                 kwargs[myfilter] = name
+        if kwargs:
             items = items.union(Device.objects.filter(**kwargs))
+
         return render(request, "web/devices/device-list.html", {'items':items,'channel_id':channel_id,'project_id':project_id,'company_id':company_id,})
     except Exception as e:
         print (show_exc(e))
@@ -308,4 +321,53 @@ def device_remove(request):
     context = get_devices(get_or_none(Channel, channel_id), get_or_none(Project, project_id), get_or_none(Company, company_id))
     return render (request, "web/devices/device-list.html", context)
 
+
+@group_required("admins", "projects")
+def device_assign(request):
+    try:
+        device  = get_or_none(Device,  get_param(request.GET, "obj_id",     None), 'uuid')
+        if device is not None and device.channel is not None:
+            device.channel = None
+            device.save()
+            channel = get_or_none(Channel, get_param(request.GET, "channel_id", None), 'uuid')
+            company = get_or_none(Company, get_param(request.GET, "company_id", None), 'uuid')
+            project = get_or_none(Project, get_param(request.GET, "project_id", None), 'uuid')
+            context = get_devices(channel, project, company)
+            if company:
+                context['company']=company
+            if channel:
+                context['channel']=channel
+            if project:
+                context['project']=project
+        else:
+            company = get_or_none(Company, get_param(request.GET, "company_id", None), 'uuid')
+            project = get_or_none(Project, get_param(request.GET, "project_id", None), 'uuid')
+            channel = get_or_none(Channel, get_param(request.GET, "channel_id", None), 'uuid')
+            context = get_devices(channel, project, company)
+            if channel:
+                context['channel']=channel
+            if project:
+                context['project']=project
+                if channel is None:
+                    try:
+                        channel = Channel.objects.get(name='DEFAULT', project= project)
+                        channel.active = 1
+                        channel.save()
+                    except:
+                        channel = Channel(uuid=new_ui_slug(Channel), name='DEFAULT', project=project, active=1)
+                        channel.save()
+                context['channel'] = channel
+            if company:
+                context['company']=company
+
+            if channel and device:
+                device.channel = channel
+                device.save()
+
+        context['noassign'] = Device.objects.filter(channel__isnull = True)
+        return render (request, "web/devices/device-assign.html", context)
+    except Exception as e:
+        context = {}
+        print(show_exc(e))
+        return render (request, "web/devices/device-assign.html", context)
 

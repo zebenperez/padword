@@ -19,6 +19,7 @@
                 <div class="col-md-4 col-6">{{ item.company.name }}</div>
                 <div class="col-1 d-flex d-none d-md-block justify-content-center">{{ item.get_devices | length }}</div>
                 <div class="col-md-3 pt-md-0 pt-3 col-12 d-flex justify-content-md-end justify-content-center">
+                    <a class="btn" href="#" onclick='alert("{{item.uuid}}"); return False'><i class="fas fa-fingerprint"></i></a>
                     <a class="btn btn-xs" href="{% url 'channels-by-project' item.pk %}" title="{% trans 'Channels' %}">
                         <i class="fas fa-comments"></i></a>
                     <a class="btn btn-xs" href="{% url 'devices-by-project' item.pk %}" title="{% trans 'Devices' %}">

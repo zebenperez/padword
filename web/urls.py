@@ -6,7 +6,8 @@ from . import views, auto_views
 urlpatterns = [ 
     path('', views.index, name='web-index'),
     #--------------------- Projects --------------------
-    path('projects/<int:company_id>/', views.projects, name='projects-by-company'),
+    path('projects/company-<int:company_id>/', views.projects, name='projects-by-company'),
+    path('projects/project-<slug:project_id>/', views.projects, name='projects-by-uuid'),
     path('projects/', views.projects, name='projects'),
     path('projects/search/', views.project_search, name='project-search'),
     path('projects/form/', views.project_form, name='project-form'),
@@ -17,7 +18,7 @@ urlpatterns = [
     path('channels/', views.channels, name='channels'),
     path('channels/search/', views.channel_search, name='channel-search'),
     path('channels/form/', views.channel_form, name='channel-form'),
-    path('channels/remove/', views.channel_remove, name='channel-remove'),
+    path('channels/remove/', views.channel_remove, name='web-channel-remove'),
     #--------------------- Companies --------------------
     path('companies/', views.companies, name='companies'),
     path('companies/search/', views.company_search, name='company-search'),
@@ -30,6 +31,7 @@ urlpatterns = [
     path('devices/', views.devices, name='devices'),
     path('devices/search/', views.device_search, name='device-search'),
     path('devices/form/', views.device_form, name='device-form'),
+    path('devices/assign/', views.device_assign, name='device-assign'),
     path('devices/remove/', views.device_remove, name='device-remove'),
     #---------------------- AUTO -----------------------
 	path('autosave_field/', auto_views.autosave_field, name='autosave_field'),
