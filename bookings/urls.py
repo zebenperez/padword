@@ -9,11 +9,20 @@ urlpatterns = [
     path('forms/', views.forms, name='forms'),
     path('forms/search/', views.form_search, name='form-search'),
     path('forms/form/', views.form_form, name='form-form'),
+    path('forms/form/<int:form_id>/', views.form_form, name='form-form'),
     path('forms/remove/', views.form_remove, name='form-remove'),
+    path('forms/remove/<int:form_id>/', views.form_remove, name='form-remove'),
     path('forms/add-image/', views.form_add_image, name='form-add-image'),
     path('forms/remove-image/', views.form_remove_image, name='form-remove-image'),
+
     path('channel/add/', views.channel_add, name='channel-add'),
     path('channel/remove/', views.channel_remove, name='channel-remove'),
+
+    path('field/add/', views.field_add, name='field-add'),
+    path('field/remove/', views.field_remove, name='field-remove'),
+
+    path('block/add/', views.block_add, name='block-add'),
+    path('block/remove/', views.block_remove, name='block-remove'),
 
     #------------- Bookings --------------#
 	path('bookings/', views.bookings, name='bookings'),
@@ -21,8 +30,12 @@ urlpatterns = [
 	path('bookings_by_project/<int:project_id>/', views.bookings_by_project, name='bookings-by-project'),
     path('bookings/search/', views.bookings_search, name='bookings-search'),
 
-	path('booking-new/<int:form_id>/', views.booking_new, name='booking-new'),
-	path('booking-new/<int:form_id>/<int:device_id>/', views.booking_new, name='booking-new'),
+	path('my-bookings/<slug:device_uuid>/', views.bookings_by_device, name='my-bookings'),
+
+	#path('booking-new/<int:form_id>/', views.booking_new, name='booking-new'),
+	#path('booking-new/<int:form_id>/<int:device_id>/', views.booking_new, name='booking-new'),
+	path('booking-new/<slug:form_uuid>/', views.booking_new, name='booking-new'),
+	path('booking-new/<slug:form_uuid>/<slug:device_uuid>/', views.booking_new, name='booking-new'),
 	path('booking-edit/<int:fi_id>/', views.booking_edit, name='booking-edit'),
 	path('booking-edit/<int:fi_id>/<int:ro>/', views.booking_edit, name='booking-edit'),
 	path('booking-remove/<int:fi_id>/', views.booking_remove, name='booking-remove'),

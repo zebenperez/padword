@@ -6,6 +6,11 @@
             data-obj_id="{{item.id}}"> <i class="fas fa-trash"></i></a></li>
     {% endfor %}
 </ul>
-<input type="text" class="form-control b-bottom mb-4 ark_change" id="channel" name="channel" data-url="{% url "channel-add" %}"
-    data-target="div-channels" data-obj_id="{{obj.id}}" placeholder="{%trans "Channel UUID"%}"/><a><i class="fas fa-plus"></i></a>
+<div class="row">
+    <div class="col-10">
+        <input type="text" class="form-control b-bottom mb-4 ark_change" id="channel" name="channel" data-url="{% url "channel-add" %}"
+            data-target="div-channels" data-obj_id="{{obj.id}}" placeholder="{%trans "Channel UUID"%}"/>
+    </div>
+    <div class="col-2"> <a><i class="fas fa-plus"></i></a> </div>
+</div>
 

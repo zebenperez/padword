@@ -1,5 +1,6 @@
 from django.db import models
 from django.utils.translation import ugettext_lazy as _ 
+from django.db.models import Max
 from contents.models import Category
 from web.models import Channel
 
@@ -54,11 +55,49 @@ class FormType(models.Model):
 		verbose_name = _('Form type')
 		verbose_name_plural = _('Forms type')
 
+def upload_form_image(instance, filename):
+    ascii_filename = str(filename.encode('ascii', 'ignore'))
+    instance.filename = ascii_filename
+    folder = "forms/%s" % (instance.id)
+    return '/'.join(['%s' % (folder), datetime.datetime.now().strftime("%Y%m%d%H%M%S") + ascii_filename])
+
+class Form(models.Model):
+    uuid = models.CharField(max_length=255, verbose_name=_('UUID'), default="")
+    name = models.CharField(max_length=200, verbose_name=_("Name"))
+    category = models.CharField(max_length=200, verbose_name=_("Category"), default="")
+    image = models.ImageField(upload_to=upload_form_image, blank=True, verbose_name="Imagen de fondo", help_text="Select file to upload")
+
+    form_type = models.ForeignKey(FormType, on_delete=models.CASCADE, verbose_name=_("Form type"), blank=True, null=True)
+    #blocks = models.ManyToManyField(Block, blank=True, verbose_name=_("Questions blocks"))
+
+    def __str__(self):
+        return self.name
+
+    def get_category_items(self):
+        cat = Category.objects.filter(uuid = self.category).first()
+        return cat.get_items if cat != None else []
+
+    @property
+    def get_category(self):
+        cat = Category.objects.filter(uuid = self.category).first()
+        return cat
+
+    @property
+    def project(self):
+        cat = Category.objects.filter(uuid = self.category).first()
+        return cat.project
+
+    class Meta:
+        verbose_name = _('2.- Form')
+        verbose_name_plural = _('2.- Forms')
+        ordering = ['name']
+
 class Block(models.Model):
     private = models.BooleanField(verbose_name=_("Private"), default=False)
     order = models.IntegerField(verbose_name=_("Order"), default=0)
     code = models.CharField(max_length=10, verbose_name=_("Code"), default="")
     text = models.CharField(max_length=500, verbose_name=_("Text"))
+    form = models.ForeignKey(Form, on_delete=models.CASCADE, verbose_name=_("Form"), blank=True, null=True, related_name="blocks")
     #form_type = models.ForeignKey(FormType, on_delete=models.CASCADE, verbose_name=_("Form type"), blank=True, null=True)
 
     def __str__(self):
@@ -66,6 +105,10 @@ class Block(models.Model):
 
     def get_first_level_questions(self):
         return self.question_set.filter(parent__isnull=True)
+
+    @staticmethod
+    def get_max_order(form):
+        return Block.objects.filter(form=form).aggregate(Max('order'))["order__max"] + 1
 
     class Meta:
         verbose_name = _('3.- Question block')
@@ -95,52 +138,20 @@ class Field(models.Model):
     order = models.IntegerField(verbose_name=_("Order"), default=0)
     code = models.CharField(max_length=10, verbose_name=_("Code"), default="")
     text = models.CharField(max_length=500, verbose_name=_("Question"))
-    answer_type = models.ForeignKey(AnswerType, on_delete=models.CASCADE, verbose_name=_("Answer type"))
+    answer_type = models.ForeignKey(AnswerType, on_delete=models.CASCADE, verbose_name=_("Answer type"), blank=True, null=True)
     question = models.ForeignKey(Question, on_delete=models.CASCADE, verbose_name=_("Question"), blank=True, null=True)
 
     def __str__(self):
         return self.text
+    
+    @staticmethod
+    def get_max_order(q):
+        return Field.objects.filter(question=q).aggregate(Max('order'))["order__max"] + 1
 
     class Meta:
         verbose_name = _('Field')
         verbose_name_plural = _('Fields')
         ordering = ['order']
-
-def upload_form_image(instance, filename):
-    ascii_filename = str(filename.encode('ascii', 'ignore'))
-    instance.filename = ascii_filename
-    folder = "forms/%s" % (instance.id)
-    return '/'.join(['%s' % (folder), datetime.datetime.now().strftime("%Y%m%d%H%M%S") + ascii_filename])
-
-class Form(models.Model):
-    name = models.CharField(max_length=200, verbose_name=_("Name"))
-    category = models.CharField(max_length=200, verbose_name=_("Category"), default="")
-    image = models.ImageField(upload_to=upload_form_image, blank=True, verbose_name="Imagen de fondo", help_text="Select file to upload")
-
-    form_type = models.ForeignKey(FormType, on_delete=models.CASCADE, verbose_name=_("Form type"), blank=True, null=True)
-    blocks = models.ManyToManyField(Block, blank=True, verbose_name=_("Questions blocks"))
-
-    def __str__(self):
-        return self.name
-
-    def get_category_items(self):
-        cat = Category.objects.filter(uuid = self.category).first()
-        return cat.get_items if cat != None else []
-
-    @property
-    def get_category(self):
-        cat = Category.objects.filter(uuid = self.category).first()
-        return cat
-
-    @property
-    def project(self):
-        cat = Category.objects.filter(uuid = self.category).first()
-        return cat.project
-
-    class Meta:
-        verbose_name = _('2.- Form')
-        verbose_name_plural = _('2.- Forms')
-        ordering = ['name']
 
 class FormChannel(models.Model):
     channel = models.CharField(max_length=200, verbose_name=_("Channel"), default="")
@@ -173,14 +184,20 @@ class FormInstance(models.Model):
 
     code = models.CharField(verbose_name=_("Code"), max_length=20, default="")
     status = models.CharField(max_length=3, choices=STATUS_CHOICES, default=CREATED)
-    device = models.CharField(max_length=255, verbose_name=_("Device"), default="")
+    #device = models.CharField(max_length=255, verbose_name=_("Device"), default="")
     name = models.CharField(max_length=255, verbose_name=_("Name"), default="")
     date = models.DateTimeField(_('Creation date'), default=datetime.datetime.now, null=True)
+    device_uuid = models.CharField(max_length=255, verbose_name=_("Device UUID"), default="")
+    form_uuid = models.CharField(max_length=255, verbose_name=_("Form UUID"), default="")
 
-    form = models.ForeignKey(Form, on_delete=models.CASCADE, verbose_name=_("Form"), blank=True, null=True)
+    #form = models.ForeignKey(Form, on_delete=models.CASCADE, verbose_name=_("Form"), blank=True, null=True)
 
     def __str__(self):
         return "%s" % (self.code)
+
+    @property
+    def form (self):
+        return Form.objects.filter(uuid = self.form_uuid).first()
 
     def check_obligatory(self, q, index):
         answers = self.answerinstance_set.filter(question=q, index=index, field__obligatory=True)

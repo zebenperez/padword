@@ -60,7 +60,7 @@ class BlockAdmin(admin.ModelAdmin):
 
 class FormAdmin(admin.ModelAdmin):
 	list_display = ('name',)
-	filter_horizontal = ('blocks',)
+	#filter_horizontal = ('blocks',)
 	search_fields = ['channel']
 
 class FormInstanceAdmin(admin.ModelAdmin):

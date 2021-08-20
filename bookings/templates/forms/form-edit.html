@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% load i18n bookings_tag common_tag %}
+
+{% block central_content %}
+    <div class="text-end">
+        <a class="btn btn-sm save" title="{% trans 'Preview' %}" href="{% url "booking-new" obj.uuid %}" target="_blank">
+            {% trans "Preview" %}</a>  
+        {% if project_id %}
+            <a class="btn btn-sm save" href="{% url "forms-by-project" project_id %}" >{% trans "Save" %}</a>
+        {% else %}
+            <a class="btn btn-sm save" href="{% url "forms" %}">{% trans "Save" %}</a>
+        {% endif %}
+        <a class="btn btn-sm cancel" href="{%url "form-remove" obj.id%}" 
+            onclick="return confirm('{% trans "Are you sure to remove this element?" %}')"> {% trans "Remove" %}</a>
+    </div>
+    <br/>
+    {% include "forms/form-form.html" %}
+    <br/>
+    <div class="row"><div class="col-12 text-end">
+        <a class="btn btn-primary btn-sm ark" data-url="{% url "block-add" %}" data-target="div-blocks"
+            data-obj_id="{{obj.id}}" title="{% trans "Add item"%}"><i class="fas fa-plus"></i></a>  
+    </div></div>
+    <br/>
+    <div id="div-blocks"> {% include "forms/block-form.html" %} </div>
+{% endblock %}
+
+
