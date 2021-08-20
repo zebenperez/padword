@@ -11,7 +11,7 @@ from web.models import Channel, Company, Project, Device
 from contents.models import Category
 
 from .common_lib import clone_form_instance, get_form_instance, get_max_index, get_or_create_answer_instance, user_in_group, write_log
-from .models import AnswerInstance, AnswerType, Field, Form, FormChannel, FormInstance, FormType, Question, Block
+from .models import AnswerInstance, AnswerType, Field, Form, FormChannel, FormInstance, FormType, Question, QuestionType, Block
 
 import datetime
 import logging
@@ -113,6 +113,7 @@ def form_form(request, form_id=None):
         context["block_list"] = Block.objects.all()
         context["form_type_list"] = FormType.objects.all()
         context["answer_type_list"] = AnswerType.objects.all()
+        context["question_type_list"] = QuestionType.objects.all()
         #return render(request, "forms/form-form.html", context)
         return render(request, "forms/form-edit.html", context)
     except Exception as e:
