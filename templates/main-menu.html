@@ -7,9 +7,11 @@
         <div class="nav-item"> <a class="nav-link {% current '' %}" href="#"> {% trans 'Project' %} </a> </div>
         <div class="nav-item"> <a class="nav-link {% current '' %}" href="#"> {% trans 'Config UI' %} </a> </div>
         <div class="nav-item"> <a class="nav-link {% current '' %}" href="#"> {% trans 'Messages' %} </a> </div>
-        <div class="nav-item"> <a class="nav-link {% current 'guests' %}" href="{% url 'guests' %}"> {% trans 'Huéspedes' %} </a> </div>
-        <div class="nav-item"> <a class="nav-link {% current '' %}" href="#"> {% trans 'Requests' %} </a> </div>
+        <div class="nav-item"> <a class="nav-link {% current 'bookings' %}" href="{% url 'bookings' %}"> {% trans 'Requests' %} </a> </div>
         <div class="nav-item"> <a class="nav-link {% current '' %}" href="#"> {% trans 'Places and Events' %} </a> </div>
+        <div class="nav-item"> <a class="nav-link {% current '' %}" href="#"> {% trans 'Rooms' %} </a> </div>
+        <div class="nav-item"> <a class="nav-link {% current '' %}" href="#"> {% trans 'Tablets' %} </a> </div>
+        <div class="nav-item"> <a class="nav-link {% current 'guests' %}" href="{% url 'guests' %}"> {% trans 'Guests' %} </a> </div>
     {% elif menu == "projects" %}
         <div class="nav-item"><a class="nav-link {%current 'channels-by-project'%}" aria-current="page" 
             href="{%url 'channels-by-project' project.id %}"> {% trans 'Admin' %}</a></div>

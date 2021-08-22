@@ -60,7 +60,7 @@ class BlockAdmin(admin.ModelAdmin):
 
 class FormAdmin(admin.ModelAdmin):
 	list_display = ('name',)
-	filter_horizontal = ('blocks',)
+	#filter_horizontal = ('blocks',)
 	search_fields = ['channel']
 
 class FormInstanceAdmin(admin.ModelAdmin):
@@ -73,8 +73,8 @@ class FormInstanceAdmin(admin.ModelAdmin):
 		return mark_safe("<a href='%s' target='_blank'>Editar</a>" % (reverse('booking-edit', args=[obj.id])))
 	fill_form.short_description = 'Editar'
 
-#class FormTypeAdmin(admin.ModelAdmin):
-#	list_display = ('code', 'name')
+class FormTypeAdmin(admin.ModelAdmin):
+	list_display = ('code', 'name')
 
 class QuestionAdmin(admin.ModelAdmin):
 	list_display = ('block', 'code', 'text', 'order')
@@ -87,7 +87,7 @@ admin.site.register(AnswerType, AnswerTypeAdmin)
 #admin.site.register(Field)
 admin.site.register(Form, FormAdmin)
 admin.site.register(FormInstance, FormInstanceAdmin)
-#admin.site.register(FormType, FormTypeAdmin)
+admin.site.register(FormType, FormTypeAdmin)
 admin.site.register(Question, QuestionAdmin)
 admin.site.register(Block, BlockAdmin)
 admin.site.register(QuestionType)
