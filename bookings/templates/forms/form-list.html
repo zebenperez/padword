@@ -1,4 +1,4 @@
-{% load i18n %}
+{% load i18n padword_tags %}
 
 <table class="table table-striped table-hover">
     <thead>
@@ -12,7 +12,7 @@
         <tr>
             <td colspan="2">
             <div class="row small p-2">
-                <div class="col-2">{{item.name}}</div>
+                <div class="col-2">{% padword_translate item.name %}</div>
                 <div class="col-8">{{item.channel}}</div>
                 <div class="col-2 d-flex justify-content-end">
                     <a class="btn" href="#" onclick='alert("{{item.uuid}}"); return False'><i class="fas fa-fingerprint"></i></a>
