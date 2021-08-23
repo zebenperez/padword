@@ -1,4 +1,4 @@
-{% load i18n %}
+{% load i18n padword_tags %}
 
 {% for f in q.field_set.all %}
     <div class="row">
@@ -9,8 +9,8 @@
         </div>
 
         <div class="col-6">
-            <input type="text" class="form-control autosave" id="f-text" name="text" value="{{f.text}}" title="{{f.text}}" 
-                data-model-name="bookings.field" data-obj-id="{{f.id}}" data-url="{% url "autosave_field" %}" 
+            <input type="text" class="form-control autosave" id="f-text" name="text" value="{% padword_translate f.text %}" 
+                title="{% padword_translate f.text %}" data-model-name="bookings.field" data-obj-id="{{f.id}}" data-url="{% url "autosave_field" %}" 
                 data-target="div-notification"/> <span id="f-text__msg"></span>
         </div>
 

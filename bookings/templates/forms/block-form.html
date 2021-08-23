@@ -1,4 +1,4 @@
-{% load i18n %}
+{% load i18n padword_tags %}
 
 {% for b in obj.blocks.all %}
     <div class="card border-primary">
@@ -13,9 +13,9 @@
 
                 <div class="col-1 text-end"> {% trans "Name" %}:</div>
                 <div class="col-8">
-		            <input type="text" class="form-control autosave" id="b-text" name="text" value="{{b.text}}" title="{{b.text}}" 
-			            data-model-name="bookings.block" data-obj-id="{{b.id}}" data-url="{% url "autosave_field" %}" data-target="div-notification"/>
-			            <span id="b-text__msg"></span>
+		            <input type="text" class="form-control autosave" id="b-text" name="text" value="{% padword_translate b.text %}" 
+                        title="{% padword_translate b.text %}" data-model-name="bookings.block" data-obj-id="{{b.id}}" 
+                        data-url="{% url "autosave_field" %}" data-target="div-notification"/> <span id="b-text__msg"></span>
                 </div>
                 <div class="col-1">
                     <a href="#" class="ark" data-url="{% url "block-remove" %}" data-target="div-blocks" data-obj_id="{{b.id}}" 
