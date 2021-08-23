@@ -247,4 +247,3 @@ class FormInstanceLog(models.Model):
 		verbose_name = _('Form log')
 		verbose_name_plural = _('Form logs')
 
-

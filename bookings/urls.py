@@ -10,6 +10,7 @@ urlpatterns = [
     path('forms/search/', views.form_search, name='form-search'),
     path('forms/form/', views.form_form, name='form-form'),
     path('forms/form/<int:form_id>/', views.form_form, name='form-form'),
+    path('forms/form/category-<slug:category_id>/', views.form_form, name='form-form-category'),
     path('forms/remove/', views.form_remove, name='form-remove'),
     path('forms/remove/<int:form_id>/', views.form_remove, name='form-remove'),
     path('forms/add-image/', views.form_add_image, name='form-add-image'),
@@ -28,7 +29,7 @@ urlpatterns = [
 	path('bookings/', views.bookings, name='bookings'),
 	path('bookings_by_form/<int:form_id>/', views.bookings_by_form, name='bookings-by-form'),
 	path('bookings_by_project/<int:project_id>/', views.bookings_by_project, name='bookings-by-project'),
-    path('bookings/search/', views.bookings_search, name='bookings-search'),
+        path('bookings/search/', views.bookings_search, name='bookings-search'),
 
 	path('my-bookings/<slug:device_uuid>/', views.bookings_by_device, name='my-bookings'),
 
@@ -52,5 +53,8 @@ urlpatterns = [
 	path('autoupload/', views.autoupload, name='autoupload'),
 	path('remove-file/', views.remove_file, name='remove-file'),
 	path('autocomplete/', views.autocomplete, name='autocomplete'),
+
+
+	path('test/', views.test, name='booking-test'),
 ]
 

@@ -6,7 +6,7 @@ from django.urls import reverse
 from django.utils.translation import ugettext_lazy as _ 
 
 from padword.decorators import group_required
-from padword.commons import show_exc, get_or_none, get_param, get_float, get_bool
+from padword.commons import show_exc, get_or_none, get_param, get_float, get_bool, new_ui_slug
 from web.models import Channel, Company, Project, Device
 from contents.models import Category
 
@@ -87,11 +87,15 @@ def form_search(request):
         return JsonResponse({'results':[], 'error':1, 'error-msg':show_exc(e)})
 
 @login_required
-def form_form(request, form_id=None):
+def form_form(request, form_id=None, category_id=None):
     try:
-        obj = get_or_none(Form, form_id) if form_id != None else Form.objects.create()
+        obj = get_or_none(Form, form_id) if form_id != None else Form.objects.create(uuid=new_ui_slug(Form))
         #obj = get_or_none(Form, request.GET["obj_id"]) if "obj_id" in request.GET else Form.objects.create()
-        cat = get_or_none(Category, request.GET["category_id"], 'uuid') if "category_id" in request.GET else None
+        if category_id is None:
+            cat = get_or_none(Category, request.GET["category_id"], 'uuid') if "category_id" in request.GET else None
+        else:
+            cat = get_or_none(Category, category_id, 'uuid')
+
         if cat is None:
             company_id = get_param(request.GET, "company_id")
             project_id = get_param(request.GET, "project_id")
@@ -216,7 +220,7 @@ def get_booking_context(form=None, project=None):
 
     kwargs = {'date__year': today.year, 'date__month': today.month, 'date__day': today.day}
     if form != None:
-        kwargs['form'] = form
+        kwargs['form_uuid'] = form.uuid
         context["form_name"] = form.name
         if form.channels.all().count() == 1:
             fc = form.channels.first()
@@ -253,6 +257,7 @@ def bookings_by_form(request, form_id):
             context = get_booking_context(form=get_or_none(Form, form_id))
         return render (request, "bookings/bookings.html", context)
     except Exception as e:
+        print (show_exc(e))
         logger.error("[bookings-bookings_by_form] {}".format(str(e)))
     return render(request, 'error_exception.html', {})
 
@@ -318,20 +323,22 @@ def booking_new(request, form_uuid, device_uuid=""):
 #            fi = FormInstance.objects.create(form = form, device = device_id)
 #            write_log(request.user, fi, _("Booking created"))
 #            return redirect(booking_edit, fi.id, 1)
-
         form = Form.objects.filter(uuid = form_uuid).first()
         if form != None:
             fi = FormInstance.objects.create(form_uuid = form.uuid, device_uuid = device_uuid)
             write_log(request.user, fi, _("Booking created"))
             return redirect(booking_edit, fi.id, 1)
     except Exception as e:
+        print (show_exc(e))
         logger.error("[bookings-new_booking] {}".format(str(e)))
-    return render(request, 'error_exception.html', {})
+        return render(request, 'error_exception.html', {'exc':show_exc(e)})
+    return render(request, 'error_exception.html', {'exc':'Form is None'})
 
 @group_required("admins", "projects")
 def booking_edit(request, fi_id, ro=0):
     try:
         fi = FormInstance.objects.get(pk = fi_id)
+        form = get_or_none(Form, fi.form_uuid, 'uuid')
         context = {'fi': fi, 'index': "0", "ro": (ro == 0)}
         #block = fi.form.blocks.first()
         #context = {'fi': fi, 'b': block, 'index': "0", "ro": (ro == 1)}
@@ -533,4 +540,8 @@ def remove_file(request):
         logger.error("[bookings-autosave]: {}".format(e))
         return render(request, 'error_exception.html', {'msg': str(e)})
 
+
+@login_required
+def test(request):
+    return HttpResponse("OK")
 

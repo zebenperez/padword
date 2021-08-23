@@ -9,22 +9,23 @@
     </thead>
     <tbody>
         {% for item in items %}
-        <tr class="small" id="row_{{item.id}}">
-            <td>{{ item.name }}</td>
-            <td>{{ item.channel }}</td>
-            <td class="d-flex justify-content-end">
-                <a class="me-1 btn btn-xs" title="{% trans 'See bookings' %}" href="{% url "bookings-by-form" item.id %}">
-                    <i class="far fa-eye"></i></a>  
-                <a class="me-1 btn btn-xs" title="{% trans 'New booking' %}" href="{% url "booking-new" item.id %}" target="_blank">
-                    <i class="far fa-calendar-check"></i></a>  
-                {% comment %}
-                <a class="me-1 btn btn-xs ark" title="{% trans 'Edit' %}" data-url="{% url "form-form" %}" data-target-modal="common-modal" 
-                    data-obj_id="{{item.id}}"><i class="fas fa-edit"></i></a>  
-                {% endcomment %}
-                <a class="me-1 btn btn-xs" title="{% trans 'Edit' %}" href="{% url "form-form" item.id %}"><i class="fas fa-edit"></i></a>  
-	            <a class="btn btn-sm autoremove" title="{% trans 'Remove' %}" data-model-name="bookings.form" data-obj-id="{{item.id}}" 
-                    data-url="{% url "autoremove_obj" %}" data-target="row_{{item.id}}" 
-                    data-confirm="{% trans "Are you sure to remove this element?" %}"><i class="fas fa-trash"></i></a>
+        <tr>
+            <td colspan="2">
+            <div class="row small p-2">
+                <div class="col-2">{{item.name}}</div>
+                <div class="col-8">{{item.channel}}</div>
+                <div class="col-2 d-flex justify-content-end">
+                    <a class="btn" href="#" onclick='alert("{{item.uuid}}"); return False'><i class="fas fa-fingerprint"></i></a>
+                    <a class="me-1 btn btn-xs" title="{% trans 'See bookings' %}" href="{% url "bookings-by-form" item.id %}">
+                        <i class="far fa-eye"></i></a>  
+                    <a class="me-1 btn btn-xs" title="{% trans 'New booking' %}" href="{% url "booking-new" item.uuid %}" target="_blank">
+                        <i class="far fa-calendar-check"></i></a>  
+                    <a class="me-1 btn btn-xs" title="{% trans 'Edit' %}" href="{% url "form-form" item.id %}"><i class="fas fa-edit"></i></a>  
+                    <a class="btn btn-sm autoremove" title="{% trans 'Remove' %}" data-model-name="bookings.form" data-obj-id="{{item.id}}" 
+                        data-url="{% url "autoremove_obj" %}" data-target="row_{{item.id}}" 
+                        data-confirm="{% trans "Are you sure to remove this element?" %}"><i class="fas fa-trash"></i></a>
+                </div>
+            </div>
             </td>
         </tr>
         {% endfor %}

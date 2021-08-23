@@ -1,0 +1,19 @@
+{% load i18n bookings_tag common_tag padword_tags%}
+<div class="row d-flex justify-content-center">
+{% for children in category.get_childrens %}
+    <div class="col-12 col-md-4 d-flex align-middle justify-content-center mt-1">
+        <a class="btn btn-danger p-4 w-100" data-url="{% url 'booking-test' %}" data-target-modal="common-modal">
+            {% padword_translate children.name%}
+        </a>
+    </div>
+{% endfor %}
+</div>
+<div class="row d-flex justify-content-center mt-5">
+{% for item in category.get_items %}
+    <div class="col-12 col-md-2 m-1 d-flex justify-content-center">
+        <a class="btn btn-primary small ms-1 mb-1 w-100 ark" data-url="{% url 'booking-test' %}" data-target-modal="common-modal">
+            {% padword_translate item.name %}<br><span class="huge">{{item.price}} <i class="fas fa-euro-sign"></i></span>
+        </a>
+    </div>
+{% endfor %}
+</div>
