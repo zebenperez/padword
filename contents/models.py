@@ -190,9 +190,10 @@ class OptionItem(models.Model):
         verbose_name = _('Options in item')
 
 class ShoppingCart(models.Model):
-    form_instance = models.CharField(max_length=200, verbose_name=_("Form Instance"), default="")
+    form_instance_id = models.IntegerField(verbose_name=_("Form Instance"), default=0)
     item = models.ForeignKey(Item, on_delete=models.CASCADE, verbose_name=_("Item"), blank=True, null=True)
     options = models.ManyToManyField(OptionItem, blank=True, verbose_name=_("Options"))
+    comments = models.TextField(verbose_name = _("Comments"), default="")
 
     class Meta:
         db_table = 'shopping_cart'

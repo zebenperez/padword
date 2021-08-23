@@ -74,7 +74,7 @@ def padword_translate(context, json_str):
                 keys = json_dict.keys()
                 return json_dict[keys[0]]
             except Exception as e:
-                return ''
+                return json_str
 
 @register.simple_tag(takes_context=True)
 def is_current_lang(context, language, true_alternative='current', false_alternative=''):

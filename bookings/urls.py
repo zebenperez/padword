@@ -54,6 +54,9 @@ urlpatterns = [
 	path('remove-file/', views.remove_file, name='remove-file'),
 	path('autocomplete/', views.autocomplete, name='autocomplete'),
 
+        #------- Shopping -----------#
+        path('shopping/add-to-cart/', views.item_to_shopping_cart, name='item-to-shopping-cart'),
+
 
 	path('test/', views.test, name='booking-test'),
 ]

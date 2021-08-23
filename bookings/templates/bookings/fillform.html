@@ -8,7 +8,7 @@
     <div class="main-content-booking container-fluid">
         <div class="div-transp p-4 mt-3 mb-3">
             <div class="bookingHeader">
-                <div class="col-lg-10 offset-lg-1 col-md-9 offset-md-1 col-xs-6 text-center"><h1 class=""> {{fi.form.name}}</h1> 
+                <div class="col-lg-10 offset-lg-1 col-md-9 offset-md-1 col-xs-6 text-center"><h1 class=""> {{fi.form.name}} ({{items.count}} art&iacute;culos)</h1> 
                     <a id="full-screen" class="btn btn-info" onclick="javascript:toggleFullScreen();">Full screen</a></div>
             </div>
 
@@ -18,7 +18,7 @@
                 <div id="main" class="col-lg-10 offset-lg-1 col-md-10 offset-md-1 col-xs-12">
                     {% if fi.form.form_type.code == "ecom" %}
                     <div class="text-white" id="div-block">
-                        {% include "bookings/shopping_cart.html" with category=fi.form.get_category %}
+                        {% include "bookings/shopping_cart.html" with category=fi.form.get_category fi=fi%}
                     </div>
                     {% else %}
                         {% for b in fi.get_public_blocks %}

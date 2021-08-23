@@ -191,13 +191,10 @@ class FormInstance(models.Model):
 
     code = models.CharField(verbose_name=_("Code"), max_length=20, default="")
     status = models.CharField(max_length=3, choices=STATUS_CHOICES, default=CREATED)
-    #device = models.CharField(max_length=255, verbose_name=_("Device"), default="")
     name = models.CharField(max_length=255, verbose_name=_("Name"), default="")
     date = models.DateTimeField(_('Creation date'), default=datetime.datetime.now, null=True)
     device_uuid = models.CharField(max_length=255, verbose_name=_("Device UUID"), default="")
     form_uuid = models.CharField(max_length=255, verbose_name=_("Form UUID"), default="")
-
-    #form = models.ForeignKey(Form, on_delete=models.CASCADE, verbose_name=_("Form"), blank=True, null=True)
 
     def __str__(self):
         return "%s" % (self.code)
