@@ -540,8 +540,8 @@ def remove_file(request):
         logger.error("[bookings-autosave]: {}".format(e))
         return render(request, 'error_exception.html', {'msg': str(e)})
 
-
 @login_required
 def test(request):
-    return HttpResponse("OK")
+    form_id = request.GET["form_id"]
+    return HttpResponse(form_id)
 
