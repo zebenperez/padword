@@ -1,6 +1,8 @@
 {% extends "base.html" %}
 {% load i18n padword_tags bookings_tag common_tag %}
 
+{% block second_menu %}{% get_second_menu request.user %} {% endblock second_menu %}
+
 {% block central_content %}
     <div class="text-end">
         <a class="btn btn-sm save" title="{% trans 'Preview' %}" href="{% url "booking-new" obj.uuid %}" target="_blank">
@@ -14,13 +16,15 @@
             onclick="return confirm('{% trans "Are you sure to remove this element?" %}')"> {% trans "Remove" %}</a>
     </div>
 
-    <div class="col d-flex justify-content-end">
-        {% for lang in obj.project.get_languages %}
-            <a class="btn btn-{% is_current_lang lang 'primary' 'secondary'%} ark ms-2 me-2" data-url="{% url "category-form" %}" 
-            data-target-modal="common-modal" data-lang="{{lang}}" data-obj-id="{{obj.uuid}}" href="#" 
-            title="{% trans 'Modify this category' %}">{{lang}}</a>
-        {%endfor%}
-    </div>
+    {% if obj.project != None%}
+        <div class="col d-flex justify-content-end">
+            {% for lang in obj.project.get_languages %}
+                <a class="btn btn-{% is_current_lang lang 'primary' 'secondary'%} ark ms-2 me-2" data-url="{% url "category-form" %}" 
+                data-target-modal="common-modal" data-lang="{{lang}}" data-obj-id="{{obj.uuid}}" href="#" 
+                title="{% trans 'Modify this category' %}">{{lang}}</a>
+            {%endfor%}
+        </div>
+    {% endif %}
 
     <br/>
     {% include "forms/form-form.html" %}

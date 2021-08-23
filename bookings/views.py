@@ -184,7 +184,8 @@ def block_add(request):
     obj = get_or_none(Form, request.GET["obj_id"]) if "obj_id" in request.GET else None
     if obj != None:
         Block.objects.create(order=Block.get_max_order(obj), form=obj)
-    return render (request, "forms/block-form.html", {'obj': obj})
+    context = {'obj': obj, 'answer_type_list': AnswerType.objects.all(), 'question_type_list': QuestionType.objects.all()}
+    return render (request, "forms/block-form.html", context)
 
 @login_required
 def block_remove(request):
