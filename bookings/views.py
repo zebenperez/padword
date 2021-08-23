@@ -8,7 +8,7 @@ from django.utils.translation import ugettext_lazy as _
 from padword.decorators import group_required
 from padword.commons import show_exc, get_or_none, get_param, get_float, get_bool, new_ui_slug
 from web.models import Channel, Company, Project, Device
-from contents.models import Category
+from contents.models import Category, ShoppingCart, Item
 
 from .common_lib import clone_form_instance, get_form_instance, get_max_index, get_or_create_answer_instance, user_in_group, write_log
 from .models import AnswerInstance, AnswerType, Field, Form, FormChannel, FormInstance, FormType, Question, QuestionType, Block
@@ -339,7 +339,8 @@ def booking_edit(request, fi_id, ro=0):
     try:
         fi = FormInstance.objects.get(pk = fi_id)
         form = get_or_none(Form, fi.form_uuid, 'uuid')
-        context = {'fi': fi, 'index': "0", "ro": (ro == 0)}
+        items = ShoppingCart.objects.filter(form_instance_id=fi.pk)
+        context = {'fi': fi, 'index': "0", "ro": (ro == 0), 'items':items}
         #block = fi.form.blocks.first()
         #context = {'fi': fi, 'b': block, 'index': "0", "ro": (ro == 1)}
         return render(request, 'bookings/fillform.html', context)
@@ -545,3 +546,15 @@ def test(request):
     form_id = request.GET["form_id"]
     return HttpResponse(form_id)
 
+@login_required
+def item_to_shopping_cart(request):
+    try:
+        form_id = request.GET["form_id"]
+        item_id = request.GET["item_id"]
+        item = get_or_none(Item, int(item_id))
+
+        obj = ShoppingCart(form_instance_id=int(form_id), item=item, comments='')
+        obj.save()
+        return render(request, "bookings/shopping-form.html", {'obj':obj})
+    except Exception as e:
+        return render(request, "error_exception.html", {'exc':show_exc(e)})

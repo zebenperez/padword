@@ -1,0 +1,24 @@
+{% load i18n padword_tags%}
+<div class="d-flex justify-center">
+    <div class="col-2"><h2> {% padword_translate obj.name %} &nbsp;<span class="small text-info" id="div-notification"></span></h2></div>
+    <div class="col"></div>
+</div>
+<div class="row justify-center">
+	<div class="col-12">
+        {% trans "Comments" %} 
+	    <textarea class="form-control autosave_form_field" id="comments" name="comments" value="{{obj.value}}" 
+        data-url="{% url "autosave_field" %}">{{obj.value}}</textarea> <span id="comments__msg"></span>
+	</div>
+</div>		
+
+{% comment %}
+<div class="d-flex justify-content-end">
+    {% if new_item %}
+	<a class="btn btn-sm" href="{% url "categories-by-project" obj.project_uuid %}" >{% trans "Save" %}</a>
+    {% else %}
+	<button type="button" class="btn btn-sm ark save" data-bs-dismiss="modal" data-url="{% url "items-by-category" obj.uuid %}" data-target="items-list-{{obj.pk}}" >{% trans "Save" %}</button>
+    {% endif %}
+	<button type="button" class="btn btn-sm ark cancel" data-bs-dismiss="modal" data-url="{% url "category-remove" obj.uuid %}" data-target="items-list-{{obj.parent.pk}}" data-confirm="{% trans "Are you sure to remove this element?" %}">{% trans "Remove" %}</button>
+</div>
+
+{% endcomment %}
