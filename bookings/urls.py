@@ -56,6 +56,7 @@ urlpatterns = [
 
         #------- Shopping -----------#
         path('shopping/add-to-cart/', views.item_to_shopping_cart, name='item-to-shopping-cart'),
+        path('shopping/view-cart/', views.view_shopping_cart, name='view-shopping-cart'),
 
 
 	path('test/', views.test, name='booking-test'),

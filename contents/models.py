@@ -129,6 +129,8 @@ class Item(models.Model):
     contains_allergens = models.IntegerField(choices=ISACTIVECHOICES, verbose_name='Active', default=0)
     image = models.ImageField(upload_to=image_file, verbose_name=_("Image"), blank=True, null=True)
 
+    def __str__(self):
+        return (translate(None,self.name))
 
     @property
     def active(self):

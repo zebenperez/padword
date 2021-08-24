@@ -26,11 +26,6 @@
                 <p class="card-text text-secondary">{% padword_translate item.description %}</p>
             </div>
         </div>
-        {% comment %}
-        <a class="btn btn-primary small ms-1 mb-1 w-100 ark" data-url="{% url 'item-to-shopping-cart' %}" data-target-modal="common-modal" data-form_id="{{fi.pk}}" data-item_id="{{item.pk}}">
-            {% padword_translate item.name %}<br><span class="huge">{{item.price}} <i class="fas fa-euro-sign"></i></span>
-        </a>
-        {% endcomment %}
     </div>
     {% endfor %}
 </div>

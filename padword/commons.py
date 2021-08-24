@@ -73,7 +73,7 @@ def translate(request, json_str):
         json_dict = json.loads(json_str)
         return json_dict[lang.upper()]
     except Exception as e:
-        print (show_exc(e))
+        #print (show_exc(e))
         return json.loads(json_str)['ES']
 
 def new_ui_slug(model=None):
