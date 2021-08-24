@@ -4,6 +4,7 @@ import datetime
 import json
 import string
 import random
+import unicodedata
 
 
 '''
@@ -81,3 +82,10 @@ def new_ui_slug(model=None):
         while (model.objects.filter(uuid = slug).exists()):
             slug = '{}-{}-{}-{}-{}'.format(''.join([random.choice(string.digits+'abcdef') for i in range(8)]),''.join([random.choice(string.digits+'abcdef') for i in range(4)]),''.join([random.choice(string.digits+'abcdef') for i in range(4)]),''.join([random.choice(string.digits+'abcdef') for i in range(4)]),''.join([random.choice(string.digits+'abcdef') for i in range(12)]))
     return slug
+
+def normalize_str(string):
+    try:
+        return unicodedata.normalize('NFKD', unicode(string,"utf-8")).encode('ascii', 'ignore')
+    except:
+        return unicodedata.normalize('NFKD', string).encode('ascii', 'ignore')
+

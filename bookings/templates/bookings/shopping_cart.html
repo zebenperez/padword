@@ -1,19 +1,36 @@
-{% load i18n bookings_tag common_tag padword_tags%}
+{% load i18n bookings_tag common_tag padword_tags static%}
 <div class="row d-flex justify-content-center">
-{% for children in category.get_childrens %}
+    {% if fi.form.category != category.uuid%}
     <div class="col-12 col-md-4 d-flex align-middle justify-content-center mt-1">
+        <a class="btn btn-danger p-4 w-100" data-url="{% url 'booking-test' %}" data-target-modal="common-modal">
+            {% trans 'Back' %}
+        </a>
+    </div>
+    {% endif %}
+    {% for children in category.get_childrens %}
+    <div class="col-5 col-md-4 d-flex align-middle justify-content-center mt-1">
         <a class="btn btn-danger p-4 w-100" data-url="{% url 'booking-test' %}" data-target-modal="common-modal">
             {% padword_translate children.name%}
         </a>
     </div>
-{% endfor %}
+    {% endfor %}
 </div>
 <div class="row d-flex justify-content-center mt-5">
-{% for item in category.get_items %}
-    <div class="col-12 col-md-2 m-1 d-flex justify-content-center">
+    {% for item in category.get_items %}
+    <div class="col-5 col-md-2 m-1 d-flex justify-content-center">
+        <div class="card w-100 ark"  data-url="{% url 'item-to-shopping-cart' %}" data-target-modal="common-modal" data-form_id="{{fi.pk}}" data-item_id="{{item.pk}}">
+            <img src="{% if item.image %}{{item.image.url}} {%else%} {% static 'img/none.png' %}{%endif%}" class="card-img-top" alt="{% padword_translate item.name %}">
+            <div class="card-body">
+                <h4 class="card-title text-dark text-center">{{ item.price}} &euro; </h4>
+                <h5 class="card-title text-dark text-center">{% padword_translate item.name %}</h5>
+                <p class="card-text text-secondary">{% padword_translate item.description %}</p>
+            </div>
+        </div>
+        {% comment %}
         <a class="btn btn-primary small ms-1 mb-1 w-100 ark" data-url="{% url 'item-to-shopping-cart' %}" data-target-modal="common-modal" data-form_id="{{fi.pk}}" data-item_id="{{item.pk}}">
             {% padword_translate item.name %}<br><span class="huge">{{item.price}} <i class="fas fa-euro-sign"></i></span>
         </a>
+        {% endcomment %}
     </div>
-{% endfor %}
+    {% endfor %}
 </div>
