@@ -15,8 +15,10 @@ urlpatterns = [
     path('categories/remove-category-<slug:category_id>/', views.category_remove, name='category-remove'),
 
     path('items/form/', views.item_form, name='item-form'),
+    path('items/change-image/', views.item_change_image, name='item-change-image'),
     path('items/change-active-item-<slug:item_id>/', views.item_change_active, name='change-active-item'),
     path('items/remove-item/', views.item_remove, name='item-remove'),
+    path('items/get-img/<int:item_id>/', views.item_get_img, name='item-get-img'),
     #path('items/remove-item-<slug:item_id>/', views.item_remove, name='item-remove'),
 
     #---------------------- AUTO -----------------------

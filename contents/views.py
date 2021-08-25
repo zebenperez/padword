@@ -6,6 +6,7 @@ from django.shortcuts import render, redirect, reverse
 from .models import *
 import json, os, time, datetime
 from padword.commons import show_exc, get_or_none, get_param, new_ui_slug
+from .forms import ImageUploadForm
 
 # Create your views here.
 
@@ -136,7 +137,6 @@ def item_form (request):
     except Exception as e:
         return render(request, "error_exception.html", {'exc': show_exc(e)})
 
-
 @login_required
 def item_change_active(request, item_id):
     try:
@@ -160,6 +160,26 @@ def item_remove(request):
         return redirect(reverse('items-by-category', kwargs={'category_id':cat.uuid}))
     except Exception as e:
         return JsonResponse({'results':[], 'error':1, 'error-msg':show_exc(e)})
+
+@login_required
+def item_change_image(request):
+    if request.method == "POST":
+        try:
+            form = ImageUploadForm(request.POST, request.FILES)
+            if form.is_valid():
+                cat = Category.objects.get(pk = request.POST.get('cat_id','0'))
+                item = Item.objects.get(pk = request.POST.get('obj_id','0'))
+                item.image = form.cleaned_data['image']
+                item.save()
+                return HttpResponse(item.image.url)
+            else:
+                print("NO")
+        except Exception as e:
+            print (show_exc(e))
+            return HttpResponse(show_exc(e))
+    else:
+        return (HttpResponse("Lo sentimos, pero ha ocurrido un error. "))
+
 
 
 
@@ -314,4 +334,7 @@ def import_categories(request, project_uuid = 'UNKNOWN'):
     categories = json_tree['menucategories']
     for item in categories:
         category = Category(uuid=item['uuid'], )
+    return HttpResponse("OK")
+
+def item_get_img(request, item_id):
     return HttpResponse("OK")

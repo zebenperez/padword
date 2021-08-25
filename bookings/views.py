@@ -558,3 +558,16 @@ def item_to_shopping_cart(request):
         return render(request, "bookings/shopping-form.html", {'obj':obj})
     except Exception as e:
         return render(request, "error_exception.html", {'exc':show_exc(e)})
+
+@login_required
+def view_shopping_cart(request):
+    try:
+        instance_id = get_param(request.GET, "form_id")
+        instance = FormInstance.objects.get(pk=instance_id)
+        items = ShoppingCart.objects.filter(form_instance_id=instance.pk)
+        total_price = 0
+        for item in items:
+            total_price += float(item.item.price.replace(',','.'))
+        return render(request, "bookings/view-shopping-cart.html", {'fi':instance, 'items':items, 'total':total_price})
+    except Exception as e:
+        return HttpResponse(show_exc(e))

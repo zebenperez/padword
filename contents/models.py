@@ -1,9 +1,18 @@
 from django.db import models
 from django.utils.translation import ugettext as _
-from padword.commons import show_exc, translate
+from padword.commons import show_exc, translate, normalize_str
 from django.conf import settings
 
 from web.models import Channel, Project
+import datetime
+
+
+def image_file(instance, filename):
+    #filename = normalize_str(filename)
+    instance.filename = filename
+    return '/'.join(['folder_images',instance.uuid, datetime.datetime.now().strftime("%Y%m%d%H%M%S") + filename])
+
+
 
 # Create your models here.
 class Category(models.Model):
@@ -118,6 +127,10 @@ class Item(models.Model):
     reservation_form_active = models.IntegerField(choices=ISACTIVECHOICES, verbose_name='Reservation Form Active', default=0)
     extras = models.TextField(verbose_name='Extras', blank=True, null=True)
     contains_allergens = models.IntegerField(choices=ISACTIVECHOICES, verbose_name='Active', default=0)
+    image = models.ImageField(upload_to=image_file, verbose_name=_("Image"), blank=True, null=True)
+
+    def __str__(self):
+        return (translate(None,self.name))
 
     @property
     def active(self):

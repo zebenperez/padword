@@ -8,8 +8,14 @@
     <div class="main-content-booking container-fluid">
         <div class="div-transp p-4 mt-3 mb-3">
             <div class="bookingHeader">
-                <div class="col-lg-10 offset-lg-1 col-md-9 offset-md-1 col-xs-6 text-center"><h1 class=""> {% padword_translate fi.form.name %} 
-                    {%if fi.form.form_type.code == "ecom"%}({{items.count}} art&iacute;culos){%endif%}</h1>
+                <div class="col-lg-10 offset-lg-1 col-md-9 offset-md-1 col-xs-6 text-center">
+                    <h1 class=""> {% padword_translate fi.form.name %} 
+                        {%if fi.form.form_type.code == "ecom"%}
+                            ({{items.count}} art.) 
+                            <a class="btn btn-light small ark" data-url="{% url 'view-shopping-cart' %}" data-target-modal="common-modal" 
+                                data-form_id="{{fi.pk}}">{% trans 'Ver carrito' %}</a>
+                        {% endif %}
+                    </h1> 
                     <a id="full-screen" class="btn btn-info" onclick="javascript:toggleFullScreen();">Full screen</a></div>
             </div>
 
