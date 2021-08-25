@@ -1,8 +1,10 @@
 from django.db import models
 from django.utils.translation import ugettext_lazy as _ 
 from django.db.models import Max
-from contents.models import Category
+from contents.models import Category, ShoppingCart
 from web.models import Channel
+
+from padword.commons import show_exc
 
 import datetime
 
@@ -205,6 +207,18 @@ class FormInstance(models.Model):
         
     def get_public_blocks(self):
         return self.form.blocks.filter(private=False)
+
+    @property
+    def get_total(self):
+        try:
+            items = ShoppingCart.objects.filter(form_instance_id=self.pk)
+            total_price = 0
+            for item in items:
+                total_price += float(item.item.price.replace(',','.'))
+            return total_price
+        except Exception as e:
+            print (show_exc(e))
+            return 0
 
     class Meta:
         verbose_name = _('1.- Form instance')

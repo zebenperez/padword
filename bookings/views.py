@@ -560,14 +560,47 @@ def item_to_shopping_cart(request):
         return render(request, "error_exception.html", {'exc':show_exc(e)})
 
 @login_required
+def show_category_shopping_cart(request):
+    try:
+        form_id = request.GET["form_id"]
+        cat_id = request.GET["cat_id"]
+        instance = FormInstance.objects.get(pk=form_id)
+        category = Category.objects.get(uuid=cat_id)
+        return render(request, "bookings/shopping_cart.html", {'category':category, 'fi':instance})
+    except Exception as e:
+        return render(request, "error_exception.html", {'exc':show_exc(e)})
+
+@login_required
 def view_shopping_cart(request):
     try:
         instance_id = get_param(request.GET, "form_id")
         instance = FormInstance.objects.get(pk=instance_id)
         items = ShoppingCart.objects.filter(form_instance_id=instance.pk)
-        total_price = 0
-        for item in items:
-            total_price += float(item.item.price.replace(',','.'))
+        total_price = instance.get_total
         return render(request, "bookings/view-shopping-cart.html", {'fi':instance, 'items':items, 'total':total_price})
     except Exception as e:
         return HttpResponse(show_exc(e))
+
+@login_required
+def get_price_shopping_cart(request):
+    try:
+        instance_id = get_param(request.GET, "form_id")
+        instance = FormInstance.objects.get(pk=instance_id)
+        items = ShoppingCart.objects.filter(form_instance_id=instance.pk)
+        return HttpResponse('{} art.&nbsp;&nbsp;&nbsp;{:.2f} &euro;'.format(items.count(), instance.get_total))
+    except Exception as e:
+        return HttpResponse(show_exc(e))
+
+@login_required
+def remove_item_from_shopping_cart(request):
+    try:
+        item_id = request.GET["item_id"]
+        obj = ShoppingCart.objects.get(pk=item_id)
+        instance_id = obj.form_instance_id
+        obj.delete()
+        instance = FormInstance.objects.get(pk=instance_id)
+        items = ShoppingCart.objects.filter(form_instance_id=instance.pk)
+        total_price = instance.get_total
+        return render(request, "bookings/view-shopping-cart.html", {'fi':instance, 'items':items, 'total':total_price})
+    except Exception as e:
+        return render(request, "error_exception.html", {'exc':show_exc(e)})

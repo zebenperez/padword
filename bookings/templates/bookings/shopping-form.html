@@ -21,7 +21,7 @@
 </div>		
 
 <div class="d-flex justify-content-end m-2">
-    <button type="button" class="btn btn-sm btn-primary save" data-bs-dismiss="modal">{% trans "SAVE" %}</button>
+    <button type="button" class="btn btn-sm btn-primary save ark"  data-url="{% url 'get-price-shopping-cart' %}" data-target="info-shopping" data-form_id="{{obj.form_instance_id}}" data-bs-dismiss="modal">{% trans "SAVE" %}</button>
 </div>
 
 {% comment %}
