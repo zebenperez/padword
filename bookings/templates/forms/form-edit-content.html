@@ -1,0 +1,19 @@
+{% load i18n padword_tags bookings_tag common_tag %}
+    
+{% if obj.project != None%}
+    <div class="col d-flex justify-content-end">
+        {% for lang in obj.project.get_languages %}
+            <a class="btn btn-{% is_current_lang lang 'primary' 'secondary'%} ark ms-2 me-2" data-url="{% url "form-form" %}" 
+                data-target="div-contents" data-lang="{{lang}}" data-obj_id="{{obj.id}}" href="#" title="{% trans 'Change lang' %}">{{lang}}</a>
+        {%endfor%}
+    </div>
+{% endif %}
+
+<br/> {% include "forms/form-form.html" %}
+<br/> <div class="row"><div class="col-12 text-end">
+    <a class="btn btn-primary btn-sm ark" data-url="{% url "block-add" %}" data-target="div-blocks" data-obj_id="{{obj.id}}" 
+        title="{% trans "Add item"%}"><i class="fas fa-plus"></i></a>  
+</div></div>
+<br/> <div id="div-blocks"> {% include "forms/block-form.html" %} </div>
+
+

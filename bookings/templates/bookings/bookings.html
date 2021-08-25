@@ -4,23 +4,6 @@
 {% block second_menu %}{#{% include 'web/second_menu.html' %}#}{% get_second_menu request.user %} {% endblock second_menu %}
 
 {% block central_content %}
-    {% comment %}
-    <div class="toolbar-search">
-        <input type="hidden" name="s-channel" id="s-channel" value="{{channel.id}}" />
-        <input type="hidden" name="s-project" id="s-project" value="{{project.id}}" />
-        <select class="autosearch_change form-control w-50" name="s-form" id="s-form" data-url="{%url "bookings-search"%}" data-target="booking-list"
-            data-related="s-form,s-name,s-form,s-channel,s-project" />
-            <option value="">-- {% trans "Select option" %} --</option>
-            {% for item in form_list %}
-                <option value="{{item.id}}" {%if item == form%}selected{%endif%}>{{item.name}}</option>
-            {% endfor %}
-        <select>
-        <input type="text" class="autosearch form-control form-control-dark w-50" name="s-name" id="s-name" 
-            placeholder="Nombre o Canal" data-url="{% url "bookings-search" %}" 
-            data-target="booking-list" data-related="s-form,s-name,s-form,s-channel,s-project" />
-    </div>
-    {% endcomment %}
-
     {% include "bookings/search_box.html" %}
 
     <div class="content mt-4">

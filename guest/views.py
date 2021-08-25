@@ -1,11 +1,11 @@
-from django.shortcuts import render, redirect
-from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, JsonResponse
-from .models import *
+from django.contrib.auth.decorators import login_required
 from django.core import serializers
+from django.shortcuts import render, redirect
 import datetime
 
-from padword.commons import show_exc
+from .models import *
+from padword.commons import show_exc, get_or_none, new_ui_slug, translate
 import web.models as webmod 
 
 
@@ -26,7 +26,8 @@ def index(request):
 '''
 def guests(request):
     try:
-        items= Guest.objects.filter(check_out__gte = datetime.datetime.now())
+        #items= Guest.objects.filter(check_out__gte = datetime.datetime.now())
+        items= Guest.objects.all()
 
         return render (request, "guest/guests.html",{'items':items} )
     except Exception as e:
@@ -35,7 +36,7 @@ def guests(request):
 def guest_search(request):
     try:
         filters_to_search = ["name__icontains", "room__icontains", "surname__icontains"]
-        search_value = request.GET["s-name"]
+        search_value = request.GET["s-name"] if "s-name" in request.GET else ""
         if search_value != "":
             items = Guest.objects.none()
             for myfilter in filters_to_search:
@@ -52,4 +53,24 @@ def guest_search(request):
         return render(request, "guest/guest-list.html", {'items': items,})
     except Exception as e:
         return JsonResponse({'results':[], 'error':1, 'error-msg':show_exc(e)})
+
+#@group_required("admins")
+@login_required
+def guest_form(request):
+    try:
+        obj = get_or_none(Guest, request.GET["obj_id"]) if "obj_id" in request.GET else Guest.objects.create(UUID = new_ui_slug(Guest))
+        return render(request, "guest/guest-form.html", {'obj': obj,})
+    except Exception as e:
+        return render(request, 'error_exception.html', {'exc':show_exc(e)})
+
+#@group_required("admins")
+@login_required
+def guest_remove(request):
+    obj = get_or_none(Guest, request.GET["obj_id"]) if "obj_id" in request.GET else None
+    if obj != None:
+        obj.delete()
+
+    items = Guest.objects.all()
+    return render(request, "guest/guest-list.html", {'items':items,})
+
 

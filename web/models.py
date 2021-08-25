@@ -131,14 +131,14 @@ class Device(models.Model):
     @property
     def project(self):
         try:
-            return (Channel.objects.get(uuid=self.channel_id).project)
+            return self.channel.project
         except Exception as e:
             return (Project(uuid='0000-0000-00000000', name='UNDEFINED'))
 
     @property
     def project_uuid(self):
         try:
-            return (Channel.objects.get(uuid=self.channel_id).project.uuid)
+            return self.channel.project.uuid
         except Exception as e:
             return ('0000-0000-00000000')
 

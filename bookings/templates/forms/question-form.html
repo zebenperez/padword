@@ -15,7 +15,7 @@
         </div>
 
         <div class="col-4">
-            <select name="form_type" id="form_type" class="form-control autosave" data-model-name="bookings.field" 
+            <select name="answer_type" id="answer_type" class="form-control autosave" data-model-name="bookings.field" 
                 data-obj-id="{{f.id}}" data-url="{% url "autosave_field" %}" data-target="div-notification">
                 <option value="">-- {% trans "Select field type" %} --</option>
                 {% for item in answer_type_list %}

@@ -20,7 +20,7 @@
                         <i class="far fa-eye"></i></a>  
                     <a class="me-1 btn btn-xs" title="{% trans 'New booking' %}" href="{% url "booking-new" item.uuid %}" target="_blank">
                         <i class="far fa-calendar-check"></i></a>  
-                    <a class="me-1 btn btn-xs" title="{% trans 'Edit' %}" href="{% url "form-form" item.id %}"><i class="fas fa-edit"></i></a>  
+                    <a class="me-1 btn btn-xs" title="{% trans 'Edit' %}" href="{% url "form-edit" item.id %}"><i class="fas fa-edit"></i></a>  
                     <a class="btn btn-sm autoremove" title="{% trans 'Remove' %}" data-model-name="bookings.form" data-obj-id="{{item.id}}" 
                         data-url="{% url "autoremove_obj" %}" data-target="row-{{item.id}}" 
                         data-confirm="{% trans "Are you sure to remove this element?" %}"><i class="fas fa-trash"></i></a>

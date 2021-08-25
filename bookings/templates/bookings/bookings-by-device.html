@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% load i18n padword_tags %}
 
-{% block second_menu %}{% endblock second_menu %}
+{% block second_menu %}{% get_second_menu request.user %} {% endblock second_menu %}
 
 {% block central_content %}
     <div class="content mt-4">
@@ -21,7 +21,7 @@
                 <tbody>
                     {% for item in items %}
                         <tr class="small" id="row_{{item.id}}">
-                            <td>{{item.form}}</td>
+                            <td>{% padword_translate item.form.name %}</td>
                             <td>{{item.device}}</td>
                             <td>{{item.code}}</td>
                             <td>{{item.name}}</td>

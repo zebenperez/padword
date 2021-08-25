@@ -1,5 +1,5 @@
 {% extends "base_guest.html" %}
-{% load i18n bookings_tag common_tag %}
+{% load i18n bookings_tag common_tag padword_tags %}
 
 {% block central_content %}
 <body>
@@ -8,7 +8,8 @@
     <div class="main-content-booking container-fluid">
         <div class="div-transp p-4 mt-3 mb-3">
             <div class="bookingHeader">
-                <div class="col-lg-10 offset-lg-1 col-md-9 offset-md-1 col-xs-6 text-center"><h1 class=""> {{fi.form.name}} ({{items.count}} art&iacute;culos)</h1> 
+                <div class="col-lg-10 offset-lg-1 col-md-9 offset-md-1 col-xs-6 text-center"><h1 class=""> {% padword_translate fi.form.name %} 
+                    {%if fi.form.form_type.code == "ecom"%}({{items.count}} art&iacute;culos){%endif%}</h1>
                     <a id="full-screen" class="btn btn-info" onclick="javascript:toggleFullScreen();">Full screen</a></div>
             </div>
 
@@ -17,9 +18,9 @@
             <div class="row bloque mt-3">
                 <div id="main" class="col-lg-10 offset-lg-1 col-md-10 offset-md-1 col-xs-12">
                     {% if fi.form.form_type.code == "ecom" %}
-                    <div class="text-white" id="div-block">
-                        {% include "bookings/shopping_cart.html" with category=fi.form.get_category fi=fi%}
-                    </div>
+                        <div class="text-white" id="div-block">
+                            {% include "bookings/shopping_cart.html" with category=fi.form.get_category fi=fi%}
+                        </div>
                     {% else %}
                         {% for b in fi.get_public_blocks %}
                             <div class="" id="div-block">{%include "bookings/block_form.html"%}</div> 
@@ -31,7 +32,7 @@
             <div class="row mt-4 mb-4">
                 {% if not ro %}
                     <div class="col-lg-3 offset-lg-2 col-md-3 offset-md-2 col-xs-4 offset-xs-1 actions text-center">
-                        <a href="{% url "set-status" fi.id "02" %}" class="btn btn-success btn-lg w-100">{% trans "Send" %}</a>
+                        <a href="{% url "booking-send" fi.id %}" class="btn btn-success btn-lg w-100">{% trans "Send" %}</a>
                     </div>
                     <div class="col-lg-3 offset-lg-2 col-md-3 offset-md-1 col-xs-4 offset-xs-1 actions text-center">
                         <a href="{% url "booking-remove" fi.id %}" class="btn btn-danger btn-lg w-100">{% trans "Cancel" %}</a>
