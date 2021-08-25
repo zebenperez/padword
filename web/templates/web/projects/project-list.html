@@ -29,10 +29,10 @@
                         <i class="fas fa-project-diagram"></i></a>
                     {% endif %}
                     <a class="btn btn-xs ark" data-url="{% url "project-form" %}" data-target-modal="common-modal" 
-                                                                                  data-obj_id="{{item.id}}" data-company_id="{{company.id}}"><i class="fas fa-edit"></i></a>  
+                        data-obj_id="{{item.id}}" data-company_id="{{company.id}}"><i class="fas fa-edit"></i></a>  
                     <a class="btn btn-sm autoremove" data-model-name="web.project" data-obj-id="{{item.id}}" data-url="{% url "autoremove_obj" %}" 
-                                                                                                             data-target="row_{{item.id}}" data-confirm="{% trans "Are you sure to remove this element?" %}"
-                                                                                                                                           data-company_id="{{company.id}}"><i class="fas fa-trash"></i></a>
+                        data-target="row_{{item.id}}" data-confirm="{% trans "Are you sure to remove this element?" %}"
+                        data-company_id="{{company.id}}"><i class="fas fa-trash"></i></a>
                 </div>
             </td>
         </tr>

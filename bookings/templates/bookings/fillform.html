@@ -28,25 +28,25 @@
                         {% include "bookings/shopping_cart.html" with category=fi.form.get_category fi=fi%}
                     </div>
                     {% else %}
-                        {% for b in fi.get_public_blocks %}
-                            <div class="" id="div-block">{%include "bookings/block_form.html"%}</div> 
-                        {% endfor %}
+                    {% for b in fi.get_public_blocks %}
+                    <div class="" id="div-block">{%include "bookings/block_form.html"%}</div> 
+                    {% endfor %}
                     {% endif %}
                 </div>
             </div>
 
             <div class="row mt-4 mb-4">
                 {% if not ro %}
-                    <div class="col-lg-3 offset-lg-2 col-md-3 offset-md-2 col-xs-4 offset-xs-1 actions text-center">
-                        <a href="{% url "set-status" fi.id "02" %}" class="btn btn-success btn-lg w-100">{% trans "Send" %}</a>
-                    </div>
-                    <div class="col-lg-3 offset-lg-2 col-md-3 offset-md-1 col-xs-4 offset-xs-1 actions text-center">
-                        <a href="{% url "booking-remove" fi.id %}" class="btn btn-danger btn-lg w-100">{% trans "Cancel" %}</a>
-                    </div>
+                <div class="col-lg-3 offset-lg-2 col-md-3 offset-md-2 col-xs-4 offset-xs-1 actions text-center">
+                    <a href="{% url "booking-send" fi.id %}" class="btn btn-success btn-lg w-100">{% trans "Send" %}</a>
+                </div>
+                <div class="col-lg-3 offset-lg-2 col-md-3 offset-md-1 col-xs-4 offset-xs-1 actions text-center">
+                    <a href="{% url "booking-remove" fi.id %}" class="btn btn-danger btn-lg w-100">{% trans "Cancel" %}</a>
+                </div>
                 {% else %}
-                    <div class="col-lg-3 offset-lg-5 col-md-3 offset-md-1 col-xs-4 offset-xs-1 actions text-center">
-                        <a href="#" class="btn btn-info btn-lg ark w-100" onclick="window.close()">{% trans "Close" %}</a>
-                    </div>
+                <div class="col-lg-3 offset-lg-5 col-md-3 offset-md-1 col-xs-4 offset-xs-1 actions text-center">
+                    <a href="#" class="btn btn-info btn-lg ark w-100" onclick="window.close()">{% trans "Close" %}</a>
+                </div>
                 {% endif %}
             </div>
         </div>

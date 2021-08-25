@@ -272,8 +272,8 @@ def device_search(request):
         for myfilter in filters_to_search:
             if name != "":
                 kwargs[myfilter] = name
-        if kwargs:
-            items = items.union(Device.objects.filter(**kwargs))
+        #if kwargs:
+        items = items.union(Device.objects.filter(**kwargs))
 
         return render(request, "web/devices/device-list.html", {'items':items,'channel_id':channel_id,'project_id':project_id,'company_id':company_id,})
     except Exception as e:

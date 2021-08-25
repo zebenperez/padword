@@ -8,6 +8,13 @@ from padword.commons import show_exc
 
 import datetime
 
+
+def get_int(val):
+    try:
+        return int(val)
+    except:
+        return 0
+
 class AnswerType(models.Model):
 	field_type = models.CharField(max_length=20, verbose_name=_("Field type"), default="")
 	code = models.CharField(max_length=20, verbose_name=_("Code"), default="")
@@ -110,7 +117,7 @@ class Block(models.Model):
 
     @staticmethod
     def get_max_order(form):
-        return Block.objects.filter(form=form).aggregate(Max('order'))["order__max"] + 1
+        return get_int(Block.objects.filter(form=form).aggregate(Max('order'))["order__max"]) + 1
 
     class Meta:
         verbose_name = _('3.- Question block')
@@ -148,7 +155,7 @@ class Field(models.Model):
     
     @staticmethod
     def get_max_order(q):
-        return Field.objects.filter(question=q).aggregate(Max('order'))["order__max"] + 1
+        return get_int(Field.objects.filter(question=q).aggregate(Max('order'))["order__max"]) + 1
 
     class Meta:
         verbose_name = _('Field')

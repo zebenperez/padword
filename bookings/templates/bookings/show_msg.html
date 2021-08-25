@@ -1,5 +1,7 @@
-{#{% extends "base.html" %}#}
-{% load i18n bookings_tag common_tag %}
+{% extends "base.html" %}
+{% load i18n padword_tags bookings_tag common_tag %}
+
+{% block second_menu %}{% get_second_menu request.user %}{% endblock second_menu %}
 
 {% block central_content %}
     {% if msg == "02" %}
@@ -7,7 +9,7 @@
     {% elif msg == "03" %}
         {% trans "your reservation has been cancelled correctly." %}
     {% endif %}
-    <a href="">{% trans "My bookings" %}</a>
+    {% if device_uuid != "" %} <a href="{% url "my-bookings" device_uuid %}">{% trans "My bookings" %}</a> {% endif %}
 {% endblock %}
 
 

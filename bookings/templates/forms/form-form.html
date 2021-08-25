@@ -13,11 +13,6 @@
 
                     <div class="col-6">
                         {% trans "Name" %}:
-                        {% comment %}
-                        <input type="text" class="form-control autosave b-bottom mb-4" id="name" name="name" value="{{obj.name}}" 
-                            title="{{obj.name}}" data-model-name="bookings.form" data-obj-id="{{obj.id}}" data-url="{% url "autosave_field" %}" 
-                            data-target="div-notification"/> <span id="name__msg"></span>
-                        {% endcomment %}
                         <input type="text" class="form-control autosave b-bottom mb-4" id="name" name="name" value="{% padword_translate obj.name %}" 
                             title="{% padword_translate obj.name %}" data-lang="{% current_lang %}" data-model-name="bookings.form" 
                             data-obj-id="{{obj.id}}" data-url="{%url "autosave_field"%}" data-target="div-notification"/><span id="name__msg"></span>
@@ -53,36 +48,4 @@
         </div>
     </div>
 </div>
-
-            {% comment %}
-	        <div class="col-3">
-		        {% trans "Blocks" %}:
-                <select name="blocks" id="blocks" class="form-control autosave" data-model-name="bookings.form" data-obj-id="{{obj.id}}" 
-                    data-url="{% url "autosave_field" %}" data-target="div-notification" multiple style="display:none">
-                    <option value="">-- {% trans "Select block" %} --</option>
-                    {% for item in block_list %}
-                        <option value="{{item.id}}" {%if item in obj.blocks.all%}selected{%endif%}>{{item.name}}</option>
-                    {% endfor %}
-                </select> <span id="blocks__msg"></span>
-                <br/><br />
-                {% for item in block_list %}
-                    <span class="{%if item in obj.blocks.all%}multiselect_btn_act{%else%}multiselect_btn{%endif%} set_multiselect" 
-                        data-multiselect-id="blocks" data-obj-id="{{item.id}}" data-target="div-notification">{{item.text}}</span>
-                {% endfor %}
-	        </div>
-            {% endcomment %}
-	
-{% comment %}
-<div class="d-flex justify-content-end">
-    {% if project_id %}
-        <a class="btn btn-sm " href="{% url "forms-by-project" project_id %}" >{% trans "Save" %}</a>
-    {% else %}
-	    <button type="button" class="btn btn-sm ark save" data-bs-dismiss="modal" data-url="{% url "form-search" %}" 
-            data-target="form-list">{% trans "Save" %}</button>
-    {% endif %}
-	<button type="button" class="btn btn-sm ark cancel" data-bs-dismiss="modal" data-url="{% url "form-remove" %}" 
-        data-target="form-list" data-obj_id="{{obj.id}}" data-confirm="{% trans "Are you sure to remove this element?" %}">
-        {% trans "Remove" %}</button>
-</div>
-{% endcomment %}
 

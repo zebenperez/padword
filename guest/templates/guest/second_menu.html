@@ -1,2 +1,4 @@
 {% load i18n padword_tags %}
-<li class="nav-item "> <a class="nav-link {% current 'guests' %}" href="{% url 'guests' %}"> {% trans 'Guest' %} </a> </li>
+<ul class="nav flex-column mb-2 second-menu">
+    <li class="nav-item "> <a class="nav-link {% current 'guests' %}" href="{% url 'guests' %}"> {% trans 'Guest' %} </a> </li>
+</ul>

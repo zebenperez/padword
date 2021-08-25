@@ -4,13 +4,15 @@ from bookings import views
 
 urlpatterns = [ 
     #--------------------- Forms --------------------
-    path('forms/project-<slug:project_id>/', views.forms, name='forms-by-project'),
-    path('forms/company-<slug:company_id>/', views.forms, name='forms-by-company'),
     path('forms/', views.forms, name='forms'),
+    path('forms/project-<slug:project_id>/', views.forms_by_project, name='forms-by-project'),
     path('forms/search/', views.form_search, name='form-search'),
+
+    path('forms/edit/', views.form_edit, name='form-edit'),
+    path('forms/edit/<int:form_id>/', views.form_edit, name='form-edit'),
+    path('forms/edit/category-<slug:category_uuid>/', views.form_edit, name='form-edit-category'),
     path('forms/form/', views.form_form, name='form-form'),
-    path('forms/form/<int:form_id>/', views.form_form, name='form-form'),
-    path('forms/form/category-<slug:category_id>/', views.form_form, name='form-form-category'),
+
     path('forms/remove/', views.form_remove, name='form-remove'),
     path('forms/remove/<int:form_id>/', views.form_remove, name='form-remove'),
     path('forms/add-image/', views.form_add_image, name='form-add-image'),
@@ -29,7 +31,7 @@ urlpatterns = [
 	path('bookings/', views.bookings, name='bookings'),
 	path('bookings_by_form/<int:form_id>/', views.bookings_by_form, name='bookings-by-form'),
 	path('bookings_by_project/<int:project_id>/', views.bookings_by_project, name='bookings-by-project'),
-        path('bookings/search/', views.bookings_search, name='bookings-search'),
+    path('bookings/search/', views.bookings_search, name='bookings-search'),
 
 	path('my-bookings/<slug:device_uuid>/', views.bookings_by_device, name='my-bookings'),
 
@@ -41,7 +43,7 @@ urlpatterns = [
 	path('booking-edit/<int:fi_id>/<int:ro>/', views.booking_edit, name='booking-edit'),
 	path('booking-remove/<int:fi_id>/', views.booking_remove, name='booking-remove'),
 	path('booking-log/<int:fi_id>/', views.booking_log, name='booking-log'),
-	path('set-status/<int:fi_id>/<slug:status>/', views.set_status, name='set-status'),
+	path('booking-send/<int:fi_id>/', views.booking_send, name='booking-send'),
     path('status-form/', views.status_form, name='status-form'),
 	path('change-status/', views.change_status, name='change-status'),
 

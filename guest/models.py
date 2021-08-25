@@ -5,20 +5,21 @@ from django.conf import settings
 
 from web.models import Channel, Project
 
-# Create your models here.
+import datetime
+
 
 class Guest(models.Model):
 #     channel = models.ForeignKey('web.Channel', to_field='uuid', on_delete=models.SET_NULL, null=True)
 #     project = models.ForeignKey('web.Project', to_field='uuid', on_delete=models.SET_NULL, null=True)
-    PID = models.IntegerField(verbose_name='PID')
-    UUID = models.CharField(max_length=255, verbose_name='UUID')
-    room = models.CharField(max_length=255, verbose_name='Room')
-    name = models.CharField(max_length=255, verbose_name='Name')
-    surname = models.CharField(max_length=255, verbose_name='Surname')
-    project_id = models.CharField(max_length=255, verbose_name='Project')
-    language = models.CharField(max_length=255, verbose_name='Language')
-    check_in = models.DateTimeField(verbose_name='Check-In')
-    check_out = models.DateTimeField(verbose_name='Check-Out')
+    PID = models.IntegerField(verbose_name='PID', default=0)
+    UUID = models.CharField(max_length=255, verbose_name='UUID', default="")
+    room = models.CharField(max_length=255, verbose_name='Room', default="")
+    name = models.CharField(max_length=255, verbose_name='Name', default="")
+    surname = models.CharField(max_length=255, verbose_name='Surname', default="")
+    project_id = models.CharField(max_length=255, verbose_name='Project', default="")
+    language = models.CharField(max_length=255, verbose_name='Language', default="")
+    check_in = models.DateTimeField(verbose_name='Check-In', default=datetime.datetime.now)
+    check_out = models.DateTimeField(verbose_name='Check-Out', default=datetime.datetime.now)
 
     @property
     def project(self):
@@ -67,7 +68,11 @@ class Guest(models.Model):
         except Exception as e:
             print (show_exc(e))
             return Guest.objects.none()
-        
+       
+    @staticmethod
+    def current_by_room_project(room, project):
+        date = datetime.datetime.now()
+        return Guest.objects.filter(room=room, project_id=project, check_in__lte=date, check_out__gte=date)
 
     class Meta:
         if len (settings.DATABASES) > 1:

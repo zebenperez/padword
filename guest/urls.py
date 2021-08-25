@@ -8,6 +8,8 @@ urlpatterns = [
     path('', views.index, name='guest-index'),
     path('guests/', views.guests, name='guests'),
     path('guests/search/', views.guest_search, name='guest-search'),
+    path('guests/form/', views.guest_form, name='guest-form'),
+    path('guests/remove/', views.guest_remove, name='guest-remove'),
 
 ]
 
