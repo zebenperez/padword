@@ -71,7 +71,7 @@ class FormInstanceAdmin(admin.ModelAdmin):
     list_per_page = 500
 
     def fill_form(self, obj):
-        return mark_safe("<a href='%s' target='_blank'>Editar</a>" % (reverse('booking-edit', args=[obj.id])))
+        return mark_safe("<a href='%s' target='_blank'>Editar</a>" % (reverse('booking-view', args=[obj.id])))
     fill_form.short_description = 'Editar'
 
     #def form(self, obj):

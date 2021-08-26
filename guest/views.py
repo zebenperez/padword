@@ -49,7 +49,8 @@ def guest_search(request):
             projects = webmod.Project.objects.filter(name__icontains = search_value)
             items = items.union(Guest.by_project(projects))
         else:
-            items = Guest.objects.filter(check_out__gte = datetime.datetime.today())
+            #items = Guest.objects.filter(check_out__gte = datetime.datetime.today())
+            items = Guest.objects.all()
         return render(request, "guest/guest-list.html", {'items': items,})
     except Exception as e:
         return JsonResponse({'results':[], 'error':1, 'error-msg':show_exc(e)})

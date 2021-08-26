@@ -296,82 +296,19 @@ def bookings_search(request):
         print (show_exc(e))
         return JsonResponse({'results':[], 'error':1, 'error-msg':show_exc(e)})
 
-@group_required("admins", "projects", "clients")
-def bookings_by_device(request, device_uuid):
-    msg = ""
-    try:
-        device = get_or_none(Device, device_uuid, "uuid")
-        if device != None:
-            guest_list = Guest.current_by_room_project(device.room, device.project_uuid) 
-            if len(guest_list) == 1:
-                guest = guest_list[0]
-                context = {
-                    'items': FormInstance.objects.filter(device_uuid=device_uuid, date__range=[guest.check_in, guest.check_out]),
-                    'guest': guest
-                }
-                return render (request, "bookings/bookings-by-device.html", context)
-            else:
-                msg = _("More than one guest at same time!") if len(guest_list) > 0 else _("Guest not found!")
-        else:
-            msg = _("Device not found!")
-    except Exception as e:
-        logger.error("[bookings-bookings] {}".format(str(e)))
-        msg = str(e)
-    return render(request, 'error_exception.html', {'exc': msg})
-
-@login_required
-def booking_new(request, form_uuid, device_uuid=""):
-    try:
-        form = Form.objects.filter(uuid = form_uuid).first()
-        if form != None:
-            fi = FormInstance.objects.create(form_uuid = form.uuid, device_uuid = device_uuid)
-            write_log(request.user, fi, _("Booking created"))
-            return redirect(booking_edit, fi.id, 0)
-    except Exception as e:
-        print (show_exc(e))
-        logger.error("[bookings-new_booking] {}".format(str(e)))
-        return render(request, 'error_exception.html', {'exc':show_exc(e)})
-    return render(request, 'error_exception.html', {'exc':'Form is None'})
-
 @group_required("admins", "projects")
-def booking_edit(request, fi_id, ro=1):
+#def booking_edit(request, fi_id, ro=1):
+def booking_view(request, fi_id):
     try:
         fi = FormInstance.objects.get(pk = fi_id)
         form = get_or_none(Form, fi.form_uuid, 'uuid')
         items = ShoppingCart.objects.filter(form_instance_id=fi.pk)
-        context = {'fi': fi, 'index': "0", "ro": (ro == 1), 'items':items}
-        #block = fi.form.blocks.first()
-        #context = {'fi': fi, 'b': block, 'index': "0", "ro": (ro == 1)}
+        #context = {'fi': fi, 'index': "0", "ro": (ro == 1), 'items':items}
+        context = {'fi': fi, 'index': "0", "ro": True, 'items':items}
         return render(request, 'bookings/fillform.html', context)
     except Exception as e:
         print(e)
         logger.error("[bookings-fill_form] {}".format(str(e)))
-    return render(request, 'error_exception.html', {})
-
-@group_required("admins", "projects", "clients")
-def booking_remove(request, fi_id):
-    try:
-        fi = FormInstance.objects.get(pk = fi_id)
-        device_uuid = fi.device_uuid
-        fi.delete()
-        context = {'msg': FormInstance.CANCELED, 'device_uuid': device_uuid}
-        return render(request, 'bookings/show_msg.html', context)
-    except Exception as e:
-        logger.error("[bookings-remove_fi] {}".format(str(e)))
-    return render(request, 'error_exception.html', {})
-
-@group_required("admins", "projects", "clients")
-def booking_send(request, fi_id):
-    try:
-        fi = FormInstance.objects.get(pk = fi_id)
-        previous_status = fi.get_status_display()
-        fi.status = "02"
-        fi.save()
-        write_log(request.user, fi, _("Status change from {} to {}".format(previous_status, fi.get_status_display())))
-        context = {'msg': status, 'device_uuid': fi.device_uuid}
-        return render(request, 'bookings/show_msg.html', context)
-    except Exception as e:
-        logger.error("[bookings-change_status] {}".format(str(e)))
     return render(request, 'error_exception.html', {})
 
 @group_required("admins", "projects")
@@ -383,8 +320,9 @@ def change_status(request):
             fi.status = request.POST["status"]
             fi.save()
             write_log(request.user, fi, _("Status change from {} to {}".format(previous_status, fi.get_status_display())))
-            return redirect(bookings, fi.form.id)
+            return redirect(bookings_by_form, fi.form.id)
     except Exception as e:
+        print(e)
         logger.error("[bookings-change_status] {}".format(str(e)))
     return render(request, 'error_exception.html', {})
 
@@ -407,7 +345,7 @@ def booking_log(request, fi_id):
 
 
 '''
-    Remote
+    Bookings remote methods
 '''
 @login_required
 def get_block(request):
@@ -546,6 +484,9 @@ def test(request):
     form_id = request.GET["form_id"]
     return HttpResponse(form_id)
 
+'''
+    Bookings shopping cart methods
+'''
 @login_required
 def item_to_shopping_cart(request):
     try:
@@ -604,3 +545,75 @@ def remove_item_from_shopping_cart(request):
         return render(request, "bookings/view-shopping-cart.html", {'fi':instance, 'items':items, 'total':total_price})
     except Exception as e:
         return render(request, "error_exception.html", {'exc':show_exc(e)})
+
+'''
+    Bookings client methods
+'''
+#@login_required
+def booking_new(request, form_uuid, device_uuid=""):
+    try:
+        form = Form.objects.filter(uuid = form_uuid).first()
+        if form != None:
+            fi = FormInstance.objects.create(form_uuid = form.uuid, device_uuid = device_uuid)
+            write_log(request.user, fi, _("Booking created"))
+            #return redirect(booking_edit, fi.id, 0)
+        
+            items = ShoppingCart.objects.filter(form_instance_id=fi.pk)
+            context = {'fi': fi, 'index': "0", "ro": False, 'items':items}
+            return render(request, 'bookings/fillform.html', context)
+    except Exception as e:
+        print (show_exc(e))
+        logger.error("[bookings-new_booking] {}".format(str(e)))
+        return render(request, 'error_exception.html', {'exc':show_exc(e)})
+    return render(request, 'error_exception.html', {'exc':'Form is None'})
+
+#@group_required("admins", "projects", "clients")
+def booking_send(request, fi_id):
+    try:
+        fi = FormInstance.objects.get(pk = fi_id)
+        previous_status = fi.get_status_display()
+        fi.status = "02"
+        fi.save()
+        write_log(request.user, fi, _("Status change from {} to {}".format(previous_status, fi.get_status_display())))
+        context = {'msg': fi.status, 'device_uuid': fi.device_uuid}
+        return render(request, 'bookings/show_msg.html', context)
+    except Exception as e:
+        logger.error("[bookings-booking_send] {}".format(str(e)))
+    return render(request, 'error_exception.html', {})
+
+#@group_required("admins", "projects", "clients")
+def booking_remove(request, fi_id):
+    try:
+        fi = FormInstance.objects.get(pk = fi_id)
+        device_uuid = fi.device_uuid
+        fi.delete()
+        context = {'msg': FormInstance.CANCELED, 'device_uuid': device_uuid}
+        return render(request, 'bookings/show_msg.html', context)
+    except Exception as e:
+        logger.error("[bookings-remove_fi] {}".format(str(e)))
+    return render(request, 'error_exception.html', {})
+
+#@group_required("admins", "projects", "clients")
+def bookings_by_device(request, device_uuid):
+    msg = ""
+    try:
+        device = get_or_none(Device, device_uuid, "uuid")
+        if device != None:
+            guest_list = Guest.current_by_room_project(device.room, device.project_uuid) 
+            if len(guest_list) == 1:
+                guest = guest_list[0]
+                context = {
+                    'items': FormInstance.objects.filter(device_uuid=device_uuid, date__range=[guest.check_in, guest.check_out]),
+                    'guest': guest
+                }
+                return render (request, "bookings/bookings-by-device.html", context)
+            else:
+                msg = _("More than one guest at same time!") if len(guest_list) > 0 else _("Guest not found!")
+        else:
+            msg = _("Device not found!")
+    except Exception as e:
+        logger.error("[bookings-bookings] {}".format(str(e)))
+        msg = str(e)
+    return render(request, 'error_exception.html', {'exc': msg})
+
+
