@@ -9,11 +9,11 @@
         <div class="div-transp p-4 mt-3 mb-3">
             <div class="bookingHeader">
                 <div class="col-lg-10 offset-lg-1 col-md-9 offset-md-1 col-xs-6 text-center">
-                    <h1 class=""> {% padword_translate fi.form.name %} 
-                        {%if fi.form.form_type.code == "ecom"%}
-                            ({{items.count}} art.) 
-                            <a class="btn btn-light small ark" data-url="{% url 'view-shopping-cart' %}" data-target-modal="common-modal" 
-                                data-form_id="{{fi.pk}}">{% trans 'Ver carrito' %}</a>
+                    <h1 class=""> 
+                        {% padword_translate fi.form.name %} 
+                        {% if fi.form.form_type.code == "ecom" %}
+                        (<span id="info-shopping">{{items.count}} art.&nbsp;&nbsp;&nbsp; {{fi.get_total|stringformat:".2f"}} &euro; </span>)
+                        <a class="btn btn-light small ark mb-1" data-url="{% url 'view-shopping-cart' %}" data-target-modal="common-modal" data-form_id="{{fi.pk}}">{% trans 'Ver carrito' %}</a>
                         {% endif %}
                     </h1> 
                     <a id="full-screen" class="btn btn-info" onclick="javascript:toggleFullScreen();">Full screen</a></div>
@@ -24,29 +24,29 @@
             <div class="row bloque mt-3">
                 <div id="main" class="col-lg-10 offset-lg-1 col-md-10 offset-md-1 col-xs-12">
                     {% if fi.form.form_type.code == "ecom" %}
-                        <div class="text-white" id="div-block">
-                            {% include "bookings/shopping_cart.html" with category=fi.form.get_category fi=fi%}
-                        </div>
+                    <div class="text-white" id="div-shopping-cart">
+                        {% include "bookings/shopping_cart.html" with category=fi.form.get_category fi=fi%}
+                    </div>
                     {% else %}
-                        {% for b in fi.get_public_blocks %}
-                            <div class="" id="div-block">{%include "bookings/block_form.html"%}</div> 
-                        {% endfor %}
+                    {% for b in fi.get_public_blocks %}
+                    <div class="" id="div-block">{%include "bookings/block_form.html"%}</div> 
+                    {% endfor %}
                     {% endif %}
                 </div>
             </div>
 
             <div class="row mt-4 mb-4">
                 {% if not ro %}
-                    <div class="col-lg-3 offset-lg-2 col-md-3 offset-md-2 col-xs-4 offset-xs-1 actions text-center">
-                        <a href="{% url "booking-send" fi.id %}" class="btn btn-success btn-lg w-100">{% trans "Send" %}</a>
-                    </div>
-                    <div class="col-lg-3 offset-lg-2 col-md-3 offset-md-1 col-xs-4 offset-xs-1 actions text-center">
-                        <a href="{% url "booking-remove" fi.id %}" class="btn btn-danger btn-lg w-100">{% trans "Cancel" %}</a>
-                    </div>
+                <div class="col-lg-3 offset-lg-2 col-md-3 offset-md-2 col-xs-4 offset-xs-1 actions text-center">
+                    <a href="{% url "booking-send" fi.id %}" class="btn btn-success btn-lg w-100">{% trans "Send" %}</a>
+                </div>
+                <div class="col-lg-3 offset-lg-2 col-md-3 offset-md-1 col-xs-4 offset-xs-1 actions text-center">
+                    <a href="{% url "booking-remove" fi.id %}" class="btn btn-danger btn-lg w-100">{% trans "Cancel" %}</a>
+                </div>
                 {% else %}
-                    <div class="col-lg-3 offset-lg-5 col-md-3 offset-md-1 col-xs-4 offset-xs-1 actions text-center">
-                        <a href="#" class="btn btn-info btn-lg ark w-100" onclick="window.close()">{% trans "Close" %}</a>
-                    </div>
+                <div class="col-lg-3 offset-lg-5 col-md-3 offset-md-1 col-xs-4 offset-xs-1 actions text-center">
+                    <a href="#" class="btn btn-info btn-lg ark w-100" onclick="window.close()">{% trans "Close" %}</a>
+                </div>
                 {% endif %}
             </div>
         </div>

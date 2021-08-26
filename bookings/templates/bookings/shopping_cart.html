@@ -2,14 +2,14 @@
 <div class="row d-flex justify-content-center">
     {% if fi.form.category != category.uuid%}
     <div class="col-12 col-md-4 d-flex align-middle justify-content-center mt-1">
-        <a class="btn btn-danger p-4 w-100" data-url="{% url 'booking-test' %}" data-target-modal="common-modal">
+        <a class="btn btn-danger p-4 w-100 ark" data-url="{% url 'show-category-shopping-cart' %}" data-target="div-shopping-cart" data-form_id="{{fi.pk}}" data-cat_id="{{category.parent.uuid}}">
             {% trans 'Back' %}
         </a>
     </div>
     {% endif %}
     {% for children in category.get_childrens %}
     <div class="col-5 col-md-4 d-flex align-middle justify-content-center mt-1">
-        <a class="btn btn-danger p-4 w-100" data-url="{% url 'booking-test' %}" data-target-modal="common-modal">
+        <a class="btn btn-danger p-4 w-100 ark" data-url="{% url 'show-category-shopping-cart' %}" data-target="div-shopping-cart" data-form_id="{{fi.pk}}" data-cat_id="{{children.uuid}}">
             {% padword_translate children.name%}
         </a>
     </div>
