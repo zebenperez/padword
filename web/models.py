@@ -143,12 +143,13 @@ class Device(models.Model):
             return ('0000-0000-00000000')
 
     @classmethod
-    def by_project(cls, projects):
+    def by_project(cls, project):
         try:
-            items = Device.objects.none()
-            for project in projects:
-                items = items.union(Device.objects.filter(channel__project__uuid = project.uuid))
-            return (items)
+            #items = Device.objects.none()
+            #for project in projects:
+            #    items = items.union(Device.objects.filter(channel__project__uuid = project.uuid))
+            #return (items)
+            return Device.objects.filter(channel__project=project)
         except Exception as e:
             print (show_exc(e))
             return (Device.objects.none())
@@ -166,12 +167,13 @@ class Device(models.Model):
             return (Device.objects.none())
 
     @classmethod
-    def by_channel(cls, channels):
+    def by_channel(cls, channel):
         try:
-            items = Device.objects.none()
-            for channel in channels:
-                items = items.union(Device.objects.filter(channel_id = channel.uuid))
-            return (items)
+            #items = Device.objects.none()
+            #for channel in channels:
+            #    items = items.union(Device.objects.filter(channel_id = channel.id))
+            #return (items)
+            return Device.objects.filter(channel=channel)
         except Exception as e:
             print (show_exc(e))
             return (Device.objects.none())

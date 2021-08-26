@@ -211,74 +211,133 @@ def company_remove(request):
 '''
     Devices
 '''
-def get_devices(channel, project, company):
-    try:
-        context = {}
-        if channel is not None:
-            #items = Device.by_channel(channel)
-            items = Device.objects.filter(channel= channel)
-            context["channel"] = channel
-        elif project is not None:
-            #items = Device.by_project(project)
-            items = project.get_devices
-            context["project"] = project
-        elif company is not None:
-            #items = Device.by_company(company)
-            projects = Projects.objects.filter(company=company)
-            items = Device.objects.none()
-            for project in projects:
-                items = items | project.get_devices
-#         uuid_list = [item.uuid for item in Project.objects.filter(company=company)]
-#         items = Device.objects.filter(project_uuid__in = uuid_list)
-            context["company"] = company
-        else:
-            items = Device.objects.all()
-        context["items"] = items
-        return context
-    except Exception as e:
-        print(show_exc(e))
-        return {'items':Device.objects.none()}
-
-
+#def get_devices(channel, project, company):
+#    try:
+#        context = {}
+#        if channel is not None:
+#            #items = Device.by_channel(channel)
+#            items = Device.objects.filter(channel= channel)
+#            context["channel"] = channel
+#        elif project is not None:
+#            #items = Device.by_project(project)
+#            items = project.get_devices
+#            context["project"] = project
+#        elif company is not None:
+#            #items = Device.by_company(company)
+#            projects = Projects.objects.filter(company=company)
+#            items = Device.objects.none()
+#            for project in projects:
+#                items = items | project.get_devices
+##         uuid_list = [item.uuid for item in Project.objects.filter(company=company)]
+##         items = Device.objects.filter(project_uuid__in = uuid_list)
+#            context["company"] = company
+#        else:
+#            items = Device.objects.all()
+#        context["items"] = items
+#        return context
+#    except Exception as e:
+#        print(show_exc(e))
+#        return {'items':Device.objects.none()}
+#
+#
+#@group_required("admins", "projects")
+#def devices(request, project_id = None, company_id = None, channel_id = None):
+#    try:
+#        context = get_devices(get_or_none(Channel, channel_id), get_or_none(Project, project_id), get_or_none(Company, company_id))
+#        return render (request, "web/devices/devices.html", context)
+#    except Exception as e:
+#        return JsonResponse({'results':[], 'error':1, 'error-msg':show_exc(e)})
+#
+#@group_required("admins", "projects")
+#def device_search(request):
+#    try:
+#        company_id = get_param(request.GET, "company_id")
+#        project_id = get_param(request.GET, "project_id")
+#        channel_id = get_param(request.GET, "channel_id")
+#        company = get_or_none(Company, company_id)
+#        project = get_or_none(Project, project_id)
+#        channel = get_or_none(Channel, channel_id)
+#        name = get_param(request.GET, "s-name")
+#        filters_to_search = ["imei__icontains", "serial_number__icontains", "room__icontains", "alias__icontains"]
+#        items = Device.objects.none()
+#        if company != None:
+#            projects = Projects.objects.filter(company=company)
+#            for prj in projects:
+#                items = items.union(prj.get_devices.all())
+#        if project != None:
+#            items = items.union(project.get_devices.all())
+#        kwargs = {}
+#        if channel != None:
+#            kwargs["channel__uuid"] = channel.uuid
+#        for myfilter in filters_to_search:
+#            if name != "":
+#                kwargs[myfilter] = name
+#        #if kwargs:
+#        items = items.union(Device.objects.filter(**kwargs))
+#
+#        return render(request, "web/devices/device-list.html", {'items':items,'channel_id':channel_id,'project_id':project_id,'company_id':company_id,})
+#    except Exception as e:
+#        print (show_exc(e))
+#        return JsonResponse({'results':[], 'error':1, 'error-msg':show_exc(e)})
+#
 @group_required("admins", "projects")
-def devices(request, project_id = None, company_id = None, channel_id = None):
+def device_search(request):
     try:
-        context = get_devices(get_or_none(Channel, channel_id), get_or_none(Project, project_id), get_or_none(Company, company_id))
+        project = get_param(request.GET, "s-project")
+        channel = get_param(request.GET, "s-channel")
+        uuid = get_param(request.GET, "s-uuid")
+        room = get_param(request.GET, "s-room")
+        imei = get_param(request.GET, "s-imei")
+        alias = get_param(request.GET, "s-alias")
+        serial = get_param(request.GET, "s-serial")
+
+        kwargs = {}
+        if project != "":
+            uuid_list = [item.uuid for item in Channel.objects.filter(project__name__icontains=project)]
+            kwargs["channel__uuid__in"] = uuid_list
+        if channel != "":
+            kwargs["channel__name__icontains"] = channel
+        if uuid != "":
+            kwargs["uuid"] = uuid
+        if imei != "":
+            kwargs["room"] = room
+        if imei != "":
+            kwargs["imei"] = imei
+        if alias != "":
+            kwargs["alias__icontains"] = alias
+        if serial != "":
+            kwargs["serial_number"] = serial
+        items = Device.objects.filter(**kwargs)
+
+        return render(request, "web/devices/device-list.html", {'items':items,})
+    except Exception as e:
+        print (show_exc(e))
+        return JsonResponse({'results':[], 'error':1, 'error-msg':show_exc(e)})
+
+
+@group_required("admins")
+def devices(request):
+    try:
+        context = {'items': Device.objects.all()}
         return render (request, "web/devices/devices.html", context)
     except Exception as e:
         return JsonResponse({'results':[], 'error':1, 'error-msg':show_exc(e)})
 
 @group_required("admins", "projects")
-def device_search(request):
+def devices_by_channel(request, channel_id):
     try:
-        company_id = get_param(request.GET, "company_id")
-        project_id = get_param(request.GET, "project_id")
-        channel_id = get_param(request.GET, "channel_id")
-        company = get_or_none(Company, company_id)
-        project = get_or_none(Project, project_id)
         channel = get_or_none(Channel, channel_id)
-        name = get_param(request.GET, "s-name")
-        filters_to_search = ["imei__icontains", "serial_number__icontains", "room__icontains", "alias__icontains"]
-        items = Device.objects.none()
-        if company != None:
-            projects = Projects.objects.filter(company=company)
-            for prj in projects:
-                items = items.union(prj.get_devices.all())
-        if project != None:
-            items = items.union(project.get_devices.all())
-        kwargs = {}
-        if channel != None:
-            kwargs["channel__uuid"] = channel.uuid
-        for myfilter in filters_to_search:
-            if name != "":
-                kwargs[myfilter] = name
-        #if kwargs:
-        items = items.union(Device.objects.filter(**kwargs))
-
-        return render(request, "web/devices/device-list.html", {'items':items,'channel_id':channel_id,'project_id':project_id,'company_id':company_id,})
+        return render (request, "web/devices/devices.html", {'items': Device.by_channel(channel), 'channel_name': channel.name})
     except Exception as e:
-        print (show_exc(e))
-        return JsonResponse({'results':[], 'error':1, 'error-msg':show_exc(e)})
+        return render(request, 'error_exception.html', {'exc': show_exc(e)})
+
+@group_required("admins", "projects")
+def devices_by_project(request, project_id):
+    try:
+        project = get_or_none(Project, project_id)
+        return render (request, "web/devices/devices.html", {'items': Device.by_project(project), 'project_name': project.name})
+    except Exception as e:
+        return render(request, 'error_exception.html', {'exc': show_exc(e)})
 
 @group_required("admins", "projects")
 def device_form(request):

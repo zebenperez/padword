@@ -25,9 +25,9 @@ urlpatterns = [
     path('companies/form/', views.company_form, name='company-form'),
     path('companies/remove/', views.company_remove, name='company-remove'),
     #--------------------- Devices --------------------
-    path('devices/project-<int:project_id>/', views.devices, name='devices-by-project'),
-    path('devices/channel-<int:channel_id>/', views.devices, name='devices-by-channel'),
-    path('devices/company-<int:company_id>/', views.devices, name='devices-by-company'),
+    path('devices/project-<int:project_id>/', views.devices_by_project, name='devices-by-project'),
+    path('devices/channel-<int:channel_id>/', views.devices_by_channel, name='devices-by-channel'),
+    path('devices/company-<int:company_id>/', views.devices_by_project, name='devices-by-company'),
     path('devices/', views.devices, name='devices'),
     path('devices/search/', views.device_search, name='device-search'),
     path('devices/form/', views.device_form, name='device-form'),

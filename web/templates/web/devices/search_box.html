@@ -1,0 +1,49 @@
+{% load i18n padword_tags %}
+
+<div class="toolbar-search row">
+	<div class="row w-100">
+		<div class="col-md-6 col-xs-12">
+			<input type="text" class="autosearch form-control form-control-dark w-30" name="s-project" id="s-project" 
+	        	placeholder="{% trans "Project name" %}" value="{{project_name}}" data-url="{% url "device-search" %}" 
+	    	    data-target="device-list" data-related="s-project,s-channel,s-uuid,s-room,s-imei,s-alias,s-serial" 
+    	    	{%if request.project_id %}disabled{%endif%}/>
+		</div>
+		<div class="col-md-6 col-xs-12">
+		    <input type="text" class="autosearch form-control form-control-dark w-30" name="s-channel" id="s-channel" 
+    		    placeholder="{% trans "Channel name" %}" value="{{channel_name}}" data-url="{% url "device-search" %}" 
+        		data-target="device-list" data-related="s-project,s-channel,s-uuid,s-room,s-imei,s-alias,s-serial" />
+		</div>
+	</div>
+
+	<div class="row w-100">
+		<div class="col-md-6 col-xs-12">
+			<input type="text" class="autosearch form-control form-control-dark w-30" name="s-uuid" id="s-uuid" 
+	        	placeholder="{% trans "UUID" %}" data-url="{% url "device-search" %}" 
+	    	    data-target="device-list" data-related="s-project,s-channel,s-uuid,s-room,s-imei,s-alias,s-serial"/>
+		</div>
+		<div class="col-md-6 col-xs-12">
+		    <input type="text" class="autosearch form-control form-control-dark w-30" name="s-room" id="s-room" 
+    		    placeholder="{% trans "Room" %}" data-url="{% url "device-search" %}" 
+        		data-target="device-list" data-related="s-project,s-channel,s-uuid,s-room,s-imei,s-alias,s-serial" />
+		</div>
+	</div>
+
+	<div class="row w-100 mt-1">
+		<div class="col-md-4 col-xs-12">
+			<input type="text" class="autosearch form-control form-control-dark w-30" name="s-imei" id="s-imei" 
+	        	placeholder="{% trans "IMEI" %}" data-url="{% url "device-search" %}" data-target="device-list" 
+                data-related="s-project,s-channel,s-uuid,s-room,s-imei,s-alias,s-serial" />
+        </div>
+		<div class="col-md-4 col-xs-12">
+			<input type="text" class="autosearch form-control form-control-dark w-30" name="s-alias" id="s-alias" 
+	        	placeholder="{% trans "Alias" %}" data-url="{% url "device-search" %}" data-target="device-list" 
+                data-related="s-project,s-channel,s-uuid,s-room,s-imei,s-alias,s-serial" />
+        </div>
+		<div class="col-md-4 col-xs-12">
+			<input type="text" class="autosearch form-control form-control-dark w-30" name="s-serial" id="s-serial" 
+	        	placeholder="{% trans "Serial" %}" data-url="{% url "device-search" %}" data-target="device-list" 
+                data-related="s-project,s-channel,s-uuid,s-room,s-imei,s-alias,s-serial" />
+		</div>
+	</div>
+</div>
+ 
