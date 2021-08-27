@@ -487,7 +487,7 @@ def test(request):
 '''
     Bookings shopping cart methods
 '''
-@login_required
+#@login_required
 def item_to_shopping_cart(request):
     try:
         form_id = request.GET["form_id"]
@@ -500,7 +500,7 @@ def item_to_shopping_cart(request):
     except Exception as e:
         return render(request, "error_exception.html", {'exc':show_exc(e)})
 
-@login_required
+#@login_required
 def show_category_shopping_cart(request):
     try:
         form_id = request.GET["form_id"]
@@ -511,7 +511,7 @@ def show_category_shopping_cart(request):
     except Exception as e:
         return render(request, "error_exception.html", {'exc':show_exc(e)})
 
-@login_required
+#@login_required
 def view_shopping_cart(request):
     try:
         instance_id = get_param(request.GET, "form_id")
@@ -522,7 +522,7 @@ def view_shopping_cart(request):
     except Exception as e:
         return HttpResponse(show_exc(e))
 
-@login_required
+#@login_required
 def get_price_shopping_cart(request):
     try:
         instance_id = get_param(request.GET, "form_id")
@@ -532,7 +532,7 @@ def get_price_shopping_cart(request):
     except Exception as e:
         return HttpResponse(show_exc(e))
 
-@login_required
+#@login_required
 def remove_item_from_shopping_cart(request):
     try:
         item_id = request.GET["item_id"]
