@@ -8,7 +8,7 @@
                 <h4 class="card-title text-dark text-center">{{ item.price}} &euro; </h4>
                 <h5 class="card-title text-dark text-center">{% padword_translate item.name %}</h5>
                 <p class="card-text text-secondary">{% padword_translate item.description %}</p>
-                <input type="number" class="ark_change form-control text-center" id="counter-item-{{item.pk}}" data-url="{% url 'get-price-shopping-cart' %}" data-form_id="{{fi.pk}}" data-target="info-shopping" value="{{fi|items_in_bookings:item.pk}}"></input>
+                <input type="text" class="ark_change form-control text-center readonly" id="counter-item-{{item.pk}}" data-url="{% url 'get-price-shopping-cart' %}" data-form_id="{{fi.pk}}" data-target="info-shopping" value="{{fi|items_in_bookings:item.pk}}"></input>
             </div>
             <div class="card-footer">
                 <div class="row">
