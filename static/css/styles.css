@@ -311,6 +311,11 @@ i.text-grey, i.fas.fa-box {
 
 .inputfile { width: 0.1px; height: 0.1px; opacity: 0; overflow: hidden; position: absolute; z-index: -1; }
 
+#navbarSupportedContent {
+	background: #212529;
+}
+
+.flex-row { /*flex-direction: column!important;*/ }
 
 
 /*   MOBILE DEVICES   */
@@ -319,12 +324,6 @@ i.text-grey, i.fas.fa-box {
 
 	.text-right { text-align: right!important; }
     #navbarSupportedContent { width:100%; margin:-12px; padding-left:30px; position:fixed; top:75px;}
+        .sticky-top {width:100%!important}
 }
 
-#navbarSupportedContent {
-	background: #212529;
-}
-
-.flex-row {
-	/*flex-direction: column!important;*/
-	}
