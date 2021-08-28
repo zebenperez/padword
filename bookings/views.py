@@ -225,6 +225,9 @@ def get_booking_context(form=None, project=None):
         context["project_name"] = project.name
 
     items = FormInstance.objects.filter(**kwargs)
+    if items.count() ==0:
+        context["msg"] = 'No hay resultados para la búsqueda. Presentamos las últimas 100 reservas'
+        items = FormInstance.objects.all()[:100]
 
     context["ini_date"] = today
     context["end_date"] = today

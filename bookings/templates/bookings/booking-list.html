@@ -1,4 +1,9 @@
 {% load i18n padword_tags %}
+{% if msg %}
+<div class="d-flex row">
+    <div class="col"><div class="alert alert-info"><strong>{{msg}}.</strong></div></div>
+</div>
+{% endif %}
 <div class="d-flex p-2">
     <table class="table table-striped table-hover m-1">
 
