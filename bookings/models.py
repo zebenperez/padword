@@ -15,6 +15,17 @@ def get_int(val):
     except:
         return 0
 
+class Status(models.Model):
+	code = models.CharField(max_length=20, verbose_name=_("Code"), default="")
+	name = models.CharField(max_length=200, verbose_name=_("Name"))
+
+	def __str__(self):
+		return self.name
+
+	class Meta:
+		verbose_name = _('Status')
+		verbose_name_plural = _('Status')
+
 class AnswerType(models.Model):
 	field_type = models.CharField(max_length=20, verbose_name=_("Field type"), default="")
 	code = models.CharField(max_length=20, verbose_name=_("Code"), default="")
@@ -172,31 +183,34 @@ class FormChannel(models.Model):
         return channel.name if channel != None else ""
 
 class FormInstance(models.Model):
-    CREATED= '01'
-    SENDED = '02'
-    CANCELED = '03'
-    RECEIVED = '04'
-    READED = '05'
-    CONFIRMED = '06'
-    REJECTED = '07'
-    WAITING = '08'
-    STATUS_CHOICES = [
-        (CREATED, _('Created')),
-        (SENDED, _('Sended')),
-        (CANCELED, _('Canceled')),
-        (RECEIVED, _('Received')),
-        (READED, _('Readed')),
-        (CONFIRMED, _('Confirmed')),
-        (REJECTED, _('Rejected')),
-        (WAITING, _('Waiting')),
-    ]
-
+#    CREATED= '01'
+#    SENDED = '02'
+#    CANCELED = '03'
+#    RECEIVED = '04'
+#    READED = '05'
+#    CONFIRMED = '06'
+#    REJECTED = '07'
+#    WAITING = '08'
+#    STATUS_CHOICES = [
+#        (CREATED, _('Created')),
+#        (SENDED, _('Sended')),
+#        (CANCELED, _('Canceled')),
+#        (RECEIVED, _('Received')),
+#        (READED, _('Readed')),
+#        (CONFIRMED, _('Confirmed')),
+#        (REJECTED, _('Rejected')),
+#        (WAITING, _('Waiting')),
+#    ]
+#
     code = models.CharField(verbose_name=_("Code"), max_length=20, default="")
-    status = models.CharField(max_length=3, choices=STATUS_CHOICES, default=CREATED)
-    name = models.CharField(max_length=255, verbose_name=_("Name"), default="")
+    #status = models.CharField(max_length=3, choices=STATUS_CHOICES, default=CREATED)
+    guest_name = models.CharField(max_length=255, verbose_name=_("Guest name"), default="")
+    guest_surname = models.CharField(max_length=255, verbose_name=_("Guest surname"), default="")
+    room_number = models.CharField(max_length=255, verbose_name=_("Room number"), default="")
     date = models.DateTimeField(_('Creation date'), default=datetime.datetime.now, null=True)
     device_uuid = models.CharField(max_length=255, verbose_name=_("Device UUID"), default="")
     form_uuid = models.CharField(max_length=255, verbose_name=_("Form UUID"), default="")
+    status = models.ForeignKey(Status, on_delete=models.SET_NULL, verbose_name=_("Status"), blank=True, null=True)
 
     def __str__(self):
         return "%s" % (self.code)
@@ -204,16 +218,6 @@ class FormInstance(models.Model):
     @property
     def form (self):
         return Form.objects.filter(uuid = self.form_uuid).first()
-
-    def check_obligatory(self, q, index):
-        answers = self.answerinstance_set.filter(question=q, index=index, field__obligatory=True)
-        for a in answers:
-            if a.text != "" or a.document.name:
-                return True
-        return False
-        
-    def get_public_blocks(self):
-        return self.form.blocks.filter(private=False)
 
     @property
     def get_total(self):
@@ -227,9 +231,26 @@ class FormInstance(models.Model):
             print (show_exc(e))
             return 0
 
+    def check_obligatory(self, q, index):
+        answers = self.answerinstance_set.filter(question=q, index=index, field__obligatory=True)
+        for a in answers:
+            if a.text != "" or a.document.name:
+                return True
+        return False
+        
+    def get_public_blocks(self):
+        return self.form.blocks.filter(private=False)
+
+    def set_status(self, status_code):
+        status = Status.objects.filter(code = status_code).first()
+        if status != None:
+            self.status = status
+            self.save()
+ 
     class Meta:
         verbose_name = _('1.- Form instance')
         verbose_name_plural = _('1.- Form instances')
+        ordering = ['-date']
 
 def upload_document_file(instance, filename):
     ascii_filename = str(filename.encode('ascii', 'ignore'))

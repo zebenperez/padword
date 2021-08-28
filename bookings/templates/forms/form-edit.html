@@ -5,7 +5,7 @@
 
 {% block central_content %}
     <div class="text-end">
-        <a class="btn btn-sm save" title="{% trans 'Preview' %}" href="{% url "booking-new" obj.uuid %}" target="_blank">
+        <a class="btn btn-sm save" title="{% trans 'Preview' %}" href="{% url "booking-preview" obj.uuid %}" target="_blank">
             {% trans "Preview" %}</a>  
         <a class="btn btn-sm save" href="{% url "forms" %}">{% trans "Save" %}</a>
         <a class="btn btn-sm cancel" href="{%url "form-remove" obj.id%}" 

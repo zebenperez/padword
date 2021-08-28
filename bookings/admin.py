@@ -85,6 +85,8 @@ class QuestionAdmin(admin.ModelAdmin):
 	inlines = [FieldInline, ]
 	list_filter = ('block',)
 
+class StatusAdmin(admin.ModelAdmin):
+	list_display = ('code', 'name')
 
 #admin.site.register(Answer)
 admin.site.register(AnswerType, AnswerTypeAdmin)
@@ -95,4 +97,5 @@ admin.site.register(FormType, FormTypeAdmin)
 admin.site.register(Question, QuestionAdmin)
 admin.site.register(Block, BlockAdmin)
 admin.site.register(QuestionType)
+admin.site.register(Status, StatusAdmin)
 

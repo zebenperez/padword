@@ -18,7 +18,7 @@
                     <a class="btn" href="#" onclick='alert("{{item.uuid}}"); return False'><i class="fas fa-fingerprint"></i></a>
                     <a class="me-1 btn btn-xs" title="{% trans 'See bookings' %}" href="{% url "bookings-by-form" item.id %}">
                         <i class="far fa-eye"></i></a>  
-                    <a class="me-1 btn btn-xs" title="{% trans 'New booking' %}" href="{% url "booking-new" item.uuid %}" target="_blank">
+                    <a class="me-1 btn btn-xs" title="{% trans 'New booking' %}" href="{% url "booking-preview" item.uuid %}" target="_blank">
                         <i class="far fa-calendar-check"></i></a>  
                     <a class="me-1 btn btn-xs" title="{% trans 'Edit' %}" href="{% url "form-edit" item.id %}"><i class="fas fa-edit"></i></a>  
                     <a class="btn btn-sm autoremove" title="{% trans 'Remove' %}" data-model-name="bookings.form" data-obj-id="{{item.id}}" 

@@ -17,7 +17,7 @@
 		</div>
 		<div class="col-md-6 col-xs-6">
 		    <input type="text" class="autosearch form-control form-control-dark w-30" name="s-form" id="s-form" 
-    		    placeholder="{% trans "Form name" %}" value="{{form_name}}" data-url="{% url "bookings-search" %}" 
+    		    placeholder="{% trans "Form name" %}" value="{% padword_translate form_name %}" data-url="{% url "bookings-search" %}" 
         		data-target="booking-list" data-related="s-project,s-channel,s-form,s-ini_date,s-end_date,s-name,s-status" />
 		</div>
 	</div>
@@ -56,6 +56,10 @@
                 data-url="{% url "bookings-search" %}" data-target="booking-list"  
                 data-related="s-project,s-channel,s-form,s-ini_date,s-end_date,s-name,s-status">
                 <option value="">-- Seleccione un estado --</option>
+                {% for item in status_list %}
+                    <option value="{{item.name}}">{% padword_translate item.name %}</option>
+                {% endfor %}
+                {%comment%}
                 <option value="02">{% trans "Sended" %}</option>
                 <option value="03">{% trans "Canceled" %}</option>
                 <option value="04">{% trans "Received" %}</option>
@@ -63,6 +67,7 @@
                 <option value="06">{% trans "Confirmed" %}</option>
                 <option value="07">{% trans "Rejected" %}</option>
                 <option value="08">{% trans "Waiting" %}</option>
+                {%endcomment%}
             </select>
 		</div>
 

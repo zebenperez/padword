@@ -11,7 +11,7 @@
             {#<h2 class="b-right">{% trans 'Bookings' %} (<span id="items-counter">{{items|length}}</span>) {% trans "of" %} {{form.name}}</h2>#}
             <h2 class="b-right">{% trans 'Bookings' %}</h2>
             {% if form %}
-                <a class="btn btn-primary" href="{% url "booking-new" form.id %}" target="_blank">{% trans "New booking" %}</a>  
+                <a class="btn btn-primary" href="{% url "booking-preview" form.id %}" target="_blank">{% trans "New booking" %}</a>  
             {% endif %}
         </div>
         <div id="booking-list">{% include "bookings/booking-list.html" %}</div>

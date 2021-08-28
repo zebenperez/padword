@@ -11,8 +11,8 @@ from web.models import Channel, Company, Project, Device
 from contents.models import Category, ShoppingCart, Item
 from guest.models import Guest
 
-from .common_lib import clone_form_instance, get_form_instance, get_max_index, get_or_create_answer_instance, user_in_group, write_log
-from .models import AnswerInstance, AnswerType, Field, Form, FormChannel, FormInstance, FormType, Question, QuestionType, Block
+from .common_lib import clone_form_instance, get_or_create_form_instance, get_max_index, get_or_create_answer_instance, user_in_group, write_log
+from .models import AnswerInstance, AnswerType, Field, Form, FormChannel, FormInstance, FormType, Question, QuestionType, Block, Status
 
 import datetime
 import logging
@@ -227,6 +227,7 @@ def get_booking_context(form=None, project=None):
 
     context["ini_date"] = today
     context["end_date"] = today
+    context["status_list"] = Status.objects.all()
     context["items"] = items
     return context
 
@@ -297,13 +298,34 @@ def bookings_search(request):
         return JsonResponse({'results':[], 'error':1, 'error-msg':show_exc(e)})
 
 @group_required("admins", "projects")
-#def booking_edit(request, fi_id, ro=1):
+def booking_preview(request, form_uuid):
+    try:
+        form = get_or_none(Form, form_uuid, "uuid")
+        if form == None:
+            return render(request, 'error_exception.html', {'exc': _('Form not found!')})
+        
+        fi = FormInstance.objects.create(form_uuid=form.uuid)
+        write_log(request.user, fi, _("Booking created"))
+        
+        items = ShoppingCart.objects.filter(form_instance_id=fi.pk)
+        context = {'fi': fi, 'index': "0", "ro": False, 'items':items}
+        return render(request, 'bookings/fillform.html', context)
+    except Exception as e:
+        print (show_exc(e))
+        logger.error("[bookings-new_booking] {}".format(str(e)))
+        return render(request, 'error_exception.html', {'exc':show_exc(e)})
+
+
+@group_required("admins", "projects")
 def booking_view(request, fi_id):
     try:
         fi = FormInstance.objects.get(pk = fi_id)
         form = get_or_none(Form, fi.form_uuid, 'uuid')
         items = ShoppingCart.objects.filter(form_instance_id=fi.pk)
-        #context = {'fi': fi, 'index': "0", "ro": (ro == 1), 'items':items}
+        if fi.status.code == "01":
+            previous_status = fi.status.name
+            fi.set_status("02")
+            write_log(request.user, fi, _("Status change from {} to {}".format(previous_status, fi.status.name)))
         context = {'fi': fi, 'index': "0", "ro": True, 'items':items}
         return render(request, 'bookings/fillform.html', context)
     except Exception as e:
@@ -315,11 +337,11 @@ def booking_view(request, fi_id):
 def change_status(request):
     try:
         if request.POST:
+            status = get_or_none(Status, request.POST["status"])
             fi = FormInstance.objects.get(pk = request.POST["fi_id"])
-            previous_status = fi.get_status_display()
-            fi.status = request.POST["status"]
-            fi.save()
-            write_log(request.user, fi, _("Status change from {} to {}".format(previous_status, fi.get_status_display())))
+            previous_status = fi.status.name if fi.status != None else ""
+            fi.set_status(status.code)
+            write_log(request.user, fi, _("Status change from {} to {}".format(previous_status, fi.status.name)))
             return redirect(bookings_by_form, fi.form.id)
     except Exception as e:
         print(e)
@@ -330,7 +352,7 @@ def change_status(request):
 def status_form(request):
     try:
         obj = get_or_none(FormInstance, request.GET["obj_id"]) if "obj_id" in request.GET else FormInstance.objects.create()
-        return render(request, "bookings/status-form.html", {'obj': obj,})
+        return render(request, "bookings/status-form.html", {'obj': obj, 'status_list': Status.objects.all()})
     except Exception as e:
         return render(request, 'error_exception.html', {'exc':show_exc(e)})
 
@@ -550,31 +572,47 @@ def remove_item_from_shopping_cart(request):
     Bookings client methods
 '''
 #@login_required
-def booking_new(request, form_uuid, device_uuid=""):
+#def booking_new(request, form_uuid, device_imei, room_number, guest_name, guest_surname):
+def booking_new(request, form_uuid):
     try:
-        form = Form.objects.filter(uuid = form_uuid).first()
-        if form != None:
-            fi = FormInstance.objects.create(form_uuid = form.uuid, device_uuid = device_uuid)
-            write_log(request.user, fi, _("Booking created"))
-            #return redirect(booking_edit, fi.id, 0)
+        form = get_or_none(Form, form_uuid, "uuid")
+        if form == None:
+            return render(request, 'error_exception.html', {'exc': _('Form not found!')})
         
-            items = ShoppingCart.objects.filter(form_instance_id=fi.pk)
-            context = {'fi': fi, 'index': "0", "ro": False, 'items':items}
-            return render(request, 'bookings/fillform.html', context)
+        device_imei = request.GET["device_imei"] if "device_imei" in request.GET else ""
+        room_number = request.GET["room_number"] if "room_number" in request.GET else ""
+        guest_name = request.GET["guest_name"] if "guest_name" in request.GET else ""
+        guest_surname = request.GET["guest_surname"] if "guest_surname" in request.GET else ""
+
+        if device_imei == "":
+            return render(request, 'error_exception.html', {'exc': _('Device not found!')})
+        device = get_or_none(Device, device_imei, "imei")
+        if device == None:
+            return render(request, 'error_exception.html', {'exc': _('Device not found!')})
+        if device.room != room_number:
+            return render(request, 'error_exception.html', {'exc': _('Device not assigned to room number!')})
+        guest = Guest.objects.filter(name=guest_name, surname=guest_surname, room=room_number).first()
+        if guest == None:
+            return render(request, 'error_exception.html', {'exc': _('Guest not found or not assigned to room number!')})
+
+        fi = get_or_create_form_instance(form.uuid, device.uuid, room_number, guest_name, guest_surname)
+        write_log(request.user, fi, _("Booking created"))
+        
+        items = ShoppingCart.objects.filter(form_instance_id=fi.pk)
+        context = {'fi': fi, 'index': "0", "ro": False, 'items':items}
+        return render(request, 'bookings/fillform.html', context)
     except Exception as e:
         print (show_exc(e))
         logger.error("[bookings-new_booking] {}".format(str(e)))
         return render(request, 'error_exception.html', {'exc':show_exc(e)})
-    return render(request, 'error_exception.html', {'exc':'Form is None'})
 
 #@group_required("admins", "projects", "clients")
 def booking_send(request, fi_id):
     try:
         fi = FormInstance.objects.get(pk = fi_id)
-        previous_status = fi.get_status_display()
-        fi.status = "02"
-        fi.save()
-        write_log(request.user, fi, _("Status change from {} to {}".format(previous_status, fi.get_status_display())))
+        previous_status = fi.status.name
+        fi.set_status("01")
+        write_log(request.user, fi, _("Status change from {} to {}".format(previous_status, fi.status.name)))
         context = {'msg': fi.status, 'device_uuid': fi.device_uuid}
         return render(request, 'bookings/show_msg.html', context)
     except Exception as e:
@@ -587,7 +625,7 @@ def booking_remove(request, fi_id):
         fi = FormInstance.objects.get(pk = fi_id)
         device_uuid = fi.device_uuid
         fi.delete()
-        context = {'msg': FormInstance.CANCELED, 'device_uuid': device_uuid}
+        context = {'msg': "Cancelada", 'device_uuid': device_uuid}
         return render(request, 'bookings/show_msg.html', context)
     except Exception as e:
         logger.error("[bookings-remove_fi] {}".format(str(e)))

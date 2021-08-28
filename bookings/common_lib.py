@@ -10,6 +10,10 @@ logger = logging.getLogger(__name__)
 '''
     Form functions
 '''
+def get_or_create_form_instance(form_uuid, device_uuid, room_number, guest_name, guest_surname):
+    fi, created = FormInstance.objects.get_or_create(form_uuid=form_uuid, device_uuid=device_uuid, room_number=room_number, guest_name=guest_name, guest_surname=guest_surname, status__isnull=True)
+    return fi
+
 def get_or_create_answer_instance(fi, q, f, index):
     ai, created = AnswerInstance.objects.get_or_create(form_instance=fi, question=q, field=f, index=index)
     return ai
@@ -20,9 +24,6 @@ def get_answer_instance(fi, q, f, index):
 def get_max_index(q, fi):
     max_index = AnswerInstance.objects.filter(form_instance = fi, question = q).aggregate(Max('index'))['index__max']
     return 0 if max_index == None else max_index
-
-def get_form_instance(form_code, niu):
-    return FormInstance.objects.filter(form__form_type__code = form_code, niu = niu).first()
 
 def clone_form_instance(fi, vacancy):
     fi_id = fi.id

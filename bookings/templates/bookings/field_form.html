@@ -18,6 +18,12 @@
         title="{{value}}" {%if reandonly%}readonly{%endif%} data-url="{% url "autosave-form-field" %}" data-fi="{{fi_id}}" data-question="{{q_id}}" 
         data-field="{{f.id}}" data-index="{{index}}" /> <span id="{{answer_name}}__msg"></span>
 
+{% elif f.answer_type.field_type == "time" %}
+
+	<input type="time" class="form-control autosave_form_field" id="{{answer_name}}" name="{{answer_name}}" value="{{value}}" 
+        title="{{value}}" {%if reandonly%}readonly{%endif%} data-url="{% url "autosave-form-field" %}" data-fi="{{fi_id}}" data-question="{{q_id}}" 
+        data-field="{{f.id}}" data-index="{{index}}" /> <span id="{{answer_name}}__msg"></span>
+
 {% elif f.answer_type.field_type == "number" %}
 
 	<input type="number" step="0.01" class="form-control autosave_form_field" id="{{answer_name}}" name="{{answer_name}}" 
