@@ -219,8 +219,9 @@ def get_booking_context(form=None, project=None):
             context["channel_name"] = channel.name
             context["project_name"] = channel.project.name
     if project != None:
-        uuid_list = [item.uuid for item in Channel.objects.filter(project=project)]
-        kwargs["form__channels__channel__in"] = uuid_list
+        uuid_list = [item.uuid for item in Category.objects.filter(project_uuid=project.uuid)]
+        forms_uuid_list = [item.uuid for item in Form.objects.filter(category__in = uuid_list)]
+        kwargs["form_uuid__in"] = forms_uuid_list
         context["project_name"] = project.name
 
     items = FormInstance.objects.filter(**kwargs)
@@ -258,8 +259,10 @@ def bookings_by_project(request, project_id):
         context = get_booking_context(project=get_or_none(Project, project_id))
         return render (request, "bookings/bookings.html", context)
     except Exception as e:
+        print (show_exc(e))
         logger.error("[bookings-bookings_by_project] {}".format(str(e)))
-    return render(request, 'error_exception.html', {})
+        return render(request, 'error_exception.html', {'exc':show_exc(e)})
+    return render(request, 'error_exception.html', {'exc':'Unknown error'})
 
 @group_required("admins", "projects")
 def bookings_search(request):
