@@ -328,7 +328,7 @@ def booking_view(request, fi_id):
         fi = FormInstance.objects.get(pk = fi_id)
         form = get_or_none(Form, fi.form_uuid, 'uuid')
         items = ShoppingCart.objects.filter(form_instance_id=fi.pk)
-        if fi.status and fi.status.code == "01":
+        if fi.status != None and fi.status.code == "01":
             previous_status = fi.status.name
             fi.set_status("02")
             write_log(request.user, fi, _("Status change from {} to {}".format(previous_status, fi.status.name)))
@@ -346,7 +346,7 @@ def change_status(request):
         if request.POST:
             status = get_or_none(Status, request.POST["status"])
             fi = FormInstance.objects.get(pk = request.POST["fi_id"])
-            previous_status = fi.status.name if fi.status != None else ""
+            previous_status = fi.status.name if fi.status != None else "Created"
             fi.set_status(status.code)
             write_log(request.user, fi, _("Status change from {} to {}".format(previous_status, fi.status.name)))
             return redirect(bookings_by_form, fi.form.id)
@@ -640,7 +640,7 @@ def booking_new(request, form_uuid):
 def booking_send(request, fi_id):
     try:
         fi = FormInstance.objects.get(pk = fi_id)
-        previous_status = fi.status.name
+        previous_status = fi.status.name if fi.status != None else _("Created")
         fi.set_status("01")
         write_log(request.user, fi, _("Status change from {} to {}".format(previous_status, fi.status.name)))
         context = {'msg': fi.status, 'device_uuid': fi.device_uuid}
