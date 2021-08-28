@@ -246,6 +246,11 @@ class FormInstance(models.Model):
         if status != None:
             self.status = status
             self.save()
+
+    def items_in_bookings(self, item):
+        items = ShoppingCart.objects.filter(form_instance_id=self.pk, item=item)
+        return (items)
+
  
     class Meta:
         verbose_name = _('1.- Form instance')

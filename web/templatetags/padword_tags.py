@@ -1,3 +1,4 @@
+from django.utils.safestring import mark_safe
 from django import template
 from django.urls import reverse
 import json
@@ -88,6 +89,28 @@ def is_current_lang(context, language, true_alternative='current', false_alterna
         print (show_exc(e))
         return true_alternative
 
+@register.filter
+def get_obj(uuid, model):
+    try:
+        obj = eval("{}.objects.get(uuid='{}')".format(model,uuid))
+        return obj
+    except Exception as e:
+        print (show_exc(e))
+        return None
+
+@register.filter
+def addstr(arg1,arg2):
+    return(mark_safe(str(arg1)+str(arg2)))
+
+@register.filter
+def items_in_bookings(fi,item):
+    try:
+        return fi.items_in_bookings(item).count()
+    except Exception as e:
+        print (show_exc(e))
+        return (0)
+
+
 '''
     Inclusion Tags
 '''
@@ -120,11 +143,18 @@ def get_second_menu(user):
         print (show_exc(e))
         return {}
 
-@register.filter
-def get_obj(uuid, model):
+@register.inclusion_tag('ark.html')
+def ark(url, div, **kwargs):
+    go = False
     try:
-        obj = eval("{}.objects.get(uuid='{}')".format(model,uuid))
-        return obj
+        kwargs = eval(str(kwargs))
+        go = kwargs.pop('go', False)
+        prefix = kwargs.pop('prefix', False)
+        posfix = kwargs.pop('posfix', False)
+        url = reverse(url, kwargs=kwargs)
+        return {'div':div, 'url':url, 'go':go, 'prefix':prefix, 'posfix':posfix}
     except Exception as e:
+        url = reverse(url)
         print (show_exc(e))
-        return None
+        return {'div':div, 'url':url, 'go':go}
+

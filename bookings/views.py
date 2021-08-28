@@ -328,7 +328,7 @@ def booking_view(request, fi_id):
         fi = FormInstance.objects.get(pk = fi_id)
         form = get_or_none(Form, fi.form_uuid, 'uuid')
         items = ShoppingCart.objects.filter(form_instance_id=fi.pk)
-        if fi.status.code == "01":
+        if fi.status and fi.status.code == "01":
             previous_status = fi.status.name
             fi.set_status("02")
             write_log(request.user, fi, _("Status change from {} to {}".format(previous_status, fi.status.name)))
@@ -337,6 +337,7 @@ def booking_view(request, fi_id):
     except Exception as e:
         print(e)
         logger.error("[bookings-fill_form] {}".format(str(e)))
+        return render(request, 'error_exception.html', {'exc':show_exc(e)})
     return render(request, 'error_exception.html', {})
 
 @group_required("admins", "projects")
@@ -524,15 +525,22 @@ def item_to_shopping_cart(request):
 
         obj = ShoppingCart(form_instance_id=int(form_id), item=item, comments='')
         obj.save()
-        return render(request, "bookings/shopping-form.html", {'obj':obj})
+
+        instance = FormInstance.objects.get(pk=form_id)
+        items = ShoppingCart.objects.filter(form_instance_id=int(form_id), item=item)
+        return render(request, "bookings/show-instance-result.html", {'items':items, 'item':item})
+        return HttpResponse('{} art.&nbsp;&nbsp;&nbsp;{:.2f} &euro;'.format(items.count(), instance.get_total))
+        #return render(request, "bookings/shopping-form.html", {'obj':obj})
     except Exception as e:
         return render(request, "error_exception.html", {'exc':show_exc(e)})
 
 #@login_required
-def show_category_shopping_cart(request):
+def show_category_shopping_cart(request, form_id=None, cat_id = None):
     try:
-        form_id = request.GET["form_id"]
-        cat_id = request.GET["cat_id"]
+        if not form_id:
+            form_id = request.GET["form_id"]
+        if not cat_id:
+            cat_id = request.GET["cat_id"]
         instance = FormInstance.objects.get(pk=form_id)
         category = Category.objects.get(uuid=cat_id)
         return render(request, "bookings/shopping_cart.html", {'category':category, 'fi':instance})
@@ -560,7 +568,7 @@ def get_price_shopping_cart(request):
     except Exception as e:
         return HttpResponse(show_exc(e))
 
-#@login_required
+@login_required
 def remove_item_from_shopping_cart(request):
     try:
         item_id = request.GET["item_id"]
@@ -574,6 +582,22 @@ def remove_item_from_shopping_cart(request):
     except Exception as e:
         return render(request, "error_exception.html", {'exc':show_exc(e)})
 
+@login_required
+def remove_generic_item_from_shopping_cart(request):
+    try:
+        form_id = request.GET["form_id"]
+        item_id = request.GET["item_id"]
+        item = get_or_none(Item, int(item_id))
+
+        items = ShoppingCart.objects.filter(form_instance_id=int(form_id), item=item)
+        counter = items.count() - 1
+        obj = items.last()
+        obj.delete()
+
+        return render(request, "bookings/show-instance-result.html", {'items':items, 'item':item})
+        return render(request, "bookings/view-shopping-cart.html", {'fi':instance, 'items':items, 'total':total_price})
+    except Exception as e:
+        return render(request, "error_exception.html", {'exc':show_exc(e)})
 '''
     Bookings client methods
 '''
