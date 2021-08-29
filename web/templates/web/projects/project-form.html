@@ -1,0 +1,69 @@
+{% load i18n %}
+
+<h2>{% trans 'New proyect' %}</h2>
+
+
+<span id="div-notification"></span><br/>
+
+<div class="row justify-center">
+	<div class="col-sm-6 col-md-5 col-12">
+		{% trans "Name" %}:
+		<input type="text" class="form-control autosave b-bottom mb-4" id="name" name="name" value="{{obj.name}}" title="{{obj.name}}" 
+			data-model-name="web.project" data-obj-id="{{obj.id}}" data-url="{% url "autosave_field" %}" data-target="div-notification"/>
+			<span id="name__msg"></span>
+	</div>
+
+	<div class="col-sm-6 col-md-5 col-12">
+		{% trans "Company" %}:
+		<select class="form-control autosave b-bottom mb-4" id="company" name="company" value="{{obj.company.id}}" title="{{obj.company.name}}" 
+			data-model-name="web.project" data-obj-id="{{obj.id}}" data-url="{% url "autosave_field" %}" data-target="div-notification"/>
+		    <option value="">{% trans "-- Select a company" %}</option>
+	    	{% for comp in companies %}
+		        <option value="{{comp.id}}" {%if obj.company == comp%}selected{%endif%}>{{comp.name}}</option>
+		    {% endfor %}
+		</select>
+		<span id="active__msg"></span>
+	</div>
+	
+	<div class="col-sm-6 col-md-2 col-12">
+		{% trans "Active" %}:
+		<select class="form-control autosave b-bottom mb-4" id="active" name="active" value="{{obj.active}}" title="{{obj.active}}" 
+			data-model-name="web.project" data-obj-id="{{obj.id}}" data-url="{% url "autosave_field" %}" data-target="div-notification"/>
+		    <option value="1" {%if obj.active == "1"%}selected{%endif%}>{% trans "Yes" %}</option>
+		    <option value="0" {%if obj.active == "0"%}selected{%endif%}>{% trans "No" %}</option>
+		</select>
+		<span id="active__msg"></span>
+	</div>
+</div>
+
+<div class="row justify-center">
+	<div class="col-sm-3 col-md-3 col-12">
+		{% trans "Created at" %}:
+		<input type="date" class="form-control autosave b-bottom mb-4" id="created_at" name="created_at" value="{{obj.created_at|date:'Y-m-d'}}" title="{{obj.created_at}}" 
+			data-model-name="web.project" data-obj-id="{{obj.id}}" data-url="{% url "autosave_field" %}" data-target="div-notification"/>
+			<span id="created_at__msg"></span>	
+	</div>
+
+	<div class="col-sm-5 col-md-5 col-12">
+		{% trans "Used Languages (code separated by colons)" %}:
+        <input type="input" class="form-control autosave b-bottom mb-4" id="used_languates" name="used_languages" value="{{obj.used_languages}}" title={% trans 'Languages in project' %}"" 
+			data-model-name="web.project" data-obj-id="{{obj.id}}" data-url="{% url "autosave_field" %}" data-target="div-notification"/>
+			<span id="used_languages__msg"></span>	
+	</div>
+	
+	<div class="col-sm-4 col-md-4 col-12">
+		{% trans "UUID" %}:
+		<input type="text" class="form-control autosave b-bottom mb-4" id="uuid" name="uuid" value="{{obj.uuid}}" title="{{obj.uuid}}" 
+			data-model-name="web.project" data-obj-id="{{obj.id}}" data-url="{% url "autosave_field" %}" data-target="div-notification"/>
+			<span id="uuid__msg"></span>
+	</div>
+</div>		
+
+<div class="d-flex justify-content-end">
+	<button type="button" class="btn btn-sm ark save" data-bs-dismiss="modal" data-url="{% url "project-search" %}" 
+        data-target="project-list" data-company_id="{{company_id}}">{% trans "Save" %}</button>
+	<button type="button" class="btn btn-sm ark cancel" data-bs-dismiss="modal" data-url="{% url "project-remove" %}" 
+        data-target="project-list" data-obj_id="{{obj.id}}" data-company_id="{{company_id}}"
+    	data-confirm="{% trans "Are you sure to remove this element?" %}">{% trans "Remove" %}</button>
+</div>
+

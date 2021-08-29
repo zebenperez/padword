@@ -22,6 +22,43 @@ function ajaxGet(url, datas, target, modal_target)
 	});
 };
 
+function ajaxGetAutosave(url, datas, target)
+{
+    $("body").css("cursor", "progress");
+    $.ajax({
+        url : url,
+        type : 'GET',
+        data : datas,
+        dataType : 'html',
+        beforeSend : function(){},
+        success : function(data){
+            $("#"+target).html(data).show().fadeTo(5000, 500).slideUp(500, function(){
+                $("#"+target).slideUp(500);
+            });
+        },
+        error : function(e){alert("Error: "+e.responseText);},
+        complete : function(){$("body").css("cursor", "default");}
+    }); 
+};
+
+function ajaxGetRemove(url, datas, target)
+{
+    $.ajax({
+        url : url,
+        type : 'GET',
+        data : datas,
+        dataType : 'html',
+        beforeSend : function(){},
+        success : function(data){
+            if(data != "")
+                $('#'+target).html(data);
+            else
+                $('#'+target).remove();
+        },
+        error : function(e){alert("Error: "+e.responseText);},
+        complete : function(){}
+    }); 
+};
 
 function autoSearch(obj, num_rows=0)
 {
@@ -41,6 +78,29 @@ function autoSearch(obj, num_rows=0)
 	ajaxGet(url, datas, target, '');
 }
 
+function uploadObjFile(obj, url, target, obj_id, field, token)
+{
+    var data = new FormData();
+    data.append("file", obj[0].files[0]);
+    data.append('obj_id', obj_id);
+    data.append('field', field);
+    data.append("csrfmiddlewaretoken", token);
+
+    $.ajax({
+        url: url,
+        data: data,
+        cache: false,
+        contentType: false,
+        processData: false,
+        type: 'post',
+        success: function (data) {
+            $('#'+target).html(data);
+			//$('#'+target).trigger('create');
+        },
+        error : function(e){alert("Error: "+e.responseText);},
+    });
+}
+
 $(document).ready(()=>{
 	$("body").on("keyup", ".autosearch", function(e){
 		var obj = $(this);
@@ -49,6 +109,130 @@ $(document).ready(()=>{
 		}, 1000);
 		e.preventDefault();
 	});
+
+	$("body").on("change", ".autosearch_change", function(e){
+		var obj = $(this);
+		autoSearch(obj);
+		e.preventDefault();
+	});
+
+    $("body").on("click", ".ark", function(e){
+        var obj = $(this);
+        if (((obj.data("confirm")) && confirm(obj.data("confirm"))) || !(obj.data("confirm")))
+        {
+            url = obj.data("url");
+            var target = "";
+            var target_modal = "";
+            if (obj.data("target"))
+                target = obj.data("target");
+            if (obj.data("target-modal"))
+                target_modal = obj.data("target-modal");
+
+            var datas = {};
+            var args = obj.data();
+            for(var i in args)
+                if (i != "url")
+                    datas[i] = args[i]
+            ajaxGet(url, datas, target, target_modal);
+            if (obj.data("show"))
+                $("#" + obj.data("show")).show();
+            e.preventDefault();
+        }
+    });
+
+    $("body").on("change", ".ark_change", function(e){
+        var obj = $(this);
+        if (((obj.data("confirm")) && confirm(obj.data("confirm"))) || !(obj.data("confirm")))
+        {
+            var url = obj.data("url");
+            var value = obj.val();
+            var target = "";
+            var target_modal = "";
+            if (obj.data("target"))
+                target = obj.data("target");
+            if (obj.data("target-modal"))
+                target_modal = obj.data("target-modal");
+
+            var datas = {'value': value};
+            var args = obj.data();
+            for(var i in args)
+                if (i != "url")
+                    datas[i] = args[i]
+            ajaxGet(url, datas, target, target_modal);
+
+            if (obj.data("clear"))
+                clearHtml($("#" + obj.data("clear")));
+            e.preventDefault();
+        }
+    });
+
+    $("body").on("change", ".autosave", function(e){
+        var obj = $(this);
+        msg_id = "#" + obj.attr("id") + "__msg";
+        if (obj[0].checkValidity())
+        {
+            $(msg_id).html("");
+            obj.removeClass("invalid");
+        }
+        else
+        {
+            $(msg_id).html(obj.attr("title"));
+            obj.removeClass("valid").addClass("invalid");
+        }
+
+        model_name = obj.data("model-name");
+        obj_id = obj.data("obj-id");
+        url = obj.data("url");
+        target = obj.data("target");
+        field = obj.attr("name");
+        if (obj.data("ref-field"))
+            ref_field = obj.data("ref-field");
+        else
+            ref_field = "pk";
+
+        if (obj.data("bool"))
+            if (obj.is(':checked'))
+                value = "True";
+            else
+                value = "False";
+        else
+            value = obj.val();
+
+        datas = {'model_name': model_name, 'obj_id': obj_id, 'field': field, 'value': value, "ref_field":ref_field};
+        if (obj.data('lang'))
+            datas['lang'] = obj.data('lang');
+        ajaxGetAutosave(url, datas, target);
+        e.preventDefault();
+    });
+
+    $("body").on("click", ".autoremove", function(e){
+        if (confirm("Esta seguro/a de que desea borrar el elemento?"))
+        {
+            model_name = $(this).data("model-name");
+            obj_id = $(this).data("obj-id");
+            url = $(this).data("url");
+            target = $(this).data("target");
+            datas = {'model_name': model_name, 'obj_id': obj_id};
+            ajaxGetRemove(url, datas, target);
+            if ($(this).data("hide"))
+                $("#" + $(this).data("hide")).hide();
+            e.preventDefault();
+        }
+    });
+
+    $("body").on("change", ".upload", function(e){
+        var obj = $(this);
+        var url = obj.data("url");
+        var target = obj.data("target");
+        var obj_id = obj.data("obj-id");
+        var field = "";
+        if (obj.data("field"))
+            field = obj.data("field");
+        var token = obj.data("csrf-token");
+        uploadObjFile(obj, url, target, obj_id, field, token);
+        e.preventDefault();
+    });
+
 });
 
 

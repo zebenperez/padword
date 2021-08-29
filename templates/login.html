@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block central_content %}
+	{% if form.errors %}
+		<p>{% trans "Your username and password didn't match. Please try again." %}</p>
+	{% endif %}
+
+	<div class="row login">
+		<div class="col-lg-6 offset-lg-3 col-md-8 offset-md-2 col-xs-6 offset-xs-3">
+			<div class="panel-login">
+				<div class="toolbar-heading">{% trans "Log in" %} </div>
+                <div class="panel-body">
+					<br/>
+					<form class="form-horizontal p-4" method="post" action="{% url "auth_login" %}">
+						{% csrf_token %}
+						<input type="hidden" name="next" value="{% url 'web-index' %}" />
+                        <div class="form-group row mb-4">
+							<label class="col-md-4 control-label text-right" tyle="border:1px solid red;">{% trans "User name:" %} </label>
+							<div class="col-md-6" tyle="border:1px solid red;"><div class="form-group">
+                                <input placeholder="" class="form-control login" type="text" name="username" id="id_username"/></div></div>
+                        </div><br />
+                        <div class="form-group row mb-4">
+							<label class="col-md-4 control-label text-right" tyle="border:1px solid red;">{% trans "Password:" %} </label>
+                            <div class="col-md-6" tyle="border:1px solid red;"><div class="form-group">
+							    <input placeholder="" class="form-control login" type="password" name="password" id="id_password"/></div></div>
+                        </div><br />
+                        <div class="form-group row">
+							<div class="col-md-2 offset-md-4" tyle="border:1px solid red;">
+						    	<div class="form-inline">
+									<div class="form-group">
+										<input value="Iniciar sesión" class="btn btn-submit" type="submit">
+									</div>
+								</div>
+		                	</div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock %}

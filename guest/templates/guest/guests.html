@@ -1,9 +1,21 @@
-
 {% extends 'base.html' %}
 {% load i18n %}
+
 {% block second_menu %}{% include 'guest/second_menu.html' %} {% endblock second_menu %}
+
 {% block central_content %}
-<h2>{% trans 'Huéspedes' %} (<span id="items-counter">{{items|length}}</span>)</h2>
-    <input type="text" class="autosearch form-control form-control-dark w-100" name="s-name" id="s-name" placeholder="Nombre, Apellidos o Habitaci&oacute;n" data-url="{% url "guest-search" %}" data-target="guest-list" data-related="s-name"/>
-    <div id="guest-list">{% include "guest/guest-list.html" %}</div>
+    <div class="toolbar-search">
+        <input type="text" class="autosearch form-control form-control-dark w-100" name="s-name" id="s-name" 
+            placeholder="{% trans 'Name, Surname, or Room' %}" data-url="{% url "guest-search" %}" data-target="guest-list" data-related="s-name"/>
+    </div>
+
+    <div class="content mt-4">
+	    <div class="toolbar-content"> 
+            <h2>{% trans 'Huéspedes' %} (<span id="items-counter">{{items|length}}</span>)</h2> 
+
+            <a class="btn btn-primary ark" data-url="{% url "guest-form" %}" data-target-modal="common-modal">{%trans "New guest"%}</a>  
+            {% include "common-modal.html" %}
+        </div>
+        <div id="guest-list">{% include "guest/guest-list.html" %}</div>
+    </div>
 {% endblock central_content %}

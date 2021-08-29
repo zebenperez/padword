@@ -3,3 +3,10 @@ migrations
 collect_static
 get_static.sh
 viewlog.sh
+**.deprecated
+**.zeben
+**.dani
+**swp
+**old
+local_settings.py
+media

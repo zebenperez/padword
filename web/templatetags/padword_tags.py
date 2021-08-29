@@ -1,8 +1,31 @@
+from django.utils.safestring import mark_safe
 from django import template
 from django.urls import reverse
+import json
+from padword.commons import show_exc
+from web.models import Project, ProjectUser
 
 register = template.Library()
 
+'''
+    Filters
+'''
+@register.filter
+def in_group(user, group):
+    return user.groups.filter(name=group).exists()
+
+@register.filter
+def currency(json_str):
+    try:
+        json_dict = json.loads(json_str)
+        return "{:.2f} {}".format(float(json_dict["value"]), json_dict["type"])
+    except Exception as e:
+        print (show_exc(e))
+        return "UNSETTING"
+
+'''
+    Simple Tags
+'''
 @register.simple_tag(takes_context=True)
 def current(context, url, **kwargs):
     try:
@@ -25,4 +48,113 @@ def current_exact(context, url, **kwargs):
             return ""
     except:
         return ""
+
+@register.simple_tag(takes_context=True)
+def current_lang(context):
+    try:
+        request = context['request']
+        lang = request.GET['lang'] if 'lang' in request.GET else request.LANGUAGE_CODE
+        return lang.upper()
+    except:
+        return "ES"
+
+
+@register.simple_tag(takes_context=True)
+def padword_translate(context, json_str):
+    try:
+        request = context['request']
+        lang = request.GET['lang'] if 'lang' in request.GET else request.LANGUAGE_CODE
+        json_dict = json.loads(json_str)
+        return json_dict[lang.upper()]
+    except:
+        try:
+            return json.loads(json_str)['ES']
+        except Exception as e:
+            try:
+                json_dict = json.loads(json_str)
+                keys = json_dict.keys()
+                return json_dict[keys[0]]
+            except Exception as e:
+                return json_str
+
+@register.simple_tag(takes_context=True)
+def is_current_lang(context, language, true_alternative='current', false_alternative=''):
+    try:
+        request = context['request']
+        lang = request.GET['lang'] if 'lang' in request.GET else request.LANGUAGE_CODE
+        if (lang.upper() == language.upper()):
+            return (true_alternative)
+        return (false_alternative)
+    except Exception as e:
+        print (show_exc(e))
+        return true_alternative
+
+@register.filter
+def get_obj(uuid, model):
+    try:
+        obj = eval("{}.objects.get(uuid='{}')".format(model,uuid))
+        return obj
+    except Exception as e:
+        print (show_exc(e))
+        return None
+
+@register.filter
+def addstr(arg1,arg2):
+    return(mark_safe(str(arg1)+str(arg2)))
+
+@register.filter
+def items_in_bookings(fi,item):
+    try:
+        return fi.items_in_bookings(item).count()
+    except Exception as e:
+        print (show_exc(e))
+        return (0)
+
+
+'''
+    Inclusion Tags
+'''
+@register.inclusion_tag('main-menu.html')
+def get_main_menu(user):
+    try:
+        if user.groups.filter(name="admins").exists() or user.is_superuser:
+            return {'user': user, 'menu': "admins"}
+        if user.groups.filter(name="projects").exists():
+            obj = ProjectUser.objects.filter(username=user.username).first()
+            if obj != None: 
+                return {'user': user, 'menu': "projects", "project": obj.project}
+        if user.groups.filter(name="clients").exists():
+            return {'user': user, 'menu': "clients"}
+    except:
+        return {}
+
+@register.inclusion_tag('web/second-menu.html')
+def get_second_menu(user):
+    try:
+        if user.groups.filter(name="admins").exists() or user.is_superuser:
+            return {'user': user, 'menu': "admins"}
+        if user.groups.filter(name="projects").exists():
+            obj = ProjectUser.objects.filter(username=user.username).first()
+            if obj != None: 
+                return {'user': user, 'menu': "projects", "project": obj.project}
+        if user.groups.filter(name="clients").exists():
+            return {'user': user, 'menu': "clients"}
+    except Exception as e:
+        print (show_exc(e))
+        return {}
+
+@register.inclusion_tag('ark.html')
+def ark(url, div, **kwargs):
+    go = False
+    try:
+        kwargs = eval(str(kwargs))
+        go = kwargs.pop('go', False)
+        prefix = kwargs.pop('prefix', False)
+        posfix = kwargs.pop('posfix', False)
+        url = reverse(url, kwargs=kwargs)
+        return {'div':div, 'url':url, 'go':go, 'prefix':prefix, 'posfix':posfix}
+    except Exception as e:
+        url = reverse(url)
+        print (show_exc(e))
+        return {'div':div, 'url':url, 'go':go}
 

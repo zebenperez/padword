@@ -1,11 +1,17 @@
+from django.conf import settings
+from padword.commons import show_exc
+
 class PadwordRouter(object):
     """ 
     A router to control all database operations on models in the
     oldversion application.
     """
     apps = {
-                'default':['web'],
+                'default':['auth'],
+                'cfg':['web'],
+                #'default':['guest'],
                 'guest':['guest'],
+                'content':['contents'],
             }
 
     def db_for_read(self, model, **hints):
@@ -14,16 +20,22 @@ class PadwordRouter(object):
         """
         for database, apps in self.apps.items(): 
             if model._meta.app_label in apps:
-                return database
+                if database in settings.DATABASES.keys():
+                    return database
+                else:
+                    return 'default'
         return None
 
     def db_for_write(self, model, **hints):
         """ 
         Attempts to write oldversion models go to version1.
         """
-        for database, apps in self.apps: 
-            if model._meta.app_label in self.apps.items():
-                return database
+        for database, apps in self.apps.items(): 
+            if model._meta.app_label in apps:
+                if database in settings.DATABASES.keys():
+                    return database
+                else:
+                    return 'default'
         return None
 
     def allow_relation(self, obj1, obj2, **hints):
@@ -32,7 +44,7 @@ class PadwordRouter(object):
         """
         db_00 = ""
         db_01 = ""
-        for database, apps in self.apps: 
+        for database, apps in self.apps.items(): 
             if obj1._meta.app_label in self.apps.items():
                 db_00 = database
             if obj2._meta.app_label in self.apps.items():

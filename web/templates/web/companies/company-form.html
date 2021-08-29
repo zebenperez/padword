@@ -1,0 +1,46 @@
+{% load i18n %}
+
+<h2>{% trans 'New company' %}</h2>
+
+<span id="div-notification"></span><br/>
+
+<div class="row justify-center">
+	<div class="col-sm-6 col-md-6 col-12">
+		{% trans "Name" %}:
+		<input type="text" class="form-control autosave mb-4" id="name" name="name" value="{{obj.name}}" title="{{obj.name}}" 
+			data-model-name="web.company" data-obj-id="{{obj.id}}" data-url="{% url "autosave_field" %}" data-target="div-notification"/>
+			<span id="name__msg"></span>
+	</div>
+
+	<div class="col-sm-6 col-md-6 col-12">
+		{% trans "Active" %}:
+		<select class="form-control autosave mb-4" id="active" name="active" value="{{obj.active}}" title="{{obj.active}}" 
+			data-model-name="web.company" data-obj-id="{{obj.id}}" data-url="{% url "autosave_field" %}" data-target="div-notification"/>
+		    <option value="1" {%if obj.active == "1"%}selected{%endif%}>{% trans "Yes" %}</option>
+		    <option value="0" {%if obj.active == "0"%}selected{%endif%}>{% trans "No" %}</option>
+		</select>
+		<span id="active__msg"></span>
+	</div>
+
+	<div class="col-sm-6 col-md-6 col-12">
+		{% trans "Created at" %}:
+		<input type="date" class="form-control autosave mb-4" id="created_at" name="created_at" value="{{obj.created_at|date:'Y-m-d'}}" title="{{obj.created_at}}" 
+			data-model-name="web.company" data-obj-id="{{obj.id}}" data-url="{% url "autosave_field" %}" data-target="div-notification"/>
+			<span id="created_at__msg"></span>
+	</div>
+
+	<div class="col-sm-6 col-md-6 col-12">
+	{% trans "UUID" %}:
+		<input type="text" class="form-control autosave mb-4" id="uuid" name="uuid" value="{{obj.uuid}}" title="{{obj.uuid}}" 
+			data-model-name="web.company" data-obj-id="{{obj.id}}" data-url="{% url "autosave_field" %}" data-target="div-notification"/>
+			<span id="uuid__msg"></span>
+	</div>
+</div>
+
+<div class="d-flex justify-content-end">
+	<button type="button" class="btn btn-sm ark save" data-bs-dismiss="modal"
+	    data-url="{% url "company-search" %}" data-target="company-list">{% trans "Save" %}</button>
+	<button type="button" class="btn btn-sm ark cancel" data-bs-dismiss="modal"
+    	data-url="{% url "company-remove" %}" data-target="company-list" data-obj_id="{{obj.id}}" 
+	    data-confirm="{% trans "Are you sure to remove this element?" %}">{% trans "Remove" %}</button>
+</div>

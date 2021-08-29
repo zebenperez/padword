@@ -1,0 +1,84 @@
+{% load i18n padword_tags bookings_tag common_tag %}
+
+{% if f.answer_type.field_type == "text" %}
+
+	<input type="text" class="form-control autosave_form_field" id="{{answer_name}}" name="{{answer_name}}" 
+        value="{{value}}" title="{{value}}" {%if reandonly%}readonly{%endif%} data-url="{% url "autosave-form-field" %}" data-fi="{{fi_id}}" 
+        data-question="{{q_id}}" data-field="{{f.id}}" data-index="{{index}}" /> <span id="{{answer_name}}__msg"></span>
+
+{% elif f.answer_type.field_type == "large" %}
+
+	<textarea class="form-control autosave_form_field" id="{{answer_name}}" name="{{answer_name}}" value="{{value}}" 
+        title="{{value}}" {%if reandonly%}readonly{%endif%} data-url="{% url "autosave-form-field" %}" data-fi="{{fi_id}}" data-question="{{q_id}}" 
+        data-field="{{f.id}}" data-index="{{index}}">{{value}}</textarea> <span id="{{answer_name}}__msg"></span>
+
+{% elif f.answer_type.field_type == "date" %}
+
+	<input type="date" class="form-control autosave_form_field" id="{{answer_name}}" name="{{answer_name}}" value="{{value}}" 
+        title="{{value}}" {%if reandonly%}readonly{%endif%} data-url="{% url "autosave-form-field" %}" data-fi="{{fi_id}}" data-question="{{q_id}}" 
+        data-field="{{f.id}}" data-index="{{index}}" /> <span id="{{answer_name}}__msg"></span>
+
+{% elif f.answer_type.field_type == "time" %}
+
+	<input type="time" class="form-control autosave_form_field" id="{{answer_name}}" name="{{answer_name}}" value="{{value}}" 
+        title="{{value}}" {%if reandonly%}readonly{%endif%} data-url="{% url "autosave-form-field" %}" data-fi="{{fi_id}}" data-question="{{q_id}}" 
+        data-field="{{f.id}}" data-index="{{index}}" /> <span id="{{answer_name}}__msg"></span>
+
+{% elif f.answer_type.field_type == "number" %}
+
+	<input type="number" step="0.01" class="form-control autosave_form_field" id="{{answer_name}}" name="{{answer_name}}" 
+        value="{{value}}" title="{{value}}" {%if reandonly%}readonly{%endif%} data-url="{% url "autosave-form-field" %}" data-fi="{{fi_id}}" 
+        data-question="{{q_id}}" data-field="{{f.id}}" data-index="{{index}}" /> <span id="{{answer_name}}__msg"></span>
+
+{% elif f.answer_type.field_type == "autocomplete" %}
+
+	<input type="text" class="form-control autocomplete" id="s_{{answer_name}}" name="s_{{answer_name}}" value="{{value}}" title="{{value}}" 
+        {%if reandonly%}readonly{%endif%} data-url="{% url "autocomplete" %}" data-target="s_{{answer_name}}__options" 
+        data-model="{{f.answer_type.code}}" data-field="name" data-id="{{answer_name}}"/> <span id="s_{{answer_name}}__options"></span>
+
+	<input type="hidden" class="form-control autosave_form_field" id="{{answer_name}}" name="{{answer_name}}" value="{{value}}" 
+        title="{{value}}" {%if reandonly%}readonly{%endif%} data-url="{% url "autosave-form-field" %}" data-fi="{{fi_id}}" data-question="{{q_id}}" 
+        data-field="{{f.id}}" data-index="{{index}}" /> <span id="{{answer_name}}__msg"></span>
+
+{% elif f.answer_type.field_type == "radio" %}
+
+	<div class="radio">
+		{% for a in f.answer_type.answer_set.all %}
+			<label>
+				<span style="margin-right:30px;"></span>
+				<input type="radio" class="autosave_form_field" id="{{answer_name}}" name="{{answer_name}}" value="{{a.text}}" 
+                    title="{{a.text}}" {%if reandonly%}readonly{%endif%} {%if a.text == value%}checked{%endif%} 
+                    data-url="{% url "autosave-form-field" %}" data-fi="{{fi_id}}" data-question="{{q_id}}" data-field="{{f.id}}" 
+                    data-index="{{index}}" /> <span id="{{answer_name}}__msg"></span> {{a.text}}
+			</label>
+		{% endfor %}
+	</div>
+
+{% elif f.answer_type.field_type == "select" %}
+
+	<select class="form-control autosave_form_field" name="{{answer_name}}"
+        data-url="{% url "autosave-form-field" %}" data-fi="{{fi_id}}" data-question="{{q_id}}" data-field="{{f.id}}" data-index="{{index}}"> 
+		<option value=""> {% trans "Select an option" %}</option>
+		{% for a in f.answer_type.answer_set.all %}
+			{% if not a.hide or readonly%}
+				<option value="{{a.text}}" {% if a.text == value %} selected="selected" {% endif %}>{{a}}</option>
+			{% endif %}
+		{% endfor %}
+	</select>
+
+{% elif f.answer_type.field_type == "file" %}
+
+    <div id="div-file-{{answer_name}}">{% include "bookings/file_field.html" %}</div>
+
+{% elif f.answer_type.field_type == "items" %}
+
+	<select class="form-control autosave_form_field" name="{{answer_name}}" data-url="{% url "autosave-form-field" %}" 
+        data-fi="{{fi_id}}" data-question="{{q_id}}" data-field="{{f.id}}" data-index="{{index}}"> 
+		<option value=""> {% trans "Select an option" %}</option>
+		{% for item in item_list %}
+			<option value="{{item.uuid}}" {% if a.uuid == value %} selected="selected" {% endif %}>{% padword_translate item.name %}</option>
+		{% endfor %}
+	</select>
+
+{% endif %}
+

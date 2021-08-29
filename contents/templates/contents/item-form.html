@@ -1,0 +1,75 @@
+{% load i18n padword_tags static %}
+<div class="d-flex justify-center">
+    <div class="col-2"> <h2>{% trans 'Item' %}&nbsp;<span class="small text-info" id="div-notification"></span></h2></div>
+    <div class="col"></div>
+    <div class="col d-flex justify-content-end">
+        {% for lang in cat.project.get_languages %}
+        <a class="btn btn-{% is_current_lang lang 'primary' 'secondary'%} ark ms-2 me-2" data-url="{% url "item-form" %}" data-target-modal="common-modal" data-lang="{{lang}}" data-obj-id="{{obj.uuid}}" data-cat-id="{{cat.uuid}}" href="#" title="{% trans 'Modify this item' %}">{{lang}}</a>
+        {%endfor%}
+    </div>
+</div>
+
+<div class="row justify-center">
+    <div class="col-2">
+        {% if obj.image %}
+        <img class="img-fluid" id="img-item" src="{{obj.image.url}}" onerror='this.onerror=null;this.src="{% static "img/Padword.png" %}";'>
+        {%else%}
+        <img class="img-fluid" id="img-item" src="{% static 'img/Padword.png' %}">
+        {% endif %}
+        <form action="{% url 'item-change-image' %}" method="post" enctype="multipart/form-data" id='form-item-change-image' target="test">
+            {% csrf_token %}
+            <input type="hidden" name="obj_id" value="{{obj.pk}}">
+            <input type="hidden" name="cat_id" value="{{cat.pk}}">
+            <input name="image" id="image" class="inputfile" type="FILE"  onchange="$('#form-item-change-image').submit();">
+            <label for="image" class="btn btn-success w-100 btn-xs mt-1" >Cambiar</label>
+        </form>
+        <iframe name="test" style="height:0px;width:0px;" onload="if ( document.getElementById('test-frame').contentWindow.document.body.innerHTML!= '') {$('#img-item').attr('src', document.getElementById('test-frame').contentWindow.document.body.innerHTML);}" id="test-frame">
+        </iframe>
+
+    </div>
+
+    <div class="col-10">
+        <div class="row justify-center">
+            <div class="col-sm-6 col-md-4 col-12">
+                {% trans "Name" %} 
+                <input type="text" class="form-control autosave b-bottom mb-4" id="name" name="name" value="{% padword_translate obj.name %}" title="{% padword_translate obj.name %}" data-lang="{% current_lang %}"
+                                                                                                                                                                                       data-model-name="contents.item" data-obj-id="{{obj.id}}" data-url="{% url "autosave_field" %}" data-target="div-notification"/>
+                <span id="name__msg"></span>
+            </div>
+            <div class="col-sm-6 col-md-8 col-12">
+                {% trans "Description" %}:
+                <input type="text" class="form-control autosave b-bottom mb-4" id="description" name="description" value="{% padword_translate obj.description %}" title="{% padword_translate obj.description%}"  data-lang = "{% current_lang %}" data-model-name="contents.item" data-obj-id="{{obj.id}}" data-url="{% url "autosave_field" %}" data-target="div-notification" />
+                <span id="name__msg"></span>
+            </div>
+
+            <div class="col-sm-6 col-md-6 col-12">
+                {% trans "Price" %}:
+                <input type="number" step="0.01" class="form-control autosave b-bottom mb-4" id="price" name="price" value="{{obj.price}}" title="{% trans 'Price' %}"
+                                                                                                                                           data-model-name="contents.item" data-obj-id="{{obj.id}}" data-url="{% url "autosave_field" %}" data-target="div-notification"/>
+                <span id="price__msg"></span>	
+            </div>
+            <div class="col-sm-4 col-md-4 col-12">
+                {% trans "Created at" %}:
+                <input type="date" class="form-control autosave b-bottom mb-4" id="created_at" name="created_at" value="{{obj.created_at|date:'Y-m-d'}}" title="{{obj.created_at}}" 
+                                                                                                                                                         data-model-name="contents.item" data-obj-id="{{obj.id}}" data-url="{% url "autosave_field" %}" data-target="div-notification"/>
+                <span id="created_at__msg"></span>	
+            </div>
+            <div class="col-sm-2 col-md-2 col-12">
+                {% trans "Active" %}:
+                <select class="form-control autosave b-bottom mb-4" id="is_active" name="is_active" value="{{obj.is_active}}" title="{{obj.ais_ctive}}" 
+                                                                                                                              data-model-name="contents.item" data-obj-id="{{obj.id}}" data-url="{% url "autosave_field" %}" data-target="div-notification"/>
+                    <option value="1" {%if obj.is_active == 1%}selected{%endif%}>{% trans "Yes" %}</option>
+                    <option value="0" {%if obj.is_active == 0%}selected{%endif%}>{% trans "No" %}</option>
+                </select>
+                <span id="active__msg"></span>
+            </div>
+        </div>		
+    </div>
+</div>		
+
+<div class="d-flex justify-content-end">
+    <button type="button" class="btn btn-sm ark save" data-bs-dismiss="modal" data-url="{% url "items-by-category" cat.uuid %}" data-target="items-list-{{cat.pk}}" >{% trans "Save" %}</button>
+    <button type="button" class="btn btn-sm ark cancel" data-bs-dismiss="modal" data-url="{% url "item-remove" %}" data-obj-id="{{obj.uuid}}" data-cat-id= "{{cat.uuid}}" data-target="items-list-{{cat.pk}}" data-confirm="{% trans "Are you sure to remove this element?" %}">{% trans "Remove" %}</button>
+</div>
+
+<script> function refresh_image() {$('#row-btn-{{obj.pk}}').click();}</script>
