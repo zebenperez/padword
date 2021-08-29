@@ -9,4 +9,5 @@ viewlog.sh
 **swp
 **old
 local_settings.py
+dbrouting.py
 media
