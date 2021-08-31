@@ -5,8 +5,16 @@
     <div class="card-body">
         <div class="row justify-center">
 	        <div class="col-3">
-		        {% trans "Background image" %}:
-                <div id="div-files">{% include "forms/form-document.html" %}</div>
+                <div class="row justify-center">
+                    <div class="col-12">
+		                {% trans "Background image" %}:
+                        <div id="div-files">{% include "forms/form-document.html" %}</div>
+	                </div>
+                    <div class="col-12">
+		                {% trans "QR" %}:
+                        <div id="div-qr">{% include "forms/form-qr.html" %}</div>
+	                </div>
+	            </div>
 	        </div>
 	        <div class="col-9">
                 <div class="row justify-center">

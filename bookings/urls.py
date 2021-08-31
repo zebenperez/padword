@@ -17,6 +17,8 @@ urlpatterns = [
     path('forms/remove/<int:form_id>/', views.form_remove, name='form-remove'),
     path('forms/add-image/', views.form_add_image, name='form-add-image'),
     path('forms/remove-image/', views.form_remove_image, name='form-remove-image'),
+    path('forms/add-qr/', views.form_add_qr, name='form-add-qr'),
+    path('forms/remove-qr/', views.form_remove_qr, name='form-remove-qr'),
 
     path('channel/add/', views.channel_add, name='channel-add'),
     path('channel/remove/', views.channel_remove, name='channel-remove'),
@@ -28,6 +30,8 @@ urlpatterns = [
     path('block/remove/', views.block_remove, name='block-remove'),
 
     #------------- Bookings --------------#
+	path('login/', views.login, name='login'),
+
 	path('bookings/', views.bookings, name='bookings'),
 	path('bookings_by_form/<int:form_id>/', views.bookings_by_form, name='bookings-by-form'),
 	path('bookings_by_project/<int:project_id>/', views.bookings_by_project, name='bookings-by-project'),

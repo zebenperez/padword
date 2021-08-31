@@ -1,23 +1,66 @@
 from django.apps import apps
 from django.http import HttpResponse, JsonResponse
+from django.contrib import auth
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User, Group
+from django.core.files.base import ContentFile
 from django.shortcuts import render, redirect
 from django.urls import reverse
 from django.utils.translation import ugettext_lazy as _ 
 
 from padword.decorators import group_required
 from padword.commons import show_exc, get_or_none, get_param, get_float, get_bool, new_ui_slug
-from web.models import Channel, Company, Project, Device
+from web.models import Channel, Company, Device, Project, ProjectUser
 from contents.models import Category, ShoppingCart, Item
 from guest.models import Guest
 
-from .common_lib import clone_form_instance, get_or_create_form_instance, get_max_index, get_or_create_answer_instance, user_in_group, write_log
+from .common_lib import clone_form_instance, generate_qr, get_or_create_form_instance, get_max_index, get_or_create_answer_instance, user_in_group, write_log
 from .models import AnswerInstance, AnswerType, Field, Form, FormChannel, FormInstance, FormType, Question, QuestionType, Block, Status
 
 import datetime
 import logging
 logger = logging.getLogger(__name__)
 
+
+'''
+    Login
+'''
+def get_user_email(user_uuid, api_token):
+    #obj = OpenUser.objects.filter(uuid=user_uuid, api_token=api_token)
+    #return (obj != None)
+    return "info@shidix.com"
+
+def login(request):
+    project_uuid = request.GET["project_uuid"] if "project_uuid" in request.GET else ""
+    user_uuid = request.GET["user_uuid"] if "user_uuid" in request.GET else ""
+    api_token = request.GET["token"] if "token" in request.GET else ""
+
+    project = Project.objects.filter(uuid=project_uuid).first()
+    if project_uuid == "" or project == None:
+        return render(request, 'error_exception.html', {'exc': _('Project not found!')})
+    if user_uuid == "":
+        return render(request, 'error_exception.html', {'exc': _('User not found!')})
+    if api_token == "":
+        return render(request, 'error_exception.html', {'exc': _('Token not found!')})
+
+    email = get_user_email(user_uuid, api_token)
+    if email == "":
+        return render(request, 'error_exception.html', {'exc': _('User not found!')})
+    
+    try:
+        user = User.objects.get(username=email)
+    except:
+        try:
+            projects_group = Group.objects.get(name='projects') 
+            user = User.objects.create_user(email, email=email)
+            projects_group.user_set.add(user)
+        except:
+            return render(request, 'error_exception.html', {'exc': _('Group not found!')})
+
+    pu, created = ProjectUser.objects.get_or_create(project_uuid=project_uuid, username=user.username)
+
+    auth.login(request, user)
+    return redirect(bookings_by_project, project.id)
 
 '''
     Forms
@@ -144,10 +187,37 @@ def form_remove_image(request):
     try:
         obj_id = request.GET["obj_id"]
         obj = get_or_none(Form, obj_id) 
-        obj.image.delete(save=False)
+        obj.image.delete(save=True)
         return render(request, "forms/form-document.html", {"obj": obj,})
     except Exception as e:
         logger.error("[remove_file]" + str(e))
+        return render(request, 'error_exception.html', {'msg': str(e)})
+
+@login_required
+def form_add_qr(request):
+    try:
+        obj_id = request.GET["obj_id"]
+        form = get_or_none(Form, obj_id)
+        if form != None:
+            url = reverse('booking-new', kwargs={'form_uuid': form.uuid})
+            img_data = ContentFile(generate_qr(url))
+            form.qr.save('qr_{}.png'.format(form.uuid), img_data, save=True)
+        return render(request, "forms/form-qr.html", {"obj": form,})
+    except Exception as e:
+        logger.error("[bookings-form_add_qr]" + str(e))
+        return render(request, 'error_exception.html', {'msg': str(e)})
+
+@login_required
+def form_remove_qr(request):
+    try:
+        obj_id = request.GET["obj_id"]
+        obj = get_or_none(Form, obj_id) 
+        obj.qr.delete(save=True)
+        print("--a--")
+        print(obj.qr)
+        return render(request, "forms/form-qr.html", {"obj": obj,})
+    except Exception as e:
+        logger.error("[remove_qr]" + str(e))
         return render(request, 'error_exception.html', {'msg': str(e)})
 
 @login_required

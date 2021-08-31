@@ -81,11 +81,18 @@ def upload_form_image(instance, filename):
     folder = "forms/%s" % (instance.id)
     return '/'.join(['%s' % (folder), datetime.datetime.now().strftime("%Y%m%d%H%M%S") + ascii_filename])
 
+def upload_form_qr(instance, filename):
+    ascii_filename = str(filename.encode('ascii', 'ignore'))
+    instance.filename = ascii_filename
+    folder = "forms/qr/%s" % (instance.id)
+    return '/'.join(['%s' % (folder), datetime.datetime.now().strftime("%Y%m%d%H%M%S") + ascii_filename])
+
 class Form(models.Model):
     uuid = models.CharField(max_length=255, verbose_name=_('UUID'), default="")
     name = models.CharField(max_length=200, verbose_name=_("Name"))
     category = models.CharField(max_length=200, verbose_name=_("Category"), default="")
     image = models.ImageField(upload_to=upload_form_image, blank=True, verbose_name="Imagen de fondo", help_text="Select file to upload")
+    qr = models.ImageField(upload_to=upload_form_qr, blank=True, verbose_name="QR", help_text="Select file to upload")
 
     form_type = models.ForeignKey(FormType, on_delete=models.CASCADE, verbose_name=_("Form type"), blank=True, null=True)
     #blocks = models.ManyToManyField(Block, blank=True, verbose_name=_("Questions blocks"))
