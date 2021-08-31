@@ -7,21 +7,6 @@ from web.models import Channel, Project
 
 import datetime
 
-
-#| id         | bigint(20) unsigned | NO   | PRI | NULL    | auto_increment |
-#| name       | varchar(255)        | NO   |     | NULL    |                |
-#| surname    | varchar(255)        | NO   |     | NULL    |                |
-#| check_in   | datetime            | NO   |     | NULL    |                |
-#| check_out  | datetime            | NO   |     | NULL    |                |
-#| room       | varchar(255)        | NO   |     | NULL    |                |
-#| guest_type | varchar(255)        | NO   | MUL | NULL    |                |
-#| pin        | varchar(255)        | NO   |     | NULL    |                |
-#| language   | varchar(255)        | NO   |     | NULL    |                |
-#| country    | varchar(255)        | NO   |     | NULL    |                |
-#| UUID       | varchar(255)        | NO   | UNI | NULL    |                |
-#| project_id | varchar(255)        | NO   |     | NULL    |                |
-#| deleted    | tinyint(1)          | NO   |     | 0       |                |
-#
 class Guest(models.Model):
 #     channel = models.ForeignKey('web.Channel', to_field='uuid', on_delete=models.SET_NULL, null=True)
 #     project = models.ForeignKey('web.Project', to_field='uuid', on_delete=models.SET_NULL, null=True)
@@ -30,14 +15,24 @@ class Guest(models.Model):
     room = models.CharField(max_length=255, verbose_name='Room', default="")
     name = models.CharField(max_length=255, verbose_name='Name', default="")
     surname = models.CharField(max_length=255, verbose_name='Surname', default="")
+    referral = models.CharField(max_length=255, verbose_name='Referral', default="")
     guest_type = models.CharField(max_length=255, verbose_name='Guest Type', default="guest")
     project_id = models.CharField(max_length=255, verbose_name='Project', default="")
     language = models.CharField(max_length=255, verbose_name='Language', default="")
+    birthdate = models.DateField(verbose_name='Birthdate', default=datetime.date.today)
     check_in = models.DateTimeField(verbose_name='Check-In', default=datetime.datetime.now)
     check_out = models.DateTimeField(verbose_name='Check-Out', default=datetime.datetime.now)
     language = models.CharField(max_length=255, verbose_name='Language', default="es")
     country = models.CharField(max_length=255, verbose_name='Country', default="es")
     pin = models.CharField(max_length=255, verbose_name='PIN', default="0000000")
+    married = models.IntegerField(verbose_name='Married', default=0)
+    with_kids = models.IntegerField(verbose_name='With kids', default=0)
+    adults = models.IntegerField(verbose_name='Adults', default=0)
+    children = models.IntegerField(verbose_name='Childrens', default=0)
+    babies = models.IntegerField(verbose_name='Babies', default=0)
+    mobile = models.CharField(max_length=255, verbose_name='Mobile', default="")
+    email = models.CharField(max_length=255, verbose_name='Email', default="")
+    balance = models.FloatField(verbose_name='Balance', default=0.)
     deleted = models.IntegerField(verbose_name='Deleted', default=0)
 
     @property
@@ -112,6 +107,20 @@ class GuestByChannel(models.Model):
     language = models.CharField(max_length=255, verbose_name='Language')
     check_in = models.DateTimeField(verbose_name='Check-In')
     check_out = models.DateTimeField(verbose_name='Check-Out')
+    referral = models.CharField(max_length=255, verbose_name='Referral', default="")
+    guest_type = models.CharField(max_length=255, verbose_name='Guest Type', default="guest")
+    birthdate = models.DateField(verbose_name='Birthdate', default=datetime.date.today)
+    country = models.CharField(max_length=255, verbose_name='Country', default="es")
+    pin = models.CharField(max_length=255, verbose_name='PIN', default="0000000")
+    married = models.IntegerField(verbose_name='Married', default=0)
+    with_kids = models.IntegerField(verbose_name='With kids', default=0)
+    adults = models.IntegerField(verbose_name='Adults', default=0)
+    children = models.IntegerField(verbose_name='Childrens', default=0)
+    babies = models.IntegerField(verbose_name='Babies', default=0)
+    mobile = models.CharField(max_length=255, verbose_name='Mobile', default="")
+    email = models.CharField(max_length=255, verbose_name='Email', default="")
+    balance = models.FloatField(verbose_name='Balance', default=0.)
+    deleted = models.IntegerField(verbose_name='Deleted', default=0)
 
     @property
     def project(self):
