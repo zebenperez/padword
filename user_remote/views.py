@@ -14,10 +14,10 @@ def users(request):
     try:
         items = PWUser.objects.all()
         items = sorted(items, key=lambda x: '{}_{}'.format(x.project.name, x.name))
-
         return render(request, 'user_remote/users/users.html', {'items':items})
     except Exception as e:
         print(show_exc(e))
+        return render(request, 'user_remote/users/users.html', {'items':PWUser.objects.all()})
         return HttpResponse(show_exc(e))
 
 @group_required("admins")
@@ -40,5 +40,6 @@ def user_search(request):
         return render(request, "user_remote/users/user-row.html", {'items': items})
     except Exception as e:
         print (show_exc(e))
+        return render(request, 'user_remote/users/users.html', {'items':PWUser.objects.all()})
         return JsonResponse({'results':[], 'error':1, 'error-msg':show_exc(e)})
 
