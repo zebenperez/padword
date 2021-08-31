@@ -24,16 +24,19 @@ def users(request):
 def user_search(request):
     try:
         name = get_param(request.GET, "s-name")
-        filters_to_search = ["name__icontains", "email__icontains"]
-        items = Project.objects.none()
+        if name == "":
+            items = PWUser.objects.all()
+        else:
+            filters_to_search = ["name__icontains", "email__icontains"]
+            items = PWUser.objects.none()
 
-        list_uuids = Project.objects.filter(name__icontains = name).values_list('uuid', flat=True)
-        items = PWUser.objects.filter(project_uuid__in = list(list_uuids))
-        for myfilter in filters_to_search:
-            kwargs = {}
-            if name != "":
-                kwargs[myfilter] = name
-            items = items.union(PWUser.objects.filter(**kwargs))
+            list_uuids = Project.objects.filter(name__icontains = name).values_list('uuid', flat=True)
+            items = PWUser.objects.filter(project_uuid__in = list(list_uuids))
+            for myfilter in filters_to_search:
+                kwargs = {}
+                if name != "":
+                    kwargs[myfilter] = name
+                items = items.union(PWUser.objects.filter(**kwargs))
         return render(request, "user_remote/users/user-row.html", {'items': items})
     except Exception as e:
         print (show_exc(e))
