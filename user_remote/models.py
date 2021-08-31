@@ -8,26 +8,7 @@ from web.models import Project
 
 # Create your models here.
 
-class PWUsers(models.Model):
-#     | id                   | bigint(20) unsigned | NO   | PRI | NULL    | auto_increment |
-#     | name                 | varchar(255)        | NO   |     | NULL    |                |
-#     | email                | varchar(255)        | NO   | UNI | NULL    |                |
-#     | password             | varchar(255)        | NO   |     | NULL    |                |
-#     | language             | varchar(255)        | NO   |     | es      |                |
-#     | place                | varchar(255)        | YES  |     | NULL    |                |
-#     | category             | varchar(255)        | YES  |     | NULL    |                |
-#     | checkin_notification | tinyint(1)          | NO   |     | 0       |                |
-#     | role_id              | bigint(20) unsigned | NO   | MUL | 1       |                |
-#     | remember_token       | varchar(100)        | YES  |     | NULL    |                |
-#     | api_token            | varchar(255)        | NO   | UNI | NULL    |                |
-#     | UUID                 | varchar(255)        | NO   | UNI | NULL    |                |
-#     | project_uuid         | varchar(255)        | NO   |     | NULL    |                |
-#     | available_projects   | varchar(8000)       | NO   |     | NULL    |                |
-#     | created_at           | timestamp           | YES  |     | NULL    |                |
-#     | updated_at           | timestamp           | YES  |     | NULL    |                |
-#     | contacts             | varchar(2048)       | YES  |     | NULL    |                |
-#     | available_channels   | varchar(2048)       | YES  |     | NULL    |                |
-
+class PWUser(models.Model):
     uuid = models.CharField(max_length=255, verbose_name=_('UUID'), default="", null=True)
     name = models.CharField(max_length=255, verbose_name=_('Name'), default="", null=True)
     email = models.CharField(max_length=255, verbose_name=_('Email'), unique=True, default="", null=True)
@@ -42,6 +23,7 @@ class PWUsers(models.Model):
     created_at = models.DateTimeField(verbose_name=_('Created at'), default=datetime.datetime.now, null=True)
     updated_at = models.DateTimeField(verbose_name=_('Updated at'), default=datetime.datetime.now, null=True)
     project_uuid = models.CharField(max_length=255, verbose_name=_('Project UUID'), default="", null=True)
+    #project = models.ForeignKey(Project, verbose_name = 'Project', on_delete=models.SET_NULL, null=True, to_field='uuid', db_column='project_uuid')
     available_projects = models.TextField(verbose_name=_('Available Projects'), default="", null=True)
     contacts = models.TextField(verbose_name=_('Contacts'), default="", null=True)
     available_channels = models.TextField(verbose_name=_('Available Channels'), default="", null=True)
@@ -58,4 +40,4 @@ class PWUsers(models.Model):
         try:
             return Project.objects.get(uuid=self.project_uuid)
         except:
-            return Project(name="UNKNOWN")
+            return None

@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'guest',
     'bookings',
     'contents',
+    'user_remote',
 ]
 
 MIDDLEWARE = [

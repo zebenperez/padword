@@ -1,4 +1,4 @@
-{% load i18n %}
+{% load i18n padword_tags %}
 
 <table class="table table-striped table-hover">
     <thead>
@@ -7,7 +7,6 @@
                 <div class="col-6 col-md-4"> {% trans 'Name' %} </div>
                 <div class="col-6 col-md-4"> {% trans 'Email' %} </div>
                 <div class="col-md-4 d-flex d-none d-md-block"> {% trans 'Project' %} </div>
-                <div class="col-12 col-md-3 d-flex">  </div>
             </th>
         </tr>
     </thead>
@@ -17,8 +16,8 @@
             <td class="row m-2">
                 <div class="col-md-4 col-6">{{ item.name }}</div>
                 <div class="col-md-4 col-6">{{ item.email}}</div>
-                <div class="col-md-4 d-flex d-none d-md-block justify-content-center">{{ item.project.name }}</div>
-                <div class="col-md-3 pt-md-0 pt-3 col-12 d-flex justify-content-md-end justify-content-center">
+                <div class="col-md-3 d-flex d-none d-md-block justify-content-center">{{ item.project_uuid|get_obj:'Project' }}</div>
+                <div class="col-md-1 pt-md-0 pt-3 col-12 d-flex justify-content-md-end justify-content-center">
                     <a class="btn" href="#" onclick='alert("{{item.uuid}}"); return False'><i class="fas fa-fingerprint"></i></a>
                 </div>
             </td>

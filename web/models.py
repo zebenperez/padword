@@ -21,7 +21,7 @@ class Company(models.Model):
         ordering = ['name']
 
 class Project(models.Model):
-    uuid = models.CharField(max_length=255, verbose_name='UUID', default="")
+    uuid = models.CharField(max_length=255, verbose_name='UUID', default="", unique=True)
     name = models.CharField(max_length=255, verbose_name='Name', default="")
     longitude = models.CharField(max_length=255, verbose_name='Longitud', default="", blank=True)
     latitude = models.CharField(max_length=255, verbose_name='Latitud', default="", blank=True)
