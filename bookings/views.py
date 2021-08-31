@@ -295,7 +295,7 @@ def get_booking_context(form=None, project=None):
         context["project_name"] = project.name
 
     items = FormInstance.objects.filter(**kwargs)
-    if items.count() ==0:
+    if items.count() == 0 and project == None:
         context["msg"] = 'No hay resultados para la búsqueda. Presentamos las últimas 100 reservas'
         items = FormInstance.objects.all()[:100]
 
@@ -351,13 +351,19 @@ def bookings_search(request):
 
         kwargs = {}
         if project != "":
-            uuid_list = [item.uuid for item in Channel.objects.filter(project__name__icontains=project)]
-            kwargs["form__channels__channel__in"] = uuid_list
+            uuid_channel_list = [item.uuid for item in Channel.objects.filter(project__name__icontains=project)]
+            uuid_list = [item.uuid for item in Form.objects.filter(channels__channel__in=uuid_channel_list)]
+            kwargs["form_uuid__in"] = uuid_list
+            #kwargs["form__channels__channel__in"] = uuid_list
         if channel != "":
-            uuid_list = [item.uuid for item in Channel.objects.filter(name__icontains=channel)]
-            kwargs["form__channels__channel__in"] = uuid_list
+            uuid_channel_list = [item.uuid for item in Channel.objects.filter(name__icontains=channel)]
+            uuid_list = [item.uuid for item in Form.objects.filter(channels__channel__in=uuid_channel_list)]
+            kwargs["form_uuid__in"] = uuid_list
+            #kwargs["form__channels__channel__in"] = uuid_list
         if form != "":
-            kwargs["form__name__icontains"] = form
+            uuid_list = [item.uuid for item in Form.objects.filter(name__icontains=form)]
+            kwargs["form_uuid__in"] = uuid_list
+            #kwargs["form__name__icontains"] = form
         if ini_date != "":
             kwargs["date__gte"] = ini_date
         if end_date != "":
