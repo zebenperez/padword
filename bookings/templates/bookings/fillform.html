@@ -7,15 +7,15 @@
     <div class="main-content-booking container-fluid">
         <div class="div-transp p-4 mt-3 mb-3">
             <div class="bookingHeader">
-                <div class="col-lg-10 offset-lg-1 col-md-9 offset-md-1 col-xs-6 text-center">
-                    <h1 class=""> 
-                        {% padword_translate fi.form.name %} 
+                <div class="col-lg-10 offset-lg-1 col-md-9 offset-md-1 col-xs-6">
+                    <h1 class="grid-container"> 
+			<div class="item1">{% padword_translate fi.form.name %}</div> 
                         {% if fi.form.form_type.code == "ecom" %}
-                        (<span id="info-shopping">{{items.count}} art.&nbsp;&nbsp;&nbsp; {{fi.get_total|stringformat:".2f"}} &euro; </span>)
-                        <a class="btn btn-light small ark mb-1" data-url="{% url 'view-shopping-cart' %}" data-target-modal="common-modal" data-form_id="{{fi.pk}}">{% trans 'Ver carrito' %}</a>
+			<div class="item2 text-right">(<span id="info-shopping">{{items.count}} art.&nbsp;&nbsp;&nbsp; {{fi.get_total|stringformat:".2f"}} &euro; </span>)</div>
+                        <a class="btn btn-light small ark mb-1" data-url="{% url 'view-shopping-cart' %}" data-target-modal="common-modal" data-form_id="{{fi.pk}}"> <i class="fas fa-shopping-cart"></i> {% trans '' %}</a>
                         {% endif %}
                     </h1> 
-                    <a id="full-screen" class="btn btn-info" onclick="javascript:toggleFullScreen();">Full screen</a></div>
+                    <a id="full-screen" class="btn btn-info text-center" onclick="javascript:toggleFullScreen();">Full screen</a></div>
             </div>
 
             <div class="row"> <div class="col-md-9 offset-md-1" id="div-notification"></div> </div>
@@ -36,10 +36,10 @@
 
             <div class="row mt-4 mb-4 d-flex justify-content-center ">
                 {% if not ro %}
-                <div class="col-lg-3 offset-lg-2 col-md-3 offset-md-2 col-xs-4 offset-xs-1 actions text-center">
+                <div class="col-lg-3 col-md-3 col-xs-4 offset-xs-1 actions text-center">
                     <a href="{% url "booking-send" fi.id %}" class="btn btn-success btn-lg w-100">{% trans "Send" %}</a>
                 </div>
-                <div class="col-lg-3 offset-lg-2 col-md-3 offset-md-1 col-xs-4 offset-xs-1 actions text-center">
+                <div class="col-lg-3 offset-lg-1 col-md-3 offset-md-1 col-xs-4 offset-xs-1 actions text-center">
                     <a href="{% url "booking-remove" fi.id %}" class="btn btn-danger btn-lg w-100">{% trans "Cancel" %}</a>
                 </div>
                 {% else %}

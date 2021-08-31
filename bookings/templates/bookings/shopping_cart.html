@@ -23,9 +23,13 @@
 {%csrf_token%}
 {% for children in category.get_childrens %}
 <div class="col-12 d-flex align-middle justify-content-center mt-1">
-    <a class="btn btn-danger p-1 w-100" onclick="$('#div-shopping-cart-{{children.pk}}').toggle();"> {% padword_translate children.name%} </a>
+	<a class="btn btn-dark pl-2 w-100 b-white mt-4" onclick="$('.div-shopping-cart-{{children.pk}}').toggle();"> 
+        <i class="fas fa-folder div-shopping-cart-{{children.pk}}" style="display:none"></i>
+        <i class="fas fa-folder-open div-shopping-cart-{{children.pk}}" ></i>
+        {% padword_translate children.name%} 
+    </a>
 </div>
-<div id="div-shopping-cart-{{children.pk}}"></div>
+<div id="div-shopping-cart-{{children.pk}}" class="div-shopping-cart-{{children.pk}}"></div>
 <script>{% ark 'show-category-shopping-cart' 'div-shopping-cart-'|addstr:children.pk form_id=fi.pk cat_id=children.uuid %}</script>
 {% endfor %}
 <div class="d-none" id="for-scripts">
