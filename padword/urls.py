@@ -26,6 +26,7 @@ urlpatterns = [
     path('guest/', include('guest.urls')),
     path('contents/', include('contents.urls')),
     path('bookings/', include('bookings.urls')),
+    path('user_remote/', include('user_remote.urls')),
 
     path('accounts/login/', auth_views.LoginView.as_view(template_name='login.html'), name='auth_login'),
     path('logout/', auth_views.LogoutView.as_view(next_page='/accounts/login/'), name='auth_logout'),

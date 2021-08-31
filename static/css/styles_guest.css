@@ -38,6 +38,25 @@ body {
 .bookingHeader h1 {
 	border-bottom:1px solid #fff;
 }
+  
+.grid-container {
+	display: grid;
+	grid-template-columns: auto auto auto auto auto auto;
+	grid-gap: 10px;
+}
+
+.grid-container > div {
+	font-size: 30px;
+}
+
+.item1 {
+	grid-column: 1 / 5;
+}
+.item2 {
+	font-size: 18px !important;
+	line-height: 1.8;
+	text-align: right;
+}
 
 .div-info {
 	color: white;
@@ -57,6 +76,14 @@ body {
 	background: #36abfc !important;
 	color: white;
 }
+
+.b-white {
+	border: 1px solid #666;
+	text-align: left;
+	text-transform: uppercase;    
+	letter-spacing: 2px;
+}
+
 
 /*****************************/
 /* table style*/

@@ -21,7 +21,7 @@ class Company(models.Model):
         ordering = ['name']
 
 class Project(models.Model):
-    uuid = models.CharField(max_length=255, verbose_name='UUID', default="")
+    uuid = models.CharField(max_length=255, verbose_name='UUID', default="", unique=True)
     name = models.CharField(max_length=255, verbose_name='Name', default="")
     longitude = models.CharField(max_length=255, verbose_name='Longitud', default="", blank=True)
     latitude = models.CharField(max_length=255, verbose_name='Latitud', default="", blank=True)
@@ -117,6 +117,7 @@ class Device(models.Model):
     serial_number = models.CharField(max_length=255, verbose_name=_('Serial Number'), default="")
     active = models.IntegerField(verbose_name=_('Active'), default=1)
     created_at = models.DateTimeField(verbose_name=_('Created at'), default=datetime.datetime.now)
+    updated_at = models.DateTimeField(verbose_name=_('Updated at'), default=datetime.datetime.now)
     #channel_id = models.CharField(max_length=255, verbose_name='Channel ID', default="")
 
     channel = models.ForeignKey(Channel, verbose_name=_('Channel'), on_delete=models.SET_NULL, null=True, to_field='uuid')
@@ -126,7 +127,7 @@ class Device(models.Model):
             managed = False
             db_table = 'devices'
         verbose_name = _('Device')
-        ordering = ['imei']
+        ordering = ['-updated_at', 'imei']
 
     @property
     def project(self):

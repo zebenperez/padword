@@ -1,30 +1,16 @@
-body {
-  overflow-x: hidden;
-  font-family: "Lato", sans-serif;
- }
-/*
-    DEMO STYLE
-*/
 
 @import "https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700";
+
 body {
-  font-family: 'Poppins', sans-serif;
+  font-family: 'Trebuchet MS', sans-serif;
   background: #fafafa;
 }
 
 p {
-  font-family: 'Poppins', sans-serif;
   font-size: 14px;
   font-weight: 300;
   line-height: 1.7em;
   color: #999;
-}
-
-a,
-a:hover,
-a:focus {
-  text-decoration: none;
-  transition: all 0.3s;
 }
 
 .navbar {
@@ -36,23 +22,8 @@ a:focus {
   box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
 }
 
-.navbar-btn {
-  box-shadow: none;
-  outline: none !important;
-  border: none;
-}
 
-.line {
-  width: 100%;
-  height: 1px;
-  border-bottom: 1px dashed #ddd;
-  margin: 40px 0;
-}
-
-
-/* ---------------------------------------------------
-    SIDEBAR STYLE
------------------------------------------------------ */
+/* --- SIDEBAR STYLE --- */
 
 .wrapper {
   display: flex;
@@ -68,11 +39,6 @@ a:focus {
   margin-top: -40px;
 }
 
-#sidebar a,
-#sidebar a:hover,
-#sidebar a:focus {
-  color: inherit;
-}
 
 #sidebar.active {
   margin-left: -250px;
@@ -83,20 +49,11 @@ a:focus {
   background: black;
 }
 
-#sidebar ul.components {
-  padding: 20px 0;
-  border-bottom: 1px solid #47748b;
-}
-
-#sidebar ul p {
-  color: #fff;
-  padding: 10px;
-}
-
 #sidebar ul li a {
   padding: 10px;
   font-size: 14px;
   display: block;
+  background: black;
 }
 
 #sidebar ul li a:hover {
@@ -104,78 +61,15 @@ a:focus {
   background: grey;
 }
 
-#sidebar ul li.active > a,
-a[aria-expanded="true"] {
-  color: #fff;
-  background: grey;
-}
-
-a[data-toggle="collapse"] {
-  position: relative;
-}
-
-a[aria-expanded="false"]::before,
-a[aria-expanded="true"]::before {
-  content: '\e259';
-  display: block;
-  position: absolute;
-  right: 20px;
-  font-family: 'Glyphicons Halflings';
-  font-size: 10px;
-}
-
-a[aria-expanded="true"]::before {
-  content: '\e260';
-}
-
-ul ul a {
-  font-size: 12px !important;
-  padding-left: 30px !important;
-  background: grey;
-}
-
-ul.CTAs {
-  padding: 20px;
-}
-
-ul.CTAs a {
-  text-align: center;
-  font-size: 12px !important;
-  display: block;
-  border-radius: 5px;
-  margin-bottom: 5px;
-}
-
-a.download {
-  background: grey;
-  color: white;
-}
-
-a.article,
-a.article:hover {
-  background: grey !important;
-  color: #fff !important;
-}
-
-
-/* ---------------------------------------------------
-    CONTENT STYLE
------------------------------------------------------ */
+/* --- CONTENT STYLE --- */
 
 #content {
   padding: 20px;
-  min-height: 100vh;
+  min-height: 80vh;
   transition: all 0.3s;
 }
 
-#content p a {
-  color:
-}
-
-
-/* ---------------------------------------------------
-    MEDIAQUERIES
------------------------------------------------------ */
+/* --- MEDIAQUERIES --- */
 
 @media (max-width: 768px) {
   #sidebar {
@@ -189,21 +83,11 @@ a.article:hover {
   }
 }
 
-/************** NAV BAR **************************/
-
-
-
-nav {
-  margin-top: 40px;
-  padding: 24px;
-  text-align: center;
-  box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.5);
-  background: #3fa46a;
-}
+/* --- NAV BAR --- */
 
 nav a {
   transition: 0.3s ease;
-  color: white;
+  color: white; !important;
   font-size: 20px;
   text-decoration: none;
   border-top: 2px solid transparent;
@@ -212,31 +96,10 @@ nav a {
   margin: 0 5px;
   font-size: 17px;
   text-align: left;
+
 }
 nav a:hover {
   background-color: grey;
   border-radius:0;
 }
 
-.navbar .nav-item:not(:last-child) {
-  margin-right: 35px;
-}
-
-.dropdown-toggle::after {
-   transition: transform 0.15s linear;
-}
-
-.show.dropdown .dropdown-toggle::after {
-  transform: translateY(3px);
-}
-
-a.tab{
-  font-size: 20px;
-  color: black;
-}
-
-a.navbar-brand {
-    height: 65px;
-    font-size: 18px;
-    line-height: 60px;
-}

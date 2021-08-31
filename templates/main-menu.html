@@ -12,9 +12,22 @@
         <div class="nav-item"> <a class="nav-link {% current '' %}" href="#"> {% trans 'Rooms' %} </a> </div>
         <div class="nav-item"> <a class="nav-link {% current '' %}" href="#"> {% trans 'Tablets' %} </a> </div>
         <div class="nav-item"> <a class="nav-link {% current 'guests' %}" href="{% url 'guests' %}"> {% trans 'Guests' %} </a> </div>
+        <div class="nav-item"> <a class="nav-link {% current 'user-index' %}" href="{% url 'user-index' %}"> {% trans 'PW Users' %} </a> </div>
     {% elif menu == "projects" %}
+        <div class="nav-item"><a class="nav-link" href="https://backend.padword.es/admin"> 
+            {% trans 'Messages' %} </a> </div>
+        <div class="nav-item"><a class="nav-link {% current 'bookings-by-project' %}" href="{% url 'bookings-by-project' project.id %}"> 
+            {% trans 'Bookings' %} </a> </div>
+        <div class="nav-item"><a class="nav-link" href="https://backend.padword.es/admin""> 
+            {% trans 'Rooms' %} </a> </div>
+        <div class="nav-item"><a class="nav-link" href="https://backend.padword.es/admin"> 
+            {% trans 'Tablets' %} </a> </div>
+        <div class="nav-item"><a class="nav-link" href="https://backend.padword.es/admin"> 
+            {% trans 'Guests' %} </a> </div>
+        {% comment %}
         <div class="nav-item"><a class="nav-link {%current 'channels-by-project'%}" aria-current="page" 
             href="{%url 'channels-by-project' project.id %}"> {% trans 'Admin' %}</a></div>
+        {% endcomment %}
     {% elif menu == "clients" %}
     {% endif %}
     <div class="nav-item"> <a class="nav-link {% current '' %}" href="{% url 'auth_logout' %}"> 

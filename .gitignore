@@ -7,5 +7,7 @@ viewlog.sh
 **.zeben
 **.dani
 **swp
+**old
 local_settings.py
+dbrouting.py
 media
