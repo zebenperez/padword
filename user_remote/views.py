@@ -30,16 +30,17 @@ def user_search(request):
             filters_to_search = ["name__icontains", "email__icontains"]
             items = PWUser.objects.none()
 
-            list_uuids = Project.objects.filter(name__icontains = name).values_list('uuid', flat=True)
-            items = PWUser.objects.filter(project_uuid__in = list(list_uuids))
             for myfilter in filters_to_search:
                 kwargs = {}
                 if name != "":
                     kwargs[myfilter] = name
                 items = items.union(PWUser.objects.filter(**kwargs))
+#             list_uuids = Project.objects.filter(name__icontains = name).values_list('uuid', flat=True)
+#             if list_uuids:
+#                 items = items.union(PWUser.objects.filter(project_uuid__in = list(list_uuids)))
         return render(request, "user_remote/users/user-row.html", {'items': items})
     except Exception as e:
         print (show_exc(e))
-        return render(request, 'user_remote/users/users.html', {'items':PWUser.objects.all()})
+        return render(request, 'user_remote/users/user-row.html', {'items':PWUser.objects.all()})
         return JsonResponse({'results':[], 'error':1, 'error-msg':show_exc(e)})
 
