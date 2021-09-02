@@ -212,7 +212,9 @@ class FormInstance(models.Model):
 
     @property
     def device(self):
-        return Device.objects.filter(channel__project__uuid = self.form.project.uuid, room = self.guest.room).first()
+        if self.form != None and self.form.project != None and self.guest != None:
+            return Device.objects.filter(channel__project__uuid = self.form.project.uuid, room = self.guest.room).first()
+        return None
 
     @property
     def get_total(self):
@@ -324,9 +326,9 @@ class GuestUser(models.Model):
                 guests_group = Group.objects.get(name='guests') 
                 user = User.objects.create_user(username, email=username) if "@" in username else User.objects.create_user(username)
                 guests_group.user_set.add(user)
-            except:
-                return None
+            except Exception as e:
+                return None, str(e)
         gu, created = GuestUser.objects.get_or_create(guest_uuid=guest_uuid, project_uuid=project_uuid, username=user.username)
-        return user
+        return user, ""
 
 

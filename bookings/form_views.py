@@ -33,7 +33,7 @@ def forms(request):
         context = { 'items': Form.objects.all(), }
         return render (request, "forms/forms.html", {'items': Form.objects.all()})
     except Exception as e:
-        return render(request, 'error_exception.html', {'exc':show_exc(e)})
+        return render(request, 'full_error_exception.html', {'exc':show_exc(e)})
 
 @group_required("admins", "projects")
 def forms_by_project(request, project_id):

@@ -1,0 +1,8 @@
+{% extends 'base.html' %}
+{% load i18n padword_tags %}
+
+{% block second_menu %}{% get_second_menu request.user %}{% endblock second_menu %}
+
+{% block central_content %}
+{% include "error_exception.html" %}
+{% endblock central_content %}

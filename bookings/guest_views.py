@@ -132,7 +132,9 @@ def booking_new_guest(request):
         if form.project == None:
             return render(request, 'error_exception.html', {'exc': _('Project not found!')})
 
-        user = GuestUser.get_or_create_guest_user(guest.UUID, form.project.uuid, code)
+        user, err = GuestUser.get_or_create_guest_user(guest.UUID, form.project.uuid, code)
+        if err != "":
+            return render(request, 'error_exception.html', {'exc': err})
         auth.login(request, user)
 
         return redirect(booking_new, form_uuid)
@@ -170,7 +172,9 @@ def booking_new_device(request, form_uuid):
         if form.project == None:
             return render(request, 'error_exception.html', {'exc': _('Project not found!')})
 
-        user = GuestUser.get_or_create_guest_user(guest.UUID, form.project.uuid, code)
+        user, err = GuestUser.get_or_create_guest_user(guest.UUID, form.project.uuid, code)
+        if err != "":
+            return render(request, 'error_exception.html', {'exc': err})
         auth.login(request, user)
 
         return redirect(booking_new, form_uuid)
@@ -263,9 +267,9 @@ def booking_send(request, fi_id):
 def booking_remove(request, fi_id):
     try:
         fi = FormInstance.objects.get(pk = fi_id)
-        device_uuid = fi.device_uuid
+        project_uuid = fi.form.project.uuid if fi.form != None and fi.form.project != None else ""
         fi.delete()
-        context = {'msg': "Cancelada", 'device_uuid': device_uuid}
+        context = {'msg': "05", 'project_uuid': project_uuid}
         return render(request, 'bookings/show_msg.html', context)
     except Exception as e:
         logger.error("[bookings-remove_fi] {}".format(str(e)))
@@ -426,3 +430,99 @@ def remove_file(request):
         logger.error("[bookings-autosave]: {}".format(e))
         return render(request, 'error_exception.html', {'msg': str(e)})
 
+#'''
+#    Bookings shopping cart methods
+#'''
+@group_required("admins", "projects", "guests")
+def item_to_shopping_cart(request):
+    try:
+        form_id = request.GET["form_id"]
+        item_id = request.GET["item_id"]
+        item = get_or_none(Item, int(item_id))
+
+        obj = ShoppingCart(form_instance_id=int(form_id), item=item, comments='')
+        obj.save()
+
+        instance = FormInstance.objects.get(pk=form_id)
+        items = ShoppingCart.objects.filter(form_instance_id=int(form_id), item=item)
+        return render(request, "bookings/show-instance-result.html", {'items':items, 'item':item})
+        return HttpResponse('{} art.&nbsp;&nbsp;&nbsp;{:.2f} &euro;'.format(items.count(), instance.get_total))
+        #return render(request, "bookings/shopping-form.html", {'obj':obj})
+    except Exception as e:
+        return render(request, "error_exception.html", {'exc':show_exc(e)})
+
+@group_required("admins", "projects", "guests")
+def show_category_shopping_cart(request, form_id=None, cat_id = None):
+    try:
+        if not form_id:
+            form_id = request.GET["form_id"]
+        if not cat_id:
+            cat_id = request.GET["cat_id"]
+        instance = FormInstance.objects.get(pk=form_id)
+        category = Category.objects.get(uuid=cat_id)
+        return render(request, "bookings/shopping_cart.html", {'category':category, 'fi':instance})
+    except Exception as e:
+        return render(request, "error_exception.html", {'exc':show_exc(e)})
+
+@group_required("admins", "projects", "guests")
+def item_shopping_cart_comment(request):
+    try:
+        item_id = request.GET["item_id"]
+        form_id = request.GET["form_id"]
+        obj = get_or_none(ShoppingCart, int(item_id))
+
+        return render(request, "bookings/shopping-form.html", {'obj':obj, 'form_id':form_id})
+    except Exception as e:
+        return render(request, "error_exception.html", {'exc':show_exc(e)})
+
+@group_required("admins", "projects", "guests")
+def view_shopping_cart(request):
+    try:
+        instance_id = get_param(request.GET, "form_id")
+        instance = FormInstance.objects.get(pk=instance_id)
+        items = ShoppingCart.objects.filter(form_instance_id=instance.pk)
+        total_price = instance.get_total
+        return render(request, "bookings/view-shopping-cart.html", {'fi':instance, 'items':items, 'total':total_price})
+    except Exception as e:
+        return HttpResponse(show_exc(e))
+
+@group_required("admins", "projects", "guests")
+def get_price_shopping_cart(request):
+    try:
+        instance_id = get_param(request.GET, "form_id")
+        instance = FormInstance.objects.get(pk=instance_id)
+        items = ShoppingCart.objects.filter(form_instance_id=instance.pk)
+        return HttpResponse('{} art.&nbsp;&nbsp;&nbsp;{:.2f} &euro;'.format(items.count(), instance.get_total))
+    except Exception as e:
+        return HttpResponse(show_exc(e))
+
+@group_required("admins", "projects", "guests")
+def remove_item_from_shopping_cart(request):
+    try:
+        item_id = request.GET["item_id"]
+        obj = ShoppingCart.objects.get(pk=item_id)
+        instance_id = obj.form_instance_id
+        obj.delete()
+        instance = FormInstance.objects.get(pk=instance_id)
+        items = ShoppingCart.objects.filter(form_instance_id=instance.pk)
+        total_price = instance.get_total
+        return render(request, "bookings/view-shopping-cart.html", {'fi':instance, 'items':items, 'total':total_price})
+    except Exception as e:
+        return render(request, "error_exception.html", {'exc':show_exc(e)})
+
+@group_required("admins", "projects", "guests")
+def remove_generic_item_from_shopping_cart(request):
+    try:
+        form_id = request.GET["form_id"]
+        item_id = request.GET["item_id"]
+        item = get_or_none(Item, int(item_id))
+
+        items = ShoppingCart.objects.filter(form_instance_id=int(form_id), item=item)
+        counter = items.count() - 1
+        obj = items.last()
+        obj.delete()
+
+        return render(request, "bookings/show-instance-result.html", {'items':items, 'item':item})
+        return render(request, "bookings/view-shopping-cart.html", {'fi':instance, 'items':items, 'total':total_price})
+    except Exception as e:
+        return render(request, "error_exception.html", {'exc':show_exc(e)})

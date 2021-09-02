@@ -30,11 +30,11 @@ urlpatterns = [
     path('block/remove/', fv.block_remove, name='block-remove'),
 
     #------------- Bookings --------------#
-	path('login/', views.login, name='login'),
+    path('login/', views.login, name='login'),
 
-	path('bookings/', views.bookings, name='bookings'),
-	path('bookings_by_form/<int:form_id>/', views.bookings_by_form, name='bookings-by-form'),
-	path('bookings_by_project/<int:project_id>/', views.bookings_by_project, name='bookings-by-project'),
+    path('bookings/', views.bookings, name='bookings'),
+    path('bookings_by_form/<int:form_id>/', views.bookings_by_form, name='bookings-by-form'),
+    path('bookings_by_project/<int:project_id>/', views.bookings_by_project, name='bookings-by-project'),
 
     path('bookings/search/', views.bookings_search, name='bookings-search'),
     path('booking-preview/<slug:form_uuid>/', views.booking_preview, name='booking-preview'),
@@ -73,14 +73,7 @@ urlpatterns = [
     path('shopping/get-price/', gv.get_price_shopping_cart, name='get-price-shopping-cart'),
     path('shopping/show-category/<int:form_id>/<slug:cat_id>/', gv.show_category_shopping_cart, name='show-category-shopping-cart'),
     path('shopping/show-category/', gv.show_category_shopping_cart, name='show-category-shopping-cart'),
-#    path('shopping/add-to-cart/', views.item_to_shopping_cart, name='item-to-shopping-cart'),
-#    path('shopping/remove-generic-from-cart/', views.remove_generic_item_from_shopping_cart, name='remove-generic-item-shopping-cart'),
-#    path('shopping/remove-from-cart/', views.remove_item_from_shopping_cart, name='remove-item-shopping-cart'),
-#    path('shopping/view-cart/', views.view_shopping_cart, name='view-shopping-cart'),
-#    path('shopping/get-price/', views.get_price_shopping_cart, name='get-price-shopping-cart'),
-#    path('shopping/show-category/<int:form_id>/<slug:cat_id>/', views.show_category_shopping_cart, name='show-category-shopping-cart'),
-#    path('shopping/show-category/', views.show_category_shopping_cart, name='show-category-shopping-cart'),
-#    path('shopping/comments/', views.item_shopping_cart_comment, name='item-shopping-cart-comment'),
+    path('shopping/comments/', gv.item_shopping_cart_comment, name='item-shopping-cart-comment'),
 
     path('test/', views.test, name='booking-test'),
 ]

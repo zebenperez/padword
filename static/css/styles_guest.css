@@ -1,30 +1,28 @@
 body {
 	position: relative;
-	/*background-image: url("/static/img/bg-test.jpg") !important;*/
+/*	background-image: url("/static/img/bg-test.jpg") !important;*/
 	background-position: center;
 	background-repeat: no-repeat;
 	background-size: cover;
 
 }
 
-#main {
-/*	border: 1px solid blue;*/
-	padding: 0px;
-}
+#main { padding: 0px; }
+
+.container, .container-fluid, .container-lg, .container-md, .container-sm, .container-xl, .container-xxl { padding: 0px !important; }
+
+
+/*****************************/
+/* FORM IMG-BACKGROUND STYLES */
+/*****************************/
 
 .div-transp {
 	background-size: cover;
-    background-color:black;
-    opacity:0.8;
-}
-
-.main-content-booking {
-	/*padding:125px;*/
+	background-color:black;
+	opacity:0.8;
 }
 
 .main-content-booking input, .main-content-booking select {
-
-	/*setting alpha = 0.1*/
 	background: #ccc;
 	border: none;
 	border-radius: 8px;
@@ -32,31 +30,17 @@ body {
 	color: #000 !important;
 }
 
-.bookingHeader {
-	color: #fff;
-}
-.bookingHeader h1 {
-	border-bottom:1px solid #fff;
-}
-  
+ 
 .grid-container {
 	display: grid;
 	grid-template-columns: auto auto auto auto auto auto;
 	grid-gap: 10px;
 }
 
-.grid-container > div {
-	font-size: 30px;
-}
+.grid-container > div { font-size: 30px; }
 
-.item1 {
-	grid-column: 1 / 5;
-}
-.item2 {
-	font-size: 18px !important;
-	line-height: 1.8;
-	text-align: right;
-}
+.item1 { grid-column: 1 / 5; }
+.item2 { font-size: 18px !important; line-height: 1.8; text-align: right; }
 
 .div-info {
 	color: white;
@@ -86,7 +70,13 @@ a.btn-light {
 	text-transform: uppercase;    
 	letter-spacing: 2px;
 }
+/*****************************/
+/* FORM GENERAL STYLES */
+/*****************************/
 
+.bookingHeader { color: #666; }
+.bookingHeader h1 { border-bottom:1px solid #fff; }
+ 
 
 /*****************************/
 /* table style*/
@@ -129,31 +119,55 @@ img {
 
 img[class] { width: 100%; }
 
-h5.card-title {
-	font-size: 1.1rem;
-	font-weight: 600;
-}
+h5.card-title { font-size: 1.1rem; font-weight: 600; }
 
-h4.card-title {
-	font-size: 1rem;
-}
+h4.card-title { font-size: 1rem; }
 
 
 /*****************************/
 /* devices style*/
 /*****************************/
 
-@media (min-width: 768px) 
+@media (max-width: 768px) 
 {
-	.main-content-booking {
-		padding:50px !important;
-	}
+	body {
+		position: relative;
+/*		background-image: url("/static/img/bg-test.jpg") !important;*/
+		background-position: center;
+		background-repeat: no-repeat;
+		background-size: cover;
 }
 
-@media (min-width: 480px) 
-{
-	.main-content-booking {
-		padding:50px !important;
+	.main-content-booking { /*padding:50px !important;*/ 	}
+	.container, .container-fluid, .container-lg, .container-md, .container-sm, .container-xl, .container-xxl {
+		padding: 0px !important;
 	}
+
 }
 
+@media (max-width: 480px) 
+{
+	body {
+		position: relative;
+/*		background-image: url("/static/img/bg-test.jpg") !important;*/
+		background-position: center;
+		background-repeat: no-repeat;
+		background-size: cover;
+}
+
+
+	.main-content-booking { /*padding:50px !important;*/ 	}
+	.container, .container-fluid, .container-lg, .container-md, .container-sm, .container-xl, .container-xxl {
+		padding: 0px !important;
+	}
+
+ 	.item1 { font-size: 20px !important;}
+
+}
+
+@media (max-width: 370px) 
+{
+	.item1 { font-size: 18px !important;}
+	.item2 { font-size: 14px !important; }
+
+}
