@@ -68,6 +68,20 @@
             title="{{obj.check_out}}" data-model-name="guest.guest" data-obj-id="{{obj.id}}" data-url="{% url "autosave_field" %}" 
             data-target="div-notification"/> <span id="check_out__msg"></span>
 	</div>
+
+	<div class="col-sm-6 col-md-5 col-12">
+		{% trans "Mobile phone" %}:
+		<input type="text" class="form-control autosave b-bottom mb-4" id="mobile" name="mobile" value="{{obj.mobile}}" 
+            title="{{obj.mobile}}" data-model-name="guest.guest" data-obj-id="{{obj.id}}" data-url="{% url "autosave_field" %}" 
+            data-target="div-notification"/> <span id="mobile__msg"></span>
+	</div>
+
+	<div class="col-sm-6 col-md-5 col-12">
+		{% trans "Email" %}:
+		<input type="text" class="form-control autosave b-bottom mb-4" id="email" name="email" value="{{obj.email}}" 
+            title="{{obj.email}}" data-model-name="guest.guest" data-obj-id="{{obj.id}}" data-url="{% url "autosave_field" %}" 
+            data-target="div-notification"/> <span id="email__msg"></span>
+	</div>
 </div>
 
 <div class="d-flex justify-content-end">

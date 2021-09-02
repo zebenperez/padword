@@ -1,8 +1,11 @@
 from django.db import models
-from django.utils.translation import ugettext_lazy as _ 
 from django.db.models import Max
+from django.contrib.auth.models import User, Group
+from django.utils.translation import ugettext_lazy as _ 
+
 from contents.models import Category, ShoppingCart
-from web.models import Channel
+from web.models import Channel, Device, Project
+from guest.models import Guest
 
 from padword.commons import show_exc
 
@@ -112,7 +115,7 @@ class Form(models.Model):
     @property
     def project(self):
         cat = Category.objects.filter(uuid = self.category).first()
-        return cat.project
+        return cat.project if cat != None else None
 
     class Meta:
         verbose_name = _('2.- Form')
@@ -190,32 +193,9 @@ class FormChannel(models.Model):
         return channel.name if channel != None else ""
 
 class FormInstance(models.Model):
-#    CREATED= '01'
-#    SENDED = '02'
-#    CANCELED = '03'
-#    RECEIVED = '04'
-#    READED = '05'
-#    CONFIRMED = '06'
-#    REJECTED = '07'
-#    WAITING = '08'
-#    STATUS_CHOICES = [
-#        (CREATED, _('Created')),
-#        (SENDED, _('Sended')),
-#        (CANCELED, _('Canceled')),
-#        (RECEIVED, _('Received')),
-#        (READED, _('Readed')),
-#        (CONFIRMED, _('Confirmed')),
-#        (REJECTED, _('Rejected')),
-#        (WAITING, _('Waiting')),
-#    ]
-#
     code = models.CharField(verbose_name=_("Code"), max_length=20, default="")
-    #status = models.CharField(max_length=3, choices=STATUS_CHOICES, default=CREATED)
-    guest_name = models.CharField(max_length=255, verbose_name=_("Guest name"), default="")
-    guest_surname = models.CharField(max_length=255, verbose_name=_("Guest surname"), default="")
-    room_number = models.CharField(max_length=255, verbose_name=_("Room number"), default="")
     date = models.DateTimeField(_('Creation date'), default=datetime.datetime.now, null=True)
-    device_uuid = models.CharField(max_length=255, verbose_name=_("Device UUID"), default="")
+    guest_uuid = models.CharField(max_length=255, verbose_name=_("Guest UUID"), default="")
     form_uuid = models.CharField(max_length=255, verbose_name=_("Form UUID"), default="")
     status = models.ForeignKey(Status, on_delete=models.SET_NULL, verbose_name=_("Status"), blank=True, null=True)
 
@@ -223,8 +203,16 @@ class FormInstance(models.Model):
         return "%s" % (self.code)
 
     @property
-    def form (self):
+    def guest(self):
+        return Guest.objects.filter(UUID = self.guest_uuid).first()
+
+    @property
+    def form(self):
         return Form.objects.filter(uuid = self.form_uuid).first()
+
+    @property
+    def device(self):
+        return Device.objects.filter(channel__project__uuid = self.form.project.uuid, room = self.guest.room).first()
 
     @property
     def get_total(self):
@@ -297,4 +285,48 @@ class FormInstanceLog(models.Model):
 	class Meta:
 		verbose_name = _('Form log')
 		verbose_name_plural = _('Form logs')
+
+class GuestUser(models.Model):
+    guest_uuid = models.CharField(max_length = 255, verbose_name= _('Guest UUID'), default='admin')
+    project_uuid = models.CharField(max_length = 255, verbose_name= _('Project UUID'), default='admin')
+    username = models.CharField(max_length = 255, verbose_name= _('Username'), default='admin')
+
+    class Meta:
+        verbose_name = _('Guest user')
+
+    @property
+    def guest(self):
+        try:
+            return Guest.objects.get(UUID=self.guest_uuid)
+        except:
+            return None
+
+    @property
+    def user(self):
+        try:
+            return User.objects.get(username=self.username)
+        except:
+            return None
+
+    @property
+    def project(self):
+        try:
+            return Project.objects.get(uuid=self.project_uuid)
+        except:
+            return None
+
+    @staticmethod
+    def get_or_create_guest_user(guest_uuid, project_uuid, username):
+        try:
+            user = User.objects.get(username=username)
+        except:
+            try:
+                guests_group = Group.objects.get(name='guests') 
+                user = User.objects.create_user(username, email=username) if "@" in username else User.objects.create_user(username)
+                guests_group.user_set.add(user)
+            except:
+                return None
+        gu, created = GuestUser.objects.get_or_create(guest_uuid=guest_uuid, project_uuid=project_uuid, username=user.username)
+        return user
+
 

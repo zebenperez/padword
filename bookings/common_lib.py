@@ -11,8 +11,8 @@ logger = logging.getLogger(__name__)
 '''
     Form functions
 '''
-def get_or_create_form_instance(form_uuid, device_uuid, room_number, guest_name, guest_surname):
-    fi, created = FormInstance.objects.get_or_create(form_uuid=form_uuid, device_uuid=device_uuid, room_number=room_number, guest_name=guest_name, guest_surname=guest_surname, status__isnull=True)
+def get_or_create_form_instance(form_uuid, guest_uuid):
+    fi, created = FormInstance.objects.get_or_create(form_uuid=form_uuid, guest_uuid=guest_uuid, status__isnull=True)
     return fi
 
 def get_or_create_answer_instance(fi, q, f, index):

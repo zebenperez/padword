@@ -11,9 +11,11 @@
                 <thead>
                     <tr class="small small">
                         <th> {% trans 'Form' %} </th>
-                        <th> {% trans 'Device' %} </th>
-                        <th> {% trans 'Code' %} </th>
                         <th> {% trans 'Name' %} </th>
+                        <th> {% trans 'Surname' %} </th>
+                        <th> {% trans 'Phone' %} </th>
+                        <th> {% trans 'Email' %} </th>
+                        <th> {% trans 'Device' %} </th>
                         <th> {% trans 'Date' %} </th>
                         <th> {% trans 'Status' %} </th>
                     </tr>
@@ -22,11 +24,13 @@
                     {% for item in items %}
                         <tr class="small" id="row_{{item.id}}">
                             <td>{% padword_translate item.form.name %}</td>
-                            <td>{{item.device}}</td>
-                            <td>{{item.code}}</td>
-                            <td>{{item.name}}</td>
+                            <td>{{item.guest.name}}</td>
+                            <td>{{item.guest.surname}}</td>
+                            <td>{{item.guest.mobile}}</td>
+                            <td>{{item.guest.email}}</td>
+                            <td>{{item.device.uuid}}</td>
                             <td>{{ item.date }}</td>
-                            <td>{{ item.get_status_display }}</td>
+                            <td>{{ item.status.name }}</td>
                         </tr>
                     {% endfor %}
                 </tbody>

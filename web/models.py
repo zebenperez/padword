@@ -1,5 +1,5 @@
 from django.db import models
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, Group
 from django.conf import settings
 from django.utils.translation import ugettext as _
 from padword.commons import show_exc
@@ -104,6 +104,20 @@ class ProjectUser(models.Model):
             return Project.objects.get(uuid=self.project_uuid)
         except:
             return None
+
+    @staticmethod
+    def get_or_create_project_user(project_uuid, email):
+        try:
+            user = User.objects.get(username=email)
+        except:
+            try:
+                projects_group = Group.objects.get(name='projects') 
+                user = User.objects.create_user(email, email=email)
+                projects_group.user_set.add(user)
+            except:
+                return None
+        pu, created = ProjectUser.objects.get_or_create(project_uuid=project_uuid, username=user.username)
+        return user
 
 class Device(models.Model):
     uuid = models.CharField(max_length=255, verbose_name=_('UUID'), default="")

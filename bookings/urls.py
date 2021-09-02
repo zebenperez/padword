@@ -44,14 +44,15 @@ urlpatterns = [
     path('change-status/', views.change_status, name='change-status'),
 
     #------------- Bookings Guests --------------#
-    path('guest-login/', gv.guest_login, name='guest-login'),
-    path('guest-auth-login/', gv.guest_auth_login, name='guest-auth-login'),
+    path('guest-form-login/<slug:form_uuid>/', gv.guest_form_login, name='guest-form-login'),
+    path('booking-new-guest/', gv.booking_new_guest, name='booking-new-guest'),
+    path('booking-new-device/<slug:form_uuid>/datos/', gv.booking_new_device, name='booking-new-device'),
+    path('booking-new/<slug:form_uuid>/', gv.booking_new, name='booking-new'),
 
-    path('booking-new/<slug:form_uuid>/datos/', gv.booking_new, name='booking-new'),
     path('booking-send/<int:fi_id>/', gv.booking_send, name='booking-send'),
     path('booking-remove/<int:fi_id>/', gv.booking_remove, name='booking-remove'),
 
-    path('my-bookings/<slug:device_uuid>/', gv.bookings_by_device, name='my-bookings'),
+    path('my-bookings/<slug:project_uuid>/', gv.bookings_by_guest, name='my-bookings'),
 
     path('autosave-form-field/', gv.autosave_form_field, name='autosave-form-field'),
     path('get-block/', gv.get_block, name='get-block'),

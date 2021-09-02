@@ -1,8 +1,8 @@
 from django.db import models
 from django.utils.translation import ugettext as _
-from padword.commons import show_exc
 from django.conf import settings
 
+from padword.commons import show_exc
 from web.models import Channel, Project
 
 import datetime
@@ -54,6 +54,15 @@ class Guest(models.Model):
             print (show_exc(e))
             return Channel.objects.none()
 
+    def get_code(self):
+        if self.email != None and self.email != "" and "@" in self.email:
+            return self.email
+        if self.mobile != None and self.mobile != "":
+            return self.mobile
+        if self.uuid != None and self.uuid != "":
+            return self.uuid
+        return ""
+        
     @classmethod
     def by_project(cls, projects):
         try:

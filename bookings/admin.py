@@ -94,14 +94,18 @@ class QuestionAdmin(admin.ModelAdmin):
 class StatusAdmin(admin.ModelAdmin):
 	list_display = ('code', 'name')
 
+class GuestUserAdmin(admin.ModelAdmin):
+	list_display = ('username', 'project_uuid', 'guest_uuid')
+
 #admin.site.register(Answer)
 admin.site.register(AnswerType, AnswerTypeAdmin)
+admin.site.register(Block, BlockAdmin)
 #admin.site.register(Field)
 admin.site.register(Form, FormAdmin)
 admin.site.register(FormInstance, FormInstanceAdmin)
 admin.site.register(FormType, FormTypeAdmin)
+admin.site.register(GuestUser, GuestUserAdmin)
 admin.site.register(Question, QuestionAdmin)
-admin.site.register(Block, BlockAdmin)
 admin.site.register(QuestionType)
 admin.site.register(Status, StatusAdmin)
 

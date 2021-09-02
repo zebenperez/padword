@@ -1,7 +1,6 @@
 from django.http import HttpResponse
 from django.contrib import auth
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.models import User, Group
 from django.shortcuts import render, redirect
 from django.utils.translation import ugettext_lazy as _ 
 
@@ -43,18 +42,19 @@ def login(request):
     if remote_user == "":
         return render(request, 'error_exception.html', {'exc': _('User not found!')})
     
-    try:
-        user = User.objects.get(username=remote_user.email)
-    except:
-        try:
-            projects_group = Group.objects.get(name='projects') 
-            user = User.objects.create_user(remote_user.email, email=remote_user.email)
-            projects_group.user_set.add(user)
-        except:
-            return render(request, 'error_exception.html', {'exc': _('Group not found!')})
+#    try:
+#        user = User.objects.get(username=remote_user.email)
+#    except:
+#        try:
+#            projects_group = Group.objects.get(name='projects') 
+#            user = User.objects.create_user(remote_user.email, email=remote_user.email)
+#            projects_group.user_set.add(user)
+#        except:
+#            return render(request, 'error_exception.html', {'exc': _('Group not found!')})
+#
+#    pu, created = ProjectUser.objects.get_or_create(project_uuid=project_uuid, username=user.username)
 
-    pu, created = ProjectUser.objects.get_or_create(project_uuid=project_uuid, username=user.username)
-
+    user = ProjectUser.get_or_create_project_user(project_uuid, remote_user.email)
     auth.login(request, user)
     return redirect(bookings_by_project, project.id)
 
