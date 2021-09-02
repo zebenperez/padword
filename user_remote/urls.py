@@ -8,8 +8,8 @@ urlpatterns = [
     path('', views.users, name='user-index'),
     path('users/', views.users, name='users'),
     path('users/search/', views.user_search, name='user-search'),
-#    path('users/form/', views.user_form, name='user-form'),
-#    path('users/remove/', views.user_remove, name='user-remove'),
+    path('users/form/', views.user_form, name='user-form'),
+    path('users/remove/', views.user_remove, name='user-remove'),
 
 ]
 

@@ -11,10 +11,10 @@
     </div>
     <div class="content mt-4">
         <div class="toolbar-content">
-			<h2 class="pathway b-right">
-                {% trans 'Users' %} <span id="items-counter" class="badge badge-secondary">{{items|length}}</span></h2>
+			<h2 class="pathway b-right">{% trans 'Users' %} <span id="items-counter" class="badge badge-secondary">{{items|length}}</span></h2>
+            <a class="btn btn-primary ark" data-url="{% url "user-form" %}" data-target-modal="common-modal">{%trans "New remote user"%}</a>  
             {% include "common-modal.html" %}
         </div>
-        <div id="user-list">{% include "user_remote/users/user-row.html" %}</div>
+        <div id="user-list">{% include "user_remote/users/user-list.html" %}</div>
     </div>
 {% endblock central_content %}
