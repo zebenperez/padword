@@ -623,6 +623,17 @@ def show_category_shopping_cart(request, form_id=None, cat_id = None):
     except Exception as e:
         return render(request, "error_exception.html", {'exc':show_exc(e)})
 
+def item_shopping_cart_comment(request):
+    try:
+        item_id = request.GET["item_id"]
+        form_id = request.GET["form_id"]
+        obj = get_or_none(ShoppingCart, int(item_id))
+
+        return render(request, "bookings/shopping-form.html", {'obj':obj, 'form_id':form_id})
+    except Exception as e:
+        return render(request, "error_exception.html", {'exc':show_exc(e)})
+
+
 #@login_required
 def view_shopping_cart(request):
     try:

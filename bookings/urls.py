@@ -66,6 +66,7 @@ urlpatterns = [
     path('shopping/get-price/', views.get_price_shopping_cart, name='get-price-shopping-cart'),
     path('shopping/show-category/<int:form_id>/<slug:cat_id>/', views.show_category_shopping_cart, name='show-category-shopping-cart'),
     path('shopping/show-category/', views.show_category_shopping_cart, name='show-category-shopping-cart'),
+    path('shopping/comments/', views.item_shopping_cart_comment, name='item-shopping-cart-comment'),
 
     path('test/', views.test, name='booking-test'),
 ]

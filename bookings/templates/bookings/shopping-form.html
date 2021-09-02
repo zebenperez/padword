@@ -1,7 +1,7 @@
 {% load i18n padword_tags static%}
-<div class="d-flex justify-center">
-    <div class="col-2 justify-content-center">
-        <div class="card w-100" >
+<div class="d-flex justify-center row">
+    <div class="col-12 justify-content-center">
+        <div class="card w-100 p-3" >
             <img src="{% if obj.item.image %}{{obj.item.image.url}} {%else%} {% static 'img/none.png' %}{%endif%}" class="card-img-top" alt="{% padword_translate obj.item.name %}" style="height:150px;">
             <div class="card-body">
                 <h4 class="small card-title text-dark text-center">{{ obj.item.price}} &euro; </h4>
@@ -10,28 +10,17 @@
             </div>
         </div>
     </div>
-    <div class="col-10">
+    <div class="col-12">
         <div class="w-100" >
             <div class="card-body">
                 <h4 class="small card-title text-dark text-center">{% trans 'Comments'%} </h4>
-                <textarea class="form-control autosave" id="comments" name="comments" rows="7" value="{{obj.value}}" data-url="{% url "autosave_field" %}" data-model-name="contents.shoppingcart" data-obj-id="{{obj.pk}}" data-target="div-notification">{{obj.value}}</textarea> <span id="comments__msg"></span>
+                <textarea class="form-control autosave" id="comments" name="comments" rows="7" value="{{obj.comments}}" data-url="{% url "autosave_field" %}" data-model-name="contents.shoppingcart" data-obj-id="{{obj.pk}}" data-target="div-notification">{{obj.comments}}</textarea> <span id="comments__msg"></span>
             </div>
         </div>
     </div>
 </div>		
 
 <div class="d-flex justify-content-end m-2">
-    <button type="button" class="btn btn-sm btn-primary save ark"  data-url="{% url 'get-price-shopping-cart' %}" data-target="info-shopping" data-form_id="{{obj.form_instance_id}}" data-bs-dismiss="modal">{% trans "SAVE" %}</button>
+    <a class="btn btn-sm btn-primary ark"  data-url="{% url 'view-shopping-cart' %}" data-target-modal="common-modal" data-form_id="{{form_id}}" >{% trans "SAVE" %}</a>
 </div>
 
-{% comment %}
-<div class="d-flex justify-content-end">
-    {% if new_item %}
-    <a class="btn btn-sm" href="{% url "categories-by-project" obj.project_uuid %}" >{% trans "Save" %}</a>
-    {% else %}
-    <button type="button" class="btn btn-sm ark save" data-bs-dismiss="modal" data-url="{% url "items-by-category" obj.uuid %}" data-target="items-list-{{obj.pk}}" >{% trans "Save" %}</button>
-    {% endif %}
-    <button type="button" class="btn btn-sm ark cancel" data-bs-dismiss="modal" data-url="{% url "category-remove" obj.uuid %}" data-target="items-list-{{obj.parent.pk}}" data-confirm="{% trans "Are you sure to remove this element?" %}">{% trans "Remove" %}</button>
-</div>
-
-{% endcomment %}
