@@ -77,6 +77,9 @@ body {
 	color: white;
 }
 
+a.btn-light {
+	border:1px solid #ccc;
+}
 .b-white {
 	border: 1px solid #666;
 	text-align: left;
@@ -98,6 +101,43 @@ tbody, td, tfoot, th, thead, tr {
 	border: 0px !important;
 	padding: 0px !important;
 }
+
+/*****************************/
+/* Shopping-cart style*/
+/*****************************/
+
+.cart-item {
+	background: #f8f8f8;
+	border-radius: 0.25rem;
+	border:1px solid #4d5053;
+}
+.b-item {
+	border-bottom: 1px solid #666 !important;
+	border-radius: 3px 0px 0px 0px;
+	letter-spacing: 2px;
+	text-align: left;
+	text-transform: uppercase;    
+}
+
+.object-fit_cover { object-fit: cover }
+
+img { 
+	background-color: #444;
+	border-bottom: 1px solid #ccc !important;
+	height: 120px; 
+}
+
+img[class] { width: 100%; }
+
+h5.card-title {
+	font-size: 1.1rem;
+	font-weight: 600;
+}
+
+h4.card-title {
+	font-size: 1rem;
+}
+
 
 /*****************************/
 /* devices style*/

@@ -1,17 +1,22 @@
 {% load i18n bookings_tag common_tag padword_tags static %}
 <div class="row">
-    <div class="col-1">&nbsp;</div>
-    <div class="col-10" id="div-total-shopping-cart">{{items|length}} art.&nbsp;&nbsp;{% trans 'Total price' %}: {{total|floatformat:2}} &euro;</div>
+    <div class="col-7">
+	<h5>{% trans "My Booking" %}&nbsp;<span style="font-size: 13px;">( {{items|length}} {% trans 'art.' %} )</span></h5>
+    </div>
+    {%comment%}<div class="col-6" id="div-total-shopping-cart">{{items|length}} art.&nbsp;&nbsp;{% trans 'Total price' %}: {{total|floatformat:2}} &euro;</div>{%endcomment%}
+    <div class="col-4" id="div-total-shopping-cart"> {% trans 'Total price' %}: {{total|floatformat:2}} &euro;</div>
     <div class="col-1 justify-content-end">
-        <button type="button" class="btn btn-primary save ark w-100"  data-url="{% url 'get-price-shopping-cart' %}" data-target="info-shopping" data-form_id="{{fi.pk}}" data-bs-dismiss="modal">{% trans "X" %}</button>
+        <button type="button" class="btn save ark w-100" data-url="{% url 'get-price-shopping-cart' %}" data-target="info-shopping" data-form_id="{{fi.pk}}" data-bs-dismiss="modal"><i class="far fa-window-close"></i></button>
     </div>
 </div>
 <hr>
 <div class="row">
     {% for item in items %}
-    <div class="col-4 col-lg-2 justify-content-center mt-1">
-        <div class="card w-100" >
-            <img src="{% if item.item.image %}{{item.item.image.url}} {%else%} {% static 'img/none.png' %}{%endif%}" class="card-img-top" alt="{% padword_translate item.item.name %}" style="height:150px;">
+    <div class="col-6 col-lg-2 justify-content-center mt-1">
+        <div class="col-xs-12 card w-100">
+	    <div class="image" id="cover">
+            	<img src="{% if item.item.image %}{{item.item.image.url}} {%else%} {% static 'img/none.png' %}{%endif%}" class="card-img-top" alt="{% padword_translate item.item.name %}">
+	    </div>
             <div class="card-body">
                 <h4 class="small card-title text-dark text-center">{{ item.item.price}} &euro; </h4>
                 <h5 class="small card-title text-dark text-center">{% padword_translate item.item.name %}</h5>
@@ -26,10 +31,10 @@
 </div>
 <hr>
 <div class="row">
-    <div class="col-1">&nbsp;</div>
-    <div class="col-10">{% trans 'Total price' %}: {{total|floatformat:2}} &euro;</div>
+    <div class="col-7">&nbsp;</div>
+    <div class="col-4">{% trans 'Total price' %}: {{total|floatformat:2}} &euro;</div>
     <div class="col-1 justify-content-end">
-        <button type="button" class="btn btn-primary save ark w-100"  data-url="{% url 'get-price-shopping-cart' %}" data-target="info-shopping" data-form_id="{{fi.pk}}" data-bs-dismiss="modal">{% trans "X" %}</button>
+        <button type="button" class="btn save ark w-100" data-url="{% url 'get-price-shopping-cart' %}" data-target="info-shopping" data-form_id="{{fi.pk}}" data-bs-dismiss="modal"><i class="far fa-window-close"></i></button>
     </div>
 </div>
 <script>$('#info-shopping').html($('#div-total-shopping-cart').html());</script>
