@@ -152,7 +152,7 @@ def form_add_qr(request):
         obj_id = request.GET["obj_id"]
         form = get_or_none(Form, obj_id)
         if form != None:
-            url = reverse('guest-form-login', kwargs={'form_uuid': form.uuid})
+            url = request.build_absolute_uri(reverse('guest-form-login', kwargs={'form_uuid': form.uuid}))
             img_data = ContentFile(generate_qr(url))
             form.qr.save('qr_{}.png'.format(form.uuid), img_data, save=True)
         return render(request, "forms/form-qr.html", {"obj": form,})
@@ -166,8 +166,6 @@ def form_remove_qr(request):
         obj_id = request.GET["obj_id"]
         obj = get_or_none(Form, obj_id) 
         obj.qr.delete(save=True)
-        print("--a--")
-        print(obj.qr)
         return render(request, "forms/form-qr.html", {"obj": obj,})
     except Exception as e:
         logger.error("[remove_qr]" + str(e))

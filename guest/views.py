@@ -6,6 +6,7 @@ import datetime
 
 from .models import *
 from padword.commons import show_exc, get_or_none, new_ui_slug, translate
+from padword.decorators import group_required
 import web.models as webmod 
 
 
@@ -24,6 +25,7 @@ def index(request):
 '''
     Guests
 '''
+@group_required("admins")
 def guests(request):
     try:
         #items= Guest.objects.filter(check_out__gte = datetime.datetime.now())
@@ -33,6 +35,7 @@ def guests(request):
     except Exception as e:
         return JsonResponse({'results':[], 'error':1, 'error-msg':show_exc(e)})
 
+@group_required("admins")
 def guest_search(request):
     try:
         filters_to_search = ["name__icontains", "room__icontains", "surname__icontains"]
@@ -55,8 +58,7 @@ def guest_search(request):
     except Exception as e:
         return JsonResponse({'results':[], 'error':1, 'error-msg':show_exc(e)})
 
-#@group_required("admins")
-@login_required
+@group_required("admins")
 def guest_form(request):
     try:
         obj = get_or_none(Guest, request.GET["obj_id"]) if "obj_id" in request.GET else Guest.objects.create(UUID = new_ui_slug(Guest))
@@ -64,8 +66,7 @@ def guest_form(request):
     except Exception as e:
         return render(request, 'error_exception.html', {'exc':show_exc(e)})
 
-#@group_required("admins")
-@login_required
+@group_required("admins")
 def guest_remove(request):
     obj = get_or_none(Guest, request.GET["obj_id"]) if "obj_id" in request.GET else None
     if obj != None:
