@@ -14,13 +14,7 @@ def index(request):
     if hasattr(request, "project_id"):
         return redirect('bookings-by-project', request.project_id)
     return redirect('projects')
-#    try:
-#        return redirect('projects')
-#        return render (request, "base_nestor.html")
-#        #return JsonResponse({'results':serializers.serialize("json", companies, fields=('uuid','name')), 'error':0})
-#    except Exception as e:
-#        return JsonResponse({'results':[], 'error':1, 'error-msg':show_exc(e)})
-#
+
 '''
     Projects
 '''

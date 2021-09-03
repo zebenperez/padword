@@ -257,7 +257,7 @@ def booking_send(request, fi_id):
         fi.set_status("01")
         write_log(request.user, fi, _("Status change from {} to {}".format(previous_status, fi.status.name)))
         context = {'msg': fi.status.code, 'project_uuid': fi.form.project.uuid}
-        return render(request, 'bookings/show_msg.html', context)
+        return render(request, 'bookings/guest/show-msg.html', context)
     except Exception as e:
         print(e)
         logger.error("[bookings-booking_send] {}".format(str(e)))
@@ -270,7 +270,7 @@ def booking_remove(request, fi_id):
         project_uuid = fi.form.project.uuid if fi.form != None and fi.form.project != None else ""
         fi.delete()
         context = {'msg': "05", 'project_uuid': project_uuid}
-        return render(request, 'bookings/show_msg.html', context)
+        return render(request, 'bookings/guest/show-msg.html', context)
     except Exception as e:
         logger.error("[bookings-remove_fi] {}".format(str(e)))
     return render(request, 'error_exception.html', {})
@@ -288,7 +288,7 @@ def bookings_by_guest(request, project_uuid):
             'items': FormInstance.objects.filter(guest_uuid=guest.UUID, date__range=[guest.check_in, guest.check_out]),
             'guest': guest
         }
-        return render (request, "bookings/bookings-by-guest.html", context)
+        return render (request, "bookings/guest/bookings-by-guest.html", context)
     except Exception as e:
         logger.error("[bookings-bookings] {}".format(str(e)))
         msg = str(e)
