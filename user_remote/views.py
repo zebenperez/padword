@@ -1,13 +1,13 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
-from django.http import HttpResponse, JsonResponse
+#from django.http import HttpResponse, JsonResponse
 from django.core import serializers
+
 from padword.commons import show_exc, get_or_none, get_param, new_ui_slug, translate
 from padword.decorators import group_required
 from .models import *
 from web.models import Project
 
-# Create your views here.
 
 @group_required("admins")
 def users(request):
@@ -18,7 +18,7 @@ def users(request):
     except Exception as e:
         print(show_exc(e))
         return render(request, 'user_remote/users/users.html', {'items':PWUser.objects.all()})
-        return HttpResponse(show_exc(e))
+        #return HttpResponse(show_exc(e))
 
 @group_required("admins")
 def user_search(request):
@@ -38,9 +38,26 @@ def user_search(request):
 #             list_uuids = Project.objects.filter(name__icontains = name).values_list('uuid', flat=True)
 #             if list_uuids:
 #                 items = items.union(PWUser.objects.filter(project_uuid__in = list(list_uuids)))
-        return render(request, "user_remote/users/user-row.html", {'items': items})
+        return render(request, "user_remote/users/user-list.html", {'items': items})
     except Exception as e:
         print (show_exc(e))
-        return render(request, 'user_remote/users/user-row.html', {'items':PWUser.objects.all()})
-        return JsonResponse({'results':[], 'error':1, 'error-msg':show_exc(e)})
+        return render(request, 'user_remote/users/user-list.html', {'items':PWUser.objects.all()})
+        #return JsonResponse({'results':[], 'error':1, 'error-msg':show_exc(e)})
+
+@group_required("admins")
+def user_form(request):
+    try:
+        obj = get_or_none(PWUser, request.GET["obj_id"]) if "obj_id" in request.GET else PWUser.objects.create(uuid = new_ui_slug(PWUser))
+        return render(request, "user_remote/users/user-form.html", {'obj': obj,})
+    except Exception as e:
+        return render(request, 'error_exception.html', {'exc':show_exc(e)})
+
+@group_required("admins")
+def user_remove(request):
+    obj = get_or_none(PWUser, request.GET["obj_id"]) if "obj_id" in request.GET else None
+    if obj != None:
+        obj.delete()
+
+    items = PWUser.objects.all()
+    return render(request, "user_remote/users/user-list.html", {'items':items,})
 

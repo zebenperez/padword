@@ -1,0 +1,72 @@
+{% load i18n %}
+
+<h2>{% trans 'New guest' %}</h2>
+
+
+<span id="div-notification"></span><br/>
+
+<div class="row justify-center">
+	<div class="col-sm-12 col-md-12 col-12">
+		{% trans "UUID" %}:
+		<input type="text" class="form-control autosave b-bottom mb-4" id="uuid" name="uuid" value="{{obj.UUID}}" title="{{obj.UUID}}" 
+			data-model-name="user_remote.pwuser" data-obj-id="{{obj.id}}" data-url="{% url "autosave_field" %}" data-target="div-notification"/>
+			<span id="uuid__msg"></span>
+	</div>
+
+	<div class="col-sm-6 col-md-5 col-12">
+		{% trans "Name" %}:
+		<input type="text" class="form-control autosave b-bottom mb-4" id="name" name="name" value="{{obj.name}}" title="{{obj.name}}" 
+			data-model-name="user_remote.pwuser" data-obj-id="{{obj.id}}" data-url="{% url "autosave_field" %}" data-target="div-notification"/>
+			<span id="name__msg"></span>
+	</div>
+
+	<div class="col-sm-6 col-md-5 col-12">
+		{% trans "Email" %}:
+		<input type="text" class="form-control autosave b-bottom mb-4" id="email" name="email" value="{{obj.email}}" title="{{obj.email}}" 
+			data-model-name="user_remote.pwuser" data-obj-id="{{obj.id}}" data-url="{% url "autosave_field" %}" data-target="div-notification"/>
+			<span id="email__msg"></span>
+	</div>
+
+	<div class="col-sm-6 col-md-5 col-12">
+		{% trans "Language" %}:
+		<input type="text" class="form-control autosave b-bottom mb-4" id="language" name="language" value="{{obj.language}}" 
+            title="{{obj.language}}" data-model-name="user_remote.pwuser" data-obj-id="{{obj.id}}" data-url="{% url "autosave_field" %}" 
+            data-target="div-notification"/> <span id="language__msg"></span>
+	</div>
+
+	<div class="col-sm-6 col-md-5 col-12">
+		{% trans "Place" %}:
+		<input type="text" class="form-control autosave b-bottom mb-4" id="place" name="place" value="{{obj.place}}" 
+            title="{{obj.place}}" data-model-name="user_remote.pwuser" data-obj-id="{{obj.id}}" data-url="{% url "autosave_field" %}" 
+            data-target="div-notification"/> <span id="place__msg"></span>
+	</div>
+
+	<div class="col-sm-12 col-md-12 col-12">
+		{% trans "Category" %}:
+		<input type="text" class="form-control autosave b-bottom mb-4" id="category" name="category" value="{{obj.category}}" 
+            title="{{obj.category}}" data-model-name="user_remote.pwuser" data-obj-id="{{obj.id}}" data-url="{% url "autosave_field" %}" 
+            data-target="div-notification"/> <span id="category__msg"></span>
+	</div>
+
+	<div class="col-sm-6 col-md-5 col-12">
+		{% trans "Project UUID" %}:
+		<input type="text" class="form-control autosave b-bottom mb-4" id="project_uuid" name="project_uuid" value="{{obj.project_uuid}}" 
+            title="{{obj.project_uuid}}" data-model-name="user_remote.pwuser" data-obj-id="{{obj.id}}" data-url="{% url "autosave_field" %}" 
+            data-target="div-notification"/> <span id="project_uuid__msg"></span>
+	</div>
+
+	<div class="col-sm-6 col-md-5 col-12">
+		{% trans "Api token" %}:
+		<input type="text" class="form-control autosave b-bottom mb-4" id="api_token" name="api_token" value="{{obj.api_token}}" 
+            title="{{obj.api_token}}" data-model-name="user_remote.pwuser" data-obj-id="{{obj.id}}" data-url="{% url "autosave_field" %}" 
+            data-target="div-notification"/> <span id="api_token__msg"></span>
+	</div>
+</div>
+
+<div class="d-flex justify-content-end">
+	<button type="button" class="btn btn-sm ark save" data-bs-dismiss="modal" data-url="{% url "user-search" %}" 
+        data-target="user-list">{% trans "Save" %}</button>
+	<button type="button" class="btn btn-sm ark cancel" data-bs-dismiss="modal" data-url="{% url "user-remove" %}" data-target="user-list" 
+        data-obj_id="{{obj.id}}" data-confirm="{% trans "Are you sure to remove this element?" %}">{% trans "Remove" %}</button>
+</div>
+

@@ -20,6 +20,11 @@
                 <div class="col-md-1 pt-md-0 pt-3 col-12 d-flex justify-content-md-end justify-content-center">
                     <a class="btn" href="#" onclick='alert("{{item.uuid}}"); return False' title="UUID"><i class="fas fa-fingerprint"></i></a>
                     <a class="btn" href="#" onclick='alert("{{item.api_token}}"); return False' title="Token"><i class="fas fa-fingerprint"></i></a>
+                    <a class="btn btn-xs ark" data-url="{% url "user-form" %}" data-target-modal="common-modal" data-obj_id="{{item.id}}">
+                        <i class="fas fa-edit"></i></a>  
+                    <a class="btn btn-sm autoremove" data-model-name="user_remote.pwuser" data-obj-id="{{item.id}}" 
+                        data-url="{% url "autoremove_obj" %}" data-target="row_{{item.id}}" 
+                        data-confirm="{% trans "Are you sure to remove this element?" %}"> <i class="fas fa-trash"></i></a>
                 </div>
             </td>
         </tr>
