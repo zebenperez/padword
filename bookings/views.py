@@ -196,7 +196,11 @@ def booking_view(request, fi_id):
             fi.set_status("02")
             write_log(request.user, fi, _("Status change from {} to {}".format(previous_status, fi.status.name)))
         context = {'fi': fi, 'index': "0", "ro": True, 'items':items}
-        return render(request, 'bookings/fillform.html', context)
+        if fi.form.form_type.code == "ecom":
+            return render(request, 'bookings/view-booking-project.html', context)
+            return render(request, 'bookings/fillform.html', context)
+        else:
+            return render(request, 'bookings/fillform.html', context)
     except Exception as e:
         print(e)
         logger.error("[bookings-fill_form] {}".format(str(e)))

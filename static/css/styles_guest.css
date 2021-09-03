@@ -8,23 +8,6 @@ body {
 }
 
 
-/*****************************/
-/* ERROR MESSAGE LAYOUT STYLES */
-/*****************************/
-
-
-/*****************************/
-
-
-
-/*****************************/
-/* GUEST LAYOUT STYLES */
-/*****************************/
-
-
-/*****************************/
-
-
 #main { padding: 0px; }
 
 .container, .container-fluid, .container-lg, .container-md, .container-sm, .container-xl, .container-xxl { padding: 0px !important; }
@@ -40,13 +23,24 @@ body {
 	min-width: 100%;
 /*	overflow-x: hidden;*/
 }
-
+h4.success {
+	color: #666;
+	font-size: 30px;
+}
+i.fas.fa-check-circle.text-success,
+i.fas.fa-ban.text-cancel {
+	font-size: 50px;
+}
 .text-success {
 	color: #7fba27 !important;
 }
 
 .text-cancel {
 	color: #e8282a !important;
+}
+
+.text-grey {
+	color: #999;
 }
 
 /*****************************/
@@ -160,6 +154,46 @@ h5.card-title { font-size: 1.1rem; font-weight: 600; }
 
 h4.card-title { font-size: 1rem; }
 
+a.btn.btn-outline-primary {
+}
+a.btn.btn-outline-primary:hover {
+	background: #fff;
+	color: #095bd4;
+}
+a.btn.btn-outline-danger {
+}
+a.btn.btn-outline-danger:hover {
+	background: #fff;
+	color: #aa1a28;
+}
+
+/*********  Booking List Style ***************/
+
+tr.small {
+/*	border:1px solid !important;
+	margin-top: 10px !important;*/
+}
+
+td.booking-line {
+	height: 40px;
+	vertical-align: middle;
+}
+
+.title-col {
+	color: #111;
+	font-size: small;
+}
+
+.info-col {
+	font-size: small;
+}
+
+.booking-line {
+	align-items: center;
+	background: #fff !important;
+	border-radius: 5px;
+	color: #666;
+}
 
 /*****************************/
 /* devices style*/

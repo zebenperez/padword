@@ -1,0 +1,60 @@
+{% extends "base_guest.html" %}
+{% load i18n bookings_tag common_tag padword_tags static %}
+{% block central_content %}
+<div id="mask"> &nbsp; </div>
+
+<div class="main-content-booking container-fluid">
+    <div class="div-transp- p-4">
+        <div class="bookingHeader">
+            <a id="full-screen" class="" onclick="javascript:toggleFullScreen();"><i class="far fa-window-maximize"></i></a></div>
+        <div class="col-lg-10 offset-lg-1 col-md-10 offset-md-1 col-xs-6">
+            <h1 class="row"> 
+                <div class="col-6">{% padword_translate fi.form.name %}</div> 
+                <div class="col-6 justify-content-end d-flex"><span id="info-shopping">{{items.count}} art.&nbsp;&nbsp;&nbsp; {{fi.get_total|stringformat:".2f"}} &euro; </span></div>
+            </h1> 
+        </div>
+        <hr>
+        <div class="col-lg-10 offset-lg-1 col-md-10 offset-md-1 col-xs-6">
+            <div class="row"> 
+                <div class="col-6 d-flex justify-content-center"><strong>{% trans 'Guest' %}:&nbsp;</strong> {{fi.guest.name}} {{fi.guest.surname}}</div>
+                <div class="col-3 d-flex justify-content-center"><i class="fas fa-phone pe-2"></i> <a href="tel:{{fi.guest.mobile}}">{{fi.guest.mobile}}</a></div> 
+                <div class="col-3 d-flex justify-content-center"><strong>{% trans 'Room' %}:&nbsp;</strong> {{fi.guest.room}}</div> 
+                <div class="col-12 d-flex justify-content-center">{{fi.date}}</div> 
+            </div> 
+        </div>
+
+        <div class="row"> <div class="col-md-9 offset-md-1" id="div-notification"></div> </div>
+
+        <div class="row bloque mt-3">
+            <div id="main" class="col-lg-10 offset-lg-1 col-md-10 offset-md-1 col-xs-12">
+                <table class="table table-hover table-striped">
+                    <tbody>
+                    {% for item in items %}
+                    <tr>
+                        <td class="row fs-4 p-2">
+                            <div class="col-3 col-md-2">
+                                <img src="{% if item.item.image %}{{item.item.image.url}} {%else%} {% static 'img/none.png' %}{%endif%}" alt="{% padword_translate item.item.name %}">
+                            </div>
+                            <div class="col-9">
+                                <p>{% padword_translate item.item.name %}</p>
+                                <p class="fs-5">{{item.comments}}</p>
+                            </div>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="row mt-4 mb-4 d-flex justify-content-center ">
+            <div class="col-2 actions text-center">
+                <a href="#" class="btn btn-info btn-lg ark w-100 text-white" onclick="window.close()">{% trans "Close" %}</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% include "common-modal.html" %}
+{% if fi.form.image %} <script>$('body').css('background-image', 'url("{{fi.form.image.url}}")');</script> {% endif %}
+{% endblock %}
+
