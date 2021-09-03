@@ -1,13 +1,16 @@
 {% load i18n bookings_tag common_tag padword_tags static %}
 <div class="row">
-    <div class="col-7">
+    <div class="col-10">
         <h5>{% trans "My Booking" %}&nbsp;<span style="font-size: 13px;">( {{items|length}} {% trans 'art.' %} )</span></h5>
     </div>
     {%comment%}<div class="col-6" id="div-total-shopping-cart">{{items|length}} art.&nbsp;&nbsp;{% trans 'Total price' %}: {{total|floatformat:2}} &euro;</div>{%endcomment%}
-    <div class="col-4" id="div-total-shopping-cart"> {% trans 'Total price' %}: {{total|floatformat:2}} &euro;</div>
-    <div class="col-1 justify-content-end">
-        <button type="button" class="btn save ark w-100" data-url="{% url 'get-price-shopping-cart' %}" data-target="info-shopping" data-form_id="{{fi.pk}}" data-bs-dismiss="modal"><i class="far fa-window-close"></i></button>
-    </div>
+</div>
+
+<div class="row">
+	<div class="col-11" id="div-total-shopping-cart"> {% trans 'Total price' %}: {{total|floatformat:2}} &euro;</div>
+	<div class="col-1 justify-content-end">
+        	<button type="button" class="btn save ark w-100" data-url="{% url 'get-price-shopping-cart' %}" data-target="info-shopping" data-form_id="{{fi.pk}}" data-bs-dismiss="modal"><i class="far fa-window-close"></i></button>
+	</div>
 </div>
 <hr>
 <div class="row mb-2">
@@ -40,8 +43,7 @@
 </div>
 <hr>
 <div class="row">
-    <div class="col-7">&nbsp;</div>
-    <div class="col-4">{% trans 'Total price' %}: {{total|floatformat:2}} &euro;</div>
+    <div class="col-11">{% trans 'Total price' %}: {{total|floatformat:2}} &euro;</div>
     <div class="col-1 justify-content-end">
         <button type="button" class="btn save ark w-100" data-url="{% url 'get-price-shopping-cart' %}" data-target="info-shopping" data-form_id="{{fi.pk}}" data-bs-dismiss="modal"><i class="far fa-window-close"></i></button>
     </div>
