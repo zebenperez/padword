@@ -9,16 +9,16 @@
             <a id="full-screen" class="" onclick="javascript:toggleFullScreen();"><i class="far fa-window-maximize"></i></a></div>
         <div class="col-lg-10 offset-lg-1 col-md-10 offset-md-1 col-xs-6">
             <h1 class="row"> 
-                <div class="col-6">{% padword_translate fi.form.name %}</div> 
-                <div class="col-6 justify-content-end d-flex"><span id="info-shopping">{{items.count}} art.&nbsp;&nbsp;&nbsp; {{fi.get_total|stringformat:".2f"}} &euro; </span></div>
+                <div class="col-12 col-sm-6 justify-content-sm-start justify-content-center d-flex">{% padword_translate fi.form.name %}</div> 
+                <div class="col-12 col-sm-6 justify-content-sm-end  justify-content-center d-flex"><span id="info-shopping">{{items.count}} art.&nbsp;&nbsp;&nbsp; {{fi.get_total|stringformat:".2f"}} &euro; </span></div>
             </h1> 
         </div>
         <hr>
         <div class="col-lg-10 offset-lg-1 col-md-10 offset-md-1 col-xs-6">
             <div class="row"> 
-                <div class="col-6 d-flex justify-content-center"><strong>{% trans 'Guest' %}:&nbsp;</strong> {{fi.guest.name}} {{fi.guest.surname}}</div>
-                <div class="col-3 d-flex justify-content-center"><i class="fas fa-phone pe-2"></i> <a href="tel:{{fi.guest.mobile}}">{{fi.guest.mobile}}</a></div> 
-                <div class="col-3 d-flex justify-content-center"><strong>{% trans 'Room' %}:&nbsp;</strong> {{fi.guest.room}}</div> 
+                <div class="col-12 col-sm-6 d-flex justify-content-center"><strong>{% trans 'Guest' %}:&nbsp;</strong> {{fi.guest.name}} {{fi.guest.surname}}</div>
+                <div class="col-6 col-sm-3 d-flex justify-content-center"><i class="fas fa-phone pe-2"></i> <a href="tel:{{fi.guest.mobile}}">{{fi.guest.mobile}}</a></div> 
+                <div class="col-6 col-sm-3 d-flex justify-content-center"><strong>{% trans 'Room' %}:&nbsp;</strong> {{fi.guest.room}}</div> 
                 <div class="col-12 d-flex justify-content-center">{{fi.date}}</div> 
             </div> 
         </div>
@@ -48,8 +48,8 @@
         </div>
 
         <div class="row mt-4 mb-4 d-flex justify-content-center ">
-            <div class="col-2 actions text-center">
-                <a href="#" class="btn btn-info btn-lg ark w-100 text-white" onclick="window.close()">{% trans "Close" %}</a>
+            <div class="col-12 actions d-flex justify-content-center">
+                <a href="#" class="btn btn-info btn-lg ark text-white" onclick="window.close()">{% trans "Close" %}</a>
             </div>
         </div>
     </div>
