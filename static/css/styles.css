@@ -336,6 +336,10 @@ i.text-grey, i.fas.fa-box {
 	background: #212529;
 }
 
+
+img.img-cart {border-radius: 10px 10px 10px 10px; box-shadow: 10px 0px 10px 0px rgb(0 0 0 / 50%); }
+
+
 .flex-row { /*flex-direction: column!important;*/ }
 
 

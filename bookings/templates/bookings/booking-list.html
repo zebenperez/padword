@@ -9,27 +9,26 @@
 
         <tr class="small small">
             <th class="row p-1">
-                <div class="col-2"> {% trans 'Form' %} </div>
-                <div class="col-2"> {% trans 'Guest' %} </div>
-                <div class="col-2"> {% trans 'Device' %} </div>
-                <div class="col-2"> {% trans 'Date' %} </div>
-                <div class="col-2"> {% trans 'Status' %} </div>
-                <div class="col-2"> </div>
+                <div class="col-3 col-md-2"> {% trans 'Form' %} </div>
+                <div class="col-3 col-md-2"> {% trans 'Guest' %} </div>
+                <div class="col-2 d-none d-md-block"> {% trans 'Device' %} </div>
+                <div class="col-3 col-md-2"> {% trans 'Date' %} </div>
+                <div class="col-3 col-md-4"> {% trans 'Status' %} </div>
                 {#<div class="col-2 d-none d-xxl-block"> {% trans 'Code' %} </div>#}
             </th>
         </tr>
         {% for item in items %}
         <tr class="small" id="row_{{item.id}}">
             <td class="row p-1">
-                <div class="col-2">
+                <div class="col-md-2 col-3">
                     {% padword_translate item.form.name %}
                     <br>{{item.form.form_type}}{% if item.form.form_type.code == 'ecom' %} ({{item.get_items|length}} art.) {%endif%}
                 </div>
-                <div class="col-2">{{item.guest.name}} {{item.guest.surname}}<br/>{{item.guest.mobile}}<br/>{{item.guest.email}}</div>
-                <div class="col-2">{{item.device.uuid}}</div>
-                <div class="col-2">{{ item.date | date:'d/m/Y H:i:s'}}</div>
-                <div class="col-2">{% padword_translate item.status.name %}</div>
-                <div class="col-2" class="text-right" >
+                <div class="col-md-2 col-3">{{item.guest.name}} {{item.guest.surname}}<br/>{{item.guest.mobile}}<br/>{{item.guest.email}}</div>
+                <div class="col-2 d-none d-md-block">{{item.device.uuid}}</div>
+                <div class="col-md-2 col-3">{{ item.date | date:'d/m/Y H:i:s'}}</div>
+                <div class="col-md-2 col-3">{% padword_translate item.status.name %}</div>
+                <div class="col-12 col-md-2 d-flex pt-3 pt-md-1 justify-content-md-end justify-content-center" >
                     <a class="me-1 btn btn-xs ark" title="{%trans "Change status"%}" data-url="{%url "status-form" %}" 
                         data-target-modal="common-modal" data-obj_id="{{item.id}}" title="{%trans "Status change"%}">
                         <i class="fas fa-cog"></i></a> 

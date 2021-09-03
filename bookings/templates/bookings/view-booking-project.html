@@ -32,10 +32,10 @@
                     {% for item in items %}
                     <tr>
                         <td class="row fs-4 p-2">
-                            <div class="col-3 col-md-2">
-                                <img src="{% if item.item.image %}{{item.item.image.url}} {%else%} {% static 'img/none.png' %}{%endif%}" alt="{% padword_translate item.item.name %}">
+                            <div class="col-4 col-md-2 d-flex justify-content-center">
+                                <img class="img-cart" src="{% if item.item.image %}{{item.item.image.url}} {%else%} {% static 'img/none.png' %}{%endif%}" alt="{% padword_translate item.item.name %}">
                             </div>
-                            <div class="col-9">
+                            <div class="col-8">
                                 <p>{% padword_translate item.item.name %}</p>
                                 <p class="fs-5">{{item.comments}}</p>
                             </div>
