@@ -239,11 +239,18 @@ def booking_log(request, fi_id):
         logger.error("[bookings-new_booking] {}".format(str(e)))
     return render(request, 'error_exception.html', {})
 
+@group_required("admins", "projects")
+def bookings_notifications(self):
+    try:
+        bookings = FormInstance.objects.all()
+        e = None
+    except Exception as e:
+        logger.error("[bookings-new_booking] {}".format(str(e)))
+        return render(request, 'error_exception.html', {'exc':show_exc(e)})
 
 @login_required
 def test(request):
-    form_id = request.GET["form_id"]
-    return HttpResponse(form_id)
+    return render(request, "bookings/test.html")
 #'''
 #    Bookings client methods
 #'''
