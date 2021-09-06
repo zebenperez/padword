@@ -12,8 +12,6 @@ def image_file(instance, filename):
     instance.filename = filename
     return '/'.join(['folder_images',instance.uuid, datetime.datetime.now().strftime("%Y%m%d%H%M%S") + filename])
 
-
-
 # Create your models here.
 class Category(models.Model):
     ALLOWCHOICES = (('yes','Yes'), ('no','No'), ('inherit', 'Inherit'),)

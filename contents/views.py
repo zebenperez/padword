@@ -71,7 +71,12 @@ def category_form(request):
             new_item = False
             project = obj.project
 
-        return render(request, "contents/category-form.html", {'obj': obj, 'company_id': project.company.uuid, 'new_item':new_item })
+        if obj.parent is not None:
+            parents_options = Category.objects.filter(pk=obj.parent.pk)
+        else:
+            parents_options = Category.objects.none()
+        parents_options = parents_options.union(Category.objects.filter(project_uuid = obj.project_uuid, parent = obj.parent))
+        return render(request, "contents/category-form.html", {'obj': obj, 'company_id': project.company.uuid, 'new_item':new_item, 'parents_options':parents_options })
     except Exception as e:
         return render(request, "error_exception.html", {'exc': show_exc(e)})
 
