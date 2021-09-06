@@ -23,7 +23,7 @@
     <div class="col-sm-6 col-2">
         {% trans "Parent Category" %}:
         <select class="form-control autosave b-bottom mb-4" id="parent" name="parent" title="{{obj.parent.name}}" data-model-name="contents.category" data-obj-id="{{obj.pk}}" data-url="{% url "autosave_field" %}" data-target="div-notification">
-            <option value="obj.parent.pk">{% trans 'Current' %} -  {% if obj.parent.parent %}{% padword_translate obj.parent.parent.name %}{% else %} {% trans 'ROOT Category' %} {%endif%}</option>
+            <option value="obj.parent.pk">{% trans 'Current' %} -  {% if obj.parent %}{% padword_translate obj.parent.name %}{% else %} {% trans 'ROOT Category' %} {%endif%}</option>
             {% if obj.parent %}
             <option value="{{obj.parent.parent.pk | default:"0"}}">{% trans 'Level Up' %} - {% if obj.parent.parent %}{% padword_translate obj.parent.parent.name %}{% else %} {% trans 'ROOT Category' %} {%endif%}</option>
             {% endif %}
@@ -58,7 +58,7 @@
     {% if new_item %}
     <a class="btn btn-sm" href="{% url "categories-by-project" obj.project_uuid %}" >{% trans "Save" %}</a>
     {% else %}
-    <button type="button" class="btn btn-sm ark save" data-bs-dismiss="modal" data-url="{% url "items-by-category" obj.uuid %}" data-target="items-list-{{obj.pk}}" >{% trans "Save" %}</button>
+    <button type="button" class="btn btn-sm ark save" data-bs-dismiss="modal" data-url="{% url "items-by-category" obj.uuid %}" data-target="items-list-{{obj.pk}}" data-old_parent="{{obj.parent.pk}}" >{% trans "Save" %}</button>
     {% endif %}
     <button type="button" class="btn btn-sm ark cancel" data-bs-dismiss="modal" data-url="{% url "category-remove" obj.uuid %}" data-target="items-list-{{obj.parent.pk}}" data-confirm="{% trans "Are you sure to remove this element?" %}">{% trans "Remove" %}</button>
 </div>

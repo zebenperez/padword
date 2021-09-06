@@ -251,4 +251,4 @@ def bookings_notifications(request):
 
 @login_required
 def test(request):
-    return render(request, "bookings/test.html")
+    return HttpResponse("OK")

@@ -101,6 +101,7 @@ class Guest(models.Model):
         if len (settings.DATABASES) > 1:
             managed = False
             db_table = 'guests'
+        ordering = ('project_id', '-check_in', '-check_out')
         verbose_name = _('Guest')
 
 class GuestByChannel(models.Model):
