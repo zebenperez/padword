@@ -46,7 +46,7 @@ def field_form(fi, q, f, index, user):
         doc = ai.document 
 
     item_list = []
-    if f != None and f.answer_type != None and f.answer_type.field_type == "items":
+    if f != None and f.answer_type != None and (f.answer_type.field_type == "items" or f.answer_type.field_type == "items_shop"):
         item_list = fi.form.get_category_items()
 
     readonly = (f.read_only and not user.is_staff and not user.is_superuser)

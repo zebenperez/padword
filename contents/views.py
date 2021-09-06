@@ -376,8 +376,8 @@ def import_categories_by_file(request):
                                 reservation_form_active = 0,
                                 position = node.data['position'])
             category.save()
-        except:
-            pass
+        except Exception as e:
+            print(e)
 
     for node in tree:
         category = Category.objects.get(uuid = node.uuid)
@@ -403,8 +403,8 @@ def import_categories_by_file(request):
                             updated_at = datetime.datetime.now(),
                             reservation_form_active = 0)
                 item.save()
-            except:
-                pass
+            except Exception as e:
+                print(e)
         leafs.append(leaf)
 
 

@@ -23,13 +23,13 @@
         <div class="row bloque mt-3">
             <div id="main" class="col-lg-10 offset-lg-1 col-md-10 offset-md-1 col-xs-12">
                 {% if fi.form.form_type.code == "ecom" %}
-                <div class="text-white" id="div-shopping-cart">
-                    {% include "bookings/shopping_cart.html" with category=fi.form.get_category fi=fi%}
-                </div>
+                    <div class="text-white" id="div-shopping-cart">
+                        {% include "bookings/shopping_cart.html" with category=fi.form.get_category fi=fi%}
+                    </div>
                 {% else %}
-                {% for b in fi.get_public_blocks %}
-                <div class="" id="div-block">{%include "bookings/block_form.html"%}</div> 
-                {% endfor %}
+                    {% for b in fi.get_public_blocks %}
+                        <div class="" id="div-block">{%include "bookings/block_form.html"%}</div> 
+                    {% endfor %}
                 {% endif %}
             </div>
         </div>
