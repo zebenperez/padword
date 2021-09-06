@@ -3,7 +3,7 @@
 {% if doc %}
     <a href="{{doc.url}}" target="_blank">{% get_file_name doc.name %}</a>
     <a class="btn btn-xs btn-danger ark" data-url="{% url "remove-file" %}" data-target="div-file-{{answer_name}}" data-fi="{{fi_id}}" 
-        data-question="{{q_id}}" data-field="{{f.id}}" data-index="{{index}}" data-confirm="{% trans 'Are you sure you want to delete de document? %}"> 
+        data-question="{{q_id}}" data-field="{{f.id}}" data-index="{{index}}" data-confirm="{%trans 'Are you sure you want to delete de document?%}"> 
         <i class="glyphicon glyphicon-trash"></i></a>
 {% else %}
     <input type="file" class="form-control check_empty_{{q_id}} autoupload" id="{{answer_name}}" name="{{answer_name}}" 

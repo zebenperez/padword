@@ -430,6 +430,37 @@ def remove_file(request):
         logger.error("[bookings-autosave]: {}".format(e))
         return render(request, 'error_exception.html', {'msg': str(e)})
 
+@group_required("admins", "projects", "guests")
+def select_item(request):
+    try:
+        fi = get_or_none(FormInstance, request.GET["fi"])
+        q = get_or_none(Question, request.GET["question"])
+        f = get_or_none(Field, request.GET["field"])
+        index = request.GET["index"]
+        value = request.GET["value"]
+
+        ai = get_or_create_answer_instance(fi, q, f, index)
+        if ai != None:
+            ai.text = value
+            ai.save()
+
+            answer_name = "question_%s_field_%s_%s" % (q.id, f.id, index)
+            context = {
+                'fi_id': fi.id, 
+                'q_id': q.id, 
+                'f': f,
+                'index': index, 
+                'answer_name': answer_name, 
+                'item_list': fi.form.get_category_items(),
+                'value': ai.text
+            }
+        return render(request, "bookings/items-shop-field.html", context)
+    except Exception as e:
+        print(e)
+        logger.error("[bookings-autosave]: {}".format(e))
+        return render(request, 'error_exception.html', {'msg': str(e)})
+
+
 #'''
 #    Bookings shopping cart methods
 #'''

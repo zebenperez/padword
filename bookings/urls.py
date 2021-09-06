@@ -62,6 +62,7 @@ urlpatterns = [
     path('autoupload/', gv.autoupload, name='autoupload'),
     path('remove-file/', gv.remove_file, name='remove-file'),
     path('autocomplete/', gv.autocomplete, name='autocomplete'),
+    path('select-item/', gv.select_item, name='select-item'),
 
     #path('booking-new/<slug:form_uuid>/<slug:device_imei>/', views.booking_new, name='booking-new'),
     #path('booking-new/<slug:form_uuid>/<slug:device_imei>/<slug:room_number>/<slug:guest_name>/<slug:guest_surname>/', views.booking_new, name='booking-new'),

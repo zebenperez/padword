@@ -80,5 +80,9 @@
 		{% endfor %}
 	</select>
 
+{% elif f.answer_type.field_type == "items_shop" %}
+
+    <div id="div-items-shop-{{answer_name}}">{% include "bookings/items-shop-field.html" %}</div>
+
 {% endif %}
 
