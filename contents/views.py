@@ -71,7 +71,12 @@ def category_form(request):
             new_item = False
             project = obj.project
 
-        return render(request, "contents/category-form.html", {'obj': obj, 'company_id': project.company.uuid, 'new_item':new_item })
+        if obj.parent is not None:
+            parents_options = Category.objects.filter(pk=obj.parent.pk)
+        else:
+            parents_options = Category.objects.none()
+        parents_options = parents_options.union(Category.objects.filter(project_uuid = obj.project_uuid, parent = obj.parent))
+        return render(request, "contents/category-form.html", {'obj': obj, 'company_id': project.company.uuid, 'new_item':new_item, 'parents_options':parents_options })
     except Exception as e:
         return render(request, "error_exception.html", {'exc': show_exc(e)})
 
@@ -79,7 +84,12 @@ def category_form(request):
 def category_tree(request, category_id):
     try:
         category = Category.objects.get(uuid=category_id)
-        return render(request, 'contents/items-list.html', {'cat':category})
+        old_parent = request.GET.get('old_parent',0)
+        if old_parent != 0:
+            old_parent = get_or_none(Category, old_parent)
+            return render(request, 'contents/items-list.html', {'cat':category, 'old_parent':old_parent, 'move':True})
+        else:
+            return render(request, 'contents/items-list.html', {'cat':category, 'move':False})
     except Exception as e:
         return JsonResponse({'results':[], 'error':1, 'error-msg':show_exc(e)})
 
@@ -179,10 +189,6 @@ def item_change_image(request):
             return HttpResponse(show_exc(e))
     else:
         return (HttpResponse("Lo sentimos, pero ha ocurrido un error. "))
-
-
-
-
 
 ##### IMPORT #####
 class Node:

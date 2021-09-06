@@ -5,44 +5,61 @@
     <div class="col d-flex justify-content-end">
         {% for lang in obj.project.get_languages %}
         <a class="btn btn-{% is_current_lang lang 'primary' 'secondary'%} ark ms-2 me-2" data-url="{% url "category-form" %}" data-target-modal="common-modal" data-lang="{{lang}}" data-obj-id="{{obj.uuid}}" href="#" title="{% trans 'Modify this category' %}">{{lang}}</a>
-            {%endfor%}
+        {%endfor%}
     </div>
 </div>
 <div class="row justify-center">
-	<div class="col-sm-6 col-md-4 col-12">
+    <div class="col-sm-6 col-md-4 col-12">
         {% trans "Name" %} 
-        <input type="text" class="form-control autosave b-bottom mb-4" id="name" name="name" value="{% padword_translate obj.name %}" title="{% padword_translate obj.name %}" data-lang="{% current_lang %}"
-			data-model-name="contents.category" data-obj-id="{{obj.id}}" data-url="{% url "autosave_field" %}" data-target="div-notification"/>
-			<span id="name__msg"></span>
-	</div>
-	<div class="col-sm-6 col-md-8 col-12">
-		{% trans "Description" %}:
+        <input type="text" class="form-control autosave b-bottom mb-4" id="name" name="name" value="{% padword_translate obj.name %}" title="{% padword_translate obj.name %}" data-lang="{% current_lang %}" data-model-name="contents.category" data-obj-id="{{obj.id}}" data-url="{% url "autosave_field" %}" data-target="div-notification"/>
+        <span id="name__msg"></span>
+    </div>
+    <div class="col-sm-6 col-md-8 col-12">
+        {% trans "Description" %}:
         <input type="text" class="form-control autosave b-bottom mb-4" id="description" name="description" value="{% padword_translate obj.description %}" title="{% padword_translate obj.description%}"  data-lang = "{% current_lang %}" data-model-name="contents.category" data-obj-id="{{obj.id}}" data-url="{% url "autosave_field" %}" data-target="div-notification" />
-			<span id="name__msg"></span>
-	</div>
+        <span id="name__msg"></span>
+    </div>
 
-	<div class="col-sm-2 col-md-2 col-2">
-		{% trans "Position" %}:
+    <div class="col-sm-6 col-2">
+        {% trans "Parent Category" %}:
+        <select class="form-control autosave b-bottom mb-4" id="parent" name="parent" title="{{obj.parent.name}}" data-model-name="contents.category" data-obj-id="{{obj.pk}}" data-url="{% url "autosave_field" %}" data-target="div-notification">
+            <option value="obj.parent.pk">{% trans 'Current' %} -  {% if obj.parent %}{% padword_translate obj.parent.name %}{% else %} {% trans 'ROOT Category' %} {%endif%}</option>
+            {% if obj.parent %}
+            <option value="{{obj.parent.parent.pk | default:"0"}}">{% trans 'Level Up' %} - {% if obj.parent.parent %}{% padword_translate obj.parent.parent.name %}{% else %} {% trans 'ROOT Category' %} {%endif%}</option>
+            {% endif %}
+            {% for option in parents_options %}
+            {% if option.pk != obj.parent.pk and option.pk != obj.pk %}
+            <option value="{{option.pk}}">{% padword_translate option.name %}</option>
+            {% endif %}
+
+            {%endfor%}
+        </select>
+        <span id="parent__msg"></span>
+
+    </div>
+
+    <div class="col-sm-2 col-md-2 col-2">
+        {% trans "Position" %}:
         <input type="number" class="form-control autosave b-bottom mb-4" id="position" name="position" value="{{ obj.position }}" title="{{ obj.position }}" 
-			data-model-name="contents.category" data-obj-id="{{obj.id}}" data-url="{% url "autosave_field" %}" data-target="div-notification"/>
-			<span id="name__msg"></span>
-	</div>
+                                                                                                                                  data-model-name="contents.category" data-obj-id="{{obj.id}}" data-url="{% url "autosave_field" %}" data-target="div-notification"/>
+        <span id="name__msg"></span>
+    </div>
 
-	<div class="col-sm-6 col-md-6 col-12">
-		{% trans "Created at" %}:
-		<input type="date" class="form-control autosave b-bottom mb-4" id="created_at" name="created_at" value="{{obj.created_at|date:'Y-m-d'}}" title="{{obj.created_at}}" 
-			data-model-name="contents.category" data-obj-id="{{obj.id}}" data-url="{% url "autosave_field" %}" data-target="div-notification"/>
-			<span id="created_at__msg"></span>	
-	</div>
-	
-</div>		
+    <div class="col-sm-4 col-md-4 col-12">
+        {% trans "Created at" %}:
+        <input type="date" class="form-control autosave b-bottom mb-4" id="created_at" name="created_at" value="{{obj.created_at|date:'Y-m-d'}}" title="{{obj.created_at}}" 
+                                                                                                                                                 data-model-name="contents.category" data-obj-id="{{obj.id}}" data-url="{% url "autosave_field" %}" data-target="div-notification"/>
+        <span id="created_at__msg"></span>    
+    </div>
+
+</div>        
 
 <div class="d-flex justify-content-end">
     {% if new_item %}
-	<a class="btn btn-sm" href="{% url "categories-by-project" obj.project_uuid %}" >{% trans "Save" %}</a>
+    <a class="btn btn-sm" href="{% url "categories-by-project" obj.project_uuid %}" >{% trans "Save" %}</a>
     {% else %}
-	<button type="button" class="btn btn-sm ark save" data-bs-dismiss="modal" data-url="{% url "items-by-category" obj.uuid %}" data-target="items-list-{{obj.pk}}" >{% trans "Save" %}</button>
+    <button type="button" class="btn btn-sm ark save" data-bs-dismiss="modal" data-url="{% url "items-by-category" obj.uuid %}" data-target="items-list-{{obj.pk}}" data-old_parent="{{obj.parent.pk}}" >{% trans "Save" %}</button>
     {% endif %}
-	<button type="button" class="btn btn-sm ark cancel" data-bs-dismiss="modal" data-url="{% url "category-remove" obj.uuid %}" data-target="items-list-{{obj.parent.pk}}" data-confirm="{% trans "Are you sure to remove this element?" %}">{% trans "Remove" %}</button>
+    <button type="button" class="btn btn-sm ark cancel" data-bs-dismiss="modal" data-url="{% url "category-remove" obj.uuid %}" data-target="items-list-{{obj.parent.pk}}" data-confirm="{% trans "Are you sure to remove this element?" %}">{% trans "Remove" %}</button>
 </div>
 

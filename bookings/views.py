@@ -79,10 +79,18 @@ def get_booking_context(form=None, project=None):
     context["items"] = items
     return context
 
-@group_required("admins")
+@group_required("admins", "projects")
 def bookings(request):
     try:
-        context = get_booking_context()
+        if request.user.groups.filter(name='admin').exists():
+            context = get_booking_context()
+        else:
+            context = get_booking_context()
+            projects_list = list(ProjectUser.objects.filter(username=request.user.username).values_list('project_uuid', flat=True))
+            categories_list = list(Category.objects.filter(project_uuid__in = projects_list).values_list('uuid', flat=True))
+            forms_list = list(Form.objects.filter(category__in = categories_list).values_list('uuid', flat=True))
+            bookings = FormInstance.objects.filter(form_uuid__in = forms_list, status__code = "01" ).order_by('-pk')
+            context['items'] = bookings
         return render (request, "bookings/bookings.html", context)
     except Exception as e:
         logger.error("[bookings-bookings] {}".format(str(e)))
@@ -228,101 +236,19 @@ def booking_log(request, fi_id):
     return render(request, 'error_exception.html', {})
 
 @group_required("admins", "projects")
-def bookings_notifications(self):
+def bookings_notifications(request):
     try:
-        bookings = FormInstance.objects.all()
+        projects_list = list(ProjectUser.objects.filter(username=request.user.username).values_list('project_uuid', flat=True))
+        categories_list = list(Category.objects.filter(project_uuid__in = projects_list).values_list('uuid', flat=True))
+        forms_list = list(Form.objects.filter(category__in = categories_list).values_list('uuid', flat=True))
+        bookings = FormInstance.objects.filter(form_uuid__in = forms_list, status__code = "01" ).order_by('pk')
         e = None
+        return HttpResponse(str(bookings.count()))
     except Exception as e:
         logger.error("[bookings-new_booking] {}".format(str(e)))
+        return HttpResponse("0")
         return render(request, 'error_exception.html', {'exc':show_exc(e)})
 
 @login_required
 def test(request):
-    return render(request, "bookings/test.html")
-#'''
-#    Bookings client methods
-#'''
-##@login_required
-##def booking_new(request, form_uuid, device_imei, room_number, guest_name, guest_surname):
-#def booking_new(request, form_uuid):
-#    try:
-#        form = get_or_none(Form, form_uuid, "uuid")
-#        if form == None:
-#            return render(request, 'error_exception.html', {'exc': _('Form not found!')})
-#        
-#        device_imei = request.GET["device_imei"] if "device_imei" in request.GET else ""
-#        room_number = request.GET["room_number"] if "room_number" in request.GET else ""
-#        guest_name = request.GET["guest_name"] if "guest_name" in request.GET else ""
-#        guest_surname = request.GET["guest_surname"] if "guest_surname" in request.GET else ""
-#
-#        if device_imei == "":
-#            return render(request, 'error_exception.html', {'exc': _('Device not found!')})
-#        device = get_or_none(Device, device_imei, "imei")
-#        if device == None:
-#            return render(request, 'error_exception.html', {'exc': _('Device not found!')})
-#        if device.room != room_number:
-#            return render(request, 'error_exception.html', {'exc': _('Device not assigned to room number!')})
-#        guest = Guest.objects.filter(name=guest_name, surname=guest_surname, room=room_number).first()
-#        if guest == None:
-#            return render(request, 'error_exception.html', {'exc': _('Guest not found or not assigned to room number!')})
-#
-#        fi = get_or_create_form_instance(form.uuid, device.uuid, room_number, guest_name, guest_surname)
-#        write_log(request.user, fi, _("Booking created"))
-#        
-#        items = ShoppingCart.objects.filter(form_instance_id=fi.pk)
-#        context = {'fi': fi, 'index': "0", "ro": False, 'items':items}
-#        return render(request, 'bookings/fillform.html', context)
-#    except Exception as e:
-#        print (show_exc(e))
-#        logger.error("[bookings-new_booking] {}".format(str(e)))
-#        return render(request, 'error_exception.html', {'exc':show_exc(e)})
-#
-##@group_required("admins", "projects", "clients")
-#def booking_send(request, fi_id):
-#    try:
-#        fi = FormInstance.objects.get(pk = fi_id)
-#        previous_status = fi.status.name if fi.status != None else _("Created")
-#        fi.set_status("01")
-#        write_log(request.user, fi, _("Status change from {} to {}".format(previous_status, fi.status.name)))
-#        context = {'msg': fi.status, 'device_uuid': fi.device_uuid}
-#        return render(request, 'bookings/show_msg.html', context)
-#    except Exception as e:
-#        logger.error("[bookings-booking_send] {}".format(str(e)))
-#    return render(request, 'error_exception.html', {})
-#
-##@group_required("admins", "projects", "clients")
-#def booking_remove(request, fi_id):
-#    try:
-#        fi = FormInstance.objects.get(pk = fi_id)
-#        device_uuid = fi.device_uuid
-#        fi.delete()
-#        context = {'msg': "Cancelada", 'device_uuid': device_uuid}
-#        return render(request, 'bookings/show_msg.html', context)
-#    except Exception as e:
-#        logger.error("[bookings-remove_fi] {}".format(str(e)))
-#    return render(request, 'error_exception.html', {})
-#
-##@group_required("admins", "projects", "clients")
-#def bookings_by_device(request, device_uuid):
-#    msg = ""
-#    try:
-#        device = get_or_none(Device, device_uuid, "uuid")
-#        if device != None:
-#            guest_list = Guest.current_by_room_project(device.room, device.project_uuid) 
-#            if len(guest_list) == 1:
-#                guest = guest_list[0]
-#                context = {
-#                    'items': FormInstance.objects.filter(device_uuid=device_uuid, date__range=[guest.check_in, guest.check_out]),
-#                    'guest': guest
-#                }
-#                return render (request, "bookings/bookings-by-device.html", context)
-#            else:
-#                msg = _("More than one guest at same time!") if len(guest_list) > 0 else _("Guest not found!")
-#        else:
-#            msg = _("Device not found!")
-#    except Exception as e:
-#        logger.error("[bookings-bookings] {}".format(str(e)))
-#        msg = str(e)
-#    return render(request, 'error_exception.html', {'exc': msg})
-#
-
+    return HttpResponse("OK")
