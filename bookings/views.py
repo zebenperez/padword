@@ -42,18 +42,6 @@ def login(request):
     if remote_user == None:
         return render(request, 'error_exception.html', {'exc': _('User not found!')})
     
-#    try:
-#        user = User.objects.get(username=remote_user.email)
-#    except:
-#        try:
-#            projects_group = Group.objects.get(name='projects') 
-#            user = User.objects.create_user(remote_user.email, email=remote_user.email)
-#            projects_group.user_set.add(user)
-#        except:
-#            return render(request, 'error_exception.html', {'exc': _('Group not found!')})
-#
-#    pu, created = ProjectUser.objects.get_or_create(project_uuid=project_uuid, username=user.username)
-
     user = ProjectUser.get_or_create_project_user(project_uuid, remote_user.email)
     auth.login(request, user)
     return redirect(bookings_by_project, project.id)
@@ -185,7 +173,7 @@ def booking_preview(request, form_uuid):
         return render(request, 'error_exception.html', {'exc':show_exc(e)})
 
 
-@group_required("admins", "projects")
+@group_required("admins", "projects", "guests")
 def booking_view(request, fi_id):
     try:
         fi = FormInstance.objects.get(pk = fi_id)

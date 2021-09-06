@@ -336,5 +336,97 @@ def import_categories(request, project_uuid = 'UNKNOWN'):
         category = Category(uuid=item['uuid'], )
     return HttpResponse("OK")
 
+@login_required
+def import_categories_by_file(request):
+    json_tree = None
+
+    try:
+        project_uuid = request.POST["project_uuid"]
+        content = request.FILES["file"].read().decode("utf-8")
+        json_tree = json.loads(content)
+        #json_tree = json.load(open(os.path.join(settings.BASE_DIR,'contents','{}.json'.format(project_uuid)),'r'))
+    except Exception as e:
+        print(e)
+        return HttpResponse(show_exc(e))
+
+    languages = json_tree['languages']
+    aux = ['' for i in range(30)]
+    for item in languages:
+        aux[item['language_index']] = item['cartrawler_lang']
+    languages = aux
+
+    tree = []
+    for category in json_tree['menucategories']:
+        node = Node(category, languages)
+        tree.append(node)
+        try:
+            category = Category(
+                                uuid = node.uuid.strip(), 
+                                parent = None,
+                                project_uuid = project_uuid, 
+                                place_uuid = node.data['place_id'], 
+                                name = node.name,
+                                description = node.description,
+                                allow_reservation = 'yes',
+                                minimum_reservation = 0,
+                                icon = node.icon,
+                                is_active = 1,
+                                created_at = datetime.datetime.now(),
+                                updated_at = datetime.datetime.now(),
+                                reservation_form_active = 0,
+                                position = node.data['position'])
+            category.save()
+        except:
+            pass
+
+    for node in tree:
+        category = Category.objects.get(uuid = node.uuid)
+        for parent_uuid in node.parent:
+            if parent_uuid is not None:
+                parent = Category.objects.get(uuid=parent_uuid)
+                category.parent = parent
+                category.save()
+
+    leafs = []
+    for item in json_tree['menuitems']:
+        leaf = Node(item, languages)
+        if not Item.objects.filter(uuid=leaf.uuid).exists():
+            try:
+                item = Item(uuid = leaf.uuid,
+                            name = leaf.name,
+                            title = leaf.subtitle,
+                            description = leaf.description,
+                            price = leaf.price,
+                            gallery = leaf.icon,
+                            is_active = 1,
+                            created_at = datetime.datetime.now(),
+                            updated_at = datetime.datetime.now(),
+                            reservation_form_active = 0)
+                item.save()
+            except:
+                pass
+        leafs.append(leaf)
+
+
+    for leaf in leafs:
+        item = Item.objects.get(uuid=leaf.uuid)
+        for parent_uuid in leaf.parent:
+            cat = Category.objects.get(uuid=parent_uuid)
+            try:
+                item_in_cat = ItemInCat(position=leaf.data["order_indexes"][parent_uuid], category = cat, item=item)
+                item_in_cat.save()
+            except Exception as e:
+                try:
+                    item_in_cat = ItemInCat(position=0, category = cat, item=item)
+                    item_in_cat.save()
+                except Exception as e:
+                    print ('{}. {}'.format(parent_uuid, show_exc(e)))
+    return HttpResponse("OK")
+
+    categories = json_tree['menucategories']
+    for item in categories:
+        category = Category(uuid=item['uuid'], )
+    return HttpResponse("OK")
+
 def item_get_img(request, item_id):
     return HttpResponse("OK")

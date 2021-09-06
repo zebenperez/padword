@@ -1,0 +1,16 @@
+{% load i18n padword_tags static %}
+
+<h2>{% trans 'Upload content' %}</h2>
+<br/>
+<form action="{% url 'import-categories-by-file' %}" method="post" enctype="multipart/form-data" id=''>
+    {% csrf_token %}
+    <input type="hidden" name="project_uuid" value="{{obj.uuid}}">
+    <div class="row justify-center">
+        <div class="col-12"> <input type="file" name="file" id="file" class="form-control"/> </div>
+    </div>
+
+    <div class="d-flex justify-content-end">
+        <input type="submit" class="btn btn-sm save" data-bs-dismiss="modal" value="{% trans "Upload" %}" />
+        <button type="button" class="btn btn-sm cancel" data-bs-dismiss="modal">{% trans "Cancel" %}</button>
+    </div>
+</form>

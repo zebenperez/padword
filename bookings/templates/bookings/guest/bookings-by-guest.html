@@ -18,6 +18,7 @@
                         <th> {% trans 'Device' %} </th>
                         <th> {% trans 'Date' %} </th>
                         <th> {% trans 'Status' %} </th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -31,6 +32,9 @@
                             <td>{{item.device.uuid}}</td>
                             <td>{{ item.date }}</td>
                             <td>{{ item.status.name }}</td>
+                            <td>
+                                <a class="me-1 btn btn-xs" href="{% url "booking-view" item.id %}" target="_blank"><i class="fas fa-eye"></i></a>  
+                            </td>
                         </tr>
                     {% endfor %}
                 </tbody>
