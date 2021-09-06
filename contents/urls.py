@@ -13,6 +13,7 @@ urlpatterns = [
     path('tree/category-<slug:category_id>/', views.category_tree, name='items-by-category'),
     path('categories/change-active-category-<slug:category_id>/', views.category_change_active, name='change-active-category'),
     path('categories/remove-category-<slug:category_id>/', views.category_remove, name='category-remove'),
+    path('categories/import-by-file/', views.import_categories_by_file, name='import-categories-by-file'),
 
     path('items/form/', views.item_form, name='item-form'),
     path('items/change-image/', views.item_change_image, name='item-change-image'),

@@ -23,14 +23,14 @@
 				</div>
 				{% for item in items %}
 				<div class="row booking-line mb-2" id="row_{{item.id}}">
-					<div class="col info-col">{% padword_translate item.form.name %}</div>
-					<div class="col info-col">{{item.guest.name}}</div>
-					<div class="col info-col">{{item.guest.surname}}</div>
-					<div class="col info-col">{{item.guest.mobile}}</div>
-					<div class="col-3 info-col">{{item.guest.email}}</div>
-					<div class="col info-col">{{item.device.uuid}}</div>
-					<div class="col-2 info-col">{{ item.date }}</div>
-					<div class="col info-col">{{ item.status.name }}</div>
+					<div class="col info-col booking-line">{% padword_translate item.form.name %}</div>
+					<div class="col info-col booking-line">{{item.guest.name}}</div>
+					<div class="col info-col booking-line">{{item.guest.surname}}</div>
+					<div class="col info-col booking-line">{{item.guest.mobile}}</div>
+					<div class="col-3 info-col booking-line">{{item.guest.email}}</div>
+					<div class="col info-col booking-line">{{item.device.uuid}}</div>
+					<div class="col-2 info-col booking-line">{{ item.date }}</div>
+					<div class="col info-col booking-line">{{ item.status.name }}</div>
 				</div>
 				{% endfor %}
 			</div>
@@ -57,11 +57,23 @@
                         <th> {% trans 'Device' %} </th>
                         <th> {% trans 'Date' %} </th>
                         <th> {% trans 'Status' %} </th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody>
                     {% for item in items %}
                         <tr class="small" id="row_{{item.id}}">
+                            <td>{% padword_translate item.form.name %}</td>
+                            <td>{{item.guest.name}}</td>
+                            <td>{{item.guest.surname}}</td>
+                            <td>{{item.guest.mobile}}</td>
+                            <td>{{item.guest.email}}</td>
+                            <td>{{item.device.uuid}}</td>
+                            <td>{{ item.date }}</td>
+                            <td>{{ item.status.name }}</td>
+                            <td>
+                                <a class="me-1 btn btn-xs" href="{% url "booking-view" item.id %}" target="_blank"><i class="fas fa-eye"></i></a>  
+                            </td>
                             <td class="booking-line">{% padword_translate item.form.name %}</td>
                             <td class="booking-line">{{item.guest.name}}</td>
                             <td class="booking-line">{{item.guest.surname}}</td>

@@ -83,6 +83,12 @@ def project_remove(request):
     items = Project.objects.all() if company is None else Project.objects.filter(company = company)
     return render(request, "web/projects/project-list.html", {'items':items, 'company': company})
 
+@group_required("admins")
+def project_upload_json(request):
+    obj = get_or_none(Project, request.GET["obj_id"]) if "obj_id" in request.GET else None
+    if obj != None:
+        return render(request, "web/projects/upload-json.html", {'obj':obj,})
+    return render(request, 'error_exception.html', {'exc': 'Project not found!'})
 
 '''
     Channels

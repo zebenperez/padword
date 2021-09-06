@@ -28,6 +28,8 @@
                     <a class="btn btn-xs" href="{% url 'categories-by-project' item.uuid %}" title="{% trans 'Categories' %}">
                         <i class="fas fa-project-diagram"></i></a>
                     {% endif %}
+                    <a class="btn btn-xs ark" data-url="{% url "project-upload-json" %}" data-target-modal="common-modal" 
+                        data-obj_id="{{item.id}}" data-company_id="{{company.id}}"><i class="fas fa-upload"></i></a>  
                     <a class="btn btn-xs" href="{% url 'bookings-by-project' item.pk %}" title="{% trans 'Bookings' %}"> <i class="fas fa-list"></i></a>
                     <a class="btn btn-xs ark" data-url="{% url "project-form" %}" data-target-modal="common-modal" 
                         data-obj_id="{{item.id}}" data-company_id="{{company.id}}"><i class="fas fa-edit"></i></a>  
