@@ -66,7 +66,6 @@ class Answer(models.Model):
 		verbose_name_plural = _('Answers')
 		ordering = ['id']
 
-
 class FormType(models.Model):
 	code = models.CharField(max_length=10, verbose_name=_("Code"), default="")
 	name = models.CharField(max_length=200, verbose_name=_("Name"))
