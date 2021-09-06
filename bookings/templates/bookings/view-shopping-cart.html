@@ -1,17 +1,29 @@
 {% load i18n bookings_tag common_tag padword_tags static %}
+
+<div class="row">
+    <div class="col-md-5">
+        <h5>{% trans "My Booking" %}&nbsp;<span style="font-size: 13px;">( {{items|length}} {% trans 'art.' %} )</span></h5>
+    </div>
+    <div class="col-md-5 text-right" id="div-total-shopping-cart"> {% trans 'Total price' %}: {{total|floatformat:2}} &euro;</div>
+    <div class="col-2 col-xs-3 justify-content-end">
+        <button type="button" class="btn btn-outline-danger save ark w-100" data-url="{% url 'get-price-shopping-cart' %}" data-target="info-shopping" data-form_id="{{fi.pk}}" data-bs-dismiss="modal"><i class="fas fa-times"></i></button>
+    </div>
+</div>
+
+{% comment %}
 <div class="row">
     <div class="col-10">
         <h5>{% trans "My Booking" %}&nbsp;<span style="font-size: 13px;">( {{items|length}} {% trans 'art.' %} )</span></h5>
     </div>
-    {%comment%}<div class="col-6" id="div-total-shopping-cart">{{items|length}} art.&nbsp;&nbsp;{% trans 'Total price' %}: {{total|floatformat:2}} &euro;</div>{%endcomment%}
 </div>
 
 <div class="row">
 	<div class="col-11" id="div-total-shopping-cart"> {% trans 'Total price' %}: {{total|floatformat:2}} &euro;</div>
 	<div class="col-1 justify-content-end">
-        	<button type="button" class="btn save ark w-100" data-url="{% url 'get-price-shopping-cart' %}" data-target="info-shopping" data-form_id="{{fi.pk}}" data-bs-dismiss="modal"><i class="far fa-window-close"></i></button>
+        	<button type="button" class="btn btn-danger save ark w-100" data-url="{% url 'get-price-shopping-cart' %}" data-target="info-shopping" data-form_id="{{fi.pk}}" data-bs-dismiss="modal"><i class="fas fa-times"></i></button>
 	</div>
 </div>
+{% endcomment %}
 <hr>
 <div class="row mb-2">
     {% for item in items %}
@@ -34,18 +46,17 @@
     {% endfor %}
 </div>
 <div class="row justify-content-center mt-3">
-	<p class="small alert alert-info text-center"><strong>*</strong> {% trans 'You can add comments to the article with click on comment buttons' %} <br /><a class="btn btn-primary" ><i class="fas fa-comments"></i></a></p>
+	<p class="small alert text-left"><strong>*</strong> {% trans 'You can add comments to the article with click on comment buttons' %} <i class="fas fa-comments"></i></p>
 </div>
 <div class="row justify-content-center mt-2">
     <div class="col-lg-3 col-md-3 col-xs-4 actions text-center justify-content-center">
-        <a href="{% url "booking-send" fi.id %}" class="btn btn-success btn-lg w-100">{% trans "Send" %}</a>
+        <a href="{% url "booking-send" fi.id %}" class="btn btn-outline-primary btn-lg w-100"><i class="fas fa-paper-plane"></i> {% trans "Send" %}</a>
     </div>
-</div>
-<hr>
-<div class="row">
-    <div class="col-11">{% trans 'Total price' %}: {{total|floatformat:2}} &euro;</div>
-    <div class="col-1 justify-content-end">
-        <button type="button" class="btn save ark w-100" data-url="{% url 'get-price-shopping-cart' %}" data-target="info-shopping" data-form_id="{{fi.pk}}" data-bs-dismiss="modal"><i class="far fa-window-close"></i></button>
+    <div class="col-lg-3 offset-lg-1 col-md-3 offset-md-1 col-xs-4 offset-xs-1 actions text-center">
+        <a href="{% url "booking-remove" fi.id %}" class="btn btn-outline-danger btn-lg w-100"><i class="fas fa-ban"></i> {% trans "Cancel" %}</a>
     </div>
+
 </div>
+
+
 <script>$('#info-shopping').html($('#div-total-shopping-cart').html());</script>

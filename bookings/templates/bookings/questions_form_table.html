@@ -5,7 +5,7 @@
 	<table class="table mt-4" id="table_{{q.id}}" width="100%">
 	    <thead> <tr>
 			{% for f in q.field_set.all %}
-			    <td class="sh-td" style="color:#333;">{{f.text}}</td>
+			    <td class="sh-td item-left">{{f.text}}</td>
 			    {% if forloop.last %}<td class="sh-td"></td><td class="sh-td"></td>{% endif %}
 			{% endfor %} 
         </tr> </thead>
