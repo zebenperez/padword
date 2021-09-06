@@ -248,6 +248,11 @@ class FormInstance(models.Model):
         items = ShoppingCart.objects.filter(form_instance_id=self.pk, item=item)
         return (items)
 
+    @property
+    def get_items(self):
+        items = ShoppingCart.objects.filter(form_instance_id=self.pk)
+        return (items)
+
  
     class Meta:
         verbose_name = _('1.- Form instance')

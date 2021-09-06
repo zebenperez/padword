@@ -7,6 +7,7 @@
 <div class="main-content-booking container-fluid">
     <div class="div-transp- p-4">
         <div class="bookingHeader">
+        <a id="full-screen" class="" onclick="javascript:toggleFullScreen();"><i class="far fa-window-maximize"></i></a></div>
             <div class="col-lg-10 offset-lg-1 col-md-10 offset-md-1 col-xs-6">
                 <h1 class="grid-container"> 
                     <div class="item1">{% padword_translate fi.form.name %}</div> 
@@ -15,7 +16,6 @@
                     <a class="btn btn-light small ark mb-1" data-url="{% url 'view-shopping-cart' %}" data-target-modal="common-modal" data-form_id="{{fi.pk}}"> <i class="fas fa-shopping-cart"></i> {% trans '' %}</a>
                     {% endif %}
                 </h1> 
-                <a id="full-screen" class="btn btn-info text-center" onclick="javascript:toggleFullScreen();">Full screen</a></div>
         </div>
 
         <div class="row"> <div class="col-md-9 offset-md-1" id="div-notification"></div> </div>
@@ -37,12 +37,12 @@
         <div class="row mt-4 mb-4 d-flex justify-content-center ">
             {% if not ro %}
             <div class="col-lg-3 col-md-3 col-xs-4 offset-xs-1 actions text-center">
-                <a class="btn btn-primary btn-lg ark w-100" data-url="{% url 'view-shopping-cart' %}" data-target-modal="common-modal" data-form_id="{{fi.pk}}"> 
+                <a class="btn btn-outline-primary btn-lg ark w-100" data-url="{% url 'view-shopping-cart' %}" data-target-modal="common-modal" data-form_id="{{fi.pk}}"> 
                     <i class="fas fa-shopping-cart"></i> {% trans 'Continue' %}
                 </a>
             </div>
             <div class="col-lg-3 offset-lg-1 col-md-3 offset-md-1 col-xs-4 offset-xs-1 actions text-center">
-                <a href="{% url "booking-remove" fi.id %}" class="btn btn-danger btn-lg w-100">{% trans "Cancel" %}</a>
+                <a href="{% url "booking-remove" fi.id %}" class="btn btn-outline-danger btn-lg w-100"><i class="fas fa-ban"></i> {% trans "Cancel" %}</a>
             </div>
             {% else %}
             <div class="col-2 actions text-center">

@@ -4,12 +4,51 @@
 {#{% block second_menu %}{% get_second_menu request.user %} {% endblock second_menu %}#}
 
 {% block central_content %}
+
+<div class="row">
+	<div class="col-10 offset-1 mt-3 mb-3">
+	<div class="content mt-4">
+		<div class="toolbar-content mb-3"> <h4 class="success mt-3">{% trans 'Bookings' %}</h4> </div>
+		<div id="booking-list">
+			<div class="p-4" style="background:#f3f5f9;border-radius:5px;">
+				<div class="row">
+					<div class="col title-col"> {% trans 'Form' %} </div>
+					<div class="col title-col"> {% trans 'Name' %} </div>
+					<div class="col title-col"> {% trans 'Surname' %} </div>
+					<div class="col title-col"> {% trans 'Phone' %} </div>
+					<div class="col-3 title-col"> {% trans 'Email' %} </div>
+					<div class="col title-col"> {% trans 'Device' %} </div>
+					<div class="col-2 title-col"> {% trans 'Date' %} </div>
+					<div class="col title-col"> {% trans 'Status' %} </div>
+				</div>
+				{% for item in items %}
+				<div class="row booking-line mb-2" id="row_{{item.id}}">
+					<div class="col info-col booking-line">{% padword_translate item.form.name %}</div>
+					<div class="col info-col booking-line">{{item.guest.name}}</div>
+					<div class="col info-col booking-line">{{item.guest.surname}}</div>
+					<div class="col info-col booking-line">{{item.guest.mobile}}</div>
+					<div class="col-3 info-col booking-line">{{item.guest.email}}</div>
+					<div class="col info-col booking-line">{{item.device.uuid}}</div>
+					<div class="col-2 info-col booking-line">{{ item.date }}</div>
+					<div class="col info-col booking-line">{{ item.status.name }}</div>
+				</div>
+				{% endfor %}
+			</div>
+		</div>
+	</div>
+	</div>
+</div>
+
+{% comment %}
+<div class="row">
+<div class="col-10 offset-1 mt-3 mb-3">
+
     <div class="content mt-4">
-        <div class="toolbar-content"> <h2 class="b-right">{% trans 'Bookings' %}</h2> </div>
+        <div class="toolbar-content mb-3"> <h4 class="success mt-3">{% trans 'Bookings' %}</h4> </div>
         <div id="booking-list">
             <table class="table table-striped table-hover">
                 <thead>
-                    <tr class="small small">
+                    <tr class="hibrid">
                         <th> {% trans 'Form' %} </th>
                         <th> {% trans 'Name' %} </th>
                         <th> {% trans 'Surname' %} </th>
@@ -35,10 +74,26 @@
                             <td>
                                 <a class="me-1 btn btn-xs" href="{% url "booking-view" item.id %}" target="_blank"><i class="fas fa-eye"></i></a>  
                             </td>
+                            <td class="booking-line">{% padword_translate item.form.name %}</td>
+                            <td class="booking-line">{{item.guest.name}}</td>
+                            <td class="booking-line">{{item.guest.surname}}</td>
+                            <td class="booking-line">{{item.guest.mobile}}</td>
+                            <td class="booking-line">{{item.guest.email}}</td>
+                            <td class="booking-line">{{item.device.uuid}}</td>
+                            <td class="booking-line">{{ item.date }}</td>
+                            <td class="booking-line">{{ item.status.name }}</td>
                         </tr>
                     {% endfor %}
                 </tbody>
             </table>
         </div>
     </div>
+    
+
+</div>
+</div>
+
+{% endcomment %}
+
+
 {% endblock central_content %}

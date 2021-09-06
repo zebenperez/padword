@@ -1,0 +1,54 @@
+{% extends "base_guest.html" %}
+{% load i18n bookings_tag common_tag padword_tags static %}
+{% block central_content %}
+<div id="mask"> &nbsp; </div>
+
+<div class="main-content-booking container-fluid">
+    <div class="div-transp- p-4">
+        <div class="bookingHeader">
+            <a id="full-screen" class="" onclick="javascript:toggleFullScreen();"><i class="far fa-window-maximize"></i></a></div>
+        <div class="col-lg-10 offset-lg-1 col-md-10 offset-md-1 col-xs-6">
+            <h1 class="grid-container"> 
+                <div class="item1-v">{% padword_translate fi.form.name %}</div> 
+                <div class="item2 text-right"><span id="info-shopping">{{items.count}} art.&nbsp;&nbsp;&nbsp; {{fi.get_total|stringformat:".2f"}} &euro; </span></div>
+            </h1> 
+        </div>
+        <hr>
+	
+	<div class="row col-lg-10 offset-lg-1 grid-guest p-3"> 
+		<div class="item-left"><strong><i class="fas fa-portrait"></i>&nbsp;</strong> {{fi.guest.name}} {{fi.guest.surname}} </div>
+		<div class="item"><i class="fas fa-phone-square"></i>&nbsp; <a href="tel:{{fi.guest.mobile}}">{{fi.guest.mobile}}</a></div>
+		<div class="item"><strong><i class="fas fa-bed"></i>&nbsp;</strong> {{fi.guest.room}}</div>
+	</div>
+	<br/> 
+        <div class="row"> <div class="col-lg-10 offset-lg-1 offset-md-1 col-xs-12 justify-content-left">{{fi.date}}</div> </div>
+
+        <div class="row"> <div class="col-md-9 offset-md-1" id="div-notification"></div> </div>
+
+        <div class="row bloque mt-3">
+            <div id="main" class="col-lg-10 offset-lg-1 col-md-10 offset-md-1 col-xs-12">
+                    {% for item in items %}
+                    <div class="row booking-line-item mt-3 p-3">
+                         <div class="col-2 d-flex">
+                             <img class="img-cart-line" src="{% if item.item.image %}{{item.item.image.url}} {%else%} {% static 'img/none.png' %}{%endif%}" alt="{% padword_translate item.item.name %}">
+                         </div>
+                         <div class="col-10">
+			     <p><strong>{% padword_translate item.item.name %}</strong></p>
+                             <p class=""><i class="far fa-comment-alt"></i>&nbsp; {{item.comments}}</p>
+                         </div>
+                    </div>
+                    {% endfor %}
+              </div>
+        </div>
+
+        <div class="row mt-4 mb-4 d-flex justify-content-center ">
+            <div class="col-12 actions d-flex justify-content-center">
+                <a href="#" class="btn btn-info btn-lg ark text-white" onclick="window.close()">{% trans "Close" %}</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% include "common-modal.html" %}
+{% if fi.form.image %} <script>$('body').css('background-image', 'url("{{fi.form.image.url}}")');</script> {% endif %}
+{% endblock %}
+
