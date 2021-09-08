@@ -17,6 +17,8 @@ urlpatterns = [
     path('forms/remove/<int:form_id>/', fv.form_remove, name='form-remove'),
     path('forms/add-image/', fv.form_add_image, name='form-add-image'),
     path('forms/remove-image/', fv.form_remove_image, name='form-remove-image'),
+    path('forms/add-logo/', fv.form_add_logo, name='form-add-logo'),
+    path('forms/remove-logo/', fv.form_remove_logo, name='form-remove-logo'),
     path('forms/add-qr/', fv.form_add_qr, name='form-add-qr'),
     path('forms/remove-qr/', fv.form_remove_qr, name='form-remove-qr'),
 

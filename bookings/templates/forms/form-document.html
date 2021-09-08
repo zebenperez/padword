@@ -5,14 +5,15 @@
         <i class="fas fa-upload"></i> <span class="text">{% trans "Upload File" %}</span> </label>
     <input type="file" class="upload d-none custom-file-upload" name="image" id="id_files_{{obj.id}}" 
         data-url="{% url 'form-add-image' %}" data-target="div-files" data-obj-id="{{obj.id}}" 
-        data-field="file" data-csrf-token="{{csrf_token}}" multiple style="display:none;"/><br /><br />
+        data-field="image" data-csrf-token="{{csrf_token}}" multiple style="display:none;"/><br /><br />
 {% else %}
     {#<div class="col-lg-10 col-xs-10"><span><a href="{{obj.image.url}}" target="_blank">{% get_file_name obj.image.name %}</a></span></div>#}
     <div class="col-lg-10 col-xs-10"><span><img src="{{obj.image.url}}" alt="image" width="200px"/></span></div>
     <br/>
     <div class="col-lg-2 col-xs-2 actions file-remove text-right">
         <a class="ark pointer" id="btn-photo-{{obj.pk}}" title="Borrar fichero" data-confirm="{% trans "Are you sure to remove this file?" %}" 
-            data-url="{% url "form-remove-image" %}" data-target="div-files" data-obj_id="{{obj.id}}"><i class="fas fa-trash"></i></a>
+            data-url="{% url "form-remove-image" %}" data-target="div-files" data-obj_id="{{obj.id}}" data-field="image">
+            <i class="fas fa-trash"></i></a>
     </div>
 {% endif %}
 

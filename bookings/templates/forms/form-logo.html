@@ -1,0 +1,18 @@
+{% load i18n common_tag %}
+
+{% if not obj.logo %}
+    <label for="id_logo_{{obj.id}}" class="btn btn-primary file-field-btn text-white">
+        <i class="fas fa-upload"></i> <span class="text">{% trans "Upload File" %}</span> </label>
+    <input type="file" class="upload d-none custom-file-upload" name="logo" id="id_logo_{{obj.id}}" 
+        data-url="{% url 'form-add-logo' %}" data-target="div-logo" data-obj-id="{{obj.id}}" 
+        data-field="logo" data-csrf-token="{{csrf_token}}" multiple style="display:none;"/><br /><br />
+{% else %}
+    <div class="col-lg-10 col-xs-10"><span><img src="{{obj.logo.url}}" alt="logo" width="200px"/></span></div>
+    <br/>
+    <div class="col-lg-2 col-xs-2 actions file-remove text-right">
+        <a class="ark pointer" id="btn-logo-{{obj.pk}}" title="Borrar fichero" data-confirm="{% trans "Are you sure to remove this file?" %}" 
+            data-url="{% url "form-remove-logo" %}" data-target="div-logo" data-obj_id="{{obj.id}}" data-field="logo">
+            <i class="fas fa-trash"></i></a>
+    </div>
+{% endif %}
+
