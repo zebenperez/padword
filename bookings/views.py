@@ -62,6 +62,7 @@ def get_booking_context(form=None, project=None):
             channel = Channel.objects.filter(uuid = fc.channel).first()
             context["channel_name"] = channel.name
             context["project_name"] = channel.project.name
+
     if project != None:
         uuid_list = [item.uuid for item in Category.objects.filter(project_uuid=project.uuid)]
         forms_uuid_list = [item.uuid for item in Form.objects.filter(category__in = uuid_list)]
@@ -80,41 +81,10 @@ def get_booking_context(form=None, project=None):
     return context
 
 @group_required("admins", "projects")
-def bookings(request):
-    try:
-        if request.user.groups.filter(name='admin').exists():
-            context = get_booking_context()
-        else:
-            context = get_booking_context()
-            projects_list = list(ProjectUser.objects.filter(username=request.user.username).values_list('project_uuid', flat=True))
-            categories_list = list(Category.objects.filter(project_uuid__in = projects_list).values_list('uuid', flat=True))
-            forms_list = list(Form.objects.filter(category__in = categories_list).values_list('uuid', flat=True))
-            bookings = FormInstance.objects.filter(form_uuid__in = forms_list, status__code = "01" ).order_by('-pk')
-            context['items'] = bookings
-        return render (request, "bookings/bookings.html", context)
-    except Exception as e:
-        logger.error("[bookings-bookings] {}".format(str(e)))
-        return render(request, 'full_error_exception.html', {'exc':show_exc(e)})
-    return render(request, 'full_error_exception.html', {})
-
-@group_required("admins", "projects")
-def bookings_by_form(request, form_id):
-    try:
-        if hasattr(request, "project_id"):
-            context = get_booking_context(form=get_or_none(Form, form_id), project=get_or_none(Project, request.session["project_id"]))
-        else:
-            context = get_booking_context(form=get_or_none(Form, form_id))
-        return render (request, "bookings/bookings.html", context)
-    except Exception as e:
-        print (show_exc(e))
-        logger.error("[bookings-bookings_by_form] {}".format(str(e)))
-        return render(request, 'error_exception.html', {'exc':show_exc(e)})
-
-@group_required("admins", "projects")
 def bookings_by_project(request, project_id):
     try:
         context = get_booking_context(project=get_or_none(Project, project_id))
-        return render (request, "bookings/bookings.html", context)
+        return render (request, "bookings/manage/bookings.html", context)
     except Exception as e:
         print (show_exc(e))
         logger.error("[bookings-bookings_by_project] {}".format(str(e)))
@@ -157,9 +127,112 @@ def bookings_search(request):
             kwargs["status"] = status
         items = FormInstance.objects.filter(**kwargs)
 
-        return render(request, "bookings/booking-list.html", {'items':items,})
+        return render(request, "bookings/manage/booking-list.html", {'items':items,})
     except Exception as e:
         print (show_exc(e))
+        return render(request, 'error_exception.html', {'exc':show_exc(e)})
+
+@group_required("admins", "projects", "guests")
+def booking_view(request, fi_id):
+    try:
+        fi = FormInstance.objects.get(pk = fi_id)
+        form = get_or_none(Form, fi.form_uuid, 'uuid')
+        items = ShoppingCart.objects.filter(form_instance_id=fi.pk)
+        if fi.status != None and fi.status.code == "01":
+            previous_status = fi.status.name
+            fi.set_status("02")
+            write_log(request.user, fi, _("Status change from {} to {}".format(previous_status, fi.status.name)))
+        context = {'fi': fi, 'index': "0", "ro": True, 'items':items}
+        if fi.form.form_type.code == "ecom":
+            return render(request, 'bookings/view-booking-project.html', context)
+            #return render(request, 'bookings/fillform.html', context)
+        else:
+            return render(request, 'bookings/fillform.html', context)
+    except Exception as e:
+        print(e)
+        logger.error("[bookings-fill_form] {}".format(str(e)))
+        return render(request, 'error_exception.html', {'exc':show_exc(e)})
+    return render(request, 'error_exception.html', {})
+
+@group_required("admins", "projects")
+def status_form(request):
+    try:
+        obj = get_or_none(FormInstance, request.GET["obj_id"]) if "obj_id" in request.GET else FormInstance.objects.create()
+        return render(request, "bookings/manage/status-form.html", {'obj': obj, 'status_list': Status.objects.all()})
+    except Exception as e:
+        return render(request, 'error_exception.html', {'exc':show_exc(e)})
+
+@group_required("admins", "projects")
+def change_status(request):
+    try:
+        if request.POST:
+            status = get_or_none(Status, request.POST["status"])
+            fi = FormInstance.objects.get(pk = request.POST["fi_id"])
+            previous_status = fi.status.name if fi.status != None else "Created"
+            fi.set_status(status.code)
+            write_log(request.user, fi, _("Status change from {} to {}".format(previous_status, fi.status.name)))
+            return redirect(bookings_by_form, fi.form.id)
+    except Exception as e:
+        print(e)
+        logger.error("[bookings-change_status] {}".format(str(e)))
+    return render(request, 'error_exception.html', {})
+
+@group_required("admins", "projects")
+def booking_log(request, fi_id):
+    try:
+        fi = get_or_none(FormInstance, fi_id)
+        return render(request, 'bookings/manage/booking-logs.html', {'fi': fi})
+    except Exception as e:
+        logger.error("[bookings-new_booking] {}".format(str(e)))
+    return render(request, 'error_exception.html', {})
+
+@group_required("admins", "projects")
+def bookings_notifications(request):
+    try:
+        projects_list = list(ProjectUser.objects.filter(username=request.user.username).values_list('project_uuid', flat=True))
+        categories_list = list(Category.objects.filter(project_uuid__in = projects_list).values_list('uuid', flat=True))
+        forms_list = list(Form.objects.filter(category__in = categories_list).values_list('uuid', flat=True))
+        bookings = FormInstance.objects.filter(form_uuid__in = forms_list, status__code = "01" ).order_by('pk')
+        e = None
+        return HttpResponse(str(bookings.count()))
+    except Exception as e:
+        logger.error("[bookings-new_booking] {}".format(str(e)))
+        return HttpResponse("0")
+        return render(request, 'error_exception.html', {'exc':show_exc(e)})
+
+
+'''
+    ADMINS
+'''
+@group_required("admins")
+def bookings(request):
+    try:
+        if request.user.groups.filter(name='admin').exists():
+            context = get_booking_context()
+        else:
+            context = get_booking_context()
+            #projects_list = list(ProjectUser.objects.filter(username=request.user.username).values_list('project_uuid', flat=True))
+            #categories_list = list(Category.objects.filter(project_uuid__in = projects_list).values_list('uuid', flat=True))
+            #forms_list = list(Form.objects.filter(category__in = categories_list).values_list('uuid', flat=True))
+            #bookings = FormInstance.objects.filter(form_uuid__in = forms_list, status__code = "01" ).order_by('-pk')
+            #context['items'] = bookings
+        return render (request, "bookings/manage/bookings.html", context)
+    except Exception as e:
+        logger.error("[bookings-bookings] {}".format(str(e)))
+        return render(request, 'full_error_exception.html', {'exc':show_exc(e)})
+    return render(request, 'full_error_exception.html', {})
+
+@group_required("admins", "projects")
+def bookings_by_form(request, form_id):
+    try:
+        if hasattr(request, "project_id"):
+            context = get_booking_context(form=get_or_none(Form, form_id), project=get_or_none(Project, request.session["project_id"]))
+        else:
+            context = get_booking_context(form=get_or_none(Form, form_id))
+        return render (request, "bookings/manage/bookings.html", context)
+    except Exception as e:
+        print (show_exc(e))
+        logger.error("[bookings-bookings_by_form] {}".format(str(e)))
         return render(request, 'error_exception.html', {'exc':show_exc(e)})
 
 @group_required("admins", "projects")
@@ -180,75 +253,7 @@ def booking_preview(request, form_uuid):
         logger.error("[bookings-new_booking] {}".format(str(e)))
         return render(request, 'error_exception.html', {'exc':show_exc(e)})
 
-
-@group_required("admins", "projects", "guests")
-def booking_view(request, fi_id):
-    try:
-        fi = FormInstance.objects.get(pk = fi_id)
-        form = get_or_none(Form, fi.form_uuid, 'uuid')
-        items = ShoppingCart.objects.filter(form_instance_id=fi.pk)
-        if fi.status != None and fi.status.code == "01":
-            previous_status = fi.status.name
-            fi.set_status("02")
-            write_log(request.user, fi, _("Status change from {} to {}".format(previous_status, fi.status.name)))
-        context = {'fi': fi, 'index': "0", "ro": True, 'items':items}
-        if fi.form.form_type.code == "ecom":
-            return render(request, 'bookings/view-booking-project.html', context)
-            return render(request, 'bookings/fillform.html', context)
-        else:
-            return render(request, 'bookings/fillform.html', context)
-    except Exception as e:
-        print(e)
-        logger.error("[bookings-fill_form] {}".format(str(e)))
-        return render(request, 'error_exception.html', {'exc':show_exc(e)})
-    return render(request, 'error_exception.html', {})
-
-@group_required("admins", "projects")
-def change_status(request):
-    try:
-        if request.POST:
-            status = get_or_none(Status, request.POST["status"])
-            fi = FormInstance.objects.get(pk = request.POST["fi_id"])
-            previous_status = fi.status.name if fi.status != None else "Created"
-            fi.set_status(status.code)
-            write_log(request.user, fi, _("Status change from {} to {}".format(previous_status, fi.status.name)))
-            return redirect(bookings_by_form, fi.form.id)
-    except Exception as e:
-        print(e)
-        logger.error("[bookings-change_status] {}".format(str(e)))
-    return render(request, 'error_exception.html', {})
-
-@group_required("admins", "projects")
-def status_form(request):
-    try:
-        obj = get_or_none(FormInstance, request.GET["obj_id"]) if "obj_id" in request.GET else FormInstance.objects.create()
-        return render(request, "bookings/status-form.html", {'obj': obj, 'status_list': Status.objects.all()})
-    except Exception as e:
-        return render(request, 'error_exception.html', {'exc':show_exc(e)})
-
-@group_required("admins", "projects")
-def booking_log(request, fi_id):
-    try:
-        fi = get_or_none(FormInstance, fi_id)
-        return render(request, 'bookings/booking-logs.html', {'fi': fi})
-    except Exception as e:
-        logger.error("[bookings-new_booking] {}".format(str(e)))
-    return render(request, 'error_exception.html', {})
-
-@group_required("admins", "projects")
-def bookings_notifications(request):
-    try:
-        projects_list = list(ProjectUser.objects.filter(username=request.user.username).values_list('project_uuid', flat=True))
-        categories_list = list(Category.objects.filter(project_uuid__in = projects_list).values_list('uuid', flat=True))
-        forms_list = list(Form.objects.filter(category__in = categories_list).values_list('uuid', flat=True))
-        bookings = FormInstance.objects.filter(form_uuid__in = forms_list, status__code = "01" ).order_by('pk')
-        e = None
-        return HttpResponse(str(bookings.count()))
-    except Exception as e:
-        logger.error("[bookings-new_booking] {}".format(str(e)))
-        return HttpResponse("0")
-        return render(request, 'error_exception.html', {'exc':show_exc(e)})
-
 @login_required
 def test(request):
     return HttpResponse("OK")
+

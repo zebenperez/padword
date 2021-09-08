@@ -15,22 +15,38 @@ def get_indexes(q, fi):
 '''
 	Simple tag
 '''
-@register.simple_tag
+#@register.simple_tag
+#def field_value(fi, q, f, index):
+#    ai = get_answer_instance(fi, q, f, index)
+#    text = ""
+#    if ai != None and f.answer_type.field_type == "file":
+#        try:
+#            name_list = ai.document.name.split("/")
+#            name = name_list[len(name_list)-1][15:] if len(name_list[len(name_list)-1]) > 15 else ""
+#            return mark_safe("<a href='{}' target='_blank'>{}</a>".format(ai.document.url, name))
+#        except:
+#            return ""
+#    elif ai != None:
+#        return ai.text 
+#    return ""
+#    #return ai.text if ai != None else ""
+
+@register.inclusion_tag('bookings/field_value.html')
 def field_value(fi, q, f, index):
     ai = get_answer_instance(fi, q, f, index)
-    text = ""
+    context = {'ai': ai}
     if ai != None and f.answer_type.field_type == "file":
         try:
-            print(ai.document.name)
             name_list = ai.document.name.split("/")
             name = name_list[len(name_list)-1][15:] if len(name_list[len(name_list)-1]) > 15 else ""
-            return mark_safe("<a href='{}' target='_blank'>{}</a>".format(ai.document.url, name))
+            context['name'] = name
         except:
-            return ""
-    elif ai != None:
-        return ai.text 
-    return ""
-    #return ai.text if ai != None else ""
+            pass
+    elif ai!= None and f.answer_type.field_type == "items_shop":
+        item = ai.get_item() 
+        context['item'] = item
+        
+    return context
 
 '''
 	Inclusion tag
@@ -46,7 +62,7 @@ def field_form(fi, q, f, index, user):
         doc = ai.document 
 
     item_list = []
-    if f != None and f.answer_type != None and f.answer_type.field_type == "items":
+    if f != None and f.answer_type != None and (f.answer_type.field_type == "items" or f.answer_type.field_type == "items_shop"):
         item_list = fi.form.get_category_items()
 
     readonly = (f.read_only and not user.is_staff and not user.is_superuser)

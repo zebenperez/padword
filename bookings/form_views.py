@@ -146,6 +146,31 @@ def form_remove_image(request):
         logger.error("[remove_file]" + str(e))
         return render(request, 'error_exception.html', {'msg': str(e)})
 
+def form_add_logo(request):
+    try:
+        obj_id = request.POST["obj_id"]
+        image = request.FILES["file"]
+
+        form = get_or_none(Form, obj_id)
+        if form != None:
+            form.logo = image
+            form.save()
+        return render(request, "forms/form-logo.html", {"obj": form,})
+    except Exception as e:
+        logger.error("[bookings-form_add_image]" + str(e))
+        return render(request, 'error_exception.html', {'msg': str(e)})
+
+@group_required("admins", "projects")
+def form_remove_logo(request):
+    try:
+        obj_id = request.GET["obj_id"]
+        obj = get_or_none(Form, obj_id) 
+        obj.logo.delete(save=True)
+        return render(request, "forms/form-document.html", {"obj": obj,})
+    except Exception as e:
+        logger.error("[remove_file]" + str(e))
+        return render(request, 'error_exception.html', {'msg': str(e)})
+
 @group_required("admins", "projects")
 def form_add_qr(request):
     try:
@@ -153,7 +178,7 @@ def form_add_qr(request):
         form = get_or_none(Form, obj_id)
         if form != None:
             url = request.build_absolute_uri(reverse('guest-form-login', kwargs={'form_uuid': form.uuid}))
-            img_data = ContentFile(generate_qr(url))
+            img_data = ContentFile(generate_qr(url, form.logo))
             form.qr.save('qr_{}.png'.format(form.uuid), img_data, save=True)
         return render(request, "forms/form-qr.html", {"obj": form,})
     except Exception as e:

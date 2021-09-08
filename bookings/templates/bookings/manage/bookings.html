@@ -4,16 +4,14 @@
 {% block second_menu %}{% get_second_menu request.user %}{% endblock second_menu %}
 
 {% block central_content %}
-    {% include "bookings/search_box.html" %}
+    {% include "bookings/manage/search_box.html" %}
 
     <div class="content mt-4">
         <div class="toolbar-content">
             {#<h2 class="b-right">{% trans 'Bookings' %} (<span id="items-counter">{{items|length}}</span>) {% trans "of" %} {{form.name}}</h2>#}
             <h2 class="b-right">{% trans 'Bookings' %}</h2>
-            {% if form %}
-                <a class="btn btn-primary" href="{% url "booking-preview" form.id %}" target="_blank">{% trans "New booking" %}</a>  
-            {% endif %}
+            {#{%if form%}<a class="btn btn-primary" href="{% url "booking-preview" form.id %}" target="_blank">{%trans "New booking"%}</a>{%endif%}#}
         </div>
-        <div id="booking-list">{% include "bookings/booking-list.html" %}</div>
+        <div id="booking-list">{% include "bookings/manage/booking-list.html" %}</div>
     </div>
 {% endblock central_content %}

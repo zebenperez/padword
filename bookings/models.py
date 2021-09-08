@@ -3,7 +3,7 @@ from django.db.models import Max
 from django.contrib.auth.models import User, Group
 from django.utils.translation import ugettext_lazy as _ 
 
-from contents.models import Category, ShoppingCart
+from contents.models import Category, Item, ShoppingCart
 from web.models import Channel, Device, Project
 from guest.models import Guest
 
@@ -80,7 +80,13 @@ class FormType(models.Model):
 def upload_form_image(instance, filename):
     ascii_filename = str(filename.encode('ascii', 'ignore'))
     instance.filename = ascii_filename
-    folder = "forms/%s" % (instance.id)
+    folder = "forms/images/%s" % (instance.id)
+    return '/'.join(['%s' % (folder), datetime.datetime.now().strftime("%Y%m%d%H%M%S") + ascii_filename])
+
+def upload_form_logo(instance, filename):
+    ascii_filename = str(filename.encode('ascii', 'ignore'))
+    instance.filename = ascii_filename
+    folder = "forms/logs/%s" % (instance.id)
     return '/'.join(['%s' % (folder), datetime.datetime.now().strftime("%Y%m%d%H%M%S") + ascii_filename])
 
 def upload_form_qr(instance, filename):
@@ -94,6 +100,7 @@ class Form(models.Model):
     name = models.CharField(max_length=200, verbose_name=_("Name"))
     category = models.CharField(max_length=200, verbose_name=_("Category"), default="")
     image = models.ImageField(upload_to=upload_form_image, blank=True, verbose_name="Imagen de fondo", help_text="Select file to upload")
+    logo = models.ImageField(upload_to=upload_form_logo, blank=True, verbose_name="Logo", help_text="Select file to upload")
     qr = models.ImageField(upload_to=upload_form_qr, blank=True, verbose_name="QR", help_text="Select file to upload")
 
     form_type = models.ForeignKey(FormType, on_delete=models.CASCADE, verbose_name=_("Form type"), blank=True, null=True)
@@ -274,6 +281,9 @@ class AnswerInstance(models.Model):
 
     def __str__(self):
         return self.text
+
+    def get_item(self):
+        return Item.objects.filter(uuid = self.text).first()
 
     class Meta:
         verbose_name = _('Answer instance')
