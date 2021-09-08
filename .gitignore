@@ -11,3 +11,4 @@ viewlog.sh
 local_settings.py
 dbrouting.py
 media
+guestpwa
