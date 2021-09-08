@@ -9,7 +9,7 @@
 
         <tr class="small small">
             <th class="row p-1">
-                <div class="col-3 col-md-2"> {% trans 'Form' %} </div>
+                <div class="col-3 col-md-2"> {% trans 'Service' %} </div>
                 <div class="col-3 col-md-2"> {% trans 'Guest' %} </div>
                 <div class="col-2 d-none d-md-block"> {% trans 'Device' %} </div>
                 <div class="col-3 col-md-2"> {% trans 'Date' %} </div>
@@ -22,7 +22,7 @@
             <td class="row p-1">
                 <div class="col-md-2 col-3">
                     {% padword_translate item.form.name %}
-                    <br>{{item.form.form_type}}{% if item.form.form_type.code == 'ecom' %} ({{item.get_items|length}} art.) {%endif%}
+                    {#<br>{{item.form.form_type}}{% if item.form.form_type.code == 'ecom' %} ({{item.get_items|length}} art.) {%endif%}#}
                 </div>
                 <div class="col-md-2 col-3">{{item.guest.name}} {{item.guest.surname}}<br/>{{item.guest.mobile}}<br/>{{item.guest.email}}</div>
                 <div class="col-2 d-none d-md-block">{{item.device.uuid}}</div>
@@ -34,9 +34,10 @@
                         <i class="fas fa-cog"></i></a> 
                     <a class="me-1 btn btn-xs ark" title="{%trans "Log"%}" data-url="{%url "booking-log" item.id%}" 
                         data-target-modal="common-modal" data-obj_id="{{item.id}}"><i class="fas fa-list"></i></a>                     
-                    <a class="me-1 btn btn-xs" href="{% url "booking-view" item.id %}" target="_blank"><i class="fas fa-eye"></i></a>  
+                    <a class="me-1 btn btn-xs" href="{% url "booking-view" item.id %}" target="_blank" title="{%trans "View"%}">
+                        <i class="fas fa-eye"></i></a>  
                     <a class="btn btn-sm autoremove" data-model-name="bookings.forminstance" data-obj-id="{{item.id}}" 
-                        data-url="{% url "autoremove_obj" %}" data-target="row_{{item.id}}" 
+                        data-url="{% url "autoremove_obj" %}" data-target="row_{{item.id}}" title="{%trans "Remove"%}" 
                         data-confirm="{% trans "Are you sure to remove this element?" %}"><i class="fas fa-trash"></i></a>
                 </div>
                 {#<div class="col-1 d-none d-xxl-block">{{item.code}}</div>#}

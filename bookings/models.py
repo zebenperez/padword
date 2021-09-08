@@ -3,7 +3,7 @@ from django.db.models import Max
 from django.contrib.auth.models import User, Group
 from django.utils.translation import ugettext_lazy as _ 
 
-from contents.models import Category, ShoppingCart
+from contents.models import Category, Item, ShoppingCart
 from web.models import Channel, Device, Project
 from guest.models import Guest
 
@@ -274,6 +274,9 @@ class AnswerInstance(models.Model):
 
     def __str__(self):
         return self.text
+
+    def get_item(self):
+        return Item.objects.filter(uuid = self.text).first()
 
     class Meta:
         verbose_name = _('Answer instance')
