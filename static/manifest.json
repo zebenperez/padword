@@ -1,21 +1,21 @@
 {
-    "name": "Django PWA",
-    "short_name": "djangopwa",
-    "start_url": "/",
-    "scope": ".",
+    "name": "Pawdord by Shidix Technologies",
+    "short_name": "Padword",
+    "start_url": "/pwa",
+    "scope":"/",
     "display": "standalone",
     "background_color": "#FFF",
     "theme_color": "#493174",
-    "description": "Test app for Django and PWA",
+    "description": "PWA for Padword",
     "dir": "ltr",
-    "lang": "en-US",
+    "lang": "es-ES",
     "orientation": "portrait-primary",
     "icons": [{
-        "src": "/static/icons/aurss.96x96.png",
+        "src": "/static/img/Padword.png",
         "type": "image/png",
         "sizes": "96x96"
     }, {
-        "src": "/static/icons/aurss.512x512.png",
+        "src": "/static/img/Padword.png",
         "type": "image/png",
         "sizes": "512x512"
     }]

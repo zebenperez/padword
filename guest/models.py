@@ -15,7 +15,7 @@ class Guest(models.Model):
     room = models.CharField(max_length=255, verbose_name='Room', default="")
     name = models.CharField(max_length=255, verbose_name='Name', default="")
     surname = models.CharField(max_length=255, verbose_name='Surname', default="")
-    referral = models.CharField(max_length=255, verbose_name='Referral', default="")
+    referral = models.CharField(max_length=255, verbose_name='Referral', null=True)
     guest_type = models.CharField(max_length=255, verbose_name='Guest Type', default="guest")
     project_id = models.CharField(max_length=255, verbose_name='Project', default="")
     language = models.CharField(max_length=255, verbose_name='Language', default="")
@@ -102,6 +102,19 @@ class Guest(models.Model):
             managed = False
             db_table = 'guests'
         ordering = ('project_id', '-check_in', '-check_out')
+        verbose_name = _('Guest')
+
+class GuestReferral(models.Model):
+    name = models.CharField(max_length=255, verbose_name=_('Name'), default="", unique=True, null=False, blank=False)
+    code = models.IntegerField(verbose_name=_('Code'), unique=True)
+    created_at = models.DateTimeField(verbose_name=_('Created at'), default=datetime.datetime.now)
+    updated_at = models.DateTimeField(verbose_name=_('Updated at'), default=datetime.datetime.now)
+
+    class Meta:
+        if len (settings.DATABASES) > 1:
+            managed = False
+            db_table = 'guest_referrals'
+        ordering = ('name', 'created_at', 'updated_at')
         verbose_name = _('Guest')
 
 class GuestByChannel(models.Model):

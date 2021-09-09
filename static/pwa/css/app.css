@@ -1,0 +1,105 @@
+
+@import "https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700";
+
+body {
+  font-family: 'Trebuchet MS', sans-serif;
+  background: #fafafa;
+}
+
+p {
+  font-size: 14px;
+  font-weight: 300;
+  line-height: 1.7em;
+  color: #999;
+}
+
+.navbar {
+  padding: 15px 10px;
+  background: grey;
+  border: none;
+  border-radius: 0;
+  margin-bottom: 40px;
+  box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+
+/* --- SIDEBAR STYLE --- */
+
+.wrapper {
+  display: flex;
+  align-items: stretch;
+}
+
+#sidebar {
+  min-width: 250px;
+  max-width: 250px;
+  background: black;
+  color: #fff;
+  transition: all 0.3s;
+  margin-top: -40px;
+}
+
+
+#sidebar.active {
+  margin-left: -250px;
+}
+
+#sidebar .sidebar-header {
+  padding: 20px;
+  background: black;
+}
+
+#sidebar ul li a {
+  padding: 10px;
+  font-size: 14px;
+  display: block;
+  background: black;
+}
+
+#sidebar ul li a:hover {
+  color: white;
+  background: grey;
+}
+
+/* --- CONTENT STYLE --- */
+
+#content {
+  padding: 20px;
+  min-height: 80vh;
+  transition: all 0.3s;
+}
+
+/* --- MEDIAQUERIES --- */
+
+@media (max-width: 768px) {
+  #sidebar {
+    margin-left: -250px;
+  }
+  #sidebar.active {
+    margin-left: 0;
+  }
+  #sidebarCollapse span {
+    display: none;
+  }
+}
+
+/* --- NAV BAR --- */
+
+nav a {
+  transition: 0.3s ease;
+  color: white; !important;
+  font-size: 20px;
+  text-decoration: none;
+  border-top: 2px solid transparent;
+  border-bottom: 2px solid transparent;
+  padding: 20px 0;
+  margin: 0 5px;
+  font-size: 17px;
+  text-align: left;
+
+}
+nav a:hover {
+  background-color: grey;
+  border-radius:0;
+}
+

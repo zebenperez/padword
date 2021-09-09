@@ -38,12 +38,12 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'pwa',
     'web',
     'guest',
     'bookings',
     'contents',
     'user_remote',
+    'guestpwa',
 ]
 
 MIDDLEWARE = [
