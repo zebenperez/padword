@@ -44,7 +44,7 @@ def generate_qr(data, logo):
     qr.add_data(data)
     qr.make(fit=True)
 
-    if logo != None:
+    if logo != None and logo != "":
         img = qr.make_image().convert('RGB')
 
         basewidth = 100
