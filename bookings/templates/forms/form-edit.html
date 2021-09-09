@@ -7,7 +7,7 @@
     <div class="text-end">
         <a class="btn btn-sm save" title="{% trans 'Preview' %}" href="{% url "booking-preview" obj.uuid %}" target="_blank">
             {% trans "Preview" %}</a>  
-        <a class="btn btn-sm save" href="{% url "forms" %}">{% trans "Save" %}</a>
+        <a class="btn btn-sm save" href="{% url "categories-by-project" obj.project.uuid %}">{% trans "Save" %}</a>
         <a class="btn btn-sm cancel" href="{%url "form-remove" obj.id%}" 
             onclick="return confirm('{% trans "Are you sure to remove this element?" %}')"> {% trans "Remove" %}</a>
     </div>
