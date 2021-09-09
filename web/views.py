@@ -9,8 +9,11 @@ from .models import *
 
 # Create your views here.
 
-@group_required("admins", "projects")
+@group_required("admins", "projects", "guests")
 def index(request):
+    if request.user.groups.filter(name='guests').exists():
+        return redirect('pwa-index')
+
     if hasattr(request, "project_id"):
         return redirect('bookings-by-project', request.project_id)
     return redirect('projects')
