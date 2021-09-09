@@ -39,6 +39,6 @@ function sendNotify(title,desc,url)
 function checkNotify()
 {
     fetch('https://padword.shidix.es/bookings/bookings/notifications/').then(response => response.json()).then(data => sendNotify('Hay ' + data + ' peticiones pendientes', 'Haz click sobre la notificación para acceder al listado.', '/bookings/bookings/'));
-    setTimeout(checkNotify, 15000);
+    setTimeout(checkNotify, 600000);
 }
 
