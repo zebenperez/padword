@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, reverse
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, JsonResponse
 from django.core import serializers
@@ -22,13 +22,15 @@ logger = logging.getLogger(__name__)
 
 # Create your views here.
 
-@group_required('guests')
 def index(request):
     try:
-        guest = Guest.objects.filter(email=request.user.email).first()
-        categories = list(Category.objects.filter(project_uuid = guest.project.uuid).values_list('uuid', flat=True))
-        forms = Form.objects.filter(category__in = categories)
-        return render(request, "guest/index.html", {'forms':forms})
+        if request.user.is_authenticated:
+            guest = Guest.objects.filter(email=request.user.email).first()
+            categories = list(Category.objects.filter(project_uuid = guest.project.uuid).values_list('uuid', flat=True))
+            forms = Form.objects.filter(category__in = categories)
+            return render(request, "guest/index.html", {'forms':forms})
+        else:
+            return redirect(reverse('guest-form-login', kwargs={'form_uuid':'c586d361-8dce-63aa-3b8b-f1cc164a61f6'}))
 
     except Exception as e:
         return render(request, "error_exception.html", {'exc':show_exc(e)})

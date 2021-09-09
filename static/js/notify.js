@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', function()
             }
         });
     }); 
-function sendNotify(title,desc,url)
+function sendNotify(title,desc,url, data)
 {
     if (Notification.permission !== "granted")
     {
@@ -23,22 +23,20 @@ function sendNotify(title,desc,url)
             "vibrate": [200, 100, 200, 100, 200, 100, 400],
             "tag": "request"
         }
-        var notification = new Notification(title, options);
-        /* Remove the notification from Notification Center when clicked.*/
-        notification.onclick = function () {
-            window.open(url);
-        };
-
-        /* Callback function when the notification is closed. */
-        notification.onclose = function () {
-            console.log('Notification closed');
-        };
+        if (parseInt(data) > 0)
+        {
+            var notification = new Notification(title, options);
+            /* Remove the notification from Notification Center when clicked.*/
+            notification.onclick = function () { window.open(url); };
+            /* Callback function when the notification is closed. */
+            notification.onclose = function () { console.log('Notification closed'); };
+        }
     }
 }
 
 function checkNotify()
 {
-    fetch('https://padword.shidix.es/bookings/bookings/notifications/').then(response => response.json()).then(data => sendNotify('Hay ' + data + ' peticiones pendientes', 'Haz click sobre la notificación para acceder al listado.', '/bookings/bookings/'));
+    fetch('https://padword.shidix.es/bookings/bookings/notifications/').then(response => response.json()).then(data => sendNotify('Hay ' + data + ' peticiones pendientes', 'Haz click sobre la notificación para acceder al listado.', '/bookings/bookings/', data));
     setTimeout(checkNotify, 600000);
 }
 
