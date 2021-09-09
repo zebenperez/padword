@@ -1,0 +1,10 @@
+{% load i18n padword_tags %}
+
+
+{% trans "Status" %} ({% padword_translate fi.status.name %}): 
+{% for item in status_list %}
+    <a href="#" class="btn btn-sm ark save" data-url="{% url "change-status" %}" data-target="div-status" data-status="{{item.id}}" 
+        data-fi_id="{{fi.id}}">{% padword_translate item.name %}</a>
+{% endfor %}
+
+

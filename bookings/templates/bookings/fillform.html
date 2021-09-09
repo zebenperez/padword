@@ -6,16 +6,21 @@
 
 <div class="main-content-booking container-fluid">
 	<div class="{% if fi.form.image %} div-transp {% else %}div-transp-0 {% endif %}  p-4">
-        <div class="bookingHeader">
-        <a id="full-screen" class="" onclick="javascript:toggleFullScreen();"><i class="far fa-window-maximize"></i></a></div>
-            <div class="col-lg-10 offset-lg-1 col-md-10 offset-md-1 col-xs-6">
-                <h1 class="grid-container"> 
-                    <div class="item1">{% padword_translate fi.form.name %}</div> 
-                    {% if fi.form.form_type.code == "ecom" %}
-                    <div class="item2 text-right">(<span id="info-shopping">{{items.count}} art.&nbsp;&nbsp;&nbsp; {{fi.get_total|stringformat:".2f"}} &euro; </span>)</div>
-                    <a class="btn btn-light small ark mb-1" data-url="{% url 'view-shopping-cart' %}" data-target-modal="common-modal" data-form_id="{{fi.pk}}"> <i class="fas fa-shopping-cart"></i> {% trans '' %}</a>
-                    {% endif %}
-                </h1> 
+
+        <div class="bookingHeader"><a id="full-screen" class="" onclick="javascript:toggleFullScreen();">
+            <i class="far fa-window-maximize"></i></a></div>
+
+        <div class="col-lg-10 offset-lg-1 col-md-10 offset-md-1 col-xs-6">
+            <h1 class="grid-container"> 
+                <div class="item1">{% padword_translate fi.form.name %}</div> 
+
+                {% if fi.form.form_type.code == "ecom" %}
+                    <div class="item2 text-right">(<span id="info-shopping">{{items.count}} art.&nbsp;&nbsp;&nbsp; 
+                        {{fi.get_total|stringformat:".2f"}} &euro; </span>)</div>
+                    <a class="btn btn-light small ark mb-1" data-url="{% url 'view-shopping-cart' %}" data-target-modal="common-modal" 
+                        data-form_id="{{fi.pk}}"> <i class="fas fa-shopping-cart"></i> {% trans '' %}</a>
+                {% endif %}
+            </h1> 
         </div>
         <hr>
 
@@ -55,6 +60,8 @@
                     <a href="#" class="btn btn-info btn-lg ark text-white" onclick="window.close()">{% trans "Close" %}</a>
                 </div>
             {% endif %}
+
+            {% if status_list %} <div id="div-status">{% include "bookings/manage/status-links.html" %}</div> {% endif %}
         </div>
     </div>
 </div>
