@@ -120,7 +120,9 @@ def bookings_search(request):
         if ini_date != "":
             kwargs["date__gte"] = ini_date
         if end_date != "":
-            kwargs["date__lte"] = end_date
+            #kwargs["date__lte"] = end_date
+            ed = end_date.split("-")
+            kwargs["date__lte"] = datetime.datetime(int(ed[0]), int(ed[1]), int(ed[2]), 23, 59, 59)
         if name != "":
             kwargs["name__icontains"] = name
         if status != "":
@@ -133,8 +135,10 @@ def bookings_search(request):
         return render(request, 'error_exception.html', {'exc':show_exc(e)})
 
 @group_required("admins", "projects", "guests")
-def booking_view(request, fi_id):
+#def booking_view(request, fi_id):
+def booking_view(request):
     try:
+        fi_id = request.GET["obj_id"]
         fi = FormInstance.objects.get(pk = fi_id)
         form = get_or_none(Form, fi.form_uuid, 'uuid')
         items = ShoppingCart.objects.filter(form_instance_id=fi.pk)
@@ -144,10 +148,12 @@ def booking_view(request, fi_id):
             fi.set_status("02")
             write_log(request.user, fi, _("Status change from {} to {}".format(previous_status, fi.status.name)))
 
-        context = {'fi': fi, 'index': "0", "ro": True, 'items':items,}
-        if not user_in_group(request.user, "guests"):
-            context["status_list"] = Status.objects.all()
-        template = 'bookings/view-booking-project.html' if fi.form.form_type.code == "ecom" else 'bookings/fillform.html'
+        #context = {'fi': fi, 'index': "0", "ro": True, 'items':items,}
+        #if not user_in_group(request.user, "guests"):
+        #    context["status_list"] = Status.objects.all()
+        #template = 'bookings/view-booking-project.html' if fi.form.form_type.code == "ecom" else 'bookings/fillform.html'
+        context = {'fi': fi, 'index': "0", 'items':items, 'status_list': Status.objects.all()}
+        template = 'bookings/view-booking-project.html' if fi.form.form_type.code == "ecom" else 'bookings/view-booking.html'
         return render(request, template, context)
     except Exception as e:
         print(e)
