@@ -110,6 +110,9 @@ def remove_generic_item_from_shopping_cart(request):
 '''
     Bookings client methods
 '''
+def guest_welcome(request, form_uuid):
+    return render(request, 'bookings/guest/guest_welcome.html', {'form_uuid': form_uuid})
+
 def guest_form_login(request, form_uuid):
     return render(request, 'guest_form_login.html', {'form_uuid': form_uuid})
 
@@ -210,45 +213,6 @@ def booking_new(request, form_uuid):
         logger.error("[bookings-new_booking] {}".format(str(e)))
         return render(request, 'error_exception.html', {'exc':show_exc(e)})
 
-
-#@login_required
-#def booking_new(request, form_uuid):
-#    try:
-#        form = get_or_none(Form, form_uuid, "uuid")
-#        if form == None:
-#            return render(request, 'error_exception.html', {'exc': _('Form not found!')})
-#        
-#        device_imei = request.GET["device_imei"] if "device_imei" in request.GET else ""
-#        room_number = request.GET["room_number"] if "room_number" in request.GET else ""
-#        guest_name = request.GET["guest_name"] if "guest_name" in request.GET else ""
-#        guest_surname = request.GET["guest_surname"] if "guest_surname" in request.GET else ""
-#
-#        if device_imei == "":
-#            #return render(request, 'error_exception.html', {'exc': _('Device not found!')})
-#            return redirect(guest_login)
-#        device = get_or_none(Device, device_imei, "imei")
-#        if device == None:
-#            #return render(request, 'error_exception.html', {'exc': _('Device not found!')})
-#            return redirect(guest_login)
-#        if device.room != room_number:
-#            #return render(request, 'error_exception.html', {'exc': _('Device not assigned to room number!')})
-#            return redirect(guest_login)
-#        guest = Guest.objects.filter(name=guest_name, surname=guest_surname, room=room_number).first()
-#        if guest == None:
-#            #return render(request, 'error_exception.html', {'exc': _('Guest not found or not assigned to room number!')})
-#            return redirect(guest_login)
-#
-#        fi = get_or_create_form_instance(form.uuid, device.uuid, room_number, guest_name, guest_surname)
-#        write_log(request.user, fi, _("Booking created"))
-#        
-#        items = ShoppingCart.objects.filter(form_instance_id=fi.pk)
-#        context = {'fi': fi, 'index': "0", "ro": False, 'items':items}
-#        return render(request, 'bookings/fillform.html', context)
-#    except Exception as e:
-#        print (show_exc(e))
-#        logger.error("[bookings-new_booking] {}".format(str(e)))
-#        return render(request, 'error_exception.html', {'exc':show_exc(e)})
-
 @group_required("admins", "projects", "guests")
 def booking_send(request, fi_id):
     try:
@@ -293,6 +257,23 @@ def bookings_by_guest(request, project_uuid):
         logger.error("[bookings-bookings] {}".format(str(e)))
         msg = str(e)
         return render(request, 'error_exception.html', {'exc': str(e)})
+
+@group_required("admins", "projects", "guests")
+def booking_view(request, fi_id):
+    try:
+        fi = FormInstance.objects.get(pk = fi_id)
+        form = get_or_none(Form, fi.form_uuid, 'uuid')
+        items = ShoppingCart.objects.filter(form_instance_id=fi.pk)
+
+        #context = {'fi': fi, 'index': "0", "ro": True, 'items':items,}
+        context = {'fi': fi, 'index': "0", 'items':items,}
+        template = 'bookings/guest/view-booking-project.html' if fi.form.form_type.code == "ecom" else 'bookings/guest/view-booking.html'
+        return render(request, template, context)
+    except Exception as e:
+        print(e)
+        logger.error("[bookings-fill_form] {}".format(str(e)))
+        return render(request, 'error_exception.html', {'exc':show_exc(e)})
+    return render(request, 'error_exception.html', {})
 
 '''
     NOT USED BY MOMENT!!!
