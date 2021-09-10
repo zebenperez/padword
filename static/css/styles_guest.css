@@ -146,6 +146,7 @@ tbody, td, tfoot, th, thead, tr {
 	background: #f8f8f8;
 	border-radius: 0.25rem;
 	border:1px solid #4d5053;
+	text-align:center;
 }
 .b-item {
 	border-bottom: 1px solid #666 !important;
@@ -154,16 +155,18 @@ tbody, td, tfoot, th, thead, tr {
 	text-align: left;
 	text-transform: uppercase;    
 }
-
+/*
 .object-fit_cover { object-fit: cover }
+*/
 
 img { 
 	background-color: #444;
-	border-bottom: 1px solid #ccc !important;
-	height: 120px; 
+/*	border-bottom: 1px solid #ccc !important;*/
+	height: 150px; 
 }
-
+/*
 img[class] { width: 100%; }
+*/
 
 h5.card-title { font-size: 1.1rem; font-weight: 600; }
 
