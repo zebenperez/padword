@@ -22,6 +22,30 @@ function ajaxGet(url, datas, target, modal_target)
 	});
 };
 
+function ajaxGetAppend(url, datas, target, modal_target)
+{
+	$("body").css("cursor", "progress");
+	$.ajax({
+		url : url,
+		type : 'GET',
+		data : datas,
+		dataType : 'html',
+		beforeSend : function(){},
+		success : function(data){
+			if (modal_target != "")
+			{
+				$('#'+modal_target+"-body").append(data);
+				$('#'+modal_target).modal('show');
+			}
+			else
+				if (target != "")
+					$('#'+target).append(data);
+		},
+		error : function(e){alert("Error: "+e.responseText);},
+		complete : function(){$("body").css("cursor", "default");}
+	});
+};
+
 function ajaxGetAutosave(url, datas, target)
 {
     $("body").css("cursor", "progress");
@@ -75,7 +99,10 @@ function autoSearch(obj, num_rows=0)
 			datas[key] = value;
 		}
 	}
-	ajaxGet(url, datas, target, '');
+    if (obj.data("append"))
+	    ajaxGetAppend(url, datas, target, '');
+    else
+	    ajaxGet(url, datas, target, '');
 }
 
 function uploadObjFile(obj, url, target, obj_id, field, token)
@@ -134,6 +161,30 @@ $(document).ready(()=>{
                 if (i != "url")
                     datas[i] = args[i]
             ajaxGet(url, datas, target, target_modal);
+            if (obj.data("show"))
+                $("#" + obj.data("show")).show();
+            e.preventDefault();
+        }
+    });
+
+    $("body").on("click", ".ark-append", function(e){
+        var obj = $(this);
+        if (((obj.data("confirm")) && confirm(obj.data("confirm"))) || !(obj.data("confirm")))
+        {
+            url = obj.data("url");
+            var target = "";
+            var target_modal = "";
+            if (obj.data("target"))
+                target = obj.data("target");
+            if (obj.data("target-modal"))
+                target_modal = obj.data("target-modal");
+
+            var datas = {};
+            var args = obj.data();
+            for(var i in args)
+                if (i != "url")
+                    datas[i] = args[i]
+            ajaxGetAppend(url, datas, target, target_modal);
             if (obj.data("show"))
                 $("#" + obj.data("show")).show();
             e.preventDefault();

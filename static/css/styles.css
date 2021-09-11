@@ -332,9 +332,13 @@ i.text-grey, i.fas.fa-box {
 
 img.img-cart {border-radius: 10px 10px 10px 10px; box-shadow: 10px 0px 10px 0px rgb(0 0 0 / 50%); }
 
-
 .flex-row { /*flex-direction: column!important;*/ }
 
+div.striped>div:nth-of-type(odd) { background: #e0e0e0; }
+div.striped>div:nth-of-type(even) { background: #FFFFFF; }
+
+div.striped-nested>div>div:nth-of-type(odd) { background: #e0e0e0; }
+div.striped-nested>div>div:nth-of-type(even) { background: #FFFFFF; }
 
 /*   MOBILE DEVICES   */
 

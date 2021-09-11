@@ -30,8 +30,10 @@ def guests(request):
     try:
         #items= Guest.objects.filter(check_out__gte = datetime.datetime.now())
         items= Guest.objects.all()
+        total_count = items.count()
 
-        return render (request, "guest/guests.html",{'items':items} )
+
+        return render (request, "guest/guests.html",{'items':items[0:20], 'page':0, 'n_items':total_count})
     except Exception as e:
         return JsonResponse({'results':[], 'error':1, 'error-msg':show_exc(e)})
 
@@ -75,4 +77,11 @@ def guest_remove(request):
     items = Guest.objects.all()
     return render(request, "guest/guest-list.html", {'items':items,})
 
-
+@group_required("admins","projects")
+def guest_pagination(request, page=0):
+    try:
+        items = Guest.objects.all()
+        items = items[page*20:(page+1)*20]
+        return render(request, "guest/guest-page.html", {'items':items, 'page':page})
+    except Exception as e:
+        return render(request, "error_exception.html", {'exc':show_exc(e)})
