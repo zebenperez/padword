@@ -12,6 +12,17 @@
             <h2 class="b-right">{% trans 'Bookings' %}</h2>
             {#{%if form%}<a class="btn btn-primary" href="{% url "booking-preview" form.id %}" target="_blank">{%trans "New booking"%}</a>{%endif%}#}
         </div>
-        <div id="booking-list">{% include "bookings/manage/booking-list.html" %}</div>
+        <div id="booking-list">
+            {% include "bookings/manage/booking-list.html" %}
+        </div>
     </div>
+<script>
+    var observer = new IntersectionObserver(function(entries) {
+        if(entries[0].isIntersecting === true)
+        {
+            $('#btn-see-more').trigger("click");
+        }
+    }, { threshold: [1] });
+    observer.observe(document.querySelector("#btn-see-more"));
+</script>
 {% endblock central_content %}

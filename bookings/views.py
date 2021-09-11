@@ -17,6 +17,7 @@ import datetime
 import logging
 logger = logging.getLogger(__name__)
 
+ITEMS_PER_PAGE=20
 
 '''
     Login
@@ -52,8 +53,9 @@ def login(request):
 def get_booking_context(form=None, project=None):
     context = {}
     today = datetime.datetime.today()
+    ini_date = today + datetime.timedelta(days=-3)
 
-    kwargs = {'date__year': today.year, 'date__month': today.month, 'date__day': today.day}
+    kwargs = {'date__gte': ini_date, 'date__lte': today+datetime.timedelta(days=1)}
     if form != None:
         kwargs['form_uuid'] = form.uuid
         context["form_name"] = form.name
@@ -74,8 +76,8 @@ def get_booking_context(form=None, project=None):
         context["msg"] = 'No hay resultados para la búsqueda. Presentamos las últimas 100 reservas'
         items = FormInstance.objects.all()[:100]
 
-    context["ini_date"] = today
-    context["end_date"] = today
+    context["ini_date"] = ini_date
+    context["end_date"] = today + datetime.timedelta(days=1)
     context["status_list"] = Status.objects.all()
     context["items"] = items
     return context
@@ -127,9 +129,9 @@ def bookings_search(request):
             kwargs["name__icontains"] = name
         if status != "":
             kwargs["status"] = status
-        items = FormInstance.objects.filter(**kwargs)
+        items = FormInstance.objects.filter(**kwargs)[0:ITEMS_PER_PAGE]
 
-        return render(request, "bookings/manage/booking-list.html", {'items':items,})
+        return render(request, "bookings/manage/booking-list.html", {'items':items,'page':0})
     except Exception as e:
         print (show_exc(e))
         return render(request, 'error_exception.html', {'exc':show_exc(e)})
@@ -232,11 +234,57 @@ def bookings(request):
             #forms_list = list(Form.objects.filter(category__in = categories_list).values_list('uuid', flat=True))
             #bookings = FormInstance.objects.filter(form_uuid__in = forms_list, status__code = "01" ).order_by('-pk')
             #context['items'] = bookings
+        context['items'] = context['items'][0:ITEMS_PER_PAGE]
+        context['page'] = 0
         return render (request, "bookings/manage/bookings.html", context)
     except Exception as e:
         logger.error("[bookings-bookings] {}".format(str(e)))
         return render(request, 'full_error_exception.html', {'exc':show_exc(e)})
     return render(request, 'full_error_exception.html', {})
+
+@group_required("admins")
+def bookings_page(request):
+    try:
+        project = get_param(request.GET, "s-project")
+        channel = get_param(request.GET, "s-channel")
+        form = get_param(request.GET, "s-form")
+        ini_date = get_param(request.GET, "s-ini_date")
+        end_date = get_param(request.GET, "s-end_date")
+        name = get_param(request.GET, "s-name")
+        status = get_param(request.GET, "s-status")
+        page = get_param(request.GET, "s-page", "0")
+
+        kwargs = {}
+        if project != "":
+            uuid_channel_list = [item.uuid for item in Channel.objects.filter(project__name__icontains=project)]
+            uuid_list = [item.uuid for item in Form.objects.filter(channels__channel__in=uuid_channel_list)]
+            kwargs["form_uuid__in"] = uuid_list
+            #kwargs["form__channels__channel__in"] = uuid_list
+        if channel != "":
+            uuid_channel_list = [item.uuid for item in Channel.objects.filter(name__icontains=channel)]
+            uuid_list = [item.uuid for item in Form.objects.filter(channels__channel__in=uuid_channel_list)]
+            kwargs["form_uuid__in"] = uuid_list
+            #kwargs["form__channels__channel__in"] = uuid_list
+        if form != "":
+            uuid_list = [item.uuid for item in Form.objects.filter(name__icontains=form)]
+            kwargs["form_uuid__in"] = uuid_list
+            #kwargs["form__name__icontains"] = form
+        if ini_date != "":
+            kwargs["date__gte"] = ini_date
+        if end_date != "":
+            #kwargs["date__lte"] = end_date
+            ed = end_date.split("-")
+            kwargs["date__lte"] = datetime.datetime(int(ed[0]), int(ed[1]), int(ed[2]), 23, 59, 59)
+        if name != "":
+            kwargs["name__icontains"] = name
+        if status != "":
+            kwargs["status"] = status
+        items = FormInstance.objects.filter(**kwargs)[int(page)*ITEMS_PER_PAGE:(int(page) + 1)*ITEMS_PER_PAGE]
+
+        return render(request, "bookings/manage/booking-page.html", {'items':items,'page':page})
+    except Exception as e:
+        print (show_exc(e))
+        return render(request, 'error_exception.html', {'exc':show_exc(e)})
 
 @group_required("admins", "projects")
 def bookings_by_form(request, form_id):
