@@ -74,6 +74,13 @@ i.fas.fa-ban.text-cancel {
 	color: #000 !important;
 }
 
+.fixed-head {
+	border-bottom:1px solid #ccc; 
+	position:fixed;
+       	top:0;
+	left:0; 
+	background: white; z-index:10000;
+}
  
 .grid-container {
 	display: grid;
@@ -81,7 +88,7 @@ i.fas.fa-ban.text-cancel {
 	grid-gap: 10px;
 }
 
-.grid-container > div { font-size: 30px; }
+.grid-container > div { font-size: 30px;color: #000; }
 
 .item1 { grid-column: 1 / 5; }
 .item2 { font-size: 18px !important; line-height: 1.8; text-align: right; }

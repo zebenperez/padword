@@ -368,4 +368,21 @@ img.img-cart {border-radius: 10px 10px 10px 10px; box-shadow: 10px 0px 10px 0px 
 		margin-right: 1rem;
 	}
 }
+ 
+.grid-container {
+	display: grid;
+	grid-template-columns: auto auto auto auto auto auto;
+	grid-gap: 10px;
+}
+
+.grid-container > div { font-size: 30px;color: #000; }
+
+.item1 { grid-column: 1 / 5; }
+.item2 { font-size: 18px !important; line-height: 1.8; text-align: right; }
+
+.item1-v { grid-column: 1 / 6; }
+
+.div-info {
+	color: white;
+}
 
