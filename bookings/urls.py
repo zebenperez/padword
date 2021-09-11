@@ -49,16 +49,21 @@ urlpatterns = [
 
     #------------- Bookings Guests --------------#
     path('guest-welcome/<slug:form_uuid>/', gv.guest_welcome, name='guest-welcome'),
-    path('guest-form-login/<slug:form_uuid>/', gv.guest_form_login, name='guest-form-login'),
+    #path('guest-form-login/<slug:form_uuid>/', gv.guest_form_login, name='guest-form-login'),
+    path('guest-form-login/', gv.guest_form_login, name='guest-form-login'),
     path('booking-new-guest/', gv.booking_new_guest, name='booking-new-guest'),
     path('booking-new-device/<slug:form_uuid>/datos/', gv.booking_new_device, name='booking-new-device'),
     path('booking-new/<slug:form_uuid>/', gv.booking_new, name='booking-new'),
 
-    path('booking-send/<int:fi_id>/', gv.booking_send, name='booking-send'),
-    path('booking-remove/<int:fi_id>/', gv.booking_remove, name='booking-remove'),
+    #path('booking-send/<int:fi_id>/', gv.booking_send, name='booking-send'),
+    #path('booking-remove/<int:fi_id>/', gv.booking_remove, name='booking-remove'),
+    path('booking-send/', gv.booking_send, name='booking-send'),
+    path('booking-remove/', gv.booking_remove, name='booking-remove'),
 
-    path('my-bookings/<slug:project_uuid>/', gv.bookings_by_guest, name='my-bookings'),
-    path('booking-view/<int:fi_id>/', gv.booking_view, name='booking-guest-view'),
+    #path('my-bookings/<slug:project_uuid>/', gv.bookings_by_guest, name='my-bookings'),
+    #path('booking-view/<int:fi_id>/', gv.booking_view, name='booking-guest-view'),
+    path('my-bookings/', gv.bookings_by_guest, name='my-bookings'),
+    path('booking-guest-view/', gv.booking_view, name='booking-guest-view'),
 
     path('autosave-form-field/', gv.autosave_form_field, name='autosave-form-field'),
     path('get-block/', gv.get_block, name='get-block'),

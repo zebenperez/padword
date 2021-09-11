@@ -16,8 +16,10 @@
 	<div class="row">
 		<div class="col-8 offset-2 text-grey text-center mt-3 mb-3">
 			{% trans "If you want to check your bookings, click on" %}: <br />
-			<a href="{% url "my-bookings" project_uuid %}" class="btn btn-primary text-white mt-3">{% trans "My bookings" %}</a>
-			<a href="#" class="btn btn-warning text-white mt-3" onclick="window.close()">{% trans "Back" %}</a>
+			{#<a href="{% url "my-bookings" project_uuid %}" class="btn btn-primary text-white mt-3">{% trans "My bookings" %}</a>#}
+			<a href="#" class="btn btn-primary text-white mt-3 ark" data-url="{% url "my-bookings" %}"
+                data-target="div-main" data-obj_id="{{project_uuid}}">{% trans "My bookings" %}</a>
+			<a href="#" class="btn btn-warning text-white mt-3" onclick="window.history.back();">{% trans "Back" %}</a>
 		</div>
 	</div>
 {% endblock %}

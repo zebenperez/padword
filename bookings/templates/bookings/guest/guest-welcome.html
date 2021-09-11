@@ -1,0 +1,15 @@
+{% extends "base_guest.html" %}
+{% load i18n %}
+
+{% block central_content %}
+	<div id="div-main">
+	    <div class="row">
+		    <div class="col-lg-6 offset-lg-3 col-md-8 offset-md-2 col-xs-6 offset-xs-3">
+                <h3> {% trans "Welcome" %}</h3>
+                <a class="me-1 btn btn-xs ark" data-url="{% url "guest-form-login" %}" data-target="div-main" data-obj_id="{{form_uuid}}"
+                    onclick="javascript:toggleFullScreen();">{%trans "Access"%}</a>
+		    </div>
+	    </div>
+	</div>
+    <script> $('#sidebar').removeClass('expanded'); </script>
+{% endblock %}

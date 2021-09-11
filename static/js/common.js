@@ -101,6 +101,19 @@ function uploadObjFile(obj, url, target, obj_id, field, token)
     });
 }
 
+function submitForm(frm, target)
+{
+    $.ajax({
+        url: frm.attr('action'),
+        type: frm.attr('method'),
+        data: frm.serialize(),
+        success: function (data) {
+            $('#'+target).html(data);
+        },
+        error: function (data) { alert("Error: "+data.responseText); },
+    });
+}
+
 $(document).ready(()=>{
 	$("body").on("keyup", ".autosearch", function(e){
 		var obj = $(this);
@@ -233,6 +246,17 @@ $(document).ready(()=>{
         e.preventDefault();
     });
 
+    $("body").on("click", ".saveform", function(e){
+        var obj = $(this);
+        if (((obj.data("confirm")) && confirm(obj.data("confirm"))) || !(obj.data("confirm")))
+        {
+            form_id = $(this).data("form");
+            frm = $('#'+form_id);
+            target = $(this).data("target");
+            submitForm(frm, target);
+            e.preventDefault();
+        }
+    });
 });
 
 

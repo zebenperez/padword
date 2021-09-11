@@ -1,7 +1,10 @@
+{% comment %}
 {% extends "base.html" %}
 {% load i18n %}
 
 {% block central_content %}
+{% endcomment %}
+{% load i18n %}
 	{% if form.errors %}
 		<p>{% trans "Your username and password didn't match. Please try again." %}</p>
 	{% endif %}
@@ -30,7 +33,9 @@
 						    	<div class="form-inline">
 									<div class="form-group">
                                         {#<input value="Acceder" class="btn btn-submit" type="submit" onclick="javascript:toggleFullScreen();">#}
-                                        <a class="btn btn-submit" onclick="javascript:toggleFullScreen(); $('#form-guest').submit();">{% trans 'Acceder' %}</a>
+                                        {#<a class="btn btn-submit" onclick="javascript:toggleFullScreen(); $('#form-guest').submit();">{% trans 'Acceder' %}</a>#}
+                                        <a class="btn btn-submit saveform" data-form="form-guest" data-target="div-main">
+                                            {% trans "Access" %}</a> 
 									</div>
 								</div>
 		                	</div>
@@ -40,7 +45,7 @@
 			</div>
 		</div>
 	</div>
-    <script>
-        $('#sidebar').removeClass('expanded');
-    </script>
+    <script> $('#sidebar').removeClass('expanded'); </script>
+{% comment %}
 {% endblock %}
+{% endcomment %}

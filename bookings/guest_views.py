@@ -111,10 +111,15 @@ def remove_generic_item_from_shopping_cart(request):
     Bookings client methods
 '''
 def guest_welcome(request, form_uuid):
-    return render(request, 'bookings/guest/guest_welcome.html', {'form_uuid': form_uuid})
+    return render(request, 'bookings/guest/guest-welcome.html', {'form_uuid': form_uuid})
 
-def guest_form_login(request, form_uuid):
-    return render(request, 'guest_form_login.html', {'form_uuid': form_uuid})
+#def guest_form_login(request, form_uuid):
+def guest_form_login(request):
+    try:
+        return render(request, 'guest_form_login.html', {'form_uuid': request.GET["obj_id"]})
+    except Exception as e:
+        logger.error("[bookings-guest_form_login] {}".format(str(e)))
+        return render(request, 'error_exception.html', {'exc':show_exc(e)})
 
 def booking_new_guest(request):
     '''
@@ -214,8 +219,10 @@ def booking_new(request, form_uuid):
         return render(request, 'error_exception.html', {'exc':show_exc(e)})
 
 @group_required("admins", "projects", "guests")
-def booking_send(request, fi_id):
+#def booking_send(request, fi_id):
+def booking_send(request):
     try:
+        fi_id = request.GET["obj_id"]
         fi = FormInstance.objects.get(pk = fi_id)
         previous_status = fi.status.name if fi.status != None else _("Created")
         fi.set_status("01")
@@ -228,8 +235,10 @@ def booking_send(request, fi_id):
     return render(request, 'error_exception.html', {'exc':show_exc(e)})
 
 @group_required("admins", "projects", "guests")
-def booking_remove(request, fi_id):
+#def booking_remove(request, fi_id):
+def booking_remove(request):
     try:
+        fi_id = request.GET["obj_id"]
         fi = FormInstance.objects.get(pk = fi_id)
         project_uuid = fi.form.project.uuid if fi.form != None and fi.form.project != None else ""
         fi.delete()
@@ -240,9 +249,11 @@ def booking_remove(request, fi_id):
     return render(request, 'error_exception.html', {})
 
 @group_required("admins", "projects", "guests")
-def bookings_by_guest(request, project_uuid):
+#def bookings_by_guest(request, project_uuid):
+def bookings_by_guest(request):
     msg = ""
     try:
+        project_uuid = request.GET["obj_id"]
         gu = GuestUser.objects.filter(project_uuid=project_uuid, username=request.user.username).first()
         if gu == None or gu.guest == None:
             return render(request, 'error_exception.html', {'exc': 'User not found!'})
@@ -259,14 +270,16 @@ def bookings_by_guest(request, project_uuid):
         return render(request, 'error_exception.html', {'exc': str(e)})
 
 @group_required("admins", "projects", "guests")
-def booking_view(request, fi_id):
+#def booking_view(request, fi_id):
+def booking_view(request):
     try:
+        fi_id = request.GET["obj_id"]
         fi = FormInstance.objects.get(pk = fi_id)
         form = get_or_none(Form, fi.form_uuid, 'uuid')
         items = ShoppingCart.objects.filter(form_instance_id=fi.pk)
 
         #context = {'fi': fi, 'index': "0", "ro": True, 'items':items,}
-        context = {'fi': fi, 'index': "0", 'items':items,}
+        context = {'fi': fi, 'index': "0", 'project_uuid': form.project.uuid, 'items':items,}
         template = 'bookings/guest/view-booking-project.html' if fi.form.form_type.code == "ecom" else 'bookings/guest/view-booking.html'
         return render(request, template, context)
     except Exception as e:
