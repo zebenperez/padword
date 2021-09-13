@@ -49,11 +49,14 @@ urlpatterns = [
     path('change-status/', views.change_status, name='change-status'),
 
     #------------- Bookings Guests --------------#
-    path('guest-welcome/<slug:form_uuid>/', gv.guest_welcome, name='guest-welcome'),
+    path('guest-access/<slug:form_uuid>/', gv.guest_access, name='guest-access'),
+    path('guest-access-bookings/<slug:project_uuid>/', gv.guest_access_bookings, name='guest-access-bookings'),
+
     #path('guest-form-login/<slug:form_uuid>/', gv.guest_form_login, name='guest-form-login'),
     path('guest-form-login/', gv.guest_form_login, name='guest-form-login'),
     path('booking-new-guest/', gv.booking_new_guest, name='booking-new-guest'),
-    path('booking-new-device/<slug:form_uuid>/datos/', gv.booking_new_device, name='booking-new-device'),
+    #path('booking-new-device/<slug:form_uuid>/datos/', gv.booking_new_device, name='booking-new-device'),
+    path('booking-new-device/', gv.booking_new_device, name='booking-new-device'),
     path('booking-new/<slug:form_uuid>/', gv.booking_new, name='booking-new'),
 
     #path('booking-send/<int:fi_id>/', gv.booking_send, name='booking-send'),
@@ -61,9 +64,9 @@ urlpatterns = [
     path('booking-send/', gv.booking_send, name='booking-send'),
     path('booking-remove/', gv.booking_remove, name='booking-remove'),
 
-    #path('my-bookings/<slug:project_uuid>/', gv.bookings_by_guest, name='my-bookings'),
-    #path('booking-view/<int:fi_id>/', gv.booking_view, name='booking-guest-view'),
     path('my-bookings/', gv.bookings_by_guest, name='my-bookings'),
+    path('my-bookings/<slug:project_uuid>/', gv.bookings_by_guest, name='my-bookings'),
+    #path('booking-view/<int:fi_id>/', gv.booking_view, name='booking-guest-view'),
     path('booking-guest-view/', gv.booking_view, name='booking-guest-view'),
 
     path('autosave-form-field/', gv.autosave_form_field, name='autosave-form-field'),

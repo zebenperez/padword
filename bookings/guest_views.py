@@ -4,15 +4,16 @@ from django.db.models import Q
 from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
+from django.urls import reverse
 from django.utils.translation import ugettext_lazy as _ 
 
 from padword.decorators import group_required
 from padword.commons import show_exc, get_or_none, get_param, get_float, get_bool, new_ui_slug
-from web.models import Device
+from web.models import Device, Project
 from contents.models import Category, ShoppingCart, Item
 from guest.models import Guest
 
-from .common_lib import get_or_create_form_instance, get_max_index, get_or_create_answer_instance, write_log
+from .common_lib import get_or_create_form_instance, get_max_index, get_or_create_answer_instance, write_log, user_in_group
 from .models import AnswerInstance, Field, Form, FormChannel, FormInstance, Question, Block, GuestUser
 
 import datetime
@@ -110,13 +111,27 @@ def remove_generic_item_from_shopping_cart(request):
 '''
     Bookings client methods
 '''
-def guest_welcome(request, form_uuid):
-    return render(request, 'bookings/guest/guest-welcome.html', {'form_uuid': form_uuid})
+def guest_access(request, form_uuid):
+    device_imei = request.GET["device_imei"] if "device_imei" in request.GET else ""
+    room_number = request.GET["room_number"] if "room_number" in request.GET else ""
+    guest_name = request.GET["guest_name"] if "guest_name" in request.GET else ""
+    guest_surname = request.GET["guest_surname"] if "guest_surname" in request.GET else ""
+    context = {'form_uuid': form_uuid,'device_imei': device_imei,'room_number': room_number,'guest_name': guest_name,'guest_surname': guest_surname}
+    return render(request, 'bookings/guest/guest-welcome.html', context)
+
+def guest_access_bookings(request, project_uuid):
+    next_url = reverse("my-bookings") if request.user.is_authenticated and user_in_group(request.user, "guests") else reverse("guest-form-login")
+    context = {'project_uuid': project_uuid, 'next_url': next_url}
+    return render(request, 'bookings/guest/guest-welcome.html', context)
 
 #def guest_form_login(request, form_uuid):
 def guest_form_login(request):
     try:
-        return render(request, 'guest_form_login.html', {'form_uuid': request.GET["obj_id"]})
+        if "form_uuid" in request.GET:
+            return render(request, 'guest_form_login.html', {'form_uuid': request.GET["form_uuid"]})
+        if "project_uuid" in request.GET:
+            return render(request, 'guest_form_login.html', {'project_uuid': request.GET["project_uuid"]})
+        return render(request, 'error_exception.html', {'exc': 'Form or project not found!'})
     except Exception as e:
         logger.error("[bookings-guest_form_login] {}".format(str(e)))
         return render(request, 'error_exception.html', {'exc':show_exc(e)})
@@ -128,34 +143,43 @@ def booking_new_guest(request):
     try:
         date = datetime.datetime.now()
         form_uuid = request.POST["form_uuid"]
+        project_uuid = request.POST["project_uuid"]
         code = request.POST["code"]
         room = request.POST["room"]
         guest = Guest.objects.filter(Q(mobile=code) | Q(email=code)).filter(room=room, check_in__lte=date, check_out__gte=date).first()
 
         if guest == None:
             return render(request, 'error_exception.html', {'exc': 'Guest not found!'})
-        form = get_or_none(Form, form_uuid, "uuid")
-        if form == None:
-            return render(request, 'error_exception.html', {'exc': _('Form not found!')})
-        if form.project == None:
-            return render(request, 'error_exception.html', {'exc': _('Project not found!')})
+        if form_uuid != "":
+            form = get_or_none(Form, form_uuid, "uuid")
+            if form == None:
+                return render(request, 'error_exception.html', {'exc': _('Form not found!')})
+            if form.project == None:
+                return render(request, 'error_exception.html', {'exc': _('Project not found!')})
+            project = form.project
+        else:
+            project = get_or_none(Project, project_uuid, "uuid")
+            if project == None:
+                return render(request, 'error_exception.html', {'exc': _('Project not found!')})
 
-        user, err = GuestUser.get_or_create_guest_user(guest.UUID, form.project.uuid, code)
+        user, err = GuestUser.get_or_create_guest_user(guest.UUID, project.uuid, code)
         if err != "":
             return render(request, 'error_exception.html', {'exc': err})
         auth.login(request, user)
 
-        return redirect(booking_new, form_uuid)
+        return redirect(booking_new, form_uuid) if form_uuid != "" else redirect(bookings_by_guest, project.uuid)
     except Exception as e:
         print (show_exc(e))
         logger.error("[bookings-new_booking] {}".format(str(e)))
         return render(request, 'error_exception.html', {'exc':show_exc(e)})
 
-def booking_new_device(request, form_uuid):
+#def booking_new_device(request, form_uuid):
+def booking_new_device(request):
     '''
         Guest access by device
     '''
     try:
+        form_uuid = request.GET["form_uuid"] if "form_uuid" in request.GET else ""
         device_imei = request.GET["device_imei"] if "device_imei" in request.GET else ""
         room_number = request.GET["room_number"] if "room_number" in request.GET else ""
         guest_name = request.GET["guest_name"] if "guest_name" in request.GET else ""
@@ -249,11 +273,13 @@ def booking_remove(request):
     return render(request, 'error_exception.html', {})
 
 @group_required("admins", "projects", "guests")
-#def bookings_by_guest(request, project_uuid):
-def bookings_by_guest(request):
+def bookings_by_guest(request, project_uuid=None):
+#def bookings_by_guest(request):
     msg = ""
     try:
-        project_uuid = request.GET["obj_id"]
+        if project_uuid == None:
+            project_uuid = request.GET["project_uuid"]
+
         gu = GuestUser.objects.filter(project_uuid=project_uuid, username=request.user.username).first()
         if gu == None or gu.guest == None:
             return render(request, 'error_exception.html', {'exc': 'User not found!'})
