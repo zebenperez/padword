@@ -1,27 +1,21 @@
-{% extends "base_error.html" %}
-{% load i18n padword_tags bookings_tag common_tag %}
+{% load i18n %}
 
-{#{% block second_menu %}{% get_second_menu request.user %}{% endblock second_menu %}#}
-
-{% block central_content %}
-	<div class="row">
-		<div class="col-8 offset-2 text-center mt-3 mb-3 pt-3">
-			{% if msg == "01" %}
-				<i class="fas fa-check-circle text-success"></i><br /><h4 class="success mt-3">{% trans "Your reservation has been sent correctly!" %}</h4>
-			{% elif msg == "05" %}
-				<i class="fas fa-ban text-cancel"></i><br /><h4 class="cancel mt-3">{% trans "Your reservation has been cancelled correctly!" %}</h4>
-			{% endif %}
-		</div>	
+<div class="row">
+	<div class="col-8 offset-2 text-center mt-3 mb-3 pt-3">
+		{% if msg == "01" %}
+			<i class="fas fa-check-circle text-success"></i><br/><h4 class="success mt-3">{% trans "Your reservation has been sent correctly!" %}</h4>
+		{% elif msg == "05" %}
+			<i class="fas fa-ban text-cancel"></i><br /><h4 class="cancel mt-3">{% trans "Your reservation has been cancelled correctly!" %}</h4>
+		{% endif %}
 	</div>	
-	<div class="row">
-		<div class="col-8 offset-2 text-grey text-center mt-3 mb-3">
-			{% trans "If you want to check your bookings, click on" %}: <br />
-			{#<a href="{% url "my-bookings" project_uuid %}" class="btn btn-primary text-white mt-3">{% trans "My bookings" %}</a>#}
-			<a href="#" class="btn btn-primary text-white mt-3 ark" data-url="{% url "my-bookings" %}"
-                data-target="div-main" data-obj_id="{{project_uuid}}">{% trans "My bookings" %}</a>
-			<a href="#" class="btn btn-warning text-white mt-3" onclick="window.history.back();">{% trans "Back" %}</a>
-		</div>
+</div>	
+<div class="row">
+	<div class="col-8 offset-2 text-grey text-center mt-3 mb-3">
+		{% trans "If you want to check your bookings, click on" %}: <br />
+		<a href="javascript:void(0)" class="btn btn-primary text-white mt-3 ark" data-url="{% url "my-bookings" %}"
+			data-target="div-main" data-obj_id="{{project_uuid}}">{% trans "My bookings" %}</a>
+		<a href="javascript:void(0)" class="btn btn-warning text-white mt-3" onclick="window.history.back();">{% trans "Back" %}</a>
 	</div>
-{% endblock %}
+</div>
 
 

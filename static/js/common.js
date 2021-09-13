@@ -177,6 +177,7 @@ $(document).ready(()=>{
             if (obj.data("show"))
                 $("#" + obj.data("show")).show();
             e.preventDefault();
+            e.stopImmediatePropagation();
         }
     });
 
