@@ -433,3 +433,5 @@ def device_assign(request):
         print(show_exc(e))
         return render (request, "web/devices/device-assign.html", context)
 
+def check_error(request):
+    return render(request, "full_error_exception.html", {'exc':"Probando mensaje de error"})
