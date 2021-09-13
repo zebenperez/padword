@@ -331,6 +331,38 @@ img.img-cart-line {
 
 }
 
+/*****************************/
+/* Error page style*/
+/*****************************/
+
+.error-page {
+	background-image: url(/static/img/bg-welcome.jpg);
+	height: 100%;
+	background-position: center;
+	background-repeat: no-repeat;
+	background-size: cover;
+	position: relative;
+	text-align: center;
+}
+
+.error-page img {
+	filter: blur(10px);
+	z-index:-1;
+ }
+.error-box {
+	border:1px solid #ccc;
+	border-radius: 15px;
+	background-color: #fff;
+	opacity: 0.9;	
+	position:absolute;
+	top:5%;
+	left:35%;
+	width: 500px;
+	margin-left:-50px;
+	margin-top:50px;
+
+}
+
 
 /*****************************/
 /* devices style*/
