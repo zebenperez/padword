@@ -4,6 +4,7 @@
 
 
 <input type="hidden" name="s-page" id="s-page" value="{{page}}" data-target="table-list-bookings" data-related="s-page,s-project,s-channel,s-form,s-ini_date,s-end_date,s-name,s-status" data-append="append" data-url="{% url 'bookings-page' %}" class="autosearch_change"/>
+<input type="hidden" name="s-status" id="s-status" value="{{status}}" data-target="table-list-bookings" data-related="s-page,s-project,s-channel,s-form,s-ini_date,s-end_date,s-name,s-status" data-append="append" data-url="{% url 'bookings-search' %}" class="autosearch_change"/>
 <div class="toolbar-search">
 	<div class="row w-100">
 		<div class="col-12 col-md-4">
@@ -41,17 +42,22 @@
     {% endcomment %}
 
 	<div class="row w-100 mt-1">
-		<div class="col-md-4 col-xs-6">
+		<div class="col-md-3 col-xs-6">
 		    <input type="date" class="autosearch_change form-control form-control-dark w-30" name="s-ini_date" id="s-ini_date" 
     		    placeholder="{% trans "Initial date" %}" value="{{ini_date|date:'Y-m-d'}}" data-url="{% url "bookings-search" %}" 
         		data-target="booking-list" data-related="s-page,s-project,s-channel,s-form,s-ini_date,s-end_date,s-name,s-status" />
 		</div>
-		<div class="col-md-4 col-xs-6">
+		<div class="col-md-3 col-xs-6">
 		    <input type="date" class="autosearch_change form-control form-control-dark w-30" name="s-end_date" id="s-end_date" 
 				placeholder="{% trans "End date" %}" value="{{end_date|date:'Y-m-d'}}" data-url="{% url "bookings-search" %}" 
 				data-target="booking-list" data-related="s-page,s-project,s-channel,s-form,s-ini_date,s-end_date,s-name,s-status" />
 		</div>
-		<div class="col-md-4 col-xs-12">
+		<div class="col-md-6 col-xs-12 d-flex justify-content-end">
+                <a class="btn btn-light me-1" onclick="$('#s-status').val('');$('#s-status').trigger('change');" href="#">{% trans 'All' %}</a>
+                {% for item in status_list %}
+                <a class="btn btn-light me-1" onclick="$('#s-status').val('{{item.id}}');$('#s-status').trigger('change');" href="#">{% padword_translate item.name %}</a>
+                {% endfor %}
+                {%comment%}
             <select class="autosearch_change form-control form-control-dark w-30" name="s-status" id="s-status" 
                 data-url="{% url "bookings-search" %}" data-target="booking-list"  
                 data-related="s-page,s-project,s-channel,s-form,s-ini_date,s-end_date,s-name,s-status">
@@ -59,7 +65,6 @@
                 {% for item in status_list %}
                     <option value="{{item.id}}">{% padword_translate item.name %}</option>
                 {% endfor %}
-                {%comment%}
                 <option value="02">{% trans "Sended" %}</option>
                 <option value="03">{% trans "Canceled" %}</option>
                 <option value="04">{% trans "Received" %}</option>
@@ -67,8 +72,8 @@
                 <option value="06">{% trans "Confirmed" %}</option>
                 <option value="07">{% trans "Rejected" %}</option>
                 <option value="08">{% trans "Waiting" %}</option>
-                {%endcomment%}
             </select>
+                {%endcomment%}
 		</div>
 
 	</div>
