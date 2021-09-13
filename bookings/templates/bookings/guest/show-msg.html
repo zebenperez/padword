@@ -1,6 +1,6 @@
 {% load i18n %}
 
-<div class="row">
+<div class="row cancel-box">
 	<div class="col-8 offset-2 text-center mt-3 mb-3 pt-3">
 		{% if msg == "01" %}
 			<i class="fas fa-check-circle text-success"></i><br/><h4 class="success mt-3">{% trans "Your reservation has been sent correctly!" %}</h4>
@@ -12,9 +12,9 @@
 <div class="row">
 	<div class="col-8 offset-2 text-grey text-center mt-3 mb-3">
 		{% trans "If you want to check your bookings, click on" %}: <br />
-		<a href="javascript:void(0)" class="btn btn-primary text-white mt-3 ark" data-url="{% url "my-bookings" %}"
-			data-target="div-main" data-project_uuid="{{project_uuid}}">{% trans "My bookings" %}</a>
-		<a href="javascript:void(0)" class="btn btn-warning text-white mt-3" onclick="window.history.back();">{% trans "Back" %}</a>
+		<button class="btn btn-primary text-white mt-3 ark" data-url="{% url "my-bookings" %}"
+			data-target="div-main" data-project_uuid="{{project_uuid}}">{% trans "My bookings" %}</button>
+		<button class="btn btn-warning text-white mt-3" onclick="window.history.back();">{% trans "Back" %}</button>
 	</div>
 </div>
 

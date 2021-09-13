@@ -4,7 +4,7 @@
 {#{% block second_menu %}{% get_second_menu request.user %}{% endblock second_menu %}#}
 
 {% block central_content %}
-	<div class="row">
+	<div class="row cancel-box">
 		<div class="col-8 offset-2 text-center mt-3 mb-3 pt-3">
 			{% if msg == "01" %}
 				<i class="fas fa-check-circle text-success"></i><br /><h4 class="success mt-3">{% trans "Your reservation has been sent correctly!" %}</h4>

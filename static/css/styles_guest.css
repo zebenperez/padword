@@ -362,6 +362,24 @@ img.img-cart-line {
 	font-size: 2rem;
 
 
+/*****************************/
+/* Cancel booking page style*/
+/*****************************/
+
+.cancel-box {
+	border:1px solid #ccc;
+	border-radius: 15px;
+	background-color: #fff;
+	opacity: 0.9;	
+	position:absolute;
+	top:5%;
+	left:30%;
+	width: 500px;
+	margin-left:-50px;
+	margin-top:100px;
+}
+
+
 
 /*****************************/
 /* devices style*/
