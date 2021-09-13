@@ -9,7 +9,7 @@
     <div class="content mt-4">
         <div class="toolbar-content">
             {#<h2 class="b-right">{% trans 'Bookings' %} (<span id="items-counter">{{items|length}}</span>) {% trans "of" %} {{form.name}}</h2>#}
-            <h2 class="b-right">{% trans 'Bookings' %}</h2>
+            <h2 class="b-right">{% trans 'Bookings' %} (<span id="total-items">{{total_items}}</span>)</h2>
             {#{%if form%}<a class="btn btn-primary" href="{% url "booking-preview" form.id %}" target="_blank">{%trans "New booking"%}</a>{%endif%}#}
         </div>
         <div id="booking-list">
@@ -17,12 +17,5 @@
         </div>
     </div>
 <script>
-    var observer = new IntersectionObserver(function(entries) {
-        if(entries[0].isIntersecting === true)
-        {
-            $('#btn-see-more').trigger("click");
-        }
-    }, { threshold: [1] });
-    observer.observe(document.querySelector("#btn-see-more"));
 </script>
 {% endblock central_content %}

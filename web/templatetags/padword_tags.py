@@ -23,6 +23,14 @@ def currency(json_str):
         print (show_exc(e))
         return "UNSETTING"
 
+@register.filter
+def mult(a, b):
+    try:
+        return a * b
+    except Exception as e:
+        print (show_exc(e))
+        return 0
+
 '''
     Simple Tags
 '''
@@ -49,6 +57,7 @@ def current_exact(context, url, **kwargs):
     except:
         return ""
 
+
 @register.simple_tag(takes_context=True)
 def current_lang(context):
     try:
@@ -57,6 +66,14 @@ def current_lang(context):
         return lang.upper()
     except:
         return "ES"
+
+@register.simple_tag
+def idx_page (idx, page, items_per_page):
+    try:
+        return (int(idx) + int(page)*int(items_per_page))
+    except:
+        return 0
+
 
 
 @register.simple_tag(takes_context=True)
