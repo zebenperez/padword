@@ -86,6 +86,9 @@ def get_booking_context(form=None, project=None):
 def bookings_by_project(request, project_id):
     try:
         context = get_booking_context(project=get_or_none(Project, project_id))
+        context['total_items'] = context['items'].count()
+        context['items'] = context['items'][0:ITEMS_PER_PAGE]
+        context['page'] = 0
         return render (request, "bookings/manage/bookings.html", context)
     except Exception as e:
         print (show_exc(e))
@@ -105,16 +108,23 @@ def bookings_search(request):
         status = get_param(request.GET, "s-status")
 
         kwargs = {}
-        if project != "":
-            uuid_channel_list = [item.uuid for item in Channel.objects.filter(project__name__icontains=project)]
-            uuid_list = [item.uuid for item in Form.objects.filter(channels__channel__in=uuid_channel_list)]
-            kwargs["form_uuid__in"] = uuid_list
-            #kwargs["form__channels__channel__in"] = uuid_list
-        if channel != "":
-            uuid_channel_list = [item.uuid for item in Channel.objects.filter(name__icontains=channel)]
-            uuid_list = [item.uuid for item in Form.objects.filter(channels__channel__in=uuid_channel_list)]
-            kwargs["form_uuid__in"] = uuid_list
-            #kwargs["form__channels__channel__in"] = uuid_list
+        if request.user.groups.filter(name="projects").exists():
+            uuid_projects_list = list(ProjectUser.objects.filter(username=request.user.username).values_list('project_uuid', flat=True))
+            uuid_projects_list = list(set(uuid_projects_list) & set(Project.objects.filter(name__icontains = project).values_list('uuid', flat=True)))
+            categories_list = list(Category.objects.filter(project_uuid__in = uuid_projects_list).values_list('uuid', flat=True))
+            forms_list = list(Form.objects.filter(category__in = categories_list).values_list('uuid', flat=True))
+            kwargs["form_uuid__in"] = forms_list
+        else:
+            if project != "":
+                uuid_channel_list = [item.uuid for item in Channel.objects.filter(project__name__icontains=project)]
+                uuid_list = [item.uuid for item in Form.objects.filter(channels__channel__in=uuid_channel_list)]
+                kwargs["form_uuid__in"] = uuid_list
+                #kwargs["form__channels__channel__in"] = uuid_list
+            if channel != "":
+                uuid_channel_list = [item.uuid for item in Channel.objects.filter(name__icontains=channel)]
+                uuid_list = [item.uuid for item in Form.objects.filter(channels__channel__in=uuid_channel_list)]
+                kwargs["form_uuid__in"] = uuid_list
+                #kwargs["form__channels__channel__in"] = uuid_list
         if form != "":
             uuid_list = [item.uuid for item in Form.objects.filter(name__icontains=form)]
             kwargs["form_uuid__in"] = uuid_list
@@ -129,9 +139,13 @@ def bookings_search(request):
             kwargs["name__icontains"] = name
         if status != "":
             kwargs["status"] = status
-        items = FormInstance.objects.filter(**kwargs)[0:ITEMS_PER_PAGE]
+        items = FormInstance.objects.filter(**kwargs)
+        context={}
+        context['total_items'] = items.count()
+        context['items'] = items[0:ITEMS_PER_PAGE]
+        context['page'] = 0
 
-        return render(request, "bookings/manage/booking-list.html", {'items':items,'page':0})
+        return render(request, "bookings/manage/booking-list.html", context)
     except Exception as e:
         print (show_exc(e))
         return render(request, 'error_exception.html', {'exc':show_exc(e)})
@@ -229,11 +243,7 @@ def bookings(request):
             context = get_booking_context()
         else:
             context = get_booking_context()
-            #projects_list = list(ProjectUser.objects.filter(username=request.user.username).values_list('project_uuid', flat=True))
-            #categories_list = list(Category.objects.filter(project_uuid__in = projects_list).values_list('uuid', flat=True))
-            #forms_list = list(Form.objects.filter(category__in = categories_list).values_list('uuid', flat=True))
-            #bookings = FormInstance.objects.filter(form_uuid__in = forms_list, status__code = "01" ).order_by('-pk')
-            #context['items'] = bookings
+        context['total_items'] = context['items'].count()
         context['items'] = context['items'][0:ITEMS_PER_PAGE]
         context['page'] = 0
         return render (request, "bookings/manage/bookings.html", context)
@@ -242,7 +252,7 @@ def bookings(request):
         return render(request, 'full_error_exception.html', {'exc':show_exc(e)})
     return render(request, 'full_error_exception.html', {})
 
-@group_required("admins")
+@group_required("admins", "projects")
 def bookings_page(request):
     try:
         project = get_param(request.GET, "s-project")
@@ -255,16 +265,23 @@ def bookings_page(request):
         page = get_param(request.GET, "s-page", "0")
 
         kwargs = {}
-        if project != "":
-            uuid_channel_list = [item.uuid for item in Channel.objects.filter(project__name__icontains=project)]
-            uuid_list = [item.uuid for item in Form.objects.filter(channels__channel__in=uuid_channel_list)]
-            kwargs["form_uuid__in"] = uuid_list
-            #kwargs["form__channels__channel__in"] = uuid_list
-        if channel != "":
-            uuid_channel_list = [item.uuid for item in Channel.objects.filter(name__icontains=channel)]
-            uuid_list = [item.uuid for item in Form.objects.filter(channels__channel__in=uuid_channel_list)]
-            kwargs["form_uuid__in"] = uuid_list
-            #kwargs["form__channels__channel__in"] = uuid_list
+        if request.user.groups.filter(name="projects").exists():
+            uuid_projects_list = list(ProjectUser.objects.filter(username=request.user.username).values_list('project_uuid', flat=True))
+            uuid_projects_list = list(set(uuid_projects_list) & set(Project.objects.filter(name__icontains = project).values_list('uuid', flat=True)))
+            categories_list = list(Category.objects.filter(project_uuid__in = uuid_projects_list).values_list('uuid', flat=True))
+            forms_list = list(Form.objects.filter(category__in = categories_list).values_list('uuid', flat=True))
+            kwargs["form_uuid__in"] = forms_list
+        else:
+            if project != "":
+                uuid_channel_list = [item.uuid for item in Channel.objects.filter(project__name__icontains=project)]
+                uuid_list = [item.uuid for item in Form.objects.filter(channels__channel__in=uuid_channel_list)]
+                kwargs["form_uuid__in"] = uuid_list
+                #kwargs["form__channels__channel__in"] = uuid_list
+            if channel != "":
+                uuid_channel_list = [item.uuid for item in Channel.objects.filter(name__icontains=channel)]
+                uuid_list = [item.uuid for item in Form.objects.filter(channels__channel__in=uuid_channel_list)]
+                kwargs["form_uuid__in"] = uuid_list
+                #kwargs["form__channels__channel__in"] = uuid_list
         if form != "":
             uuid_list = [item.uuid for item in Form.objects.filter(name__icontains=form)]
             kwargs["form_uuid__in"] = uuid_list
@@ -279,9 +296,14 @@ def bookings_page(request):
             kwargs["name__icontains"] = name
         if status != "":
             kwargs["status"] = status
-        items = FormInstance.objects.filter(**kwargs)[int(page)*ITEMS_PER_PAGE:(int(page) + 1)*ITEMS_PER_PAGE]
+        items = FormInstance.objects.filter(**kwargs)
+        context={}
+        context['total_items'] = items.count()
+        context['items'] = items[int(page)*ITEMS_PER_PAGE:(int(page) + 1)*ITEMS_PER_PAGE]
+        context['page'] = page 
 
-        return render(request, "bookings/manage/booking-page.html", {'items':items,'page':page})
+
+        return render(request, "bookings/manage/booking-page.html", context)
     except Exception as e:
         print (show_exc(e))
         return render(request, 'error_exception.html', {'exc':show_exc(e)})
@@ -293,6 +315,9 @@ def bookings_by_form(request, form_id):
             context = get_booking_context(form=get_or_none(Form, form_id), project=get_or_none(Project, request.session["project_id"]))
         else:
             context = get_booking_context(form=get_or_none(Form, form_id))
+        context['total_items'] = context['items'].count()
+        context['items'] = context['items'][0:ITEMS_PER_PAGE]
+        context['page'] = 0
         return render (request, "bookings/manage/bookings.html", context)
     except Exception as e:
         print (show_exc(e))
