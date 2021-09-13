@@ -4,12 +4,12 @@
 <div class="main-content-booking container-fluid">
 	<div class="{% if fi.form.image %} div-transp {% else %}div-transp-0 {% endif %}  p-4">
 
-        <div class="col-lg-10 offset-lg-1 col-md-10 offset-md-1 col-xs-6">
+        <div class="col-lg-10 offset-lg-1 col-md-10 offset-md-1 col-xs-6" style="border:1px solid red;">
             <h1 class="grid-container"> <div class="item1">{% padword_translate fi.form.name %}</div> </h1> </div>
         <hr>
 
         <div class="row bloque mt-3">
-            <div id="main" class="col-lg-10 offset-lg-1 col-md-10 offset-md-1 col-xs-12">
+            <div id="main" class="col-lg-10 offset-lg-1 col-md-10 offset-md-1 col-xs-12" style="border:1px solid black;">
                 {% for b in fi.get_public_blocks %}
                     <div class="" id="div-block">
                         {% for q in b.get_first_level_questions %}
@@ -52,7 +52,7 @@
         </div>
 
         <div class="row mt-4 mb-4 d-flex justify-content-center ">
-            {% if status_list %} <div id="div-status">{% include "bookings/manage/status-links.html" %}</div> {% endif %}
+            {% if status_list %} <div id="div-status" style="border:1px solid blue;">{% include "bookings/manage/status-links.html" %}</div> {% endif %}
 
             <div class="col-2 actions text-center">
                 <button type="button" class="btn btn-info btn-lg text-white" data-bs-dismiss="modal">{% trans "Close" %}</button></div>
