@@ -36,9 +36,11 @@ def item_to_shopping_cart(request):
 
         instance = FormInstance.objects.get(pk=form_id)
         items = ShoppingCart.objects.filter(form_instance_id=int(form_id), item=item)
-        summary = '{} art.&nbsp;&nbsp;&nbsp;{:.2f} &euro;'.format(items.count(), instance.get_total)
 
-        return render(request, "bookings/show-instance-result.html", {'items':items, 'item':item, 'summary': summary})
+        total_price = instance.get_total
+        total_items = ShoppingCart.objects.filter(form_instance_id=int(form_id)).count()
+
+        return render(request, "bookings/show-instance-result.html", {'items':items, 'item':item})
         #return HttpResponse('{} art.&nbsp;&nbsp;&nbsp;{:.2f} &euro;'.format(items.count(), instance.get_total))
         #return render(request, "bookings/shopping-form.html", {'obj':obj})
     except Exception as e:
@@ -499,10 +501,8 @@ def item_to_shopping_cart(request):
 
         instance = FormInstance.objects.get(pk=form_id)
         items = ShoppingCart.objects.filter(form_instance_id=int(form_id), item=item)
-        summary = '{} art.&nbsp;&nbsp;&nbsp;{:.2f} &euro;'.format(items.count(), instance.get_total)
-
-        return render(request, "bookings/show-instance-result.html", {'items':items, 'item':item, 'summary': summary})
-        #return HttpResponse('{} art.&nbsp;&nbsp;&nbsp;{:.2f} &euro;'.format(items.count(), instance.get_total))
+        return render(request, "bookings/show-instance-result.html", {'items':items, 'item':item})
+        return HttpResponse('{} art.&nbsp;&nbsp;&nbsp;{:.2f} &euro;'.format(items.count(), instance.get_total))
         #return render(request, "bookings/shopping-form.html", {'obj':obj})
     except Exception as e:
         return render(request, "error_exception.html", {'exc':show_exc(e)})
@@ -573,14 +573,12 @@ def remove_generic_item_from_shopping_cart(request):
         item_id = request.GET["item_id"]
         item = get_or_none(Item, int(item_id))
 
-        instance = FormInstance.objects.get(pk=form_id)
         items = ShoppingCart.objects.filter(form_instance_id=int(form_id), item=item)
         counter = items.count() - 1
         obj = items.last()
         obj.delete()
-        summary = '{} art.&nbsp;&nbsp;&nbsp;{:.2f} &euro;'.format(counter, instance.get_total)
 
-        return render(request, "bookings/show-instance-result.html", {'items':items, 'item':item, 'summary': summary})
-        #return render(request, "bookings/view-shopping-cart.html", {'fi':instance, 'items':items, 'total':total_price})
+        return render(request, "bookings/show-instance-result.html", {'items':items, 'item':item})
+        return render(request, "bookings/view-shopping-cart.html", {'fi':instance, 'items':items, 'total':total_price})
     except Exception as e:
         return render(request, "error_exception.html", {'exc':show_exc(e)})
