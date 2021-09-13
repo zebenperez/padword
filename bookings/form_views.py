@@ -177,7 +177,7 @@ def form_add_qr(request):
         obj_id = request.GET["obj_id"]
         form = get_or_none(Form, obj_id)
         if form != None:
-            url = request.build_absolute_uri(reverse('guest-form-login', kwargs={'form_uuid': form.uuid}))
+            url = request.build_absolute_uri(reverse('guest-access', kwargs={'form_uuid': form.uuid}))
             img_data = ContentFile(generate_qr(url, form.logo))
             form.qr.save('qr_{}.png'.format(form.uuid), img_data, save=True)
         return render(request, "forms/form-qr.html", {"obj": form,})

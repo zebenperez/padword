@@ -18,6 +18,7 @@
 					<form class="form-horizontal p-4" method="post" action="{% url "booking-new-guest" %}" id="form-guest">
 						{% csrf_token %}
                         <input type="hidden" name="form_uuid" value="{{form_uuid}}"/>
+                        <input type="hidden" name="project_uuid" value="{{project_uuid}}"/>
                         <div class="form-group row mb-4">
 							<label class="col-md-4 control-label text-right" tyle="border:1px solid red;">{% trans "Phone or email:" %} </label>
 							<div class="col-md-6" tyle="border:1px solid red;"><div class="form-group">
