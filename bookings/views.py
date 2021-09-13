@@ -12,6 +12,7 @@ from user_remote.models import PWUser
 
 from .common_lib import write_log, user_in_group
 from .models import Form, FormInstance, Status
+from guest.models import Guest
 
 import datetime
 import logging
@@ -296,7 +297,9 @@ def bookings_page(request):
             ed = end_date.split("-")
             kwargs["date__lte"] = datetime.datetime(int(ed[0]), int(ed[1]), int(ed[2]), 23, 59, 59)
         if name != "":
-            kwargs["name__icontains"] = name
+            uuid_guests = Guest.objects.filter(name__icontains = name) or Guest.objects.filter(surname__icontains=name)
+            uuid_guests = set(uuid_guests.values_list('UUID', flat=True))
+            kwargs["guest_uuid__in"] = uuid_guests
         if status != "":
             kwargs["status"] = status
         items = FormInstance.objects.filter(**kwargs)
