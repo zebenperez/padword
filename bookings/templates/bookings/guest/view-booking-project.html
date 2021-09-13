@@ -5,17 +5,17 @@
 <div class="main-content-booking container-fluid">
     <div class="div-transp- p-4">
 
+	{% comment %}
         <div class="bookingHeader">
             <a id="full-screen" class="" onclick="javascript:toggleFullScreen();"><i class="far fa-window-maximize"></i></a></div>
+	{% endcomment %}
 
-        <div class="col-lg-10 offset-lg-1 col-md-10 offset-md-1 col-xs-6">
-            <h1 class="grid-container"> 
-                <div class="item1-v">{% padword_translate fi.form.name %}</div> 
-                <div class="item2 text-right"><span id="info-shopping">{{items.count}} art.&nbsp;&nbsp;&nbsp; 
+            <div class="row"> 
+                <div class="col-8 offset-1 item3">{% padword_translate fi.form.name %}</div> 
+                <div class="col-3 item4 pt-3"><span id="info-shopping">{{items.count}} art.&nbsp;&nbsp;&nbsp; 
                     {{fi.get_total|stringformat:".2f"}} &euro; </span></div>
-            </h1> 
-        </div>
-        <hr>
+            </div> 
+        <hr class="c-white">
 	
 	    <div class="row col-lg-10 offset-lg-1 grid-guest p-3"> 
 		    <div class="item-left"><strong><i class="fas fa-portrait"></i>&nbsp;</strong> {{fi.guest.name}} {{fi.guest.surname}} </div>
@@ -23,7 +23,7 @@
 		    <div class="item"><strong><i class="fas fa-bed"></i>&nbsp;</strong> {{fi.guest.room}}</div>
 	    </div>
 	    <br/> 
-        <div class="row"> <div class="col-lg-10 offset-lg-1 offset-md-1 col-xs-12 justify-content-left">{{fi.date}}</div> </div>
+        <div class="row"> <div class="col-12 c-white">{{fi.date}}</div> </div>
 
         <div class="row"> <div class="col-md-9 offset-md-1" id="div-notification"></div> </div>
 

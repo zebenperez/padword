@@ -1,2 +1,10 @@
 {% load i18n padword_tags %}
-    <script>$('#counter-item-'+'{{item.pk}}').val({{items|length}});$('#counter-item-'+'{{item.pk}}').trigger("change");</script>
+
+<script>
+    alert("--1--");
+    $('#counter-item-'+'{{item.pk}}').val({{items|length}});
+    $('#counter-item-'+'{{item.pk}}').trigger("change");
+    alert("--2--");
+    alert("{{summary}}");
+    $('#info-shopping').val("{{summary}}");
+</script>

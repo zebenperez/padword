@@ -6,15 +6,19 @@
 
 <div class="main-content-booking container-fluid">
 	<div class="{% if fi.form.image %} div-transp {% else %}div-transp-0 {% endif %} p-4">
-
+	
+	{% comment %}
         <div class="bookingHeader"><a id="full-screen" class="" onclick="javascript:toggleFullScreen();">
             <i class="far fa-window-maximize"></i></a></div>
-
-        <div class="col-lg-10 offset-lg-1 col-md-10 offset-md-1 col-xs-6">
+	{% endcomment %}
+        
+	{% comment %}
+	<div class="col-lg-10 offset-lg-1 col-md-10 offset-md-1 col-xs-6">
             <h1 class="grid-container"> <div class="item1">{% padword_translate fi.form.name %}</div> </h1> </div>
         <hr>
+	{% endcomment %}
 
-        <div class="row bloque mt-3">
+        <div class="row bloque mt-1">
             <div id="main" class="col-lg-10 offset-lg-1 col-md-10 offset-md-1 col-xs-12">
                 {% for b in fi.get_public_blocks %}
                     <div class="" id="div-block">
@@ -34,7 +38,7 @@
 
                             {# Preguntas con formato de tabla #}
                             {% elif q.question_type.code == "table" %}
-                                <div class="div-info-tb">
+                                <div class="div-info-tb mt-4">
                                     <table class="table mt-4" id="table_{{q.id}}" width="100%">
                                         <thead> <tr>
                                             {% for f in q.field_set.all %} <td class="sh-td item-left">{{f.text}}</td> {% endfor %} 

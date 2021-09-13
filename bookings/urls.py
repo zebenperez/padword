@@ -52,8 +52,8 @@ urlpatterns = [
     path('guest-access/<slug:form_uuid>/', gv.guest_access, name='guest-access'),
     path('guest-access-bookings/<slug:project_uuid>/', gv.guest_access_bookings, name='guest-access-bookings'),
 
-    #path('guest-form-login/<slug:form_uuid>/', gv.guest_form_login, name='guest-form-login'),
     path('guest-form-login/', gv.guest_form_login, name='guest-form-login'),
+    path('guest-form-login/<slug:form_uuid>/', gv.guest_form_login, name='guest-form-login'),
     path('booking-new-guest/', gv.booking_new_guest, name='booking-new-guest'),
     #path('booking-new-device/<slug:form_uuid>/datos/', gv.booking_new_device, name='booking-new-device'),
     path('booking-new-device/', gv.booking_new_device, name='booking-new-device'),

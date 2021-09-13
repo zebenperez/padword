@@ -36,8 +36,10 @@ def item_to_shopping_cart(request):
 
         instance = FormInstance.objects.get(pk=form_id)
         items = ShoppingCart.objects.filter(form_instance_id=int(form_id), item=item)
-        return render(request, "bookings/show-instance-result.html", {'items':items, 'item':item})
-        return HttpResponse('{} art.&nbsp;&nbsp;&nbsp;{:.2f} &euro;'.format(items.count(), instance.get_total))
+        summary = '{} art.&nbsp;&nbsp;&nbsp;{:.2f} &euro;'.format(items.count(), instance.get_total)
+
+        return render(request, "bookings/show-instance-result.html", {'items':items, 'item':item, 'summary': summary})
+        #return HttpResponse('{} art.&nbsp;&nbsp;&nbsp;{:.2f} &euro;'.format(items.count(), instance.get_total))
         #return render(request, "bookings/shopping-form.html", {'obj':obj})
     except Exception as e:
         return render(request, "error_exception.html", {'exc':show_exc(e)})
@@ -124,11 +126,12 @@ def guest_access_bookings(request, project_uuid):
     context = {'project_uuid': project_uuid, 'next_url': next_url}
     return render(request, 'bookings/guest/guest-welcome.html', context)
 
-#def guest_form_login(request, form_uuid):
-def guest_form_login(request):
+def guest_form_login(request, form_uuid=None):
+#def guest_form_login(request):
     try:
-        if "form_uuid" in request.GET:
-            return render(request, 'guest_form_login.html', {'form_uuid': request.GET["form_uuid"]})
+        if "form_uuid" in request.GET or form_uuid != None:
+            form_uuid = request.GET["form_uuid"] if "form_uuid" in request.GET else form_uuid
+            return render(request, 'guest_form_login.html', {'form_uuid': form_uuid})
         if "project_uuid" in request.GET:
             return render(request, 'guest_form_login.html', {'project_uuid': request.GET["project_uuid"]})
         return render(request, 'error_exception.html', {'exc': 'Form or project not found!'})
@@ -496,8 +499,10 @@ def item_to_shopping_cart(request):
 
         instance = FormInstance.objects.get(pk=form_id)
         items = ShoppingCart.objects.filter(form_instance_id=int(form_id), item=item)
-        return render(request, "bookings/show-instance-result.html", {'items':items, 'item':item})
-        return HttpResponse('{} art.&nbsp;&nbsp;&nbsp;{:.2f} &euro;'.format(items.count(), instance.get_total))
+        summary = '{} art.&nbsp;&nbsp;&nbsp;{:.2f} &euro;'.format(items.count(), instance.get_total)
+
+        return render(request, "bookings/show-instance-result.html", {'items':items, 'item':item, 'summary': summary})
+        #return HttpResponse('{} art.&nbsp;&nbsp;&nbsp;{:.2f} &euro;'.format(items.count(), instance.get_total))
         #return render(request, "bookings/shopping-form.html", {'obj':obj})
     except Exception as e:
         return render(request, "error_exception.html", {'exc':show_exc(e)})
@@ -568,12 +573,14 @@ def remove_generic_item_from_shopping_cart(request):
         item_id = request.GET["item_id"]
         item = get_or_none(Item, int(item_id))
 
+        instance = FormInstance.objects.get(pk=form_id)
         items = ShoppingCart.objects.filter(form_instance_id=int(form_id), item=item)
         counter = items.count() - 1
         obj = items.last()
         obj.delete()
+        summary = '{} art.&nbsp;&nbsp;&nbsp;{:.2f} &euro;'.format(counter, instance.get_total)
 
-        return render(request, "bookings/show-instance-result.html", {'items':items, 'item':item})
-        return render(request, "bookings/view-shopping-cart.html", {'fi':instance, 'items':items, 'total':total_price})
+        return render(request, "bookings/show-instance-result.html", {'items':items, 'item':item, 'summary': summary})
+        #return render(request, "bookings/view-shopping-cart.html", {'fi':instance, 'items':items, 'total':total_price})
     except Exception as e:
         return render(request, "error_exception.html", {'exc':show_exc(e)})

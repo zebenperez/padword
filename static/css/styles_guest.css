@@ -93,10 +93,16 @@ i.fas.fa-ban.text-cancel {
 .item1 { grid-column: 1 / 5; }
 .item2 { font-size: 18px !important; line-height: 1.8; text-align: right; }
 
+.item3 { font-size: 30px !important; text-align: left; color: white; }
+.item4 { font-size: 18px !important; line-height: 2; text-align: right; color: white; }
+
 .item1-v { grid-column: 1 / 6; }
 
 .div-info {
 	color: white;
+}
+.div-info-tb {
+	border-top: 1px solid #ccc;
 }
 
 #mask
@@ -117,6 +123,10 @@ i.fas.fa-ban.text-cancel {
 a.btn-light {
 	border:1px solid #ccc;
 }
+.c-white {
+	color: white;
+}
+
 .b-white {
 	border: 1px solid #666;
 	text-align: left;
@@ -260,6 +270,65 @@ img.img-cart-line {
 	text-align: left;
 	color: #212529;
 	font-weight: 600;
+}
+
+.login-box {
+	border:1px solid #ccc;
+	border-radius: 15px;
+	background-color: #fff;
+	opacity: 0.9;	
+	position:absolute;
+	top:10%;
+	left:30%;
+	width: 500px;
+	margin-left:-50px;
+	margin-top:50px;
+
+}
+
+.login-box .toolbar-heading {
+	font-size: 2rem;
+}
+
+/*****************************/
+/* Welcome page style*/
+/*****************************/
+
+.welcome-page {
+	background-image: url(/static/img/bg-welcome.jpg);
+	height: 100%;
+	background-position: center;
+	background-repeat: no-repeat;
+	background-size: cover;
+	position: relative;
+	text-align: center;
+}
+
+.welcome-page h3 {
+	color: #fff;
+	text-transform: uppercase;
+	margin-top: 8px !important;
+}
+.welcome-page h4 {
+	color: #fff;
+	font-weight: normal;
+	font-style: italic;
+	margin-top: 40px !important;
+}
+
+.welcome-page .btn.btn-access {
+	background: #ffffff;
+	color: #022948;
+	padding: 10px 30px 10px 30px;
+}
+
+.welcome-inner {
+	position:absolute;
+	top:40%;
+	left:22%;
+	margin-left:-50px;
+	margin-top:50px;
+
 }
 
 
