@@ -345,10 +345,6 @@ img.img-cart-line {
 	text-align: center;
 }
 
-.error-page img {
-	filter: blur(10px);
-	z-index:-1;
- }
 .error-box {
 	border:1px solid #ccc;
 	border-radius: 15px;
@@ -356,12 +352,15 @@ img.img-cart-line {
 	opacity: 0.9;	
 	position:absolute;
 	top:5%;
-	left:35%;
+	left:30%;
 	width: 500px;
 	margin-left:-50px;
-	margin-top:50px;
-
+	margin-top:100px;
 }
+
+.error-box h1 {
+	font-size: 2rem;
+
 
 
 /*****************************/
