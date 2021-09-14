@@ -141,6 +141,17 @@ function submitForm(frm, target)
     });
 }
 
+function closeWin(divName)
+{
+    setTimeout(function(){
+        $(divName).fadeOut('slow');
+        //$('#div-main').fadeOut('slow');
+        setTimeout(function(){
+            window.history.back();
+        }, 300);
+    }, 2000);
+}
+
 $(document).ready(()=>{
 	$("body").on("keyup", ".autosearch", function(e){
 		var obj = $(this);

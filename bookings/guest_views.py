@@ -508,3 +508,7 @@ def remove_generic_item_from_shopping_cart(request):
 
 def close(request):
     return render(request, "close-window.html")
+
+@group_required("admins", "projects", "guests")
+def close_window(request):
+    return render(request, "bookings/guest/close.html")
