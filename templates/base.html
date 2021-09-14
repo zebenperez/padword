@@ -76,7 +76,8 @@
         <script>
             document.addEventListener('DOMContentLoaded', function() 
                 {
-                    navigator.serviceWorker.register('/static/js/sw.js');
+                    //navigator.serviceWorker.register('/static/js/sw.js');
+                    navigator.serviceWorker.register('/sw.js');
                     Notification.requestPermission(function(result) {
                       if (result === 'granted') {
                         navigator.serviceWorker.ready.then(function(registration) {
@@ -88,7 +89,8 @@
             checkNotify();
             if ('serviceWorker' in navigator) {
                 window.addEventListener('load', function() {
-                    navigator.serviceWorker.register('/static/js/sw.js').then(
+                    //navigator.serviceWorker.register('/static/js/sw.js').then(
+                    navigator.serviceWorker.register('/sw.js').then(
                         function(registration) { console.log('ServiceWorker registration successful with scope: ', registration.scope); }, 
                         function(err) { console.log('ServiceWorker registration failed: ', err); });
                 }); }

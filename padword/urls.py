@@ -17,6 +17,7 @@ from django.contrib import admin
 from django.contrib.auth import views as auth_views
 from django.urls import path, include
 from django.views.generic import RedirectView
+from web.views import ServiceWorker
 
 
 urlpatterns = [
@@ -31,6 +32,8 @@ urlpatterns = [
     path('accounts/login/', auth_views.LoginView.as_view(template_name='login.html'), name='auth_login'),
     path('logout/', auth_views.LogoutView.as_view(next_page='/accounts/login/'), name='auth_logout'),
     path('pwa/', include('guestpwa.urls')),
+    path('sw.js', ServiceWorker, name="sw"),
+    path('serviceworker.js', ServiceWorker, name="serviceworker"),
 ]
 
 from django.conf import settings
