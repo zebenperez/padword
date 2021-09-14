@@ -39,13 +39,13 @@ def clone_form_instance(fi, vacancy):
         new_ai.form_instance = new_fi
         new_ai.save()
 
-def generate_qr(data, logo):
+def generate_qr(data, logo, color, color_back):
     qr = qrcode.QRCode( version=1, error_correction=qrcode.constants.ERROR_CORRECT_L, box_size=10, border=4)
     qr.add_data(data)
     qr.make(fit=True)
 
     if logo != None and logo != "":
-        img = qr.make_image().convert('RGB')
+        img = qr.make_image(fill_color=color, back_color=color_back).convert('RGB')
 
         basewidth = 100
         img_logo = Image.open(logo)
@@ -56,7 +56,7 @@ def generate_qr(data, logo):
         pos = ((img.size[0] - img_logo.size[0]) // 2, (img.size[1] - img_logo.size[1]) // 2)
         img.paste(img_logo, pos)
     else:
-        img = qr.make_image(fill_color="black", back_color="white")
+        img = qr.make_image(fill_color=color, back_color=color_back)
 
     byteIO = io.BytesIO()
     img.save(byteIO, format='PNG')
