@@ -175,10 +175,14 @@ def form_remove_logo(request):
 def form_add_qr(request):
     try:
         obj_id = request.GET["obj_id"]
+        color = request.GET["color"]
+        print("--1--")
+        color_back = request.GET["color_back"]
+        print(color_back)
         form = get_or_none(Form, obj_id)
         if form != None:
             url = request.build_absolute_uri(reverse('guest-access', kwargs={'form_uuid': form.uuid}))
-            img_data = ContentFile(generate_qr(url, form.logo))
+            img_data = ContentFile(generate_qr(url, form.logo, color, color_back))
             form.qr.save('qr_{}.png'.format(form.uuid), img_data, save=True)
         return render(request, "forms/form-qr.html", {"obj": form,})
     except Exception as e:
