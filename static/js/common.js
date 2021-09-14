@@ -147,9 +147,11 @@ function closeWin(divName)
         $(divName).fadeOut('slow');
         //$('#div-main').fadeOut('slow');
         setTimeout(function(){
-            window.history.back();
+            //window.history.back();
+            history.go(-1);
         }, 300);
     }, 2000);
+    return false;
 }
 
 $(document).ready(()=>{

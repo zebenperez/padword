@@ -14,8 +14,10 @@
 		{% trans "If you want to check your bookings, click on" %}: <br />
 		<button class="btn btn-primary text-white mt-3 ark" data-url="{% url "my-bookings" %}"
 			data-target="div-main" data-project_uuid="{{project_uuid}}">{% trans "My bookings" %}</button>
-		<button class="btn btn-warning text-white mt-3" onclick="window.history.back();">{% trans "Back" %}</button>
+		{#<button class="btn btn-warning text-white mt-3" onclick="window.history.back();">{% trans "Back" %}</button>#}
+        <button class="btn btn-info text-white mt-3 ark" data-url="{% url 'close-spa' %}" data-target-modal="common-modal"
+            onclick="closeWin('#div-close')"> {% trans 'Close' %}</button>
 	</div>
 </div>
-
+{% include "common-modal.html" %}
 
