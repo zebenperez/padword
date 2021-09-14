@@ -1,0 +1,5 @@
+{% load padword_tags %}
+    {% csrf_token %}
+    <script>
+        {% ark 'guest-form-login' 'div-main' form_uuid=form_uuid %}
+    </script>
