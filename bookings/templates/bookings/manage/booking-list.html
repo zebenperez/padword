@@ -14,7 +14,8 @@
                     <div class="col-3 col-md-2"> {% trans 'Guest' %} </div>
                     <div class="col-2 d-none d-md-block"> {% trans 'Device' %} </div>
                     <div class="col-3 col-md-2"> {% trans 'Date' %} </div>
-                    <div class="col-3 col-md-4"> {% trans 'Status' %} </div>
+                    <div class="col-3 col-md-1"> {% trans 'Room' %} </div>
+                    <div class="col-3 col-md-3"> {% trans 'Status' %} </div>
                     {#<div class="col-2 d-none d-xxl-block"> {% trans 'Code' %} </div>#}
                 </th>
             </tr>
@@ -39,6 +40,9 @@
         }
     }, { threshold: [1] });
     observer.observe(document.querySelector("#btn-see-more"));
+    
+    $('.btn-status').removeClass('btn-primary').addClass('btn-light');
+    $('#btn-status-{{status}}').removeClass('btn-light').addClass('btn-primary');
 </script>
 {% include "common-modal.html" %}
 

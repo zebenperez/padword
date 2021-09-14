@@ -6,12 +6,13 @@ from django.utils.translation import ugettext_lazy as _
 
 from padword.decorators import group_required
 from padword.commons import show_exc, get_or_none, get_param, get_float, get_bool, new_ui_slug
+from django.db.models import Q
 from web.models import Channel, Project, ProjectUser
 from contents.models import Category, ShoppingCart, Item
 from user_remote.models import PWUser
 
 from .common_lib import write_log, user_in_group
-from .models import Form, FormInstance, Status
+from .models import Form, FormInstance, Status, GuestUser
 from guest.models import Guest
 
 import datetime
@@ -109,6 +110,7 @@ def bookings_search(request):
         status = get_param(request.GET, "s-status")
 
         kwargs = {}
+        uuid_projects = None
         if request.user.groups.filter(name="projects").exists():
             uuid_projects_list = list(ProjectUser.objects.filter(username=request.user.username).values_list('project_uuid', flat=True))
             uuid_projects_list = list(set(uuid_projects_list) & set(Project.objects.filter(name__icontains = project).values_list('uuid', flat=True)))
@@ -117,36 +119,36 @@ def bookings_search(request):
             kwargs["form_uuid__in"] = forms_list
         else:
             if project != "":
-                uuid_channel_list = [item.uuid for item in Channel.objects.filter(project__name__icontains=project)]
-                uuid_list = [item.uuid for item in Form.objects.filter(channels__channel__in=uuid_channel_list)]
-                kwargs["form_uuid__in"] = uuid_list
-                #kwargs["form__channels__channel__in"] = uuid_list
-            if channel != "":
-                uuid_channel_list = [item.uuid for item in Channel.objects.filter(name__icontains=channel)]
-                uuid_list = [item.uuid for item in Form.objects.filter(channels__channel__in=uuid_channel_list)]
-                kwargs["form_uuid__in"] = uuid_list
-                #kwargs["form__channels__channel__in"] = uuid_list
+                uuid_projects_list = list(set(Project.objects.filter(name__icontains = project).values_list('uuid', flat=True)))
+                categories_list = list(Category.objects.filter(project_uuid__in = uuid_projects_list).values_list('uuid', flat=True))
+                forms_list = list(Form.objects.filter(category__in = categories_list).values_list('uuid', flat=True))
+                kwargs["form_uuid__in"] = forms_list
+
         if form != "":
-            uuid_list = [item.uuid for item in Form.objects.filter(name__icontains=form)]
+            uuid_list = list(set(Form.objects.filter(name__icontains=form).values_list('uuid', flat=True)))
             kwargs["form_uuid__in"] = uuid_list
-            #kwargs["form__name__icontains"] = form
         if ini_date != "":
             kwargs["date__gte"] = ini_date
         if end_date != "":
-            #kwargs["date__lte"] = end_date
             ed = end_date.split("-")
             kwargs["date__lte"] = datetime.datetime(int(ed[0]), int(ed[1]), int(ed[2]), 23, 59, 59)
         if name != "":
-            #kwargs["name__icontains"] = name
-            uuid_guests = Guest.objects.filter(name__icontains = name) or Guest.objects.filter(surname__icontains=name)
-            uuid_guests = set(uuid_guests.values_list('UUID', flat=True))
+            uuid_guests = Guest.objects.filter(Q(name__icontains = name) | Q(surname__icontains=name) | Q(email__icontains=name) | Q(mobile__icontains=name) | Q(room=name)) 
+            if uuid_projects_list:
+                guests_in_projects = GuestUser.objects.filter(project_uuid__in = uuid_projects_list).values_list('guest_uuid', flat=True)
+                uuid_guests = list(set(uuid_guests.values_list('UUID', flat=True)) & set(guests_in_projects))
+            else:
+                uuid_guests = list(set(uuid_guests.values_list('UUID', flat=True)))
             kwargs["guest_uuid__in"] = uuid_guests
+
         if status != "":
-            kwargs["status"] = status
+            kwargs["status__pk"] = status
+
         items = FormInstance.objects.filter(**kwargs)
         context={}
         context['total_items'] = items.count()
         context['items'] = items[0:ITEMS_PER_PAGE]
+        context['status'] = status
         context['page'] = 0
 
         return render(request, "bookings/manage/booking-list.html", context)
@@ -299,7 +301,7 @@ def bookings_page(request):
         if name != "":
             uuid_guests = Guest.objects.filter(name__icontains = name) or Guest.objects.filter(surname__icontains=name)
             uuid_guests = set(uuid_guests.values_list('UUID', flat=True))
-            kwargs["guest_uuid__in"] = uuid_guests
+            kwargs["guest_uuid__in"] = list(uuid_guests)
         if status != "":
             kwargs["status"] = status
         items = FormInstance.objects.filter(**kwargs)

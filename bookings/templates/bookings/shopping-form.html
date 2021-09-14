@@ -1,8 +1,8 @@
 {% load i18n padword_tags static%}
 <div class="d-flex justify-center row">
-    <div class="col-12 justify-content-center">
+    <div class="col-6 offset-3 justify-content-center">
         <div class="card w-100 p-3" >
-            <img src="{% if obj.item.image %}{{obj.item.image.url}} {%else%} {% static 'img/none.png' %}{%endif%}" class="card-img-top" alt="{% padword_translate obj.item.name %}" style="height:150px;">
+            <img src="{% if obj.item.image %}{{obj.item.image.url}} {%else%} {% static 'img/none.png' %}{%endif%}" class="card-img-top" alt="{% padword_translate obj.item.name %}" style="height:auto; width: auto;">
             <div class="card-body">
                 <h4 class="small card-title text-dark text-center">{{ obj.item.price}} &euro; </h4>
                 <h5 class="small card-title text-dark text-center">{% padword_translate obj.item.name %}</h5>

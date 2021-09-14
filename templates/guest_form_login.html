@@ -1,51 +1,40 @@
-{% comment %}
-{% extends "base.html" %}
 {% load i18n %}
 
-{% block central_content %}
-{% endcomment %}
-{% load i18n %}
-	{% if form.errors %}
-		<p>{% trans "Your username and password didn't match. Please try again." %}</p>
-	{% endif %}
+{% if form.errors %} <p>{% trans "Your username and password didn't match. Please try again." %}</p> {% endif %}
 
-	<div class="row login">
-		<div class="login-box mt-4">
-			<div class="panel-login">
-				<div class="toolbar-heading mt-4">{% trans "Log in" %} </div>
-                <div class="panel-body">
-			<br/>
-			<form class="form-horizontal p-4" method="post" action="{% url "booking-new-guest" %}" id="form-guest">
-				{% csrf_token %}
-                        <input type="hidden" name="form_uuid" value="{{form_uuid}}"/>
-                        <input type="hidden" name="project_uuid" value="{{project_uuid}}"/>
-                        <div class="form-group mb-4">
-				<div style="text-align:left;"><label class="control-label text-left">{% trans "Phone or email:" %} </label></div>
-				<div class=""><div class="form-group">
-                                <input placeholder="" class="form-control login" type="text" name="code" id="code"/></div></div>
-                        </div><br />
-                        <div class="form-group mb-4">
-				<div style="text-align:left;"><label class="control-label">{% trans "Room number:" %} </label></div>
-        	        	<div class=""><div class="form-group">
-				<input placeholder="" class="form-control login" type="text" name="room" id="room"/></div></div>
-                        </div><br />
-                        <div class="form-group">
-				<div class="col-md-2 offset-md-5">
-				    	<div class="form-inline">
-						<div class="form-group">
-                        	                {#<input value="Acceder" class="btn btn-submit" type="submit" onclick="javascript:toggleFullScreen();">#}
-                                	        {#<a class="btn btn-submit" onclick="javascript:toggleFullScreen(); $('#form-guest').submit();">{% trans 'Acceder' %}</a>#}
-                                        	<a class="btn btn-outline-dark btn-submit saveform" data-form="form-guest" data-target="div-main"> {% trans "Access" %}</a> 
-						</div>
-					</div>
-	                	</div>
-			</div>
-			</form>
-		</div>
-		</div>
+<div class="row login">
+	<div class="login-box mt-4">
+		<div class="panel-login">
+			<div class="toolbar-heading mt-4">{% trans "Log in" %} </div>
+            <div class="panel-body">
+			    <br/>
+			    <form class="form-horizontal p-4" method="post" action="{% url "booking-new-guest" %}" id="form-guest">
+				    {% csrf_token %}
+                    <input type="hidden" name="form_uuid" value="{{form_uuid}}"/>
+                    <input type="hidden" name="project_uuid" value="{{project_uuid}}"/>
+                    <div class="form-group mb-4">
+				        <div style="text-align:left;"><label class="control-label text-left">{% trans "Phone or email:" %} </label></div>
+				        <div class="form-group"><input placeholder="" class="form-control login" type="text" name="code" id="code"/></div>
+                    </div><br />
+                    <div class="form-group mb-4">
+				        <div style="text-align:left;"><label class="control-label">{% trans "Room number:" %} </label></div>
+        	            <div class="form-group"><input placeholder="" class="form-control login" type="text" name="room" id="room"/></div>
+                    </div><br />
+                    <div class="form-group">
+				        <div class="col-md-2 offset-md-5">
+				    	    <div class="form-inline">
+						        <div class="form-group">
+                        	        {#<input value="Acceder" class="btn btn-submit" type="submit" onclick="javascript:toggleFullScreen();">#}
+                                    {#<a class="btn btn-submit" onclick="javascript:toggleFullScreen(); $('#form-guest').submit();">{% trans 'Acceder' %}</a>#}
+                                    <button class="btn btn-outline-dark btn-submit saveform" data-form="form-guest" data-target="div-main"> 
+                                        {% trans "Access" %}</button> 
+						        </div>
+					        </div>
+	                    </div>
+			        </div>
+		        </form>
+		    </div>
 		</div>
 	</div>
-    <script> $('#sidebar').removeClass('expanded'); </script>
-{% comment %}
-{% endblock %}
-{% endcomment %}
+</div>
+<script> $('#sidebar').removeClass('expanded'); </script>

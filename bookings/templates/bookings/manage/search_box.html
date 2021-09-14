@@ -4,7 +4,7 @@
 
 
 <input type="hidden" name="s-page" id="s-page" value="{{page}}" data-target="table-list-bookings" data-related="s-page,s-project,s-channel,s-form,s-ini_date,s-end_date,s-name,s-status" data-append="append" data-url="{% url 'bookings-page' %}" class="autosearch_change"/>
-<input type="hidden" name="s-status" id="s-status" value="{{status}}" data-target="table-list-bookings" data-related="s-page,s-project,s-channel,s-form,s-ini_date,s-end_date,s-name,s-status" data-append="append" data-url="{% url 'bookings-search' %}" class="autosearch_change"/>
+<input type="hidden" name="s-status" id="s-status" value="{{status}}" data-target="booking-list" data-related="s-page,s-project,s-channel,s-form,s-ini_date,s-end_date,s-name,s-status" data-url="{% url 'bookings-search' %}" class="autosearch_change"/>
 <div class="toolbar-search">
 	<div class="row w-100">
 		<div class="col-12 col-md-4">
@@ -25,7 +25,7 @@
 		</div>
 		<div class="col-md-4 col-xs-12">
 			<input type="text" class="autosearch form-control form-control-dark w-30" name="s-name" id="s-name" 
-	        	placeholder="{% trans "Guest Name" %}" data-url="{% url "bookings-search" %}" 
+	        	placeholder="{% trans "Guest Name, Surname, Email, Phone" %}" data-url="{% url "bookings-search" %}" 
 	    	    data-target="booking-list" data-related="s-page,s-project,s-channel,s-form,s-ini_date,s-end_date,s-name,s-status" />
 		</div>
 	</div>
@@ -53,9 +53,9 @@
 				data-target="booking-list" data-related="s-page,s-project,s-channel,s-form,s-ini_date,s-end_date,s-name,s-status" />
 		</div>
 		<div class="col-md-6 col-xs-12 d-flex justify-content-end">
-                <a class="btn btn-light me-1" onclick="$('#s-status').val('');$('#s-status').trigger('change');" href="#">{% trans 'All' %}</a>
+                <a id="btn-status-" class="btn btn-status btn-{% if status == '' or not status %}primary{%else%}light{%endif%} me-1" onclick="$('#s-status').val('');$('#s-status').trigger('change');$('.btn-status').removeClass('btn-primay').removeClass('bt-light').addClass('btn-light');" href="#">{% trans 'All' %}</a>
                 {% for item in status_list %}
-                <a class="btn btn-light me-1" onclick="$('#s-status').val('{{item.id}}');$('#s-status').trigger('change');" href="#">{% padword_translate item.name %}</a>
+                <a id="btn-status-{{item.pk}}" class="btn btn-status btn-{% if status == item.pk %}primary{%else%}light{%endif%} me-1" onclick="$('#s-status').val('{{item.id}}');$('#s-status').trigger('change');" href="#">{% padword_translate item.name %}</a>
                 {% endfor %}
                 {%comment%}
             <select class="autosearch_change form-control form-control-dark w-30" name="s-status" id="s-status" 

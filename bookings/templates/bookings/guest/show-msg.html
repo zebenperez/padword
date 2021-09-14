@@ -1,8 +1,6 @@
 {% load i18n %}
 
-<div style="border:1px solid red;">TEST</div>
-{% comment %}
-<div class="row cancel-box" id="booking-list">
+<div class="row cancel-box">
 	<div class="col-8 offset-2 text-center mt-3 mb-3 pt-3">
 		{% if msg == "01" %}
 			<i class="fas fa-check-circle text-success"></i><br/><h4 class="success mt-3">{% trans "Your reservation has been sent correctly!" %}</h4>
@@ -19,6 +17,5 @@
 		<button class="btn btn-warning text-white mt-3" onclick="window.history.back();">{% trans "Back" %}</button>
 	</div>
 </div>
-{% endcomment %}
 
 

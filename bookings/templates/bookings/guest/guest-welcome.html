@@ -8,17 +8,17 @@
                 <h3> {% trans "Welcome" %}</h3>
                 <h4> {% trans "to Lani's Booking Center" %}<h4>
                 {% if project_uuid %}
-                    <a class="me-1 btn btn-access ark" data-url="{{next_url}}" data-target="div-main" data-project_uuid="{{project_uuid}}"
-                        onclick="javascript:toggleFullScreen();">{%trans "Access"%}</a>
+                    <button class="me-1 btn btn-access ark" data-url="{{next_url}}" data-target="div-main" data-project_uuid="{{project_uuid}}"
+                        onclick="javascript:toggleFullScreen();">{%trans "Access"%}</button>
                 {% else %}
                     {% if device_imei != "" and room_number != "" and guest_name != "" and guest_surname != "" %}
-                        <a class="me-1 btn btn-access ark" data-url="{% url "booking-new-device" %}" data-target="div-main" 
+                        <button class="me-1 btn btn-access ark" data-url="{% url "booking-new-device" %}" data-target="div-main" 
                             data-form_uuid="{{form_uuid}}" data-device_imei="{{device_imei}}" data-room_number="{{room_number}}" 
                             data-guest_name="{{guest_name}}" data-guest_surname="{{guest_surname}}" onclick="javascript:toggleFullScreen();">
-                            {%trans "Access"%}</a>
+                            {%trans "Access"%}</button>
                     {% else %}
-                        <a class="me-1 btn btn-access ark" data-url="{% url "guest-form-login" %}" data-target="div-main" 
-                            data-form_uuid="{{form_uuid}}" onclick="javascript:toggleFullScreen();">{%trans "Access"%}</a>
+                        <button class="me-1 btn btn-access ark" data-url="{% url "guest-form-login" %}" data-target="div-main" 
+                            data-form_uuid="{{form_uuid}}" onclick="javascript:toggleFullScreen();">{%trans "Access"%}</button>
                     {% endif %}
                 {% endif %}
 	        </div>
