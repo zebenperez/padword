@@ -1,3 +1,4 @@
+{% load i18n %}
 <div class="error-page">
 	<div class="error-box mt-4 p-2">
 		<h1 class="d-flex justify-content-center mt-4">Oops!</h1>
@@ -7,5 +8,8 @@
 		<hr>
 		<p class="d-flex justify-content-center">Sorry, we have a problem. We are working on it.</p>
 		<p class="d-flex justify-content-center">Please, try in a few minutes.</p>
+        <br>
+        <div class="d-flex justify-content-center"><a class="btn btn-secondary" onclick="window.open('/bookings/close/','_self');" >{% trans 'Close' %}</a></div>
+        <br>
 	</div>
 </div>

@@ -157,8 +157,14 @@ def booking_new_guest(request):
         code = request.POST["code"]
         room = request.POST["room"]
         guest = Guest.objects.filter(Q(mobile=code) | Q(email=code)).filter(room=room, check_in__lte=date, check_out__gte=date).first()
+        print (form_uuid, project_uuid)
 
         if guest == None:
+            if form_uuid != "":
+                return render(request, 'guest_form_login.html', {'form_uuid': form_uuid, 'error_msg':_('Sorry, your information is not right. Please, try again.')})
+                #return render(request, "guest-error-login.html",  {'form_uuid':form_uuid})
+            if project_uuid!= "":
+                return redirect(reverse('guest-access-bookings', kwargs = {'project_uuid':project_uuid}))
             return render(request, 'error_exception.html', {'exc': 'Guest not found!'})
         if form_uuid != "":
             form = get_or_none(Form, form_uuid, "uuid")
@@ -596,3 +602,6 @@ def remove_generic_item_from_shopping_cart(request):
         #return render(request, "bookings/view-shopping-cart.html", {'fi':instance, 'items':items, 'total':total_price})
     except Exception as e:
         return render(request, "error_exception.html", {'exc':show_exc(e)})
+
+def close(request):
+    return render(request, "close-window.html")
