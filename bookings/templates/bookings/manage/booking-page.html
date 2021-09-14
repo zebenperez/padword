@@ -4,7 +4,7 @@
     <td class="row p-1">
         <div class="col-md-2 col-3">
             <span style="font-size:0.6em">#{% idx_page forloop.counter page 20 %}</span> {% padword_translate item.form.name %}
-            {#<br>{{item.form.form_type}}{% if item.form.form_type.code == 'ecom' %} ({{item.get_items|length}} art.) {%endif%}#}
+            {# <br><span style="font-size:0.6em">&nbsp;&nbsp;&nbsp;&nbsp;</span>{{item.form.form_type}}{% if item.form.form_type.code == 'ecom' %} ({{item.get_items|length}} art.) {%endif%} #}
         </div>
         <div class="col-md-2 col-3">{{item.guest.name}} {{item.guest.surname}}<br/>{{item.guest.mobile}}<br/>{{item.guest.email}}</div>
         <div class="col-2 d-none d-md-block">{{item.device.uuid}}</div>

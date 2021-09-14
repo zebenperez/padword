@@ -6,76 +6,42 @@
 <input type="hidden" name="s-page" id="s-page" value="{{page}}" data-target="table-list-bookings" data-related="s-page,s-project,s-channel,s-form,s-ini_date,s-end_date,s-name,s-status" data-append="append" data-url="{% url 'bookings-page' %}" class="autosearch_change"/>
 <input type="hidden" name="s-status" id="s-status" value="{{status}}" data-target="booking-list" data-related="s-page,s-project,s-channel,s-form,s-ini_date,s-end_date,s-name,s-status" data-url="{% url 'bookings-search' %}" class="autosearch_change"/>
 <div class="toolbar-search">
-	<div class="row w-100">
-		<div class="col-12 col-md-4">
-			<input type="text" class="autosearch form-control form-control-dark w-30" name="s-project" id="s-project" 
-	        	placeholder="{% trans "Project name" %}" value="{{project_name}}" data-url="{% url "bookings-search" %}" 
-	    	    data-target="booking-list" data-related="s-page,s-project,s-channel,s-form,s-ini_date,s-end_date,s-name,s-status" 
-    	    	{%if request.project_id %}disabled{%endif%}/>
-		</div>
-		<div class="col-md-4 col-xs-12 d-none">
-		    <input type="hidden" class="autosearch form-control form-control-dark w-30" name="s-channel" id="s-channel" 
-    		    placeholder="{% trans "Channel name" %}" value="{{channel_name}}" data-url="{% url "bookings-search" %}" 
-        		data-target="booking-list" data-related="s-page,s-project,s-channel,s-form,s-ini_date,s-end_date,s-name,s-status" />
-		</div>
-		<div class="col-md-4 col-xs-12">
-		    <input type="text" class="autosearch form-control form-control-dark w-30" name="s-form" id="s-form" 
-    		    placeholder="{% trans "Service name" %}" value="{% padword_translate form_name %}" data-url="{% url "bookings-search" %}" 
-        		data-target="booking-list" data-related="s-page,s-project,s-channel,s-form,s-ini_date,s-end_date,s-name,s-status" />
-		</div>
-		<div class="col-md-4 col-xs-12">
-			<input type="text" class="autosearch form-control form-control-dark w-30" name="s-name" id="s-name" 
-	        	placeholder="{% trans "Guest Name, Surname, Email, Phone" %}" data-url="{% url "bookings-search" %}" 
-	    	    data-target="booking-list" data-related="s-page,s-project,s-channel,s-form,s-ini_date,s-end_date,s-name,s-status" />
-		</div>
-	</div>
+    <div class="row w-100">
+        <div class="col-12 col-md-4">
+            <input type="text" class="autosearch form-control form-control-dark w-30" name="s-project" id="s-project" placeholder="{% trans "Project name" %}" value="{{project_name}}" data-url="{% url "bookings-search" %}" data-target="booking-list" data-related="s-page,s-project,s-channel,s-form,s-ini_date,s-end_date,s-name,s-status" {%if request.project_id %}disabled{%endif%}/>
+        </div>
+        <div class="col-md-4 col-xs-12 d-none">
+            <input type="hidden" class="autosearch form-control form-control-dark w-30" name="s-channel" id="s-channel" placeholder="{% trans "Channel name" %}" value="{{channel_name}}" data-url="{% url "bookings-search" %}" data-target="booking-list" data-related="s-page,s-project,s-channel,s-form,s-ini_date,s-end_date,s-name,s-status" />
+        </div>
+        <div class="col-md-4 col-xs-12">
+            <input type="text" class="autosearch form-control form-control-dark w-30" name="s-form" id="s-form" placeholder="{% trans "Service name" %}" value="{% padword_translate form_name %}" data-url="{% url "bookings-search" %}" data-target="booking-list" data-related="s-page,s-project,s-channel,s-form,s-ini_date,s-end_date,s-name,s-status" />
+        </div>
+        <div class="col-md-4 col-xs-12">
+            <input type="text" class="autosearch form-control form-control-dark w-30" name="s-name" id="s-name" placeholder="{% trans "Guest Name, Surname, Email, Phone, Room" %}" data-url="{% url "bookings-search" %}" data-target="booking-list" data-related="s-page,s-project,s-channel,s-form,s-ini_date,s-end_date,s-name,s-status" />
+        </div>
+    </div>
 
-    {% comment %} 
-    <input type="text" class="autosearch form-control form-control-dark w-30" name="s-project" id="s-project" 
-        placeholder="{% trans "Project uuid" %}" value="{{project_uuid}}" data-url="{% url "bookings-search" %}" 
-        data-target="booking-list" data-related="s-project,s-channel,s-form,s-ini_date,s-end_date,s-name" 
-        {%if request.project_id %}disabled{%endif%}/>
-    {% endcomment %}
-    {% comment %} 
-    {% trans 'Project' %} {{project_uuid|get_obj:'Project'}}
-    <input type="hidden"  name="s-project" id="s-project" value="{{project_uuid}}" />
-    {% endcomment %}
-
-	<div class="row w-100 mt-1">
-		<div class="col-md-3 col-xs-6">
-		    <input type="date" class="autosearch_change form-control form-control-dark w-30" name="s-ini_date" id="s-ini_date" 
-    		    placeholder="{% trans "Initial date" %}" value="{{ini_date|date:'Y-m-d'}}" data-url="{% url "bookings-search" %}" 
-        		data-target="booking-list" data-related="s-page,s-project,s-channel,s-form,s-ini_date,s-end_date,s-name,s-status" />
-		</div>
-		<div class="col-md-3 col-xs-6">
-		    <input type="date" class="autosearch_change form-control form-control-dark w-30" name="s-end_date" id="s-end_date" 
-				placeholder="{% trans "End date" %}" value="{{end_date|date:'Y-m-d'}}" data-url="{% url "bookings-search" %}" 
-				data-target="booking-list" data-related="s-page,s-project,s-channel,s-form,s-ini_date,s-end_date,s-name,s-status" />
-		</div>
-		<div class="col-md-6 col-xs-12 d-flex justify-content-end">
-                <a id="btn-status-" class="btn btn-status btn-{% if status == '' or not status %}primary{%else%}light{%endif%} me-1" onclick="$('#s-status').val('');$('#s-status').trigger('change');$('.btn-status').removeClass('btn-primay').removeClass('bt-light').addClass('btn-light');" href="#">{% trans 'All' %}</a>
-                {% for item in status_list %}
-                <a id="btn-status-{{item.pk}}" class="btn btn-status btn-{% if status == item.pk %}primary{%else%}light{%endif%} me-1" onclick="$('#s-status').val('{{item.id}}');$('#s-status').trigger('change');" href="#">{% padword_translate item.name %}</a>
-                {% endfor %}
-                {%comment%}
-            <select class="autosearch_change form-control form-control-dark w-30" name="s-status" id="s-status" 
-                data-url="{% url "bookings-search" %}" data-target="booking-list"  
-                data-related="s-page,s-project,s-channel,s-form,s-ini_date,s-end_date,s-name,s-status">
-                <option value="">{% trans "-- Select a status --" %}</option>
-                {% for item in status_list %}
-                    <option value="{{item.id}}">{% padword_translate item.name %}</option>
-                {% endfor %}
-                <option value="02">{% trans "Sended" %}</option>
-                <option value="03">{% trans "Canceled" %}</option>
-                <option value="04">{% trans "Received" %}</option>
-                <option value="05">{% trans "Readed" %}</option>
-                <option value="06">{% trans "Confirmed" %}</option>
-                <option value="07">{% trans "Rejected" %}</option>
-                <option value="08">{% trans "Waiting" %}</option>
-            </select>
-                {%endcomment%}
-		</div>
-
-	</div>
+    <div class="row w-100 mt-1">
+        <div class="col-5">
+            <div class="row">
+                <div class="col-md-6 col-xs-6">
+                    <input type="date" class="autosearch_change form-control form-control-dark w-30" name="s-ini_date" id="s-ini_date" placeholder="{% trans "Initial date" %}" value="{{ini_date|date:'Y-m-d'}}" data-url="{% url "bookings-search" %}" data-target="booking-list" data-related="s-page,s-project,s-channel,s-form,s-ini_date,s-end_date,s-name,s-status" />
+                </div>
+                <div class="col-md-6 col-xs-6">
+                    <input type="date" class="autosearch_change form-control form-control-dark w-30" name="s-end_date" id="s-end_date" placeholder="{% trans "End date" %}" value="{{end_date|date:'Y-m-d'}}" data-url="{% url "bookings-search" %}" data-target="booking-list" data-related="s-page,s-project,s-channel,s-form,s-ini_date,s-end_date,s-name,s-status" />
+                </div>
+            </div>
+        </div>
+        <div class="col-7">
+            <div class="row">
+                <div class="col-md-12 col-xs-12 d-flex justify-content-end">
+                    <a id="btn-status-" class="btn btn-status btn-{% if status == '' or not status %}primary{%else%}light{%endif%} me-1" onclick="$('#s-status').val('');$('#s-status').trigger('change');$('.btn-status').removeClass('btn-primay').removeClass('bt-light').addClass('btn-light');" href="#"><small>{% trans 'All' %}</small></a>
+                    {% for item in status_list %}
+                    <a id="btn-status-{{item.pk}}" class="btn text-nowrap btn-status btn-{% if status == item.pk %}primary{%else%}light{%endif%} me-1" onclick="$('#s-status').val('{{item.id}}');$('#s-status').trigger('change');" href="#"><small>{% padword_translate item.name %}</small></a>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
- 
+
