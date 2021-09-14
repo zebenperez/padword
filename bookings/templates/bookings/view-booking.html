@@ -18,17 +18,17 @@
                                 <div class="div-info">
                                     {% for f in q.field_set.all %}
                                         <div class="item mb-1">
-                                            <div class="item-left" style="border:1px solid red">
+                                            <div class="item-left">
                                                 <strong> {% if q.field_set.all|length > 0 %} <br/> {{f}} <br/> {% endif %} </strong>
                                             </div>
-                                            <div class="item-right td_{{q.id}}_{{index}}" style="border:1px solid blue"> {% field_value fi q f index %} </div>
+                                            <div class="item-right td_{{q.id}}_{{index}}"> {% field_value fi q f index %} </div>
                                         </div>
                                     {% endfor %}
                                 </div>
 
                             {# Preguntas con formato de tabla #}
                             {% elif q.question_type.code == "table" %}
-                                <div class="div-info-tb" style="border:1px solid red">
+                                <div class="div-info-tb">
                                     <table class="table mt-4" id="table_{{q.id}}" width="100%">
                                         <thead> <tr>
                                             {% for f in q.field_set.all %} <td class="sh-td item-left">{{f.text}}</td> {% endfor %} 

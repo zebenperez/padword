@@ -16,17 +16,17 @@
 						{% csrf_token %}
 						<input type="hidden" name="next" value="{% url 'web-index' %}" />
                         <div class="form-group row mb-4">
-							<label class="col-md-4 control-label text-right" tyle="border:1px solid red;">{% trans "User name:" %} </label>
-							<div class="col-md-6" tyle="border:1px solid red;"><div class="form-group">
+							<label class="col-md-4 control-label text-right">{% trans "User name:" %} </label>
+							<div class="col-md-6"><div class="form-group">
                                 <input placeholder="" class="form-control login" type="text" name="username" id="id_username"/></div></div>
                         </div><br />
                         <div class="form-group row mb-4">
-							<label class="col-md-4 control-label text-right" tyle="border:1px solid red;">{% trans "Password:" %} </label>
-                            <div class="col-md-6" tyle="border:1px solid red;"><div class="form-group">
+							<label class="col-md-4 control-label text-right">{% trans "Password:" %} </label>
+                            <div class="col-md-6"><div class="form-group">
 							    <input placeholder="" class="form-control login" type="password" name="password" id="id_password"/></div></div>
                         </div><br />
                         <div class="form-group row">
-							<div class="col-md-2 offset-md-4" tyle="border:1px solid red;">
+							<div class="col-md-2 offset-md-4">
 						    	<div class="form-inline">
 									<div class="form-group">
 										<input value="Iniciar sesión" class="btn btn-submit" type="submit">
