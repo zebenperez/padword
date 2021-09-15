@@ -9,11 +9,11 @@
     "lang": "es-ES",
     "orientation": "landscape-primary",
     "icons": [{
-        "src": "/static/img/Padword.png",
+        "src": "/static/img/logo-padword-96x96.png",
         "type": "image/png",
         "sizes": "96x96"
     }, {
-        "src": "/static/img/Padword.png",
+        "src": "/static/img/logo-padword-512x512.png",
         "type": "image/png",
         "sizes": "512x512"
     }]
