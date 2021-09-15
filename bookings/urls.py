@@ -37,6 +37,8 @@ urlpatterns = [
     path('bookings/', views.bookings, name='bookings'),
     path('bookings_by_form/<int:form_id>/', views.bookings_by_form, name='bookings-by-form'),
     path('bookings_by_project/<int:project_id>/', views.bookings_by_project, name='bookings-by-project'),
+    path('booking-refresh/<int:obj_id>/', views.booking_refresh, name='booking-refresh'),
+    path('booking-refresh/', views.booking_refresh, name='booking-refresh'),
 
     path('bookings/search/', views.bookings_search, name='bookings-search'),
     path('bookings/search/page/', views.bookings_page, name='bookings-page'),
@@ -77,6 +79,9 @@ urlpatterns = [
     path('remove-file/', gv.remove_file, name='remove-file'),
     path('autocomplete/', gv.autocomplete, name='autocomplete'),
     path('select-item/', gv.select_item, name='select-item'),
+
+    path('close/', gv.close, name='close-window'),
+    path('close-window/', gv.close_window, name='close-spa'),
 
     #path('booking-new/<slug:form_uuid>/<slug:device_imei>/', views.booking_new, name='booking-new'),
     #path('booking-new/<slug:form_uuid>/<slug:device_imei>/<slug:room_number>/<slug:guest_name>/<slug:guest_surname>/', views.booking_new, name='booking-new'),

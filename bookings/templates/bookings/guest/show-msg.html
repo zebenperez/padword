@@ -1,21 +1,26 @@
 {% load i18n %}
 
-<div class="row cancel-box">
-	<div class="col-8 offset-2 text-center mt-3 mb-3 pt-3">
-		{% if msg == "01" %}
-			<i class="fas fa-check-circle text-success"></i><br/><h4 class="success mt-3">{% trans "Your reservation has been sent correctly!" %}</h4>
-		{% elif msg == "05" %}
-			<i class="fas fa-ban text-cancel"></i><br /><h4 class="cancel mt-3">{% trans "Your reservation has been cancelled correctly!" %}</h4>
-		{% endif %}
-	</div>	
-</div>	
-<div class="row">
-	<div class="col-8 offset-2 text-grey text-center mt-3 mb-3">
-		{% trans "If you want to check your bookings, click on" %}: <br />
-		<button class="btn btn-primary text-white mt-3 ark" data-url="{% url "my-bookings" %}"
-			data-target="div-main" data-project_uuid="{{project_uuid}}">{% trans "My bookings" %}</button>
-		<button class="btn btn-warning text-white mt-3" onclick="window.history.back();">{% trans "Back" %}</button>
+	<div class="col-8 offset-2" style="border:1px solid #ccc;  border-radius: 15px; background-color: #fff; opacity: 0.9;position:fixed; top:20%">
+		<div class="row">
+			<div class="col-12 text-center mt-3 mb-3 pt-3">
+				{% if msg == "01" %}
+					<i class="fas fa-check-circle text-success"></i><br/><h4 class="success mt-3">{% trans "Your reservation has been sent correctly!" %}</h4>
+				{% elif msg == "05" %}
+					<i class="fas fa-ban text-cancel"></i><br /><h4 class="cancel mt-3" style="color:#333;">{% trans "Your reservation has been cancelled correctly!" %}</h4>
+				{% endif %}
+			</div>	
+		</div>
+		<div class="row">
+			<div class="col-12 text-grey text-center mt-3 mb-3">
+				{% trans "If you want to check your bookings, click on" %}: <br />
+				<button class="btn btn-primary text-white mt-3 ark" data-url="{% url "my-bookings" %}"
+					data-target="div-main" data-project_uuid="{{project_uuid}}">{% trans "My bookings" %}</button>
+				{#<button class="btn btn-warning text-white mt-3" onclick="window.history.back();">{% trans "Back" %}</button>#}
+			<button class="btn btn-info text-white mt-3 ark" data-url="{% url 'close-spa' %}" data-target-modal="common-modal" data-bs-dismiss="modal"
+			    onclick="closeWin('#div-close')"> {% trans 'Close' %}</button>
+			</div>
+		</div>
 	</div>
-</div>
 
+{% include "common-modal.html" %}
 

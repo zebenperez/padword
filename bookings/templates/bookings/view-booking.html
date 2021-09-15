@@ -18,17 +18,17 @@
                                 <div class="div-info">
                                     {% for f in q.field_set.all %}
                                         <div class="item mb-1">
-                                            <div class="item-left" style="border:1px solid red">
+                                            <div class="item-left">
                                                 <strong> {% if q.field_set.all|length > 0 %} <br/> {{f}} <br/> {% endif %} </strong>
                                             </div>
-                                            <div class="item-right td_{{q.id}}_{{index}}" style="border:1px solid blue"> {% field_value fi q f index %} </div>
+                                            <div class="item-right td_{{q.id}}_{{index}}"> {% field_value fi q f index %} </div>
                                         </div>
                                     {% endfor %}
                                 </div>
 
                             {# Preguntas con formato de tabla #}
                             {% elif q.question_type.code == "table" %}
-                                <div class="div-info-tb" style="border:1px solid red">
+                                <div class="div-info-tb">
                                     <table class="table mt-4" id="table_{{q.id}}" width="100%">
                                         <thead> <tr>
                                             {% for f in q.field_set.all %} <td class="sh-td item-left">{{f.text}}</td> {% endfor %} 
@@ -54,9 +54,13 @@
         <div class="row mt-4 mb-4 d-flex justify-content-center ">
             {% if status_list %} <div id="div-status">{% include "bookings/manage/status-links.html" %}</div> {% endif %}
 
-            <div class="col-2 actions text-center">
-                <button type="button" class="btn btn-info btn-lg text-white" data-bs-dismiss="modal">{% trans "Close" %}</button></div>
+            <div class="actions text-center">
+                <a class="btn btn-info btn-lg text-white ark" id="btn-close-modal" data-target="row_{{fi.id}}" data-url="{% url 'booking-refresh' %}" data-obj_id="{{fi.id}}" data-bs-dismiss="modal">{% trans "Close" %}</a>
+            </div>
         </div>
     </div>
 </div>
 
+    <script type="text/javascript">
+        $('#common-modal').on('hidden.bs.modal', function (e) { $('#btn-close-modal').click();})
+    </script>

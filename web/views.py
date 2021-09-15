@@ -6,6 +6,10 @@ from padword.commons import show_exc, get_or_none, get_param, new_ui_slug, trans
 from padword.decorators import group_required
 from .models import *
 
+from django.conf import settings
+import os
+
+
 
 # Create your views here.
 
@@ -435,3 +439,10 @@ def device_assign(request):
 
 def check_error(request):
     return render(request, "full_error_exception.html", {'exc':"Probando mensaje de error"})
+
+def ServiceWorker(request):
+    sw_file = open(os.path.join(settings.BASE_DIR, "static", "js", "sw.js"), 'rb')
+    response = HttpResponse(sw_file, content_type='application/javascript')
+    return response
+#     template_name = "sw.js"
+#     content_type="application/javascript"

@@ -1,15 +1,27 @@
 {% load i18n common_tag %}
 
 {% if not obj.qr %}
-    <a href="#" class="ark btn btn-primary" id="id_qr_{{obj.id}}" data-url="{% url 'form-add-qr' %}" data-target="div-qr" 
-        data-obj_id="{{obj.id}}"><i class="fas fa-qrcode"></i> {% trans "Generate QR"%}</a><br /><br />
+    <button class="ark btn btn-primary" id="id_qr_{{obj.id}}" data-url="{% url 'form-add-qr' %}" data-target="div-qr" 
+        data-obj_id="{{obj.id}}" data-color="#000000" data-color_back="#ffffff"><i class="fas fa-qrcode"></i> {% trans "Generate QR"%}</button>
+    <br/><br/>
+    <div class="row">
+        <div class="col-6"> {% trans "Color" %} </div> <div class="col-6"> {% trans "Background" %} </div>
+    </div>
+    <div class="row">
+        <div class="col-6"> 
+            <input type="color" name="color" id="color" onchange="$('#id_qr_{{obj.id}}').data('color', this.value);"/>
+        </div>
+        <div class="col-6"> 
+            <input type="color" name="color-back" id="color-back" value="#ffffff" onchange="$('#id_qr_{{obj.id}}').data('color-back', this.value);"/>
+        </div>
+    </div>
 {% else %}
     {#<div class="col-lg-10 col-xs-10"><span><a href="{{obj.image.url}}" target="_blank">{% get_file_name obj.image.name %}</a></span></div>#}
     <div class="col-lg-10 col-xs-10"><span><img src="{{obj.qr.url}}" alt="image" width="200px"/></span></div>
     <br/>
     <div class="col-lg-2 col-xs-2 actions file-remove text-right">
-        <a class="ark pointer" id="btn-qr-{{obj.pk}}" title="Borrar fichero" data-confirm="{% trans "Are you sure to remove this file?" %}" 
-            data-url="{% url "form-remove-qr" %}" data-target="div-qr" data-obj_id="{{obj.id}}"><i class="fas fa-trash"></i></a>
+        <button class="ark pointer" id="btn-qr-{{obj.pk}}" title="Borrar fichero" data-confirm="{% trans "Are you sure to remove this file?" %}" 
+            data-url="{% url "form-remove-qr" %}" data-target="div-qr" data-obj_id="{{obj.id}}"><i class="fas fa-trash"></i></button>
     </div>
 {% endif %}
 

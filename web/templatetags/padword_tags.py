@@ -12,7 +12,10 @@ register = template.Library()
 '''
 @register.filter
 def in_group(user, group):
-    return user.groups.filter(name=group).exists()
+    try:
+        return user.groups.filter(name=group).exists()
+    except:
+        return False
 
 @register.filter
 def currency(json_str):

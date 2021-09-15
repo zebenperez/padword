@@ -1,12 +1,16 @@
 {% load i18n %}
 
 {% if form.errors %} <p>{% trans "Your username and password didn't match. Please try again." %}</p> {% endif %}
+{% csrf_token %}
 
 <div class="row login">
-	<div class="login-box mt-4">
+	<div class="col-8 offset-2 login-box justify-content-center mt-4">
 		<div class="panel-login">
 			<div class="toolbar-heading mt-4">{% trans "Log in" %} </div>
             <div class="panel-body">
+                {% if error_msg %}
+                <div class="alert alert-info">{{error_msg}}</div>
+                {% endif %}
 			    <br/>
 			    <form class="form-horizontal p-4" method="post" action="{% url "booking-new-guest" %}" id="form-guest">
 				    {% csrf_token %}
