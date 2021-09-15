@@ -165,8 +165,11 @@ def booking_view(request):
         form = get_or_none(Form, fi.form_uuid, 'uuid')
         items = ShoppingCart.objects.filter(form_instance_id=fi.pk)
 
-        if fi.status != None and fi.status.code == "01":
-            previous_status = fi.status.name
+        if (fi.status != None and fi.status.code == "01") or (fi.status is None):
+            if fi.status is not None:
+                previous_status = fi.status.name
+            else:
+                previous_status = 'None'
             fi.set_status("02")
             write_log(request.user, fi, _("Status change from {} to {}".format(previous_status, fi.status.name)))
 
@@ -179,6 +182,21 @@ def booking_view(request):
         return render(request, template, context)
     except Exception as e:
         print(e)
+        logger.error("[bookings-fill_form] {}".format(str(e)))
+        return render(request, 'error_exception.html', {'exc':show_exc(e)})
+    return render(request, 'error_exception.html', {})
+
+@group_required("admins", "projects")
+def booking_refresh(request):
+    try:
+        fi_id = request.GET["obj_id"]
+        fi = FormInstance.objects.get(pk = fi_id)
+
+        context = {'item':fi}
+        template = 'bookings/manage/booking-row.html'
+        return render(request, template, context)
+    except Exception as e:
+        print(show_exc(e))
         logger.error("[bookings-fill_form] {}".format(str(e)))
         return render(request, 'error_exception.html', {'exc':show_exc(e)})
     return render(request, 'error_exception.html', {})

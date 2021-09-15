@@ -18,11 +18,11 @@
             <div class="card-footer">
                 <div class="text-center">
                     {% if item.uuid != value %}
-                        <a class="btn btn-xs btn-info ark" data-url="{% url "select-item" %}" data-target="div-items-shop-{{answer_name}}" 
+                        <a class="btn btn-info text-white ark" data-url="{% url "select-item" %}" data-target="div-items-shop-{{answer_name}}" 
                             data-fi="{{fi_id}}" data-question="{{q_id}}" data-field="{{f.id}}" data-index="{{index}}" data-value="{{item.uuid}}"> 
                             {% trans "Select" %}</a>
                     {% else %}
-                        <a class="btn btn-xs btn-success ark" data-url="{% url "select-item" %}" data-target="div-items-shop-{{answer_name}}" 
+                        <a class="btn btn-success text-white ark" data-url="{% url "select-item" %}" data-target="div-items-shop-{{answer_name}}" 
                             data-fi="{{fi_id}}" data-question="{{q_id}}" data-field="{{f.id}}" data-index="{{index}}" data-value=""> 
                             {% trans "Unselect" %}</a>
                     {% endif %}

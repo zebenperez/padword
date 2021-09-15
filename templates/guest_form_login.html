@@ -1,6 +1,7 @@
 {% load i18n %}
 
 {% if form.errors %} <p>{% trans "Your username and password didn't match. Please try again." %}</p> {% endif %}
+{% csrf_token %}
 
 <div class="row login">
 	<div class="col-8 offset-2 login-box justify-content-center mt-4">

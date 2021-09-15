@@ -186,8 +186,16 @@ body {
 	width: 100%;
 }
 .toolbar-search input {
-	border: none;
-	color: #6c757d !important;
+	/*border: none;*/
+	/*color: #6c757d !important;*/
+    height:2em;
+    margin:4px;
+}
+.toolbar-search a {
+	/*border: none;*/
+	/*color: #6c757d !important;*/
+    height:2.5em;
+    margin:6px;
 }
 .toolbar-content {
     box-shadow: 0 2px 4px -1px rgb(0 0 0 / 20%), 0 4px 5px 0 rgb(0 0 0 / 14%), 0 1px 10px 0 rgb(0 0 0 / 12%);

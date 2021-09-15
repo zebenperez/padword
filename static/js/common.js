@@ -145,10 +145,10 @@ function closeWin(divName)
 {
     setTimeout(function(){
         $(divName).fadeOut('slow');
-        //$('#div-main').fadeOut('slow');
         setTimeout(function(){
             //window.history.back();
             history.go(-1);
+            window.close();
         }, 300);
     }, 2000);
     return false;

@@ -47,21 +47,58 @@ i.fas.fa-ban.text-cancel {
 .div-transp {
 	background-size: cover;
 	background-color:black;
-	opacity:0.8;
+	border:1px solid #ccc;
+	border-radius: 15px;
 	color: white;
-	height: 100%;
+	opacity:0.8;
+	position:absolute;
+       	top:10%;
+}
+
+.item {
+	font-weight: 600;
+	color: #212529;
+}
+.div-transp .item-left {
+	text-align: left;
+	color: #fff;
+	font-weight: 600;
+}
+.div-transp .item-right {
+	color: #fff;
+	text-align: left;
+	font-weight:normal;
 }
 
 .div-transp .btn.btn-outline-primary.btn-lg.ark.w-100,
 .div-transp .btn.btn-outline-danger.btn-lg.w-100 {
 	background-color: white;
-
 }
-.div-transp-0 {  /* NO IMAGE */
-	/*background-size: cover;*/
+
+.div-transp .btn.btn-outline-primary.btn-lg.ark.w-100:hover {
+	color: #095bd4 !important;
+}
+.div-transp .btn.btn-outline-danger.btn-lg.w-100:hover {
+	color: #aa1a28 !important;
+}
+
+
+/* NO IMAGE */
+
+.div-transp-0 { 
 	background-color: white;
 	background-image: none;
+	border:1px solid #ccc;
+	border-radius: 15px;
 	color: black;
+	opacity:0.9;
+	position:absolute;
+       	top:10%;
+}
+.div-transp-0 .item-left {
+	text-align: left;
+	color: #212529;
+	font-weight: 600;
 }
 
 .main-content-booking input, .main-content-booking select {
@@ -73,11 +110,13 @@ i.fas.fa-ban.text-cancel {
 }
 
 .fixed-head {
+	background-color: white; 
 	border-bottom:1px solid #ccc; 
-	position:fixed;
-       	top:0;
+	border-radius: 15px 15px 0px 0px;
 	left:0; 
-	background: white; z-index:10000;
+	position:absolute;
+       	top:0;
+	z-index:10000;
 }
  
 .grid-container {
@@ -88,7 +127,7 @@ i.fas.fa-ban.text-cancel {
 
 .grid-container > div { font-size: 30px;color: #000; }
 
-.item1 { grid-column: 1 / 5; }
+.item1 { grid-column: 1 / 5; text-align: left; }
 .item2 { font-size: 18px !important; line-height: 1.8; text-align: right; }
 
 .item3 { font-size: 30px !important; text-align: left; color: white; }
@@ -103,9 +142,13 @@ i.fas.fa-ban.text-cancel {
 	border-top: 1px solid #ccc;
 }
 
+.div-info-tb table td {
+	color:white;
+}
+
 #mask
 {
-	position: fixed;
+    position: fixed;
     top:0;
     height:2000px;
     width:100%;
@@ -176,8 +219,8 @@ tbody, td, tfoot, th, thead, tr {
 
 img { 
 	background-color: #444;
-/*	border-bottom: 1px solid #ccc !important;*/
-	height: 150px; 
+/*	height: 150px; */
+	height: 130px; 
 }
 /*
 img[class] { width: 100%; }
@@ -191,13 +234,13 @@ a.btn.btn-outline-primary {
 }
 a.btn.btn-outline-primary:hover {
 	background: #fff;
-	color: #095bd4;
+	color: #095bd4 !important;
 }
 a.btn.btn-outline-danger {
 }
 a.btn.btn-outline-danger:hover {
 	background: #fff;
-	color: #aa1a28;
+	color: #aa1a28 !important;
 }
 
 
@@ -215,11 +258,11 @@ td.booking-line {
 
 .title-col {
 	color: #111;
-	font-size: small;
+	font-size: 12px;
 }
 
 .info-col {
-	font-size: small;
+	font-size: 12px;
 }
 
 .booking-line {
@@ -266,16 +309,6 @@ img.img-cart-line {
 .grid-guest, .grid-guest a {
 	color: #212529;
 	text-decoration: none;
-}
-
-.item {
-	font-weight: 600;
-	color: #212529;
-}
-.item-left {
-	text-align: left;
-	color: #212529;
-	font-weight: 600;
 }
 
 .login-box {
@@ -365,7 +398,7 @@ img.img-cart-line {
 /* Cancel booking page style*/
 /*****************************/
 
-.cancel-box {
+.message-box {
 	border:1px solid #ccc;
 	border-radius: 15px;
 	background-color: #fff;
@@ -377,7 +410,9 @@ img.img-cart-line {
 	margin-left:-50px;
 	margin-top:100px;
 }
-
+.message-box h4.cancel {
+	color: #333;
+}
 
 
 /*****************************/

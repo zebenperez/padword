@@ -54,9 +54,13 @@
         <div class="row mt-4 mb-4 d-flex justify-content-center ">
             {% if status_list %} <div id="div-status">{% include "bookings/manage/status-links.html" %}</div> {% endif %}
 
-            <div class="col-2 actions text-center">
-                <button type="button" class="btn btn-info btn-lg text-white" data-bs-dismiss="modal">{% trans "Close" %}</button></div>
+            <div class="actions text-center">
+                <a class="btn btn-info btn-lg text-white ark" id="btn-close-modal" data-target="row_{{fi.id}}" data-url="{% url 'booking-refresh' %}" data-obj_id="{{fi.id}}" data-bs-dismiss="modal">{% trans "Close" %}</a>
+            </div>
         </div>
     </div>
 </div>
 
+    <script type="text/javascript">
+        $('#common-modal').on('hidden.bs.modal', function (e) { $('#btn-close-modal').click();})
+    </script>
