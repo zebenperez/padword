@@ -55,7 +55,7 @@
             {% if status_list %} <div id="div-status">{% include "bookings/manage/status-links.html" %}</div> {% endif %}
 
             <div class="actions text-center">
-                <a class="btn btn-info btn-lg text-white ark" id="btn-close-modal" data-target="row_{{fi.id}}" data-url="{% url 'booking-refresh' %}" data-obj_id="{{fi.id}}" data-bs-dismiss="modal">{% trans "Close" %}</a>
+                <a class="btn btn-info-pad ark" id="btn-close-modal" data-target="row_{{fi.id}}" data-url="{% url 'booking-refresh' %}" data-obj_id="{{fi.id}}" data-bs-dismiss="modal">{% trans "Close" %}</a>
             </div>
         </div>
     </div>

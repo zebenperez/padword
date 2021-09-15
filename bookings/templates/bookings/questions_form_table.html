@@ -14,7 +14,7 @@
 
     {% if q.max_answers > 1 and not ro %}
         <div class="text-right">
-            <a class="btn btn-info add_row" data-url="{% url "new-row" %}" data-target="table_{{q.id}}" data-obj_id="{{q.id}}" data-fi_id="{{fi.id}}"> <i class="fas fa-plus"></i></a>
+            <a class="btn btn-info-pad add_row" data-url="{% url "new-row" %}" data-target="table_{{q.id}}" data-obj_id="{{q.id}}" data-fi_id="{{fi.id}}"> <i class="fas fa-plus"></i></a>
         </div>
     {% endif %}
 </div>

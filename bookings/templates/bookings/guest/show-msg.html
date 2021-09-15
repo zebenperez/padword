@@ -13,10 +13,10 @@
 		<div class="row">
 			<div class="col-12 text-grey text-center mt-3 mb-3">
 				{% trans "If you want to check your bookings, click on" %}: <br />
-				<button class="btn btn-primary text-white mt-3 ark" data-url="{% url "my-bookings" %}"
+				<button class="btn btn-primary-pad mt-3 ark" data-url="{% url "my-bookings" %}"
 					data-target="div-main" data-project_uuid="{{project_uuid}}">{% trans "My bookings" %}</button>
-				{#<button class="btn btn-warning text-white mt-3" onclick="window.history.back();">{% trans "Back" %}</button>#}
-			<button class="btn btn-info text-white mt-3 ark" data-url="{% url 'close-spa' %}" data-target-modal="common-modal" data-bs-dismiss="modal"
+				{#<button class="ning text-white mt-3" onclick="window.history.back();">{% trans "Back" %}</button>#}
+			<button class="btn btn-info-pad mt-3 ark" data-url="{% url 'close-spa' %}" data-target-modal="common-modal" data-bs-dismiss="modal"
 			    onclick="closeWin('#div-close')"> {% trans 'Close' %}</button>
 			</div>
 		</div>

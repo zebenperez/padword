@@ -5,33 +5,33 @@
 	<div class="col-10 offset-1 mt-3 mb-3">
 	<div class="content mt-4">
 		<div class="toolbar-content mb-3"> <h4 class="success mt-3">{% trans 'Bookings' %}</h4> </div>
-		<div id="booking-list">
+		<div id="booking-list" style=" height: 400px; overflow-y: scroll;">
 			<div class="p-4" style="background:#f3f5f9;border-radius:5px;">
-				<div class="row">
-					<div class="col-4 title-col"> {% trans 'Service' %} </div>
-					<div class="col title-col d-none d-lg-block"> {% trans 'Name' %} </div>
-					<div class="col title-col d-none d-lg-block"> {% trans 'Surname' %} </div>
+				<div class="row mb-3" style="border:1px solid #ccc%">
+					<div class="col-4 title-col"> <strong> {% trans 'Service' %} </strong></div>
+					<div class="col title-col d-none d-lg-block"> <strong>{% trans 'Name' %} </strong></div>
+					<div class="col title-col d-none d-lg-block"> <strong>{% trans 'Surname' %} </strong></div>
                     {%comment%}
-					<div class="col title-col"> {% trans 'Phone' %} </div>
-					<div class="col-3 title-col"> {% trans 'Email' %} </div>
-					<div class="col title-col"> {% trans 'Device' %} </div>
+					<div class="col title-col"> <strong>{% trans 'Phone' %} </strong></div>
+					<div class="col-3 title-col"> <strong>{% trans 'Email' %} </strong></div>
+					<div class="col title-col"> <strong>{% trans 'Device' %} </strong></div>
                     {%endcomment%}
-					<div class="col-4 title-col"> {% trans 'Creation Date' %} </div>
-					<div class="col-3 title-col"> {% trans 'Status' %} </div>
+					<div class="col-4 title-col"> <strong>{% trans 'Creation Date' %} </strong></div>
+					<div class="col-3 title-col"> <strong>{% trans 'Status' %} </strong></div>
 					<div class="col-1 title-col"> </div>
 				</div>
 				{% for item in items %}
 				<div class="row booking-line mb-2 p-3" id="row_{{item.id}}">
-					<div class="col-4 info-col booking-line">{% padword_translate item.form.name %}</div>
-					<div class="col info-col booking-line d-none d-lg-block">{{item.guest.name}}</div>
-					<div class="col info-col booking-line d-none d-lg-block">{{item.guest.surname}}</div>
+					<div class="col-4 info-col booking-line"><strong>{% padword_translate item.form.name %}</strong></div>
+					<div class="col info-col booking-line d-none d-lg-block"><strong>{{item.guest.name}}</strong></div>
+					<div class="col info-col booking-line d-none d-lg-block"><strong>{{item.guest.surname}}</strong></div>
                     {%comment%}
-					<div class="col info-col booking-line">{{item.guest.mobile}}</div>
-					<div class="col-3 info-col booking-line">{{item.guest.email}}</div>
-					<div class="col info-col booking-line">{{item.device.uuid}}</div>
+					<div class="col info-col booking-line"><strong>{{item.guest.mobile}}</strong></div>
+					<div class="col-3 info-col booking-line"><strong>{{item.guest.email}}</strong></div>
+					<div class="col info-col booking-line"><strong>{{item.device.uuid}}</strong></div>
                     {%endcomment%}
-					<div class="col-4 info-col booking-line">{{ item.date|date:'Y-m-d H:i' }}</div>
-					<div class="col-3 info-col booking-line">{% padword_translate item.status.name %}</div>
+					<div class="col-4 info-col booking-line"><strong>{{ item.date|date:'Y-m-d H:i' }}</strong></div>
+					<div class="col-3 info-col booking-line"><strong>{% padword_translate item.status.name %}</strong></div>
 					<div class="col-1 info-col booking-line" style="padding-left:0;margin-left:0;">
                         {%comment%}
                         <a class="me-1 btn btn-xs" href="{% url "booking-guest-view" item.id %}" target="_blank" title="{%trans "View"%}">
@@ -49,7 +49,7 @@
 </div>
 <div class="row">
 	<div class="col-8 offset-2 text-grey text-center mt-3 mb-3">
-        <button class="btn btn-info text-white mt-3 ark" data-url="{% url 'close-spa' %}" data-target-modal="common-modal" data-bs-dismiss="modal"
+        <button class="btn btn-info-pad mt-3 ark" data-url="{% url 'close-spa' %}" data-target-modal="common-modal" data-bs-dismiss="modal"
             onclick="closeWin('#div-close')"> {% trans 'Close' %}</button>
 		{#<button class="btn btn-warning text-white mt-3" onclick="window.history.back();">{% trans "Close" %}</button>#}
 	</div>

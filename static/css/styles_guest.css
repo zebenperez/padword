@@ -230,12 +230,16 @@ h5.card-title { font-size: 1.1rem; font-weight: 600; }
 
 h4.card-title { font-size: 1rem; }
 
+/*
 a.btn.btn-outline-primary {
 }
 a.btn.btn-outline-primary:hover {
 	background: #fff;
 	color: #095bd4 !important;
 }
+*/
+
+
 a.btn.btn-outline-danger {
 }
 a.btn.btn-outline-danger:hover {
@@ -244,7 +248,32 @@ a.btn.btn-outline-danger:hover {
 }
 
 
+/*****************************/
+/* btn actions style*/
+/*****************************/
+
+.btn.btn-access, .btn.btn-primary-pad, .btn.btn-danger-pad, .btn.btn-light-pad, .btn.btn-info-pad, .btn.btn-success-pad {
+	background: #ffffff;
+	padding: 10px 30px 10px 30px;
+}
+
+.btn.btn-access { border: 1px solid #022948; color: #022948; }
+
+.btn.btn-primary-pad { border: 1px solid #0d6efd; color: #0d6efd; }
+
+.btn.btn-danger-pad { border: 1px solid #dc3545; color: #dc3545; }
+
+.btn.btn-light-pad { border: 1px solid #022948; color: #022948; }
+
+.btn.btn-info-pad { border: 1px solid #0dcaf0;  color: #0dcaf0; }
+
+.btn.btn-success-pad { border: 1px solid #28a745;  color: #28a745; }
+
+
+
+
 /*********  Booking List Style ***************/
+
 
 tr.small {
 /*	border:1px solid !important;
@@ -349,9 +378,6 @@ img.img-cart-line {
 }
 
 .welcome-page .btn.btn-access {
-	background: #ffffff;
-	color: #022948;
-	padding: 10px 30px 10px 30px;
 	margin-top: 30px !important;
 }
 
@@ -459,3 +485,5 @@ img.img-cart {border-radius: 10px 10px 10px 10px; box-shadow: 10px 0px 10px 0px 
 	.item2 { font-size: 14px !important; }
 
 }
+
+
