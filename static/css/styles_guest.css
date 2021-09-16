@@ -123,9 +123,11 @@ i.fas.fa-ban.text-cancel {
 	display: grid;
 	grid-template-columns: auto auto auto auto auto auto;
 	grid-gap: 10px;
+	color:#000;
 }
-
+/*
 .grid-container > div { font-size: 30px;color: #000; }
+*/
 
 .item1 { grid-column: 1 / 5; text-align: left; }
 .item2 { font-size: 18px !important; line-height: 1.8; text-align: right; }
@@ -221,12 +223,14 @@ img {
 	background-color: #444;
 /*	height: 150px; */
 	height: 130px; 
+	max-width: -webkit-fill-available;
 }
 /*
 img[class] { width: 100%; }
 */
 
-h5.card-title { font-size: 1.1rem; font-weight: 600; }
+/*h5.card-title { font-size: 1.1rem; font-weight: 600; }*/
+h5.card-title { font-size: 1rem; font-weight: 600; min-height: 80px; }
 
 h4.card-title { font-size: 1rem; }
 
@@ -288,6 +292,7 @@ td.booking-line {
 .title-col {
 	color: #111;
 	font-size: 12px;
+	text-align: left;
 }
 
 .info-col {
@@ -295,10 +300,12 @@ td.booking-line {
 }
 
 .booking-line {
-	align-items: center;
+/*	align-items: center;*/
 	background: #fff !important;
 	border-radius: 5px;
 	color: #666;
+	text-align: left;
+	vertical-align:middle;
 }
 
 .booking-line-item {
@@ -350,6 +357,20 @@ img.img-cart-line {
 .login-box .toolbar-heading {
 	font-size: 2rem;
 }
+
+#item-selected {
+	background-color: #fff;
+	border:1px solid #ccc;
+	border-radius: 5px;
+	color: #28a745;
+	padding: 15px;
+	text-align: center;
+}
+#item-selected span {
+	color: #333 !important;
+	font-weight: 600;
+}
+
 
 /*****************************/
 /* Welcome page style*/
@@ -457,10 +478,14 @@ img.img-cart-line {
 	.container, .container-fluid, .container-lg, .container-md, .container-sm, .container-xl, .container-xxl {
 		padding: 0px !important;
 	}
-
 }
 
 img.img-cart {border-radius: 10px 10px 10px 10px; box-shadow: 10px 0px 10px 0px rgb(0 0 0 / 50%); }
+
+@media (max-width: 768px) 
+{
+	.item1 { font-size: 18px !important; line-height: 35px !important; }
+}
 
 @media (max-width: 480px) 
 {
@@ -476,14 +501,20 @@ img.img-cart {border-radius: 10px 10px 10px 10px; box-shadow: 10px 0px 10px 0px 
 	}
 
  	.item1 { font-size: 20px !important;}
-
 }
 
-@media (max-width: 370px) 
+@media (max-width: 415px) 
+{
+	.item1 { font-size: 18px !important; line-height: 35px !important; }	
+}
+
+@media (max-width: 360px) 
 {
 	.item1 { font-size: 18px !important;}
-	.item2 { font-size: 14px !important; }
-
+	.item2 { font-size: 12px !important; line-height: 45px !important; }
+	h5.card-title .text-dark .text-center {
+		font-size: 1rem !important; font-weight: normal !important; min-height: 100px !important; border:1px solid red !important; 
+	}
 }
 
 

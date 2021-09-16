@@ -5,6 +5,8 @@ from django.core import serializers
 from padword.commons import show_exc, get_or_none, get_param, new_ui_slug, translate
 from padword.decorators import group_required
 from .models import *
+from django.views.decorators.csrf import csrf_exempt
+
 
 from django.conf import settings
 import os
@@ -21,6 +23,9 @@ def index(request):
     if hasattr(request, "project_id"):
         return redirect('bookings-by-project', request.project_id)
     return redirect('projects')
+
+def thanks(request):
+    return render(request, "thanks.html")
 
 '''
     Projects

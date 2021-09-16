@@ -28,7 +28,22 @@ def guest_access(request, form_uuid):
     room_number = request.GET["room_number"] if "room_number" in request.GET else ""
     guest_name = request.GET["guest_name"] if "guest_name" in request.GET else ""
     guest_surname = request.GET["guest_surname"] if "guest_surname" in request.GET else ""
-    context = {'form_uuid': form_uuid,'device_imei': device_imei,'room_number': room_number,'guest_name': guest_name,'guest_surname': guest_surname}
+
+    if request.user.is_authenticated and user_in_group(request.user, "guests"):
+        next_url = "booking-new"
+    elif device_imei != "" and room_number != "" and guest_name != "" and guest_surname != "":
+        next_url = "booking-new-device"
+    else:
+        next_url = "guest-form-login"
+
+    context = {
+        'form_uuid': form_uuid,
+        'device_imei': device_imei,
+        'room_number': room_number,
+        'guest_name': guest_name,
+        'guest_surname': guest_surname,
+        'next_url': next_url
+    }
     return render(request, 'bookings/guest/guest-welcome.html', context)
 
 def guest_access_bookings(request, project_uuid):
@@ -175,7 +190,7 @@ def booking_send(request):
     except Exception as e:
         print(e)
         logger.error("[bookings-booking_send] {}".format(str(e)))
-    return render(request, 'error_exception.html', {'exc':show_exc(e)})
+        return render(request, 'error_exception.html', {'exc':show_exc(e)})
 
 @group_required("admins", "projects", "guests")
 #def booking_remove(request, fi_id):
@@ -189,7 +204,7 @@ def booking_remove(request):
         return render(request, 'bookings/guest/show-msg.html', context)
     except Exception as e:
         logger.error("[bookings-remove_fi] {}".format(str(e)))
-    return render(request, 'error_exception.html', {})
+        return render(request, 'error_exception.html', {'exc':show_exc(e)})
 
 @group_required("admins", "projects", "guests")
 def bookings_by_guest(request, project_uuid=None):
@@ -231,7 +246,6 @@ def booking_view(request):
         print(e)
         logger.error("[bookings-fill_form] {}".format(str(e)))
         return render(request, 'error_exception.html', {'exc':show_exc(e)})
-    return render(request, 'error_exception.html', {})
 
 '''
     NOT USED BY MOMENT!!!
@@ -384,6 +398,9 @@ def select_item(request):
             ai.save()
 
             answer_name = "question_%s_field_%s_%s" % (q.id, f.id, index)
+            item = None
+            if value != "":
+                item = get_or_none(Item, value, "uuid")
             context = {
                 'fi_id': fi.id, 
                 'q_id': q.id, 
@@ -391,13 +408,15 @@ def select_item(request):
                 'index': index, 
                 'answer_name': answer_name, 
                 'item_list': fi.form.get_category_items(),
+                'selected_item': item,
                 'value': ai.text
             }
         return render(request, "bookings/items-shop-field.html", context)
     except Exception as e:
         print(e)
         logger.error("[bookings-autosave]: {}".format(e))
-        return render(request, 'error_exception.html', {'msg': str(e)})
+        #return render(request, 'error_exception.html', {'msg': str(e)})
+        return render(request, 'error_exception.html', {'msg': _("Sorry, there was a problem with your booking, please try again!")})
 
 
 '''

@@ -1,6 +1,6 @@
 {% load i18n padword_tags static%}
 <div class="d-flex justify-center row">
-    <div class="col-6 offset-3 justify-content-center">
+    <div class="col-lg-2 offset-lg-5 col-md-4 offset-md-4 col-xs-6 offset-xs-3 justify-content-center">
         <div class="card w-100 p-3" >
             <img src="{% if obj.item.image %}{{obj.item.image.url}} {%else%} {% static 'img/none.png' %}{%endif%}" class="card-img-top" alt="{% padword_translate obj.item.name %}" style="height:auto; width: auto;">
             <div class="card-body">
@@ -14,13 +14,13 @@
         <div class="w-100" >
             <div class="card-body">
                 <h4 class="small card-title text-dark text-center">{% trans 'Comments'%} </h4>
-                <textarea class="form-control autosave" id="comments" name="comments" rows="7" value="{{obj.comments}}" data-url="{% url "autosave_field" %}" data-model-name="contents.shoppingcart" data-obj-id="{{obj.pk}}" data-target="div-notification">{{obj.comments}}</textarea> <span id="comments__msg"></span>
+		<textarea class="form-control autosave" id="comments" name="comments" rows="7" value="{{obj.comments}}" data-url="{% url "autosave_field" %}" data-model-name="contents.shoppingcart" data-obj-id="{{obj.pk}}" data-target="div-notification" placeholder="{% trans "Please, write here your comments" %}" >{{obj.comments}}</textarea> <span id="comments__msg"></span>
             </div>
         </div>
     </div>
 </div>		
 
-<div class="d-flex justify-content-end m-2">
-    <a class="btn btn-sm btn-primary ark"  data-url="{% url 'view-shopping-cart' %}" data-target-modal="common-modal" data-form_id="{{form_id}}" >{% trans "SAVE" %}</a>
+<div class="d-flex justify-content-center m-2">
+    <a class="btn btn-primary-pad ark"  data-url="{% url 'view-shopping-cart' %}" data-target-modal="common-modal" data-form_id="{{form_id}}" >{% trans "Save" %}</a>
 </div>
 

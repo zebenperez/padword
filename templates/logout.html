@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block central_content %}
+	{% if form.errors %}
+		<p>{% trans "Your username and password didn't match. Please try again." %}</p>
+	{% endif %}
+
+	<div class="row login">
+		<div class="col-lg-6 offset-lg-3 col-md-8 offset-md-2 col-xs-6 offset-xs-3">
+			<div class="panel-login">
+				<div class="toolbar-heading">{% trans "Thanks" %} </div>
+                <div class="panel-body">
+					<br/>
+				</div>
+			</div>
+		</div>
+	</div>
+<script> $('#sidebar').removeClass('expanded').removeClass('d-sm-book'); </script>
+{% endblock %}

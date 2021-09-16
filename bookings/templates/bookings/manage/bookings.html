@@ -16,6 +16,6 @@
             {% include "bookings/manage/booking-list.html" %}
         </div>
     </div>
-<script>
-</script>
+
+    {% if request.project_id %} <script> $('#sidebar').removeClass('expanded').removeClass('d-sm-block'); </script> {% endif %}
 {% endblock central_content %}

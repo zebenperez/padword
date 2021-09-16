@@ -35,6 +35,7 @@ urlpatterns = [
     path('devices/assign/', views.device_assign, name='device-assign'),
     path('devices/remove/', views.device_remove, name='device-remove'),
     #---------------------- Tests ----------------------
+    path('thanks/', views.thanks),
     path('check-error/', views.check_error),
     #---------------------- AUTO -----------------------
     path('autosave_field/', auto_views.autosave_field, name='autosave_field'),

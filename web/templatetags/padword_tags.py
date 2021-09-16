@@ -137,28 +137,28 @@ def items_in_bookings(fi,item):
 @register.inclusion_tag('main-menu.html')
 def get_main_menu(user):
     try:
-        if user.groups.filter(name="admins").exists() or user.is_superuser:
-            return {'user': user, 'menu': "admins"}
+        if user.groups.filter(name="guests").exists():
+            return {'user': user, 'menu': "guests"}
         if user.groups.filter(name="projects").exists():
             obj = ProjectUser.objects.filter(username=user.username).first()
             if obj != None: 
                 return {'user': user, 'menu': "projects", "project": obj.project}
-        if user.groups.filter(name="clients").exists():
-            return {'user': user, 'menu': "clients"}
+        if user.groups.filter(name="admins").exists() or user.is_superuser:
+            return {'user': user, 'menu': "admins"}
     except:
         return {}
 
 @register.inclusion_tag('web/second-menu.html')
 def get_second_menu(user):
     try:
-        if user.groups.filter(name="admins").exists() or user.is_superuser:
-            return {'user': user, 'menu': "admins"}
+        if user.groups.filter(name="guests").exists():
+            return {'user': user, 'menu': "guests"}
         if user.groups.filter(name="projects").exists():
             obj = ProjectUser.objects.filter(username=user.username).first()
             if obj != None: 
                 return {'user': user, 'menu': "projects", "project": obj.project}
-        if user.groups.filter(name="clients").exists():
-            return {'user': user, 'menu': "clients"}
+        if user.groups.filter(name="admins").exists() or user.is_superuser:
+            return {'user': user, 'menu': "admins"}
     except Exception as e:
         print (show_exc(e))
         return {}

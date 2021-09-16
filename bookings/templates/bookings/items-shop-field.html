@@ -19,7 +19,8 @@
                 <div class="text-center">
                     {% if item.uuid != value %}
                         <a class="btn btn-info-pad ark" data-url="{% url "select-item" %}" data-target="div-items-shop-{{answer_name}}" 
-                            data-fi="{{fi_id}}" data-question="{{q_id}}" data-field="{{f.id}}" data-index="{{index}}" data-value="{{item.uuid}}"> 
+                            data-fi="{{fi_id}}" data-question="{{q_id}}" data-field="{{f.id}}" data-index="{{index}}" data-value="{{item.uuid}}"
+                            onclick=""> 
                             {% trans "Select" %}</a>
                     {% else %}
                         <a class="btn btn-success-pad ark" data-url="{% url "select-item" %}" data-target="div-items-shop-{{answer_name}}" 
@@ -32,5 +33,10 @@
     </div>
 {% endfor %}
 </div>
+<br/>
+{% if selected_item and selected_item != None %}
+<div id="item-selected"> <i class="far fa-check-circle"></i> {% trans "You are selected:" %} <span> {% padword_translate selected_item.name %} - {{selected_item.price}} &euro; </span> </div>
+    <script> $('html, body').animate({ scrollTop: $("#item-selected").offset().top }, 2000); </script>
+{% endif %}
 
 

@@ -48,16 +48,16 @@
 <div class="row justify-content-center mt-3">
 	<p class="small alert text-left"><strong>*</strong> {% trans 'You can add comments to the article with click on comment buttons' %} <i class="fas fa-comments"></i></p>
 </div>
-<div class="row justify-content-center mt-2">
-    <div class="col-lg-3 col-md-3 col-xs-4 actions text-center justify-content-center">
+<div class="row mt-2">
+    <div class="col-4 offset-2 text-center">
         {#<a href="{% url "booking-send" fi.id %}" class="btn btn-outline-primary btn-lg w-100"><i class="fas fa-paper-plane"></i> {% trans "Send" %}</a>#}
-        <button class="btn btn-outline-primary btn-lg w-100 ark" data-url="{% url "booking-send" %}" 
-            data-target="div-main" data-obj_id="{{fi.id}}"> <i class="fas fa-paper-plane"></i> {% trans "Send" %}</button>
+        <button class="btn btn-primary-pad ark" data-bs-dismiss="modal" data-url="{% url "booking-send" %}" 
+            data-target="div-main" data-obj_id="{{fi.id}}"> {% trans "Send" %}</button>
     </div>
-    <div class="col-lg-3 offset-lg-1 col-md-3 offset-md-1 col-xs-4 offset-xs-1 actions text-center">
+    <div class="col-4 offset-1 text-center">
         {#<a href="{% url "booking-remove" fi.id %}" class="btn btn-outline-danger btn-lg w-100"><i class="fas fa-ban"></i> {% trans "Cancel" %}</a>#}
-        <button class="btn btn-outline-danger btn-lg w-100 ark" data-url="{% url "booking-remove" %}"
-            data-target="div-main" data-obj_id="{{fi.id}}"> <i class="fas fa-ban"></i> {% trans "Cancel" %}</button>
+        <button class="btn btn-danger-pad ark" data-bs-dismiss="modal" data-url="{% url "booking-remove" %}"
+            data-target="div-main" data-obj_id="{{fi.id}}"> {% trans "Cancel" %}</button>
     </div>
 
 </div>
