@@ -17,6 +17,7 @@ from guest.models import Guest
 
 import datetime
 import logging
+import json
 logger = logging.getLogger(__name__)
 
 ITEMS_PER_PAGE=20
@@ -186,6 +187,23 @@ def booking_view(request):
         return render(request, 'error_exception.html', {'exc':show_exc(e)})
     return render(request, 'error_exception.html', {})
 
+@group_required("admins", "projects", "guests")
+def booking_refresh_status(request, obj_id=None):
+    try:
+        if not obj_id:
+            fi_id = request.GET["obj_id"]
+        else:
+            fi_id = obj_id
+        fi = FormInstance.objects.get(pk = fi_id)
+        lang = request.GET['lang'] if 'lang' in request.GET else request.LANGUAGE_CODE
+        json_dict = json.loads(fi.status.name)
+        return HttpResponse(json_dict[lang.upper()])
+    except Exception as e:
+        print(show_exc(e))
+        logger.error("[bookings-fill_form] {}".format(str(e)))
+        return HttpResponse("---")
+    return HttpResponse("----")
+
 @group_required("admins", "projects")
 def booking_refresh(request):
     try:
@@ -327,7 +345,6 @@ def bookings_page(request):
         context['total_items'] = items.count()
         context['items'] = items[int(page)*ITEMS_PER_PAGE:(int(page) + 1)*ITEMS_PER_PAGE]
         context['page'] = page 
-
 
         return render(request, "bookings/manage/booking-page.html", context)
     except Exception as e:

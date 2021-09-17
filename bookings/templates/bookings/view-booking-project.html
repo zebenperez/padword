@@ -41,11 +41,14 @@
             {% if status_list %} <div id="div-status">{% include "bookings/manage/status-links.html" %}</div> {% endif %}
             <div class="col-12 actions d-flex justify-content-center mt-4">
                 {#<a href="#" class="btn btn-info-pad ark" onclick="window.close()">{% trans "Close" %}</a>#}
-                <button type="button" class="btn btn-info-pad" data-bs-dismiss="modal">{% trans "Close" %}</button></div>
+                <button id="btn-close-modal" class="btn btn-info-pad ark" data-target="status-{{fi.id}}" data-url="{% url 'booking-refresh-status' %}" data-obj_id="{{fi.id}}"  data-bs-dismiss="modal">{% trans "Close" %}</button></div>
             </div>
         </div>
     </div>
 </div>
+<script type="text/javascript">
+    $('#common-modal').on('hidden.bs.modal', function (e) { $('#btn-close-modal').click();})
+</script>
 {#{% include "common-modal.html" %}#}
 {#{% if fi.form.image %} <script>$('body').css('background-image', 'url("{{fi.form.image.url}}")');</script> {% endif %}#}
 

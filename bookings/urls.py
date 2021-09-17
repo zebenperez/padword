@@ -39,6 +39,8 @@ urlpatterns = [
     path('bookings_by_project/<int:project_id>/', views.bookings_by_project, name='bookings-by-project'),
     path('booking-refresh/<int:obj_id>/', views.booking_refresh, name='booking-refresh'),
     path('booking-refresh/', views.booking_refresh, name='booking-refresh'),
+    path('booking-refresh-status/<int:obj_id>/', views.booking_refresh_status, name='booking-refresh-status'),
+    path('booking-refresh-status/', views.booking_refresh_status, name='booking-refresh-status'),
 
     path('bookings/search/', views.bookings_search, name='bookings-search'),
     path('bookings/search/page/', views.bookings_page, name='bookings-page'),
