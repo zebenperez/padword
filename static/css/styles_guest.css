@@ -114,8 +114,10 @@ i.fas.fa-ban.text-cancel {
 	border-bottom:1px solid #ccc; 
 	border-radius: 15px 15px 0px 0px;
 	left:0; 
-	position:absolute;
+	/*position:absolute;
+       	top:0;*/
        	top:0;
+	position: fixed;
 	z-index:10000;
 }
  
