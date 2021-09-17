@@ -1,4 +1,5 @@
 from django.db import models
+from django.db.models import Q
 from django.utils.translation import ugettext as _
 from django.conf import settings
 
@@ -96,6 +97,13 @@ class Guest(models.Model):
     def current_by_room_project(room, project):
         date = datetime.datetime.now()
         return Guest.objects.filter(room=room, project_id=project, check_in__lte=date, check_out__gte=date)
+
+    @staticmethod
+    def check_valid_booking(project, code, room=""):
+        date = datetime.datetime.now()
+        if room != "":
+            return Guest.objects.filter(Q(mobile=code) | Q(email=code)).filter(project_id=project, room=room, check_in__lte=date, check_out__gte=date).first()
+        return Guest.objects.filter(Q(mobile=code) | Q(email=code)).filter(project_id=project, check_in__lte=date, check_out__gte=date).first()
 
     class Meta:
         if len (settings.DATABASES) > 1:

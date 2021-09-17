@@ -39,4 +39,42 @@
 	    </div>
 	</div>
     <script> $('#sidebar').removeClass('expanded'); </script>
+    <script> 
+        alert("--A--");
+        /*
+        history.pushState(null, null, location.href);
+window.onpopstate = function () {
+    toggleFullScreen();
+    alert("--B--");
+};*/
+if (document.addEventListener)
+{
+ document.addEventListener('fullscreenchange', exitHandler, false);
+ document.addEventListener('mozfullscreenchange', exitHandler, false);
+ document.addEventListener('MSFullscreenChange', exitHandler, false);
+ document.addEventListener('webkitfullscreenchange', exitHandler, false);
+}
+
+function exitHandler()
+{
+ if (document.webkitIsFullScreen === false)
+ {
+    alert("--1--");
+    document.documentElement.webkitRequestFullscreen();
+  ///fire your event
+ }
+ else if (document.mozFullScreen === false)
+ {
+    alert("--2--");
+    document.documentElement.mozRequestFullScreen();
+  ///fire your event
+ }
+ else if (document.msFullscreenElement === false)
+ {
+    alert("--3--");
+  ///fire your event
+ }
+}  
+
+    </script>
 {% endblock %}

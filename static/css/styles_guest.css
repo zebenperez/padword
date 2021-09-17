@@ -215,34 +215,24 @@ tbody, td, tfoot, th, thead, tr {
 	text-align: left;
 	text-transform: uppercase;    
 }
-/*
-.object-fit_cover { object-fit: cover }
-*/
 
 img { 
 	background-color: #444;
-/*	height: 150px; */
 	height: 130px; 
 	max-width: -webkit-fill-available;
 }
-/*
-img[class] { width: 100%; }
-*/
 
-/*h5.card-title { font-size: 1.1rem; font-weight: 600; }*/
-h5.card-title { font-size: 1rem; font-weight: 600; min-height: 80px; }
-
-h4.card-title { font-size: 1rem; }
-
-/*
-a.btn.btn-outline-primary {
+h5.card-title { 
+	font-size: 1rem; 
+	font-weight: 600; 
+	min-height: 80px; 
+	overflow-wrap: normal;
 }
-a.btn.btn-outline-primary:hover {
-	background: #fff;
-	color: #095bd4 !important;
-}
-*/
 
+h4.card-title { 
+	font-size: 1rem; 
+	overflow-wrap: normal !important;
+}
 
 a.btn.btn-outline-danger {
 }
@@ -439,6 +429,16 @@ img.img-cart-line {
 
 .error-box h1 {
 	font-size: 2rem;
+}
+
+.popup-messages {
+	border:1px solid #ccc;  border-radius: 15px; background-color: #fff; opacity: 0.9;position:fixed; top:20%;
+}
+
+
+.close-right {
+	text-align: right;
+}
 
 
 /*****************************/

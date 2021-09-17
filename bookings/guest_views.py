@@ -1,6 +1,6 @@
 from django.apps import apps
 from django.contrib import auth
-from django.db.models import Q
+#from django.db.models import Q
 from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
@@ -23,18 +23,36 @@ logger = logging.getLogger(__name__)
 '''
     Bookings client methods
 '''
+def check_user(user, form_uuid="", project_uuid=""):
+    if not user.is_authenticated:
+        return False
+    if not user_in_group(user, "guests"):
+        return False
+    if form_uuid != "":
+        form = get_or_none(Form, form_uuid, "uuid")
+        if form == None or form.project == None:
+            return False
+        project_uuid = form.project.uuid
+    if project_uuid == "":
+        return False
+
+    guest = Guest.check_valid_booking(project_uuid, user.username)
+    if guest == None:
+        return False
+
+    return True
+
 def guest_access(request, form_uuid):
     device_imei = request.GET["device_imei"] if "device_imei" in request.GET else ""
     room_number = request.GET["room_number"] if "room_number" in request.GET else ""
     guest_name = request.GET["guest_name"] if "guest_name" in request.GET else ""
     guest_surname = request.GET["guest_surname"] if "guest_surname" in request.GET else ""
 
-    if request.user.is_authenticated and user_in_group(request.user, "guests"):
+    if check_user(request.user, form_uuid=form_uuid):
         next_url = "booking-new"
-    elif device_imei != "" and room_number != "" and guest_name != "" and guest_surname != "":
-        next_url = "booking-new-device"
     else:
-        next_url = "guest-form-login"
+        auth.logout(request)
+        next_url="booking-new-device" if device_imei != "" and room_number != "" and guest_name != "" and guest_surname != "" else "guest-form-login"
 
     context = {
         'form_uuid': form_uuid,
@@ -47,7 +65,12 @@ def guest_access(request, form_uuid):
     return render(request, 'bookings/guest/guest-welcome.html', context)
 
 def guest_access_bookings(request, project_uuid):
-    next_url = reverse("my-bookings") if request.user.is_authenticated and user_in_group(request.user, "guests") else reverse("guest-form-login")
+    #next_url = reverse("my-bookings") if request.user.is_authenticated and user_in_group(request.user, "guests") else reverse("guest-form-login")
+    if check_user(request.user, project_uuid=project_uuid):
+        next_url = reverse("my-bookings")
+    else:
+        auth.logout(request)
+        next_url = reverse("guest-form-login")
     context = {'project_uuid': project_uuid, 'next_url': next_url}
     return render(request, 'bookings/guest/guest-welcome.html', context)
 
@@ -69,21 +92,14 @@ def booking_new_guest(request):
         Guest access by form
     '''
     try:
-        date = datetime.datetime.now()
+        #date = datetime.datetime.now()
         form_uuid = request.POST["form_uuid"]
         project_uuid = request.POST["project_uuid"]
         code = request.POST["code"]
         room = request.POST["room"]
-        guest = Guest.objects.filter(Q(mobile=code) | Q(email=code)).filter(room=room, check_in__lte=date, check_out__gte=date).first()
-        print (form_uuid, project_uuid)
+        #guest = Guest.objects.filter(Q(mobile=code) | Q(email=code)).filter(room=room, check_in__lte=date, check_out__gte=date).first()
+        #print (form_uuid, project_uuid)
 
-        if guest == None:
-            if form_uuid != "":
-                return render(request, 'guest_form_login.html', {'form_uuid': form_uuid, 'error_msg':_('Sorry, your information is not right. Please, try again.')})
-                #return render(request, "guest-error-login.html",  {'form_uuid':form_uuid})
-            if project_uuid!= "":
-                return redirect(reverse('guest-access-bookings', kwargs = {'project_uuid':project_uuid}))
-            return render(request, 'error_exception.html', {'exc': 'Guest not found!'})
         if form_uuid != "":
             form = get_or_none(Form, form_uuid, "uuid")
             if form == None:
@@ -95,6 +111,15 @@ def booking_new_guest(request):
             project = get_or_none(Project, project_uuid, "uuid")
             if project == None:
                 return render(request, 'error_exception.html', {'exc': _('Project not found!')})
+
+        guest = Guest.check_valid_booking(project.uuid, code, room)
+        if guest == None:
+            if form_uuid != "":
+                return render(request, 'guest_form_login.html', {'form_uuid': form_uuid, 'error_msg':_('Sorry, your information is not right. Please, try again.')})
+                #return render(request, "guest-error-login.html",  {'form_uuid':form_uuid})
+            if project_uuid != "":
+                return redirect(reverse('guest-access-bookings', kwargs = {'project_uuid':project_uuid}))
+            return render(request, 'error_exception.html', {'exc': 'Guest not found!'})
 
         user, err = GuestUser.get_or_create_guest_user(guest.UUID, project.uuid, code)
         if err != "":
@@ -477,7 +502,8 @@ def view_shopping_cart(request):
         total_price = instance.get_total
         return render(request, "bookings/view-shopping-cart.html", {'fi':instance, 'items':items, 'total':total_price})
     except Exception as e:
-        return HttpResponse(show_exc(e))
+        #return HttpResponse(show_exc(e))
+        return render(request, "error_exception.html", {'exc':show_exc(e)})
 
 @group_required("admins", "projects", "guests")
 def get_price_shopping_cart(request):
@@ -487,7 +513,8 @@ def get_price_shopping_cart(request):
         items = ShoppingCart.objects.filter(form_instance_id=instance.pk)
         return HttpResponse('{} art.&nbsp;&nbsp;&nbsp;{:.2f} &euro;'.format(items.count(), instance.get_total))
     except Exception as e:
-        return HttpResponse(show_exc(e))
+        #return HttpResponse(show_exc(e))
+        return render(request, "error_exception.html", {'exc':show_exc(e)})
 
 @group_required("admins", "projects", "guests")
 def remove_item_from_shopping_cart(request):

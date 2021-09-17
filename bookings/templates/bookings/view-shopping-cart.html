@@ -52,12 +52,12 @@
     <div class="col-4 offset-2 text-center">
         {#<a href="{% url "booking-send" fi.id %}" class="btn btn-outline-primary btn-lg w-100"><i class="fas fa-paper-plane"></i> {% trans "Send" %}</a>#}
         <button class="btn btn-primary-pad ark" data-bs-dismiss="modal" data-url="{% url "booking-send" %}" 
-            data-target="div-main" data-obj_id="{{fi.id}}"> {% trans "Send" %}</button>
+            data-target="div-main" data-obj_id="{{fi.id}}"> {% trans "Send Order" %}</button>
     </div>
     <div class="col-4 offset-1 text-center">
         {#<a href="{% url "booking-remove" fi.id %}" class="btn btn-outline-danger btn-lg w-100"><i class="fas fa-ban"></i> {% trans "Cancel" %}</a>#}
         <button class="btn btn-danger-pad ark" data-bs-dismiss="modal" data-url="{% url "booking-remove" %}"
-            data-target="div-main" data-obj_id="{{fi.id}}"> {% trans "Cancel" %}</button>
+            data-target="div-main" data-obj_id="{{fi.id}}"> {% trans "Cancel Order" %}</button>
     </div>
 
 </div>

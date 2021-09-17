@@ -1,11 +1,8 @@
 {% load i18n %}
-
-	<div class="col-8 offset-2" style="border:1px solid #ccc;  border-radius: 15px; background-color: #fff; opacity: 0.9;position:fixed; top:20%">
-		<div class="row">	
-			<div class="col-md-2 offset-md-9 col-xs-2 offset-xs-4 text-right">
-				<button class="btn btn-info-pad mt-3 ark" data-url="{% url 'close-spa' %}" data-target-modal="common-modal" data-bs-dismiss="modal"
-				    onclick="closeWin('#div-close')"> {% trans 'Close' %}</button>
-			</div>
+<div class="row">
+	<div class="popup-messages col-8 offset-2">
+		<div class="close-right m-3">	
+				<button class="btn btn-outline-danger save ark" data-url="{% url 'close-spa' %}" data-target-modal="common-modal" data-bs-dismiss="modal" onclick="closeWin('#div-close')"> <i class="fas fa-times"></i> </button>
 		</div>
 		<div class="row">	
 			<div class="col-12 text-center mt-3 mb-3 pt-3">
@@ -26,6 +23,7 @@
 			</div>
 		</div>
 	</div>
+</div>
 
 {% include "common-modal.html" %}
 
