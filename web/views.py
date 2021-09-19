@@ -27,6 +27,9 @@ def index(request):
 def thanks(request):
     return render(request, "thanks.html")
 
+def csrf_failure(request, reason=""):
+    return render(request, "csrf_error.html")
+
 '''
     Projects
 '''

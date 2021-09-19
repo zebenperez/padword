@@ -8,7 +8,7 @@
         <div class="col-md-1 col-3">{{ item.guest.room}}</div>
         <div class="col-2 d-none d-md-block">{{item.device.uuid}}</div>
         <div class="col-md-2 col-3">{{ item.date | date:'d/m/Y H:i:s'}}</div>
-        <div class="col-md-1 col-3">{% padword_translate item.status.name %}</div>
+        <div class="col-md-1 col-3" id="status-{{item.pk}}">{% padword_translate item.status.name %}</div>
         <div class="col-12 col-md-2 d-flex pt-3 pt-md-1 justify-content-md-end justify-content-center" >
             <a class="me-1 btn btn-xs ark" title="{%trans "Change status"%}" data-url="{%url "status-form" %}" data-target-modal="common-modal" data-obj_id="{{item.id}}"><i class="fas fa-cog"></i></a> 
             <a class="me-1 btn btn-xs ark" title="{%trans "Log"%}" data-url="{%url "booking-log" item.id%}" data-target-modal="common-modal" data-obj_id="{{item.id}}"><i class="fas fa-list"></i></a>                     
