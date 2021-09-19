@@ -178,7 +178,12 @@ def booking_view(request):
         #    context["status_list"] = Status.objects.all()
         #template = 'bookings/view-booking-project.html' if fi.form.form_type.code == "ecom" else 'bookings/fillform.html'
         context = {'fi': fi, 'index': "0", 'items':items, 'status_list': Status.objects.all()}
-        template = 'bookings/view-booking-project.html' if fi.form.form_type.code == "ecom" else 'bookings/view-booking.html'
+        if fi.form and fi.form.form_type:
+            print (fi.form)
+            print (fi.form.form_type)
+            template = 'bookings/view-booking-project.html' if fi.form.form_type.code == "ecom" else 'bookings/view-booking.html'
+        else:
+            template = 'bookings/view-booking.html'
         return render(request, template, context)
     except Exception as e:
         print(e)
