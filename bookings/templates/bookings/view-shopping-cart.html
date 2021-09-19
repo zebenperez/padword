@@ -37,7 +37,10 @@
                 <h5 class="small card-title text-dark text-center">{% padword_translate item.item.name %}</h5>
                 <div class="small card-title text-center"><small>{{ item.comments }}&nbsp;</small></div>
                 <div class="d-flex justify-content-between">
+                    {% comment %}
                     <a class="btn btn-danger ark" title="{%trans 'Remove article from shopping-cart' %}" data-confirm="{% trans "Are you sure to remove this element?" %}" data-url="{% url "remove-item-shopping-cart" %}" data-item_id="{{item.pk}}" data-target-modal="common-modal"><i class="fas fa-trash"></i></a>
+                    {% endcomment %}
+                    <a class="btn btn-danger ark" title="{%trans 'Remove article from shopping-cart' %}" data-url="{% url "remove-item-shopping-cart" %}" data-item_id="{{item.pk}}" data-target-modal="common-modal"><i class="fas fa-trash"></i></a>
                     <a class="btn btn-primary ark" title="{% trans 'Add comment at this article' %}" data-url="{% url "item-shopping-cart-comment" %}" data-item_id="{{item.pk}}" data-form_id="{{fi.pk}}" data-target-modal="common-modal"><i class="fas fa-comments"></i></a>
                 </div>
             </div>

@@ -93,7 +93,7 @@ i.fas.fa-ban.text-cancel {
 	color: black;
 	opacity:0.9;
 	position:absolute;
-       	top:10%;
+/*       	top:10%;*/
 }
 .div-transp-0 .item-left {
 	text-align: left;
@@ -114,8 +114,10 @@ i.fas.fa-ban.text-cancel {
 	border-bottom:1px solid #ccc; 
 	border-radius: 15px 15px 0px 0px;
 	left:0; 
-	position:absolute;
+	/*position:absolute;
+       	top:0;*/
        	top:0;
+	position: fixed;
 	z-index:10000;
 }
  
