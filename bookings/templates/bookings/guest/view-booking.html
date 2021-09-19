@@ -7,17 +7,6 @@
 <div class="main-content-booking container-fluid">
 	<div class="col-8 offset-2 {% if fi.form.image %} div-transp {% else %}div-transp-0 {% endif %} p-4">
 	
-	{% comment %}
-        <div class="bookingHeader"><a id="full-screen" class="" onclick="javascript:toggleFullScreen();">
-            <i class="far fa-window-maximize"></i></a></div>
-	{% endcomment %}
-        
-	{% comment %}
-	<div class="col-lg-10 offset-lg-1 col-md-10 offset-md-1 col-xs-6">
-            <h1 class="grid-container"> <div class="item1">{% padword_translate fi.form.name %}</div> </h1> </div>
-        <hr>
-	{% endcomment %}
-
         <div class="row bloque mt-1">
             <div id="main" class="col-lg-10 offset-lg-1 col-md-10 offset-md-1 col-xs-12">
                 {% for b in fi.get_public_blocks %}
@@ -63,7 +52,6 @@
 
         <div class="row mt-4 mb-4 d-flex justify-content-center ">
             <div class="actions text-center">
-{#<a href="#" class="btn btn-info-pad ark" onclick="window.close()">{% trans "Close" %}</a>#}
 	<button class="btn btn-info-pad ark" data-url="{% url "my-bookings" %}" 
                     data-target="div-main" data-project_uuid="{{project_uuid}}">{% trans "Close" %}</button>
             </div>

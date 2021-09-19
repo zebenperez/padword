@@ -4,6 +4,7 @@ from django.urls import reverse
 import json
 from padword.commons import show_exc
 from web.models import Project, ProjectUser
+import string, random
 
 register = template.Library()
 
@@ -33,6 +34,15 @@ def mult(a, b):
     except Exception as e:
         print (show_exc(e))
         return 0
+
+@register.filter
+def random_str(nchars='128'):
+    try:
+        n = int(nchars)
+    except:
+        n = 128
+    return (''.join(random.choice(string.ascii_letters) for i in range(n)))
+
 
 '''
     Simple Tags
@@ -76,7 +86,6 @@ def idx_page (idx, page, items_per_page):
         return (int(idx) + int(page)*int(items_per_page))
     except:
         return 0
-
 
 
 @register.simple_tag(takes_context=True)

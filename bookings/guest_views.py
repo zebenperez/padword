@@ -494,7 +494,7 @@ def item_shopping_cart_comment(request):
         return render(request, "error_exception.html", {'exc':show_exc(e)})
 
 @group_required("admins", "projects", "guests")
-def view_shopping_cart(request):
+def view_shopping_cart(request, par=None):
     try:
         instance_id = get_param(request.GET, "form_id")
         instance = FormInstance.objects.get(pk=instance_id)
@@ -503,6 +503,7 @@ def view_shopping_cart(request):
         return render(request, "bookings/view-shopping-cart.html", {'fi':instance, 'items':items, 'total':total_price})
     except Exception as e:
         #return HttpResponse(show_exc(e))
+        print (show_exc(e))
         return render(request, "error_exception.html", {'exc':show_exc(e)})
 
 @group_required("admins", "projects", "guests")
@@ -522,11 +523,13 @@ def remove_item_from_shopping_cart(request):
         item_id = request.GET["item_id"]
         obj = ShoppingCart.objects.get(pk=item_id)
         instance_id = obj.form_instance_id
+        item = obj.item
         obj.delete()
         instance = FormInstance.objects.get(pk=instance_id)
         items = ShoppingCart.objects.filter(form_instance_id=instance.pk)
         total_price = instance.get_total
-        return render(request, "bookings/view-shopping-cart.html", {'fi':instance, 'items':items, 'total':total_price})
+        total_items = instance.items_in_bookings(item).count()
+        return render(request, "bookings/view-shopping-cart.html", {'fi':instance, 'items':items, 'total':total_price, 'item_refresh':item, 'total_items':total_items})
     except Exception as e:
         return render(request, "error_exception.html", {'exc':show_exc(e)})
 
