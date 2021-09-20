@@ -31,7 +31,6 @@ def autosave_field(request):
             try:
                 value_json = json.loads(getattr(obj,field))
             except Exception as e:
-                print (show_exc(e))
                 value_json = {}
             value_json[lang.upper()] = value
             value = json.dumps(value_json)

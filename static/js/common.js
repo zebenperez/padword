@@ -1,49 +1,51 @@
 function ajaxGet(url, datas, target, modal_target)
 {
-	$("body").css("cursor", "progress");
-	$.ajax({
-		url : url,
-		type : 'GET',
-		data : datas,
-		dataType : 'html',
-		beforeSend : function(){},
-		success : function(data){
-			if (modal_target != "")
-			{
-				$('#'+modal_target+"-body").html(data);
-				$('#'+modal_target).modal('show');
-			}
-			else
-				if (target != "")
-					$('#'+target).html(data);
-		},
-		error : function(e){alert("Error: "+e.responseText);},
-		complete : function(){$("body").css("cursor", "default");}
-	});
+    $("body").css("cursor", "progress");
+    $.ajax({
+        url : url,
+        type : 'GET',
+        data : datas,
+        cache : false,
+        dataType : 'html',
+        beforeSend : function(){},
+        success : function(data){
+            if (modal_target != "")
+            {
+                $('#'+modal_target+"-body").html(data);
+                $('#'+modal_target).modal('show');
+            }
+            else
+                if (target != "")
+                    $('#'+target).html(data);
+        },
+        error : function(e){alert("Error: "+e.responseText);},
+        complete : function(){$("body").css("cursor", "default");}
+    });
 };
 
 function ajaxGetAppend(url, datas, target, modal_target)
 {
-	$("body").css("cursor", "progress");
-	$.ajax({
-		url : url,
-		type : 'GET',
-		data : datas,
-		dataType : 'html',
-		beforeSend : function(){},
-		success : function(data){
-			if (modal_target != "")
-			{
-				$('#'+modal_target+"-body").append(data);
-				$('#'+modal_target).modal('show');
-			}
-			else
-				if (target != "")
-					$('#'+target).append(data);
-		},
-		error : function(e){alert("Error: "+e.responseText);},
-		complete : function(){$("body").css("cursor", "default");}
-	});
+    $("body").css("cursor", "progress");
+    $.ajax({
+        url : url,
+        type : 'GET',
+        data : datas,
+        cache : false,
+        dataType : 'html',
+        beforeSend : function(){},
+        success : function(data){
+            if (modal_target != "")
+            {
+                $('#'+modal_target+"-body").append(data);
+                $('#'+modal_target).modal('show');
+            }
+            else
+                if (target != "")
+                    $('#'+target).append(data);
+        },
+        error : function(e){alert("Error: "+e.responseText);},
+        complete : function(){$("body").css("cursor", "default");}
+    });
 };
 
 function ajaxGetAutosave(url, datas, target)
@@ -54,6 +56,7 @@ function ajaxGetAutosave(url, datas, target)
         type : 'GET',
         data : datas,
         dataType : 'html',
+        cache : false,
         beforeSend : function(){},
         success : function(data){
             $("#"+target).html(data).show().fadeTo(5000, 500).slideUp(500, function(){
@@ -71,6 +74,7 @@ function ajaxGetRemove(url, datas, target)
         url : url,
         type : 'GET',
         data : datas,
+        cache : false,
         dataType : 'html',
         beforeSend : function(){},
         success : function(data){
@@ -86,23 +90,23 @@ function ajaxGetRemove(url, datas, target)
 
 function autoSearch(obj, num_rows=0)
 {
-	url = obj.data("url");
-	target = obj.data("target");
-	datas = {'num_rows': num_rows,};
-	if (obj.data("related"))
-	{
-		related = obj.data("related").split(",");
-		for(i in related)
-		{
-			key = $("#"+related[i]).attr('name');
-			value = $("#"+related[i]).val();
-			datas[key] = value;
-		}
-	}
+    url = obj.data("url");
+    target = obj.data("target");
+    datas = {'num_rows': num_rows,};
+    if (obj.data("related"))
+    {
+        related = obj.data("related").split(",");
+        for(i in related)
+        {
+            key = $("#"+related[i]).attr('name');
+            value = $("#"+related[i]).val();
+            datas[key] = value;
+        }
+    }
     if (obj.data("append"))
-	    ajaxGetAppend(url, datas, target, '');
+        ajaxGetAppend(url, datas, target, '');
     else
-	    ajaxGet(url, datas, target, '');
+        ajaxGet(url, datas, target, '');
 }
 
 function uploadObjFile(obj, url, target, obj_id, field, token)
@@ -122,7 +126,7 @@ function uploadObjFile(obj, url, target, obj_id, field, token)
         type: 'post',
         success: function (data) {
             $('#'+target).html(data);
-			//$('#'+target).trigger('create');
+            //$('#'+target).trigger('create');
         },
         error : function(e){alert("Error: "+e.responseText);},
     });
@@ -155,19 +159,19 @@ function closeWin(divName)
 }
 
 $(document).ready(()=>{
-	$("body").on("keyup", ".autosearch", function(e){
-		var obj = $(this);
-		setTimeout(function(){
-			autoSearch(obj);
-		}, 1000);
-		e.preventDefault();
-	});
+    $("body").on("keyup", ".autosearch", function(e){
+        var obj = $(this);
+        setTimeout(function(){
+            autoSearch(obj);
+        }, 1000);
+        e.preventDefault();
+    });
 
-	$("body").on("change", ".autosearch_change", function(e){
-		var obj = $(this);
-		autoSearch(obj);
-		e.preventDefault();
-	});
+    $("body").on("change", ".autosearch_change", function(e){
+        var obj = $(this);
+        autoSearch(obj);
+        e.preventDefault();
+    });
 
     $("body").on("click", ".ark", function(e){
         var obj = $(this);
