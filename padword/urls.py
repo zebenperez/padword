@@ -29,6 +29,7 @@ urlpatterns = [
     path('bookings/', include('bookings.urls')),
     path('user_remote/', include('user_remote.urls')),
 
+    path('accounts/login/<slug:chk>/', auth_views.LoginView.as_view(template_name='login.html'), name='auth_login'),
     path('accounts/login/', auth_views.LoginView.as_view(template_name='login.html'), name='auth_login'),
     path('logout/', auth_views.LogoutView.as_view(next_page='/web/thanks/'), name='auth_logout'),
     path('pwa/', include('guestpwa.urls')),

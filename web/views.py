@@ -16,7 +16,7 @@ import os
 # Create your views here.
 
 @group_required("admins", "projects", "guests")
-def index(request):
+def index(request, chk=None):
     if request.user.groups.filter(name='guests').exists():
         return redirect('pwa-index')
 
