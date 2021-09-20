@@ -12,7 +12,7 @@
                   {% if fi.form.form_type.code == "ecom" %}
                       <div class="item2 text-right">(<span id="span-total-items">{{items.count}}</span> art.&nbsp;&nbsp;&nbsp; 
                           <span id="span-total-price">{{fi.get_total|stringformat:".2f"}}</span> &euro;)</div>
-                      <a class="btn btn-light-pad small ark mb-1" data-url="{% url 'view-shopping-cart' ''|random_str %}" data-target-modal="common-modal" 
+                      <a class="btn btn-light-pad small ark" data-url="{% url 'view-shopping-cart' ''|random_str %}" data-target-modal="common-modal" 
                           data-form_id="{{fi.pk}}"> <i class="fas fa-shopping-cart"></i> {% trans '' %}</a>
                   {% endif %}
               </div> 

@@ -213,7 +213,7 @@ tbody, td, tfoot, th, thead, tr {
 .b-item {
 	border-bottom: 1px solid #666 !important;
 	border-radius: 3px 0px 0px 0px;
-	letter-spacing: 2px;
+/*	letter-spacing: 2px;*/
 	text-align: left;
 	text-transform: uppercase;    
 }
@@ -248,10 +248,11 @@ a.btn.btn-outline-danger:hover {
 /* btn actions style*/
 /*****************************/
 
-.btn.btn-access, .btn.btn-primary-pad, .btn.btn-danger-pad, .btn.btn-light-pad, .btn.btn-info-pad, .btn.btn-success-pad {
+.btn.btn-access, .btn.btn-primary-pad, .btn.btn-danger-pad,.btn.btn-info-pad, .btn.btn-success-pad {
 	background: #ffffff;
 	padding: 10px 30px 10px 30px;
 }
+ .btn.btn-light-pad { padding: 5px 5px 5px 5px; }
 
 .btn.btn-access { border: 1px solid #022948; color: #022948; }
 
@@ -513,7 +514,7 @@ img.img-cart {border-radius: 10px 10px 10px 10px; box-shadow: 10px 0px 10px 0px 
 @media (max-width: 360px) 
 {
 	.item1 { font-size: 18px !important;}
-	.item2 { font-size: 12px !important; line-height: 45px !important; }
+	.item2 { font-size: 12px !important; }
 	h5.card-title .text-dark .text-center {
 		font-size: 1rem !important; font-weight: normal !important; min-height: 100px !important; border:1px solid red !important; 
 	}
