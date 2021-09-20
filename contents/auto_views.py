@@ -18,6 +18,7 @@ def autosave_field(request):
             return (category_autosave_field(request))
         else:
             lang = request.GET['lang'] if 'lang' in request.GET else request.LANGUAGE_CODE
+            lang = lang.split('-')[0]
             obj_id = request.GET["obj_id"]
             field = request.GET["field"]
             try:
@@ -56,6 +57,7 @@ def category_autosave_field(request):
         field = request.GET["field"]
         app = request.GET["model_name"].split(".")[0]
         lang = request.GET['lang'] if 'lang' in request.GET else request.LANGUAGE_CODE
+        lang = lang.split('-')[0]
 
         try:
             reffield = request.GET["ref_field"]

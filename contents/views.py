@@ -125,6 +125,7 @@ def item_form (request):
         cat = get_or_none(Category, request.GET["catId"], 'uuid') if "catId" in request.GET else None
         if cat is not None:
             lang = request.GET['lang'] if 'lang' in request.GET else request.LANGUAGE_CODE
+            lang = lang.split('-')[0]
             if obj is None:
                 new_item = True
                 obj = Item.objects.create(  uuid=new_ui_slug(Item), 
