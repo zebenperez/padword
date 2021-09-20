@@ -93,12 +93,15 @@ def padword_translate(context, json_str):
     try:
         request = context['request']
         lang = request.GET['lang'] if 'lang' in request.GET else request.LANGUAGE_CODE
+        lang = lang.split('-')[0]
         json_dict = json.loads(json_str)
         return json_dict[lang.upper()]
     except:
         try:
-            return json.loads(json_str)['ES']
+            json_dict = json.loads(json_str)
+            return json_dict[list(json_dict.keys())[0]]
         except Exception as e:
+            print(show_exc(e))
             try:
                 json_dict = json.loads(json_str)
                 keys = json_dict.keys()
@@ -111,6 +114,7 @@ def is_current_lang(context, language, true_alternative='current', false_alterna
     try:
         request = context['request']
         lang = request.GET['lang'] if 'lang' in request.GET else request.LANGUAGE_CODE
+        lang = lang.split('-')[0]
         if (lang.upper() == language.upper()):
             return (true_alternative)
         return (false_alternative)

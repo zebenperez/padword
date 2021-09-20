@@ -13,8 +13,10 @@ def autosave_field(request):
         app = request.GET["model_name"].split(".")[0]
         model = request.GET["model_name"].split(".")[1]
         obj_id = request.GET["obj_id"]
+
+        lang = request.GET['lang'] if 'lang' in request.GET else request.LANGUAGE_CODE
+        lang = lang.split('-')[0]
         field = request.GET["field"]
-        print(request.GET)
         try:
             reffield = request.GET["ref_field"]
         except:
@@ -24,9 +26,15 @@ def autosave_field(request):
         except:
             value = request.GET.getlist("value[]")
 
-        print(reffield)
-
         obj = get_or_none_str(app, model, obj_id, field=reffield)
+        if "lang" in request.GET: 
+            try:
+                value_json = json.loads(getattr(obj,field))
+            except Exception as e:
+                value_json = {}
+            value_json[lang.upper()] = value
+            value = json.dumps(value_json)
+
         if obj != None:
             set_obj_field(obj, field, value)
             obj.save()
