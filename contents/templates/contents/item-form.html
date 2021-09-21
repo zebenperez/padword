@@ -21,7 +21,7 @@
             <input type="hidden" name="obj_id" value="{{obj.pk}}">
             <input type="hidden" name="cat_id" value="{{cat.pk}}">
             <input name="image" id="image" class="inputfile" type="FILE"  onchange="$('#form-item-change-image').submit();">
-            <label for="image" class="btn btn-success w-100 btn-xs mt-1" >Cambiar</label>
+            <label for="image" class="btn btn-success w-100 btn-xs mt-1" >{% trans="Change" %}</label>
         </form>
         <iframe name="test" style="height:0px;width:0px;" onload="if ( document.getElementById('test-frame').contentWindow.document.body.innerHTML!= '') {$('#img-item').attr('src', document.getElementById('test-frame').contentWindow.document.body.innerHTML);}" id="test-frame">
         </iframe>

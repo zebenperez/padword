@@ -1,0 +1,162 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2021-09-20 16:46+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: models.py:113 models.py:126 models.py:203 templates/guest/second_menu.html:3
+msgid "Guest"
+msgstr ""
+
+#: models.py:116 templates/guest/guest-form.html:10
+#: templates/guest/guest-list.html:9
+msgid "Name"
+msgstr ""
+
+#: models.py:117
+msgid "Code"
+msgstr ""
+
+#: models.py:118
+msgid "Created at"
+msgstr ""
+
+#: models.py:119
+msgid "Updated at"
+msgstr ""
+
+#: templates/guest/guest-form.html:3 templates/guest/guests.html:24
+msgid "New guest"
+msgstr ""
+
+#: templates/guest/guest-form.html:17
+msgid "Surname"
+msgstr ""
+
+#: templates/guest/guest-form.html:24
+msgid "Check-in"
+msgstr ""
+
+#: templates/guest/guest-form.html:31
+msgid "Check-out"
+msgstr ""
+
+#: templates/guest/guest-form.html:38 templates/guest/guest-list.html:5
+msgid "Room"
+msgstr ""
+
+#: templates/guest/guest-form.html:45
+msgid "Guest type"
+msgstr ""
+
+#: templates/guest/guest-form.html:49
+msgid "Confirm code"
+msgstr ""
+
+#: templates/guest/guest-form.html:56
+msgid "Country"
+msgstr ""
+
+#: templates/guest/guest-form.html:60
+msgid "Languaje"
+msgstr ""
+
+#: templates/guest/guest-form.html:67
+msgid "Born date"
+msgstr ""
+
+#: templates/guest/guest-form.html:74
+msgid "Married"
+msgstr ""
+
+#: templates/guest/guest-form.html:77 templates/guest/guest-form.html:86
+#: templates/guest/guest-form.html:153
+msgid "NO"
+msgstr ""
+
+#: templates/guest/guest-form.html:78 templates/guest/guest-form.html:87
+#: templates/guest/guest-form.html:154
+msgid "YES"
+msgstr ""
+
+#: templates/guest/guest-form.html:83 templates/guest/guest-form.html:99
+msgid "Children"
+msgstr ""
+
+#: templates/guest/guest-form.html:92
+msgid "Adults"
+msgstr ""
+
+#: templates/guest/guest-form.html:106
+msgid "Babies"
+msgstr ""
+
+#: templates/guest/guest-form.html:114
+msgid "Mobile phone"
+msgstr ""
+
+#: templates/guest/guest-form.html:121
+msgid "Email"
+msgstr ""
+
+#: templates/guest/guest-form.html:128
+msgid "UUID"
+msgstr ""
+
+#: templates/guest/guest-form.html:135 templates/guest/guest-list.html:6
+msgid "PID"
+msgstr ""
+
+#: templates/guest/guest-form.html:143
+msgid "Project UUID"
+msgstr ""
+
+#: templates/guest/guest-form.html:150
+msgid "Deleted"
+msgstr ""
+
+#: templates/guest/guest-form.html:162
+msgid "Save"
+msgstr ""
+
+#: templates/guest/guest-form.html:164 templates/guest/guest-page.html:13
+msgid "Are you sure to remove this element?"
+msgstr ""
+
+#: templates/guest/guest-form.html:164
+msgid "Remove"
+msgstr ""
+
+#: templates/guest/guest-list.html:7
+msgid "Check in"
+msgstr ""
+
+#: templates/guest/guest-list.html:8
+msgid "Check out"
+msgstr ""
+
+#: templates/guest/guest-list.html:10
+msgid "Language"
+msgstr ""
+
+#: templates/guest/guests.html:9
+msgid "Name, Surname, or Room"
+msgstr ""
+
+#: templates/guest/guests.html:22
+msgid "Huéspedes"
+msgstr ""

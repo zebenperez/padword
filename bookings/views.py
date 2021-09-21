@@ -76,7 +76,7 @@ def get_booking_context(form=None, project=None):
 
     items = FormInstance.objects.filter(**kwargs)
     if items.count() == 0 and project == None:
-        context["msg"] = 'No hay resultados para la búsqueda. Presentamos las últimas 100 reservas'
+        context["msg"] = 'There are no results for the search. Here the last 100 reservations.'
         items = FormInstance.objects.all()[:100]
 
     context["ini_date"] = ini_date
