@@ -47,7 +47,7 @@ class Project(models.Model):
     @property
     def get_languages(self):
         try:
-            print (self.used_languages)
+            #print (self.used_languages)
             return (self.used_languages.upper().replace(' ','').split(','))
         except Exception as e:
             print (show_exc(e))
