@@ -7,7 +7,7 @@
     {% comment %}
     <div class="toolbar-search">
         <input type="text" class="autosearch form-control form-control-dark w-100" name="s-name" id="s-name" 
-            placeholder="Nombre o Canal" data-url="{% url "form-search" %}" data-target="form-list" data-related="s-name" />
+            placeholder={% trans 'Name or Channel' %} data-url="{% url "form-search" %}" data-target="form-list" data-related="s-name" />
     </div>
     {% endcomment %}
     {% include "forms/search_box.html" %}
