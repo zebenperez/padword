@@ -4,10 +4,14 @@
     <div class="col-md-5">
         <h5>{% trans "My Booking" %}&nbsp;<span style="font-size: 13px;">( {{items|length}} {% trans 'art.' %} )</span></h5>
     </div>
-    <div class="col-md-5 text-right" id="div-total-shopping-cart"> {% trans 'Total price' %}: {{total|floatformat:2}} &euro;</div>
-    <div class="col-2 col-xs-3 justify-content-end">
-        <button type="button" class="btn btn-outline-danger save ark w-100" data-url="{% url 'get-price-shopping-cart' %}" data-target="info-shopping" data-form_id="{{fi.pk}}" data-bs-dismiss="modal"><i class="fas fa-times"></i></button>
+    <div class="col-md-6" id="div-total-shopping-cart" style="text-align:right;"> {% trans 'Total price' %}: {{total|floatformat:2}} &euro;
+		<button type="button" class="btn btn-outline-danger save ark " data-url="{% url 'get-price-shopping-cart' %}" data-target="info-shopping" data-form_id="{{fi.pk}}" data-bs-dismiss="modal"><i class="fas fa-times"></i></button>
+	</div>
+	{% comment %}
+    <div class="col-lg-2 col-md-2 col-xs-3 justify-content-end">
+        <button type="button" class="btn btn-outline-danger save ark " data-url="{% url 'get-price-shopping-cart' %}" data-target="info-shopping" data-form_id="{{fi.pk}}" data-bs-dismiss="modal"><i class="fas fa-times"></i></button>
     </div>
+	{% endcomment %}
 </div>
 
 <hr>
@@ -37,13 +41,13 @@
 <div class="row justify-content-center mt-3">
 	<p class="small alert text-left"><strong>*</strong> {% trans 'You can add comments to the article with click on comment buttons' %} <i class="fas fa-comments"></i></p>
 </div>
-<div class="row mt-2">
-    <div class="col-4 offset-2 text-center">
+<div class="row mt-2 w-100">
+    <div class="col-lg-5 offset-lg-1 col-md-6 col-xs-5 text-center mb-3">
         {#<a href="{% url "booking-send" fi.id %}" class="btn btn-outline-primary btn-lg w-100"><i class="fas fa-paper-plane"></i> {% trans "Send" %}</a>#}
         <button class="btn btn-primary-pad ark" data-bs-dismiss="modal" data-url="{% url "booking-send" %}" 
             data-target="div-main" data-obj_id="{{fi.id}}"> {% trans "Send Order" %}</button>
     </div>
-    <div class="col-4 offset-1 text-center">
+    <div class="col-lg-5 offset-lg-1 col-md-6 col-xs-5 text-center">
         {#<a href="{% url "booking-remove" fi.id %}" class="btn btn-outline-danger btn-lg w-100"><i class="fas fa-ban"></i> {% trans "Cancel" %}</a>#}
         <button class="btn btn-danger-pad ark" data-bs-dismiss="modal" data-url="{% url "booking-remove" %}"
             data-target="div-main" data-obj_id="{{fi.id}}"> {% trans "Cancel Order" %}</button>

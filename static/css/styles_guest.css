@@ -248,7 +248,7 @@ a.btn.btn-outline-danger:hover {
 /* btn actions style*/
 /*****************************/
 
-.btn.btn-access, .btn.btn-primary-pad, .btn.btn-danger-pad,.btn.btn-info-pad, .btn.btn-success-pad {
+.btn.btn-access, .btn.btn-primary-pad, .btn.btn-danger-pad, .btn.btn-info-pad, .btn.btn-success-pad {
 	background: #ffffff;
 	padding: 10px 30px 10px 30px;
 }
@@ -266,7 +266,10 @@ a.btn.btn-outline-danger:hover {
 
 .btn.btn-success-pad { border: 1px solid #28a745;  color: #28a745; }
 
-
+.btn.btn-light-pad {
+    padding: 5px 5px 5px 5px !important;
+	border:1px solid red !important;
+}
 
 
 /*********  Booking List Style ***************/
