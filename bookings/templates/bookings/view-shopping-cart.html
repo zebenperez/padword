@@ -1,12 +1,15 @@
 {% load i18n bookings_tag common_tag padword_tags static %}
 
-<div class="row">
-    <div class="col-md-5">
-        <h5>{% trans "My Booking" %}&nbsp;<span style="font-size: 13px;">( {{items|length}} {% trans 'art.' %} )</span></h5>
-    </div>
-    <div class="col-md-6" id="div-total-shopping-cart" style="text-align:right;"> {% trans 'Total price' %}: {{total|floatformat:2}} &euro;
+<div class="row justify-content-end mb-3">
+	<div class="col-1">
 		<button type="button" class="btn btn-outline-danger save ark " data-url="{% url 'get-price-shopping-cart' %}" data-target="info-shopping" data-form_id="{{fi.pk}}" data-bs-dismiss="modal"><i class="fas fa-times"></i></button>
 	</div>
+</div>
+<div class="row">
+    <div class="col-7">
+        <h5>{% trans "My Booking" %}&nbsp;( {{items|length}} {% trans 'art.' %} )</h5>
+    </div>
+    <div class="col-5 text-end" id="div-total-shopping-cart"> {% trans 'Total price' %}: {{total|floatformat:2}} &euro;</div>
 	{% comment %}
     <div class="col-lg-2 col-md-2 col-xs-3 justify-content-end">
         <button type="button" class="btn btn-outline-danger save ark " data-url="{% url 'get-price-shopping-cart' %}" data-target="info-shopping" data-form_id="{{fi.pk}}" data-bs-dismiss="modal"><i class="fas fa-times"></i></button>

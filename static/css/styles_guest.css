@@ -40,6 +40,7 @@ i.fas.fa-ban.text-cancel {
 	color: #999;
 }
 
+
 /*****************************/
 /* FORM IMG-BACKGROUND STYLES */
 /*****************************/
@@ -268,9 +269,13 @@ a.btn.btn-outline-danger:hover {
 
 .btn.btn-light-pad {
     padding: 5px 5px 5px 5px !important;
-	border:1px solid red !important;
 }
 
+.btn-dark {
+		lor: #fff;
+		background-color: #404a5d !important;
+		border-color: #404a5d !important;
+}
 
 /*********  Booking List Style ***************/
 
@@ -491,6 +496,12 @@ img.img-cart {border-radius: 10px 10px 10px 10px; box-shadow: 10px 0px 10px 0px 
 @media (max-width: 768px) 
 {
 	.item1 { font-size: 18px !important; line-height: 35px !important; }
+
+	h5.card-title .text-dark .text-center {
+		font-size: 0.8rem !important; 
+		min-height: 100px !important; 
+	}
+
 }
 
 @media (max-width: 480px) 
@@ -507,6 +518,11 @@ img.img-cart {border-radius: 10px 10px 10px 10px; box-shadow: 10px 0px 10px 0px 
 	}
 
  	.item1 { font-size: 20px !important;}
+
+	h5.card-title .text-dark .text-center {
+		font-size: 0.9rem !important; 
+	}
+
 }
 
 @media (max-width: 415px) 
@@ -519,7 +535,14 @@ img.img-cart {border-radius: 10px 10px 10px 10px; box-shadow: 10px 0px 10px 0px 
 	.item1 { font-size: 18px !important;}
 	.item2 { font-size: 12px !important; }
 	h5.card-title .text-dark .text-center {
-		font-size: 1rem !important; font-weight: normal !important; min-height: 100px !important; border:1px solid red !important; 
+		font-size: 1rem !important; 
+		font-weight: normal !important; 
+		min-height: 100px !important; 
+		color:red!important;
+	}
+	.text-secondary {
+		height: 100px;
+		overflow-y: scroll;
 	}
 }
 

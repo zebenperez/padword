@@ -35,8 +35,8 @@
               </div>
           </div>
 
-          <div class="row mt-4 mb-4 d-flex justify-content-center ">
-              <div class="col-lg-3 col-md-4 col-xs-2 offset-xs-1 actions text-center">
+          <div class="row mt-4 mb-4 d-flex justify-content-center">
+              <div class="col-lg-3 col-md-4 col-xs-2 offset-xs-1 actions text-center mb-3">
                   {% if fi.form.form_type.code == "ecom" %}
                       <button class="btn btn-primary-pad ark w-100" data-url="{% url 'view-shopping-cart' ''|random_str%}" 
                           data-target-modal="common-modal" data-form_id="{{fi.pk}}"> {% trans 'Continue' %}</button>
