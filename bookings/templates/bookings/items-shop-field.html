@@ -35,8 +35,9 @@
 </div>
 <br/>
 {% if selected_item and selected_item != None %}
-<div id="item-selected"> <i class="far fa-check-circle"></i> {% trans "You are selected:" %} <span> {% padword_translate selected_item.name %} - {{selected_item.price}} &euro; </span> </div>
-    <script> $('html, body').animate({ scrollTop: $("#item-selected").offset().top }, 2000); </script>
+    <div id="item-selected"> <i class="far fa-check-circle"></i> {% trans "You are selected:" %} <span> 
+        {% padword_translate selected_item.name %} - {{selected_item.price}} &euro; </span> </div>
+    <script> document.getElementById("item-selected").element.scrollIntoView(); </script>
 {% endif %}
 
 
