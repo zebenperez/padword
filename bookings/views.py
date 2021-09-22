@@ -88,6 +88,8 @@ def get_booking_context(form=None, project=None):
 @group_required("admins", "projects")
 def bookings_by_project(request, project_id):
     try:
+        if project_id == -1:
+            return render(request, 'error_exception.html', {'exc': _('Project not found!')})
         context = get_booking_context(project=get_or_none(Project, project_id))
         context['total_items'] = context['items'].count()
         context['items'] = context['items'][0:ITEMS_PER_PAGE]
@@ -97,7 +99,6 @@ def bookings_by_project(request, project_id):
         print (show_exc(e))
         logger.error("[bookings-bookings_by_project] {}".format(str(e)))
         return render(request, 'error_exception.html', {'exc':show_exc(e)})
-    return render(request, 'error_exception.html', {'exc':'Unknown error'})
 
 @group_required("admins", "projects")
 def bookings_search(request):
