@@ -15,20 +15,7 @@
     <tbody>
         {% for item in items %}
         <tr id="row-{{item.id}}">
-            <td >
-                <div class="row small m-2">
-                    <div class="col-3">{% padword_translate item.name %} ({{ item.form_type.name }})</div>
-                    <div class="col-4">{{item.project}}</div>
-                    <div class="col-3">{{item.channel}}</div>
-                    <div class="col-2 d-flex justify-content-end">
-                        <a class="btn" href="#" title="{% trans 'Finger print' %}" onclick='alert("{{item.uuid}}"); return False'><i class="fas fa-fingerprint"></i></a>
-                        <a class="me-1 btn btn-xs" title="{% trans 'See bookings' %}" href="{% url "bookings-by-form" item.id %}"> <i class="far fa-eye"></i></a>  
-                        <a class="me-1 btn btn-xs" title="{% trans 'New booking' %}" href="{% url "booking-preview" item.uuid %}" target="_blank"> <i class="far fa-calendar-check"></i></a>  
-                        <a class="me-1 btn btn-xs" title="{% trans 'Edit' %}" href="{% url "form-edit" item.id %}"><i class="fas fa-edit"></i></a>  
-                        <a class="btn btn-sm autoremove" title="{% trans 'Remove' %}" data-model-name="bookings.form" data-obj-id="{{item.id}}" data-url="{% url "autoremove_obj" %}" data-target="row-{{item.id}}" data-confirm="{% trans "Are you sure to remove this element?" %}"><i class="fas fa-trash"></i></a>
-                    </div>
-                </div>
-            </td>
+            {% include "forms/form-row.html" with item=item %}
         </tr>
         {% endfor %}
     </tbody>

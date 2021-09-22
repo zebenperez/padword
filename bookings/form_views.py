@@ -99,6 +99,20 @@ def form_edit(request, form_id=None, category_uuid=None):
         return render(request, 'error_exception.html', {'exc':show_exc(e)})
 
 @group_required("admins", "projects")
+def form_change_active(request, form_id):
+    try:
+        obj = get_or_none(Form, form_id)
+        if obj == None:
+            return render(request, 'error_exception.html', {'exc': _('Form not found!')})
+        # Create or edit by category
+        obj.active  = not obj.active
+        obj.save()
+        return render(request, "forms/form-row.html", {'item':obj})
+    except Exception as e:
+        print (show_exc(e))
+        return render(request, 'error_exception.html', {'exc':show_exc(e)})
+
+@group_required("admins", "projects")
 def form_form(request):
     try:
         obj = get_or_none(Form, request.GET["obj_id"]) if "obj_id" in request.GET else None

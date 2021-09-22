@@ -10,6 +10,7 @@ urlpatterns = [
 
     path('forms/edit/', fv.form_edit, name='form-edit'),
     path('forms/edit/<int:form_id>/', fv.form_edit, name='form-edit'),
+    path('forms/change-active/<int:form_id>/', fv.form_change_active, name='form-change-active'),
     path('forms/edit/category-<slug:category_uuid>/', fv.form_edit, name='form-edit-category'),
     path('forms/form/', fv.form_form, name='form-form'),
 

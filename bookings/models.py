@@ -96,6 +96,7 @@ def upload_form_qr(instance, filename):
     return '/'.join(['%s' % (folder), datetime.datetime.now().strftime("%Y%m%d%H%M%S") + ascii_filename])
 
 class Form(models.Model):
+    active = models.BooleanField(default=False, help_text=_("This form is active for guests"), verbose_name="Active")
     uuid = models.CharField(max_length=255, verbose_name=_('UUID'), default="")
     name = models.CharField(max_length=200, verbose_name=_("Name"))
     category = models.CharField(max_length=200, verbose_name=_("Category"), default="")
