@@ -1,14 +1,14 @@
 {
     "name": "Pawdord by Shidix Technologies",
     "short_name": "Padword",
-    "start_url": "/",
+    "start_url": "/pwa/",
     "scope":"/",
     "display": "standalone",
     "background_color": "#FFF",
     "theme_color": "#493174",
     "description": "PWA for Padword",
     "lang": "es-ES",
-    "orientation": "portrait-primary",
+    "orientation": "landscape-primary",
     "icons": [{
         "src": "/static/img/logo-padword-96x96.png",
         "type": "image/png",

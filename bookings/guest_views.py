@@ -67,7 +67,8 @@ def guest_access(request, form_uuid):
 def guest_access_bookings(request, project_uuid):
     #next_url = reverse("my-bookings") if request.user.is_authenticated and user_in_group(request.user, "guests") else reverse("guest-form-login")
     if check_user(request.user, project_uuid=project_uuid):
-        next_url = reverse("my-bookings")
+        #next_url = reverse("my-bookings")
+        next_url = reverse("pwa-index")
     else:
         auth.logout(request)
         next_url = reverse("guest-form-login")
@@ -106,13 +107,22 @@ def booking_new_guest(request):
                 return render(request, 'error_exception.html', {'exc': _('Form not found!')})
             if form.project == None:
                 return render(request, 'error_exception.html', {'exc': _('Project not found!')})
-            project = form.project
+            project = [form.project]
         else:
             project = get_or_none(Project, project_uuid, "uuid")
             if project == None:
-                return render(request, 'error_exception.html', {'exc': _('Project not found!')})
+                guests = Guest.objects.filter(email = code, deleted=0)
+                projects = [guest.project for guest in guests]
+            else:
+                projects = [project]
 
-        guest = Guest.check_valid_booking(project.uuid, code, room)
+                #return render(request, 'error_exception.html', {'exc': _('Project not found!')})
+
+        for project in projects:
+            guest = Guest.check_valid_booking(project.uuid, code, room)
+            if guest != None:
+                break
+
         if guest == None:
             if form_uuid != "":
                 return render(request, 'guest_form_login.html', {'form_uuid': form_uuid, 'error_msg':_('Sorry, your information is not right. Please, try again.')})
@@ -126,7 +136,8 @@ def booking_new_guest(request):
             return render(request, 'error_exception.html', {'exc': err})
         auth.login(request, user)
 
-        return redirect(booking_new, form_uuid) if form_uuid != "" else redirect(bookings_by_guest, project.uuid)
+        #return redirect(booking_new, form_uuid) if form_uuid != "" else redirect(bookings_by_guest, project.uuid)
+        return redirect(booking_new, form_uuid) if form_uuid != "" else redirect(reverse("pwa-index"))
     except Exception as e:
         print (show_exc(e))
         logger.error("[bookings-new_booking] {}".format(str(e)))

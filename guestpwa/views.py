@@ -22,16 +22,15 @@ logger = logging.getLogger(__name__)
 
 # Create your views here.
 
-@login_required
-def index(request):
+def index(request, project_uuid=None):
     try:
         if request.user.is_authenticated:
             guest = Guest.objects.filter(email=request.user.email).first()
             categories = list(Category.objects.filter(project_uuid = guest.project.uuid).values_list('uuid', flat=True))
             forms = Form.objects.filter(category__in = categories, active=True)
-            return render(request, "guest/index.html", {'forms':forms})
+            return render(request, "guest/index.html", {'forms':forms, 'project_uuid':guest.project.uuid})
         else:
-            return redirect(reverse('guest-form-login', kwargs={'form_uuid':'c586d361-8dce-63aa-3b8b-f1cc164a61f6'}))
+            return redirect(reverse('guest-access-bookings', kwargs={'project_uuid':project_uuid}))
 
     except Exception as e:
         return render(request, "error_exception.html", {'exc':show_exc(e)})

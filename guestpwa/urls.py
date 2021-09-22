@@ -6,6 +6,7 @@ from . import views
 from contents import auto_views
 
 urlpatterns = [ 
+    path('project-<slug:project_uuid>/', views.index, name='pwa-index'),
     path('', views.index, name='pwa-index'),
     #--------------------- Projects --------------------
 #     path('projects/company-<int:company_id>/', views.projects, name='projects-by-company'),
