@@ -23,11 +23,8 @@
 					<div class="col-4 info-col booking-line"><strong>{{ item.date|date:'Y-m-d H:i' }}</strong></div>
 					<div class="col-3 info-col booking-line"><strong>{% padword_translate item.status.name %}</strong></div>
 					<div class="col-1 info-col booking-line">
-                        {% comment %}
 		                <button class="me-1 btn btn-xs ark" data-url="{% url "booking-guest-view" %}" data-target="div-main" 
-						    data-obj_id="{{item.id}}" title="{%trans "View"%}"> <i class="fas fa-eye"></i></button>  
-                        {% endcomment %}
-			<i class="fas fa-chevron-right fa-lg"></i>
+						    data-obj_id="{{item.id}}" title="{%trans "View"%}"><i class="fas fa-chevron-right fa-lg"></i></button>  
                     </div>
 				</div>
 				{% endfor %}
