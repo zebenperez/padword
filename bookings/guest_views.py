@@ -111,13 +111,14 @@ def booking_new_guest(request):
         else:
             project = get_or_none(Project, project_uuid, "uuid")
             if project == None:
-                guests = Guest.objects.filter(email = code, deleted=0)
+                guests = Guest.objects.filter(email = code)
                 projects = [guest.project for guest in guests]
             else:
                 projects = [project]
 
                 #return render(request, 'error_exception.html', {'exc': _('Project not found!')})
 
+        guest = None
         for project in projects:
             guest = Guest.check_valid_booking(project.uuid, code, room)
             if guest != None:
