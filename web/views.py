@@ -20,7 +20,8 @@ def index(request, chk=None):
     if request.user.groups.filter(name='guests').exists():
         return redirect('pwa-index')
 
-    if hasattr(request, "project_id"):
+    #if hasattr(request, "project_id"):
+    if request.user.groups.filter(name='projects').exists():
         return redirect('bookings-by-project', request.project_id)
     return redirect('projects')
 
