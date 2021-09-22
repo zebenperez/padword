@@ -12,8 +12,7 @@
                   {% if fi.form.form_type.code == "ecom" %}
                       <div class="item2 text-right">(<span id="span-total-items">{{items.count}}</span> art.&nbsp;&nbsp;&nbsp; 
                           <span id="span-total-price">{{fi.get_total|stringformat:".2f"}}</span> &euro;)</div>
-                {#<a class="btn btn-light-pad small ark" data-url="{% url 'view-shopping-cart' ''|random_str %}" data-target-modal="common-modal"#}
-                        <a class="btn btn-light-pad small ark mb-1 p-1" data-url="{% url 'view-shopping-cart' ''|random_str %}" 
+                        <a class="btn btn-light-pad small ark mb-1 p-1" data-url="{% url 'view-shopping-cart'  %}" 
                         data-target-modal="common-modal" data-form_id="{{fi.pk}}"> <i class="fas fa-shopping-cart"></i> {% trans '' %}</a>
                   {% endif %}
               </div> 
@@ -38,7 +37,7 @@
           <div class="row mt-4 mb-4 d-flex justify-content-center">
               <div class="col-lg-3 col-md-4 col-xs-2 offset-xs-1 actions text-center mb-3">
                   {% if fi.form.form_type.code == "ecom" %}
-                      <button class="btn btn-primary-pad ark w-100" data-url="{% url 'view-shopping-cart' ''|random_str%}" 
+                      <button class="btn btn-primary-pad ark w-100" data-url="{% url 'view-shopping-cart' %}" 
                           data-target-modal="common-modal" data-form_id="{{fi.pk}}"> {% trans 'Continue' %}</button>
                   {% else %}
                       <button class="btn btn-primary-pad w-100 ark" data-url="{% url "booking-send" %}" 

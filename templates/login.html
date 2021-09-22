@@ -15,9 +15,9 @@
 				<div class="toolbar-heading">{% trans "Log in" %} </div>
                 <div class="panel-body">
 					<br/>
-					<form class="form-horizontal p-4" method="post" action="{% url "auth_login" ''|random_str%}">
+					<form class="form-horizontal p-4" method="post" action="{% url "auth_login" %}">
 						{% csrf_token %}
-						<input type="hidden" name="next" value="{% url 'web-index-new' ''|random_str%}" />
+						<input type="hidden" name="next" value="{% url 'web-index-new' %}" />
                         <div class="form-group row mb-4">
 							<label class="col-md-4 control-label text-right">{% trans "User name:" %} </label>
 							<div class="col-md-6"><div class="form-group">

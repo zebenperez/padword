@@ -42,7 +42,7 @@
    	 <div class="nav-item"><span class="text-white nav-link"><strong>Hola, {{user.username}}</strong></span></div>
 	{% endcomment %}
 {% else %}
-    <div class="nav-item"> <a class="nav-link {% current '' %}" href="{% url 'auth_login' ''|random_str %}"> 
+    <div class="nav-item"> <a class="nav-link {% current '' %}" href="{% url 'auth_login'  %}"> 
         <i class="fas fa-sign-in-alt"></i> {% trans "Log in" %}</a> </div>
 {% endif %}
 
