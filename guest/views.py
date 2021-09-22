@@ -86,19 +86,19 @@ def guest_pagination(request, page=0):
     except Exception as e:
         return render(request, "error_exception.html", {'exc':show_exc(e)})
 
-'''
-    Devices
-'''
-@group_required("admins", "projects")
-def devices(request):
-    try:
-        items= Guest.objects.all()
-        total_count = items.count()
-
-        return render (request, "device/devices.html",{'items':items[0:20], 'page':0, 'n_items':total_count})
-    except Exception as e:
-        return JsonResponse({'results':[], 'error':1, 'error-msg':show_exc(e)})
-
+#'''
+#    Devices
+#'''
+#@group_required("admins", "projects")
+#def devices(request):
+#    try:
+#        items= Guest.objects.all()
+#        total_count = items.count()
+#
+#        return render (request, "device/devices.html",{'items':items[0:20], 'page':0, 'n_items':total_count})
+#    except Exception as e:
+#        return JsonResponse({'results':[], 'error':1, 'error-msg':show_exc(e)})
+#
 #@group_required("admins")
 #def guest_search(request):
 #    try:
