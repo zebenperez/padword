@@ -1,11 +1,13 @@
-from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
-from django.http import HttpResponse, JsonResponse
 from django.core import serializers
+from django.http import HttpResponse, JsonResponse
+from django.shortcuts import render, redirect
+from django.utils.translation import ugettext_lazy as _ 
+from django.views.decorators.csrf import csrf_exempt
+
 from padword.commons import show_exc, get_or_none, get_param, new_ui_slug, translate
 from padword.decorators import group_required
 from .models import *
-from django.views.decorators.csrf import csrf_exempt
 
 
 from django.conf import settings
@@ -20,7 +22,9 @@ def index(request, chk=None):
     if request.user.groups.filter(name='guests').exists():
         return redirect('pwa-index')
 
-    if hasattr(request, "project_id"):
+    if request.user.groups.filter(name='projects').exists():
+        if not hasattr(request, "project_id"):
+            return render(request, 'error_exception.html', {'exc': _('Project not found!')})
         return redirect('bookings-by-project', request.project_id)
     return redirect('projects')
 
