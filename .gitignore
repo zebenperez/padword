@@ -12,3 +12,4 @@ local_settings.py
 dbrouting.py
 media
 **.docker
+migrations.sh
