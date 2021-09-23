@@ -8,7 +8,6 @@
     "theme_color": "#493174",
     "description": "PWA for Padword",
     "lang": "es-ES",
-    "orientation": "landscape-primary",
     "icons": [{
         "src": "/static/img/logo-padword-96x96.png",
         "type": "image/png",
