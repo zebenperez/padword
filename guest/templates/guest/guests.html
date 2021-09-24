@@ -24,7 +24,7 @@
         <a class="btn btn-primary ark" data-url="{% url "guest-form" %}" data-target-modal="common-modal">{%trans "New guest"%}</a>  
         {% include "common-modal.html" %}
     </div>
-    <div>{% include "guest/guest-list.html" %}</div>
+    <div id="guest-list">{% include "guest/guest-list.html" %}</div>
 </div>
 
 {% endblock central_content %}

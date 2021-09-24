@@ -105,6 +105,11 @@ class Guest(models.Model):
             return Guest.objects.filter(Q(mobile=code) | Q(email=code)).filter(project_id=project, room=room, check_in__lte=date, check_out__gte=date).first()
         return Guest.objects.filter(Q(mobile=code) | Q(email=code)).filter(project_id=project, check_in__lte=date, check_out__gte=date).first()
 
+    @staticmethod
+    def rooms_assigned(project):
+        date = datetime.datetime.now()
+        return Guest.objects.filter(project_id=project, check_in__lte=date, check_out__gte=date)
+
     class Meta:
         if len (settings.DATABASES) > 1:
             managed = False

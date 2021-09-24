@@ -18,6 +18,7 @@ urlpatterns = [
     path('devices/', views.devices, name='guest-devices'),
     path('devices/search/', views.device_search, name='guest-device-search'),
     path('devices/form/', views.device_form, name='guest-device-form'),
+    path('devices/room/', views.device_room, name='guest-device-room'),
     path('devices/remove/', views.device_remove, name='guest-device-remove'),
     path('devices/page/<int:page>/', views.device_pagination, name='guest-device-page'),
 

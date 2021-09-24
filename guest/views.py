@@ -2,6 +2,7 @@ from django.http import HttpResponse, JsonResponse
 from django.contrib.auth.decorators import login_required
 from django.core import serializers
 from django.shortcuts import render, redirect
+from django.utils.translation import ugettext_lazy as _ 
 import datetime
 
 from .models import *
@@ -92,13 +93,13 @@ def guest_pagination(request, page=0):
 @group_required("admins", "projects")
 def devices(request):
     try:
-        if user_in_group("projects"):
+        if user_in_group(request.user, "projects"):
             if not hasattr(request, "project_id"):
                 return render(request, "error_exception.html", {'exc': _('Project not found!')})
             project = get_or_none(Project, request.project_id)
-            items = Device.by_project(project)
-        elif user_in_group("admins"):
-            items = Device.objects.all()
+            items = webmod.Device.by_project(project)
+        elif user_in_group(request.user, "admins"):
+            items = webmod.Device.objects.all()
         else:
             return render(request, "error_exception.html", {'exc': _('This user have not permission for this section!')})
         total_count = items.count()
@@ -114,18 +115,18 @@ def device_search(request):
         filters_to_search = ["alias__icontains", "imei__icontains"]
         search_value = request.GET["s-name"] if "s-name" in request.GET else ""
         if search_value != "":
-            items = Device.objects.none()
+            items = webmod.Device.objects.none()
             for myfilter in filters_to_search:
                 kwargs = {}
                 kwargs[myfilter] = search_value
-                items = items.union(Device.objects.filter(**kwargs))
+                items = items.union(webmod.Device.objects.filter(**kwargs))
 
             #channels = webmod.Channel.objects.filter(name__icontains = search_value)
             #items = items.union(Guest.by_channel(channels))
             #projects = webmod.Project.objects.filter(name__icontains = search_value)
             #items = items.union(Guest.by_project(projects))
         else:
-            items = Device.objects.all()
+            items = webmod.Device.objects.all()
         return render(request, "device/device-list.html", {'items': items,})
     except Exception as e:
         return JsonResponse({'results':[], 'error':1, 'error-msg':show_exc(e)})
@@ -135,24 +136,35 @@ def device_form(request):
     try:
         if not "obj_id" in request.GET:
             return render(request, 'error_exception.html', {'exc':_('Object not found!')})
-        obj = get_or_none(Device, request.GET["obj_id"]) 
+        obj = get_or_none(webmod.Device, request.GET["obj_id"]) 
         return render(request, "device/device-form.html", {'obj': obj,})
     except Exception as e:
         return render(request, 'error_exception.html', {'exc':show_exc(e)})
 
 @group_required("admins", "projects")
+def device_room(request):
+    try:
+        if not "obj_id" in request.GET:
+            return render(request, 'error_exception.html', {'exc':_('Object not found!')})
+        obj = get_or_none(webmod.Device, request.GET["obj_id"]) 
+        item_list = Guest.rooms_assigned(obj.project.uuid)
+        return render(request, "device/device-room.html", {'obj': obj, 'item_list': item_list})
+    except Exception as e:
+        return render(request, 'error_exception.html', {'exc':show_exc(e)})
+
+@group_required("admins", "projects")
 def device_remove(request):
-    obj = get_or_none(Device, request.GET["obj_id"]) if "obj_id" in request.GET else None
+    obj = get_or_none(webmod.Device, request.GET["obj_id"]) if "obj_id" in request.GET else None
     if obj != None:
         obj.delete()
 
-    items = Device.objects.all()
+    items = webmod.Device.objects.all()
     return render(request, "device/device-list.html", {'items':items,})
 
 @group_required("admins","projects")
 def device_pagination(request, page=0):
     try:
-        items = Device.objects.all()
+        items = webmod.Device.objects.all()
         items = items[page*20:(page+1)*20]
         return render(request, "device/device-page.html", {'items':items, 'page':page})
     except Exception as e:
