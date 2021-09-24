@@ -24,14 +24,22 @@
 
     </head>
     <body style="background:url('/static/img/bg-test.jpg'); background-size: cover;">
-        <div class="div-transp div-transparent- p-4">
+	<div class="div-top text-center"><img src="/static/img/logo-lanis.png"></div>
+
+        <div class="div-transp-blue div-transparent- p-4">
             <div class="container-fluid" id="pwa-content">
-                <div class="row">
-                    <div class="col-12 "><button class="btn btn-info p-5 w-100 d-flex justify-content-center ark" data-url="{% url 'my-bookings' project_uuid %}" data-target="pwa-content">{% trans 'My bookings' %}</button></div>
+                <div class="row mt-3">
                     {% for form in forms %}
-                    <div class="col-6 "><a class="btn btn-danger p-5 w-100 d-flex justify-content-center" href="{% url 'booking-new' form.uuid %}">{% padword_translate form.name %}</a></div>
+			<div class="col-6 service-box mb-3">
+				<a class="btn btn-light p-5 w-100 d-flex justify-content-center"
+				href="{% url 'booking-new' form.uuid %}">{% padword_translate form.name %}</a>
+			</div>
                     {% endfor %}
                 </div>
+		<div class="row">
+                    <div class="col-3 mt-3 mb-3 text-center w-100"><button class="btn btn-info p-3 ark" data-url="{% url 'my-bookings' project_uuid %}" data-target="pwa-content">{% trans 'My bookings' %}</button></div>
+		</div>
+
             </div>
         </div>
         <script>
@@ -41,7 +49,7 @@
                     Notification.requestPermission(function(result) {
                         if (result === 'granted') {
                             navigator.serviceWorker.ready.then(function(registration) {
-                                registration.showNotification('Notification with ServiceWorker');
+                                //registration.showNotification('Notification with ServiceWorker');
                             });
                         }
                     });

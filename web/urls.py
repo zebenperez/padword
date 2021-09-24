@@ -4,7 +4,8 @@ from django.urls import path
 from . import views, auto_views
 
 urlpatterns = [ 
-    path('index/<slug:chk>/', views.index, name='web-index-new'),
+    #path('index/<slug:chk>/', views.index, name='web-index-new'),
+    path('index/', views.index, name='web-index-new'),
     path('', views.index, name='web-index'),
     #--------------------- Projects --------------------
     path('projects/company-<int:company_id>/', views.projects, name='projects-by-company'),
