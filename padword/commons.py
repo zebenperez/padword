@@ -15,6 +15,12 @@ def show_exc(e):
     return ("ERROR ===:> [%s in %s:%d]: %s" % (exc_type, exc_tb.tb_frame.f_code.co_filename, exc_tb.tb_lineno, str(e)))
 
 '''
+    Users
+'''
+def user_in_group(user, group):
+    return user.groups.filter(name=group).exists()
+
+'''
     Common
 '''
 def get_or_none(model, value, field="pk"):

@@ -1,0 +1,34 @@
+{% load i18n padword_tags %}
+
+{% for item in items %}
+    <div class="row d-flex m-1">
+        <div class="col-1 d-flex justify-content-start">{{ item.alias }}</div>
+        <div class="col-1">{{ item.room }}</div>
+        <div class="col-2"> - GUEST -</div>
+        <div class="col-3">{{ item.imei }} </div>
+        <div class="col-1">{{ item.mac }}</div>
+        <div class="col-1">{{ item.channel }}</div>
+        <div class="col-1">{{ item.active }}</div>
+        <div class="col-1">{{ item.updated_at|date:'Y-m-d' }}</div>
+        <div class="col-2">
+            <a class="btn" href="#" onclick='alert("{{item.uuid}}"); return False'><i class="fas fa-fingerprint"></i></a>
+            <a class="btn btn-xs ark" data-url="{% url "guest-device-form" %}" data-target-modal="common-modal" data-obj_id="{{item.id}}"> 
+                <i class="fas fa-edit"></i></a>  
+            <a class="btn btn-sm autoremove" data-model-name="web.device" data-obj-id="{{item.id}}" data-url="{% url "autoremove_obj" %}" 
+                data-target="row_{{item.id}}" data-confirm="{% trans "Are you sure to remove this element?" %}"><i class="fas fa-trash"></i></a>
+        </div>
+    </div>
+{% endfor %}
+
+<div id="device-page-{{page|add:"1"}}">
+    <div class="d-flex justify-content-center">
+        <a class="btn-tools btn-primray btn-labeled btn-sm ark" id="btn-see-more" data-url="{% url "guest-device-page" page|add:"1" %}" 
+            data-target="guest-page-{{page|add:"1"}}"> <span class="d-none d-sm-block">ooo</span> </a>
+    </div>
+</div>
+
+<script class="realtime-script">
+    $('#device-page-{{page|add:"1"}}').appendTo('#device-list');
+    observer.observe(document.querySelector("#btn-see-more"));
+    $('.realtime-script').remove();
+</script>

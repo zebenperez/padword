@@ -10,7 +10,7 @@
         <div class="nav-item"> <a class="nav-link {% current 'bookings' %}" href="{% url 'bookings' %}"> {% trans 'Requests' %} </a> </div>
         <div class="nav-item"> <a class="nav-link {% current '' %}" href="#"> {% trans 'Places and Events' %} </a> </div>
         <div class="nav-item"> <a class="nav-link {% current '' %}" href="#"> {% trans 'Rooms' %} </a> </div>
-        <div class="nav-item"> <a class="nav-link {% current '' %}" href="#"> {% trans 'Tablets' %} </a> </div>
+        <div class="nav-item"> <a class="nav-link {% current 'guest-devices' %}" href="#"> {% trans 'Tablets' %} </a> </div>
         <div class="nav-item"> <a class="nav-link {% current 'guests' %}" href="{% url 'guests' %}"> {% trans 'Guests' %} </a> </div>
         <div class="nav-item"> <a class="nav-link {% current 'user-index' %}" href="{% url 'user-index' %}"> {% trans 'PW Users' %} </a> </div>
     {% elif menu == "projects" %}
