@@ -1,0 +1,25 @@
+{% load i18n %}
+
+<h2>{% trans 'New guest' %}</h2>
+
+
+<span id="div-notification"></span><br/>
+
+<div class="row justify-center">
+	<div class="col-6">
+		{% trans "Alias" %}*:
+		<input type="text" class="form-control autosave b-bottom mb-4" id="alias" name="alias" value="{{obj.alias}}" title="{{obj.alias}}" 
+			data-model-name="web.device" data-obj-id="{{obj.id}}" data-url="{% url "autosave_field" %}" data-target="div-notification" required/>
+			<span id="alias__msg"></span>
+	</div>
+</div>
+
+<div class="d-flex justify-content-end">
+	<button type="button" class="btn btn-sm ark save" data-bs-dismiss="modal" data-url="{% url "guest-device-search" %}" 
+        data-target="device-list">{% trans "Save" %}</button>
+    {%comment%}
+	<button type="button" class="btn btn-sm ark cancel" data-bs-dismiss="modal" data-url="{% url "guest-device-remove" %}" data-target="device-list" 
+        data-obj_id="{{obj.id}}" data-confirm="{% trans "Are you sure to remove this element?" %}">{% trans "Remove" %}</button>
+    {%endcomment%}
+</div>
+

@@ -1,0 +1,16 @@
+{% load i18n padword_tags %}
+
+{% csrf_token %}
+<div class="row d-flex small fw-bold m-1 mt-3">
+    <div class="col-1 d-flex justify-content-start lh-4"> {% trans 'Alias' %} </div>
+    <div class="col-1 d-flex justify-content-start"> {% trans 'Room' %} </div>
+    <div class="col-1 d-flex justify-content-start"> {% trans 'Guest' %} </div>
+    <div class="col-2 d-flex justify-content-start"> {% trans 'IMEI' %} </div>
+    <div class="col-2 d-flex justify-content-start"> {% trans 'Wifi MAC' %} </div>
+    <div class="col-1 d-flex justify-content-start"> {% trans 'Canal' %} </div>
+    <div class="col-1 d-flex justify-content-start"> {% trans 'Activo' %} </div>
+    <div class="col-1 d-flex justify-content-start"> {% trans 'Fecha de actualización' %} </div>
+</div>
+<div class="striped-nested table-hover">
+    <div> {% include "device/device-page.html" %} </div>
+</div>

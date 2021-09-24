@@ -65,9 +65,16 @@ def guest_access(request, form_uuid):
     return render(request, 'bookings/guest/guest-welcome.html', context)
 
 def guest_access_bookings(request, project_uuid):
-    #next_url = reverse("my-bookings") if request.user.is_authenticated and user_in_group(request.user, "guests") else reverse("guest-form-login")
     if check_user(request.user, project_uuid=project_uuid):
-        #next_url = reverse("my-bookings")
+        next_url = reverse("my-bookings")
+    else:
+        auth.logout(request)
+        next_url = reverse("guest-form-login")
+    context = {'project_uuid': project_uuid, 'next_url': next_url}
+    return render(request, 'bookings/guest/guest-welcome.html', context)
+
+def guest_access_pwa(request, project_uuid):
+    if check_user(request.user, project_uuid=project_uuid):
         next_url = reverse("pwa-index")
     else:
         auth.logout(request)

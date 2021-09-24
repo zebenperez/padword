@@ -56,6 +56,7 @@ urlpatterns = [
     #------------- Bookings Guests --------------#
     path('guest-access/<slug:form_uuid>/', gv.guest_access, name='guest-access'),
     path('guest-access-bookings/<slug:project_uuid>/', gv.guest_access_bookings, name='guest-access-bookings'),
+    path('guest-access-pwa/<slug:project_uuid>/', gv.guest_access_pwa, name='guest-access-pwa'),
 
     path('guest-form-login/', gv.guest_form_login, name='guest-form-login'),
     path('guest-form-login/<slug:form_uuid>/', gv.guest_form_login, name='guest-form-login'),
