@@ -1,0 +1,14 @@
+{% load i18n padword_tags %}
+<td class="row p-1">
+    <div class="col-2 d-flex justify-content-start lh-4">{{ item.room|default_if_none:'000' }}</div>
+    <div class="col-1">{{ item.PID|default_if_none:'0' }} {{item.pk}} </div>
+    <div class="col-2">{{ item.check_in|date:'Y-m-d'}}</div>
+    <div class="col-2"><span class="badge rounded-pill bg-success" style="font-size:1em">{{ item.check_out|date:'Y-m-d'}}</span></div>
+    <div class="col-3">{{ item.name }} {{item.surname}}{% if request.user|in_group:'admins' or request.user.is_staff %}<br><small>{{item.project.name}}</small>{%endif%}</div>
+    <div class="col-2">
+        {{item.language}}
+        <a class="btn" href="#" onclick='alert("{{item.uuid}}"); return False'><i class="fas fa-fingerprint"></i></a>
+        <a class="btn btn-xs ark" data-url="{% url "guest-form" %}" data-target-modal="common-modal" data-obj_id="{{item.id}}"> <i class="fas fa-edit"></i></a>  
+        <a class="btn btn-sm autoremove" data-model-name="guest.guest" data-obj-id="{{item.id}}" data-url="{% url "autoremove_obj" %}" data-target="row_{{item.id}}" data-confirm="{% trans "Are you sure to remove this element?" %}"><i class="fas fa-trash"></i></a>
+    </div>
+</td>
