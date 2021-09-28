@@ -11,7 +11,7 @@ urlpatterns = [
     path('guests/search/', views.guest_search, name='guest-search'),
     path('guests/form/', views.guest_form, name='guest-form'),
     path('guests/remove/', views.guest_remove, name='guest-remove'),
-    path('guests/page/<int:page>/', views.guest_pagination, name='guest-page'),
+    path('guests/page/', views.guest_pagination, name='guest-page'),
 
     #--------------------- GUESTS --------------------
     path('', views.index, name='device-index'),
