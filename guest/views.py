@@ -105,12 +105,12 @@ def guest_pagination(request):
             filters_to_search = ["name__icontains", "room__icontains", "surname__icontains", "email__icontains"]
             for myfilter in filters_to_search:
                 kwargs = {}
-                kwargs[myfilter] = search_value
+                kwargs[myfilter] = name
                 items = items.union(Guest.objects.filter(**kwargs))
 
 #             channels = webmod.Channel.objects.filter(name__icontains = search_value)
 #             items = items.union(Guest.by_channel(channels))
-            projects = webmod.Project.objects.filter(name__icontains = search_value)
+            projects = webmod.Project.objects.filter(name__icontains = name)
             items = items.union(Guest.by_project(projects))
         else:
             items = Guest.objects.all()
