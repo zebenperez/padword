@@ -1,16 +1,40 @@
 {% load i18n padword_tags %}
 
 {% csrf_token %}
-<div class="row d-flex small fw-bold m-1 mt-3">
-    <div class="col-1 d-flex justify-content-start lh-4"> {% trans 'Room' %} </div>
-    <div class="col-1 d-flex justify-content-start"> {% trans 'PID' %} </div>
-    <div class="col-2 d-flex justify-content-start"> {% trans 'Check in' %} </div>
-    <div class="col-2 d-flex justify-content-start"> {% trans 'Check out' %} </div>
-    <div class="col-3 d-flex justify-content-start"> {% trans 'Name' %} </div>
-    <div class="col-3 d-flex justify-content-start"> {% trans 'Language' %} </div>
+<div class="d-flex p-2">
+    <table class="table table-striped table-hover m-1">
+        <thead>
+            <tr class="small small">
+                <th class="row p-1">
+                    <div class="col-2 d-flex justify-content-start lh-4"> {% trans 'Room' %} </div>
+                    <div class="col-1 d-flex justify-content-start"> {% trans 'PID' %} </div>
+                    <div class="col-2 d-flex justify-content-start"> {% trans 'Check in' %} </div>
+                    <div class="col-2 d-flex justify-content-start"> {% trans 'Check out' %} </div>
+                    <div class="col-3 d-flex justify-content-start"> {% trans 'Name' %} </div>
+                    <div class="col-2 d-flex justify-content-start"> {% trans 'Language' %} </div>
+                </th>
+            </tr>
+        </thead>
+        <tfoot>
+            <tr>
+                <td><a class="small d-flex justify-content-center btn" id="btn-see-more" onclick="$('#s-page').val($('#btn-see-more').data('page'));$('#s-page').trigger('change');">...</a></td>
+            </tr>
+        </tfoot>
+        <tbody id="table-list-guests">
+            {% include "guest/guest-page.html" %}
+        </tbody>
+    </table>
 </div>
-<div class="striped-nested table-hover">
-    <div>
-    {% include "guest/guest-page.html" %}
-    </div>
-</div>
+<script>
+    $('#btn-see-more').data('page',{{page|add:1}}); 
+    $('#total-items').html('{{total_items}}');
+    var observer = new IntersectionObserver(function(entries) {
+        if(entries[0].isIntersecting === true)
+        {
+            $('#btn-see-more').trigger("click");
+        }
+    }, { threshold: [1] });
+    observer.observe(document.querySelector("#btn-see-more"));
+    
+</script>
+{% include "common-modal.html" %}
