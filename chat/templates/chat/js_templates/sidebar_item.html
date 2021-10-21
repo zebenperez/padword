@@ -1,0 +1,11 @@
+{# Para modificar esta plantilla es imprescindible mantener los atributos data y los elementos con las variables #}
+<li class="nav-item" id="item__room__${code}" data-room-order="${code}" title="${title}">
+    <a class="nav-link chat-room-link ${active}"
+        id="a__room__${code}" href="${room_url}" data-room-code="${code}">
+     <span data-feather="${icon}" style="${icon_style}"></span>
+      ${name}
+        <span id="not_icon_room_${code}" data-feather="message-square" class="sidebar-not-icon" style="${not_icon_style};"></span>
+    </a>
+</li>
+
+

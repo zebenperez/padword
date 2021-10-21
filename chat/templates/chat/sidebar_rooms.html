@@ -1,0 +1,79 @@
+{% load chat_tags %}
+{%comment %}
+<ul class="nav flex-column" id="nav-left">
+    <li class="nav-item">
+        <a class="nav-link active chat-room-link" href="#">
+          <span data-feather="home"></span>
+            Mensajes sin leer 
+        </a>
+    </li>
+</ul>
+{% endcomment %}
+<h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-light">
+  <span>Canales</span>
+  <a class="d-flex align-items-center text-light ga-ajax-load"  href="{% url 'chat_room_form' %}" data-ga-target="modal" 
+    data-ga-modal-id="chat_room_form_modal" data-ga-modal-title="Nuevo Canal">
+    <span data-feather="plus-circle"></span>
+  </a>
+</h6>
+ <ul class="nav flex-column mb-2" id="rooms_container">
+ 
+{% for room in rooms %}
+    <li class="nav-item" id="item__room__{{ room.code }}" data-room-order="{{room.code}}">
+        <a class="nav-link chat-room-link ga-ajax-load {% if room.code == request.session.room %}active{% endif%}"
+            id="id__{{room.code}}" href="{% url 'chat_room' room.code %}" data-ga-target="#main-container" data-ga-loading="true">
+         <span data-feather="hash"></span>
+          {{ room.name|capfirst }}
+            {% if room|get_unreaded_messages:request > 0 %} 
+            <span id="unreaded__room__{{room.code}}" data-feather="message-square" class=" sidebar-not-icon"></span>
+            {% endif %}
+        </a>
+    </li>
+{% empty %}
+    <li class="nav-item">
+        Sin Elementos
+    </li> 
+{% endfor %}
+
+</ul>
+<h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-light">
+  <span>Contactos</span>
+</h6>
+<ul, class="nav flex-column mb-2" id="chats_container">
+{% for item in chats %}
+    <li class="nav-item" id="item__room__{{ item.code }}" data-room-order="{{ item.code }}">
+        <a class="nav-link chat-room-link ga-ajax-load  {% if item.code == request.session.room %}active{% endif%}" 
+            id="id__{{item.code}}" href="{% url 'chat_room' item.code %}" data-ga-target="#main-container" data-ga-loading="true">
+         <span data-feather="at-sign"></span>
+         	{{ item|private_room_contact:request.user|capfirst }}
+            {% if item|get_unreaded_messages:request > 0 %}
+             &nbsp;<span id="unreaded__room__{{item.code}}" data-feather="message-square" class=" sidebar-not-icon"></span>
+            {% endif %}
+        </a>
+    </li>
+{% empty %}
+    <li class="nav-item">
+        Sin contactos
+    </li> 
+{% endfor %}
+</ul>
+ <script>
+
+    /* $('body').undelegate('.chat-room-link', 'click').delegate('.chat-room-link', 'click', function(e){ */
+    /*     e.stopPropagation(); */
+    /*     e.preventDefault(); */	
+    /*     $('.nav-link.active').removeClass('active'); */
+    /*     $(this).closest('.nav-link').addClass('active'); */
+    /*     try{ */
+    /*         let code = $(this).attr("id").split("__")[1]; */
+    /*         selector=`#unreaded__room__${code}` */ 
+    /*         $(selector).hide(); */	
+    /*     }catch(e){ console.error(e);} */
+        
+    /* }); */
+
+   feather.replace();
+</script>
+
+
+

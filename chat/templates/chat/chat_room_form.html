@@ -1,0 +1,39 @@
+{% load i18n %}
+<div class="container-fluid">
+	<div class="row">
+		
+		<div class="col-12">
+			{% if success %}
+				{% include "chat/chat_success_alert.html" %}
+				{# FIXME: Esto debe hacerse de forma mas elegante #}
+				<script> window.location.reload()</script>
+			{% elif error %}
+				{% include "chat/chat_error_alert.html "%}
+			{% endif %}
+
+			<form class="form ga-ajax-form" id="room_form"  action="{% url 'form_save' 'chat' 'RoomSimpleForm' %}" method="post" data-ga-target="#body_chat_room_form_modal" 
+			data-ga-loading="true" data-ga-show-errors="true">
+			{% csrf_token %}
+				<input type="hidden" name="next" value="{% url 'chat_room_form' %}"/>
+				<input type="hidden" name="owner" value="{{ request.user.pk }}"/>
+                <input type="hidden" name="subscribers" value="{{ request.user.pk }}">
+				<div class="form-group">
+					<label for="id_name">{% trans "Nombre" %}</label>
+					<input type="text" name="name" value="" class="form-control" placeholder="{% trans "Indique el nombre del canal" %}"/>
+				</div>
+				<div class="form-group">
+					<label for="id_name">{% trans "Descripción" %}</label>
+					<textarea type="text" name="description" value="" placeholder="Una breve descripción del canal" class="form-control ga-limited-field" data-ga-limit="200"></textarea>
+					<small class="form-text text-muted">{% trans "Máximo 200 caracteres" %}</small>
+				</div>
+
+				<div class="form-group text-center">
+					<button type="submit"  class="btn btn-primary btn-block" id="chat_save_form"> Guardar </button>
+				</div>
+			</form>
+		</div>
+	</div>
+<div>
+<script>
+
+</script>

@@ -1,0 +1,51 @@
+{% load static i18n pwa chat_tags %}
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description" content="">
+        <meta name="author" content="">
+	    <link rel="icon" href="{% static 'images/favicon.ico'%}">
+
+        <title>{% block title %} Channels Shidix Technologies{% endblock %}</title>
+ 	    <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" 
+            crossorigin="anonymous"></script>
+        <script src="https://unpkg.com/feather-icons/dist/feather.min.js"></script>
+	    {% progressive_web_app_meta %}
+
+	    {# <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css" rel="stylesheet">#}
+	    <link rel="stylesheet" href="{% static 'chat/css/bootstrap.css' %}?v={% rand_str 30 %}">
+	    <link rel="stylesheet" href="{% static 'chat/css/dashboard.css' %}?v={% rand_str 30 %}" >
+	    <link rel="stylesheet" href="{% static 'css/dashboard.css' %}?v={% rand_str 30 %}" >
+
+	    {% block extra_head %}{% endblock %}
+    </head>
+
+    <body>
+        <nav class="navbar navbar-dark navbar-expand-lg sticky-top bg-primary flex-md-nowrap p-0">
+            <a class="navbar-brand col-2" href="/"> <img src="{% static 'chat/images/logo-blanco.png'%}" class="brand-logo"/></a>
+            <button class="navbar-toggler d-none" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" 
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span>
+            </button>
+			{% block  extra_nav %} {% endblock %}
+            <div class="collapse navbar-collapse d-none d-md-block" id="navbarSupportedContent">
+                <ul class="navbar-nav ml-auto"> {#{% include 'menu.html' %}#} </ul>
+            </div>
+        </nav>
+	    <div id="content"> {% block content %} {% endblock %} </div>
+
+        <!-- Bootstrap core JavaScript ================================================== -->
+        <!-- Placed at the end of the document so the pages load faster -->
+	    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" 
+            integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+	    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/js/all.min.js"></script>
+	    <script src="{% static 'chat/js/garoe.js' %}?v={% rand_str 30 %}"></script>
+
+        <!-- Icons -->
+        <script> feather.replace(); </script>
+
+	    {% block extra_footer %} {% endblock %}
+
+    </body>
+</html>
