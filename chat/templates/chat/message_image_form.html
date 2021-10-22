@@ -1,0 +1,57 @@
+{% load static  chat_tags %}
+<div class="container-fluid">
+    <div class="row ">
+        <div class="col-4 bg-light text-center upload-area " id="uploadfile">
+        <label class="text-center v-100"  for="id_image" >
+            <h1>Drag and Drop file here or Click to load file</h1>
+        </label>
+        </div>
+        <div class="col-8">
+            <form class="form form-inline row" id="image_message_form" action="{% url "form_save" 'chat' 'MessageRoomForm' %}" method="POST" enctype="miltipart/form-data">
+                {% csrf_token %}
+
+                {# Definir un formulario inline                 app|  FormClass name|  fields  Estos campos se utilizan para guardar el formulario automaticamente #}
+                <input type="hidden" name="inline-forms" value="chat|MessageImageForm|image"/>
+                <input type="hidden" name="MessageImageForm-forms-num" id="MessageImageForm-forms-num-id" value="1"/>
+                <input type="hidden" name="MessageImageForm-parent-fk" value="message"/>
+
+                {# endif #}
+                <input type="hidden" name="next" value="{% url 'message_receiver' %}"/>
+                <input type="hidden" name="user" value="{{ request.user.pk }}"/>
+                <input type="hidden" name="room" value="{{ room.pk }}"/>
+                <input type="hidden" name="readed_by" value="{{ request.user.pk }}"/>
+                <input type="hidden" name="content" id="id_message_hidden_content" />
+                <div class="col-12 pb-3 d-none"><input type="file" name="MessageImageForm-image-1" class="form-control input-large d-none" id="id_image"/></div>
+                <div class="col-12 pb-3"><textarea id="chat-image-message-input" name="visible_content" class="ga-send-on-enter form-control input-lg" style="width:100%; resize:none"></textarea></div>
+                <br/>
+                <div class="col-12" style="margin-top:0.2em;text-alight:right"><button id="chat-image-message-submit-btn" type="submit" class="btn btn-primary text-white" value="">Enviar</button></div>
+            </form>
+
+
+        </div>
+    </div>
+
+</div>
+
+<script>
+    $('#image_message_form').off('submit').on('submit', function(e){
+        e.preventDefault();
+        e.stopPropagation();
+        let value = $("#chat-image-message-input").val()
+        $("#id_message_hidden_content").val(value);
+        $("#chat-image-message-input").val("");
+        message_identifier = get_random_string(10); {# identificar el mensaje para poder sustituir la hora cuando el servidor devuelva la fecha #}
+        //insert_sended_message(value, message_identifier);
+
+        $(this).append(`<input type="hidden" value="${message_identifier}" name="message_identifier"/>`);
+        console.log(e.target);
+        asyncFileFormSender(e.target,send_success, null, before_send());
+        $('.modal').modal('hide');
+
+
+
+
+    });
+
+</script>
+<script src="{% static '/js/dragdrop.js' %}"></script>

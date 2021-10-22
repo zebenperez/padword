@@ -1,0 +1,14 @@
+{# ESTA Plantilla es para javascript no para django #}
+<div class="message_container darker vertical-item" id="msg__container__${pk}" data-message_id="${pk}" data-message_user="${user}" >
+  <div class="message_img_container">
+	<img src="https://api.adorable.io/avatars/100/${user}.png" alt="Avatar" class="right">
+  </div>
+  <div class="message_content_container">
+	  <div>
+		  <span class="signature"><i class="fas fa-at"></i>${user} </span><span class="signature-time text-muted">${date} -- </span><small class="text-muted"> posted in #(${room}) </small>
+		<a class="btn btn-link reply_btn" data-target="msg__container__${pk}"><i class="fas fa-reply"></i></a>
+	 </div>
+	 <div class="response-to">${response_to_template}</div>
+	  <div class="message-content">${content}</div>
+  </div>
+</div>
