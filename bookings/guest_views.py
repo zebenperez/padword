@@ -114,7 +114,7 @@ def booking_new_guest(request):
                 return render(request, 'error_exception.html', {'exc': _('Form not found!')})
             if form.project == None:
                 return render(request, 'error_exception.html', {'exc': _('Project not found!')})
-            project = [form.project]
+            projects = [form.project]
         else:
             project = get_or_none(Project, project_uuid, "uuid")
             if project == None:
