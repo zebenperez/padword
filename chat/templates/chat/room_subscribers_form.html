@@ -1,0 +1,41 @@
+{% load i18n chat_tags %}
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-12">
+			{% if success %}
+				{% include "chat/chat_success_alert.html" %}
+				<script>
+					$('body').ajax_load("#main-container", { url: "{% url 'chat_room' room.code%}" } );
+					$('.modal').modal('hide');
+
+				</script>	
+			{% elif error %}
+				{% include "chat/chat_error_alert.html" %}
+			{% endif %}
+			<form class="form ga-ajax-form" id="room_form"  action="{% url 'form_save' 'chat' 'RoomSubscribersForm' %}" method="post" data-ga-target="#body_room_subscribers_modal" data-ga-show-errors="true">
+			    {% csrf_token %}
+				<input type="hidden" name="next" value="{% url "room_subscribers_form" room.code %}"/>
+                <input type="hidden" name="pk" value="{{ room.pk }}"/>
+                <input type="hidden" name="subscribers" value="{{ room.owner.pk }}">
+                <div class="row">
+                
+				{% for usr in users %}
+				<div class="text-center slider_container">
+                    <label class="slider_label" style="">{{ usr.username }}</label>
+					<label  class="switch"> 
+					    <input type="checkbox" name="subscribers" value="{{ usr.pk }}" {% if room|is_subscriber:usr  %} checked {% endif %}  class="" />
+                        <span class="slider round"></span>
+                    </label>
+				</div>
+
+                {% endfor %}
+                </div>
+                <div class="row">
+				<div class="form-group text-center col-12 pt-4">
+					<button type="submit"  class="btn btn-primary btn-block"> Guardar </button>
+				</div>
+                </div>
+			</form>
+		</div>
+	</div>
+<div>

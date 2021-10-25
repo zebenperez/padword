@@ -1,0 +1,135 @@
+{% extends "chat/base.html" %}
+{% load i18n static chat_tags %}
+
+
+{% block extra_head %}
+    <link rel="stylesheet" href="{% static 'chat/css/chat.css' %}?v={% rand_str 30%}" >
+	<script src="{% static 'chat/js/dragdrop.js' %}?v={% rand_str 30 %}"></script>
+
+    <script src="{% static 'chat/js/chat.js'%}?v={% rand_str 30 %}"/></script>
+    <script src="{% static 'chat/js/chat_subscriber.js'%}?v={% rand_str 30 %}"></script> 
+    <script src="{% static 'chat/js/chat_receiver.js' %}?v={% rand_str 30 %}"></script>
+    <script src="{% static 'chat/js/chat_sender.js' %}?v={% rand_str 30 %}"></script>
+    <script src="{% static 'chat/js/chat_navigation.js' %}?v={% rand_str 30 %}"></script>
+    <script id="global_init">
+        {# Setting up chat global variales #}
+        USER = new User("{{ request.user.username}}", {{ request.user.pk }});
+        SUBSCRIBER = new NotificationSubscriber("{% url 'notification_dispatcher' %}");
+        SUBSCRIBER.register_event("kill", (self, resp)=>{ 
+             /*self.kill(); 
+             let lock_screen = document.getElementById("lock_screen_container");
+             lock_screen.style.display="block";
+             document.getElementById("chat-main").remove()*/
+        });
+    </script> 
+{% endblock %}
+
+{% block extra_nav %}
+    <button id="show_menu_btn" class="btn btn-primary d-inline d-md-none" style="padding:1em"><i data-feather="menu"></i> </button>
+{% endblock %}
+
+{% block content %}
+    <div class="" id="lock_screen_container">
+        <div class="lock_content text-center">
+            <img src="{% static 'chat/images/lock_image.png' %}" />
+            <h2 class="text-center"> Shidix Channels </h2>
+            <h5> Demasiadas Conexiones </h5>
+            <h6> Parace que has iniciado sesión en otra pestaña u otro dispositivo.</h6>
+        </div>
+   </div>
+   <div class="container-fluid" id="chat-main" >
+        <div class="row">
+            <nav class="col-md-2  bg-light sidebar side-navigation-hidden-xs" id="side-navigation">
+                <div class="sidebar-sticky bg-dark">
+		            {% block sidebar %}
+			            {% block sidebar_userinfo %}
+			                <div class="row mb-1" id="sidebar-header">
+				                <div id="user-img">
+					                <img src="https://api.adorable.io/avatars/285/{{request.user.username}}.png" class="profile-img"/>
+				                </div>
+				                <div class="" id="user-data">
+					                <p class="user-name">{{ request.user.first_name }} {{ request.user.last_name }}</p>
+					                <p class="user-email"> {{ request.user.email }} </p>
+				                </div>
+			                </div>	
+                        {% endblock %}
+
+                        <div id="sidebar-block-content"> 
+		    	            <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-light">
+  				                <span>Canales</span>
+				                <a class="d-flex align-items-center text-light ga-ajax-load"  href="{% url 'chat_room_form' %}" 
+                                    data-ga-target="modal" data-ga-modal-id="chat_room_form_modal" data-ga-modal-title="Nuevo Canal">
+					                <span data-feather="plus-circle"></span> </a>
+				            </h6>
+				            <ul class="nav flex-column mb-2" id="rooms-container"> </ul>
+				            <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-light">
+				                <span>Contactos</span>
+				            </h6>
+				            <ul class="nav flex-column mb-2" id="chats-container"> </ul>
+                        </div>
+		            {% endblock %}
+                </div>
+            </nav>
+
+            <main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4" id="main-container-wrapper" style="display:flex">
+			    <div class="" id="loading_box">
+				    <div class="lds-hourglass"></div>
+				    <h3 class="text-primary blink"> Cargando sala ... </h3>
+			    </div>
+
+			    <div class="col-12" id="main-container"> {% block main_container %} {% endblock %} </div>
+		    </main>
+        </div>
+    </div>
+	
+	<audio id="notification_audio" autobuffer>
+		<source src="{% static 'chat/sounds/juntos.mp3'%}" type="audio/mpeg" />
+		<source src="{% static 'chat/sounds/juntos.ogg'%}" type="audio/ogg"/>
+	</audio>
+   
+	<script id="select_chat__script">
+
+       let audio_element_id ="notification_audio"
+	   var side_menu_item_template = (code, name, active, room_url, icon, icon_style , not_icon_style, title) => `{% include "chat/js_templates/sidebar_item.html" %}`;
+	   MENU_MANAGER = new NavigationManager("{{ room }}" ,"main-container", "rooms-container", "chats-container", "loading_box", side_menu_item_template, audio_element_id);
+       SUBSCRIBER.register_event("rooms_status", (self, resp)=>{ MENU_MANAGER.check_status(resp, ()=>{ feather.replace()} ) });
+
+	</script>
+
+	{# Este div es eliminado tras su carga para mantener limpio el DOM #}
+	<script id="initialize_navigator__rm">
+		
+        let rooms_list = JSON.parse("{{ rooms_list|escapejs }}");
+        const initialize_callback = ()=> { 
+            
+            let current_room_code = "{{ room }}";
+            let current_room = document.getElementById(`a__room__${current_room_code}`)
+            setTimeout(()=>{ feather.replace(), current_room.click()}, 500);
+
+        }
+        
+        MENU_MANAGER.initialize(rooms_list, initialize_callback);
+
+        {# Eliminar esta etiqueta script para limpiar el DOM #}
+		setTimeout(()=>{document.getElementById("initialize_navigator__rm").remove()}, 2000);
+
+		
+		$("#show_menu_btn").on("click", function(e){
+			console.log("show");
+					
+			$("#side-navigation").toggleClass("side-navigation-hidden-xs");
+		});
+
+	    //Notificaciones
+ 	    Notification.requestPermission(function(result) {
+	        if (result === 'denied') {
+		        console.log('Permiso para notificaciones denegado.');
+		        return;
+	        } else if (result === 'default') {
+			    console.log('The permission request was dismissed.');
+		    return;
+	    }
+	});
+	</script>
+
+{% endblock %}

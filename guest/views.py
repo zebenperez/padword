@@ -6,9 +6,11 @@ from django.utils.translation import ugettext_lazy as _
 import datetime
 
 from .models import *
-from padword.commons import show_exc, get_or_none, new_ui_slug, translate, user_in_group
+from padword.commons import show_exc, get_or_none, new_ui_slug, translate, user_in_group, get_param
 from padword.decorators import group_required
 import web.models as webmod 
+
+ITEMS_PER_PAGE=20
 
 
 # Create your views here.
@@ -33,16 +35,23 @@ def guests(request):
         items= Guest.objects.all()
         total_count = items.count()
 
+        context = {}
+        page = 0
+        context['total_items'] = items.count()
+        context['items'] = items[int(page)*ITEMS_PER_PAGE:(int(page) + 1)*ITEMS_PER_PAGE]
+        context['page'] = 0
 
-        return render (request, "guest/guests.html",{'items':items[0:20], 'page':0, 'n_items':total_count})
+
+        return render (request, "guest/guests.html", context)
     except Exception as e:
         return JsonResponse({'results':[], 'error':1, 'error-msg':show_exc(e)})
 
 @group_required("admins")
 def guest_search(request):
     try:
-        filters_to_search = ["name__icontains", "room__icontains", "surname__icontains"]
+        filters_to_search = ["name__icontains", "room__icontains", "surname__icontains", "email__icontains"]
         search_value = request.GET["s-name"] if "s-name" in request.GET else ""
+        page = "0"
         if search_value != "":
             items = Guest.objects.none()
             for myfilter in filters_to_search:
@@ -50,14 +59,22 @@ def guest_search(request):
                 kwargs[myfilter] = search_value
                 items = items.union(Guest.objects.filter(**kwargs))
 
-            channels = webmod.Channel.objects.filter(name__icontains = search_value)
-            items = items.union(Guest.by_channel(channels))
+#             channels = webmod.Channel.objects.filter(name__icontains = search_value)
+#             items = items.union(Guest.by_channel(channels))
             projects = webmod.Project.objects.filter(name__icontains = search_value)
             items = items.union(Guest.by_project(projects))
+            context = {}
+            context['total_items'] = items.count()
+            context['items'] = items[int(page)*ITEMS_PER_PAGE:(int(page) + 1)*ITEMS_PER_PAGE]
+            context['page'] = 0
         else:
             #items = Guest.objects.filter(check_out__gte = datetime.datetime.today())
             items = Guest.objects.all()
-        return render(request, "guest/guest-list.html", {'items': items,})
+            context = {}
+            context['total_items'] = items.count()
+            context['items'] = items[int(page)*ITEMS_PER_PAGE:(int(page) + 1)*ITEMS_PER_PAGE]
+            context['page'] = 0
+        return render(request, "guest/guest-list.html", context)
     except Exception as e:
         return JsonResponse({'results':[], 'error':1, 'error-msg':show_exc(e)})
 
@@ -79,11 +96,29 @@ def guest_remove(request):
     return render(request, "guest/guest-list.html", {'items':items,})
 
 @group_required("admins","projects")
-def guest_pagination(request, page=0):
+def guest_pagination(request):
     try:
-        items = Guest.objects.all()
-        items = items[page*20:(page+1)*20]
-        return render(request, "guest/guest-page.html", {'items':items, 'page':page})
+        name = get_param(request.GET, "s-name")
+        page = get_param(request.GET, "s-page", "0")
+        if name != "":
+            items = Guest.objects.none()
+            filters_to_search = ["name__icontains", "room__icontains", "surname__icontains", "email__icontains"]
+            for myfilter in filters_to_search:
+                kwargs = {}
+                kwargs[myfilter] = name
+                items = items.union(Guest.objects.filter(**kwargs))
+
+#             channels = webmod.Channel.objects.filter(name__icontains = search_value)
+#             items = items.union(Guest.by_channel(channels))
+            projects = webmod.Project.objects.filter(name__icontains = name)
+            items = items.union(Guest.by_project(projects))
+        else:
+            items = Guest.objects.all()
+        context = {}
+        context['total_items'] = items.count()
+        context['items'] = items[int(page)*ITEMS_PER_PAGE:(int(page) + 1)*ITEMS_PER_PAGE]
+        context['page'] = page 
+        return render(request, "guest/guest-page.html", context)
     except Exception as e:
         return render(request, "error_exception.html", {'exc':show_exc(e)})
 

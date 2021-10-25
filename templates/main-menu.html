@@ -6,7 +6,7 @@
         {#<div class="nav-item"> <a class="nav-link {%current 'forms'%}" aria-current="page" href="{%url 'forms'%}"> {% trans 'Forms' %} </a></div>#}
         <div class="nav-item"> <a class="nav-link {% current '' %}" href="#"> {% trans 'Project' %} </a> </div>
         <div class="nav-item"> <a class="nav-link {% current '' %}" href="#"> {% trans 'Config UI' %} </a> </div>
-        <div class="nav-item"> <a class="nav-link {% current '' %}" href="#"> {% trans 'Messages' %} </a> </div>
+        <div class="nav-item"> <a class="nav-link {% current '' %}" href="{% url "chat_index" %}"> {% trans 'Messages' %} </a> </div>
         <div class="nav-item"> <a class="nav-link {% current 'bookings' %}" href="{% url 'bookings' %}"> {% trans 'Requests' %} </a> </div>
         <div class="nav-item"> <a class="nav-link {% current '' %}" href="#"> {% trans 'Places and Events' %} </a> </div>
         <div class="nav-item"> <a class="nav-link {% current '' %}" href="#"> {% trans 'Rooms' %} </a> </div>
