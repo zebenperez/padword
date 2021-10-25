@@ -16,10 +16,10 @@
         USER = new User("{{ request.user.username}}", {{ request.user.pk }});
         SUBSCRIBER = new NotificationSubscriber("{% url 'notification_dispatcher' %}");
         SUBSCRIBER.register_event("kill", (self, resp)=>{ 
-             self.kill(); 
+             /*self.kill(); 
              let lock_screen = document.getElementById("lock_screen_container");
              lock_screen.style.display="block";
-             document.getElementById("chat-main").remove()
+             document.getElementById("chat-main").remove()*/
         });
     </script> 
 {% endblock %}
@@ -100,7 +100,6 @@
 	<script id="initialize_navigator__rm">
 		
         let rooms_list = JSON.parse("{{ rooms_list|escapejs }}");
-        alert(JSON.stringify(rooms_list));
         const initialize_callback = ()=> { 
             
             let current_room_code = "{{ room }}";

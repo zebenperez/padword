@@ -35,7 +35,7 @@ PAGE_SIZE = 15
 def index(request):
     context = {}
 
-    context['room'] = request.GET.get('code', getattr(get_last_room(request.user), "code"))
+    context['room'] = request.GET.get('code', getattr(get_last_room(request.user), "code", ""))
     context['rooms_list'] = get_rooms_status_json(request.user)
     return render(request, "chat/chat_base.html", context)
 
