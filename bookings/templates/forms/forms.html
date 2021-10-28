@@ -4,12 +4,6 @@
 {% block second_menu %}{#{% include 'web/second_menu.html' %}#}{% get_second_menu request.user %} {% endblock second_menu %}
 
 {% block central_content %}
-    {% comment %}
-    <div class="toolbar-search">
-        <input type="text" class="autosearch form-control form-control-dark w-100" name="s-name" id="s-name" 
-            placeholder={% trans 'Name or Channel' %} data-url="{% url "form-search" %}" data-target="form-list" data-related="s-name" />
-    </div>
-    {% endcomment %}
     {% include "forms/search_box.html" %}
 
     <div class="content mt-4">
@@ -25,6 +19,9 @@
                 data-company_id="{{company.id}}">{% trans "New form" %}</a>  
             {% include "common-modal.html" %}
             {%endcomment%}
+            <a class="btn btn-light" href="#" onclick="$('.row-form.row-active-True').show();$('.row-form.row-active-False').show();">{% trans "All" %}</a>  
+            <a class="btn btn-light" href="#" onclick="$('.row-form.row-active-True').hide();$('.row-form.row-active-False').show();">{% trans "No active" %}</a>  
+            <a class="btn btn-light" href="#" onclick="$('.row-form.row-active-True').show();$('.row-form.row-active-False').hide();">{% trans "Active" %}</a>  
             <a class="btn btn-primary" href="{% url "form-edit" %}">{% trans "New form" %}</a>  
         </div>
         <div id="form-list">{% include "forms/form-list.html" %}</div>

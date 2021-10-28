@@ -6,15 +6,15 @@
             <th >
                 <div class="row">
                     <div class="col-3">{% trans 'Name' %}</div>
-                    <div class="col-4">{% trans 'Project' %}</div>
-                    <div class="col-5">{% trans 'Channel' %}</div>
+                    <div class="col-3">{% trans 'Project' %}</div>
+                    <div class="col-6">{% trans 'Category' %}</div>
                 </div>
             </th>
         </tr>
     </thead>
     <tbody>
         {% for item in items %}
-        <tr id="row-{{item.id}}">
+        <tr id="row-{{item.id}}" class="row-form row-active-{{item.active}}">
             {% include "forms/form-row.html" with item=item %}
         </tr>
         {% endfor %}
