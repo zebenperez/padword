@@ -28,7 +28,7 @@ urlpatterns = [
     path('contents/', include('contents.urls')),
     path('bookings/', include('bookings.urls')),
     path('user_remote/', include('user_remote.urls')),
-    path('chat/', include('chat.urls')),
+#    path('chat/', include('chat.urls')),
 
     path('accounts/login/<slug:chk>/', auth_views.LoginView.as_view(template_name='login.html'), name='auth_login'),
     path('accounts/login/', auth_views.LoginView.as_view(template_name='login.html'), name='auth_login'),

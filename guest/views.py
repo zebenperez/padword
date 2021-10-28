@@ -49,7 +49,7 @@ def guests(request):
 @group_required("admins")
 def guest_search(request):
     try:
-        filters_to_search = ["name__icontains", "room__icontains", "surname__icontains", "email__icontains"]
+        filters_to_search = ["name__icontains", "room", "surname__icontains", "email__icontains"]
         search_value = request.GET["s-name"] if "s-name" in request.GET else ""
         page = "0"
         if search_value != "":
@@ -57,23 +57,18 @@ def guest_search(request):
             for myfilter in filters_to_search:
                 kwargs = {}
                 kwargs[myfilter] = search_value
-                items = items.union(Guest.objects.filter(**kwargs))
+                items = items | Guest.objects.filter(**kwargs)
 
-#             channels = webmod.Channel.objects.filter(name__icontains = search_value)
-#             items = items.union(Guest.by_channel(channels))
             projects = webmod.Project.objects.filter(name__icontains = search_value)
-            items = items.union(Guest.by_project(projects))
-            context = {}
-            context['total_items'] = items.count()
-            context['items'] = items[int(page)*ITEMS_PER_PAGE:(int(page) + 1)*ITEMS_PER_PAGE]
-            context['page'] = 0
+            items |= Guest.by_project(projects)
+
         else:
             #items = Guest.objects.filter(check_out__gte = datetime.datetime.today())
             items = Guest.objects.all()
-            context = {}
-            context['total_items'] = items.count()
-            context['items'] = items[int(page)*ITEMS_PER_PAGE:(int(page) + 1)*ITEMS_PER_PAGE]
-            context['page'] = 0
+        context = {}
+        context['total_items'] = items.count()
+        context['items'] = items[int(page)*ITEMS_PER_PAGE:(int(page) + 1)*ITEMS_PER_PAGE]
+        context['page'] = 0
         return render(request, "guest/guest-list.html", context)
     except Exception as e:
         return JsonResponse({'results':[], 'error':1, 'error-msg':show_exc(e)})
@@ -102,16 +97,14 @@ def guest_pagination(request):
         page = get_param(request.GET, "s-page", "0")
         if name != "":
             items = Guest.objects.none()
-            filters_to_search = ["name__icontains", "room__icontains", "surname__icontains", "email__icontains"]
+            filters_to_search = ["name__icontains", "room", "surname__icontains", "email__icontains"]
             for myfilter in filters_to_search:
                 kwargs = {}
                 kwargs[myfilter] = name
-                items = items.union(Guest.objects.filter(**kwargs))
+                items |= Guest.objects.filter(**kwargs)
 
-#             channels = webmod.Channel.objects.filter(name__icontains = search_value)
-#             items = items.union(Guest.by_channel(channels))
             projects = webmod.Project.objects.filter(name__icontains = name)
-            items = items.union(Guest.by_project(projects))
+            items != Guest.by_project(projects)
         else:
             items = Guest.objects.all()
         context = {}

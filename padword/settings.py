@@ -44,8 +44,8 @@ INSTALLED_APPS = [
     'contents',
     'user_remote',
     'guestpwa',
-    'chat',
-    'pwa',
+#     'chat',
+#     'pwa',
 ]
 
 MIDDLEWARE = [
