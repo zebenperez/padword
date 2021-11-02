@@ -1,0 +1,20 @@
+{% load i18n padword_tags %}
+{% if not target %}
+    {% trans 'You are cloning te category ' %} "{% padword_translate category.name %}". {% trans 'Please, choose the target project' %}.
+    <div class="row">
+        {% for project in projects %}
+        <div class="col-lg-2 col-md-3 col-12 mb-1 mt-1 ">
+            <button class="btn {% if category.project_uuid == project.uuid %} btn-light {%else%} btn-primary ark {% endif %} w-100 h-100" data-target-modal="common-modal" data-to-project-UUID="{{ project.uuid }}" data-obj-id="{{ category.uuid }}" data-url="{% url 'category-clone' %}">{% padword_translate project.name %}</button>
+        </div>
+        {% endfor %}
+    </div>
+{% else %}
+    <div class="row">
+        <div class="col-6">
+            <a href="{% url 'categories-by-project' category.project_uuid %}" class="btn btn-primary h-100 w-100">{% trans 'Clone other categroy from this project' %}</a> 
+        </div>
+        <div class="col-6">
+            <a href="{% url 'categories-by-project' target.uuid %}" class="btn btn-primary h-100 w-100">{% trans 'Go to the target project' %}</a> 
+        </div>
+    </div>
+{% endif %}
