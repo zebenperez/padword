@@ -5,7 +5,7 @@ from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, redirect, reverse
 from .models import *
 import json, os, time, datetime
-from padword.commons import show_exc, get_or_none, get_param, new_ui_slug
+from padword.commons import show_exc, get_or_none, get_param, new_ui_slug, translate
 from .forms import ImageUploadForm
 
 # Create your views here.
@@ -115,6 +115,46 @@ def category_remove(request, category_id):
             return render(request, "contents/categories-list.html", {'items': categories, })
         else:
             return redirect(reverse('items-by-category', kwargs={'category_id':parent.uuid}))
+    except Exception as e:
+        return JsonResponse({'results':[], 'error':1, 'error-msg':show_exc(e)})
+
+@login_required
+def category_clone(request):
+    try:
+        category_id = request.GET['objId'] if 'objId' in request.GET else None
+        target = get_or_none(Project, request.GET['toProjectUuid'], 'uuid') if 'toProjectUuid' in request.GET else None
+        category = Category.objects.get(uuid=category_id)
+        projects = Project.objects.filter(active=1)
+        projects = sorted(projects, key=lambda x: x.name.upper())
+        if target is None:
+            project_uuid = category.project_uuid
+            return render(request, "contents/category-clone.html", {'category':category, 'projects':projects, 'target':target})
+        else:
+            tree = [[category, None]]
+            while len(tree) > 0:
+                [current, parent] = tree.pop(0)
+                uuid_cat = current.uuid
+                items = current.get_items
+                for children in current.get_childrens:
+                    tree.append([children, current])
+
+                cat_item = current
+                cat_item.pk = None
+                cat_item.uuid = new_ui_slug(Category)
+                cat_item.project_uuid = target.uuid
+                cat_item.is_active = current.is_active
+                cat_item.parent = parent
+                cat_item.updated_at = datetime.datetime.now()
+                cat_item.created_at = datetime.datetime.now()
+                cat_item.save()
+                for idx,item in enumerate(items):
+                    item.pk = None
+                    item.uuid = new_ui_slug(Item)
+                    item.save()
+                    item_in_cat = ItemInCat(position=idx, category=cat_item, item=item)
+                    item_in_cat.save()
+            return render(request, "contents/category-clone.html", {'category':Category.objects.get(uuid=category_id), 'projects':projects, 'target':target})
+
     except Exception as e:
         return JsonResponse({'results':[], 'error':1, 'error-msg':show_exc(e)})
 

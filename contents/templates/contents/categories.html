@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% load i18n padword_tags %}
 
-{% block second_menu %}{#{% include 'web/second_menu.html' with menu='admins' %}#}{% get_second_menu request.user %} {% endblock second_menu %}
+{% block second_menu %}{% get_second_menu request.user %} {% endblock second_menu %}
 
 {% block central_content %}
     <div class="toolbar-search">

@@ -24,7 +24,6 @@ def currency(json_str):
         json_dict = json.loads(json_str)
         return "{:.2f} {}".format(float(json_dict["value"]), json_dict["type"])
     except Exception as e:
-        print (show_exc(e))
         return "UNSETTING"
 
 @register.filter
@@ -32,7 +31,6 @@ def mult(a, b):
     try:
         return a * b
     except Exception as e:
-        print (show_exc(e))
         return 0
 
 @register.filter
@@ -101,7 +99,6 @@ def padword_translate(context, json_str):
             json_dict = json.loads(json_str)
             return json_dict[list(json_dict.keys())[0]]
         except Exception as e:
-            print(show_exc(e))
             try:
                 json_dict = json.loads(json_str)
                 keys = json_dict.keys()
@@ -119,7 +116,6 @@ def is_current_lang(context, language, true_alternative='current', false_alterna
             return (true_alternative)
         return (false_alternative)
     except Exception as e:
-        print (show_exc(e))
         return true_alternative
 
 @register.filter
@@ -128,7 +124,6 @@ def get_obj(uuid, model):
         obj = eval("{}.objects.get(uuid='{}')".format(model,uuid))
         return obj
     except Exception as e:
-        print (show_exc(e))
         return None
 
 @register.filter
@@ -140,7 +135,6 @@ def items_in_bookings(fi,item):
     try:
         return fi.items_in_bookings(item).count()
     except Exception as e:
-        print (show_exc(e))
         return (0)
 
 
@@ -173,7 +167,6 @@ def get_second_menu(user):
         if user.groups.filter(name="admins").exists() or user.is_superuser:
             return {'user': user, 'menu': "admins"}
     except Exception as e:
-        print (show_exc(e))
         return {}
 
 @register.inclusion_tag('ark.html')
@@ -188,6 +181,5 @@ def ark(url, div, **kwargs):
         return {'div':div, 'url':url, 'go':go, 'prefix':prefix, 'posfix':posfix}
     except Exception as e:
         url = reverse(url)
-        print (show_exc(e))
         return {'div':div, 'url':url, 'go':go}
 

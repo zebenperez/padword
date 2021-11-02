@@ -11,18 +11,18 @@
 {% endfor %}
 <script>
     {% if old_parent.pk != cat.parent.pk and move %}
-    $('row-{{cat.pk}}').remove();
-    {% if old_parent %}
-        {% ark 'items-by-category' 'items-list-'|addstr:old_parent.pk category_id=old_parent.uuid  %}   
-    {% endif %}
-    {% if cat.parent %}
-        {% ark 'items-by-category' 'items-list-'|addstr:cat.parent.pk category_id=cat.parent.uuid  %}
-    {% endif %}
-    {% ark 'items-by-category' 'items-list-'|addstr:cat.pk category_id=cat.uuid  %}
+$('row-{{cat.pk}}').remove();
+{% if old_parent %}
+{% ark 'items-by-category' 'items-list-'|addstr:old_parent.pk category_id=old_parent.uuid  %}   
+{% endif %}
+{% if cat.parent %}
+{% ark 'items-by-category' 'items-list-'|addstr:cat.parent.pk category_id=cat.parent.uuid  %}
+{% endif %}
+{% ark 'items-by-category' 'items-list-'|addstr:cat.pk category_id=cat.uuid  %}
 {% else %}
-    $('#btn-show-{{cat.pk}}').addClass('d-none');
-    $('#btn-hide-{{cat.pk}}').removeClass('d-none');
-    $('#title-cat-{{cat.pk}}').removeClass('close').addClass('open');
-    $('#title-cat-{{cat.pk}}').html('{% padword_translate cat.name %}');
+$('#btn-show-{{cat.pk}}').addClass('d-none');
+$('#btn-hide-{{cat.pk}}').removeClass('d-none');
+$('#title-cat-{{cat.pk}}').removeClass('close').addClass('open');
+$('#title-cat-{{cat.pk}}').html('{% padword_translate cat.name %}');
 {% endif %}
 </script>
