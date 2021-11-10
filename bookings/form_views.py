@@ -81,8 +81,9 @@ def form_edit(request, form_id=None, category_uuid=None):
             if obj == None:
                 return render(request, 'error_exception.html', {'exc': _('Form not found!')})
         # Create or edit by category
-        elif category_uuid != None:
-            cat = get_or_none(Category, category_uuid, 'uuid')
+        elif category_uuid != None or "obj_id" in request.GET:
+            uuid = category_uuid if category_uuid != None else request.GET["obj_id"]
+            cat = get_or_none(Category, uuid, 'uuid')
             if cat == None:
                 return render(request, 'error_exception.html', {'exc': _('Category not found!')})
             obj = get_or_none(Form, cat.uuid, 'category')
@@ -90,10 +91,32 @@ def form_edit(request, form_id=None, category_uuid=None):
                 obj = Form.objects.create(uuid=new_ui_slug(Form), category=cat.uuid)
         # New form
         else:
-           obj = Form.objects.create(uuid=new_ui_slug(Form))
+            obj = Form.objects.create(uuid=new_ui_slug(Form))
 
         context = get_edit_context(obj)
         return render(request, "forms/form-edit.html", context)
+    except Exception as e:
+        print (show_exc(e))
+        return render(request, 'error_exception.html', {'exc':show_exc(e)})
+
+@group_required("admins", "projects")
+def form_edit_category(request):
+    try:
+        # Create or edit by category
+        if "obj_id" in request.GET:
+            uuid = request.GET["obj_id"]
+            cat = get_or_none(Category, uuid, 'uuid')
+            if cat == None:
+                return render(request, 'error_exception.html', {'exc': _('Category not found!')})
+            obj = get_or_none(Form, cat.uuid, 'category')
+            if obj == None:
+                obj = Form.objects.create(uuid=new_ui_slug(Form), category=cat.uuid)
+        # New form
+        else:
+            obj = Form.objects.create(uuid=new_ui_slug(Form))
+
+        context = get_edit_context(obj)
+        return render(request, "forms/form-edit-category.html", context)
     except Exception as e:
         print (show_exc(e))
         return render(request, 'error_exception.html', {'exc':show_exc(e)})
@@ -124,15 +147,12 @@ def form_form(request):
 
 @group_required("admins", "projects")
 def form_remove(request, form_id=None):
-    company_id = get_param(request.GET, "company_id", None)
-    project_id = get_param(request.GET, "project_id", None)
-    channel_id = get_param(request.GET, "channel_id", None)
-    #obj = get_or_none(Form, request.GET["obj_id"]) if "obj_id" in request.GET else None
+    uuid = ""
     obj = get_or_none(Form, form_id)
     if obj != None:
+        uuid = obj.project.uuid
         obj.delete()
-    context = get_forms(get_or_none(Channel, channel_id), get_or_none(Project, project_id), get_or_none(Company, company_id))
-    return render (request, "forms/form-list.html", context)
+    return redirect("categories-by-project", uuid)
 
 @group_required("admins", "projects")
 def form_add_image(request):

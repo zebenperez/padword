@@ -2,17 +2,28 @@
 
 <div class="col-12 btn-tools text-right mb-2">
     {% if cat %}
-    {% comment %}
-    <a class="btn btn-primary ark" data-url="{% url "form-form" %}" data-target-modal="common-modal" data-company_id="{{cat.company.id}}" data-category_id="{{cat.uuid}}" title="{% trans "New form" %}"><i class="fab fa-wpforms"></i></a>  
-    {% endcomment %}
-    <a class="btn btn-primary" href="#" onclick='alert("{{cat.uuid}}"); return False'><i class="text-white fas fa-fingerprint"></i></a>
-    <a class="btn btn-primary" href="{% url "form-edit-category" cat.uuid %}" title="{% trans "New form" %}"><i class="fab fa-wpforms"></i></a>  
-    <a class="btn btn-primary ark" href="#" data-url="{% url 'change-active-category' cat.uuid %}" data-target="row-{{cat.pk}}" title="{% if cat.active %}{% trans 'Deactivate' %}{%else%}{%trans 'Activate'%}{%endif%}"><i class="text-white fas fa-{% if cat.active %}times{%else%}check{%endif%}"></i></a>
-    <a class="btn btn-primary ark" data-url="{% url "category-form" %}" data-target-modal="common-modal" data-parent-id="{{cat.uuid}}" href="#" title="{% trans 'Add category' %}"><i class="text-white fas fa-folder-plus"></i></a>
-    <a class="btn btn-primary ark" href="#" title="{% trans 'Add item' %}" data-target-modal="common-modal" data-url="{% url "item-form" %}" data-target="row-item-{{cat.pk}}" data-cat-id="{{cat.uuid}}"><i class="text-white fas fa-plus-square"></i></a>
-    <a class="btn btn-primary ark" data-url="{% url "category-form" %}" data-target-modal="common-modal" data-obj-id="{{cat.uuid}}" href="#" title="{% trans 'Modify this category' %}"><i class="text-white fas fa-edit"></i></a>
-    <a class="btn btn-primary ark" data-url="{% url "category-clone" %}" data-target-modal="common-modal" data-obj-id="{{cat.uuid}}" href="#" title="{% trans 'Clone this category in other project' %}"><i class="text-white fas fa-copy"></i></a>
-    <a class="btn btn-primary ark" href="#" data-url="{% url 'category-remove' cat.uuid %}" data-target="items-list-{{cat.parent.pk}}" title="{% trans 'Delete' %}" data-confirm="{% trans "Are you sure to remove this element?" %}"><i class="text-white fas fa-trash"></i></a>
+        {% comment %}
+        <a class="btn btn-primary ark" data-url="{% url "form-form" %}" data-target-modal="common-modal" data-company_id="{{cat.company.id}}" data-category_id="{{cat.uuid}}" title="{% trans "New form" %}"><i class="fab fa-wpforms"></i></a>  
+        {% endcomment %}
+        <a class="btn btn-primary ark" data-url="{% url "category-links" %}" data-target-modal="common-modal" data-obj-id="{{cat.uuid}}" href="#" 
+            title="{% trans 'Show category list' %}"><i class="text-white fas fa-link"></i></a>
+        <a class="btn btn-primary" href="#" onclick='alert("{{cat.uuid}}"); return False'><i class="text-white fas fa-fingerprint"></i></a>
+        {#<a class="btn btn-primary" href="{% url "form-edit-category" cat.uuid %}" title="{% trans "New form" %}"><i class="fab fa-wpforms"></i></a>  #}
+        <a class="btn btn-primary ark" href="#" data-url="{% url 'form-edit-category2' %}" data-target="div-preview" data-obj_id="{{cat.uuid}}">
+            <i class="text-white fab fa-wpforms"></i></a>
+        <a class="btn btn-primary ark" href="#" data-url="{% url 'change-active-category' cat.uuid %}" data-target="row-{{cat.pk}}" 
+            title="{% if cat.active %}{% trans 'Deactivate' %}{%else%}{%trans 'Activate'%}{%endif%}">
+            <i class="text-white fas fa-{% if cat.active %}times{%else%}check{%endif%}"></i></a>
+        <a class="btn btn-primary ark" data-url="{% url "category-form" %}" data-target-modal="common-modal" data-parent-id="{{cat.uuid}}" href="#" 
+            title="{% trans 'Add category' %}"><i class="text-white fas fa-folder-plus"></i></a>
+        <a class="btn btn-primary ark" href="#" title="{% trans 'Add item' %}" data-target-modal="common-modal" data-url="{% url "item-form" %}" 
+            data-target="row-item-{{cat.pk}}" data-cat-id="{{cat.uuid}}"><i class="text-white fas fa-plus-square"></i></a>
+        <a class="btn btn-primary ark" data-url="{% url "category-form" %}" data-target-modal="common-modal" data-obj-id="{{cat.uuid}}" href="#" 
+            title="{% trans 'Modify this category' %}"><i class="text-white fas fa-edit"></i></a>
+        <a class="btn btn-primary ark" data-url="{% url "category-clone" %}" data-target-modal="common-modal" data-obj-id="{{cat.uuid}}" href="#" 
+            title="{% trans 'Clone this category in other project' %}"><i class="text-white fas fa-copy"></i></a>
+        <a class="btn btn-primary ark" href="#" data-url="{% url 'category-remove' cat.uuid %}" data-target="items-list-{{cat.parent.pk}}" 
+            title="{% trans 'Delete' %}" data-confirm="{% trans "Are you sure to remove this element?" %}"><i class="text-white fas fa-trash"></i></a>
     {% endif %}
 </div>
 

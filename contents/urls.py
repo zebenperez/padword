@@ -11,6 +11,7 @@ urlpatterns = [
     path('categories/import/project-<slug:project_uuid>/', views.import_categories, name='import-categories-by-project'),
     path('categories/import/', views.import_categories, name='import-categories-by-project'),
     path('categories/clone/', views.category_clone, name='category-clone'),
+    path('categories/links/', views.category_links, name='category-links'),
     path('tree/category-<slug:category_id>/', views.category_tree, name='items-by-category'),
     path('categories/change-active-category-<slug:category_id>/', views.category_change_active, name='change-active-category'),
     path('categories/remove-category-<slug:category_id>/', views.category_remove, name='category-remove'),

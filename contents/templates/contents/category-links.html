@@ -1,0 +1,20 @@
+{% load i18n padword_tags%}
+
+<div class="d-flex justify-left">
+    <div class="col-12"> <h2>{% trans 'Category' %}&nbsp;<span class="small text-info" id="div-notification"></span></h2></div>
+</div>
+<br/>
+<div class="row justify-center">
+    Enlace completo: <a href="{{open_url}}" target="_blank">{{open_url}}</a><br/>
+</div>        
+<br/>
+<div class="row justify-center">
+    Enlace qr: <a href="{{qr_url}}" target="_blank">{{qr_url}}</a><br/>
+</div>        
+<br/>
+<div class="row justify-center">
+    Enlace pwa: <a href="{{pwa_url}}" target="_blank">{{pwa_url}}</a><br/>
+</div>        
+
+<div class="d-flex justify-content-end"> <button type="button" class="btn btn-sm" data-bs-dismiss="modal">{% trans "Close" %}</button> </div>
+

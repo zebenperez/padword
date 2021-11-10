@@ -4,6 +4,7 @@ from django.core import serializers
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, redirect, reverse
 from .models import *
+from bookings.models import Form 
 import json, os, time, datetime
 from padword.commons import show_exc, get_or_none, get_param, new_ui_slug, translate
 from .forms import ImageUploadForm
@@ -157,6 +158,24 @@ def category_clone(request):
 
     except Exception as e:
         return JsonResponse({'results':[], 'error':1, 'error-msg':show_exc(e)})
+
+@login_required
+def category_links(request):
+    try:
+        open_url = ""
+        qr_url = ""
+        pwa_url = ""
+        obj = get_or_none(Category, request.GET["objId"], 'uuid') if "objId" in request.GET else None
+        if obj != None:
+            f = get_or_none(Form, obj.uuid, 'category')
+            if f != None:
+                open_url = "https://%s%s?device_imei={device.imei}&room_number={room.number}&guest_name={guest.name}&guest_surname={guest.surname}" % (request.get_host(), reverse('guest-access', kwargs={'form_uuid': f.uuid}))
+                qr_url = "https://{}{}".format(request.get_host(), reverse('guest-access', kwargs={'form_uuid': f.uuid}))
+            pwa_url = "https://{}{}".format(request.get_host(), reverse('guest-access-pwa', kwargs={'project_uuid': obj.project.uuid}))
+        return render(request, "contents/category-links.html", {'open_url': open_url, 'qr_url': qr_url, 'pwa_url': pwa_url})
+    except Exception as e:
+        return render(request, "error_exception.html", {'exc': show_exc(e)})
+
 
 @login_required
 def item_form (request):
