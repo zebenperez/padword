@@ -19,6 +19,9 @@ def index(request):
     except Exception as e:
         return JsonResponse({'results':[], 'error':1, 'error-msg':show_exc(e)})
 
+'''
+    Categories
+'''
 @login_required
 def category_search(request):
     try:
@@ -40,12 +43,9 @@ def category_search(request):
 
 @login_required
 def categories_by_project(request, project_id):
-    try:
         project = Project.objects.get(uuid=project_id)
         categories = Category.objects.filter(project_uuid=project_id, parent__isnull =True).order_by('position')
         return render(request, "contents/categories.html", {'project':project, 'items':categories})
-    except Exception as e:
-        return JsonResponse({'results':[], 'error':1, 'error-msg':show_exc(e)})
 
 @login_required
 def category_form(request):
@@ -141,6 +141,8 @@ def category_clone(request):
 
                 cat_item = current
                 cat_item.pk = None
+                if cat_item.project_uuid == target.uuid and category.uuid == cat_item.uuid:
+                    cat_item.name = '0000 {}'.format(translate(request, cat_item.name))
                 cat_item.uuid = new_ui_slug(Category)
                 cat_item.project_uuid = target.uuid
                 cat_item.is_active = current.is_active
@@ -176,7 +178,38 @@ def category_links(request):
     except Exception as e:
         return render(request, "error_exception.html", {'exc': show_exc(e)})
 
+@login_required
+def category_add_image(request):
+    try:
+        obj_id = request.POST["obj_id"]
+        image = request.FILES["file"]
 
+        cat = get_or_none(Category, obj_id)
+        if cat != None:
+            cat.image = image
+            cat.save()
+        return render(request, "contents/category-img.html", {"obj": cat,})
+    except Exception as e:
+        print(e)
+        #logger.error("[bookings-form_add_image]" + str(e))
+        return render(request, 'error_exception.html', {'msg': str(e)})
+
+@login_required
+def category_remove_image(request):
+    try:
+        obj_id = request.GET["obj_id"]
+        obj = get_or_none(Category, obj_id) 
+        obj.image.delete(save=True)
+        return render(request, "contents/category-img.html", {"obj": obj,})
+    except Exception as e:
+        print(e)
+        #logger.error("[remove_file]" + str(e))
+        return render(request, 'error_exception.html', {'msg': str(e)})
+
+
+'''
+    Items
+'''
 @login_required
 def item_form (request):
     try:
@@ -249,6 +282,21 @@ def item_change_image(request):
             return HttpResponse(show_exc(e))
     else:
         return (HttpResponse("Lo sentimos, pero ha ocurrido un error. "))
+
+@login_required
+def save_allergen(request):
+    try:
+        obj = get_or_none(Item, request.GET["obj_id"])
+        allergen = get_or_none(Allergen, request.GET["allergen_id"])
+        add = request.GET["add"]
+        
+        if add == "True":
+            ItemAllergen.objects.create(item=obj, allergen=allergen)
+        else:
+            ItemAllergen.objects.filter(item=obj, allergen=allergen).delete()
+        return render(request, "contents/allergens.html", {"obj": obj, "item_list": Allergen.objects.all()})
+    except Exception as e:
+        return render(request, "error_exception.html", {'exc': show_exc(e)})
 
 ##### IMPORT #####
 class Node:

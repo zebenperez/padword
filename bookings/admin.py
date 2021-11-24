@@ -84,7 +84,7 @@ class FormInstanceAdmin(admin.ModelAdmin):
     #    return obj.form
 
 class FormTypeAdmin(admin.ModelAdmin):
-	list_display = ('code', 'name')
+	list_display = ('code', 'name', 'template')
 
 class QuestionAdmin(admin.ModelAdmin):
 	list_display = ('block', 'code', 'text', 'order')

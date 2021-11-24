@@ -1,4 +1,6 @@
 {% load i18n padword_tags static %}
+
+
 <div class="d-flex justify-center">
     <div class="col-2"> <h2>{% trans 'Item' %}&nbsp;<span class="small text-info" id="div-notification"></span></h2></div>
     <div class="col"></div>
@@ -64,6 +66,9 @@
                 <span id="active__msg"></span>
             </div>
         </div>		
+        <a data-bs-toggle="collapse" href="#collapseAllergen" role="button" aria-expanded="false" aria-controls="collapseAllergen"> 
+            {% trans "Allergens" %} </a>
+        <div class="collapse" id="collapseAllergen"> <div id="div-allergens-{{obj.id}}">{% show_allergen obj %}</div> </div>
     </div>
 </div>		
 

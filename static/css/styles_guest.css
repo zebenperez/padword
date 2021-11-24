@@ -205,22 +205,32 @@ tbody, td, tfoot, th, thead, tr {
 /* Shopping-cart style*/
 /*****************************/
 
+.card {
+	border:none !important;
+	border-radius: 0.25rem;
+	box-shadow: rgba(50, 50, 105, 0.15) 0px 2px 5px 0px, rgba(0, 0, 0, 0.05) 0px 1px 1px 0px;
+	width: 100%;
+}
+
+.card:hover {
+	box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
+}
+
 .cart-item {
-	background: #f8f8f8;
+	background: #f2f6fa;
 	border-radius: 0.25rem;
 	border:1px solid #4d5053;
+	border: 1px solid #d8e3ed !important;
+	box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 6px -1px, rgba(0, 0, 0, 0.06) 0px 2px 4px -1px;
 	text-align:center;
 }
 .b-item {
 	border-bottom: 1px solid #666 !important;
-	border-radius: 3px 0px 0px 0px;
-/*	letter-spacing: 2px;*/
 	text-align: left;
 	text-transform: uppercase;    
 }
 
 img { 
-	background-color: #444;
 	height: 130px; 
 	max-width: -webkit-fill-available;
 }
@@ -472,7 +482,6 @@ img.img-cart-line {
 	color: #333;
 }
 
-
 /*****************************/
 /* devices style*/
 /*****************************/
@@ -503,6 +512,7 @@ img.img-cart {border-radius: 10px 10px 10px 10px; box-shadow: 10px 0px 10px 0px 
 	}
 
 }
+ 
 
 @media (max-width: 480px) 
 {
@@ -538,7 +548,7 @@ img.img-cart {border-radius: 10px 10px 10px 10px; box-shadow: 10px 0px 10px 0px 
 		font-size: 1rem !important; 
 		font-weight: normal !important; 
 		min-height: 100px !important; 
-		color:red!important;
+		color:red !important;
 	}
 	.text-secondary {
 		height: 100px;

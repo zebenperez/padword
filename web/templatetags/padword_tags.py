@@ -4,6 +4,7 @@ from django.urls import reverse
 import json
 from padword.commons import show_exc
 from web.models import Project, ProjectUser
+from contents.models import Allergen
 import string, random
 
 register = template.Library()
@@ -41,6 +42,10 @@ def random_str(nchars='128'):
         n = 128
     return (''.join(random.choice(string.ascii_letters) for i in range(n)))
 
+@register.filter()
+def have_allergen(obj, allergen):
+    a_list = [item.allergen for item in obj.allergen_list.all()]
+    return allergen in a_list
 
 '''
     Simple Tags
@@ -182,4 +187,8 @@ def ark(url, div, **kwargs):
     except Exception as e:
         url = reverse(url)
         return {'div':div, 'url':url, 'go':go}
+
+@register.inclusion_tag('contents/allergens.html')
+def show_allergen(obj):
+    return {'obj': obj, 'item_list': Allergen.objects.all()}
 

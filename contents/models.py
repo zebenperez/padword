@@ -12,6 +12,12 @@ def image_file(instance, filename):
     instance.filename = filename
     return '/'.join(['folder_images',instance.uuid, datetime.datetime.now().strftime("%Y%m%d%H%M%S") + filename])
 
+def upload_category_image(instance, filename):
+    ascii_filename = str(filename.encode('ascii', 'ignore'))
+    instance.filename = ascii_filename
+    folder = "contents/categories/images/%s" % (instance.id)
+    return '/'.join(['%s' % (folder), datetime.datetime.now().strftime("%Y%m%d%H%M%S") + ascii_filename])
+
 # Create your models here.
 class Category(models.Model):
     ALLOWCHOICES = (('yes','Yes'), ('no','No'), ('inherit', 'Inherit'),)
@@ -46,6 +52,9 @@ class Category(models.Model):
     minimum_amount_order = models.IntegerField(verbose_name='Minimum Amount Order', default=0)
     internal = models.TextField(verbose_name='Internal', blank=True, null=True)
     position = models.IntegerField(verbose_name=_('Position'), default=0)
+
+    show_img = models.BooleanField(default=False, help_text=_("Show image"), verbose_name="Show image")
+    image = models.ImageField(upload_to=upload_category_image, verbose_name=_("Image"), blank=True, null=True)
 
     @property
     def active(self):
@@ -209,3 +218,31 @@ class ShoppingCart(models.Model):
     class Meta:
         db_table = 'shopping_cart'
         verbose_name = _('Shopping Cart')
+
+def allergen_icon(instance, filename):
+    ascii_filename = str(filename.encode('ascii', 'ignore'))
+    instance.filename = ascii_filename
+    return '/'.join(['allergens', ascii_filename])
+
+class Allergen(models.Model):
+    code = models.SlugField(verbose_name="Codigo", max_length=50, unique="True")
+    name = models.CharField(verbose_name="Nombre", max_length=150, blank=True, null=True)
+    icon = models.ImageField(verbose_name="Icono", upload_to=allergen_icon, blank=True, null=True)
+    icon_off = models.ImageField(verbose_name="Icono off", upload_to=allergen_icon, blank=True, null=True)
+
+    def __str__(self):
+        return self.code
+
+    class Meta:
+        verbose_name = "Alergeno"
+        verbose_name_plural = "Alergeno"
+
+class ItemAllergen(models.Model):
+    item = models.ForeignKey(Item, on_delete=models.CASCADE, null=True, related_name="allergen_list")
+    allergen = models.ForeignKey(Allergen, on_delete=models.SET_NULL, null=True, related_name="items")
+
+    class Meta:
+        verbose_name = "Item Alergeno"
+        verbose_name_plural = "Item Alergeno"
+
+

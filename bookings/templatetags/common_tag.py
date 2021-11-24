@@ -21,6 +21,13 @@ def addstr(arg1, arg2):
     """concatenate arg1 & arg2"""
     return str(arg1) + str(arg2)
 
+@register.filter
+def divide(value, factor):
+    try:
+        return int(value/factor)
+    except:
+        return int(0)
+
 '''
 	Simple tag
 '''
@@ -44,4 +51,5 @@ def getmaxrange(dict, key):
 def get_file_name(name):
     name_list = name.split("/")
     return name_list[len(name_list)-1][15:] if len(name) > 15 else ""
+
 

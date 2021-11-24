@@ -69,6 +69,7 @@ class Answer(models.Model):
 class FormType(models.Model):
 	code = models.CharField(max_length=10, verbose_name=_("Code"), default="")
 	name = models.CharField(max_length=200, verbose_name=_("Name"))
+	template = models.CharField(max_length=200, verbose_name=_("Template"), default="", blank=True)
 
 	def __str__(self):
 		return self.name
@@ -97,12 +98,14 @@ def upload_form_qr(instance, filename):
 
 class Form(models.Model):
     active = models.BooleanField(default=False, help_text=_("This form is active for guests"), verbose_name="Active")
+    show_desc = models.BooleanField(default=False, help_text=_("Show description"), verbose_name="Show description")
     uuid = models.CharField(max_length=255, verbose_name=_('UUID'), default="")
     name = models.CharField(max_length=200, verbose_name=_("Name"))
     category = models.CharField(max_length=200, verbose_name=_("Category"), default="")
     image = models.ImageField(upload_to=upload_form_image, blank=True, verbose_name="Imagen de fondo", help_text="Select file to upload")
     logo = models.ImageField(upload_to=upload_form_logo, blank=True, verbose_name="Logo", help_text="Select file to upload")
     qr = models.ImageField(upload_to=upload_form_qr, blank=True, verbose_name="QR", help_text="Select file to upload")
+    desc = models.TextField(verbose_name=_("Description"), default="", blank=True)
 
     form_type = models.ForeignKey(FormType, on_delete=models.CASCADE, verbose_name=_("Form type"), blank=True, null=True)
     #blocks = models.ManyToManyField(Block, blank=True, verbose_name=_("Questions blocks"))

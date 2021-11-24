@@ -1,0 +1,80 @@
+
+/*******************************/
+	/* Carta 2 style */
+/*******************************/
+
+
+.cat-title-head {
+	border-bottom: 1px solid #d8e3ed !important;
+	padding-left: 0px !important;
+	padding-right: 0px !important;
+}
+
+.cat-title {
+	background: #ffffff !important;
+	border: 0 !important;
+	color: #6a6a6a !important;
+	font-size: 1.4rem !important;
+	font-family: 'Open Sans Condensed', sans-serif;
+	line-height: 40px !important;
+	text-align: left !important;
+}
+
+.cat-image {
+	background: #ffffff !important;
+	height: 50px;
+	padding: 0;
+	width: 150px;
+}
+
+.cat-image img {
+	height:50px;
+	object-fit: contain;
+	width: 150px;
+}
+
+.slider-row {
+	margin: 0 !important;
+	padding: 0 !important;
+}
+
+/* Carousel controls*/
+.carousel-control-next, .carousel-control-prev {
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	display: -ms-flexbox;
+	display: flex;
+	-ms-flex-align: center;
+	align-items: center;
+	-ms-flex-pack: center;
+	justify-content: center;
+	width: 10%;
+	font-size: 2rem;
+	color: #333 !important;
+	text-align: center;
+}    
+
+.carousel-control-next-icon, .carousel-control-prev-icon {
+	display: inline-block;
+	width: 20px;
+	height: 20px;
+	background: transparent no-repeat center center;
+	background-size: 100% 100%;
+}
+
+
+
+/**********************************/
+	/* devices style*/
+/**********************************/
+
+
+@media (max-width: 668px) {
+	.cat-image i.fas.fa-cocktail {
+		font-size: 1rem !important;
+		line-height: 2 !important;
+	}
+
+}
+

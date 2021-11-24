@@ -574,6 +574,24 @@ def remove_generic_item_from_shopping_cart(request):
     except Exception as e:
         return render(request, "error_exception.html", {'exc':show_exc(e)})
 
+'''
+    Bookings menu
+'''
+@group_required("admins", "projects", "guests")
+def show_category_menu(request, form_id=None, cat_id = None):
+    try:
+        if not form_id:
+            form_id = request.GET["form_id"]
+        if not cat_id:
+            cat_id = request.GET["cat_id"]
+        instance = FormInstance.objects.get(pk=form_id)
+        category = Category.objects.get(uuid=cat_id)
+        #return render(request, "bookings/menu.html", {'category':category, 'fi':instance})
+        return render(request, instance.form.form_type.template, {'category':category, 'fi':instance})
+    except Exception as e:
+        return render(request, "error_exception.html", {'exc':show_exc(e)})
+
+
 def close(request):
     return render(request, "close-window.html")
 

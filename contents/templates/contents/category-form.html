@@ -1,4 +1,6 @@
-{% load i18n padword_tags%}
+{% load i18n static padword_tags %}
+
+
 <div class="d-flex justify-center">
     <div class="col-2"> <h2>{% trans 'Category' %}&nbsp;<span class="small text-info" id="div-notification"></span></h2></div>
     <div class="col"></div>
@@ -9,49 +11,60 @@
     </div>
 </div>
 <div class="row justify-center">
-    <div class="col-sm-6 col-md-4 col-12">
-        {% trans "Name" %} 
-        <input type="text" class="form-control autosave b-bottom mb-4" id="name" name="name" value="{% padword_translate obj.name %}" title="{% padword_translate obj.name %}" data-lang="{% current_lang %}" data-model-name="contents.category" data-obj-id="{{obj.id}}" data-url="{% url "autosave_field" %}" data-target="div-notification"/>
-        <span id="name__msg"></span>
-    </div>
-    <div class="col-sm-6 col-md-8 col-12">
-        {% trans "Description" %}:
-        <input type="text" class="form-control autosave b-bottom mb-4" id="description" name="description" value="{% padword_translate obj.description %}" title="{% padword_translate obj.description%}"  data-lang = "{% current_lang %}" data-model-name="contents.category" data-obj-id="{{obj.id}}" data-url="{% url "autosave_field" %}" data-target="div-notification" />
-        <span id="name__msg"></span>
-    </div>
-
-    <div class="col-sm-6 col-2">
-        {% trans "Parent Category" %}:
-        <select class="form-control autosave b-bottom mb-4" id="parent" name="parent" title="{{obj.parent.name}}" data-model-name="contents.category" data-obj-id="{{obj.pk}}" data-url="{% url "autosave_field" %}" data-target="div-notification">
-            <option value="obj.parent.pk">{% trans 'Current' %} -  {% if obj.parent %}{% padword_translate obj.parent.name %}{% else %} {% trans 'ROOT Category' %} {%endif%}</option>
-            {% if obj.parent %}
-            <option value="{{obj.parent.parent.pk | default:"0"}}">{% trans 'Level Up' %} - {% if obj.parent.parent %}{% padword_translate obj.parent.parent.name %}{% else %} {% trans 'ROOT Category' %} {%endif%}</option>
-            {% endif %}
-            {% for option in parents_options %}
-            {% if option.pk != obj.parent.pk and option.pk != obj.pk %}
-            <option value="{{option.pk}}">{% padword_translate option.name %}</option>
-            {% endif %}
-
-            {%endfor%}
-        </select>
-        <span id="parent__msg"></span>
-
-    </div>
-
-    <div class="col-sm-2 col-md-2 col-2">
-        {% trans "Position" %}:
-        <input type="number" class="form-control autosave b-bottom mb-4" id="position" name="position" value="{{ obj.position }}" title="{{ obj.position }}" 
-                                                                                                                                  data-model-name="contents.category" data-obj-id="{{obj.id}}" data-url="{% url "autosave_field" %}" data-target="div-notification"/>
-        <span id="name__msg"></span>
-    </div>
-
     <div class="col-sm-4 col-md-4 col-12">
-        {% trans "Created at" %}:
-        <input type="date" class="form-control autosave b-bottom mb-4" id="created_at" name="created_at" value="{{obj.created_at|date:'Y-m-d'}}" title="{{obj.created_at}}" 
-                                                                                                                                                 data-model-name="contents.category" data-obj-id="{{obj.id}}" data-url="{% url "autosave_field" %}" data-target="div-notification"/>
-        <span id="created_at__msg"></span>    
+        {% trans "Image" %}: <div id="div-image">{% include "contents/category-img.html" %}</div> 
+        <div class="form-check form-switch">
+            <input class="form-check-input autosave" type="checkbox" id="show_img" name="show_img" data-model-name="contents.category" 
+                data-obj-id="{{obj.id}}" data-bool="True" data-url="{%url "autosave_field"%}" data-target="div-notification"
+                {%if obj.show_img%}checked{%endif%}> <label class="form-check-label" for="show_desc">Mostrar</label>
+        </div>
     </div>
+    <div class="col-sm-8 col-md-8 col-12">
+        <div class="row justify-center">
+            <div class="col-sm-6 col-md-4 col-12">
+                {% trans "Name" %} 
+                <input type="text" class="form-control autosave b-bottom mb-4" id="name" name="name" value="{% padword_translate obj.name %}" title="{% padword_translate obj.name %}" data-lang="{% current_lang %}" data-model-name="contents.category" data-obj-id="{{obj.id}}" data-url="{% url "autosave_field" %}" data-target="div-notification"/>
+                <span id="name__msg"></span>
+            </div>
+            <div class="col-sm-6 col-md-8 col-12">
+                {% trans "Description" %}:
+                <input type="text" class="form-control autosave b-bottom mb-4" id="description" name="description" value="{% padword_translate obj.description %}" title="{% padword_translate obj.description%}"  data-lang = "{% current_lang %}" data-model-name="contents.category" data-obj-id="{{obj.id}}" data-url="{% url "autosave_field" %}" data-target="div-notification" />
+                <span id="name__msg"></span>
+            </div>
 
+            <div class="col-sm-6 col-2">
+                {% trans "Parent Category" %}:
+                <select class="form-control autosave b-bottom mb-4" id="parent" name="parent" title="{{obj.parent.name}}" data-model-name="contents.category" data-obj-id="{{obj.pk}}" data-url="{% url "autosave_field" %}" data-target="div-notification">
+                    <option value="obj.parent.pk">{% trans 'Current' %} -  {% if obj.parent %}{% padword_translate obj.parent.name %}{% else %} {% trans 'ROOT Category' %} {%endif%}</option>
+                    {% if obj.parent %}
+                    <option value="{{obj.parent.parent.pk | default:"0"}}">{% trans 'Level Up' %} - {% if obj.parent.parent %}{% padword_translate obj.parent.parent.name %}{% else %} {% trans 'ROOT Category' %} {%endif%}</option>
+                    {% endif %}
+                    {% for option in parents_options %}
+                    {% if option.pk != obj.parent.pk and option.pk != obj.pk %}
+                    <option value="{{option.pk}}">{% padword_translate option.name %}</option>
+                    {% endif %}
+
+                    {%endfor%}
+                </select>
+                <span id="parent__msg"></span>
+
+            </div>
+
+            <div class="col-sm-2 col-md-2 col-2">
+                {% trans "Position" %}:
+                <input type="number" class="form-control autosave b-bottom mb-4" id="position" name="position" value="{{ obj.position }}" title="{{ obj.position }}" 
+                                                                                                                                          data-model-name="contents.category" data-obj-id="{{obj.id}}" data-url="{% url "autosave_field" %}" data-target="div-notification"/>
+                <span id="name__msg"></span>
+            </div>
+
+            <div class="col-sm-4 col-md-4 col-12">
+                {% trans "Created at" %}:
+                <input type="date" class="form-control autosave b-bottom mb-4" id="created_at" name="created_at" value="{{obj.created_at|date:'Y-m-d'}}" title="{{obj.created_at}}" 
+                                                                                                                                                         data-model-name="contents.category" data-obj-id="{{obj.id}}" data-url="{% url "autosave_field" %}" data-target="div-notification"/>
+                <span id="created_at__msg"></span>    
+            </div>
+        </div>        
+    </div>        
 </div>        
 
 <div class="d-flex justify-content-end">

@@ -1,0 +1,21 @@
+{% load i18n padword_tags %}
+
+<style>
+.alerg-icon {
+    width:13%;
+    display:inline-block;
+}
+</style>
+
+{% for item in item_list %}
+    <div class="alerg-icon">
+        {% if obj|have_allergen:item and item.icon %}
+            <img src="{{item.icon.url}}" alt="{{item.name}}" title="{{item.name}}" class="ark" data-url="{% url 'items-save-allergen' %}" 
+                data-target="div-allergens-{{obj.id}}" data-obj_id="{{obj.id}}" data-allergen_id="{{item.id}}" data-add="False"/>
+        {% elif item.icon_off %}
+            <img src="{{item.icon_off.url}}" alt="{{item.name}}" title="{{item.name}}" class="ark" data-url="{% url 'items-save-allergen' %}" 
+                data-target="div-allergens-{{obj.id}}" data-obj_id="{{obj.id}}" data-allergen_id="{{item.id}}" data-add="True"/>
+        {% endif %}
+    </div>
+{% endfor %}
+

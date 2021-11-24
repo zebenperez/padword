@@ -16,6 +16,8 @@ urlpatterns = [
     path('categories/change-active-category-<slug:category_id>/', views.category_change_active, name='change-active-category'),
     path('categories/remove-category-<slug:category_id>/', views.category_remove, name='category-remove'),
     path('categories/import-by-file/', views.import_categories_by_file, name='import-categories-by-file'),
+    path('categories/add-image/', views.category_add_image, name='category-add-image'),
+    path('categories/remove-image/', views.category_remove_image, name='category-remove-image'),
 
     path('items/form/', views.item_form, name='item-form'),
     path('items/change-image/', views.item_change_image, name='item-change-image'),
@@ -23,6 +25,7 @@ urlpatterns = [
     path('items/remove-item/', views.item_remove, name='item-remove'),
     path('items/get-img/<int:item_id>/', views.item_get_img, name='item-get-img'),
     #path('items/remove-item-<slug:item_id>/', views.item_remove, name='item-remove'),
+    path('items/save_allergen', views.save_allergen, name="items-save-allergen"),
 
     #---------------------- AUTO -----------------------
 	path('autosave_field/', auto_views.autosave_field, name='autosave_field'),

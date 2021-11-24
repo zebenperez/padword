@@ -4,7 +4,7 @@
     <div class="row">
         {% for project in projects %}
         <div class="col-lg-2 col-md-3 col-12 mb-1 mt-1 ">
-            <button class="btn {% if category.project_uuid == project.uuid %} btn-light {%else%} btn-primary ark {% endif %} w-100 h-100" data-target-modal="common-modal" data-to-project-UUID="{{ project.uuid }}" data-obj-id="{{ category.uuid }}" data-url="{% url 'category-clone' %}">{% padword_translate project.name %}</button>
+            <button class="btn {% if category.project_uuid == project.uuid %} btn-warning ark {%else%} btn-primary ark {% endif %} w-100 h-100" data-target-modal="common-modal" data-to-project-UUID="{{ project.uuid }}" data-obj-id="{{ category.uuid }}" data-url="{% url 'category-clone' %}">{% padword_translate project.name %}</button>
         </div>
         {% endfor %}
     </div>
