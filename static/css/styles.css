@@ -280,7 +280,7 @@ input.form-control.login {
 .save {
 	color: #36abfc;
 }
- .cancel {
+.cancel {
 	color: #666;
 }
 
@@ -521,7 +521,7 @@ ul.left-menu  {
 }
 
 i.fas.fa-home { color: #2196f3 !important; padding-right: 10px; }
-i.fas.fa-tasks { color: #795548 !important; padding-right: 10px; }
+i.far.fa-folder-open { color: #795548 !important; padding-right: 10px; }
 i.fas.fa-users { color: #673ab7 !important; padding-right: 10px; }
 i.fas.fa-bed { color: #ff5722 !important; padding-right: 10px; }
 i.fas.fa-tablet-alt { color: #03a9f4 !important; padding-right: 10px; }
@@ -587,8 +587,7 @@ i.fas.fa-tablet-alt { color: #03a9f4 !important; padding-right: 10px; }
 	font-size: 36px;
 	margin-left: 50px;
 }
-
-.openbtn {
+.menu-btn {
 	font-size: 20px;
 	cursor: pointer;
 	background:#f3f7fb;
@@ -599,10 +598,13 @@ i.fas.fa-tablet-alt { color: #03a9f4 !important; padding-right: 10px; }
 	border-radius: 50% !important;
 }
 
+/*
 .openbtn:hover {
 	background:#dee7f0;
 	border-radius: 50% !important;
 }
+*/
+
 #main {
 	transition: margin-left .5s;
 }
@@ -622,13 +624,29 @@ i.fas.fa-tablet-alt { color: #03a9f4 !important; padding-right: 10px; }
 .user-dropdown li { 
 	list-style: none;
 	text-align:left;
+	display: block;
+	width: 100%;
+	padding: 0.25rem;
+	clear: both;
+	color: #212529;
+	white-space: nowrap;
+	background-color: transparent;
+	border: 0;
 }
+
 .user-dropdown li a {
 	text-decoration:none;
 	color: #72777a;
-	font-size: 15px;
-	font-weight: 500;
+	font-size: 14px;
+	font-weight: normal;
 	white-space: nowrap;
+}
+
+.dropdown-divider {
+	height: 0;
+	margin: 0.5rem 0;
+	overflow: hidden;
+	border-top: 1px solid #e9ecef;
 }
 
 /************ Icons style   ***************/

@@ -42,17 +42,48 @@
             {% if request.user.is_authenticated %}
             <div id="main" class="w-100">
                 <div class="header sticky-top bg-white">
-                    <div class="text-center pt-2"> <button class="menu-btn"><i class="fas fa-bars"></i></button></div>
-                    <div class="text-center pt-2"></div>
+                    <div class="text-center pt-2"><button class="menu-btn"><i class="fas fa-bars"></i></button></div>
+		    <div class="text-center pt-2"></div>
                     <div class="text-center pt-2"><div class="header-icon pt-2"><i class="far fa-bell"></i></div></div>
-                    <div class="text-center pt-2"><div class="header-icon pt-2"><a href="#" class=""><i class="far fa-envelope"></i></a></div></div>
-                    <div class="text-center pt-2"><div class="header-icon">
-                        <a data-bs-toggle="collapse" href="#collapseProfile" role="button" aria-expanded="false" aria-controls="collapseProfile">
-                            <img class="w-2r bdrs-50p" src="https://randomuser.me/api/portraits/men/10.jpg" alt=""></a>	
-                        <div class="collapse" id="collapseProfile">
-                            <div class="user-dropdown card card-body"><ul><li><a href="#"><i class="fas fa-user"></i> Mi perfil</a></li></ul></div>
+		    
+		    {% comment %}
+		    <div class="text-center pt-2">
+		       <div class="header-icon">
+                          <a data-bs-toggle="collapse" class="dropdown-toggle" href="#collapseProfile" role="button" aria-expanded="false" aria-controls="collapseProfile"></a>	
+                           <div class="collapse" id="collapseProfile">
+                              <div class="user-dropdown card card-body">
+				    <ul>
+					    <li>Notificacion 1</li>
+					    <li>Notificacion 1</li>
+				    </ul>
+			      </div>
+                            </div>
                         </div>
-                    </div></div>
+		    </div>
+
+		    {% endcomment %}
+
+                    <div class="text-center pt-2"><div class="header-icon pt-2"><a href="#" class=""><i class="far fa-envelope"></i></a></div></div>
+                    <div class="text-center pt-2">
+		       <div class="header-icon">
+                          <a data-bs-toggle="collapse" class="dropdown-toggle" href="#collapseProfile" role="button" aria-expanded="false" aria-controls="collapseProfile">
+                             <img class="w-2r bdrs-50p" src="https://randomuser.me/api/portraits/men/10.jpg" alt=""></a>	
+                           <div class="collapse" id="collapseProfile">
+                              <div class="user-dropdown card card-body">
+				    <ul>
+					    <li><a href="#"><i class="fas fa-user"></i> Mi perfil</a></li>
+						    <div class="dropdown-divider"></div>
+					    <li><a href="{% url 'auth_logout' %}"><i class="fas fa-power-off"></i> Salir</a></li>
+				    </ul>
+			      </div>
+                            </div>
+                        </div>
+		    </div>
+
+
+
+
+
                 </div>
             </div>
             {% endif %}
@@ -62,15 +93,11 @@
             <aside id="sidebar" class="bg-light"> 
                 <div id="side_menu">
                     <ul class="left-menu">
-                        <li class="nav-item"><a class="nav-link " href="/web/projects/"><i class="fas fa-tasks"></i> Projects </a> </li>
+                        <li class="nav-item"><a class="nav-link " href="/web/projects/"><i class="far fa-folder-open"></i> Projects </a> </li>
                         <li class="nav-item"><a class="nav-link " href="/web/companies/"><i class="fas fa-home"></i> Companies </a> </li>
-                        <hr/>
                         <li class="nav-item"><a class="nav-link " href="/guest/guests/"><i class="fas fa-users"></i> Guests </a> </li>
                         <li class="nav-item"><a class="nav-link " href="//"><i class="fas fa-bed"></i> Rooms </a> </li>
                         <li class="nav-item"><a class="nav-link " href="/guest/devices/"><i class="fas fa-tablet-alt"></i> Tablets </a> </li>
-                        <li class="nav-item"> <a class="nav-link {% current '' %}" href="{% url 'auth_logout' %}"> 
-                            <i class="fas fa-sign-out-alt text-white" title=" {% trans "Log out" %} "></i> </a>
-                        </li>
                     </ul>
                 </div>
             </aside>
