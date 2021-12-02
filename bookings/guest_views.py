@@ -609,9 +609,6 @@ def show_category_menu(request, form_id=None, cat_id = None):
             form = instance.form
         elif category != None:
             form = Form.objects.filter(category=category.uuid).first()
-        print(cat_id)
-        print(category)
-        print(form)
         #return render(request, "bookings/menu.html", {'category':category, 'fi':instance})
         return render(request, form.form_type.template, {'category':category, 'form': form, 'fi':instance, 'index':0})
     except Exception as e:
