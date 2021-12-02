@@ -1,0 +1,122 @@
+.container {
+/*	background-image: url("/static/img/LanisSuite-PiscinaInfinity.jpg");*/
+	background-position: center; 
+	background-repeat: no-repeat;
+	background-size: cover; 
+	height: 500px;
+	width: 100%;
+	/*border:1px solid red;*/
+}
+
+.div-top, .fixed-head {
+	display:none;
+}
+/*
+.div-transp-blue {
+	background-size: cover;
+	background-color: rgba(0,0,0,.25)0,0,.125) !important;
+	opacity: 0.9;
+	color: white;
+*/
+
+.div-transp-blue {
+	background-size: cover;
+	/* background-color: #0093E9; */
+	background-image: linear-gradient( * 160deg	 * , #0093E9 0%, #80D0C7 100%); 
+	opacity: 0.9;
+	color: white;
+}
+
+
+.logo {
+/*	border:1px solid red;*/
+	height: 50px;
+}
+.logo img {
+	background-color: transparent !important;
+	border: 0 !important;
+}
+
+.sugest-btn {
+/*	border:1px solid red;*/
+	height: 50px;
+}
+button.btn.btn-secondary { 
+	background:#adb4b9;
+	border-radius: 15px;
+	border:none;
+}
+button.btn.btn-secondary:hover { 
+	background:#8b9296;
+}
+
+#div-current-category {
+/*	border:1px solid blue;*/
+	bottom: 60px;
+	width: 83%;
+	position: fixed;
+	margin: 0 0 0 auto;
+}
+
+.align-items-end {
+	position:fixed;
+	bottom: 60px;
+	left:0;
+	width: 110%;
+	height: 60px;
+	background: rgb(255,255,255);
+	background: linear-gradient(0deg, rgba(255,255,255,1) 71%, rgba(255,255,255,0) 100%);
+}
+
+button.menu-options { 
+/*	border:1px solid red;*/
+	background: none;
+	border:0;
+	color: #4c5769;
+	font-size: 1.2rem;
+}
+
+button.menu-options:hover {
+	color:#000;
+}
+
+#menu {
+	display:inline-block;
+	text-align:center !important;
+}
+
+.menu-botton {
+	background:#3a4355;
+	position:fixed; 
+	bottom:0; 
+	left:0;
+	width: 110%;
+	height: 60px;
+	line-height: 60px;
+	font-size: 1.1rem;
+	border-top:1px solid #151b42;
+}
+
+.menu-botton a {
+	color:#adb4b9;
+}
+.menu-botton a:hover {
+	color: white;
+	text-decoration: none;
+}
+
+	
+.languages {
+	display:grid;
+	width:100%;
+	grid-template-columns: 15% 15% 15% 15% ;
+	height: 50px;
+	line-height: 50px;
+}
+.languages img {
+	width: 20px;
+	height: 20px;
+	border: 1px solid #fff !important;
+	border-radius: 15px;
+}
+

@@ -1,0 +1,15 @@
+{% extends "base_guest.html" %}
+{% load i18n bookings_tag common_tag padword_tags %}
+
+{% block central_content %}
+    <div id="mask"> &nbsp; </div>
+
+    <div class="main-content-booking container-fluid">
+	    <div class="col-10 offset-1 div-transp-0 p-4">
+            {% include "bookings/show-category-content.html" %}
+        </div>
+    </div>
+    {% include "common-modal.html" %}
+    {% if form.image %} <script>$('body').css('background-image', 'url("{{form.image.url}}")');</script> {% endif %}
+{% endblock %}
+

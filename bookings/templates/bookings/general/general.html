@@ -1,0 +1,3 @@
+{% load i18n bookings_tag common_tag %}
+
+{% for b in form.get_public_blocks %}<div id="div-block">{%include "bookings/general/block_form.html"%}</div>{% endfor %}

@@ -1,0 +1,69 @@
+{% load i18n bookings_tag common_tag padword_tags static %}
+
+<div class="row justify-content-end mb-3">
+	<div class="col-1">
+		<button type="button" class="btn btn-outline-danger save ark " data-url="{% url 'get-price-shopping-cart' %}" data-target="info-shopping" data-form_id="{{fi.pk}}" data-bs-dismiss="modal"><i class="fas fa-times"></i></button>
+	</div>
+</div>
+<div class="row">
+    <div class="col-7">
+        <h5>{% trans "My Booking" %}&nbsp;( {{items|length}} {% trans 'art.' %} )</h5>
+    </div>
+    <div class="col-5 text-end" id="div-total-shopping-cart"> {% trans 'Total price' %}: {{total|floatformat:2}} &euro;</div>
+	{% comment %}
+    <div class="col-lg-2 col-md-2 col-xs-3 justify-content-end">
+        <button type="button" class="btn btn-outline-danger save ark " data-url="{% url 'get-price-shopping-cart' %}" data-target="info-shopping" data-form_id="{{fi.pk}}" data-bs-dismiss="modal"><i class="fas fa-times"></i></button>
+    </div>
+	{% endcomment %}
+</div>
+
+<hr>
+<div class="row mb-2">
+    {% for item in items %}
+    <div class="col-6 col-lg-2 justify-content-center mt-1">
+        <div class="col-xs-12 card w-100">
+            <div class="image" id="cover">
+                <img src="{% if item.item.image %}{{item.item.image.url}} {%else%} {% static 'img/none.png' %}{%endif%}" class="card-img-top" alt="{% padword_translate item.item.name %}">
+            </div>
+            <div class="card-body">
+                <h4 class="small card-title text-dark text-center">{{ item.item.price}} &euro; </h4>
+                <h5 class="small card-title text-dark text-center">{% padword_translate item.item.name %}</h5>
+                <div class="small card-title text-center"><small>{{ item.comments }}&nbsp;</small></div>
+                <div class="d-flex justify-content-between">
+                    {% comment %}
+                    <a class="btn btn-danger ark" title="{%trans 'Remove article from shopping-cart' %}" data-confirm="{% trans "Are you sure to remove this element?" %}" data-url="{% url "remove-item-shopping-cart" %}" data-item_id="{{item.pk}}" data-target-modal="common-modal"><i class="fas fa-trash"></i></a>
+                    {% endcomment %}
+                    <a class="btn btn-danger ark" title="{%trans 'Remove article from shopping-cart' %}" data-url="{% url "remove-item-shopping-cart" %}" data-item_id="{{item.pk}}" data-target-modal="common-modal"><i class="fas fa-trash"></i></a>
+                    <a class="btn btn-primary ark" title="{% trans 'Add comment at this article' %}" data-url="{% url "item-shopping-cart-comment" %}" data-item_id="{{item.pk}}" data-form_id="{{fi.pk}}" data-target-modal="common-modal"><i class="fas fa-comments"></i></a>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+<div class="row justify-content-center mt-3">
+	<p class="small alert text-left"><strong>*</strong> {% trans 'You can add comments to the article with click on comment buttons' %} <i class="fas fa-comments"></i></p>
+</div>
+<div class="row mt-2 w-100">
+    <div class="col-lg-5 offset-lg-1 col-md-6 col-xs-5 text-center mb-3">
+        {#<a href="{% url "booking-send" fi.id %}" class="btn btn-outline-primary btn-lg w-100"><i class="fas fa-paper-plane"></i> {% trans "Send" %}</a>#}
+        <button class="btn btn-primary-pad ark" data-bs-dismiss="modal" data-url="{% url "booking-send" %}" 
+            data-target="div-main" data-obj_id="{{fi.id}}"> {% trans "Send Order" %}</button>
+    </div>
+    <div class="col-lg-5 offset-lg-1 col-md-6 col-xs-5 text-center">
+        {#<a href="{% url "booking-remove" fi.id %}" class="btn btn-outline-danger btn-lg w-100"><i class="fas fa-ban"></i> {% trans "Cancel" %}</a>#}
+        <button class="btn btn-danger-pad ark" data-bs-dismiss="modal" data-url="{% url "booking-remove" %}"
+            data-target="div-main" data-obj_id="{{fi.id}}"> {% trans "Cancel Order" %}</button>
+    </div>
+
+</div>
+
+<script>$('#info-shopping').html($('#div-total-shopping-cart').html());</script>
+{% if item_refresh %}
+<script id="realtime-script">
+    $('#counter-item-{{item_refresh.pk}}').val('{{total_items}}');
+    $('#span-total-price').html('{{total|floatformat:2}}');
+    $('#span-total-items').html('{{items|length}}');
+    $('#realtime-script').remove();
+</script>
+{%endif%}

@@ -1,0 +1,26 @@
+{% load i18n bookings_tag common_tag %}
+
+
+<div class="div-info-tb">
+	<table class="table mt-4" id="table_{{q.id}}" width="100%">
+	    <thead> <tr>
+			{% for f in q.field_set.all %}
+			    <td class="sh-td item-left">{{f.text}}</td>
+			    {% if forloop.last %}<td class="sh-td"></td><td class="sh-td"></td>{% endif %}
+			{% endfor %} 
+        </tr> </thead>
+	    <tbody> 
+            {% if fi %}
+                {% for index in q|get_indexes:fi%} {% include "bookings/general/question_row.html" %} {% endfor %} 
+            {% else %}
+                {% with index=0 %} {% include "bookings/general/question_row.html" %} {% endwith %} 
+            {% endif %}
+        </tbody>
+	</table>
+
+    {% if q.max_answers > 1 and not ro %}
+        <div class="text-right">
+            <a class="btn btn-info-pad add_row" data-url="{% url "new-row" %}" data-target="table_{{q.id}}" data-obj_id="{{q.id}}" data-fi_id="{{fi.id}}"> <i class="fas fa-plus"></i></a>
+        </div>
+    {% endif %}
+</div>

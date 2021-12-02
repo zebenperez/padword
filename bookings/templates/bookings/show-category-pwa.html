@@ -1,0 +1,61 @@
+{% load static padword_tags i18n %}
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description" content="">
+        <title>Padword by Shidix</title>
+        <link rel="manifest" href="{% static 'manifest.json' %}">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
+        <!-- Font awesome -->
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+
+        <!-- JQuery -->
+        <script src="https://code.jquery.com/jquery-3.5.1.js" ></script>
+
+        <!-- Shidix -->
+        <link rel="stylesheet" href="{% static 'pwa/css/styles_guest.css' %}" >
+        <script src="{% static "js/common.js" %}"></script>
+        <script src="{% static "bookings/js/bookings_forms.js" %}"></script>
+
+        <!-- Favicons -->
+        <meta name="theme-color" content="#7952b3">
+
+    </head>
+    <body style="background:url('/static/img/bg-test.jpg'); background-size: cover;">
+	    <div class="row div-top w-100 p-0 m-0">
+		    <div class="col-2"><img src="/static/img/logo-lanis.png"></div>
+            {% comment %}
+		    <div class="col-5">
+			    <button class="btn btn-info-pwa ark" data-url="{% url 'my-bookings' project_uuid %}" data-target="pwa-content">
+                    <i class="fas fa-suitcase"></i> <br />{% trans 'My bookings' %}</button>
+		    </div>
+		    <div class="col-2 login"><i class="fas fa-sign-in-alt"></i> <br /> {% trans 'Login' %}</div>
+            {% endcomment %}
+	    </div>
+
+        <div class="div-transp-blue div-transparent- p-4">
+            <div class="container-fluid" id="pwa-content">
+                <div class="row mt-3">
+                    {% include "bookings/show-category-content.html" %}
+                </div>
+            </div>
+        </div>
+        {% include "common-modal.html" %}
+
+        <script>
+            document.addEventListener('DOMContentLoaded', function() 
+                {
+                    navigator.serviceWorker.register('/static/js/sw.js');
+                    Notification.requestPermission(function(result) {
+                        if (result === 'granted') {
+                            navigator.serviceWorker.ready.then(function(registration) {
+                                //registration.showNotification('Notification with ServiceWorker');
+                            });
+                        }
+                    });
+                }); 
+        </script>
+    </body>
+</html>
