@@ -73,14 +73,27 @@ def guest_access_bookings(request, project_uuid):
     context = {'project_uuid': project_uuid, 'next_url': next_url}
     return render(request, 'bookings/guest/guest-welcome.html', context)
 
-def guest_access_pwa(request, project_uuid):
-    if check_user(request.user, project_uuid=project_uuid):
-        next_url = reverse("pwa-index")
+#def guest_access_pwa(request, project_uuid):
+#    if check_user(request.user, project_uuid=project.uuid):
+#        next_url = reverse("pwa-index-cat")
+#    else:
+#        auth.logout(request)
+#        next_url = reverse("guest-form-login")
+#    context = {'project_uuid': project_uuid, 'next_url': next_url}
+#    return render(request, 'bookings/guest/guest-welcome.html', context)
+#
+def guest_access_pwa(request, category_uuid):
+    cat = get_or_none(Category, category_uuid, "uuid")
+    if check_user(request.user, project_uuid=cat.project.uuid):
+        next_url = reverse("pwa-index-cat", kwargs = {'category_uuid':category_uuid})
     else:
         auth.logout(request)
         next_url = reverse("guest-form-login")
-    context = {'project_uuid': project_uuid, 'next_url': next_url}
+    context = {'project_uuid': cat.project.uuid, 'cat': cat, 'next_url': next_url}
+    #context = {'cat': cat}
+    #return render(request, 'bookings/guest/guest-welcome-pwa.html', context)
     return render(request, 'bookings/guest/guest-welcome.html', context)
+
 
 def guest_form_login(request, form_uuid=None):
 #def guest_form_login(request):
@@ -89,7 +102,8 @@ def guest_form_login(request, form_uuid=None):
             form_uuid = request.GET["form_uuid"] if "form_uuid" in request.GET else form_uuid
             return render(request, 'guest_form_login.html', {'form_uuid': form_uuid})
         if "project_uuid" in request.GET:
-            return render(request, 'guest_form_login.html', {'project_uuid': request.GET["project_uuid"]})
+            cat_uuid = request.GET["category_uuid"] if "category_uuid" in request.GET else ""
+            return render(request, 'guest_form_login.html', {'project_uuid': request.GET["project_uuid"], 'category_uuid': cat_uuid})
         return render(request, 'error_exception.html', {'exc': 'Form or project not found!', 'error-msg': 'Form or project not found!'})
     except Exception as e:
         logger.error("[bookings-guest_form_login] {}".format(str(e)))
@@ -103,6 +117,7 @@ def booking_new_guest(request):
         #date = datetime.datetime.now()
         form_uuid = request.POST["form_uuid"]
         project_uuid = request.POST["project_uuid"]
+        category_uuid = request.POST["category_uuid"]
         code = request.POST["code"]
         room = request.POST["room"]
         #guest = Guest.objects.filter(Q(mobile=code) | Q(email=code)).filter(room=room, check_in__lte=date, check_out__gte=date).first()
@@ -145,7 +160,7 @@ def booking_new_guest(request):
         auth.login(request, user)
 
         #return redirect(booking_new, form_uuid) if form_uuid != "" else redirect(bookings_by_guest, project.uuid)
-        return redirect(booking_new, form_uuid) if form_uuid != "" else redirect(reverse("pwa-index"))
+        return redirect(booking_new, form_uuid) if form_uuid != "" else redirect(reverse("pwa-index-cat", kwargs = {'category_uuid':category_uuid}))
     except Exception as e:
         print (show_exc(e))
         logger.error("[bookings-new_booking] {}".format(str(e)))
@@ -213,8 +228,8 @@ def booking_new(request, form_uuid):
         write_log(request.user, fi, _("Booking created"))
         
         items = ShoppingCart.objects.filter(form_instance_id=fi.pk)
-        context = {'fi': fi, 'index': "0", "ro": False, 'items':items}
-        return render(request, 'bookings/fillform.html', context)
+        context = {'fi': fi, 'form': form, 'index': "0", "ro": False, 'items':items}
+        return render(request, 'bookings/show-category.html', context)
     except Exception as e:
         print (show_exc(e))
         logger.error("[bookings-new_booking] {}".format(str(e)))
@@ -366,7 +381,7 @@ def autocomplete(request):
     model = apps.get_model("bookings", model_name)
     item_list = model.objects.filter(**{"{}__icontains".format(field): value})
 
-    return render(request, 'bookings/autocomplete_field.html', {'item_list': item_list, 'id': html_id})
+    return render(request, 'bookings/general/autocomplete_field.html', {'item_list': item_list, 'id': html_id})
 
 @group_required("admins", "projects", "guests")
 def autoupload(request):
@@ -455,7 +470,7 @@ def select_item(request):
                 'selected_item': item,
                 'value': ai.text
             }
-        return render(request, "bookings/items-shop-field.html", context)
+        return render(request, "bookings/ecom/items-shop-field.html", context)
     except Exception as e:
         print(e)
         logger.error("[bookings-autosave]: {}".format(e))
@@ -482,7 +497,7 @@ def item_to_shopping_cart(request):
         total_price = "{:.2f}".format(instance.get_total)
         total_items = ShoppingCart.objects.filter(form_instance_id=int(form_id)).count()
 
-        return render(request, "bookings/show-instance-result.html", {'items':items,'item':item,'total_price':total_price,'total_items':total_items})
+        return render(request, "bookings/ecom/show-instance-result.html", {'items':items,'item':item,'total_price':total_price,'total_items':total_items})
         #return HttpResponse('{} art.&nbsp;&nbsp;&nbsp;{:.2f} &euro;'.format(items.count(), instance.get_total))
         #return render(request, "bookings/shopping-form.html", {'obj':obj})
     except Exception as e:
@@ -492,12 +507,13 @@ def item_to_shopping_cart(request):
 def show_category_shopping_cart(request, form_id=None, cat_id = None):
     try:
         if not form_id:
-            form_id = request.GET["form_id"]
+            form_id = request.GET["form_id"] if "form_id" in request.GET else 0
         if not cat_id:
-            cat_id = request.GET["cat_id"]
-        instance = FormInstance.objects.get(pk=form_id)
+            cat_id = request.GET["cat_id"] if "cat_id" in request.GET else ""
+        #instance = FormInstance.objects.get(pk=form_id) if form_id != 0 else None
+        instance = get_or_none(FormInstance, form_id)
         category = Category.objects.get(uuid=cat_id)
-        return render(request, "bookings/shopping_cart.html", {'category':category, 'fi':instance})
+        return render(request, "bookings/ecom/shopping_cart.html", {'category':category, 'fi':instance})
     except Exception as e:
         return render(request, "error_exception.html", {'exc':show_exc(e)})
 
@@ -508,7 +524,7 @@ def item_shopping_cart_comment(request):
         form_id = request.GET["form_id"]
         obj = get_or_none(ShoppingCart, int(item_id))
 
-        return render(request, "bookings/shopping-form.html", {'obj':obj, 'form_id':form_id})
+        return render(request, "bookings/ecom/shopping-form.html", {'obj':obj, 'form_id':form_id})
     except Exception as e:
         return render(request, "error_exception.html", {'exc':show_exc(e)})
 
@@ -516,10 +532,12 @@ def item_shopping_cart_comment(request):
 def view_shopping_cart(request, par=None):
     try:
         instance_id = get_param(request.GET, "form_id")
-        instance = FormInstance.objects.get(pk=instance_id)
-        items = ShoppingCart.objects.filter(form_instance_id=instance.pk)
-        total_price = instance.get_total
-        return render(request, "bookings/view-shopping-cart.html", {'fi':instance, 'items':items, 'total':total_price})
+        if instance_id != "":
+            instance = FormInstance.objects.get(pk=instance_id)
+            items = ShoppingCart.objects.filter(form_instance_id=instance.pk)
+            total_price = instance.get_total
+            return render(request, "bookings/ecom/view-shopping-cart.html", {'fi':instance, 'items':items, 'total':total_price})
+        return render(request, "bookings/ecom/view-shopping-cart.html", {'fi':None, 'items':[], 'total':0})
     except Exception as e:
         #return HttpResponse(show_exc(e))
         print (show_exc(e))
@@ -548,7 +566,7 @@ def remove_item_from_shopping_cart(request):
         items = ShoppingCart.objects.filter(form_instance_id=instance.pk)
         total_price = instance.get_total
         total_items = instance.items_in_bookings(item).count()
-        return render(request, "bookings/view-shopping-cart.html", {'fi':instance, 'items':items, 'total':total_price, 'item_refresh':item, 'total_items':total_items})
+        return render(request, "bookings/ecom/view-shopping-cart.html", {'fi':instance, 'items':items, 'total':total_price, 'item_refresh':item, 'total_items':total_items})
     except Exception as e:
         return render(request, "error_exception.html", {'exc':show_exc(e)})
 
@@ -568,7 +586,7 @@ def remove_generic_item_from_shopping_cart(request):
         total_price = "{:.2f}".format(instance.get_total)
         total_items = ShoppingCart.objects.filter(form_instance_id=int(form_id)).count()
 
-        return render(request, "bookings/show-instance-result.html", {'items':items,'item':item,'total_price':total_price,'total_items':total_items})
+        return render(request, "bookings/ecom/show-instance-result.html", {'items':items,'item':item,'total_price':total_price,'total_items':total_items})
         #return render(request, "bookings/show-instance-result.html", {'items':items, 'item':item})
         #return render(request, "bookings/view-shopping-cart.html", {'fi':instance, 'items':items, 'total':total_price})
     except Exception as e:
@@ -581,14 +599,20 @@ def remove_generic_item_from_shopping_cart(request):
 def show_category_menu(request, form_id=None, cat_id = None):
     try:
         if not form_id:
-            form_id = request.GET["form_id"]
+            form_id = request.GET["form_id"] if "form_id" in request.GET else 0
         if not cat_id:
-            cat_id = request.GET["cat_id"]
-        instance = FormInstance.objects.get(pk=form_id)
-        category = Category.objects.get(uuid=cat_id)
+            cat_id = request.GET["cat_id"] if "cat_id" in request.GET else 0
+        instance = get_or_none(FormInstance, form_id)
+        category = get_or_none(Category, cat_id, "uuid")
+        form = ""
+        if instance != None:
+            form = instance.form
+        elif category != None:
+            form = Form.objects.filter(category=category.uuid).first()
         #return render(request, "bookings/menu.html", {'category':category, 'fi':instance})
-        return render(request, instance.form.form_type.template, {'category':category, 'fi':instance})
+        return render(request, form.form_type.template, {'category':category, 'form': form, 'fi':instance, 'index':0})
     except Exception as e:
+        print(e)
         return render(request, "error_exception.html", {'exc':show_exc(e)})
 
 

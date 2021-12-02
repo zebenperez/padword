@@ -173,7 +173,8 @@ def category_links(request):
             if f != None:
                 open_url = "https://%s%s?device_imei={device.imei}&room_number={room.number}&guest_name={guest.name}&guest_surname={guest.surname}" % (request.get_host(), reverse('guest-access', kwargs={'form_uuid': f.uuid}))
                 qr_url = "https://{}{}".format(request.get_host(), reverse('guest-access', kwargs={'form_uuid': f.uuid}))
-            pwa_url = "https://{}{}".format(request.get_host(), reverse('guest-access-pwa', kwargs={'project_uuid': obj.project.uuid}))
+            #pwa_url = "https://{}{}".format(request.get_host(), reverse('guest-access-pwa', kwargs={'project_uuid': obj.project.uuid}))
+            pwa_url = "https://{}{}".format(request.get_host(), reverse('guest-access-pwa', kwargs={'category_uuid': obj.uuid}))
         return render(request, "contents/category-links.html", {'open_url': open_url, 'qr_url': qr_url, 'pwa_url': pwa_url})
     except Exception as e:
         return render(request, "error_exception.html", {'exc': show_exc(e)})

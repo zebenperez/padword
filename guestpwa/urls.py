@@ -8,6 +8,10 @@ from contents import auto_views
 urlpatterns = [ 
     path('project-<slug:project_uuid>/', views.index, name='pwa-index'),
     path('', views.index, name='pwa-index'),
+
+    path('category/', views.index_cat, name='pwa-index-cat'),
+    path('category-<slug:category_uuid>/', views.index_cat, name='pwa-index-cat'),
+
     #--------------------- Projects --------------------
 #     path('projects/company-<int:company_id>/', views.projects, name='projects-by-company'),
 #     path('projects/project-<slug:project_id>/', views.projects, name='projects-by-uuid'),

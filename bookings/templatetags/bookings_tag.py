@@ -51,9 +51,9 @@ def field_value(fi, q, f, index):
 '''
 	Inclusion tag
 '''
-@register.inclusion_tag('bookings/field_form.html')
+@register.inclusion_tag('bookings/general/field_form.html')
 def field_form(fi, q, f, index, user):
-    ai = get_answer_instance(fi, q, f, index)
+    ai = get_answer_instance(fi, q, f, index) if fi != "" else None
 
     value = ai.text if ai != None else ""
 
@@ -62,16 +62,17 @@ def field_form(fi, q, f, index, user):
         doc = ai.document 
 
     item_list = []
-    if f != None and f.answer_type != None and (f.answer_type.field_type == "items" or f.answer_type.field_type == "items_shop"):
-        item_list = fi.form.get_category_items()
+    if f != None and f.answer_type != None and (f.answer_type.field_type == "items" or f.answer_type.field_type == "items_shop"): 
+        #item_list = fi.form.get_category_items()
+        item_list = f.question.block.form.get_category_items()
 
     readonly = (f.read_only and not user.is_staff and not user.is_superuser)
 
-    answer_name = "question_%s_field_%s_%s" % (q.id, f.id, index)
+    answer_name = "question_%s_field_%s_%s" % (q.id, f.id, index) if q != None and f != None else "questions_0_field_0_0"
 
     context = {
-        'fi_id': fi.id, 
-        'q_id': q.id, 
+        'fi_id': fi.id if fi != ""  and fi != None else "", 
+        'q_id': q.id if q != None else 0, 
         'f': f,
         'index': index, 
         'answer_name': answer_name, 

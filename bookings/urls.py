@@ -57,7 +57,8 @@ urlpatterns = [
     #------------- Bookings Guests --------------#
     path('guest-access/<slug:form_uuid>/', gv.guest_access, name='guest-access'),
     path('guest-access-bookings/<slug:project_uuid>/', gv.guest_access_bookings, name='guest-access-bookings'),
-    path('guest-access-pwa/<slug:project_uuid>/', gv.guest_access_pwa, name='guest-access-pwa'),
+    #path('guest-access-pwa/<slug:project_uuid>/', gv.guest_access_pwa, name='guest-access-pwa'),
+    path('guest-access-pwa/<slug:category_uuid>/', gv.guest_access_pwa, name='guest-access-pwa'),
 
     path('guest-form-login/', gv.guest_form_login, name='guest-form-login'),
     path('guest-form-login/<slug:form_uuid>/', gv.guest_form_login, name='guest-form-login'),
@@ -102,6 +103,7 @@ urlpatterns = [
     path('shopping/show-category/', gv.show_category_shopping_cart, name='show-category-shopping-cart'),
     path('shopping/comments/', gv.item_shopping_cart_comment, name='item-shopping-cart-comment'),
     path('shopping/show-category-menu/<int:form_id>/<slug:cat_id>/', gv.show_category_menu, name='show-category-menu'),
+    path('shopping/show-category-menu/', gv.show_category_menu, name='show-category-menu'),
 
     path('test/', views.test, name='booking-test'),
 ]

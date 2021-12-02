@@ -175,14 +175,8 @@ def booking_view(request):
             fi.set_status("02")
             write_log(request.user, fi, _("Status change from {} to {}".format(previous_status, fi.status.name)))
 
-        #context = {'fi': fi, 'index': "0", "ro": True, 'items':items,}
-        #if not user_in_group(request.user, "guests"):
-        #    context["status_list"] = Status.objects.all()
-        #template = 'bookings/view-booking-project.html' if fi.form.form_type.code == "ecom" else 'bookings/fillform.html'
         context = {'fi': fi, 'index': "0", 'items':items, 'status_list': Status.objects.all()}
         if fi.form and fi.form.form_type:
-            print (fi.form)
-            print (fi.form.form_type)
             template = 'bookings/view-booking-project.html' if fi.form.form_type.code == "ecom" else 'bookings/view-booking.html'
         else:
             template = 'bookings/view-booking.html'
@@ -380,12 +374,13 @@ def booking_preview(request, form_uuid):
         if form == None:
             return render(request, 'error_exception.html', {'exc': _('Form not found!')})
         
-        fi = FormInstance.objects.create(form_uuid=form.uuid)
-        write_log(request.user, fi, _("Booking created"))
+        #fi = FormInstance.objects.create(form_uuid=form.uuid)
+        #write_log(request.user, fi, _("Booking created"))
         
-        items = ShoppingCart.objects.filter(form_instance_id=fi.pk)
-        context = {'fi': fi, 'index': "0", "ro": False, 'items':items}
-        return render(request, 'bookings/fillform.html', context)
+        #items = ShoppingCart.objects.filter(form_instance_id=fi.pk)
+        #context = {'fi': fi, 'form': form, 'index': "0", "ro": False, 'items':items}
+        context = {'form': form, 'index': "0", "ro": False,}
+        return render(request, 'bookings/show-category.html', context)
     except Exception as e:
         print (show_exc(e))
         logger.error("[bookings-new_booking] {}".format(str(e)))

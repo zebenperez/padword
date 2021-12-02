@@ -127,6 +127,9 @@ class Form(models.Model):
         cat = Category.objects.filter(uuid = self.category).first()
         return cat.project if cat != None else None
 
+    def get_public_blocks(self):
+        return self.blocks.filter(private=False)
+
     class Meta:
         verbose_name = _('2.- Form')
         verbose_name_plural = _('2.- Forms')

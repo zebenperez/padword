@@ -1,8 +1,0 @@
-{% load i18n padword_tags %}
-
-<script>
-    $('#counter-item-'+'{{item.pk}}').val({{items|length}});
-    $('#counter-item-'+'{{item.pk}}').trigger("change");
-    $('#span-total-price').html("{{total_price}}");
-    $('#span-total-items').html("{{total_items}}");
-</script>

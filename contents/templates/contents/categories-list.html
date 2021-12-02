@@ -5,8 +5,10 @@
         {% comment %}
         <a class="btn btn-primary ark" data-url="{% url "form-form" %}" data-target-modal="common-modal" data-company_id="{{cat.company.id}}" data-category_id="{{cat.uuid}}" title="{% trans "New form" %}"><i class="fab fa-wpforms"></i></a>  
         {% endcomment %}
+        {% comment %}
         <a class="btn btn-primary ark" data-url="{% url "category-links" %}" data-target-modal="common-modal" data-obj-id="{{cat.uuid}}" href="#" 
             title="{% trans 'Show category list' %}"><i class="text-white fas fa-link"></i></a>
+        {% endcomment %}
         <a class="btn btn-primary" href="#" onclick='alert("{{cat.uuid}}"); return False'><i class="text-white fas fa-fingerprint"></i></a>
         {#<a class="btn btn-primary" href="{% url "form-edit-category" cat.uuid %}" title="{% trans "New form" %}"><i class="fab fa-wpforms"></i></a>  #}
         <a class="btn btn-primary ark" href="#" data-url="{% url 'form-edit-category2' %}" data-target="div-preview" data-obj_id="{{cat.uuid}}">
