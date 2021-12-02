@@ -643,3 +643,42 @@ i.fas.fa-tablet-alt { color: #03a9f4 !important; padding-right: 10px; }
 .header-icon:hover {
 	background:#dee7f0;
 }
+
+
+#main-content {
+    display: flex;
+    flex-direction: row;
+    /* max-height: calc(100% - var(--footer-height)); */
+    /* height: calc(100% - var(--footer-height)); */
+    height: 100vh;
+    max-height: 100vh;
+    align-items: stretch;
+    overflow-y: hidden;
+}
+
+#sidebar.expanded {
+    width: var(--sidebar-expanded);
+}
+
+#sidebar {
+    width: 50px;
+    max-width: var(--sidebar-collapsed);
+    padding: 10px 0px 10px 0px;
+    min-height: 100%;
+    overflow: hidden;
+    z-index: 400;
+    -webkit-transition: width 200ms linear;
+    -moz-transition: width 200ms linear;
+    -o-transition: width 200ms linear;
+    transition: width 200ms linear;
+}
+
+#content-section {
+    flex-basis: 99.5%;
+    height: 99vh;
+    padding-top: 15px;
+    padding-left: 10px;
+    padding-right: 15px;
+    overflow-y: scroll;
+    padding-bottom: 3.5rem;
+}
