@@ -42,13 +42,6 @@
                         {% if forloop.counter|divisibleby:4 %} </div></div> {% endif %}
                     {% endfor %}
                 </div>
-
-
-
-
-
-
-
             </div>
 		</div> </div> </div>
     {% endif %}
@@ -70,7 +63,13 @@
         </div>
 		<div id="div-shopping-cart-{{children.pk}}" class="div-shopping-cart-{{children.pk}}" style=""></div>
 	</div>
-    <script>{% ark 'show-category-menu' 'div-shopping-cart-'|addstr:children.pk form_id=fi.pk cat_id=children.uuid %}</script>
+    <script>
+        {% if fi %}
+            {% ark 'show-category-menu' 'div-shopping-cart-'|addstr:children.pk form_id=fi.pk cat_id=children.uuid %}
+        {% else %}
+            {% ark 'show-category-menu' 'div-shopping-cart-'|addstr:children.pk form_id=0 cat_id=children.uuid %}
+        {% endif %}
+    </script>
 {% endfor %}
 <div class="d-none" id="for-scripts"> </div>
 
