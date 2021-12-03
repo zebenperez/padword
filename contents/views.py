@@ -6,12 +6,13 @@ from django.shortcuts import render, redirect, reverse
 from .models import *
 from bookings.models import Form 
 import json, os, time, datetime
+from padword.decorators import group_required
 from padword.commons import show_exc, get_or_none, get_param, new_ui_slug, translate
 from .forms import ImageUploadForm
 
 # Create your views here.
 
-@login_required
+@group_required("admins")
 def index(request):
     try:
         categories = Category.objects.all()
@@ -22,7 +23,7 @@ def index(request):
 '''
     Categories
 '''
-@login_required
+@group_required("admins", "projects")
 def category_search(request):
     try:
         project_id = get_param(request.GET, "project_id")
@@ -41,13 +42,13 @@ def category_search(request):
         print (show_exc(e))
         return JsonResponse({'results':[], 'error':1, 'error-msg':show_exc(e)})
 
-@login_required
+@group_required("admins", "projects")
 def categories_by_project(request, project_id):
         project = Project.objects.get(uuid=project_id)
         categories = Category.objects.filter(project_uuid=project_id, parent__isnull =True).order_by('position')
         return render(request, "contents/categories.html", {'project':project, 'items':categories})
 
-@login_required
+@group_required("admins", "projects")
 def category_form(request):
     try:
         obj = get_or_none(Category, request.GET["objId"], 'uuid') if "objId" in request.GET else None
@@ -81,7 +82,7 @@ def category_form(request):
     except Exception as e:
         return render(request, "error_exception.html", {'exc': show_exc(e)})
 
-@login_required
+@group_required("admins", "projects")
 def category_tree(request, category_id):
     try:
         category = Category.objects.get(uuid=category_id)
@@ -94,7 +95,7 @@ def category_tree(request, category_id):
     except Exception as e:
         return JsonResponse({'results':[], 'error':1, 'error-msg':show_exc(e)})
 
-@login_required
+@group_required("admins", "projects")
 def category_change_active(request, category_id):
     try:
         category = Category.objects.get(uuid=category_id)
@@ -104,7 +105,7 @@ def category_change_active(request, category_id):
     except Exception as e:
         return JsonResponse({'results':[], 'error':1, 'error-msg':show_exc(e)})
 
-@login_required
+@group_required("admins", "projects")
 def category_remove(request, category_id):
     try:
         category = Category.objects.get(uuid=category_id)
@@ -119,7 +120,7 @@ def category_remove(request, category_id):
     except Exception as e:
         return JsonResponse({'results':[], 'error':1, 'error-msg':show_exc(e)})
 
-@login_required
+@group_required("admins", "projects")
 def category_clone(request):
     try:
         category_id = request.GET['objId'] if 'objId' in request.GET else None
@@ -161,7 +162,7 @@ def category_clone(request):
     except Exception as e:
         return JsonResponse({'results':[], 'error':1, 'error-msg':show_exc(e)})
 
-@login_required
+@group_required("admins", "projects")
 def category_links(request):
     try:
         open_url = ""
@@ -179,7 +180,7 @@ def category_links(request):
     except Exception as e:
         return render(request, "error_exception.html", {'exc': show_exc(e)})
 
-@login_required
+@group_required("admins", "projects")
 def category_add_image(request):
     try:
         obj_id = request.POST["obj_id"]
@@ -195,7 +196,7 @@ def category_add_image(request):
         #logger.error("[bookings-form_add_image]" + str(e))
         return render(request, 'error_exception.html', {'msg': str(e)})
 
-@login_required
+@group_required("admins", "projects")
 def category_remove_image(request):
     try:
         obj_id = request.GET["obj_id"]
@@ -211,7 +212,7 @@ def category_remove_image(request):
 '''
     Items
 '''
-@login_required
+@group_required("admins", "projects")
 def item_form (request):
     try:
         obj = get_or_none(Item, request.GET["objId"], 'uuid') if "objId" in request.GET else None
@@ -241,7 +242,7 @@ def item_form (request):
     except Exception as e:
         return render(request, "error_exception.html", {'exc': show_exc(e)})
 
-@login_required
+@group_required("admins", "projects")
 def item_change_active(request, item_id):
     try:
         item = Item.objects.get(uuid=item_id)
@@ -251,7 +252,7 @@ def item_change_active(request, item_id):
     except Exception as e:
         return JsonResponse({'results':[], 'error':1, 'error-msg':show_exc(e)})
 
-@login_required
+@group_required("admins", "projects")
 def item_remove(request):
     try:
         obj = get_or_none(Item, request.GET["objId"], 'uuid') if "objId" in request.GET else None
@@ -265,7 +266,7 @@ def item_remove(request):
     except Exception as e:
         return JsonResponse({'results':[], 'error':1, 'error-msg':show_exc(e)})
 
-@login_required
+@group_required("admins", "projects")
 def item_change_image(request):
     if request.method == "POST":
         try:
@@ -284,7 +285,7 @@ def item_change_image(request):
     else:
         return (HttpResponse("Lo sentimos, pero ha ocurrido un error. "))
 
-@login_required
+@group_required("admins", "projects")
 def save_allergen(request):
     try:
         obj = get_or_none(Item, request.GET["obj_id"])
@@ -370,7 +371,7 @@ class Node:
 
 
 
-@login_required
+@group_required("admins", "projects")
 def import_categories(request, project_uuid = 'UNKNOWN'):
     json_tree = None
 
@@ -451,7 +452,7 @@ def import_categories(request, project_uuid = 'UNKNOWN'):
         category = Category(uuid=item['uuid'], )
     return HttpResponse("OK")
 
-@login_required
+@group_required("admins", "projects")
 def import_categories_by_file(request):
     json_tree = None
 
