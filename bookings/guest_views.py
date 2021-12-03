@@ -513,7 +513,13 @@ def show_category_shopping_cart(request, form_id=None, cat_id = None):
         #instance = FormInstance.objects.get(pk=form_id) if form_id != 0 else None
         instance = get_or_none(FormInstance, form_id)
         category = Category.objects.get(uuid=cat_id)
-        return render(request, "bookings/ecom/shopping_cart.html", {'category':category, 'fi':instance})
+        form = ""
+        if instance != None:
+            form = instance.form
+        elif category != None:
+            form = Form.objects.filter(category=category.uuid).first()
+        #return render(request, "bookings/ecom/shopping_cart.html", {'category':category, 'fi':instance})
+        return render(request, form.form_type.template, {'category':category, 'fi':instance})
     except Exception as e:
         return render(request, "error_exception.html", {'exc':show_exc(e)})
 
