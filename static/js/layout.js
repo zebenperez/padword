@@ -1,8 +1,8 @@
 
 // side menu toggle
 function expandMenu(element){
-	let sidebar = document.getElementById("sidebar")
-	sidebar.classList.toggle("expanded")
+	let sidebar = document.getElementById("sidebar");
+	sidebar.classList.toggle("expanded");
 	sidebar.classList.toggle("closed");
 	console.log("end");
 }
