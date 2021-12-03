@@ -1,48 +1,24 @@
 {% load i18n padword_tags %}
 
 {% if user.is_authenticated %}
+    <ul class="left-menu">
     {% if menu == "admins" %}
-        {% comment %}
-        <div class="nav-item"><a class="nav-link {%current 'web-index'%}" aria-current="page" href="{%url 'projects'%}">{% trans 'Admin' %}</a></div>
-        {% endcomment %}
-        {#<div class="nav-item"> <a class="nav-link {%current 'forms'%}" aria-current="page" href="{%url 'forms'%}"> {% trans 'Forms' %} </a></div>#}
-        <div class="nav-item"> <a class="nav-link {% current '' %}" href="#"> {% trans 'Project' %} </a> </div>
-        <div class="nav-item"> <a class="nav-link {% current '' %}" href="#"> {% trans 'Config UI' %} </a> </div>
-        <div class="nav-item"> <a class="nav-link {% current '' %}" href="{% url "chat_index" %}"> {% trans 'Messages' %} </a> </div>
-        <div class="nav-item"> <a class="nav-link {% current 'bookings' %}" href="{% url 'bookings' %}"> {% trans 'Requests' %} </a> </div>
-        <div class="nav-item"> <a class="nav-link {% current '' %}" href="#"> {% trans 'Places and Events' %} </a> </div>
-        <div class="nav-item"> <a class="nav-link {% current '' %}" href="#"> {% trans 'Rooms' %} </a> </div>
-        <div class="nav-item"> <a class="nav-link {% current 'guest-devices' %}" href="{% url 'guest-devices' %}"> {% trans 'Tablets' %} </a> </div>
-        <div class="nav-item"> <a class="nav-link {% current 'guests' %}" href="{% url 'guests' %}"> {% trans 'Guests' %} </a> </div>
-        <div class="nav-item"> <a class="nav-link {% current 'user-index' %}" href="{% url 'user-index' %}"> {% trans 'PW Users' %} </a> </div>
+        <li class="nav-item"><a class="nav-link " href="{% url "projects" %}"><i class="far fa-folder-open"></i> {% trans "Projects" %} </a> </li>
+        <li class="nav-item"><a class="nav-link " href="{% url "companies" %}"><i class="fas fa-home"></i> {% trans "Companies" %} </a> </li>
+        <hr/>
+        <li class="nav-item"><a class="nav-link " href="{% url "guests" %}"><i class="fas fa-users"></i> {% trans "Guests" %} </a> </li>
+        <li class="nav-item"><a class="nav-link " href="//"><i class="fas fa-bed"></i> {% trans "Rooms" %} </a> </li>
+        <li class="nav-item"><a class="nav-link " href="{% url "devices" %}"><i class="fas fa-tablet-alt"></i> {% trans "Tablets" %} </a> </li>
+        <hr/>
+        <li class="nav-item"><a class="nav-link " href="{% url "bookings" %}"><i class="fas fa-tablet-alt"></i>  {% trans "Requests" %}</a> </li>
     {% elif menu == "projects" %}
-        {% comment %}
-        <div class="nav-item"><a class="nav-link" href="https://backend.padword.es/admin"> 
-            {% trans 'Messages' %} </a> </div>
-        {% endcomment %}
-        <div class="nav-item"><a class="nav-link {% current 'bookings-by-project' %}" href="{% url 'bookings-by-project' project.id %}"> 
-            {% trans 'Bookings' %} </a> </div>
-        {% comment %}
-        <div class="nav-item"><a class="nav-link" href="https://backend.padword.es/admin""> 
-            {% trans 'Rooms' %} </a> </div>
-        <div class="nav-item"><a class="nav-link" href="https://backend.padword.es/admin"> 
-            {% trans 'Tablets' %} </a> </div>
-        <div class="nav-item"><a class="nav-link" href="https://backend.padword.es/admin"> 
-            {% trans 'Guests' %} </a> </div>
-        {% endcomment %}
-        {% comment %}
-        <div class="nav-item"><a class="nav-link {%current 'channels-by-project'%}" aria-current="page" 
-            href="{%url 'channels-by-project' project.id %}"> {% trans 'Admin' %}</a></div>
-        {% endcomment %}
+        <li class="nav-item"><a class="nav-link " href="{% url 'categories-by-project' project.uuid %}">
+            <i class="fas fa-tablet-alt"></i>  {% trans "Categories" %}</a> </li>
+        <li class="nav-item"><a class="nav-link " href="{% url 'bookings-by-project' project.id %}">
+            <i class="fas fa-tablet-alt"></i>  {% trans "Requests" %}</a> </li>
     {% elif menu == "clients" %}
     {% endif %}
-    <div class="nav-item"> <a class="nav-link {% current '' %}" href="{% url 'auth_logout' %}"> 
-        <i class="fas fa-sign-out-alt text-white" title=" {% trans "Log out" %} "></i> </a> </div>
-    <div class="nav-item"><span class="text-white nav-link"><i class="fas fa-user-circle" title="{{user.username}}"></i></span></div>
-	{% comment %}
-         <i class="fas fa-sign-out-alt text-white""></i> {% trans "Log out" %} </a> </div>
-   	 <div class="nav-item"><span class="text-white nav-link"><strong>Hola, {{user.username}}</strong></span></div>
-	{% endcomment %}
+    </ul>
 {% else %}
     <div class="nav-item"> <a class="nav-link {% current '' %}" href="{% url 'auth_login'  %}"> 
         <i class="fas fa-sign-in-alt"></i> {% trans "Log in" %}</a> </div>
