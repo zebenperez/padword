@@ -7,7 +7,10 @@
 <input type="hidden" name="s-page" id="s-page" value="{{page}}" data-target="table-list-guests" data-related="s-page,s-name" data-append="append" 
     data-url="{% url 'guest-page' %}" class="autosearch_change"/>
 <div class="toolbar-search">
-    <input type="text" class="autosearch form-control form-control-dark w-100" name="s-name" id="s-name" placeholder="{% trans 'Name, Surname, or Room' %}" data-url="{% url "guest-search" %}" data-target="guest-list" data-related="s-name"/>
+    {% if project_uuid %}
+        <input type="hidden" name="project_uuid" id="project_uuid" value="{{project_uuid}}"/>
+    {% endif %}
+    <input type="text" class="autosearch form-control form-control-dark w-100" name="s-name" id="s-name" placeholder="{% trans 'Name, Surname, or Room' %}" data-url="{% url "guest-search" %}" data-target="guest-list" data-related="s-name,project_uuid"/>
 </div>
 
 <div class="content mt-4">
@@ -17,7 +20,7 @@
             <a class="btn btn-primary ark" data-url="{% url "guest-form-by-project" %}" data-target-modal="common-modal" 
                 data-project_uuid="{{project_uuid}}"> {%trans "New guest"%}</a>  
         {% else %}
-            <a class="btn btn-primary ark" data-url="{% url "guest-form" %}" data-target-modal="common-modal >{%trans "New guest"%}</a>  
+            <a class="btn btn-primary ark" data-url="{% url "guest-form" %}" data-target-modal="common-modal">{%trans "New guest"%}</a>  
         {% endif %}
     </div>
     <div id="guest-list">
