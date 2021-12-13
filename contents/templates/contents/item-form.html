@@ -12,7 +12,10 @@
 </div>
 
 <div class="row justify-center">
-    <div class="col-2">
+    <div class="col-3">
+        {% trans "Image" %}: <div id="div-image">{% include "contents/item-img.html" %}</div>
+
+        {%comment%}
         {% if obj.image %}
         <img class="img-fluid" id="img-item" src="{{obj.image.url}}" onerror='this.onerror=null;this.src="{% static "img/Padword.png" %}";'>
         {%else%}
@@ -27,10 +30,11 @@
         </form>
         <iframe name="test" style="height:0px;width:0px;" onload="if ( document.getElementById('test-frame').contentWindow.document.body.innerHTML!= '') {$('#img-item').attr('src', document.getElementById('test-frame').contentWindow.document.body.innerHTML);}" id="test-frame">
         </iframe>
+        {%endcomment%}
 
     </div>
 
-    <div class="col-10">
+    <div class="col-9">
         <div class="row justify-center">
             <div class="col-sm-6 col-md-4 col-12">
                 {% trans "Name" %} 
