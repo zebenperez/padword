@@ -10,12 +10,12 @@
         <li class="nav-item"><a class="nav-link " href="//"><i class="fas fa-bed"></i> {% trans "Rooms" %} </a> </li>
         <li class="nav-item"><a class="nav-link " href="{% url "devices" %}"><i class="fas fa-tablet-alt"></i> {% trans "Tablets" %} </a> </li>
         <hr/>
-        <li class="nav-item"><a class="nav-link " href="{% url "bookings" %}"><i class="fas fa-book"></i>  {% trans "Requests" %}</a> </li>
+        <li class="nav-item"><a class="nav-link " href="{% url "bookings" %}"><i class="fas fa-book"></i>  {% trans "Orders" %}</a> </li>
     {% elif menu == "projects" %}
         <li class="nav-item"><a class="nav-link " href="{% url 'categories-by-project' project.uuid %}">
             <i class="fas fa-tablet-alt"></i>  {% trans "Categories" %}</a> </li>
         <li class="nav-item"><a class="nav-link " href="{% url 'bookings-by-project' project.id %}">
-            <i class="fas fa-book"></i>  {% trans "Requests" %}</a> </li>
+            <i class="fas fa-book"></i>  {% trans "Orders" %}</a> </li>
     {% elif menu == "clients" %}
     {% endif %}
     </ul>
