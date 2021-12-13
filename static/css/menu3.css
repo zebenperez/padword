@@ -4,9 +4,28 @@
 /*******************************/
 
 
+.row.bloque.mt-3 {
+    border:1px solid black;
+    margin-top: -5% !important;
+}
+
+.div-transp-0 {
+    border: 1px solid blue;
+    border-radius: 15px;
+    color: black;
+    opacity: 0.9;
+    position: absolute;
+}
+
+.fixed-head {
+    display:none;
+}
+
 .grid-main-categories {
     border:1px solid red;
     display:inline-block;
+    margin:0 !important;
+    width: 33%;
 }
 
 .back-button {
@@ -17,4 +36,5 @@
 .grid-child-categories {
     border:1px solid blue;
     display:inline-block;
+    width: 33%;
 }

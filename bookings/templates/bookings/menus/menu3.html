@@ -9,7 +9,7 @@
 {% endif %}
 {% for item in category.get_childrens %}
     <div class="col-4 justify-content-center grid-main-categories">
-        <div class="card w-100 mb-3 ark" data-url="{% url "show-category-menu" %}" data-target="main" data-cat_id="{{item.uuid}}">
+        <div class="card mb-3 ark" data-url="{% url "show-category-menu" %}" data-target="main" data-cat_id="{{item.uuid}}">
             <div class="image" id="cover"> <img src="{% if item.image %}{{item.image.url}} {%else%} {% static 'img/none.png' %}{%endif%}" 
                 class="object-fit_cover" alt="{% padword_translate item.name %}"> </div>
             <div class="card-body">
@@ -21,7 +21,7 @@
 {% endfor %}
 {% for item in category.get_items %}
     <div class="col-4 justify-content-center grid-child-categories">
-        <div class="card w-100 mb-3">
+        <div class="card mb-3">
             <div class="image" id="cover"> <img src="{% if item.image %}{{item.image.url}} {%else%} {% static 'img/none.png' %}{%endif%}" 
                 class="object-fit_cover" alt="{% padword_translate item.name %}"> </div>
             <div class="card-body">
