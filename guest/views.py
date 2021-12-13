@@ -46,9 +46,10 @@ def guests(request):
     except Exception as e:
         return JsonResponse({'results':[], 'error':1, 'error-msg':show_exc(e)})
 
-@group_required("admins")
+@group_required("admins", "projects")
 def guest_search(request):
     try:
+        project_uuid = request.GET["project_uuid"] if "project_uuid" in request.GET else ""
         filters_to_search = ["name__icontains", "room", "surname__icontains", "email__icontains"]
         search_value = request.GET["s-name"] if "s-name" in request.GET else ""
         page = "0"
@@ -57,14 +58,20 @@ def guest_search(request):
             for myfilter in filters_to_search:
                 kwargs = {}
                 kwargs[myfilter] = search_value
-                items = items | Guest.objects.filter(**kwargs)
+                if project_uuid != "":
+                    items = items | Guest.objects.filter(project_id=project_uuid).filter(**kwargs)
+                else:
+                    items = items | Guest.objects.filter(**kwargs)
 
             projects = webmod.Project.objects.filter(name__icontains = search_value)
             items |= Guest.by_project(projects)
 
         else:
-            #items = Guest.objects.filter(check_out__gte = datetime.datetime.today())
-            items = Guest.objects.all()
+            if project_uuid != "":
+                items = Guest.objects.filter(project_id=project_uuid)
+            else:
+                #items = Guest.objects.filter(check_out__gte = datetime.datetime.today())
+                items = Guest.objects.all()
         context = {}
         context['total_items'] = items.count()
         context['items'] = items[int(page)*ITEMS_PER_PAGE:(int(page) + 1)*ITEMS_PER_PAGE]
@@ -81,14 +88,15 @@ def guest_form(request):
     except Exception as e:
         return render(request, 'error_exception.html', {'exc':show_exc(e)})
 
-@group_required("admins")
+@group_required("admins", "projects")
 def guest_remove(request):
+    project_uuid = request.GET["project_uuid"] if "project_uuid" in request.GET else None
     obj = get_or_none(Guest, request.GET["obj_id"]) if "obj_id" in request.GET else None
     if obj != None:
         obj.delete()
 
-    items = Guest.objects.all()
-    return render(request, "guest/guest-list.html", {'items':items,})
+    items = Guest.objects.all() if project_uuid == None else Guest.objects.filter(project_id=project_uuid)
+    return render(request, "guest/guest-list.html", {'items':items, 'project_uuid': project_uuid})
 
 @group_required("admins","projects")
 def guest_pagination(request):
@@ -114,6 +122,38 @@ def guest_pagination(request):
         return render(request, "guest/guest-page.html", context)
     except Exception as e:
         return render(request, "error_exception.html", {'exc':show_exc(e)})
+
+'''
+    Guests by projects
+'''
+@group_required("admins", "projects")
+def guests_by_project(request, project_id):
+    try:
+        project = get_or_none(Project, project_id, "uuid")
+        #items= Guest.objects.filter(check_out__gte = datetime.datetime.now())
+        items = Guest.objects.filter(project_id = project_id)
+        total_count = items.count()
+
+        context = {}
+        page = 0
+        context['total_items'] = items.count()
+        context['items'] = items[int(page)*ITEMS_PER_PAGE:(int(page) + 1)*ITEMS_PER_PAGE]
+        context['page'] = 0
+        context['project_uuid'] = project_id
+
+        return render (request, "guest/guests.html", context)
+    except Exception as e:
+        return JsonResponse({'results':[], 'error':1, 'error-msg':show_exc(e)})
+
+@group_required("admins", "projects")
+def guest_form_by_project(request):
+    try:
+        project_uuid = request.GET["project_uuid"]
+        obj = get_or_none(Guest, request.GET["obj_id"]) if "obj_id" in request.GET else Guest.objects.create(UUID = new_ui_slug(Guest), project_id = project_uuid)
+        return render(request, "guest/guest-form.html", {'obj': obj, 'project_uuid': project_uuid})
+    except Exception as e:
+        return render(request, 'error_exception.html', {'exc':show_exc(e)})
+
 
 '''
     Devices

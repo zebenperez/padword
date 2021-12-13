@@ -13,6 +13,9 @@ urlpatterns = [
     path('guests/remove/', views.guest_remove, name='guest-remove'),
     path('guests/page/', views.guest_pagination, name='guest-page'),
 
+    path('guests/project-<slug:project_id>/', views.guests_by_project, name='guests-by-project'),
+    path('guests/project/form/', views.guest_form_by_project, name='guest-form-by-project'),
+
     #--------------------- GUESTS --------------------
     path('', views.index, name='device-index'),
     path('devices/', views.devices, name='guest-devices'),

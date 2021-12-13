@@ -8,7 +8,14 @@
     <div class="col-2">
         {{item.language}}
         <a class="btn" href="#" onclick='alert("{{item.uuid}}"); return False'><i class="fas fa-fingerprint"></i></a>
-        <a class="btn btn-xs ark" data-url="{% url "guest-form" %}" data-target-modal="common-modal" data-obj_id="{{item.id}}"> <i class="fas fa-edit"></i></a>  
-        <a class="btn btn-sm autoremove" data-model-name="guest.guest" data-obj-id="{{item.id}}" data-url="{% url "autoremove_obj" %}" data-target="row_{{item.id}}" data-confirm="{% trans "Are you sure to remove this element?" %}"><i class="fas fa-trash"></i></a>
+        {% if project_uuid %}
+            <a class="btn btn-xs ark" data-url="{% url "guest-form-by-project" %}" data-target-modal="common-modal" 
+                data-project_uuid="{{project_uuid}}" data-obj_id="{{item.id}}"> <i class="fas fa-edit"></i></a>  
+        {% else %}
+            <a class="btn btn-xs ark" data-url="{% url "guest-form" %}" data-target-modal="common-modal" data-obj_id="{{item.id}}"> 
+                <i class="fas fa-edit"></i></a>  
+        {% endif %}
+        <a class="btn btn-sm autoremove" data-model-name="guest.guest" data-obj-id="{{item.id}}" data-url="{% url "autoremove_obj" %}" 
+            data-target="row_{{item.id}}" data-confirm="{% trans "Are you sure to remove this element?" %}"><i class="fas fa-trash"></i></a>
     </div>
 </td>

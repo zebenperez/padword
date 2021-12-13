@@ -143,7 +143,7 @@
 		<label class="label">{% trans "Project UUID" %}:</label>
 		<input type="text" class="form-control autosave input mb-4" id="project_id" name="project_id" value="{{obj.project_id}}" 
             title="{{obj.project_id}}" data-model-name="guest.guest" data-obj-id="{{obj.id}}" data-url="{% url "autosave_field" %}" 
-            data-target="div-notification" required/> <span id="project__msg"></span>
+            data-target="div-notification" required {%if project_uuid%}readonly{%endif%}/> <span id="project__msg"></span>
 	</div>
 
 	<div class="col-3 col-md-6 col-sm-12">
@@ -159,8 +159,9 @@
 
 <div class="d-flex justify-content-end p-2">
 	<button type="button" class="btn btn-primary ark m-2" data-bs-dismiss="modal" data-url="{% url "guest-search" %}" 
-        data-target="guest-list">{% trans "Save" %}</button>
+        data-target="guest-list" {%if project_uuid%}data-project_uuid="{{project_uuid}}"{%endif%}>{% trans "Save" %}</button>
 	<button type="button" class="btn btn-danger ark m-2" data-bs-dismiss="modal" data-url="{% url "guest-remove" %}" data-target="guest-list" 
-        data-obj_id="{{obj.id}}" data-confirm="{% trans "Are you sure to remove this element?" %}">{% trans "Remove" %}</button>
+        data-obj_id="{{obj.id}}" {%if project_uuid%}data-project_uuid="{{project_uuid}}"{%endif%} 
+        data-confirm="{% trans "Are you sure to remove this element?" %}">{% trans "Remove" %}</button>
 </div>
 
