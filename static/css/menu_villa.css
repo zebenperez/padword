@@ -1,0 +1,219 @@
+.container {
+	background-position: center; 
+	background-repeat: no-repeat;
+	background-size: cover; 
+	height: 500px;
+	width: 100%;
+    margin-left: 15px;
+}
+
+.div-top, .fixed-head {
+	display:none;
+}
+
+.div-transp-blue {
+	background-size: cover;
+	 background-color: transparent; 
+	background-image: none !important; 
+	opacity: 0.9;
+	color: white;
+}
+
+.logo {
+      height: 90px;
+}
+.logo img {
+	background-color: transparent !important;
+        object-fit: contain;
+      height: 90px;
+      border: 0 !important;
+}
+
+.sugest-btn {
+	height: 50px;
+    margin-right: -25px;
+}
+
+
+button.btn.btn-primary { 
+	background:#00448c;
+	border-radius: 15px;
+	border:none;
+}
+button.btn.btn-primary:hover { 
+	background:#073f79;
+}
+
+button.btn.btn-secondary { 
+	background:#fff;
+	color:#777;
+	border-radius: 15px;
+	border:none;
+}
+button.btn.btn-secondary:hover { 
+	background:#a8abad;
+    color:white;
+}
+
+button.btn-outline-danger { 
+	border-radius: 15px;
+	border: 2px solid;
+    color: #dc3545;
+    background-color: white;
+    border-color: #dc3545;
+}
+
+button.btn-outline-danger:hover { 
+	background:#dc3545;
+    color: white;
+}
+
+.slogan {
+    font-size: 2.1rem;
+    font-weight:600;
+    text-align:center;
+}
+.slogan span {
+    font-size: 0.9rem;
+    text-transform: uppercase;
+}
+
+
+#div-current-category {
+/*	border:1px solid blue;*/
+	bottom: 60px;
+	width: 83%;
+	width: 100%;
+	position: fixed;
+	margin: 0 0 0 auto;
+}
+
+.align-items-end {
+	position:fixed;
+	bottom: 60px;
+	left:0;
+	width: 110%;
+	height: 60px;
+}
+
+button.menu-options { 
+    background: none;
+    text-transform: uppercase;
+	border:0;
+	color:#00448c;
+	font-size: 1.2rem;
+	height: 60px;
+}
+
+.menu-tabs {
+    bottom: 60px;
+	width: 100%;
+	position: fixed;
+	margin-left: 0.1%;
+}
+
+.tabs {
+    background: white;
+}
+
+#menu {
+	display:inline-block;
+	text-align:center !important;
+}
+
+.menu-botton {
+	background:#00448c;
+    text-transform: uppercase;
+	position:fixed; 
+	bottom:0; 
+	left:0;
+	width: 110%;
+	height: 60px;
+	line-height: 60px;
+    letter-spacing:2;
+	font-size: 0.9rem;
+	border-top:1px solid #151b42;
+    opacity: 1;
+}
+
+.menu-botton a {
+	color: white;
+}
+.menu-botton a:hover {
+	text-decoration: none;
+	color:#adb4b9;
+}
+
+	
+.languages {
+	display:grid;
+	width:100%;
+	grid-template-columns: 25% 25% 25% 25% ;
+	height: 50px;
+	line-height: 50px;
+}
+.languages img {
+	width: 20px;
+	height: 20px;
+	border: 1px solid #fff !important;
+	border-radius: 15px;
+}
+
+/*****************************/
+/* Error page style*/
+/*****************************/
+
+.error-page {
+	background-image: url(/static/img/bg-villa.png) !important;
+}
+
+.p2 {
+    padding:2px !important;
+}
+
+/*****************************/
+/* devices style*/
+/*****************************/
+
+@media (max-width: 1024px) 
+{
+    .container {
+        margin-top: -80px;
+    }
+}
+
+@media (max-width: 420px) 
+{
+    .container {
+        margin-top: -80px;
+    }
+    .sugest-btn {
+        margin-top: -20px;
+        margin-right: -25px;
+    }
+    .i-love-btn, .slogan, .value-btn, .covid19-btn {
+        margin-top: 20px;
+    }
+    .languages img {
+        width: 40px;
+        height: 40px;
+        border: 2px solid #fff !important;
+    }
+    button.menu-options {
+        font-size: 0.9rem;
+    }
+    .menu-botton {
+        text-align: center;
+        text-transform: none !important;
+        letter-spacing:0;
+        font-size: 0.85rem;
+	    width: 105%;
+    }
+
+    .menu-botton span {
+        width: 100%;
+        display: inline-block;
+        line-height: 2;
+    }
+
+}

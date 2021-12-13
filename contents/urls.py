@@ -26,6 +26,8 @@ urlpatterns = [
     path('items/get-img/<int:item_id>/', views.item_get_img, name='item-get-img'),
     #path('items/remove-item-<slug:item_id>/', views.item_remove, name='item-remove'),
     path('items/save_allergen', views.save_allergen, name="items-save-allergen"),
+    path('items/add-image/', views.item_add_image, name='item-add-image'),
+    path('items/remove-image/', views.item_remove_image, name='item-remove-image'),
 
     #---------------------- AUTO -----------------------
 	path('autosave_field/', auto_views.autosave_field, name='autosave_field'),

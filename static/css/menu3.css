@@ -1,0 +1,20 @@
+
+/*******************************/
+	/* Carta 3 style */
+/*******************************/
+
+
+.grid-main-categories {
+    border:1px solid red;
+    display:inline-block;
+}
+
+.back-button {
+    border:1px solid blue;
+    text-align: right;
+}
+
+.grid-child-categories {
+    border:1px solid blue;
+    display:inline-block;
+}

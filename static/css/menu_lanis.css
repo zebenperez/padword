@@ -121,3 +121,8 @@ button.menu-options:hover {
 	border-radius: 15px;
 }
 
+.error-page {
+    background-image: url(/static/img/bg-welcome.jpg);
+}
+
+

@@ -110,6 +110,7 @@ class Category(models.Model):
     class Meta:
         db_table = 'categories_shidix'
         verbose_name = _('Category')
+        ordering = ['position']
 
 class Item(models.Model):
     ALLOWCHOICES = (('yes','Yes'), ('no','No'), ('inherit', 'Inherit'),)

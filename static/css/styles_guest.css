@@ -397,16 +397,21 @@ img.img-cart-line {
 	text-align: center;
 }
 
+
 .welcome-page h3 {
-	/*color: #fff;*/
+	color: #fff;
 	text-transform: uppercase;
 	margin-top: 8px !important;
 }
 .welcome-page h4 {
-	/*color: #fff;*/
+	color: #fff;
 	font-weight: normal;
 	font-style: italic;
 	margin-top: 20px !important;
+}
+
+.welcome-page h5 {
+	color: #fff;
 }
 
 .welcome-page .btn.btn-access {
@@ -417,8 +422,7 @@ img.img-cart-line {
 	position:absolute;
 	top:40%;
 	left:0%;
-	margin-top:50px;
-
+    margin-top: -150px !important;
 }
 
 /*****************************/
@@ -426,7 +430,6 @@ img.img-cart-line {
 /*****************************/
 
 .error-page {
-	background-image: url(/static/img/bg-welcome.jpg);
 	height: 100%;
 	background-position: center;
 	background-repeat: no-repeat;

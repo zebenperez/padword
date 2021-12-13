@@ -286,6 +286,33 @@ def item_change_image(request):
         return (HttpResponse("Lo sentimos, pero ha ocurrido un error. "))
 
 @group_required("admins", "projects")
+def item_add_image(request):
+    try:
+        obj_id = request.POST["obj_id"]
+        image = request.FILES["file"]
+
+        item = get_or_none(Item, obj_id)
+        if item != None:
+            item.image = image
+            item.save()
+        return render(request, "contents/item-img.html", {"obj": item,})
+    except Exception as e:
+        print(e)
+        return render(request, 'error_exception.html', {'msg': str(e)})
+
+@group_required("admins", "projects")
+def item_remove_image(request):
+    try:
+        obj_id = request.GET["obj_id"]
+        obj = get_or_none(Item, obj_id) 
+        obj.image.delete(save=True)
+        return render(request, "contents/item-img.html", {"obj": obj,})
+    except Exception as e:
+        print(e)
+        return render(request, 'error_exception.html', {'msg': str(e)})
+
+
+@group_required("admins", "projects")
 def save_allergen(request):
     try:
         obj = get_or_none(Item, request.GET["obj_id"])
