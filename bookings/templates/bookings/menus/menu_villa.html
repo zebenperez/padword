@@ -1,49 +1,39 @@
 {% load i18n bookings_tag common_tag padword_tags static %}
 
 
+{%block extralinks%}
 <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
 <link rel="stylesheet" href="{% static 'css/menu_villa.css' %}" >
-
-<div class="container" id="container">
-	<div class="row w-100">
-		<div class="col-lg-2 offset-lg-1 col-4 offset-1"><div class="logo"><img src="/static/img/logo-villa.png"></div></div>
-		<div class="col-lg-5 col-1 d-none d-sm-block"></div>
-		<div class="col-lg-2 offset-lg-1 col-7 pt-5">
-			<div class="sugest-btn"><button type="button" class="btn btn-secondary w-100 p-2"><i class="fas fa-leaf"></i> Sostenibilidad</button></div>
-		</div>
-	</div>
+{% endblock %}
 	
-    <div class="row mt-2">
-        <div class="col-lg-3 offset-lg-1 col-7 w-100">
-            <div class="i-love-btn"><button type="button" class="btn btn-primary w-100 p-2"> ¡Me encantó! ¡Volveré!</button></div>
-		</div>
-        <div class="col-lg-5 d-none d-sm-block">
-            <div class="slogan"> Escucha el silencio <br /><span>Detén el tiempo en Villa María</span></div>
-		</div>
-        <div class="col-lg-2 col-5 w-100">
-            <div class="value-btn"><button type="button" class="btn btn-primary w-100 p-2"><i class="far fa-thumbs-up"></i> Valóranos</button></div>
-		</div>
-	</div>
-    <div class="row d-block d-sm-none">
-	    <div class="col-lg-5">
-            <div class="slogan"> Escucha el silencio <br /><span>Detén el tiempo en Villa María</span></div>
-		</div>
+    <div class="row languages">
+        <div class="col-lg-1 offset-lg-4 col-2 offset-2"><a href="#"><img class="btn btn-secondary p-2" src="/static/img/de.png"></a></div>
+        <div class="col-lg-1 col-2"><a href="#"><img class="btn btn-secondary p-2" src="/static/img/es.png"></a></div>
+        <div class="col-lg-1 col-2"><a href="#"><img class="btn btn-secondary p-2" src="/static/img/fr.png"></a></div>
+        <div class="col-lg-1 col-2"><a href="#"><img class="btn btn-secondary p-2" src="/static/img/en.png"></a></div>
 	</div>
 
-    <div class="row">
-        <div class="col-lg-3 offset-lg-1 col-10 offset-1 w-100">
-            <div class="covid19-btn"><button type="button" class="btn btn-outline-danger w-100 p-2"><i class="fas fa-info-circle"></i> Coronavirus</button></div>
+    <div class="row div-slogan">
+        <div class="col-12 text-center">
+            <div class="slogan"> Escucha el silencio <br /><span>Detén el tiempo en Villa María</span></div>
+		</div>
+  	</div>
+
+	<div class="row div-boxes">
+        <div class="col-lg-3 col-6">
+            <div class="i-love-btn"><button type="button" class="btn btn-primary w-100 p-4"><i class="far fa-grin-hearts"></i><br />¡Me encantó!</button></div>
+		</div>
+        <div class="col-lg-3 col-6">
+            <div class="value-btn"><button type="button" class="btn btn-primary w-100 p-4"><i class="far fa-thumbs-up"></i><br />Valóranos</button></div>
+		</div>
+        <div class="col-lg-3 col-6">
+			<div class="sugest-btn"><button type="button" class="btn btn-secondary w-100 p-4"><i class="fas fa-leaf"></i><br />Sostenibilidad</button></div>
+		</div>
+        <div class="col-lg-3 col-6">
+            <div class="covid19-btn"><button type="button" class="btn btn-outline-danger w-100 p-4"><i class="fas fa-info-circle"></i><br />Coronavirus</button></div>
 		</div>
 	</div>
-	
-    <div class="row">
-        <div class="col-lg-3 offset-lg-5 col-8 offset-2 w-100 languages text-center pt-3" >
-			<div class=""><a href="#"><img src="/static/img/de.png"></a></div>
-			<div class=""><a href="#"><img src="/static/img/es.png"></a></div>
-			<div class=""><a href="#"><img src="/static/img/fr.png"></a></div>
-			<div class=""><a href="#"><img src="/static/img/en.png"></a></div>
-		</div>
-	</div>
+
     {% comment %} 
     <div class="row align-items-end">
 		<div id="div-current-category">
@@ -91,8 +81,5 @@
 			<div class=""><a href="#"><i class="fas fa-concierge-bell"></i><span> Más Servicios</a></span></div>
 		</div>
 	</div>
-
-
-</div>
 
 

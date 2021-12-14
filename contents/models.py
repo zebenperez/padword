@@ -106,6 +106,13 @@ class Category(models.Model):
             print (show_exc(e))
             return False
 
+    @property
+    def get_parents_options(self):
+        if self.parent is not None:
+            parents_options = Category.objects.filter(pk=self.parent.pk)
+        else:
+            parents_options = Category.objects.none()
+        return parents_options.union(Category.objects.filter(project_uuid = self.project_uuid, parent = self.parent))
 
     class Meta:
         db_table = 'categories_shidix'
