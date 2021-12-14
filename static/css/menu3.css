@@ -3,38 +3,92 @@
 	/* Carta 3 style */
 /*******************************/
 
+img {
+    background-color: transparent;
+}
+.div-top {
+    background: #fff !important;
+    border-bottom: 1px solid #333;
+    position: sticky;
+    top: 0;
+    justify-content: left !important;
+    max-height: 100px;
+}
+.div-top img {
+    max-height: 100px;
+    object-fit: cover;
+}
 
 .row.bloque.mt-3 {
-    border:1px solid black;
     margin-top: -5% !important;
+    width:100%;
+    margin:0;
 }
 
 .div-transp-0 {
-    border: 1px solid blue;
     border-radius: 15px;
     color: black;
     opacity: 0.9;
-    position: absolute;
 }
 
-.fixed-head {
+.card-text, .div-notification, .fixed-head {
     display:none;
 }
 
-.grid-main-categories {
-    border:1px solid red;
-    display:inline-block;
-    margin:0 !important;
-    width: 33%;
-}
-
 .back-button {
-    border:1px solid blue;
+    margin-top: 30px;
     text-align: right;
+}
+.back-button a {
+    color: white;
 }
 
 .grid-child-categories {
-    border:1px solid blue;
     display:inline-block;
     width: 33%;
 }
+h4.card-title {
+    min-height: 0 !important;
+    color: #00448c;
+    font-weight: 100 !importanit;
+}
+
+.card.mb-1.ark {
+    border:1px solid white !important;
+}
+
+.box-cat {
+    padding:2px !important;
+}
+
+/**********************************/
+	/* devices style*/
+/**********************************/
+
+
+@media (max-width: 320px) {
+
+    .div-top img {
+        height: 60px;
+        object-fit: cover;
+    }
+    h4.card-title {
+        min-height: 0px !important;
+        font-size: 0.8rem !important;
+        font-weight: 100 !importanit;
+        color: #00448c;
+    }
+
+    .card-body {
+        padding:0px !important;
+    }
+
+}
+@media (min-width: 320px) {
+    .sugest-btn {
+        margin-top: 2px !important;
+        margin-right: 2px !important;
+    }
+
+}
+
