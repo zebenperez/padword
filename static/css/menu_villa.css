@@ -4,13 +4,30 @@
 	background-size: cover; 
 	height: 500px;
 	width: 100%;
-    margin-left: 15px;
+/*    margin-left: 15px;*/
 }
 
-.div-top, .fixed-head {
+#div-notification,
+.fixed-head {
 	display:none;
 }
 
+img {
+    background-color: transparent;
+}
+
+.div-top {
+    background: #fff !important;
+    border-bottom: 1px solid #333;
+    position: sticky;
+    top: 0;
+    justify-content: left !important;
+    max-height: 100px;
+}
+.div-top img {
+    max-height: 100px;
+    object-fit: cover;
+}
 .div-transp-blue {
 	background-size: cover;
 	 background-color: transparent; 
@@ -22,33 +39,31 @@
 .logo {
       height: 90px;
 }
+
 .logo img {
-	background-color: transparent !important;
-        object-fit: contain;
-      height: 90px;
-      border: 0 !important;
+    background-color: transparent !important;
+    object-fit: contain;
+    height: 90px;
+    border: 0 !important;
 }
-
-.sugest-btn {
-	height: 50px;
-    margin-right: -25px;
-}
-
 
 button.btn.btn-primary { 
-	background:#00448c;
+/*	background:#00448c;*/
 	border-radius: 15px;
 	border:none;
+    line-height: 2;
 }
 button.btn.btn-primary:hover { 
-	background:#073f79;
+/*	background:#073f79;*/
 }
 
+.btn.btn-secondary, 
 button.btn.btn-secondary { 
 	background:#fff;
 	color:#777;
 	border-radius: 15px;
 	border:none;
+    line-height: 2;
 }
 button.btn.btn-secondary:hover { 
 	background:#a8abad;
@@ -57,10 +72,9 @@ button.btn.btn-secondary:hover {
 
 button.btn-outline-danger { 
 	border-radius: 15px;
-	border: 2px solid;
     color: #dc3545;
     background-color: white;
-    border-color: #dc3545;
+    line-height: 2;
 }
 
 button.btn-outline-danger:hover { 
@@ -71,7 +85,6 @@ button.btn-outline-danger:hover {
 .slogan {
     font-size: 2.1rem;
     font-weight:600;
-    text-align:center;
 }
 .slogan span {
     font-size: 0.9rem;
@@ -144,19 +157,19 @@ button.menu-options {
 	color:#adb4b9;
 }
 
-	
-.languages {
-	display:grid;
-	width:100%;
-	grid-template-columns: 25% 25% 25% 25% ;
-	height: 50px;
-	line-height: 50px;
-}
 .languages img {
-	width: 20px;
-	height: 20px;
+	width: 35px;
+	height: 35px;
 	border: 1px solid #fff !important;
 	border-radius: 15px;
+}
+
+.div-slogan {
+    margin-top: 50px !important;
+}
+
+.div-boxes {
+    margin-top: 50px !important;
 }
 
 /*****************************/
@@ -175,29 +188,13 @@ button.menu-options {
 /* devices style*/
 /*****************************/
 
-@media (max-width: 1024px) 
-{
-    .container {
-        margin-top: -80px;
-    }
-}
-
 @media (max-width: 420px) 
 {
     .container {
         margin-top: -80px;
     }
-    .sugest-btn {
-        margin-top: -20px;
-        margin-right: -25px;
-    }
-    .i-love-btn, .slogan, .value-btn, .covid19-btn {
+    .i-love-btn, .slogan, .value-btn, .covid19-btn, .sugest-btn  {
         margin-top: 20px;
-    }
-    .languages img {
-        width: 40px;
-        height: 40px;
-        border: 2px solid #fff !important;
     }
     button.menu-options {
         font-size: 0.9rem;
@@ -214,6 +211,14 @@ button.menu-options {
         width: 100%;
         display: inline-block;
         line-height: 2;
+    }
+
+    .div-slogan {
+        margin-top: 5px !important;
+    }
+
+    .div-boxes {
+        margin-top: 5px !important;
     }
 
 }

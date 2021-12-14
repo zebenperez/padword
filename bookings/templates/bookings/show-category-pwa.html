@@ -26,18 +26,16 @@
     <body style="background:url('/static/img/bg-test.jpg'); background-size: cover;">
 	    <div class="row div-top w-100 p-0 m-0">
 		    <div class="col-3"><img src="/static/img/logo-villa-maria.png"></div>
-            {% comment %}
 		    <div class="col-5">
 			    <button class="btn btn-info-pwa ark" data-url="{% url 'my-bookings' project_uuid %}" data-target="pwa-content">
                     <i class="fas fa-suitcase"></i> <br />{% trans 'My bookings' %}</button>
 		    </div>
 		    <div class="col-2 login"><i class="fas fa-sign-in-alt"></i> <br /> {% trans 'Login' %}</div>
-            {% endcomment %}
 	    </div>
 
         <div class="div-transp-blue div-transparent- p-4">
             <div class="container-fluid" id="pwa-content">
-                <div class="row mt-3">
+                <div class="row mt-1">
                     {% include "bookings/show-category-content.html" %}
                 </div>
             </div>

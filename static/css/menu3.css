@@ -31,7 +31,7 @@ img {
     opacity: 0.9;
 }
 
-.card-text, .div-notification, .fixed-head {
+.card-text, .div-notification {
     display:none;
 }
 
