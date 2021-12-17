@@ -86,6 +86,8 @@ urlpatterns = [
     path('autocomplete/', gv.autocomplete, name='autocomplete'),
     path('select-item/', gv.select_item, name='select-item'),
 
+    path('bookings/show-item/', gv.show_item, name='show-item'),
+
     path('close/', gv.close, name='close-window'),
     path('close-window/', gv.close_window, name='close-spa'),
 

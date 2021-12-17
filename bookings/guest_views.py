@@ -621,6 +621,19 @@ def show_category_menu(request, form_id=None, cat_id = None):
         print(e)
         return render(request, "error_exception.html", {'exc':show_exc(e)})
 
+'''
+    Bookings items
+'''
+@group_required("admins", "projects", "guests")
+def show_item(request):
+    try:
+        item_id = request.GET["item_id"]
+        item = get_or_none(Item, int(item_id))
+
+        return render(request, "bookings/show-item.html", {'item':item,})
+    except Exception as e:
+        return render(request, "error_exception.html", {'exc':show_exc(e)})
+
 
 def close(request):
     return render(request, "close-window.html")

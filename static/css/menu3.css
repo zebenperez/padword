@@ -101,9 +101,16 @@ div.card-title {
     text-align: justify;
 }
 .info-panel img {
-    width: 100%;
-    object-fit: cover;
+/*    width: 100%;
+    object-fit: cover;*/
 }
+
+.i-love-btn, .value-btn, .sugest-btn, .covid19-btn {
+    padding:0;
+}
+
+
+
 
 /**********************************/
 	/* devices style*/
@@ -119,6 +126,12 @@ div.card-title {
         height: 60px;
         object-fit: cover;
     }
+    a.btn.btn-primary.w-100, 
+    .value-btn, 
+    .sugest-btn, 
+    .covid19-btn {
+        font-size: 0.5rem !important;
+    }
 
 }
 
@@ -127,6 +140,7 @@ div.card-title {
         margin-top: 2px !important;
         margin-right: 2px !important;
     }
+   
     .btn-info-pwa {
         font-size: 0.8rem !important;
     }

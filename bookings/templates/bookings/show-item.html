@@ -1,0 +1,14 @@
+{% load i18n padword_tags static %}
+
+<div class="card w-100 mb-3">
+    <div class="image" id="cover"> <img src="{% if item.image %}{{item.image.url}} {%else%} {% static 'img/none.png' %}{%endif%}" 
+        class="object-fit_cover" alt="{% padword_translate item.name %}"> </div>
+    <div class="card-body">
+        <h5 class="card-title text-dark text-center">{% padword_translate item.name %}</h5>
+        <h4 class="card-title text-dark text-center">{{ item.price}} &euro; </h4>
+        <p class="card-text text-secondary">{% padword_translate item.description %}</p>
+
+        <button type="button" class="btn btn-sm" data-bs-dismiss="modal">{% trans "Close" %}</button>
+    </div>
+</div>
+
