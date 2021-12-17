@@ -4,7 +4,7 @@ from django.urls import reverse
 import json
 from padword.commons import show_exc
 from web.models import Project, ProjectUser
-from contents.models import Allergen
+from contents.models import Allergen, Category
 import string, random
 
 register = template.Library()
@@ -98,8 +98,31 @@ def padword_translate(context, json_str):
         lang = request.GET['lang'] if 'lang' in request.GET else request.LANGUAGE_CODE
         lang = lang.split('-')[0]
         json_dict = json.loads(json_str)
-        return json_dict[lang.upper()]
+        return mark_safe(json_dict[lang.upper()])
     except:
+        try:
+            json_dict = json.loads(json_str)
+            return json_dict[list(json_dict.keys())[0]]
+        except Exception as e:
+            try:
+                json_dict = json.loads(json_str)
+                keys = json_dict.keys()
+                return json_dict[keys[0]]
+            except Exception as e:
+                return json_str
+
+@register.simple_tag(takes_context=True)
+def padword_translate_obj(context, obj_id):
+    try:
+        obj = get_obj(obj_id, 'Category')
+        request = context['request']
+        lang = request.GET['lang'] if 'lang' in request.GET else request.LANGUAGE_CODE
+        lang = lang.split('-')[0]
+        json_str = obj.name
+        json_dict = json.loads(json_str)
+        return mark_safe(json_dict[lang.upper()])
+    except Exception as e:
+        print (show_exc(e))
         try:
             json_dict = json.loads(json_str)
             return json_dict[list(json_dict.keys())[0]]

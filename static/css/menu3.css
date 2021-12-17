@@ -31,14 +31,25 @@ img {
     opacity: 0.9;
 }
 
+.div-transp-blue {
+    background-color: transparent;
+    background-image: none;
+}
+
 .card-text, .div-notification {
-    display:none;
+ /*   display:none;*/
+}
+.card-body {
+     padding: 0px 10px 0px 10px !important;
+}
+img.object-fit_cover {
+    height: 150px;
 }
 
 .back-button {
-    margin-top: 30px;
     text-align: right;
 }
+button.btn.btn-back,
 .back-button a {
     color: white;
 }
@@ -47,10 +58,10 @@ img {
     display:inline-block;
     width: 33%;
 }
-h4.card-title {
-    min-height: 0 !important;
+div.card-title {
     color: #00448c;
-    font-weight: 100 !importanit;
+    font-weight: 100 !important;
+    font-size: 1.2rem;
 }
 
 .card.mb-1.ark {
@@ -61,33 +72,74 @@ h4.card-title {
     padding:2px !important;
 }
 
+.btn.btn-secondary, 
+button.btn.btn-secondary { 
+	background:#fff;
+	color:#777;
+	border-radius: 15px;
+	border:none;
+    line-height: 2;
+}
+button.btn.btn-secondary:hover { 
+	background:#a8abad;
+    color:white;
+}
+.btn-info-pwa {
+    font-size: 0.8rem !important;
+}
+
+.pointer {cursor: pointer;}
+
+
+div.card-title {
+    font-size: 1.2rem !important;
+}
+
+.info-panel {
+    border:1px solid white;
+    color: #777;
+    text-align: justify;
+}
+.info-panel img {
+    width: 100%;
+    object-fit: cover;
+}
+
 /**********************************/
 	/* devices style*/
 /**********************************/
 
 
 @media (max-width: 320px) {
+    .btn-info-pwa {
+        font-size: 0.8rem !important;
+    }
 
     .div-top img {
         height: 60px;
         object-fit: cover;
     }
-    h4.card-title {
-        min-height: 0px !important;
-        font-size: 0.8rem !important;
-        font-weight: 100 !importanit;
-        color: #00448c;
-    }
-
-    .card-body {
-        padding:0px !important;
-    }
 
 }
+
 @media (min-width: 320px) {
     .sugest-btn {
         margin-top: 2px !important;
         margin-right: 2px !important;
+    }
+    .btn-info-pwa {
+        font-size: 0.8rem !important;
+    }
+
+    img.object-fit_cover {
+        height: 100px;
+    }
+
+    .card-body {
+        font-size: 0.8rem;
+    }
+    div.card-title {
+        font-size: 0.8rem;
     }
 
 }

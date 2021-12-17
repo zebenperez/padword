@@ -106,10 +106,9 @@
                         <label class="form-check-label" for="show_desc">Mostrar</label>
                     </div>
                 </div>
-                <textarea class="form-control autosave b-bottom mb-4" id="desc" name="desc" value="{% padword_translate obj.desc %}" 
-                    title="{% padword_translate obj.desc %}" data-lang="{% current_lang %}" data-model-name="bookings.form" 
-                    data-obj-id="{{obj.id}}" data-url="{%url "autosave_field"%}" data-target="div-notification" style="display:none"></textarea>
-                    <span id="desc__msg"></span>
+                <textarea class="form-control autosavepost b-bottom mb-4" id="desc" name="desc"  data-lang="{% current_lang %}" 
+                    data-model-name="bookings.form" data-obj-id="{{obj.id}}" data-url="{%url "autosave_field_post"%}" data-target="div-notification" 
+                    style="display:none"></textarea> <span id="desc__msg"></span>
                 <div id="desc-editor" style="height:200px; overflow:scroll;"> {% padword_translate obj.desc %}</div>
             </div>
             {%comment%}
@@ -173,7 +172,7 @@
 
     //var quill = new Quill('#desc-editor', { theme: 'snow' }); 
     quill.on('text-change', function(delta, oldDelta, source) {
-        $("#desc").html(quill.getText());
+        $("#desc").html(quill.root.innerHTML);
         $("#desc").change();
     });
 </script>

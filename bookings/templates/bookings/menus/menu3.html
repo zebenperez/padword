@@ -4,27 +4,29 @@
 <link rel="stylesheet" href="{% static 'css/menu3.css' %}" >
 
 {% if category.parent %}
-    <div class="row back-button d-flex justify-content-end">
-        <div class="col-lg-2 col-4 sugest-btn">
-            <button type="button" class="btn btn-secondary w-100 p-1 ark" data-url="{% url "show-category-menu" %}" data-target="main" data-cat_id="{{category.parent.uuid}}"><i class="fas fa-chevron-left"></i> {% trans "Back" %}</button>
+    <div class="row back-button d-flex justify-content-end mb-2">
+        <div class="col-lg-2 col-4">
+            <button type="button" class="btn btn-back w-100 ark text-right" data-url="{% url "show-category-menu" %}" data-target="main" data-cat_id="{{category.parent.uuid}}"><i class="fas fa-chevron-circle-left"></i> {% trans "Back" %}</button>
         </div>
     </div>
 {% endif %}
 
-    <div class="row p-0">
+{% if form.show_desc %} <div class="col-lg-6 offset-lg-3 col-12 card info-panel p-4">{% padword_translate form.desc %}</div> {% endif %}
+
+<div class="row p-0">
     {% for item in category.get_childrens %}
-        <div class="col-lg-3 col-4 box-cat mb-1">
+        <div class="col-lg-3 col-4 box-cat mb-1 pointer">
             <div class="card mb-1 ark" data-url="{% url "show-category-menu" %}" data-target="main" data-cat_id="{{item.uuid}}">
                 <div class="image" id="cover"> <img src="{% if item.image %}{{item.image.url}} {%else%} {% static 'img/none.png' %}{%endif%}" 
                     class="object-fit_cover" alt="{% padword_translate item.name %}"> </div>
                 <div class="card-body">
-                    <h4 class="card-title text-center">{% padword_translate item.name %}</h4>
-                    <p class="card-text text-secondary">{% padword_translate item.description %}</p>
+                    <div class="card-title text-center"><strong>{% padword_translate item.name %}</strong></div>
+                    <p class="card-text text-secondary">{% padword_translate item.description %} </p>
                 </div>
             </div>
         </div>
     {% endfor %}
-    </div>
+</div>
 
 
 {% for item in category.get_items %}

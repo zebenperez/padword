@@ -20,6 +20,25 @@ body {
 	max-width: 100%;
 	min-width: 100%;
 }
+
+img {
+    background-color: transparent !important;
+}
+
+.div-top {
+    background: #fff !important;
+    border-bottom: 1px solid #333;
+    position: sticky;
+    top: 0;
+    justify-content: left !important;
+    text-align: left !important;
+    max-height: 100px;
+}
+.div-top img {
+    max-height: 100px;
+    object-fit: cover;
+}
+
 h4.success {
 	color: #666;
 	font-size: 30px;
@@ -184,8 +203,15 @@ a.btn-light {
 /*****************************/
 
 .bookingHeader { color: #666; }
+
 .bookingHeader h1 { border-bottom:1px solid #fff; }
  
+.booking-head {
+    background-color: #999;
+    color: #fff !important;
+    font-size: 0.9rem !important;
+}
+
 
 /*****************************/
 /* table style*/
@@ -280,6 +306,7 @@ a.btn.btn-outline-danger:hover {
 .btn.btn-light-pad {
     padding: 5px 5px 5px 5px !important;
 }
+
 
 .btn-dark {
 		lor: #fff;
@@ -485,6 +512,30 @@ img.img-cart-line {
 	color: #333;
 }
 
+.btn-info-pwa {
+    font-size: 0.8rem !important;
+}
+
+.back-button {
+    text-align: right;
+}
+button.btn.btn-back,
+.back-button a {
+    color: white;
+}
+
+h4.slogan {
+    font-size: 2.1rem;
+    font-weight: normal;
+    font-style: normal;
+    color: white;
+}
+h4.slogan span {
+    font-size: 0.9rem;
+    text-transform: uppercase;
+}
+
+
 /*****************************/
 /* devices style*/
 /*****************************/
@@ -558,4 +609,5 @@ img.img-cart {border-radius: 10px 10px 10px 10px; box-shadow: 10px 0px 10px 0px 
 		overflow-y: scroll;
 	}
 }
+
 

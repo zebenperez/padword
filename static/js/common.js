@@ -68,6 +68,27 @@ function ajaxGetAutosave(url, datas, target)
     }); 
 };
 
+function ajaxPostAutosave(url, datas, target)
+{
+    $("body").css("cursor", "progress");
+    $.ajax({
+        url : url,
+        type : 'POST',
+        data : datas,
+        dataType : 'html',
+        cache : false,
+        beforeSend : function(){},
+        success : function(data){
+            $("#"+target).html(data).show().fadeTo(5000, 500).slideUp(500, function(){
+                $("#"+target).slideUp(500);
+            });
+        },
+        error : function(e){alert("Error: "+e.responseText);},
+        complete : function(){$("body").css("cursor", "default");}
+    }); 
+};
+
+
 function ajaxGetRemove(url, datas, target)
 {
     $.ajax({
@@ -284,6 +305,45 @@ $(document).ready(()=>{
         if (obj.data('lang'))
             datas['lang'] = obj.data('lang');
         ajaxGetAutosave(url, datas, target);
+        e.preventDefault();
+    });
+
+    $("body").on("change", ".autosavepost", function(e){
+        var obj = $(this);
+        msg_id = "#" + obj.attr("id") + "__msg";
+        if (obj[0].checkValidity())
+        {
+            $(msg_id).html("");
+            obj.removeClass("invalid");
+        }
+        else
+        {
+            $(msg_id).html(obj.attr("title"));
+            obj.removeClass("valid").addClass("invalid");
+        }
+
+        model_name = obj.data("model-name");
+        obj_id = obj.data("obj-id");
+        url = obj.data("url");
+        target = obj.data("target");
+        field = obj.attr("name");
+        if (obj.data("ref-field"))
+            ref_field = obj.data("ref-field");
+        else
+            ref_field = "pk";
+
+        if (obj.data("bool"))
+            if (obj.is(':checked'))
+                value = "True";
+            else
+                value = "False";
+        else
+            value = obj.val();
+
+        datas = {'model_name': model_name, 'obj_id': obj_id, 'field': field, 'value': value, "ref_field":ref_field};
+        if (obj.data('lang'))
+            datas['lang'] = obj.data('lang');
+        ajaxPostAutosave(url, datas, target);
         e.preventDefault();
     });
 

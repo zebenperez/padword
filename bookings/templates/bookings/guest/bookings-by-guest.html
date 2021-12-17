@@ -2,18 +2,25 @@
 
 
 <div class="row">
-	<div class="col-10 offset-1 mt-3 mb-3">
-	<div class="content mt-4">
-		<div class="toolbar-content mb-3"> <h4 class="success mt-3">{% trans 'Bookings' %}</h4> </div>
-		<div id="booking-list" style=" height: 400px; overflow-y: scroll;">
-			<div class="p-4" style="background:#f3f5f9;border-radius:5px;">
-				<div class="row mb-3">
-					<div class="col-3 title-col text-left"> <strong> {% trans 'Service' %} </strong></div>
-					<div class="col title-col d-none d-lg-block"> <strong>{% trans 'Name' %} </strong></div>
-					<div class="col title-col d-none d-lg-block"> <strong>{% trans 'Surname' %} </strong></div>
-					<div class="col-4 title-col"> <strong>{% trans 'Creation Date' %} </strong></div>
-					<div class="col-3 title-col"> <strong>{% trans 'Status' %} </strong></div>
-					<div class="col-1 title-col"> </div>
+
+    <div class="row back-button d-flex justify-content-end mb-2">
+        <div class="col-lg-2 col-4">
+            <button type="button" class="btn btn-back w-100 ark text-right" data-url="" data-target="main" data-cat_id="{{category.parent.uuid}}"><i class="fas fa-chevron-circle-left"></i> {% trans "Back" %}</button>
+        </div>
+    </div>
+
+	<div class="col-10 offset-1 mb-1">
+	<div class="content">
+		<div class="toolbar-content"> <h4 class="success slogan">{% trans 'My bookings' %}</h4> </div>
+		<div id="booking-list" class="card" style="min-height: 400px;">
+			<div class="booking-head p-2">
+				<div class="row">
+					<div class="col-3">{% trans 'Service' %}</div>
+					<div class="col d-none d-lg-block">{% trans 'Name' %}</div>
+					<div class="col d-none d-lg-block">{% trans 'Surname' %}</div>
+					<div class="col-4">{% trans 'Creation Date' %}</div>
+					<div class="col-3">{% trans 'Status' %}</div>
+					<div class="col-1"></div>
 				</div>
 				{% for item in items %}
 				<div class="row booking-line mb-2 pt-3 ark" id="row_{{item.id}}"
@@ -36,8 +43,8 @@
 	</div>
 </div>
 <div class="row">
-	<div class="col-8 offset-2 text-grey text-center mt-3 mb-3">
-        <button class="btn btn-info-pad mt-3 ark" data-url="{% url 'close-spa' %}" data-target-modal="common-modal" data-bs-dismiss="modal"
+	<div class="col-8 offset-2 text-grey text-center mt-1 mb-3">
+        <button class="btn btn-access mt-3 ark" data-url="{% url 'close-spa' %}" data-target-modal="common-modal" data-bs-dismiss="modal"
             onclick="closeWin('#div-close')"> {% trans 'Close' %}</button>
 		{#<button class="btn btn-warning text-white mt-3" onclick="window.history.back();">{% trans "Close" %}</button>#}
 	</div>

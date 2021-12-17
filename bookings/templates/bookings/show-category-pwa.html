@@ -25,15 +25,18 @@
     </head>
     <body style="background:url('/static/img/bg-test.jpg'); background-size: cover;">
 	    <div class="row div-top w-100 p-0 m-0">
-		    <div class="col-3"><img src="/static/img/logo-villa-maria.png"></div>
-		    <div class="col-5">
-			    <button class="btn btn-info-pwa ark" data-url="{% url 'my-bookings' project_uuid %}" data-target="pwa-content">
-                    <i class="fas fa-suitcase"></i> <br />{% trans 'My bookings' %}</button>
+		    <div class="col-lg-9 col-3 text-left"><img src="/static/img/logo-villa-maria.png"></div>
+		    <div class="col-lg-2 col-6">
+				<button class="btn btn-info-pwa ark" data-url="{% url "my-bookings" %}" data-target="main" data-project_uuid="{{project_uuid}}">
+                    <i class="fas fa-suitcase"></i> <br />{% trans "My bookings" %}</button>
 		    </div>
-		    <div class="col-2 login"><i class="fas fa-sign-in-alt"></i> <br /> {% trans 'Login' %}</div>
+		    <div class="col-lg-1 col-3">
+                <button class="btn btn-info-pwa ark" data-url="{% url 'close-spa' %}" data-target-modal="common-modal" data-bs-dismiss="modal"
+                    onclick="closeWin('#div-close')"><i class="fas fa-sign-in-alt"></i> <br /> {% trans 'Close' %}</button>
+            </div>
 	    </div>
 
-        <div class="div-transp-blue div-transparent- p-4">
+        <div class="div-transparent- pl-4 pr-4 pt-2">
             <div class="container-fluid" id="main">
                 <div class="row mt-1">
                     {% include "bookings/show-category-content.html" %}

@@ -1,6 +1,15 @@
 {% load i18n bookings_tag common_tag %}
 
-<div class="div-info">
+    {% if category.parent %}
+        <div class="row back-button d-flex justify-content-end mb-2">
+            <div class="col-lg-2 col-4">
+                <button type="button" class="btn btn-back w-100 ark text-right" data-url="{% url "show-category-menu" %}" data-target="main" data-cat_id="{{category.parent.uuid}}"><i class="fas fa-chevron-circle-left"></i> {% trans "Back" %}</button>
+            </div>
+        </div>
+    {% endif %}
+
+
+<div class="div-info col-lg-10 offset-lg-1 col-10 offset-1 card info-panel p-4">
     {% for f in q.field_set.all %}
 		<div class="item mb-1">
 			<div class="item-left"><strong>{% if q.field_set.all|length > 0 %} <br/> {{f}} <br/> {% endif %} </strong></div>

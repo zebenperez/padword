@@ -31,6 +31,7 @@ urlpatterns = [
 
     #---------------------- AUTO -----------------------
 	path('autosave_field/', auto_views.autosave_field, name='autosave_field'),
+	path('autosave_field_post/', auto_views.autosave_field_post, name='autosave_field_post'),
 	path('autoremove_obj/', auto_views.autoremove_obj, name='autoremove_obj'),
 ]
 
