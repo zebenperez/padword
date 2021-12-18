@@ -49,10 +49,13 @@
 	align-items: center;
 	-ms-flex-pack: center;
 	justify-content: center;
-	width: 10%;
-	font-size: 2rem;
+	width: 0%;
+	font-size: 2.5rem;
 	color: #333 !important;
 	text-align: center;
+    margin-left: -15px;
+    margin-right: -15px;
+
 }    
 
 .carousel-control-next-icon, .carousel-control-prev-icon {

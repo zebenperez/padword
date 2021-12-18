@@ -89,6 +89,21 @@ i.fas.fa-ban.text-cancel {
 	text-align: left;
 	font-weight:normal;
 }
+.item-right,
+.item-right input.form-control {
+    /*background-color: #919092;
+    border: 1px solid #919092;
+*/
+    background-color: #00448c;
+    border: 1px solid #00448c;
+    border-radius: 5px;
+    color: #fff;
+}
+
+.item-left {
+    color: #00448c !important;
+	font-weight:normal !important;
+}
 
 .div-transp .btn.btn-outline-primary.btn-lg.ark.w-100,
 .div-transp .btn.btn-outline-danger.btn-lg.w-100 {
@@ -246,9 +261,9 @@ tbody, td, tfoot, th, thead, tr {
 	background: #f2f6fa;
 	border-radius: 0.25rem;
 	border:1px solid #4d5053;
-	border: 1px solid #d8e3ed !important;
+/*	border: 1px solid #d8e3ed !important;*/
 	box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 6px -1px, rgba(0, 0, 0, 0.06) 0px 2px 4px -1px;
-	text-align:center;
+/*	text-align:center;*/
 }
 .b-item {
 	border-bottom: 1px solid #666 !important;
@@ -263,8 +278,7 @@ img {
 
 h5.card-title { 
 	font-size: 1rem; 
-	font-weight: 600; 
-	min-height: 80px; 
+/*	min-height: 80px; */
 	overflow-wrap: normal;
 }
 
@@ -285,11 +299,10 @@ a.btn.btn-outline-danger:hover {
 /* btn actions style*/
 /*****************************/
 
-.btn.btn-access, .btn.btn-primary-pad, .btn.btn-danger-pad, .btn.btn-info-pad, .btn.btn-success-pad {
+.btn.btn-access, .btn.btn-primary-pad, .btn.btn-danger-pad, .btn.btn-info-pad, .btn.btn-unselect-pad  {
 	background: #ffffff;
 	padding: 10px 30px 10px 30px;
 }
- .btn.btn-light-pad { padding: 5px 5px 5px 5px; }
 
 .btn.btn-access { border: 1px solid #022948; color: #022948; }
 
@@ -301,18 +314,47 @@ a.btn.btn-outline-danger:hover {
 
 .btn.btn-info-pad { border: 1px solid #0dcaf0;  color: #0dcaf0; }
 
-.btn.btn-success-pad { border: 1px solid #28a745;  color: #28a745; }
-
-.btn.btn-light-pad {
-    padding: 5px 5px 5px 5px !important;
+.btn.btn-unselect-pad
+{ 
+    background-color: #022948; 
+    color: #fff !important; 
+    padding: 10px 30px 10px 30px;
 }
 
+.btn.btn-success-pad,
+.btn.btn-select-pad
+{
+    background: #28a745;  
+    color: #ffffff; 
+    padding: 10px 30px 10px 30px;
+}
+
+.btn.btn-dark-pad {
+    padding: 5px !important; 
+    background-color: #022948;
+    color: #fff !important;
+    font-size: 0.8rem;
+}
+.btn.btn-light-pad {
+    padding: 5px !important;
+}
 
 .btn-dark {
-		lor: #fff;
+		color: #fff !important;
 		background-color: #404a5d !important;
 		border-color: #404a5d !important;
 }
+
+.price { text-align: right; }
+.imagen-item {
+    border:1px solid #ccc; 
+}
+.description-item {
+    border:1px solid #ccc; 
+    font-size: 0.9rem; 
+    line-height:2;
+}
+
 
 /*********  Booking List Style ***************/
 
@@ -434,7 +476,7 @@ img.img-cart-line {
 	color: #fff;
 	font-weight: normal;
 	font-style: italic;
-	margin-top: 20px !important;
+/*	margin-top: 20px !important;*/
 }
 
 .welcome-page h5 {

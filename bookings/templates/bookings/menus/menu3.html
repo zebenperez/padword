@@ -17,7 +17,7 @@
     {% for item in category.get_childrens %}
         <div class="col-lg-3 col-4 box-cat mb-1 pointer">
             <div class="card mb-1 ark" data-url="{% url "show-category-menu" %}" data-target="main" data-cat_id="{{item.uuid}}">
-                <div class="image" id="cover"> <img src="{% if item.image %}{{item.image.url}} {%else%} {% static 'img/none.png' %}{%endif%}" 
+                <div class="image" id="cover"> <img width="100%" src="{% if item.image %}{{item.image.url}} {%else%} {% static 'img/none.png' %}{%endif%}" 
                     class="object-fit_cover" alt="{% padword_translate item.name %}"> </div>
                 <div class="card-body">
                     <div class="card-title text-center"><strong>{% padword_translate item.name %}</strong></div>

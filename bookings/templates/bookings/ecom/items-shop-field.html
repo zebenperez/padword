@@ -6,7 +6,7 @@
         <div class="card w-100">
             <div class="image" id="cover">
                 <img src="{% if item.image %}{{item.image.url}} {%else%} {% static 'img/none.png' %}{%endif%}" class="object-fit_cover" 
-                    alt="{% padword_translate item.name %}">
+                    alt="{% padword_translate item.name %}" width="100%">
             </div>
             <div class="card-body">
                 <div class="row">
@@ -18,12 +18,12 @@
             <div class="card-footer">
                 <div class="text-center">
                     {% if item.uuid != value %}
-                        <a class="btn btn-info-pad ark" data-url="{% url "select-item" %}" data-target="div-items-shop-{{answer_name}}" 
+                        <a class="btn btn-unselect-pad ark" data-url="{% url "select-item" %}" data-target="div-items-shop-{{answer_name}}" 
                             data-fi="{{fi_id}}" data-question="{{q_id}}" data-field="{{f.id}}" data-index="{{index}}" data-value="{{item.uuid}}"
                             onclick=""> 
                             {% trans "Select" %}</a>
                     {% else %}
-                        <a class="btn btn-success-pad ark" data-url="{% url "select-item" %}" data-target="div-items-shop-{{answer_name}}" 
+                        <a class="btn btn-select-pad ark" data-url="{% url "select-item" %}" data-target="div-items-shop-{{answer_name}}" 
                             data-fi="{{fi_id}}" data-question="{{q_id}}" data-field="{{f.id}}" data-index="{{index}}" data-value=""> 
                             {% trans "Unselect" %}</a>
                     {% endif %}

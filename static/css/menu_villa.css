@@ -193,6 +193,11 @@ button.menu-options {
     padding:2px !important;
 }
 
+.i-love-btn, .value-btn, .sugest-btn, .covid19-btn {
+    padding:0;
+}
+
+
 /*****************************/
 /* devices style*/
 /*****************************/
@@ -205,6 +210,13 @@ button.menu-options {
     .i-love-btn, .slogan, .value-btn, .covid19-btn, .sugest-btn  {
         margin-top: 20px;
     }
+    a.btn.btn-primary.w-100, 
+    a.btn.btn-secondary.w-100, 
+    a.btn.btn-outline-danger.w-100 {
+        font-size: 0.7rem !important;
+    }
+
+
     button.menu-options {
         font-size: 0.9rem;
     }

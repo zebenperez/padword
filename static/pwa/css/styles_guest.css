@@ -131,9 +131,11 @@ tbody, td, tfoot, th, thead, tr {
 /*****************************/
 
 .cart-item {
-	background: #f8f8f8;
+	/*background: #f8f8f8;*/
+	background: #fff;
 	border-radius: 0.25rem;
-	border:1px solid #4d5053;
+/*	border:1px solid #4d5053;*/
+    border:0;
 }
 .b-item {
 	border-bottom: 1px solid #666 !important;
@@ -147,13 +149,14 @@ tbody, td, tfoot, th, thead, tr {
 
 img { 
 	background-color: #444;
-	border-bottom: 1px solid #ccc !important;
+/*	border-bottom: 1px solid #ccc !important;*/
 	height: 120px; 
 }
-
+/*
 img[class] { width: 100%; }
-
-h5.card-title { font-size: 1.1rem; font-weight: 600; }
+*/
+h5.card-title { font-size: 0.9rem; font-weight: 600; }
+p.card-text.text-secondary {font-size: 0.8rem;}
 
 h4.card-title { font-size: 1rem; }
 
@@ -168,6 +171,13 @@ a.btn.btn-outline-danger {
 a.btn.btn-outline-danger:hover {
 	background: #fff;
 	color: #aa1a28;
+}
+
+.btn.btn-dark-pad {
+    padding: 5px !important; 
+    background-color: #022948;
+    color: #fff !importangt;
+    font-size: 0.8rem;
 }
 
 /*********  Booking List Style ***************/
@@ -388,7 +398,6 @@ img.img-cart {border-radius: 10px 10px 10px 10px; box-shadow: 10px 0px 10px 0px 
 .btn-info-pwa {
 	color: #777 !important;
 }
-
 
 h4.success {
 	color: #fff;

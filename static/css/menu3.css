@@ -93,6 +93,7 @@ button.btn.btn-secondary:hover {
 
 div.card-title {
     font-size: 1.2rem !important;
+    margin-bottom:0px !important;
 }
 
 .info-panel {
@@ -104,11 +105,6 @@ div.card-title {
 /*    width: 100%;
     object-fit: cover;*/
 }
-
-.i-love-btn, .value-btn, .sugest-btn, .covid19-btn {
-    padding:0;
-}
-
 
 
 
@@ -126,13 +122,6 @@ div.card-title {
         height: 60px;
         object-fit: cover;
     }
-    a.btn.btn-primary.w-100, 
-    .value-btn, 
-    .sugest-btn, 
-    .covid19-btn {
-        font-size: 0.5rem !important;
-    }
-
 }
 
 @media (min-width: 320px) {
@@ -140,7 +129,7 @@ div.card-title {
         margin-top: 2px !important;
         margin-right: 2px !important;
     }
-   
+
     .btn-info-pwa {
         font-size: 0.8rem !important;
     }

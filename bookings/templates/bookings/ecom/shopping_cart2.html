@@ -8,6 +8,15 @@
 <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
+    {% if category.parent %}
+        <div class="row back-button d-flex justify-content-end mb-2">
+            <div class="col-lg-2 col-4">
+                <button type="button" class="btn btn-back w-100 ark text-right" data-url="{% url "show-category-menu" %}" data-target="main" data-cat_id="{{category.parent.uuid}}"><i class="fas fa-chevron-circle-left"></i> {% trans "Back" %}</button>
+            </div>
+        </div>
+    {% endif %}
+
+
 <div class="row d-flex justify-content-center mt-1 ">
     {% if category.get_items|length > 0 %}
 		<div class="container p-3"> <div class="row blog"> <div class="col-md-12">
@@ -15,9 +24,9 @@
                 
                 <!-- Carousel controls -->
                 <a class="carousel-control-prev" href="#blogCarousel-{{category.id}}" role="button" data-slide="prev">
-                    <span class="prev"><i class="fas fa-chevron-left"></i></span></a>
+                    <span class="prev"><i class="fas fa-chevron-circle-left"></i></span></a>
                 <a class="carousel-control-next" href="#blogCarousel-{{category.id}}" role="button" data-slide="next">
-                    <span class="next"><i class="fas fa-chevron-right"></i></span></a>
+                    <span class="next"><i class="fas fa-chevron-circle-right"></i></span></a>
 
                 <!-- Carousel items -->
                 <div class="carousel-inner">
@@ -39,7 +48,7 @@
                                 <div class="card-footer">
                                     <div class="row">
                                         <div class="col-3 d-flex justify-content-start">
-                                            <a class="p-2 btn btn-light btn-sm ark" data-url="{% url 'remove-generic-item-shopping-cart' %}" 
+                                            <a class="p-2 btn tn-light btn-sm ark" data-url="{% url 'remove-generic-item-shopping-cart' %}" 
                                                 data-target="for-scripts" data-form_id="{{fi.pk}}" data-item_id="{{item.pk}}">
                                                 <i class="fas fa-minus"></i></a>
                                         </div>              
@@ -49,7 +58,7 @@
                                                 value="{{fi|items_in_bookings:item.pk}}"></input>
                                         </div>
                                         <div class="col-3 d-flex justify-content-end">
-                                            <a class="p-2 btn btn-light btn-sm ark" data-url="{% url 'item-to-shopping-cart' %}" 
+                                            <a class="p-2 btn tn-light btn-sm ark" data-url="{% url 'item-to-shopping-cart' %}" 
                                                 data-target="for-scripts" data-form_id="{{fi.pk}}" data-item_id="{{item.pk}}">
                                                 <i class="fas fa-plus"></i></a>
                                         </div>
@@ -99,17 +108,18 @@
     {% endfor %}
     {%endcomment%}
 </div>
+
 {%csrf_token%}
 {% for children in category.get_childrens %}
-    <div class="cart-item mb-4">
-        <div class="col-12 d-flex align-middle justify-content-center">
-            <a class="btn btn-dark pl-2 w-100 b-item" onclick="$('.div-shopping-cart-{{children.pk}}').toggle();"> 
+    <div class="cart-item mb-4 p-3" tyle="border:1px solid red">
+        <div class="col-12">
+            <a class="btn btn-dark pl-2 w-100 b-item text-left" onclick="$('.div-shopping-cart-{{children.pk}}').toggle();"> 
                 <i class="fas fa-arrow-circle-down div-shopping-cart-{{children.pk}}" ></i>
                 <i class="fas fa-arrow-circle-up div-shopping-cart-{{children.pk}}" style="display:none" ></i>
                 {% padword_translate children.name%} 
             </a>
         </div>
-        <div id="div-shopping-cart-{{children.pk}}" class="div-shopping-cart-{{children.pk}}" style="display:none"></div>
+        <div id="div-shopping-cart-{{children.pk}}" class="div-shopping-cart-{{children.pk}}" style="display:none;"></div>
     </div>
 
     <script>

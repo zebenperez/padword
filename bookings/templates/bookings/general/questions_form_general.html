@@ -1,19 +1,19 @@
 {% load i18n bookings_tag common_tag %}
 
-    {% if category.parent %}
-        <div class="row back-button d-flex justify-content-end mb-2">
-            <div class="col-lg-2 col-4">
-                <button type="button" class="btn btn-back w-100 ark text-right" data-url="{% url "show-category-menu" %}" data-target="main" data-cat_id="{{category.parent.uuid}}"><i class="fas fa-chevron-circle-left"></i> {% trans "Back" %}</button>
-            </div>
+{% if category.parent %}
+    <div class="row back-button d-flex justify-content-end mb-2">
+        <div class="col-lg-2 col-4">
+            <button type="button" class="btn btn-back w-100 ark text-right" data-url="{% url "show-category-menu" %}" data-target="main" data-cat_id="{{category.parent.uuid}}"><i class="fas fa-chevron-circle-left"></i> {% trans "Back" %}</button>
         </div>
-    {% endif %}
+    </div>
+{% endif %}
 
 
-<div class="div-info col-lg-10 offset-lg-1 col-10 offset-1 card info-panel p-4">
+<div class="div-info col-lg-8 offset-lg-2 col-10 offset-1 card info-panel p-4">
     {% for f in q.field_set.all %}
 		<div class="item mb-1">
-			<div class="item-left"><strong>{% if q.field_set.all|length > 0 %} <br/> {{f}} <br/> {% endif %} </strong></div>
-			<div class="item-right td_{{q.id}}_{{index}}"> 
+			<div class="item-left mb-3">{% if q.field_set.all|length > 0 %} <br/> {{f}} <br/> {% endif %} </div>
+			<div class="item-right td_{{q.id}}_{{index}} p-2"> 
                 {% if not ro %}{% field_form fi q f index request.user %} {%else%} {% field_value fi q f index %} {%endif%}
             </div>
 		</div>
