@@ -156,7 +156,6 @@ div.card-title {
     display: block;
     width: 100%;
     height: auto;*/
-    background-color: #e4d9d1;
 }
 
 .overlay {
@@ -167,13 +166,15 @@ div.card-title {
     right: 0;
     height: 100%;
     width: 100%;
-    opacity: 0;
+    opacity: 0.7;
     transition: .5s ease;
+    background-color: #e4d9d1;
 }
 
 .container-test:hover .overlay {
     opacity: 1;
     color: white;
+    background-color: #000;
 }
 
 .text {
