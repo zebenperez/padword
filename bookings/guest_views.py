@@ -278,8 +278,10 @@ def bookings_by_guest(request, project_uuid=None):
             return render(request, 'error_exception.html', {'exc': 'User not found!'})
 
         guest = gu.guest
+        cat_uuid = request.GET["cat_id"] if "cat_id" in request.GET else ""
         context = {
             'items': FormInstance.objects.filter(guest_uuid=guest.UUID, date__range=[guest.check_in, guest.check_out]),
+            'cat_uuid': cat_uuid,
             'guest': guest
         }
         return render (request, "bookings/guest/bookings-by-guest.html", context)

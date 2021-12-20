@@ -1,5 +1,6 @@
 {% load static padword_tags i18n %}
-<html>
+{#<html>#}
+    {% comment %}
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -23,11 +24,12 @@
         <meta name="theme-color" content="#7952b3">
 
     </head>
-    <body style="background:url('/static/img/bg-test.jpg'); background-size: cover;">
+    {% endcomment %}
+    {#<body style="background:url('/static/img/bg-test.jpg'); background-size: cover;">#}
 	    <div class="row div-top w-100 p-0 m-0">
 		    <div class="col-lg-9 col-3 text-left"><img src="/static/img/logo-villa-maria.png"></div>
 		    <div class="col-lg-2 col-6">
-				<button class="btn btn-info-pwa ark" data-url="{% url "my-bookings" %}" data-target="main" data-project_uuid="{{project_uuid}}">
+                <button class="btn btn-info-pwa ark" data-url="{% url "my-bookings" %}" data-target="main" data-project_uuid="{{project_uuid}}" data-cat_id="{{form.category}}">
                     <i class="fas fa-suitcase"></i> <br />{% trans "My bookings" %}</button>
 		    </div>
 		    <div class="col-lg-1 col-3">
@@ -37,7 +39,7 @@
 	    </div>
 
         <div class="div-transparent- pl-4 pr-4 pt-2">
-            <div class="container-fluid" id="main">
+            <div class="container-fluid" id="main-pwa">
                 <div class="row mt-1">
                     {% include "bookings/show-category-content.html" %}
                 </div>
@@ -58,5 +60,5 @@
                     });
                 }); 
         </script>
-    </body>
-</html>
+    {#</body>#}
+{#</html>#}

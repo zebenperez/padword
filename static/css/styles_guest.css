@@ -404,6 +404,8 @@ td.booking-line {
 
 div#cover.image {
 	text-align: center;
+    /*background-color: #dfdfdf !important;*/
+
 }
 
 img.img-cart-line {

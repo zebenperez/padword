@@ -1,5 +1,6 @@
 {% load i18n bookings_tag common_tag padword_tags static%}
 
+{%comment%}
 <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -7,15 +8,26 @@
 <link rel="stylesheet" href="{% static 'css/menu2.css' %}" >
 <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+{%endcomment%}
+<link rel="stylesheet" href="{% static 'css/menu2.css' %}" >
 
-    {% if category.parent %}
-        <div class="row back-button d-flex justify-content-end mb-2">
-            <div class="col-lg-2 col-4">
-                <button type="button" class="btn btn-back w-100 ark text-right" data-url="{% url "show-category-menu" %}" data-target="main" data-cat_id="{{category.parent.uuid}}"><i class="fas fa-chevron-circle-left"></i> {% trans "Back" %}</button>
-            </div>
-        </div>
-    {% endif %}
 
+{% if category.parent %}
+    <div class="row back-button d-flex justify-content-end mb-2"> <div class="col-lg-2 col-4">
+        <button type="button" class="btn btn-back w-100 ark text-right" data-url="{% url "show-category-menu" %}" data-target="main" 
+            data-cat_id="{{category.parent.uuid}}"><i class="fas fa-chevron-circle-left"></i> {% trans "Back" %}</button>
+    </div> </div>
+{% endif %}
+
+{% if form.show_desc %} <div class="col-lg-6 offset-lg-3 col-12 card info-panel p-4">{% padword_translate form.desc %}</div> {% endif %}
+
+<div class="col-10 offset-1 fixed-head p-2">
+    <div class="item1">{% padword_translate form.name %} &nbsp;</div> 
+    <div class="item2 text-right">(<span id="span-total-items">{{items.count}}</span> art.&nbsp;&nbsp;&nbsp; 
+        <span id="span-total-price">{{fi.get_total|stringformat:".2f"}}</span> &euro;)</div>
+    <a class="btn btn-light-pad small ark mb-1 p-1" data-url="{% url 'view-shopping-cart'  %}" 
+        data-target-modal="common-modal" data-form_id="{{fi.pk}}"> <i class="fas fa-shopping-cart"></i> {% trans '' %}</a>
+</div>
 
 <div class="row d-flex justify-content-center mt-1 ">
     {% if category.get_items|length > 0 %}
@@ -44,6 +56,7 @@
                                     <h5 class="card-title text-dark text-center">{% padword_translate item.name %}</h5>
                                     <h4 class="card-title text-dark text-center">{{ item.price}} &euro; </h4>
                                     <p class="card-text text-secondary">{% padword_translate item.description %}</p>
+                                    {% include "bookings/show-item-btn.html" %}
                                 </div>
                                 <div class="card-footer">
                                     <div class="row">
@@ -132,3 +145,22 @@
 
 {% endfor %}
 <div class="d-none" id="for-scripts"> </div>
+
+<div class="col-12">
+    <div class="row mt-4 mb-4 d-flex justify-content-center">
+        <div class="col-lg-3 col-md-4 col-xs-2 offset-xs-1 actions text-center mb-3">
+            {% if form.form_type.code == "ecom" %}
+                <button class="btn btn-primary-pad ark w-100" data-url="{% url 'view-shopping-cart' %}" 
+                    data-target-modal="common-modal" data-form_id="{{fi.pk}}"> {% trans 'Continue' %}</button>
+            {% else %}
+                <button class="btn btn-primary-pad w-100 ark" data-url="{% url "booking-send" %}" 
+                    data-target="div-main" data-obj_id="{{fi.id}}"> {% trans "Send Order" %}</button>
+            {% endif %}
+        </div>
+        <div class="col-lg-3 offset-lg-1 col-md-4 offset-md-1 col-xs-2 offset-xs-1 actions text-center">
+            <button class="btn btn-danger-pad w-100 ark" data-url="{% url "booking-remove" %}"
+                data-target="div-main" data-obj_id="{{fi.id}}"> {% trans "Cancel Order" %}</button>
+        </div>
+    </div>
+</div>
+

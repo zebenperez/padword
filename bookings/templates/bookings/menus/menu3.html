@@ -15,6 +15,19 @@
 
 <div class="row p-0">
     {% for item in category.get_childrens %}
+        <div class="container-test col-lg-3 col-6 box-cat mb-1 pointer">
+            <div class="card mb-1 ark" data-url="{% url "show-category-menu" %}" data-target="main" data-cat_id="{{item.uuid}}">
+                <div class="image" id="cover"> <img width="100%" src="{% if item.image %}{{item.image.url}} {%else%} {% static 'img/none.png' %}{%endif%}" 
+                    class="object-fit_cover" alt="{% padword_translate item.name %}"> </div>
+                   <div class="overlay"><strong>{% padword_translate item.name %}</strong></div>
+            </div>
+        </div>
+    {% endfor %}
+</div>
+
+{% comment %}
+<div class="row p-0">
+    {% for item in category.get_childrens %}
         <div class="col-lg-3 col-4 box-cat mb-1 pointer">
             <div class="card mb-1 ark" data-url="{% url "show-category-menu" %}" data-target="main" data-cat_id="{{item.uuid}}">
                 <div class="image" id="cover"> <img width="100%" src="{% if item.image %}{{item.image.url}} {%else%} {% static 'img/none.png' %}{%endif%}" 
@@ -28,6 +41,7 @@
     {% endfor %}
 </div>
 
+{% endcomment %}
 
 {% for item in category.get_items %}
     <div class="col-4 justify-content-center grid-child-categories">

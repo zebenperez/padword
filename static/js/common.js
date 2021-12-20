@@ -12,7 +12,8 @@ function ajaxGet(url, datas, target, modal_target)
             if (modal_target != "")
             {
                 $('#'+modal_target+"-body").html(data);
-                $('#'+modal_target).modal('show');
+                //$('#'+modal_target).modal('show');
+                $('#'+modal_target).show();
             }
             else
                 if (target != "")
@@ -37,7 +38,8 @@ function ajaxGetAppend(url, datas, target, modal_target)
             if (modal_target != "")
             {
                 $('#'+modal_target+"-body").append(data);
-                $('#'+modal_target).modal('show');
+                //$('#'+modal_target).modal('show');
+                $('#'+modal_target).show();
             }
             else
                 if (target != "")

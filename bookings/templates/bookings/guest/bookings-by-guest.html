@@ -5,7 +5,8 @@
 
     <div class="row back-button d-flex justify-content-end mb-2">
         <div class="col-lg-2 col-4">
-            <button type="button" class="btn btn-back w-100 ark text-right" data-url="" data-target="main" data-cat_id="{{category.parent.uuid}}"><i class="fas fa-chevron-circle-left"></i> {% trans "Back" %}</button>
+            <button type="button" class="btn btn-back w-100 ark text-right" data-url="{% url "show-category-menu" %}" data-target="main" data-cat_id="{{cat_uuid}}">
+                <i class="fas fa-chevron-circle-left"></i> {% trans "Back" %}</button>
         </div>
     </div>
 
