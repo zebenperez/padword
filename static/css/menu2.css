@@ -3,6 +3,11 @@
 	/* Carta 2 style */
 /*******************************/
 
+    img.object-fit_cover {
+        height: 500px;
+        border:1px solid red !important;
+    }
+
 
 .cat-title-head {
 	border-bottom: 1px solid #d8e3ed !important;
