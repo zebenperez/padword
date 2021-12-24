@@ -67,16 +67,17 @@ class Answer(models.Model):
 		ordering = ['id']
 
 class FormType(models.Model):
-	code = models.CharField(max_length=10, verbose_name=_("Code"), default="")
-	name = models.CharField(max_length=200, verbose_name=_("Name"))
-	template = models.CharField(max_length=200, verbose_name=_("Template"), default="", blank=True)
+    order = models.BooleanField(default=False, verbose_name="Order")
+    code = models.CharField(max_length=10, verbose_name=_("Code"), default="")
+    name = models.CharField(max_length=200, verbose_name=_("Name"))
+    template = models.CharField(max_length=200, verbose_name=_("Template"), default="", blank=True)
 
-	def __str__(self):
-		return self.name
+    def __str__(self):
+        return self.name
 
-	class Meta:
-		verbose_name = _('Form type')
-		verbose_name_plural = _('Forms type')
+    class Meta:
+        verbose_name = _('Form type')
+        verbose_name_plural = _('Forms type')
 
 def upload_form_image(instance, filename):
     ascii_filename = str(filename.encode('ascii', 'ignore'))

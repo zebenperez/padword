@@ -5,13 +5,13 @@
 	<div id="div-main" class="welcome-page">
 	    <div class="row">
               <div class="welcome-inner col-12 justify-content-center menu">
-                <h3> {% trans "Welcome" %}</h3>
+                <h3> {% trans "Welcome" %} </h3>
                 {#<h4> {% trans "to Lani's Booking Center" %}<h4>#}
                 {% if cat.name != "" %}<h4> {% padword_translate cat.name %} <h4> {% endif %}
                 {% if cat.description != "" %}<h5> {% padword_translate cat.description %} <h5> {% endif %}
                 {% if project_uuid %}
                     <button class="me-1 btn btn-access ark" data-url="{{next_url}}" data-target="div-main" data-project_uuid="{{project_uuid}}"
-                        data-category_uuid="{{cat.uuid}}" onclick="javascript:toggleFullScreen();">{%trans "Access"%}</button>
+                                                            data-lang="{{lang}}" data-category_uuid="{{cat.uuid}}" onclick="javascript:toggleFullScreen();">{%trans "Access"%}</button>
                 {% else %}
                     {% if next_url == "booking-new" %}
                         <button class="me-1 btn btn-access ark" data-url="{% url next_url form_uuid %}" data-target="div-main" 

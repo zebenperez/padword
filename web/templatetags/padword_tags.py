@@ -102,14 +102,36 @@ def padword_translate(context, json_str):
     except:
         try:
             json_dict = json.loads(json_str)
-            return json_dict[list(json_dict.keys())[0]]
+            return mark_safe(json_dict[list(json_dict.keys())[0]])
         except Exception as e:
             try:
                 json_dict = json.loads(json_str)
                 keys = json_dict.keys()
-                return json_dict[keys[0]]
+                return mark_safe(json_dict[keys[0]])
             except Exception as e:
-                return json_str
+                return mark_safe(json_str)
+
+@register.simple_tag(takes_context=True)
+def padword_translate_short(context, json_str, chars):
+    val = ""
+    try:
+        request = context['request']
+        lang = request.GET['lang'] if 'lang' in request.GET else request.LANGUAGE_CODE
+        lang = lang.split('-')[0]
+        json_dict = json.loads(json_str)
+        val = json_dict[lang.upper()]
+    except:
+        try:
+            json_dict = json.loads(json_str)
+            val = json_dict[list(json_dict.keys())[0]]
+        except Exception as e:
+            try:
+                json_dict = json.loads(json_str)
+                keys = json_dict.keys()
+                val = json_dict[keys[0]]
+            except Exception as e:
+                val = json_str
+    return mark_safe("{}...".format(val[:chars])) if len(val) > chars else val
 
 @register.simple_tag(takes_context=True)
 def padword_translate_obj(context, obj_id):

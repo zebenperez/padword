@@ -9,7 +9,7 @@
 {% endif %}
 
 
-<div class="div-info col-lg-8 offset-lg-2 col-10 offset-1 card info-panel p-4">
+<div class="div-info col-12 card info-panel p-4">
     {% for f in q.field_set.all %}
 		<div class="item mb-1">
 			<div class="item-left mb-3">{% if q.field_set.all|length > 0 %} <br/> {{f}} <br/> {% endif %} </div>

@@ -2,7 +2,7 @@
 
 {% for q in item_list %}
     <div class="panel panel-info">
-        <div class="panel-heading mt-4" style="color:white;border:1px solid red; display:none;"> {{q.text}} <span id="autosave-alert-{{q.id}}"></span></div> 
+        <div class="panel-heading mt-4" style="color:white;display:none;"> {{q.text}} <span id="autosave-alert-{{q.id}}"></span></div> 
         
         <div class="panel-body sh-panel-body collapse show" id="question_{{q.id}}">
             {# Preguntas generales #}

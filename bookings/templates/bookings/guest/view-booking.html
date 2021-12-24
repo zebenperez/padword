@@ -2,62 +2,73 @@
 {% load i18n bookings_tag common_tag padword_tags %}
 
 {% block central_content %}
-<div id="mask"> &nbsp; </div>
+<div class="row back-button d-flex justify-content-end mb-2"> <div class="col-lg-2 col-4">
+    <button class="btn btn-back w-100 ark text-right" data-url="{% url "my-bookings" %}" data-target="main" 
+        data-project_uuid="{{project_uuid}}" data-cat_id="{{form.category}}"><i class="fas fa-chevron-circle-left"></i> {% trans "Back" %}</button>
+</div> </div>
 
-<div class="main-content-booking container-fluid">
-	<div class="col-8 offset-2 {% if fi.form.image %} div-transp {% else %}div-transp-0 {% endif %} p-4">
-	
-        <div class="row bloque mt-1">
-            <div id="main" class="col-lg-10 offset-lg-1 col-md-10 offset-md-1 col-xs-12">
-                {% for b in fi.get_public_blocks %}
-                    <div class="" id="div-block">
-                        {% for q in b.get_first_level_questions %}
-                            {# Preguntas generales #}
-                            {% if q.question_type.code == "general" %}
-                                <div class="div-info">
-                                    {% for f in q.field_set.all %}
-                                        <div class="item mb-1">
-                                            <div class="item-left">
-                                                <strong> {% if q.field_set.all|length > 0 %} <br/> {{f}} <br/> {% endif %} </strong>
+<div class="col-10 card info-panel p-4" style="width: 96%; margin-left:2%;">
+    <div class="content">
+ 
+        {% if "ecom" in fi.form.form_type.code %}
+            {% include "bookings/guest/view-booking-ecom.html" %}
+        {% elif "general" in fi.form.form_type.code %}
+        <div id="mask"> &nbsp; </div>
+
+            <div class="row">
+                <div id="main" class="info-panel " style="background: white;">
+                    {% for b in fi.get_public_blocks %}
+                        <div class="" id="div-block">
+                            {% for q in b.get_first_level_questions %}
+                                {# Preguntas generales #}
+                                {% if q.question_type.code == "general" %}
+                                    <div class="div-info">
+                                        {% for f in q.field_set.all %}
+                                            <div class="item mb-1">
+                                                <div class="btn-dark pb-3">
+                                                    <strong> {% if q.field_set.all|length > 0 %} <br/> {{f}} <br/> {% endif %} </strong>
+                                                </div>
+                                                <div class="td_{{q.id}}_{{index}}"> {% field_value fi q f index %} </div>
                                             </div>
-                                            <div class="item-right td_{{q.id}}_{{index}}"> {% field_value fi q f index %} </div>
-                                        </div>
-                                    {% endfor %}
-                                </div>
-
-                            {# Preguntas con formato de tabla #}
-                            {% elif q.question_type.code == "table" %}
-                                <div class="div-info-tb mt-4">
-                                    <table class="table mt-4" id="table_{{q.id}}" width="100%">
-                                        <thead> <tr>
-                                            {% for f in q.field_set.all %} <td class="sh-td item-left">{{f.text}}</td> {% endfor %} 
-                                        </tr> </thead>
-                                        <tbody> 
-                                            {% for index in q|get_indexes:fi%} 
-                                                <tr id="tr-{{q.id}}-{{index}}">
-                                                    {% for f in q.field_set.all %}
-                                                        <td class="td_{{q.id}}_{{index}}"> {% field_value fi q f index %} </td>
-                                                    {% endfor %}
-                                                </tr>
-                                            {% endfor %} 
-                                        </tbody>
-                                    </table>
-                                </div>
-                            {% endif %}
-                        {% endfor %}
-                    </div> 
-                {% endfor %}
+                                        {% endfor %}
+                                    </div>
+                                    {# Preguntas con formato de tabla #}
+                                {% elif q.question_type.code == "table" %}
+                                    <div class="div-info-tb mt-4">
+                                        <table class="table mt-4" id="table_{{q.id}}" width="100%">
+                                            <thead> <tr>
+                                                {% for f in q.field_set.all %} <td class="sh-td item-left">{{f.text}}</td> {% endfor %} 
+                                            </tr> </thead>
+                                            <tbody> 
+                                                {% for index in q|get_indexes:fi%} 
+                                                    <tr id="tr-{{q.id}}-{{index}}">
+                                                        {% for f in q.field_set.all %}
+                                                            <td class="td_{{q.id}}_{{index}}"> {% field_value fi q f index %} </td>
+                                                        {% endfor %}
+                                                    </tr>
+                                                {% endfor %} 
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                {% endif %}
+                            {% endfor %}
+                        </div> 
+                    {% endfor %}
+                    {% comment %}
+                    <div class="row mt-4 mb-4 d-flex justify-content-center">
+                        <div class="col-10 actions text-center">
+     	                    <button class="btn btn-marine w-100 ark" data-url="{% url "my-bookings" %}" 
+                                data-target="div-main" data-project_uuid="{{project_uuid}}">{% trans "Close" %}</button>
+                        </div>
+                    </div>
+                    {% endcomment %}
+                </div>
             </div>
         </div>
-
-        <div class="row mt-4 mb-4 d-flex justify-content-center ">
-            <div class="actions text-center">
-	<button class="btn btn-info-pad ark" data-url="{% url "my-bookings" %}" 
-                    data-target="div-main" data-project_uuid="{{project_uuid}}">{% trans "Close" %}</button>
-            </div>
-        </div>
+        {% endif %}
     </div>
 </div>
+
 {% if fi.form.image %} <script>$('body').css('background-image', 'url("{{fi.form.image.url}}")');</script> {% endif %}
 {% endblock %}
 

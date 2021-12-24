@@ -12,21 +12,24 @@
                 <div class="row">
                     <div class="col-9"> <h5 class="card-title text-dark">{% padword_translate item.name %}</h5> </div>
                     <div class="col-3"> <h4 class="card-title text-dark text-right">{{ item.price}} &euro; </h4> </div>
-                    <div class="col-12"> <p class="card-text text-secondary"><small>{% padword_translate item.description %}</small></p> </div>
+                    <div class="col-12"> <h5 class="card-title text-dark"><small>{% padword_translate_short item.description 100 %}</small></h5> </div>
                 </div>
             </div>
             <div class="card-footer">
-                <div class="text-center">
+                <div class="row">
+                    <div class="col-6">
                     {% if item.uuid != value %}
-                        <a class="btn btn-unselect-pad ark" data-url="{% url "select-item" %}" data-target="div-items-shop-{{answer_name}}" 
+                        <a class="btn btn-unselect-pad w-100 ark" data-url="{% url "select-item" %}" data-target="div-items-shop-{{answer_name}}" 
                             data-fi="{{fi_id}}" data-question="{{q_id}}" data-field="{{f.id}}" data-index="{{index}}" data-value="{{item.uuid}}"
                             onclick=""> 
                             {% trans "Select" %}</a>
                     {% else %}
-                        <a class="btn btn-select-pad ark" data-url="{% url "select-item" %}" data-target="div-items-shop-{{answer_name}}" 
+                        <a class="btn btn-select-pad w-100 ark" data-url="{% url "select-item" %}" data-target="div-items-shop-{{answer_name}}" 
                             data-fi="{{fi_id}}" data-question="{{q_id}}" data-field="{{f.id}}" data-index="{{index}}" data-value=""> 
                             {% trans "Unselect" %}</a>
                     {% endif %}
+                    </div>
+                    <div class="col-6 text-right"> {% include "bookings/show-item-btn.html" %} </div>
                 </div>
             </div>
         </div>

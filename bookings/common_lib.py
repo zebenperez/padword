@@ -12,9 +12,11 @@ logger = logging.getLogger(__name__)
 '''
     Form functions
 '''
-def get_or_create_form_instance(form_uuid, guest_uuid):
-    fi, created = FormInstance.objects.get_or_create(form_uuid=form_uuid, guest_uuid=guest_uuid, status__isnull=True)
-    return fi
+def get_or_create_form_instance(form, guest_uuid):
+    if form.form_type.order:
+        fi, created = FormInstance.objects.get_or_create(form_uuid=form.uuid, guest_uuid=guest_uuid, status__isnull=True)
+        return fi
+    return None
 
 def get_or_create_answer_instance(fi, q, f, index):
     ai, created = AnswerInstance.objects.get_or_create(form_instance=fi, question=q, field=f, index=index)

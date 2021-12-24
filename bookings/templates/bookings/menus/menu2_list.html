@@ -9,18 +9,9 @@
 <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
-{% if category.parent %}
-    <div class="row back-button d-flex justify-content-end mb-2"> <div class="col-12 text-right"> {% include "bookings/back-btn.html" %} </div> </div>
-{% endif %}
-
-{% if form.show_desc %} <div class="col-12 card info-panel p-4">{% padword_translate form.desc %}</div> {% endif %}
-
-<div class="card slider-cart_ p-4"> {% include "bookings/menus/menu2_list.html" %} </div>
-
-{% comment %}
 <div class="row d-flex justify-content-center mt-1">
     {% if category.get_items|length > 0 %}
-		<div class="container p-3"> <div class="row blog"> <div class="col-md-12">
+		<div class="container"> <div class="row blog"> <div class="col-12">
             <div id="blogCarousel-{{category.id}}" class="carousel slide" data-ride="carousel">
                 
 		<!-- Carousel controls -->
@@ -35,7 +26,7 @@
                         {% if forloop.counter0|divisibleby:4 %}
                             <div class="carousel-item {%if forloop.counter0 == 0%}active{%endif%}"><div class="row slider-row">
                         {% endif %}
-                        <div class="col-md-3 justify-content-center">
+                        <div class="col-md-3 justify-content-center zoom">
                             <div class="card w-100 mb-3">
                                 <div class="image" id="cover"> 
                                     <img src="{% if item.image %} {{item.image.url}} {%else%} {% static 'img/none.png' %}{%endif%}" 
@@ -69,9 +60,11 @@
                 {% endif %}
 			</div>
 		    <a class="btn pl-2 w-100 cat-title text-left" onclick="$('.div-shopping-cart-{{children.pk}}').toggle();"> 
+                <i class="fas fa-angle-up div-shopping-cart-{{children.pk}}" style="float:right;"></i>
+                <i class="fas fa-angle-down div-shopping-cart-{{children.pk}}" style="float:right;display:none" ></i>
                 {% padword_translate children.name%} </a>
         </div>
-		<div id="div-shopping-cart-{{children.pk}}" class="div-shopping-cart-{{children.pk}}" style=""></div>
+		<div id="div-shopping-cart-{{children.pk}}" class="div-shopping-cart-{{children.pk}}"></div>
 	</div>
     <script>
         {% if fi %}
@@ -83,7 +76,5 @@
         {% endif %}
     </script>
 {% endfor %}
-<div class="d-none" id="for-scripts"> </div>
-{% endcomment %}
 
 

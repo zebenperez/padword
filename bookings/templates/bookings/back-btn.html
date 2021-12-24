@@ -1,0 +1,4 @@
+{% load i18n %}
+
+<button type="button" class="btn btn-back ark" data-url="{% url "show-category-menu" %}" data-target="main" data-cat_id="{{category.parent.uuid}}">
+    <i class="fas fa-chevron-circle-left"></i> {% trans "Back" %}</button>

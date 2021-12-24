@@ -9,14 +9,22 @@ img {
 .div-top {
     background: #fff !important;
     border-bottom: 1px solid #333;
-    position: sticky;
-    top: 0;
+    position: sticky !important;
+    top: 0 !important;
+    z-index: 1;
     justify-content: left !important;
     max-height: 100px;
 }
 .div-top img {
-   /* max-height: 100px;*/
+    max-height: 100px;
     object-fit: cover;
+}
+button.btn.btn-header-pwa.ark { margin-top: 25px;}
+button.btn.btn-header-pwa.ark span { color: #3c385c !important;}
+
+i.fas.fa-home, i.far.fa-calendar, i.fas.fa-sign-in-alt { 
+    color: #3c385c !important; 
+    font-size: 1.2rem;
 }
 
 .row.bloque.mt-3 {
@@ -41,9 +49,11 @@ img {
 }
 .card-body {
      padding: 0px 10px 0px 10px !important;
+     border:1px solid blue !important;
 }
+
 img.object-fit_cover {
-/*    height: 150px;*/
+    height: 150px;
 }
 .back-button {
     text-align: right;
@@ -98,7 +108,6 @@ div.card-title {
 .info-panel {
     border:1px solid white;
     color: #777;
-    text-align: justify;
 }
 .info-panel img {
 /*    width: 100%;
@@ -149,7 +158,7 @@ div.card-title {
 .container-test {
     position: relative;
     width: 50%;
-    opacity: 0.8;
+    opacity: 0.9;
 }
 
 .image {/*
@@ -168,23 +177,49 @@ div.card-title {
     width: 100%;
     opacity: 0.7;
     transition: .5s ease;
-    background-color: #e4d9d1;
+    background-color: #3c385c;
+    padding-top: 60px;
+    color: white;
+    font-weight:600;
+}
+
+.overlay span {
+    border:2px solid #e4d9d1 ;
+    padding: 15px;
+    border-radius: 5px;
+    font-weight:600;
 }
 
 .container-test:hover .overlay {
     opacity: 1;
-    color: white;
-    background-color: #000;
+    color: #3c385c;
+    background-color: #e4d9d1;
+    font-size: 20px !important;
+    font-weight:600;
 }
 
 .text {
     color: white;
-    font-size: 20px;
-    position: absolute;
-    top: 50%;
-    left: 50%;
     -webkit-transform: translate(-50%, -50%);
     -ms-transform: translate(-50%, -50%);
     transform: translate(-50%, -50%);
     text-align: center;
 }
+.text:hover {
+    border:1px solid #e4d9d1 ;
+}
+
+
+@media (max-width: 415px) 
+{
+    button.btn.btn-header-pwa.ark { margin-top: 5px;}
+    button.btn.btn-header-pwa.ark span { color: #3c385c !important;font-size: 0.8rem;}
+
+    i.fas.fa-home, i.far.fa-calendar, i.fas.fa-sign-in-alt { 
+        color: #3c385c !important; 
+        font-size: 1.2rem;
+    }
+
+.item1 { font-size: 18px !important; line-height: 35px !important; }	
+}
+

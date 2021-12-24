@@ -15,7 +15,7 @@
         <script src="https://code.jquery.com/jquery-3.5.1.js" ></script>
 
         <!-- Shidix -->
-        <link rel="stylesheet" href="{% static 'pwa/css/styles_guest.css' %}" >
+        <link rel="stylesheet" href="{% static '/pwa/css/styles_guest.css' %}" >
         <script src="{% static "js/common.js" %}"></script>
         <script src="{% static "bookings/js/bookings_forms.js" %}"></script>
 
@@ -27,7 +27,7 @@
 	<div class="row div-top w-100 p-0 m-0">
 		<div class="col-5"><img src="/static/img/logo-lanis.png"></div>
 		<div class="col-5">
-			<button class="btn btn-info-pwa ark" data-url="{% url 'my-bookings' project_uuid %}" data-target="pwa-content"><i class="fas fa-suitcase"></i> <br />{% trans 'My bookings' %}</button>
+			<button class="btn btn-header-pwa ark" data-url="{% url 'my-bookings' project_uuid %}" data-target="pwa-content"><i class="fas fa-suitcase"></i> <br />{% trans 'My booking' %}</button>
 		</div>
 		<div class="col-2 login"><i class="fas fa-sign-in-alt"></i> <br /> {% trans 'Login' %}</div>
 	</div>

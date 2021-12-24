@@ -1,5 +1,9 @@
 {% load i18n bookings_tag common_tag padword_tags static%}
 
+{% if category.parent %}
+    <div class="row back-button d-flex justify-content-end mb-2"> <div class="col-12"> {% include "bookings/back-btn.html" %} </div> </div>
+{% endif %}
+
 <div class="row d-flex justify-content-center mt-1 ">
     {% for item in category.get_items %}
         <div class="col-lg-2 col-md-3 col-xs-12 justify-content-center">
@@ -33,9 +37,11 @@
 
     <script>
         {% if fi %}
-            {% ark 'show-category-menu' 'div-shopping-cart-'|addstr:children.pk form_id=fi.pk cat_id=children.uuid %}
+            {#{% ark 'show-category-menu' 'div-shopping-cart-'|addstr:children.pk form_id=fi.pk cat_id=children.uuid %}#}
+            {% ark 'show-category-menu' 'div-shopping-cart-'|addstr:children.pk cat_id=children.uuid %}
         {% else %}
-            {% ark 'show-category-menu' 'div-shopping-cart-'|addstr:children.pk form_id=0 cat_id=children.uuid %}
+            {#{% ark 'show-category-menu' 'div-shopping-cart-'|addstr:children.pk form_id=0 cat_id=children.uuid %}#}
+            {% ark 'show-category-menu' 'div-shopping-cart-'|addstr:children.pk cat_id=children.uuid %}
         {% endif %}
     </script>
 {% endfor %}

@@ -1,9 +1,12 @@
-{% load i18n %}
+{% load i18n padword_tags static %}
+
 <div class="row">
-	<div class="popup-messages col-8 offset-2">
+	<div class="col-8 offset-2 info-panel-msg">
+        {%comment%}
 		<div class="close-right m-3">	
 				<button class="btn btn-outline-danger save ark" data-url="{% url 'close-spa' %}" data-target-modal="common-modal" data-bs-dismiss="modal" onclick="closeWin('#div-close')"> <i class="fas fa-times"></i> </button>
 		</div>
+        {%endcomment%}
 		<div class="row">	
 			<div class="col-12 text-center mt-3 mb-3 pt-3">
 				{% if msg == "01" %}
@@ -17,8 +20,8 @@
 		<div class="row">
 			<div class="col-12 text-grey text-center mt-3 mb-3">
 				{% trans "If you want to check your bookings, click on" %}: <br />
-				<button class="btn btn-primary-pad mt-3 ark" data-url="{% url "my-bookings" %}"
-					data-target="div-main" data-project_uuid="{{project_uuid}}">{% trans "My bookings" %}</button>
+				<button class="btn btn-marine w-100 mt-3 ark" data-url="{% url "my-bookings" %}"
+					data-target="main" data-project_uuid="{{project_uuid}}">{% trans "My bookings" %}</button>
 				{#<button class="ning text-white mt-3" onclick="window.history.back();">{% trans "Back" %}</button>#}
 			</div>
 		</div>

@@ -1,95 +1,104 @@
 {% load i18n bookings_tag common_tag padword_tags static %}
 
-
 {%block extralinks%}
-<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-<link rel="stylesheet" href="{% static 'css/menu_villa.css' %}" >
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <link rel="stylesheet" href="{% static 'css/menu_villa.css' %}" >
 {% endblock %}
 	
-    <div class="row languages">
-        <div class="col-lg-1 offset-lg-4 col-2 offset-2"><a href="#"><img class="btn btn-secondary p-2" src="/static/img/de.png"></a></div>
-        <div class="col-lg-1 col-2"><a href="#"><img class="btn btn-secondary p-2" src="/static/img/es.png"></a></div>
-        <div class="col-lg-1 col-2"><a href="#"><img class="btn btn-secondary p-2" src="/static/img/fr.png"></a></div>
-        <div class="col-lg-1 col-2"><a href="#"><img class="btn btn-secondary p-2" src="/static/img/en.png"></a></div>
-	</div>
+<div class="row languages">
+    <div class="col-lg-1 offset-lg-4 col-2 offset-2">
+        <a href="{% url "guest-access-pwa" "34f8144d-bd8f-e180-5cd1-1680513396d3" "de" %}" target="_blank">
+            <img class="btn btn-secondary p-2" src="/static/img/de.png"></a></div>
+    <div class="col-lg-1 col-2">
+        <a href="{% url "guest-access-pwa" "34f8144d-bd8f-e180-5cd1-1680513396d3" "es" %}" target="_blank">
+            <img class="btn btn-secondary p-2" src="/static/img/es.png"></a></div>
+    <div class="col-lg-1 col-2">
+        <a href="{% url "guest-access-pwa" "34f8144d-bd8f-e180-5cd1-1680513396d3" "fr" %}" target="_blank">
+            <img class="btn btn-secondary p-2" src="/static/img/fr.png"></a></div>
+    <div class="col-lg-1 col-2">
+        <a href="{% url "guest-access-pwa" "34f8144d-bd8f-e180-5cd1-1680513396d3" "en" %}" target="_blank">
+            <img class="btn btn-secondary p-2" src="/static/img/en.png">
+        </a>
+    </div>
+</div>
 
-    <div class="row div-slogan">
-        <div class="col-12 text-center"> <div class="slogan"> Escucha el silencio <br /><span>Detén el tiempo en Villa María</span></div> </div>
-  	</div>
+<div class="row div-slogan">
+    <div class="col-12 text-center"> <div class="slogan"> Escucha el silencio <br /><span>Detén el tiempo en Villa María</span></div> </div>
+</div>
 
-	<div class="row div-boxes">
-        <div class="col-lg-4 col-6">
-            <div class="i-love-btn">
-                <a href="https://www.hotelsuitevillamaria.es/promociones/?utm_source=padword&utm_medium=button&utm_campaign=padword" target="_blank" 
-                    class="btn btn-primary w-100"> <i class="far fa-grin-hearts"></i> 
-                    {% padword_translate_obj 'af153cdf-334d-0f06-f505-8e3ddb2a7162' %}</a>
-            </div>
-		</div>
-        {%comment%}
-        <div class="col-lg-3 col-6">
-            <div class="value-btn"><a href="https://www.hotelsuitevillamaria.es/es/contacto/" class="btn btn-primary w-100 " target="_blank">
-                <i class="far fa-thumbs-up"></i> {% padword_translate_obj 'e7797a43-31fc-df69-dcdf-eef7631964db' %}</a></div>
-		</div>
-        {%endcomment%}
-        <div class="col-lg-4 col-6">
-			<div class="sugest-btn"><a href="https://www.hotelsuitevillamaria.es/es/category/sostenibilidad/" target="_blank" 
-                class="btn btn-secondary w-100 "> <i class="fas fa-leaf"></i> {% padword_translate_obj 'e3332f7c-18c5-127a-5bd5-52c9c75d5d7c' %}</a>
-            </div>
-		</div>
-        <div class="col-lg-4 col-6">
-            <div class="covid19-btn"><a href="https://www.hotelsuitevillamaria.es/es/seguridad/" target="_blank" class="btn btn-outline-danger w-100">
-                    <i class="fas fa-info-circle"></i> {% padword_translate_obj '860c38f1-f584-38a9-1fb2-c01c73edc032' %}</a>
-            </div>
-		</div>
-	</div>
-
-    {% comment %} 
-    <div class="row align-items-end">
-		<div id="div-current-category">
-		   {% for children in category.get_childrens %}
-		      <div id="menu" class="col-lg-3 col-5 tabs mb-1 align-middle justify-content-center">
-		            <button class="menu-options ark" data-url="{% url "show-category-menu" %}" data-target="div-current-category" 
-			    data-cat_id="{{children.uuid}}">{% padword_translate children.name %}</button>
-		      </div>
-		   {% endfor %}
-		</div>
-	</div>
-    {% endcomment %} 
-	 
-    <div class="row menu-tabs align-items-end w-100">
-        <div class="col-4 mb-1 align-middle justify-content-center p2">
-            <div class="tabs">
-                <button class="menu-options ark" data-url="{% url "show-category-menu" %}" data-target="main" 
-                    data-cat_id="2c76e064-0ba0-feb6-13d9-5bc8047ac94c"> {% padword_translate_obj '2c76e064-0ba0-feb6-13d9-5bc8047ac94c'%}</button>
-            </div>
-	    </div> 
-        <div class="col-4 mb-1 align-middle justify-content-center p2">
-            <div class="tabs">
-                <button class="menu-options ark" data-url="{% url "show-category-menu" %}" data-target="main" 
-                    data-cat_id="7ecc8b67-5df7-0478-f421-810f01046968"> {% padword_translate_obj '7ecc8b67-5df7-0478-f421-810f01046968'%}</button>
-            </div>
-	    </div>
-        <div class="col-4 mb-1 align-middle justify-content-center p2">
-            <div class="tabs">
-                <button class="menu-options ark" data-url="{% url "show-category-menu" %}" data-target="main" 
-                    data-cat_id="53a8cca8-8f84-87db-33b7-62b589e78ecd"> {% padword_translate_obj '53a8cca8-8f84-87db-33b7-62b589e78ecd'%}</button>
-            </div>
+<div class="row div-boxes">
+    <div class="col-lg-4 col-6">
+        <div class="i-love-btn">
+            <a href="https://www.hotelsuitevillamaria.es/promociones/?utm_source=padword&utm_medium=button&utm_campaign=padword" target="_blank" 
+                class="btn btn-primary w-100"> <i class="far fa-grin-hearts"></i> 
+                {% padword_translate_obj 'af153cdf-334d-0f06-f505-8e3ddb2a7162' %}</a>
         </div>
     </div>
+    {%comment%}
+    <div class="col-lg-3 col-6">
+        <div class="value-btn"><a href="https://www.hotelsuitevillamaria.es/es/contacto/" class="btn btn-primary w-100 " target="_blank">
+            <i class="far fa-thumbs-up"></i> {% padword_translate_obj 'e7797a43-31fc-df69-dcdf-eef7631964db' %}</a></div>
+    </div>
+    {%endcomment%}
+    <div class="col-lg-4 col-6">
+        <div class="sugest-btn"><a href="https://www.hotelsuitevillamaria.es/es/category/sostenibilidad/" target="_blank" 
+            class="btn btn-secondary w-100 "> <i class="fas fa-leaf"></i> {% padword_translate_obj 'e3332f7c-18c5-127a-5bd5-52c9c75d5d7c' %}</a>
+        </div>
+    </div>
+    <div class="col-lg-4 col-6">
+        <div class="covid19-btn"><a href="https://www.hotelsuitevillamaria.es/es/seguridad/" target="_blank" class="btn btn-outline-danger w-100">
+                <i class="fas fa-info-circle"></i> {% padword_translate_obj '860c38f1-f584-38a9-1fb2-c01c73edc032' %}</a>
+        </div>
+    </div>
+</div>
 
-    <div class="row menu-botton pt-2">
-		<div class="col-lg-2 offset-lg-2 col-3" style="padding:0;">
-            <div class=""><a href="#"><i class="fas fa-wifi"></i><span> Conéctate</a></span></div>
-		</div>
-		<div class="col-lg-2 col-3" style="padding:0;">
-			<div class=""><a href="#"><i class="far fa-comment-dots"></i><span> Recepción</a></span></div>
-		</div>
-		<div class="col-lg-2 col-3" style="padding:0;">
-			<div class=""><a href="#"><i class="far fa-star"></i> <span>Sugerencias</a></span></div>
-		</div>
-    	<div class="col-lg-2 col-3" style="padding:0;">
-			<div class=""><a href="#"><i class="fas fa-concierge-bell"></i><span> Más Servicios</a></span></div>
-		</div>
-	</div>
+{% comment %} 
+<div class="row align-items-end">
+    <div id="div-current-category">
+       {% for children in category.get_childrens %}
+          <div id="menu" class="col-lg-3 col-5 tabs mb-1 align-middle justify-content-center">
+                <button class="menu-options ark" data-url="{% url "show-category-menu" %}" data-target="div-current-category" 
+            data-cat_id="{{children.uuid}}">{% padword_translate children.name %}</button>
+          </div>
+       {% endfor %}
+    </div>
+</div>
+{% endcomment %} 
+ 
+<div class="row menu-tabs align-items-end w-100">
+    <div class="col-4 mb-1 align-middle justify-content-center p2">
+        <div class="tabs">
+            <button class="menu-options ark" data-url="{% url "show-category-menu" %}" data-target="main" 
+                data-cat_id="2c76e064-0ba0-feb6-13d9-5bc8047ac94c"> {% padword_translate_obj '2c76e064-0ba0-feb6-13d9-5bc8047ac94c'%}</button>
+        </div>
+    </div> 
+    <div class="col-4 mb-1 align-middle justify-content-center p2">
+        <div class="tabs">
+            <button class="menu-options ark" data-url="{% url "show-category-menu" %}" data-target="main" 
+                data-cat_id="7ecc8b67-5df7-0478-f421-810f01046968"> {% padword_translate_obj '7ecc8b67-5df7-0478-f421-810f01046968'%}</button>
+        </div>
+    </div>
+    <div class="col-4 mb-1 align-middle justify-content-center p2">
+        <div class="tabs">
+            <button class="menu-options ark" data-url="{% url "show-category-menu" %}" data-target="main" 
+                data-cat_id="53a8cca8-8f84-87db-33b7-62b589e78ecd"> {% padword_translate_obj '53a8cca8-8f84-87db-33b7-62b589e78ecd'%}</button>
+        </div>
+    </div>
+</div>
+
+<div class="row menu-botton pt-2">
+    <div class="col-lg-2 offset-lg-2 col-3" style="padding:0;">
+        <div class=""><a href="#"><i class="fas fa-wifi"></i><span> Conéctate</a></span></div>
+    </div>
+    <div class="col-lg-2 col-3" style="padding:0;">
+        <div class=""><a href="#"><i class="far fa-comment-dots"></i><span> Recepción</a></span></div>
+    </div>
+    <div class="col-lg-2 col-3" style="padding:0;">
+        <div class=""><a href="#"><i class="far fa-star"></i> <span>Sugerencias</a></span></div>
+    </div>
+    <div class="col-lg-2 col-3" style="padding:0;">
+        <div class=""><a href="#"><i class="fas fa-concierge-bell"></i><span> Más Servicios</a></span></div>
+    </div>
+</div>
 
 

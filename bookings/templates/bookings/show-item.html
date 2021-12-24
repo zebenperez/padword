@@ -1,26 +1,21 @@
 {% load i18n padword_tags static %}
 
-
 <div class="row">
-    <div class="col-12 d-flex justify-content-end">
-        <button type="button" class="btn btn-sm" data-bs-dismiss="modal"><i class="far fa-times-circle"></i> {% trans "Close" %}</button>
-   </div>
-</div>
-<div class="row mt-3">
    <div class="col-lg-8 col-8 btn-dark pt-2">
         <h5 class="card-title text-left">{% padword_translate item.name %}</h5>
    </div>
-    <div class="col-lg-4 col-4 btn-dark price pt-2" tyle="border:1px solid red">
-        <h4 class="card-title">{{ item.price}} &euro; </h4>
-   </div>
+    <div class="col-lg-4 col-4 btn-dark price pt-1" id="div-total-shopping-cart">{{ item.price}} &euro;  </div>
    <div class="col-lg-4 col-12 p-3 imagen-item">
         <div class="image" id="cover"> <img src="{% if item.image %}{{item.image.url}} {%else%} {% static 'img/none.png' %}{%endif%}" 
             class="object-fit_cover" alt="{% padword_translate item.name %}"> </div>
    </div>
     <div class="col-lg-8 col-12 description-item p-3">
-        <p class="card-text text-secondary">{% padword_translate item.description %}
-        Lorem ipsum es el texto que se usa habitualmente en diseño gráfico en demostraciones de tipografías o de borradores de diseño para probar el diseño visual antes de insertar el texto final. Wikipedia
-        </p>
+        <p class="card-text text-secondary">{% padword_translate item.description %} </p>
+   </div>
+</div>
+<div class="row mt-2">
+    <div class="col-12 d-flex justify-content-end">
+        <button type="button" class="btn btn-marine w-100 ark" data-bs-dismiss="modal">{% trans "Continue" %}</button>
    </div>
 </div>
 

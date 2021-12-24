@@ -176,9 +176,10 @@ a.btn.btn-outline-danger:hover {
 .btn.btn-dark-pad {
     padding: 5px !important; 
     background-color: #022948;
-    color: #fff !importangt;
+    color: #fff !important;
     font-size: 0.8rem;
 }
+
 
 /*********  Booking List Style ***************/
 

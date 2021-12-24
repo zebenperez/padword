@@ -1,53 +1,57 @@
 {% load i18n padword_tags %}
 
+<div class="row back-button d-flex justify-content-end mb-2"> <div class="col-lg-2 col-4">
+    <button type="button" class="btn btn-back w-100 ark text-right" data-url="{% url "show-category-menu" %}" data-target="main" 
+        data-cat_id="{{cat_uuid}}"> <i class="fas fa-chevron-circle-left"></i> {% trans "Back" %}</button>
+</div> </div>
 
-<div class="row">
-
-    <div class="row back-button d-flex justify-content-end mb-2">
-        <div class="col-lg-2 col-4">
-            <button type="button" class="btn btn-back w-100 ark text-right" data-url="{% url "show-category-menu" %}" data-target="main" data-cat_id="{{cat_uuid}}">
-                <i class="fas fa-chevron-circle-left"></i> {% trans "Back" %}</button>
+<div class="col-10 card info-panel p-2" style="width: 96%; margin-left:2%;">
+    <div class="content">
+        <div class="toolbar-content"> <h1 class="ql-align-center">{% trans 'My bookings' %}</h1> </div>
+        <button class="btn btn-sm" onclick="$('.booking-line').show();">{% trans "ALL" %}</button>
+        {% for status in status_list %}
+        <button class="btn btn-sm" onclick="$('.booking-line').hide();$('.status-{{status.pk}}').show();">{% padword_translate status.name %}</button>
+        {% endfor %}
+        <div id="booking-list" class="" style="min-height: 400px;">
+            <div class="">
+                <div class="row booking-head p-2">
+                    <div class="col-lg-2 col-4">{% trans 'Service' %}</div>
+                    <div class="col-lg-2 col-3">{% trans 'Name' %}</div>
+                    <div class="col-2 d-none d-sm-block">{% trans 'Surname' %}</div>
+                    <div class="col-2 d-none d-sm-block">{% trans 'Creation Date' %}</div>
+                    <div class="col-lg-2 col-3">{% trans 'Status' %}</div>
+                    <div class="col-lg-2 col-2"></div>
+                </div>
+                {% for item in items %}
+                <div class="row booking-line pointer pt-3 pb-3 ark status-{{item.status.pk}}" id="row_{{item.id}}"
+                    data-url="{% url "booking-guest-view" %}" data-target="main" data-obj_id="{{item.id}}">
+                    <div class="col-lg-2 col-4"><strong>{% padword_translate item.form.get_category.name %}</strong></div>
+                    <div class="col-lg-2 col-3"><strong>{{item.guest.name}}</strong></div>
+                    <div class="col-2 d-none d-sm-block"><strong>{{item.guest.surname}}</strong></div>
+                    <div class="col-2 d-none d-sm-block"><strong>{{ item.date|date:'Y-m-d H:i' }}</strong></div>
+                    <div class="col-lg-2 col-3"><strong>{% padword_translate item.status.name %}</strong></div>
+                    <div class="col-lg-2 col-2 text-right chevron"><i class="fas fa-chevron-right fa-lg"></i> </div>
+                        {%comment%}
+                        <button class="me-1 btn btn-xs ark" data-url="{% url "booking-guest-view" %}" data-target="div-main" 
+                            data-obj_id="{{item.id}}" title="{%trans "View"%}"><i class="fas fa-chevron-right fa-lg"></i></button>  
+                        {%endcomment%}
+                </div>
+                {% endfor %}
+            </div>
         </div>
     </div>
-
-	<div class="col-10 offset-1 mb-1">
-	<div class="content">
-		<div class="toolbar-content"> <h4 class="success slogan">{% trans 'My bookings' %}</h4> </div>
-		<div id="booking-list" class="card" style="min-height: 400px;">
-			<div class="booking-head p-2">
-				<div class="row">
-					<div class="col-3">{% trans 'Service' %}</div>
-					<div class="col d-none d-lg-block">{% trans 'Name' %}</div>
-					<div class="col d-none d-lg-block">{% trans 'Surname' %}</div>
-					<div class="col-4">{% trans 'Creation Date' %}</div>
-					<div class="col-3">{% trans 'Status' %}</div>
-					<div class="col-1"></div>
-				</div>
-				{% for item in items %}
-				<div class="row booking-line mb-2 pt-3 ark" id="row_{{item.id}}"
-                    data-url="{% url "booking-guest-view" %}" data-target="div-main" data-obj_id="{{item.id}}">
-					<div class="col-3 info-col booking-line"><strong>{% padword_translate item.form.name %}</strong></div>
-					<div class="col info-col booking-line d-none d-lg-block"><strong>{{item.guest.name}}</strong></div>
-					<div class="col info-col booking-line d-none d-lg-block"><strong>{{item.guest.surname}}</strong></div>
-					<div class="col-4 info-col booking-line"><strong>{{ item.date|date:'Y-m-d H:i' }}</strong></div>
-					<div class="col-3 info-col booking-line"><strong>{% padword_translate item.status.name %}</strong></div>
-					<div class="col-1 info-col booking-line"><i class="fas fa-chevron-right fa-lg"></i> </div>
-                        {%comment%}
-		                <button class="me-1 btn btn-xs ark" data-url="{% url "booking-guest-view" %}" data-target="div-main" 
-						    data-obj_id="{{item.id}}" title="{%trans "View"%}"><i class="fas fa-chevron-right fa-lg"></i></button>  
-                        {%endcomment%}
-				</div>
-				{% endfor %}
-			</div>
-		</div>
-	</div>
-	</div>
 </div>
+    {%comment%}
 <div class="row">
 	<div class="col-8 offset-2 text-grey text-center mt-1 mb-3">
-        <button class="btn btn-access mt-3 ark" data-url="{% url 'close-spa' %}" data-target-modal="common-modal" data-bs-dismiss="modal"
-            onclick="closeWin('#div-close')"> {% trans 'Close' %}</button>
+        <button type="button" class="btn btn-marine w-100 ark" data-url="/bookings/shopping/show-category-menu/" data-target="main" data-cat_id="34f8144d-bd8f-e180-5cd1-1680513396d3"> {% trans 'Continue' %}</button>
+    {%endcomment%}
+        {% comment %}
+        <button class="btn btn-marine w-100 mt-3 ark" data-url="{% url 'close-spa' %}" data-target-modal="common-modal" data-bs-dismiss="modal"
+            onclick="closeWin('#div-close')"> {% trans 'Continue' %}</button>
+        {% endcomment %}
+
 		{#<button class="btn btn-warning text-white mt-3" onclick="window.history.back();">{% trans "Close" %}</button>#}
-	</div>
-</div>
-{% include "common-modal.html" %}
+        {#</div>#}
+    {#</div>#}
+{#{% include "common-modal.html" %}#}

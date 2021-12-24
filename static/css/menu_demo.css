@@ -19,9 +19,8 @@ img {
 .div-top {
     background: #fff !important;
     border-bottom: 1px solid #333;
-    position: sticky !important;
-    top: 0 !important;
-    z-index: 1;
+    position: sticky;
+    top: 0;
     justify-content: left !important;
     max-height: 100px;
 }
@@ -31,12 +30,9 @@ img {
 }
 
 button.btn.btn-header-pwa.ark { margin-top: 25px;}
-button.btn.btn-header-pwa.ark span { 
-    color: #3c385c !important;
-    font-size: 0.8rem;
-}
+button.btn.btn-header-pwa.ark span { color: #3c385c !important;}
 
-i.fas.fa-home, i.far.fa-calendar, i.fas.fa-sign-in-alt { 
+i.far.fa-calendar, i.fas.fa-sign-in-alt { 
     color: #3c385c !important; 
     font-size: 1.2rem;
 }
@@ -199,7 +195,7 @@ button.menu-options {
 /*****************************/
 
 .error-page {
-	background-image: url(/static/img/bg-villa.png) !important;
+	/*background-image: url(/static/img/bg-villa.png) !important;*/
 }
 
 .p2 {
@@ -265,7 +261,7 @@ button.menu-options {
     button.btn.btn-header-pwa.ark { margin-top: 5px;}
     button.btn.btn-header-pwa.ark span { color: #3c385c !important;font-size: 0.8rem;}
 
-    i.fas.fa-home, i.far.fa-calendar, i.fas.fa-sign-in-alt { 
+    i.far.fa-calendar, i.fas.fa-sign-in-alt { 
         color: #3c385c !important; 
         font-size: 1.2rem;
     }
