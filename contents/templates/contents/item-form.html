@@ -83,6 +83,9 @@
         <a data-bs-toggle="collapse" href="#collapseAllergen" role="button" aria-expanded="false" aria-controls="collapseAllergen"> 
             {% trans "Allergens" %} </a>
         <div class="collapse" id="collapseAllergen"> <div id="div-allergens-{{obj.id}}">{% show_allergen obj %}</div> </div>
+        <br/>
+        <a data-bs-toggle="collapse" href="#collapseExtra" role="button" aria-expanded="false" aria-controls="collapseExtra">{% trans "Extras" %}</a>
+        <div class="collapse" id="collapseExtra"> <div id="div-extras-{{obj.id}}">{% show_extras obj %}</div> </div>
     </div>
 </div>		
 

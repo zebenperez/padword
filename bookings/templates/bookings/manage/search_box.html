@@ -14,7 +14,8 @@
         <div class="col-md-6 col-xs-12">
             <input type="text" class="autosearch form-control form-control-dark w-30" name="s-project" id="s-project" 
                 placeholder="{% trans "Project name" %}" value="{{project_name}}" data-url="{% url "bookings-search" %}" data-target="booking-list" 
-                data-related="s-page,s-project,s-channel,s-form,s-ini_date,s-end_date,s-name,s-status" {%if request.project_id %}disabled{%endif%}/>
+                data-related="s-page,s-project,s-channel,s-form,s-ini_date,s-end_date,s-name,s-status" 
+                {%if request.project_id or request.category_id%}disabled{%endif%}/>
         </div>
         <div class="col-md-6 col-xs-12 d-none" style="border-bottom:1px solid #ced4da;border-radius:0px !important;">
             <input type="hidden" class="autosearch form-control form-control-dark w-30" name="s-channel" id="s-channel" 
@@ -24,7 +25,8 @@
         <div class="col-md-6 col-xs-12">
             <input type="text" class="autosearch form-control form-control-dark w-30" name="s-form" id="s-form" 
                 placeholder="{% trans "Service name" %}" value="{% padword_translate form_name %}" data-url="{% url "bookings-search" %}" 
-                data-target="booking-list" data-related="s-page,s-project,s-channel,s-form,s-ini_date,s-end_date,s-name,s-status" />
+                data-target="booking-list" data-related="s-page,s-project,s-channel,s-form,s-ini_date,s-end_date,s-name,s-status"
+                {%if request.category_id %}disabled{%endif%}/>
         </div>
         <div class="col-md-6 col-xs-12">
             <input type="text" class="autosearch form-control form-control-dark w-30" name="s-name" id="s-name" 

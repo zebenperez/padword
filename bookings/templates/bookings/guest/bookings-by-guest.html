@@ -8,10 +8,12 @@
 <div class="col-10 card info-panel p-2" style="width: 96%; margin-left:2%;">
     <div class="content">
         <div class="toolbar-content"> <h1 class="ql-align-center">{% trans 'My bookings' %}</h1> </div>
-        <button class="btn btn-sm" onclick="$('.booking-line').show();">{% trans "ALL" %}</button>
-        {% for status in status_list %}
-        <button class="btn btn-sm" onclick="$('.booking-line').hide();$('.status-{{status.pk}}').show();">{% padword_translate status.name %}</button>
-        {% endfor %}
+        <select class="form-control">
+            <option onclick="$('.booking-line').show();">{% trans "ALL" %}</option>
+            {% for status in status_list %}
+                <option onclick="$('.booking-line').hide();$('.status-{{status.pk}}').show();">{% padword_translate status.name %}</option>
+            {% endfor %}
+        </select>
         <div id="booking-list" class="" style="min-height: 400px;">
             <div class="">
                 <div class="row booking-head p-2">
@@ -24,7 +26,7 @@
                 </div>
                 {% for item in items %}
                 <div class="row booking-line pointer pt-3 pb-3 ark status-{{item.status.pk}}" id="row_{{item.id}}"
-                    data-url="{% url "booking-guest-view" %}" data-target="main" data-obj_id="{{item.id}}">
+                    data-url="{% url "booking-guest-view" %}" data-target="main" data-obj_id="{{item.id}}" data-cat_id="{{cat_uuid}}">
                     <div class="col-lg-2 col-4"><strong>{% padword_translate item.form.get_category.name %}</strong></div>
                     <div class="col-lg-2 col-3"><strong>{{item.guest.name}}</strong></div>
                     <div class="col-2 d-none d-sm-block"><strong>{{item.guest.surname}}</strong></div>

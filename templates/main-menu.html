@@ -19,6 +19,9 @@
         <li class="nav-item"><a class="nav-link " href="{% url 'bookings-by-project' project.id %}">
             <i class="fas fa-book"></i>  {% trans "Orders" %}</a> </li>
     {% elif menu == "clients" %}
+    {% elif menu == "categories" %}
+        <li class="nav-item"><a class="nav-link " href="{% url 'bookings-by-category' category.id %}">
+            <i class="fas fa-book"></i>  {% trans "Orders" %}</a> </li>
     {% endif %}
     </ul>
 {% else %}

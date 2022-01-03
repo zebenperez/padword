@@ -1,7 +1,9 @@
+from django.contrib.auth.models import User
+from django.conf import settings
 from django.db import models
 from django.utils.translation import ugettext as _
+
 from padword.commons import show_exc, translate, normalize_str
-from django.conf import settings
 
 from web.models import Channel, Project
 import datetime
@@ -91,9 +93,22 @@ class Category(models.Model):
             return []
 
     @property
+    def get_items_active(self):
+        try:
+            items_in_cat = ItemInCat.objects.filter(category = self).order_by('position')
+            results = []
+            for item in items_in_cat:
+                if item.item.is_active:
+                    results.append(item.item)
+            return results
+        except Exception as e:
+            print (show_exc(e))
+            return []
+
+    @property
     def get_childrens(self):
         try:
-            return Category.objects.filter(parent = self)
+            return Category.objects.filter(parent = self, is_active = True)
         except Exception as e:
             print (showx_exc(e))
             return Category.objects.none()
@@ -252,5 +267,48 @@ class ItemAllergen(models.Model):
     class Meta:
         verbose_name = "Item Alergeno"
         verbose_name_plural = "Item Alergeno"
+
+class ItemExtra(models.Model):
+    name = models.CharField(verbose_name="Nombre", max_length=150, blank=True, null=True, default="")
+    item = models.ForeignKey(Item, on_delete=models.CASCADE, null=True, related_name="extra_list")
+
+    class Meta:
+        verbose_name = "Item Extra"
+        verbose_name_plural = "Item Extra"
+
+class CategoryUser(models.Model):
+    category_uuid = models.CharField(max_length = 255, verbose_name= _('Category UUID'), default='')
+    username = models.CharField(max_length = 255, verbose_name= _('Username'), default='')
+
+    class Meta:
+        verbose_name = _('Category user')
+
+    @property
+    def user(self):
+        try:
+            return User.objects.get(username=self.username)
+        except:
+            return None
+
+    @property
+    def category(self):
+        try:
+            return Category.objects.get(uuid=self.category_uuid)
+        except:
+            return None
+
+    @staticmethod
+    def get_or_create_category_user(category_uuid, email):
+        try:
+            user = User.objects.get(username=email)
+        except:
+            try:
+                categories_group = Group.objects.get(name='categories') 
+                user = User.objects.create_user(email, email=email)
+                categories_group.user_set.add(user)
+            except:
+                return None
+        pu, created = CategoryUser.objects.get_or_create(category_uuid=category_uuid, username=user.username)
+        return user
 
 

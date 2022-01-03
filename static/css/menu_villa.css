@@ -172,7 +172,7 @@ button.menu-options {
 }
 
 .menu-botton a {
-	color: white;
+	color: white !important;
 }
 .menu-botton a:hover {
 	text-decoration: none;
@@ -199,7 +199,13 @@ button.menu-options {
 /*****************************/
 
 .error-page {
-	background-image: url(/static/img/bg-villa.png) !important;
+    background-image: url(/static/img/bg-villa.png) !important;
+}
+.error-content {
+    background-color: white;
+    height: 400px !important;
+    border-radius: 0.25rem;
+	box-shadow: rgba(50, 50, 105, 0.15) 0px 2px 5px 0px, rgba(0, 0, 0, 0.05) 0px 1px 1px 0px;
 }
 
 .p2 {
@@ -243,6 +249,7 @@ button.menu-options {
         font-size: 0.85rem;
 	    width: 101%;
         left:3.5%;
+        padding-top: 15px;
     }
     .menu-botton a{ 
         font-size: 0.8rem ;
@@ -262,12 +269,16 @@ button.menu-options {
         margin-top: 5px !important;
     }
 
-    button.btn.btn-header-pwa.ark { margin-top: 5px;}
-    button.btn.btn-header-pwa.ark span { color: #3c385c !important;font-size: 0.8rem;}
+    button.btn.btn-header-pwa.ark { 
+        margin-top: 10px;
+        padding-left: 0px;
+        padding-right: 0px;
+    }
+    button.btn.btn-header-pwa.ark span { color: #3c385c !important;font-size: 0.7rem;}
 
     i.fas.fa-home, i.far.fa-calendar, i.fas.fa-sign-in-alt { 
         color: #3c385c !important; 
-        font-size: 1.2rem;
+        font-size: 1rem;
     }
 
 }

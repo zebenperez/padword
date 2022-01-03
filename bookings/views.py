@@ -61,7 +61,7 @@ def get_booking_context(form=None, project=None):
     kwargs = {'date__gte': ini_date, 'date__lte': today+datetime.timedelta(days=1)}
     if form != None:
         kwargs['form_uuid'] = form.uuid
-        context["form_name"] = form.name
+        context["form_name"] = form.get_category.name
         if form.channels.all().count() == 1:
             fc = form.channels.first()
             channel = Channel.objects.filter(uuid = fc.channel).first()
@@ -99,6 +99,27 @@ def bookings_by_project(request, project_id):
         print (show_exc(e))
         logger.error("[bookings-bookings_by_project] {}".format(str(e)))
         return render(request, 'error_exception.html', {'exc':show_exc(e)})
+
+@group_required("admins", "projects", "categories")
+def bookings_by_category(request, category_id):
+    try:
+        category = get_or_none(Category, category_id)
+        if category == None:
+            return render(request, 'error_exception.html', {'exc': _('Category not found!')})
+        form = get_or_none(Form, category.uuid, "category")
+        if form == None:
+            return render(request, 'error_exception.html', {'exc': _('Form not found!')})
+
+        context = get_booking_context(form, category.project)
+        context['total_items'] = context['items'].count()
+        context['items'] = context['items'][0:ITEMS_PER_PAGE]
+        context['page'] = 0
+        return render (request, "bookings/manage/bookings.html", context)
+    except Exception as e:
+        print (show_exc(e))
+        logger.error("[bookings-bookings_by_project] {}".format(str(e)))
+        return render(request, 'error_exception.html', {'exc':show_exc(e)})
+
 
 @group_required("admins", "projects")
 def bookings_search(request):

@@ -16,24 +16,26 @@ img {
     background-color: transparent;
 }
 
-.div-top {
-    background: #fff !important;
-    border-bottom: 1px solid #333;
-    position: sticky;
-    top: 0;
+.row.div-top {
+    background: rgb(255,255,255) !important;
+    background: linear-gradient(180deg, rgba(255,255,255,1) 71%, rgba(255,255,255,0) 100%) !important;
+    border-bottom: none !important;
+    position: sticky !important;
+    top: 0 !important;
     justify-content: left !important;
-    max-height: 100px;
+    /*max-height: 100px;*/
+    height: 100px !important;
 }
 .div-top img {
-    max-height: 100px;
+    height: 60px !important;
     object-fit: cover;
 }
 
-button.btn.btn-header-pwa.ark { margin-top: 25px;}
-button.btn.btn-header-pwa.ark span { color: #3c385c !important;}
+button.btn.btn-header-pwa.ark { margin-top: 15px;}
+button.btn.btn-header-pwa.ark span { color: #3a4355 !important;}
 
-i.far.fa-calendar, i.fas.fa-sign-in-alt { 
-    color: #3c385c !important; 
+i.fas.fa-home, i.far.fa-calendar, i.fas.fa-sign-in-alt { 
+    color: #3a4355 !important; 
     font-size: 1.2rem;
 }
 
@@ -129,9 +131,8 @@ button.btn-outline-danger:hover {
 
 button.menu-options { 
     background: none;
-    text-transform: uppercase;
 	border:0;
-	color:#00448c;
+	color:#3a4355;
 	font-size: 1.2rem;
 	height: 60px;
 }
@@ -152,9 +153,19 @@ button.menu-options {
 	text-align:center !important;
 }
 
+.align-items-end {
+    position: fixed;
+    bottom: 60px;
+    left: 0;
+    width: 110%;
+    height: 60px;
+    background: rgb(255,255,255);
+    background: linear-gradient(0deg, rgba(255,255,255,1) 71%, rgba(255,255,255,0) 100%);
+}
+
 .menu-botton {
-	background:#00448c;
-    text-transform: uppercase;
+	background:#3a4355;
+    text-transform: capitalize !important;
 	position:fixed; 
 	bottom:0; 
 	left: 1%;
@@ -195,8 +206,16 @@ button.menu-options {
 /*****************************/
 
 .error-page {
-	background-image: url(/static/img/bg-villa.png) !important;
+	background-image: url(/static/img/bg-lanis.png) !important;
 }
+.error-content {
+    background-color: white;
+    height: 400px !important;
+    border-radius: 0.25rem;
+	box-shadow: rgba(50, 50, 105, 0.15) 0px 2px 5px 0px, rgba(0, 0, 0, 0.05) 0px 1px 1px 0px;
+
+}
+
 
 .p2 {
     padding:2px !important;
@@ -223,8 +242,12 @@ button.menu-options {
     a.btn.btn-outline-danger.w-100 {
         font-size: 0.7rem !important;
     }
-
-
+    .div-top img {
+        height: 35px !important;
+        max-width: initial;
+        object-fit: cover;
+        margin-top: 15px;
+    }
     button.menu-options {
         font-size: 0.9rem;
     }
@@ -239,6 +262,7 @@ button.menu-options {
         font-size: 0.85rem;
 	    width: 101%;
         left:3.5%;
+        padding-top: 15px;
     }
     .menu-botton a{ 
         font-size: 0.8rem ;
@@ -258,12 +282,16 @@ button.menu-options {
         margin-top: 5px !important;
     }
 
-    button.btn.btn-header-pwa.ark { margin-top: 5px;}
-    button.btn.btn-header-pwa.ark span { color: #3c385c !important;font-size: 0.8rem;}
+    button.btn.btn-header-pwa.ark { 
+        margin-top: 10px;
+        padding-left: 0px;
+        padding-right: 0px;
+    }
+    button.btn.btn-header-pwa.ark span { color: #3a4355 !important;font-size: 0.7rem;}
 
-    i.far.fa-calendar, i.fas.fa-sign-in-alt { 
-        color: #3c385c !important; 
-        font-size: 1.2rem;
+    i.fas.fa-home, i.far.fa-calendar, i.fas.fa-sign-in-alt { 
+        color: #3a4355 !important; 
+        font-size: 1rem;
     }
 
 }

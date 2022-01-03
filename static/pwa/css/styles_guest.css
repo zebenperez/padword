@@ -418,3 +418,17 @@ i.fas.fa-sign-in-alt, .service-icon  a {
 }
 
 
+@media (max-width: 415px)  
+{
+    button.btn.btn-header-pwa.ark { 
+        margin-top: 10px;
+        padding-left: 0px !important;
+        padding-right: 0px !important;
+}
+    button.btn.btn-header-pwa.ark span { color: #3c385c !important;font-size: 0.7rem;}
+
+    i.fas.fa-home, i.far.fa-calendar, i.fas.fa-sign-in-alt { 
+        color: #3c385c !important; 
+        font-size: 1rem;
+    }
+}

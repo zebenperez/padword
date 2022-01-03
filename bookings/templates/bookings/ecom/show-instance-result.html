@@ -1,8 +1,12 @@
 {% load i18n padword_tags %}
 
 <script>
-    $('#counter-item-'+'{{item.pk}}').val({{items|length}});
-    $('#counter-item-'+'{{item.pk}}').trigger("change");
+    $('#counter-item-'+'{{item.pk}}').val({{items|length}}).trigger("change");
+    $('#counter-item-mob-'+'{{item.pk}}').val({{items|length}}).trigger("change");
     $('#span-total-price').html("{{total_price}}");
     $('#span-total-items').html("{{total_items}}");
+    if (parseInt($("#span-total-items").html()) > 0)
+        $("#count-badge").show();
+    else
+        $("#count-badge").hide();
 </script>

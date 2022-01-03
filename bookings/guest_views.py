@@ -303,7 +303,8 @@ def booking_view(request):
         items = ShoppingCart.objects.filter(form_instance_id=fi.pk)
 
         #context = {'fi': fi, 'index': "0", "ro": True, 'items':items,}
-        context = {'fi': fi, 'index': "0", 'project_uuid': form.project.uuid, 'items':items,}
+        cat_uuid = request.GET["cat_id"] if "cat_id" in request.GET else ""
+        context = {'fi': fi, 'index': "0", 'project_uuid': form.project.uuid, 'items':items, 'cat_uuid': cat_uuid}
         template = 'bookings/guest/view-booking-project.html' if fi.form.form_type.code == "ecom" else 'bookings/guest/view-booking.html'
         return render(request, template, context)
     except Exception as e:
@@ -627,8 +628,9 @@ def show_category_menu(request, cat_id=None):
         form = Form.objects.filter(category=category.uuid).first()
         gu = GuestUser.objects.filter(project_uuid=form.project.uuid, username=request.user.username).first()
         fi = get_or_create_form_instance(form, gu.guest.UUID) if gu != None and gu.guest != None else None
+        items = ShoppingCart.objects.filter(form_instance_id=fi.pk) if fi != None else []
  
-        return render(request, form.form_type.template, {'category':category, 'form': form, 'fi':fi, 'index':0})
+        return render(request, form.form_type.template, {'category':category, 'form': form, 'fi':fi, 'index':0, 'items': items})
     except Exception as e:
         print(e)
         return render(request, "error_exception.html", {'exc':show_exc(e)})
@@ -642,7 +644,7 @@ def show_item(request):
         item_id = request.GET["item_id"]
         item = get_or_none(Item, int(item_id))
 
-        return render(request, "bookings/show-item.html", {'item':item,})
+        return render(request, "bookings/show-item-details.html", {'item':item,})
     except Exception as e:
         return render(request, "error_exception.html", {'exc':show_exc(e)})
 

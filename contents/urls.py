@@ -28,6 +28,8 @@ urlpatterns = [
     path('items/save_allergen', views.save_allergen, name="items-save-allergen"),
     path('items/add-image/', views.item_add_image, name='item-add-image'),
     path('items/remove-image/', views.item_remove_image, name='item-remove-image'),
+    path('items/new_extra', views.new_extra, name="items-new-extra"),
+    path('items/remove_extra', views.remove_extra, name="items-remove-extra"),
 
     #---------------------- AUTO -----------------------
 	path('autosave_field/', auto_views.autosave_field, name='autosave_field'),

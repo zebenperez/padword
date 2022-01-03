@@ -1,15 +1,17 @@
 {% load i18n %}
-<div class="error-page">
-	<div class="error-box mt-4 p-2">
-		<h1 class="d-flex justify-content-center mt-4">Oops!</h1>
-		<hr>
-		<p class="d-flex justify-content-center">Lo sentimos, ha habido un error. Ya estamos trabajando en la soluci&oacute;n.</p>
-		<p class="d-flex justify-content-center"> Vuelve a intentarlo en unos minutos.</p>
-		<hr>
-		<p class="d-flex justify-content-center">Sorry, we have a problem. We are working on it.</p>
-		<p class="d-flex justify-content-center">Please, try in a few minutes.</p>
+
+
+<div class="row">
+    <div class="col-lg-6 offset-lg-3 col-10 offset-1 error-content">
+        <h1 class="d-flex justify-content-center mt-4">Oops!</h1>
+        <hr>
+        <p class="d-flex justify-content-center">Lo sentimos, ha habido un error. Ya estamos trabajando en la soluci&oacute;n.</p>
+        <p class="d-flex justify-content-center"> Vuelve a intentarlo en unos minutos.</p>
+        <hr>
+        <p class="d-flex justify-content-center">Sorry, we have a problem. We are working on it.</p>
+        <p class="d-flex justify-content-center">Please, try in a few minutes.</p>
         <br>
-        <div class="d-flex justify-content-center"><a class="btn btn-secondary" onclick="window.open('/bookings/close/','_self');" >{% trans 'Close' %}</a></div>
+        <div class="d-flex justify-content-center"><a class="btn btn-marine w-100" onclick="window.open('/bookings/close/','_self');" >{% trans 'Close' %}</a></div>
         <br>
-	</div>
+    </div>
 </div>

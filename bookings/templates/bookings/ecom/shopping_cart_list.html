@@ -4,66 +4,49 @@
 
 
 <div class="row d-flex justify-content-center">
-    {% if category.get_items|length > 0 %}
-        <div class="container"> <div class="row blog"> <div class="col-md-12">
-            <div id="blogCarousel-{{category.id}}" class="carousel slide" data-bs-ride="carousel">
+    {% if category.get_items_active|length > 0 %}
+    <div class="container"> 
+        <div class="row d-flex blog"> 
+            <div class="d-none d-md-block">
+                <div id="blogCarousel-{{category.id}}" class="carousel slide" data-bs-ride="carousel">
 
-                {%comment%}
-                <a class="carousel-control-prev" href="#blogCarousel-{{category.id}}" role="button" data-slide="prev">
-                    <span class="prev"><i class="fas fa-chevron-circle-left"></i></span></a>
-                <a class="carousel-control-next" href="#blogCarousel-{{category.id}}" role="button" data-slide="next">
-                    <span class="next"><i class="fas fa-chevron-circle-right"></i></span></a>
-                {%endcomment%}
-                <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
-                    <span class="prev"><i class="fas fa-chevron-circle-left"></i></span></a>
-                </button>
-                <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
-                    <span class="next"><i class="fas fa-chevron-circle-right"></i></span></a>
-                </button>
+                    <button class="carousel-control-prev" type="button" data-bs-target="#blogCarousel-{{category.id}}" data-bs-slide="prev">
+                        <span class="prev"><i class="fas fa-chevron-circle-left"></i></span></a> </button>
+                    <button class="carousel-control-next" type="button" data-bs-target="#blogCarousel-{{category.id}}" data-bs-slide="next">
+                        <span class="next"><i class="fas fa-chevron-circle-right"></i></span></a> </button>
 
-                <div class="carousel-inner">
-                    {% for item in category.get_items %}
-                    {% if forloop.counter0|divisibleby:4 %}
-                    <div class="carousel-item {%if forloop.counter0 == 0%}active{%endif%}"><div class="row slider-row">
+                    <div class="carousel-inner">
+                        {% for item in category.get_items_active %}
+                            {% if forloop.counter0|divisibleby:4 %}
+                                <div class="carousel-item {%if forloop.counter0 == 0%}active{%endif%}"><div class="row slider-row">
                             {% endif %}
-                            <div class="col-md-3 justify-content-center zoom">
-                                <div class="card w-100 mb-3">
-                                    <div class="image" id="cover"> 
-                                        <img src="{% if item.image %} {{item.image.url}} {%else%} {% static 'img/none.png' %}{%endif%}" 
-                                        class="object-fit_cover" alt="{% padword_translate item.name %}"> 
-                                    </div>
-                                    <div class="card-body">
-                                        <h5 class="card-title text-dark text-center">{% padword_translate item.name %}</h5>
-                                        <h4 class="card-title text-dark text-center">{{ item.price}} &euro; </h4>
-                                        {#<p class="card-text text-secondary">{% padword_translate item.description %}</p>#}
-                                        {% include "bookings/show-item-btn.html" %}
-                                    </div>
-                                    <div class="card-footer">
-                                        <div class="row">
-                                            <div class="col-3 d-flex justify-content-start">
-                                                <a class="p-2 btn tn-light btn-sm ark" data-url="{% url 'remove-generic-item-shopping-cart' %}" 
-                                                    data-target="for-scripts" data-form_id="{{fi.pk}}" data-item_id="{{item.pk}}">
-                                                    <i class="fas fa-minus"></i></a>
-                                            </div>              
-                                            <div class="col-6 d-flex justify-content-center">
-                                                <input type="text" class="ark_change form-control text-center readonly" id="counter-item-{{item.pk}}" 
-                                                data-url="{% url 'get-price-shopping-cart' %}" data-form_id="{{fi.pk}}" data-target="info-shopping" 
-                                                value="{{fi|items_in_bookings:item.pk}}"></input>
-                                            </div>
-                                            <div class="col-3 d-flex justify-content-end">
-                                                <a class="p-2 btn tn-light btn-sm ark" data-url="{% url 'item-to-shopping-cart' %}" 
-                                                    data-target="for-scripts" data-form_id="{{fi.pk}}" data-item_id="{{item.pk}}">
-                                                    <i class="fas fa-plus"></i></a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            {% if forloop.counter|divisibleby:4 %} </div></div> {% endif %}
-                    {% endfor %}
+                            <div class="col-md-3 justify-content-center zoom">{% include "bookings/show-item.html" with show_footer=True %} </div>
+                            {% if forloop.counter|divisibleby:4 or forloop.last%} </div></div> {% endif %}
+                        {% endfor %}
+                    </div>
                 </div>
-            </div>
-        </div> </div> </div>
+            </div> 
+            <div class="d-block d-md-none">
+                <div id="blogMobileCarousel-{{category.id}}" class="carousel slide" data-bs-ride="carousel">
+                    <button class="carousel-control-prev" type="button" data-bs-target="#blogMobileCarousel-{{category.id}}" data-bs-slide="prev">
+                        <span class="prev"><i class="fas fa-chevron-circle-left"></i></span></a> </button>
+                    <button class="carousel-control-next" type="button" data-bs-target="#blogMobileCarousel-{{category.id}}" data-bs-slide="next">
+                        <span class="next"><i class="fas fa-chevron-circle-right"></i></span></a> </button>
+
+                    <div class="carousel-inner">
+                        {% for item in category.get_items_active %}
+                            {% if forloop.counter0|divisibleby:1 %}
+                                <div class="carousel-item {%if forloop.counter0 == 0%}active{%endif%}"><div class="row slider-row">
+                            {% endif %}
+                            <div class="col-md-12 justify-content-center zoom"> 
+                                {% include "bookings/show-item.html" with show_footer=True mobile=True %} </div>
+                            {% if forloop.counter|divisibleby:1 or forloop.last %} </div></div> {% endif %}
+                        {% endfor %}
+                    </div>
+                </div>
+            </div> 
+        </div> 
+    </div>
     {% endif %}
 </div>
 
@@ -73,8 +56,8 @@
     <div class="col-12 d-flex align-middle justify-content-center cat-title-head">
         <div class="cat-image" id="cover">
             {% if children.show_img %}
-            <img src="{% if children.image %}{{children.image.url}}{%else%}{% static 'img/none.png' %}{%endif%}" 
-                 class="object-fit" alt="{% padword_translate item.name %}"> 
+                <img src="{% if children.image %}{{children.image.url}}{%else%}{% static 'img/none.png' %}{%endif%}" 
+                     class="object-fit" alt="{% padword_translate item.name %}"> 
             {% endif %}
         </div>
         <a class="btn pl-2 w-100 cat-title text-left" onclick="$('.div-shopping-cart-{{children.pk}}').toggle();"> 
@@ -95,10 +78,10 @@
 
 <script>
     {% if fi %}
-{% ark 'show-category-shopping-cart' 'div-shopping-cart-'|addstr:children.pk form_id=fi.pk cat_id=children.uuid %}
-{% else %}
-{% ark 'show-category-shopping-cart' 'div-shopping-cart-'|addstr:children.pk form_id=0 cat_id=children.uuid %}
-{% endif %}
+        {% ark 'show-category-shopping-cart' 'div-shopping-cart-'|addstr:children.pk form_id=fi.pk cat_id=children.uuid %}
+    {% else %}
+        {% ark 'show-category-shopping-cart' 'div-shopping-cart-'|addstr:children.pk form_id=0 cat_id=children.uuid %}
+    {% endif %}
 </script>
 {% endfor %}
 <div class="d-none" id="for-scripts"> </div>

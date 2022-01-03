@@ -1,6 +1,7 @@
 {% load i18n bookings_tag common_tag padword_tags static%}
 
 
+{%comment%}
 <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -8,29 +9,32 @@
 <link rel="stylesheet" href="{% static 'css/menu2.css' %}" >
 <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+{%endcomment%}
+<link rel="stylesheet" href="{% static 'css/menu2.css' %}" >
 
 <div class="row d-flex justify-content-center mt-1">
-    {% if category.get_items|length > 0 %}
+    {% if category.get_items_active|length > 0 %}
 		<div class="container"> <div class="row blog"> <div class="col-12">
             <div id="blogCarousel-{{category.id}}" class="carousel slide" data-ride="carousel">
                 
-		<!-- Carousel controls -->
-		<a class="carousel-control-prev" href="#blogCarousel-{{category.id}}" role="button" data-slide="prev">
-			<span class="prev"><i class="fas fa-chevron-circle-left"></i></span></a>
-		<a class="carousel-control-next" href="#blogCarousel-{{category.id}}" role="button" data-slide="next">
-			<span class="next"><i class="fas fa-chevron-circle-right"></i></span></a>
+                <!-- Carousel controls -->
+                <button class="carousel-control-prev" type="button" data-bs-target="#blogCarousel-{{category.id}}" data-bs-slide="prev">
+                    <span class="prev"><i class="fas fa-chevron-circle-left"></i></span></a> </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#blogCarousel-{{category.id}}" data-bs-slide="next">
+                    <span class="next"><i class="fas fa-chevron-circle-right"></i></span></a> </button>
 
                 <!-- Carousel items -->
                 <div class="carousel-inner">
-                    {% for item in category.get_items %}
+                    {% for item in category.get_items_active %}
                         {% if forloop.counter0|divisibleby:4 %}
                             <div class="carousel-item {%if forloop.counter0 == 0%}active{%endif%}"><div class="row slider-row">
                         {% endif %}
                         <div class="col-md-3 justify-content-center zoom">
+                            {% include "bookings/show-item.html" %}
+                            {%comment%}
                             <div class="card w-100 mb-3">
                                 <div class="image" id="cover"> 
-                                    <img src="{% if item.image %} {{item.image.url}} {%else%} {% static 'img/none.png' %}{%endif%}" 
-                                        class="object-fit_cover" alt="{% padword_translate item.name %}"> 
+                                    {% if item.image %} <img src="{{item.image.url}}" class="object-fit_cover" alt="{% padword_translate item.name %}"> {% endif %}
                                 </div>
                                 <div class="card-body">
                                     <h5 class="card-title text-dark text-center">{% padword_translate item.name %}</h5>
@@ -39,6 +43,7 @@
                                     {% include "bookings/show-item-btn.html" %}
                                 </div>
                             </div>
+                            {%endcomment%}
                         </div>
                         {% if forloop.counter|divisibleby:4 %} </div></div> {% endif %}
                     {% endfor %}

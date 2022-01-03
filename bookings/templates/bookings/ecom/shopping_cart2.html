@@ -7,8 +7,9 @@
     <div class="row back-button">
         <div class="col-lg-1 offset-lg-10 col-2 offset-7 p-2 text-center">
             <a class="btn btn-circle-pad small ark pt-3" data-url="{% url 'view-shopping-cart'  %}" 
-               data-target-modal="common-modal" data-form_id="{{fi.pk}}"> <i class="fas fa-shopping-cart"></i> {% trans '' %}
-                <span class="count badge">1</span>
+                data-target-modal="common-modal" data-form_id="{{fi.pk}}"> <i class="fas fa-shopping-cart"></i> {% trans '' %}
+                <span class="count badge" id="count-badge" {%if items.count == 0%}style="display:none"{%endif%}>
+                <span id="span-total-items">{{items.count}}</span></span>
             </a>
         </div>
         <div class="col-lg-1 col-2 text-center pt-2">{% include "bookings/back-btn.html" %}</div>
@@ -17,32 +18,33 @@
 
 {% if form.show_desc %} <div class="col-12 card info-panel p-4">{% padword_translate form.desc %}</div> {% endif %}
 
-    <div class="card slider-cart">
-    {% comment %}
-        <div class="row">
-            <div class="col-1 offset-10 p-2">
-                <div class="pt-3">(<span id="span-total-items">{{items.count}}</span> art.&nbsp;&nbsp;&nbsp; 
-                    <span id="span-total-price">{{fi.get_total|stringformat:".2f"}}</span> &euro;)
-                </div>
-                    <a class="btn btn-circle-pad small ark pt-3" data-url="{% url 'view-shopping-cart'  %}" 
-                        data-target-modal="common-modal" data-form_id="{{fi.pk}}"> <i class="fas fa-shopping-cart"></i> {% trans '' %}</a>
-                </div>
+<div class="card slider-cart">
+{% comment %}
+    <div class="row">
+        <div class="col-1 offset-10 p-2">
+            <div class="pt-3">(<span id="span-total-items">{{items.count}}</span> art.&nbsp;&nbsp;&nbsp; 
+                <span id="span-total-price">{{fi.get_total|stringformat:".2f"}}</span> &euro;)
             </div>
-        </div>
-    {% endcomment %}
-        {% include "bookings/ecom/shopping_cart_list.html" %}
-
-        <div class="col-12">
-            <div class="row mt-4 mb-4 d-flex justify-content-center">
-                <div class="col-lg-3 col-md-4 col-xs-2 offset-xs-1 actions text-center mb-3">
-                    <button class="btn btn-marine ark w-100" data-url="{% url 'view-shopping-cart' %}" 
-                        data-target-modal="common-modal" data-form_id="{{fi.pk}}"> {% trans 'Continue' %}</button>
-                </div>
-                <div class="col-lg-3 offset-lg-1 col-md-4 offset-md-1 col-xs-2 offset-xs-1 actions text-center">
-                    <button class="btn btn-marine w-100 ark" data-url="{% url "booking-remove" %}"
-                        data-target="div-main" data-obj_id="{{fi.id}}"> {% trans "Cancel Order" %}</button>
-                </div>
+                <a class="btn btn-circle-pad small ark pt-3" data-url="{% url 'view-shopping-cart'  %}" 
+                    data-target-modal="common-modal" data-form_id="{{fi.pk}}"> <i class="fas fa-shopping-cart"></i> {% trans '' %}</a>
             </div>
         </div>
     </div>
+{% endcomment %}
+    {% include "bookings/ecom/shopping_cart_list.html" %}
 
+    <div class="col-12">
+        <div class="row mt-4 mb-4 d-flex justify-content-center">
+            <div class="col-lg-3 col-md-4 col-xs-2 offset-xs-1 actions text-center mb-3">
+                <button class="btn btn-marine ark w-100" data-url="{% url 'view-shopping-cart' %}" 
+                    data-target-modal="common-modal" data-form_id="{{fi.pk}}"> {% trans 'Continue' %}</button>
+            </div>
+            <div class="col-lg-3 offset-lg-1 col-md-4 offset-md-1 col-xs-2 offset-xs-1 actions text-center">
+                <button class="btn btn-marine w-100 ark" data-url="{% url "booking-remove" %}"
+                    data-target="main" data-obj_id="{{fi.id}}"> {% trans "Cancel Order" %}</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script> setTimeout(function() { window.scrollTo(0,1); }, 0); </script>

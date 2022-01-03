@@ -3,19 +3,19 @@
 <div id="mask"> &nbsp; </div>
 
 <div class="main-content-booking container-fluid">
-    <div class="div-transp- p-4">
+    <div class="div-transp-">
         <div class="row"> 
-            <div class="col-2 btn-dark pt-2 pb-2"><strong><i class="fas fa-portrait"></i>&nbsp;</strong> {{fi.guest.name}} {{fi.guest.surname}} </div>
-		    <div class="col-2 btn-dark pt-2 pb-2"><i class="fas fa-phone-square"></i>&nbsp; <a href="tel:{{fi.guest.mobile}}">{{fi.guest.mobile}}</a></div>
-		    <div class="col-2 btn-dark pt-2 pb-2"><strong><i class="fas fa-bed"></i>&nbsp;</strong> {{fi.guest.room}}</div>
-            <div class="col-4 btn-dark pt-2 pb-2">{% padword_translate fi.form.name %}</div> 
-            <div class="col-2 btn-dark pt-2 pb-2"><span id="info-shopping">{{items.count}} art.&nbsp;&nbsp;&nbsp; 
+            <div class="col-8 btn-dark pt-2 pb-2 text-left">{% padword_translate fi.form.get_category.name %}</div> 
+            <div class="col-4 btn-dark pt-2 pb-2 text-right"><span id="info-shopping">{{items.count}} art.&nbsp;&nbsp;&nbsp; 
                 {{fi.get_total|stringformat:".2f"}} &euro; </span></div>
 	    </div>
-	    <br/> 
-        <div class="row"> <div class="col-12 c-white">{{fi.date}}</div> </div>
-
-        <div class="row"> <div class="col-md-9 offset-md-1" id="div-notification"></div> </div>
+        <div class="row"> 
+            <div class="col-lg-4 col-8 btn-light pt-2 pb-2 text-left"><span class="data-mb"><i class="fas fa-portrait"></i>&nbsp; {{fi.guest.name}} {{fi.guest.surname}} </span> </div>
+		    <div class="col-lg-2 col-4 btn-light pt-2 pb-2 text-left" style="padding-right:0 !important;"><span class="data-mb"><i class="fas fa-phone-square"></i>&nbsp; <a href="tel:{{fi.guest.mobile}}">{{fi.guest.mobile}}</span></a></div>
+            <div class="col-lg-4 col-8 btn-light pt-2 pb-2 text-left"><span class="data-mb"><i class="fas fa-clock"></i>&nbsp; {{fi.date}}</span></div>
+		    <div class="col-lg-2 col-4 btn-light pt-2 pb-2 text-left"><span class="data-mb"><i class="fas fa-bed"></i>&nbsp; {{fi.guest.room}}</span></div>
+	    </div>
+        {% comment %} <div class="row"> <div class="col-md-9 offset-md-1" id="div-notification"></div> </div>  {% endcomment %}
 
         <div class="row bloque mt-3">
             <div id="main" class="col-lg-10 offset-lg-1 col-md-10 offset-md-1 col-xs-12">
@@ -24,7 +24,7 @@
                         <div class="col-2 d-flex justify-content-center">
                             <img class="img-cart-line" src="{% if item.item.image %}{{item.item.image.url}} {%else%} {% static 'img/none.png' %}{%endif%}" alt="{% padword_translate item.item.name %}">
                         </div>
-                        <div class="col-10">
+                        <div class="col-10 text-left">
 			                <p><strong>{% padword_translate item.item.name %}</strong></p>
                             <p class=""><i class="far fa-comment-alt"></i>&nbsp; {{item.comments}}</p>
                         </div>

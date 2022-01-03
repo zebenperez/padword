@@ -4,14 +4,30 @@ from django.urls import reverse
 import json
 from padword.commons import show_exc
 from web.models import Project, ProjectUser
-from contents.models import Allergen, Category
+from contents.models import Allergen, Category, CategoryUser
 import string, random
+import os
 
 register = template.Library()
 
 '''
     Filters
 '''
+@register.inclusion_tag('link-css.html')
+def get_css_project(pk_proj):
+    print ("DANI")
+    try:
+        from padword.settings import STATIC_URL, STATIC_ROOT
+        path = f'{STATIC_ROOT}/css/menu_prj_{pk_proj}.css'
+        url = f'{STATIC_URL}css/menu_prj_{pk_proj}.css'
+        print(path)
+        if os.path.exists(path):
+            return {'url':url}
+        return {'url':None}
+    except Exception as e:
+        print (show_exc(e))
+    return {'url':None}
+
 @register.filter
 def in_group(user, group):
     try:
@@ -131,7 +147,7 @@ def padword_translate_short(context, json_str, chars):
                 val = json_dict[keys[0]]
             except Exception as e:
                 val = json_str
-    return mark_safe("{}...".format(val[:chars])) if len(val) > chars else val
+    return mark_safe("{}...".format(val[:chars])) if len(val) > chars else mark_safe(val)
 
 @register.simple_tag(takes_context=True)
 def padword_translate_obj(context, obj_id):
@@ -196,6 +212,10 @@ def get_main_menu(user):
     try:
         if user.groups.filter(name="guests").exists():
             return {'user': user, 'menu': "guests"}
+        if user.groups.filter(name="categories").exists():
+            obj = CategoryUser.objects.filter(username=user.username).first()
+            if obj != None: 
+                return {'user': user, 'menu': "categories", "category": obj.category}
         if user.groups.filter(name="projects").exists():
             obj = ProjectUser.objects.filter(username=user.username).first()
             if obj != None: 
@@ -237,3 +257,6 @@ def ark(url, div, **kwargs):
 def show_allergen(obj):
     return {'obj': obj, 'item_list': Allergen.objects.all()}
 
+@register.inclusion_tag('contents/extras.html')
+def show_extras(obj):
+    return {'obj': obj,}

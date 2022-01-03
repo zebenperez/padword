@@ -201,7 +201,12 @@ def category_remove_image(request):
     try:
         obj_id = request.GET["obj_id"]
         obj = get_or_none(Category, obj_id) 
-        obj.image.delete(save=True)
+        if Category.objects.filter(image=obj.image).count() > 1:
+            obj.image = None
+            obj.save()
+        else:
+            obj.image.delete(save=True)
+
         return render(request, "contents/category-img.html", {"obj": obj,})
     except Exception as e:
         print(e)
@@ -306,6 +311,12 @@ def item_remove_image(request):
         obj_id = request.GET["obj_id"]
         obj = get_or_none(Item, obj_id) 
         obj.image.delete(save=True)
+        if Item.objects.filter(image=obj.image).count() > 1:
+            obj.image = None
+            obj.save()
+        else:
+            obj.image.delete(save=True)
+
         return render(request, "contents/item-img.html", {"obj": obj,})
     except Exception as e:
         print(e)
@@ -324,6 +335,25 @@ def save_allergen(request):
         else:
             ItemAllergen.objects.filter(item=obj, allergen=allergen).delete()
         return render(request, "contents/allergens.html", {"obj": obj, "item_list": Allergen.objects.all()})
+    except Exception as e:
+        return render(request, "error_exception.html", {'exc': show_exc(e)})
+
+@group_required("admins", "projects")
+def new_extra(request):
+    try:
+        obj = get_or_none(Item, request.GET["obj_id"])
+        ItemExtra.objects.create(item=obj)
+        return render(request, "contents/extras.html", {"obj": obj,})
+    except Exception as e:
+        return render(request, "error_exception.html", {'exc': show_exc(e)})
+
+@group_required("admins", "projects")
+def remove_extra(request):
+    try:
+        obj = get_or_none(ItemExtra, request.GET["obj_id"])
+        item = obj.item
+        obj.delete()
+        return render(request, "contents/extras.html", {"obj": item,})
     except Exception as e:
         return render(request, "error_exception.html", {'exc': show_exc(e)})
 

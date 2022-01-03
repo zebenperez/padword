@@ -4,7 +4,7 @@
 {% block central_content %}
 <div class="row back-button d-flex justify-content-end mb-2"> <div class="col-lg-2 col-4">
     <button class="btn btn-back w-100 ark text-right" data-url="{% url "my-bookings" %}" data-target="main" 
-        data-project_uuid="{{project_uuid}}" data-cat_id="{{form.category}}"><i class="fas fa-chevron-circle-left"></i> {% trans "Back" %}</button>
+        data-project_uuid="{{project_uuid}}" data-cat_id="{{cat_uuid}}"><i class="fas fa-chevron-circle-left"></i> {% trans "Back" %}</button>
 </div> </div>
 
 <div class="col-10 card info-panel p-4" style="width: 96%; margin-left:2%;">
@@ -24,9 +24,9 @@
                                 {% if q.question_type.code == "general" %}
                                     <div class="div-info">
                                         {% for f in q.field_set.all %}
-                                            <div class="item mb-1">
-                                                <div class="btn-dark pb-3">
-                                                    <strong> {% if q.field_set.all|length > 0 %} <br/> {{f}} <br/> {% endif %} </strong>
+                                            <div class="item mb-4">
+                                                <div class="btn-dark fw-normal">
+                                                    {% if q.field_set.all|length > 0 %}  {{f}}  {% endif %} 
                                                 </div>
                                                 <div class="td_{{q.id}}_{{index}}"> {% field_value fi q f index %} </div>
                                             </div>

@@ -78,6 +78,7 @@ class FormType(models.Model):
     class Meta:
         verbose_name = _('Form type')
         verbose_name_plural = _('Forms type')
+        ordering = ['name']
 
 def upload_form_image(instance, filename):
     ascii_filename = str(filename.encode('ascii', 'ignore'))

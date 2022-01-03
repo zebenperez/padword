@@ -1,4 +1,5 @@
 {% load i18n bookings_tag common_tag padword_tags static%}
+{% get_css_project form.project.pk %}
 {#<html>#}
     {% comment %}
     <head>
@@ -26,14 +27,14 @@
     </head>
     {% endcomment %}
     {#<body style="background:url('/static/img/bg-test.jpg'); background-size: cover;">#}
-	    <div class="row div-top w-100 p-0 m-0">
+        <div class="row div-top w-100 p-0 m-0">
             {#<div class="col-lg-9 col-3 text-left"><img src="/static/img/logo-villa-maria.png"></div>#}
-            <div class="col-lg-9 col-3 text-left">{%if form.logo%}<img src="{{form.logo.url}}">{%endif%}</div>
-		    <div class="col-lg-1 col-3 text-center p-0">
+            <div class="col-lg-9 col-6 text-left">{%if form.logo%}<img src="{{form.logo.url}}">{%endif%}</div>
+		    <div class="col-lg-1 col-2 text-center p-0">
                 <button class="btn btn-header-pwa text-center ark" data-url="{% url 'show-category-menu' %}" data-target="main" 
                     data-cat_id="{{form.category}}"> <i class="fas fa-home"></i> <br /> <span>{% trans 'Home' %}</span></button>
             </div>
-		    <div class="col-lg-1 col-4 text-center p-0">
+		    <div class="col-lg-1 col-2 text-center p-0">
                 <button class="btn btn-header-pwa text-center ark" data-url="{% url "my-bookings" %}" data-target="main" 
                     data-project_uuid="{{project_uuid}}" data-cat_id="{{form.category}}"> <i class="far fa-calendar"></i> <br />
                     <span>{% trans "My bookings" %}</span></button>

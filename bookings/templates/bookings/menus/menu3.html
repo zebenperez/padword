@@ -18,8 +18,9 @@
         <div class="container-test col-lg-3 col-12 box-cat pointer">
             <div class="card ark" data-url="{% url "show-category-menu" %}" data-target="main" data-cat_id="{{item.uuid}}">
                 <div class="image" id="cover">
-                    <img width="100%" src="{% if item.image %}{{item.image.url}}{%else%}{% static 'img/none.png' %}{%endif%}" 
-                        class="object-fit_cover" alt="{% padword_translate item.name %}"> </div>
+                    <img width="100%" src="{% if item.image %} {{item.image.url}} {%else%} {% static 'img/none.png' %}{%endif%}" 
+                        class="object-fit_cover" alt="{% padword_translate item.name %}"> 
+                </div>
                 <div class="overlay"><strong><span>{% padword_translate item.name %}</span></strong></div>
             </div>
         </div>
@@ -44,11 +45,13 @@
 
 {% endcomment %}
 
-{% for item in category.get_items %}
-    <div class="col-4 justify-content-center grid-child-categories">
-        <div class="card mb-3">
-            <div class="image" id="cover"> <img src="{% if item.image %}{{item.image.url}} {%else%} {% static 'img/none.png' %}{%endif%}" 
-                class="object-fit_cover" alt="{% padword_translate item.name %}"> </div>
+<div class="row w-100">
+{% for item in category.get_items_active %}
+    <div class="col-lg-4 col-12">
+        <div class="card mb-3 pb-3">
+            <div class="image" id="cover"> 
+                {% if item.image %} <img src="{{item.image.url}}" class="object-fit_cover" alt="{% padword_translate item.name %}"> {% endif %}
+            </div>
             <div class="card-body">
                 <h5 class="card-title text-dark text-center">{% padword_translate item.name %}</h5>
                 <h4 class="card-title text-dark text-center">{{ item.price}} &euro; </h4>
@@ -58,5 +61,6 @@
         </div>
     </div>
 {% endfor %}
+</div>
 
 

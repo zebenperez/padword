@@ -1,38 +1,37 @@
-{% load i18n padword_tags static %}
-
-<div class="row">
-   <div class="col-lg-8 col-8 btn-dark pt-2">
-        <h5 class="card-title text-left">{% padword_translate item.name %}</h5>
-   </div>
-    <div class="col-lg-4 col-4 btn-dark price pt-1" id="div-total-shopping-cart">{{ item.price}} &euro;  </div>
-   <div class="col-lg-4 col-12 p-3 imagen-item">
-        <div class="image" id="cover"> <img src="{% if item.image %}{{item.image.url}} {%else%} {% static 'img/none.png' %}{%endif%}" 
-            class="object-fit_cover" alt="{% padword_translate item.name %}"> </div>
-   </div>
-    <div class="col-lg-8 col-12 description-item p-3">
-        <p class="card-text text-secondary">{% padword_translate item.description %} </p>
-   </div>
-</div>
-<div class="row mt-2">
-    <div class="col-12 d-flex justify-content-end">
-        <button type="button" class="btn btn-marine w-100 ark" data-bs-dismiss="modal">{% trans "Continue" %}</button>
-   </div>
-</div>
-
-
-{% comment %}
-
+{% load i18n bookings_tag common_tag padword_tags static%}
 
 <div class="card w-100 mb-3">
-    <div class="image" id="cover"> <img src="{% if item.image %}{{item.image.url}} {%else%} {% static 'img/none.png' %}{%endif%}" 
-        class="object-fit_cover" alt="{% padword_translate item.name %}"> </div>
+    <div class="image" id="cover"> 
+        {% if item.image %} <img src="{{item.image.url}}" class="object-fit_cover" alt="{% padword_translate item.name %}"> {% endif %}
+    </div>
     <div class="card-body">
         <h5 class="card-title text-dark text-center">{% padword_translate item.name %}</h5>
         <h4 class="card-title text-dark text-center">{{ item.price}} &euro; </h4>
-        <p class="card-text text-secondary">{% padword_translate item.description %}</p>
-
-        <button type="button" class="btn btn-sm" data-bs-dismiss="modal">{% trans "Close" %}</button>
+        {% for ia in item.allergen_list.all %}
+            <img src="{{ia.allergen.icon.url}}" alt="{{ia.allergen.name}}" title="{{ia.allergen.name}}" style="width:1.8em"/>
+        {% endfor %}
+        {% include "bookings/show-item-btn.html" %}
     </div>
+    {% if show_footer %}
+    <div class="card-footer">
+        <div class="row">
+            <div class="col-3 d-flex justify-content-start">
+                <a class="p-2 btn tn-light btn-sm ark" data-url="{% url 'remove-generic-item-shopping-cart' %}" 
+                    data-target="for-scripts" data-form_id="{{fi.pk}}" data-item_id="{{item.pk}}"> <i class="fas fa-minus"></i></a>
+            </div>              
+            <div class="col-6 d-flex justify-content-center">
+                <input type="text" class="ark_change form-control text-center readonly" 
+                    {% if mobile %}id="counter-item-{{item.pk}}"{% else %}id="counter-item-mob-{{item.pk}}"{% endif %}
+                    data-url="{% url 'get-price-shopping-cart' %}" data-form_id="{{fi.pk}}" data-target="info-shopping" 
+                    value="{{fi|items_in_bookings:item.pk}}"></input>
+            </div>
+            <div class="col-3 d-flex justify-content-end">
+                <a class="p-2 btn tn-light btn-sm ark" data-url="{% url 'item-to-shopping-cart' %}" data-target="for-scripts" 
+                    data-form_id="{{fi.pk}}" data-item_id="{{item.pk}}"> <i class="fas fa-plus"></i></a>
+            </div>
+        </div>
+    </div>
+    {% endif %}
 </div>
 
-{% endcomment %}
+

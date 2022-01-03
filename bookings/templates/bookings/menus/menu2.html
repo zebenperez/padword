@@ -1,13 +1,15 @@
 {% load i18n bookings_tag common_tag padword_tags static%}
 
 
+{%comment%}
 <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Open+Sans+Condensed:wght@300&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="{% static 'css/menu2.css' %}" >
 <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+{%endcomment%}
+<link rel="stylesheet" href="{% static 'css/menu2.css' %}" >
 
 {% if category.parent %}
     <div class="row back-button d-flex justify-content-end mb-2"> <div class="col-12 text-right"> {% include "bookings/back-btn.html" %} </div> </div>

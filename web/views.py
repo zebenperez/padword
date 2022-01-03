@@ -17,15 +17,23 @@ import os
 
 # Create your views here.
 
-@group_required("admins", "projects", "guests")
+@group_required("admins", "projects", "categories", "guests")
 def index(request, chk=None):
+    print("--1--")
     if request.user.groups.filter(name='guests').exists():
         return redirect('pwa-index')
+
+    if request.user.groups.filter(name='categories').exists():
+        if not hasattr(request, "category_id"):
+            return render(request, 'error_exception.html', {'exc': _('Category not found!')})
+        print("--2--")
+        return redirect('bookings-by-category', request.category_id)
 
     if request.user.groups.filter(name='projects').exists():
         if not hasattr(request, "project_id"):
             return render(request, 'error_exception.html', {'exc': _('Project not found!')})
         return redirect('bookings-by-project', request.project_id)
+
     return redirect('projects')
 
 def thanks(request):

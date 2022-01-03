@@ -1,0 +1,19 @@
+{% load i18n padword_tags %}
+
+<div class="row"><div class="col-12 text-right">
+    <a class="ark" data-url="{% url 'items-new-extra' %}" data-target="div-extras-{{obj.id}}" data-obj_id="{{obj.id}}"> {% trans "Add extra" %}</a>
+</div></div>
+
+<div class="row">
+{% for item in obj.extra_list.all %}
+    <div class="col-10">
+        <input type="text" class="form-control autosave b-bottom mb-4" id="name" name="name" value="{% padword_translate item.name %}" 
+            title="{% padword_translate item.name %}" data-lang="{% current_lang %}" data-model-name="contents.itemextra" data-obj-id="{{item.id}}" 
+            data-url="{% url "autosave_field" %}" data-target="div-notification" value="{{item.name|default:""}}"/> <span id="name__msg"></span>
+    </div>
+    <div class="col-2">
+        <a class="ark" data-url="{% url 'items-remove-extra' %}" data-target="div-extras-{{obj.id}}" data-obj_id="{{item.id}}">{%trans "Remove"%}</a>
+    </div>
+{% endfor %}
+</div>
+
