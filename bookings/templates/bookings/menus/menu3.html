@@ -11,56 +11,40 @@
     </div>
 {% endif %}
 
-{% if form.show_desc %} <div class="col-12 card info-panel p-4">{% padword_translate form.desc %}</div> {% endif %}
+<div class="row">
+    {%if form.show_desc%}<div class="card info-panel p-4 col-{{form.desc_width}}">{% padword_translate form.desc %}</div>{%endif%}
 
-<div class="row p-1 d-flex justify-content-center">
-    {% for item in category.get_childrens %}
-        <div class="container-test col-lg-3 col-12 box-cat pointer">
-            <div class="card ark" data-url="{% url "show-category-menu" %}" data-target="main" data-cat_id="{{item.uuid}}">
-                <div class="image" id="cover">
-                    <img width="100%" src="{% if item.image %} {{item.image.url}} {%else%} {% static 'img/none.png' %}{%endif%}" 
-                        class="object-fit_cover" alt="{% padword_translate item.name %}"> 
-                </div>
-                <div class="overlay"><strong><span>{% padword_translate item.name %}</span></strong></div>
-            </div>
-        </div>
-    {% endfor %}
-</div>
-
-{% comment %}
-<div class="row p-0">
-    {% for item in category.get_childrens %}
-        <div class="col-lg-3 col-4 box-cat mb-1 pointer">
-            <div class="card mb-1 ark" data-url="{% url "show-category-menu" %}" data-target="main" data-cat_id="{{item.uuid}}">
-                <div class="image" id="cover"> <img width="100%" src="{% if item.image %}{{item.image.url}} {%else%} {% static 'img/none.png' %}{%endif%}" 
-                    class="object-fit_cover" alt="{% padword_translate item.name %}"> </div>
-                <div class="card-body">
-                    <div class="card-title text-center"><strong>{% padword_translate item.name %}</strong></div>
-                    <p class="card-text text-secondary">{% padword_translate item.description %} </p>
+    <div class="row p-1 d-flex justify-content-center col-{{"12"|subint:form.desc_width}}">
+        {% for item in category.get_childrens %}
+            <div class="container-test col-lg-3 col-12 box-cat pointer">
+                <div class="card ark" data-url="{% url "show-category-menu" %}" data-target="main" data-cat_id="{{item.uuid}}">
+                    <div class="image" id="cover">
+                        <img width="100%" src="{% if item.image %} {{item.image.url}} {%else%} {% static 'img/none.png' %}{%endif%}" 
+                            class="object-fit_cover" alt="{% padword_translate item.name %}"> 
+                    </div>
+                    <div class="overlay"><strong><span>{% padword_translate item.name %}</span></strong></div>
                 </div>
             </div>
-        </div>
-    {% endfor %}
+        {% endfor %}
+    </div>
 </div>
-
-{% endcomment %}
 
 <div class="row w-100">
-{% for item in category.get_items_active %}
-    <div class="col-lg-4 col-12">
-        <div class="card mb-3 pb-3">
-            <div class="image" id="cover"> 
-                {% if item.image %} <img src="{{item.image.url}}" class="object-fit_cover" alt="{% padword_translate item.name %}"> {% endif %}
-            </div>
-            <div class="card-body">
-                <h5 class="card-title text-dark text-center">{% padword_translate item.name %}</h5>
-                <h4 class="card-title text-dark text-center">{{ item.price}} &euro; </h4>
-                {#<p class="card-text text-secondary">{% padword_translate item.description %}</p>#}
-                {% include "bookings/show-item-btn.html" %}
+    {% for item in category.get_items_active %}
+        <div class="col-lg-4 col-12">
+            <div class="card mb-3 pb-3">
+                <div class="image" id="cover"> 
+                    {% if item.image %} <img src="{{item.image.url}}" class="object-fit_cover" alt="{% padword_translate item.name %}"> {% endif %}
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title text-dark text-center">{% padword_translate item.name %}</h5>
+                    <h4 class="card-title text-dark text-center">{{ item.price}} &euro; </h4>
+                    {#<p class="card-text text-secondary">{% padword_translate item.description %}</p>#}
+                    {% include "bookings/show-item-btn.html" %}
+                </div>
             </div>
         </div>
-    </div>
-{% endfor %}
+    {% endfor %}
 </div>
 
 

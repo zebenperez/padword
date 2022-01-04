@@ -108,6 +108,7 @@ class Form(models.Model):
     logo = models.ImageField(upload_to=upload_form_logo, blank=True, verbose_name="Logo", help_text="Select file to upload")
     qr = models.ImageField(upload_to=upload_form_qr, blank=True, verbose_name="QR", help_text="Select file to upload")
     desc = models.TextField(verbose_name=_("Description"), default="", blank=True)
+    desc_width = models.CharField(max_length=10, verbose_name=_("Description Width"), default="100", blank=True)
 
     form_type = models.ForeignKey(FormType, on_delete=models.CASCADE, verbose_name=_("Form type"), blank=True, null=True)
     #blocks = models.ManyToManyField(Block, blank=True, verbose_name=_("Questions blocks"))

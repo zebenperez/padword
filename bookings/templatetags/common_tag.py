@@ -22,6 +22,10 @@ def addstr(arg1, arg2):
     return str(arg1) + str(arg2)
 
 @register.filter
+def subint(arg1, arg2):
+    return int(arg1) - int(arg2)
+
+@register.filter
 def divide(value, factor):
     try:
         return int(value/factor)

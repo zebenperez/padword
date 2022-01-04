@@ -11,7 +11,7 @@
         <div class="col-6">
             <input type="text" class="form-control autosave" id="f-text" name="text" value="{% padword_translate f.text %}" 
                 title="{% padword_translate f.text %}" data-model-name="bookings.field" data-obj-id="{{f.id}}" data-url="{% url "autosave_field" %}" 
-                data-target="div-notification"/> <span id="f-text__msg"></span>
+                data-lang="{% current_lang %}" data-target="div-notification"/> <span id="f-text__msg"></span>
         </div>
 
         <div class="col-4">
