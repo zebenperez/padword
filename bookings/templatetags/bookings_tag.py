@@ -70,7 +70,6 @@ def field_form(fi, q, f, index, user):
 
     answer_name = "question_%s_field_%s_%s" % (q.id, f.id, index) if q != None and f != None else "questions_0_field_0_0"
 
-    print("--1--")
     context = {
         'fi_id': fi.id if fi != ""  and fi != None else "", 
         'q_id': q.id if q != None else 0, 

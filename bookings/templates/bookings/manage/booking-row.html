@@ -8,7 +8,7 @@
         <div class="col-md-1 col-3">{{ item.guest.room}}</div>
         <div class="col-2 d-none d-md-block">{{item.device.uuid}}</div>
         <div class="col-md-2 col-3">{{ item.date | date:'d/m/Y H:i:s'}}</div>
-        <div class="col-md-1 col-3" id="status-{{item.pk}}">{% padword_translate item.status.name %} </div>
+        <div class="col-md-1 col-3" id="status-{{item.pk}}">{% padword_translate item.get_status.status.name %} </div>
         <div class="col-12 col-md-2 d-flex pt-3 pt-md-1 justify-content-md-end justify-content-center" >
             {% if request.user|in_group:'admins' %}
             <a class="me-1 btn btn-xs" title="{%trans "Booking ID"%}" onclick="alert('{{item.code}}');"><i class="fas fa-fingerprint"></i></a> 

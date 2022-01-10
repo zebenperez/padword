@@ -243,10 +243,10 @@ def booking_send(request):
     try:
         fi_id = request.GET["obj_id"]
         fi = FormInstance.objects.get(pk = fi_id)
-        previous_status = fi.status.name if fi.status != None else _("Created")
-        fi.set_status("01")
-        write_log(request.user, fi, _("Status change from {} to {}".format(previous_status, fi.status.name)))
-        context = {'msg': fi.status.code, 'project_uuid': fi.form.project.uuid}
+        previous_status = fi.get_status.status.name if fi.get_status != None and fi.get_status.status != None else _("Created")
+        fi.set_status("01", request.user, "")
+        write_log(request.user, fi, _("Status change from {} to {}".format(previous_status, fi.get_status.status.name)))
+        context = {'msg': fi.get_status.status.code, 'project_uuid': fi.form.project.uuid}
         return render(request, 'bookings/guest/show-msg.html', context)
     except Exception as e:
         print(e)
@@ -655,3 +655,18 @@ def close(request):
 @group_required("admins", "projects", "guests")
 def close_window(request):
     return render(request, "bookings/guest/close.html")
+
+#@group_required("admins", "projects", "guests")
+def guest_notifications(request):
+    try:
+        #projects_list = list(ProjectUser.objects.filter(username=request.user.username).values_list('project_uuid', flat=True))
+        #categories_list = list(Category.objects.filter(project_uuid__in = projects_list).values_list('uuid', flat=True))
+        #forms_list = list(Form.objects.filter(category__in = categories_list).values_list('uuid', flat=True))
+        #bookings = FormInstance.objects.filter(form_uuid__in = forms_list, status__code = "01" ).order_by('pk')
+        #return HttpResponse(str(bookings.count()))
+        return HttpResponse("0")
+    except Exception as e:
+        logger.error("[bookings-new_booking] {}".format(str(e)))
+        return HttpResponse("0")
+
+

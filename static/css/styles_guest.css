@@ -54,7 +54,7 @@ h5.big.card-title {
     color: #404a5d !important;
 }
 h4.success {
-	color: #666;
+	color: #666 !important;
 	font-size: 30px;
 }
 i.fas.fa-check-circle.text-success,

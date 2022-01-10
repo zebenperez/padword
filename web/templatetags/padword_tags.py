@@ -63,6 +63,25 @@ def have_allergen(obj, allergen):
     a_list = [item.allergen for item in obj.allergen_list.all()]
     return allergen in a_list
 
+@register.filter()
+def is_empty(json_str, lang):
+    try:
+        lang = lang.split('-')[0]
+        json_dict = json.loads(json_str)
+        return (json_dict[lang.upper()] == "")
+    except:
+        try:
+            json_dict = json.loads(json_str)
+            return (json_dict[list(json_dict.keys())[0]] == "")
+        except Exception as e:
+            try:
+                json_dict = json.loads(json_str)
+                keys = json_dict.keys()
+                return (json_dict[keys[0]] == "")
+            except Exception as e:
+                return (json_str == "")
+
+
 '''
     Simple Tags
 '''

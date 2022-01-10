@@ -4,7 +4,7 @@
     <div class="col-lg-8 col-8 btn-dark pt-2">
         <h5 class="card-title text-left">{% padword_translate item.name %}</h5>
     </div>
-    <div class="col-lg-4 col-4 btn-dark price pt-1" id="div-total-shopping-cart">{{ item.price}} &euro;  </div>
+    <div class="col-lg-4 col-4 btn-dark price pt-1" id="div-total-shopping-cart">{{item.price}} {%if item.price != ""%}&euro;{%endif%}  </div>
 </div>
 <div class="row">
     {% if item.image %}

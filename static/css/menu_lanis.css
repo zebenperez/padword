@@ -169,7 +169,7 @@ button.menu-options {
 	position:fixed; 
 	bottom:0; 
 	left: 1%;
-	width: 110%;
+	width: 105% !important;
 	height: 60px;
 	line-height: 60px;
     letter-spacing:2;
@@ -297,3 +297,7 @@ button.menu-options {
 
 }
 
+
+.row.d-flex.justify-content-center.col-0 {
+    margin:auto !important;
+}

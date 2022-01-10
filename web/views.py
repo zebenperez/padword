@@ -19,7 +19,6 @@ import os
 
 @group_required("admins", "projects", "categories", "guests")
 def index(request, chk=None):
-    print("--1--")
     if request.user.groups.filter(name='guests').exists():
         return redirect('pwa-index')
 

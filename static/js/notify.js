@@ -1,14 +1,16 @@
 document.addEventListener('DOMContentLoaded', function() 
-    {
-        navigator.serviceWorker.register('/static/js/sw.js');
-        Notification.requestPermission(function(result) {
-            if (result === 'granted') {
-                navigator.serviceWorker.ready.then(function(registration) {
-                    //registration.showNotification('Notification with ServiceWorker');
-                });
-            }
-        });
-    }); 
+{
+    //navigator.serviceWorker.register('/static/js/sw.js');
+    navigator.serviceWorker.register('/sw.js');
+    Notification.requestPermission(function(result) {
+        if (result === 'granted') {
+            navigator.serviceWorker.ready.then(function(registration) {
+                //registration.showNotification('Notification with ServiceWorker');
+            });
+        }
+    });
+}); 
+
 function sendNotify(title,desc,url, data)
 {
     if (Notification.permission !== "granted")
@@ -38,5 +40,37 @@ function checkNotify()
 {
     fetch('/bookings/bookings/notifications/').then(response => response.json()).then(data => sendNotify('Hay ' + data + ' peticiones pendientes', 'Haz click sobre la notificación para acceder al listado.', '/bookings/bookings/', data));
     setTimeout(checkNotify, 600000);
+}
+
+function sendGuestNotify(title, desc, url, data)
+{
+    if (Notification.permission !== "granted")
+    {
+        Notification.requestPermission();
+    }
+    else
+    {
+        options = {
+            "body": desc,
+            "icon": "https://projects.shidix.es/static/chat/images/logo-blanco.png",
+            "vibrate": [200, 100, 200, 100, 200, 100, 400],
+            "tag": "request"
+        }
+        if (parseInt(data) > 0)
+        {
+            var notification = new Notification(title, options);
+            /* Remove the notification from Notification Center when clicked.*/
+            notification.onclick = function () { window.open(url); };
+            /* Callback function when the notification is closed. */
+            notification.onclose = function () { console.log('Notification closed'); };
+        }
+    }
+}
+
+function checkGuestNotify()
+{
+    fetch('/bookings/guests/notifications/').then(response => response.json()).then(data => sendGuestNotify('Hay ' + data + ' peticiones pendientes', 'Haz click sobre la notificación para acceder al listado.', '/bookings/bookings/', data));
+    //fetch('/bookings/guests/notifications/').then(response => { console.log('Response:', response); return response.json(); }).then(data => {console.log("--a--"); console.log(data)});
+    setTimeout(checkGuestNotify, 60000);
 }
 

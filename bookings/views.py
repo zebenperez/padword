@@ -157,15 +157,17 @@ def bookings_search(request):
             kwargs["date__lte"] = datetime.datetime(int(ed[0]), int(ed[1]), int(ed[2]), 23, 59, 59)
         if name != "":
             uuid_guests = Guest.objects.filter(Q(name__icontains = name) | Q(surname__icontains=name) | Q(email__icontains=name) | Q(mobile__icontains=name) | Q(room=name)) 
-            if uuid_projects_list:
+            #if uuid_projects_list:
+            try:
                 guests_in_projects = GuestUser.objects.filter(project_uuid__in = uuid_projects_list).values_list('guest_uuid', flat=True)
                 uuid_guests = list(set(uuid_guests.values_list('UUID', flat=True)) & set(guests_in_projects))
-            else:
+            #else:
+            except:
                 uuid_guests = list(set(uuid_guests.values_list('UUID', flat=True)))
             kwargs["guest_uuid__in"] = uuid_guests
 
         if status != "":
-            kwargs["status__pk"] = status
+            kwargs["status_list__status__pk"] = status
 
         items = FormInstance.objects.filter(**kwargs)
         context={}
@@ -188,13 +190,13 @@ def booking_view(request):
         form = get_or_none(Form, fi.form_uuid, 'uuid')
         items = ShoppingCart.objects.filter(form_instance_id=fi.pk)
 
-        if (fi.status != None and fi.status.code == "01") or (fi.status is None):
-            if fi.status is not None:
-                previous_status = fi.status.name
+        if (fi.get_status != None and fi.get_status.status != None and fi.get_status.status.code == "01") or (fi.get_status is None):
+            if fi.get_status is not None and fi.get_status.status is not None:
+                previous_status = fi.get_status.status.name
             else:
                 previous_status = 'None'
-            fi.set_status("02")
-            write_log(request.user, fi, _("Status change from {} to {}".format(previous_status, fi.status.name)))
+            fi.set_status("02", request.user, "")
+            write_log(request.user, fi, _("Status change from {} to {}".format(previous_status, fi.get_status.status.name)))
 
         context = {'fi': fi, 'index': "0", 'items':items, 'status_list': Status.objects.all()}
         if fi.form and fi.form.form_type:
@@ -217,7 +219,7 @@ def booking_refresh_status(request, obj_id=None):
             fi_id = obj_id
         fi = FormInstance.objects.get(pk = fi_id)
         lang = request.GET['lang'] if 'lang' in request.GET else request.LANGUAGE_CODE
-        json_dict = json.loads(fi.status.name)
+        json_dict = json.loads(fi.get_status.status.name)
         return HttpResponse(json_dict[lang.upper()])
     except Exception as e:
         print(show_exc(e))
@@ -260,12 +262,18 @@ def change_status(request):
 
         status = get_or_none(Status, status_id)
         fi = get_or_none(FormInstance, fi_id)
+        print("--1--")
         if status != None and fi != None:
-            previous_status = fi.status.name if fi.status != None else "Created"
-            fi.set_status(status.code)
-            write_log(request.user, fi, _("Status change from {} to {}".format(previous_status, fi.status.name)))
+            print("--2--")
+            previous_status = fi.get_status.status.name if fi.get_status != None and fi.get_status.status != None else "Created"
+            print("--3--")
+            fi.set_status(status.code, request.user, "")
+            print("--4--")
+            write_log(request.user, fi, _("Status change from {} to {}".format(previous_status, fi.get_status.status.name)))
+            print("--5--")
             if request.POST:
                 return redirect(bookings_by_form, fi.form.id)
+            print("--6--")
             return render(request, "bookings/manage/status-links.html", {'fi': fi, 'status_list': Status.objects.all()})
     except Exception as e:
         print(e)
@@ -287,7 +295,7 @@ def bookings_notifications(request):
         projects_list = list(ProjectUser.objects.filter(username=request.user.username).values_list('project_uuid', flat=True))
         categories_list = list(Category.objects.filter(project_uuid__in = projects_list).values_list('uuid', flat=True))
         forms_list = list(Form.objects.filter(category__in = categories_list).values_list('uuid', flat=True))
-        bookings = FormInstance.objects.filter(form_uuid__in = forms_list, status__code = "01" ).order_by('pk')
+        bookings = FormInstance.objects.filter(form_uuid__in = forms_list, status_list__status__code = "01" ).order_by('pk')
         e = None
         return HttpResponse(str(bookings.count()))
     except Exception as e:
@@ -360,7 +368,7 @@ def bookings_page(request):
             uuid_guests = set(uuid_guests.values_list('UUID', flat=True))
             kwargs["guest_uuid__in"] = list(uuid_guests)
         if status != "":
-            kwargs["status"] = status
+            kwargs["status_list__status"] = status
         items = FormInstance.objects.filter(**kwargs)
         context={}
         context['total_items'] = items.count()

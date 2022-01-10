@@ -23,35 +23,29 @@
 
 {%csrf_token%}
 {%endcomment%}
+
 <div class="row languages">
     <div class="col-lg-1 offset-lg-4 col-2 offset-2">
-        <a href="#" target="_blank">
+        <a href="{% url "guest-access-pwa" "b2262194-8d2c-ef35-86b5-1150d12e184e" "de" %}" target="_blank">
             <img class="btn btn-secondary p-2" src="/static/img/de.png"></a></div>
     <div class="col-lg-1 col-2">
-        <a href="#" target="_blank">
+        <a href="{% url "guest-access-pwa" "b2262194-8d2c-ef35-86b5-1150d12e184e" "es" %}" target="_blank">
             <img class="btn btn-secondary p-2" src="/static/img/es.png"></a></div>
     <div class="col-lg-1 col-2">
-        <a href="#" target="_blank">
+        <a href="{% url "guest-access-pwa" "b2262194-8d2c-ef35-86b5-1150d12e184e" "fr" %}" target="_blank">
             <img class="btn btn-secondary p-2" src="/static/img/fr.png"></a></div>
     <div class="col-lg-1 col-2">
-        <a href="#" target="_blank">
+        <a href="{% url "guest-access-pwa" "b2262194-8d2c-ef35-86b5-1150d12e184e" "en" %}" target="_blank">
             <img class="btn btn-secondary p-2" src="/static/img/en.png">
         </a>
     </div>
 </div>
 
+
 <div class="row div-slogan">
     <div class="col-12 text-center"> <div class="slogan"> Lanis <br /><span>Suite de Luxe</span></div> </div>
 </div>
 
-    {% comment %}
-<div class="row div-boxes">
-    <div class="col-lg-4 col-6">
-	    <div class="sugest-btn"> <button type="button" class="btn btn-secondary w-100 p-2"><i class="far fa-star"></i> Sugerencias</button></div>
-    </div>
-</div>
-
-    {% endcomment %}
 <div class="row menu-tabs align-items-end w-100">
     <div class="col-3 mb-1 align-middle justify-content-center p2">
         <div class="">
@@ -74,12 +68,13 @@
     <div class="col-3 mb-1 align-middle justify-content-center p2">
         <div class="">
 		    <button class="menu-options ark" data-url="{% url "show-category-menu" %}" data-target="main" 
-			    data-cat_id="b8b6e74d-6291-b638-ad40-bc5b1461a017">{% padword_translate_obj 'b8b6e74d-6291-b638-ad40-bc5b1461a017' %}</button>
+			    data-cat_id="0ed26826-d5da-c58a-8257-08ced033f26a">{% padword_translate_obj '0ed26826-d5da-c58a-8257-08ced033f26a' %}</button>
         </div>
     </div>
+
 </div>
 
-<div class="row menu-botton">
+<div class="row menu-botton w-100">
     <div class="col-lg-2 offset-lg-1 col-3" style="padding:0;order:1px solid red">
         <div><a class="text-white pointer ark" data-url="{%url "show-category-menu"%}" data-target="main" data-cat_id="9146a9e6-09df-5c78-8f14-e337643ec4e4">
                 <i class="far fa-comment-dots"></i><span> {% padword_translate_obj '9146a9e6-09df-5c78-8f14-e337643ec4e4' %}</a></span></div>
@@ -93,8 +88,8 @@
          <i class="fas fa-wifi"></i><span> {% padword_translate_obj '9e3f3d0d-f57e-91a1-ef2b-fb2bde770d5d' %}</a></span></div>
     </div>
     <div class="col-lg-2 col-3" style="padding:0;order:1px solid red">
-        <div><a class="text-white pointer ark" data-url="{%url "show-category-menu"%}" data-target="main" data-cat_id="0ed26826-d5da-c58a-8257-08ced033f26a">
-          <i class="far fa-star"></i><span> {% padword_translate_obj '0ed26826-d5da-c58a-8257-08ced033f26a' %}</a></span></div>
+        <div><a class="text-white pointer ark" data-url="{%url "show-category-menu"%}" data-target="main" data-cat_id="b8b6e74d-6291-b638-ad40-bc5b1461a017">
+          <i class="far fa-star"></i><span> {% padword_translate_obj 'b8b6e74d-6291-b638-ad40-bc5b1461a017' %}</a></span></div>
     </div>
 </div>
 

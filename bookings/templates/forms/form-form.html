@@ -63,7 +63,9 @@
                             data-obj-id="{{obj.id}}" data-url="{% url "autosave_field" %}" data-target="div-notification">
                             <option value="">-- {% trans "Select form type" %} --</option>
                             {% for item in form_type_list %}
-                                <option value="{{item.id}}" {%if item == obj.form_type %}selected{%endif%}>{{item.name}}</option>
+                                {% if item.project_uuid == "" or item.project_uuid == obj.project.uuid %}
+                                    <option value="{{item.id}}" {%if item == obj.form_type %}selected{%endif%}>{{item.name}}</option>
+                                {% endif %}
                             {% endfor %}
                         </select> <span id="form_type__msg"></span>
                     </div>
@@ -81,8 +83,9 @@
                 <div class="row">
                     <div class="col-8">{#{% trans "Descripción" %}:#}</div>
                     <div class="col-1">
-                        <input class="form-control autosave" type="text" id="desc_width" name="desc_width" data-model-name="bookings.form" 
-                            data-obj-id="{{obj.id}}" data-url="{%url "autosave_field"%}" data-target="div-notification" value="{{obj.desc_width}}"/>
+                        <input class="form-control autosave" type="number" id="desc_width" name="desc_width" data-model-name="bookings.form" 
+                            data-obj-id="{{obj.id}}" data-url="{%url "autosave_field"%}" data-target="div-notification" value="{{obj.desc_width}}"
+                            min="0" max="12" step="1"/>
                     </div>
                     <div class="col-1"> <label class="form-check-label" for="show_desc">{% trans "Width" %}</label> </div>
                     <div class="col-2">

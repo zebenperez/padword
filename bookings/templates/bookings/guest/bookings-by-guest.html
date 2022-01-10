@@ -17,22 +17,22 @@
         <div id="booking-list" class="" style="min-height: 400px;">
             <div class="">
                 <div class="row booking-head p-2">
-                    <div class="col-lg-2 col-4">{% trans 'Service' %}</div>
-                    <div class="col-lg-2 col-3">{% trans 'Name' %}</div>
+                    <div class="col-md-2 col-4">{% trans 'Service' %}</div>
+                    <div class="col-md-2 col-3">{% trans 'Name' %}</div>
                     <div class="col-2 d-none d-sm-block">{% trans 'Surname' %}</div>
                     <div class="col-2 d-none d-sm-block">{% trans 'Creation Date' %}</div>
-                    <div class="col-lg-2 col-3">{% trans 'Status' %}</div>
-                    <div class="col-lg-2 col-2"></div>
+                    <div class="col-md-2 col-3">{% trans 'Status' %}</div>
+                    <div class="col-md-2 col-2"></div>
                 </div>
                 {% for item in items %}
-                <div class="row booking-line pointer pt-3 pb-3 ark status-{{item.status.pk}}" id="row_{{item.id}}"
+                <div class="row booking-line pointer pt-3 pb-3 ark status-{{item.get_status.status.pk}}" id="row_{{item.id}}"
                     data-url="{% url "booking-guest-view" %}" data-target="main" data-obj_id="{{item.id}}" data-cat_id="{{cat_uuid}}">
-                    <div class="col-lg-2 col-4"><strong>{% padword_translate item.form.get_category.name %}</strong></div>
-                    <div class="col-lg-2 col-3"><strong>{{item.guest.name}}</strong></div>
+                    <div class="col-md-2 col-4"><strong>{% padword_translate item.form.get_category.name %}</strong></div>
+                    <div class="col-md-2 col-3"><strong>{{item.guest.name}}</strong></div>
                     <div class="col-2 d-none d-sm-block"><strong>{{item.guest.surname}}</strong></div>
                     <div class="col-2 d-none d-sm-block"><strong>{{ item.date|date:'Y-m-d H:i' }}</strong></div>
-                    <div class="col-lg-2 col-3"><strong>{% padword_translate item.status.name %}</strong></div>
-                    <div class="col-lg-2 col-2 text-right chevron"><i class="fas fa-chevron-right fa-lg"></i> </div>
+                    <div class="col-md-2 col-3"><strong>{% padword_translate item.get_status.status.name %}</strong></div>
+                    <div class="col-md-2 col-2 text-right chevron"><i class="fas fa-chevron-right fa-lg"></i> </div>
                         {%comment%}
                         <button class="me-1 btn btn-xs ark" data-url="{% url "booking-guest-view" %}" data-target="div-main" 
                             data-obj_id="{{item.id}}" title="{%trans "View"%}"><i class="fas fa-chevron-right fa-lg"></i></button>  

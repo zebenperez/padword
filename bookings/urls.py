@@ -93,6 +93,8 @@ urlpatterns = [
     path('close/', gv.close, name='close-window'),
     path('close-window/', gv.close_window, name='close-spa'),
 
+    path('guests/notifications/', gv.guest_notifications, name='guest-notif'),
+
     #path('booking-new/<slug:form_uuid>/<slug:device_imei>/', views.booking_new, name='booking-new'),
     #path('booking-new/<slug:form_uuid>/<slug:device_imei>/<slug:room_number>/<slug:guest_name>/<slug:guest_surname>/', views.booking_new, name='booking-new'),
 

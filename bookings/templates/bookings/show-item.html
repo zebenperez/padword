@@ -6,11 +6,11 @@
     </div>
     <div class="card-body">
         <h5 class="card-title text-dark text-center">{% padword_translate item.name %}</h5>
-        <h4 class="card-title text-dark text-center">{{ item.price}} &euro; </h4>
+        <h4 class="card-title text-dark text-center">{{item.price}} {%if item.price != ""%}&euro;{%endif%} </h4>
         {% for ia in item.allergen_list.all %}
             <img src="{{ia.allergen.icon.url}}" alt="{{ia.allergen.name}}" title="{{ia.allergen.name}}" style="width:1.8em"/>
         {% endfor %}
-        {% include "bookings/show-item-btn.html" %}
+        {% if not item.description|is_empty:request.lang %}{% include "bookings/show-item-btn.html" %}{% endif %}
     </div>
     {% if show_footer %}
     <div class="card-footer">

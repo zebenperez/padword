@@ -71,6 +71,7 @@ class FormType(models.Model):
     code = models.CharField(max_length=10, verbose_name=_("Code"), default="")
     name = models.CharField(max_length=200, verbose_name=_("Name"))
     template = models.CharField(max_length=200, verbose_name=_("Template"), default="", blank=True)
+    project_uuid = models.CharField(max_length=255, verbose_name=_("Project UUID"), default="")
 
     def __str__(self):
         return self.name
@@ -213,7 +214,7 @@ class FormInstance(models.Model):
     date = models.DateTimeField(_('Creation date'), default=datetime.datetime.now, null=True)
     guest_uuid = models.CharField(max_length=255, verbose_name=_("Guest UUID"), default="")
     form_uuid = models.CharField(max_length=255, verbose_name=_("Form UUID"), default="")
-    status = models.ForeignKey(Status, on_delete=models.SET_NULL, verbose_name=_("Status"), blank=True, null=True)
+    #status = models.ForeignKey(Status, on_delete=models.SET_NULL, verbose_name=_("Status"), blank=True, null=True)
 
     def __str__(self):
         return "%s" % (self.code)
@@ -244,6 +245,10 @@ class FormInstance(models.Model):
             print (show_exc(e))
             return 0
 
+    @property
+    def get_status(self):
+        return self.status_list.all().first()
+
     def check_obligatory(self, q, index):
         answers = self.answerinstance_set.filter(question=q, index=index, field__obligatory=True)
         for a in answers:
@@ -254,11 +259,12 @@ class FormInstance(models.Model):
     def get_public_blocks(self):
         return self.form.blocks.filter(private=False)
 
-    def set_status(self, status_code):
+    def set_status(self, status_code, user="", comment=""):
         status = Status.objects.filter(code = status_code).first()
         if status != None:
-            self.status = status
-            self.save()
+            FormInstanceStatus.objects.create(form_instance=self, status=status, user=user, comment=comment)
+            #self.status = status
+            #self.save()
 
     def items_in_bookings(self, item):
         items = ShoppingCart.objects.filter(form_instance_id=self.pk, item=item)
@@ -298,6 +304,21 @@ class AnswerInstance(models.Model):
     class Meta:
         verbose_name = _('Answer instance')
         verbose_name_plural = _('Answer instances')
+
+class FormInstanceStatus(models.Model):
+    date = models.DateTimeField('date', auto_now_add=True)
+    user = models.CharField(max_length=100, verbose_name=_("User"), default="")
+    comment = models.CharField(max_length=100, verbose_name=_("Text"), default="")
+    status = models.ForeignKey(Status, on_delete=models.SET_NULL, verbose_name=_("Status"), blank=True, null=True)
+    form_instance = models.ForeignKey(FormInstance, on_delete=models.CASCADE, verbose_name=_("Form instance"), blank=True, null=True, related_name="status_list")
+
+    def __str__(self):
+        return self.status
+
+    class Meta:
+        verbose_name = _('Form Instance Status')
+        verbose_name_plural = _('Form Instance Status')
+        ordering = ['-date']
 
 class FormInstanceLog(models.Model):
 	date = models.DateTimeField('date', auto_now_add=True)
