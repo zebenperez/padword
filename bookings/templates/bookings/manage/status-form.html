@@ -22,6 +22,8 @@
                 <option value="08" {%if obj.status == "08"%}selected{%endif%}>{% trans "Waiting" %}</option>
                 {% endcomment %}
             </select>
+            {% trans "Comentario para el siguiente estado" %}: 
+            <input type="text" class="form-control" id="comment" name="comment" value=""/>
         </div>
     </div>
 

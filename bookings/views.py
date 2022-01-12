@@ -256,24 +256,20 @@ def change_status(request):
         if request.POST:
             status_id = request.POST["status"]
             fi_id = request.POST["fi_id"]
+            comment = request.POST["comment"]
         else:
             status_id = request.GET["status"]
             fi_id = request.GET["fi_id"]
+            comment = request.GET["comment"]
 
         status = get_or_none(Status, status_id)
         fi = get_or_none(FormInstance, fi_id)
-        print("--1--")
         if status != None and fi != None:
-            print("--2--")
             previous_status = fi.get_status.status.name if fi.get_status != None and fi.get_status.status != None else "Created"
-            print("--3--")
-            fi.set_status(status.code, request.user, "")
-            print("--4--")
+            fi.set_status(status.code, request.user, comment)
             write_log(request.user, fi, _("Status change from {} to {}".format(previous_status, fi.get_status.status.name)))
-            print("--5--")
             if request.POST:
                 return redirect(bookings_by_form, fi.form.id)
-            print("--6--")
             return render(request, "bookings/manage/status-links.html", {'fi': fi, 'status_list': Status.objects.all()})
     except Exception as e:
         print(e)

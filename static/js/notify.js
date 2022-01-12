@@ -56,7 +56,7 @@ function sendGuestNotify(title, desc, url, data)
             "vibrate": [200, 100, 200, 100, 200, 100, 400],
             "tag": "request"
         }
-        if (parseInt(data) > 0)
+        if (data != "")
         {
             var notification = new Notification(title, options);
             /* Remove the notification from Notification Center when clicked.*/
@@ -67,10 +67,10 @@ function sendGuestNotify(title, desc, url, data)
     }
 }
 
-function checkGuestNotify()
+function checkGuestNotify(form_id)
 {
-    fetch('/bookings/guests/notifications/').then(response => response.json()).then(data => sendGuestNotify('Hay ' + data + ' peticiones pendientes', 'Haz click sobre la notificación para acceder al listado.', '/bookings/bookings/', data));
+    fetch('/bookings/guests/notifications/'+form_id+"/").then(response => response.json()).then(data => sendGuestNotify(data, 'Haz click sobre la notificación para acceder al listado.', '/bookings/bookings/', data));
     //fetch('/bookings/guests/notifications/').then(response => { console.log('Response:', response); return response.json(); }).then(data => {console.log("--a--"); console.log(data)});
-    setTimeout(checkGuestNotify, 60000);
+    setTimeout(function(){checkGuestNotify(form_id)}, 10000);
 }
 

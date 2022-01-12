@@ -306,6 +306,7 @@ class AnswerInstance(models.Model):
         verbose_name_plural = _('Answer instances')
 
 class FormInstanceStatus(models.Model):
+    read = models.BooleanField(verbose_name=_("Read"), default=False)
     date = models.DateTimeField('date', auto_now_add=True)
     user = models.CharField(max_length=100, verbose_name=_("User"), default="")
     comment = models.CharField(max_length=100, verbose_name=_("Text"), default="")
