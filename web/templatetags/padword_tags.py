@@ -4,7 +4,7 @@ from django.urls import reverse
 import json
 from padword.commons import show_exc
 from web.models import Project, ProjectUser
-from contents.models import Allergen, Category, CategoryUser
+from contents.models import Allergen, Category, CategoryUser, Feature
 import string, random
 import os
 
@@ -62,6 +62,11 @@ def random_str(nchars='128'):
 def have_allergen(obj, allergen):
     a_list = [item.allergen for item in obj.allergen_list.all()]
     return allergen in a_list
+
+@register.filter()
+def have_feature(obj, feature):
+    a_list = [item.feature for item in obj.features.all()]
+    return feature in a_list
 
 @register.filter()
 def is_empty(json_str, lang):
@@ -179,7 +184,6 @@ def padword_translate_obj(context, obj_id):
         json_dict = json.loads(json_str)
         return mark_safe(json_dict[lang.upper()])
     except Exception as e:
-        print (show_exc(e))
         try:
             json_dict = json.loads(json_str)
             return json_dict[list(json_dict.keys())[0]]
@@ -279,3 +283,8 @@ def show_allergen(obj):
 @register.inclusion_tag('contents/extras.html')
 def show_extras(obj):
     return {'obj': obj,}
+
+@register.inclusion_tag('contents/features.html')
+def show_feature(obj):
+    return {'obj': obj, 'item_list': Feature.objects.all()}
+

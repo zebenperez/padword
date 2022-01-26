@@ -18,6 +18,9 @@ urlpatterns = [
     path('categories/import-by-file/', views.import_categories_by_file, name='import-categories-by-file'),
     path('categories/add-image/', views.category_add_image, name='category-add-image'),
     path('categories/remove-image/', views.category_remove_image, name='category-remove-image'),
+    path('categories/add-image-gallery/', views.category_add_image_gallery, name='category-add-image-gallery'),
+    path('categories/remove-image-gallery/', views.category_remove_image_gallery, name='category-remove-image-gallery'),
+    path('categories/save_feature', views.save_feature, name="category-save-feature"),
 
     path('items/form/', views.item_form, name='item-form'),
     path('items/change-image/', views.item_change_image, name='item-change-image'),

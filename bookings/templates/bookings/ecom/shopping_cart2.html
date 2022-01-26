@@ -4,6 +4,9 @@
 
 
 {% if category.parent %}
+    <script>$("#shopping-cart-btn").data("form_id", "{{fi.pk}}");$("#span-total-items").html("{{items.count}}");$("#count-badge").show();</script>
+    {%include "bookings/back-btn.html" with uuid=category.parent.uuid %}
+{%comment%}
     <div class="row back-button">
         <div class="col-lg-1 offset-lg-10 col-2 offset-7 p-2 text-center">
             <a class="btn btn-circle-pad small ark pt-3" data-url="{% url 'view-shopping-cart'  %}" 
@@ -12,8 +15,9 @@
                 <span id="span-total-items">{{items.count}}</span></span>
             </a>
         </div>
-        <div class="col-lg-1 col-2 text-center pt-2">{% include "bookings/back-btn.html" %}</div>
+        {#<div class="col-lg-1 col-2 text-center pt-2">{% include "bookings/back-btn.html" %}</div>#}
     </div>
+{%endcomment%}
 {% endif %}
 
 {% if form.show_desc %} <div class="col-12 card info-panel p-4">{% padword_translate form.desc %}</div> {% endif %}

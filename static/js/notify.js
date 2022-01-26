@@ -51,7 +51,7 @@ function sendGuestNotify(title, desc, url, data)
     else
     {
         options = {
-            "body": desc,
+            "body": data,
             "icon": "https://projects.shidix.es/static/chat/images/logo-blanco.png",
             "vibrate": [200, 100, 200, 100, 200, 100, 400],
             "tag": "request"
@@ -59,9 +59,7 @@ function sendGuestNotify(title, desc, url, data)
         if (data != "")
         {
             var notification = new Notification(title, options);
-            /* Remove the notification from Notification Center when clicked.*/
             notification.onclick = function () { window.open(url); };
-            /* Callback function when the notification is closed. */
             notification.onclose = function () { console.log('Notification closed'); };
         }
     }
@@ -69,8 +67,9 @@ function sendGuestNotify(title, desc, url, data)
 
 function checkGuestNotify(form_id)
 {
-    fetch('/bookings/guests/notifications/'+form_id+"/").then(response => response.json()).then(data => sendGuestNotify(data, 'Haz click sobre la notificación para acceder al listado.', '/bookings/bookings/', data));
-    //fetch('/bookings/guests/notifications/').then(response => { console.log('Response:', response); return response.json(); }).then(data => {console.log("--a--"); console.log(data)});
-    setTimeout(function(){checkGuestNotify(form_id)}, 10000);
+    //fetch('/bookings/guests/notifications/'+form_id+"/").then(response => response.text()).then(data => alert(data));
+    fetch('/bookings/guests/notifications/'+form_id+"/").then(response => response.text()).then(data => sendGuestNotify("Orders status:", 'Haz click sobre la notificación para acceder al listado.', '/bookings/bookings/', data));
+    //fetch('/bookings/guests/notifications/'+form_id+"/").then(response => { console.log('Response:', response); return response.json(); }).then(data => {console.log("--a--"); console.log(data)});
+    //setTimeout(function(){checkGuestNotify(form_id)}, 10000);
 }
 

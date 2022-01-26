@@ -1,11 +1,11 @@
-{% load i18n bookings_tag common_tag %}
+{% load i18n bookings_tag common_tag padword_tags %}
 
 
 <div class="div-info-tb">
-	<table class="table mt-4" id="table_{{q.id}}" width="100%">
+	<table class="table" id="table_{{q.id}}" width="100%">
 	    <thead> <tr>
 			{% for f in q.field_set.all %}
-			    <td class="sh-td item-left">{{f.text}}</td>
+			    <td class="sh-td item-left">{% padword_translate f.text %}</td>
 			    {% if forloop.last %}<td class="sh-td"></td><td class="sh-td"></td>{% endif %}
 			{% endfor %} 
         </tr> </thead>

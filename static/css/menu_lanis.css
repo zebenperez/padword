@@ -1,10 +1,13 @@
+#main-pwa {
+    padding-top: 100px !important;
+}
+
 .container {
 	background-position: center; 
 	background-repeat: no-repeat;
 	background-size: cover; 
 	height: 500px;
 	width: 100%;
-/*    margin-left: 15px;*/
 }
 
 #div-notification,
@@ -20,21 +23,23 @@ img {
     background: rgb(255,255,255) !important;
     background: linear-gradient(180deg, rgba(255,255,255,1) 71%, rgba(255,255,255,0) 100%) !important;
     border-bottom: none !important;
-    position: sticky !important;
-    top: 0 !important;
     justify-content: left !important;
-    /*max-height: 100px;*/
     height: 100px !important;
+    position: fixed !important;
+    top: 0 !important;
+    z-index: 1;
 }
 .div-top img {
     height: 60px !important;
     object-fit: cover;
 }
 
-button.btn.btn-header-pwa.ark { margin-top: 15px;}
-button.btn.btn-header-pwa.ark span { color: #3a4355 !important;}
+button.btn.btn-header-pwa.ark, a.btn.btn-header-pwa.ark { margin-top: 15px;}
+button.btn.btn-header-pwa.ark span, span.subtext { color: #3a4355 !important;}
 
-i.fas.fa-home, i.far.fa-calendar, i.fas.fa-sign-in-alt { 
+/*.icon-cart  { color: #3a4355 !important; margin-top: 15px;}*/
+
+i.fas.fa-home, i.far.fa-calendar, i.fas.fa-shopping-cart, i.fas.fa-sign-in-alt { 
     color: #3a4355 !important; 
     font-size: 1.2rem;
 }
@@ -101,6 +106,17 @@ button.btn-outline-danger:hover {
     color: white;
 }
 
+button.btn.btn-header-pwa.ark { 
+    margin-top: 10px;
+    padding-left: 0px;
+    padding-right: 0px;
+}
+
+a.btn.btn-header-pwa.ark { 
+    margin-top: 13px;
+    color: #3a4355 !important; 
+}
+
 .slogan {
     font-size: 2.1rem;
     font-weight:600;
@@ -111,9 +127,7 @@ button.btn-outline-danger:hover {
     text-transform: uppercase;
 }
 
-
 #div-current-category {
-/*	border:1px solid blue;*/
 	bottom: 60px;
 	width: 83%;
 	width: 100%;
@@ -187,10 +201,10 @@ button.menu-options {
 }
 
 .languages img {
-	width: 30px;
-	height: 30px;
+	width: 70px;
+	height: 70px;
 	border: 1px solid #fff !important;
-	border-radius: 15px;
+	border-radius: 50px !important;
 }
 
 .div-slogan {
@@ -225,16 +239,35 @@ button.menu-options {
     padding:0;
 }
 
+.img-carousel {
+    background-color: #fff;
+    border-radius: 0.25rem;
+}
+
+
+
 /*****************************/
 /* devices style*/
 /*****************************/
 
+@media (max-width: 1200px) 
+{
+    .languages img {
+        width: 50px;
+        height: 50px;
+    	border: 1px solid #fff !important;
+	    border-radius: 50px !important;
+    }
+    .div-top img {
+        height: 60px !important;
+        max-width: initial;
+        object-fit: cover;
+    }
+}
+
+
 @media (max-width: 420px) 
 {
-    .container {
-      /*  margin-top: -80px;
-        margin-top: 100px;*/
-    }
     .i-love-btn, .slogan, .value-btn, .covid19-btn, .sugest-btn  {
         margin-top: 20px;
     }
@@ -243,6 +276,10 @@ button.menu-options {
     a.btn.btn-outline-danger.w-100 {
         font-size: 0.7rem !important;
     }
+    .row.div-top {
+        height: 80px !important;
+    }
+
     .div-top img {
         height: 35px !important;
         max-width: initial;
@@ -283,16 +320,27 @@ button.menu-options {
         margin-top: 5px !important;
     }
 
-    button.btn.btn-header-pwa.ark { 
+    button.btn.btn-header-pwa.ark,
+    a.btn.btn-header-pwa.ark { 
         margin-top: 10px;
         padding-left: 0px;
         padding-right: 0px;
     }
-    button.btn.btn-header-pwa.ark span { color: #3a4355 !important;font-size: 0.7rem;}
+    button.btn.btn-header-pwa.ark span, span.subtext  { color: #3a4355 !important;font-size: 0.7rem;}
 
-    i.fas.fa-home, i.far.fa-calendar, i.fas.fa-sign-in-alt { 
+    .icon-cart  { color: #3a4355 !important; margin-top: 0;}
+
+    i.fas.fa-home, i.far.fa-calendar, i.fas.fa-shopping-cart, i.fas.fa-sign-in-alt { 
         color: #3a4355 !important; 
         font-size: 1rem;
+        font-size: 0.8rem;
+        padding-top: 2px;
+    }
+
+    .languages img {
+        width: 50px;
+        height: 35px;
+    	border: 1px solid #fff !important;
     }
 
 }

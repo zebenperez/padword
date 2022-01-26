@@ -213,6 +213,35 @@ def category_remove_image(request):
         #logger.error("[remove_file]" + str(e))
         return render(request, 'error_exception.html', {'msg': str(e)})
 
+@group_required("admins", "projects")
+def category_add_image_gallery(request):
+    try:
+        obj_id = request.POST["obj_id"]
+        image = request.FILES["file"]
+
+        cat = get_or_none(Category, obj_id)
+        if cat != None:
+            ci = CategoryImage.objects.create(image=image, category=cat)
+        return render(request, "contents/category-gallery.html", {"obj": cat,})
+    except Exception as e:
+        print(e)
+        #logger.error("[bookings-form_add_image]" + str(e))
+        return render(request, 'error_exception.html', {'msg': str(e)})
+
+@group_required("admins", "projects")
+def category_remove_image_gallery(request):
+    try:
+        obj_id = request.GET["obj_id"]
+        obj = get_or_none(CategoryImage, obj_id) 
+        cat = obj.category
+        obj.image.delete(save=True)
+        obj.delete()
+        return render(request, "contents/category-gallery.html", {"obj": cat,})
+    except Exception as e:
+        print(e)
+        #logger.error("[remove_file]" + str(e))
+        return render(request, 'error_exception.html', {'msg': str(e)})
+
 
 '''
     Items
@@ -356,6 +385,23 @@ def remove_extra(request):
         return render(request, "contents/extras.html", {"obj": item,})
     except Exception as e:
         return render(request, "error_exception.html", {'exc': show_exc(e)})
+
+@group_required("admins", "projects")
+def save_feature(request):
+    try:
+        obj = get_or_none(Category, request.GET["obj_id"])
+        feature = get_or_none(Feature, request.GET["feature_id"])
+        add = request.GET["add"]
+        
+        if add == "True":
+            CategoryFeature.objects.create(category=obj, feature=feature)
+        else:
+            CategoryFeature.objects.filter(category=obj, feature=feature).delete()
+        return render(request, "contents/features.html", {"obj": obj, "item_list": Feature.objects.all()})
+    except Exception as e:
+        print(e)
+        return render(request, "error_exception.html", {'exc': show_exc(e)})
+
 
 ##### IMPORT #####
 class Node:

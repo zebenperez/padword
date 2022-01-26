@@ -11,9 +11,7 @@
 {%endcomment%}
 <link rel="stylesheet" href="{% static 'css/menu2.css' %}" >
 
-{% if category.parent %}
-    <div class="row back-button d-flex justify-content-end mb-2"> <div class="col-12 text-right"> {% include "bookings/back-btn.html" %} </div> </div>
-{% endif %}
+{% if category.parent.parent %}{%include "bookings/back-btn.html" with uuid=category.parent.parent.uuid %}{% endif %}
 
 {% if form.show_desc %} <div class="col-12 card info-panel p-4">{% padword_translate form.desc %}</div> {% endif %}
 

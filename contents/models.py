@@ -57,6 +57,7 @@ class Category(models.Model):
 
     show_img = models.BooleanField(default=False, help_text=_("Show image"), verbose_name="Show image")
     image = models.ImageField(upload_to=upload_category_image, verbose_name=_("Image"), blank=True, null=True)
+    url = models.TextField(verbose_name='Url', blank=True, default="")
 
     @property
     def active(self):
@@ -133,6 +134,43 @@ class Category(models.Model):
         db_table = 'categories_shidix'
         verbose_name = _('Category')
         ordering = ['position']
+
+class CategoryImage(models.Model):
+    order = models.IntegerField(verbose_name=_('Order'), default=0)
+    image = models.ImageField(upload_to=upload_category_image, verbose_name=_("Image"), blank=True, null=True)
+    category = models.ForeignKey('Category', on_delete=models.CASCADE, null=True, related_name="images")
+
+    class Meta:
+        verbose_name = _('Category Image')
+        ordering = ['order']
+
+def feature_icon(instance, filename):
+    ascii_filename = str(filename.encode('ascii', 'ignore'))
+    instance.filename = ascii_filename
+    return '/'.join(['features', ascii_filename])
+
+class Feature(models.Model):
+    code = models.SlugField(verbose_name="Codigo", max_length=50, unique="True")
+    name = models.CharField(verbose_name="Nombre", max_length=150, blank=True, null=True)
+    icon = models.ImageField(verbose_name="Icono", upload_to=feature_icon, blank=True, null=True)
+    icon_off = models.ImageField(verbose_name="Icono off", upload_to=feature_icon, blank=True, null=True)
+
+    def __str__(self):
+        return self.code
+
+    class Meta:
+        verbose_name = "Característica"
+        verbose_name_plural = "Características"
+
+class CategoryFeature(models.Model):
+    category = models.ForeignKey(Category, on_delete=models.CASCADE, null=True, related_name="features")
+    feature = models.ForeignKey(Feature, on_delete=models.SET_NULL, null=True, related_name="categories")
+
+    class Meta:
+        verbose_name = "Característica Categoría"
+        verbose_name_plural = "Características Categorías"
+
+
 
 class Item(models.Model):
     ALLOWCHOICES = (('yes','Yes'), ('no','No'), ('inherit', 'Inherit'),)

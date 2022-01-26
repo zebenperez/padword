@@ -15,9 +15,7 @@ logger = logging.getLogger(__name__)
 def get_or_create_form_instance(form, guest_uuid):
     if form.form_type.order:
         #fi, created = FormInstance.objects.get_or_create(form_uuid=form.uuid, guest_uuid=guest_uuid, status__isnull=True)
-        print("--z--")
         fi, created = FormInstance.objects.get_or_create(form_uuid=form.uuid, guest_uuid=guest_uuid)
-        print("--y--")
         return fi
     return None
 

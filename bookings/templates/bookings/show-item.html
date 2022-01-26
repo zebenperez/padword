@@ -10,7 +10,7 @@
         {% for ia in item.allergen_list.all %}
             <img src="{{ia.allergen.icon.url}}" alt="{{ia.allergen.name}}" title="{{ia.allergen.name}}" style="width:1.8em"/>
         {% endfor %}
-        {% if not item.description|is_empty:request.lang %}{% include "bookings/show-item-btn.html" %}{% endif %}
+        {% if not item.description|is_empty:request.LANGUAGE_CODE %}{% include "bookings/show-item-btn.html" %}{% endif %}
     </div>
     {% if show_footer %}
     <div class="card-footer">

@@ -5,6 +5,10 @@ body {
 	background-size: cover;
 }
 
+#main-pwa {
+    /*padding-top: 100px !important;*/
+    padding-top: 150px !important;
+}
 
 #main { padding: 0px; }
 
@@ -28,7 +32,7 @@ img {
 .div-top {
     background: #fff !important;
     border-bottom: 1px solid #333;
- /*   position: sticky !important;*/
+    position: fixed !important;
     top: 0 !important;
     z-index: 1;
     justify-content: left !important;
@@ -39,8 +43,8 @@ img {
     max-height: 100px;
     object-fit: cover;
 }
-button.btn.btn-header-pwa.ark { margin-top: 25px;}
-button.btn.btn-header-pwa.ark span { 
+button.btn.btn-header-pwa.ark, a.btn.btn-header-pwa.ark { margin-top: 15px;}
+button.btn.btn-header-pwa.ark span, span.subtext  { 
     color: #3c385c !important;
     font-size: 0.8rem;
 }
@@ -95,7 +99,7 @@ i.fas.fa-ban.text-cancel {
 	color: white;
 	opacity:0.8;
 	position:absolute;
-       	top:10%;
+    top:10%;
 }
 
 .item {
@@ -123,7 +127,25 @@ i.fas.fa-ban.text-cancel {
     color: #00448c !important;
 	font-weight:normal !important;
 	text-align: left;
+    width:50%;
 }
+.div-info-tb {
+    border: none !important;
+} 
+.div-info-tb td {
+    color: #333 !important;
+}
+.div-info-tb td.sh-td.item-left {
+    color: #27449a !important;
+}
+
+.div-info-tb input,.div-info-tb select {
+    width: 98%;
+    height: 40px;
+    margin-left: 1%;
+}
+
+
 
 .div-transp .btn.btn-outline-primary.btn-lg.ark.w-100,
 .div-transp .btn.btn-outline-danger.btn-lg.w-100 {
@@ -182,9 +204,6 @@ i.fas.fa-ban.text-cancel {
 	grid-gap: 10px;
 	color:#000;
 }
-/*
-.grid-container > div { font-size: 30px;color: #000; }
-*/
 
 .item1 { grid-column: 1 / 5; text-align: left; }
 .item2 { font-size: 18px !important; line-height: 1.8; text-align: right; }
@@ -249,7 +268,8 @@ a.btn-light {
     border-color: #404a5d !important;
 }
 #booking-list {
-    height: 400px;
+    min-height: 360px;
+    max-height: 650px;
     overflow-y: scroll;
 }
 
@@ -296,7 +316,7 @@ tbody, td, tfoot, th, thead, tr {
     font-size: 20px;
     display: flex;
     justify-content: center;
-    align-items: center;
+/*    align-items: center;*/
     text-align: center;
 }
 .zoom:hover {
@@ -412,20 +432,26 @@ a.btn.btn-outline-danger:hover {
     height: 45px;
     width: 45px;
     background-color: #ffffff;
-    color:#0069ae;
     border-radius: 50%;
+    padding-left: 0 !important;
 }
-span.count.badge {
+span#count-badge.count.badge {
+/*span.count.badge*/
     border-radius:50%;
     width:20px;
     height:20px;
     background-color: red; 
-    color: white;
-    position: relative;
-    left: 45%;
-    top: -140%;
+    color: white !important;
+    position: absolute;
+/*    left: 0;*/
+    top: 5px !important;
+
     padding: 5px 0 0px 0 !important;
     text-align:center !important;
+}
+
+span#count-badge.count.badge #span-total-items {
+    color: white !important;
 }
 
 .btn-dark {
@@ -471,11 +497,6 @@ span.count.badge {
 
 /*********  Booking List Style ***************/
 
-
-tr.small {
-/*	border:1px solid !important;
-	margin-top: 10px !important;*/
-}
 
 td.booking-line {
 	height: 40px;
@@ -598,7 +619,6 @@ img.img-cart-line {
 	color: #fff;
 	font-weight: normal;
 	font-style: italic;
-/*	margin-top: 20px !important;*/
 }
 
 .welcome-page h5 {
@@ -679,16 +699,25 @@ img.img-cart-line {
 .btn-info-pwa {
     font-size: 0.8rem !important;
 }
-
+/*
 .back-button {
-/*    text-align: right;*/
     text-align: left;
-    margin-top: -20px !important;
+    margin-top: -30px !important;
+    width: 100%;
+    position: fixed !important;
+    z-index: 1;
 }
+*/
+
 button.btn.btn-back,
 .back-button a {
     color: white;
 }
+
+#back-btn {
+    font-size: 1.2rem;
+}
+
 
 h4.slogan {
     font-size: 2.1rem;
@@ -765,12 +794,15 @@ img.img-cart {border-radius: 10px 10px 10px 10px; box-shadow: 10px 0px 10px 0px 
 	h5.card-title .text-dark .text-center {
 		font-size: 0.9rem !important; 
 	}
+    #booking-list {
+        max-height: 500px;
+    }
 
 }
 
 @media (max-width: 415px) 
 {
-    .div-top img {
+     .div-top img {
         max-height: 60px !important;
         object-fit: cover;
     }
@@ -784,7 +816,7 @@ img.img-cart {border-radius: 10px 10px 10px 10px; box-shadow: 10px 0px 10px 0px 
         padding-left: 0px !important;
         padding-right: 0px !important;
     }
-    button.btn.btn-header-pwa.ark span { color: #3c385c !important;font-size: 0.7rem;}
+    button.btn.btn-header-pwa.ark span, span.subtext  { color: #3c385c !important;font-size: 0.7rem;}
 
     i.fas.fa-home, i.far.fa-calendar, i.fas.fa-sign-in-alt { 
         color: #3c385c !important; 
@@ -796,10 +828,11 @@ img.img-cart {border-radius: 10px 10px 10px 10px; box-shadow: 10px 0px 10px 0px 
         font-size: 0.8rem;
         color: #3c385c !important; 
     }
-    .carousel-inner {
-        margin-top: 100px;
+    .back-button {
+        margin-top: -40px !important;
     }
 }
+
 
 @media (max-width: 360px) 
 {
@@ -815,7 +848,8 @@ img.img-cart {border-radius: 10px 10px 10px 10px; box-shadow: 10px 0px 10px 0px 
 		height: 100px;
 		overflow-y: scroll;
 	}
-}
+
+ }
 
 .info-panel-msg {
     background-color: #fff;

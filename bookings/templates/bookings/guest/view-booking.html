@@ -1,12 +1,6 @@
-{% extends "base_guest.html" %}
 {% load i18n bookings_tag common_tag padword_tags %}
 
-{% block central_content %}
-<div class="row back-button d-flex justify-content-end mb-2"> <div class="col-lg-2 col-4">
-    <button class="btn btn-back w-100 ark text-right" data-url="{% url "my-bookings" %}" data-target="main" 
-        data-project_uuid="{{project_uuid}}" data-cat_id="{{cat_uuid}}"><i class="fas fa-chevron-circle-left"></i> {% trans "Back" %}</button>
-</div> </div>
-
+<script>$("#back-btn").hide(); $("#back-btn-bookings").show()</script>
 <div class="col-10 card info-panel p-4" style="width: 96%; margin-left:2%;">
     <div class="content">
  
@@ -70,5 +64,4 @@
 </div>
 
 {% if fi.form.image %} <script>$('body').css('background-image', 'url("{{fi.form.image.url}}")');</script> {% endif %}
-{% endblock %}
 

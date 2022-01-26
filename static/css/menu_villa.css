@@ -103,6 +103,17 @@ button.btn-outline-danger:hover {
     color: white;
 }
 
+button.btn.btn-header-pwa.ark { 
+    margin-top: 10px;
+    padding-left: 0px;
+    padding-right: 0px;
+}
+
+a.btn.btn-header-pwa.ark { 
+    margin-top: 13px;
+    color: #3a4355 !important; 
+}
+
 .slogan {
     font-size: 2.1rem;
     font-weight:600;
@@ -268,15 +279,16 @@ button.menu-options {
     .div-boxes {
         margin-top: 5px !important;
     }
-
-    button.btn.btn-header-pwa.ark { 
+    
+    button.btn.btn-header-pwa.ark,
+    a.btn.btn-header-pwa.ark { 
         margin-top: 10px;
         padding-left: 0px;
         padding-right: 0px;
     }
-    button.btn.btn-header-pwa.ark span { color: #3c385c !important;font-size: 0.7rem;}
+    button.btn.btn-header-pwa.ark span, span.subtext  { color: #3c385c !important;font-size: 0.7rem;}
 
-    i.fas.fa-home, i.far.fa-calendar, i.fas.fa-sign-in-alt { 
+    i.fas.fa-home, i.far.fa-calendar, i.fas.fa-shopping-cart, i.fas.fa-sign-in-alt { 
         color: #3c385c !important; 
         font-size: 1rem;
     }

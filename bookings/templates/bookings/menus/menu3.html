@@ -3,27 +3,26 @@
 <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
 <link rel="stylesheet" href="{% static 'css/menu3.css' %}" >
 
-{% if category.parent %}
-    <div class="row back-button d-flex justify-content-end mb-2">
-        <div class="col-lg-2 col-4">
-            <button type="button" class="btn btn-back w-100 ark text-right" data-url="{% url "show-category-menu" %}" data-target="main" data-cat_id="{{category.parent.uuid}}"><i class="fas fa-chevron-circle-left"></i> {% trans "Back" %}</button>
-        </div>
-    </div>
-{% endif %}
-
+{% if category.parent %}{%include "bookings/back-btn.html" with uuid=category.parent.uuid %}{% endif %}
 <div class="row">
+    {%if category.images.count > 0%}{% include "bookings/show-category-gallery.html" %}{%endif%}
+    {%if category.features.count > 0%}{% include "bookings/show-category-features.html" %}{%endif%}
     {%if form.show_desc%}<div class="card info-panel p-4 col-{{form.desc_width}}">{% padword_translate form.desc %}</div>{%endif%}
 
     <div class="row p-1 d-flex justify-content-center col-{{"12"|subint:form.desc_width}}">
         {% for item in category.get_childrens %}
-            <div class="container-test col-lg-3 col-12 box-cat pointer">
-                <div class="card ark" data-url="{% url "show-category-menu" %}" data-target="main" data-cat_id="{{item.uuid}}">
+            <div class="container-test col-lg-4 col-12 box-cat pointer">
+                {% if item.url != "" %}
+                    <a href="{{item.url}}"> <div class="card"> 
+                {% else %}
+                    <div class="card ark" data-url="{% url "show-category-menu" %}" data-target="main" data-cat_id="{{item.uuid}}">
+                {% endif %}
                     <div class="image" id="cover">
                         <img width="100%" src="{% if item.image %} {{item.image.url}} {%else%} {% static 'img/none.png' %}{%endif%}" 
                             class="object-fit_cover" alt="{% padword_translate item.name %}"> 
                     </div>
                     <div class="overlay"><strong><span>{% padword_translate item.name %}</span></strong></div>
-                </div>
+                </div> {%if item.url != ""%}</a>{%endif%}
             </div>
         {% endfor %}
     </div>

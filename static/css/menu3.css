@@ -26,8 +26,8 @@ img {
     max-height: 100px;
     object-fit: cover;
 }
-button.btn.btn-header-pwa.ark { margin-top: 25px;}
-button.btn.btn-header-pwa.ark span { color: #3c385c !important;}
+button.btn.btn-header-pwa.ark, a.btn.btn-header-pwa.ark { margin-top: 15px;}
+button.btn.btn-header-pwa.ark span, span.subtext  { color: #3c385c !important;}
 
 i.fas.fa-home, i.far.fa-calendar, i.fas.fa-sign-in-alt { 
     color: #3c385c !important; 
@@ -119,18 +119,9 @@ div.card-title {
 .info-panel {
     border:1px solid white;
     color: #777;
-    opacity: 0.9;
+    opacity: 1;
 }
-.info-panel img {
-/*    width: 100%;
-    object-fit: cover;*/
-}
-
-
-
-/**********************************/
-	/* devices style*/
-/**********************************/
+**********************************/
 
 
 @media (max-width: 320px) {
@@ -170,6 +161,7 @@ div.card-title {
 .container-test {
     position: relative;
     width: 50%;
+    height: 200%;
     opacity: 0.9;
 }
 
@@ -224,8 +216,8 @@ div.card-title {
 
 @media (max-width: 415px) 
 {
-    button.btn.btn-header-pwa.ark { margin-top: 5px;}
-    button.btn.btn-header-pwa.ark span { color: #3c385c !important;font-size: 0.7rem;}
+    button.btn.btn-header-pwa.ark { margin-top: 10px;}
+    button.btn.btn-header-pwa.ark span, span.subtext { color: #3c385c !important;font-size: 0.7rem;}
 
     i.fas.fa-home, i.far.fa-calendar, i.fas.fa-sign-in-alt { 
         color: #3c385c !important; 

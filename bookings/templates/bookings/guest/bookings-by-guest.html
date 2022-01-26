@@ -1,9 +1,6 @@
 {% load i18n padword_tags %}
 
-<div class="row back-button d-flex justify-content-end mb-2"> <div class="col-lg-2 col-4">
-    <button type="button" class="btn btn-back w-100 ark text-right" data-url="{% url "show-category-menu" %}" data-target="main" 
-        data-cat_id="{{cat_uuid}}"> <i class="fas fa-chevron-circle-left"></i> {% trans "Back" %}</button>
-</div> </div>
+{% include "bookings/back-btn.html" with uuid=cat_uuid %}
 
 <div class="col-10 card info-panel p-2" style="width: 96%; margin-left:2%;">
     <div class="content">
@@ -14,7 +11,7 @@
                 <option onclick="$('.booking-line').hide();$('.status-{{status.pk}}').show();">{% padword_translate status.name %}</option>
             {% endfor %}
         </select>
-        <div id="booking-list" class="" style="min-height: 400px;">
+        <div id="booking-list" class="mb-4">
             <div class="">
                 <div class="row booking-head p-2">
                     <div class="col-md-2 col-4">{% trans 'Service' %}</div>

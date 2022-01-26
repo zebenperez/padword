@@ -550,6 +550,15 @@ def view_shopping_cart(request, par=None):
             items = ShoppingCart.objects.filter(form_instance_id=instance.pk)
             total_price = instance.get_total
             return render(request, "bookings/ecom/view-shopping-cart.html", {'fi':instance, 'items':items, 'total':total_price})
+        else:
+            gu = GuestUser.objects.filter(username=request.user.username).first()
+            fi_list = FormInstance.objects.filter(guest_uuid = gu.guest.UUID)
+            items = ShoppingCart.objects.none()
+            total_price = 0
+            for instance in fi_list:
+                items = ShoppingCart.objects.filter(form_instance_id=instance.pk) or items
+                total_price += instance.get_total
+            return render(request, "bookings/ecom/view-shopping-cart.html", {'fi':instance, 'items':items, 'total':total_price})
         return render(request, "bookings/ecom/view-shopping-cart.html", {'fi':None, 'items':[], 'total':0})
     except Exception as e:
         #return HttpResponse(show_exc(e))
@@ -612,7 +621,6 @@ def remove_generic_item_from_shopping_cart(request):
 #def show_category_menu(request, form_id=None, cat_id = None):
 def show_category_menu(request, cat_id=None):
     try:
-        print("--A_-")
         #if not form_id:
         #    form_id = request.GET["form_id"] if "form_id" in request.GET else 0
         if not cat_id:
@@ -630,11 +638,14 @@ def show_category_menu(request, cat_id=None):
         gu = GuestUser.objects.filter(project_uuid=form.project.uuid, username=request.user.username).first()
         fi = get_or_create_form_instance(form, gu.guest.UUID) if gu != None and gu.guest != None else None
         items = ShoppingCart.objects.filter(form_instance_id=fi.pk) if fi != None else []
+        if len(items) == 0:
+            ## FIXME! We have to filter by status
+            fi_list = FormInstance.objects.filter(guest_uuid = gu.guest.UUID).values_list('pk', flat=True)
+            items = ShoppingCart.objects.filter(form_instance_id__in = list(fi_list))
  
-        print("--B_-")
         return render(request, form.form_type.template, {'category':category, 'form': form, 'fi':fi, 'index':0, 'items': items})
     except Exception as e:
-        print(e)
+        print(show_exc(e))
         return render(request, "error_exception.html", {'exc':show_exc(e)})
 
 '''
@@ -666,16 +677,12 @@ def guest_notifications(request, form_id):
         #forms_list = list(Form.objects.filter(category__in = categories_list).values_list('uuid', flat=True))
         #bookings = FormInstance.objects.filter(form_uuid__in = forms_list, status__code = "01" ).order_by('pk')
         #return HttpResponse(str(bookings.count()))
-        print("--1--")
         form = get_or_none(Form, form_id)
-        print(form.project.uuid)
         gu = GuestUser.objects.filter(project_uuid=form.project.uuid, username=request.user.username).first()
         bookings = FormInstance.objects.filter(guest_uuid=gu.guest_uuid, status_list__read=False).order_by('pk')
-        print(bookings)
         val = ""
         if len(bookings) > 0:
             val = _("You have some news in your orders:\n")
-            print("--2--")
             for booking in bookings:
                 val += _("Order {} with current status {}".format(booking.form.get_category.name, booking.get_status.status.name))
         return HttpResponse(val)

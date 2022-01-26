@@ -214,6 +214,7 @@ $(document).ready(()=>{
             ajaxGet(url, datas, target, target_modal);
             if (obj.data("show"))
                 $("#" + obj.data("show")).show();
+
             e.preventDefault();
             e.stopImmediatePropagation();
         }

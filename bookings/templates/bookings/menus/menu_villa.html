@@ -102,3 +102,14 @@
 </div>
 
 
+        <script id="realtime-script">
+            $('#counter-item-{{item_refresh.pk}}').val('{{total_items}}');
+            $('#counter-item-mob-{{item_refresh.pk}}').val('{{total_items}}');
+            $('#span-total-price').html('{{total|floatformat:2}}');
+            $('#span-total-items').html('{{items|length}}');
+            if (parseInt($("#span-total-items").html()) > 0)
+                $("#count-badge").show();
+            else
+                $("#count-badge").hide();
+            $('#realtime-script').remove();
+        </script>

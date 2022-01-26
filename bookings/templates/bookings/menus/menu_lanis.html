@@ -43,7 +43,7 @@
 
 
 <div class="row div-slogan">
-    <div class="col-12 text-center"> <div class="slogan"> Lanis <br /><span>Suite de Luxe</span></div> </div>
+    <div class="col-12 text-center"> <div class="slogan"> Lani's <br /><span>Suites de Luxe</span></div> </div>
 </div>
 
 <div class="row menu-tabs align-items-end w-100">
@@ -75,21 +75,34 @@
 </div>
 
 <div class="row menu-botton w-100">
+    {% comment %}
     <div class="col-lg-2 offset-lg-1 col-3" style="padding:0;order:1px solid red">
         <div><a class="text-white pointer ark" data-url="{%url "show-category-menu"%}" data-target="main" data-cat_id="9146a9e6-09df-5c78-8f14-e337643ec4e4">
                 <i class="far fa-comment-dots"></i><span> {% padword_translate_obj '9146a9e6-09df-5c78-8f14-e337643ec4e4' %}</a></span></div>
     </div>
-    <div class="col-lg-2 col-3" style="padding:0;order:1px solid red">
+    {% endcomment %}
+    <div class="col-lg-3 offset-1 col-3" style="padding:0;order:1px solid red">
         <div><a class="text-white pointer ark" data-url="{%url "show-category-menu"%}" data-target="main" data-cat_id="52ac91d1-debd-526b-1041-ea73cb21b111">
             <i class="far fa-star"></i><span> {% padword_translate_obj '52ac91d1-debd-526b-1041-ea73cb21b111' %}</a></span></div>
     </div>
-    <div class="col-lg-2 col-3" style="padding:0;order:1px solid red">
+    <div class="col-lg-3 col-3" style="padding:0;order:1px solid red">
         <div><a class="text-white pointer ark" data-url="{%url "show-category-menu"%}" data-target="main" data-cat_id="9e3f3d0d-f57e-91a1-ef2b-fb2bde770d5d">
          <i class="fas fa-wifi"></i><span> {% padword_translate_obj '9e3f3d0d-f57e-91a1-ef2b-fb2bde770d5d' %}</a></span></div>
     </div>
-    <div class="col-lg-2 col-3" style="padding:0;order:1px solid red">
+    <div class="col-lg-3 col-3" style="padding:0;order:1px solid red">
         <div><a class="text-white pointer ark" data-url="{%url "show-category-menu"%}" data-target="main" data-cat_id="b8b6e74d-6291-b638-ad40-bc5b1461a017">
           <i class="far fa-star"></i><span> {% padword_translate_obj 'b8b6e74d-6291-b638-ad40-bc5b1461a017' %}</a></span></div>
     </div>
 </div>
 
+        <script id="realtime-script">
+            $('#counter-item-{{item_refresh.pk}}').val('{{total_items}}');
+            $('#counter-item-mob-{{item_refresh.pk}}').val('{{total_items}}');
+            $('#span-total-price').html('{{total|floatformat:2}}');
+            $('#span-total-items').html('{{items|length}}');
+            if (parseInt($("#span-total-items").html()) > 0)
+                $("#count-badge").show();
+            else
+                $("#count-badge").hide();
+            $('#realtime-script').remove();
+        </script>

@@ -1,0 +1,10 @@
+{% load i18n %}
+
+
+<div class="card w-100 mb-3"> <div class="card-body">
+    {% for cf in category.features.all %}
+        <img src="{{cf.feature.icon.url}}" alt="{{cf.feature.name}}" title="{{cf.feature.name}}" style="width:1.8em"/>
+    {% endfor %}
+</div> </div>
+
+
