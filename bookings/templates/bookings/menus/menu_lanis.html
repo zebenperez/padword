@@ -24,7 +24,9 @@
 {%csrf_token%}
 {%endcomment%}
 
+
 <div class="row languages">
+    {% comment %}
     <div class="col-lg-1 offset-lg-4 col-2 offset-2">
         <a href="{% url "guest-access-pwa" "b2262194-8d2c-ef35-86b5-1150d12e184e" "de" %}" target="_blank">
             <img class="btn btn-secondary p-2" src="/static/img/de.png"></a></div>
@@ -38,6 +40,23 @@
         <a href="{% url "guest-access-pwa" "b2262194-8d2c-ef35-86b5-1150d12e184e" "en" %}" target="_blank">
             <img class="btn btn-secondary p-2" src="/static/img/en.png">
         </a>
+    </div>
+    {%endcomment%}
+    <div class="col-lg-1 offset-lg-4 col-2 offset-2">
+        <a href="#" class="text-center ark" data-url="{% url "guest-access-pwa" "b2262194-8d2c-ef35-86b5-1150d12e184e" "de" %}" data-target="main" 
+            data-cat_id="{{form.category}}"> <img class="btn btn-secondary p-2" src="/static/img/de.png"></a>
+    </div>
+    <div class="col-lg-1 col-2 ">
+        <a href="#" class="text-center ark" data-url="{% url "guest-access-pwa" "b2262194-8d2c-ef35-86b5-1150d12e184e" "es" %}" data-target="main" 
+            data-cat_id="{{form.category}}"> <img class="btn btn-secondary p-2" src="/static/img/es.png"></a>
+    </div>
+    <div class="col-lg-1 col-2 ">
+        <a href="#" class="text-center ark" data-url="{% url "guest-access-pwa" "b2262194-8d2c-ef35-86b5-1150d12e184e" "fr" %}" data-target="main" 
+            data-cat_id="{{form.category}}"> <img class="btn btn-secondary p-2" src="/static/img/fr.png"></a>
+    </div>
+    <div class="col-lg-1 col-2 ">
+        <a href="#" class="text-center ark" data-url="{% url "guest-access-pwa" "b2262194-8d2c-ef35-86b5-1150d12e184e" "en" %}" data-target="main" 
+            data-cat_id="{{form.category}}"> <img class="btn btn-secondary p-2" src="/static/img/en.png"></a>
     </div>
 </div>
 

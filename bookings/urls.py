@@ -59,7 +59,8 @@ urlpatterns = [
     path('guest-access/<slug:form_uuid>/', gv.guest_access, name='guest-access'),
     path('guest-access-bookings/<slug:project_uuid>/', gv.guest_access_bookings, name='guest-access-bookings'),
     #path('guest-access-pwa/<slug:project_uuid>/', gv.guest_access_pwa, name='guest-access-pwa'),
-    path('guest-access-pwa/<slug:category_uuid>/<str:lang>/', gv.guest_access_pwa, name='guest-access-pwa'),
+    #path('guest-access-pwa/<slug:category_uuid>/<str:lang>/', gv.guest_access_pwa, name='guest-access-pwa'),
+    path('guest-access-pwa/<slug:category_uuid>/<str:lang>/', gv.set_guest_language, name='guest-access-pwa'),
     path('guest-access-pwa/<slug:category_uuid>/', gv.guest_access_pwa, name='guest-access-pwa'),
 
     path('guest-form-login/', gv.guest_form_login, name='guest-form-login'),

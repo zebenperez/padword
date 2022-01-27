@@ -86,6 +86,8 @@ def guest_access_pwa(request, category_uuid, lang=None):
     cat = get_or_none(Category, category_uuid, "uuid")
     if check_user(request.user, project_uuid=cat.project.uuid):
         next_url = reverse("pwa-index-cat", kwargs = {'category_uuid':category_uuid})
+        guest = Guest.check_valid_booking(project_uuid, user.username)
+        context["guest"] = guest
     else:
         auth.logout(request)
         next_url = reverse("guest-form-login")
@@ -643,7 +645,7 @@ def show_category_menu(request, cat_id=None):
             fi_list = FormInstance.objects.filter(guest_uuid = gu.guest.UUID).values_list('pk', flat=True)
             items = ShoppingCart.objects.filter(form_instance_id__in = list(fi_list))
  
-        return render(request, form.form_type.template, {'category':category, 'form': form, 'fi':fi, 'index':0, 'items': items})
+        return render(request, form.form_type.template, {'category':category, 'form': form, 'fi':fi, 'index':0, 'items': items, 'guest':gu.guest})
     except Exception as e:
         print(show_exc(e))
         return render(request, "error_exception.html", {'exc':show_exc(e)})
@@ -691,4 +693,16 @@ def guest_notifications(request, form_id):
         print(e)
         return HttpResponse("")
 
+@group_required("admins", "projects", "guests")
+def set_guest_language(request, category_uuid, lang):
+    try:
+        category = get_or_none(Category, category_uuid, "uuid")
+        gu = GuestUser.objects.filter(project_uuid=category.project_uuid, username=request.user.username).first()
+        guest = Guest.objects.get(pk=gu.guest.pk)
+        guest.language = lang
+        guest.save()
+        return redirect(reverse('show-category-menu', kwargs={'cat_id':category.uuid}))
+    except Exception as e:
+        print (show_exc(e))
+        return render(request, 'error_exception.html', {'exc': show_exc(e), 'error-msg': show_exc(e)})
 

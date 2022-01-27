@@ -135,7 +135,10 @@ def idx_page (idx, page, items_per_page):
 def padword_translate(context, json_str):
     try:
         request = context['request']
-        lang = request.GET['lang'] if 'lang' in request.GET else request.LANGUAGE_CODE
+        try:
+            lang = request.GET['lang'] if 'lang' in request.GET else context['guest'].language
+        except:
+            lang = request.GET['lang'] if 'lang' in request.GET else request.LANGUAGE_CODE
         lang = lang.split('-')[0]
         json_dict = json.loads(json_str)
         return mark_safe(json_dict[lang.upper()])
@@ -156,7 +159,10 @@ def padword_translate_short(context, json_str, chars):
     val = ""
     try:
         request = context['request']
-        lang = request.GET['lang'] if 'lang' in request.GET else request.LANGUAGE_CODE
+        try:
+            lang = request.GET['lang'] if 'lang' in request.GET else context['guest'].language
+        except:
+            lang = request.GET['lang'] if 'lang' in request.GET else request.LANGUAGE_CODE
         lang = lang.split('-')[0]
         json_dict = json.loads(json_str)
         val = json_dict[lang.upper()]
@@ -178,7 +184,10 @@ def padword_translate_obj(context, obj_id):
     try:
         obj = get_obj(obj_id, 'Category')
         request = context['request']
-        lang = request.GET['lang'] if 'lang' in request.GET else request.LANGUAGE_CODE
+        try:
+            lang = request.GET['lang'] if 'lang' in request.GET else context['guest'].language
+        except:
+            lang = request.GET['lang'] if 'lang' in request.GET else request.LANGUAGE_CODE
         lang = lang.split('-')[0]
         json_str = obj.name
         json_dict = json.loads(json_str)
