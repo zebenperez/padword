@@ -1,5 +1,7 @@
 {% load i18n bookings_tag common_tag %}
 
+{% if category.parent %}{%include "bookings/back-btn.html" with uuid=category.parent.uuid %}{% endif %}
+
 {% for b in form.get_public_blocks %}<div id="div-block">{%include "bookings/general/block_form.html"%}</div>{% endfor %}
 
 <div class="col-12">

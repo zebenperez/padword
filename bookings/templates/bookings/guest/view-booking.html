@@ -20,7 +20,7 @@
                                         {% for f in q.field_set.all %}
                                             <div class="item mb-4">
                                                 <div class="btn-dark fw-normal">
-                                                    {% if q.field_set.all|length > 0 %}  {{f}}  {% endif %} 
+                                                    {% if q.field_set.all|length > 0 %}  {% padword_translate f.text %}  {% endif %} 
                                                 </div>
                                                 <div class="td_{{q.id}}_{{index}}"> {% field_value fi q f index %} </div>
                                             </div>
@@ -31,7 +31,7 @@
                                     <div class="div-info-tb mt-4">
                                         <table class="table mt-4" id="table_{{q.id}}" width="100%">
                                             <thead> <tr>
-                                                {% for f in q.field_set.all %} <td class="sh-td item-left">{{f.text}}</td> {% endfor %} 
+                                                {%for f in q.field_set.all%}<td class="sh-td item-left">{% padword_translate f.tex %}}</td>{%endfor%} 
                                             </tr> </thead>
                                             <tbody> 
                                                 {% for index in q|get_indexes:fi%} 

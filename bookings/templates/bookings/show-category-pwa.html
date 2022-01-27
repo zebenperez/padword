@@ -84,7 +84,7 @@
         {% include "common-modal.html" %}
 
         <script>
-            $("#btn-home").click(function(){ $("#back-btn").hide(); });
+            $("#btn-home").click(function(){ $("#back-btn").hide(); $("#back-btn-bookings").hide();});
             $("#back-btn").click(function(){ if ($(this).data("cat_id") == $(this).data("cat_home")) $(this).hide(); else $(this).show(); });
             $("#back-btn-bookings").click(function(){ $(this).hide(); $("#back-btn").show(); });
 
