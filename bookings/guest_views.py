@@ -84,14 +84,15 @@ def guest_access_bookings(request, project_uuid):
 #
 def guest_access_pwa(request, category_uuid, lang=None):
     cat = get_or_none(Category, category_uuid, "uuid")
+    context = {'project_uuid': cat.project.uuid, 'cat': cat}
     if check_user(request.user, project_uuid=cat.project.uuid):
         next_url = reverse("pwa-index-cat", kwargs = {'category_uuid':category_uuid})
-        guest = Guest.check_valid_booking(project_uuid, user.username)
+        guest = Guest.check_valid_booking(cat.project.uuid, request.user.username)
         context["guest"] = guest
     else:
         auth.logout(request)
         next_url = reverse("guest-form-login")
-    context = {'project_uuid': cat.project.uuid, 'cat': cat, 'next_url': next_url}
+    context["next_url"] = next_url
     if lang:
         context["lang"] = lang
     #context = {'cat': cat}
