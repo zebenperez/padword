@@ -588,6 +588,7 @@ img.img-cart-line {
 	color: #28a745;
 	padding: 15px;
 	text-align: center;
+	border:1px solid red !important;
 }
 #item-selected span {
 	color: #333 !important;

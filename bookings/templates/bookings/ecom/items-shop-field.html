@@ -45,7 +45,7 @@
 </div>
 <br/>
 {% if selected_item and selected_item != None %}
-    <div id="item-selected"> <i class="far fa-check-circle"></i> {% trans "You are selected:" %} <span> 
+    <div id="item-selected" style="border:1px solid red"> <i class="far fa-check-circle"></i> {% trans "You are selected:" %} <span> 
         {% padword_translate selected_item.name %} - {{selected_item.price}} &euro; </span> </div>
     <script> var element = document.getElementById("item-selected"); element.scrollIntoView(); </script>
 {% endif %}
