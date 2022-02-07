@@ -1,6 +1,6 @@
 {% load i18n bookings_tag common_tag %}
 
-<div class="col-10 card info-panel p-4 mb-2" tyle="border:1px solid blue !important">
+<div class="col-10 card info-panel p-4 mb-2">
 {% for q in item_list %}
     <div class="panel panel-info mb-2" style="width:99% !important; margin:auto !important;">
         <div class="panel-heading mt-4" style="color:white;display:none;"> {{q.text}} <span id="autosave-alert-{{q.id}}"></span></div> 
@@ -20,5 +20,4 @@
         </div>
     </div>
 {% endfor %}
-
-    </div>
+</div>

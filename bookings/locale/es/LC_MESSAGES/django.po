@@ -22,52 +22,52 @@ msgstr ""
 #: form_views.py:82 guest_views.py:106 guest_views.py:162 guest_views.py:185
 #: views.py:380
 msgid "Form not found!"
-msgstr ""
+msgstr "Formulario no encontrado"
 
 #: form_views.py:87
 msgid "Category not found!"
-msgstr ""
+msgstr "Categoría no encontrada"
 
 #: guest_views.py:108 guest_views.py:113 guest_views.py:164 guest_views.py:187
 #: views.py:39
 msgid "Project not found!"
-msgstr ""
+msgstr "Proyecto no econtrado"
 
 #: guest_views.py:118
 msgid "Sorry, your information is not right. Please, try again."
-msgstr ""
+msgstr "Lo sentimos, su información no es correcta. Por favor, inténtelo de nuevo"
 
 #: guest_views.py:159
 msgid "Guest not found or not assigned to room number!"
-msgstr ""
+msgstr "Huésped no encontrado o no asignado a un número de habitación"
 
 #: guest_views.py:194 views.py:383
 msgid "Booking created"
-msgstr ""
+msgstr "Reserva creada"
 
 #: guest_views.py:210
 msgid "Created"
-msgstr ""
+msgstr "Creado"
 
 #: guest_views.py:212 views.py:175 views.py:250
 msgid "Status change from {} to {}"
-msgstr ""
+msgstr "El estado cambio de {} a {}"
 
 #: guest_views.py:444
 msgid "Sorry, there was a problem with your booking, please try again!"
-msgstr ""
+msgstr "Lo sentimos, hay algún problema con su reserva, por favor, inténtelo de nuevo"
 
 #: models.py:22 models.py:34 models.py:45 models.py:70 models.py:134
 #: models.py:157 models.py:175 models.py:202
 msgid "Code"
-msgstr ""
+msgstr "Código"
 
 #: models.py:23 models.py:35 models.py:46 models.py:71 models.py:100
 #: templates/bookings/guest/bookings-by-guest.html:12
 #: templates/forms/block-form.html:14 templates/forms/form-form.html:27
 #: templates/forms/form-list.html:8
 msgid "Name"
-msgstr ""
+msgstr "Nombre"
 
 #: models.py:29 models.py:30 models.py:206
 #: templates/bookings/guest/bookings-by-guest.html:15
@@ -75,195 +75,195 @@ msgstr ""
 #: templates/bookings/manage/status-form.html:9
 #: templates/bookings/manage/status-links.html:4
 msgid "Status"
-msgstr ""
+msgstr "Estado"
 
 #: models.py:33
 msgid "Field type"
-msgstr ""
+msgstr "Tipo de campo"
 
 #: models.py:41 models.py:59 models.py:177
 msgid "Answer type"
-msgstr ""
+msgstr "Tipo de respuesta"
 
 #: models.py:42
 msgid "Answers types"
-msgstr ""
+msgstr "Tipo de respuestas"
 
 #: models.py:52 models.py:159 templates/forms/block-form.html:31
 msgid "Question type"
-msgstr ""
+msgstr "Tipo de pregunta"
 
 #: models.py:53
 msgid "Questions types"
-msgstr ""
+msgstr "Tipo de preguntas"
 
 #: models.py:56
 msgid "Hide"
-msgstr ""
+msgstr "Oculto"
 
 #: models.py:57 models.py:65
 msgid "Answer"
-msgstr ""
+msgstr "Respuesta"
 
 #: models.py:66
 msgid "Answers"
-msgstr ""
+msgstr "Respuestas"
 
 #: models.py:77 models.py:106
 msgid "Form type"
-msgstr ""
+msgstr "Tipo de formulario"
 
 #: models.py:78
 msgid "Forms type"
-msgstr ""
+msgstr "Tipo de formularios"
 
 #: models.py:99 templates/forms/form-form.html:43
 msgid "UUID"
-msgstr ""
+msgstr "UUID"
 
 #: models.py:101 templates/forms/form-form.html:49
 msgid "Category"
-msgstr ""
+msgstr "Categoría"
 
 #: models.py:127
 msgid "2.- Form"
-msgstr ""
+msgstr "2.- Formulario"
 
 #: models.py:128
 msgid "2.- Forms"
-msgstr ""
+msgstr "2.- Formularios"
 
 #: models.py:132
 msgid "Private"
-msgstr ""
+msgstr "Privado"
 
 #: models.py:133 models.py:155 models.py:174 templates/forms/block-form.html:7
 msgid "Order"
-msgstr ""
+msgstr "Orden"
 
 #: models.py:135 models.py:276 models.py:295
 msgid "Text"
-msgstr ""
+msgstr "Texto"
 
 #: models.py:136 models.py:194 models.py:280
 msgid "Form"
-msgstr ""
+msgstr "Formulario"
 
 #: models.py:150
 msgid "3.- Question block"
-msgstr ""
+msgstr "3.- Bloque de preguntas"
 
 #: models.py:151
 msgid "3.- Questions blocks"
-msgstr ""
+msgstr "3.- Bloque de preguntas"
 
 #: models.py:156
 msgid "Max number of answers"
-msgstr ""
+msgstr "Número maximo de respuestas"
 
 #: models.py:158 models.py:176 models.py:178 models.py:278
 msgid "Question"
-msgstr ""
+msgstr "Pregunta"
 
 #: models.py:160
 msgid "Block"
-msgstr ""
+msgstr "Bloque"
 
 #: models.py:161
 msgid "Parent"
-msgstr ""
+msgstr "Padre"
 
 #: models.py:167
 msgid "4.- Question"
-msgstr ""
+msgstr "4.- Pregunta"
 
 #: models.py:168
 msgid "4.- Questions"
-msgstr ""
+msgstr "4.- Preguntas"
 
 #: models.py:172
 msgid "Obligatory"
-msgstr ""
+msgstr "Obligatorio"
 
 #: models.py:173
 msgid "Read only"
-msgstr ""
+msgstr "Solo lectura"
 
 #: models.py:188 models.py:279
 msgid "Field"
-msgstr ""
+msgstr "Campo"
 
 #: models.py:189
 msgid "Fields"
-msgstr ""
+msgstr "Campos"
 
 #: models.py:193 templates/forms/form-list.html:10
 msgid "Channel"
-msgstr ""
+msgstr "Canal"
 
 #: models.py:203
 msgid "Creation date"
-msgstr ""
+msgstr "Fecha de creación"
 
 #: models.py:204 models.py:306
 msgid "Guest UUID"
-msgstr ""
+msgstr "Huesped UUID"
 
 #: models.py:205
 msgid "Form UUID"
-msgstr ""
+msgstr "Formulario UUID"
 
 #: models.py:264
 msgid "1.- Form instance"
-msgstr ""
+msgstr "1.- Instancia del formulario"
 
 #: models.py:265
 msgid "1.- Form instances"
-msgstr ""
+msgstr "1.- Instancias del formulario"
 
 #: models.py:275
 msgid "Index"
-msgstr ""
+msgstr "Índice"
 
 #: models.py:277
 msgid "Document"
-msgstr ""
+msgstr "Documento"
 
 #: models.py:289
 msgid "Answer instance"
-msgstr ""
+msgstr "Instancia de la respuesta"
 
 #: models.py:290
 msgid "Answer instances"
-msgstr ""
+msgstr "Instancias de la respuesta"
 
 #: models.py:294
 msgid "User"
-msgstr ""
+msgstr "Usuario"
 
 #: models.py:296
 msgid "Form instance"
-msgstr ""
+msgstr "Instancia del formulario"
 
 #: models.py:302
 msgid "Form log"
-msgstr ""
+msgstr "Log del formulario"
 
 #: models.py:303
 msgid "Form logs"
-msgstr ""
+msgstr "Logs del formulario"
 
 #: models.py:307
 msgid "Project UUID"
-msgstr ""
+msgstr "UUID del proyecto"
 
 #: models.py:308
 msgid "Username"
-msgstr ""
+msgstr "Nombre de usuario"
 
 #: models.py:311
 msgid "Guest user"
-msgstr ""
+msgstr "Usuario de huésped"
 
 #: templates/bookings/autocomplete_field.html:1
 #: templates/bookings/guest/bookings-by-guest.html:43
@@ -272,330 +272,330 @@ msgstr ""
 #: templates/bookings/view-booking-project.html:44
 #: templates/bookings/view-booking.html:58
 msgid "Close"
-msgstr ""
+msgstr "Cerrar"
 
 #: templates/bookings/field_form.html:61 templates/bookings/field_form.html:77
 msgid "Select an option"
-msgstr ""
+msgstr "Selecciona una opción"
 
 #: templates/bookings/fillform.html:41
 msgid "Continue"
-msgstr ""
+msgstr "Continuar"
 
 #: templates/bookings/fillform.html:44
 #: templates/bookings/view-shopping-cart.html:45
 msgid "Send Order"
-msgstr ""
+msgstr "Enviar orden"
 
 #: templates/bookings/fillform.html:49
 #: templates/bookings/view-shopping-cart.html:50
 msgid "Cancel Order"
-msgstr ""
+msgstr "Cancelar orden"
 
 #: templates/bookings/guest/bookings-by-guest.html:7
 #: templates/bookings/manage/bookings.html:12
 msgid "Bookings"
-msgstr ""
+msgstr "Reservas"
 
 #: templates/bookings/guest/bookings-by-guest.html:11
 #: templates/bookings/manage/booking-list.html:13
 msgid "Service"
-msgstr ""
+msgstr "Servicio"
 
 #: templates/bookings/guest/bookings-by-guest.html:13
 msgid "Surname"
-msgstr ""
+msgstr "Apellido"
 
 #: templates/bookings/guest/bookings-by-guest.html:14
 msgid "Creation Date"
-msgstr ""
+msgstr "Fecha de creación"
 
 #: templates/bookings/guest/close.html:4
 msgid "Thanks for use this service!"
-msgstr ""
+msgstr "Gracias por usar este servicio"
 
 #: templates/bookings/guest/close.html:5
 msgid "(This window will be close in a few seconds)"
-msgstr ""
+msgstr "(Esta ventana se cerrará en pocos segundos)"
 
 #: templates/bookings/guest/guest-welcome.html:8
 msgid "Welcome"
-msgstr ""
+msgstr "Bienvenido"
 
 #: templates/bookings/guest/guest-welcome.html:9
 msgid "to Lani's Booking Center"
-msgstr ""
+msgstr "A la central de reservas de Lani"
 
 #: templates/bookings/guest/guest-welcome.html:12
 #: templates/bookings/guest/guest-welcome.html:16
 #: templates/bookings/guest/guest-welcome.html:21
 #: templates/bookings/guest/guest-welcome.html:24
 msgid "Access"
-msgstr ""
+msgstr "Acceso"
 
 #: templates/bookings/guest/show-msg.html:10
 msgid "Your reservation has been sent correctly!"
-msgstr ""
+msgstr "¡Tu reserva se ha enviado correctamente!"
 
 #: templates/bookings/guest/show-msg.html:12
 msgid "Your reservation has been cancelled correctly!"
-msgstr ""
+msgstr "¡Tu reserva se ha cancelado correctamente!"
 
 #: templates/bookings/guest/show-msg.html:19
 msgid "If you want to check your bookings, click on"
-msgstr ""
+msgstr "Si quieres revisar tu reserva, pincha aquí"
 
 #: templates/bookings/guest/show-msg.html:21
 msgid "My bookings"
-msgstr ""
+msgstr "Mis reservas"
 
 #: templates/bookings/items-shop-field.html:24
 msgid "Select"
-msgstr ""
+msgstr "Seleccionar"
 
 #: templates/bookings/items-shop-field.html:28
 msgid "Unselect"
-msgstr ""
+msgstr "Deseleccionar"
 
 #: templates/bookings/items-shop-field.html:38
 msgid "You are selected:"
-msgstr ""
+msgstr "Has seleccionado:"
 
 #: templates/bookings/manage/booking-list.html:14
 msgid "Guest"
-msgstr ""
+msgstr "Huésped"
 
 #: templates/bookings/manage/booking-list.html:15
 msgid "Room"
-msgstr ""
+msgstr "Habitación"
 
 #: templates/bookings/manage/booking-list.html:16
 msgid "Device"
-msgstr ""
+msgstr "Dispositivo"
 
 #: templates/bookings/manage/booking-list.html:17
 msgid "Date"
-msgstr ""
+msgstr "Fecha"
 
 #: templates/bookings/manage/booking-logs.html:3
 #: templates/bookings/manage/booking-row.html:17
 msgid "Log"
-msgstr ""
+msgstr "Log"
 
 #: templates/bookings/manage/booking-logs.html:14
 msgid "close"
-msgstr ""
+msgstr "Cerrar"
 
 #: templates/bookings/manage/booking-row.html:14
 msgid "Booking ID"
-msgstr ""
+msgstr "ID de la reserva"
 
 #: templates/bookings/manage/booking-row.html:16
 msgid "Change status"
-msgstr ""
+msgstr "Cambiar estado"
 
 #: templates/bookings/manage/booking-row.html:18
 msgid "View"
-msgstr ""
+msgstr "Ver"
 
 #: templates/bookings/manage/booking-row.html:19
 #: templates/forms/form-edit.html:12 templates/forms/form-list.html:28
 msgid "Remove"
-msgstr ""
+msgstr "Borrar"
 
 #: templates/bookings/manage/booking-row.html:19
 #: templates/forms/form-edit.html:12 templates/forms/form-list.html:28
 msgid "Are you sure to remove this element?"
-msgstr ""
+msgstr "¿Estás seguro que quieres eliminar este elemento?"
 
 #: templates/bookings/manage/search_box.html:16
 #: templates/forms/search_box.html:7
 msgid "Project name"
-msgstr ""
+msgstr "Nombre del proyecto"
 
 #: templates/bookings/manage/search_box.html:21
 #: templates/forms/search_box.html:14
 msgid "Channel name"
-msgstr ""
+msgstr "Nombre del Canal"
 
 #: templates/bookings/manage/search_box.html:26
 msgid "Service name"
-msgstr ""
+msgstr "Nombre del servicio"
 
 #: templates/bookings/manage/search_box.html:31
 msgid "Guest Name, Surname, Email, Phone, Room"
-msgstr ""
+msgstr "Nombre del huésped, Apelido, Correo electrónico, Teléfono, Habitación"
 
 #: templates/bookings/manage/search_box.html:36
 msgid "Initial date"
-msgstr ""
+msgstr "Fecha inicio"
 
 #: templates/bookings/manage/search_box.html:41
 msgid "End date"
-msgstr ""
+msgstr "Fecha fin"
 
 #: templates/bookings/manage/search_box.html:68
 msgid "All"
-msgstr ""
+msgstr "Todo"
 
 #: templates/bookings/manage/status-form.html:3
 msgid "Status change"
-msgstr ""
+msgstr "Cambiar estado"
 
 #: templates/bookings/manage/status-form.html:30
 #: templates/bookings/shopping-form.html:24 templates/forms/form-edit.html:10
 msgid "Save"
-msgstr ""
+msgstr "Guardar"
 
 #: templates/bookings/manage/status-form.html:31
 msgid "Cancel"
-msgstr ""
+msgstr "Cancelar"
 
 #: templates/bookings/question_row.html:11
 msgid "Are you sure you want to delete this row?"
-msgstr ""
+msgstr "¿Estas seguro de que quieres eliminar esta línea?"
 
 #: templates/bookings/shopping-form.html:16
 msgid "Comments"
-msgstr ""
+msgstr "Comentarios"
 
 #: templates/bookings/shopping-form.html:17
 msgid "Please, write here your comments"
-msgstr ""
+msgstr "Porfavor, escribe tus comentarios aquí."
 
 #: templates/bookings/view-shopping-cart.html:5
 msgid "My Booking"
-msgstr ""
+msgstr "Mis reservas"
 
 #: templates/bookings/view-shopping-cart.html:5
 msgid "art."
-msgstr ""
+msgstr "art."
 
 #: templates/bookings/view-shopping-cart.html:7
 msgid "Total price"
-msgstr ""
+msgstr "Precio total"
 
 #: templates/bookings/view-shopping-cart.html:30
 msgid "Remove article from shopping-cart"
-msgstr ""
+msgstr "Borrar articulos del carrito de la compra"
 
 #: templates/bookings/view-shopping-cart.html:31
 msgid "Add comment at this article"
-msgstr ""
+msgstr "Añadir comentario a este artículo"
 
 #: templates/bookings/view-shopping-cart.html:39
 msgid "You can add comments to the article with click on comment buttons"
-msgstr ""
+msgstr "Puedes añadir comentarios a los articulos pinchando en el botón comentario"
 
 #: templates/forms/block-form.html:23
 msgid "Remove item"
-msgstr ""
+msgstr "Borrar item"
 
 #: templates/forms/block-form.html:23 templates/forms/question-form.html:29
 msgid "Are you sure to remove this item?"
-msgstr ""
+msgstr "Estas seguro de que quieres borrar este artículo"
 
 #: templates/forms/block-form.html:35
 msgid "Select question type"
-msgstr ""
+msgstr "Selecionar tipo de pregunta"
 
 #: templates/forms/block-form.html:46 templates/forms/form-edit-content.html:15
 #: templates/forms/question-form.html:29
 msgid "Add item"
-msgstr ""
+msgstr "Añadir artículo"
 
 #: templates/forms/channel-form.html:12
 msgid "Channel UUID"
-msgstr ""
+msgstr "Canal UUID"
 
 #: templates/forms/form-document.html:5 templates/forms/form-logo.html:5
 msgid "Upload File"
-msgstr ""
+msgstr "Subir fichero"
 
 #: templates/forms/form-document.html:14 templates/forms/form-logo.html:13
 #: templates/forms/form-qr.html:23
 msgid "Are you sure to remove this file?"
-msgstr ""
+msgstr "¿Estas seguro que quieres eliminar este fichero?"
 
 #: templates/forms/form-edit-content.html:7
 msgid "Change lang"
-msgstr ""
+msgstr "Cambiar lenguaje"
 
 #: templates/forms/form-edit.html:8 templates/forms/form-edit.html:9
 msgid "Preview"
-msgstr ""
+msgstr "Previsualización"
 
 #: templates/forms/form-form.html:4
 msgid "Edit form"
-msgstr ""
+msgstr "Editar formulario"
 
 #: templates/forms/form-form.html:10
 msgid "Background image"
-msgstr ""
+msgstr "Imagen de fondo"
 
 #: templates/forms/form-form.html:14
 msgid "Logo"
-msgstr ""
+msgstr "Logo"
 
 #: templates/forms/form-form.html:18
 msgid "QR"
-msgstr ""
+msgstr "QR"
 
 #: templates/forms/form-form.html:33
 msgid "Type"
-msgstr ""
+msgstr "Tipo"
 
 #: templates/forms/form-form.html:36
 msgid "Select form type"
-msgstr ""
+msgstr "Seleccionar desde el tipo"
 
 #: templates/forms/form-form.html:55
 msgid "Channels"
-msgstr ""
+msgstr "Canal"
 
 #: templates/forms/form-list.html:9
 msgid "Project"
-msgstr ""
+msgstr "Proyecto"
 
 #: templates/forms/form-list.html:25
 msgid "See bookings"
-msgstr ""
+msgstr "Ver reservas"
 
 #: templates/forms/form-list.html:26
 msgid "New booking"
-msgstr ""
+msgstr "Nueva reserva"
 
 #: templates/forms/form-list.html:27
 msgid "Edit"
-msgstr ""
+msgstr "Editar"
 
 #: templates/forms/form-qr.html:5
 msgid "Generate QR"
-msgstr ""
+msgstr "Generar QR"
 
 #: templates/forms/form-qr.html:8
 msgid "Color"
-msgstr ""
+msgstr "Color"
 
 #: templates/forms/form-qr.html:8
 msgid "Background"
-msgstr ""
+msgstr "Fondo"
 
 #: templates/forms/forms.html:20
 msgid "Forms"
-msgstr ""
+msgstr "Formularios"
 
 #: templates/forms/forms.html:30
 msgid "New form"
-msgstr ""
+msgstr "Nuevo formulario"
 
 #: templates/forms/question-form.html:20
 msgid "Select field type"
-msgstr ""
+msgstr "Selecione un tipo de campo"
 
 #: views.py:41 views.py:47
 msgid "User not found!"
-msgstr ""
+msgstr "Usuario no encontrado"
 
 #: views.py:43
 msgid "Token not found!"

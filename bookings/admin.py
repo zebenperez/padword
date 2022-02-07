@@ -92,7 +92,7 @@ class QuestionAdmin(admin.ModelAdmin):
 	list_filter = ('block',)
 
 class StatusAdmin(admin.ModelAdmin):
-	list_display = ('code', 'name')
+	list_display = ('code', 'name', 'color')
 
 class GuestUserAdmin(admin.ModelAdmin):
 	list_display = ('username', 'project_uuid', 'guest_uuid')

@@ -11,8 +11,11 @@
                 {% if cat.description != "" %}<h5> {% padword_translate cat.description %} <h5> {% endif %}
                 {% if project_uuid %}
                     <button class="me-1 btn btn-access ark" data-url="{{next_url}}" data-target="div-main" data-project_uuid="{{project_uuid}}"
-                                                            data-lang="{{lang}}" data-category_uuid="{{cat.uuid}}" onclick="javascript:toggleFullScreen();">{%trans "Access"%}</button>
+                        data-lang="{{lang}}" data-category_uuid="{{cat.uuid}}" onclick="javascript:openFullScreen();">{%trans "Access"%}</button>
                 {% else %}
+                    <button class="me-1 btn btn-access ark" data-url="{% url next_url %}" data-target="div-main" 
+                        data-form_uuid="{{form_uuid}}" onclick="javascript:openFullScreen();">{%trans "Access"%}</button>
+                    {%comment%}
                     {% if next_url == "booking-new" %}
                         <button class="me-1 btn btn-access ark" data-url="{% url next_url form_uuid %}" data-target="div-main" 
                             onclick="javascript:toggleFullScreen();">{%trans "Access"%}</button>
@@ -25,7 +28,6 @@
                         <button class="me-1 btn btn-access ark" data-url="{% url next_url %}" data-target="div-main" 
                             data-form_uuid="{{form_uuid}}" onclick="javascript:toggleFullScreen();">{%trans "Access"%}</button>
                     {% endif %}
-                    {%comment%}
                     {% if device_imei != "" and room_number != "" and guest_name != "" and guest_surname != "" %}
                         <button class="me-1 btn btn-access ark" data-url="{% url "booking-new-device" %}" data-target="div-main" 
                             data-form_uuid="{{form_uuid}}" data-device_imei="{{device_imei}}" data-room_number="{{room_number}}" 

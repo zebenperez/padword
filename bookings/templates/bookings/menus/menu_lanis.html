@@ -1,6 +1,5 @@
 {% load i18n bookings_tag common_tag padword_tags static%}
 
-
 <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
 <link rel="stylesheet" href="{% static 'css/menu_lanis.css' %}" >
 
@@ -26,44 +25,25 @@
 
 
 <div class="row languages">
-    {% comment %}
     <div class="col-lg-1 offset-lg-4 col-2 offset-2">
-        <a href="{% url "guest-access-pwa" "b2262194-8d2c-ef35-86b5-1150d12e184e" "de" %}" target="_blank">
-            <img class="btn btn-secondary p-2" src="/static/img/de.png"></a></div>
-    <div class="col-lg-1 col-2">
-        <a href="{% url "guest-access-pwa" "b2262194-8d2c-ef35-86b5-1150d12e184e" "es" %}" target="_blank">
-            <img class="btn btn-secondary p-2" src="/static/img/es.png"></a></div>
-    <div class="col-lg-1 col-2">
-        <a href="{% url "guest-access-pwa" "b2262194-8d2c-ef35-86b5-1150d12e184e" "fr" %}" target="_blank">
-            <img class="btn btn-secondary p-2" src="/static/img/fr.png"></a></div>
-    <div class="col-lg-1 col-2">
-        <a href="{% url "guest-access-pwa" "b2262194-8d2c-ef35-86b5-1150d12e184e" "en" %}" target="_blank">
-            <img class="btn btn-secondary p-2" src="/static/img/en.png">
-        </a>
-    </div>
-    {%endcomment%}
-    <div class="col-lg-1 offset-lg-4 col-2 offset-2">
-        <a href="#" class="text-center ark" data-url="{% url "guest-access-pwa" "b2262194-8d2c-ef35-86b5-1150d12e184e" "de" %}" data-target="main" 
+        <a href="#" class="text-center ark" data-url="{% url "guest-access" "b2262194-8d2c-ef35-86b5-1150d12e184e" "de" %}" data-target="main" 
             data-cat_id="{{form.category}}"> <img class="btn btn-secondary p-2" src="/static/img/de.png"></a>
     </div>
     <div class="col-lg-1 col-2 ">
-        <a href="#" class="text-center ark" data-url="{% url "guest-access-pwa" "b2262194-8d2c-ef35-86b5-1150d12e184e" "es" %}" data-target="main" 
+        <a href="#" class="text-center ark" data-url="{% url "guest-access" "b2262194-8d2c-ef35-86b5-1150d12e184e" "es" %}" data-target="main" 
             data-cat_id="{{form.category}}"> <img class="btn btn-secondary p-2" src="/static/img/es.png"></a>
     </div>
     <div class="col-lg-1 col-2 ">
-        <a href="#" class="text-center ark" data-url="{% url "guest-access-pwa" "b2262194-8d2c-ef35-86b5-1150d12e184e" "fr" %}" data-target="main" 
+        <a href="#" class="text-center ark" data-url="{% url "guest-access" "b2262194-8d2c-ef35-86b5-1150d12e184e" "fr" %}" data-target="main" 
             data-cat_id="{{form.category}}"> <img class="btn btn-secondary p-2" src="/static/img/fr.png"></a>
     </div>
     <div class="col-lg-1 col-2 ">
-        <a href="#" class="text-center ark" data-url="{% url "guest-access-pwa" "b2262194-8d2c-ef35-86b5-1150d12e184e" "en" %}" data-target="main" 
+        <a href="#" class="text-center ark" data-url="{% url "guest-access" "b2262194-8d2c-ef35-86b5-1150d12e184e" "en" %}" data-target="main" 
             data-cat_id="{{form.category}}"> <img class="btn btn-secondary p-2" src="/static/img/en.png"></a>
     </div>
 </div>
 
-
-<div class="row div-slogan">
-    <div class="col-12 text-center"> <div class="slogan"> Lani's <br /><span>Suites de Luxe</span></div> </div>
-</div>
+<div class="row div-slogan"> <div class="col-12 text-center"> <div class="slogan"> Lani's <br /><span>Suites de Luxe</span></div> </div> </div>
 
 <div class="row menu-tabs align-items-end w-100">
     <div class="col-3 mb-1 align-middle justify-content-center p2">
@@ -90,7 +70,6 @@
 			    data-cat_id="0ed26826-d5da-c58a-8257-08ced033f26a">{% padword_translate_obj '0ed26826-d5da-c58a-8257-08ced033f26a' %}</button>
         </div>
     </div>
-
 </div>
 
 <div class="row menu-botton w-100">
@@ -101,27 +80,39 @@
     </div>
     {% endcomment %}
     <div class="col-lg-3 offset-1 col-3" style="padding:0;order:1px solid red">
-        <div><a class="text-white pointer ark" data-url="{%url "show-category-menu"%}" data-target="main" data-cat_id="52ac91d1-debd-526b-1041-ea73cb21b111">
-            <i class="far fa-star"></i><span> {% padword_translate_obj '52ac91d1-debd-526b-1041-ea73cb21b111' %}</a></span></div>
+        <div>
+            <a class="text-white pointer ark" data-url="{%url "show-category-menu"%}" data-target="main" 
+                data-cat_id="52ac91d1-debd-526b-1041-ea73cb21b111"> <i class="far fa-star"></i>
+                <span>{% padword_translate_obj '52ac91d1-debd-526b-1041-ea73cb21b111' %}</span></a>
+        </div>
     </div>
     <div class="col-lg-3 col-3" style="padding:0;order:1px solid red">
-        <div><a class="text-white pointer ark" data-url="{%url "show-category-menu"%}" data-target="main" data-cat_id="9e3f3d0d-f57e-91a1-ef2b-fb2bde770d5d">
-         <i class="fas fa-wifi"></i><span> {% padword_translate_obj '9e3f3d0d-f57e-91a1-ef2b-fb2bde770d5d' %}</a></span></div>
+        <div>
+            <a class="text-white pointer ark" data-url="{%url "show-category-menu"%}" data-target="main" 
+                data-cat_id="9e3f3d0d-f57e-91a1-ef2b-fb2bde770d5d"> <i class="fas fa-wifi"></i>
+                <span>{% padword_translate_obj '9e3f3d0d-f57e-91a1-ef2b-fb2bde770d5d' %}</span></a>
+        </div>
     </div>
     <div class="col-lg-3 col-3" style="padding:0;order:1px solid red">
-        <div><a class="text-white pointer ark" data-url="{%url "show-category-menu"%}" data-target="main" data-cat_id="b8b6e74d-6291-b638-ad40-bc5b1461a017">
-          <i class="far fa-star"></i><span> {% padword_translate_obj 'b8b6e74d-6291-b638-ad40-bc5b1461a017' %}</a></span></div>
+        <div>
+            <a class="text-white pointer ark" data-url="{%url "show-category-menu"%}" data-target="main" 
+                data-cat_id="b8b6e74d-6291-b638-ad40-bc5b1461a017"> <i class="far fa-star"></i>
+                <span> {% padword_translate_obj 'b8b6e74d-6291-b638-ad40-bc5b1461a017' %}</span></a>
+        </div>
     </div>
 </div>
 
-        <script id="realtime-script">
-            $('#counter-item-{{item_refresh.pk}}').val('{{total_items}}');
-            $('#counter-item-mob-{{item_refresh.pk}}').val('{{total_items}}');
-            $('#span-total-price').html('{{total|floatformat:2}}');
-            $('#span-total-items').html('{{items|length}}');
-            if (parseInt($("#span-total-items").html()) > 0)
-                $("#count-badge").show();
-            else
-                $("#count-badge").hide();
-            $('#realtime-script').remove();
-        </script>
+{% if lang and category %} {%csrf_token%} {% endif %}
+
+<script id="realtime-script">
+    $('#counter-item-{{item_refresh.pk}}').val('{{total_items}}');
+    $('#counter-item-mob-{{item_refresh.pk}}').val('{{total_items}}');
+    $('#span-total-price').html('{{total|floatformat:2}}');
+    $('#span-total-items').html('{{items|length}}');
+    if (parseInt($("#span-total-items").html()) > 0)
+        $("#count-badge").show();
+    else
+        $("#count-badge").hide();
+    $('#realtime-script').remove();
+    {% if lang  and category %} {% ark 'reload-top-menu' 'div-top-lang-menu' category_uuid=category.uuid %} {% endif %}
+</script>

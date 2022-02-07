@@ -11,7 +11,7 @@ from web.models import Channel, Project, ProjectUser
 from contents.models import Category, ShoppingCart, Item
 from user_remote.models import PWUser
 
-from .common_lib import write_log, user_in_group
+from .common_lib import user_in_group
 from .models import Form, FormInstance, Status, GuestUser
 from guest.models import Guest
 
@@ -166,12 +166,20 @@ def bookings_search(request):
                 uuid_guests = list(set(uuid_guests.values_list('UUID', flat=True)))
             kwargs["guest_uuid__in"] = uuid_guests
 
-        if status != "":
-            kwargs["status_list__status__pk"] = status
+        #if status != "":
+        #    kwargs["status_list__status__pk"] = status
 
         items = FormInstance.objects.filter(**kwargs)
+
+        if status != "":
+            item_list = []
+            for item in items:
+                if item.get_status != None and item.get_status.status.id == int(status):
+                    item_list.append(item)
+            items = item_list
+
         context={}
-        context['total_items'] = items.count()
+        context['total_items'] = len(items)
         context['items'] = items[0:ITEMS_PER_PAGE]
         context['status'] = status
         context['page'] = 0
@@ -191,19 +199,20 @@ def booking_view(request):
         items = ShoppingCart.objects.filter(form_instance_id=fi.pk)
 
         if (fi.get_status != None and fi.get_status.status != None and fi.get_status.status.code == "01") or (fi.get_status is None):
-            if fi.get_status is not None and fi.get_status.status is not None:
-                previous_status = fi.get_status.status.name
-            else:
-                previous_status = 'None'
             fi.set_status("02", request.user, "")
-            write_log(request.user, fi, _("Status change from {} to {}".format(previous_status, fi.get_status.status.name)))
+            #if fi.get_status is not None and fi.get_status.status is not None:
+            #    previous_status = fi.get_status.status.name
+            #else:
+            #    previous_status = 'None'
+            #write_log(request.user, fi, _("Status change from {} to {}".format(previous_status, fi.get_status.status.name)))
 
-        context = {'fi': fi, 'index': "0", 'items':items, 'status_list': Status.objects.all()}
-        if fi.form and fi.form.form_type:
-            template = 'bookings/view-booking-project.html' if fi.form.form_type.code == "ecom" else 'bookings/view-booking.html'
-        else:
-            template = 'bookings/view-booking.html'
-        return render(request, template, context)
+        context = {'fi': fi, 'index': "0", 'items':items, 'status_list': Status.objects.all(), 'manage': True}
+        #if fi.form and fi.form.form_type:
+        #    template = 'bookings/view-booking-project.html' if "ecom" in fi.form.form_type.code else 'bookings/view-booking.html'
+        #else:
+        #    template = 'bookings/view-booking.html'
+        #return render(request, template, context)
+        return render(request, 'bookings/guest/view-booking.html', context)
     except Exception as e:
         print(e)
         logger.error("[bookings-fill_form] {}".format(str(e)))
@@ -265,12 +274,13 @@ def change_status(request):
         status = get_or_none(Status, status_id)
         fi = get_or_none(FormInstance, fi_id)
         if status != None and fi != None:
-            previous_status = fi.get_status.status.name if fi.get_status != None and fi.get_status.status != None else "Created"
             fi.set_status(status.code, request.user, comment)
-            write_log(request.user, fi, _("Status change from {} to {}".format(previous_status, fi.get_status.status.name)))
-            if request.POST:
-                return redirect(bookings_by_form, fi.form.id)
-            return render(request, "bookings/manage/status-links.html", {'fi': fi, 'status_list': Status.objects.all()})
+            #previous_status = fi.get_status.status.name if fi.get_status != None and fi.get_status.status != None else "Created"
+            #write_log(request.user, fi, _("Status change from {} to {}".format(previous_status, fi.get_status.status.name)))
+            #if request.POST:
+            #    return redirect(bookings_by_form, fi.form.id)
+            #return render(request, "bookings/manage/status-links.html", {'fi': fi, 'status_list': Status.objects.all()})
+            return render(request, "bookings/manage/status-form.html", {'fi': fi, 'status_list': Status.objects.all()})
     except Exception as e:
         print(e)
         logger.error("[bookings-change_status] {}".format(str(e)))
@@ -363,11 +373,19 @@ def bookings_page(request):
             uuid_guests = Guest.objects.filter(name__icontains = name) or Guest.objects.filter(surname__icontains=name)
             uuid_guests = set(uuid_guests.values_list('UUID', flat=True))
             kwargs["guest_uuid__in"] = list(uuid_guests)
-        if status != "":
-            kwargs["status_list__status"] = status
+        #if status != "":
+        #    kwargs["status_list__status"] = status
         items = FormInstance.objects.filter(**kwargs)
+
+        if status != "":
+            item_list = []
+            for item in items:
+                if item.get_status != None and item.get_status.status == status:
+                    item_list.append(item)
+            items = item_list
+
         context={}
-        context['total_items'] = items.count()
+        context['total_items'] = len(items)
         context['items'] = items[int(page)*ITEMS_PER_PAGE:(int(page) + 1)*ITEMS_PER_PAGE]
         context['page'] = page 
 

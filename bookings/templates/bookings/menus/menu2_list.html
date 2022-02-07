@@ -69,7 +69,7 @@
                 <i class="fas fa-angle-down div-shopping-cart-{{children.pk}}" style="float:right;display:none" ></i>
                 {% padword_translate children.name%} </a>
         </div>
-		<div id="div-shopping-cart-{{children.pk}}" class="div-shopping-cart-{{children.pk}}"></div>
+		<div id="div-shopping-cart-{{children.pk}}" class="div-shopping-cart-{{children.pk}}" style="display:none"></div>
 	</div>
     <script>
         {% if fi %}
@@ -81,5 +81,4 @@
         {% endif %}
     </script>
 {% endfor %}
-
 

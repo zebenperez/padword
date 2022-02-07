@@ -1,10 +1,13 @@
+#main-pwa {
+    padding-top: 120px !important;
+}
+
 .container {
 	background-position: center; 
 	background-repeat: no-repeat;
 	background-size: cover; 
 	height: 500px;
 	width: 100%;
-/*    margin-left: 15px;*/
 }
 
 #div-notification,
@@ -15,18 +18,19 @@
 img {
     background-color: transparent;
 }
-
-.div-top {
+ 
+.row.div-top {
     background: #fff !important;
     border-bottom: 1px solid #333;
-    position: sticky !important;
+    justify-content: left !important;
+    height: 90px !important;
+    position: fixed !important;
     top: 0 !important;
     z-index: 1;
-    justify-content: left !important;
-    max-height: 100px;
 }
+
 .div-top img {
-    max-height: 100px;
+    max-height: 90px;
     object-fit: cover;
 }
 
@@ -126,7 +130,6 @@ a.btn.btn-header-pwa.ark {
 
 
 #div-current-category {
-/*	border:1px solid blue;*/
 	bottom: 60px;
 	width: 83%;
 	width: 100%;
@@ -191,10 +194,10 @@ button.menu-options {
 }
 
 .languages img {
-	width: 30px;
-	height: 30px;
+	width: 70px;
+	height: 70px;
 	border: 1px solid #fff !important;
-	border-radius: 15px;
+	border-radius: 50px !important;
 }
 
 .div-slogan {
@@ -231,8 +234,28 @@ button.menu-options {
 /* devices style*/
 /*****************************/
 
+@media (max-width: 1200px) 
+{
+    .languages img {
+        width: 50px;
+        height: 50px;
+    	border: 1px solid #fff !important;
+	    border-radius: 50px !important;
+    }
+    .div-top img {
+        height: 60px !important;
+        max-width: initial;
+        object-fit: cover;
+    }
+}
+
+
 @media (max-width: 420px) 
 {
+    #main-pwa {
+        padding-top: 80px !important;
+    }
+
     .container {
         margin-top: -80px;
     }
@@ -244,7 +267,9 @@ button.menu-options {
     a.btn.btn-outline-danger.w-100 {
         font-size: 0.7rem !important;
     }
-
+    .row.div-top {
+        height: 60px !important;
+    }
 
     button.menu-options {
         font-size: 0.9rem;
@@ -292,6 +317,13 @@ button.menu-options {
         color: #3c385c !important; 
         font-size: 1rem;
     }
+
+    .languages img {
+        width: 50px;
+        height: 35px;
+    	border: 1px solid #fff !important;
+    }
+
 
 }
 

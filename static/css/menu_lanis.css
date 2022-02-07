@@ -1,5 +1,5 @@
 #main-pwa {
-    padding-top: 100px !important;
+    padding-top: 120px !important;
 }
 
 .container {
@@ -241,9 +241,14 @@ button.menu-options {
 
 .img-carousel {
     background-color: #fff;
-    border-radius: 0.25rem;
+    border-radius: 0.25rem 0.25rem 0 0;
 }
 
+.img-carousel img.object-fit_cover-gallery {
+    width: 1024px !important;
+    object-fit: cover !important;
+    height: 350px !important;
+}
 
 
 /*****************************/
@@ -343,6 +348,11 @@ button.menu-options {
     	border: 1px solid #fff !important;
     }
 
+    .img-carousel img.object-fit_cover-gallery {
+        width: 1024px !important;
+        object-fit: cover !important;
+        height: 250px !important;
+    }
 }
 
 

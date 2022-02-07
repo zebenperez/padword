@@ -106,6 +106,16 @@ function toggleFullScreen() {
     }
 }
 
+function openFullScreen() {
+    if (document.documentElement.requestFullscreen) {
+        document.documentElement.requestFullscreen();
+    } else if (document.documentElement.mozRequestFullScreen) {
+        document.documentElement.mozRequestFullScreen();
+    } else if (document.documentElement.webkitRequestFullscreen) {
+        document.documentElement.webkitRequestFullscreen(Element.ALLOW_KEYBOARD_INPUT);
+    }
+}
+
 
 $(document).ready(()=>{
     $("body").on("change", ".autosave_form_field", function(e){
