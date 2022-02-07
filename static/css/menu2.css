@@ -8,7 +8,7 @@
 }
 
 img.object-fit_cover {
-    height: 200px;
+    height: 150px !important;
 }
 
 .cat-title-head {

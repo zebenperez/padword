@@ -1,0 +1,25 @@
+{% load i18n bookings_tag common_tag padword_tags static%}
+
+            <div class="col-3 text-center p-0">
+                <button class="btn btn-header-pwa text-center ark" id="btn-home" data-url="{% url 'show-category-menu' %}" data-target="main" 
+                    data-cat_id="{{category.uuid}}"> <i class="fas fa-home"></i> <br /> <span>{% trans 'Home' %} </span></button>
+            </div>
+		    
+            <div class="col-3 text-center p-0">
+                <button class="btn btn-header-pwa text-center ark" data-url="{% url "my-bookings" %}" data-target="main" 
+                    data-project_uuid="{{category.project_uuid}}" data-cat_id="{{category.uuid}}"> <i class="far fa-calendar"></i> <br />
+                    <span>{% trans 'Bookings' %}</span></button>
+		    </div>
+		   
+            <div class="col-3 text-center p-0">
+                <button id="shopping-cart-btn" class="btn btn-header-pwa ark" data-url="{% url 'view-shopping-cart'  %}" 
+                    data-target-modal="common-modal" data-form_id=""> <i class="fas fa-shopping-cart"></i><br /><span class="subtext">{% trans 'Shopping' %}</span>
+                    <span class="count badge" id="count-badge" style="display:none">
+                    <span id="span-total-items"></span></span>
+                </button>
+            </div>
+
+            <div class="col-3 text-center p-0">
+                <button class="btn btn-header-pwa ark" data-url="{% url 'close-spa' %}" data-target-modal="common-modal" data-bs-dismiss="modal"
+                    onclick="closeWin('#div-close')"><i class="fas fa-sign-in-alt"></i> <br /> <span>{% trans 'Close' %}</span></button>
+            </div>

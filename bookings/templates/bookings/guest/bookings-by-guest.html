@@ -23,12 +23,16 @@
                 </div>
                 {% for item in items %}
                 <div class="row booking-line pointer pt-3 pb-3 ark status-{{item.get_status.status.pk}}" id="row_{{item.id}}"
-                    data-url="{% url "booking-guest-view" %}" data-target="main" data-obj_id="{{item.id}}" data-cat_id="{{cat_uuid}}">
+                    data-url="{% url "booking-guest-view" %}" data-target="main" data-obj_id="{{item.id}}" data-cat_id="{{cat_uuid}}"
+                    style="background:{{item.get_status.status.color}} !important">
                     <div class="col-md-2 col-4"><strong>{% padword_translate item.form.get_category.name %}</strong></div>
                     <div class="col-md-2 col-3"><strong>{{item.guest.name}}</strong></div>
                     <div class="col-2 d-none d-sm-block"><strong>{{item.guest.surname}}</strong></div>
                     <div class="col-2 d-none d-sm-block"><strong>{{ item.date|date:'Y-m-d H:i' }}</strong></div>
-                    <div class="col-md-2 col-3"><strong>{% padword_translate item.get_status.status.name %}</strong></div>
+                    <div class="col-md-2 col-3">
+                        <strong>{% padword_translate item.get_status.status.name %}</strong>
+                        {% if item.get_status.comment != "" %} ({% padword_translate item.get_status.comment %}) {% endif %}
+                    </div>
                     <div class="col-md-2 col-2 text-right chevron"><i class="fas fa-chevron-right fa-lg"></i> </div>
                         {%comment%}
                         <button class="me-1 btn btn-xs ark" data-url="{% url "booking-guest-view" %}" data-target="div-main" 

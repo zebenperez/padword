@@ -1,0 +1,43 @@
+{% load i18n bookings_tag common_tag padword_tags %}
+
+<div id="mask"> &nbsp; </div>
+<div class="row">
+    <div id="main" class="info-panel" style="background: white;">
+        {% for b in fi.get_public_blocks %}
+            <div class="" id="div-block">
+                {% for q in b.get_first_level_questions %}
+                    {# Preguntas generales #}
+                    {% if q.question_type.code == "general" %}
+                        <div class="div-info">
+                            {% for f in q.field_set.all %}
+                                <div class="item mb-4">
+                                    <div class="btn-dark fw-normal">{%if q.field_set.all|length > 0%} {%padword_translate f.text%} {%endif%}</div>
+                                    <div class="td_{{q.id}}_{{index}}"> {% field_value fi q f index %} </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    {# Preguntas con formato de tabla #}
+                    {% elif q.question_type.code == "table" %}
+                        <div class="div-info-tb mt-4">
+                            <table class="table mt-4" id="table_{{q.id}}" width="100%">
+                                <thead><tr>
+                                    {%for f in q.field_set.all%}<td class="sh-td item-left">{% padword_translate f.text %}</td>{%endfor%}
+                                </tr></thead>
+                                <tbody> 
+                                    {% for index in q|get_indexes:fi%} 
+                                        <tr id="tr-{{q.id}}-{{index}}">
+                                            {% for f in q.field_set.all %}
+                                                <td class="td_{{q.id}}_{{index}}"> {% field_value fi q f index %} </td>
+                                            {% endfor %}
+                                        </tr>
+                                    {% endfor %} 
+                                </tbody>
+                            </table>
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            </div> 
+        {% endfor %}
+    </div>
+</div>
+

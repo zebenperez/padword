@@ -22,7 +22,7 @@
 
 <div class="row">
     {% for item in items %}
-    <div class="col-6 col-lg-2 justify-content-center mt-1">
+    <div class="col-6 col-lg-4 justify-content-center mt-1">
         <div class="col-xs-12 card ">
             <div class="image mobile" id="cover">
                 <img src="{% if item.item.image %}{{item.item.image.url}} {%else%} {% static 'img/none.png' %}{%endif%}" class="card-img-top" alt="{% padword_translate item.item.name %}">
@@ -51,7 +51,7 @@
 <div class="row mt-2 w-100">
     <div class="col-lg-5 offset-lg-1 col-md-6 col-xs-5 text-center mb-3">
         {#<a href="{% url "booking-send" fi.id %}" class="btn btn-outline-primary btn-lg w-100"><i class="fas fa-paper-plane"></i> {% trans "Send" %}</a>#}
-        <button class="btn btn-marine w-100 ark" data-bs-dismiss="modal" data-url="{% url "booking-send" %}" 
+        <button id="btn-send-order" class="btn btn-marine w-100 ark" data-bs-dismiss="modal" data-url="{% url "booking-send" %}" 
             data-target="main" data-obj_id="{{fi.id}}"> {% trans "Send Order" %}</button>
     </div>
     <div class="col-lg-5 offset-lg-1 col-md-6 col-xs-5 text-center">
@@ -66,7 +66,10 @@
 
 </div>
 
-<script>$('#info-shopping').html($('#div-total-shopping-cart').html());</script>
+<script>
+    $('#info-shopping').html($('#div-total-shopping-cart').html());
+    $("#btn-send-order").click(function(){$("#shopping-cart-btn").data("form_id", "");});
+</script>
 {% if item_refresh %}
 <script id="realtime-script">
     $('#counter-item-{{item_refresh.pk}}').val('{{total_items}}');

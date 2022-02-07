@@ -163,9 +163,36 @@ input#s-name.autosearch.form-control.form-control-dark.w-100
     border: 0;
 }
 
+.row.btn-dark i.fas.fa-exchange-alt, 
+.row.btn-dark a {
+    text-decoration: none;
+	color: #fff !important;
+}
+
+span.status-info {
+    background: #e4d9d1;
+    color:#404a5d; 
+    padding: 10px 10px 11px 10px; 
+    font-weight:600; 
+    text-transform:uppercase;
+}
+
+.status-btn {
+    border:1px solid #dfdfdf;
+}
+.status-btn:hover, 
+.status-active:hover {
+    border:1px solid #000; 
+}
+
+.status-active {
+    border:1px solid #ff4500; 
+    background-color: #f6e5c6;
+    font-weight: 600;
+}
+
 
 .toolbar-content {
-/*    box-shadow: 0 2px 4px -1px rgb(0 0 0 / 20%), 0 4px 5px 0 rgb(0 0 0 / 14%), 0 1px 10px 0 rgb(0 0 0 / 12%);*/
 	border-bottom: 1px solid rgba(0, 0, 0, 0.0625);
 	padding: 15px;
 	display: flex;
@@ -709,4 +736,43 @@ i.fas.fa-book { color: #ff9800 !important; padding-right: 10px; }
     padding-right: 15px;
     overflow-y: scroll;
     padding-bottom: 3.5rem;
+}
+div#cover.image.special {
+    text-align: center;
+    background: rgb(255,255,255);
+    background: radial-gradient(circle, rgba(255,255,255,0.5550595238095238) 37%, rgba(190,194,201,0.8575805322128851) 100%);
+}
+.special img {
+    width: 100%;
+    object-fit: contain !important;
+}
+
+.b-marine {
+    border-bottom:1px solid #404a5d
+}
+
+/*
+div#cover.image.special img {
+    object-fit: contain !important;
+}
+*/
+    
+.btn-marine {
+    color: #3c385c !important;
+    background-color: #eae6e4 !important;
+    border-radius: 5px;
+    box-shadow: 0 1px 8px 0 rgb(0 0 0 / 12%), 0 2px 3px -1px rgb(0 0 0 / 20%);
+    height: 50px;
+    line-height: 40px;
+}
+.btn-marine:hover {
+    background-color: #e4d9d1 !important;
+}
+
+
+.change-status-box {
+    border:1px solid #ccc; 
+    width:84%;
+    margin:auto;
+	box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
 }

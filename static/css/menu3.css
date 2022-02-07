@@ -120,7 +120,10 @@ div.card-title {
     border:1px solid white;
     color: #777;
     opacity: 1;
+    border-radius: 0 0 0.25rem 0.25rem;
 }
+
+
 **********************************/
 
 

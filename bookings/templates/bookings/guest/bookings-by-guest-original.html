@@ -1,0 +1,45 @@
+{% load i18n padword_tags %}
+
+
+<div class="row">
+	<div class="col-10 offset-1 mt-3 mb-3">
+	<div class="content mt-4 " style="border:1px solid red">
+		<div class="toolbar-content mb-3"> <h4 class="success slogan mt-3">{% trans 'Bookings' %}</h4> </div>
+		<div id="booking-list" style=" height: 400px; overflow-y: scroll;">
+			<div class="p-4" style="background:#f3f5f9;border-radius:5px;">
+				<div class="row mb-3">
+					<div class="col-3 title-col text-left"> <strong> {% trans 'Service' %} </strong></div>
+					<div class="col title-col d-none d-lg-block"> <strong>{% trans 'Name' %} </strong></div>
+					<div class="col title-col d-none d-lg-block"> <strong>{% trans 'Surname' %} </strong></div>
+					<div class="col-4 title-col"> <strong>{% trans 'Creation Date' %} </strong></div>
+					<div class="col-3 title-col"> <strong>{% trans 'Status' %} </strong></div>
+					<div class="col-1 title-col"> </div>
+				</div>
+				{% for item in items %}
+				<div class="row booking-line mb-2 pt-3 ark" id="row_{{item.id}}"
+                    data-url="{% url "booking-guest-view" %}" data-target="div-main" data-obj_id="{{item.id}}">
+					<div class="col-3 info-col booking-line"><strong>{% padword_translate item.form.name %}</strong></div>
+					<div class="col info-col booking-line d-none d-lg-block"><strong>{{item.guest.name}}</strong></div>
+					<div class="col info-col booking-line d-none d-lg-block"><strong>{{item.guest.surname}}</strong></div>
+					<div class="col-4 info-col booking-line"><strong>{{ item.date|date:'Y-m-d H:i' }}</strong></div>
+					<div class="col-3 info-col booking-line"><strong>{% padword_translate item.status.name %}</strong></div>
+					<div class="col-1 info-col booking-line"><i class="fas fa-chevron-right fa-lg"></i> </div>
+                        {%comment%}
+		                <button class="me-1 btn btn-xs ark" data-url="{% url "booking-guest-view" %}" data-target="div-main" 
+						    data-obj_id="{{item.id}}" title="{%trans "View"%}"><i class="fas fa-chevron-right fa-lg"></i></button>  
+                        {%endcomment%}
+				</div>
+				{% endfor %}
+			</div>
+		</div>
+	</div>
+	</div>
+</div>
+<div class="row">
+	<div class="col-8 offset-2 text-grey text-center mt-3 mb-3">
+        <button class="btn btn-info-pad mt-3 ark" data-url="{% url 'close-spa' %}" data-target-modal="common-modal" data-bs-dismiss="modal"
+            onclick="closeWin('#div-close')"> {% trans 'Close' %}</button>
+		{#<button class="btn btn-warning text-white mt-3" onclick="window.history.back();">{% trans "Close" %}</button>#}
+	</div>
+</div>
+{% include "common-modal.html" %}

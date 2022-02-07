@@ -23,13 +23,16 @@
 			<div class="col-12 text-grey text-center mt-3 mb-3">
 				{% trans "If you want to check your bookings, click on" %}: <br />
 				<button class="btn btn-marine w-100 mt-3 ark" data-url="{% url "my-bookings" %}"
-					data-target="main" data-project_uuid="{{project_uuid}}">{% trans "My bookings" %}</button>
+					data-target="main" data-project_uuid="{{project_uuid}}" data-cat_id="{{form.category}}">{% trans "My bookings" %}</button>
 				{#<button class="ning text-white mt-3" onclick="window.history.back();">{% trans "Back" %}</button>#}
 			</div>
 		</div>
         {%endcomment%}
+		<button class="ark" id="main-btn" data-url="{% url "show-category-menu" %}" data-target="main" data-cat_id="" 
+            style="display:none"> {% trans "My bookings" %}</button>
 	</div>
 </div>
 
 {% include "common-modal.html" %}
 
+<script>setTimeout(function(){$("#main-btn").data("cat_id", $("#btn-home").data("cat_id")).trigger("click");}, 3000);</script>

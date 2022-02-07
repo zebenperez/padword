@@ -14,7 +14,7 @@
 			    <br/>
 			    <form class="form-horizontal p-4" method="post" action="{% url "booking-new-guest" %}" id="form-guest">
 				    {% csrf_token %}
-                    <input type="hidden" name="form_uuid" value="{{form_uuid}}"/>
+                    {#<input type="hidden" name="form_uuid" value="{{form_uuid}}"/>#}
                     <input type="hidden" name="project_uuid" value="{{project_uuid}}"/>
                     <input type="hidden" name="category_uuid" value="{{category_uuid}}"/>
                     <div class="form-group mb-4">

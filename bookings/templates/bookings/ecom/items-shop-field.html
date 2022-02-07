@@ -3,36 +3,41 @@
 <div class="row">
 {% for item in item_list %}
     {% if item.is_active %}
-    <div class="col-lg-4 col-md-6 col-xs-12 mb-1 d-flex justify-content-center">
+    <div class="col-lg-4 col-md-6 col-xs-12 mb-5 d-flex justify-content-center">
         <div class="card w-100">
             <div class="image" id="cover">
-                {%comment%}
-                <img src="{% if item.image %}{{item.image.url}} {%else%} {% static 'img/none.png' %}{%endif%}" class="object-fit_cover" 
-                    alt="{% padword_translate item.name %}" width="100%">
-                {%endcomment%}
                 {% if item.image %}
-                    <img src="{{item.image.url}}" class="object-fit_cover" alt="{% padword_translate item.name %}" width="100%">
+                    <img src="{{item.image.url}}" class="object-fit_cover" alt="{% padword_translate item.name %}" width="100%" style="height:300px">
                 {% endif %}
             </div>
             <div class="card-body">
                 <div class="row">
                     <div class="col-9"> <h5 class="card-title text-dark">{% padword_translate item.name %}</h5> </div>
                     <div class="col-3"> <h4 class="card-title text-dark text-right">{{ item.price}} &euro; </h4> </div>
-                    <div class="col-12"> <h5 class="card-title text-dark"><small>{% padword_translate_short item.description 100 %}</small></h5> </div>
+                    <div class="col-12"> <h5 class="card-title text-dark">
+                        <small>{% padword_translate item.description as desc %}{{desc|truncatechars_html:100}}</small></h5></div>
+                    {% for extra in item.extra_list.all %}
+                        <input type="hidden" id="extra-{{extra.id}}" class="ark" data-url="{% url "select-item" %}" 
+                            data-target="div-items-shop-{{answer_name}}" data-fi="{{fi_id}}" data-question="{{q_id}}" data-field="{{f.id}}" 
+                            data-index="{{index}}" data-add="True" data-value="{{extra.id}}"/> 
+ 
+                        <input type="checkbox" id="ch-extra-{{item.id}}-{{extra.id}}" {%if extra.id|addstr:"|" in value %}checked{%endif%} disabled/> 
+                            {% padword_translate extra.name %} <br/>
+                    {% endfor %}
                 </div>
             </div>
             <div class="card-footer">
                 <div class="row">
                     <div class="col-6">
-                    {% if item.uuid != value %}
-                        <a class="btn btn-unselect-pad w-100 ark" data-url="{% url "select-item" %}" data-target="div-items-shop-{{answer_name}}" 
-                            data-fi="{{fi_id}}" data-question="{{q_id}}" data-field="{{f.id}}" data-index="{{index}}" data-value="{{item.uuid}}"
-                            onclick=""> 
-                            {% trans "Select" %}</a>
+                        {#{% if item.uuid != value %}#}
+                    {% if item.uuid|addstr:"|" not in value %}
+                        <a class="btn btn-unselect-pad w-100 select ark" data-url="{%url "select-item"%}" 
+                            data-target="div-items-shop-{{answer_name}}" data-fi="{{fi_id}}" data-question="{{q_id}}" data-field="{{f.id}}" 
+                            data-index="{{index}}" data-value="{{item.uuid}}" data-item="{{item.id}}"> {% trans "Select" %}</a>
                     {% else %}
                         <a class="btn btn-select-pad w-100 ark" data-url="{% url "select-item" %}" data-target="div-items-shop-{{answer_name}}" 
-                            data-fi="{{fi_id}}" data-question="{{q_id}}" data-field="{{f.id}}" data-index="{{index}}" data-value=""> 
-                            {% trans "Unselect" %}</a>
+                            data-fi="{{fi_id}}" data-question="{{q_id}}" data-field="{{f.id}}" data-index="{{index}}" data-value="" 
+                            data-item="{{item.id}}"> {% trans "Unselect" %}</a>
                     {% endif %}
                     </div>
                     <div class="col-6 text-right"> {% include "bookings/show-item-btn.html" %} </div>
@@ -45,9 +50,33 @@
 </div>
 <br/>
 {% if selected_item and selected_item != None %}
-    <div id="item-selected" style="border:1px solid red"> <i class="far fa-check-circle"></i> {% trans "You are selected:" %} <span> 
-        {% padword_translate selected_item.name %} - {{selected_item.price}} &euro; </span> </div>
-    <script> var element = document.getElementById("item-selected"); element.scrollIntoView(); </script>
+    <script> 
+        $("input[id^='ch-extra-{{selected_item.id}}']").prop("disabled", false);
+        $("#item-selected-text").html("{% padword_translate selected_item.name %} - {{selected_item.price}} &euro;");
+        var element = document.getElementById("item-selected"); 
+        $(element).show();
+        {% if selected_item.extra_list.all|length == 0 %}
+            setTimeout(function(){element.scrollIntoView()}, 600);
+        {% endif %}
+    </script>
+{% else %}
+    <script> $("#item-selected").hide(); window.scrollTo(0, 0);</script>
 {% endif %}
-
-
+<script>
+    $(".select").click(function(){
+        var id = $(this).data("item");
+        $("input[id^='ch-extra']").prop("disabled", true);
+        $("input[id^='ch-extra-"+id+"']").prop("disabled", false);
+    });
+    $(".unselect").click(function(){
+        var id = $(this).data("item");
+        $("input[id^='ch-extra']").prop("disabled", true);
+    });
+    $("input[id^='ch-extra']").change(function(){
+        var id = $(this).attr("id").split("-")[3];
+        if ($(this).is(":checked"))
+            $("#extra-"+id).data("add", "True").click();
+        else
+            $("#extra-"+id).data("add", "False").click();
+    });
+</script>

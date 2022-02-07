@@ -21,6 +21,7 @@ def get_int(val):
 class Status(models.Model):
 	code = models.CharField(max_length=20, verbose_name=_("Code"), default="")
 	name = models.CharField(max_length=200, verbose_name=_("Name"))
+	color = models.CharField(max_length=10, verbose_name=_("Color"), default="")
 
 	def __str__(self):
 		return self.name
@@ -299,7 +300,8 @@ class AnswerInstance(models.Model):
         return self.text
 
     def get_item(self):
-        return Item.objects.filter(uuid = self.text).first()
+        uuid = self.text if "|" not in self.text else self.text.split("|")[0]
+        return Item.objects.filter(uuid = uuid).first()
 
     class Meta:
         verbose_name = _('Answer instance')

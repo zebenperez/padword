@@ -10,7 +10,10 @@ body {
     padding-top: 150px !important;
 }
 
-#main { padding: 0px; }
+#main { 
+    padding: 0px; 
+    margin-top: -20px;
+}
 
 .container, .container-fluid, .container-lg, .container-md, .container-sm, .container-xl, .container-xxl { padding: 0px !important; height:auto !important;}
 
@@ -119,15 +122,15 @@ i.fas.fa-ban.text-cancel {
 .item-right,
 .item-right input.form-control {
     background-color: #eae6e4;
+/*    border:1px solid #dbdbdb;*/
     border-radius: 5px;
-    color: #00448c !important;
+    color: #a4aab0 !important;
 }
 
 .item-left {
-    color: #00448c !important;
+    color: #474747 !important;
 	font-weight:normal !important;
-	text-align: left;
-    width:50%;
+    font-size: 1rem !important;
 }
 .div-info-tb {
     border: none !important;
@@ -136,15 +139,24 @@ i.fas.fa-ban.text-cancel {
     color: #333 !important;
 }
 .div-info-tb td.sh-td.item-left {
-    color: #27449a !important;
+    color: #474747 !important;
+	font-weight:normal !important;
+    font-size: 1rem !important;
+    padding-left: 3px !important;
+    padding-bottom:10px !important;
 }
 
 .div-info-tb input,.div-info-tb select {
-    width: 98%;
+    width: 90%;
     height: 40px;
     margin-left: 1%;
+    color: #a4aab0 !important;
 }
 
+.resize-form {
+    width: 98%;
+    margin-left: 1%;
+}
 
 
 .div-transp .btn.btn-outline-primary.btn-lg.ark.w-100,
@@ -367,6 +379,15 @@ a.btn.btn-outline-danger:hover {
 	color: #aa1a28 !important;
 }
 
+/*****************************/
+/* Suggestions style*/
+/*****************************/
+
+.guest-card {
+    background: #ffffff;
+	border-radius: 0.25rem;
+	box-shadow: rgba(50, 50, 105, 0.15) 0px 2px 5px 0px, rgba(0, 0, 0, 0.05) 0px 1px 1px 0px;
+}
 
 /*****************************/
 /* btn actions style*/
@@ -454,7 +475,8 @@ span#count-badge.count.badge #span-total-items {
     color: white !important;
 }
 
-.btn-dark {
+.btn-dark,
+.btn-dark a {
 	color: #fff !important;
 	background-color: #404a5d !important;
 	border-color: #404a5d !important;
@@ -543,8 +565,12 @@ td.booking-line {
 
 div#cover.image {
 	text-align: center;
-    /*background-color: #dfdfdf !important;*/
+    background: rgb(255,255,255);
+    background: radial-gradient(circle, rgba(255,255,255,0.5550595238095238) 37%, rgba(190,194,201,0.8575805322128851) 100%);
+}
 
+.b-marine {
+    border-bottom:1px solid #404a5d
 }
 
 img.img-cart-line {
@@ -583,9 +609,10 @@ img.img-cart-line {
 
 #item-selected {
 	background-color: #fff;
-	border:1px solid #ccc;
+	border:2px solid #28a745;
 	border-radius: 5px;
 	color: #28a745;
+    font-size: 1.2rem;
 	padding: 15px;
 	text-align: center;
 	border:1px solid red !important;
@@ -743,6 +770,10 @@ h4.slogan span {
 h1.ql-align-center {
     color: #777;
     font-size: 2.5rem;
+}
+
+h4.ql-align-center {
+    display:none !important;
 }
 
 /*****************************/

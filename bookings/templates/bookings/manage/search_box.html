@@ -33,17 +33,16 @@
                 placeholder="{% trans "Guest Name, Surname, Email, Phone, Room" %}" data-url="{% url "bookings-search" %}" data-target="booking-list" 
                 data-related="s-page,s-project,s-channel,s-form,s-ini_date,s-end_date,s-name,s-status" />
         </div>
-	<div class="col-md-3 col-xs-6">
+        <div class="col-md-3 col-xs-6">
             <input type="date" class="autosearch_change form-control form-control-dark w-30" name="s-ini_date" id="s-ini_date" 
                 placeholder="{% trans "Initial date" %}" value="{{ini_date|date:'Y-m-d'}}" data-url="{% url "bookings-search" %}" 
                 data-target="booking-list" data-related="s-page,s-project,s-channel,s-form,s-ini_date,s-end_date,s-name,s-status" />
-         </div>
-         <div class="col-md-3 col-xs-6">
+        </div>
+        <div class="col-md-3 col-xs-6">
             <input type="date" class="autosearch_change form-control form-control-dark w-30" name="s-end_date" id="s-end_date" 
                 placeholder="{% trans "End date" %}" value="{{end_date|date:'Y-m-d'}}" data-url="{% url "bookings-search" %}" 
                 data-target="booking-list" data-related="s-page,s-project,s-channel,s-form,s-ini_date,s-end_date,s-name,s-status" />
-         </div>
-
+        </div>
     </div>
 
     <div class="row mt-1">
@@ -63,17 +62,17 @@
             </div>
         </div>
 	{% endcomment %}
-                <div class="col-12 d-flex justify-content-center">
-                    <a id="btn-status-" class="btn btn-status btn-{% if status == '' or not status %}primary{%else%}light{%endif%} me-1" 
-                        onclick="$('#s-status').val('');$('#s-status').trigger('change');$('.btn-status').removeClass('btn-primay').removeClass('bt-light').addClass('btn-light');" 
-                        href="#"><small>{% trans 'All' %}</small></a>
-                    {% for item in status_list %}
-                        <a id="btn-status-{{item.pk}}" 
-                            class="btn text-nowrap btn-status btn-{% if status == item.pk %}primary{%else%}light{%endif%} me-1" 
-                            onclick="$('#s-status').val('{{item.id}}');$('#s-status').trigger('change');" href="#">
-                            <small>{% padword_translate item.name %}</small></a>
-                    {% endfor %}
-                </div>
+        <div class="col-12 d-flex justify-content-center">
+            <a id="btn-status-" class="btn btn-status btn-{% if status == '' or not status %}primary{%else%}light{%endif%} me-1" 
+                onclick="$('#s-status').val('');$('#s-status').trigger('change');$('.btn-status').removeClass('btn-primay').removeClass('bt-light').addClass('btn-light');" 
+                href="#"><small>{% trans 'All' %}</small></a>
+            {% for item in status_list %}
+                <a id="btn-status-{{item.pk}}" 
+                    class="btn text-nowrap btn-status btn-{% if status == item.pk %}primary{%else%}light{%endif%} me-1" 
+                    onclick="$('#s-status').val('{{item.id}}');$('#s-status').trigger('change');" href="#">
+                    <small>{% padword_translate item.name %}</small></a>
+            {% endfor %}
+        </div>
     </div>
 </div>
 
