@@ -22,53 +22,53 @@ msgstr ""
 #: form_views.py:82 form_views.py:129 guest_views.py:137 guest_views.py:204
 #: guest_views.py:227 views.py:111 views.py:400
 msgid "Form not found!"
-msgstr ""
+msgstr "Formulaire non trouvé !"
 
 #: form_views.py:88 form_views.py:110 views.py:108
 msgid "Category not found!"
-msgstr ""
+msgstr "Catégorie non trouvée !"
 
 #: guest_views.py:139 guest_views.py:206 guest_views.py:229 views.py:39
 #: views.py:92
 msgid "Project not found!"
-msgstr ""
+msgstr "Projet non trouvé !"
 
 #: guest_views.py:159
 msgid "Sorry, your information is not right. Please, try again."
-msgstr ""
+msgstr "Désolé, vos informations ne sont pas correctes. Veuillez réessayer."
 
 #: guest_views.py:201
 msgid "Guest not found or not assigned to room number!"
-msgstr ""
+msgstr "L'invité n'a pas été trouvé ou n'a pas été assigné à un numéro de chambre !"
 
 #: guest_views.py:236
 msgid "Booking created"
-msgstr ""
+msgstr "Réservation créée"
 
 #: guest_views.py:252
 msgid "Created"
-msgstr ""
+msgstr "Créé"
 
 #: guest_views.py:254 views.py:199 views.py:270
 msgid "Status change from {} to {}"
-msgstr ""
+msgstr "Changement de statut de {} à {}"
 
 #: guest_views.py:490
 msgid "Sorry, there was a problem with your booking, please try again!"
-msgstr ""
+msgstr "Désolé, il y a eu un problème avec votre réservation, veuillez réessayer !"
 
 #: guest_views.py:697
 msgid "You have some news in your orders:\n"
-msgstr ""
+msgstr "Vous avez des nouvelles dans vos commandes : \N"
 
 #: guest_views.py:699
 msgid "Order {} with current status {}"
-msgstr ""
+msgstr "Commande {} avec statut actuel {}"
 
 #: models.py:22 models.py:34 models.py:45 models.py:71 models.py:145
 #: models.py:168 models.py:186 models.py:213
 msgid "Code"
-msgstr ""
+msgstr "Code"
 
 #: models.py:23 models.py:35 models.py:46 models.py:72 models.py:106
 #: templates/bookings/guest/bookings-by-guest-original.html:12
@@ -76,7 +76,7 @@ msgstr ""
 #: templates/forms/block-form.html:14 templates/forms/form-form.html:18
 #: templates/forms/form-list.html:8 templates/forms/search_box.html:20
 msgid "Name"
-msgstr ""
+msgstr "Nom"
 
 #: models.py:29 models.py:30 models.py:313
 #: templates/bookings/guest/bookings-by-guest-original.html:15
@@ -85,120 +85,120 @@ msgstr ""
 #: templates/bookings/manage/status-form.html:9
 #: templates/bookings/manage/status-links.html:4
 msgid "Status"
-msgstr ""
+msgstr "Statut"
 
 #: models.py:33
 msgid "Field type"
-msgstr ""
+msgstr "Type de champ"
 
 #: models.py:41 models.py:59 models.py:188
 msgid "Answer type"
-msgstr ""
+msgstr "Type de réponse"
 
 #: models.py:42
 msgid "Answers types"
-msgstr ""
+msgstr "Types de réponses"
 
 #: models.py:52 models.py:170 templates/forms/block-form.html:31
 msgid "Question type"
-msgstr ""
+msgstr "Type de question"
 
 #: models.py:53
 msgid "Questions types"
-msgstr ""
+msgstr "Types de questions"
 
 #: models.py:56
 msgid "Hide"
-msgstr ""
+msgstr "Cacher"
 
 #: models.py:57 models.py:65
 msgid "Answer"
-msgstr ""
+msgstr "Réponse"
 
 #: models.py:66
 msgid "Answers"
-msgstr ""
+msgstr "Réponses"
 
 #: models.py:73
 msgid "Template"
-msgstr ""
+msgstr "Modèle"
 
 #: models.py:74 models.py:339
 msgid "Project UUID"
-msgstr ""
+msgstr "UUID du projet"
 
 #: models.py:80 models.py:114
 msgid "Form type"
-msgstr ""
+msgstr "Type de formulaire"
 
 #: models.py:81
 msgid "Forms type"
-msgstr ""
+msgstr "Types de formulaires"
 
 #: models.py:103
 msgid "This form is active for guests"
-msgstr ""
+msgstr "Ce formulaire est actif pour les invités"
 
 #: models.py:104
 msgid "Show description"
-msgstr ""
+msgstr "Afficher la description"
 
 #: models.py:105
 msgid "UUID"
-msgstr ""
+msgstr "UUID"
 
 #: models.py:107 templates/forms/form-list.html:10
 msgid "Category"
-msgstr ""
+msgstr "Catégorie"
 
 #: models.py:111 templates/forms/form-form.html:25
 #: templates/forms/form-form.html:97
 msgid "Description"
-msgstr ""
+msgstr "Description"
 
 #: models.py:112
 msgid "Description Width"
-msgstr ""
+msgstr "Description Largeur"
 
 #: models.py:138
 msgid "2.- Form"
-msgstr ""
+msgstr "2.- Formulaire"
 
 #: models.py:139
 msgid "2.- Forms"
-msgstr ""
+msgstr "2.- Formes"
 
 #: models.py:143
 msgid "Private"
-msgstr ""
+msgstr "Privé"
 
 #: models.py:144 models.py:166 models.py:185 templates/forms/block-form.html:7
 msgid "Order"
-msgstr ""
+msgstr "Commandez"
 
 #: models.py:146 models.py:292 models.py:312 models.py:327
 msgid "Text"
-msgstr ""
+msgstr "Texte"
 
 #: models.py:147 models.py:205 models.py:296
 msgid "Form"
-msgstr ""
+msgstr "Formulaire"
 
 #: models.py:161
 msgid "3.- Question block"
-msgstr ""
+msgstr "3.- Bloc de questions"
 
 #: models.py:162
 msgid "3.- Questions blocks"
-msgstr ""
+msgstr "3.- Blocs de questions"
 
 #: models.py:167
 msgid "Max number of answers"
-msgstr ""
+msgstr "Nombre maximal de réponses"
 
 #: models.py:169 models.py:187 models.py:189 models.py:294
 msgid "Question"
-msgstr ""
+msgstr "Question"
 
 #: models.py:171
 msgid "Block"
