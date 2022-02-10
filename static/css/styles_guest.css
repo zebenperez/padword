@@ -426,6 +426,11 @@ a.btn.btn-outline-danger:hover {
     font-size: 0.9em;
 }
 
+.div-ch-extras  {
+    font-weight:normal !important;
+    font-size: 0.8rem !important;
+}
+
 .btn.btn-success-pad
 {
     background: #28a745;  
