@@ -12,10 +12,11 @@
             </div>
             <div class="card-body">
                 <div class="row">
-                    <div class="col-9"> <h5 class="card-title text-dark">{% padword_translate item.name %}</h5> </div>
+                    <div class="col-9 text-left"> <h5 class="card-title text-dark">{% padword_translate item.name %}</h5> </div>
                     <div class="col-3"> <h4 class="card-title text-dark text-right">{{ item.price}} &euro; </h4> </div>
-                    <div class="col-12"> <h5 class="card-title text-dark">
+                    <div class="col-12 text-left"> <h5 class="card-title text-dark">
                         <small>{% padword_translate item.description as desc %}{{desc|truncatechars_html:100}}</small></h5></div>
+                    <div class="div-ch-extras text-left">
                     {% for extra in item.extra_list.all %}
                         <input type="hidden" id="extra-{{extra.id}}" class="ark" data-url="{% url "select-item" %}" 
                             data-target="div-items-shop-{{answer_name}}" data-fi="{{fi_id}}" data-question="{{q_id}}" data-field="{{f.id}}" 
@@ -24,6 +25,7 @@
                         <input type="checkbox" id="ch-extra-{{item.id}}-{{extra.id}}" {%if extra.id|addstr:"|" in value %}checked{%endif%} disabled/> 
                             {% padword_translate extra.name %} <br/>
                     {% endfor %}
+                    </div>
                 </div>
             </div>
             <div class="card-footer">
