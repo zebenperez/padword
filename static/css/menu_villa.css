@@ -21,27 +21,23 @@ img {
  
 .row.div-top {
     background: #fff !important;
-    border-bottom: 1px solid #333;
+    border-bottom: 1px solid #333 !important;
     justify-content: left !important;
-    height: 90px !important;
+    height: 60px !important;
     position: fixed !important;
     top: 0 !important;
     z-index: 1;
 }
-
 .div-top img {
-    max-height: 90px;
+    max-height: 60px !important;
     object-fit: cover;
 }
 
-button.btn.btn-header-pwa.ark { margin-top: 25px;}
-button.btn.btn-header-pwa.ark span { 
-    color: #3c385c !important;
-    font-size: 0.8rem;
-}
+button.btn.btn-header-pwa.ark, a.btn.btn-header-pwa.ark { margin-top: 15px;}
+button.btn.btn-header-pwa.ark span, span.subtext { color: #3a4355 !important;}
 
-i.fas.fa-home, i.far.fa-calendar, i.fas.fa-sign-in-alt { 
-    color: #3c385c !important; 
+i.fas.fa-home, i.far.fa-calendar, i.fas.fa-shopping-cart, i.fas.fa-sign-in-alt { 
+    color: #3a4355 !important; 
     font-size: 1.2rem;
 }
 
