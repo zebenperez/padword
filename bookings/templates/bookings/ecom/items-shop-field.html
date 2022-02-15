@@ -12,8 +12,8 @@
             </div>
             <div class="card-body">
                 <div class="row">
-                    <div class="col-9 text-left"> <h5 class="card-title text-dark">{% padword_translate item.name %}</h5> </div>
-                    <div class="col-3"> <h4 class="card-title text-dark text-right">{{ item.price}} &euro; </h4> </div>
+                    <div class="col-9 text-left"> <h5 class="card-title text-dark"><strong>{% padword_translate item.name %}</strong></h5> </div>
+                    <div class="col-3"> <h5 class="card-title text-dark text-right"><strong>{{ item.price}} &euro;</strong> </h5></div>
                     <div class="col-12 text-left"> <h5 class="card-title text-dark">
                         <small>{% padword_translate item.description as desc %}{{desc|truncatechars_html:100}}</small></h5></div>
                     <div class="div-ch-extras text-left">
@@ -52,6 +52,10 @@
 </div>
 <br/>
 {% if selected_item and selected_item != None %}
+    {%comment%}
+    <div id="item-selected"> <i class="far fa-check-circle"></i> {% trans "You are selected:" %} <span> 
+        {% padword_translate selected_item.name %} - {{selected_item.price}} &euro; </span> </div>
+    {%endcomment%}
     <script> 
         $("input[id^='ch-extra-{{selected_item.id}}']").prop("disabled", false);
         $("#item-selected-text").html("{% padword_translate selected_item.name %} - {{selected_item.price}} &euro;");

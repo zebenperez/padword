@@ -154,8 +154,9 @@ i.fas.fa-ban.text-cancel {
 }
 
 .resize-form {
-    width: 98%;
-    margin-left: 1%;
+/*    width: 98%;
+    margin-left: 1%;*/
+    /*border:1px solid red;*/
 }
 
 
@@ -308,7 +309,7 @@ tbody, td, tfoot, th, thead, tr {
 .pr-20 {
         padding-right: 20px;
 }
-
+ 
 /*****************************/
 /* Shopping-cart style*/
 /*****************************/
