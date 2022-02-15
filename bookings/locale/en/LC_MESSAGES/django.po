@@ -3,13 +3,13 @@
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
-#: templates/bookings/fillform.html:16
+#: templates/bookings/ecom/shopping_cart.html:13
 #, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-09-20 16:45+0200\n"
+"POT-Creation-Date: 2022-02-10 13:05+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -19,295 +19,379 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: form_views.py:82 guest_views.py:106 guest_views.py:162 guest_views.py:185
-#: views.py:380
+#: form_views.py:82 form_views.py:129 views.py:111 views.py:418
 msgid "Form not found!"
 msgstr ""
 
-#: form_views.py:87
+#: form_views.py:88 form_views.py:110 views.py:108
 msgid "Category not found!"
 msgstr ""
 
-#: guest_views.py:108 guest_views.py:113 guest_views.py:164 guest_views.py:187
-#: views.py:39
-msgid "Project not found!"
-msgstr ""
-
-#: guest_views.py:118
-msgid "Sorry, your information is not right. Please, try again."
-msgstr ""
-
-#: guest_views.py:159
-msgid "Guest not found or not assigned to room number!"
-msgstr ""
-
-#: guest_views.py:194 views.py:383
-msgid "Booking created"
-msgstr ""
-
-#: guest_views.py:210
-msgid "Created"
-msgstr ""
-
-#: guest_views.py:212 views.py:175 views.py:250
-msgid "Status change from {} to {}"
-msgstr ""
-
-#: guest_views.py:444
+#: guest_views.py:501
 msgid "Sorry, there was a problem with your booking, please try again!"
 msgstr ""
 
-#: models.py:22 models.py:34 models.py:45 models.py:70 models.py:134
-#: models.py:157 models.py:175 models.py:202
+#: guest_views.py:721
+msgid "You have some news in your orders:\n"
+msgstr ""
+
+#: guest_views.py:723
+msgid "Order {} with current status {}"
+msgstr ""
+
+#: models.py:22 models.py:35 models.py:46 models.py:72 models.py:146
+#: models.py:169 models.py:187 models.py:214
 msgid "Code"
 msgstr ""
 
-#: models.py:23 models.py:35 models.py:46 models.py:71 models.py:100
-#: templates/bookings/guest/bookings-by-guest.html:12
-#: templates/forms/block-form.html:14 templates/forms/form-form.html:27
-#: templates/forms/form-list.html:8
+#: models.py:23 models.py:36 models.py:47 models.py:73 models.py:107
+#: templates/bookings/guest/bookings-by-guest-original.html:12
+#: templates/bookings/guest/bookings-by-guest.html:18
+#: templates/forms/block-form.html:14 templates/forms/form-form.html:18
+#: templates/forms/form-list.html:8 templates/forms/search_box.html:20
 msgid "Name"
 msgstr ""
 
-#: models.py:29 models.py:30 models.py:206
-#: templates/bookings/guest/bookings-by-guest.html:15
-#: templates/bookings/manage/booking-list.html:18
-#: templates/bookings/manage/status-form.html:9
+#: models.py:24 templates/forms/form-qr.html:8
+msgid "Color"
+msgstr ""
+
+#: models.py:30 models.py:31 models.py:315
+#: templates/bookings/guest/bookings-by-guest-original.html:15
+#: templates/bookings/guest/bookings-by-guest.html:21
+#: templates/bookings/manage/booking-list.html:16
+#: templates/bookings/manage/status-form.html:15
 #: templates/bookings/manage/status-links.html:4
 msgid "Status"
 msgstr ""
 
-#: models.py:33
+#: models.py:34
 msgid "Field type"
 msgstr ""
 
-#: models.py:41 models.py:59 models.py:177
+#: models.py:42 models.py:60 models.py:189
 msgid "Answer type"
 msgstr ""
 
-#: models.py:42
+#: models.py:43
 msgid "Answers types"
 msgstr ""
 
-#: models.py:52 models.py:159 templates/forms/block-form.html:31
+#: models.py:53 models.py:171 templates/forms/block-form.html:31
 msgid "Question type"
 msgstr ""
 
-#: models.py:53
+#: models.py:54
 msgid "Questions types"
 msgstr ""
 
-#: models.py:56
+#: models.py:57
 msgid "Hide"
 msgstr ""
 
-#: models.py:57 models.py:65
+#: models.py:58 models.py:66
 msgid "Answer"
 msgstr ""
 
-#: models.py:66
+#: models.py:67
 msgid "Answers"
 msgstr ""
 
-#: models.py:77 models.py:106
-msgid "Form type"
+#: models.py:74
+msgid "Template"
 msgstr ""
 
-#: models.py:78
-msgid "Forms type"
-msgstr ""
-
-#: models.py:99 templates/forms/form-form.html:43
-msgid "UUID"
-msgstr ""
-
-#: models.py:101 templates/forms/form-form.html:49
-msgid "Category"
-msgstr ""
-
-#: models.py:127
-msgid "2.- Form"
-msgstr ""
-
-#: models.py:128
-msgid "2.- Forms"
-msgstr ""
-
-#: models.py:132
-msgid "Private"
-msgstr ""
-
-#: models.py:133 models.py:155 models.py:174 templates/forms/block-form.html:7
-msgid "Order"
-msgstr ""
-
-#: models.py:135 models.py:276 models.py:295
-msgid "Text"
-msgstr ""
-
-#: models.py:136 models.py:194 models.py:280
-msgid "Form"
-msgstr ""
-
-#: models.py:150
-msgid "3.- Question block"
-msgstr ""
-
-#: models.py:151
-msgid "3.- Questions blocks"
-msgstr ""
-
-#: models.py:156
-msgid "Max number of answers"
-msgstr ""
-
-#: models.py:158 models.py:176 models.py:178 models.py:278
-msgid "Question"
-msgstr ""
-
-#: models.py:160
-msgid "Block"
-msgstr ""
-
-#: models.py:161
-msgid "Parent"
-msgstr ""
-
-#: models.py:167
-msgid "4.- Question"
-msgstr ""
-
-#: models.py:168
-msgid "4.- Questions"
-msgstr ""
-
-#: models.py:172
-msgid "Obligatory"
-msgstr ""
-
-#: models.py:173
-msgid "Read only"
-msgstr ""
-
-#: models.py:188 models.py:279
-msgid "Field"
-msgstr ""
-
-#: models.py:189
-msgid "Fields"
-msgstr ""
-
-#: models.py:193 templates/forms/form-list.html:10
-msgid "Channel"
-msgstr ""
-
-#: models.py:203
-msgid "Creation date"
-msgstr ""
-
-#: models.py:204 models.py:306
-msgid "Guest UUID"
-msgstr ""
-
-#: models.py:205
-msgid "Form UUID"
-msgstr ""
-
-#: models.py:264
-msgid "1.- Form instance"
-msgstr ""
-
-#: models.py:265
-msgid "1.- Form instances"
-msgstr ""
-
-#: models.py:275
-msgid "Index"
-msgstr ""
-
-#: models.py:277
-msgid "Document"
-msgstr ""
-
-#: models.py:289
-msgid "Answer instance"
-msgstr ""
-
-#: models.py:290
-msgid "Answer instances"
-msgstr ""
-
-#: models.py:294
-msgid "User"
-msgstr ""
-
-#: models.py:296
-msgid "Form instance"
-msgstr ""
-
-#: models.py:302
-msgid "Form log"
-msgstr ""
-
-#: models.py:303
-msgid "Form logs"
-msgstr ""
-
-#: models.py:307
+#: models.py:75 models.py:341
 msgid "Project UUID"
 msgstr ""
 
+#: models.py:81 models.py:115
+msgid "Form type"
+msgstr ""
+
+#: models.py:82
+msgid "Forms type"
+msgstr ""
+
+#: models.py:104
+msgid "This form is active for guests"
+msgstr ""
+
+#: models.py:105
+msgid "Show description"
+msgstr ""
+
+#: models.py:106
+msgid "UUID"
+msgstr ""
+
+#: models.py:108 templates/forms/form-list.html:10
+msgid "Category"
+msgstr ""
+
+#: models.py:112 templates/forms/form-form.html:25
+#: templates/forms/form-form.html:97
+msgid "Description"
+msgstr ""
+
+#: models.py:113
+msgid "Description Width"
+msgstr ""
+
+#: models.py:139
+msgid "2.- Form"
+msgstr ""
+
+#: models.py:140
+msgid "2.- Forms"
+msgstr ""
+
+#: models.py:144
+msgid "Private"
+msgstr ""
+
+#: models.py:145 models.py:167 models.py:186 templates/forms/block-form.html:7
+msgid "Order"
+msgstr ""
+
+#: models.py:147 models.py:293 models.py:314 models.py:329
+msgid "Text"
+msgstr ""
+
+#: models.py:148 models.py:206 models.py:297
+msgid "Form"
+msgstr ""
+
+#: models.py:162
+msgid "3.- Question block"
+msgstr ""
+
+#: models.py:163
+msgid "3.- Questions blocks"
+msgstr ""
+
+#: models.py:168
+msgid "Max number of answers"
+msgstr ""
+
+#: models.py:170 models.py:188 models.py:190 models.py:295
+msgid "Question"
+msgstr ""
+
+#: models.py:172
+msgid "Block"
+msgstr ""
+
+#: models.py:173
+msgid "Parent"
+msgstr ""
+
+#: models.py:179
+msgid "4.- Question"
+msgstr ""
+
+#: models.py:180
+msgid "4.- Questions"
+msgstr ""
+
+#: models.py:184
+msgid "Obligatory"
+msgstr ""
+
+#: models.py:185
+msgid "Read only"
+msgstr ""
+
+#: models.py:200 models.py:296
+msgid "Field"
+msgstr ""
+
+#: models.py:201
+msgid "Fields"
+msgstr ""
+
+#: models.py:205
+msgid "Channel"
+msgstr ""
+
+#: models.py:215
+msgid "Creation date"
+msgstr ""
+
+#: models.py:216 models.py:340
+msgid "Guest UUID"
+msgstr ""
+
+#: models.py:217
+msgid "Form UUID"
+msgstr ""
+
+#: models.py:281
+msgid "1.- Form instance"
+msgstr ""
+
+#: models.py:282
+msgid "1.- Form instances"
+msgstr ""
+
+#: models.py:292
+msgid "Index"
+msgstr ""
+
+#: models.py:294
+msgid "Document"
+msgstr ""
+
+#: models.py:307
+msgid "Answer instance"
+msgstr ""
+
 #: models.py:308
-msgid "Username"
+msgid "Answer instances"
 msgstr ""
 
 #: models.py:311
+msgid "Read"
+msgstr ""
+
+#: models.py:313 models.py:328
+msgid "User"
+msgstr ""
+
+#: models.py:316 models.py:330
+msgid "Form instance"
+msgstr ""
+
+#: models.py:322 models.py:323
+msgid "Form Instance Status"
+msgstr ""
+
+#: models.py:336
+msgid "Form log"
+msgstr ""
+
+#: models.py:337
+msgid "Form logs"
+msgstr ""
+
+#: models.py:342
+msgid "Username"
+msgstr ""
+
+#: models.py:345
 msgid "Guest user"
 msgstr ""
 
-#: templates/bookings/autocomplete_field.html:1
-#: templates/bookings/guest/bookings-by-guest.html:43
-#: templates/bookings/guest/view-booking-project.html:51
-#: templates/bookings/guest/view-booking.html:56
-#: templates/bookings/view-booking-project.html:44
-#: templates/bookings/view-booking.html:58
-msgid "Close"
+#: templates/bookings/ecom/items-shop-field.html:38
+msgid "Select"
 msgstr ""
 
-#: templates/bookings/field_form.html:61 templates/bookings/field_form.html:77
-msgid "Select an option"
+#: templates/bookings/ecom/items-shop-field.html:42
+msgid "Unselect"
 msgstr ""
 
-#: templates/bookings/fillform.html:41
+#: templates/bookings/ecom/shopping-form.html:13
+msgid "Please, write here your comments"
+msgstr ""
+
+#: templates/bookings/ecom/shopping-form.html:23
+msgid "Save"
+msgstr ""
+
+#: templates/bookings/ecom/shopping_cart.html:51
+#: templates/bookings/ecom/shopping_cart2.html:44
+#: templates/bookings/ecom/view-shopping-cart.html:69
+#: templates/bookings/show-item-details.html:28
 msgid "Continue"
 msgstr ""
 
-#: templates/bookings/fillform.html:44
-#: templates/bookings/view-shopping-cart.html:45
+#: templates/bookings/ecom/shopping_cart.html:54
+#: templates/bookings/ecom/view-shopping-cart.html:59
+#: templates/bookings/general/general.html:16
 msgid "Send Order"
 msgstr ""
 
-#: templates/bookings/fillform.html:49
-#: templates/bookings/view-shopping-cart.html:50
+#: templates/bookings/ecom/shopping_cart.html:59
+#: templates/bookings/ecom/shopping_cart2.html:48
+#: templates/bookings/general/general.html:20
 msgid "Cancel Order"
 msgstr ""
 
-#: templates/bookings/guest/bookings-by-guest.html:7
-#: templates/bookings/manage/bookings.html:12
+#: templates/bookings/ecom/view-shopping-cart.html:14
+msgid "My Booking"
+msgstr ""
+
+#: templates/bookings/ecom/view-shopping-cart.html:14
+msgid "art."
+msgstr ""
+
+#: templates/bookings/ecom/view-shopping-cart.html:16
+msgid "Total price"
+msgstr ""
+
+#: templates/bookings/ecom/view-shopping-cart.html:44
+msgid "Remove article from shopping-cart"
+msgstr ""
+
+#: templates/bookings/ecom/view-shopping-cart.html:45
+msgid "Add comment at this article"
+msgstr ""
+
+#: templates/bookings/ecom/view-shopping-cart.html:53
+msgid "You can add comments to the article with click on comment buttons"
+msgstr ""
+
+#: templates/bookings/general/autocomplete_field.html:1
+#: templates/bookings/guest/bookings-by-guest-original.html:42
+#: templates/bookings/guest/view-booking.html:18
+#: templates/bookings/show-category-pwa.html:45
+#: templates/bookings/top-menu.html:24
+msgid "Close"
+msgstr ""
+
+#: templates/bookings/general/field_form.html:61
+#: templates/bookings/general/field_form.html:77
+msgid "Select an option"
+msgstr ""
+
+#: templates/bookings/general/general.html:9
+msgid "You are selected:"
+msgstr ""
+
+#: templates/bookings/general/question_row.html:11
+msgid "Are you sure you want to delete this row?"
+msgstr ""
+
+#: templates/bookings/guest/bookings-by-guest-original.html:7
+#: templates/bookings/manage/bookings.html:11
+#: templates/bookings/show-category-pwa.html:27
+#: templates/bookings/top-menu.html:11
 msgid "Bookings"
 msgstr ""
 
-#: templates/bookings/guest/bookings-by-guest.html:11
-#: templates/bookings/manage/booking-list.html:13
+#: templates/bookings/guest/bookings-by-guest-original.html:11
+#: templates/bookings/guest/bookings-by-guest.html:17
+#: templates/bookings/manage/booking-list.html:11
 msgid "Service"
 msgstr ""
 
-#: templates/bookings/guest/bookings-by-guest.html:13
+#: templates/bookings/guest/bookings-by-guest-original.html:13
+#: templates/bookings/guest/bookings-by-guest.html:19
 msgid "Surname"
 msgstr ""
 
-#: templates/bookings/guest/bookings-by-guest.html:14
+#: templates/bookings/guest/bookings-by-guest-original.html:14
+#: templates/bookings/guest/bookings-by-guest.html:20
 msgid "Creation Date"
+msgstr ""
+
+#: templates/bookings/guest/bookings-by-guest.html:7
+#: templates/bookings/guest/show-msg.html:34
+msgid "My bookings"
+msgstr ""
+
+#: templates/bookings/guest/bookings-by-guest.html:9
+msgid "ALL"
 msgstr ""
 
 #: templates/bookings/guest/close.html:4
@@ -322,63 +406,33 @@ msgstr ""
 msgid "Welcome"
 msgstr ""
 
-#: templates/bookings/guest/guest-welcome.html:9
-msgid "to Lani's Booking Center"
-msgstr ""
-
-#: templates/bookings/guest/guest-welcome.html:12
-#: templates/bookings/guest/guest-welcome.html:16
-#: templates/bookings/guest/guest-welcome.html:21
-#: templates/bookings/guest/guest-welcome.html:24
+#: templates/bookings/guest/guest-welcome.html:14
+#: templates/bookings/guest/guest-welcome.html:17
 msgid "Access"
 msgstr ""
 
-#: templates/bookings/guest/show-msg.html:10
+#: templates/bookings/guest/show-msg.html:15
 msgid "Your reservation has been sent correctly!"
 msgstr ""
 
-#: templates/bookings/guest/show-msg.html:12
+#: templates/bookings/guest/show-msg.html:18
 msgid "Your reservation has been cancelled correctly!"
 msgstr ""
 
-#: templates/bookings/guest/show-msg.html:19
-msgid "If you want to check your bookings, click on"
-msgstr ""
-
-#: templates/bookings/guest/show-msg.html:21
-msgid "My bookings"
-msgstr ""
-
-#: templates/bookings/items-shop-field.html:24
-msgid "Select"
-msgstr ""
-
-#: templates/bookings/items-shop-field.html:28
-msgid "Unselect"
-msgstr ""
-
-#: templates/bookings/items-shop-field.html:38
-msgid "You are selected:"
-msgstr ""
-
-#: templates/bookings/manage/booking-list.html:14
+#: templates/bookings/manage/booking-list.html:12
 msgid "Guest"
 msgstr ""
 
-#: templates/bookings/manage/booking-list.html:15
+#: templates/bookings/manage/booking-list.html:13
 msgid "Room"
 msgstr ""
 
-#: templates/bookings/manage/booking-list.html:16
-msgid "Device"
-msgstr ""
-
-#: templates/bookings/manage/booking-list.html:17
+#: templates/bookings/manage/booking-list.html:15
 msgid "Date"
 msgstr ""
 
 #: templates/bookings/manage/booking-logs.html:3
-#: templates/bookings/manage/booking-row.html:17
+#: templates/bookings/manage/booking-row.html:23
 msgid "Log"
 msgstr ""
 
@@ -386,25 +440,21 @@ msgstr ""
 msgid "close"
 msgstr ""
 
-#: templates/bookings/manage/booking-row.html:14
+#: templates/bookings/manage/booking-row.html:16
 msgid "Booking ID"
 msgstr ""
 
-#: templates/bookings/manage/booking-row.html:16
-msgid "Change status"
-msgstr ""
-
-#: templates/bookings/manage/booking-row.html:18
+#: templates/bookings/manage/booking-row.html:25
 msgid "View"
 msgstr ""
 
-#: templates/bookings/manage/booking-row.html:19
-#: templates/forms/form-edit.html:12 templates/forms/form-list.html:28
+#: templates/bookings/manage/booking-row.html:29
+#: templates/forms/form-row.html:13
 msgid "Remove"
 msgstr ""
 
-#: templates/bookings/manage/booking-row.html:19
-#: templates/forms/form-edit.html:12 templates/forms/form-list.html:28
+#: templates/bookings/manage/booking-row.html:30
+#: templates/forms/form-row.html:13
 msgid "Are you sure to remove this element?"
 msgstr ""
 
@@ -413,78 +463,56 @@ msgstr ""
 msgid "Project name"
 msgstr ""
 
-#: templates/bookings/manage/search_box.html:21
+#: templates/bookings/manage/search_box.html:22
 #: templates/forms/search_box.html:14
 msgid "Channel name"
 msgstr ""
 
-#: templates/bookings/manage/search_box.html:26
+#: templates/bookings/manage/search_box.html:27
 msgid "Service name"
 msgstr ""
 
-#: templates/bookings/manage/search_box.html:31
+#: templates/bookings/manage/search_box.html:33
 msgid "Guest Name, Surname, Email, Phone, Room"
 msgstr ""
 
-#: templates/bookings/manage/search_box.html:36
+#: templates/bookings/manage/search_box.html:38
 msgid "Initial date"
 msgstr ""
 
-#: templates/bookings/manage/search_box.html:41
+#: templates/bookings/manage/search_box.html:43
 msgid "End date"
 msgstr ""
 
-#: templates/bookings/manage/search_box.html:68
+#: templates/bookings/manage/search_box.html:69 templates/forms/forms.html:23
 msgid "All"
 msgstr ""
 
-#: templates/bookings/manage/status-form.html:3
-msgid "Status change"
+#: templates/bookings/manage/status-form.html:5
+msgid "Current Status:"
 msgstr ""
 
-#: templates/bookings/manage/status-form.html:30
-#: templates/bookings/shopping-form.html:24 templates/forms/form-edit.html:10
-msgid "Save"
+#: templates/bookings/manage/status-form.html:7
+#: templates/bookings/manage/status-form.html:32
+msgid "Change Status"
 msgstr ""
 
-#: templates/bookings/manage/status-form.html:31
-msgid "Cancel"
+#: templates/bookings/manage/status-form.html:35
+msgid "Comentario para el siguiente estado"
 msgstr ""
 
-#: templates/bookings/question_row.html:11
-msgid "Are you sure you want to delete this row?"
+#: templates/bookings/show-category-pwa.html:21
+#: templates/bookings/top-menu.html:5
+msgid "Home"
 msgstr ""
 
-#: templates/bookings/shopping-form.html:16
-msgid "Comments"
+#: templates/bookings/show-category-pwa.html:33
+#: templates/bookings/top-menu.html:16
+msgid "Shopping"
 msgstr ""
 
-#: templates/bookings/shopping-form.html:17
-msgid "Please, write here your comments"
-msgstr ""
-
-#: templates/bookings/view-shopping-cart.html:5
-msgid "My Booking"
-msgstr ""
-
-#: templates/bookings/view-shopping-cart.html:5
-msgid "art."
-msgstr ""
-
-#: templates/bookings/view-shopping-cart.html:7
-msgid "Total price"
-msgstr ""
-
-#: templates/bookings/view-shopping-cart.html:30
-msgid "Remove article from shopping-cart"
-msgstr ""
-
-#: templates/bookings/view-shopping-cart.html:31
-msgid "Add comment at this article"
-msgstr ""
-
-#: templates/bookings/view-shopping-cart.html:39
-msgid "You can add comments to the article with click on comment buttons"
+#: templates/bookings/show-item-btn.html:4
+msgid "View Item"
 msgstr ""
 
 #: templates/forms/block-form.html:23
@@ -517,56 +545,93 @@ msgstr ""
 msgid "Are you sure to remove this file?"
 msgstr ""
 
+#: templates/forms/form-edit-category.html:4 templates/forms/form-edit.html:8
+#: templates/forms/form-form.html:128 templates/forms/form-form.html:133
+msgid "QR"
+msgstr ""
+
+#: templates/forms/form-edit-category.html:5 templates/forms/form-edit.html:9
+msgid "PWA"
+msgstr ""
+
+#: templates/forms/form-edit-category.html:6 templates/forms/form-edit.html:10
+msgid "Preview"
+msgstr ""
+
+#: templates/forms/form-edit-category.html:7
+msgid "Update"
+msgstr ""
+
+#: templates/forms/form-edit-category.html:7
+msgid "update"
+msgstr ""
+
 #: templates/forms/form-edit-content.html:7
 msgid "Change lang"
 msgstr ""
 
-#: templates/forms/form-edit.html:8 templates/forms/form-edit.html:9
-msgid "Preview"
-msgstr ""
-
 #: templates/forms/form-form.html:4
-msgid "Edit form"
+msgid "Datos Generales"
 msgstr ""
 
-#: templates/forms/form-form.html:10
-msgid "Background image"
+#: templates/forms/form-form.html:8
+msgid "Image"
 msgstr ""
 
-#: templates/forms/form-form.html:14
-msgid "Logo"
+#: templates/forms/form-form.html:32
+msgid "URL"
 msgstr ""
 
-#: templates/forms/form-form.html:18
-msgid "QR"
+#: templates/forms/form-form.html:39
+msgid "Parent Category"
 msgstr ""
 
-#: templates/forms/form-form.html:33
+#: templates/forms/form-form.html:43
+msgid "Current"
+msgstr ""
+
+#: templates/forms/form-form.html:44 templates/forms/form-form.html:48
+msgid "ROOT Category"
+msgstr ""
+
+#: templates/forms/form-form.html:46
+msgid "Level Up"
+msgstr ""
+
+#: templates/forms/form-form.html:60
+msgid "Position"
+msgstr ""
+
+#: templates/forms/form-form.html:68
 msgid "Type"
 msgstr ""
 
-#: templates/forms/form-form.html:36
+#: templates/forms/form-form.html:71
 msgid "Select form type"
 msgstr ""
 
-#: templates/forms/form-form.html:55
-msgid "Channels"
+#: templates/forms/form-form.html:81
+msgid "Features"
+msgstr ""
+
+#: templates/forms/form-form.html:92
+msgid "Images"
+msgstr ""
+
+#: templates/forms/form-form.html:108
+msgid "Width"
+msgstr ""
+
+#: templates/forms/form-form.html:114
+msgid "Show"
+msgstr ""
+
+#: templates/forms/form-form.html:132
+msgid "Logo"
 msgstr ""
 
 #: templates/forms/form-list.html:9
 msgid "Project"
-msgstr ""
-
-#: templates/forms/form-list.html:25
-msgid "See bookings"
-msgstr ""
-
-#: templates/forms/form-list.html:26
-msgid "New booking"
-msgstr ""
-
-#: templates/forms/form-list.html:27
-msgid "Edit"
 msgstr ""
 
 #: templates/forms/form-qr.html:5
@@ -574,23 +639,47 @@ msgid "Generate QR"
 msgstr ""
 
 #: templates/forms/form-qr.html:8
-msgid "Color"
-msgstr ""
-
-#: templates/forms/form-qr.html:8
 msgid "Background"
 msgstr ""
 
-#: templates/forms/forms.html:20
+#: templates/forms/form-row.html:8
+msgid "Finger print"
+msgstr ""
+
+#: templates/forms/form-row.html:9
+msgid "See bookings"
+msgstr ""
+
+#: templates/forms/form-row.html:10
+msgid "New booking"
+msgstr ""
+
+#: templates/forms/form-row.html:11
+msgid "Edit"
+msgstr ""
+
+#: templates/forms/form-row.html:12 templates/forms/forms.html:25
+msgid "Active"
+msgstr ""
+
+#: templates/forms/forms.html:13
 msgid "Forms"
 msgstr ""
 
-#: templates/forms/forms.html:30
+#: templates/forms/forms.html:24
+msgid "No active"
+msgstr ""
+
+#: templates/forms/forms.html:26
 msgid "New form"
 msgstr ""
 
 #: templates/forms/question-form.html:20
 msgid "Select field type"
+msgstr ""
+
+#: views.py:39 views.py:92
+msgid "Project not found!"
 msgstr ""
 
 #: views.py:41 views.py:47
