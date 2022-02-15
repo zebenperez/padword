@@ -251,10 +251,9 @@ def booking_send(request):
     try:
         fi_id = request.GET["obj_id"]
         fi = FormInstance.objects.get(pk = fi_id)
-        #previous_status = fi.get_status.status.name if fi.get_status != None and fi.get_status.status != None else _("Created")
         fi.set_status("01", request.user, "")
-        #write_log(request.user, fi, _("Status change from {} to {}".format(previous_status, fi.get_status.status.name)))
-        #context = {'msg': fi.get_status.status.code, 'project_uuid': fi.form.project.uuid}
+        fi.date = datetime.datetime.now()
+        fi.save()
         context = {'msg': fi.get_status.status.code}
         return render(request, 'bookings/guest/show-msg.html', context)
     except Exception as e:
@@ -293,11 +292,12 @@ def bookings_by_guest(request, project_uuid=None):
         guest = gu.guest
         cat_uuid = request.GET["cat_id"] if "cat_id" in request.GET else ""
         context = {
-            'items': FormInstance.objects.filter(guest_uuid=guest.UUID, date__range=[guest.check_in, guest.check_out], status_list__isnull=False),
+            'items': FormInstance.objects.filter(guest_uuid=guest.UUID, date__range=[guest.check_in, guest.check_out], status_list__isnull=False).distinct(),
             'status_list': Status.objects.all(),
             'cat_uuid': cat_uuid,
             'guest': guest
         }
+        print(context["items"])
         return render (request, "bookings/guest/bookings-by-guest.html", context)
     except Exception as e:
         logger.error("[bookings-bookings] {}".format(str(e)))

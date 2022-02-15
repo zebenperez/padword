@@ -7,12 +7,12 @@ body {
 
 #main-pwa {
     /*padding-top: 100px !important;*/
-    padding-top: 150px !important;
+   /* padding-top: 150px !important;*/
 }
 
 #main { 
     padding: 0px; 
-    margin-top: -20px;
+   /* margin-top: -20px;*/
 }
 
 .container, .container-fluid, .container-lg, .container-md, .container-sm, .container-xl, .container-xxl { padding: 0px !important; height:auto !important;}
@@ -154,8 +154,9 @@ i.fas.fa-ban.text-cancel {
 }
 
 .resize-form {
-    width: 98%;
-    margin-left: 1%;
+/*    width: 98%;
+    margin-left: 1%;*/
+    /*border:1px solid red;*/
 }
 
 
@@ -302,6 +303,14 @@ tbody, td, tfoot, th, thead, tr {
 	padding: 0px !important;
 }
 
+.pl-20 {
+    padding-left: 20px;
+}
+ 
+.pr-20 {
+    padding-right: 20px;
+}
+   
 /*****************************/
 /* Shopping-cart style*/
 /*****************************/
