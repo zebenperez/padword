@@ -1,5 +1,6 @@
 #main-pwa {
     padding-top: 120px !important;
+/*    border:1px solid red !important;*/
 }
 
 .container {
@@ -18,30 +19,26 @@
 img {
     background-color: transparent;
 }
- 
+
 .row.div-top {
     background: #fff !important;
-    border-bottom: 1px solid #333;
+    border-bottom: 1px solid #333 !important;
     justify-content: left !important;
-    height: 90px !important;
+    height: 60px !important;
     position: fixed !important;
     top: 0 !important;
     z-index: 1;
 }
-
 .div-top img {
-    max-height: 90px;
+    max-height: 60px !important;
     object-fit: cover;
 }
 
-button.btn.btn-header-pwa.ark { margin-top: 25px;}
-button.btn.btn-header-pwa.ark span { 
-    color: #3c385c !important;
-    font-size: 0.8rem;
-}
+button.btn.btn-header-pwa.ark, a.btn.btn-header-pwa.ark { margin-top: 15px;}
+button.btn.btn-header-pwa.ark span, span.subtext { color: #3a4355 !important;}
 
-i.fas.fa-home, i.far.fa-calendar, i.fas.fa-sign-in-alt { 
-    color: #3c385c !important; 
+i.fas.fa-home, i.far.fa-calendar, i.fas.fa-shopping-cart, i.fas.fa-sign-in-alt { 
+    color: #3a4355 !important; 
     font-size: 1.2rem;
 }
 
@@ -128,7 +125,6 @@ a.btn.btn-header-pwa.ark {
     text-transform: uppercase;
 }
 
-
 #div-current-category {
 	bottom: 60px;
 	width: 83%;
@@ -147,8 +143,7 @@ a.btn.btn-header-pwa.ark {
 
 button.menu-options { 
     background: none;
-    text-transform: uppercase;
-	border:0;
+   	border:0;
 	color:#00448c;
 	font-size: 1.2rem;
 	height: 60px;
@@ -170,13 +165,23 @@ button.menu-options {
 	text-align:center !important;
 }
 
+.align-items-end {
+    position: fixed;
+    bottom: 60px;
+    left: 0;
+    width: 110%;
+    height: 60px;
+    background: rgb(255,255,255);
+    background: linear-gradient(0deg, rgba(255,255,255,1) 71%, rgba(255,255,255,0) 100%);
+}
+
 .menu-botton {
-	background:#00448c;
+    background:#00448c;
     text-transform: uppercase;
 	position:fixed; 
 	bottom:0; 
 	left: 1%;
-	width: 110%;
+	width: 105%;
 	height: 60px;
 	line-height: 60px;
     letter-spacing:2;
@@ -213,14 +218,16 @@ button.menu-options {
 /*****************************/
 
 .error-page {
-    background-image: url(/static/img/bg-villa.png) !important;
+	background-image: url(/static/img/bg-lanis.png) !important;
 }
 .error-content {
     background-color: white;
     height: 400px !important;
     border-radius: 0.25rem;
 	box-shadow: rgba(50, 50, 105, 0.15) 0px 2px 5px 0px, rgba(0, 0, 0, 0.05) 0px 1px 1px 0px;
+
 }
+
 
 .p2 {
     padding:2px !important;
@@ -229,6 +236,22 @@ button.menu-options {
 .i-love-btn, .value-btn, .sugest-btn, .covid19-btn {
     padding:0;
 }
+
+.img-carousel {
+    background-color: #fff;
+<<<<<<< HEAD
+ /*   border-radius: 0.25rem;*/
+=======
+    border-radius: 0.25rem 0.25rem 0 0;
+>>>>>>> 2f262037e1c6715f8d2e79e1dd361709a90a78e2
+}
+
+.img-carousel img.object-fit_cover-gallery {
+    width: 1024px !important;
+    object-fit: cover !important;
+    height: 350px !important;
+}
+
 
 /*****************************/
 /* devices style*/
@@ -252,16 +275,7 @@ button.menu-options {
 
 @media (max-width: 420px) 
 {
-    #main-pwa {
-        padding-top: 80px !important;
-    }
-
-    .container {
-        margin-top: -80px;
-    }
-    .i-love-btn, .slogan, .value-btn, .covid19-btn, .sugest-btn  {
-        margin-top: 20px;
-    }
+    .i-love-btn, .slogan, .value-btn, .covid19-btn, .sugest-btn { margin-top: 20px; }
     a.btn.btn-primary.w-100, 
     a.btn.btn-secondary.w-100, 
     a.btn.btn-outline-danger.w-100 {
@@ -271,8 +285,15 @@ button.menu-options {
         height: 60px !important;
     }
 
+    .div-top img {
+        height: 35px !important;
+        max-width: initial;
+        object-fit: cover;
+        margin-top: 15px;
+    }
     button.menu-options {
-        font-size: 0.9rem;
+        font-size: 0.75rem;
+        line-height:1.5;
     }
     .btn-info-pwa {
         font-size: 0.8rem !important;
@@ -285,7 +306,7 @@ button.menu-options {
         font-size: 0.85rem;
 	    width: 101%;
         left:3.5%;
-        padding-top: 15px;
+     /*   padding-top: 15px;*/
     }
     .menu-botton a{ 
         font-size: 0.8rem ;
@@ -304,18 +325,22 @@ button.menu-options {
     .div-boxes {
         margin-top: 5px !important;
     }
-    
+
     button.btn.btn-header-pwa.ark,
     a.btn.btn-header-pwa.ark { 
         margin-top: 10px;
         padding-left: 0px;
         padding-right: 0px;
     }
-    button.btn.btn-header-pwa.ark span, span.subtext  { color: #3c385c !important;font-size: 0.7rem;}
+    button.btn.btn-header-pwa.ark span, span.subtext  { color: #3a4355 !important;font-size: 0.7rem;}
+
+    .icon-cart  { color: #3a4355 !important; margin-top: 0;}
 
     i.fas.fa-home, i.far.fa-calendar, i.fas.fa-shopping-cart, i.fas.fa-sign-in-alt { 
-        color: #3c385c !important; 
+        color: #3a4355 !important; 
         font-size: 1rem;
+        font-size: 0.8rem;
+        padding-top: 2px;
     }
 
     .languages img {
@@ -324,6 +349,16 @@ button.menu-options {
     	border: 1px solid #fff !important;
     }
 
-
+    .img-carousel img.object-fit_cover-gallery {
+        width: 1024px !important;
+        object-fit: cover !important;
+        height: 250px !important;
+    }
 }
+
+
+.row.d-flex.justify-content-center.col-0 {
+    margin:auto !important;
+}
+
 
