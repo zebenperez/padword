@@ -145,8 +145,11 @@ button.menu-options {
     background: none;
    	border:0;
 	color:#00448c;
-	font-size: 1.2rem;
+/*	font-size: 1.2rem;*/
 	height: 60px;
+
+    font-size: 1rem;
+    line-height:1.5;
 }
 
 .menu-tabs {
@@ -169,7 +172,7 @@ button.menu-options {
     position: fixed;
     bottom: 60px;
     left: 0;
-    width: 110%;
+/*    width: 110%;*/
     height: 60px;
     background: rgb(255,255,255);
     background: linear-gradient(0deg, rgba(255,255,255,1) 71%, rgba(255,255,255,0) 100%);
@@ -304,9 +307,6 @@ button.menu-options {
         text-transform: none !important;
         letter-spacing:0;
         font-size: 0.85rem;
-	    width: 101%;
-        left:3.5%;
-     /*   padding-top: 15px;*/
     }
     .menu-botton a{ 
         font-size: 0.8rem ;

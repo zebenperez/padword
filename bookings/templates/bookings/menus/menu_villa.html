@@ -30,7 +30,7 @@
     <div class="col-lg-4 col-6">
         <div class="i-love-btn">
             <a href="https://www.hotelsuitevillamaria.es/promociones/?utm_source=padword&utm_medium=button&utm_campaign=padword" target="_blank" 
-                class="btn btn-primary w-100"> <i class="far fa-grin-hearts"></i> 
+                class="btn btn-primary"> <i class="far fa-grin-hearts"></i> 
                 {% padword_translate_obj 'af153cdf-334d-0f06-f505-8e3ddb2a7162' %}</a>
         </div>
     </div>
@@ -42,11 +42,13 @@
     {%endcomment%}
     <div class="col-lg-4 col-6">
         <div class="sugest-btn"><a href="https://www.hotelsuitevillamaria.es/es/category/sostenibilidad/" target="_blank" 
-            class="btn btn-secondary w-100 "> <i class="fas fa-leaf"></i> {% padword_translate_obj 'e3332f7c-18c5-127a-5bd5-52c9c75d5d7c' %}</a>
+            class="btn btn-secondary"> <i class="fas fa-leaf"></i> {% padword_translate_obj 'e3332f7c-18c5-127a-5bd5-52c9c75d5d7c' %}</a>
         </div>
     </div>
     <div class="col-lg-4 col-6">
-        <div class="covid19-btn"><a href="https://www.hotelsuitevillamaria.es/es/seguridad/" target="_blank" class="btn btn-outline-danger w-100">
+        <button class="menu-options ark" data-url="{% url "show-category-menu" %}" data-target="main" 
+            data-cat_id="860c38f1-f584-38a9-1fb2-c01c73edc032"> {% padword_translate_obj '860c38f1-f584-38a9-1fb2-c01c73edc032'%}</button>
+        <div class="covid19-btn"><a href="https://www.hotelsuitevillamaria.es/es/seguridad/" target="_blank" class="btn btn-outline-danger">
                 <i class="fas fa-info-circle"></i> {% padword_translate_obj '860c38f1-f584-38a9-1fb2-c01c73edc032' %}</a>
         </div>
     </div>
@@ -65,7 +67,7 @@
 </div>
 {% endcomment %} 
  
-<div class="row menu-tabs align-items-end w-100">
+<div class="row menu-tabs align-items-end">
     <div class="col-4 mb-1 align-middle justify-content-center p2">
         <div class="tabs">
             <button class="menu-options ark" data-url="{% url "show-category-menu" %}" data-target="main" 
@@ -86,8 +88,8 @@
     </div>
 </div>
 
-<div class="row menu-botton w-100" style="border:1px solid red !important: width:100%;">
-    <div class="col-lg-2 offset-lg-1 col-3" style="padding:0; order:1px solid red">
+<div class="row menu-botton">
+    <div class="col-lg-2 offset-lg-2 col-3" style="padding:0; order:1px solid red">
         <button style="color:white !important;" class="menu-options ark" data-url="{% url "show-category-menu" %}" data-target="main"                                                data-cat_id="e7797a43-31fc-df69-dcdf-eef7631964db"><i class="fas fa-wifi"></i><br />
              {% padword_translate_obj 'e7797a43-31fc-df69-dcdf-eef7631964db'%}</button>
     </div>

@@ -351,6 +351,33 @@ def item_remove_image(request):
         print(e)
         return render(request, 'error_exception.html', {'msg': str(e)})
 
+@group_required("admins", "projects")
+def item_add_image_gallery(request):
+    try:
+        obj_id = request.POST["obj_id"]
+        image = request.FILES["file"]
+
+        item = get_or_none(Item, obj_id)
+        if item != None:
+            ii = ItemImage.objects.create(image=image, item=item)
+        return render(request, "contents/item-gallery.html", {"obj": item,})
+    except Exception as e:
+        print(e)
+        return render(request, 'error_exception.html', {'msg': str(e)})
+
+@group_required("admins", "projects")
+def item_remove_image_gallery(request):
+    try:
+        obj_id = request.GET["obj_id"]
+        obj = get_or_none(ItemImage, obj_id) 
+        item = obj.item
+        obj.image.delete(save=True)
+        obj.delete()
+        return render(request, "contents/item-gallery.html", {"obj": item,})
+    except Exception as e:
+        print(e)
+        return render(request, 'error_exception.html', {'msg': str(e)})
+
 
 @group_required("admins", "projects")
 def save_allergen(request):

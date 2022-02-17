@@ -20,6 +20,13 @@ def upload_category_image(instance, filename):
     folder = "contents/categories/images/%s" % (instance.id)
     return '/'.join(['%s' % (folder), datetime.datetime.now().strftime("%Y%m%d%H%M%S") + ascii_filename])
 
+def upload_item_image(instance, filename):
+    ascii_filename = str(filename.encode('ascii', 'ignore'))
+    instance.filename = ascii_filename
+    folder = "contents/items/images/%s" % (instance.id)
+    return '/'.join(['%s' % (folder), datetime.datetime.now().strftime("%Y%m%d%H%M%S") + ascii_filename])
+
+
 # Create your models here.
 class Category(models.Model):
     ALLOWCHOICES = (('yes','Yes'), ('no','No'), ('inherit', 'Inherit'),)
@@ -109,7 +116,8 @@ class Category(models.Model):
     @property
     def get_childrens(self):
         try:
-            return Category.objects.filter(parent = self, is_active = True)
+            #return Category.objects.filter(parent = self, is_active = True)
+            return Category.objects.filter(parent = self)
         except Exception as e:
             print (showx_exc(e))
             return Category.objects.none()
@@ -269,6 +277,15 @@ class OptionItem(models.Model):
     class Meta:
         db_table = 'option_item'
         verbose_name = _('Options in item')
+
+class ItemImage(models.Model):
+    order = models.IntegerField(verbose_name=_('Order'), default=0)
+    image = models.ImageField(upload_to=upload_item_image, verbose_name=_("Image"), blank=True, null=True)
+    item = models.ForeignKey(Item, on_delete=models.CASCADE, verbose_name=_("Item"), blank=True, null=True, related_name="images")
+
+    class Meta:
+        verbose_name = _('Item Image')
+        ordering = ['order']
 
 class ShoppingCart(models.Model):
     form_instance_id = models.IntegerField(verbose_name=_("Form Instance"), default=0)
