@@ -12,27 +12,7 @@
 </div>
 
 <div class="row justify-center">
-    <div class="col-3">
-        {% trans "Image" %}: <div id="div-image">{% include "contents/item-img.html" %}</div>
-
-        {%comment%}
-        {% if obj.image %}
-        <img class="img-fluid" id="img-item" src="{{obj.image.url}}" onerror='this.onerror=null;this.src="{% static "img/Padword.png" %}";'>
-        {%else%}
-        <img class="img-fluid" id="img-item" src="{% static 'img/Padword.png' %}">
-        {% endif %}
-        <form action="{% url 'item-change-image' %}" method="post" enctype="multipart/form-data" id='form-item-change-image' target="test">
-            {% csrf_token %}
-            <input type="hidden" name="obj_id" value="{{obj.pk}}">
-            <input type="hidden" name="cat_id" value="{{cat.pk}}">
-            <input name="image" id="image" class="inputfile" type="FILE"  onchange="$('#form-item-change-image').submit();">
-            <label for="image" class="btn btn-success w-100 btn-xs mt-1" >{% trans "Change" %}</label>
-        </form>
-        <iframe name="test" style="height:0px;width:0px;" onload="if ( document.getElementById('test-frame').contentWindow.document.body.innerHTML!= '') {$('#img-item').attr('src', document.getElementById('test-frame').contentWindow.document.body.innerHTML);}" id="test-frame">
-        </iframe>
-        {%endcomment%}
-
-    </div>
+    <div class="col-3"> {% trans "Image" %}: <div id="div-image">{% include "contents/item-img.html" %}</div> </div>
 
     <div class="col-9">
         <div class="row justify-center">
@@ -48,14 +28,6 @@
                     title="{% trans 'Price' %}" data-model-name="contents.item" data-obj-id="{{obj.id}}" data-url="{% url "autosave_field" %}" 
                     data-target="div-notification"/> <span id="price__msg"></span>	
             </div>
-            {% comment %}
-            <div class="col-sm-4 col-md-4 col-12">
-                {% trans "Created at" %}:
-                <input type="date" class="form-control autosave b-bottom mb-4" id="created_at" name="created_at" 
-                    value="{{obj.created_at|date:'Y-m-d'}}" title="{{obj.created_at}}" data-model-name="contents.item" data-obj-id="{{obj.id}}" 
-                    data-url="{% url "autosave_field" %}" data-target="div-notification"/> <span id="created_at__msg"></span>	
-            </div>
-            {% endcomment %}
             <div class="col-sm-3 col-md-3 col-12">
                 {% trans "Active" %}:
                 <select class="form-control autosave b-bottom mb-4" id="is_active" name="is_active" value="{{obj.is_active}}" 
@@ -68,12 +40,6 @@
             </div>
             <div class="col-12">
                 {% trans "Description" %}:
-                {%comment%}
-                <input type="text" class="form-control autosave b-bottom mb-4" id="description" name="description" 
-                    value="{% padword_translate obj.description %}" title="{% padword_translate obj.description%}" data-lang="{% current_lang %}" 
-                    data-model-name="contents.item" data-obj-id="{{obj.id}}" data-url="{% url "autosave_field" %}" data-target="div-notification" />
-                    <span id="name__msg"></span>
-                {%endcomment%}
                 <textarea class="form-control autosavepost b-bottom mb-4" id="description" name="description"  data-lang="{% current_lang %}" 
                     data-model-name="contents.item" data-obj-id="{{obj.id}}" data-url="{%url "autosave_field_post"%}" data-target="div-notification" 
                     style="display:none"></textarea> <span id="description__msg"></span>
@@ -86,12 +52,20 @@
         <br/>
         <a data-bs-toggle="collapse" href="#collapseExtra" role="button" aria-expanded="false" aria-controls="collapseExtra">{% trans "Extras" %}</a>
         <div class="collapse" id="collapseExtra"> <div id="div-extras-{{obj.id}}">{% show_extras obj %}</div> </div>
+        <br/>
+        <a data-bs-toggle="collapse" href="#collapseImages" role="button" aria-expanded="false" aria-controls="collapseImages">{%trans "Images"%}</a>
+        <div class="collapse" id="collapseImages"> <div id="div-images-{{obj.id}}">
+            <div id="div-gallery">{% include "contents/item-gallery.html" with obj=obj%}</div>
+        </div>
     </div>
 </div>		
 
 <div class="d-flex justify-content-end">
-    <button type="button" class="btn btn-sm ark save" data-bs-dismiss="modal" data-url="{% url "items-by-category" cat.uuid %}" data-target="items-list-{{cat.pk}}" >{% trans "Save" %}</button>
-    <button type="button" class="btn btn-sm ark cancel" data-bs-dismiss="modal" data-url="{% url "item-remove" %}" data-obj-id="{{obj.uuid}}" data-cat-id= "{{cat.uuid}}" data-target="items-list-{{cat.pk}}" data-confirm="{% trans "Are you sure to remove this element?" %}">{% trans "Remove" %}</button>
+    <button type="button" class="btn btn-sm ark save" data-bs-dismiss="modal" data-url="{% url "items-by-category" cat.uuid %}" 
+        data-target="items-list-{{cat.pk}}" >{% trans "Save" %}</button>
+    <button type="button" class="btn btn-sm ark cancel" data-bs-dismiss="modal" data-url="{% url "item-remove" %}" data-obj-id="{{obj.uuid}}" 
+        data-cat-id= "{{cat.uuid}}" data-target="items-list-{{cat.pk}}" data-confirm="{% trans "Are you sure to remove this element?" %}">
+        {% trans "Remove" %}</button>
 </div>
 
 <script> function refresh_image() {$('#row-btn-{{obj.pk}}').click();}</script>

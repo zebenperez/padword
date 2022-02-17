@@ -33,7 +33,11 @@
         <div class="col-lg-4 col-12">
             <div class="card mb-3 pb-3">
                 <div class="image" id="cover"> 
-                    {% if item.image %} <img src="{{item.image.url}}" class="object-fit_cover" alt="{% padword_translate item.name %}"> {% endif %}
+                    {%if item.images.count > 0%}
+                        {% include "bookings/show-item-gallery.html" %}
+                    {% elif item.image %} 
+                        <img src="{{item.image.url}}" class="object-fit_cover" alt="{% padword_translate item.name %}"> 
+                    {% endif %}
                 </div>
                 <div class="card-body">
                     <h5 class="card-title text-dark text-center">{% padword_translate item.name %}</h5>
