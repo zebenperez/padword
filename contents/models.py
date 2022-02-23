@@ -123,6 +123,14 @@ class Category(models.Model):
             return Category.objects.none()
 
     @property
+    def get_active_childrens(self):
+        try:
+            return Category.objects.filter(parent = self, is_active = True)
+        except Exception as e:
+            print (showx_exc(e))
+            return Category.objects.none()
+
+    @property
     def is_parent(self):
         try:
             return Category.objects.filter(parent = self).exists() or Item.objects.filter(category = self).exists()

@@ -1,5 +1,7 @@
-{% load padword_tags %}
-    {% csrf_token %}
-    <script>
-        {% ark 'guest-form-login' 'div-main' form_uuid=form_uuid %}
-    </script>
+{% load i18n padword_tags %}
+
+{% csrf_token %}
+
+<a class="ark" id="btn-error" data-url="{% url "guest-form-login"%}" data-target="div-main" data-project_uuid="project_uuid" data-category_uuid="{{category_uuid}}" data-error="{% trans "User not valid!" %}"></a>
+<script>$("#btn-error").click();</script>
+{#<script> {% ark 'guest-form-login' 'div-main' project_uuid=project_uuid category_uuid=category_uuid %} </script>#}

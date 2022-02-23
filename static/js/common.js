@@ -179,6 +179,72 @@ function closeWin(divName)
     return false;
 }
 
+function closeModal(divName)
+{
+    setTimeout(function(){
+        $(divName).modal('hide');
+        setTimeout(function(){
+            $('body').removeClass('modal-open');
+            $('.modal-backdrop').remove();
+        }, 100);
+    }, 200);
+    return false;
+}
+
+function validateField(field)
+{
+    msg_id = "#" + field.attr("id") + "__msg";
+    if (field[0].checkValidity())
+    {
+        $(msg_id).html("");
+        field.removeClass("invalid");
+        return true;
+    }
+    else
+    {
+        $(msg_id).html("this field is required");
+        field.removeClass("valid").addClass("invalid");
+        return false;
+    }
+}
+
+function validateFields(validate_class)
+{
+    valid = true;
+    $("."+validate_class).each(function(){
+        if ($(this).data("check"))
+        {
+            if (!$(this)[0].checkValidity() && !$("#"+$(this).data("check"))[0].checkValidity())
+            {
+                valid = false;
+                validateField($(this));
+                validateField($("#"+$(this).data("check")));
+            }
+        }
+        else
+            if (!validateField($(this)))
+                valid = false;
+    });
+    return valid;
+}
+
+function validateCheckIn()
+{
+    var ini_date = $("#check_in").val();
+    var ini_time = $("#check_in_time").val();
+    var end_date = $("#check_out").val();
+    var end_time = $("#check_out_time").val();
+    var ini = new Date(ini_date+"T"+ini_time)
+    var end = new Date(end_date+"T"+end_time)
+    if (end < ini)
+    {
+        $("#check_out__msg").html("This date must be greater than check in");
+        field.removeClass("valid").addClass("invalid");
+        return false;
+    }
+    return true;
+}
+
 $(document).ready(()=>{
     $("body").on("keyup", ".autosearch", function(e){
         var obj = $(this);
@@ -267,6 +333,36 @@ $(document).ready(()=>{
             if (obj.data("clear"))
                 clearHtml($("#" + obj.data("clear")));
             e.preventDefault();
+        }
+    });
+
+    $("body").on("click", ".ark-validate", function(e){
+        var obj = $(this);
+        var validate_check_in = true;
+        if (obj.data("check_in"))
+            validate_check_in = validateCheckIn();
+        if (validateFields(obj.data("validate")) && validate_check_in)
+        {
+            url = obj.data("url");
+            var target = "";
+            var target_modal = "";
+            if (obj.data("target"))
+                target = obj.data("target");
+            if (obj.data("target-modal"))
+                target_modal = obj.data("target-modal");
+
+            var datas = {};
+            var args = obj.data();
+            for(var i in args)
+                if (i != "url")
+                    datas[i] = args[i]
+            ajaxGet(url, datas, target, target_modal);
+            if (obj.data("show"))
+                $("#" + obj.data("show")).show();
+
+            closeModal("#"+obj.data("modal"));
+            e.preventDefault();
+            e.stopImmediatePropagation();
         }
     });
 
