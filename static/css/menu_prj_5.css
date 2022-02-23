@@ -358,9 +358,9 @@ button.menu-options {
     margin:auto !important;
 }
 .overlay {
-/*    background-color: #000000 !important;*/
-/*    background-color: #00448c !important;*/
-    background-color: #fff !important;
+/*  background-color: #fff !important;
+    background-color: #dedede!important;*/
+    background-color: #e5e5e5!important;
     position: absolute;
     top: 0;
     bottom: 0;
@@ -370,10 +370,10 @@ button.menu-options {
     width: 100%;
     opacity: 0.9 !important;
     transition: .5s ease;
-    /*padding-top: 60px;*/
     padding-top: 75px !important;
     color: white;
     font-weight: 600;
+    opacity: 0.7 !important;
 }
 .overlay span {
     color: #00448c;
@@ -395,15 +395,15 @@ button.menu-options {
 /******************* EDITOR STYLE *****************/
 
 .info-panel h1 {
-    font-size: 0.9rem;
+    font-size: 1.2rem;
 }
 
 .info-panel p {
-    font-size: 0.7rem;
-    padding-bottom: 15px;
+    font-size: 0.9rem;
+/*    padding-bottom: 15px;
     border-image-slice: 1;
     border-bottom: 1px solid;
-    border-image-source: linear-gradient(to right, #00448c, #ffffff);
+    border-image-source: linear-gradient(to right, #00448c, #ffffff);*/
 }
 
 /******************* EDITOR STYLE *****************/
@@ -413,8 +413,10 @@ button.menu-options {
     background: white;
 }
 
-.container-test,
+.container-test {
+    height: 180px !important;
+}
 .container-test img.object-fit_cover {
     height: 180px !important;
 }
-
+     

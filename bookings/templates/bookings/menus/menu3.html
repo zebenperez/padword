@@ -10,7 +10,7 @@
     {%if form.show_desc%}<div class="card info-panel p-4 col-{{form.desc_width}}">{% padword_translate form.desc %}</div>{%endif%}
 
     <div class="row p-1 d-flex justify-content-center col-{{"12"|subint:form.desc_width}}">
-        {% for item in category.get_childrens %}
+        {% for item in category.get_active_childrens %}
             <div class="container-test col-lg-4 col-12 box-cat pointer">
                 {% if item.url != "" %}
                     <a href="{{item.url}}"> <div class="card"> 

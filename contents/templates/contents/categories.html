@@ -5,7 +5,7 @@
 
 {% block central_content %}
     <div class="row">
-        <div class="col-4">
+        <div class="col-4" style="height:800px; overflow:scroll">
             <div class="toolbar-search">
                 <input type="hidden" name="project_id" id="project_id" value="{{project.uuid}}" />
                 <input type="text" class="autosearch form-control form-control-dark w-100" name="s-name" id="s-name" 
@@ -29,7 +29,7 @@
                     </h2>
                     <a class="btn btn-primary ark" data-url="{% url "category-form" %}" data-target-modal="common-modal" data-project-id="{{project.uuid}}" href="#" title="{% trans 'Add category' %}"><i class="text-white fas fa-folder-plus"></i>&nbsp; {% trans 'New category' %}</a>
 
-                    {% include "common-modal.html" %}
+                    {#{% include "common-modal.html" %}#}
                 </div>
                 <div id="items-list-" class="mt-3">{% include "contents/categories-list.html" %}</div>
             </div>

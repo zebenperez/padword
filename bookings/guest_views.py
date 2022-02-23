@@ -107,12 +107,10 @@ def guest_access(request, category_uuid, lang=None):
 #def guest_form_login(request, form_uuid=None):
 def guest_form_login(request):
     try:
-        #if "form_uuid" in request.GET or form_uuid != None:
-        #    form_uuid = request.GET["form_uuid"] if "form_uuid" in request.GET else form_uuid
-        #    return render(request, 'guest_form_login.html', {'form_uuid': form_uuid})
         if "project_uuid" in request.GET:
             cat_uuid = request.GET["category_uuid"] if "category_uuid" in request.GET else ""
-            return render(request, 'guest_form_login.html', {'project_uuid': request.GET["project_uuid"], 'category_uuid': cat_uuid})
+            error = request.GET["error"] if "error" in request.GET else ""
+            return render(request, 'guest_form_login.html', {'project_uuid': request.GET["project_uuid"], 'category_uuid': cat_uuid, 'error': error})
         return render(request, 'error_exception.html', {'exc': 'Form or project not found!', 'error-msg': 'Form or project not found!'})
     except Exception as e:
         logger.error("[bookings-guest_form_login] {}".format(str(e)))
@@ -123,31 +121,17 @@ def booking_new_guest(request):
         Guest access by form
     '''
     try:
-        #date = datetime.datetime.now()
-        #form_uuid = request.POST["form_uuid"]
         project_uuid = request.POST["project_uuid"]
         category_uuid = request.POST["category_uuid"]
         code = request.POST["code"]
         room = request.POST["room"]
-        #guest = Guest.objects.filter(Q(mobile=code) | Q(email=code)).filter(room=room, check_in__lte=date, check_out__gte=date).first()
-        #print (form_uuid, project_uuid)
 
-        #if form_uuid != "":
-        #    form = get_or_none(Form, form_uuid, "uuid")
-        #    if form == None:
-        #        return render(request, 'error_exception.html', {'exc': _('Form not found!')})
-        #    if form.project == None:
-        #        return render(request, 'error_exception.html', {'exc': _('Project not found!')})
-        #    projects = [form.project]
-        #else:
         project = get_or_none(Project, project_uuid, "uuid")
         if project == None:
             guests = Guest.objects.filter(email = code)
             projects = [guest.project for guest in guests]
         else:
             projects = [project]
-
-                #return render(request, 'error_exception.html', {'exc': _('Project not found!')})
 
         guest = None
         for project in projects:
@@ -156,20 +140,13 @@ def booking_new_guest(request):
                 break
 
         if guest == None:
-            #if form_uuid != "":
-            #    return render(request, 'guest_form_login.html', {'form_uuid': form_uuid, 'error_msg':_('Sorry, your information is not right. Please, try again.')})
-                #return render(request, "guest-error-login.html",  {'form_uuid':form_uuid})
-            #if project_uuid != "":
-            #    return redirect(reverse('guest-access-bookings', kwargs = {'project_uuid':project_uuid}))
-            return render(request, 'error_exception.html', {'exc': 'Guest not found!'})
+            return render(request, 'guest-error-login.html', {'project_uuid': project.uuid, 'category_uuid': category_uuid})
 
         user, err = GuestUser.get_or_create_guest_user(guest.UUID, project.uuid, code)
         if err != "":
             return render(request, 'error_exception.html', {'exc': err})
         auth.login(request, user)
 
-        #return redirect(booking_new, form_uuid) if form_uuid != "" else redirect(bookings_by_guest, project.uuid)
-        #return redirect(booking_new, form_uuid) if form_uuid != "" else redirect(reverse("pwa-index-cat", kwargs = {'category_uuid':category_uuid}))
         return redirect(reverse("pwa-index-cat", kwargs = {'category_uuid':category_uuid}))
     except Exception as e:
         print (show_exc(e))

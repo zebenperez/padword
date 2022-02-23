@@ -27,16 +27,13 @@
                     </div><br />
                     <div class="form-group">
 				        <div class="col-md-2 offset-md-5">
-				    	    <div class="form-inline">
-						        <div class="form-group">
-                        	        {#<input value="Acceder" class="btn btn-submit" type="submit" onclick="javascript:toggleFullScreen();">#}
-                                    {#<a class="btn btn-submit" onclick="javascript:toggleFullScreen(); $('#form-guest').submit();">{% trans 'Acceder' %}</a>#}
-                                    <button class="btn btn-access btn-submit saveform" data-form="form-guest" data-target="div-main"> 
-                                        {% trans "Access" %}</button> 
-						        </div>
-					        </div>
+				    	    <div class="form-inline"> <div class="form-group">
+                                <button class="btn btn-access btn-submit saveform" data-form="form-guest" data-target="div-main"> 
+                                    {% trans "Access" %}</button> 
+						    </div> </div>
 	                    </div>
 			        </div>
+                    {% if error %}<div class="error mt-4">{{error}}</div>{% endif %}
 		        </form>
 		    </div>
 		</div>

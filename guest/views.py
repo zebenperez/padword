@@ -73,6 +73,7 @@ def guest_search(request):
                 #items = Guest.objects.filter(check_out__gte = datetime.datetime.today())
                 items = Guest.objects.all()
         context = {}
+        context['project_uuid'] = project_uuid
         context['total_items'] = items.count()
         context['items'] = items[int(page)*ITEMS_PER_PAGE:(int(page) + 1)*ITEMS_PER_PAGE]
         context['page'] = 0
@@ -83,7 +84,8 @@ def guest_search(request):
 @group_required("admins")
 def guest_form(request):
     try:
-        obj = get_or_none(Guest, request.GET["obj_id"]) if "obj_id" in request.GET else Guest.objects.create(UUID = new_ui_slug(Guest))
+        date = datetime.datetime.now().replace(hour=12, minute=00)
+        obj = get_or_none(Guest, request.GET["obj_id"]) if "obj_id" in request.GET else Guest.objects.create(UUID = new_ui_slug(Guest), check_in = date, check_out = date)
         return render(request, "guest/guest-form.html", {'obj': obj,})
     except Exception as e:
         return render(request, 'error_exception.html', {'exc':show_exc(e)})
@@ -149,7 +151,8 @@ def guests_by_project(request, project_id):
 def guest_form_by_project(request):
     try:
         project_uuid = request.GET["project_uuid"]
-        obj = get_or_none(Guest, request.GET["obj_id"]) if "obj_id" in request.GET else Guest.objects.create(UUID = new_ui_slug(Guest), project_id = project_uuid)
+        date = datetime.datetime.now().replace(hour=12, minute=00)
+        obj = get_or_none(Guest, request.GET["obj_id"]) if "obj_id" in request.GET else Guest.objects.create(UUID = new_ui_slug(Guest), project_id = project_uuid, check_in = date, check_out = date)
         return render(request, "guest/guest-form.html", {'obj': obj, 'project_uuid': project_uuid})
     except Exception as e:
         return render(request, 'error_exception.html', {'exc':show_exc(e)})

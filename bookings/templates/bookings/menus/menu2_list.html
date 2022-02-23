@@ -55,7 +55,7 @@
 
 {%csrf_token%}
 
-{% for children in category.get_childrens %}
+{% for children in category.get_active_childrens %}
     <div class="cart-item mb-3 pb-3">
         <div class="col-12 d-flex align-middle justify-content-center cat-title-head">
             <div class="cat-image" id="cover">

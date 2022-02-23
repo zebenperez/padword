@@ -19,7 +19,7 @@
     {% endfor %}
 </div>
 {%csrf_token%}
-{% for children in category.get_childrens %}
+{% for children in category.get_active_childrens %}
     <div class="cart-item mb-4">
         <div class="col-12 d-flex align-middle justify-content-center">
             <a class="btn btn-dark pl-2 w-100 b-item" onclick="$('.div-shopping-cart-{{children.pk}}').toggle();"> 
