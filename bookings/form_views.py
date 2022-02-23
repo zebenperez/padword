@@ -213,7 +213,7 @@ def form_add_qr(request):
         color_back = request.GET["color_back"]
         form = get_or_none(Form, obj_id)
         if form != None:
-            url = request.build_absolute_uri(reverse('guest-access', kwargs={'form_uuid': form.uuid}))
+            url = request.build_absolute_uri(reverse('guest-access', kwargs={'category_uuid': form.get_category.uuid}))
             img_data = ContentFile(generate_qr(url, form.logo, color, color_back))
             form.qr.save('qr_{}.png'.format(form.uuid), img_data, save=True)
         return render(request, "forms/form-qr.html", {"obj": form,})
