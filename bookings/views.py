@@ -79,8 +79,9 @@ def get_booking_context(form=None, project=None):
         context["msg"] = 'There are no results for the search. Here the last 100 reservations.'
         items = FormInstance.objects.all()[:100]
 
+    end_date = today + datetime.timedelta(days=1)
     context["ini_date"] = ini_date
-    context["end_date"] = today + datetime.timedelta(days=1)
+    context["end_date"] = end_date
     context["status_list"] = Status.objects.all()
     context["items"] = items
     return context
@@ -296,14 +297,20 @@ def booking_log(request, fi_id):
     return render(request, 'error_exception.html', {})
 
 @group_required("admins", "projects")
-def bookings_notifications(request):
+def bookings_notifications(request, ini_date, end_date):
     try:
         projects_list = list(ProjectUser.objects.filter(username=request.user.username).values_list('project_uuid', flat=True))
         categories_list = list(Category.objects.filter(project_uuid__in = projects_list).values_list('uuid', flat=True))
         forms_list = list(Form.objects.filter(category__in = categories_list).values_list('uuid', flat=True))
-        bookings = FormInstance.objects.filter(form_uuid__in = forms_list, status_list__status__code = "01" ).order_by('pk')
+        #bookings=FormInstance.objects.filter(form_uuid__in=forms_list, date__range=(ini_date, end_date),status_list__status__code="01").order_by('pk')
+        bookings=FormInstance.objects.filter(form_uuid__in=forms_list, date__range=(ini_date, end_date)).order_by('pk')
+        total = 0
+        for booking in bookings:
+            if booking.get_status.status.code == "01":
+                total += 1
         e = None
-        return HttpResponse(str(bookings.count()))
+        #return HttpResponse(str(bookings.count()))
+        return HttpResponse(str(total))
     except Exception as e:
         logger.error("[bookings-new_booking] {}".format(str(e)))
         return HttpResponse("0")

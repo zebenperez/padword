@@ -29,6 +29,7 @@
     </table>
 </div>
 <script>
+    checkNotify($("#s-ini_date").val(), $("#s-end_date").val());
     $('#btn-see-more').data('page',{{page|add:1}});
     $('#total-items').html('{{total_items}}');
     var observer = new IntersectionObserver(function(entries) {

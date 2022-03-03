@@ -47,7 +47,8 @@ urlpatterns = [
 
     path('bookings/search/', views.bookings_search, name='bookings-search'),
     path('bookings/search/page/', views.bookings_page, name='bookings-page'),
-    path('bookings/notifications/', views.bookings_notifications, name='bookings-notif'),
+    #path('bookings/notifications/', views.bookings_notifications, name='bookings-notif'),
+    path('bookings/notifications/<slug:ini_date>/<slug:end_date>/', views.bookings_notifications, name='bookings-notif'),
     path('booking-preview/<slug:form_uuid>/', views.booking_preview, name='booking-preview'),
     #path('booking-view/<int:fi_id>/', views.booking_view, name='booking-view'),
     path('booking-view/', views.booking_view, name='booking-view'),
