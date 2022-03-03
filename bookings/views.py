@@ -306,7 +306,7 @@ def bookings_notifications(request, ini_date, end_date):
         bookings=FormInstance.objects.filter(form_uuid__in=forms_list, date__range=(ini_date, end_date)).order_by('pk')
         total = 0
         for booking in bookings:
-            if booking.get_status.status.code == "01":
+            if booking.get_status != None and booking.get_status.status.code == "01":
                 total += 1
         e = None
         #return HttpResponse(str(bookings.count()))
