@@ -92,8 +92,8 @@
                 integrity="sha384-zNy6FEbO50N+Cg5wap8IKA4M/ZnLJgzc6w2NqACZaK0u0FXfOWRRJOnQtpZun8ha" crossorigin="anonymous"></script>
             <script>
                 document.addEventListener('DOMContentLoaded', function() {
-                    //navigator.serviceWorker.register('/static/js/sw.js');
-                    navigator.serviceWorker.register('/sw.js');
+                    navigator.serviceWorker.register('/static/js/sw.js');
+                    //navigator.serviceWorker.register('/sw.js');
                     Notification.requestPermission(function(result) {
                         if (result === 'granted') {
                             navigator.serviceWorker.ready.then(function(registration) {
@@ -103,19 +103,21 @@
                     });
                 }); 
 
+                {%comment%}
                 {% if request.user|in_group:'projects' %}
                     checkNotify();
 //                    $('#sidebar').removeClass('expanded').removeClass('d-sm-block');
                 {% endif %}
+                {%endcomment%}
 
-                if ('serviceWorker' in navigator) {
+                /*if ('serviceWorker' in navigator) {
                     window.addEventListener('load', function() {
                         //navigator.serviceWorker.register('/static/js/sw.js').then(
                         navigator.serviceWorker.register('/sw.js').then(
                         function(registration) { console.log('ServiceWorker registration successful with scope: ', registration.scope); }, 
                         function(err) { console.log('ServiceWorker registration failed: ', err); });
                     }); 
-                }
+                }*/
             </script>
             <script src="{% static "js/layout.js" %}"></script>
     </body>
