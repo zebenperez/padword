@@ -400,11 +400,9 @@ button.menu-options {
 
 .info-panel p {
     font-size: 0.9rem;
-   /* padding-bottom: 15px;
-    border-image-slice: 1;
-    border-bottom: 1px solid;
-    border-image-source: linear-gradient(to right, #00448c, #ffffff);*/
-}
+    line-height: 1.5;
+    margin-bottom: 0;
+
 
 /******************* EDITOR STYLE *****************/
 
