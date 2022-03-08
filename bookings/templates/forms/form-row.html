@@ -6,7 +6,7 @@
                     <div class="col-4">{% padword_translate item.get_category.name %}</div>
                     <div class="col-2 d-flex justify-content-end">
                         <a class="btn" href="#" title="{% trans 'Finger print' %}" onclick='alert("{{item.uuid}}"); return False'><i class="fas fa-fingerprint"></i></a>
-                        <a class="btn btn-xs" title="{% trans 'See bookings' %}" href="{% url "bookings-by-form" item.id %}"> <i class="far fa-eye"></i></a>  
+                        {#<a class="btn btn-xs" title="{% trans 'See bookings' %}" href="{% url "bookings-by-form" item.id %}"> <i class="far fa-eye"></i></a>  #}
                         <a class="btn btn-xs" title="{% trans 'New booking' %}" href="{% url "booking-preview" item.uuid %}" target="_blank"> <i class="far fa-calendar-check"></i></a>  
                         <a class="btn btn-xs" title="{% trans 'Edit' %}" href="{% url "form-edit" item.id %}"><i class="fas fa-edit"></i></a>  
                         <a class="btn btn-xs ark" title="{% trans 'Active' %}" data-url="{% url "form-change-active" item.id %}" data-target="row-{{item.id}}" ><i class="fas fa-{% if item.active %}check{%else%}times{%endif%}"></i></a>  

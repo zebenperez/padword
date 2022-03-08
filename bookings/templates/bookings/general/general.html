@@ -1,6 +1,7 @@
 {% load i18n bookings_tag common_tag padword_tags %}
 
 {% if category.parent %}{%include "bookings/back-btn.html" with uuid=category.parent.uuid %}{% endif %}
+{%if category.images.count > 0%}{% include "bookings/show-category-gallery.html" %}{%endif%}
 
 {%if form.show_desc%}<div class="card info-panel p-4 col-{{form.desc_width}}">{% padword_translate form.desc %}</div>{%endif%}
 

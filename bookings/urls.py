@@ -37,7 +37,7 @@ urlpatterns = [
     path('login/', views.login, name='login'),
 
     path('bookings/', views.bookings, name='bookings'),
-    path('bookings_by_form/<int:form_id>/', views.bookings_by_form, name='bookings-by-form'),
+    #path('bookings_by_form/<int:form_id>/', views.bookings_by_form, name='bookings-by-form'),
     path('bookings_by_project/<int:project_id>/', views.bookings_by_project, name='bookings-by-project'),
     path('bookings_by_category/<int:category_id>/', views.bookings_by_category, name='bookings-by-category'),
     path('booking-refresh/<int:obj_id>/', views.booking_refresh, name='booking-refresh'),
