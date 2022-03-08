@@ -249,6 +249,15 @@ button.menu-options {
     height: 350px !important;
 }
 
+img.object-fit_cover {
+    width: 100%;
+    min-height: 250px !important;
+}
+
+div#cover.image {
+    background: transparent;
+}
+
 
 /*****************************/
 /* devices style*/
@@ -267,11 +276,17 @@ button.menu-options {
         max-width: initial;
         object-fit: cover;
     }
-}
+    .img-carousel img.object-fit_cover-gallery {
+        width: 100% !important;
+        object-fit: cover !important;
+        height: 350px !important;
+    }
 
+}
 
 @media (max-width: 420px) 
 {
+ 
     .i-love-btn, .slogan, .value-btn, .covid19-btn, .sugest-btn { margin-top: 20px; }
     a.btn.btn-primary.w-100, 
     a.btn.btn-secondary.w-100, 
@@ -351,6 +366,9 @@ button.menu-options {
         object-fit: cover !important;
         height: 250px !important;
     }
+    .david {
+    width: 50% !important;
+    }
 }
 
 
@@ -404,7 +422,7 @@ button.menu-options {
     margin-bottom: 0;
 }
 
-/******************* EDITOR STYLE *****************/
+/******************* END EDITOR STYLE *****************/
 
 
 .row.d-flex.justify-content-center.col-0 {
@@ -418,3 +436,13 @@ button.menu-options {
     height: 180px !important;
 }
      
+
+.modal-dialog {
+    max-width: 86%;
+    margin: 1.75rem auto;
+}
+
+.description-item {
+    border:none;
+}
+
