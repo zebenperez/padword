@@ -249,6 +249,9 @@ button.menu-options {
     height: 350px !important;
 }
 
+div#cover.image {
+    background: transparent;
+}
 
 /*****************************/
 /* devices style*/
@@ -267,6 +270,12 @@ button.menu-options {
         max-width: initial;
         object-fit: cover;
     }
+    .img-carousel img.object-fit_cover-gallery {
+        width: 100% !important;
+        object-fit: cover !important;
+        height: 350px !important;
+    }
+
 }
 
 
