@@ -5,36 +5,12 @@
 
 {% if category.parent %}
     <script>$("#shopping-cart-btn").data("form_id", "{{fi.pk}}");$("#span-total-items").html("{{items.count}}");$("#count-badge").show();</script>
-    {%include "bookings/back-btn.html" with uuid=category.parent.uuid %}
-{%comment%}
-    <div class="row back-button">
-        <div class="col-lg-1 offset-lg-10 col-2 offset-7 p-2 text-center">
-            <a class="btn btn-circle-pad small ark pt-3" data-url="{% url 'view-shopping-cart'  %}" 
-                data-target-modal="common-modal" data-form_id="{{fi.pk}}"> <i class="fas fa-shopping-cart"></i> {% trans '' %}
-                <span class="count badge" id="count-badge" {%if items.count == 0%}style="display:none"{%endif%}>
-                <span id="span-total-items">{{items.count}}</span></span>
-            </a>
-        </div>
-        {#<div class="col-lg-1 col-2 text-center pt-2">{% include "bookings/back-btn.html" %}</div>#}
-    </div>
-{%endcomment%}
+    {% if form.form_type.code == "ecom2" %} {% include "bookings/back-btn.html" with uuid=category.parent.uuid %} {% endif %}
 {% endif %}
 
 {% if form.show_desc %} <div class="col-12 card info-panel p-4">{% padword_translate form.desc %}</div> {% endif %}
 
 <div class="card slider-cart">
-{% comment %}
-    <div class="row">
-        <div class="col-1 offset-10 p-2">
-            <div class="pt-3">(<span id="span-total-items">{{items.count}}</span> art.&nbsp;&nbsp;&nbsp; 
-                <span id="span-total-price">{{fi.get_total|stringformat:".2f"}}</span> &euro;)
-            </div>
-                <a class="btn btn-circle-pad small ark pt-3" data-url="{% url 'view-shopping-cart'  %}" 
-                    data-target-modal="common-modal" data-form_id="{{fi.pk}}"> <i class="fas fa-shopping-cart"></i> {% trans '' %}</a>
-            </div>
-        </div>
-    </div>
-{% endcomment %}
     {% include "bookings/ecom/shopping_cart_list.html" %}
 
     <div class="col-12">

@@ -539,18 +539,14 @@ def item_shopping_cart_comment(request):
 def view_shopping_cart(request, par=None):
     try:
         instance_id = get_param(request.GET, "form_id")
-        print("--1--")
         if instance_id != "":
-            print("--1.1--")
             instance = FormInstance.objects.get(pk=instance_id)
             items = ShoppingCart.objects.filter(form_instance_id=instance.pk)
             total_price = instance.get_total
             return render(request, "bookings/ecom/view-shopping-cart.html", {'fi':instance, 'items':items, 'total':total_price})
         else:
-            print("--1.2--")
             gu = GuestUser.objects.filter(username=request.user.username).first()
             fi_list = FormInstance.objects.filter(guest_uuid = gu.guest.UUID, status_list__isnull=True)
-            print(fi_list)
             items = ShoppingCart.objects.none()
             total_price = 0
             for instance in fi_list:
