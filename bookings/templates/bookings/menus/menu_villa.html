@@ -87,21 +87,23 @@
 </div>
 
 <div class="row menu-botton">
-    <div class="col-lg-2 offset-lg-2 col-3" style="padding:0; order:1px solid red">
+    <div class="col-lg-3 offset-lg-1 col-4" style="padding:0;">
         <button style="color:white !important;" class="menu-options ark" data-url="{% url "show-category-menu" %}" data-target="main"                                                data-cat_id="e7797a43-31fc-df69-dcdf-eef7631964db"><i class="fas fa-wifi"></i><br />
              {% padword_translate_obj 'e7797a43-31fc-df69-dcdf-eef7631964db'%}</button>
     </div>
-    <div class="col-lg-2 col-3" style="padding:0; order:1px solid red">
+    {% comment %}
+    <div class="col-lg-2 col-3" style="padding:0; border:1px solid red">
         <button style="color:white !important;" class="menu-options ark" data-url="{% url "show-category-menu" %}" data-target="main" 
              data-cat_id="d82752f5-b816-ca07-ceb6-c0dbbddc8f28"><i class="far fa-comment-dots"></i><br />
              {% padword_translate_obj 'd82752f5-b816-ca07-ceb6-c0dbbddc8f28'%}</button>
     </div>
-    <div class="col-lg-2 col-3" style="padding:0; order:1px solid red">
+    {% endcomment %}
+    <div class="col-lg-4 col-4" style="padding:0;">
         <button style="color:white !important;" class="menu-options ark" data-url="{% url "show-category-menu" %}" data-target="main"
-             data-cat_id="70317336-ea22-0fe2-6bb0-6598157f70e6"><i class="far fa-star"></i> <br />
-             {% padword_translate_obj '70317336-ea22-0fe2-6bb0-6598157f70e6'%}</button>
+             data-cat_id="1dbf29a7-cb6a-3724-2c6a-194cdb464aa6"><i class="far fa-star"></i> <br />
+             {% padword_translate_obj '1dbf29a7-cb6a-3724-2c6a-194cdb464aa6'%}</button>
     </div>
-    <div class="col-lg-2 col-3" style="padding:0; order:1px solid red">
+    <div class="col-lg-3 col-4" style="padding:0;">
         <button style="color:white !important;" class="menu-options ark" data-url="{% url "show-category-menu" %}" data-target="main"
              data-cat_id="b1a25c45-c43b-8263-e46f-031f2593a623"><i class="fas fa-concierge-bell"></i> <br />
              {% padword_translate_obj 'b1a25c45-c43b-8263-e46f-031f2593a623'%}</button>

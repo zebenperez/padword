@@ -153,13 +153,6 @@ i.fas.fa-ban.text-cancel {
     color: #a4aab0 !important;
 }
 
-.resize-form {
-/*    width: 98%;
-    margin-left: 1%;*/
-    /*border:1px solid red;*/
-}
-
-
 .div-transp .btn.btn-outline-primary.btn-lg.ark.w-100,
 .div-transp .btn.btn-outline-danger.btn-lg.w-100 {
 	background-color: white;
@@ -899,4 +892,9 @@ img.img-cart {border-radius: 10px 10px 10px 10px; box-shadow: 10px 0px 10px 0px 
     background-color: #fff;
     color: #777;
 }
+
+.resize-form {
+    background: white;
+}
+
 
