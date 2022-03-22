@@ -363,3 +363,7 @@ button.menu-options {
 .row.d-flex.justify-content-center.col-0 {
     margin:auto !important;
 }
+.resize-form {
+    background: transparent;
+}
+

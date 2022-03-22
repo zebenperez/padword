@@ -106,7 +106,7 @@ button.btn-outline-danger:hover {
 }
 
 button.btn.btn-header-pwa.ark { 
-    margin-top: 10px;
+    margin-top: 5px !important;
     padding-left: 0px;
     padding-right: 0px;
 }
@@ -434,6 +434,7 @@ div#cover.image {
 
 .container-test {
     height: 180px !important;
+    margin-top: 10px;
 }
 .container-test img.object-fit_cover {
     height: 180px !important;
