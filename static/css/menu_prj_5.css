@@ -250,8 +250,8 @@ button.menu-options {
 }
 
 img.object-fit_cover {
-    width: 100%;
-    min-height: 250px !important;
+/*    width: 100%;*/
+/*    min-height: 250px !important;*/
 }
 
 div#cover.image {
@@ -410,6 +410,10 @@ div#cover.image {
 }
 
 /******************* EDITOR STYLE *****************/
+
+.info-panel-full-height {
+    min-height: 100% !important;
+}
 
 .info-panel h1 {
     font-size: 1.2rem;
