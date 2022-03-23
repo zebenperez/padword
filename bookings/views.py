@@ -60,7 +60,7 @@ def get_booking_context(project=None, form=None):
     end_date = today + datetime.timedelta(days=1)
 
     edate = datetime.datetime(end_date.year, end_date.month, end_date.day, 23, 59, 59)
-    kwargs = {'date__gte': ini_date, 'date__lte': edate}
+    kwargs = {'date__gte': ini_date.strftime("%Y-%m-%d"), 'date__lte': edate}
 
     if project != None:
         context["project_name"] = project.name
@@ -115,11 +115,11 @@ def filter_search_guest(name, uuid_project_list):
     return uuid_guests
 
 def filter_search_status(items, status):
-    if status == "":
-        return items
+    #if status == "":
+    #    return items
     item_list = []
     for item in items:
-        if item.get_status != None and item.get_status.status.id == int(status):
+        if (item.get_status != None and status != "" and item.get_status.status.id == int(status)) or (status == "" and item.get_status != None):
             item_list.append(item)
     return item_list
 
