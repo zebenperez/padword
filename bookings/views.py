@@ -77,10 +77,15 @@ def get_booking_context(project=None, form=None):
         context["msg"] = 'There are no results for the search. Here the last 100 reservations.'
         items = FormInstance.objects.all()[:100]
 
+    item_list = []
+    for it in items:
+        if it.get_status != None:
+            item_list.append(it)
+
     context["ini_date"] = ini_date
     context["end_date"] = end_date
     context["status_list"] = Status.objects.all()
-    context["items"] = items
+    context["items"] = item_list
     return context
 
 
@@ -400,7 +405,7 @@ def bookings_by_project(request, project_id):
         if project_id == -1:
             return render(request, 'error_exception.html', {'exc': _('Project not found!')})
         context = get_booking_context(project=get_or_none(Project, project_id))
-        context['total_items'] = context['items'].count()
+        context['total_items'] = len(context['items'])
         context['items'] = context['items'][0:ITEMS_PER_PAGE]
         context['page'] = 0
         return render (request, "bookings/manage/bookings.html", context)

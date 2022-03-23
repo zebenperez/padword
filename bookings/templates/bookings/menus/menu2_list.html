@@ -1,15 +1,6 @@
 {% load i18n bookings_tag common_tag padword_tags static%}
 
 
-{%comment%}
-<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Open+Sans+Condensed:wght@300&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="{% static 'css/menu2.css' %}" >
-<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
-<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-{%endcomment%}
 <link rel="stylesheet" href="{% static 'css/menu2.css' %}" >
 
 <div class="row d-flex justify-content-center mt-1">
@@ -29,22 +20,7 @@
                         {% if forloop.counter0|divisibleby:4 %}
                             <div class="carousel-item {%if forloop.counter0 == 0%}active{%endif%}"><div class="row slider-row">
                         {% endif %}
-                        <div class="col-md-3 justify-content-center zoom">
-                            {% include "bookings/show-item.html" %}
-                            {%comment%}
-                            <div class="card w-100 mb-3">
-                                <div class="image" id="cover"> 
-                                    {% if item.image %} <img src="{{item.image.url}}" class="object-fit_cover" alt="{% padword_translate item.name %}"> {% endif %}
-                                </div>
-                                <div class="card-body">
-                                    <h5 class="card-title text-dark text-center">{% padword_translate item.name %}</h5>
-                                    <h4 class="card-title text-dark text-center">{{ item.price}} &euro; </h4>
-                                    {#<p class="card-text text-secondary">{% padword_translate item.description %}</p>#}
-                                    {% include "bookings/show-item-btn.html" %}
-                                </div>
-                            </div>
-                            {%endcomment%}
-                        </div>
+                        <div class="col-md-3 justify-content-center zoom"> {% include "bookings/show-item.html" %} </div>
                         {% if forloop.counter|divisibleby:4 %} </div></div> {% endif %}
                     {% endfor %}
                 </div>
@@ -73,11 +49,9 @@
 	</div>
     <script>
         {% if fi %}
-            {#{% ark 'show-category-menu' 'div-shopping-cart-'|addstr:children.pk form_id=fi.pk cat_id=children.uuid %}#}
-            {% ark 'show-category-menu' 'div-shopping-cart-'|addstr:children.pk cat_id=children.uuid %}
+            {% ark 'show-category-menu' 'div-shopping-cart-'|addstr:children.pk cat_id=children.uuid back=False %}
         {% else %}
-            {#{% ark 'show-category-menu' 'div-shopping-cart-'|addstr:children.pk form_id=0 cat_id=children.uuid %}#}
-            {% ark 'show-category-menu' 'div-shopping-cart-'|addstr:children.pk cat_id=children.uuid %}
+            {% ark 'show-category-menu' 'div-shopping-cart-'|addstr:children.pk cat_id=children.uuid back=False %}
         {% endif %}
     </script>
 {% endfor %}

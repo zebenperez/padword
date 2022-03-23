@@ -113,6 +113,7 @@ urlpatterns = [
     path('shopping/show-category/<int:form_id>/<slug:cat_id>/', gv.show_category_shopping_cart, name='show-category-shopping-cart'),
     path('shopping/show-category/', gv.show_category_shopping_cart, name='show-category-shopping-cart'),
     path('shopping/comments/', gv.item_shopping_cart_comment, name='item-shopping-cart-comment'),
+    path('shopping/show-category-menu/<slug:cat_id>/<str:back>/', gv.show_category_menu, name='show-category-menu'),
     path('shopping/show-category-menu/<slug:cat_id>/<str:lang>/', gv.show_category_menu, name='show-category-menu'),
     path('shopping/show-category-menu/<slug:cat_id>/', gv.show_category_menu, name='show-category-menu'),
     #path('shopping/show-category-menu/<int:form_id>/<slug:cat_id>/', gv.show_category_menu, name='show-category-menu'),

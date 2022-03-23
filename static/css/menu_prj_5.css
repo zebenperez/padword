@@ -450,3 +450,6 @@ div#cover.image {
     border:none;
 }
 
+.end-page {
+    min-height: 100%;
+}

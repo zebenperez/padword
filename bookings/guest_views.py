@@ -520,7 +520,7 @@ def show_category_shopping_cart(request, form_id=None, cat_id = None):
         #elif category != None:
         #    form = Form.objects.filter(category=category.uuid).first()
         #return render(request, "bookings/ecom/shopping_cart.html", {'category':category, 'fi':instance})
-        return render(request, form.form_type.template, {'category':category, 'fi':instance})
+        return render(request, form.form_type.template, {'category':category, 'fi':instance, 'back': False})
     except Exception as e:
         return render(request, "error_exception.html", {'exc':show_exc(e)})
 
@@ -613,20 +613,11 @@ def remove_generic_item_from_shopping_cart(request):
 '''
 @group_required("admins", "projects", "guests")
 #def show_category_menu(request, form_id=None, cat_id = None):
-def show_category_menu(request, cat_id=None, lang=None):
+def show_category_menu(request, cat_id=None, lang=None, back="True"):
     try:
-        #if not form_id:
-        #    form_id = request.GET["form_id"] if "form_id" in request.GET else 0
         if not cat_id:
             cat_id = request.GET["cat_id"] if "cat_id" in request.GET else 0
         category = get_or_none(Category, cat_id, "uuid")
-        #instance = get_or_none(FormInstance, form_id)
-        #form = ""
-        #if instance != None:
-        #    form = instance.form
-        #elif category != None:
-        #    form = Form.objects.filter(category=category.uuid).first()
-        #return render(request, "bookings/menu.html", {'category':category, 'fi':instance})
 
         form = Form.objects.filter(category=category.uuid).first()
         gu = GuestUser.objects.filter(project_uuid=form.project.uuid, username=request.user.username).first()
@@ -637,7 +628,7 @@ def show_category_menu(request, cat_id=None, lang=None):
             fi_list = FormInstance.objects.filter(guest_uuid = gu.guest.UUID, status_list__isnull = True).values_list('pk', flat=True)
             items = ShoppingCart.objects.filter(form_instance_id__in = list(fi_list))
 
-        response = render(request, form.form_type.template, {'category':category, 'form': form, 'fi':fi, 'index':0, 'items': items, 'guest':gu.guest, 'lang':lang})
+        response = render(request, form.form_type.template, {'category':category, 'form': form, 'fi':fi, 'index':0, 'items': items, 'guest':gu.guest, 'lang':lang, 'back': back})
         if lang and check_for_language(lang):
             if hasattr(request, 'session'):
                 request.session['django_language'] = lang

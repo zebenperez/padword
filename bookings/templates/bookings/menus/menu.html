@@ -1,25 +1,10 @@
 {% load i18n bookings_tag common_tag padword_tags static%}
 
 
-{% if category.parent %}{%include "bookings/back-btn.html" with uuid=category.parent.uuid %}{% endif %}
+{% if category.parent and back == "True" %}{%include "bookings/back-btn.html" with uuid=category.parent.uuid %}{% endif %}
 <div class="row d-flex mt-1 guest-card col-10 offset-1 p-4 mb-2">
     {% for item in category.get_items_active %}
-        <div class="col-lg-6 col-12 justify-content-center">
-            {% include "bookings/show-item.html" %}
-            {%comment%}
-            <div class="card w-100 mb-3">
-	            <div class="image" id="cover"> 
-                    {% if item.image %} <img src="{{item.image.url}}" class="object-fit_cover" alt="{% padword_translate item.name %}" /> {% endif %}
-                </div>
-                <div class="card-body">
-                    <h5 class="card-title text-dark text-center">{% padword_translate item.name %}</h5>
-                    <h4 class="card-title text-dark text-center">{{ item.price}} &euro; </h4>
-                    {#<p class="card-text text-secondary">{% padword_translate item.description %}</p>#}
-                    {% include "bookings/show-item-btn.html" %}
-                </div>
-            </div>
-            {%endcomment%}
-        </div>
+        <div class="col-lg-6 col-12 justify-content-center"> {% include "bookings/show-item.html" %} </div>
     {% endfor %}
 </div>
 
@@ -39,11 +24,9 @@
 
     <script>
         {% if fi %}
-            {#{% ark 'show-category-menu' 'div-shopping-cart-'|addstr:children.pk form_id=fi.pk cat_id=children.uuid %}#}
-            {% ark 'show-category-menu' 'div-shopping-cart-'|addstr:children.pk cat_id=children.uuid %}
+            {% ark 'show-category-menu' 'div-shopping-cart-'|addstr:children.pk cat_id=children.uuid back=False %}
         {% else %}
-            {#{% ark 'show-category-menu' 'div-shopping-cart-'|addstr:children.pk form_id=0 cat_id=children.uuid %}#}
-            {% ark 'show-category-menu' 'div-shopping-cart-'|addstr:children.pk cat_id=children.uuid %}
+            {% ark 'show-category-menu' 'div-shopping-cart-'|addstr:children.pk cat_id=children.uuid back=False %}
         {% endif %}
     </script>
 {% endfor %}

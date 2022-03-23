@@ -5,7 +5,7 @@
 
 {% if category.parent %}
     <script>$("#shopping-cart-btn").data("form_id", "{{fi.pk}}");$("#span-total-items").html("{{items.count}}");$("#count-badge").show();</script>
-    {% if form.form_type.code == "ecom2" %} {% include "bookings/back-btn.html" with uuid=category.parent.uuid %} {% endif %}
+    {% if back %}{% include "bookings/back-btn.html" with uuid=category.parent.uuid %}{% endif %}
 {% endif %}
 
 {% if form.show_desc %} <div class="col-12 card info-panel p-4">{% padword_translate form.desc %}</div> {% endif %}

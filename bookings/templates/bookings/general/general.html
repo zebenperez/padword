@@ -1,6 +1,6 @@
 {% load i18n bookings_tag common_tag padword_tags %}
 
-{% if category.parent %}{%include "bookings/back-btn.html" with uuid=category.parent.uuid %}{% endif %}
+{% if category.parent and back == "True" %}{%include "bookings/back-btn.html" with uuid=category.parent.uuid %}{% endif %}
 {%if category.images.count > 0%}{% include "bookings/show-category-gallery.html" %}{%endif%}
 
 {%if form.show_desc%}<div class="card info-panel p-4 col-{{form.desc_width}}">{% padword_translate form.desc %}</div>{%endif%}
@@ -10,13 +10,13 @@
 <div id="item-selected" style="display:none"> <i class="far fa-check-circle"></i> {% trans "You are selected:" %} <span> 
     <span id="item-selected-text">{% padword_translate selected_item.name %} - {{selected_item.price}} &euro; </span> </span> </div>
 
-<div class="col-12" id="end-page">
+<div class="col-12 end-page" id="end-page">
     <div class="row mt-4 mb-4 d-flex justify-content-center">
-        <div class="col-lg-3 col-md-4 col-xs-2 offset-xs-1 actions text-center mb-3">
+        <div class="col-5 actions text-center mb-3">
             <button class="btn btn-marine w-100 ark" data-url="{% url "booking-send" %}" 
                 data-target="main" data-obj_id="{{fi.id}}"> {% trans "Send Order" %}</button>
         </div>
-        <div class="col-lg-3 offset-lg-1 col-md-4 offset-md-1 col-xs-2 offset-xs-1 actions text-center mb-2">
+        <div class="col-5 actions text-center mb-2">
             <button class="btn btn-marine w-100 ark" data-url="{% url "booking-remove" %}"
                 data-target="main" data-obj_id="{{fi.id}}"> {% trans "Cancel Order" %}</button>
         </div>
