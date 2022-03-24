@@ -105,6 +105,7 @@ def guest_pagination(request):
     try:
         name = get_param(request.GET, "s-name")
         page = get_param(request.GET, "s-page", "0")
+        project_uuid = get_param(request.GET, "project_uuid", "")
         if name != "":
             items = Guest.objects.none()
             filters_to_search = ["name__icontains", "room", "surname__icontains", "email__icontains"]
@@ -117,6 +118,10 @@ def guest_pagination(request):
             items != Guest.by_project(projects)
         else:
             items = Guest.objects.all()
+
+        if project_uuid != "":
+            items = items.filter(project_id=project_uuid)
+
         context = {}
         context['total_items'] = items.count()
         context['items'] = items[int(page)*ITEMS_PER_PAGE:(int(page) + 1)*ITEMS_PER_PAGE]
