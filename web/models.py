@@ -83,10 +83,17 @@ class Channel(models.Model):
         verbose_name = _('Channel')
         ordering = ['project__name', 'name']
 
+def upload_image(instance, filename):
+    ascii_filename = str(filename.encode('ascii', 'ignore'))
+    instance.filename = ascii_filename
+    folder = "users/images/%s" % (instance.id)
+    return '/'.join(['%s' % (folder), datetime.datetime.now().strftime("%Y%m%d%H%M%S") + ascii_filename])
+
 class ProjectUser(models.Model):
     #channels = models.ManyToManyField(Channel, verbose_name=_("Channels"), blank=True)
     project_uuid = models.CharField(max_length = 255, verbose_name= _('Project UUID'), default='admin')
     username = models.CharField(max_length = 255, verbose_name= _('Username'), default='admin')
+    image = models.ImageField(upload_to=upload_image, blank=True, verbose_name="Imagen de perfil", help_text="Select file to upload")
 
     class Meta:
         verbose_name = _('Project user')

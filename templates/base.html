@@ -63,7 +63,9 @@
                         <div class="">
                             <a data-bs-toggle="collapse" class="dropdown-toggle" href="#collapseProfile" role="button" 
                                 aria-expanded="false" aria-controls="collapseProfile">
-                                <img class="w-2r bdrs-50p" src="https://randomuser.me/api/portraits/men/10.jpg" alt=""></a>	
+                                {#<img class="w-2r bdrs-50p" src="https://randomuser.me/api/portraits/men/10.jpg" alt="">#}
+                                <img class="w-2r bdrs-50p" src="{% get_user_img request.user %}" alt="user image">
+                            </a>	
                             <div class="collapse" id="collapseProfile">
                                 <div class="user-dropdown card card-body">
                                     <ul>
