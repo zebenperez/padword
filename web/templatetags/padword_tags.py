@@ -218,10 +218,13 @@ def is_current_lang(context, language, true_alternative='current', false_alterna
 
 @register.simple_tag
 def get_user_img(user):
-    if user.groups.filter(name="projects").exists():
-        obj = ProjectUser.objects.filter(username=user.username).first()
-        if obj != None: 
-            return obj.image.url
+    try:
+        if user.groups.filter(name="projects").exists():
+            obj = ProjectUser.objects.filter(username=user.username).first()
+            if obj != None: 
+                return obj.image.url
+    except:
+        pass
     return ""
 
 '''
