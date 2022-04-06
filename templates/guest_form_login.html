@@ -19,11 +19,11 @@
                     <input type="hidden" name="category_uuid" value="{{category_uuid}}"/>
                     <div class="form-group mb-4">
 				        <div style="text-align:left;"><label class="control-label text-left">{% trans "Phone or email:" %} </label></div>
-				        <div class="form-group"><input placeholder="" class="form-control login" type="text" name="code" id="code"/></div>
+				        <div class="form-group"><input placeholder="" nautocomplete="off" class="form-control login" type="text" name="code" id="code"/></div>
                     </div><br />
                     <div class="form-group mb-4">
 				        <div style="text-align:left;"><label class="control-label">{% trans "Room number:" %} </label></div>
-        	            <div class="form-group"><input placeholder="" class="form-control login" type="text" name="room" id="room"/></div>
+        	            <div class="form-group"><input placeholder="" nautocomplete="off" class="form-control login" type="text" name="room" id="room"/></div>
                     </div><br />
                     <div class="form-group">
 				        <div class="col-md-2 offset-md-5">
@@ -40,3 +40,4 @@
 	</div>
 </div>
 <script> $('#sidebar').removeClass('expanded'); </script>
+{% include "autocomplete_off.html" %}

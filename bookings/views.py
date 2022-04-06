@@ -287,7 +287,10 @@ def bookings_notifications(request, ini_date, end_date):
 def bookings(request):
     try:
         context = get_booking_context()
-        context['total_items'] = context['items'].count()
+        try:
+            context['total_items'] = context['items'].count()
+        except:
+            context['total_items'] = 0
         context['items'] = context['items'][0:ITEMS_PER_PAGE]
         context['page'] = 0
         return render (request, "bookings/manage/bookings.html", context)
