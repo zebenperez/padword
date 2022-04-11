@@ -1,20 +1,22 @@
 {% load i18n bookings_tag common_tag padword_tags static %}
 
 {%block extralinks%}
-    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+{#<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">#}
     <link rel="stylesheet" href="{% static 'css/menu_villa.css' %}" >
 {% endblock %}
 	
 <div class="row languages">
-    <div class="col-lg-1 offset-lg-4 col-2 offset-2">
+    <div class="col-lg-1 offset-lg-4 col-2 offset-3">
         <a href="#" class="text-center ark" data-url="{% url "guest-access" "34f8144d-bd8f-e180-5cd1-1680513396d3" "de" %}" data-target="main"
             data-cat_id="{{form.category}}"> <img class="btn btn-secondary p-2" src="/static/img/de.png"></a></div>
-    <div class="col-lg-1 col-2">
+    <div class="col-lg-2 col-2">
         <a href="#" class="text-center ark" data-url="{% url "guest-access" "34f8144d-bd8f-e180-5cd1-1680513396d3" "es" %}" data-target="main">
             <img class="btn btn-secondary p-2" src="/static/img/es.png"></a></div>
+    {% comment %}
     <div class="col-lg-1 col-2">
         <a href="#" class="text-center ark" data-url="{% url "guest-access" "34f8144d-bd8f-e180-5cd1-1680513396d3" "fr" %}" data-target="main">
             <img class="btn btn-secondary p-2" src="/static/img/fr.png"></a></div>
+    {% endcomment %}
     <div class="col-lg-1 col-2">
         <a href="#" class="text-center ark" data-url="{% url "guest-access" "34f8144d-bd8f-e180-5cd1-1680513396d3" "en" %}" data-target="main">
             <img class="btn btn-secondary p-2" src="/static/img/en.png">
@@ -66,24 +68,31 @@
 {% endcomment %} 
  
 <div class="row menu-tabs align-items-end">
-    <div class="col-4 mb-1 align-middle justify-content-center p2">
+    <div class="col-3 mb-1 align-middle justify-content-center p2">
         <div class="tabs">
             <button class="menu-options ark" data-url="{% url "show-category-menu" %}" data-target="main" 
                 data-cat_id="2c76e064-0ba0-feb6-13d9-5bc8047ac94c"> {% padword_translate_obj '2c76e064-0ba0-feb6-13d9-5bc8047ac94c'%}</button>
         </div>
     </div> 
-    <div class="col-4 mb-1 align-middle justify-content-center p2">
+    <div class="col-3 mb-1 align-middle justify-content-center p2">
         <div class="tabs">
             <button class="menu-options ark" data-url="{% url "show-category-menu" %}" data-target="main" 
                 data-cat_id="7ecc8b67-5df7-0478-f421-810f01046968"> {% padword_translate_obj '7ecc8b67-5df7-0478-f421-810f01046968'%}</button>
         </div>
     </div>
-    <div class="col-4 mb-1 align-middle justify-content-center p2">
+    <div class="col-3 mb-1 align-middle justify-content-center p2">
         <div class="tabs">
             <button class="menu-options ark" data-url="{% url "show-category-menu" %}" data-target="main" 
                 data-cat_id="53a8cca8-8f84-87db-33b7-62b589e78ecd"> {% padword_translate_obj '53a8cca8-8f84-87db-33b7-62b589e78ecd'%}</button>
         </div>
     </div>
+    <div class="col-3 mb-1 align-middle justify-content-center p2">
+        <div class="tabs">
+            <button class="menu-options ark" data-url="{% url "show-category-menu" %}" data-target="main" 
+                data-cat_id="99c41828-ce93-68e6-52c9-5b59c627ae82"> {% padword_translate_obj '99c41828-ce93-68e6-52c9-5b59c627ae82'%}</button>
+        </div>
+    </div>
+
 </div>
 
 <div class="row menu-botton">
