@@ -429,6 +429,52 @@ def save_feature(request):
         print(e)
         return render(request, "error_exception.html", {'exc': show_exc(e)})
 
+@group_required("admins", "projects")
+def new_promo(request):
+    try:
+        obj = get_or_none(Item, request.GET["obj_id"])
+        ItemPromo.objects.create(item=obj)
+        return render(request, "contents/promos.html", {"obj": obj,})
+    except Exception as e:
+        return render(request, "error_exception.html", {'exc': show_exc(e)})
+
+@group_required("admins", "projects")
+def remove_promo(request):
+    try:
+        obj = get_or_none(ItemPromo, request.GET["obj_id"])
+        item = obj.item
+        obj.delete()
+        return render(request, "contents/promos.html", {"obj": item,})
+    except Exception as e:
+        return render(request, "error_exception.html", {'exc': show_exc(e)})
+
+@group_required("admins", "projects")
+def item_add_banner(request):
+    try:
+        obj_id = request.POST["obj_id"]
+        image = request.FILES["file"]
+
+        item = get_or_none(ItemPromo, obj_id)
+        if item != None:
+            item.banner = image
+            item.save()
+        return render(request, "contents/promos.html", {"obj": item.item,})
+    except Exception as e:
+        print(e)
+        return render(request, 'error_exception.html', {'msg': str(e)})
+
+@group_required("admins", "projects")
+def item_remove_banner(request):
+    try:
+        obj_id = request.GET["obj_id"]
+        obj = get_or_none(ItemPromo, obj_id) 
+        obj.banner.delete(save=True)
+        return render(request, "contents/promos.html", {"obj": obj.item,})
+    except Exception as e:
+        print(e)
+        return render(request, 'error_exception.html', {'msg': str(e)})
+
+
 
 ##### IMPORT #####
 class Node:

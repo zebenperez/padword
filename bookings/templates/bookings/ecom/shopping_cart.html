@@ -31,6 +31,12 @@
     <div id="div-shopping-cart-{{children.pk}}" class="div-shopping-cart-{{children.pk}}" style="display:none"></div>
     </div>
 
+    {% with 'div-shopping-cart-'|addstr:children.pk as target %}
+        <button id="btn-children-{{children.pk}}" class="ark" data-url="{% url "show-category-shopping-cart" %}" data-target="{{target}}"
+            data-form_id="{{fi.id}}" data-cat_id="{{children.uuid}}" data-guest_id="{{guest.id}}" style="display:none"></button>
+    {% endwith %}
+    <script> $("#btn-children-{{children.pk}}").click(); </script>
+    {%comment%}
     <script>
         {% if fi %}
             {% ark 'show-category-shopping-cart' 'div-shopping-cart-'|addstr:children.pk form_id=fi.pk cat_id=children.uuid %}
@@ -38,6 +44,7 @@
             {% ark 'show-category-shopping-cart' 'div-shopping-cart-'|addstr:children.pk form_id=0 cat_id=children.uuid %}
         {% endif %}
     </script>
+    {%endcomment%}
 
 {% endfor %}
 <div class="d-none" id="for-scripts">

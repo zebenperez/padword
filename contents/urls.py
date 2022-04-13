@@ -35,6 +35,11 @@ urlpatterns = [
     path('items/remove_extra', views.remove_extra, name="items-remove-extra"),
     path('items/add-image-gallery/', views.item_add_image_gallery, name='item-add-image-gallery'),
     path('items/remove-image-gallery/', views.item_remove_image_gallery, name='item-remove-image-gallery'),
+    path('items/new_promo', views.new_promo, name="items-new-promo"),
+    path('items/remove_promo', views.remove_promo, name="items-remove-promo"),
+    path('items/add-banner/', views.item_add_banner, name='item-add-banner'),
+    path('items/remove-banner/', views.item_remove_banner, name='item-remove-banner'),
+
 
     #---------------------- AUTO -----------------------
 	path('autosave_field/', auto_views.autosave_field, name='autosave_field'),

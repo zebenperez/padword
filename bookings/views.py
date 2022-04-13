@@ -89,13 +89,14 @@ def get_booking_context(project=None, form=None):
     return context
 
 
-def get_uuid_project_list(user):
+def get_uuid_project_list(user, project):
     if user.groups.filter(name="projects").exists():
         return list(ProjectUser.objects.filter(username=user.username).values_list('project_uuid', flat=True))
     if project != "":
-        return list(set(uuid_projects_list) & set(Project.objects.filter(name__icontains = project).values_list('uuid', flat=True)))
+        return list(set(Project.objects.filter(name__icontains = project).values_list('uuid', flat=True)))
+    return list(set(Project.objects.all().values_list('uuid', flat=True)))
 
-def filter_search_form_uuid(project, form, uuid_project_list):
+def filter_search_form_uuid(form, uuid_project_list):
     if form != "":
         forms_list = list(set(Form.objects.filter(form_type__order=True, name__icontains=form).values_list('uuid', flat=True)))
     else:
@@ -134,8 +135,8 @@ def bookings_search(request):
         name = get_param(request.GET, "s-name")
         status = get_param(request.GET, "s-status")
 
-        uuid_project_list = get_uuid_project_list(request.user)
-        kwargs = {'form_uuid__in': filter_search_form_uuid(project, form, uuid_project_list)}
+        uuid_project_list = get_uuid_project_list(request.user, project)
+        kwargs = {'form_uuid__in': filter_search_form_uuid(form, uuid_project_list)}
         if ini_date != "":
             kwargs["date__gte"] = ini_date
         if end_date != "":

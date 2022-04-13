@@ -12,6 +12,8 @@ urlpatterns = [
     path('category/', views.index_cat, name='pwa-index-cat'),
     path('category-<slug:category_uuid>/', views.index_cat, name='pwa-index-cat'),
 
+    path('get-promos/', views.get_promos, name='pwa-get-promos'),
+
     #--------------------- Projects --------------------
 #     path('projects/company-<int:company_id>/', views.projects, name='projects-by-company'),
 #     path('projects/project-<slug:project_id>/', views.projects, name='projects-by-uuid'),

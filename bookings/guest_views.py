@@ -503,24 +503,43 @@ def item_to_shopping_cart(request):
     except Exception as e:
         return render(request, "error_exception.html", {'exc':show_exc(e)})
 
+#@group_required("admins", "projects", "guests")
+#def show_category_shopping_cart(request, form_id=None, cat_id = None):
+#    try:
+#        #if not form_id:
+#        #    form_id = request.GET["form_id"] if "form_id" in request.GET and request.GET["form_id"] != "" else 0
+#        #if not cat_id:
+#        #    cat_id = request.GET["cat_id"] if "cat_id" in request.GET else ""
+#
+#        form_id = get_param(request.GET, "form_id", 0)
+#        cat_id = get_param(request.GET, "cat_id")
+#        guest = get_or_none(Guest, get_param(request.GET, "guest_id"))
+#
+#        #instance = FormInstance.objects.get(pk=form_id) if form_id != 0 else None
+#        instance = get_or_none(FormInstance, form_id)
+#        category = Category.objects.get(uuid=cat_id)
+#        form = Form.objects.filter(category=category.uuid).first()
+#        #form = ""
+#        #if instance != None:
+#        #    form = instance.form
+#        #elif category != None:
+#        #    form = Form.objects.filter(category=category.uuid).first()
+#        #return render(request, "bookings/ecom/shopping_cart.html", {'category':category, 'fi':instance})
+#        return render(request, form.form_type.template, {'category':category, 'fi':instance, 'back': False, 'guest': guest})
+#    except Exception as e:
+#        return render(request, "error_exception.html", {'exc':show_exc(e)})
+
 @group_required("admins", "projects", "guests")
 def show_category_shopping_cart(request, form_id=None, cat_id = None):
     try:
-        if not form_id:
-            form_id = request.GET["form_id"] if "form_id" in request.GET else 0
-        if not cat_id:
-            cat_id = request.GET["cat_id"] if "cat_id" in request.GET else ""
-        #instance = FormInstance.objects.get(pk=form_id) if form_id != 0 else None
+        form_id = get_param(request.GET, "form_id", 0)
+        cat_id = get_param(request.GET, "cat_id")
+        guest = get_or_none(Guest, get_param(request.GET, "guest_id"))
+
         instance = get_or_none(FormInstance, form_id)
         category = Category.objects.get(uuid=cat_id)
         form = Form.objects.filter(category=category.uuid).first()
-        #form = ""
-        #if instance != None:
-        #    form = instance.form
-        #elif category != None:
-        #    form = Form.objects.filter(category=category.uuid).first()
-        #return render(request, "bookings/ecom/shopping_cart.html", {'category':category, 'fi':instance})
-        return render(request, form.form_type.template, {'category':category, 'fi':instance, 'back': False})
+        return render(request, form.form_type.template, {'category':category, 'fi':instance, 'back': False, 'guest': guest})
     except Exception as e:
         return render(request, "error_exception.html", {'exc':show_exc(e)})
 
@@ -645,10 +664,12 @@ def show_category_menu(request, cat_id=None, lang=None, back="True"):
 @group_required("admins", "projects", "guests")
 def show_item(request):
     try:
+        guest_id = request.GET["guest_id"]
         item_id = request.GET["item_id"]
+        guest = get_or_none(Guest, int(guest_id))
         item = get_or_none(Item, int(item_id))
 
-        return render(request, "bookings/show-item-details.html", {'item':item,})
+        return render(request, "bookings/show-item-details.html", {'item':item, 'guest': guest})
     except Exception as e:
         return render(request, "error_exception.html", {'exc':show_exc(e)})
 

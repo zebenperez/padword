@@ -82,6 +82,12 @@
                         <div class="collapse" id="collapseFeature"> <div id="div-features-{{obj.get_category.id}}">
                             {% show_feature obj.get_category %}</div> </div>
                     </div>
+                    <div class="col-12">
+                        <a data-bs-toggle="collapse" href="#collapseEmails" role="button" aria-expanded="false" aria-controls="collapseEmails">
+                            {% trans "Emails" %} </a>
+                        <div class="collapse" id="collapseEmails"> <div id="div-emails-{{obj.id}}">
+                            {% show_emails obj %}</div> </div>
+                    </div>
                 </div>
             </div>
         </div>

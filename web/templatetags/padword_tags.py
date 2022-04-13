@@ -311,3 +311,12 @@ def show_extras(obj):
 def show_feature(obj):
     return {'obj': obj, 'item_list': Feature.objects.all()}
 
+@register.inclusion_tag('contents/promos.html')
+def show_promos(obj):
+    return {'obj': obj,}
+
+@register.inclusion_tag('contents/emails.html')
+def show_emails(obj):
+    return {'obj': obj}
+
+

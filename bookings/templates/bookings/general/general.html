@@ -10,11 +10,13 @@
 <div id="item-selected" style="display:none"> <i class="far fa-check-circle"></i> {% trans "You are selected:" %} <span> 
     <span id="item-selected-text">{% padword_translate selected_item.name %} - {{selected_item.price}} &euro; </span> </span> </div>
 
+<div id="obligatory-warning" class="col-12 alert alert-danger" style="display:none">{%trans "Debe rellenar todos los campos obligatorios"%} (*)</div>
 <div class="col-12 end-page" id="end-page">
     <div class="row mt-4 mb-4 d-flex justify-content-center">
         <div class="col-5 actions text-center mb-3">
-            <button class="btn btn-marine w-100 ark" data-url="{% url "booking-send" %}" 
-                data-target="main" data-obj_id="{{fi.id}}"> {% trans "Send Order" %}</button>
+            <button id="btn-send" class="btn btn-marine w-100 ark" data-url="{% url "booking-send" %}" 
+                data-target="main" data-obj_id="{{fi.id}}" style="display:none"></button>
+            <button id="btn-send-order" class="btn btn-marine w-100"> {% trans "Send Order" %}</button>
         </div>
         <div class="col-5 actions text-center mb-2">
             <button class="btn btn-marine w-100 ark" data-url="{% url "booking-remove" %}"
@@ -22,5 +24,15 @@
         </div>
     </div>
 </div>
+<script>
+    $("#btn-send-order").click(function(){
+        var send = true;
+        $(".obligatory").each(function(){ if ($(this).val() == "") { send = false; /*$(this).css("border", "1px solid #842029");*/ } });
+        if (send)
+            $("#btn-send").click();
+        else
+            $("#obligatory-warning").show();
+    });
+</script>
 
 

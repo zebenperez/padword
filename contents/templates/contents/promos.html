@@ -1,0 +1,52 @@
+{% load i18n padword_tags %}
+
+<div class="row"><div class="col-12 text-right">
+    <a class="ark" data-url="{% url 'items-new-promo' %}" data-target="div-promos-{{obj.id}}" data-obj_id="{{obj.id}}"> {% trans "Add promo" %}</a>
+</div></div>
+
+<div class="row">
+{% for item in obj.promos.all %}
+    <div class="col-3">
+        <input type="date" class="form-control autosave b-bottom mb-4" id="ini_date" name="ini_date" data-model-name="contents.itempromo" 
+            value="{{item.ini_date|date:"Y-m-d"}}" data-obj-id="{{item.id}}" data-url="{% url "autosave_field" %}" data-target="div-notification"
+            value="{{item.ini_date}}"/> <span id="ini_date__msg"></span>
+    </div>
+    <div class="col-2">
+        <input type="time" class="form-control autosave b-bottom mb-4" id="ini_date" name="ini_date" data-model-name="contents.itempromo" 
+            value="{{item.ini_date|date:"H:i"}}" data-obj-id="{{item.id}}" data-url="{% url "autosave_field" %}" data-target="div-notification"
+            value="{{item.ini_date}}"/> <span id="ini_date__msg"></span>
+    </div>
+    <div class="col-3">
+        <input type="date" class="form-control autosave b-bottom mb-4" id="end_date" name="end_date" data-model-name="contents.itempromo"
+            value="{{item.end_date|date:"Y-m-d"}}"  data-obj-id="{{item.id}}" data-url="{% url "autosave_field" %}" data-target="div-notification"
+            value="{{item.end_date}}"/> <span id="end_date__msg"></span>
+    </div>
+    <div class="col-2">
+        <input type="time" class="form-control autosave b-bottom mb-4" id="end_date" name="end_date" data-model-name="contents.itempromo"
+            value="{{item.end_date|date:"H:i"}}"  data-obj-id="{{item.id}}" data-url="{% url "autosave_field" %}" data-target="div-notification"
+            value="{{item.end_date}}"/> <span id="end_date__msg"></span>
+    </div>
+
+    <div class="col-2">
+        <a class="ark" data-url="{% url 'items-remove-promo' %}" data-target="div-promos-{{obj.id}}" data-obj_id="{{item.id}}">{%trans "Remove"%}</a>
+    </div>
+    <div class="col-12">
+        {% if not item.banner %}
+            <label for="id_banner_{{item.id}}" class="btn btn-primary file-field-btn text-white">
+                <i class="fas fa-upload"></i> <span class="text">{% trans "Upload File" %}</span> </label>
+            <input type="file" class="upload d-none custom-file-upload" name="banner" id="id_banner_{{item.id}}" 
+                data-url="{% url 'item-add-banner' %}" data-target="div-promos-{{obj.id}}" data-obj-id="{{item.id}}" 
+                data-field="banner" data-csrf-token="{{csrf_token}}" multiple style="display:none;"/><br /><br />
+        {% else %}
+            <div class="col-lg-10 col-xs-10"><span><img src="{{item.banner.url}}" alt="banner" width="200px"/></span></div>
+            <br/>
+            <div class="col-lg-2 col-xs-2 actions file-remove text-right">
+                <a class="ark pointer" id="btn-banner-{{item.pk}}" title="Borrar fichero" 
+                    data-confirm="{%trans "Are you sure to remove this file?"%}" data-url="{% url "item-remove-banner" %}" 
+                    data-target="div-promos-{{obj.id}}" data-obj_id="{{item.id}}" data-field="banner"> <i class="fas fa-trash"></i></a>
+            </div>
+        {% endif %}
+    </div>
+{% endfor %}
+</div>
+

@@ -53,6 +53,9 @@
         <a data-bs-toggle="collapse" href="#collapseExtra" role="button" aria-expanded="false" aria-controls="collapseExtra">{% trans "Extras" %}</a>
         <div class="collapse" id="collapseExtra"> <div id="div-extras-{{obj.id}}">{% show_extras obj %}</div> </div>
         <br/>
+        <a data-bs-toggle="collapse" href="#collapsePromo" role="button" aria-expanded="false" aria-controls="collapseExtra">{% trans "Promos" %}</a>
+        <div class="collapse" id="collapsePromo"> <div id="div-promos-{{obj.id}}">{% show_promos obj %}</div> </div>
+        <br/>
         <a data-bs-toggle="collapse" href="#collapseImages" role="button" aria-expanded="false" aria-controls="collapseImages">{%trans "Images"%}</a>
         <div class="collapse" id="collapseImages"> <div id="div-images-{{obj.id}}">
             <div id="div-gallery">{% include "contents/item-gallery.html" with obj=obj%}</div>

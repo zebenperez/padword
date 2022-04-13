@@ -3,7 +3,8 @@
 
 {% for f in q.field_set.all %}
     <div class="item mb-1">
-        <div class="item-left mb-3">{% if q.field_set.all|length > 0 %}  {% padword_translate f.text %} <br/> {% endif %} </div>
+        <div class="item-left mb-3">
+            {%if f.obligatory%}*{%endif%}{% if q.field_set.all|length > 0 %} {% padword_translate f.text %} <br/> {% endif %} </div>
         <div class="item-right td_{{q.id}}_{{index}} p-2"> 
             {% if not ro %}{% field_form fi q f index request.user %} {%else%} {% field_value fi q f index %} {%endif%}
         </div>

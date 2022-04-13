@@ -11,8 +11,11 @@ function ajaxGet(url, datas, target, modal_target)
         success : function(data){
             if (modal_target != "")
             {
-                $('#'+modal_target+"-body").html(data);
-                $('#'+modal_target).modal('show');
+                if (data != "")
+                {
+                    $('#'+modal_target+"-body").html(data);
+                    $('#'+modal_target).modal('show');
+                }
             }
             else
                 if (target != "")

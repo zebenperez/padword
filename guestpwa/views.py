@@ -1,9 +1,13 @@
+from django.http import HttpResponse
 from django.shortcuts import render, redirect, reverse
 from padword.commons import show_exc, get_or_none
 
 from bookings.models import Form
-from contents.models import Category
+from contents.models import Category, ItemPromo
 from guest.models import Guest
+#from web.models import Project
+
+import datetime
 
 import logging
 logger = logging.getLogger(__name__)
@@ -32,6 +36,22 @@ def index_cat(request, category_uuid=None):
             return render(request, "bookings/show-category-pwa.html", context)
         else:
             return redirect(reverse('guest-access-bookings', kwargs={'project_uuid':project_uuid}))
+    except Exception as e:
+        print(e)
+        return render(request, "error_exception.html", {'exc':show_exc(e)})
+
+def get_promos(request):
+    try:
+        now = datetime.datetime.now()
+        promo_list = ItemPromo.objects.filter(ini_date__lte=now, end_date__gte=now)
+        #promos = []
+        promo = None
+        for p in promo_list:
+            if p.item.project.uuid == request.GET["project_uuid"]:
+                #promos.append(promo)
+                promo = p
+                break
+        return render(request, "guest/show-promo.html", {'item': promo.item}) if promo != None else HttpResponse("")
     except Exception as e:
         print(e)
         return render(request, "error_exception.html", {'exc':show_exc(e)})

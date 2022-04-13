@@ -9,7 +9,7 @@ from web.models import Channel, Company, Device, Project, ProjectUser
 from contents.models import Category
 
 from .common_lib import generate_qr
-from .models import AnswerType, Field, Form, FormChannel, FormInstance, FormType, Question, QuestionType, Block, Status
+from .models import AnswerType, Field, Form, FormChannel, FormEmail, FormInstance, FormType, Question, QuestionType, Block, Status
 
 import logging
 logger = logging.getLogger(__name__)
@@ -283,4 +283,24 @@ def field_remove(request):
         question = obj.question
         obj.delete()
     return render (request, "forms/question-form.html", {'q': question})
+
+@group_required("admins", "projects")
+def new_email(request):
+    try:
+        obj = get_or_none(Form, request.GET["obj_id"])
+        FormEmail.objects.create(form=obj)
+        return render(request, "contents/emails.html", {"obj": obj,})
+    except Exception as e:
+        return render(request, "error_exception.html", {'exc': show_exc(e)})
+
+@group_required("admins", "projects")
+def remove_email(request):
+    try:
+        obj = get_or_none(FormEmail, request.GET["obj_id"])
+        form = obj.form
+        obj.delete()
+        return render(request, "contents/emails.html", {"obj": form,})
+    except Exception as e:
+        return render(request, "error_exception.html", {'exc': show_exc(e)})
+
 

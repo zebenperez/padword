@@ -51,8 +51,8 @@ def field_value(fi, q, f, index):
 '''
 	Inclusion tag
 '''
-@register.inclusion_tag('bookings/general/field_form.html')
-def field_form(fi, q, f, index, user):
+@register.inclusion_tag('bookings/general/field_form.html', takes_context=True)
+def field_form(context, fi, q, f, index, user):
     ai = get_answer_instance(fi, q, f, index) if fi != "" else None
 
     value = ai.text if ai != None else ""
@@ -70,18 +70,29 @@ def field_form(fi, q, f, index, user):
 
     answer_name = "question_%s_field_%s_%s" % (q.id, f.id, index) if q != None and f != None else "questions_0_field_0_0"
 
-    context = {
-        'fi_id': fi.id if fi != ""  and fi != None else "", 
-        'q_id': q.id if q != None else 0, 
-        'f': f,
-        'index': index, 
-        'answer_name': answer_name, 
-        'readonly': readonly,
-        'doc': doc,
-        'item_list': item_list,
-        'selected_item': ai.get_item() if ai != None else None,
-        'value': value
-    }
+#    context = {
+#        'fi_id': fi.id if fi != ""  and fi != None else "", 
+#        'q_id': q.id if q != None else 0, 
+#        'f': f,
+#        'index': index, 
+#        'answer_name': answer_name, 
+#        'readonly': readonly,
+#        'doc': doc,
+#        'item_list': item_list,
+#        'selected_item': ai.get_item() if ai != None else None,
+#        'value': value
+#    }
+    context["fi_id"] = fi.id if fi != ""  and fi != None else ""
+    context["q_id"] = q.id if q != None else 0
+    context["f"] = f
+    context["index"] = index
+    context["answer_name"] = answer_name
+    context["readonly"] = readonly
+    context["doc"] = doc
+    context["item_list"] = item_list
+    context["selected_item"] = ai.get_item() if ai != None else None
+    context["value"] = value
+
     return context
 
 

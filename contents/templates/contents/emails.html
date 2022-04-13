@@ -1,0 +1,20 @@
+{% load i18n padword_tags %}
+
+<div class="row"><div class="col-12 text-right">
+    <a class="ark" data-url="{% url 'form-new-email' %}" data-target="div-emails-{{obj.id}}" data-obj_id="{{obj.id}}"> {% trans "Add email" %}</a>
+</div></div>
+
+<div class="row">
+    {% for item in obj.emails.all %}
+        <div class="col-10">
+            <input type="text" class="form-control autosave b-bottom mb-4" id="email" name="email" data-model-name="bookings.formemail" 
+                value="{{item.email}}" data-obj-id="{{item.id}}" data-url="{% url "autosave_field" %}" data-target="div-notification"/> 
+                <span id="email__msg"></span>
+        </div>
+        <div class="col-2">
+            <a class="ark" data-url="{%url 'form-remove-email'%}" data-target="div-emails-{{obj.id}}" data-obj_id="{{item.id}}">
+                {%trans "Remove"%}</a>
+        </div>
+    {% endfor %}
+</div>
+

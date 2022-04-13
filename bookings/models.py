@@ -7,6 +7,7 @@ from contents.models import Category, Item, ShoppingCart
 from web.models import Channel, Device, Project
 from guest.models import Guest
 
+from .email_lib import send_change_status_email
 from padword.commons import show_exc
 
 import datetime
@@ -210,6 +211,10 @@ class FormChannel(models.Model):
         channel = Channel.objects.filter(uuid=self.channel).first()
         return channel.name if channel != None else ""
 
+class FormEmail(models.Model):
+    email = models.CharField(max_length=400, verbose_name=_("Email"), default="")
+    form = models.ForeignKey(Form, on_delete=models.CASCADE, verbose_name=_("Form"), blank=True, null=True, related_name="emails")
+
 class FormInstance(models.Model):
     code = models.CharField(verbose_name=_("Code"), max_length=20, default="")
     date = models.DateTimeField(_('Creation date'), default=datetime.datetime.now, null=True)
@@ -264,6 +269,7 @@ class FormInstance(models.Model):
         status = Status.objects.filter(code = status_code).first()
         if status != None:
             FormInstanceStatus.objects.create(form_instance=self, status=status, user=user, comment=comment)
+            send_change_status_email(self, status)
             #self.status = status
             #self.save()
 

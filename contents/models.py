@@ -227,7 +227,9 @@ class Item(models.Model):
     @property
     def project(self):
         try:
-            return Project.objects.get(uuid = self.category.project)
+            #return Project.objects.get(uuid = self.category.project)
+            item = ItemInCat.objects.filter(item=self).first()
+            return item.category.project
         except Exception as e:
             return Project(name='UNKNOWN')
 
@@ -338,6 +340,22 @@ class ItemExtra(models.Model):
     class Meta:
         verbose_name = "Item Extra"
         verbose_name_plural = "Item Extra"
+
+def upload_item_banner(instance, filename):
+    ascii_filename = str(filename.encode('ascii', 'ignore'))
+    instance.filename = ascii_filename
+    folder = "contents/items/banners/%s" % (instance.id)
+    return '/'.join(['%s' % (folder), datetime.datetime.now().strftime("%Y%m%d%H%M%S") + ascii_filename])
+
+class ItemPromo(models.Model):
+    ini_date = models.DateTimeField(_('Ini date'), default=datetime.datetime.now, null=True)
+    end_date = models.DateTimeField(_('End date'), default=datetime.datetime.now, null=True)
+    banner = models.ImageField(upload_to=upload_item_banner, verbose_name=_("Image"), blank=True, null=True)
+    item = models.ForeignKey(Item, on_delete=models.CASCADE, null=True, related_name="promos")
+
+    class Meta:
+        verbose_name = "Item Promo"
+        verbose_name_plural = "Item Promo"
 
 class CategoryUser(models.Model):
     category_uuid = models.CharField(max_length = 255, verbose_name= _('Category UUID'), default='')

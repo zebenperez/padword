@@ -24,6 +24,9 @@ urlpatterns = [
     path('forms/add-qr/', fv.form_add_qr, name='form-add-qr'),
     path('forms/remove-qr/', fv.form_remove_qr, name='form-remove-qr'),
 
+    path('forms/new_email', fv.new_email, name="form-new-email"),
+    path('forms/remove_email', fv.remove_email, name="form-remove-email"),
+
     path('channel/add/', fv.channel_add, name='channel-add'),
     path('channel/remove/', fv.channel_remove, name='channel-remove'),
 
@@ -110,7 +113,7 @@ urlpatterns = [
     path('shopping/view-cart/<slug:par>/', gv.view_shopping_cart, name='view-shopping-cart'),
     path('shopping/view-cart/', gv.view_shopping_cart, name='view-shopping-cart'),
     path('shopping/get-price/', gv.get_price_shopping_cart, name='get-price-shopping-cart'),
-    path('shopping/show-category/<int:form_id>/<slug:cat_id>/', gv.show_category_shopping_cart, name='show-category-shopping-cart'),
+    #path('shopping/show-category/<int:form_id>/<slug:cat_id>/', gv.show_category_shopping_cart, name='show-category-shopping-cart'),
     path('shopping/show-category/', gv.show_category_shopping_cart, name='show-category-shopping-cart'),
     path('shopping/comments/', gv.item_shopping_cart_comment, name='item-shopping-cart-comment'),
     path('shopping/show-category-menu/<slug:cat_id>/<str:back>/', gv.show_category_menu, name='show-category-menu'),

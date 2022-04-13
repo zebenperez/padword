@@ -52,37 +52,44 @@
 
 {%csrf_token%}
 {% for children in category.get_active_childrens %}
-<div class="art-item mb-3 p-3">
-    <div class="col-12 d-flex align-middle justify-content-center cat-title-head">
-        <div class="cat-image" id="cover">
-            {% if children.show_img %}
-                <img src="{% if children.image %}{{children.image.url}}{%else%}{% static 'img/none.png' %}{%endif%}" 
-                     class="object-fit" alt="{% padword_translate item.name %}"> 
-            {% endif %}
+    <div class="art-item mb-3 p-3">
+        <div class="col-12 d-flex align-middle justify-content-center cat-title-head">
+            <div class="cat-image" id="cover">
+                {% if children.show_img %}
+                    <img src="{% if children.image %}{{children.image.url}}{%else%}{% static 'img/none.png' %}{%endif%}" 
+                         class="object-fit" alt="{% padword_translate item.name %}"> 
+                {% endif %}
+            </div>
+            <a class="btn pl-2 w-100 cat-title text-left" onclick="$('.div-shopping-cart-{{children.pk}}').toggle();"> 
+                <i class="fas fa-angle-down div-shopping-cart-{{children.pk}}" style="float:right;"></i>
+                <i class="fas fa-angle-up div-shopping-cart-{{children.pk}}" style="float:right;display:none" ></i>
+                {% padword_translate children.name%} </a>
+
+            {% comment %}
+            <a class="btn btn-marine pl-2 w-100 b-item text-left" onclick="$('.div-shopping-cart-{{children.pk}}').toggle();"> 
+                <i class="fas fa-arrow-circle-down div-shopping-cart-{{children.pk}}" ></i>
+                <i class="fas fa-arrow-circle-up div-shopping-cart-{{children.pk}}" style="display:none" ></i>
+                {% padword_translate children.name%} 
+            </a>
+            {% endcomment %}
         </div>
-        <a class="btn pl-2 w-100 cat-title text-left" onclick="$('.div-shopping-cart-{{children.pk}}').toggle();"> 
-            <i class="fas fa-angle-down div-shopping-cart-{{children.pk}}" style="float:right;"></i>
-            <i class="fas fa-angle-up div-shopping-cart-{{children.pk}}" style="float:right;display:none" ></i>
-            {% padword_translate children.name%} </a>
-
-        {% comment %}
-        <a class="btn btn-marine pl-2 w-100 b-item text-left" onclick="$('.div-shopping-cart-{{children.pk}}').toggle();"> 
-            <i class="fas fa-arrow-circle-down div-shopping-cart-{{children.pk}}" ></i>
-            <i class="fas fa-arrow-circle-up div-shopping-cart-{{children.pk}}" style="display:none" ></i>
-            {% padword_translate children.name%} 
-        </a>
-        {% endcomment %}
+        <div id="div-shopping-cart-{{children.pk}}" class="div-shopping-cart-{{children.pk}}" style="display:none;"></div>
     </div>
-    <div id="div-shopping-cart-{{children.pk}}" class="div-shopping-cart-{{children.pk}}" style="display:none;"></div>
-</div>
 
-<script>
-    {% if fi %}
-        {% ark 'show-category-shopping-cart' 'div-shopping-cart-'|addstr:children.pk form_id=fi.pk cat_id=children.uuid %}
-    {% else %}
-        {% ark 'show-category-shopping-cart' 'div-shopping-cart-'|addstr:children.pk form_id=0 cat_id=children.uuid %}
-    {% endif %}
-</script>
+    {% with 'div-shopping-cart-'|addstr:children.pk as target %}
+        <button id="btn-children-{{children.pk}}" class="ark" data-url="{% url "show-category-shopping-cart" %}" data-target="{{target}}"
+            data-form_id="{{fi.id}}" data-cat_id="{{children.uuid}}" data-guest_id="{{guest.id}}" style="display:none"></button>
+    {% endwith %}
+    <script> $("#btn-children-{{children.pk}}").click(); </script>
+    {%comment%}
+    <script>
+        {% if fi %}
+            {% ark 'show-category-shopping-cart' 'div-shopping-cart-'|addstr:children.pk form_id=fi.pk cat_id=children.uuid %}
+        {% else %}
+            {% ark 'show-category-shopping-cart' 'div-shopping-cart-'|addstr:children.pk form_id=0 cat_id=children.uuid %}
+        {% endif %}
+    </script>
+    {%endcomment%}
 {% endfor %}
 <div class="d-none" id="for-scripts"> </div>
 
