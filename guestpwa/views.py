@@ -1,8 +1,11 @@
+from django.conf import settings
 from django.http import HttpResponse
 from django.shortcuts import render, redirect, reverse
+from django.utils import translation
 from padword.commons import show_exc, get_or_none
 
-from bookings.models import Form
+from bookings.models import Form, FormInstance
+from bookings.common_lib import get_guest
 from contents.models import Category, ItemPromo
 from guest.models import Guest
 #from web.models import Project
@@ -32,7 +35,15 @@ def index_cat(request, category_uuid=None):
             cat_uuid = request.GET["category_uuid"] if category_uuid == None else category_uuid
             cat = get_or_none(Category, cat_uuid, "uuid")
             form = Form.objects.filter(category__in = [cat_uuid]).first()
+            #guest = get_guest(request.user.username, form.project.uuid)
+            #items = FormInstance.get_all_items(guest)
+            #context = {'form': form, 'project_uuid': cat.project.uuid, 'items': items}
             context = {'form': form, 'project_uuid': cat.project.uuid}
+            if"django_language" in request.session:
+                translation.activate(request.session["django_language"])
+                response = render(request, "bookings/show-category-pwa.html", context)
+                response.set_cookie(settings.LANGUAGE_COOKIE_NAME, request.session["django_language"])
+                return response
             return render(request, "bookings/show-category-pwa.html", context)
         else:
             return redirect(reverse('guest-access-bookings', kwargs={'project_uuid':project_uuid}))

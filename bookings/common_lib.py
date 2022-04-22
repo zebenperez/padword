@@ -2,12 +2,23 @@ from django.apps import apps
 from django.db.models import Max
 from django.contrib.auth.models import User
 from PIL import Image
-from .models import AnswerInstance, FormInstance, FormInstanceLog
+from .models import AnswerInstance, FormInstance, FormInstanceLog, GuestUser
 
 import qrcode, io
 import logging
 logger = logging.getLogger(__name__)
 
+
+'''
+    Guests functions
+'''
+def get_guest(username, project_uuid):
+    gu = GuestUser.objects.filter(project_uuid=project_uuid, username=username).first()
+    return gu.guest if gu != None else None
+
+def get_guest_total_items(username, project_uuid):
+    guest = get_guest(username, project_uuid)
+    return FormInstance.get_all_items(guest).count() if guest != None else 0
 
 '''
     Form functions

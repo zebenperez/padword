@@ -1,31 +1,31 @@
 {% load i18n bookings_tag common_tag padword_tags static %}
-
-{%block extralinks%}
-{#<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">#}
-    <link rel="stylesheet" href="{% static 'css/menu_villa.css' %}" >
-{% endblock %}
 	
 <div class="row languages">
+    {%comment%}
     <div class="col-lg-1 offset-lg-4 col-2 offset-3">
-        <a href="#" class="text-center ark" data-url="{% url "guest-access" "34f8144d-bd8f-e180-5cd1-1680513396d3" "de" %}" data-target="main"
+        <a href="#" class="text-center ark" data-url="{% url "guest-access" "34f8144d-bd8f-e180-5cd1-1680513396d3" "de" %}" data-target="main-base"
             data-cat_id="{{form.category}}"> <img class="btn btn-secondary p-2" src="/static/img/de.png"></a></div>
     <div class="col-lg-2 col-2">
-        <a href="#" class="text-center ark" data-url="{% url "guest-access" "34f8144d-bd8f-e180-5cd1-1680513396d3" "es" %}" data-target="main">
+        <a href="#" class="text-center ark" data-url="{% url "guest-access" "34f8144d-bd8f-e180-5cd1-1680513396d3" "es" %}" data-target="main-base">
             <img class="btn btn-secondary p-2" src="/static/img/es.png"></a></div>
-    {% comment %}
     <div class="col-lg-1 col-2">
-        <a href="#" class="text-center ark" data-url="{% url "guest-access" "34f8144d-bd8f-e180-5cd1-1680513396d3" "fr" %}" data-target="main">
-            <img class="btn btn-secondary p-2" src="/static/img/fr.png"></a></div>
-    {% endcomment %}
+        <a href="#" class="text-center ark" data-url="{% url "guest-access" "34f8144d-bd8f-e180-5cd1-1680513396d3" "en" %}" data-target="main-base">
+            <img class="btn btn-secondary p-2" src="/static/img/en.png"> </a> </div>
+    {%endcomment%}
+
+    <div class="col-lg-1 offset-lg-4 col-2 offset-3">
+        <a href="#" class="text-center ark" data-url="{% url "guest-set-lang" %}" data-target="main-base" data-lang="de"
+            data-cat_id="{{form.category}}"> <img class="btn btn-secondary p-2" src="/static/img/de.png"></a></div>
+    <div class="col-lg-2 col-2">
+        <a href="#" class="text-center ark" data-url="{% url "guest-set-lang" %}" data-target="main-base" data-lang="es"
+            data-cat_id="{{form.category}}"> <img class="btn btn-secondary p-2" src="/static/img/es.png"></a></div>
     <div class="col-lg-1 col-2">
-        <a href="#" class="text-center ark" data-url="{% url "guest-access" "34f8144d-bd8f-e180-5cd1-1680513396d3" "en" %}" data-target="main">
-            <img class="btn btn-secondary p-2" src="/static/img/en.png">
-        </a>
-    </div>
+        <a href="#" class="text-center ark" data-url="{% url "guest-set-lang" %}" data-target="main-base" data-lang="en"
+            data-cat_id="{{form.category}}"> <img class="btn btn-secondary p-2" src="/static/img/en.png"> </a> </div>
 </div>
 
 <div class="row div-slogan">
-    <div class="col-12 text-center"> <div class="slogan"> Escucha el silencio <br /><span>Detén el tiempo en Villa María</span></div> </div>
+    <div class="col-12 text-center"> <div class="slogan">{% trans "Instant Relaxation" %} </div> </div>
 </div>
 
 <div class="row div-boxes">
@@ -36,12 +36,6 @@
                 {% padword_translate_obj 'af153cdf-334d-0f06-f505-8e3ddb2a7162' %}</a>
         </div>
     </div>
-    {%comment%}
-    <div class="col-lg-3 col-6">
-        <div class="value-btn"><a href="https://www.hotelsuitevillamaria.es/es/contacto/" class="btn btn-primary w-100 " target="_blank">
-            <i class="far fa-thumbs-up"></i> {% padword_translate_obj 'e7797a43-31fc-df69-dcdf-eef7631964db' %}</a></div>
-    </div>
-    {%endcomment%}
     <div class="col-lg-4 col-6">
         <div class="sugest-btn"><a href="https://www.hotelsuitevillamaria.es/es/category/sostenibilidad/" target="_blank" 
             class="btn btn-secondary"> <i class="fas fa-leaf"></i> {% padword_translate_obj 'e3332f7c-18c5-127a-5bd5-52c9c75d5d7c' %}</a>
@@ -54,19 +48,6 @@
     </div>
 </div>
 
-{% comment %} 
-<div class="row align-items-end">
-    <div id="div-current-category">
-       {% for children in category.get_childrens %}
-          <div id="menu" class="col-lg-3 col-5 tabs mb-1 align-middle justify-content-center">
-                <button class="menu-options ark" data-url="{% url "show-category-menu" %}" data-target="div-current-category" 
-            data-cat_id="{{children.uuid}}">{% padword_translate children.name %}</button>
-          </div>
-       {% endfor %}
-    </div>
-</div>
-{% endcomment %} 
- 
 <div class="row menu-tabs align-items-end">
     <div class="col-3 mb-1 align-middle justify-content-center p2">
         <div class="tabs">
@@ -97,16 +78,10 @@
 
 <div class="row menu-botton">
     <div class="col-lg-3 offset-lg-1 col-4" style="padding:0;">
-        <button style="color:white !important;" class="menu-options ark" data-url="{% url "show-category-menu" %}" data-target="main"                                                data-cat_id="e7797a43-31fc-df69-dcdf-eef7631964db"><i class="fas fa-wifi"></i><br />
-             {% padword_translate_obj 'e7797a43-31fc-df69-dcdf-eef7631964db'%}</button>
+        <button style="color:white !important;" class="menu-options ark" data-url="{% url "show-category-menu" %}" data-target="main"
+            data-cat_id="e7797a43-31fc-df69-dcdf-eef7631964db"><i class="fas fa-wifi"></i><br />
+            {% padword_translate_obj 'e7797a43-31fc-df69-dcdf-eef7631964db'%}</button>
     </div>
-    {% comment %}
-    <div class="col-lg-2 col-3" style="padding:0; border:1px solid red">
-        <button style="color:white !important;" class="menu-options ark" data-url="{% url "show-category-menu" %}" data-target="main" 
-             data-cat_id="d82752f5-b816-ca07-ceb6-c0dbbddc8f28"><i class="far fa-comment-dots"></i><br />
-             {% padword_translate_obj 'd82752f5-b816-ca07-ceb6-c0dbbddc8f28'%}</button>
-    </div>
-    {% endcomment %}
     <div class="col-lg-4 col-4" style="padding:0;">
         <button style="color:white !important;" class="menu-options ark" data-url="{% url "show-category-menu" %}" data-target="main"
              data-cat_id="1dbf29a7-cb6a-3724-2c6a-194cdb464aa6"><i class="far fa-star"></i> <br />
@@ -119,15 +94,15 @@
     </div>
 </div>
 
-
-        <script id="realtime-script">
-            $('#counter-item-{{item_refresh.pk}}').val('{{total_items}}');
-            $('#counter-item-mob-{{item_refresh.pk}}').val('{{total_items}}');
-            $('#span-total-price').html('{{total|floatformat:2}}');
-            $('#span-total-items').html('{{items|length}}');
-            if (parseInt($("#span-total-items").html()) > 0)
-                $("#count-badge").show();
-            else
-                $("#count-badge").hide();
-            $('#realtime-script').remove();
-        </script>
+<script id="realtime-script">
+    //$('#counter-item-{{item_refresh.pk}}').val('{{total_items}}');
+    //$('#counter-item-mob-{{item_refresh.pk}}').val('{{total_items}}');
+    //$('#span-total-price').html('{{total|floatformat:2}}');
+    //$('#span-total-items').html('{{items|length}}');
+    $('#span-total-items').html('{% get_total_items request.user.username category.project_uuid %}');
+    if (parseInt($("#span-total-items").html()) > 0)
+        $("#count-badge").show();
+    else
+        $("#count-badge").hide();
+    $('#realtime-script').remove();
+</script>

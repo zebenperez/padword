@@ -75,7 +75,12 @@
     <button type="button" class="btn btn-sm ark save" data-bs-dismiss="modal" data-url="{% url "items-by-category" obj.uuid %}" data-target="items-list-{{obj.pk}}" data-old_parent="{{obj.parent.pk}}" >{% trans "Save" %}</button>
     {% endif %}
     {%endcomment%}
-    <button type="button" class="btn btn-sm ark save" data-bs-dismiss="modal" data-url="{% url "items-by-category" obj.parent.uuid %}" data-target="items-list-{{obj.parent.pk}}" data-old_parent="{{obj.parent.pk}}" >{% trans "Save" %}</button>
+    {%if obj.parent%}
+        <button type="button" class="btn btn-sm ark save" data-bs-dismiss="modal" data-url="{% url "items-by-category" obj.parent.uuid %}"
+            data-target="items-list-{{obj.parent.pk}}" data-old_parent="{{obj.parent.pk}}" >{% trans "Save" %}</button>
+    {%else%}
+        <a class="btn btn-sm save" href="{% url "categories-by-project" obj.project_uuid %}">{% trans "Save" %}</a>
+    {%endif%}
     <button type="button" class="btn btn-sm ark cancel" data-bs-dismiss="modal" data-url="{% url "category-remove" obj.uuid %}" data-target="items-list-{{obj.parent.pk}}" data-confirm="{% trans "Are you sure to remove this element?" %}">{% trans "Remove" %}</button>
 </div>
 

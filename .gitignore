@@ -13,3 +13,6 @@ dbrouting.py
 media
 **.docker
 migrations.sh
+*.html.py
+*.txt.py
+*.sql

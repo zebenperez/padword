@@ -1,61 +1,64 @@
 {% load i18n static padword_tags bookings_tag common_tag %}
 
 <div class="row">
-{% for item in item_list %}
-    {% if item.is_active %}
-    <div class="col-lg-4 col-md-6 col-xs-12 mb-5 d-flex justify-content-center">
-        <div class="card w-100">
-            <div class="image" id="cover">
-                {%if item.images.count > 0%}
-                    {% include "bookings/show-item-gallery.html" %}
-                {% elif item.image %} 
-                    <img src="{{item.image.url}}" class="object-fit_cover" alt="{% padword_translate item.name %}" width="100%" style="height:300px"> 
-                {% endif %}
-            </div>
-            <div class="card-body">
-                <div class="row">
-                    <div class="col-9 text-left"> <h5 class="card-title text-dark"><strong>{% padword_translate item.name %}</strong></h5> </div>
-                    <div class="col-3"> <h5 class="card-title text-dark text-right"><strong>{{ item.price}} &euro;</strong> </h5></div>
-                    <div class="col-12 text-left"> <h5 class="card-title text-dark">
-                        <small>{% padword_translate item.description as desc %}{{desc|truncatechars_html:100}}</small></h5></div>
-                    <div class="div-ch-extras text-left">
-                    {% for extra in item.extra_list.all %}
-                        <input type="hidden" id="extra-{{extra.id}}" class="ark" data-url="{% url "select-item" %}" 
-                            data-target="div-items-shop-{{answer_name}}" data-fi="{{fi_id}}" data-question="{{q_id}}" data-field="{{f.id}}" 
-                            data-index="{{index}}" data-add="True" data-value="{{extra.id}}"/> 
+    {% for item in item_list %}
+        {% if item.is_active %}
+            <div class="col-lg-4 col-md-6 col-xs-12 mb-5 d-flex justify-content-center">
+                <div class="card w-100">
+                    <div class="image" id="cover">
+                        {%if item.images.count > 0%}
+                            {% include "bookings/show-item-gallery.html" %}
+                        {% elif item.image %} 
+                            <img src="{{item.image.url}}" class="object-fit_cover" alt="{% padword_translate item.name %}" width="100%"
+                                style="height:300px"> 
+                        {% endif %}
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-9 text-left"><h5 class="card-title text-dark"><strong>{%padword_translate item.name%}</strong></h5></div>
+                            <div class="col-3"> <h5 class="card-title text-dark text-right"><strong>{{ item.price}} &euro;</strong> </h5></div>
+                            <div class="col-12 text-left"> <h5 class="card-title text-dark">
+                                <small>{% padword_translate item.description as desc %}{{desc|truncatechars_html:100}}</small></h5></div>
+                            <div class="div-ch-extras text-left">
+                                {% for extra in item.extra_list.all %}
+                                    <input type="hidden" id="extra-{{extra.id}}" class="ark" data-url="{% url "select-item" %}" 
+                                        data-target="div-items-shop-{{answer_name}}" data-fi="{{fi_id}}" data-question="{{q_id}}" 
+                                        data-field="{{f.id}}" data-index="{{index}}" data-add="True" data-value="{{extra.id}}"/> 
  
-                        <input type="checkbox" id="ch-extra-{{item.id}}-{{extra.id}}" {%if extra.id|addstr:"|" in value %}checked{%endif%} disabled/> 
-                            {% padword_translate extra.name %} <br/>
-                    {% endfor %}
+                                    <input type="checkbox" id="ch-extra-{{item.id}}-{{extra.id}}" 
+                                        {%if extra.id|addstr:"|" in value %}checked{%endif%} disabled/> {% padword_translate extra.name %} <br/>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <div class="row">
+                            <div class="col-6">
+                                {#{% if item.uuid != value %}#}
+                                {% if item.uuid|addstr:"|" not in value %}
+                                    <a class="btn btn-unselect-pad w-100 select ark" data-url="{%url "select-item"%}" data-guest_id="{{guest.id}}" 
+                                        data-target="div-items-shop-{{answer_name}}" data-fi="{{fi_id}}" data-question="{{q_id}}" 
+                                        data-field="{{f.id}}" data-index="{{index}}" data-value="{{item.uuid}}" data-item="{{item.id}}"> 
+                                        {% trans "Select" %}</a>
+                                {% else %}
+                                    <a class="btn btn-select-pad w-100 ark" data-url="{% url "select-item" %}" 
+                                        data-target="div-items-shop-{{answer_name}}" data-fi="{{fi_id}}" data-question="{{q_id}}" 
+                                        data-field="{{f.id}}" data-index="{{index}}" data-value="" data-item="{{item.id}}" 
+                                        data-guest_id="{{guest.id}}"> {% trans "Unselect" %}</a>
+                                {% endif %}
+                            </div>
+                            <div class="col-6 text-right"> {% include "bookings/show-item-btn.html" %} </div>
+                        </div>
                     </div>
                 </div>
             </div>
-            <div class="card-footer">
-                <div class="row">
-                    <div class="col-6">
-                        {#{% if item.uuid != value %}#}
-                    {% if item.uuid|addstr:"|" not in value %}
-                        <a class="btn btn-unselect-pad w-100 select ark" data-url="{%url "select-item"%}" 
-                            data-target="div-items-shop-{{answer_name}}" data-fi="{{fi_id}}" data-question="{{q_id}}" data-field="{{f.id}}" 
-                            data-index="{{index}}" data-value="{{item.uuid}}" data-item="{{item.id}}"> {% trans "Select" %}</a>
-                    {% else %}
-                        <a class="btn btn-select-pad w-100 ark" data-url="{% url "select-item" %}" data-target="div-items-shop-{{answer_name}}" 
-                            data-fi="{{fi_id}}" data-question="{{q_id}}" data-field="{{f.id}}" data-index="{{index}}" data-value="" 
-                            data-item="{{item.id}}"> {% trans "Unselect" %}</a>
-                    {% endif %}
-                    </div>
-                    <div class="col-6 text-right"> {% include "bookings/show-item-btn.html" %} </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    {% endif %}
-{% endfor %}
+        {% endif %}
+    {% endfor %}
 </div>
 <br/>
 {% if selected_item and selected_item != None %}
     {%comment%}
-    <div id="item-selected"> <i class="far fa-check-circle"></i> {% trans "You are selected:" %} <span> 
+    <div id="item-selected"> <i class="far fa-check-circle"></i> {% trans "You have selected:" %} <span> 
         {% padword_translate selected_item.name %} - {{selected_item.price}} &euro; </span> </div>
     {%endcomment%}
     <script> 

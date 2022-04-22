@@ -7,10 +7,10 @@
 
 {% for b in form.get_public_blocks %}<div id="div-block">{%include "bookings/general/block_form.html"%}</div>{% endfor %}
 
-<div id="item-selected" style="display:none"> <i class="far fa-check-circle"></i> {% trans "You are selected:" %} <span> 
+<div id="item-selected" style="display:none"> <i class="far fa-check-circle"></i> {% trans "You have selected:" %} <span> 
     <span id="item-selected-text">{% padword_translate selected_item.name %} - {{selected_item.price}} &euro; </span> </span> </div>
 
-<div id="obligatory-warning" class="col-12 alert alert-danger" style="display:none">{%trans "Debe rellenar todos los campos obligatorios"%} (*)</div>
+<div id="obligatory-warning" class="col-12 alert alert-danger" style="display:none">{%trans "You must fill in all the required fields"%} (*)</div>
 <div class="col-12 end-page" id="end-page">
     <div class="row mt-4 mb-4 d-flex justify-content-center">
         <div class="col-5 actions text-center mb-3">

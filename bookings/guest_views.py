@@ -14,7 +14,7 @@ from web.models import Device, Project, ProjectUser
 from contents.models import Category, ShoppingCart, Item
 from guest.models import Guest
 
-from .common_lib import get_or_create_form_instance, get_max_index, get_or_create_answer_instance, user_in_group
+from .common_lib import get_or_create_form_instance, get_max_index, get_or_create_answer_instance, user_in_group, get_guest
 from .models import AnswerInstance, Field, Form, FormChannel, FormInstance, Question, Block, GuestUser, Status
 from django.conf import settings
 
@@ -45,48 +45,7 @@ def check_user(user, form_uuid="", project_uuid=""):
 
     return True
 
-#def guest_access(request, form_uuid):
-#    device_imei = request.GET["device_imei"] if "device_imei" in request.GET else ""
-#    room_number = request.GET["room_number"] if "room_number" in request.GET else ""
-#    guest_name = request.GET["guest_name"] if "guest_name" in request.GET else ""
-#    guest_surname = request.GET["guest_surname"] if "guest_surname" in request.GET else ""
-#
-#    if check_user(request.user, form_uuid=form_uuid):
-#        next_url = "booking-new"
-#    else:
-#        auth.logout(request)
-#        next_url="booking-new-device" if device_imei != "" and room_number != "" and guest_name != "" and guest_surname != "" else "guest-form-login"
-#
-#    context = {
-#        'form_uuid': form_uuid,
-#        'device_imei': device_imei,
-#        'room_number': room_number,
-#        'guest_name': guest_name,
-#        'guest_surname': guest_surname,
-#        'next_url': next_url
-#    }
-#    return render(request, 'bookings/guest/guest-welcome.html', context)
-#
-#def guest_access_bookings(request, project_uuid):
-#    if check_user(request.user, project_uuid=project_uuid):
-#        next_url = reverse("my-bookings")
-#    else:
-#        auth.logout(request)
-#        next_url = reverse("guest-form-login")
-#    context = {'project_uuid': project_uuid, 'next_url': next_url}
-#    return render(request, 'bookings/guest/guest-welcome.html', context)
-#
-#def guest_access_pwa(request, project_uuid):
-#    if check_user(request.user, project_uuid=project.uuid):
-#        next_url = reverse("pwa-index-cat")
-#    else:
-#        auth.logout(request)
-#        next_url = reverse("guest-form-login")
-#    context = {'project_uuid': project_uuid, 'next_url': next_url}
-#    return render(request, 'bookings/guest/guest-welcome.html', context)
-#
-#def guest_access_pwa(request, category_uuid, lang=None):
-def guest_access(request, category_uuid, lang=None):
+def guest_access(request, category_uuid):
     cat = get_or_none(Category, category_uuid, "uuid")
     context = {'project_uuid': cat.project.uuid, 'cat': cat}
     if check_user(request.user, project_uuid=cat.project.uuid):
@@ -97,14 +56,9 @@ def guest_access(request, category_uuid, lang=None):
         auth.logout(request)
         next_url = reverse("guest-form-login")
     context["next_url"] = next_url
-    if lang:
-        context["lang"] = lang
-    #context = {'cat': cat}
-    #return render(request, 'bookings/guest/guest-welcome-pwa.html', context)
     return render(request, 'bookings/guest/guest-welcome.html', context)
 
 
-#def guest_form_login(request, form_uuid=None):
 def guest_form_login(request):
     try:
         if "project_uuid" in request.GET:
@@ -153,75 +107,6 @@ def booking_new_guest(request):
         logger.error("[bookings-new_booking] {}".format(str(e)))
         return render(request, 'error_exception.html', {'exc':show_exc(e)})
 
-#def booking_new_device(request, form_uuid):
-#def booking_new_device(request):
-#    '''
-#        Guest access by device
-#    '''
-#    try:
-#        form_uuid = request.GET["form_uuid"] if "form_uuid" in request.GET else ""
-#        device_imei = request.GET["device_imei"] if "device_imei" in request.GET else ""
-#        room_number = request.GET["room_number"] if "room_number" in request.GET else ""
-#        guest_name = request.GET["guest_name"] if "guest_name" in request.GET else ""
-#        guest_surname = request.GET["guest_surname"] if "guest_surname" in request.GET else ""
-#
-#        if device_imei == "":
-#            return redirect(guest_form_login, form_uuid)
-#        device = get_or_none(Device, device_imei, "imei")
-#        if device == None:
-#            return redirect(guest_form_login, form_uuid)
-#        if device.room != room_number:
-#            return redirect(guest_form_login, form_uuid)
-#        guest = Guest.objects.filter(name=guest_name, surname=guest_surname, room=room_number).first()
-#        if guest == None:
-#            return redirect(guest_form_login, form_uuid)
-#        code = guest.get_code()
-#        if code == "":
-#            return render(request, 'error_exception.html', {'exc': _('Guest not found or not assigned to room number!')})
-#        form = get_or_none(Form, form_uuid, "uuid")
-#        if form == None:
-#            return render(request, 'error_exception.html', {'exc': _('Form not found!')})
-#        if form.project == None:
-#            return render(request, 'error_exception.html', {'exc': _('Project not found!')})
-#
-#        user, err = GuestUser.get_or_create_guest_user(guest.UUID, form.project.uuid, code)
-#        if err != "":
-#            return render(request, 'error_exception.html', {'exc': err})
-#        auth.login(request, user)
-#
-#        return redirect(booking_new, form_uuid)
-#    except Exception as e:
-#        print (show_exc(e))
-#        logger.error("[bookings-new_booking] {}".format(str(e)))
-#        return render(request, 'error_exception.html', {'exc':show_exc(e)})
-# 
-#@group_required("admins", "projects", "guests")
-#def booking_new(request, form_uuid):
-#    '''
-#        Guest access by form
-#    '''
-#    try:
-#        form = get_or_none(Form, form_uuid, "uuid")
-#        if form == None:
-#            return render(request, 'error_exception.html', {'exc': _('Form not found!')})
-#        if form.project == None:
-#            return render(request, 'error_exception.html', {'exc': _('Project not found!')})
-#
-#        gu = GuestUser.objects.filter(project_uuid=form.project.uuid, username=request.user.username).first()
-#        if gu == None or gu.guest == None:
-#            return render(request, 'error_exception.html', {'exc': 'User not found!'})
-#
-#        fi = get_or_create_form_instance(form, gu.guest.UUID)
-#        #write_log(request.user, fi, _("Booking created"))
-#        
-#        items = ShoppingCart.objects.filter(form_instance_id=fi.pk) if fi != None else []
-#        context = {'fi': fi, 'form': form, 'index': "0", "ro": False, 'items':items}
-#        return render(request, 'bookings/show-category.html', context)
-#    except Exception as e:
-#        print (show_exc(e))
-#        logger.error("[bookings-new_booking] {}".format(str(e)))
-#        return render(request, 'error_exception.html', {'exc':show_exc(e)})
-#
 @group_required("admins", "projects", "guests")
 #def booking_send(request, fi_id):
 def booking_send(request):
@@ -443,6 +328,7 @@ def select_item(request):
         fi = get_or_none(FormInstance, request.GET["fi"])
         q = get_or_none(Question, request.GET["question"])
         f = get_or_none(Field, request.GET["field"])
+        guest = get_or_none(Guest, get_param(request.GET, "guest_id"))
         index = request.GET["index"]
         value = request.GET["value"]
         add = request.GET["add"] if "add" in request.GET else ""
@@ -461,6 +347,7 @@ def select_item(request):
 
             answer_name = "question_%s_field_%s_%s" % (q.id, f.id, index)
             context = {
+                'guest': guest, 
                 'fi_id': fi.id, 
                 'q_id': q.id, 
                 'f': f,
@@ -492,12 +379,15 @@ def item_to_shopping_cart(request):
         obj.save()
 
         instance = FormInstance.objects.get(pk=form_id)
-        items = ShoppingCart.objects.filter(form_instance_id=int(form_id), item=item)
+        items = instance.items_in_bookings(item).count()
+        return render(request, "bookings/ecom/show-instance-result.html", {'fi':instance,'item':item,'items':items})
+        #total_items = FormInstance.get_all_items(guest)
+        #items = ShoppingCart.objects.filter(form_instance_id=int(form_id), item=item)
 
-        total_price = "{:.2f}".format(instance.get_total)
-        total_items = ShoppingCart.objects.filter(form_instance_id=int(form_id)).count()
+        #total_price = "{:.2f}".format(instance.get_total)
+        #total_items = ShoppingCart.objects.filter(form_instance_id=int(form_id)).count()
 
-        return render(request, "bookings/ecom/show-instance-result.html", {'items':items,'item':item,'total_price':total_price,'total_items':total_items})
+        #return render(request, "bookings/ecom/show-instance-result.html", {'items':items,'item':item,'total_price':total_price,'total_items':total_items})
         #return HttpResponse('{} art.&nbsp;&nbsp;&nbsp;{:.2f} &euro;'.format(items.count(), instance.get_total))
         #return render(request, "bookings/shopping-form.html", {'obj':obj})
     except Exception as e:
@@ -557,26 +447,38 @@ def item_shopping_cart_comment(request):
 @group_required("admins", "projects", "guests")
 def view_shopping_cart(request, par=None):
     try:
-        instance_id = get_param(request.GET, "form_id")
-        if instance_id != "":
-            instance = FormInstance.objects.get(pk=instance_id)
-            items = ShoppingCart.objects.filter(form_instance_id=instance.pk)
-            total_price = instance.get_total
-            return render(request, "bookings/ecom/view-shopping-cart.html", {'fi':instance, 'items':items, 'total':total_price})
-        else:
-            gu = GuestUser.objects.filter(username=request.user.username).first()
-            fi_list = FormInstance.objects.filter(guest_uuid = gu.guest.UUID, status_list__isnull=True)
-            items = ShoppingCart.objects.none()
-            total_price = 0
-            for instance in fi_list:
-                items = ShoppingCart.objects.filter(form_instance_id=instance.pk) or items
-                total_price += instance.get_total
-            return render(request, "bookings/ecom/view-shopping-cart.html", {'fi':instance, 'items':items, 'total':total_price})
-        return render(request, "bookings/ecom/view-shopping-cart.html", {'fi':None, 'items':[], 'total':0})
+        project_uuid = get_param(request.GET, "project_uuid")
+        guest = get_guest(request.user.username, project_uuid)
+        #fi_list = FormInstance.objects.filter(guest_uuid = guest.UUID, status_list__isnull = True).values_list('pk', flat=True)
+        fi_list = FormInstance.objects.filter(guest_uuid = guest.UUID, status_list__isnull = True) if guest != None else []
+        return render(request, "bookings/ecom/view-shopping-cart.html", {'fi_list': fi_list})
     except Exception as e:
-        #return HttpResponse(show_exc(e))
         print (show_exc(e))
         return render(request, "error_exception.html", {'exc':show_exc(e)})
+
+#@group_required("admins", "projects", "guests")
+#def view_shopping_cart(request, par=None):
+#    try:
+#        instance_id = get_param(request.GET, "form_id")
+#        if instance_id != "":
+#            instance = FormInstance.objects.get(pk=instance_id)
+#            items = ShoppingCart.objects.filter(form_instance_id=instance.pk)
+#            total_price = instance.get_total
+#            return render(request, "bookings/ecom/view-shopping-cart.html", {'fi':instance, 'items':items, 'total':total_price})
+#        else:
+#            gu = GuestUser.objects.filter(username=request.user.username).first()
+#            fi_list = FormInstance.objects.filter(guest_uuid = gu.guest.UUID, status_list__isnull=True)
+#            items = ShoppingCart.objects.none()
+#            total_price = 0
+#            for instance in fi_list:
+#                items = ShoppingCart.objects.filter(form_instance_id=instance.pk) or items
+#                total_price += instance.get_total
+#            return render(request, "bookings/ecom/view-shopping-cart.html", {'fi':instance, 'items':items, 'total':total_price})
+#        return render(request, "bookings/ecom/view-shopping-cart.html", {'fi':None, 'items':[], 'total':0})
+#    except Exception as e:
+#        #return HttpResponse(show_exc(e))
+#        print (show_exc(e))
+#        return render(request, "error_exception.html", {'exc':show_exc(e)})
 
 @group_required("admins", "projects", "guests")
 def get_price_shopping_cart(request):
@@ -594,14 +496,19 @@ def remove_item_from_shopping_cart(request):
     try:
         item_id = request.GET["item_id"]
         obj = ShoppingCart.objects.get(pk=item_id)
-        instance_id = obj.form_instance_id
+        #instance_id = obj.form_instance_id
         item = obj.item
         obj.delete()
-        instance = FormInstance.objects.get(pk=instance_id)
-        items = ShoppingCart.objects.filter(form_instance_id=instance.pk)
-        total_price = instance.get_total
-        total_items = instance.items_in_bookings(item).count()
-        return render(request, "bookings/ecom/view-shopping-cart.html", {'fi':instance, 'items':items, 'total':total_price, 'item_refresh':item, 'total_items':total_items})
+        #instance = FormInstance.objects.get(pk=instance_id)
+
+        guest = get_guest(request.user.username, item.project.uuid)
+        fi_list = FormInstance.objects.filter(guest_uuid = guest.UUID, status_list__isnull = True) if guest != None else []
+        total_items = FormInstance.get_all_items(guest)
+        return render(request, "bookings/ecom/view-shopping-cart.html", {'fi_list':fi_list, 'item_refresh':item, 'total_items':total_items})
+        #items = ShoppingCart.objects.filter(form_instance_id=instance.pk)
+        #total_price = instance.get_total
+        #total_items = instance.items_in_bookings(item).count()
+        #return render(request, "bookings/ecom/view-shopping-cart.html", {'fi':instance, 'items':items, 'total':total_price, 'item_refresh':item, 'total_items':total_items})
     except Exception as e:
         return render(request, "error_exception.html", {'exc':show_exc(e)})
 
@@ -611,17 +518,20 @@ def remove_generic_item_from_shopping_cart(request):
         form_id = request.GET["form_id"]
         item_id = request.GET["item_id"]
         item = get_or_none(Item, int(item_id))
-
-        items = ShoppingCart.objects.filter(form_instance_id=int(form_id), item=item)
-        counter = items.count() - 1
+        #items = ShoppingCart.objects.filter(form_instance_id=int(form_id), item=item)
+        #counter = items.count() - 1
+        instance = FormInstance.objects.get(pk=form_id)
+        items = instance.items_in_bookings(item)
         obj = items.last()
         obj.delete()
 
-        instance = FormInstance.objects.get(pk=form_id)
-        total_price = "{:.2f}".format(instance.get_total)
-        total_items = ShoppingCart.objects.filter(form_instance_id=int(form_id)).count()
+        return render(request, "bookings/ecom/show-instance-result.html", {'fi':instance,'item':item,'items':items.count()})
+        #items = instance.items_in_bookings(item).count()
+        #total_items = FormInstance.get_all_items(guest)
+        #total_price = "{:.2f}".format(instance.get_total)
+        #total_items = ShoppingCart.objects.filter(form_instance_id=int(form_id)).count()
 
-        return render(request, "bookings/ecom/show-instance-result.html", {'items':items,'item':item,'total_price':total_price,'total_items':total_items})
+        #return render(request, "bookings/ecom/show-instance-result.html", {'items':items,'item':item,'total_price':total_price,'total_items':total_items})
         #return render(request, "bookings/show-instance-result.html", {'items':items, 'item':item})
         #return render(request, "bookings/view-shopping-cart.html", {'fi':instance, 'items':items, 'total':total_price})
     except Exception as e:
@@ -631,33 +541,64 @@ def remove_generic_item_from_shopping_cart(request):
     Bookings menu
 '''
 @group_required("admins", "projects", "guests")
-#def show_category_menu(request, form_id=None, cat_id = None):
-def show_category_menu(request, cat_id=None, lang=None, back="True"):
+def show_category_menu(request, cat_id=None, back="True"):
+    from django.utils import translation
     try:
         if not cat_id:
             cat_id = request.GET["cat_id"] if "cat_id" in request.GET else 0
         category = get_or_none(Category, cat_id, "uuid")
 
+        fi = None
         form = Form.objects.filter(category=category.uuid).first()
-        gu = GuestUser.objects.filter(project_uuid=form.project.uuid, username=request.user.username).first()
-        fi = get_or_create_form_instance(form, gu.guest.UUID) if gu != None and gu.guest != None else None
-        items = ShoppingCart.objects.filter(form_instance_id=fi.pk) if fi != None else []
-        if len(items) == 0:
-            ## FIXME! We have to filter by status
-            fi_list = FormInstance.objects.filter(guest_uuid = gu.guest.UUID, status_list__isnull = True).values_list('pk', flat=True)
-            items = ShoppingCart.objects.filter(form_instance_id__in = list(fi_list))
+        guest = get_guest(request.user.username, form.project.uuid)
+        fi = get_or_create_form_instance(form, guest.UUID) if guest != None else None
+        items = FormInstance.get_all_items(guest)
 
-        response = render(request, form.form_type.template, {'category':category, 'form': form, 'fi':fi, 'index':0, 'items': items, 'guest':gu.guest, 'lang':lang, 'back': back})
-        if lang and check_for_language(lang):
-            if hasattr(request, 'session'):
-                request.session['django_language'] = lang
-            response.set_cookie(settings.LANGUAGE_COOKIE_NAME, lang)
- 
-        return  response
+        return render(request, form.form_type.template, {'category':category,'form':form,'fi':fi,'index':0,'items':items,'guest':guest,'back': back})
     except Exception as e:
         print(show_exc(e))
         return render(request, "error_exception.html", {'exc':show_exc(e)})
 
+#@group_required("admins", "projects", "guests")
+##def show_category_menu(request, form_id=None, cat_id = None):
+##def show_category_menu(request, cat_id=None, lang=None, back="True"):
+#def show_category_menu(request, cat_id=None, back="True"):
+#    from django.utils import translation
+#    try:
+#        if not cat_id:
+#            cat_id = request.GET["cat_id"] if "cat_id" in request.GET else 0
+#        category = get_or_none(Category, cat_id, "uuid")
+#
+#        fi = None
+#        form = Form.objects.filter(category=category.uuid).first()
+#        #gu = GuestUser.objects.filter(project_uuid=form.project.uuid, username=request.user.username).first()
+#        #fi = get_or_create_form_instance(form, gu.guest.UUID) if gu != None and gu.guest != None else None
+#        guest = get_guest(request.user.username, form.project.uuid)
+#        fi = get_or_create_form_instance(form, guest.UUID) if guest != None else None
+#        items = FormInstance.get_all_items(guest)
+#        #if form != None and guest != None:
+#            #fi = get_or_create_form_instance(form, guest.UUID)
+#            #fi_list = FormInstance.objects.filter(guest_uuid = guest.UUID, status_list__isnull = True).values_list('pk', flat=True)
+#            #items = ShoppingCart.objects.filter(form_instance_id__in = list(fi_list))
+#
+#        #items = ShoppingCart.objects.filter(form_instance_id=fi.pk) if fi != None else []
+#        #if len(items) == 0:
+#            ## FIXME! We have to filter by status
+#        #    fi_list = FormInstance.objects.filter(guest_uuid = gu.guest.UUID, status_list__isnull = True).values_list('pk', flat=True)
+#        #    items = ShoppingCart.objects.filter(form_instance_id__in = list(fi_list))
+#
+#        return render(request, form.form_type.template, {'category':category,'form':form,'fi':fi,'index':0,'items':items,'guest':guest,'back': back})
+##        response = render(request, form.form_type.template, {'category':category, 'form': form, 'fi':fi, 'index':0, 'items': items, 'guest':gu.guest, 'lang':lang, 'back': back})
+##        if lang and check_for_language(lang):
+##            if hasattr(request, 'session'):
+##                request.session['django_language'] = lang
+##            response.set_cookie(settings.LANGUAGE_COOKIE_NAME, lang)
+## 
+##        return  response
+#    except Exception as e:
+#        print(show_exc(e))
+#        return render(request, "error_exception.html", {'exc':show_exc(e)})
+#
 '''
     Bookings items
 '''
@@ -713,29 +654,31 @@ def guest_notifications(request, form_id):
         return HttpResponse("")
 
 @group_required("admins", "projects", "guests")
-def set_guest_language(request, category_uuid, lang):
+#def set_guest_language(request, category_uuid, lang):
+def set_guest_language(request):
     try:
-        #print(category_uuid)
+        category_uuid = get_param(request.GET, "cat_id")
+        lang = get_param(request.GET, "lang")
         category = get_or_none(Category, category_uuid, "uuid")
-        gu = GuestUser.objects.filter(project_uuid=category.project_uuid, username=request.user.username).first()
-        guest = Guest.objects.get(pk=gu.guest.pk)
+        #gu = GuestUser.objects.filter(project_uuid=category.project_uuid, username=request.user.username).first()
+        #guest = Guest.objects.get(pk=gu.guest.pk)
+        guest = get_guest(request.user.username, category.project_uuid)
         guest.language = lang
         guest.save()
         if lang and check_for_language(lang):
             if hasattr(request, 'session'):
                 request.session['django_language'] = lang
-#             else:
-#                 response.set_cookie(settings.LANGUAGE_COOKIE_NAME, lang)
-        return redirect(reverse('show-category-menu', kwargs={'cat_id':category.uuid, 'lang':lang}))
+        #return redirect(reverse('show-category-menu-lang', kwargs={'cat_id':category.uuid, 'lang':lang}))
+        return redirect(reverse("pwa-index-cat", kwargs = {'category_uuid':category_uuid}))
     except Exception as e:
-        print (show_exc(e))
+        #print (show_exc(e))
         return render(request, 'error_exception.html', {'exc': show_exc(e), 'error-msg': show_exc(e)})
 
-@group_required("admins", "projects", "guests")
-def reload_top_menu(request, category_uuid):
-    try:
-        category = get_or_none(Category, category_uuid, "uuid")
-        return render(request, "bookings/top-menu.html", {'category':category})
-    except Exception as e:
-        print (show_exc(e))
-        return render(request, 'error_exception.html', {'exc': show_exc(e), 'error-msg': show_exc(e)})
+#@group_required("admins", "projects", "guests")
+#def reload_top_menu(request, category_uuid):
+#    try:
+#        category = get_or_none(Category, category_uuid, "uuid")
+#        return render(request, "bookings/top-menu.html", {'category':category})
+#    except Exception as e:
+#        print (show_exc(e))
+#        return render(request, 'error_exception.html', {'exc': show_exc(e), 'error-msg': show_exc(e)})

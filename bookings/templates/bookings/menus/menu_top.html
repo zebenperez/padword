@@ -1,0 +1,47 @@
+{% load i18n %}
+
+<div class="row div-top w-100 p-0 m-0">
+    <div class="col-lg-1 col-1 text-center p-0 pt-2">
+        <button id="back-btn" class="btn btn-header-pwa text-center ark pl-2 pr-2" data-url="{% url "show-category-menu" %}" data-target="main" 
+            data-cat_id="" data-cat_home="{{form.category}}" style="display:none"><i class="fas fa-chevron-left"></i> </button>
+        <button id="back-btn-bookings" class="btn btn-header-pwa text-center ark" data-url="{% url "my-bookings" %}" data-target="main" 
+            data-project_uuid="{{project_uuid}}" data-cat_id="{{form.category}}" style="display:none"> <i class="fas fa-chevron-left"></i> </button>
+    </div>
+            
+    <div class="col-lg-7 col-3" style="padding-left:0px !important;">{%if form.logo%}<img src="{{form.logo.url}}">{%endif%}</div>
+            
+    <div class="col-lg-4 col-8">
+        <div class="row" id="div-top-lang-menu">
+            <div class="col-3 text-center p-0">
+                <button class="btn btn-header-pwa text-center ark" id="btn-home" data-url="{% url 'show-category-menu' %}" data-target="main" 
+                    data-cat_id="{{form.category}}"> <i class="fas fa-home"></i> <br /> <span>{% trans 'AppHome' %}</span></button>
+            </div>
+                
+            <div class="col-3 text-center p-0">
+                <button class="btn btn-header-pwa text-center ark" id="btn-bookings" data-url="{% url "my-bookings" %}" data-target="main" 
+                    data-project_uuid="{{project_uuid}}" data-cat_id="{{form.category}}"> <i class="far fa-calendar"></i> <br />
+                    <span>{% trans 'Bookings' %}</span></button>
+            </div>
+               
+            <div class="col-3 text-center p-0">
+                <button id="shopping-cart-btn" class="btn btn-header-pwa ark" data-url="{% url 'view-shopping-cart' %}" 
+                    data-target-modal="common-modal" data-project_uuid="{{project_uuid}}" data-form_id=""> <i class="fas fa-shopping-cart"></i><br/>
+                    <span class="subtext">{% trans 'Shopping' %}</span>
+                    <span class="count badge" id="count-badge" style="display:none"><span id="span-total-items"></span></span>
+                </button>
+            </div>
+
+            <div class="col-3 text-center p-0">
+                <button class="btn btn-header-pwa ark" data-url="{% url "close-spa" %}" data-target="div-main" 
+                    data-category_uuid="{{form.category}}"> <i class="fas fa-sign-in-alt"></i> <br/> <span>{% trans 'Close' %}</span></button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $("#btn-home").click(function(){ $("#back-btn").hide(); $("#back-btn-bookings").hide();});
+    $("#btn-bookings").click(function(){ $("#back-btn").hide(); $("#back-btn-bookings").hide();});
+    $("#back-btn").click(function(){ if ($(this).data("cat_id") == $(this).data("cat_home")) $(this).hide(); else $(this).show(); });
+    $("#back-btn-bookings").click(function(){ $(this).hide(); $("#back-btn").show(); });
+</script>

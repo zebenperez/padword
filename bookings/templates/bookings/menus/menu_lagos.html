@@ -1,0 +1,68 @@
+{% load i18n bookings_tag common_tag padword_tags static %}
+
+{% comment %}
+<div class="row languages">
+    <div class="col-lg-1 offset-lg-4 col-2 offset-2">
+        <a href="#" class="text-center ark" data-url="{% url "guest-access" "d4aa331f-5026-c4d5-c86c-4e1c71dd252e" "de" %}" data-target="main"
+            data-cat_id="{{form.category}}"> <img class="btn btn-secondary p-2" src="/static/img/de.png"></a></div>
+    <div class="col-lg-1 col-2">
+        <a href="#" class="text-center ark" data-url="{% url "guest-access" "d4aa331f-5026-c4d5-c86c-4e1c71dd252e" "es" %}" data-target="main">
+            <img class="btn btn-secondary p-2" src="/static/img/es.png"></a></div>
+    <div class="col-lg-1 col-2">
+        <a href="#" class="text-center ark" data-url="{% url "guest-access" "d4aa331f-5026-c4d5-c86c-4e1c71dd252e" "fr" %}" data-target="main">
+            <img class="btn btn-secondary p-2" src="/static/img/ru.png"></a></div>
+    <div class="col-lg-1 col-2">
+        <a href="#" class="text-center ark" data-url="{% url "guest-access" "d4aa331f-5026-c4d5-c86c-4e1c71dd252e" "en" %}" data-target="main">
+            <img class="btn btn-secondary p-2" src="/static/img/en.png">
+        </a>
+    </div>
+</div>
+{% endcomment %}
+
+<div class="row div-slogan"><div class="col-12 text-center main-slide"><img class="" src="/static/img/bg-lagos.jpg"></div></div>
+ 
+<div class="row div-key"><div class="col-12 text-center pt-2"><img class="" src="/static/img/key.png"><br />Tu llave</div></div>
+
+<div class="row menu-tabs pt-3">
+    <div class="tabs col-4 offset-1 mb-1 align-middle justify-content-center p2">
+        <button class="menu-options ark" data-url="{% url "show-category-menu" %}" data-target="main" data-cat_id="0be06224-1309-ec81-0722-9b133feb601f">
+            <img class="ico-image" src="/static/img/ico-hotel.png"><br />{% padword_translate_obj '0be06224-1309-ec81-0722-9b133feb601f'%}</button>
+    </div> 
+    <div class="tabs col-4 offset-2 mb-1 align-middle justify-content-center p2">
+        <button class="menu-options ark" data-url="{% url "show-category-menu" %}" data-target="main" data-cat_id="fee1e53f-4fc8-7cda-9640-0141c1c8f582">
+            <img class="ico-image" src="/static/img/ico-room-service.png"><br />{% padword_translate_obj 'fee1e53f-4fc8-7cda-9640-0141c1c8f582'%}</button>
+    </div>
+    <div class="tabs col-4 offset-1 mb-1 align-middle justify-content-center p2">
+        <button class="menu-options ark" data-url="{% url "show-category-menu" %}" data-target="main" data-cat_id="3972d730-7f2e-76d1-242c-5d7789fe2a02">
+            <img class="ico-image" src="/static/img/ico-upgrade.png"><br />{% padword_translate_obj '3972d730-7f2e-76d1-242c-5d7789fe2a02'%}</button>
+    </div>
+    <div class="tabs col-4 offset-2 mb-1 align-middle justify-content-center p2">
+        <button class="menu-options ark" data-url="{% url "show-category-menu" %}" data-target="main" data-cat_id="8c9ae45e-2317-0f57-7d30-a3b68e714b26">
+            <img class="ico-image" src="/static/img/ico-tours.png"><br />{% padword_translate_obj '8c9ae45e-2317-0f57-7d30-a3b68e714b26'%}</button>
+    </div>
+    <div class="tabs col-4 offset-1 mb-1 align-middle justify-content-center p2">
+        <button class="menu-options ark" data-url="{% url "show-category-menu" %}" data-target="main" data-cat_id="58014269-4eb7-eb75-afdc-b15070d25f36"> 
+            <img class="ico-image" src="/static/img/ico-restaurants.png"><br />{% padword_translate_obj '58014269-4eb7-eb75-afdc-b15070d25f36'%}</button>
+    </div> 
+    <div class="tabs col-4 offset-2 mb-1 align-middle justify-content-center p2">
+        <button class="menu-options ark" data-url="{% url "show-category-menu" %}" data-target="main" data-cat_id="0acac6b9-5739-c42c-3f08-931e3928a0b1">
+            <img class="ico-image" src="/static/img/ico-chillout.png"><br />{% padword_translate_obj '0acac6b9-5739-c42c-3f08-931e3928a0b1'%}</button>
+    </div>
+    <div class="tabs col-4 offset-1 mb-1 align-middle justify-content-center p2">
+        <button class="menu-options ark" data-url="{% url "show-category-menu" %}" data-target="main" data-cat_id="8b40683d-0f21-a640-23ce-03f98c6046d1">
+            <img class="ico-image" src="/static/img/ico-evaluate.png"><br />{% padword_translate_obj '8b40683d-0f21-a640-23ce-03f98c6046d1'%}</button>
+    </div>
+
+</div>
+
+        <script id="realtime-script">
+            $('#counter-item-{{item_refresh.pk}}').val('{{total_items}}');
+            $('#counter-item-mob-{{item_refresh.pk}}').val('{{total_items}}');
+            $('#span-total-price').html('{{total|floatformat:2}}');
+            $('#span-total-items').html('{{items|length}}');
+            if (parseInt($("#span-total-items").html()) > 0)
+                $("#count-badge").show();
+            else
+                $("#count-badge").hide();
+            $('#realtime-script').remove();
+        </script>

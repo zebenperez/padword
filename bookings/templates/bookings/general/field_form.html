@@ -50,7 +50,7 @@
 				<input type="radio" class="autosave_form_field {%if f.obligatory%}obligatory{%endif%}" id="{{answer_name}}" name="{{answer_name}}" 
                     value="{{a.text}}" title="{{a.text}}" {%if reandonly%}readonly{%endif%} {%if a.text == value%}checked{%endif%} 
                     data-url="{% url "autosave-form-field" %}" data-fi="{{fi_id}}" data-question="{{q_id}}" data-field="{{f.id}}" 
-                    data-index="{{index}}" /> <span id="{{answer_name}}__msg"></span> {{a.text}}
+                    data-index="{{index}}" /> <span id="{{answer_name}}__msg"></span> {% padword_translate a.text %}
 			</label>
 		{% endfor %}
 	</div>
@@ -62,7 +62,7 @@
 		<option value=""> {% trans "Select an option" %}</option>
 		{% for a in f.answer_type.answer_set.all %}
 			{% if not a.hide or readonly%}
-				<option value="{{a.text}}" {% if a.text == value %} selected="selected" {% endif %}>{{a}}</option>
+                <option value="{{a.text}}" {% if a.text == value %} selected="selected" {% endif %}>{% padword_translate a.text %}</option>
 			{% endif %}
 		{% endfor %}
 	</select>

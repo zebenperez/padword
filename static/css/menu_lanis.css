@@ -1,4 +1,4 @@
-#main-pwa {
+.main-pwa {
     padding-top: 120px !important;
 }
 
@@ -194,6 +194,7 @@ button.menu-options {
 
 .menu-botton a {
 	color: white;
+    text-decoration: none;
 }
 .menu-botton a:hover {
 	text-decoration: none;

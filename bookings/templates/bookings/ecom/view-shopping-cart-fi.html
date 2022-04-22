@@ -1,0 +1,66 @@
+{% load i18n bookings_tag common_tag padword_tags static %}
+
+<div class="row">
+    <div class="col-lg-8 col-8 btn-dark pt-2" style="border:1px solid green">
+        <h5 class="card-title text-left">
+            {% padword_translate fi.form.get_category.parent.name %} <i class="fas fa-angle-double-right"></i>
+            {% padword_translate fi.form.get_category.name %}&nbsp;({{items|length}} {% trans 'art.' %})
+        </h5>
+    </div>
+    <div class="col-lg-4 col-4 btn-dark price pt-1" id="div-total-shopping-cart"> {% trans 'Total price' %}: {{total|floatformat:2}} &euro;</div>
+</div>
+
+<div class="row justify-content-center" tyle="border:1px solid blue">
+    {% for item in items %}
+        <div class="col-6 col-lg-4 justify-content-center mt-1" tyle="border:1px solid black">
+            <div class="col-xs-12 card ">
+                <div class="image mobile" id="cover">
+                    <img src="{% if item.item.image %}{{item.item.image.url}} {%else%} {% static 'img/none.png' %}{%endif%}" class="card-img-top" 
+                        alt="{% padword_translate item.item.name %}">
+                </div>
+                <div class="card-body">
+                    <h5 class="big card-title text-dark text-center">{% padword_translate item.item.name %}</h5>
+                    <div class="small card-title text-center"><small>{{ item.comments }}&nbsp;</small></div>
+                    <div class="d-flex justify-content-between">
+                        <a class="btn btn-danger ark" title="{%trans 'Remove article from shopping-cart' %}" 
+                            data-url="{% url "remove-item-shopping-cart" %}" data-item_id="{{item.pk}}" data-target-modal="common-modal">
+                            <i class="fas fa-trash"></i></a>
+                        <a class="btn btn-primary ark" title="{% trans 'Add comment at this article' %}" 
+                            data-url="{% url "item-shopping-cart-comment" %}" data-item_id="{{item.pk}}" data-form_id="{{fi.pk}}" 
+                            data-target-modal="common-modal"><i class="fas fa-comments"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+</div>
+
+<div class="row mt-3 justify-content-center" tyle="border:1px solid red">
+    <div class="col-lg-5 offset-lg-1 col-md-6 col-xs-5 text-center mb-3">
+        <button id="btn-send-order-{{fi.id}}" class="btn btn-marine w-100 ark" data-bs-dismiss="modal" data-url="{% url "booking-send" %}" 
+            data-target="main" data-obj_id="{{fi.id}}"> {% trans "Send Order" %}</button>
+    </div>
+</div>
+
+{%comment%}
+<script>
+    //$('#info-shopping').html($('#div-total-shopping-cart').html());
+    //$("#btn-send-order-{{fi.id}}").click(function(){$("#shopping-cart-btn").data("form_id", "");});
+</script>
+{%endcomment%}
+
+{% if item_refresh %}
+    <script id="realtime-script">
+        //$('#counter-item-{{item_refresh.pk}}').val('{{total_items}}');
+        //$('#counter-item-mob-{{item_refresh.pk}}').val('{{total_items}}');
+        //$('#span-total-items').html('{{total_items}}');
+        $('#span-total-price').html('{{fi.get_total|floatformat:2}}');
+        $('#span-total-items').html('{% get_total_items request.user.username fi.form.project.uuid %}'); // Badget de la cabecera
+        $('#realtime-script').remove();
+        if (parseInt($("#span-total-items").html()) > 0)
+            $("#count-badge").show();
+        else
+            $("#count-badge").hide();
+    </script>
+{%endif%}
+

@@ -1,6 +1,8 @@
 from django.utils.safestring import mark_safe
 from django import template
 from django.urls import reverse
+from django.utils import translation 
+
 import json
 from padword.commons import show_exc
 from web.models import Project, ProjectUser
@@ -15,7 +17,6 @@ register = template.Library()
 '''
 @register.inclusion_tag('link-css.html')
 def get_css_project(pk_proj):
-    print ("DANI")
     try:
         from padword.settings import STATIC_URL, STATIC_ROOT
         path = f'{STATIC_ROOT}/css/menu_prj_{pk_proj}.css'
@@ -134,11 +135,12 @@ def idx_page (idx, page, items_per_page):
 @register.simple_tag(takes_context=True)
 def padword_translate(context, json_str):
     try:
-        request = context['request']
-        try:
-            lang = request.GET['lang'] if 'lang' in request.GET else context['guest'].language
-        except:
-            lang = request.GET['lang'] if 'lang' in request.GET else request.LANGUAGE_CODE
+        #request = context['request']
+        #try:
+        #    lang = request.GET['lang'] if 'lang' in request.GET else context['guest'].language
+        #except:
+        #    lang = request.GET['lang'] if 'lang' in request.GET else request.LANGUAGE_CODE
+        lang = context["guest"].language if "guest" in context else translation.get_language()
         lang = lang.split('-')[0]
         json_dict = json.loads(json_str)
         return mark_safe(json_dict[lang.upper()])
@@ -182,12 +184,13 @@ def padword_translate(context, json_str):
 @register.simple_tag(takes_context=True)
 def padword_translate_obj(context, obj_id):
     try:
+        #request = context['request']
+        #try:
+        #    lang = request.GET['lang'] if 'lang' in request.GET else context['guest'].language
+        #except:
+        #    lang = request.GET['lang'] if 'lang' in request.GET else request.LANGUAGE_CODE
         obj = get_obj(obj_id, 'Category')
-        request = context['request']
-        try:
-            lang = request.GET['lang'] if 'lang' in request.GET else context['guest'].language
-        except:
-            lang = request.GET['lang'] if 'lang' in request.GET else request.LANGUAGE_CODE
+        lang = context["guest"].language if "guest" in context else translation.get_language()
         lang = lang.split('-')[0]
         json_str = obj.name
         json_dict = json.loads(json_str)

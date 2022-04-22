@@ -1,0 +1,236 @@
+#main {
+    height: 100%;
+    border:none !important;
+}
+
+#main-content-guest {
+    padding-bottom: 50vh !important;
+}
+.main-pwa {
+    min-height: 110% !important;
+}
+
+.container {
+	background-position: center; 
+	background-repeat: no-repeat;
+	background-size: cover; 
+	height: 500px;
+	width: 100%;
+}
+
+#div-notification,
+.fixed-head {
+	display:none;
+}
+
+img {
+    background-color: transparent;
+}
+
+a.btn.btn-primary,
+button.btn.btn-primary { 
+	border-radius: 15px;
+	border:none;
+    line-height: 2;
+}
+
+.btn.btn-secondary, 
+a.btn.btn-secondary, 
+button.btn.btn-secondary { 
+	background:#fff !important;
+	color:#777;
+	border-radius: 15px;
+	border:none;
+    line-height: 2;
+}
+a.btn.btn-secondary:hover,
+button.btn.btn-secondary:hover { 
+	background:#a8abad;
+    color: #333;
+}
+
+a.btn-outline-danger,
+button.btn-outline-danger { 
+	border-radius: 15px;
+    color: #dc3545;
+    background-color: white;
+    line-height: 2;
+    border: none;
+}
+
+a.btn-outline-danger:hover,
+button.btn-outline-danger:hover { 
+	background:#dc3545;
+    color: white;
+}
+
+button.btn.btn-header-pwa.ark { 
+    margin-top: 10px;
+    padding-left: 0px;
+    padding-right: 0px;
+}
+
+a.btn.btn-header-pwa.ark { 
+    margin-top: 13px;
+    color: #3a4355 !important; 
+}
+
+#menu {
+	display:inline-block;
+	text-align:center !important;
+}
+
+.align-items-end {
+	width: 110%;
+    position: fixed;
+    bottom: 60px;
+    left: 0;
+    height: 60px;
+    background: rgb(255,255,255);
+    background: linear-gradient(0deg, rgba(255,255,255,1) 71%, rgba(255,255,255,0) 100%);
+}
+
+/*****************************/
+/* Error page style*/
+/*****************************/
+
+.error-page {
+	background-image: url(/static/img/bg-lanis.png) !important;
+}
+.error-content {
+    background-color: white;
+    height: 400px !important;
+    border-radius: 0.25rem;
+	box-shadow: rgba(50, 50, 105, 0.15) 0px 2px 5px 0px, rgba(0, 0, 0, 0.05) 0px 1px 1px 0px;
+}
+
+.p2 {
+    padding:2px !important;
+}
+
+.img-carousel {
+    background-color: #fff;
+    border-radius: 0.25rem 0.25rem 0 0;
+}
+
+.img-carousel img.object-fit_cover-gallery {
+    width: 1024px !important;
+    object-fit: cover !important;
+    height: 350px !important;
+}
+
+
+/*****************************************
+ LAGOS DESIGN
+*****************************************/
+
+.topbar {
+    background: #fff;
+	position:fixed;
+    top:0;
+    width: 100%;
+    height: 60px;
+}
+.topbar img {
+    height: 50px;
+}
+
+.div-slogan {
+    max-height: 380px;
+    margin-top: 60px;
+}
+
+.div-slogan .main-slide {
+    padding:0px !important;
+    border-bottom: 2px solid #f3e3ea;
+}
+.div-key {
+	color:#868789;
+    max-height: 100px;
+    font-size: 1.3rem;
+    border-bottom: 2px solid #f3e3ea;
+}
+
+.div-key img {
+    max-height: 40px;
+}
+
+.menu-tabs {
+	width: 100%;
+	margin-left: 0.1%;
+}
+
+.tabs {
+    background: white;
+    padding-bottom: 50px !important;
+}
+
+.ico-image {
+    width: 75%;
+}
+
+button.menu-options { 
+    background: none;
+   	border:0;
+	color:#868789 !important;
+    font-size: 0.7rem !important;
+	height: 60px;
+    line-height:1.5;
+    text-transform: uppercase !important;
+}
+
+.menu-botton {
+    background:#ffffff;
+    text-transform: uppercase;
+	position:fixed; 
+	bottom:0; 
+	left: 1%;
+	width: 105%;
+	height: 60px;
+	line-height: 60px;
+	font-size: 0.9rem;
+	border-top:1px solid #cccccc;
+    opacity: 1;
+}
+
+.menu-botton a {
+	color:#868789 !important;
+}
+
+button.menu-options.ark i.fas.fa-home, button.menu-options.ark i.far.fa-calendar, button.menu-options.ark i.fas.fa-shopping-cart {
+    color:#868789 !important;
+    font-size: 1.5rem !important;
+}
+
+.end-page {
+    border:1px solid red;
+    margin-top: 60px;
+}
+
+/*****************************************
+    MENU MOBILE
+*****************************************/
+
+i.fas.fa-bars {
+    color: #95989a;
+}
+
+ul.dropdown-menu {
+    margin-top: 12px !important;
+    border-radius: 0;
+    box-shadow: 0 2px 6px rgb(0 0 0 / 18%), inset 0 2px 6px rgb(0 0 0 / 18%);
+}
+
+.dropdown-item {
+    display: block;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 206.25%;
+    color: #95989A;
+    padding-left: 10px;
+}
+
+.dropdown-menu.show {
+    display: block;
+    width: 1000;
+}

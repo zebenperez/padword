@@ -1,6 +1,6 @@
 from django import template
 from django.utils.safestring import mark_safe
-from bookings.common_lib import get_answer_instance, get_max_index
+from bookings.common_lib import get_answer_instance, get_max_index, get_guest_total_items
 
 register=template.Library()
 
@@ -15,22 +15,13 @@ def get_indexes(q, fi):
 '''
 	Simple tag
 '''
-#@register.simple_tag
-#def field_value(fi, q, f, index):
-#    ai = get_answer_instance(fi, q, f, index)
-#    text = ""
-#    if ai != None and f.answer_type.field_type == "file":
-#        try:
-#            name_list = ai.document.name.split("/")
-#            name = name_list[len(name_list)-1][15:] if len(name_list[len(name_list)-1]) > 15 else ""
-#            return mark_safe("<a href='{}' target='_blank'>{}</a>".format(ai.document.url, name))
-#        except:
-#            return ""
-#    elif ai != None:
-#        return ai.text 
-#    return ""
-#    #return ai.text if ai != None else ""
+@register.simple_tag
+def get_total_items(username, project_uuid):
+    return get_guest_total_items(username, project_uuid)
 
+'''
+	Inclusion tag
+'''
 @register.inclusion_tag('bookings/field_value.html')
 def field_value(fi, q, f, index):
     ai = get_answer_instance(fi, q, f, index)
@@ -48,9 +39,6 @@ def field_value(fi, q, f, index):
         
     return context
 
-'''
-	Inclusion tag
-'''
 @register.inclusion_tag('bookings/general/field_form.html', takes_context=True)
 def field_form(context, fi, q, f, index, user):
     ai = get_answer_instance(fi, q, f, index) if fi != "" else None

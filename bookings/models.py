@@ -73,6 +73,7 @@ class FormType(models.Model):
     code = models.CharField(max_length=10, verbose_name=_("Code"), default="")
     name = models.CharField(max_length=200, verbose_name=_("Name"))
     template = models.CharField(max_length=200, verbose_name=_("Template"), default="", blank=True)
+    template_base = models.CharField(max_length=200, verbose_name=_("Template Base"), default="", blank=True)
     project_uuid = models.CharField(max_length=255, verbose_name=_("Project UUID"), default="")
 
     def __str__(self):
@@ -282,6 +283,12 @@ class FormInstance(models.Model):
         items = ShoppingCart.objects.filter(form_instance_id=self.pk)
         return (items)
 
+    @staticmethod
+    def get_all_items(guest):
+        if guest == None:
+            return []
+        fi_list = FormInstance.objects.filter(guest_uuid = guest.UUID, status_list__isnull = True).values_list('pk', flat=True)
+        return ShoppingCart.objects.filter(form_instance_id__in = list(fi_list)).order_by('form_instance_id')
  
     class Meta:
         verbose_name = _('1.- Form instance')
