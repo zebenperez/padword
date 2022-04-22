@@ -7,6 +7,7 @@ from django.shortcuts import render, redirect
 from django.urls import reverse
 from django.utils.translation import ugettext_lazy as _ 
 from django.views.i18n import check_for_language
+from django.utils import translation
 
 from padword.decorators import group_required
 from padword.commons import show_exc, get_or_none, get_param, get_float, get_bool, new_ui_slug
@@ -665,11 +666,19 @@ def set_guest_language(request):
         guest = get_guest(request.user.username, category.project_uuid)
         guest.language = lang
         guest.save()
-        if lang and check_for_language(lang):
-            if hasattr(request, 'session'):
-                request.session['django_language'] = lang
+
+        form = Form.objects.filter(category__in = [category.uuid]).first()
+        context = {'form': form, 'project_uuid': category.project.uuid}
+        translation.activate(lang)
+        response = render(request, form.form_type.template_base, context)
+        response.set_cookie(settings.LANGUAGE_COOKIE_NAME, lang)
+        return response
+
+        #if lang and check_for_language(lang):
+        #    if hasattr(request, 'session'):
+        #        request.session['django_language'] = lang
         #return redirect(reverse('show-category-menu-lang', kwargs={'cat_id':category.uuid, 'lang':lang}))
-        return redirect(reverse("pwa-index-cat", kwargs = {'category_uuid':category_uuid}))
+        #return redirect(reverse("pwa-index-cat", kwargs = {'category_uuid':category_uuid}))
     except Exception as e:
         #print (show_exc(e))
         return render(request, 'error_exception.html', {'exc': show_exc(e), 'error-msg': show_exc(e)})

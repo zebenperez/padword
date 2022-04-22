@@ -3,7 +3,7 @@
         
 
 {#{% include "bookings/show-category-content.html" %} #}
-{% include form.form_type.template_base with category=form.get_category %} 
+<div id="main-base"> {% include form.form_type.template_base with category=form.get_category %} </div>
 
 <button id="btn-promo" class="ark" data-url="{% url 'pwa-get-promos' %}" data-target-modal="common-modal" 
     data-project_uuid="{{project_uuid}}" style="display:none"> </button>
