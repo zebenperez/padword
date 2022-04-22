@@ -135,12 +135,15 @@ def idx_page (idx, page, items_per_page):
 @register.simple_tag(takes_context=True)
 def padword_translate(context, json_str):
     try:
-        #request = context['request']
+        request = context['request']
         #try:
         #    lang = request.GET['lang'] if 'lang' in request.GET else context['guest'].language
         #except:
         #    lang = request.GET['lang'] if 'lang' in request.GET else request.LANGUAGE_CODE
-        lang = context["guest"].language if "guest" in context else translation.get_language()
+        if "lang" in request.GET:
+            lang = request.GET["lang"]
+        else:
+            lang = context["guest"].language if "guest" in context else translation.get_language()
         lang = lang.split('-')[0]
         json_dict = json.loads(json_str)
         return mark_safe(json_dict[lang.upper()])

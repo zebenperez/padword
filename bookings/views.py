@@ -124,7 +124,7 @@ def filter_search_status(items, status):
             item_list.append(item)
     return item_list
 
-@group_required("admins", "projects")
+@group_required("admins", "projects", "categories")
 def bookings_search(request):
     try:
         project = get_param(request.GET, "s-project")
@@ -300,7 +300,7 @@ def bookings(request):
         return render(request, 'full_error_exception.html', {'exc':show_exc(e)})
     return render(request, 'full_error_exception.html', {})
 
-@group_required("admins", "projects")
+@group_required("admins", "projects", "categories")
 def bookings_page(request):
     try:
         project = get_param(request.GET, "s-project")
@@ -432,7 +432,7 @@ def bookings_by_category(request, category_id):
             return render(request, 'error_exception.html', {'exc': _('Form not found!')})
 
         context = get_booking_context(category.project, form)
-        context['total_items'] = context['items'].count()
+        context['total_items'] = len(context['items']) if "items" in context else 0
         context['items'] = context['items'][0:ITEMS_PER_PAGE]
         context['page'] = 0
         return render (request, "bookings/manage/bookings.html", context)
