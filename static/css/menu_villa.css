@@ -244,11 +244,6 @@ button.menu-options {
 
 .img-carousel {
     background-color: #fff;
-<<<<<<< HEAD
- /*   border-radius: 0.25rem;*/
-=======
-    border-radius: 0.25rem 0.25rem 0 0;
->>>>>>> 2f262037e1c6715f8d2e79e1dd361709a90a78e2
 }
 
 .img-carousel img.object-fit_cover-gallery {
@@ -275,6 +270,13 @@ button.menu-options {
         max-width: initial;
         object-fit: cover;
     }
+
+    .img-carousel img.object-fit_cover-gallery {
+        width: 500px !important;
+        object-fit: cover !important;
+        height: 250px !important;
+    }
+
 }
 
 
@@ -356,6 +358,7 @@ button.menu-options {
         object-fit: cover !important;
         height: 250px !important;
     }
+    
 }
 
 

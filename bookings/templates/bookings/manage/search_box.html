@@ -1,13 +1,16 @@
 {% load i18n padword_tags %}
 
 
-<input type="hidden" name="s-page" id="s-page" value="{{page}}" data-target="table-list-bookings" 
-    data-related="s-page,s-project,s-form,s-ini_date,s-end_date,s-name,s-status" data-append="append" 
+{% with related="s-page,s-project,s-form,s-ini_date,s-end_date,s-name,s-status,s-project_uuid,s-form_uuid" %}
+
+<input type="hidden" name="s-page" id="s-page" value="{{page}}" data-target="table-list-bookings" data-related="{{related}}" data-append="append" 
     data-url="{% url 'bookings-page' %}" class="autosearch_change"/>
 
-<input type="hidden" name="s-status" id="s-status" value="{{status}}" data-target="booking-list" 
-    data-related="s-page,s-project,s-form,s-ini_date,s-end_date,s-name,s-status" data-url="{% url 'bookings-search' %}" 
-    class="autosearch_change"/>
+<input type="hidden" name="s-status" id="s-status" value="{{status}}" data-target="booking-list" data-related="{{related}}" 
+    data-url="{% url 'bookings-search' %}" class="autosearch_change"/>
+
+<input type="hidden" name="s-project_uuid" id="s-project_uuid" value="{{project_uuid}}"/>
+<input type="hidden" name="s-form_uuid" id="s-form_uuid" value="{{form_uuid}}"/>
 
 <div class="toolbar-search">
     <div class="row">
@@ -55,3 +58,4 @@
     </div>
 </div>
 
+{% endwith %}

@@ -25,7 +25,6 @@ def index(request, chk=None):
     if request.user.groups.filter(name='categories').exists():
         if not hasattr(request, "category_id"):
             return render(request, 'error_exception.html', {'exc': _('Category not found!')})
-        print("--2--")
         return redirect('bookings-by-category', request.category_id)
 
     if request.user.groups.filter(name='projects').exists():

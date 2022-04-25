@@ -1,13 +1,21 @@
 #main {
     height: 100%;
-    border:none !important;
+/*    border:none !important;*/
+    background:white !important;
 }
 
 #main-content-guest {
     padding-bottom: 50vh !important;
 }
+
+.main-pwa .row {
+    margin:0;
+}
+
+
 .main-pwa {
     min-height: 110% !important;
+    margin-top: 70px;
 }
 
 .container {
@@ -123,13 +131,13 @@ a.btn.btn-header-pwa.ark {
 /*****************************************
  LAGOS DESIGN
 *****************************************/
-
 .topbar {
-    background: #fff;
-	position:fixed;
-    top:0;
-    width: 100%;
-    height: 60px;
+    background: #fff !important;
+	position:fixed !important;
+    top:0 !important;
+    width: 100% !important;
+    height: 60px !important;
+    z-index: 1; 
 }
 .topbar img {
     height: 50px;
@@ -137,7 +145,6 @@ a.btn.btn-header-pwa.ark {
 
 .div-slogan {
     max-height: 380px;
-    margin-top: 60px;
 }
 
 .div-slogan .main-slide {
@@ -197,7 +204,7 @@ button.menu-options {
 	color:#868789 !important;
 }
 
-button.menu-options.ark i.fas.fa-home, button.menu-options.ark i.far.fa-calendar, button.menu-options.ark i.fas.fa-shopping-cart {
+button.menu-options.ark i.fas.fa-home, button.menu-options.ark i.far.fa-calendar-check, button.menu-options.ark i.fas.fa-shopping-cart {
     color:#868789 !important;
     font-size: 1.5rem !important;
 }
