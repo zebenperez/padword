@@ -642,6 +642,18 @@ img.img-cart-line {
 	text-align: center;
 }
 
+p.ql-align-center {
+	text-align: center;
+}
+p.ql-align-left {
+	text-align: left;
+}
+p.ql-align-right {
+	text-align: right;
+}
+
+
+
 
 .welcome-page h3 {
 	color: #fff;
@@ -891,6 +903,10 @@ img.img-cart {border-radius: 10px 10px 10px 10px; box-shadow: 10px 0px 10px 0px 
 .info-panel-msg {
     background-color: #fff;
     color: #777;
+}
+
+div.card.info-panel {
+/*    text-align: start;*/
 }
 
 .resize-form {

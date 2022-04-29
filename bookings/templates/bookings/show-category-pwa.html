@@ -3,15 +3,23 @@
         
 
 {#{% include "bookings/show-category-content.html" %} #}
-<div id="main-base"> {% include form.form_type.template_base with category=form.get_category %} </div>
+<div id="main-base"> 
+    {% if form.form_type.template_base != "" %}
+        {% include form.form_type.template_base with category=form.get_category %} 
+    {% else %}
+        <div id="main"> {% include form.form_type.template with category=form.get_category %} </div>
+    {% endif %}
+</div>
 
+{%comment%}
 <button id="btn-promo" class="ark" data-url="{% url 'pwa-get-promos' %}" data-target-modal="common-modal" 
     data-project_uuid="{{project_uuid}}" style="display:none"> </button>
+{%endcomment%}
 
 {% include "common-modal.html" %}
 
 <script>
-    $("#btn-promo").click();
+    //$("#btn-promo").click();
 
     document.addEventListener('DOMContentLoaded', function() 
     {

@@ -5,7 +5,7 @@ from django.shortcuts import render, redirect
 from django.utils.translation import ugettext_lazy as _ 
 
 from padword.decorators import group_required
-from padword.commons import show_exc, get_or_none, get_param, get_float, get_bool, new_ui_slug
+from padword.commons import show_exc, get_or_none, get_param, get_float, get_bool, new_ui_slug, get_items_per_page
 from django.db.models import Q
 from web.models import Channel, Project, ProjectUser
 from contents.models import Category, CategoryUser, ShoppingCart, Item
@@ -20,7 +20,7 @@ import logging
 import json
 logger = logging.getLogger(__name__)
 
-ITEMS_PER_PAGE=20
+ITEMS_PER_PAGE=get_items_per_page()
 
 '''
     Login

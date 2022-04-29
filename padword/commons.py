@@ -1,4 +1,5 @@
 from django.apps import apps
+from django.conf import settings
 import sys
 import datetime
 import json
@@ -114,3 +115,8 @@ def normalize_str(string):
     except:
         return unicodedata.normalize('NFKD', string).encode('ascii', 'ignore')
 
+def get_items_per_page():
+    try:
+        return settings.ITEMS_PER_PAGE
+    except:
+        return 20

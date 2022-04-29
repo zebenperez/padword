@@ -41,7 +41,7 @@
                 </div>
                 <div class="card-body">
                     <h5 class="card-title text-dark text-center">{% padword_translate item.name %}</h5>
-                    <h4 class="card-title text-dark text-center">{{ item.price}} &euro; </h4>
+                    <h4 class="card-title text-dark text-center">{{ item.price}} {%if item.price%} &euro; {%endif%}</h4>
                     {#<p class="card-text text-secondary">{% padword_translate item.description %}</p>#}
                     {% include "bookings/show-item-btn.html" %}
                 </div>

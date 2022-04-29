@@ -4,9 +4,9 @@ from django.urls import reverse
 from django.utils import translation 
 
 import json
-from padword.commons import show_exc
+from padword.commons import show_exc, get_items_per_page
 from web.models import Project, ProjectUser
-from contents.models import Allergen, Category, CategoryUser, Feature
+from contents.models import Allergen, Category, CategoryUser, Feature, ItemPromo
 import string, random
 import os
 
@@ -233,6 +233,10 @@ def get_user_img(user):
         pass
     return ""
 
+@register.simple_tag
+def items_per_page():
+    return get_items_per_page()
+
 '''
     Filters
 '''
@@ -320,6 +324,11 @@ def show_feature(obj):
 @register.inclusion_tag('contents/promos.html')
 def show_promos(obj):
     return {'obj': obj,}
+
+@register.inclusion_tag('bookings/show-promo-gallery.html')
+def get_promos(obj):
+    promo_list = ItemPromo.get_current(obj.project_uuid)
+    return {'category': obj, 'promo_list': promo_list, 'total_images': len(promo_list)+obj.images.all().count()}
 
 @register.inclusion_tag('contents/emails.html')
 def show_emails(obj):

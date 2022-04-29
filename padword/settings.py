@@ -141,6 +141,8 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+ITEMS_PER_PAGE = 20
+
 try:
     from .local_settings import *
 except Exception:

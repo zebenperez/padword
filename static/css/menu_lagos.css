@@ -1,20 +1,20 @@
 #main {
-    height: 100%;
-/*    border:none !important;*/
+    height: auto !important;
     background:white !important;
+    padding-bottom: 10vh !important;
 }
-
+/*
 #main-content-guest {
-    padding-bottom: 50vh !important;
+    padding-bottom: 10vh !important;
+    border:1px solid blue !important;
 }
+*/
 
 .main-pwa .row {
     margin:0;
 }
 
-
 .main-pwa {
-    min-height: 110% !important;
     margin-top: 70px;
 }
 
@@ -116,6 +116,7 @@ a.btn.btn-header-pwa.ark {
     padding:2px !important;
 }
 
+/******************************************/
 .img-carousel {
     background-color: #fff;
     border-radius: 0.25rem 0.25rem 0 0;
@@ -124,8 +125,35 @@ a.btn.btn-header-pwa.ark {
 .img-carousel img.object-fit_cover-gallery {
     width: 1024px !important;
     object-fit: cover !important;
-    height: 350px !important;
+/*    height: 350px !important;*/
 }
+
+.carousel-control-next, .carousel-control-prev {
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 15%;
+    padding: 0;
+    color: #fff;
+    font-size: 2rem;
+    text-align: center;
+    background: 0 0;
+    border: 0;
+    opacity: .9;
+    transition: opacity .15s ease;
+}
+
+#cover .img {
+ /*   height: 250px;*/
+    background-color: white !important;
+}
+
+#cover img {
+ /*   height: 250px;*/
+}
+
+/******************************************/
 
 
 /*****************************************
@@ -136,7 +164,7 @@ a.btn.btn-header-pwa.ark {
 	position:fixed !important;
     top:0 !important;
     width: 100% !important;
-    height: 60px !important;
+    height: 70px !important;
     z-index: 1; 
 }
 .topbar img {
@@ -144,18 +172,24 @@ a.btn.btn-header-pwa.ark {
 }
 
 .div-slogan {
-    max-height: 380px;
+   /*height: 380px;*/
 }
 
 .div-slogan .main-slide {
     padding:0px !important;
-    border-bottom: 2px solid #f3e3ea;
+    border-bottom: 2px solid #e3e2e0;
 }
 .div-key {
 	color:#868789;
     max-height: 100px;
     font-size: 1.3rem;
     border-bottom: 2px solid #f3e3ea;
+    border-bottom: 2px solid #e3e2e0;
+}
+
+.div-key a {
+	color:#868789;
+    text-decoration: none !important;
 }
 
 .div-key img {
@@ -210,7 +244,6 @@ button.menu-options.ark i.fas.fa-home, button.menu-options.ark i.far.fa-calendar
 }
 
 .end-page {
-    border:1px solid red;
     margin-top: 60px;
 }
 
@@ -223,7 +256,7 @@ i.fas.fa-bars {
 }
 
 ul.dropdown-menu {
-    margin-top: 12px !important;
+    margin-top: 15px !important;
     border-radius: 0;
     box-shadow: 0 2px 6px rgb(0 0 0 / 18%), inset 0 2px 6px rgb(0 0 0 / 18%);
 }
@@ -241,3 +274,35 @@ ul.dropdown-menu {
     display: block;
     width: 1000;
 }
+
+.btn.btn-dark-pad {
+    background: #a5c2d1 !important;
+}
+
+
+/*****************************/
+/* devices style*/
+/*****************************/
+
+@media (max-width: 1200px) 
+{
+
+    .img-carousel img.object-fit_cover-gallery {
+        width: 500px !important;
+        object-fit: cover !important;
+/*        height: 250px !important;*/
+    }
+
+}
+
+
+
+@media (max-width: 420px) 
+{
+    .img-carousel img.object-fit_cover-gallery {
+        width: 300px !important;
+        object-fit: cover !important;
+/*        height: 250px !important;*/
+    }
+}
+

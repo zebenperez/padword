@@ -2,7 +2,8 @@
 
 <div class="row menu-botton">
     <div class="col-lg-3 offset-lg-1 col-4" style="padding:0;">
-        <button style="color:white !important;" class="menu-options ark" data-url="{% url "show-category-menu" %}" data-target="main"                                                data-cat_id="d4aa331f-5026-c4d5-c86c-4e1c71dd252e"><i class="fas fa-home"></i></button>
+        <button style="color:white !important;" class="menu-options ark" id="btn-home" data-url="{% url "show-category-menu" %}" data-target="main"
+            data-cat_id="d4aa331f-5026-c4d5-c86c-4e1c71dd252e"><i class="fas fa-home"></i></button>
     </div>
     {% comment %}
     <div class="col-lg-2 col-3" style="padding:0; border:1px solid red">
@@ -12,12 +13,16 @@
     </div>
     {% endcomment %}
     <div class="col-lg-4 col-4" style="padding:0;">
-        <button style="color:white !important;" class="menu-options ark" data-url="{% url "show-category-menu" %}" data-target="main"
-             data-cat_id="d4aa331f-5026-c4d5-c86c-4e1c71dd252e"><i class="far fa-calendar-check	"></i></button>
+        <button style="color:white !important;" class="menu-options ark" data-url="{% url "my-bookings" %}" data-target="main"
+             data-project_uuid="{{project_uuid}}" data-cat_id="{{form.category}}"><i class="far fa-calendar-check	"></i></button>
     </div>
+ 
     <div class="col-lg-3 col-4" style="padding:0;">
-        <button style="color:white !important;" class="menu-options ark" data-url="{% url "show-category-menu" %}" data-target="main"
-             data-cat_id="b1a25c45-c43b-8263-e46f-031f2593a623"><i class="fas fa-shopping-cart"></i></button>
+        <button style="color:white !important;" class="menu-options ark" data-url="{% url "view-shopping-cart" %}" 
+            data-target-modal="common-modal" data-project_uuid="{{project_uuid}}" data-form_id=""> <i class="fas fa-shopping-cart"></i><br/>
+            <span class="subtext"></span>
+            <span class="count badge" id="count-badge" style="display:none"><span id="span-total-items"></span></span>
+        </button>
     </div>
 </div>
 

@@ -225,6 +225,14 @@ class Item(models.Model):
             return False
 
     @property
+    def category(self):
+        try:
+            item = ItemInCat.objects.filter(item=self).first()
+            return item.category
+        except Exception as e:
+            return None
+
+    @property
     def project(self):
         try:
             #return Project.objects.get(uuid = self.category.project)
@@ -356,6 +364,13 @@ class ItemPromo(models.Model):
     class Meta:
         verbose_name = "Item Promo"
         verbose_name_plural = "Item Promo"
+
+    @staticmethod
+    def get_current(project_uuid):
+        now = datetime.datetime.now()
+        cat_uuid_list = list(Category.objects.filter(project_uuid=project_uuid).values_list('uuid', flat=True))
+        ic_list = list(ItemInCat.objects.filter(category__in=cat_uuid_list).values_list('item', flat=True))
+        return ItemPromo.objects.filter(item__uuid__in = ic_list)
 
 class CategoryUser(models.Model):
     category_uuid = models.CharField(max_length = 255, verbose_name= _('Category UUID'), default='')

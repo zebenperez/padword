@@ -788,3 +788,9 @@ select.input.invalid,
     color: red;
     font-size:0.8em;
 }
+
+#desc-editor {
+    min-height: 500px;
+
+}
+
