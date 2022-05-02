@@ -16,7 +16,7 @@
             <div class="col-xs-12 card ">
                 <div class="image mobile" id="cover">
                     <img src="{% if item.item.image %}{{item.item.image.url}} {%else%} {% static 'img/none.png' %}{%endif%}" class="card-img-top" 
-                        alt="{% padword_translate item.item.name %}">
+                        alt="{% padword_translate item.item.name %}" style="width:50%">
                 </div>
                 <div class="card-body">
                     <h5 class="big card-title text-dark text-center">{% padword_translate item.item.name %}</h5>

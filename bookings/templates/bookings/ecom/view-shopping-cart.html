@@ -2,7 +2,8 @@
 
 {% for fi in fi_list %}
     {% with items=fi.get_items total=fi.get_total %}
-        {% if total > 0 %}
+    {#{% if total > 0 %}#}
+        {% if fi.form.form_type.code == "ecom" or fi.form.form_type.code == "ecom2" %}
             {% include "bookings/ecom/view-shopping-cart-fi.html" %}
         {%endif%}
     {% endwith %}

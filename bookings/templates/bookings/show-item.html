@@ -20,8 +20,8 @@
                     data-target="for-scripts" data-form_id="{{fi.pk}}" data-item_id="{{item.pk}}"> <i class="fas fa-minus"></i></a>
             </div>              
             <div class="col-6 d-flex justify-content-center">
-                <input type="text" class="ark_change form-control text-center readonly" 
-                    {% if mobile %}id="counter-item-{{item.pk}}"{% else %}id="counter-item-mob-{{item.pk}}"{% endif %}
+                <input type="text" class="ark_change form-control text-center readonly" id="counter-item-{{item.pk}}"
+                    {#{% if mobile %}id="counter-item-{{item.pk}}"{% else %}id="counter-item-mob-{{item.pk}}"{% endif %}#}
                     data-url="{% url 'get-price-shopping-cart' %}" data-form_id="{{fi.pk}}" data-target="info-shopping" 
                     value="{{fi|items_in_bookings:item.pk}}"></input>
             </div>

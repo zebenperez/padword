@@ -246,7 +246,10 @@ class FormInstance(models.Model):
             items = ShoppingCart.objects.filter(form_instance_id=self.pk)
             total_price = 0
             for item in items:
-                total_price += float(item.item.price.replace(',','.'))
+                try:
+                    total_price += float(item.item.price.replace(',','.'))
+                except:
+                    total_price += 0
             return total_price
         except Exception as e:
             print (show_exc(e))
