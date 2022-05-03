@@ -2,7 +2,7 @@
 
 <script>
     $('#counter-item-'+'{{item.pk}}').val("{{items}}").trigger("change");        // Contador en el formulario
-    //$('#counter-item-mob-'+'{{item.pk}}').val("{{items}}").trigger("change");
+    $('#counter-item-mob-'+'{{item.pk}}').val("{{items}}").trigger("change");
     $('#span-total-price').html("{{fi.get_total|floatformat:2}}");             // Total en el carrito general
     $('#span-total-items').html('{% get_total_items request.user.username fi.form.project.uuid %}'); // Badget de la cabecera
     if (parseInt($("#span-total-items").html()) > 0)
