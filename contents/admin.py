@@ -5,7 +5,7 @@ class AllergenAdmin(admin.ModelAdmin):
     list_display = ('code', 'name')
 
 class CategoryUserAdmin(admin.ModelAdmin):
-    list_display = ('username', 'category_uuid')
+    list_display = ('username', 'category_uuid', 'view_cat', 'remove_cat')
 
 class FeatureAdmin(admin.ModelAdmin):
     list_display = ('code', 'name')

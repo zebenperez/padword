@@ -1,69 +1,26 @@
 {% load i18n bookings_tag common_tag padword_tags static%}
 
 
-{% if category.parent and back == "True" %}{%include "bookings/back-btn.html" with uuid=category.parent.uuid %}{% endif %}
+{% if category.parent %}
+    <script>$("#shopping-cart-btn").data("form_id", "{{fi.pk}}");$("#span-total-items").html("{{items.count}}");$("#count-badge").show();</script>
+    {% if back %}{% include "bookings/back-btn.html" with uuid=category.parent.uuid %}{% endif %}
+{% endif %}
 
 {% if form.show_desc %} <div class="col-12 card info-panel p-4">{% padword_translate form.desc %}</div> {% endif %}
 
-<div class="col-10 offset-1 fixed-head p-2">
-    <div class="item1">{% padword_translate form.name %} &nbsp;</div> 
-    <div class="item2 text-right">(<span id="span-total-items">{{items.count}}</span> art.&nbsp;&nbsp;&nbsp; 
-        <span id="span-total-price">{{fi.get_total|stringformat:".2f"}}</span> &euro;)</div>
-    <a class="btn btn-light-pad small ark mb-1 p-1" data-url="{% url 'view-shopping-cart'  %}" 
-        data-target-modal="common-modal" data-form_id="{{fi.pk}}"> <i class="fas fa-shopping-cart"></i> </a>
-</div>
+<div class="card slider-cart">
+    {% include "bookings/ecom/shopping_cart_list.html" %}
 
-<div class="row d-flex justify-content-center mt-1 ">
-    {% for item in category.get_items_active %}
-        <div class="col-lg-2 col-md-3 col-xs-12 justify-content-center"> {% include "bookings/show-item.html" with show_footer=True %} </div>
-    {% endfor %}
-</div>
-{%csrf_token%}
-{% for children in category.get_active_childrens %}
-    <div class="cart-item mb-4">
-        <div class="col-12 d-flex align-middle justify-content-center">
-            <a class="btn btn-dark pl-2 w-100 b-item" onclick="$('.div-shopping-cart-{{children.pk}}').toggle();"> 
-                <i class="fas fa-arrow-circle-down div-shopping-cart-{{children.pk}}" ></i>
-                <i class="fas fa-arrow-circle-up div-shopping-cart-{{children.pk}}" style="display:none" ></i>
-                {% padword_translate children.name%} 
-            </a>
-        </div>
-    <div id="div-shopping-cart-{{children.pk}}" class="div-shopping-cart-{{children.pk}}" style="display:none"></div>
-    </div>
-
-    {% with 'div-shopping-cart-'|addstr:children.pk as target %}
-        <button id="btn-children-{{children.pk}}" class="ark" data-url="{% url "show-category-shopping-cart" %}" data-target="{{target}}"
-            data-form_id="{{fi.id}}" data-cat_id="{{children.uuid}}" data-guest_id="{{guest.id}}" style="display:none"></button>
-    {% endwith %}
-    <script> $("#btn-children-{{children.pk}}").click(); </script>
-    {%comment%}
-    <script>
-        {% if fi %}
-            {% ark 'show-category-shopping-cart' 'div-shopping-cart-'|addstr:children.pk form_id=fi.pk cat_id=children.uuid %}
-        {% else %}
-            {% ark 'show-category-shopping-cart' 'div-shopping-cart-'|addstr:children.pk form_id=0 cat_id=children.uuid %}
-        {% endif %}
-    </script>
-    {%endcomment%}
-
-{% endfor %}
-<div class="d-none" id="for-scripts">
-</div>
-
-<div class="col-12">
-    <div class="row mt-4 mb-4 d-flex justify-content-center">
-        <div class="col-lg-3 col-md-4 col-xs-2 offset-xs-1 actions text-center mb-3">
-            {% if form.form_type.code == "ecom" %}
-                <button class="btn btn-marine ark w-100" data-url="{% url 'view-shopping-cart' %}" 
-                    data-target-modal="common-modal" data-form_id="{{fi.pk}}"> {% trans 'Continue' %}</button>
-            {% else %}
-                <button class="btn btn-marine w-100 ark" data-url="{% url "booking-send" %}" 
-                    data-target="main" data-obj_id="{{fi.id}}"> {% trans "Send Order" %}</button>
-            {% endif %}
-        </div>
-        <div class="col-lg-3 offset-lg-1 col-md-4 offset-md-1 col-xs-2 offset-xs-1 actions text-center">
-            <button class="btn btn-marine w-100 ark" data-url="{% url "booking-remove" %}"
-                data-target="main" data-obj_id="{{fi.id}}"> {% trans "Cancel Order" %}</button>
+    <div class="col-12">
+        <div class="row mt-4 mb-4 d-flex justify-content-center">
+            <div class="col-lg-3 col-md-4 col-xs-2 offset-xs-1 actions text-center mb-3">
+                <button class="btn btn-marine ark w-100" data-url="{% url 'view-shopping-cart' %}" data-target-modal="common-modal" 
+                    data-project_uuid="{{fi.form.project.uuid}}" data-form_id="{{fi.pk}}"> {% trans 'View Shopping Cart' %}</button>
+            </div>
+            <div class="col-lg-3 offset-lg-1 col-md-4 offset-md-1 col-xs-2 offset-xs-1 actions text-center">
+                <button class="btn btn-marine w-100 ark" data-url="{% url "booking-remove" %}"
+                    data-target="main" data-obj_id="{{fi.id}}"> {% trans "Cancel Order" %}</button>
+            </div>
         </div>
     </div>
 </div>

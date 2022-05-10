@@ -23,9 +23,10 @@ def index(request, chk=None):
         return redirect('pwa-index')
 
     if request.user.groups.filter(name='categories').exists():
-        if not hasattr(request, "category_id"):
+        if not hasattr(request, "category_user"):
             return render(request, 'error_exception.html', {'exc': _('Category not found!')})
-        return redirect('bookings-by-category', request.category_id)
+        #return redirect('bookings-by-category', request.category_id)
+        return redirect('bookings-by-category')
 
     if request.user.groups.filter(name='projects').exists():
         if not hasattr(request, "project_id"):

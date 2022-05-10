@@ -3,7 +3,8 @@
 <div class="row div-top w-100 p-0 m-0">
     <div class="col-lg-1 col-1 text-center p-0 pt-2">
         <button id="back-btn" class="btn btn-header-pwa text-center ark pl-2 pr-2" data-url="{% url "show-category-menu" %}" data-target="main" 
-            data-cat_id="" data-cat_home="{{form.category}}" style="display:none"><i class="fas fa-chevron-left"></i> </button>
+            data-cat_id="" data-cat_home="{{form.category}}" style="display:none" onclick="window.history.back()">
+            <i class="fas fa-chevron-left"></i> </button>
         <button id="back-btn-bookings" class="btn btn-header-pwa text-center ark" data-url="{% url "my-bookings" %}" data-target="main" 
             data-project_uuid="{{project_uuid}}" data-cat_id="{{form.category}}" style="display:none"> <i class="fas fa-chevron-left"></i> </button>
     </div>
@@ -18,9 +19,9 @@
             </div>
                 
             <div class="col-3 text-center p-0">
-                <button class="btn btn-header-pwa text-center ark" id="btn-bookings" data-url="{% url "my-bookings" %}" data-target="main" 
-                    data-project_uuid="{{project_uuid}}" data-cat_id="{{form.category}}"> <i class="far fa-calendar"></i> <br />
-                    <span>{% trans 'Bookings' %}</span></button>
+                <button class="btn btn-header-pwa text-center history ark" id="btn-bookings" data-url="{% url "my-bookings" %}" data-target="main" 
+                    data-project_uuid="{{project_uuid}}" data-cat_id="{{form.category}}"> 
+                    <i class="far fa-calendar"></i> <br /> <span>{% trans 'Bookings' %}</span></button>
             </div>
                
             <div class="col-3 text-center p-0">

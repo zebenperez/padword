@@ -15,8 +15,13 @@
         <div class="col-6 col-lg-4 justify-content-center mt-1" tyle="border:1px solid black">
             <div class="col-xs-12 card ">
                 <div class="image mobile" id="cover">
+                    {%comment%}
                     <img src="{% if item.item.image %}{{item.item.image.url}} {%else%} {% static 'img/none.png' %}{%endif%}" class="card-img-top" 
                         alt="{% padword_translate item.item.name %}" style="width:50%">
+                    {%endcomment%}
+                    {% if item.item.image %}
+                        <img src="{{item.item.image.url}}" class="card-img-top" alt="{% padword_translate item.item.name %}" style="width:50%">
+                    {% endif %}
                 </div>
                 <div class="card-body">
                     <h5 class="big card-title text-dark text-center">{% padword_translate item.item.name %}</h5>

@@ -248,6 +248,8 @@ function validateCheckIn()
     return true;
 }
 
+function pushHistory() { history.pushState({}, 'main', '/'); }
+
 $(document).ready(()=>{
     $("body").on("keyup", ".autosearch", function(e){
         var obj = $(this);

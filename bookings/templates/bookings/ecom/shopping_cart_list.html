@@ -1,79 +1,29 @@
 {% load i18n bookings_tag common_tag padword_tags static%}
 
-<link rel="stylesheet" href="{% static 'css/menu2.css' %}" >
-
-
-<div class="row d-flex justify-content-center">
-    {% if category.get_items_active|length > 0 %}
-    <div class="container"> 
-        <div class="row d-flex blog"> 
-            <div class="d-none d-md-block">
-                <div id="blogCarousel-{{category.id}}" class="carousel slide" data-bs-ride="carousel">
-
-                    <button class="carousel-control-prev" type="button" data-bs-target="#blogCarousel-{{category.id}}" data-bs-slide="prev">
-                        <span class="prev"><i class="fas fa-chevron-circle-left"></i></span></a> </button>
-                    <button class="carousel-control-next" type="button" data-bs-target="#blogCarousel-{{category.id}}" data-bs-slide="next">
-                        <span class="next"><i class="fas fa-chevron-circle-right"></i></span></a> </button>
-
-                    <div class="carousel-inner">
-                        {% for item in category.get_items_active %}
-                            {% if forloop.counter0|divisibleby:4 %}
-                                <div class="carousel-item {%if forloop.counter0 == 0%}active{%endif%}"><div class="row slider-row">
-                            {% endif %}
-                            <div class="col-md-3 justify-content-center zoom">{% include "bookings/show-item.html" with show_footer=True %} </div>
-                            {% if forloop.counter|divisibleby:4 or forloop.last%} </div></div> {% endif %}
-                        {% endfor %}
-                    </div>
-                </div>
-            </div> 
-            <div class="d-block d-md-none">
-                <div id="blogMobileCarousel-{{category.id}}" class="carousel slide" data-bs-ride="carousel">
-                    <button class="carousel-control-prev" type="button" data-bs-target="#blogMobileCarousel-{{category.id}}" data-bs-slide="prev">
-                        <span class="prev"><i class="fas fa-chevron-circle-left"></i></span></a> </button>
-                    <button class="carousel-control-next" type="button" data-bs-target="#blogMobileCarousel-{{category.id}}" data-bs-slide="next">
-                        <span class="next"><i class="fas fa-chevron-circle-right"></i></span></a> </button>
-
-                    <div class="carousel-inner">
-                        {% for item in category.get_items_active %}
-                            {% if forloop.counter0|divisibleby:1 %}
-                                <div class="carousel-item {%if forloop.counter0 == 0%}active{%endif%}"><div class="row slider-row">
-                            {% endif %}
-                            <div class="col-md-12 justify-content-center zoom"> 
-                                {% include "bookings/show-item.html" with show_footer=True mobile=True %} </div>
-                            {% if forloop.counter|divisibleby:1 or forloop.last %} </div></div> {% endif %}
-                        {% endfor %}
-                    </div>
-                </div>
-            </div> 
-        </div> 
-    </div>
-    {% endif %}
+<div class="col-10 offset-1 fixed-head p-2">
+    <div class="item1">{% padword_translate form.name %} &nbsp;</div> 
+    <div class="item2 text-right">(<span id="span-total-items">{{items.count}}</span> art.&nbsp;&nbsp;&nbsp; 
+        <span id="span-total-price">{{fi.get_total|stringformat:".2f"}}</span> &euro;)</div>
+    <a class="btn btn-light-pad small ark mb-1 p-1" data-url="{% url 'view-shopping-cart'  %}" 
+        data-target-modal="common-modal" data-form_id="{{fi.pk}}"> <i class="fas fa-shopping-cart"></i> </a>
 </div>
 
+<div class="row d-flex justify-content-center mt-1 ">
+    {% for item in category.get_items_active %}
+        <div class="col-lg-2 col-md-3 col-xs-12 justify-content-center"> {% include "bookings/show-item.html" with show_footer=True %} </div>
+    {% endfor %}
+</div>
 {%csrf_token%}
 {% for children in category.get_active_childrens %}
-    <div class="art-item mb-3 p-3">
-        <div class="col-12 d-flex align-middle justify-content-center cat-title-head">
-            <div class="cat-image" id="cover">
-                {% if children.show_img %}
-                    <img src="{% if children.image %}{{children.image.url}}{%else%}{% static 'img/none.png' %}{%endif%}" 
-                         class="object-fit" alt="{% padword_translate item.name %}"> 
-                {% endif %}
-            </div>
-            <a class="btn pl-2 w-100 cat-title text-left" onclick="$('.div-shopping-cart-{{children.pk}}').toggle();"> 
-                <i class="fas fa-angle-down div-shopping-cart-{{children.pk}}" style="float:right;"></i>
-                <i class="fas fa-angle-up div-shopping-cart-{{children.pk}}" style="float:right;display:none" ></i>
-                {% padword_translate children.name%} </a>
-
-            {% comment %}
-            <a class="btn btn-marine pl-2 w-100 b-item text-left" onclick="$('.div-shopping-cart-{{children.pk}}').toggle();"> 
+    <div class="cart-item mb-4">
+        <div class="col-12 d-flex align-middle justify-content-center">
+            <a class="btn btn-dark pl-2 w-100 b-item" onclick="$('.div-shopping-cart-{{children.pk}}').toggle();"> 
                 <i class="fas fa-arrow-circle-down div-shopping-cart-{{children.pk}}" ></i>
                 <i class="fas fa-arrow-circle-up div-shopping-cart-{{children.pk}}" style="display:none" ></i>
                 {% padword_translate children.name%} 
             </a>
-            {% endcomment %}
         </div>
-        <div id="div-shopping-cart-{{children.pk}}" class="div-shopping-cart-{{children.pk}}" style="display:none;"></div>
+    <div id="div-shopping-cart-{{children.pk}}" class="div-shopping-cart-{{children.pk}}" style="display:none"></div>
     </div>
 
     {% with 'div-shopping-cart-'|addstr:children.pk as target %}
@@ -81,15 +31,7 @@
             data-form_id="{{fi.id}}" data-cat_id="{{children.uuid}}" data-guest_id="{{guest.id}}" style="display:none"></button>
     {% endwith %}
     <script> $("#btn-children-{{children.pk}}").click(); </script>
-    {%comment%}
-    <script>
-        {% if fi %}
-            {% ark 'show-category-shopping-cart' 'div-shopping-cart-'|addstr:children.pk form_id=fi.pk cat_id=children.uuid %}
-        {% else %}
-            {% ark 'show-category-shopping-cart' 'div-shopping-cart-'|addstr:children.pk form_id=0 cat_id=children.uuid %}
-        {% endif %}
-    </script>
-    {%endcomment%}
+
 {% endfor %}
 <div class="d-none" id="for-scripts"> </div>
 

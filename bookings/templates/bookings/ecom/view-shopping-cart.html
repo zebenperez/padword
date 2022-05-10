@@ -2,10 +2,11 @@
 
 {% for fi in fi_list %}
     {% with items=fi.get_items total=fi.get_total %}
-    {#{% if total > 0 %}#}
         {% if fi.form.form_type.code == "ecom" or fi.form.form_type.code == "ecom2" %}
-            {% include "bookings/ecom/view-shopping-cart-fi.html" %}
-        {%endif%}
+            {% if items|length > 0 %}
+                {% include "bookings/ecom/view-shopping-cart-fi.html" %}
+            {% endif  %}
+        {% endif %}
     {% endwith %}
 {% endfor %}
 <div class="row justify-content-center mt-3"> <p class="small alert text-center"><strong>*</strong> 

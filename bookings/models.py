@@ -11,6 +11,7 @@ from .email_lib import send_change_status_email
 from padword.commons import show_exc
 
 import datetime
+import threading
 
 
 def get_int(val):
@@ -74,7 +75,7 @@ class FormType(models.Model):
     name = models.CharField(max_length=200, verbose_name=_("Name"))
     template = models.CharField(max_length=200, verbose_name=_("Template"), default="", blank=True)
     template_base = models.CharField(max_length=200, verbose_name=_("Template Base"), default="", blank=True)
-    project_uuid = models.CharField(max_length=255, verbose_name=_("Project UUID"), default="")
+    project_uuid = models.CharField(max_length=255, verbose_name=_("Project UUID"), default="", blank=True)
 
     def __str__(self):
         return self.name
@@ -133,6 +134,19 @@ class Form(models.Model):
     def project(self):
         cat = Category.objects.filter(uuid = self.category).first()
         return cat.project if cat != None else None
+
+    @property
+    def get_email_texts(self):
+        email_texts = self.email_texts.first()
+        if email_texts == None:
+            email_texts = FormEmailText(form=self)
+            email_texts.email_from = '{"ES": "info@padword.es"}' 
+            email_texts.subject_new = '{"ES": "Nuevo pedido __SERVICE_NAME__"}' 
+            email_texts.subject_change = '{"ES": "Cambio de estado del pedido __SERVICE_NAME__"}'
+            email_texts.body_new = '{"ES": "Se ha creado el pedido __SERVICE_NAME__ del usuario __USER__ (habitación __ROOM__) <br/><br/> <a href=\'__URL__\'>Pinche aquí para ver las reservas </a>"}'
+            email_texts.body_change = '{"ES": "El pedido __SERVICE_NAME__ del usuario __USER__ (habitación __ROOM__) ha cambiado al estado __STATUS__ <br/><br/> <a href=\'__URL__\'>Pinche aquí para ver las reservas </a>"}'
+            email_texts.save()
+        return email_texts
 
     def get_public_blocks(self):
         return self.blocks.filter(private=False)
@@ -216,6 +230,14 @@ class FormEmail(models.Model):
     email = models.CharField(max_length=400, verbose_name=_("Email"), default="")
     form = models.ForeignKey(Form, on_delete=models.CASCADE, verbose_name=_("Form"), blank=True, null=True, related_name="emails")
 
+class FormEmailText(models.Model):
+    email_from = models.CharField(max_length=200, verbose_name=_("Email From"), default="")
+    subject_new = models.CharField(max_length=900, verbose_name=_("Subject New"), default="")
+    subject_change = models.CharField(max_length=900, verbose_name=_("Subject Change"), default="")
+    body_new = models.TextField(verbose_name=_("Body New"), default="", blank=True)
+    body_change = models.TextField(verbose_name=_("Body Change"), default="", blank=True)
+    form = models.ForeignKey(Form, on_delete=models.CASCADE, verbose_name=_("Form"), blank=True, null=True, related_name="email_texts")
+
 class FormInstance(models.Model):
     code = models.CharField(verbose_name=_("Code"), max_length=20, default="")
     date = models.DateTimeField(_('Creation date'), default=datetime.datetime.now, null=True)
@@ -273,7 +295,9 @@ class FormInstance(models.Model):
         status = Status.objects.filter(code = status_code).first()
         if status != None:
             FormInstanceStatus.objects.create(form_instance=self, status=status, user=user, comment=comment)
-            send_change_status_email(self, status)
+            t = threading.Thread(target=send_change_status_email, args=[self, status], daemon=True)
+            t.start()
+            #send_change_status_email(self, status)
             #self.status = status
             #self.save()
 

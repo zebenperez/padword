@@ -22,6 +22,8 @@ urlpatterns = [
     path('categories/remove-image-gallery/', views.category_remove_image_gallery, name='category-remove-image-gallery'),
     path('categories/save_feature', views.save_feature, name="category-save-feature"),
 
+    path('categories/categories/', views.categories_by_categories, name='categories-by-categories'),
+
     path('items/form/', views.item_form, name='item-form'),
     path('items/change-image/', views.item_change_image, name='item-change-image'),
     path('items/change-active-item-<slug:item_id>/', views.item_change_active, name='change-active-item'),

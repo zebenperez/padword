@@ -156,7 +156,7 @@ msgstr "Categoría"
 #: models.py:114 templates/forms/form-form.html:25
 #: templates/forms/form-form.html:103
 msgid "Description"
-msgstr "Pregunta"
+msgstr "Descripción"
 
 #: models.py:115
 msgid "Description Width"
@@ -624,7 +624,7 @@ msgstr "Subir nivel"
 
 #: templates/forms/form-form.html:60
 msgid "Position"
-msgstr "Pregunta"
+msgstr "Orden"
 
 #: templates/forms/form-form.html:68
 msgid "Type"

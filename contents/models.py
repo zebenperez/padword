@@ -373,6 +373,8 @@ class ItemPromo(models.Model):
         return ItemPromo.objects.filter(item__uuid__in = ic_list)
 
 class CategoryUser(models.Model):
+    view_cat = models.BooleanField(default=False, verbose_name=_("View category"))
+    remove_cat = models.BooleanField(default=False, verbose_name=_("Remove category"))
     category_uuid = models.CharField(max_length = 255, verbose_name= _('Category UUID'), default='')
     username = models.CharField(max_length = 255, verbose_name= _('Username'), default='')
 
@@ -386,12 +388,19 @@ class CategoryUser(models.Model):
         except:
             return None
 
+    #@property
+    #def category(self):
+    #    try:
+    #        return Category.objects.get(uuid=self.category_uuid)
+    #    except:
+    #        return None
+
     @property
-    def category(self):
+    def categories(self):
         try:
-            return Category.objects.get(uuid=self.category_uuid)
+            return Category.objects.filter(uuid__in=self.category_uuid.split(","))
         except:
-            return None
+            return []
 
     @staticmethod
     def get_or_create_category_user(category_uuid, email):

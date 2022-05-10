@@ -11,13 +11,13 @@
 {% if form.show_desc %} <div class="col-12 card info-panel p-4">{% padword_translate form.desc %}</div> {% endif %}
 
 <div class="card slider-cart">
-    {% include "bookings/ecom/shopping_cart_list.html" %}
+    {% include "bookings/ecom/shopping_cart2_list.html" %}
 
     <div class="col-12">
         <div class="row mt-4 mb-4 d-flex justify-content-center">
             <div class="col-lg-3 col-md-4 col-xs-2 offset-xs-1 actions text-center mb-3">
-                <button class="btn btn-marine ark w-100" data-url="{% url 'view-shopping-cart' %}" 
-                    data-target-modal="common-modal" data-form_id="{{fi.pk}}"> {% trans 'Continue' %}</button>
+                <button class="btn btn-marine ark w-100" data-url="{% url 'view-shopping-cart' %}" data-target-modal="common-modal" 
+                    data-project_uuid="{{fi.form.project.uuid}}" data-form_id="{{fi.pk}}"> {% trans 'View Shopping Cart' %}</button>
             </div>
             <div class="col-lg-3 offset-lg-1 col-md-4 offset-md-1 col-xs-2 offset-xs-1 actions text-center">
                 <button class="btn btn-marine w-100 ark" data-url="{% url "booking-remove" %}"

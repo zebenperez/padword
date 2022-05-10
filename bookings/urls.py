@@ -42,7 +42,6 @@ urlpatterns = [
     path('bookings/', views.bookings, name='bookings'),
     #path('bookings_by_form/<int:form_id>/', views.bookings_by_form, name='bookings-by-form'),
     path('bookings_by_project/<int:project_id>/', views.bookings_by_project, name='bookings-by-project'),
-    path('bookings_by_category/<int:category_id>/', views.bookings_by_category, name='bookings-by-category'),
     path('booking-refresh/<int:obj_id>/', views.booking_refresh, name='booking-refresh'),
     path('booking-refresh/', views.booking_refresh, name='booking-refresh'),
     path('booking-refresh-status/<int:obj_id>/', views.booking_refresh_status, name='booking-refresh-status'),
@@ -58,6 +57,14 @@ urlpatterns = [
     path('booking-log/<int:fi_id>/', views.booking_log, name='booking-log'),
     path('status-form/', views.status_form, name='status-form'),
     path('change-status/', views.change_status, name='change-status'),
+
+    #------------- Bookings Category --------------#
+    #path('bookings_by_category/<int:category_id>/', views.bookings_by_category, name='bookings-by-category'),
+    path('bookings_by_category/', views.bookings_by_category, name='bookings-by-category'),
+    path('bookings/category/search/', views.bookings_cat_search, name='bookings-cat-search'),
+    path('bookings/category/search/page/', views.bookings_cat_page, name='bookings-cat-page'),
+
+    path('forms/edit/category/user/', views.form_edit_category_user, name='form-edit-category-user'),
 
     #------------- Bookings Guests --------------#
     path('guest-access/<slug:category_uuid>/', gv.guest_access, name='guest-access'),

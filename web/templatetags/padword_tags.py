@@ -4,7 +4,7 @@ from django.urls import reverse
 from django.utils import translation 
 
 import json
-from padword.commons import show_exc, get_items_per_page
+from padword.commons import show_exc, get_items_per_page, user_in_group
 from web.models import Project, ProjectUser
 from contents.models import Allergen, Category, CategoryUser, Feature, ItemPromo
 import string, random
@@ -86,6 +86,34 @@ def is_empty(json_str, lang):
                 return (json_dict[keys[0]] == "")
             except Exception as e:
                 return (json_str == "")
+
+@register.filter()
+def can_add_cat(user):
+    if user_in_group(user, "admins") or user_in_group(user, "projects"):
+        return True
+    return False 
+
+@register.filter()
+def can_edit_cat(user):
+    if user_in_group(user, "admins") or user_in_group(user, "projects"):
+        return True
+
+    if user_in_group(user, "categories"):
+        cu = CategoryUser.objects.filter(username=user.username).first()
+        if cu != None and cu.view_cat:
+            return True
+    return False 
+
+@register.filter()
+def can_remove_cat(user):
+    if user_in_group(user, "admins") or user_in_group(user, "projects"):
+        return True
+
+    if user_in_group(user, "categories"):
+        cu = CategoryUser.objects.filter(username=user.username).first()
+        if cu != None and cu.remove_cat:
+            return True
+    return False 
 
 
 '''
@@ -271,7 +299,8 @@ def get_main_menu(user):
         if user.groups.filter(name="categories").exists():
             obj = CategoryUser.objects.filter(username=user.username).first()
             if obj != None: 
-                return {'user': user, 'menu': "categories", "category": obj.category}
+                return {'user': user, 'menu': "categories", 'view_cat': obj.view_cat}
+                #return {'user': user, 'menu': "categories", "category": obj.category}
         if user.groups.filter(name="projects").exists():
             obj = ProjectUser.objects.filter(username=user.username).first()
             if obj != None: 
@@ -330,8 +359,9 @@ def get_promos(obj):
     promo_list = ItemPromo.get_current(obj.project_uuid)
     return {'category': obj, 'promo_list': promo_list, 'total_images': len(promo_list)+obj.images.all().count()}
 
-@register.inclusion_tag('contents/emails.html')
+#@register.inclusion_tag('contents/emails.html')
+@register.inclusion_tag('forms/emails.html')
 def show_emails(obj):
-    return {'obj': obj}
+    return {'obj': obj, 'email_texts': obj.get_email_texts}
 
 

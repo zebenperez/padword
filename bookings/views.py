@@ -53,7 +53,8 @@ def login(request):
 '''
     Bookings
 '''
-def get_booking_context(project=None, form=None):
+#def get_booking_context(project=None, form=None):
+def get_booking_context(project=None, form_list=[]):
     context = {}
     today = datetime.datetime.today()
     ini_date = today + datetime.timedelta(days=-3)
@@ -65,9 +66,12 @@ def get_booking_context(project=None, form=None):
     if project != None:
         context["project_uuid"] = project.uuid
         context["project_name"] = project.name
-        if form != None:
-            kwargs['form_uuid'] = form.uuid
-            context["form_name"] = form.get_category.name
+#        if form != None:
+#            kwargs['form_uuid'] = form.uuid
+#            context["form_name"] = form.get_category.name
+        if form_list != []:
+            kwargs['form_uuid__in'] = [item.uuid for item in form_list]
+            context["form_list"] = form_list
         else:
             uuid_list = [item.uuid for item in Category.objects.filter(project_uuid=project.uuid)]
             forms_uuid_list = [item.uuid for item in Form.objects.filter(form_type__order = True, category__in = uuid_list)]
@@ -139,7 +143,8 @@ def search(user, project_uuid, project, form_uuid, form, ini_date, end_date, nam
 
     return items
 
-@group_required("admins", "projects", "categories")
+#@group_required("admins", "projects", "categories")
+@group_required("admins", "projects")
 def bookings_search(request):
     try:
         project = get_param(request.GET, "s-project")
@@ -159,7 +164,7 @@ def bookings_search(request):
         print (show_exc(e))
         return render(request, 'error_exception.html', {'exc':show_exc(e)})
 
-@group_required("admins", "projects", "guests")
+@group_required("admins", "projects", "categories", "guests")
 #def booking_view(request, fi_id):
 def booking_view(request):
     try:
@@ -241,7 +246,7 @@ def change_status(request):
         logger.error("[bookings-change_status] {}".format(str(e)))
     return render(request, 'error_exception.html', {'exc': 'Status not found!'})
 
-@group_required("admins", "projects")
+@group_required("admins", "projects", "categories")
 def booking_log(request, fi_id):
     try:
         fi = get_or_none(FormInstance, fi_id)
@@ -288,7 +293,7 @@ def bookings(request):
         return render(request, 'full_error_exception.html', {'exc':show_exc(e)})
     return render(request, 'full_error_exception.html', {})
 
-@group_required("admins", "projects", "categories")
+@group_required("admins", "projects")
 def bookings_page(request):
     try:
         project = get_param(request.GET, "s-project")
@@ -344,27 +349,106 @@ def bookings_by_project(request, project_id):
 '''
     Category users
 '''
-@group_required("admins", "projects", "categories")
-def bookings_by_category(request, category_id):
+@group_required("categories")
+def bookings_cat_search(request):
     try:
-        category = get_or_none(Category, category_id)
-        if category == None:
-            return render(request, 'error_exception.html', {'exc': _('Category not found!')})
-        form = get_or_none(Form, category.uuid, "category")
-        if form == None:
-            return render(request, 'error_exception.html', {'exc': _('Form not found!')})
+        project_uuid = get_param(request.GET, "s-project_uuid")
+        form = get_param(request.GET, "s-form")
+        form_uuid = get_param(request.GET, "s-form_uuid")
+        ini_date = get_param(request.GET, "s-ini_date")
+        end_date = get_param(request.GET, "s-end_date")
+        name = get_param(request.GET, "s-name")
+        status = get_param(request.GET, "s-status")
 
-        context = get_booking_context(category.project, form)
+        items = search(request.user, project_uuid, "", form_uuid, form, ini_date, end_date, name, status)
+
+        context={'total_items': len(items), 'items': items[0:ITEMS_PER_PAGE], 'status': status, 'page': 0}
+        return render(request, "bookings/cat-manage/booking-list.html", context)
+    except Exception as e:
+        print (show_exc(e))
+        return render(request, 'error_exception.html', {'exc':show_exc(e)})
+
+@group_required("categories")
+def bookings_cat_page(request):
+    try:
+        project_uuid = get_param(request.GET, "s-project_uuid")
+        #form = get_param(request.GET, "s-form")
+        form_uuid = get_param(request.GET, "s-form_uuid")
+        ini_date = get_param(request.GET, "s-ini_date")
+        end_date = get_param(request.GET, "s-end_date")
+        name = get_param(request.GET, "s-name")
+        status = get_param(request.GET, "s-status")
+        page = get_param(request.GET, "s-page", "0")
+
+        items = search(request.user, project_uuid, "", form_uuid, "", ini_date, end_date, name, status)
+
+        context={'total_items': len(items), 'items': items[int(page)*ITEMS_PER_PAGE:(int(page) + 1)*ITEMS_PER_PAGE], 'status': status, 'page': page}
+        return render(request, "bookings/cat-manage/booking-page.html", context)
+    except Exception as e:
+        print (show_exc(e))
+        return render(request, 'error_exception.html', {'exc':show_exc(e)})
+
+@group_required("categories")
+#def bookings_by_category(request, category_id):
+def bookings_by_category(request):
+    try:
+        #category = get_or_none(Category, category_id)
+        #if category == None:
+        #    return render(request, 'error_exception.html', {'exc': _('Category not found!')})
+        #form = get_or_none(Form, category.uuid, "category")
+        #if form == None:
+        #    return render(request, 'error_exception.html', {'exc': _('Form not found!')})
+        categories = [item.uuid for item in request.category_user.categories]
+        form_list = Form.objects.filter(category__in=categories).distinct()
+        if len(form_list) == 0 or len(categories) == 0:
+            return render(request, 'error_exception.html', {'exc': _('Form not found!')})
+        project = request.category_user.categories[0].project
+
+        context = get_booking_context(project, form_list)
         context['total_items'] = len(context['items']) if "items" in context else 0
         context['items'] = context['items'][0:ITEMS_PER_PAGE]
         context['page'] = 0
-        return render (request, "bookings/manage/bookings.html", context)
+        return render (request, "bookings/cat-manage/bookings.html", context)
     except Exception as e:
         print (show_exc(e))
         logger.error("[bookings-bookings_by_project] {}".format(str(e)))
         return render(request, 'error_exception.html', {'exc':show_exc(e)})
 
+@group_required("categories")
+def form_edit_category_user(request):
+    try:
+        # Create or edit by category
+        if "obj_id" in request.GET:
+            uuid = request.GET["obj_id"]
+            cat = get_or_none(Category, uuid, 'uuid')
+            if cat == None:
+                return render(request, 'error_exception.html', {'exc': _('Category not found!')})
+            obj = get_or_none(Form, cat.uuid, 'category')
+            #if obj == None:
+            #    obj = Form.objects.create(uuid=new_ui_slug(Form), category=cat.uuid)
+        # New form
+        else:
+            return render(request, 'error_exception.html', {'exc': _('Category not found!')})
+            #obj = Form.objects.create(uuid=new_ui_slug(Form))
 
+        context = {
+            'obj': obj,
+            #'block_list': Block.objects.all(),
+            #'form_type_list': FormType.objects.all(),
+            #'answer_type_list': AnswerType.objects.all(),
+            #'question_type_list': QuestionType.objects.all()
+        }
+
+        return render(request, "forms/form-edit-category.html", context)
+    except Exception as e:
+        print (show_exc(e))
+        return render(request, 'error_exception.html', {'exc':show_exc(e)})
+
+
+
+'''
+    Test
+'''
 @login_required
 def test(request):
     return HttpResponse("OK")

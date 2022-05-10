@@ -1,0 +1,18 @@
+{% load i18n padword_tags %}
+
+<div class="col-12 ms-3 p-2 categories-list">
+    <div class="d-flex cat-row">
+        <div class="p-2">
+            {% if not item.price %}
+                <a id="btn-show-{{item.pk}}" class="ark btn-cat-{{item.pk}}" data-url="{% url 'items-by-category' item.uuid %}" 
+                    data-target="items-list-{{item.pk}}"><i class="text-grey fas fa-folder"></i></a>
+                <a id="btn-hide-{{item.pk}}" class="d-none btn-cat-{{item.pk}}" onclick="hideTree({{item.pk}});">
+                    <i class="text-blue fas fa-folder-open"></i></a>
+            {% endif %}
+        </div>
+        <div id="title-cat-{{item.pk}}" onclick="$('.btn-cat-{{item.pk}}:not(.d-none)').click()" 
+            class="p-1 flex-grow-1 close {% if not item.active %}text-muted{%endif%} ark_"
+            data-url="{% url 'form-edit-category-user' %}" data-target="div-preview" data-obj_id="{{item.uuid}}">{%padword_translate item.name%}</div>
+    </div>
+</div>
+<div id="items-list-{{item.pk}}" class="col-12 ps-5 items-list"></div>

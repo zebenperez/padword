@@ -99,7 +99,7 @@ def form_edit(request, form_id=None, category_uuid=None):
         print (show_exc(e))
         return render(request, 'error_exception.html', {'exc':show_exc(e)})
 
-@group_required("admins", "projects")
+@group_required("admins", "projects", "categories")
 def form_edit_category(request):
     try:
         # Create or edit by category
@@ -289,7 +289,7 @@ def new_email(request):
     try:
         obj = get_or_none(Form, request.GET["obj_id"])
         FormEmail.objects.create(form=obj)
-        return render(request, "contents/emails.html", {"obj": obj,})
+        return render(request, "forms/emails.html", {"obj": obj, 'email_texts': obj.get_email_texts})
     except Exception as e:
         return render(request, "error_exception.html", {'exc': show_exc(e)})
 
@@ -299,7 +299,7 @@ def remove_email(request):
         obj = get_or_none(FormEmail, request.GET["obj_id"])
         form = obj.form
         obj.delete()
-        return render(request, "contents/emails.html", {"obj": form,})
+        return render(request, "forms/emails.html", {"obj": form, 'email_texts': form.get_email_texts})
     except Exception as e:
         return render(request, "error_exception.html", {'exc': show_exc(e)})
 

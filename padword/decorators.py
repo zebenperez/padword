@@ -8,8 +8,9 @@ def group_required(*group_names):
             if request.user.is_authenticated:
                 if bool(request.user.groups.filter(name__in=group_names)) or request.user.is_superuser:
                     cu = CategoryUser.objects.filter(username=request.user.username).first()
-                    if cu != None and cu.category != None:
-                        request.category_id = cu.category.id
+                    if cu != None:
+                        request.category_user = cu
+                        #request.category_id = cu.category.id
                     pu = ProjectUser.objects.filter(username=request.user.username).first()
                     if pu != None and pu.project != None:
                         request.project_id = pu.project.id

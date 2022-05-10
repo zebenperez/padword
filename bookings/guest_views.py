@@ -95,7 +95,7 @@ def booking_new_guest(request):
                 break
 
         if guest == None:
-            return render(request, 'guest-error-login.html', {'project_uuid': project.uuid, 'category_uuid': category_uuid})
+            return render(request, 'guest-error-login.html', {'project_uuid': project_uuid, 'category_uuid': category_uuid})
 
         user, err = GuestUser.get_or_create_guest_user(guest.UUID, project.uuid, code)
         if err != "":

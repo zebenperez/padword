@@ -66,9 +66,11 @@
 <div class="d-flex justify-content-end">
     <button type="button" class="btn btn-sm ark save" data-bs-dismiss="modal" data-url="{% url "items-by-category" cat.uuid %}" 
         data-target="items-list-{{cat.pk}}" >{% trans "Save" %}</button>
-    <button type="button" class="btn btn-sm ark cancel" data-bs-dismiss="modal" data-url="{% url "item-remove" %}" data-obj-id="{{obj.uuid}}" 
-        data-cat-id= "{{cat.uuid}}" data-target="items-list-{{cat.pk}}" data-confirm="{% trans "Are you sure to remove this element?" %}">
-        {% trans "Remove" %}</button>
+    {% if request.user|can_remove_cat %}
+        <button type="button" class="btn btn-sm ark cancel" data-bs-dismiss="modal" data-url="{% url "item-remove" %}" data-obj-id="{{obj.uuid}}" 
+            data-cat-id= "{{cat.uuid}}" data-target="items-list-{{cat.pk}}" data-confirm="{% trans "Are you sure to remove this element?" %}">
+            {% trans "Remove" %}</button>
+    {% endif %}
 </div>
 
 <script> function refresh_image() {$('#row-btn-{{obj.pk}}').click();}</script>

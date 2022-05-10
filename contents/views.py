@@ -48,7 +48,7 @@ def categories_by_project(request, project_id):
         categories = Category.objects.filter(project_uuid=project_id, parent__isnull =True).order_by('position')
         return render(request, "contents/categories.html", {'project':project, 'items':categories})
 
-@group_required("admins", "projects")
+@group_required("admins", "projects", "categories")
 def category_form(request):
     try:
         obj = get_or_none(Category, request.GET["objId"], 'uuid') if "objId" in request.GET else None
@@ -82,7 +82,7 @@ def category_form(request):
     except Exception as e:
         return render(request, "error_exception.html", {'exc': show_exc(e)})
 
-@group_required("admins", "projects")
+@group_required("admins", "projects", "categories")
 def category_tree(request, category_id):
     try:
         category = Category.objects.get(uuid=category_id)
@@ -95,7 +95,7 @@ def category_tree(request, category_id):
     except Exception as e:
         return JsonResponse({'results':[], 'error':1, 'error-msg':show_exc(e)})
 
-@group_required("admins", "projects")
+@group_required("admins", "projects", "categories")
 def category_change_active(request, category_id):
     try:
         category = Category.objects.get(uuid=category_id)
@@ -245,8 +245,9 @@ def category_remove_image_gallery(request):
 
 '''
     Items
+    FIXME: Hacer una gestión de items para los usuarios de tipo categories
 '''
-@group_required("admins", "projects")
+@group_required("admins", "projects", "categories")
 def item_form (request):
     try:
         obj = get_or_none(Item, request.GET["objId"], 'uuid') if "objId" in request.GET else None
@@ -276,7 +277,7 @@ def item_form (request):
     except Exception as e:
         return render(request, "error_exception.html", {'exc': show_exc(e)})
 
-@group_required("admins", "projects")
+@group_required("admins", "projects", "categories")
 def item_change_active(request, item_id):
     try:
         item = Item.objects.get(uuid=item_id)
@@ -286,7 +287,7 @@ def item_change_active(request, item_id):
     except Exception as e:
         return JsonResponse({'results':[], 'error':1, 'error-msg':show_exc(e)})
 
-@group_required("admins", "projects")
+@group_required("admins", "projects", "categories")
 def item_remove(request):
     try:
         obj = get_or_none(Item, request.GET["objId"], 'uuid') if "objId" in request.GET else None
@@ -300,7 +301,7 @@ def item_remove(request):
     except Exception as e:
         return JsonResponse({'results':[], 'error':1, 'error-msg':show_exc(e)})
 
-@group_required("admins", "projects")
+@group_required("admins", "projects", "categories")
 def item_change_image(request):
     if request.method == "POST":
         try:
@@ -319,7 +320,7 @@ def item_change_image(request):
     else:
         return (HttpResponse("Lo sentimos, pero ha ocurrido un error. "))
 
-@group_required("admins", "projects")
+@group_required("admins", "projects", "categories")
 def item_add_image(request):
     try:
         obj_id = request.POST["obj_id"]
@@ -334,7 +335,7 @@ def item_add_image(request):
         print(e)
         return render(request, 'error_exception.html', {'msg': str(e)})
 
-@group_required("admins", "projects")
+@group_required("admins", "projects", "categories")
 def item_remove_image(request):
     try:
         obj_id = request.GET["obj_id"]
@@ -351,7 +352,7 @@ def item_remove_image(request):
         print(e)
         return render(request, 'error_exception.html', {'msg': str(e)})
 
-@group_required("admins", "projects")
+@group_required("admins", "projects", "categories")
 def item_add_image_gallery(request):
     try:
         obj_id = request.POST["obj_id"]
@@ -365,7 +366,7 @@ def item_add_image_gallery(request):
         print(e)
         return render(request, 'error_exception.html', {'msg': str(e)})
 
-@group_required("admins", "projects")
+@group_required("admins", "projects", "categories")
 def item_remove_image_gallery(request):
     try:
         obj_id = request.GET["obj_id"]
@@ -379,7 +380,7 @@ def item_remove_image_gallery(request):
         return render(request, 'error_exception.html', {'msg': str(e)})
 
 
-@group_required("admins", "projects")
+@group_required("admins", "projects", "categories")
 def save_allergen(request):
     try:
         obj = get_or_none(Item, request.GET["obj_id"])
@@ -394,7 +395,7 @@ def save_allergen(request):
     except Exception as e:
         return render(request, "error_exception.html", {'exc': show_exc(e)})
 
-@group_required("admins", "projects")
+@group_required("admins", "projects", "categories")
 def new_extra(request):
     try:
         obj = get_or_none(Item, request.GET["obj_id"])
@@ -403,7 +404,7 @@ def new_extra(request):
     except Exception as e:
         return render(request, "error_exception.html", {'exc': show_exc(e)})
 
-@group_required("admins", "projects")
+@group_required("admins", "projects", "categories")
 def remove_extra(request):
     try:
         obj = get_or_none(ItemExtra, request.GET["obj_id"])
@@ -413,7 +414,7 @@ def remove_extra(request):
     except Exception as e:
         return render(request, "error_exception.html", {'exc': show_exc(e)})
 
-@group_required("admins", "projects")
+@group_required("admins", "projects", "categories")
 def save_feature(request):
     try:
         obj = get_or_none(Category, request.GET["obj_id"])
@@ -429,7 +430,7 @@ def save_feature(request):
         print(e)
         return render(request, "error_exception.html", {'exc': show_exc(e)})
 
-@group_required("admins", "projects")
+@group_required("admins", "projects", "categories")
 def new_promo(request):
     try:
         obj = get_or_none(Item, request.GET["obj_id"])
@@ -438,7 +439,7 @@ def new_promo(request):
     except Exception as e:
         return render(request, "error_exception.html", {'exc': show_exc(e)})
 
-@group_required("admins", "projects")
+@group_required("admins", "projects", "categories")
 def remove_promo(request):
     try:
         obj = get_or_none(ItemPromo, request.GET["obj_id"])
@@ -448,7 +449,7 @@ def remove_promo(request):
     except Exception as e:
         return render(request, "error_exception.html", {'exc': show_exc(e)})
 
-@group_required("admins", "projects")
+@group_required("admins", "projects", "categories")
 def item_add_banner(request):
     try:
         obj_id = request.POST["obj_id"]
@@ -463,7 +464,7 @@ def item_add_banner(request):
         print(e)
         return render(request, 'error_exception.html', {'msg': str(e)})
 
-@group_required("admins", "projects")
+@group_required("admins", "projects", "categories")
 def item_remove_banner(request):
     try:
         obj_id = request.GET["obj_id"]
@@ -474,8 +475,19 @@ def item_remove_banner(request):
         print(e)
         return render(request, 'error_exception.html', {'msg': str(e)})
 
+'''
+    Category Users
+'''
+@group_required("categories")
+def categories_by_categories(request):
+    if request.category_user == None:
+        return render(request, 'error_exception.html', {'msg': "User not found!"})
+    return render(request,"contents/categories.html",{'project':request.category_user.categories[0].project,'items':request.category_user.categories})
 
 
+'''
+    Import
+'''
 ##### IMPORT #####
 class Node:
     def __init__(self, json_data, languages):
