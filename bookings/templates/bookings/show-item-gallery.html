@@ -21,11 +21,11 @@
                     <div class="carousel-item {%if forloop.counter0 == 0%}active{%endif%}">
                         <div class="row slider-row">
                             <div class="col-lg-12 col-12 justify-content-center zoom">
-                                <div class="image" id="cover"> 
+                                {#<div class="image" id="cover"> #}
                                     {% if item.image %} 
                                         <img src="{{item.image.url}}" class="object-fit_cover-gallery" alt="{% padword_translate item.name %}"> 
                                     {% endif %}
-                                </div>
+                                {#</div>#}
                             </div>
                         </div>
                     </div>
