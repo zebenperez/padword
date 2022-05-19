@@ -1,5 +1,6 @@
 #main-base {
-    padding-top: 120px !important;
+    /*padding-top: 120px !important;*/
+    padding-top: 70px !important;
 }
 
 .main-pwa {
@@ -28,25 +29,27 @@ img {
     background: linear-gradient(180deg, rgba(255,255,255,1) 71%, rgba(255,255,255,0) 100%) !important;
     border-bottom: none !important;
     justify-content: left !important;
-    height: 100px !important;
+    height: 60px !important;
     position: fixed !important;
     top: 0 !important;
     z-index: 1;
-/*    border:1px solid red;*/
 }
 .div-top img {
     height: 60px !important;
     object-fit: cover;
 }
 
-button.btn.btn-header-pwa.ark, a.btn.btn-header-pwa.ark { margin-top: 15px;}
-button.btn.btn-header-pwa.ark span, span.subtext { color: #3a4355 !important;}
-
-/*.icon-cart  { color: #3a4355 !important; margin-top: 15px;}*/
+button.btn.btn-header-pwa.ark, a.btn.btn-header-pwa.ark {
+    /*border:1px solid red;*/
+}
+button.btn.btn-header-pwa.ark span, span.subtext { 
+    color: #3a4355 !important;
+    font-size: 0.7rem !important;
+}
 
 i.fas.fa-home, i.far.fa-calendar, i.fas.fa-shopping-cart, i.fas.fa-sign-in-alt { 
     color: #3a4355 !important; 
-    font-size: 1.2rem;
+    font-size: 0.8rem !important;
 }
 
 .btn-info-pwa {
@@ -112,13 +115,12 @@ button.btn-outline-danger:hover {
 }
 
 button.btn.btn-header-pwa.ark { 
-    margin-top: 10px;
+    margin-top: 0px !important;
     padding-left: 0px;
     padding-right: 0px;
 }
 
 a.btn.btn-header-pwa.ark { 
-    margin-top: 13px;
     color: #3a4355 !important; 
 }
 
@@ -152,12 +154,12 @@ button.menu-options {
     background: none;
 	border:0;
 	color:#3a4355;
-	font-size: 1.2rem;
+/*	font-size: 1.2rem;*/
 	height: 60px;
 }
 
 .menu-tabs {
-    bottom: 60px;
+    bottom: 50px;
 	width: 100%;
 	position: fixed;
 	margin-left: 0.1%;
@@ -206,15 +208,20 @@ button.menu-options {
 	color:#adb4b9;
 }
 
+.languages {
+/*    border:1px solid red;*/
+}
+
 .languages img {
-	width: 70px;
-	height: 70px;
+	width: 40px;
+	height: 40px;
 	border: 1px solid #fff !important;
 	border-radius: 50px !important;
 }
 
 .div-slogan {
     margin-top: 50px !important;
+/*    border:1px solid blue;*/
 }
 
 .div-boxes {
@@ -247,11 +254,8 @@ button.menu-options {
 
 .img-carousel {
     background-color: #fff;
-<<<<<<< HEAD
  /*   border-radius: 0.25rem;*/
-=======
     border-radius: 0.25rem 0.25rem 0 0;
->>>>>>> 2f262037e1c6715f8d2e79e1dd361709a90a78e2
 }
 
 .img-carousel img.object-fit_cover-gallery {
@@ -268,16 +272,26 @@ button.menu-options {
 @media (max-width: 1200px) 
 {
     .languages img {
-        width: 50px;
-        height: 50px;
+        width: 40px;
+        height: 40px;
     	border: 1px solid #fff !important;
 	    border-radius: 50px !important;
     }
     .div-top img {
-        height: 60px !important;
+        height: 30px !important;
         max-width: initial;
         object-fit: cover;
+        margin-top: 5px;
     }
+}
+
+@media (max-width: 700px) 
+{
+    .row.div-top {
+        height: 60px !important;
+/*        border:1px solid blue;*/
+    }
+
 }
 
 
@@ -292,21 +306,25 @@ button.menu-options {
         font-size: 0.7rem !important;
     }
     .row.div-top {
-        height: 80px !important;
+        height: 60px !important;
+/*        border:1px solid blue;*/
     }
 
     .div-top img {
-        height: 35px !important;
+        height: 25px !important;
         max-width: initial;
         object-fit: cover;
-        margin-top: 15px;
+        margin-top: 5px;
     }
-    button.menu-options {
-        /*font-size: 0.9rem;*/
-        font-size: 0.75rem;
-    }
-    .btn-info-pwa {
+     .btn-info-pwa {
         font-size: 0.8rem !important;
+    }
+
+    .menu-tabs {
+        bottom: 50px;
+        width: 100%;
+        position: fixed;
+        margin-left: 0.1%;
     }
 
     .menu-botton {
@@ -327,6 +345,10 @@ button.menu-options {
         display: inline-block;
         line-height: 2;
     }
+    button.menu-options {
+        /*font-size: 0.9rem;*/
+        font-size: 0.75rem !important;
+    }
 
     .div-slogan {
         margin-top: 5px !important;
@@ -342,20 +364,21 @@ button.menu-options {
         padding-left: 0px;
         padding-right: 0px;
     }
-    button.btn.btn-header-pwa.ark span, span.subtext  { color: #3a4355 !important;font-size: 0.7rem;}
+    button.btn.btn-header-pwa.ark span, span.subtext  { 
+        color: #3a4355 !important;
+        font-size: 0.6rem !important;
+    }
 
     .icon-cart  { color: #3a4355 !important; margin-top: 0;}
 
     i.fas.fa-home, i.far.fa-calendar, i.fas.fa-shopping-cart, i.fas.fa-sign-in-alt { 
         color: #3a4355 !important; 
-        font-size: 1rem;
-        font-size: 0.8rem;
-        padding-top: 2px;
+        font-size: 0.9rem !important;
     }
 
     .languages img {
-        width: 50px;
-        height: 35px;
+        width: 40px;
+        height: 40px;
     	border: 1px solid #fff !important;
     }
 
