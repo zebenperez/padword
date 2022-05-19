@@ -32,6 +32,7 @@ img {
     position: fixed !important;
     top: 0 !important;
     z-index: 1;
+/*    border:1px solid red;*/
 }
 .div-top img {
     height: 60px !important;
@@ -185,8 +186,8 @@ button.menu-options {
 	background:#3a4355;
     text-transform: capitalize !important;
 	position:fixed; 
-	bottom:0; 
-	left: 1%;
+	bottom:0;
+    margin-left: -0.85rem !important;
 	width: 105% !important;
 	height: 60px;
 	line-height: 60px;
@@ -301,7 +302,8 @@ button.menu-options {
         margin-top: 15px;
     }
     button.menu-options {
-        font-size: 0.9rem;
+        /*font-size: 0.9rem;*/
+        font-size: 0.75rem;
     }
     .btn-info-pwa {
         font-size: 0.8rem !important;
@@ -364,6 +366,7 @@ button.menu-options {
     }
 }
 
+/*******************************************************/
 
 .row.d-flex.justify-content-center.col-0 {
     margin:auto !important;
@@ -371,4 +374,7 @@ button.menu-options {
 .resize-form {
     background: transparent;
 }
+.row {
 
+    --bs-gutter-x: 0 !important;
+}
