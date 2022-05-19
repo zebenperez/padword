@@ -2,7 +2,7 @@
 
 
 {#{% with related="s-page,s-project,s-form,s-ini_date,s-end_date,s-name,s-status,s-project_uuid,s-form_uuid" %}#}
-{% with related="s-page,s-ini_date,s-end_date,s-name,s-status,s-project_uuid,s-form_uuid" search_url="bookings-cat-search" %}
+{% with related="s-page,s-ini_date,s-end_date,s-name,s-status,s-project_uuid,s-form" search_url="bookings-cat-search" %}
 
 <input type="hidden" name="s-page" id="s-page" value="{{page}}" data-target="table-list-bookings" data-related="{{related}}" data-append="append" 
     data-url="{% url 'bookings-cat-page' %}" class="autosearch_change"/>
@@ -11,7 +11,7 @@
     data-url="{% url search_url %}" class="autosearch_change"/>
 
 <input type="hidden" name="s-project_uuid" id="s-project_uuid" value="{{project_uuid}}"/>
-<input type="hidden" name="s-form_uuid" id="s-form_uuid" value="{{form_uuid}}"/>
+{#<input type="hidden" name="s-form_uuid" id="s-form_uuid" value="{{form_uuid}}"/>#}
 
 <div class="toolbar-search">
     <div class="row">
@@ -27,7 +27,7 @@
             <select class="autosearch form-control form-control-dark w-30" name="s-form" id="s-form" data-url="{% url search_url %}" 
                 data-target="booking-list" data-related="{{related}}"/>
                 {% if form_list|length > 1 %}<option value="">{% trans "All" %}</option>{% endif %}
-                {% for item in form_list %} <option value="{{item.id}}">{% padword_translate item.get_category.name %}</option> {% endfor %}
+                {% for item in form_list %} <option value="{{item.uuid}}">{% padword_translate item.get_category.name %}</option> {% endfor %}
             </select>
         </div>
         <div class="col-md-6 col-xs-12">

@@ -36,6 +36,8 @@ urlpatterns = [
     path('devices/form/', views.device_form, name='device-form'),
     path('devices/assign/', views.device_assign, name='device-assign'),
     path('devices/remove/', views.device_remove, name='device-remove'),
+    #---------------------- E-Keys ---------------------
+    path('ekeys/', views.ekeys, name='ekeys'),
     #---------------------- Tests ----------------------
     path('thanks/', views.thanks),
     path('check-error/', views.check_error),

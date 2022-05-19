@@ -362,10 +362,11 @@ img {
 }
 
 h5.card-title { 
-	font-size: 1rem; 
+	/*font-size: 1rem; */
 /*	min-height: 80px; */
 	overflow-wrap: normal;
     padding-top: 10px;
+
 }
 
 h4.card-title { 
@@ -914,3 +915,52 @@ div.card.info-panel {
 }
 
 
+/***********************************************/
+/***** NUEVO: fijar tamaño contenedor item *****/
+
+.box-new {
+    height:350px !important;
+   /* border:1px solid blue !important;*/
+}
+
+img.object-fit_cover.img-new {
+/*    height: 90px !important;*/
+    height:auto !important;
+}
+
+.card-body.card-new {
+    height: 180px !important;
+    padding: 0px !important;
+}
+
+h5.card-title.text-dark.text-center.title-new { 
+	font-size: 0.8rem; 
+    height: 90px !important;
+    display: flex;
+    align-items:center;
+    justify-content:center;
+}
+
+.price-new {
+    position:absolute;bottom: 135px !important;width:100%;
+}
+
+.allerg-new {
+    position:absolute;bottom: 100px !important;width:100%;
+}
+.allerg-new img {
+    width: 1.8em;
+}
+
+.info-new {
+    position:absolute;bottom: 60px !important;width:100%;
+}
+
+@media (max-width: 768px) {
+ 
+    .box-new {
+        height:400px !important;
+/*        border:1px solid red !important;*/
+    }
+   
+}

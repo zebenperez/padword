@@ -485,6 +485,8 @@ $(document).ready(()=>{
             frm = $('#'+form_id);
             target = $(this).data("target");
             submitForm(frm, target);
+            if (obj.data("update"))
+                $("#"+obj.data("update")).html($("#"+obj.data("update-val")).val())
             e.preventDefault();
         }
     });

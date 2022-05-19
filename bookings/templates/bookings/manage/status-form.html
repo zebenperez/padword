@@ -17,6 +17,7 @@
                 {% trans "Status" %}: 
                 <input type="hidden" id="fi_id" name="fi_id" value="{{fi.id}}" />
                 <input type="hidden" id="status" name="status" value="{{fi.get_status.status.id}}" />
+                <input type="hidden" id="status-name" name="status-name" value="{% padword_translate fi.get_status.status.name %}" />
                 {% for item in status_list %}
                     <a href="#" class="btn btn-sm status-btn {%if fi.get_status.status == item%}status-active{%endif%}" 
                         data-id="{{item.id}}">{% padword_translate item.name %}</a>
@@ -30,7 +31,8 @@
                 {%endcomment%}
             </div>
             <div class="col-lg-2 col-12">
-                <input type="submit" class="btn btn-primary saveform" data-form="status-form" data-target="div-status" value="{% trans "Change Status" %}" />
+                <input type="submit" class="btn btn-primary saveform" data-form="status-form" data-target="div-status" 
+                    data-update="status-{{fi.id}}" data-update-val="status-name" value="{% trans "Change Status" %}" />
             </div>
             <div class="col-lg-12 col-12 mt-4">
                 {% trans "Comentario para el siguiente estado" %}: 
@@ -51,5 +53,6 @@
         $(".status-btn").each(function(){$(this).removeClass("status-active")});
         $(this).addClass("status-active");
         $("#status").val($(this).data("id"));
+        $("#status-name").val($(this).html());
     })
 </script>

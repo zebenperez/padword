@@ -54,14 +54,15 @@ def clone_form_instance(fi, vacancy):
         new_ai.save()
 
 def generate_qr(data, logo, color, color_back):
-    qr = qrcode.QRCode( version=1, error_correction=qrcode.constants.ERROR_CORRECT_L, box_size=10, border=4)
+    #qr = qrcode.QRCode(version=1, error_correction=qrcode.constants.ERROR_CORRECT_L, box_size=10, border=4)
+    qr = qrcode.QRCode(error_correction=qrcode.constants.ERROR_CORRECT_H)
     qr.add_data(data)
     qr.make(fit=True)
 
     if logo != None and logo != "":
         img = qr.make_image(fill_color=color, back_color=color_back).convert('RGB')
 
-        basewidth = 100
+        basewidth = 150
         img_logo = Image.open(logo)
         wpercent = (basewidth / float(img_logo.size[0]))
         hsize = int((float(img_logo.size[1]) * float(wpercent)))

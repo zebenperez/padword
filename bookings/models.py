@@ -75,6 +75,7 @@ class FormType(models.Model):
     name = models.CharField(max_length=200, verbose_name=_("Name"))
     template = models.CharField(max_length=200, verbose_name=_("Template"), default="", blank=True)
     template_base = models.CharField(max_length=200, verbose_name=_("Template Base"), default="", blank=True)
+    template_login = models.CharField(max_length=200, verbose_name=_("Template Login"), default="", blank=True)
     project_uuid = models.CharField(max_length=255, verbose_name=_("Project UUID"), default="", blank=True)
 
     def __str__(self):

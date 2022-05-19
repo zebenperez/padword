@@ -12,7 +12,7 @@ from .models import *
 
 from django.conf import settings
 import os
-
+import requests
 
 
 # Create your views here.
@@ -465,3 +465,20 @@ def ServiceWorker(request):
     return response
 #     template_name = "sw.js"
 #     content_type="application/javascript"
+
+'''
+    EKeys
+'''
+@group_required("admins")
+def ekeys(request):
+    URL = "https://app.tullaveonline.com"
+    URL2 = "https://app.tullaveonline.com/?controller=login"
+    URL3 = "https://app.tullaveonline.com/?controller=precheckin"
+    client = requests.session()
+    page = client.get(URL)
+    login_data = dict(usuario="admin", password="admin", action="dologin")
+    r = client.post(URL2, data=login_data, headers=dict(Referer=URL))
+    page = client.get(URL3)
+    return render (request, "web/ekeys.html", {'page': page.text.replace('src="js/', 'src="https://app.millaveonline.com/js/')})
+
+

@@ -11,6 +11,8 @@
         <li class="nav-item"><a class="nav-link " href="{% url "devices" %}"><i class="fas fa-tablet-alt"></i> {% trans "Tablets" %} </a> </li>
         <hr/>
         <li class="nav-item"><a class="nav-link " href="{% url "bookings" %}"><i class="fas fa-book"></i>  {% trans "Orders" %}</a> </li>
+        <hr/>
+        <li class="nav-item"><a class="nav-link " href="{% url "ekeys" %}"><i class="fas fa-key"></i>  {% trans "E-Keys" %}</a> </li>
     {% elif menu == "projects" %}
         {% comment %}
         <li class="nav-item"><a class="nav-link " href="{% url 'categories-by-project' project.uuid %}">

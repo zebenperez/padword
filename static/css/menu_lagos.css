@@ -123,9 +123,10 @@ a.btn.btn-header-pwa.ark {
 }
 
 .img-carousel img.object-fit_cover-gallery {
-    width: 1024px !important;
+  /*  width: 1024px !important;*/
     object-fit: cover !important;
-/*    height: 350px !important;*/
+    height: 275px !important;
+/*    border:1px solid red !important;*/
 }
 
 .carousel-control-next, .carousel-control-prev {
@@ -146,11 +147,16 @@ a.btn.btn-header-pwa.ark {
 
 #cover .img {
  /*   height: 250px;*/
-    background-color: white !important;
+    background: white !important;
+}
+
+div#cover.image {
+    text-align: center;
+    background: white !important;
 }
 
 #cover img {
- /*   height: 250px;*/
+    /*height: 375px;*/
 }
 
 /******************************************/
@@ -188,7 +194,7 @@ a.btn.btn-header-pwa.ark {
 }
 
 .div-key a {
-	color:#868789;
+    color: #b0aba7;
     text-decoration: none !important;
 }
 
@@ -213,8 +219,9 @@ a.btn.btn-header-pwa.ark {
 button.menu-options { 
     background: none;
    	border:0;
-	color:#868789 !important;
+    color: #b0aba7 !important;
     font-size: 0.7rem !important;
+    font-weight: 600;
 	height: 60px;
     line-height:1.5;
     text-transform: uppercase !important;
@@ -252,7 +259,7 @@ button.menu-options.ark i.fas.fa-home, button.menu-options.ark i.far.fa-calendar
 *****************************************/
 
 i.fas.fa-bars {
-    color: #95989a;
+    color: #b0aba7;
 }
 
 ul.dropdown-menu {
@@ -266,10 +273,14 @@ ul.dropdown-menu {
     font-size: 16px;
     font-weight: 400;
     line-height: 206.25%;
-    color: #95989A;
+    color: #878787 !important;
     padding-left: 10px;
 }
 
+.dropdown-item:hover {
+    background: #a5c3d0;
+    color: #fff !important;
+}
 .dropdown-menu.show {
     display: block;
     width: 1000;
@@ -286,23 +297,61 @@ ul.dropdown-menu {
 
 @media (max-width: 1200px) 
 {
-
     .img-carousel img.object-fit_cover-gallery {
-        width: 500px !important;
+/*      width: 500px !important;*/
         object-fit: cover !important;
-/*        height: 250px !important;*/
+        height: 250px !important;
+    }
+
+}
+@media (max-width: 980px) 
+{
+    .img-carousel img.object-fit_cover-gallery {
+        object-fit: cover !important;
+        height: 180px !important;
+    }
+}
+
+@media (max-width: 420px) 
+{
+    .img-carousel img.object-fit_cover-gallery {
+    /*  width: 300px !important;*/
+        height: 180px !important;
+        object-fit: cover !important;
     }
 
 }
 
 
+/*****************************************
+    STYLE CATEGORIES
+*****************************************/
 
-@media (max-width: 420px) 
-{
-    .img-carousel img.object-fit_cover-gallery {
-        width: 300px !important;
-        object-fit: cover !important;
-/*        height: 250px !important;*/
-    }
+.overlay {
+    background-color: #b0aba7 !important;
+}
+.overlay:hover {
+    background-color: #a5c3d0 !important;
+}
+.overlay span {
+    border: 2px solid #fff !important;
+    color: #fff !important;
+}
+.card-title.text-dark.text-center {
+    color: #878787 !important;
+}
+.btn-dark, .btn-dark a {
+    color: #fff !important;
+    background-color: #878787 !important;
+    border-color: #878787 !important;
+}
+
+i.fas.fa-chevron-left,
+h1.ql-align-center {
+    color: #878787 !important;
+}
+.booking-head {
+    background-color: #a5c3d0 !important;
+    border-color: #a5c3d0 !important;
 }
 

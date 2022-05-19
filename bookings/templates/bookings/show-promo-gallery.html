@@ -23,22 +23,24 @@
                         <div class="row slider-row">
                             <div class="col-lg-12 col-12 justify-content-center">
                                 <div class="image" id="cover"> 
-                                    <img src="{{item.image.url}}" alt="{% trans "Image gallery" %}" />
+                                    {% if item.image %} 
+                                        <img src="{{item.image.url}}" class="object-fit_cover-gallery" alt="{% trans "Image gallery" %}" />
+                                    {% endif %}
                                 </div>
                             </div>
                         </div>
                     </div>
                 {% endfor %}
 
-                {% for item in promo_list %}
+                {% for promo in promo_list %}
                     <div class="carousel-item">
                         <div class="row slider-row">
                             <div class="col-lg-12 col-12 justify-content-center">
                                 <div class="image" id="cover"> 
-                                    {% if item.banner %} 
+                                    {% if promo.banner %} 
                                         <div class="card ark" data-url="{%url "show-category-menu"%}" data-target="main" 
-                                            data-cat_id="{{item.item.category.uuid}}"> <img src="{{item.banner.url}}" 
-                                            class="object-fit_cover-gallery" alt="{%padword_translate item.item.name%}"> </div>
+                                            data-cat_id="{{promo.item.category.uuid}}"> <img src="{{promo.banner.url}}" 
+                                            class="object-fit_cover-gallery" alt="{%padword_translate promo.item.name%}"> </div>
                                     {% endif %}
                                 </div>
                             </div>

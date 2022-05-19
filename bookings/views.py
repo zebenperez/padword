@@ -354,13 +354,28 @@ def bookings_cat_search(request):
     try:
         project_uuid = get_param(request.GET, "s-project_uuid")
         form = get_param(request.GET, "s-form")
-        form_uuid = get_param(request.GET, "s-form_uuid")
+        #form_uuid = get_param(request.GET, "s-form_uuid")
         ini_date = get_param(request.GET, "s-ini_date")
         end_date = get_param(request.GET, "s-end_date")
         name = get_param(request.GET, "s-name")
         status = get_param(request.GET, "s-status")
 
-        items = search(request.user, project_uuid, "", form_uuid, form, ini_date, end_date, name, status)
+        if form == "":
+            categories = [item.uuid for item in request.category_user.categories]
+            form_list = Form.objects.filter(category__in=categories).distinct()
+        else:
+            form_list = [form]
+        kwargs = {'form_uuid__in': form_list}
+        if ini_date != "":
+            kwargs["date__gte"] = ini_date
+        if end_date != "":
+            ed = end_date.split("-")
+            kwargs["date__lte"] = datetime.datetime(int(ed[0]), int(ed[1]), int(ed[2]), 23, 59, 59)
+        if name != "":
+            kwargs["guest_uuid__in"] = filter_search_guest(name, [project_uuid])
+
+        items = FormInstance.objects.filter(**kwargs)
+        items = filter_search_status(items, status)
 
         context={'total_items': len(items), 'items': items[0:ITEMS_PER_PAGE], 'status': status, 'page': 0}
         return render(request, "bookings/cat-manage/booking-list.html", context)
@@ -372,8 +387,8 @@ def bookings_cat_search(request):
 def bookings_cat_page(request):
     try:
         project_uuid = get_param(request.GET, "s-project_uuid")
-        #form = get_param(request.GET, "s-form")
-        form_uuid = get_param(request.GET, "s-form_uuid")
+        form = get_param(request.GET, "s-form")
+        #form_uuid = get_param(request.GET, "s-form_uuid")
         ini_date = get_param(request.GET, "s-ini_date")
         end_date = get_param(request.GET, "s-end_date")
         name = get_param(request.GET, "s-name")

@@ -65,6 +65,11 @@ def guest_form_login(request):
         if "project_uuid" in request.GET:
             cat_uuid = request.GET["category_uuid"] if "category_uuid" in request.GET else ""
             error = request.GET["error"] if "error" in request.GET else ""
+            template = 'guest_form_login.html'
+            if cat_uuid != "":
+                form = Form.objects.filter(category=cat_uuid).first()
+                if form.form_type.template_login != "":
+                    template = form.form_type.template_login
             return render(request, 'guest_form_login.html', {'project_uuid': request.GET["project_uuid"], 'category_uuid': cat_uuid, 'error': error})
         return render(request, 'error_exception.html', {'exc': 'Form or project not found!', 'error-msg': 'Form or project not found!'})
     except Exception as e:
