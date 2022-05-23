@@ -86,6 +86,10 @@ def booking_new_guest(request):
         code = request.POST["code"]
         room = request.POST["room"]
 
+        if code == "" or room == "":
+            err = _('You must to complete username and password!')
+            return render(request, 'guest_form_login.html', {'project_uuid': project_uuid, 'category_uuid': category_uuid, 'error': err})
+
         project = get_or_none(Project, project_uuid, "uuid")
         if project == None:
             guests = Guest.objects.filter(email = code)
