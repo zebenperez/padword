@@ -269,6 +269,13 @@ button.menu-options {
 /* devices style*/
 /*****************************/
 
+@media (max-width: 2778px) 
+{
+    button.menu-options {
+        font-size: 0.75rem !important;
+    }
+}
+
 @media (max-width: 1200px) 
 {
     .languages img {
@@ -297,6 +304,15 @@ button.menu-options {
 
 @media (max-width: 420px) 
 {
+    .welcome-page {
+        height: 100%;
+        background-position: center !important;
+        background-repeat: no-repeat !important;
+        background-size: cover !important;
+        position: relative !important;
+        text-align: center !important;
+    }
+ 
     .i-love-btn, .slogan, .value-btn, .covid19-btn, .sugest-btn  {
         margin-top: 20px;
     }
@@ -346,7 +362,6 @@ button.menu-options {
         line-height: 2;
     }
     button.menu-options {
-        /*font-size: 0.9rem;*/
         font-size: 0.75rem !important;
     }
 
@@ -391,15 +406,21 @@ button.menu-options {
 
 @media (max-width: 305px) 
 {
-        button.menu-options {
+    button.menu-options {
         font-size: 0.5rem !important;
+    }
+}
+@media (max-width: 381px) 
+{
+    button.menu-options {
+        font-size: 0.6rem !important;
     }
 }
 
 @media (max-width: 270px) 
 {
-        button.menu-options {
-        font-size: 0.5rem !important;
+    button.menu-options {
+        font-size: 0.6rem !important;
     }
 }
 
