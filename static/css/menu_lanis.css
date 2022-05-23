@@ -389,6 +389,20 @@ button.menu-options {
     }
 }
 
+@media (max-width: 305px) 
+{
+        button.menu-options {
+        font-size: 0.5rem !important;
+    }
+}
+
+@media (max-width: 270px) 
+{
+        button.menu-options {
+        font-size: 0.5rem !important;
+    }
+}
+
 /*******************************************************/
 
 .row.d-flex.justify-content-center.col-0 {
