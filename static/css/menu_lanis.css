@@ -305,11 +305,11 @@ button.menu-options {
 @media (max-width: 420px) 
 {
     .welcome-page {
-        height: 100%;
+     /*   height: 100%;
         background-position: center !important;
         background-repeat: no-repeat !important;
         background-size: cover !important;
-        position: relative !important;
+        position: relative !important;*/
         text-align: center !important;
     }
  
@@ -435,4 +435,10 @@ button.menu-options {
 .row {
 
     --bs-gutter-x: 0 !important;
+}
+
+.welcome-page {
+    height: 100%;
+    background-position: right;
+    background-size: cover;
 }
