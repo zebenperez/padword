@@ -8,6 +8,7 @@ import datetime
 from .models import *
 from padword.commons import show_exc, get_or_none, new_ui_slug, translate, user_in_group, get_param
 from padword.decorators import group_required
+from bookings.models import GuestUser
 import web.models as webmod 
 
 ITEMS_PER_PAGE=20
@@ -95,6 +96,9 @@ def guest_remove(request):
     project_uuid = request.GET["project_uuid"] if "project_uuid" in request.GET else None
     obj = get_or_none(Guest, request.GET["obj_id"]) if "obj_id" in request.GET else None
     if obj != None:
+        gu_list = GuestUser.objects.filter(guest_uuid=obj.UUID)
+        for gu in gu_list():
+            gu.delete()
         obj.delete()
 
     items = Guest.objects.all() if project_uuid == None else Guest.objects.filter(project_id=project_uuid)
