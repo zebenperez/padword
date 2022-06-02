@@ -13,8 +13,14 @@ logger = logging.getLogger(__name__)
     Guests functions
 '''
 def get_guest(username, project_uuid):
-    gu = GuestUser.objects.filter(project_uuid=project_uuid, username=username).first()
-    return gu.guest if gu != None else None
+    #gu = GuestUser.objects.filter(project_uuid=project_uuid, username=username).first()
+    #return gu.guest if gu != None else None
+    gu_list = GuestUser.objects.filter(project_uuid=project_uuid, username=username)
+    for gu in gu_list:
+        if gu.guest != None:
+            return gu.guest
+    return None
+
 
 def get_guest_total_items(username, project_uuid):
     guest = get_guest(username, project_uuid)
