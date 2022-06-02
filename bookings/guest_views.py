@@ -158,8 +158,16 @@ def bookings_by_guest(request, project_uuid=None):
         if project_uuid == None:
             project_uuid = request.GET["project_uuid"]
 
-        gu = GuestUser.objects.filter(project_uuid=project_uuid, username=request.user.username).first()
-        if gu == None or gu.guest == None:
+        #gu = GuestUser.objects.filter(project_uuid=project_uuid, username=request.user.username).first()
+        #if gu == None or gu.guest == None:
+        #    return render(request, 'error_exception.html', {'exc': 'User not found!'})
+        gu = None
+        gu_list = GuestUser.objects.filter(project_uuid=project_uuid, username=request.user.username)
+        for item in gu_list:
+            if item.guest != None:
+                gu = item
+                break
+        if gu == None:
             return render(request, 'error_exception.html', {'exc': 'User not found!'})
 
         guest = gu.guest
