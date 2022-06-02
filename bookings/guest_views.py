@@ -15,7 +15,7 @@ from web.models import Device, Project, ProjectUser
 from contents.models import Category, ShoppingCart, Item
 from guest.models import Guest
 
-from .common_lib import get_or_create_form_instance, get_max_index, get_or_create_answer_instance, user_in_group, get_guest
+from .common_lib import get_or_create_form_instance, get_max_index, get_or_create_answer_instance, user_in_group, get_guest, get_login_template
 from .models import AnswerInstance, Field, Form, FormChannel, FormInstance, Question, Block, GuestUser, Status
 from django.conf import settings
 
@@ -65,12 +65,8 @@ def guest_form_login(request):
         if "project_uuid" in request.GET:
             cat_uuid = request.GET["category_uuid"] if "category_uuid" in request.GET else ""
             error = request.GET["error"] if "error" in request.GET else ""
-            template = 'guest_form_login.html'
-            if cat_uuid != "":
-                form = Form.objects.filter(category=cat_uuid).first()
-                if form.form_type.template_login != "":
-                    template = form.form_type.template_login
-            return render(request, 'guest_form_login.html', {'project_uuid': request.GET["project_uuid"], 'category_uuid': cat_uuid, 'error': error})
+            return render(request, get_login_template(cat_uuid), {'project_uuid':request.GET["project_uuid"],'category_uuid':cat_uuid,'error':error})
+            #return render(request, 'guest_form_login.html', {'project_uuid': request.GET["project_uuid"], 'category_uuid': cat_uuid, 'error': error})
         return render(request, 'error_exception.html', {'exc': 'Form or project not found!', 'error-msg': 'Form or project not found!'})
     except Exception as e:
         logger.error("[bookings-guest_form_login] {}".format(str(e)))
@@ -85,10 +81,11 @@ def booking_new_guest(request):
         category_uuid = request.POST["category_uuid"]
         code = request.POST["code"]
         room = request.POST["room"]
+        lang = request.POST["lang"] if "lang" in request.POST else ""
 
         if code == "" or room == "":
             err = _('You must to complete username and password!')
-            return render(request, 'guest_form_login.html', {'project_uuid': project_uuid, 'category_uuid': category_uuid, 'error': err})
+            return render(request, get_login_template(category_uuid), {'project_uuid': project_uuid, 'category_uuid': category_uuid, 'error': err})
 
         project = get_or_none(Project, project_uuid, "uuid")
         if project == None:
@@ -111,7 +108,11 @@ def booking_new_guest(request):
             return render(request, 'error_exception.html', {'exc': err})
         auth.login(request, user)
 
-        return redirect(reverse("pwa-index-cat", kwargs = {'category_uuid':category_uuid}))
+        if lang != "":
+            guest.language = lang
+            guest.save()
+
+        return redirect(reverse("pwa-index-cat", kwargs = {'category_uuid':category_uuid, 'lang': lang}))
     except Exception as e:
         print (show_exc(e))
         logger.error("[bookings-new_booking] {}".format(str(e)))
@@ -552,7 +553,6 @@ def remove_generic_item_from_shopping_cart(request):
 '''
 @group_required("admins", "projects", "guests")
 def show_category_menu(request, cat_id=None, back="True"):
-    from django.utils import translation
     try:
         if not cat_id:
             cat_id = request.GET["cat_id"] if "cat_id" in request.GET else 0
@@ -615,13 +615,15 @@ def show_category_menu(request, cat_id=None, back="True"):
 @group_required("admins", "projects", "guests")
 def show_item(request):
     try:
-        guest_id = request.GET["guest_id"]
+        guest_id = request.GET["guest_id"] if "guest_id" in request.GET else ""
         item_id = request.GET["item_id"]
-        guest = get_or_none(Guest, int(guest_id))
+        guest = get_or_none(Guest, int(guest_id)) if guest_id != "" else None
         item = get_or_none(Item, int(item_id))
 
+        print("--1-")
         return render(request, "bookings/show-item-details.html", {'item':item, 'guest': guest})
     except Exception as e:
+        print(e)
         return render(request, "error_exception.html", {'exc':show_exc(e)})
 
 

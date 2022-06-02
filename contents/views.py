@@ -140,6 +140,10 @@ def category_clone(request):
                 for children in current.get_childrens:
                     tree.append([children, current])
 
+                cat_features = CategoryFeature.objects.filter(category = current)
+                cat_images = CategoryImage.objects.filter(category = current)
+                cat_forms = Form.objects.filter(category = uuid_cat)
+
                 cat_item = current
                 cat_item.pk = None
                 if cat_item.project_uuid == target.uuid and category.uuid == cat_item.uuid:
@@ -157,6 +161,27 @@ def category_clone(request):
                     item.save()
                     item_in_cat = ItemInCat(position=idx, category=cat_item, item=item)
                     item_in_cat.save()
+
+                for cat_feature in cat_features:
+                    cat_feature.pk = None
+                    cat_feature.category = cat_item
+                    cat_feature.save()
+
+                for cat_image in cat_images:
+                    cat_feature.pk = None
+                    cat_feature.category = cat_item
+                    cat_feature.save()
+                
+                for cat_form in cat_forms:
+                    blocks = cat_form.blocks
+                    cat_form.pk = None
+                    cat_form.category = cat_item.uuid
+                    cat_form.save()
+#                     for block in blocks:
+#                         block.pk = None
+#                         block.form = cat_form
+#                         block.save()
+
             return render(request, "contents/category-clone.html", {'category':Category.objects.get(uuid=category_id), 'projects':projects, 'target':target})
 
     except Exception as e:

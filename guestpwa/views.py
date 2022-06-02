@@ -1,6 +1,8 @@
 from django.conf import settings
 from django.http import HttpResponse
 from django.shortcuts import render, redirect, reverse
+from django.utils import translation
+
 from padword.commons import show_exc, get_or_none
 
 from bookings.models import Form, FormInstance
@@ -28,14 +30,20 @@ def index(request, project_uuid=None):
     except Exception as e:
         return render(request, "error_exception.html", {'exc':show_exc(e)})
 
-def index_cat(request, category_uuid=None):
+def index_cat(request, category_uuid=None, lang=""):
     try:
         if request.user.is_authenticated:
             cat_uuid = request.GET["category_uuid"] if category_uuid == None else category_uuid
             cat = get_or_none(Category, cat_uuid, "uuid")
             form = Form.objects.filter(category = cat_uuid).first()
             context = {'category': cat, 'form': form, 'project_uuid': cat.project.uuid}
-            return render(request, "bookings/show-category-pwa.html", context)
+            if lang == "":
+                return render(request, "bookings/show-category-pwa.html", context)
+
+            translation.activate(lang)
+            response = render(request, "bookings/show-category-pwa.html", context)
+            response.set_cookie(settings.LANGUAGE_COOKIE_NAME, lang)
+            return response
         else:
             return redirect(reverse('guest-access-bookings', kwargs={'project_uuid':project_uuid}))
     except Exception as e:

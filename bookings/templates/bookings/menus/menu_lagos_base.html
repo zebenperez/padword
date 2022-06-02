@@ -2,6 +2,7 @@
 
 {%block extralinks%} <link rel="stylesheet" href="{% static 'css/menu_lagos.css' %}" > {% endblock %}
 
+{% get_current_language as LANGUAGE_CODE %}
 <div class="row topbar pt-1 pb-1" style="margin:0px;">
     <div class="col-2 text-center pt-2">
         <button id="back-btn" class="btn btn-header-pwa text-center ark pl-2 pr-2" data-url="{% url "show-category-menu" %}" data-target="main" 
@@ -20,7 +21,15 @@
                 <a class="nav-link dropdown-toggler" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false"><i class="fas fa-bars"></i></a>
                 <ul class="dropdown-menu">
                     <!--  <li><a class="dropdown-item" href="#"><i class="fas fa-user-circle"></i> Zona personal</a></li> -->
-                    <li><a class="dropdown-item" href="#"><i class="far fa-flag"></i> Cambiar idioma</a></li>
+                    <li class="dropdown-item">
+                        <i class="far fa-flag"></i>
+                        <a class="ark" href="#" data-url="{% url "guest-set-lang" %}" data-target="main-base" data-lang="es" 
+                            data-cat_id="{{form.category}}"> ES</a> -
+                        <a class="ark" href="#" data-url="{% url "guest-set-lang" %}" data-target="main-base" data-lang="en" 
+                            data-cat_id="{{form.category}}"> EN</a> -
+                        <a class="ark" href="#" data-url="{% url "guest-set-lang" %}" data-target="main-base" data-lang="de" 
+                            data-cat_id="{{form.category}}"> DE</a>
+                    </li>
                     <li><a class="dropdown-item menu-options ark" data-url="{% url "show-category-menu" %}" idata-target="main"
                             data-cat_id="4e7bff89-9c82-bccc-d721-0f240a23ae68" href="#"><i class="fas fa-key"></i> Tu llave</a></li>
                     <!-- <li><a class="dropdown-item" href="#"><i class="far fa-calendar-check"></i> Agenda</a></li> -->
@@ -28,7 +37,11 @@
                     <li><a class="dropdown-item" href="#"><i class="fas fa-map-signs"></i> A tu alrededor</a></li>
                     <li><a class="dropdown-item" href="#"><i class="fas fa-wifi"></i> Wifi</a></li>
                     <li><a class="dropdown-item" href="#"><i class="fas fa-exchange-alt"></i> Cambio de hotel</a></li>
-                    <li><a class="dropdown-item" href="#"><i class="fas fa-sign-out-alt"></i> Cerrar sesión</a></li>
+                    {#<li><a class="dropdown-item" href="#"><i class="fas fa-sign-out-alt"></i> Cerrar sesión</a></li>#}
+                    <li>
+                        <a class="dropdown-item" href="{% url "close-spa" %}?category_uuid={{form.category}}">
+                            <i class="fas fa-sign-out-alt"></i> Cerrar sesión</a>
+                    </li>
                 </ul>
             </li>
         </ul>
@@ -36,8 +49,6 @@
  
 </div>
 
-<div id="main" class="main-pwa pl-4 pr-4"> 
-    {% include form.form_type.template with category=form.get_category %}
-</div>
+<div id="main" class="main-pwa pl-4 pr-4"> {% include form.form_type.template with category=form.get_category %} </div>
 
 {% include "bookings/menus/menu_bottom.html" %}

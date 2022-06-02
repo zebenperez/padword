@@ -11,6 +11,7 @@ urlpatterns = [
 
     path('category/', views.index_cat, name='pwa-index-cat'),
     path('category-<slug:category_uuid>/', views.index_cat, name='pwa-index-cat'),
+    path('category-<slug:category_uuid>/<slug:lang>/', views.index_cat, name='pwa-index-cat'),
 
     path('get-promos/', views.get_promos, name='pwa-get-promos'),
 
