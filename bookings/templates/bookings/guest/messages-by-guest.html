@@ -1,0 +1,44 @@
+{% load i18n padword_tags %}
+
+{% include "bookings/back-btn.html" with uuid=cat_uuid %}
+
+<div class="col-10 card info-panel p-2" style="width: 96%; margin-left:2%;">
+    <div class="content">
+        <div class="toolbar-content"> <h1 class="ql-align-center">{% trans 'My messages' %}</h1> </div>
+        <div id="booking-list" class="mb-4">
+            <div class="card-header text-dark bg-general"> <strong>{{guest.name}} {{guest.surname}}</strong> </div>
+            <div class="card-body text-left" id="message-box"> {% include "guest/messages.html" %} </div>
+            <div class="card-footer bg-general">
+                <div class="row">
+                    <div class="col-10">
+                        <input type="text" id="msg-input" class="form-control ark_intro" 
+                            data-url="{% url "send-message" %}" data-target="message-box" data-guest="{{guest.id}}" data-guest_msg="{{guest_msg}}"/>
+                    </div>
+                    <div class="col-2">
+                        <button class="btn text-center" onclick="$('#msg-input').trigger({type: 'keypress', which: 13, keyCode: 13});">
+                            <i class="fas fa-paper-plane"></i></button>
+                    </div>
+                </div>
+            </div>
+            {%comment%}
+            <button id="msg-check" class="form-control ark-append" data-url="{% url "check-messages" %}" data-target="message-box" 
+                data-guest="{{guest.id}}" data-guest_msg="{{guest_msg}}" data-date="" style="display:none"></button>
+            {%endcomment%}
+            <button id="msg-check" class="form-control ark" data-url="{% url "check-messages" %}" data-target="message-box" 
+                data-guest="{{guest.id}}" data-guest_msg="{{guest_msg}}" style="display:none"></button>
+ 
+        </div>
+    </div>
+</div>
+<script>
+    function updateMessages()
+    {
+        console.log("updating guest...")
+        $("#msg-check").click();
+        setTimeout(updateMessages, 10000);
+    }
+    
+    setTimeout(updateMessages, 10000);
+</script>
+
+

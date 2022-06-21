@@ -94,8 +94,11 @@ function checkNotify(ini_date, end_date)
     setTimeout(checkNotify, 600000);
 }
 
-function sendGuestNotify(title, desc, url, data)
+//function sendGuestNotify(title, desc, url, data)
+function sendGuestNotify(data)
 {
+    console.log(data);
+    var datas = JSON.parse(data);
     if (Notification.permission !== "granted")
     {
         Notification.requestPermission();
@@ -103,15 +106,15 @@ function sendGuestNotify(title, desc, url, data)
     else
     {
         options = {
-            "body": data,
+            "body": datas.text,
             "icon": "https://projects.shidix.es/static/chat/images/logo-blanco.png",
             "vibrate": [200, 100, 200, 100, 200, 100, 400],
             "tag": "request"
         }
         if (data != "")
         {
-            var notification = new Notification(title, options);
-            notification.onclick = function () { window.open(url); };
+            var notification = new Notification(datas.title, options);
+            //notification.onclick = function () { window.open(url); };
             notification.onclose = function () { console.log('Notification closed'); };
         }
     }
@@ -119,8 +122,10 @@ function sendGuestNotify(title, desc, url, data)
 
 function checkGuestNotify(form_id)
 {
+    fetch('/bookings/guests/notifications/'+form_id+"/").then(response => response.text()).then(data => sendGuestNotify(data));
+
+    //fetch('/bookings/guests/notifications/'+form_id+"/").then(response => response.text()).then(data => sendGuestNotify("Orders status:", 'Haz click sobre la notificación para acceder al listado.', '/bookings/bookings/', data));
     //fetch('/bookings/guests/notifications/'+form_id+"/").then(response => response.text()).then(data => alert(data));
-    fetch('/bookings/guests/notifications/'+form_id+"/").then(response => response.text()).then(data => sendGuestNotify("Orders status:", 'Haz click sobre la notificación para acceder al listado.', '/bookings/bookings/', data));
     //fetch('/bookings/guests/notifications/'+form_id+"/").then(response => { console.log('Response:', response); return response.json(); }).then(data => {console.log("--a--"); console.log(data)});
     //setTimeout(function(){checkGuestNotify(form_id)}, 10000);
 }

@@ -1,0 +1,143 @@
+{% load i18n padword_tags %}
+
+<style> .back-grey{background:#ccc} </style>
+
+
+<h2 class="common-modal-head">{% trans 'New notification' %}</h2>
+
+<span id="div-notification"></span>
+
+<div class="row justify-center notification-popup">
+    {% if request.user|in_group:"admins" %}
+	<div class="col-12 mb-2 text-right">
+        <input type="checkbox" class="autosave" id="public" name="public" 
+            data-model-name="guest.notification" data-obj-id="{{obj.id}}" data-url="{% url "autosave_field" %}" data-bool="True" 
+            data-target="div-notification" {% if obj.public %}checked{% endif %}/> <span class="public_error" id="public__msg"></span>
+            {% trans "Published" %}
+	</div>
+    {% elif not obj.public %}
+        <input type="checkbox" class="autosave" id="public" name="public" data-model-name="guest.notification" data-obj-id="{{obj.id}}" 
+            data-url="{% url "autosave_field" %}" data-bool="True" data-target="div-notification" style="display:none"/>
+    {% endif %}
+
+	<div class="col-12 mb-2">
+        <label class="label">{% trans "Search guests" %}:</label>
+        <input class="form-control input autocomplete" id="guest" name="guest" placeholder="Type guest..."  
+            data-url="{% url "guest-notification-autocomplete" %}" data-target="guest-box-list" data-obj_id="{{obj.id}}" data-show="guest-box-list"
+            {% if obj.all_users %}readonly{% endif %}/>
+        <div id="guest-box-list"></div>
+	</div>
+
+	<div class="col-9 mb-2">
+        <label class="label">{% trans "Send to guests" %}:</label>
+	</div>
+	<div class="col-3 mb-2 text-right">
+        <input type="checkbox" class="autosave text-right" id="all_users" name="all_users" 
+            data-model-name="guest.notification" data-obj-id="{{obj.id}}" data-url="{% url "autosave_field" %}" data-bool="True" 
+            data-target="div-notification" {% if obj.all_users %}checked{% endif %}/> <span class="all_users_error" id="all_users__msg"></span>
+            {% trans "All users" %}
+	</div>
+
+    <div class="col-12 mb-2 notif-guest-list {% if obj.all_users %}back-grey{% endif %}" id="guest-box">
+        {% include "guest/notifications/notification-guests.html" %}</div>
+
+ 	<div class="col-12 mb-2">
+        {% if obj.project != None%}
+            <div class="col d-flex justify-content-end">
+                {% for lang in obj.project.get_languages %}
+                    <a class="btn btn-{% is_current_lang lang 'primary' 'secondary'%} ark ms-2 me-2" data-url="{% url "guest-notification-form" %}" 
+                        data-target-modal="common-modal" data-lang="{{lang}}" data-obj_id="{{obj.id}}" href="#">{{lang}}</a>
+                {%endfor%}
+            </div>
+        {% endif %}
+    </div>
+
+	<div class="col-12 mb-2">
+        <label class="label">{% trans "Subject" %}:</label>
+        <input class="form-control autosave input mb-1" id="subject" name="subject" data-lang="{% current_lang %}"
+            data-model-name="guest.notification" data-obj-id="{{obj.id}}" data-url="{% url "autosave_field" %}" 
+            data-target="div-notification" value="{% padword_translate obj.subject %}" /> <span class="subject_error" id="subject__msg"></span>
+	</div>
+
+	<div class="col-12 mb-2">
+        <label class="label">{% trans "Message" %}:</label>
+        <textarea class="form-control autosave input mb-1" id="msg" name="msg" data-lang="{% current_lang %}"
+            data-model-name="guest.notification" data-obj-id="{{obj.id}}" data-url="{% url "autosave_field" %}" 
+            data-target="div-notification" style="display:none">{% padword_translate obj.msg %}</textarea> 
+        <span class="msg_error" id="msg__msg"></span>
+        <div id="msg-editor" style="height:200px; overflow:scroll;"> {% padword_translate obj.msg %}</div>
+	</div>
+</div>
+
+<div class="d-flex justify-content-end p-2">
+    {% if not obj.public %} <button type="button" id="btn-send" class="btn btn-primary m-2" data-bs-dismiss="modal"
+        {%if obj.guests.all|length == 0 and not obj.all_users%}disabled{%endif%}> 
+        {%trans "Send"%}</button> {% endif %}
+	<button type="button" id="btn-save" class="btn btn-primary ark m-2" data-bs-dismiss="modal" data-url="{% url "guest-notification-search" %}" 
+        data-target="notification-list"> {%trans "Save"%}</button>
+	<button type="button" class="btn btn-danger ark m-2" data-bs-dismiss="modal" data-url="{% url "guest-notification-remove" %}" 
+        data-target="notification-list" data-obj_id="{{obj.id}}" data-confirm="{% trans "Are you sure to remove this element?" %}">
+        {% trans "Remove" %}</button>
+</div>
+
+<script>
+    {% if not obj.public %}
+        $("#btn-send").click(function(){
+            $("#public").prop("checked", "checked").change();
+            $("#btn-save").click();
+        });
+    {% endif %}
+
+    function checkGuestBox(){
+        if ($("#guest-box .row").length == 0)
+            $("#btn-send").prop("disabled", "disabled");
+        else
+            $("#btn-send").prop("disabled", "");
+    }
+
+    $("#all_users").click(function(){
+        if ($(this).is(':checked')){
+            $("#guest").prop("readonly", "readonly");
+            $("#guest-box").addClass("back-grey");
+            $("#btn-send").prop("disabled", "");
+        }
+        else {
+            $("#guest").prop("readonly", "");
+            $("#guest-box").removeClass("back-grey");
+            checkGuestBox();
+        }
+    });
+
+    $('#guest-box').on('DOMSubtreeModified', function(){ checkGuestBox(); });
+
+    var toolbarOptions = [
+        ['bold', 'italic', 'underline', 'strike'],        // toggled buttons
+        ['blockquote', 'code-block'],
+
+        [{ 'header': 1 }, { 'header': 2 }],               // custom button values
+        [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+        [{ 'script': 'sub'}, { 'script': 'super' }],      // superscript/subscript
+        [{ 'indent': '-1'}, { 'indent': '+1' }],          // outdent/indent
+        [{ 'direction': 'rtl' }],                         // text direction
+
+        [{ 'size': ['small', false, 'large', 'huge'] }],  // custom dropdown
+        [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
+        [ 'link', 'formula' ],          // add's image support
+        [{ 'color': [] }, { 'background': [] }],          // dropdown with defaults from theme
+        [{ 'font': [] }],
+        [{ 'align': [] }],
+
+        ['clean']                                         // remove formatting button
+    ];
+
+    var quill = new Quill('#msg-editor', {
+        modules: { toolbar: toolbarOptions },
+        theme: 'snow'
+    });
+
+    quill.on('text-change', function(delta, oldDelta, source) {
+        $("#msg").html(quill.root.innerHTML);
+        $("#msg").change();
+    });
+
+</script>

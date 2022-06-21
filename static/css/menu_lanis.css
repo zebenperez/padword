@@ -47,7 +47,11 @@ button.btn.btn-header-pwa.ark span, span.subtext {
     font-size: 0.7rem !important;
 }
 
-i.fas.fa-home, i.far.fa-calendar, i.fas.fa-shopping-cart, i.fas.fa-sign-in-alt { 
+ #span-notifications {
+    color: #fff!important;
+}
+
+i.fas.fa-home, i.far.fa-calendar, i.far.fa-bell, i.fas.fa-shopping-cart, i.fas.fa-sign-in-alt { 
     color: #3a4355 !important; 
     font-size: 0.8rem !important;
 }

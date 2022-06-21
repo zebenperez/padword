@@ -1,0 +1,49 @@
+{% load i18n bookings_tag common_tag padword_tags static %}
+
+{% get_current_language as LANGUAGE_CODE %}
+
+<div class="row div-slogan"><div class="col-12 text-center main-slide">{% get_promos category %}</div></div>
+ 
+<div class="row div-key mt-5">
+    <div class="col-12 text-center">
+        <a class="menu-options collapsible-header waves-effect btn-large pt-3" data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample"><i class="fa fa-lock"></i> Mis Llaves</a>
+        <div class="collapse" id="collapseExample">
+            <div class="collapse-option mt-3"><a class="collapsible-header waves-effect btn-large-2"><i class="fa fa-lock"></i> Entrance</a></div>
+            <div class="collapse-option mt-3"><a class="collapsible-header waves-effect btn-large-2"><i class="fa fa-lock"></i> Locker Room</a></div>
+            <div class="collapse-option mt-3"><a class="collapsible-header waves-effect btn-large-2"><i class="fa fa-lock"></i> Server Room</a></div>
+        </div>
+    </div>
+</div>
+
+<div class="row mt-5"> <h4 class="color-brown mt-0">Our Hotel Services</h4></div>
+<div class="row menu-tabs pt-3"> 
+    <div class="tabs-1 col-4 offset-1 mb-1 align-middle justify-content-center p2">
+        <button class="menu-options ark" data-url="{% url "show-category-menu" %}" data-target="main" 
+            data-cat_id="612d8ad6-b8c8-ff9d-0fbf-660ae0b8c589"><i class="fas fa-bed"></i> 
+        </button><br /><span>{% padword_translate_obj '612d8ad6-b8c8-ff9d-0fbf-660ae0b8c589'%}</span>
+    </div> 
+    <div class="tabs-2 col-4 offset-2 mb-1 align-middle justify-content-center p2">
+        <button class="menu-options ark" data-url="{% url "show-category-menu" %}" data-target="main" 
+            data-cat_id="0fb0e3ad-df39-bff2-9d58-5ec46fce9745"><i class="fas fa-concierge-bell"></i>
+        </button> <br /><span>{% padword_translate_obj '0fb0e3ad-df39-bff2-9d58-5ec46fce9745'%}</span> 
+    </div>
+    <div class="tabs-3 col-4 offset-1 mb-1 align-middle justify-content-center p2">
+        <button class="menu-options ark" data-url="{% url "show-category-menu" %}" data-target="main" 
+            data-cat_id="30478ba7-72b8-fb75-c238-16dfadf656d7"><i class="fas fa-credit-card"></i> 
+        </button><br /><span>{% padword_translate_obj '30478ba7-72b8-fb75-c238-16dfadf656d7'%}</span>
+    </div> 
+    <div class="tabs-4 col-4 offset-2 mb-1 align-middle justify-content-center p2">
+        <button class="menu-options ark" data-url="{% url "show-category-menu" %}" data-target="main" 
+            data-cat_id="8d5e32fa-bb5f-988d-157a-9e7a5ebd0ffc"><i class="fas fa-clipboard-list"></i>
+        </button><br /><span>{% padword_translate_obj '8d5e32fa-bb5f-988d-157a-9e7a5ebd0ffc'%}</span>
+    </div>
+</div>
+
+<script id="realtime-script">
+    $('#span-total-items').html('{% get_total_items request.user.username category.project_uuid %}');
+    if (parseInt($("#span-total-items").html()) > 0)
+        $("#count-badge").show();
+    else
+        $("#count-badge").hide();
+    $('#realtime-script').remove();
+</script>

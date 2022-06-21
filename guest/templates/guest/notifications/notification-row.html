@@ -1,0 +1,24 @@
+{% load i18n padword_tags %}
+
+<td class="row p-1">
+    {% if request.user|in_group:"admins" %} <div class="col-1">{{ item.project.name }}</div> {% endif %}
+    <div class="col-1">{{ item.date|date:'Y-m-d H:i' }}</div>
+    <div class="col-2 d-flex justify-content-start lh-4">
+        {% for gn in item.guests.all %} {{gn.guest.name}} {{gn.guest.surname}}, {{gn.guest.room}}, {{gn.guest.email}}<br/> {% endfor %} </div>
+    <div class="col-3">{% padword_translate item.subject %}</div>
+    <div class="col-3">{% padword_translate item.msg %}</div>
+    <div class="col-2">
+        {% if not item.public %}
+            {% if item.guests.all|length > 0 or obj.all_users %}
+                <a class="btn btn-xs ark" data-url="{% url "guest-notification-send" %}" data-target="notification-list" data-obj_id="{{item.id}}"> 
+                    <i class="fas fa-paper-plane"></i></a>  
+            {% endif %}
+        {% endif %}
+        {% if not item.public or request.user|in_group:"admins" %}
+            <a class="btn btn-xs ark" data-url="{% url "guest-notification-form" %}" data-target-modal="common-modal" data-obj_id="{{item.id}}"> 
+                <i class="fas fa-edit"></i></a>  
+            <a class="btn btn-sm autoremove" data-model-name="guest.notification" data-obj-id="{{item.id}}" data-url="{% url "autoremove_obj" %}" 
+                data-target="row_{{item.id}}" data-confirm="{% trans "Are you sure to remove this element?" %}"><i class="fas fa-trash"></i></a>
+        {% endif %}
+    </div>
+</td>

@@ -3,6 +3,7 @@ from django.contrib.auth.decorators import login_required
 from django.core import serializers
 from django.shortcuts import render, redirect
 from django.utils.translation import ugettext_lazy as _ 
+from django.db.models import Q
 import datetime
 
 from .models import *
@@ -13,8 +14,6 @@ import web.models as webmod
 
 ITEMS_PER_PAGE=20
 
-
-# Create your views here.
 
 def index(request):
     try:
@@ -249,4 +248,185 @@ def device_pagination(request, page=0):
         return render(request, "device/device-page.html", {'items':items, 'page':page})
     except Exception as e:
         return render(request, "error_exception.html", {'exc':show_exc(e)})
+
+'''
+   Notifications 
+'''
+def get_notification_guests(value, notification, project):
+    guest_ids = notification.guests.all().values_list('guest__id', flat=True)
+
+    filters_to_search = ["name__icontains", "room", "surname__icontains", "email__icontains"]
+    now = datetime.datetime.now()
+    #now = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+
+    values_filter = Q()
+    for myfilter in filters_to_search:
+        values_filter |= Q(**{myfilter: value})
+            
+    kwargs = {'check_in__lte': now, 'check_out__gte': now}
+    if project != None:
+        kwargs["project_id"] = project.uuid
+
+    return Guest.objects.filter(values_filter).filter(**kwargs).exclude(id__in=guest_ids)
+
+def get_notifications(values):
+    try:
+        project = get_or_none(Project, values.project_id)
+        return Notification.objects.filter(project_uuid=project.uuid)
+    except:
+        return Notification.objects.all()
+
+def get_notifications_project_uuid(values):
+    try:
+        project = get_or_none(Project, values.project_id)
+        return project.uuid
+    except:
+        return ""
+
+@group_required("admins", "projects")
+def notifications(request):
+    try:
+        items = get_notifications(request)
+        context = {'total_items': items.count(), 'items': items[0:ITEMS_PER_PAGE], 'page': 0}
+        return render (request, "guest/notifications/notifications.html", context)
+    except Exception as e:
+        return render(request, 'error_exception.html', {'exc':show_exc(e)})
+
+@group_required("admins", "projects")
+def notification_search(request):
+    try:
+        #search_value = request.GET["s-name"] if "s-name" in request.GET else ""
+        page = "0"
+        items = get_notifications(request)
+        context = {'total_items':  items.count(), 'items': items[int(page)*ITEMS_PER_PAGE:(int(page) + 1)*ITEMS_PER_PAGE], 'page': 0}
+        return render(request, "guest/notifications/notification-list.html", context)
+    except Exception as e:
+        return JsonResponse({'results':[], 'error':1, 'error-msg':show_exc(e)})
+
+@group_required("admins", "projects")
+def notification_form(request):
+    try:
+        project_uuid = get_notifications_project_uuid(request)
+        obj = get_or_none(Notification, request.GET["obj_id"]) if "obj_id" in request.GET else Notification.objects.create(project_uuid=project_uuid)
+        return render(request, "guest/notifications/notification-form.html", {'obj': obj,})
+    except Exception as e:
+        return render(request, 'error_exception.html', {'exc':show_exc(e)})
+
+@group_required("admins", "projects")
+def notification_remove(request):
+    obj = get_or_none(Notification, request.GET["obj_id"]) if "obj_id" in request.GET else None
+    if obj != None:
+        obj.delete()
+
+    items = Notification.objects.all() 
+    return render(request, "guest/notifications/notification-list.html", {'items':items[0:ITEMS_PER_PAGE]})
+
+@group_required("admins", "projects")
+def notification_send(request):
+    obj = get_or_none(Notification, request.GET["obj_id"]) if "obj_id" in request.GET else None
+    if obj != None:
+        obj.public = True
+        obj.save()
+
+    items = Notification.objects.all() 
+    return render(request, "guest/notifications/notification-list.html", {'items':items[0:ITEMS_PER_PAGE]})
+
+
+@group_required("admins", "projects")
+def notification_pagination(request):
+    try:
+        page = get_param(request.GET, "s-page", "0")
+        items = get_notifications(request)
+
+        context = {'total_items': items.count(), 'page': page, 'items': items[int(page)*ITEMS_PER_PAGE:(int(page) + 1)*ITEMS_PER_PAGE]}
+        return render(request, "guest/notifications/notification-page.html", context)
+    except Exception as e:
+        return render(request, "error_exception.html", {'exc':show_exc(e)})
+
+@group_required("admins", "projects")
+def notification_autocomplete(request):
+    try:
+        value = get_param(request.GET, "value")
+        notification_id = get_param(request.GET, "obj_id")
+        notification = get_or_none(Notification, notification_id)
+        items = []
+        if value != "":
+            try:
+                project = get_or_none(Project, request.project_id)
+                items = get_notification_guests(value, notification, project)
+            except:
+                items = get_notification_guests(value, notification, None)
+
+        return render(request, "guest/notifications/guest-list.html", {'items': items, 'notification': notification.id})
+    except Exception as e:
+        return render(request, "error_exception.html", {'exc':show_exc(e)})
+
+@group_required("admins", "projects")
+def notification_add_guest(request):
+    try:
+        guest_id = get_param(request.GET, "obj_id")
+        guest = get_or_none(Guest, guest_id)
+        notification_id = get_param(request.GET, "notification")
+        notification = get_or_none(Notification, notification_id)
+        if notification != None and guest != None:
+            GuestNotification.objects.create(guest=guest, notification=notification)
+        return render(request, "guest/notifications/notification-guests.html", {'obj': notification})
+    except Exception as e:
+        return render(request, "error_exception.html", {'exc':show_exc(e)})
+
+@group_required("admins", "projects")
+def notification_remove_guest(request):
+    try:
+        gn_id = get_param(request.GET, "obj_id")
+        gn = get_or_none(GuestNotification, gn_id)
+        notification = None
+        if gn != None:
+            notification = gn.notification
+            gn.delete()
+        return render(request, "guest/notifications/notification-guests.html", {'obj': notification})
+    except Exception as e:
+        return render(request, "error_exception.html", {'exc':show_exc(e)})
+
+
+'''
+   Chat
+'''
+#def get_sender_msg(guest, sender, date=""):
+#    return guest.get_messages(False, sender, date)
+def get_messages(guest, guest_msg):
+    return {'messages': guest.get_messages(guest_msg != "False"), 'guest_msg': guest_msg}
+
+@login_required
+def show_chat(request):
+    guest = get_or_none(Guest, request.GET["guest"])
+    context = get_messages(guest, request.GET["guest_msg"])
+    context["guest"] = guest
+    return render(request, "guest/chat.html", context)
+
+@login_required
+def message_send(request):
+    guest = get_or_none(Guest, request.GET["guest"])
+    guest_msg = request.GET["guest_msg"]
+    if guest != None:
+        Message.objects.create(guest=guest, guest_msg=(guest_msg != "False"), msg=request.GET["value"])
+    return render(request, "guest/messages.html", get_messages(guest, guest_msg))
+
+@login_required
+def message_remove(request):
+    msg = get_or_none(Message, request.GET["obj_id"])
+    guest = msg.guest
+    guest_msg = "True" if msg.guest_msg else "False"
+    msg.delete()
+    return render(request, "guest/messages.html", get_messages(guest, guest_msg))
+
+@login_required
+def messages_check(request):
+    guest = get_or_none(Guest, request.GET["guest"])
+    return render(request, "guest/messages.html", get_messages(guest, request.GET["guest_msg"]))
+    #date = datetime.datetime.min
+    #if "date" in request.GET and request.GET["date"] != "":
+    #    date = datetime.datetime.strptime(request.GET["date"], "%Y-%m-%d %H:%M:%S") + datetime.timedelta(seconds=1)
+    #messages = get_sender_msg(guest, request.user, date) if guest_msg == "False" else guest.get_messages(True, None, date)
+    #return render(request, "guest/messages.html", {'messages': get_messages(guest_msg), 'guest_msg': request.GET["guest_msg"]})
+
 

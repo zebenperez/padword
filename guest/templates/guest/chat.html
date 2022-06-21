@@ -1,0 +1,52 @@
+<div class="card chat-box mb-3">
+    <div class="card-header text-white bg-general">
+        <div class="row">
+            <div class="col-10"><strong>{{guest.name}} {{guest.surname}}</strong></div>
+            <div class="col-2"><button id="btn-collapse" class="btn" data-toggle="collapse" data-target="#collapse-box">
+                <i class="fas fa-minus"></i></button></div>
+        </div>
+    </div>
+    <div class="collapse show" id="collapse-box" style="padding:0px; margin:0px">
+        <div class="card-body" id="message-box"> {% include "guest/messages.html" %} </div>
+        <div class="card-footer bg-general">
+            <div class="row">
+                <div class="col-10">
+                    <input type="text" id="msg-input" class="form-control ark_intro" 
+                        data-url="{% url "send-message" %}" data-target="message-box" data-guest="{{guest.id}}" data-guest_msg="{{guest_msg}}"/>
+                </div>
+                <div class="col-2">
+                    <button class="btn text-center" onclick="$('#msg-input').trigger({type: 'keypress', which: 13, keyCode: 13});">
+                        <i class="fas fa-paper-plane"></i></button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{%comment%}
+<button id="msg-check" class="form-control ark-append" data-url="{% url "check-messages" %}" data-target="message-box" data-guest="{{guest.id}}"
+    data-guest_msg="{{guest_msg}}" data-date="" style="display:none"></button>
+{%endcomment%}
+<button id="msg-check" class="form-control ark" data-url="{% url "check-messages" %}" data-target="message-box" data-guest="{{guest.id}}"
+    data-guest_msg="{{guest_msg}}" style="display:none"></button>
+
+<script>
+    function updateMessages()
+    {
+        console.log("updating...")
+        $("#msg-check").click();
+        setTimeout(updateMessages, 10000);
+    }
+    
+    setTimeout(updateMessages, 10000);
+
+    $("#btn-collapse").click(function(){
+        var obj = $(this).find("i");
+        if (obj.hasClass("fa-minus"))
+            obj.toggleClass("fa-minus fa-plus");
+        else
+            obj.toggleClass("fa-plus fa-minus");
+    });
+
+    $('#message-box').scrollTop($('#message-box').prop("scrollHeight")); 
+</script>
+

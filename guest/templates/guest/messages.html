@@ -1,0 +1,22 @@
+{% for msg in messages %}
+    <div id="" class="{% if msg.guest_msg %}text-right response{%endif%} p-2 m-2" style="border-radius:10px; background:#eee7f1;color: #000;">
+        {{msg.msg}}
+        {% if guest_msg == "False" and not msg.guest_msg  %}
+            <a href="" class="btn btn-info btn-xs ark" data-url="{% url "remove-message" %}" data-target="message-box" data-obj_id="{{msg.id}}"
+                data-guest_msg="{{guest_msg}}"> <i class="fas fa-trash fa-xs"></i></a>
+        {% elif guest_msg == "True" and msg.guest_msg %}
+            <a href="" class="btn btn-info btn-xs ark" data-url="{% url "remove-message" %}" data-target="message-box" data-obj_id="{{msg.id}}"
+                data-guest_msg="{{guest_msg}}"> <i class="fas fa-trash fa-xs"></i></a>
+        {% endif %}
+        <br/><div class="text-right msg-date">{{msg.date|date:"d-m-Y H:i:s"}}</div>
+        <br/>
+        <div class="text-right msg-date">
+            {% if guest_msg == "False" and not msg.guest_msg %}
+                {%if msg.guest_read%}Leído{%else%}No leído{%endif%}
+            {% elif guest_msg != "False" and msg.guest_msg %}
+                {%if msg.sender_read%}Leído{%else%}No leído{%endif%}
+            {% endif %}
+        </div>
+    </div>
+{% endfor %}
+{#{% if messages.all.count > 0 %} <script>$("#msg-check").data("date", "{{messages.all.last.date|date:'Y-m-d H:i:s'}}")</script>{% endif %}#}

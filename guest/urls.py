@@ -25,5 +25,22 @@ urlpatterns = [
     path('devices/remove/', views.device_remove, name='guest-device-remove'),
     path('devices/page/<int:page>/', views.device_pagination, name='guest-device-page'),
 
+    #--------------------- NOTIFICATIONS --------------------
+    path('guests/notifications/', views.notifications, name='guest-notifications'),
+    path('guests/notifications/search/', views.notification_search, name='guest-notification-search'),
+    path('guests/notifications/form/', views.notification_form, name='guest-notification-form'),
+    path('guests/notifications/remove/', views.notification_remove, name='guest-notification-remove'),
+    path('guests/notifications/send/', views.notification_send, name='guest-notification-send'),
+    path('guests/notifications/page/', views.notification_pagination, name='guest-notification-page'),
+    path('guests/notifications/autocomplete/', views.notification_autocomplete, name='guest-notification-autocomplete'),
+    path('guests/notifications/add-guest/', views.notification_add_guest, name='guest-notification-add-guest'),
+    path('guests/notifications/remove-guest/', views.notification_remove_guest, name='guest-notification-remove-guest'),
+
+    #--------------------- CHAT --------------------
+    path('guests/chat/show-chat/', views.show_chat, name="show-chat"),
+    path('guests/chat/send-message/', views.message_send, name="send-message"),
+    path('guests/chat/remove-message/', views.message_remove, name="remove-message"),
+    path('guests/chat/check-messages/', views.messages_check, name="check-messages"),
+
 ]
 

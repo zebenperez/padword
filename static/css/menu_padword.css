@@ -1,0 +1,357 @@
+#main {
+    height: auto !important;
+    background:white !important;
+    padding-bottom: 10vh !important;
+}
+/*
+#main-content-guest {
+    padding-bottom: 10vh !important;
+    border:1px solid blue !important;
+}
+*/
+
+.main-pwa .row {
+    margin:0;
+}
+
+.main-pwa {
+    margin-top: 70px;
+}
+
+.container {
+	background-position: center; 
+	background-repeat: no-repeat;
+	background-size: cover; 
+	height: 500px;
+	width: 100%;
+}
+
+#div-notification,
+.fixed-head {
+	display:none;
+}
+
+img {
+    background-color: transparent;
+}
+
+a.btn.btn-primary,
+button.btn.btn-primary { 
+	border-radius: 15px;
+	border:none;
+    line-height: 2;
+}
+
+.btn.btn-secondary, 
+a.btn.btn-secondary, 
+button.btn.btn-secondary { 
+	background:#fff !important;
+	color:#777;
+	border-radius: 15px;
+	border:none;
+    line-height: 2;
+}
+a.btn.btn-secondary:hover,
+button.btn.btn-secondary:hover { 
+	background:#a8abad;
+    color: #333;
+}
+
+a.btn-outline-danger,
+button.btn-outline-danger { 
+	border-radius: 15px;
+    color: #dc3545;
+    background-color: white;
+    line-height: 2;
+    border: none;
+}
+
+a.btn-outline-danger:hover,
+button.btn-outline-danger:hover { 
+	background:#dc3545;
+    color: white;
+}
+
+button.btn.btn-header-pwa.ark { 
+    margin-top: 10px;
+    padding-left: 0px;
+    padding-right: 0px;
+}
+
+a.btn.btn-header-pwa.ark { 
+    margin-top: 13px;
+    color: #3a4355 !important; 
+}
+
+#menu {
+	display:inline-block;
+	text-align:center !important;
+}
+
+.align-items-end {
+	width: 110%;
+    position: fixed;
+    bottom: 60px;
+    left: 0;
+    height: 60px;
+    background: rgb(255,255,255);
+    background: linear-gradient(0deg, rgba(255,255,255,1) 71%, rgba(255,255,255,0) 100%);
+}
+
+/*****************************/
+/* Error page style*/
+/*****************************/
+
+.error-page {
+	background-image: url(/static/img/bg-lanis.png) !important;
+}
+.error-content {
+    background-color: white;
+    height: 400px !important;
+    border-radius: 0.25rem;
+	box-shadow: rgba(50, 50, 105, 0.15) 0px 2px 5px 0px, rgba(0, 0, 0, 0.05) 0px 1px 1px 0px;
+}
+
+.p2 {
+    padding:2px !important;
+}
+
+/******************************************/
+.img-carousel {
+    background-color: #fff;
+    border-radius: 0.25rem 0.25rem 0 0;
+}
+
+.img-carousel img.object-fit_cover-gallery {
+  /*  width: 1024px !important;*/
+    object-fit: cover !important;
+    height: 275px !important;
+/*    border:1px solid red !important;*/
+}
+
+.carousel-control-next, .carousel-control-prev {
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 15%;
+    padding: 0;
+    color: #fff;
+    font-size: 2rem;
+    text-align: center;
+    background: 0 0;
+    border: 0;
+    opacity: .9;
+    transition: opacity .15s ease;
+}
+
+#cover .img {
+ /*   height: 250px;*/
+    background: white !important;
+}
+
+div#cover.image {
+    text-align: center;
+    background: white !important;
+}
+
+#cover img {
+    /*height: 375px;*/
+}
+
+/******************************************/
+
+
+/*****************************************
+ LAGOS DESIGN
+*****************************************/
+.topbar {
+    background: #fff !important;
+	position:fixed !important;
+    top:0 !important;
+    width: 100% !important;
+    height: 70px !important;
+    z-index: 1; 
+}
+.topbar img {
+    height: 50px;
+}
+
+.div-slogan {
+   /*height: 380px;*/
+}
+
+.div-slogan .main-slide {
+    padding:0px !important;
+    border-bottom: 2px solid #e3e2e0;
+}
+.div-key {
+	color:#868789;
+    max-height: 100px;
+    font-size: 1.3rem;
+    border-bottom: 2px solid #f3e3ea;
+    border-bottom: 2px solid #e3e2e0;
+}
+
+.div-key a {
+    color: #b0aba7;
+    text-decoration: none !important;
+}
+
+.div-key img {
+    max-height: 40px;
+}
+
+.menu-tabs {
+	width: 100%;
+	margin-left: 0.1%;
+}
+
+.tabs {
+    background: white;
+    padding-bottom: 50px !important;
+}
+
+.ico-image {
+    width: 75%;
+}
+
+button.menu-options { 
+    background: none;
+   	border:0;
+    color: #b0aba7 !important;
+    font-size: 0.7rem !important;
+    font-weight: 600;
+	height: 60px;
+    line-height:1.5;
+    text-transform: uppercase !important;
+}
+
+.menu-botton {
+    background:#ffffff;
+    text-transform: uppercase;
+	position:fixed; 
+	bottom:0; 
+	left: 1%;
+	width: 105%;
+	height: 60px;
+	line-height: 60px;
+	font-size: 0.9rem;
+	border-top:1px solid #cccccc;
+    opacity: 1;
+}
+
+.menu-botton a {
+	color:#868789 !important;
+}
+
+button.menu-options.ark i.fas.fa-home, button.menu-options.ark i.far.fa-calendar-check, button.menu-options.ark i.fas.fa-shopping-cart {
+    color:#868789 !important;
+    font-size: 1.5rem !important;
+}
+
+.end-page {
+    margin-top: 60px;
+}
+
+/*****************************************
+    MENU MOBILE
+*****************************************/
+
+i.fas.fa-bars {
+    color: #b0aba7;
+}
+
+ul.dropdown-menu {
+    margin-top: 15px !important;
+    border-radius: 0;
+    box-shadow: 0 2px 6px rgb(0 0 0 / 18%), inset 0 2px 6px rgb(0 0 0 / 18%);
+}
+
+.dropdown-item {
+    display: block;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 206.25%;
+    color: #878787 !important;
+    padding-left: 10px;
+}
+
+.dropdown-item:hover {
+    background: #a5c3d0;
+    color: #fff !important;
+}
+.dropdown-menu.show {
+    display: block;
+    width: 1000;
+}
+
+.btn.btn-dark-pad {
+    background: #a5c2d1 !important;
+}
+
+
+/*****************************/
+/* devices style*/
+/*****************************/
+
+@media (max-width: 1200px) 
+{
+    .img-carousel img.object-fit_cover-gallery {
+/*      width: 500px !important;*/
+        object-fit: cover !important;
+        height: 250px !important;
+    }
+
+}
+@media (max-width: 980px) 
+{
+    .img-carousel img.object-fit_cover-gallery {
+        object-fit: cover !important;
+        height: 180px !important;
+    }
+}
+
+@media (max-width: 420px) 
+{
+    .img-carousel img.object-fit_cover-gallery {
+    /*  width: 300px !important;*/
+        height: 180px !important;
+        object-fit: cover !important;
+    }
+
+}
+
+
+/*****************************************
+    STYLE CATEGORIES
+*****************************************/
+
+.overlay {
+    background-color: #b0aba7 !important;
+}
+.overlay:hover {
+    background-color: #a5c3d0 !important;
+}
+.overlay span {
+    border: 2px solid #fff !important;
+    color: #fff !important;
+}
+.card-title.text-dark.text-center {
+    color: #878787 !important;
+}
+.btn-dark, .btn-dark a {
+    color: #fff !important;
+    background-color: #878787 !important;
+    border-color: #878787 !important;
+}
+
+i.fas.fa-chevron-left,
+h1.ql-align-center {
+    color: #878787 !important;
+}
+.booking-head {
+    background-color: #a5c3d0 !important;
+    border-color: #a5c3d0 !important;
+}
+

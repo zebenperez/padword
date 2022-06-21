@@ -794,3 +794,72 @@ select.input.invalid,
 
 }
 
+.row.justify-center.notification-popup {
+    margin-left:0px !important;
+    margin-right:0px !important;
+}
+.notif-guest-list, .w-97 {
+    margin:auto;
+}
+.row.guest {
+    border:1px solid #eee !important;
+    font-size: 0.8rem;
+    border-radius:5px;
+    margin-bottom:5px;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+.row.guest:hover {
+    background: #eee !important;
+}
+.suggest-guest {
+    border-left:1px solid #c2daff;
+    border-right:1px solid #c2daff;
+    border-bottom:1px solid #c2daff;
+    border-radius: 5px;
+    margin-top: -10px;
+	box-shadow: 0 1px 8px 0 rgb(0 0 0 / 12%), 0 2px 3px -1px rgb(0 0 0 / 20%);
+}
+.suggest-guest a {
+    text-decoration: none;
+}
+
+/*********************************
+*********** CHAT BOX ************
+*********************************/
+
+.back-grey {
+    background: #e9ecef !important;
+}
+
+.bg-general {
+    background: #999 !important;
+}
+
+.card.chat-box {
+    position: absolute !important;
+    bottom:0 !important;
+    right:0 !important;
+    max-width: 20rem !important;
+}
+
+#message-box.card-body {
+    background: #f1f3f4 !important;
+    height: 250px !important;
+    overflow-y: scroll !important;
+    flex-direction: column-reverse !important;
+}
+
+.response {
+    border: 0px !important;
+    border-radius: 10px !important;
+    background: #fff !important;
+    padding: 10px !important;
+}
+
+.msg-date {
+    font-size:0.7em !important; 
+    color: #666 !important;
+}
+
+/*********** end CHAT BOX ************/
