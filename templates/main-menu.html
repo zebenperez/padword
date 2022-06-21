@@ -12,7 +12,8 @@
         <hr/>
         <li class="nav-item"><a class="nav-link " href="{% url "bookings" %}"><i class="fas fa-book"></i>  {% trans "Orders" %}</a> </li>
         <hr/>
-        <li class="nav-item"><a class="nav-link " href="{% url "ekeys" %}"><i class="fas fa-key"></i>  {% trans "E-Keys" %}</a> </li>
+        <li class="nav-item"><a class="nav-link " href="{%url "guest-notifications"%}"><i class="fas fa-envelope"></i> {%trans "Notifications"%}</a></li>
+        {#<li class="nav-item"><a class="nav-link " href="{% url "ekeys" %}"><i class="fas fa-key"></i>  {% trans "E-Keys" %}</a> </li>#}
     {% elif menu == "projects" %}
         {% comment %}
         <li class="nav-item"><a class="nav-link " href="{% url 'categories-by-project' project.uuid %}">
@@ -22,6 +23,8 @@
             <i class="fas fa-users"></i>  {% trans "Guests" %}</a> </li>
         <li class="nav-item"><a class="nav-link " href="{% url 'bookings-by-project' project.id %}">
             <i class="fas fa-book"></i>  {% trans "Orders" %}</a> </li>
+        <li class="nav-item"><a class="nav-link " href="{% url 'guest-notifications' %}">
+            <i class="fas fa-envelope"></i> {%trans "Notifications"%}</a></li>
     {% elif menu == "clients" %}
     {% elif menu == "categories" %}
         {% comment %}

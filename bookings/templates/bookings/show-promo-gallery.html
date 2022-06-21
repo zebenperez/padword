@@ -38,9 +38,16 @@
                             <div class="col-lg-12 col-12 justify-content-center">
                                 <div class="image" id="cover"> 
                                     {% if promo.banner %} 
+                                        {%comment%}
                                         <div class="card ark" data-url="{%url "show-category-menu"%}" data-target="main" 
                                             data-cat_id="{{promo.item.category.uuid}}"> <img src="{{promo.banner.url}}" 
                                             class="object-fit_cover-gallery" alt="{%padword_translate promo.item.name%}"> </div>
+                                        {%endcomment%}
+                                        <div class="card ark" data-url="{%url "show-item"%}" data-target-modal="common-modal" 
+                                            data-item_id="{{promo.item.id}}" data-guest_id=""> 
+                                            <img src="{{promo.banner.url}}" class="object-fit_cover-gallery" 
+                                                alt="{%padword_translate promo.item.name%}"> 
+                                        </div>
                                     {% endif %}
                                 </div>
                             </div>

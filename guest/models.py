@@ -2,6 +2,7 @@ from django.db import models
 from django.db.models import Q
 from django.utils.translation import ugettext as _
 from django.conf import settings
+from django.contrib.auth.models import User
 
 from padword.commons import show_exc
 from web.models import Channel, Project
@@ -63,7 +64,33 @@ class Guest(models.Model):
         if self.uuid != None and self.uuid != "":
             return self.uuid
         return ""
+
+    def check_all_notifications(self):
+        guest_notifications = [item.notification.id for item in self.notifications.all()]
+        notification_list = Notification.objects.filter(project_uuid=self.project_id, all_users=True).exclude(id__in=guest_notifications)
+        for notification in notification_list:
+            GuestNotification.objects.create(guest=self, notification=notification)
+        return True
         
+    def get_not_read_notifications(self):
+        return self.notifications.filter(read=False, public=True).count()
+
+    def get_public_notifications(self):
+        return self.notifications.filter(notification__public=True)
+
+    #def get_messages(self, guest_access, sender=None, date=""):
+    def get_messages(self, guest_access):
+        kwargs = {'guest': self}
+        #if date != "":
+        #    kwargs["date__gt"] = date
+
+        if guest_access: 
+            message_list = Message.objects.filter(**kwargs).filter(guest_msg=False).update(guest_read=True)
+        else:
+            message_list = Message.objects.filter(**kwargs).filter(guest_msg=True).update(sender_read=True)
+
+        return Message.objects.filter(**kwargs)
+
     @classmethod
     def by_project(cls, projects):
         try:
@@ -109,7 +136,7 @@ class Guest(models.Model):
     def rooms_assigned(project):
         date = datetime.datetime.now()
         return Guest.objects.filter(project_id=project, check_in__lte=date, check_out__gte=date)
-
+               
     class Meta:
         if len (settings.DATABASES) > 1:
             managed = False
@@ -206,3 +233,46 @@ class GuestByChannel(models.Model):
             managed = False
             db_table = 'guests-by-channel'
         verbose_name = _('Guest')
+
+
+class Notification(models.Model):
+    all_users = models.BooleanField(verbose_name=_("All users"), default=False)
+    public = models.BooleanField(verbose_name=_("Public"), default=False)
+    date = models.DateTimeField(verbose_name='Date', default=datetime.datetime.now)
+    subject = models.CharField(max_length=600, verbose_name=_('Subject'), default="")
+    msg = models.TextField(verbose_name=_("Message"), default="", blank=True)
+    project_uuid = models.CharField(max_length=255, verbose_name='Project', default="")
+
+    @property
+    def project(self):
+        try:
+            return Project.objects.get(uuid = self.project_uuid)
+        except Exception as e:
+            return Project(name='UNKNOWN')
+
+    class Meta:
+        verbose_name = _('Notification')
+        ordering = ('-date',)
+
+class GuestNotification(models.Model):
+    read = models.BooleanField(verbose_name=_("Read"), default = False)
+    guest = models.ForeignKey(Guest, on_delete=models.CASCADE, verbose_name=_("Guest"), related_name="notifications")
+    notification = models.ForeignKey(Notification, on_delete=models.CASCADE, verbose_name=_("Notification"), related_name="guests", null=True)
+
+    class Meta:
+        verbose_name = _('Guest notification')
+
+class Message(models.Model):
+    guest_read = models.BooleanField(verbose_name=_('Guest Readed'), default=False)
+    sender_read = models.BooleanField(verbose_name=_('Sender Readed'), default=False)
+    guest_msg = models.BooleanField(verbose_name=_('Guest Message'), default=False)
+    date = models.DateTimeField('date', auto_now_add=True)
+    msg = models.TextField(verbose_name=_("Message"), default="", blank=True)
+    guest = models.ForeignKey(Guest, verbose_name=_("Guest"), on_delete=models.CASCADE, blank=True, null=True, related_name="messages")
+    #sender = models.ForeignKey(User, verbose_name=_("Sender"), on_delete=models.CASCADE, blank=True, null=True, related_name="messages_sent")
+
+    class Meta:
+        verbose_name = _("Chat")
+        verbose_name_plural = _("Chat")
+        ordering = ["date"]
+

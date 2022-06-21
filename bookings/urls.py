@@ -95,6 +95,11 @@ urlpatterns = [
     #path('booking-view/<int:fi_id>/', gv.booking_view, name='booking-guest-view'),
     path('booking-guest-view/', gv.booking_view, name='booking-guest-view'),
 
+    path('my-notifications/', gv.notifications_by_guest, name='my-notifications'),
+    path('notification-view/', gv.notification_view, name='notification-view'),
+
+    path('my-messages/', gv.messages_by_guest, name='my-messages'),
+
     path('autosave-form-field/', gv.autosave_form_field, name='autosave-form-field'),
     path('get-block/', gv.get_block, name='get-block'),
     path('new-row/', gv.new_row, name='new-row'),

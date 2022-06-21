@@ -1,0 +1,17 @@
+{% load i18n %}
+
+{% if items|length > 0 %}
+    <div class="suggest-guest">
+        <div class="col-12 text-right p-2"><a href="" onclick="$('#guest-box-list').html('');return false;"><i class="fas fa-times"></i> Cerrar</a></div><br />
+        {% for item in items %}
+            <div class="row guest pt-1 pb-1">
+                <div class="col-10"> {{item.name}} {{item.surname}}, {{item.room}}, {{item.email}} </div>
+                <div class="col-2 text-right">
+                    <a href="" class="ark" data-url="{% url "guest-notification-add-guest" %}" data-target="guest-box" data-obj_id="{{item.id}}" 
+                        data-notification="{{notification}}" data-hide="guest-box-list" onclick="$('#guest').val('')">
+                        <i class="far fa-check-circle"></i> {% trans "Select" %}</a>
+                </div>
+            </div>
+        {% endfor%} 
+    </div>
+{% endif %}

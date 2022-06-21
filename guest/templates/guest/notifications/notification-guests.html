@@ -1,0 +1,12 @@
+{% load i18n %}
+
+{% for item in obj.guests.all %}
+    <div class="row guest pt-1 pb-1">
+        <div class="col-10">
+            {{item.guest.name}} {{item.guest.surname}}, {{item.guest.room}}, {{item.guest.email}}
+        </div>
+        <div class="col-2 text-right">
+            <a href="" class="ark" data-url="{% url "guest-notification-remove-guest" %}" data-target="guest-box" data-obj_id="{{item.id}}"> <i class="fas fa-trash"></i></a>
+        </div>
+    </div>
+{% endfor%}

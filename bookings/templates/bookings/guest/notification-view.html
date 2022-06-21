@@ -1,0 +1,30 @@
+{% load i18n padword_tags %}
+
+<div class="col-10 card info-panel p-4" style="width: 96%; margin-left:2%;">
+    <div class="content">
+        <h1>{% padword_translate item.notification.subject %}</h1>
+        <p>{% padword_translate item.notification.msg %}</p>
+        <p>
+            <input type="checkbox" class="autosave read" id="read" name="read" data-model-name="guest.guestnotification" 
+                data-obj-id="{{item.id}}" data-url="{% url "autosave_field" %}" data-bool="True" 
+                data-target="div-notification"/> 
+                {#data-target="div-notification" {% if item.read %}checked{% endif %}/> #}
+                {% trans "Check to unread" %}
+        </p>
+        <button id="btn-close-modal" class="btn btn-marine" data-bs-dismiss="modal">{%trans "Close"%}</button>
+    </div>
+</div>
+<script>
+    function toggleBadge() { if ($("#span-notifications").html() == "0") $("#notification-badge").hide(); else $("#notification-badge").show(); }
+    $("#span-notifications").html("{{item.guest.get_not_read_notifications}}");
+    toggleBadge();
+
+    $(".read").click(function(){
+        var current = parseInt($("#span-notifications").html());
+        if ($(this).is(':checked'))
+            $("#span-notifications").html(current+1);
+        else 
+            $("#span-notifications").html(current-1);
+        toggleBadge();
+    });
+</script>

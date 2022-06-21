@@ -2,7 +2,7 @@ from django.apps import apps
 from django.db.models import Max
 from django.contrib.auth.models import User
 from PIL import Image
-from .models import AnswerInstance, FormInstance, FormInstanceLog, GuestUser
+from .models import AnswerInstance, Form, FormInstance, FormInstanceLog, GuestUser
 
 import qrcode, io
 import logging
@@ -25,6 +25,13 @@ def get_guest(username, project_uuid):
 def get_guest_total_items(username, project_uuid):
     guest = get_guest(username, project_uuid)
     return FormInstance.get_all_items(guest).count() if guest != None else 0
+
+def get_login_template(cat_uuid):
+    if cat_uuid != "":
+        form = Form.objects.filter(category=cat_uuid).first()
+        if form.form_type.template_login != "":
+            return form.form_type.template_login
+    return 'guest_form_login.html'
 
 '''
     Form functions

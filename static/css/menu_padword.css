@@ -281,11 +281,6 @@ ul.dropdown-menu {
     background: #a5c3d0;
     color: #fff !important;
 }
-.dropdown-item a {
-    color: #878787 !important;
-    text-decoration: none;
-}
-
 .dropdown-menu.show {
     display: block;
     width: 1000;

@@ -1,5 +1,6 @@
 {
     "name": "Pawdord by Shidix Technologies",
+    "gcm_sender_id": "549100667689",
     "short_name": "Padword",
     "start_url": "/pwa/",
     "scope":"/",

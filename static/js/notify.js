@@ -2,13 +2,58 @@ document.addEventListener('DOMContentLoaded', function()
 {
     //navigator.serviceWorker.register('/static/js/sw.js');
     navigator.serviceWorker.register('/sw.js');
+    
     Notification.requestPermission(function(result) {
         if (result === 'granted') {
             navigator.serviceWorker.ready.then(function(registration) {
                 //registration.showNotification('Notification with ServiceWorker');
+                /*var options = {
+                    body: 'Here is a notification body!',
+                    icon: 'images/example.png',
+                    vibrate: [100, 50, 100],
+                    data: {
+                      dateOfArrival: Date.now(),
+                      primaryKey: 1
+                    }
+                  };
+                  registration.showNotification('Hello world!', options);*/
             });
         }
     });
+
+    //if ('serviceWorker' in navigator) {
+    /*navigator.serviceWorker.ready.then(function(reg) {
+        reg.pushManager.subscribe({
+            userVisibleOnly: true
+        }).then(function(sub) {
+            console.log('Endpoint URL: ', sub.endpoint);
+        }).catch(function(e) {
+            if (Notification.permission === 'denied') {
+                console.warn('Permission for notifications was denied');
+            } else {
+                console.error('Unable to subscribe to push', e);
+            }
+        });
+    })
+    //}
+
+    navigator.serviceWorker.register('/sw.js').then(function(reg) {
+        console.log('Service Worker Registered!', reg);
+
+        reg.pushManager.getSubscription().then(function(sub) {
+            if (sub === null) {
+                // Update UI to ask user to register for Push
+                console.log('Not subscribed to push service!');
+            } else {
+                // We have a subscription, update the database
+                console.log('Subscription object: ', sub);
+            }
+        });
+    })
+    .catch(function(err) {
+        console.log('Service Worker registration failed: ', err);
+    });*/
+
 }); 
 
 function beep() {
@@ -49,8 +94,11 @@ function checkNotify(ini_date, end_date)
     setTimeout(checkNotify, 600000);
 }
 
-function sendGuestNotify(title, desc, url, data)
+//function sendGuestNotify(title, desc, url, data)
+function sendGuestNotify(data)
 {
+    console.log(data);
+    var datas = JSON.parse(data);
     if (Notification.permission !== "granted")
     {
         Notification.requestPermission();
@@ -58,15 +106,15 @@ function sendGuestNotify(title, desc, url, data)
     else
     {
         options = {
-            "body": data,
+            "body": datas.text,
             "icon": "https://projects.shidix.es/static/chat/images/logo-blanco.png",
             "vibrate": [200, 100, 200, 100, 200, 100, 400],
             "tag": "request"
         }
         if (data != "")
         {
-            var notification = new Notification(title, options);
-            notification.onclick = function () { window.open(url); };
+            var notification = new Notification(datas.title, options);
+            //notification.onclick = function () { window.open(url); };
             notification.onclose = function () { console.log('Notification closed'); };
         }
     }
@@ -74,8 +122,10 @@ function sendGuestNotify(title, desc, url, data)
 
 function checkGuestNotify(form_id)
 {
+    fetch('/bookings/guests/notifications/'+form_id+"/").then(response => response.text()).then(data => sendGuestNotify(data));
+
+    //fetch('/bookings/guests/notifications/'+form_id+"/").then(response => response.text()).then(data => sendGuestNotify("Orders status:", 'Haz click sobre la notificación para acceder al listado.', '/bookings/bookings/', data));
     //fetch('/bookings/guests/notifications/'+form_id+"/").then(response => response.text()).then(data => alert(data));
-    fetch('/bookings/guests/notifications/'+form_id+"/").then(response => response.text()).then(data => sendGuestNotify("Orders status:", 'Haz click sobre la notificación para acceder al listado.', '/bookings/bookings/', data));
     //fetch('/bookings/guests/notifications/'+form_id+"/").then(response => { console.log('Response:', response); return response.json(); }).then(data => {console.log("--a--"); console.log(data)});
     //setTimeout(function(){checkGuestNotify(form_id)}, 10000);
 }

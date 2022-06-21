@@ -285,6 +285,8 @@ $(document).ready(()=>{
             ajaxGet(url, datas, target, target_modal);
             if (obj.data("show"))
                 $("#" + obj.data("show")).show();
+            if (obj.data("hide"))
+                $("#" + obj.data("hide")).hide();
 
             e.preventDefault();
             e.stopImmediatePropagation();
@@ -487,6 +489,37 @@ $(document).ready(()=>{
             submitForm(frm, target);
             if (obj.data("update"))
                 $("#"+obj.data("update")).html($("#"+obj.data("update-val")).val())
+            e.preventDefault();
+        }
+    });
+
+    $("body").on("keyup", ".autocomplete", function(e){
+        url = $(this).data("url");
+        target = $(this).data("target");
+        obj_id = $(this).data("obj_id");
+        value = $(this).val()
+        datas = {'obj_id': obj_id, 'value': value};
+        ajaxGet(url, datas, target, '');
+        if ($(this).data("show"))
+            $("#" + $(this).data("show")).show();
+        e.preventDefault();
+    });
+
+    $("body").on("keypress", ".ark_intro", function(e){
+        var obj = $(this);
+        if(e.which == 13) {
+            url = obj.data("url");
+            target = obj.data("target");
+            value = obj.val();
+
+            var datas = {};
+            var args = obj.data();
+            for(var i in args)
+                if (i != "url")
+                    datas[i] = args[i]
+            datas['value'] = value;
+            ajaxGet(url, datas, target, '');
+            obj.val("");
             e.preventDefault();
         }
     });
