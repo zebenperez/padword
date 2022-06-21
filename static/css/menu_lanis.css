@@ -390,7 +390,7 @@ button.menu-options {
 
     .icon-cart  { color: #3a4355 !important; margin-top: 0;}
 
-    i.fas.fa-home, i.far.fa-calendar, i.fas.fa-shopping-cart, i.fas.fa-sign-in-alt { 
+    i.fas.fa-home, i.far.fa-calendar, i.far.fa-bell, i.fas.fa-shopping-cart, i.fas.fa-sign-in-alt { 
         color: #3a4355 !important; 
         font-size: 0.9rem !important;
     }

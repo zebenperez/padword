@@ -9,9 +9,9 @@
             data-project_uuid="{{project_uuid}}" data-cat_id="{{form.category}}" style="display:none"> <i class="fas fa-chevron-left"></i> </button>
     </div>
             
-    <div class="col-lg-6 col-3" style="padding-left:0px !important;">{%if form.logo%}<img src="{{form.logo.url}}">{%endif%}</div>
+    <div class="col-lg-6 col-2" style="padding-left:0px !important;">{%if form.logo%}<img src="{{form.logo.url}}">{%endif%}</div>
             
-    <div class="col-lg-5 col-8">
+    <div class="col-lg-5 col-9">
         <div class="row" id="div-top-lang-menu">
             <div class="col-2 text-center p-0">
                 <button class="btn btn-header-pwa text-center ark" id="btn-home" data-url="{% url 'show-category-menu' %}" data-target="main" 
@@ -26,7 +26,7 @@
 
             </div>
 
-            <div class="col-2 text-center p-0">
+            <div class="col-3 text-center p-0">
                 <button class="btn btn-header-pwa text-center history ark" id="btn-notifications" data-url="{% url "my-notifications" %}" 
                     data-target="main" data-project_uuid="{{project_uuid}}"> <i class="far fa-bell"></i> <br /> 
                     <span class="subtext">{% trans 'Notifications' %}</span>
