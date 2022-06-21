@@ -73,7 +73,7 @@ class Guest(models.Model):
         return True
         
     def get_not_read_notifications(self):
-        return self.notifications.filter(read=False, public=True).count()
+        return self.notifications.filter(read=False, notification__public=True).count()
 
     def get_public_notifications(self):
         return self.notifications.filter(notification__public=True)
