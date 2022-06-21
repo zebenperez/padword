@@ -168,9 +168,9 @@ def category_clone(request):
                     cat_feature.save()
 
                 for cat_image in cat_images:
-                    cat_feature.pk = None
-                    cat_feature.category = cat_item
-                    cat_feature.save()
+                    cat_image.pk = None
+                    cat_image.category = cat_item
+                    cat_image.save()
                 
                 for cat_form in cat_forms:
                     blocks = cat_form.blocks
