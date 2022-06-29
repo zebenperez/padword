@@ -42,5 +42,9 @@ urlpatterns = [
     path('guests/chat/remove-message/', views.message_remove, name="remove-message"),
     path('guests/chat/check-messages/', views.messages_check, name="check-messages"),
 
+    #--------------------- KEYS --------------------
+    path('guests/keys/', views.keys, name="guest-keys"),
+    path('guests/key/assign/', views.key_assign, name="guest-assign-key"),
+    path('guests/key/remove/', views.key_remove, name="guest-remove-key"),
 ]
 

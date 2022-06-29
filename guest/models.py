@@ -91,6 +91,9 @@ class Guest(models.Model):
 
         return Message.objects.filter(**kwargs)
 
+    def get_locks_id(self):
+        return [key.lock for key in self.keys.all()]
+
     @classmethod
     def by_project(cls, projects):
         try:
@@ -275,4 +278,12 @@ class Message(models.Model):
         verbose_name = _("Chat")
         verbose_name_plural = _("Chat")
         ordering = ["date"]
+
+class Key(models.Model):
+    lock  = models.CharField(max_length=255, verbose_name='Lock', default="")
+    guest = models.ForeignKey(Guest, verbose_name=_("Guest"), on_delete=models.CASCADE, blank=True, null=True, related_name="keys")
+
+    class Meta:
+        verbose_name = _("Key")
+        verbose_name_plural = _("Keys")
 

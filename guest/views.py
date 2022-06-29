@@ -7,6 +7,7 @@ from django.db.models import Q
 import datetime
 
 from .models import *
+from .keys_lib import ShLock
 from padword.commons import show_exc, get_or_none, new_ui_slug, translate, user_in_group, get_param
 from padword.decorators import group_required
 from bookings.models import GuestUser
@@ -50,7 +51,7 @@ def guests(request):
 def guest_search(request):
     try:
         project_uuid = request.GET["project_uuid"] if "project_uuid" in request.GET else ""
-        filters_to_search = ["name__icontains", "room", "surname__icontains", "email__icontains"]
+        filters_to_search = ["name__icontains", "room", "surname__icontains", "email__icontains", "mobile__icontains"]
         search_value = request.GET["s-name"] if "s-name" in request.GET else ""
         page = "0"
         if search_value != "":
@@ -396,14 +397,14 @@ def notification_remove_guest(request):
 def get_messages(guest, guest_msg):
     return {'messages': guest.get_messages(guest_msg != "False"), 'guest_msg': guest_msg}
 
-@login_required
+@group_required("admins", "projects")
 def show_chat(request):
     guest = get_or_none(Guest, request.GET["guest"])
     context = get_messages(guest, request.GET["guest_msg"])
     context["guest"] = guest
     return render(request, "guest/chat.html", context)
 
-@login_required
+@group_required("admins", "projects")
 def message_send(request):
     guest = get_or_none(Guest, request.GET["guest"])
     guest_msg = request.GET["guest_msg"]
@@ -411,7 +412,7 @@ def message_send(request):
         Message.objects.create(guest=guest, guest_msg=(guest_msg != "False"), msg=request.GET["value"])
     return render(request, "guest/messages.html", get_messages(guest, guest_msg))
 
-@login_required
+@group_required("admins", "projects")
 def message_remove(request):
     msg = get_or_none(Message, request.GET["obj_id"])
     guest = msg.guest
@@ -419,7 +420,7 @@ def message_remove(request):
     msg.delete()
     return render(request, "guest/messages.html", get_messages(guest, guest_msg))
 
-@login_required
+@group_required("admins", "projects")
 def messages_check(request):
     guest = get_or_none(Guest, request.GET["guest"])
     return render(request, "guest/messages.html", get_messages(guest, request.GET["guest_msg"]))
@@ -429,4 +430,39 @@ def messages_check(request):
     #messages = get_sender_msg(guest, request.user, date) if guest_msg == "False" else guest.get_messages(True, None, date)
     #return render(request, "guest/messages.html", {'messages': get_messages(guest_msg), 'guest_msg': request.GET["guest_msg"]})
 
+'''
+   Keys
+'''
+def get_key_list(obj):
+    sh_lock = ShLock()
+    return sh_lock.get_locks(obj.get_locks_id())
+
+@group_required("admins", "projects")
+def keys(request):
+    try:
+        obj = get_or_none(Guest, request.GET["obj_id"]) 
+        return render(request, "guest/keys/guest-keys.html", {'obj': obj, 'key_list': get_key_list(obj)})
+    except Exception as e:
+        return render(request, 'error_exception.html', {'exc':show_exc(e)})
+
+@group_required("admins", "projects")
+def key_assign(request):
+    try:
+        obj = get_or_none(Guest, request.GET["obj_id"]) 
+        if obj != None:
+            Key.objects.create(lock = request.GET["lock"], guest = obj)
+        return render(request, "guest/keys/guest-keys.html", {'obj': obj, 'key_list': get_key_list(obj)})
+    except Exception as e:
+        return render(request, 'error_exception.html', {'exc':show_exc(e)})
+
+@group_required("admins", "projects")
+def key_remove(request):
+    try:
+        key = get_or_none(Key, request.GET["obj_id"]) 
+        obj = key.guest
+        key.delete()
+        return render(request, "guest/keys/guest-keys.html", {'obj': obj, 'key_list': get_key_list(obj)})
+    except Exception as e:
+        print(e)
+        return render(request, 'error_exception.html', {'exc':show_exc(e)})
 

@@ -8,6 +8,8 @@
         {% if request.user|in_group:'admins' or request.user.is_staff %}<br><small>{{item.project.name}}</small>{%endif%}</div>
     <div class="col-1"> {{item.language}}</div>
     <div class="col-1">
+        <a class="btn btn-xs ark" data-url="{% url "guest-keys" %}" data-target-modal="common-modal" data-obj_id="{{item.id}}"> 
+            <i class="fas fa-key"></i></a>  
         <a class="btn ark" href="#" data-url="{% url "show-chat" %}" data-target="div-chat" data-guest="{{item.id}}" data-guest_msg="False">
             <i class="fas fa-comments"></i></a>
         <a class="btn" href="#" onclick='alert("{{item.uuid}}"); return False'><i class="fas fa-fingerprint"></i></a>
@@ -18,7 +20,13 @@
             <a class="btn btn-xs ark" data-url="{% url "guest-form" %}" data-target-modal="common-modal" data-obj_id="{{item.id}}"> 
                 <i class="fas fa-edit"></i></a>  
         {% endif %}
+
+	    <a class="btn btn-sm ark" data-url="{% url "guest-remove" %}" data-target="guest-list" data-obj_id="{{item.id}}" 
+            {%if project_uuid%}data-project_uuid="{{project_uuid}}"{%endif%} data-confirm="{% trans "Are you sure to remove this element?" %}">
+            <i class="fas fa-trash"></i></a>
+        {%comment%}
         <a class="btn btn-sm autoremove" data-model-name="guest.guest" data-obj-id="{{item.id}}" data-url="{% url "autoremove_obj" %}" 
             data-target="row_{{item.id}}" data-confirm="{% trans "Are you sure to remove this element?" %}"><i class="fas fa-trash"></i></a>
+        {%endcomment%}
     </div>
 </td>

@@ -408,12 +408,14 @@ class GuestUser(models.Model):
 
     @staticmethod
     def get_or_create_guest_user(guest_uuid, project_uuid, username):
+        uname = "guest_".format(username)
         try:
-            user = User.objects.get(username=username)
+            user = User.objects.get(username=uname)
         except:
             try:
                 guests_group = Group.objects.get(name='guests') 
-                user = User.objects.create_user(username, email=username) if "@" in username else User.objects.create_user(username)
+                #user = User.objects.create_user(username, email=username) if "@" in username else User.objects.create_user(username)
+                user = User.objects.create_user(uname)
                 guests_group.user_set.add(user)
             except Exception as e:
                 return None, str(e)

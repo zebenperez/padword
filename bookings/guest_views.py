@@ -13,6 +13,7 @@ from padword.commons import show_exc, get_or_none, get_param, get_float, get_boo
 from web.models import Device, Project, ProjectUser
 from contents.models import Category, ShoppingCart, Item
 from guest.models import Guest, GuestNotification
+from guest.keys_lib import ShLock
 
 from .common_lib import get_or_create_form_instance, get_max_index, get_or_create_answer_instance, user_in_group, get_guest, get_login_template
 from .models import AnswerInstance, Field, Form, FormChannel, FormInstance, Question, Block, GuestUser, Status
@@ -103,7 +104,7 @@ def booking_new_guest(request):
         if guest == None:
             return render(request, 'guest-error-login.html', {'project_uuid': project_uuid, 'category_uuid': category_uuid})
 
-        user, err = GuestUser.get_or_create_guest_user(guest.UUID, project.uuid, code)
+        user, err = GuestUser.get_or_create_guest_user(guest.UUID, project.uuid, guest.id)
         if err != "":
             return render(request, 'error_exception.html', {'exc': err})
         auth.login(request, user)
@@ -567,14 +568,15 @@ def close_window(request):
 def guest_notifications(request, form_id):
     try:
         form = get_or_none(Form, form_id)
-        gu = GuestUser.objects.filter(project_uuid=form.project.uuid, username=request.user.username).first()
-        bookings = FormInstance.objects.filter(guest_uuid=gu.guest_uuid, status_list__read=False).order_by('pk')
+        #gu = GuestUser.objects.filter(project_uuid=form.project.uuid, username=request.user.username).first()
+        guest = get_guest(request.user.username, cat.project.uuid)
+        bookings = FormInstance.objects.filter(guest_uuid=guest.UUID, status_list__read=False).order_by('pk')
         val = ""
         if len(bookings) > 0:
             #val = _("You have some news in your orders:\n")
             for booking in bookings:
                 val += _("- Order {} with current status {}\n".format(booking.form.get_category.name, booking.get_status.status.name))
-        val += _("- Not readed notifications -> {}".format(gu.guest.get_not_read_notifications()))
+        val += _("- Not readed notifications -> {}".format(guest.get_not_read_notifications()))
         result = {"title": "{}".format(_("You have some news\n")), "text": val}
         return HttpResponse(json.dumps(result))
     except Exception as e:
@@ -601,4 +603,28 @@ def set_guest_language(request):
     except Exception as e:
         #print (show_exc(e))
         return render(request, 'error_exception.html', {'exc': show_exc(e), 'error-msg': show_exc(e)})
+
+'''
+    Open Locks
+'''
+@group_required("admins", "projects", "guests")
+def open_lock(request):
+    sh_lock = ShLock()
+    sh_lock.open_lock_by_id(request.GET["obj_id"])
+    return HttpResponse("")
+#    open_lock = False
+#    clientId = settings.TTLOCK_CLIENT
+#    token = settings.TTLOCK_TOKEN
+#    ttlock = TTLock(clientId, token)
+#
+#    gateways = list(ttlock.get_gateway_generator())
+#
+#    locks = []
+#    for gateway in gateways:
+#        locks += list(ttlock.get_locks_per_gateway_generator(gateway.get("gatewayId")))
+#
+#    for lock in locks:
+#        ttlock.unlock(lock.get('lockId'))
+#        open_lock = True
+#    return render(request, 'bookings/guest/open-lock-msg.html', {'open': open_lock,})
 

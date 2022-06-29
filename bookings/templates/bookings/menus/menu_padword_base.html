@@ -2,7 +2,7 @@
 
 {%block extralinks%} <link rel="stylesheet" href="{% static 'css/menu_padword.css' %}" > {% endblock %}
 
-<div class="row topbar pt-1 pb-1" style="margin:0px;">
+<div class="row topbar pb-1" style="margin:0px;">
     <div class="col-2 text-center pt-2">
         <button id="back-btn" class="btn btn-header-pwa text-center ark pl-2 pr-2" data-url="{% url "show-category-menu" %}" data-target="main" 
             data-cat_id="" data-cat_home="{{form.category}}" style="display:none"><i class="fas fa-chevron-left"></i> </button>
@@ -27,7 +27,7 @@
                     <li><a class="dropdown-item" href="#"><i class="fas fa-hotel"></i> El Hotel</a></li>
                     <li><a class="dropdown-item" href="#"><i class="fas fa-map-signs"></i> A tu alrededor</a></li>
                     <li><a class="dropdown-item" href="#"><i class="fas fa-wifi"></i> Wifi</a></li>
-                    <li><a class="dropdown-item" href="#"><i class="fas fa-exchange-alt"></i> Cambio de hotel</a></li>
+                   <!-- <li><a class="dropdown-item" href="#"><i class="fas fa-exchange-alt"></i> Cambio de hotel</a></li>-->
                     <li><a class="dropdown-item" href="#"><i class="fas fa-sign-out-alt"></i> Cerrar sesión</a></li>
                 </ul>
             </li>

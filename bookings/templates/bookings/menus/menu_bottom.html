@@ -1,26 +1,33 @@
 {% load i18n bookings_tag common_tag padword_tags static %}
 
 <div class="row menu-botton">
-    <div class="col-lg-3 offset-lg-1 col-4" style="padding:0;">
-        <button style="color:white !important;" class="menu-options ark" id="btn-home" data-url="{% url "show-category-menu" %}" data-target="main"
+    <div class="col-lg-2 offset-1 col-2" style="padding:0;">
+        <button class="menu-options ark" id="btn-messages" data-url="{% url "my-messages" %}" 
+            data-target="main" data-project_uuid="{{project_uuid}}"> <i class="far fa-comments"></i> <br /> 
+            <span class="count badge" id="notification-badge" {%if guest.get_not_read_notifications == 0%}style="display:none"{%endif%}>
+            <span id="span-notifications">{{ guest.get_not_read_notifications }}</span></span>
+         </button>
+    </div>
+
+    <div class="col-lg-2 col-2" style="padding:0;">
+        <button class="menu-options ark" id="btn-home" data-url="{% url "show-category-menu" %}" data-target="main"
             data-cat_id="d4aa331f-5026-c4d5-c86c-4e1c71dd252e"><i class="fas fa-home"></i></button>
     </div>
-    {% comment %}
-    <div class="col-lg-2 col-3" style="padding:0;">
-        <button style="color:white !important;" class="menu-options ark" data-url="{% url "show-category-menu" %}" data-target="main" 
-             data-cat_id="d82752f5-b816-ca07-ceb6-c0dbbddc8f28"><i class="far fa-comment-dots"></i><br />
-             {% padword_translate_obj 'd82752f5-b816-ca07-ceb6-c0dbbddc8f28'%}</button>
+    <div class="col-2">
+        <button class="menu-options ark" id="btn-notifications" data-url="{% url "my-notifications" %}" 
+            data-target="main" data-project_uuid="{{project_uuid}}"> <i class="far fa-bell"></i> <br /> 
+            <span class="count badge" id="notification-badge" {%if guest.get_not_read_notifications == 0%}style="display:none"{%endif%}>
+            <span id="span-notifications">{{ guest.get_not_read_notifications }}</span></span>
+        </button>
     </div>
-    {% endcomment %}
-    <div class="col-lg-4 col-4" style="padding:0;">
-        <button style="color:white !important;" class="menu-options ark" data-url="{% url "my-bookings" %}" data-target="main"
-             data-project_uuid="{{project_uuid}}" data-cat_id="{{form.category}}"><i class="far fa-calendar-check	"></i></button>
+    <div class="col-lg-2 col-2" style="padding:0;">
+        <button class="menu-options ark" data-url="{% url "my-bookings" %}" data-target="main"
+             data-project_uuid="{{project_uuid}}" data-cat_id="{{form.category}}"><i class="far fa-calendar-check"></i></button>
     </div>
  
-    <div class="col-lg-3 col-4" style="padding:0;">
-        <button style="color:white !important;" class="menu-options ark" data-url="{% url "view-shopping-cart" %}" 
+    <div class="col-lg-2 col-2" style="padding:0;">
+        <button class="menu-options ark" data-url="{% url "view-shopping-cart" %}" 
             data-target-modal="common-modal" data-project_uuid="{{project_uuid}}" data-form_id=""> <i class="fas fa-shopping-cart"></i><br/>
-            <span class="subtext"></span>
             <span class="count badge" id="count-badge" style="display:none"><span id="span-total-items"></span></span>
         </button>
     </div>

@@ -15,7 +15,8 @@
 }
 
 .main-pwa {
-    margin-top: 70px;
+    position:fixed;
+    top:60px;
 }
 
 .container {
@@ -126,7 +127,6 @@ a.btn.btn-header-pwa.ark {
   /*  width: 1024px !important;*/
     object-fit: cover !important;
     height: 275px !important;
-/*    border:1px solid red !important;*/
 }
 
 .carousel-control-next, .carousel-control-prev {
@@ -170,7 +170,7 @@ div#cover.image {
 	position:fixed !important;
     top:0 !important;
     width: 100% !important;
-    height: 70px !important;
+    height: 60px !important;
     z-index: 1; 
 }
 .topbar img {
@@ -213,7 +213,7 @@ div#cover.image {
 }
 
 .ico-image {
-    width: 75%;
+    width: 60%;
 }
 
 button.menu-options { 
@@ -245,7 +245,11 @@ button.menu-options {
 	color:#868789 !important;
 }
 
-button.menu-options.ark i.fas.fa-home, button.menu-options.ark i.far.fa-calendar-check, button.menu-options.ark i.fas.fa-shopping-cart {
+button.menu-options.ark i.far.fa-comments, 
+button.menu-options.ark i.fas.fa-home, 
+button.menu-options.ark i.far.fa-bell, 
+button.menu-options.ark i.far.fa-calendar-check, 
+button.menu-options.ark i.fas.fa-shopping-cart {
     color:#868789 !important;
     font-size: 1.5rem !important;
 }

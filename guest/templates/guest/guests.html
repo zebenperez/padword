@@ -8,7 +8,7 @@
     data-append="append" data-url="{% url 'guest-page' %}" class="autosearch_change"/>
 <div class="toolbar-search">
     <input type="hidden" name="project_uuid" id="project_uuid" value="{{project_uuid}}"/>
-    <input type="text" class="autosearch form-control form-control-dark w-100" name="s-name" id="s-name" placeholder="{% trans 'Name, Surname, or Room' %}" data-url="{% url "guest-search" %}" data-target="guest-list" data-related="s-name,project_uuid"/>
+    <input type="text" class="autosearch form-control form-control-dark w-100" name="s-name" id="s-name" placeholder="{% trans 'Name, Surname, Email, Phone or Room' %}" data-url="{% url "guest-search" %}" data-target="guest-list" data-related="s-name,project_uuid"/>
 </div>
 
 <div class="content mt-4">

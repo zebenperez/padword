@@ -1,0 +1,4 @@
+{% load i18n %}
+
+{% if open %} <span class='badge bg-success'>Open!</span> {% else %} <span class='badge bg-danger'>Error!</span> {% endif %}
+<script> setTimeout(()=>{$(".badge").fadeOut("slow")}, 5000); </script>

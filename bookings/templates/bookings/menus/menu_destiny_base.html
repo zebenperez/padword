@@ -1,6 +1,6 @@
 {% load i18n bookings_tag common_tag padword_tags static%}
 
-{%block extralinks%} <link rel="stylesheet" href="{% static 'css/menu_lagos.css' %}" > {% endblock %}
+{%block extralinks%} <link rel="stylesheet" href="{% static 'css/menu_destiny.css' %}" > {% endblock %}
 
 {% get_current_language as LANGUAGE_CODE %}
 <div class="row topbar pt-1 pb-1" style="margin:0px;">
@@ -12,7 +12,7 @@
     </div>
 
     <div class="col-8 text-center pt-2">
-        <img class="" src="/static/img/logo-sand-sea.png">
+        <img class="" src="/static/img/logo-destiny.jpg">
     </div>
 
     <div class="col-2">
@@ -31,9 +31,10 @@
                             data-cat_id="{{form.category}}"> DE</a>
                     </li>
                     <li><a class="dropdown-item menu-options ark" data-url="{% url "show-category-menu" %}" idata-target="main"
-                            data-cat_id="eb0dadb2-629d-685e-da8a-21009a8a5f3c" href="#"><i class="fas fa-key"></i> Tu llave</a></li>
+                            data-cat_id="4e7bff89-9c82-bccc-d721-0f240a23ae68" href="#"><i class="fas fa-key"></i> Mis Llaves</a></li>
                     <!-- <li><a class="dropdown-item" href="#"><i class="far fa-calendar-check"></i> Agenda</a></li> -->
                     <li><a class="dropdown-item" href="#"><i class="fas fa-hotel"></i> El Hotel</a></li>
+                    <li><a class="dropdown-item" href="#"><i class="fas fa-arrow-circle-up"></i> Upgrade</a></li>
                     <li><a class="dropdown-item" href="#"><i class="fas fa-map-signs"></i> A tu alrededor</a></li>
                     <li><a class="dropdown-item" href="#"><i class="fas fa-wifi"></i> Wifi</a></li>
                     {#<li><a class="dropdown-item" href="#"><i class="fas fa-exchange-alt"></i> Cambio de hotel</a></li>#}
@@ -51,4 +52,4 @@
 
 <div id="main" class="main-pwa pl-4 pr-4"> {% include form.form_type.template with category=form.get_category %} </div>
 
-{% include "bookings/menus/menu_bottom.html" %}
+{% include "bookings/menus/menu_bottom_3.html" %}

@@ -4,7 +4,12 @@
     {% if request.user|in_group:"admins" %} <div class="col-1">{{ item.project.name }}</div> {% endif %}
     <div class="col-1">{{ item.date|date:'Y-m-d H:i' }}</div>
     <div class="col-2 d-flex justify-content-start lh-4">
-        {% for gn in item.guests.all %} {{gn.guest.name}} {{gn.guest.surname}}, {{gn.guest.room}}, {{gn.guest.email}}<br/> {% endfor %} </div>
+        {% if item.all_users %}
+            {% trans "ALL" %}
+        {% else %}
+            {% for gn in item.guests.all %} {{gn.guest.name}} {{gn.guest.surname}}, {{gn.guest.room}}, {{gn.guest.email}}<br/> {% endfor %} 
+        {% endif %}
+    </div>
     <div class="col-3">{% padword_translate item.subject %}</div>
     <div class="col-3">{% padword_translate item.msg %}</div>
     <div class="col-2">

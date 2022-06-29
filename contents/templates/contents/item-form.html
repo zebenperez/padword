@@ -39,7 +39,8 @@
                 <span id="active__msg"></span>
             </div>
             <div class="col-12">
-                {% trans "Description" %}:
+                {% trans "Description" %} 
+                (<a id="show-html" class="small toggle-editor" data-source="description" data-editor="desc-editor">html</a>):
                 <textarea class="form-control autosavepost b-bottom mb-4" id="description" name="description"  data-lang="{% current_lang %}" 
                     data-model-name="contents.item" data-obj-id="{{obj.id}}" data-url="{%url "autosave_field_post"%}" data-target="div-notification" 
                     style="display:none"></textarea> <span id="description__msg"></span>

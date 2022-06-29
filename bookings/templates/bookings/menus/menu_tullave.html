@@ -8,9 +8,26 @@
     <div class="col-12 text-center">
         <a class="menu-options collapsible-header waves-effect btn-large pt-3" data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample"><i class="fa fa-lock"></i> Mis Llaves</a>
         <div class="collapse" id="collapseExample">
-            <div class="collapse-option mt-3"><a class="collapsible-header waves-effect btn-large-2"><i class="fa fa-lock"></i> Entrance</a></div>
+            {% for key in guest.keys.all %}
+                <div class="form-check form-switch">
+                    <input class="form-check-input ark_change" type="checkbox" role="switch" id="flexSwitchCheckDefault"
+                         data-url="{% url "open-lock" %}" data-target="" data-obj_id="{{key.lock}}">
+                    <label class="form-check-label" for="flexSwitchCheckDefault">Entrance</label>
+                </div>
+                </div>
+            {% endfor %}
+
+            {% comment %}
+            <div class="collapse-option mt-3">
+                <button class="collapsible-header waves-effect btn-large-2 ark-disabled"
+                    data-url="{% url "open-lock" %}" data-target="open-lock-msg">
+                    <i class="fa fa-lock"></i> Entrance <span id="open-lock-msg" class="open-lock-msg"></span></button></div>
+            {% endcomment %}
+
+            {% comment %}
             <div class="collapse-option mt-3"><a class="collapsible-header waves-effect btn-large-2"><i class="fa fa-lock"></i> Locker Room</a></div>
             <div class="collapse-option mt-3"><a class="collapsible-header waves-effect btn-large-2"><i class="fa fa-lock"></i> Server Room</a></div>
+            {% endcomment %}
         </div>
     </div>
 </div>

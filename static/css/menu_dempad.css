@@ -245,7 +245,11 @@ button.menu-options {
 	color:#868789 !important;
 }
 
-button.menu-options.ark i.fas.fa-home, button.menu-options.ark i.far.fa-calendar-check, button.menu-options.ark i.fas.fa-shopping-cart {
+button.menu-options.ark i.far.fa-comments, 
+button.menu-options.ark i.fas.fa-home, 
+button.menu-options.ark i.far.fa-bell, 
+button.menu-options.ark i.far.fa-calendar-check, 
+button.menu-options.ark i.fas.fa-shopping-cart {
     color:#868789 !important;
     font-size: 1.5rem !important;
 }
@@ -319,6 +323,9 @@ ul.dropdown-menu {
         height: 180px !important;
         object-fit: cover !important;
     }
+    .row {
+ }
+
 
 }
 

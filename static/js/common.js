@@ -71,6 +71,36 @@ function ajaxGetAutosave(url, datas, target)
     }); 
 };
 
+function ajaxGetEnabled(url, datas, target, modal_target, obj)
+{
+    $("body").css("cursor", "progress");
+    $.ajax({
+        url : url,
+        type : 'GET',
+        data : datas,
+        cache : false,
+        dataType : 'html',
+        beforeSend : function(){},
+        success : function(data){
+            if (modal_target != "")
+            {
+                if (data != "")
+                {
+                    $('#'+modal_target+"-body").html(data);
+                    $('#'+modal_target).modal('show');
+                }
+            }
+            else
+                if (target != "")
+                    $('#'+target).html(data);
+            obj.prop("disabled", "")
+        },
+        error : function(e){alert("Error: "+e.responseText);},
+        complete : function(){$("body").css("cursor", "default");}
+    });
+};
+
+
 function ajaxPostAutosave(url, datas, target)
 {
     $("body").css("cursor", "progress");
@@ -317,6 +347,36 @@ $(document).ready(()=>{
         }
     });
 
+    $("body").on("click", ".ark-disabled", function(e){
+        var obj = $(this);
+        if (((obj.data("confirm")) && confirm(obj.data("confirm"))) || !(obj.data("confirm")))
+        {
+            obj.prop("disabled", "disabled");
+            url = obj.data("url");
+            var target = "";
+            var target_modal = "";
+            if (obj.data("target"))
+                target = obj.data("target");
+            if (obj.data("target-modal"))
+                target_modal = obj.data("target-modal");
+
+            var datas = {};
+            var args = obj.data();
+            for(var i in args)
+                if (i != "url")
+                    datas[i] = args[i]
+            ajaxGetEnabled(url, datas, target, target_modal, obj);
+            if (obj.data("show"))
+                $("#" + obj.data("show")).show();
+            if (obj.data("hide"))
+                $("#" + obj.data("hide")).hide();
+
+            e.preventDefault();
+            e.stopImmediatePropagation();
+        }
+    });
+
+
     $("body").on("change", ".ark_change", function(e){
         var obj = $(this);
         if (((obj.data("confirm")) && confirm(obj.data("confirm"))) || !(obj.data("confirm")))
@@ -522,6 +582,19 @@ $(document).ready(()=>{
             obj.val("");
             e.preventDefault();
         }
+    });
+
+    $("body").on("click", ".toggle-editor", function(e){
+        var editor = $(this).data("editor");
+        var source = $(this).data("source");
+        $("#editor").toggle();
+        $("#source").toggle();
+        $(".ql-toolbar").toggle();
+        if ($(this).html().indexOf("html") == -1)
+            $(this).html("html");
+        else
+            $(this).html("editor");
+        e.preventDefault();
     });
 });
 
