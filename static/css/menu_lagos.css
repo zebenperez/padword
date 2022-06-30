@@ -16,6 +16,10 @@
 
 .main-pwa {
     margin-top: 70px;
+    position: fixed;
+
+    margin-left: -25px !important;
+    margin-right: -25px !important;
 }
 
 .container {
@@ -209,11 +213,13 @@ div#cover.image {
 
 .tabs {
     background: white;
-    padding-bottom: 50px !important;
+    /*padding-bottom: 50px !important;*/
+    padding-bottom: 40px !important;
 }
 
 .ico-image {
-    width: 75%;
+    /*width: 75%;*/
+    width: 60%;
 }
 
 button.menu-options { 

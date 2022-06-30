@@ -97,6 +97,7 @@ urlpatterns = [
 
     path('my-notifications/', gv.notifications_by_guest, name='my-notifications'),
     path('notification-view/', gv.notification_view, name='notification-view'),
+    path('notifications-not-readed/', gv.notifications_not_readed, name='notifications-not-readed'),
 
     path('my-messages/', gv.messages_by_guest, name='my-messages'),
 

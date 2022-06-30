@@ -408,7 +408,7 @@ class GuestUser(models.Model):
 
     @staticmethod
     def get_or_create_guest_user(guest_uuid, project_uuid, username):
-        uname = "guest_".format(username)
+        uname = "guest_{}".format(username)
         try:
             user = User.objects.get(username=uname)
         except:
@@ -422,4 +422,7 @@ class GuestUser(models.Model):
         gu, created = GuestUser.objects.get_or_create(guest_uuid=guest_uuid, project_uuid=project_uuid, username=user.username)
         return user, ""
 
+    @staticmethod
+    def delete_by_guest(guest_uuid):
+        gu_list = GuestUser.objects.filter(guest_uuid=guest_uuid).delete()
 

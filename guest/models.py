@@ -73,6 +73,9 @@ class Guest(models.Model):
         return True
         
     def get_not_read_notifications(self):
+        ll = self.notifications.all()
+        for l in ll:
+            print("{}: {} - {}".format(l.notification.msg, l.read, l.notification.public))
         return self.notifications.filter(read=False, notification__public=True).count()
 
     def get_public_notifications(self):

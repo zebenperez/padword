@@ -96,9 +96,7 @@ def guest_remove(request):
     project_uuid = request.GET["project_uuid"] if "project_uuid" in request.GET else None
     obj = get_or_none(Guest, request.GET["obj_id"]) if "obj_id" in request.GET else None
     if obj != None:
-        gu_list = GuestUser.objects.filter(guest_uuid=obj.UUID)
-        for gu in gu_list():
-            gu.delete()
+        GuestUser.delete_by_guest(obj.UUID)
         obj.delete()
 
     items = Guest.objects.all() if project_uuid == None else Guest.objects.filter(project_id=project_uuid)

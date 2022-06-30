@@ -476,6 +476,14 @@ span#notification-badge.count.badge {
     text-align:center !important;
 }
 
+span#count-badge.count.badge {
+    margin-left: -12px;
+}
+
+span#notification-badge.count.badge {
+    margin-left: -20px;
+}
+
 span#count-badge.count.badge #span-total-items,
 span#count-badge.count.badge #span-notifications {
     color: white !important;

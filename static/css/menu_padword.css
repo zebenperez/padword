@@ -202,6 +202,14 @@ div#cover.image {
     max-height: 40px;
 }
 
+div.row.blog {
+    --bs-gutter-x: 0rem !important;
+    width: 105%;
+    margin: 0 !important;
+    margin-left: -10px !important;
+    margin-right: -20px !important;
+}
+
 .menu-tabs {
 	width: 100%;
 	margin-left: 0.1%;
