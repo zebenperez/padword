@@ -1,18 +1,25 @@
 #main {
     height: auto !important;
     background: #f8fcff !important;
-    /*padding-bottom: 10vh !important;*/
-    padding-bottom: 45vh !important;
+    /*padding-bottom: 45vh !important;*/
 }
+
+#main-base {
+    border-top:1px solid #ffffff !important;
+    border-bottom:1px solid #ffffff !important;
+    border-right:1px solid #ffffff !important;
+}
+
 .main-pwa .row {
     margin:0;
 }
 
 .main-pwa {
-    position:fixed;
     margin-top: 70px;
-    padding-bottom: 24vh !important;
-    width: 100%;
+/*    position:fixed;*/
+    border:1px solid #ffffff !important;
+    padding-bottom: 7vh !important;
+    /*width: 100%;*/
 }
 
 .container {
@@ -147,6 +154,16 @@ a.btn.btn-header-pwa.ark {
     border: 0;
     opacity: .9;
     transition: opacity .15s ease;
+}
+
+.prev {
+    margin-left: 30px;
+    margin-top: -65px !important;
+}
+
+.next {
+    margin-right: 30px;
+    margin-top: -65px !important;
 }
 
 #cover .img {

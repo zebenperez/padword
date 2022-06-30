@@ -1,25 +1,27 @@
 #main {
     height: auto !important;
     background:white !important;
-    padding-bottom: 10vh !important;
+/*    padding-bottom: 10vh !important;*/
 }
-/*
-#main-content-guest {
-    padding-bottom: 10vh !important;
-    border:1px solid blue !important;
+
+#main-base {
+    /*border:1px solid #ffffff !important;*/
+    border-top:1px solid #ffffff !important;
+    border-bottom:1px solid #ffffff !important;
+    border-right:1px solid #ffffff !important;
 }
-*/
 
 .main-pwa .row {
     margin:0;
 }
 
 .main-pwa {
-    margin-top: 70px;
-    position: fixed;
-
-    margin-left: -25px !important;
-    margin-right: -25px !important;
+    margin-top: 68px;
+/*    position: fixed;*/
+/*    margin-left: -25px !important;
+    margin-right: -25px !important;*/
+    border:1px solid #ffffff !important;
+    padding-bottom: 7vh !important;
 }
 
 .container {
@@ -148,6 +150,17 @@ a.btn.btn-header-pwa.ark {
     opacity: .9;
     transition: opacity .15s ease;
 }
+
+.prev {
+    margin-left: 30px;
+    margin-top: -65px !important;
+}
+
+.next {
+    margin-right: 30px;
+    margin-top: -65px !important;
+}
+
 
 #cover .img {
  /*   height: 250px;*/

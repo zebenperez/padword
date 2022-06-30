@@ -16,7 +16,6 @@
     width: 100%;
     background: #f8fcff !important;
     top: 170px;
-
 }
 .container {
 	background-position: center; 
@@ -540,5 +539,10 @@ label.form-check-label {
 .form-check-input:checked[type=checkbox] {
     background-image: url(/static/img/lock-open.png) !important;
     color: #fff !important;
+}
+
+.card.slider-cart {
+    border:1px solid red !important;
+    margin-top: 80px;
 }
 

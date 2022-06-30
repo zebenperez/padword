@@ -1,22 +1,19 @@
 #main {
     height: auto !important;
     background:white !important;
-    padding-bottom: 10vh !important;
+/*    padding-bottom: 10vh !important;*/
 }
-/*
-#main-content-guest {
-    padding-bottom: 10vh !important;
-    border:1px solid blue !important;
-}
-*/
 
 .main-pwa .row {
     margin:0;
 }
 
 .main-pwa {
-    position:fixed;
-    top:60px;
+/*    position:fixed;*/
+/*    top:60px;*/
+    border:1px solid #ffffff !important;
+    padding-bottom: 7vh !important;
+    padding-top: 60px !important;
 }
 
 .container {
@@ -144,6 +141,17 @@ a.btn.btn-header-pwa.ark {
     opacity: .9;
     transition: opacity .15s ease;
 }
+
+.prev {
+    margin-left: 30px;
+    margin-top: -65px !important;
+}
+
+.next {
+    margin-right: 30px;
+    margin-top: -65px !important;
+}
+
 
 #cover .img {
  /*   height: 250px;*/
