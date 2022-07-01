@@ -24,10 +24,16 @@
 {#<div class="row div-slogan"><div class="col-12 text-center main-slide"><img class="" src="/static/img/bg-lagos.jpg"></div></div>#}
 <div class="row div-slogan"><div class="col-12 text-center main-slide">{% get_promos category %}</div></div>
  
-<div class="row div-key">
-    <div class="col-12 text-center pt-2">
-        <a class="menu-options" href="https://open.tullaveonline.com/?k=jWFk2nTF"> <img class="" src="/static/img/key.png"><br />Tu llave</a>
-    </div> 
+<div class="row div-key mt-2">
+    <div class="col-12 text-center">
+        <a class="menu-options collapsible-header waves-effect btn-large pt-3" 
+        data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample"><i class="fa fa-lock"></i> Mis Llaves</a>
+        <div class="collapse" id="collapseExample">
+            <div class="collapse-option mt-3"><a class="collapsible-header waves-effect btn-large-2"><i class="fa fa-lock"></i> Entrada</a></div>
+            <div class="collapse-option mt-3"><a class="collapsible-header waves-effect btn-large-2"><i class="fa fa-lock"></i> Habitación</a></div>
+            <div class="collapse-option mt-3"><a class="collapsible-header waves-effect btn-large-2"><i class="fa fa-lock"></i> Garaje</a></div>
+        </div>
+    </div>
 </div>
 
 <div class="row menu-tabs pt-3"> 
@@ -56,22 +62,11 @@
             data-cat_id="726d79a4-1147-f7e2-36e3-8f15c60f34aa"> <img class="ico-image" src="/static/img/ico-upgrade.png">
             <br />{% padword_translate_obj '726d79a4-1147-f7e2-36e3-8f15c60f34aa'%}</button>
     </div>
-    <div class="tabs col-4 offset-2 mb-1 align-middle justify-content-center p2">
-        <button class="menu-options ark" data-url="{% url "show-category-menu" %}" data-target="main" 
-            data-cat_id="7583e3f4-b03a-c1f3-22ab-95a292cf3da9"> <img class="ico-image" src="/static/img/ico-experiences.png">
-            <br />{% padword_translate_obj '7583e3f4-b03a-c1f3-22ab-95a292cf3da9'%}</button>
-    </div>
     <div class="tabs col-4 offset-1 mb-1 align-middle justify-content-center p2">
         <button class="menu-options ark" data-url="{% url "show-category-menu" %}" data-target="main" 
             data-cat_id="0bba66c4-88ee-7719-913f-42536a004f17"> <img class="ico-image" src="/static/img/ico-evaluate.png">
             <br />{% padword_translate_obj '0bba66c4-88ee-7719-913f-42536a004f17'%}</button>
     </div>
-    <div class="tabs col-4 offset-2 mb-1 align-middle justify-content-center p2">
-        <button class="menu-options ark" data-url="{% url "show-category-menu" %}" data-target="main" 
-            data-cat_id="d020042a-e66c-7be9-facb-41a4171f0ac5"> <img class="ico-image" src="/static/img/ico-massages.png">
-            <br />{% padword_translate_obj 'd020042a-e66c-7be9-facb-41a4171f0ac5'%}</button>
-    </div>
-
 </div>
 
 <script id="realtime-script">
