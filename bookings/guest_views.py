@@ -236,6 +236,7 @@ def notification_view(request):
 @group_required("admins", "projects", "guests")
 def notifications_not_readed(request):
     guest = get_or_none(Guest, request.GET["obj_id"])
+    guest.check_all_notifications()
     return HttpResponse("{}".format(guest.get_not_read_notifications()))
 
 '''

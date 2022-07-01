@@ -439,10 +439,13 @@ ul.dropdown-menu {
 }
 
 .btn.btn-dark-pad {
-    background: #a5c2d1 !important;
+    background: #CD8E75 !important;
 }
 
-
+.btn-marine {
+    background-color: #CD8E75 !important;
+    color: #ffffff !important;
+}
 
 /*****************************/
 /* devices style*/
@@ -480,8 +483,9 @@ ul.dropdown-menu {
     STYLE CATEGORIES
 *****************************************/
 
+
 .overlay {
-    background-color: #b0aba7 !important;
+    background-color: #CD8E75 !important;
 }
 .overlay:hover {
     background-color: #a5c3d0 !important;
@@ -495,8 +499,8 @@ ul.dropdown-menu {
 }
 .btn-dark, .btn-dark a {
     color: #fff !important;
-    background-color: #878787 !important;
-    border-color: #878787 !important;
+    background-color: #aa4718 !important;
+    border-color: #aa4718 !important;
 }
 
 i.fas.fa-chevron-left,

@@ -78,13 +78,12 @@ class Guest(models.Model):
         return True
         
     def get_not_read_notifications(self):
-        ll = self.notifications.all()
-        for l in ll:
-            print("{}: {} - {}".format(l.notification.msg, l.read, l.notification.public))
-        return self.notifications.filter(read=False, notification__public=True).count()
+        limit = datetime.datetime.now() + datetime.timedelta(days=-7)
+        return self.notifications.filter(read=False, notification__public=True, notification__date__gte=limit).count()
 
     def get_public_notifications(self):
-        return self.notifications.filter(notification__public=True)
+        limit = datetime.datetime.now() + datetime.timedelta(days=-7)
+        return self.notifications.filter(notification__public=True, notification__date__gte=limit)
 
     #def get_messages(self, guest_access, sender=None, date=""):
     def get_messages(self, guest_access):
