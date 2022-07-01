@@ -44,7 +44,11 @@
                     <li><button class="dropdown-item menu-options ark" data-url="{% url "show-category-menu" %}" data-target="main"
                             data-project_uuid="{{project_uuid}}" data-cat_id="6d82a8c9-420c-a121-7721-27997d917304" href="#"><i class="fas fa-map-signs"></i>
                             {% padword_translate_obj '6d82a8c9-420c-a121-7721-27997d917304'%}</button></li>
-                    
+
+                    <li><button class="dropdown-item menu-options ark" data-url="{% url "show-category-menu" %}" data-target="main"
+                            data-project_uuid="{{project_uuid}}" data-cat_id="6d82a8c9-420c-a121-7721-27997d917304" href="#"><i class="fas fa-map-signs"></i>
+                            {% padword_translate_obj '6d82a8c9-420c-a121-7721-27997d917304'%}</button></li>
+
                     <li><button class="dropdown-item menu-options ark" data-url="{% url "show-category-menu" %}" data-target="main"
                             data-project_uuid="{{project_uuid}}" data-cat_id="e5ebada6-9c36-bfc9-cab7-e17ed71a6418" href="#"><i class="fas fa-wifi"></i>
                             {% padword_translate_obj 'e5ebada6-9c36-bfc9-cab7-e17ed71a6418'%}</button></li>
@@ -60,5 +64,6 @@
 </div>
 
 <div id="main" class="main-pwa pl-4 pr-4"> {% include form.form_type.template with category=form.get_category %} </div>
-
+{% comment %}
 {% include "bookings/menus/menu_bottom_3.html" %}
+{% endcomment %}

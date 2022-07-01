@@ -294,9 +294,17 @@ def notifications(request):
 @group_required("admins", "projects")
 def notification_search(request):
     try:
-        #search_value = request.GET["s-name"] if "s-name" in request.GET else ""
         page = "0"
+        search_value = request.GET["s-name"] if "s-name" in request.GET else ""
         items = get_notifications(request)
+        if search_value != "":
+            filters_to_search = ["guest__name__icontains", "guest__room"]
+            values_filter = Q()
+            for myfilter in filters_to_search:
+                values_filter |= Q(**{myfilter: search_value})
+            gu_items = GuestNotification.objects.filter(values_filter).values_list('notification__id', flat=True)
+            items = items.filter(id__in = gu_items)
+ 
         context = {'total_items':  items.count(), 'items': items[int(page)*ITEMS_PER_PAGE:(int(page) + 1)*ITEMS_PER_PAGE], 'page': 0}
         return render(request, "guest/notifications/notification-list.html", context)
     except Exception as e:
