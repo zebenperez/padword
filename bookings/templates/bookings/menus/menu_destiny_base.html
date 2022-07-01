@@ -30,18 +30,27 @@
                         <a class="ark" href="#" data-url="{% url "guest-set-lang" %}" data-target="main-base" data-lang="de" 
                             data-cat_id="{{form.category}}"> DE</a>
                     </li>
-                    <li><a class="dropdown-item menu-options ark" data-url="{% url "show-category-menu" %}" idata-target="main"
-                            data-cat_id="4e7bff89-9c82-bccc-d721-0f240a23ae68" href="#"><i class="fas fa-key"></i> Mis Llaves</a></li>
-                    <!-- <li><a class="dropdown-item" href="#"><i class="far fa-calendar-check"></i> Agenda</a></li> -->
-                    <li><a class="dropdown-item" href="#"><i class="fas fa-hotel"></i> El Hotel</a></li>
-                    <li><a class="dropdown-item" href="#"><i class="fas fa-arrow-circle-up"></i> Upgrade</a></li>
-                    <li><a class="dropdown-item" href="#"><i class="fas fa-map-signs"></i> A tu alrededor</a></li>
-                    <li><a class="dropdown-item" href="#"><i class="fas fa-wifi"></i> Wifi</a></li>
-                    {#<li><a class="dropdown-item" href="#"><i class="fas fa-exchange-alt"></i> Cambio de hotel</a></li>#}
-                    {#<li><a class="dropdown-item" href="#"><i class="fas fa-sign-out-alt"></i> Cerrar sesión</a></li>#}
+                    <li><button class="dropdown-item menu-options ark" data-url="{% url "show-category-menu" %}" data-target="main"
+                            data-cat_id="4e7bff89-9c82-bccc-d721-0f240a23ae68" href="#"><i class="fas fa-key"></i> Mis Llaves</button></li>
+                    
+                    <li><button class="dropdown-item menu-options ark" data-url="{% url "show-category-menu" %}" data-target="main"
+                            data-project_uuid="{{project_uuid}}" data-cat_id="17836a89-014a-53b0-8cca-05da077bc9e0" href="#"><i class="fas fa-hotel"></i>
+                            {% padword_translate_obj '17836a89-014a-53b0-8cca-05da077bc9e0'%}</button></li>
+
+                    <li><button class="dropdown-item menu-options ark" data-url="{% url "show-category-menu" %}" data-target="main"
+                            data-project_uuid="{{project_uuid}}" data-cat_id="9b93d66b-e811-7f75-d32b-7d452aacc2a6" href="#"><i class="fas fa-arrow-circle-up"></i>
+                            {% padword_translate_obj '9b93d66b-e811-7f75-d32b-7d452aacc2a6'%}</button></li>
+                   
+                    <li><button class="dropdown-item menu-options ark" data-url="{% url "show-category-menu" %}" data-target="main"
+                            data-project_uuid="{{project_uuid}}" data-cat_id="6d82a8c9-420c-a121-7721-27997d917304" href="#"><i class="fas fa-map-signs"></i>
+                            {% padword_translate_obj '6d82a8c9-420c-a121-7721-27997d917304'%}</button></li>
+                    
+                    <li><button class="dropdown-item menu-options ark" data-url="{% url "show-category-menu" %}" data-target="main"
+                            data-project_uuid="{{project_uuid}}" data-cat_id="e5ebada6-9c36-bfc9-cab7-e17ed71a6418" href="#"><i class="fas fa-wifi"></i>
+                            {% padword_translate_obj 'e5ebada6-9c36-bfc9-cab7-e17ed71a6418'%}</button></li>
                     <li>
-                        <a class="dropdown-item" href="{% url "close-spa" %}?category_uuid={{form.category}}">
-                            <i class="fas fa-sign-out-alt"></i> Cerrar sesión</a>
+                        <button class="dropdown-item" href="{% url "close-spa" %}?category_uuid={{form.category}}">
+                            <i class="fas fa-sign-out-alt"></i> Cerrar sesión</button>
                     </li>
                 </ul>
             </li>
