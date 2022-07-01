@@ -57,6 +57,10 @@
             <div class="col-2 text-center p-0">
                 <button class="btn btn-header-pwa ark" data-url="{% url "close-spa" %}" data-target="div-main" 
                     data-category_uuid="{{form.category}}"> <i class="fas fa-sign-in-alt"></i> <br/> <span>{% trans 'Close' %}</span></button>
+                {%comment%}
+                <a class="btn btn-header-pwa" href="{% url "close-spa" %}?category_uuid={{form.category}}"> 
+                    <i class="fas fa-sign-in-alt"></i> <br/> <span>{% trans 'Close' %}</span></button>
+                {%endcomment%}
             </div>
         </div>
     </div>
@@ -70,6 +74,11 @@
     function checkNotifications()
     {
         $("#notification-check").click();
+        var value = parseInt($("#span-notifications").html());
+        if (value > 0)
+            $("#notification-badge").show();
+        else
+            $("#notification-badge").hide();
         setTimeout(checkNotifications, 10000);
     }
     checkNotifications();

@@ -1,6 +1,7 @@
 from django.db import models
 from django.db.models import Q
 from django.utils.translation import ugettext as _
+from django.utils import timezone
 from django.conf import settings
 from django.contrib.auth.models import User
 
@@ -64,6 +65,10 @@ class Guest(models.Model):
         if self.uuid != None and self.uuid != "":
             return self.uuid
         return ""
+
+    def have_valid_booking(self):
+        date = timezone.now()
+        return (self.check_in <= date and self.check_out >= date) 
 
     def check_all_notifications(self):
         guest_notifications = [item.notification.id for item in self.notifications.all()]

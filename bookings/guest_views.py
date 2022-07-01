@@ -28,31 +28,44 @@ logger = logging.getLogger(__name__)
 '''
     Bookings client methods
 '''
-def check_user(user, form_uuid="", project_uuid=""):
+#def check_user(user, form_uuid="", project_uuid=""):
+#    if not user.is_authenticated:
+#        return False
+#    if not user_in_group(user, "guests"):
+#        return False
+#    if form_uuid != "":
+#        form = get_or_none(Form, form_uuid, "uuid")
+#        if form == None or form.project == None:
+#            return False
+#        project_uuid = form.project.uuid
+#    if project_uuid == "":
+#        return False
+#
+#    guest = Guest.check_valid_booking(project_uuid, user.username)
+#    if guest == None:
+#        return False
+#
+#    return True
+
+def check_user(user, guest):
     if not user.is_authenticated:
         return False
     if not user_in_group(user, "guests"):
         return False
-    if form_uuid != "":
-        form = get_or_none(Form, form_uuid, "uuid")
-        if form == None or form.project == None:
-            return False
-        project_uuid = form.project.uuid
-    if project_uuid == "":
-        return False
-
-    guest = Guest.check_valid_booking(project_uuid, user.username)
     if guest == None:
         return False
-
+    if not guest.have_valid_booking():
+        return False
     return True
 
 def guest_access(request, category_uuid):
     cat = get_or_none(Category, category_uuid, "uuid")
     context = {'project_uuid': cat.project.uuid, 'cat': cat}
-    if check_user(request.user, project_uuid=cat.project.uuid):
+    guest = get_guest(request.user.username, cat.project.uuid)
+    #if check_user(request.user, project_uuid=cat.project.uuid):
+    if check_user(request.user, guest):
         next_url = reverse("pwa-index-cat", kwargs = {'category_uuid':category_uuid})
-        guest = Guest.check_valid_booking(cat.project.uuid, request.user.username)
+        #guest = Guest.check_valid_booking(cat.project.uuid, request.user.username)
         context["guest"] = guest
     else:
         auth.logout(request)
@@ -574,7 +587,7 @@ def guest_notifications(request, form_id):
     try:
         form = get_or_none(Form, form_id)
         #gu = GuestUser.objects.filter(project_uuid=form.project.uuid, username=request.user.username).first()
-        guest = get_guest(request.user.username, cat.project.uuid)
+        guest = get_guest(request.user.username, form.project.uuid)
         bookings = FormInstance.objects.filter(guest_uuid=guest.UUID, status_list__read=False).order_by('pk')
         val = ""
         if len(bookings) > 0:
