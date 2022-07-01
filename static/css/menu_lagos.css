@@ -178,6 +178,98 @@ div#cover.image {
 
 /******************************************/
 
+/*****************************/
+/* Mis Llaves menu style  */
+/*****************************/
+
+#collapseExample {
+    background: #f8fcff !important;
+    position:absolute; 
+    width: 94%;
+}
+
+ul.collapsible {
+    box-shadow: none !important;
+    border-top: 0px !important;
+    border-right: 0px !important;
+    border-left: 0px !important;
+    margin: 0px !important;
+    padding:0px;
+}
+
+ul.collapsible li {
+    list-style:none;
+    width: 94% !important;
+}
+
+.panel.panel-default {
+    text-align: center;
+}
+
+a.collapsible-header {
+    color:#fff;
+    border-radius: 90px !important;
+    height: auto !important;
+    font-size: 25px !important;
+    text-decoration: none;
+}
+.collapsible-header {
+    display: flex;
+    line-height: 1.5;
+    padding: 1rem;
+    text-align:center !important;
+}
+
+button.collapsible-header i,
+a.collapsible-header i {
+    background: rgba(0, 0, 0, 0.35);
+    border-radius: 50%;
+    display: inline-block;
+    padding: 10px 12px;
+    width: auto !important;
+}
+
+button.collapsible-header i,
+.collapsible-header i {
+    font-size: 1.6rem;
+    text-align: center;
+    margin-right: 1rem;
+}
+
+/*
+.waves-effect {
+    position: relative;
+    overflow: hidden;
+    user-select: none;
+    vertical-align: middle;
+    z-index: 1;
+    transition: .3s ease-out;
+}
+*/
+.btn-large {
+    background-color: #a6c4d1 !important;
+}
+
+.btn-large-2 {
+    background-color: #ffffff !important;
+    border:1px solid #a6c4d1;
+    color: #6c8088 !important;
+}
+
+button.collapsible-header.waves-effect.btn-large-2,
+a.collapsible-header.waves-effect.btn-large-2 {
+    font-size: 20px !important;
+    line-height: 40px;
+}
+
+i.fa.fa-lock {
+    color: #fff;
+}
+
+
+/*****************************/
+
+
 
 /*****************************************
  LAGOS DESIGN
@@ -206,12 +298,10 @@ div#cover.image {
 	color:#868789;
     max-height: 100px;
     font-size: 1.3rem;
-    border-bottom: 2px solid #f3e3ea;
-    border-bottom: 2px solid #e3e2e0;
 }
 
 .div-key a {
-    color: #b0aba7;
+    color: #ffffff;
     text-decoration: none !important;
 }
 
@@ -226,8 +316,7 @@ div#cover.image {
 
 .tabs {
     background: white;
-    /*padding-bottom: 50px !important;*/
-    padding-bottom: 40px !important;
+    padding-bottom: 70px !important;
 }
 
 .ico-image {
@@ -383,3 +472,56 @@ h1.ql-align-center {
     border-color: #a5c3d0 !important;
 }
 
+.collapsible-header.waves-effect.btn-large-2.ark-disabled {
+    background-color: #ffffff !important;
+    border: 1px solid #7f6c5a;
+    color: #7f6c5a !important;
+    border-radius: 90px !important;
+    height: auto !important;
+    width: 100% !important;
+}
+
+/******** Deslizador manual ***************/
+
+label.form-check-label {
+    color:#7f6c5a;
+    position:absolute;
+    left:22%;
+    top:35%;
+}
+.form-switch .form-check-input {
+    width: 17.5em;
+    height: 79px;
+    margin-left: -2.4em;
+    background-image: url(/static/img/lock-close.png) !important;
+    background-position: left center;
+    background-size: 65px;
+    border-radius: 2em;
+    border: 1px solid #7f6c5a;
+    transition: background-position .15s ease-in-out;
+}
+.form-check-input {
+    padding-left: 20px !important;
+}
+.form-check-input:checked {
+    background-color: #bbee9a !important;
+}
+.form-check-input:checked[type=checkbox] {
+    background-image: url(/static/img/lock-open.png) !important;
+    color: #fff !important;
+}
+
+/***********************************************
+************** Languages Style *****************
+***********************************************/
+
+.grid-container-lang {
+    display: grid;
+    grid-template-columns: 5% 7% 7% 7%;
+}
+.grid-item-lang {
+    border-right: 1px solid #a6c4d1;
+    text-align: center;
+}
+
+/***********************************************/
