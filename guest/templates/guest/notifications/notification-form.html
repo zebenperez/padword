@@ -9,7 +9,13 @@
 
 <div class="row justify-center notification-popup">
     {% if request.user|in_group:"admins" %}
-	<div class="col-12 mb-2 text-right">
+	<div class="col-10 mb-2">
+        <input type="text" class="autosave form-control" id="project_uuid" name="project_uuid" data-model-name="guest.notification" 
+            data-obj-id="{{obj.id}}" data-url="{%url "autosave_field"%}" data-target="div-notification" value="{{obj.project_uuid}}" 
+            placeholder="{%trans "Porject uuid"%}"/> 
+	</div>
+
+	<div class="col-2 mb-2 text-right">
         <input type="checkbox" class="autosave" id="public" name="public" 
             data-model-name="guest.notification" data-obj-id="{{obj.id}}" data-url="{% url "autosave_field" %}" data-bool="True" 
             data-target="div-notification" {% if obj.public %}checked{% endif %}/> <span class="public_error" id="public__msg"></span>
