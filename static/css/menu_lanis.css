@@ -446,3 +446,11 @@ button.menu-options {
     background-position: right;
     background-size: cover;
 }
+
+.color-grey {
+    color:#999 !important
+}
+
+.font-bold{
+    font-weight:600;
+}

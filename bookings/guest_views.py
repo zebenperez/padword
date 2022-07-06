@@ -207,15 +207,17 @@ def booking_view(request):
 def notifications_by_guest(request, project_uuid=None):
     msg = ""
     try:
-        if project_uuid == None:
-            project_uuid = request.GET["project_uuid"]
+        cat_uuid = request.GET["cat_id"] if "cat_id" in request.GET else ""
+        cat = get_or_none(Category, cat_uuid, "uuid")
+        if cat == None:
+            return render(request, 'error_exception.html', {'exc': 'Category not found!'})
 
-        guest = get_guest(request.user.username, project_uuid)
+        guest = get_guest(request.user.username, cat.project_uuid)
         if guest == None:
             return render(request, 'error_exception.html', {'exc': 'User not found!'})
-
+                    
         guest.check_all_notifications()
-        return render (request, "bookings/guest/notifications-by-guest.html", {'guest': guest})
+        return render (request, "bookings/guest/notifications-by-guest.html", {'guest': guest, 'cat_uuid': cat.uuid})
     except Exception as e:
         logger.error("[bookings-bookings] {}".format(str(e)))
         msg = str(e)
@@ -238,6 +240,20 @@ def notifications_not_readed(request):
     guest = get_or_none(Guest, request.GET["obj_id"])
     guest.check_all_notifications()
     return HttpResponse("{}".format(guest.get_not_read_notifications()))
+
+@group_required("admins", "projects", "guests")
+def notifications_check(request, project_uuid=None):
+    try:
+        guest = get_or_none(Guest, request.GET["obj_id"])
+        if guest == None:
+            return render(request, 'error_exception.html', {'exc': 'User not found!'})
+
+        guest.check_all_notifications()
+        return render (request, "bookings/guest/notification-list.html", {'guest': guest})
+    except Exception as e:
+        logger.error("[bookings-bookings] {}".format(str(e)))
+        return render(request, 'error_exception.html', {'exc': str(e)})
+
 
 '''
     Messages

@@ -5,8 +5,10 @@
         <button id="back-btn" class="btn btn-header-pwa text-center ark pl-2 pr-2" data-url="{% url "show-category-menu" %}" data-target="main" 
             data-cat_id="" data-cat_home="{{form.category}}" style="display:none" onclick="window.history.back()">
             <i class="fas fa-chevron-left"></i> </button>
+        {%comment%}
         <button id="back-btn-bookings" class="btn btn-header-pwa text-center ark" data-url="{% url "my-bookings" %}" data-target="main" 
             data-project_uuid="{{project_uuid}}" data-cat_id="{{form.category}}" style="display:none"> <i class="fas fa-chevron-left"></i> </button>
+        {%endcomment%}
     </div>
             
     <div class="col-lg-6 col-2" style="padding-left:0px !important;">{%if form.logo%}<img src="{{form.logo.url}}">{%endif%}</div>
@@ -19,7 +21,7 @@
             </div>
             <div class="col-3 text-center p-0">
                 <button class="btn btn-header-pwa text-center history ark" id="btn-notifications" data-url="{% url "my-notifications" %}" 
-                    data-target="main" data-project_uuid="{{project_uuid}}"> <i class="far fa-bell"></i> <br /> 
+                    data-target="main" data-cat_id="{{form.category}}"> <i class="far fa-bell"></i> <br /> 
                     <span class="subtext">{% trans 'Notifications' %}</span>
                     <span class="count badge" id="notification-badge" {%if guest.get_not_read_notifications == 0%}style="display:none"{%endif%}>
                         <span id="span-notifications">{{ guest.get_not_read_notifications }}</span></span>
@@ -67,10 +69,15 @@
 </div>
 
 <script>
+    $("#btn-home").click(function(){ $("#back-btn").hide();});
+    $("#back-btn").click(function(){ if ($(this).data("cat_id") == $(this).data("cat_home")) $(this).hide(); else $(this).show(); });
+
+    {%comment%}
     $("#btn-home").click(function(){ $("#back-btn").hide(); $("#back-btn-bookings").hide();});
     $("#btn-bookings").click(function(){ $("#back-btn").hide(); $("#back-btn-bookings").hide();});
     $("#back-btn").click(function(){ if ($(this).data("cat_id") == $(this).data("cat_home")) $(this).hide(); else $(this).show(); });
     $("#back-btn-bookings").click(function(){ $(this).hide(); $("#back-btn").show(); });
+    {%endcomment%}
     function checkNotifications()
     {
         $("#notification-check").click();
@@ -79,7 +86,7 @@
             $("#notification-badge").show();
         else
             $("#notification-badge").hide();
-        setTimeout(checkNotifications, 10000);
+        setTimeout(checkNotifications, 60000);
     }
     checkNotifications();
 </script>

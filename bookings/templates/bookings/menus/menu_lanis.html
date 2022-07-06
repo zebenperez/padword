@@ -104,6 +104,7 @@
     //$('#counter-item-mob-{{item_refresh.pk}}').val('{{total_items}}');
     //$('#span-total-price').html('{{total|floatformat:2}}');
     //$('#span-total-items').html('{{items|length}}');
+    $("#back-btn").hide();
     $('#span-total-items').html('{% get_total_items request.user.username category.project_uuid %}');
     if (parseInt($("#span-total-items").html()) > 0)
         $("#count-badge").show();
