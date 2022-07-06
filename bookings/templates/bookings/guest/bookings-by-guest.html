@@ -4,7 +4,7 @@
 
 <div class="col-10 card info-panel p-2" style="width: 96%; margin-left:2%;">
     <div class="content">
-        <div class="toolbar-content"> <h1 class="ql-align-center">{% trans 'My bookings' %}</h1> --{{cat_uuid}}</div>
+        <div class="toolbar-content"> <h1 class="ql-align-center">{% trans 'My bookings' %}</h1></div>
         <select class="form-control">
             <option onclick="$('.booking-line').show();">{% trans "ALL" %}</option>
             {% for status in status_list %}
