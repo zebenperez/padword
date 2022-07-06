@@ -83,7 +83,7 @@ class Guest(models.Model):
 
     def get_public_notifications(self):
         limit = datetime.datetime.now() + datetime.timedelta(days=-7)
-        return self.notifications.filter(notification__public=True, notification__date__gte=limit)
+        return self.notifications.filter(notification__public=True, notification__date__gte=limit).order_by('-notification__date')
 
     #def get_messages(self, guest_access, sender=None, date=""):
     def get_messages(self, guest_access):
