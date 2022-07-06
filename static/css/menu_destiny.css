@@ -561,3 +561,17 @@ label.form-check-label {
     color: #fff !important;
 }
 
+/***********************************************
+************** Languages Style *****************
+***********************************************/
+
+.grid-container-lang {
+    display: grid;
+    grid-template-columns: 5% 7% 7% 7%;
+}
+.grid-item-lang {
+    border-right: 1px solid #CD8E75;
+    text-align: center;
+}
+
+/***********************************************/
