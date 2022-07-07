@@ -97,7 +97,7 @@ function checkNotify(ini_date, end_date)
 //function sendGuestNotify(title, desc, url, data)
 function sendGuestNotify(data)
 {
-    console.log(data);
+    //console.log(data);
     var datas = JSON.parse(data);
     if (Notification.permission !== "granted")
     {

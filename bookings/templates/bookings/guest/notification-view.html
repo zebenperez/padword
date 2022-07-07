@@ -6,12 +6,13 @@
         <p>{% padword_translate item.notification.msg %}</p>
         <p>
             <input type="checkbox" class="autosave read" id="read" name="read" data-model-name="guest.guestnotification" 
-                data-obj-id="{{item.id}}" data-url="{% url "autosave_field" %}" data-bool="True" 
+                data-obj-id="{{item.id}}" data-url="{% url "autosave_field" %}" data-bool="False" 
                 data-target="div-notification"/> 
                 {#data-target="div-notification" {% if item.read %}checked{% endif %}/> #}
                 {% trans "Check to unread" %}
         </p>
-        <button id="btn-close-modal" class="btn btn-marine" data-bs-dismiss="modal">{%trans "Close"%}</button>
+        <button id="btn-close-modal" class="btn btn-marine ark" data-bs-dismiss="modal" data-url="{%url "notifications-check"%}" 
+            data-target="notification-list" data-obj_id="{{item.guest.id}}">{%trans "Close"%}</button>
     </div>
 </div>
 <script>

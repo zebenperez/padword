@@ -458,10 +458,16 @@ $(document).ready(()=>{
             ref_field = "pk";
 
         if (obj.data("bool"))
-            if (obj.is(':checked'))
-                value = "True";
+            if (obj.data("bool") == "False")
+                if (obj.is(':checked'))
+                    value = "False";
+                else
+                    value = "True";
             else
-                value = "False";
+                if (obj.is(':checked'))
+                    value = "True";
+                else
+                    value = "False";
         else
             value = obj.val();
 
