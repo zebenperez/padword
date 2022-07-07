@@ -2,13 +2,16 @@
 
 <div class="row div-top w-100 p-0 m-0">
     <div class="col-lg-1 col-1 text-center p-0">
+        {%comment%}
         <button id="back-btn" class="btn btn-header-pwa text-center ark pl-2 pr-2" data-url="{% url "show-category-menu" %}" data-target="main" 
             data-cat_id="" data-cat_home="{{form.category}}" style="display:none" onclick="window.history.back()">
             <i class="fas fa-chevron-left"></i> </button>
-        {%comment%}
+        {%endcomment%}
+        <button id="back-btn" class="btn btn-header-pwa text-center ark pl-2 pr-2" data-url="{% url "show-category-menu" %}" data-target="main" 
+            data-cat_id="" data-cat_home="{{form.category}}" style="display:none">
+            <i class="fas fa-chevron-left"></i> </button>
         <button id="back-btn-bookings" class="btn btn-header-pwa text-center ark" data-url="{% url "my-bookings" %}" data-target="main" 
             data-project_uuid="{{project_uuid}}" data-cat_id="{{form.category}}" style="display:none"> <i class="fas fa-chevron-left"></i> </button>
-        {%endcomment%}
     </div>
             
     <div class="col-lg-6 col-2" style="padding-left:0px !important;">{%if form.logo%}<img src="{{form.logo.url}}">{%endif%}</div>
@@ -69,15 +72,15 @@
 </div>
 
 <script>
+    {%comment%}
     $("#btn-home").click(function(){ $("#back-btn").hide();});
     $("#back-btn").click(function(){ if ($(this).data("cat_id") == $(this).data("cat_home")) $(this).hide(); else $(this).show(); });
+    {%endcomment%}
 
-    {%comment%}
     $("#btn-home").click(function(){ $("#back-btn").hide(); $("#back-btn-bookings").hide();});
     $("#btn-bookings").click(function(){ $("#back-btn").hide(); $("#back-btn-bookings").hide();});
     $("#back-btn").click(function(){ if ($(this).data("cat_id") == $(this).data("cat_home")) $(this).hide(); else $(this).show(); });
     $("#back-btn-bookings").click(function(){ $(this).hide(); $("#back-btn").show(); });
-    {%endcomment%}
     function checkNotifications()
     {
         $("#notification-check").click();

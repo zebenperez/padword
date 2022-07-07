@@ -13,7 +13,7 @@
         {% for item in category.get_active_childrens %}
             <div class="container-test col-lg-4 col-12 box-cat pointer">
                 {% if item.url != "" %}
-                    <a href="{{item.url}}"> <div class="card"> 
+                    <a href="{{item.url}}" target="_blank"> <div class="card"> 
                 {% else %}
                     <div class="card ark" data-url="{% url "show-category-menu" %}" data-target="main" data-cat_id="{{item.uuid}}">
                 {% endif %}
