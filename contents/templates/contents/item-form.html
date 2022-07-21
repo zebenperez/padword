@@ -40,11 +40,11 @@
             </div>
             <div class="col-12">
                 {% trans "Description" %} 
-                (<a id="show-html" class="small toggle-editor" data-source="description" data-editor="desc-editor">html</a>):
+                (<a id="show-html" class="small toggle-editor" data-source="description" data-editor="desc-editor-item">html</a>):
                 <textarea class="form-control autosavepost b-bottom mb-4" id="description" name="description"  data-lang="{% current_lang %}" 
                     data-model-name="contents.item" data-obj-id="{{obj.id}}" data-url="{%url "autosave_field_post"%}" data-target="div-notification" 
                     style="display:none"></textarea> <span id="description__msg"></span>
-                <div id="desc-editor" style="height:200px; overflow:scroll;"> {% padword_translate obj.description %}</div>
+                <div id="desc-editor-item" style="height:200px; overflow:scroll;"> {% padword_translate obj.description %}</div>
             </div>
         </div>		
         <a data-bs-toggle="collapse" href="#collapseAllergen" role="button" aria-expanded="false" aria-controls="collapseAllergen"> 
@@ -96,7 +96,7 @@
         ['clean']                                         // remove formatting button
     ];
 
-    var quill = new Quill('#desc-editor', {
+    var quill = new Quill('#desc-editor-item', {
         modules: { toolbar: toolbarOptions },
         theme: 'snow'
     });
