@@ -1,6 +1,8 @@
 {% load i18n bookings_tag common_tag padword_tags static %}
 
 <div class="row menu-botton">
+    <div class="col-lg-1 offset-1 col-1" style="padding:0;"></div>
+    {%comment%}
     <div class="col-lg-2 offset-1 col-2" style="padding:0;">
         <button class="menu-options ark" id="btn-messages" data-url="{% url "my-messages" %}" 
             data-target="main" data-project_uuid="{{project_uuid}}"> <i class="far fa-comments"></i> <br /> 
@@ -8,6 +10,7 @@
             <span id="span-notifications">{{ guest.get_not_read_notifications }}</span></span>
          </button>
     </div>
+    {%endcomment%}
 
     <div class="col-lg-2 col-2" style="padding:0;">
         <button class="menu-options ark" id="btn-home" data-url="{% url "show-category-menu" %}" data-target="main"
