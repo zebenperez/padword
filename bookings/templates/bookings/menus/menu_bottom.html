@@ -15,7 +15,7 @@
     </div>
     <div class="col-2">
         <button class="menu-options ark" id="btn-notifications" data-url="{% url "my-notifications" %}" 
-            data-target="main" data-project_uuid="{{project_uuid}}"> <i class="far fa-bell"></i> <br /> 
+            data-target="main" data-cat_id="{{form.category}}"> <i class="far fa-bell"></i> <br /> 
             <span class="count badge" id="notification-badge" {%if guest.get_not_read_notifications == 0%}style="display:none"{%endif%}>
             <span id="span-notifications">{{ guest.get_not_read_notifications }}</span></span>
         </button>
