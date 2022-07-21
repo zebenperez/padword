@@ -4,7 +4,7 @@
 <link rel="stylesheet" href="{% static 'css/menu2.css' %}" >
 
 <div class="row d-flex justify-content-center img-carousel mt-1 ml-0">
-	<div class="container"> <div class="row blog"> <div class="col-12">
+	<div class="container"> <div class="row blog"> <div class="col-12" style="padding:0;margin:0;">
         <div id="blogCarousel-{{item.id}}" class="carousel slide" data-ride="carousel">
                 
             {% if item.images.count > 1 %}
@@ -35,5 +35,4 @@
 	</div> </div> </div>
 </div>
 
-
-
+<script language="JavaScript" type="text/javascript">$(document).ready(function(){$('.carousel').carousel({ interval: 3000 })});</script>

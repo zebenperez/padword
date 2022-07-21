@@ -18,15 +18,7 @@
                     <input type="hidden" name="project_uuid" value="{{project_uuid}}"/>
                     <input type="hidden" name="category_uuid" value="{{category_uuid}}"/>
                     <div class="form-group mb-4">
-				        <div style="text-align:left;"><label class="control-label text-left">{% trans "Phone or email:" %} </label></div>
-				        <div class="form-group"><input placeholder="" nautocomplete="off" class="form-control login" type="text" name="code" id="code"/></div>
-                    </div><br />
-                    <div class="form-group mb-4">
-				        <div style="text-align:left;"><label class="control-label">{% trans "Room number:" %} </label></div>
-        	            <div class="form-group"><input placeholder="" nautocomplete="off" class="form-control login" type="text" name="room" id="room"/></div>
-                    </div><br />
-                    <div class="form-group mb-4">
-				        <div style="text-align:left;"><label class="control-label">{% trans "Prefered Language:" %} </label></div>
+				        <div><label class="control-label">{% trans "Prefered Language" %} </label></div>
                         <select class="form-control" name="lang" id="lang">
                             <option value="es">{% trans "ES - Español" %}</option>
                             <option value="en">{% trans "EN - English" %}</option>
@@ -34,6 +26,15 @@
                         </select>
                     </div><br />
 
+                    <div class="form-group mb-4">
+				        <div><label class="control-label text-left">{% trans "Phone or email" %} </label></div>
+				        <div class="form-group"><input placeholder="" nautocomplete="off" class="form-control login" type="text" name="code" id="code"/></div>
+                    </div><br />
+                    <div class="form-group mb-4">
+				        <div><label class="control-label">{% trans "Room number" %} </label></div>
+        	            <div class="form-group"><input placeholder="" nautocomplete="off" class="form-control login" type="text" name="room" id="room"/></div>
+                    </div><br />
+                    
                     <div class="form-group">
 				        <div class="col-md-2 offset-md-5">
 				    	    <div class="form-inline"> <div class="form-group">

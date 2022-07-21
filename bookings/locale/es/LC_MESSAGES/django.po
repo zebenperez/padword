@@ -533,19 +533,19 @@ msgstr ""
 
 #: templates/bookings/login/login_lagos.html:9
 msgid "Log in"
-msgstr ""
+msgstr "Iniciar Sesión"
 
 #: templates/bookings/login/login_lagos.html:21
 msgid "Phone or email:"
-msgstr ""
+msgstr "Teléfono o email"
 
 #: templates/bookings/login/login_lagos.html:25
 msgid "Room number:"
-msgstr ""
+msgstr "Número de habitación"
 
 #: templates/bookings/login/login_lagos.html:29
 msgid "Prefered Language:"
-msgstr ""
+msgstr "Idioma"
 
 #: templates/bookings/login/login_lagos.html:31
 msgid "ES - Español"

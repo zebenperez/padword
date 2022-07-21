@@ -539,7 +539,7 @@ msgstr ""
 
 #: templates/bookings/login/login_lagos.html:29
 msgid "Prefered Language:"
-msgstr ""
+msgstr "Language"
 
 #: templates/bookings/login/login_lagos.html:31
 msgid "ES - Español"

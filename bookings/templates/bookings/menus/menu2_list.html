@@ -6,7 +6,7 @@
 <div class="row d-flex justify-content-center mt-1">
     {% if category.get_items_active|length > 0 %}
 		<div class="container"> <div class="row blog"> <div class="col-12">
-            <div id="blogCarousel-{{category.id}}" class="carousel slide" data-ride="carousel">
+            <div id="blogCarousel-{{category.id}}" class="carousel slide" data-bs-ride="carousel">
                 
                 <!-- Carousel controls -->
                 <button class="carousel-control-prev" type="button" data-bs-target="#blogCarousel-{{category.id}}" data-bs-slide="prev">
@@ -56,3 +56,4 @@
     </script>
 {% endfor %}
 
+<script language="JavaScript" type="text/javascript">$(document).ready(function(){$('.carousel').carousel({ interval: 3000 })});</script>
