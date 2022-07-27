@@ -1,0 +1,89 @@
+{% load i18n bookings_tag common_tag padword_tags static%}
+
+<div class="w-100 mb-1 mt-1 box-new">
+
+
+    {% comment %} -------- NUEVO -------   {% endcomment %}
+
+    <div class="row cart-list" style="margin-left:-25px !important;margin-right:-25px !important;">
+        <div class="col-5 d-flex justify-content-start" tyle="border:1px solid black">
+            <span class="article-title">{% padword_translate item.name %}</span>
+        </div>
+        <div class="col-3 d-flex justify-content-end pr-2" tyle="order:1px solid green; padding:0;">
+            <span class="article-price">{{item.price}} {%if item.price != ""%}&euro;{%endif%} </span>
+        </div>
+
+        {% if show_footer %}
+            <div class="col-4 col-sum">
+                <div class="row">
+                    <div class="col-2 p-0 minus">
+                        <a class="tn tn-sm ark" data-url="{% url 'remove-generic-item-shopping-cart' %}" 
+                            data-target="for-scripts" data-form_id="{{fi.pk}}" data-item_id="{{item.pk}}"> <i class="fas fa-minus"></i></a>
+                    </div>              
+                    <div class="col-8">
+                        <input type="text" class="ark_change form-control text-center readonly"
+                            {% if mobile %}id="counter-item-{{item.pk}}"{% else %}id="counter-item-mob-{{item.pk}}"{% endif %}
+                            data-url="{% url 'get-price-shopping-cart' %}" data-form_id="{{fi.pk}}" data-target="info-shopping" 
+                            value="{{fi|items_in_bookings:item.pk}}"></input>
+                    </div>
+                   <div class="col-2 p-0 plus">
+                        <a class="tn tn-sm ark" data-url="{% url 'item-to-shopping-cart' %}" data-target="for-scripts" 
+                            data-form_id="{{fi.pk}}" data-item_id="{{item.pk}}"> <i class="fas fa-plus"></i></a>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+
+    </div>
+
+    {% comment %} --------- {% endcomment %}
+
+
+    {% comment %} -------- VIEJO -------   {% endcomment %}
+
+    {% comment %} 
+    
+    <div class="image" id="cover" style="border:1px solid blue; height: 50px;"> 
+        {% if item.image %} <img src="{{item.image.url}}" class="object-fit_cover img-new" alt="{% padword_translate item.name %}"> {% endif %}
+    </div>
+    <div class="card-body card-new" style="border:1px solid red">
+        <h5 class="card-title text-dark text-center title-new p-2">{% padword_translate item.name %}</h5>
+        <h4 class="card-title text-dark text-center price-new">{{item.price}} {%if item.price != ""%}&euro;{%endif%} </h4>
+        <div class="allerg-new">
+            {% for ia in item.allergen_list.all %}
+                <img src="{{ia.allergen.icon.url}}" alt="{{ia.allergen.name}}" title="{{ia.allergen.name}}" />
+            {% endfor %}
+        </div>
+        <div class="info-new">
+            {% if not item.description|is_empty:request.LANGUAGE_CODE %}{% include "bookings/show-item-btn.html" %}{% endif %}
+        </div>
+    </div>
+    {% if show_footer %}
+    <div class="card-footer footer-new">
+        <div class="row">
+            <div class="col-3 d-flex justify-content-start">
+                <a class="p-2 btn tn-light btn-sm ark" data-url="{% url 'remove-generic-item-shopping-cart' %}" 
+                    data-target="for-scripts" data-form_id="{{fi.pk}}" data-item_id="{{item.pk}}"> <i class="fas fa-minus"></i></a>
+            </div>              
+            <div class="col-6 d-flex justify-content-center">
+                <input type="text" class="ark_change form-control text-center readonly"
+                    {% if mobile %}id="counter-item-{{item.pk}}"{% else %}id="counter-item-mob-{{item.pk}}"{% endif %}
+                    data-url="{% url 'get-price-shopping-cart' %}" data-form_id="{{fi.pk}}" data-target="info-shopping" 
+                    value="{{fi|items_in_bookings:item.pk}}"></input>
+            </div>
+            <div class="col-3 d-flex justify-content-end">
+                <a class="p-2 btn tn-light btn-sm ark" data-url="{% url 'item-to-shopping-cart' %}" data-target="for-scripts" 
+                    data-form_id="{{fi.pk}}" data-item_id="{{item.pk}}"> <i class="fas fa-plus"></i></a>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+    
+    {% endcomment %}
+
+    {% comment %} -------- VIEJO -------   {% endcomment %}
+
+
+</div>
+
+

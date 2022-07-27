@@ -36,8 +36,14 @@ urlpatterns = [
     path('devices/form/', views.device_form, name='device-form'),
     path('devices/assign/', views.device_assign, name='device-assign'),
     path('devices/remove/', views.device_remove, name='device-remove'),
+    #--------------------- Locks --------------------
+    path('locks/', views.locks, name='locks'),
+    path('locks/search/', views.lock_search, name='lock-search'),
+    path('locks/form/', views.lock_form, name='lock-form'),
+    path('locks/remove/', views.lock_remove, name='lock-remove'),
+
     #---------------------- E-Keys ---------------------
-    path('ekeys/', views.ekeys, name='ekeys'),
+    #path('ekeys/', views.ekeys, name='ekeys'),
     #---------------------- Tests ----------------------
     path('thanks/', views.thanks),
     path('check-error/', views.check_error),

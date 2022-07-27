@@ -1,11 +1,10 @@
 {% load i18n padword_tags %}
+
 {% for item in items %}
-<tr class="small" id="row_{{item.id}}">
-    {% include "guest/guest-row.html" %}
-</tr>
+    <tr class="small" id="row_{{item.id}}"> {% include "guest/guest-row.html" %} </tr>
 {% endfor %}
-</div>
+
+{#</div>#}
 {% if items|length > 0 %}
-<script id="real-time"> 
-    $('#btn-see-more').data('page',"{{page|add:"1"}}"); $('#real-time').remove();</script>
+    <script id="real-time"> $('#btn-see-more').data('page',"{{page|add:"1"}}"); $('#real-time').remove();</script>
 {% endif %}

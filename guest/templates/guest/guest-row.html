@@ -8,8 +8,10 @@
         {% if request.user|in_group:'admins' or request.user.is_staff %}<br><small>{{item.project.name}}</small>{%endif%}</div>
     <div class="col-1"> {{item.language}}</div>
     <div class="col-1">
+        {%comment%}
         <a class="btn btn-xs ark" data-url="{% url "guest-keys" %}" data-target-modal="common-modal" data-obj_id="{{item.id}}"> 
             <i class="fas fa-key"></i></a>  
+        {%endcomment%}
         <a class="btn ark" href="#" data-url="{% url "show-chat" %}" data-target="div-chat" data-guest="{{item.id}}" data-guest_msg="False">
             <i class="fas fa-comments"></i></a>
         <a class="btn" href="#" onclick='alert("{{item.uuid}}"); return False'><i class="fas fa-fingerprint"></i></a>
@@ -19,6 +21,10 @@
         {% else %}
             <a class="btn btn-xs ark" data-url="{% url "guest-form" %}" data-target-modal="common-modal" data-obj_id="{{item.id}}"> 
                 <i class="fas fa-edit"></i></a>  
+            {% comment %}
+            <a class="btn btn-xs ark" data-url="{% url "guest-form-simple" %}" data-target-modal="common-modal" data-obj_id="{{item.id}}"> 
+                <i class="fas fa-edit"></i></a>  
+            {% endcomment %}
         {% endif %}
 
 	    <a class="btn btn-sm ark" data-url="{% url "guest-remove" %}" data-target="guest-list" data-obj_id="{{item.id}}" 

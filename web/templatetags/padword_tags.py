@@ -6,7 +6,7 @@ from django.utils import translation
 import json
 from padword.commons import show_exc, get_items_per_page, user_in_group
 from web.models import Project, ProjectUser
-from contents.models import Allergen, Category, CategoryUser, Feature, ItemPromo
+from contents.models import Allergen, Category, CategoryUser, Feature, ItemPromo, PaymentType
 import string, random
 import os
 
@@ -68,6 +68,11 @@ def have_allergen(obj, allergen):
 def have_feature(obj, feature):
     a_list = [item.feature for item in obj.features.all()]
     return feature in a_list
+
+@register.filter()
+def have_payment_type(obj, payment_type):
+    a_list = [item.payment_type for item in obj.payment_types.all()]
+    return payment_type in a_list
 
 @register.filter()
 def is_empty(json_str, lang):
@@ -349,6 +354,10 @@ def show_extras(obj):
 @register.inclusion_tag('contents/features.html')
 def show_feature(obj):
     return {'obj': obj, 'item_list': Feature.objects.all()}
+
+@register.inclusion_tag('contents/payment-types.html')
+def show_payment_types(obj):
+    return {'obj': obj, 'item_list': PaymentType.objects.all()}
 
 @register.inclusion_tag('contents/promos.html')
 def show_promos(obj):

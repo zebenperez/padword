@@ -8,6 +8,7 @@ from django.views.decorators.csrf import csrf_exempt
 from padword.commons import show_exc, get_or_none, get_param, new_ui_slug, translate
 from padword.decorators import group_required
 from .models import *
+from .lock_lib import ShLock
 
 
 from django.conf import settings
@@ -465,6 +466,53 @@ def ServiceWorker(request):
     return response
 #     template_name = "sw.js"
 #     content_type="application/javascript"
+
+'''
+    Locks
+'''
+def update_locks():
+    sh_lock = ShLock()
+    for item in sh_lock.get_locks():
+        Lock.objects.get_or_create(uuid=item)
+
+@group_required("admins")
+def locks(request):
+    try:
+        update_locks()
+        items = Lock.objects.all()
+        return render (request, "web/locks/locks.html",{'items':items} )
+    except Exception as e:
+        return render(request, 'error_exception.html', {'exc':show_exc(e)})
+
+@group_required("admins")
+def lock_search(request):
+    try:
+        filters_to_search = ["alias__icontains", ]
+        items = Lock.objects.none()
+        for myfilter in filters_to_search:
+            kwargs = {}
+            if "s-alias" in request.GET and request.GET["s-alias"] != "":
+                kwargs[myfilter] = request.GET["s-alias"]
+            items = items.union(Lock.objects.filter(**kwargs))
+        return render(request, "web/locks/lock-list.html", {'items': items,})
+    except Exception as e:
+        return render(request, 'error_exception.html', {'exc':show_exc(e)})
+
+@group_required("admins")
+def lock_form(request):
+    obj = get_or_none(Lock, request.GET["obj_id"]) if "obj_id" in request.GET else None
+    if obj == None:
+        return render(request, 'error_exception.html', {'exc':'Lock not found!'})
+    return render(request, "web/locks/lock-form.html", {'obj': obj,})
+
+@group_required("admins")
+def lock_remove(request):
+    obj = get_or_none(Lock, request.GET["obj_id"]) if "obj_id" in request.GET else None
+    if obj != None:
+        obj.delete()
+    items = Lock.objects.all()
+    return render (request, "web/locks/lock-list.html",{'items':items} )
+
 
 '''
     EKeys

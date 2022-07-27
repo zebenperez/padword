@@ -1,18 +1,21 @@
-{% load i18n padword_tags %}
+{% load i18n padword_tags tz %}
 
 <td class="row p-1">
-    <div class="col-md-3 col-3">
+    <div class="col-2">
         <span style="font-size:0.6em">#{% idx_page forloop.counter page 20 %}</span> 
         {% padword_translate item.form.get_category.parent.name %} <i class="fas fa-angle-double-right"></i>
         {% padword_translate item.form.get_category.name %}
         {# <br><span style="font-size:0.6em">&nbsp;&nbsp;&nbsp;&nbsp;</span>{{item.form.form_type}}{% if item.form.form_type.code == 'ecom' %} ({{item.get_items|length}} art.) {%endif%} #}
     </div>
-    <div class="col-md-3 col-3">{{item.guest.name}} {{item.guest.surname}}<br/>{{item.guest.mobile}}<br/>{{item.guest.email}}</div>
-    <div class="col-md-1 col-3">{{ item.guest.room}}</div>
+    <div class="col-2">{{item.guest.name}} {{item.guest.surname}}<br/>{{item.guest.mobile}}<br/>{{item.guest.email}}</div>
+    <div class="col-1">{{ item.guest.room}}</div>
     {#<div class="col-2 d-none d-md-block">{{item.device.uuid}}</div>#}
-    <div class="col-md-2 col-3">{{ item.date | date:'d/m/Y H:i:s'}}</div>
-    <div class="col-md-1 col-3" id="status-{{item.pk}}">{% padword_translate item.get_status.status.name %} </div>
-    <div class="col-12 col-md-2 d-flex pt-3 pt-md-1 justify-content-md-end justify-content-center" >
+    {#<div class="col-2">{{ item.date|timezone:"Atlantic/Canary"|date:'d/m/Y H:i:s'}}</div>#}
+    <div class="col-2">{{ item.date|timezone:"Atlantic/Canary"|date:'d/m/Y H:i:s'}}</div>
+    <div class="col-1" id="status-{{item.pk}}">{% padword_translate item.get_status.status.name %} </div>
+    <div class="col-1">{% padword_translate item.payment_type.name %} </div>
+    <div class="col-1">{{ item.amount }} </div>
+    <div class="col-12 col-2 d-flex pt-3 pt-md-1 justify-content-md-end justify-content-center" >
         {% if request.user|in_group:'admins' %}
             <a class="me-1 btn btn-xs" title="{%trans "Booking ID"%}" onclick="alert('{{item.code}}');"><i class="fas fa-fingerprint"></i></a> 
         {% endif %}

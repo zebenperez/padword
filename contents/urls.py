@@ -21,6 +21,7 @@ urlpatterns = [
     path('categories/add-image-gallery/', views.category_add_image_gallery, name='category-add-image-gallery'),
     path('categories/remove-image-gallery/', views.category_remove_image_gallery, name='category-remove-image-gallery'),
     path('categories/save_feature', views.save_feature, name="category-save-feature"),
+    path('categories/save_payment_type', views.save_payment_type, name="category-save-payment-type"),
 
     path('categories/categories/', views.categories_by_categories, name='categories-by-categories'),
 

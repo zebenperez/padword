@@ -428,8 +428,8 @@ msgstr "Añadir comentario a este artículo"
 
 #: templates/bookings/ecom/view-shopping-cart-fi.html:47
 #: templates/bookings/general/general.html:19
-msgid "Send Order"
-msgstr "Enviar"
+msgid "Finalize order"
+msgstr "Finalizar pedido"
 
 #: templates/bookings/ecom/view-shopping-cart.html:13
 msgid "You can add comments to the article with click on comment buttons"
@@ -438,8 +438,8 @@ msgstr ""
 
 #: templates/bookings/ecom/view-shopping-cart.html:16
 #: templates/bookings/show-item-details.html:28
-msgid "Continue"
-msgstr "Continuar"
+msgid "Continue shopping"
+msgstr "Seguir comprando"
 
 #: templates/bookings/general/autocomplete_field.html:1
 #: templates/bookings/guest/bookings-by-guest-original.html:42

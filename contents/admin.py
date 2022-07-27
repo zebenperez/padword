@@ -10,10 +10,14 @@ class CategoryUserAdmin(admin.ModelAdmin):
 class FeatureAdmin(admin.ModelAdmin):
     list_display = ('code', 'name')
 
+class PaymentTypeAdmin(admin.ModelAdmin):
+    list_display = ('code', 'name')
+
 class ShoppingCartAdmin(admin.ModelAdmin):
     list_display = ('form_instance_id', 'item', 'comments')
 
 admin.site.register(Allergen, AllergenAdmin)
 admin.site.register(CategoryUser, CategoryUserAdmin)
 admin.site.register(Feature, FeatureAdmin)
+admin.site.register(PaymentType, PaymentTypeAdmin)
 admin.site.register(ShoppingCart, ShoppingCartAdmin)

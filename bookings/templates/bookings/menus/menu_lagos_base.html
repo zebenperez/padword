@@ -31,8 +31,6 @@
                                 data-cat_id="{{form.category}}"> DE</a></div>
                         </div>
                    </li>
-                   <li><button class="dropdown-item menu-options ark" data-url="{% url "show-category-menu" %}" data-target="main"
-                            data-cat_id="eb0dadb2-629d-685e-da8a-21009a8a5f3c" href="#"><i class="fas fa-key"></i> Mis Llaves</button></li>
  
                     <li><button class="dropdown-item menu-options ark" data-url="{% url "show-category-menu" %}" data-target="main"
                             data-project_uuid="{{project_uuid}}" data-cat_id="ccf3f873-395b-2759-ff18-74b141bc922a" href="#"><i class="fas fa-hotel"></i>
@@ -50,12 +48,10 @@
                             data-project_uuid="{{project_uuid}}" data-cat_id="d6f8be57-6b2c-07d0-1219-59f60df43c84" href="#"><i class="fas fa-wifi"></i>
                             {% padword_translate_obj 'd6f8be57-6b2c-07d0-1219-59f60df43c84'%}</button></li>
                     <li>
-                        <button class="dropdown-item" href="{% url "close-spa" %}?category_uuid={{form.category}}">
-                            <i class="fas fa-sign-out-alt"></i> Cerrar sesión</button>
+                        <button class="dropdown-item ark" data-url="{% url "close-spa" %}" data-target="div-main" data-category_uuid="{{form.category}}">
+                            <i class="fas fa-sign-out-alt"></i> {% trans "Close session" %}</button>
+
                     </li>
-
-
-
 
 
 

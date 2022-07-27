@@ -1,8 +1,8 @@
 {% load i18n bookings_tag common_tag padword_tags static %}
 
 <div class="row menu-botton">
-    <div class="col-lg-1 offset-1 col-1" style="padding:0;"></div>
     {%comment%}
+    <div class="col-lg-1 offset-1 col-1" style="padding:0;"></div>
     <div class="col-lg-2 offset-1 col-2" style="padding:0;">
         <button class="menu-options ark" id="btn-messages" data-url="{% url "my-messages" %}" 
             data-target="main" data-project_uuid="{{project_uuid}}"> <i class="far fa-comments"></i> <br /> 
@@ -12,25 +12,28 @@
     </div>
     {%endcomment%}
 
-    <div class="col-lg-2 col-2" style="padding:0;">
+    <div class="col-lg-2 col-2 offset-1" style="padding:0;">
         <button class="menu-options ark" id="btn-home" data-url="{% url "show-category-menu" %}" data-target="main"
-            data-cat_id="0e37d540-ebc9-51c3-0ad8-3cc0e23a988a"><i class="fas fa-home"></i></button>
+            {#data-cat_id="0e37d540-ebc9-51c3-0ad8-3cc0e23a988a"><i class="fas fa-home"></i></button>#}
+            data-cat_id="d4aa331f-5026-c4d5-c86c-4e1c71dd252e"><i class="fas fa-home"></i><br /><span>Home</span></button>
     </div>
-    <div class="col-2">
+    <div class="col-lg-3 col-3" style="padding:0;">
         <button class="menu-options ark" id="btn-notifications" data-url="{% url "my-notifications" %}" 
-            data-target="main" data-cat_id="{{form.category}}"> <i class="far fa-bell"></i> <br /> 
+            data-target="main" data-cat_id="{{form.category}}"> <i class="far fa-bell"></i><br /><span>Notifications</span> 
             <span class="count badge" id="notification-badge" {%if guest.get_not_read_notifications == 0%}style="display:none"{%endif%}>
             <span id="span-notifications">{{ guest.get_not_read_notifications }}</span></span>
         </button>
     </div>
-    <div class="col-lg-2 col-2" style="padding:0;">
+    <div class="col-lg-3 col-3" style="padding:0;">
         <button class="menu-options ark" data-url="{% url "my-bookings" %}" data-target="main"
-             data-project_uuid="{{project_uuid}}" data-cat_id="{{form.category}}"><i class="far fa-calendar-check"></i></button>
+             data-project_uuid="{{project_uuid}}" data-cat_id="{{form.category}}"><i class="far fa-calendar-check"></i><br/>
+            <span>My bookings</span></button>
     </div>
  
-    <div class="col-lg-2 col-2" style="padding:0;">
+    <div class="col-lg-3 col-3" style="padding:0;">
         <button class="menu-options ark" data-url="{% url "view-shopping-cart" %}" 
             data-target-modal="common-modal" data-project_uuid="{{project_uuid}}" data-form_id=""> <i class="fas fa-shopping-cart"></i><br/>
+            <span>Carrito</span><br/>
             <span class="count badge" id="count-badge" style="display:none"><span id="span-total-items"></span></span>
         </button>
     </div>

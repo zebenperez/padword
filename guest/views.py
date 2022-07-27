@@ -7,7 +7,7 @@ from django.db.models import Q
 import datetime
 
 from .models import *
-from .keys_lib import ShLock
+from web.lock_lib import ShLock
 from padword.commons import show_exc, get_or_none, new_ui_slug, translate, user_in_group, get_param
 from padword.decorators import group_required
 from bookings.models import GuestUser
@@ -91,6 +91,15 @@ def guest_form(request):
     except Exception as e:
         return render(request, 'error_exception.html', {'exc':show_exc(e)})
 
+@group_required("admins")
+def guest_form_simple(request):
+    try:
+        date = datetime.datetime.now().replace(hour=12, minute=00)
+        obj = get_or_none(Guest, request.GET["obj_id"]) if "obj_id" in request.GET else Guest.objects.create(UUID = new_ui_slug(Guest), check_in = date, check_out = date)
+        return render(request, "guest/guest-form-simple.html", {'obj': obj,})
+    except Exception as e:
+        return render(request, 'error_exception.html', {'exc':show_exc(e)})
+
 @group_required("admins", "projects")
 def guest_remove(request):
     project_uuid = request.GET["project_uuid"] if "project_uuid" in request.GET else None
@@ -129,6 +138,23 @@ def guest_pagination(request):
         context['items'] = items[int(page)*ITEMS_PER_PAGE:(int(page) + 1)*ITEMS_PER_PAGE]
         context['page'] = page 
         return render(request, "guest/guest-page.html", context)
+    except Exception as e:
+        return render(request, "error_exception.html", {'exc':show_exc(e)})
+
+@group_required("admins","projects")
+def guest_save_room(request):
+    try:
+        guest = get_or_none(Guest, request.GET["obj_id"]) 
+        value = request.GET["value"]
+        guest.room = value
+        guest.save()
+        lock = webmod.Lock.objects.filter(room = value, project_uuid = guest.project_id).first()
+        if lock != None and guest != None:
+            code = lock.get_code(guest.mobile[-4:], guest.check_in, guest.check_out)
+            key, created = Key.objects.get_or_create(lock = lock, guest = guest, code = guest.mobile[-4:])
+        else:
+            guest.keys.all().delete()
+        return render(request, "guest/keys/guest-keys.html", {'obj': guest,})
     except Exception as e:
         return render(request, "error_exception.html", {'exc':show_exc(e)})
 
@@ -439,36 +465,43 @@ def messages_check(request):
 '''
    Keys
 '''
-def get_key_list(obj):
+@group_required("admins", "projects")
+def key_open(request):
     sh_lock = ShLock()
-    return sh_lock.get_locks(obj.get_locks_id())
+    print(request.GET["obj_id"])
+    sh_lock.open_lock_by_id(request.GET["obj_id"])
+    return HttpResponse("")
 
-@group_required("admins", "projects")
-def keys(request):
-    try:
-        obj = get_or_none(Guest, request.GET["obj_id"]) 
-        return render(request, "guest/keys/guest-keys.html", {'obj': obj, 'key_list': get_key_list(obj)})
-    except Exception as e:
-        return render(request, 'error_exception.html', {'exc':show_exc(e)})
-
-@group_required("admins", "projects")
-def key_assign(request):
-    try:
-        obj = get_or_none(Guest, request.GET["obj_id"]) 
-        if obj != None:
-            Key.objects.create(lock = request.GET["lock"], guest = obj)
-        return render(request, "guest/keys/guest-keys.html", {'obj': obj, 'key_list': get_key_list(obj)})
-    except Exception as e:
-        return render(request, 'error_exception.html', {'exc':show_exc(e)})
-
-@group_required("admins", "projects")
-def key_remove(request):
-    try:
-        key = get_or_none(Key, request.GET["obj_id"]) 
-        obj = key.guest
-        key.delete()
-        return render(request, "guest/keys/guest-keys.html", {'obj': obj, 'key_list': get_key_list(obj)})
-    except Exception as e:
-        print(e)
-        return render(request, 'error_exception.html', {'exc':show_exc(e)})
-
+#def get_key_list(obj):
+#    sh_lock = ShLock()
+#    return sh_lock.get_locks(obj.get_locks_id())
+#
+#@group_required("admins", "projects")
+#def keys(request):
+#    try:
+#        obj = get_or_none(Guest, request.GET["obj_id"]) 
+#        return render(request, "guest/keys/guest-keys.html", {'obj': obj, 'key_list': get_key_list(obj)})
+#    except Exception as e:
+#        return render(request, 'error_exception.html', {'exc':show_exc(e)})
+#
+#@group_required("admins", "projects")
+#def key_assign(request):
+#    try:
+#        obj = get_or_none(Guest, request.GET["obj_id"]) 
+#        if obj != None:
+#            Key.objects.create(lock = request.GET["lock"], guest = obj)
+#        return render(request, "guest/keys/guest-keys.html", {'obj': obj, 'key_list': get_key_list(obj)})
+#    except Exception as e:
+#        return render(request, 'error_exception.html', {'exc':show_exc(e)})
+#
+#@group_required("admins", "projects")
+#def key_remove(request):
+#    try:
+#        key = get_or_none(Key, request.GET["obj_id"]) 
+#        obj = key.guest
+#        key.delete()
+#        return render(request, "guest/keys/guest-keys.html", {'obj': obj, 'key_list': get_key_list(obj)})
+#    except Exception as e:
+#        print(e)
+#        return render(request, 'error_exception.html', {'exc':show_exc(e)})
+#

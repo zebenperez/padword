@@ -1,0 +1,36 @@
+{% load i18n %}
+
+<h2 class="common-modal-head">{% trans 'New lock' %}</h2>
+
+<span id="div-notification"></span><br/>
+
+<div class="row justify-center">
+	<div class="col-sm-6 col-md-6 col-12">
+		<label class="label">{% trans "Alias" %}:</label>
+        <input type="text" class="form-control autosave input mb-4" id="alias" name="alias" value="{{obj.alias}}" title="{{obj.alias}}" 
+			data-model-name="web.lock" data-obj-id="{{obj.id}}" data-url="{% url "autosave_field" %}" data-target="div-notification"/>
+			<span id="alias__msg"></span>
+	</div>
+
+	<div class="col-sm-6 col-md-6 col-12">
+		<label class="label">{% trans "Room" %}:</label>
+        <input type="text" class="form-control autosave input mb-4" id="room" name="room" value="{{obj.room}}" title="{{obj.room}}" 
+			data-model-name="web.lock" data-obj-id="{{obj.id}}" data-url="{% url "autosave_field" %}" data-target="div-notification"/>
+			<span id="room__msg"></span>
+	</div>
+
+	<div class="col-sm-6 col-md-6 col-12">
+    	<label class="label">{% trans "Project UUID" %}:</label>
+		<input type="text" class="form-control autosave input mb-4" id="project_uuid" name="project_uuid" value="{{obj.project_uuid}}" 
+            title="{{obj.project_uuid}}" data-model-name="web.lock" data-obj-id="{{obj.id}}" data-url="{% url "autosave_field" %}" 
+            data-target="div-notification"/> <span id="project_uuid__msg"></span>
+	</div>
+</div>
+
+<div class="d-flex justify-content-end p-2">
+	<button type="button" class="btn btn-primary ark m-2" data-bs-dismiss="modal"
+	    data-url="{% url "lock-search" %}" data-target="lock-list">{% trans "Save" %}</button>
+	<button type="button" class="btn btn-danger ark m-2" data-bs-dismiss="modal"
+    	data-url="{% url "lock-remove" %}" data-target="lock-list" data-obj_id="{{obj.id}}" 
+	    data-confirm="{% trans "Are you sure to remove this element?" %}">{% trans "Remove" %}</button>
+</div>

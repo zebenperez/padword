@@ -3,7 +3,7 @@ from django.db.models import Max
 from django.contrib.auth.models import User, Group
 from django.utils.translation import ugettext_lazy as _ 
 
-from contents.models import Category, Item, ShoppingCart
+from contents.models import Category, Item, ShoppingCart, PaymentType
 from web.models import Channel, Device, Project
 from guest.models import Guest
 
@@ -245,6 +245,8 @@ class FormInstance(models.Model):
     guest_uuid = models.CharField(max_length=255, verbose_name=_("Guest UUID"), default="")
     form_uuid = models.CharField(max_length=255, verbose_name=_("Form UUID"), default="")
     #status = models.ForeignKey(Status, on_delete=models.SET_NULL, verbose_name=_("Status"), blank=True, null=True)
+    amount = models.CharField(max_length=100, verbose_name=_("Amount to pay"), default="")
+    payment_type = models.ForeignKey(PaymentType, on_delete=models.SET_NULL, verbose_name=_("Payment Type"), blank=True, null=True)
 
     def __str__(self):
         return "%s" % (self.code)

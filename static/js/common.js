@@ -278,7 +278,7 @@ function validateCheckIn()
     return true;
 }
 
-function pushHistory() { history.pushState({}, 'main', '/'); }
+function pushHistory(url) { history.pushState({}, 'main', window.location.href); }
 
 $(document).ready(()=>{
     $("body").on("keyup", ".autosearch", function(e){

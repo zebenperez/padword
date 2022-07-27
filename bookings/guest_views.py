@@ -11,9 +11,9 @@ from django.utils import translation
 from padword.decorators import group_required
 from padword.commons import show_exc, get_or_none, get_param, get_float, get_bool, new_ui_slug
 from web.models import Device, Project, ProjectUser
-from contents.models import Category, ShoppingCart, Item
+from contents.models import Category, ShoppingCart, Item, PaymentType
 from guest.models import Guest, GuestNotification
-from guest.keys_lib import ShLock
+from web.lock_lib import ShLock
 
 from .common_lib import get_or_create_form_instance, get_max_index, get_or_create_answer_instance, user_in_group, get_guest, get_login_template
 from .models import AnswerInstance, Field, Form, FormChannel, FormInstance, Question, Block, GuestUser, Status
@@ -136,10 +136,19 @@ def booking_new_guest(request):
 @group_required("admins", "projects", "guests")
 def booking_send(request):
     try:
-        fi_id = request.GET["obj_id"]
-        fi = FormInstance.objects.get(pk = fi_id)
+        #fi_id = request.GET["obj_id"]
+        #fi = FormInstance.objects.get(pk = fi_id)
+        fi_id = get_param(request.GET, "obj_id")
+        pt_id = get_param(request.GET, "payment_type", "")
+        amount = get_param(request.GET, "amount", "")
+
+        fi = get_or_none(FormInstance, fi_id)
         fi.set_status("01", request.user, "")
         fi.date = datetime.datetime.now()
+        if pt_id != "":
+            pt = get_or_none(PaymentType, pt_id)
+            fi.payment_type = pt
+            fi.amount = amount
         fi.save()
         context = {'msg': fi.get_status.status.code}
         return render(request, 'bookings/guest/show-msg.html', context)
@@ -158,6 +167,18 @@ def booking_remove(request):
         return render(request, 'bookings/guest/show-msg.html', context)
     except Exception as e:
         logger.error("[bookings-remove_fi] {}".format(str(e)))
+        return render(request, 'error_exception.html', {'exc':show_exc(e)})
+
+@group_required("admins", "projects", "guests")
+def booking_payment_type(request):
+    try:
+        fi_id = request.GET["obj_id"]
+        fi = get_or_none(FormInstance, fi_id)
+        context = {'fi': fi}
+        return render(request, 'bookings/ecom/view-payment-types.html', context)
+    except Exception as e:
+        print(e)
+        logger.error("[bookings-booking_send] {}".format(str(e)))
         return render(request, 'error_exception.html', {'exc':show_exc(e)})
 
 @group_required("admins", "projects", "guests")
