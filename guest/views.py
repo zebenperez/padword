@@ -426,7 +426,7 @@ def message_remove(request):
     msg.delete()
     return render(request, "guest/messages.html", get_messages(guest, guest_msg))
 
-@group_required("admins", "projects")
+@group_required("admins", "projects", "guests")
 def messages_check(request):
     guest = get_or_none(Guest, request.GET["guest"])
     return render(request, "guest/messages.html", get_messages(guest, request.GET["guest_msg"]))
