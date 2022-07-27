@@ -3,6 +3,7 @@ from django.contrib.auth.models import User, Group
 from django.conf import settings
 from django.utils.translation import ugettext as _
 from padword.commons import show_exc
+from .lock_lib import ShLock
 import datetime
 
 # Create your models here.
@@ -271,3 +272,37 @@ class DeviceByProject(models.Model):
         except Exception as e:
             print (show_exc(e))
             return (Device.objects.none())
+
+class Lock(models.Model):
+    uuid = models.CharField(max_length=255, verbose_name=_('UUID'), default="")
+    alias = models.CharField(max_length=255, verbose_name=_('Alias'), default="", null=True)
+    room = models.CharField(max_length=255, verbose_name=_('Room'), default="")
+    project_uuid = models.CharField(max_length=255, verbose_name=_('Project UUID'), default="")
+
+    @property
+    def project(self):
+        try:
+            return Project.objects.get(uuid=self.project_uuid)
+        except Exception as e:
+            return None
+
+    @property
+    def state(self):
+        obj = ShLock()
+        state = obj.get_lock_state(self.uuid)
+        return _("Opened") if state != 0 else _("Closed")
+
+    @property
+    def charge(self):
+        obj = ShLock()
+        return obj.get_lock_charge(self.uuid)
+
+    def get_code(self, code, start_date, end_date):
+        obj = ShLock()
+        return obj.get_lock_code(self.uuid, code, start_date, end_date)
+
+
+    class Meta:
+        verbose_name = _('Lock')
+
+

@@ -186,6 +186,27 @@ class CategoryFeature(models.Model):
         verbose_name = "Característica Categoría"
         verbose_name_plural = "Características Categorías"
 
+class PaymentType(models.Model):
+    code = models.SlugField(verbose_name="Codigo", max_length=50, unique="True")
+    name = models.CharField(verbose_name="Nombre", max_length=150, blank=True, null=True)
+    icon = models.ImageField(verbose_name="Icono", upload_to=feature_icon, blank=True, null=True)
+    icon_off = models.ImageField(verbose_name="Icono off", upload_to=feature_icon, blank=True, null=True)
+
+    def __str__(self):
+        return self.code
+
+    class Meta:
+        verbose_name = "Payment type"
+        verbose_name_plural = "Payment types"
+
+class CategoryPaymentType(models.Model):
+    category = models.ForeignKey(Category, on_delete=models.CASCADE, null=True, related_name="payment_types")
+    payment_type = models.ForeignKey(PaymentType, on_delete=models.SET_NULL, null=True, related_name="categories")
+
+    class Meta:
+        verbose_name = "Payment Type Category"
+        verbose_name_plural = "Payment Types Category"
+
 
 
 class Item(models.Model):

@@ -1,36 +1,22 @@
 {% load i18n %}
 
-
-{#<div id="current_keys"> {% include "guest/keys/guest-current-keys.html"%} </div>#}
 <div class="card">
-    <div class="card-header"> {% trans "Current locks asigned" %} </div>
+    <div class="card-header"> {% trans "Locks asigned" %} </div>
+
     <div class="card-body">
         {% for item in obj.keys.all %}
-            <div class="row w-25 p-2 key-box" style="border:1px solid #dfdfdf" id="row_{{item.id}}">
-                <div class="col-10 p-0 text-center">{{item.lock}}</div>
-                <div class="col-2 text-center p-0">
-                    <a class="btn btn-sm ark pt-2" data-url="{% url "guest-remove-key" %}" data-obj_id="{{item.id}}" data-target="common-modal-body" 
-                        data-confirm="{%trans "Are you sure to remove this element?"%}"><i class="fas fa-trash" style="color:white"></i></a>
-                </div>
-            </div>
-        {% endfor %}
-    </div>
-</div>
-
-<div class="card">
-    <div class="card-header"> {% trans "Availables locks" %} </div>
-    <div class="card-body">
-        {% for item in key_list %}
-            <div class="row" id="row_{{item}}">
-                <div class="col-10">{{item}}</div>
+            <div class="row" id="row_{{item.id}}">
+                <div class="col-5">{{item.lock.alias}}</div>
+                <div class="col-5">{{item.code}}</div>
                 <div class="col-2 text-right">
-                    <a class="btn btn-sm ark" data-url="{% url "guest-assign-key" %}" data-obj_id="{{obj.id}}" data-lock="{{item}}" 
-                        data-target="common-modal-body"> <i class="fas fa-plus"></i></a>
+                    <a class="btn btn-sm ark" data-url="{% url "guest-key-open" %}" data-obj_id="{{item.lock.uuid}}" data-target="">
+                        <i class="fas fa-key"></i></a>
+                    <a class="btn btn-sm autoremove" data-model-name="guest.key" data-obj-id="{{item.id}}" data-url="{% url "autoremove_obj" %}" 
+                        data-target="row_{{item.id}}" data-confirm="{%trans "Are you sure to remove this element?"%}"><i class="fas fa-trash"></i></a>
                 </div>
             </div>
         {% endfor %}
     </div>
 </div>
 
-<div class="d-flex justify-content-end p-2"> <button type="button" class="btn m-2" data-bs-dismiss="modal">{% trans "Cerrar" %}</button> </div>
 

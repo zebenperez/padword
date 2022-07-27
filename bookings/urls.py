@@ -89,6 +89,7 @@ urlpatterns = [
     #path('booking-remove/<int:fi_id>/', gv.booking_remove, name='booking-remove'),
     path('booking-send/', gv.booking_send, name='booking-send'),
     path('booking-remove/', gv.booking_remove, name='booking-remove'),
+    path('booking-payment-type/', gv.booking_payment_type, name='booking-payment-type'),
 
     path('my-bookings/', gv.bookings_by_guest, name='my-bookings'),
     path('my-bookings/<slug:project_uuid>/', gv.bookings_by_guest, name='my-bookings'),

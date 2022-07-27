@@ -6,7 +6,7 @@ from django.conf import settings
 from django.contrib.auth.models import User
 
 from padword.commons import show_exc
-from web.models import Channel, Project
+from web.models import Channel, Project, Lock
 
 import datetime
 
@@ -287,7 +287,8 @@ class Message(models.Model):
         ordering = ["date"]
 
 class Key(models.Model):
-    lock  = models.CharField(max_length=255, verbose_name='Lock', default="")
+    code = models.CharField(max_length=100, verbose_name=_('Code'), default="")
+    lock = models.ForeignKey(Lock, verbose_name=_("Lock"), on_delete=models.CASCADE, blank=True, null=True, related_name="keys")
     guest = models.ForeignKey(Guest, verbose_name=_("Guest"), on_delete=models.CASCADE, blank=True, null=True, related_name="keys")
 
     class Meta:

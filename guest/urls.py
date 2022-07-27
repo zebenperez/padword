@@ -10,11 +10,14 @@ urlpatterns = [
     path('guests/', views.guests, name='guests'),
     path('guests/search/', views.guest_search, name='guest-search'),
     path('guests/form/', views.guest_form, name='guest-form'),
+    path('guests/form-simple/', views.guest_form_simple, name='guest-form-simple'),
     path('guests/remove/', views.guest_remove, name='guest-remove'),
     path('guests/page/', views.guest_pagination, name='guest-page'),
 
     path('guests/project-<slug:project_id>/', views.guests_by_project, name='guests-by-project'),
     path('guests/project/form/', views.guest_form_by_project, name='guest-form-by-project'),
+
+    path('guests/save-room/', views.guest_save_room, name='guest-save-room'),
 
     #--------------------- GUESTS --------------------
     path('', views.index, name='device-index'),
@@ -43,8 +46,9 @@ urlpatterns = [
     path('guests/chat/check-messages/', views.messages_check, name="check-messages"),
 
     #--------------------- KEYS --------------------
-    path('guests/keys/', views.keys, name="guest-keys"),
-    path('guests/key/assign/', views.key_assign, name="guest-assign-key"),
-    path('guests/key/remove/', views.key_remove, name="guest-remove-key"),
+    path('guests/key-open/', views.key_open, name="guest-key-open"),
+    #path('guests/keys/', views.keys, name="guest-keys"),
+    #path('guests/key/assign/', views.key_assign, name="guest-assign-key"),
+    #path('guests/key/remove/', views.key_remove, name="guest-remove-key"),
 ]
 

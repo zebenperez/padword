@@ -456,6 +456,22 @@ def save_feature(request):
         return render(request, "error_exception.html", {'exc': show_exc(e)})
 
 @group_required("admins", "projects", "categories")
+def save_payment_type(request):
+    try:
+        obj = get_or_none(Category, request.GET["obj_id"])
+        pt = get_or_none(PaymentType, request.GET["payment_type_id"])
+        add = request.GET["add"]
+        
+        if add == "True":
+            CategoryPaymentType.objects.create(category=obj, payment_type=pt)
+        else:
+            CategoryPaymentType.objects.filter(category=obj, payment_type=pt).delete()
+        return render(request, "contents/payment-types.html", {"obj": obj, "item_list": PaymentType.objects.all()})
+    except Exception as e:
+        print(e)
+        return render(request, "error_exception.html", {'exc': show_exc(e)})
+
+@group_required("admins", "projects", "categories")
 def new_promo(request):
     try:
         obj = get_or_none(Item, request.GET["obj_id"])
