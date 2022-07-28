@@ -135,7 +135,7 @@ def form_change_active(request, form_id):
         print (show_exc(e))
         return render(request, 'error_exception.html', {'exc':show_exc(e)})
 
-@group_required("admins", "projects")
+@group_required("admins", "projects", "categories")
 def form_form(request):
     try:
         obj = get_or_none(Form, request.GET["obj_id"]) if "obj_id" in request.GET else None
