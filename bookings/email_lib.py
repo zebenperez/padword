@@ -16,7 +16,9 @@ def send_change_status_email(fi, status, lang="ES"):
     email_texts = fi.form.get_email_texts
     if len(email_to) > 0:
         email_from = translate2(lang, email_texts.email_from)
-        service = "{} >> {}".format(translate2(lang, fi.form.get_category.parent.name), translate2(lang, fi.form.get_category.name))
+        parent_name = fi.form.get_category.parent.name if fi.form.get_category != None and fi.form.get_category.parent != None else ""
+        name = fi.form.get_category.name if fi.form.get_category != None else ""
+        service = "{} >> {}".format(translate2(lang, parent_name), translate2(lang, name))
         user = "{} {}".format(fi.guest.name, fi.guest.surname)
         room = fi.guest.room
         url = "{}{}".format(get_domain(), reverse("bookings"))
