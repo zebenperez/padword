@@ -43,10 +43,10 @@
 
     {% comment %} 
     
-    <div class="image" id="cover" style="border:1px solid blue; height: 50px;"> 
+    <div class="image" id="cover" style="height: 50px;"> 
         {% if item.image %} <img src="{{item.image.url}}" class="object-fit_cover img-new" alt="{% padword_translate item.name %}"> {% endif %}
     </div>
-    <div class="card-body card-new" style="border:1px solid red">
+    <div class="card-body card-new">
         <h5 class="card-title text-dark text-center title-new p-2">{% padword_translate item.name %}</h5>
         <h4 class="card-title text-dark text-center price-new">{{item.price}} {%if item.price != ""%}&euro;{%endif%} </h4>
         <div class="allerg-new">

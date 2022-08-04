@@ -18,7 +18,6 @@
 .main-pwa .row {
     margin-left:0 !important;
     margin-right:0 !important;
-/*border:1px solid red;*/
 }
 
 .main-pwa {
@@ -199,12 +198,10 @@ a.btn.btn-header-pwa.ark {
 
 .prev {
     margin-left: 30px;
-    margin-top: -65px !important;
 }
 
 .next {
     margin-right: 30px;
-    margin-top: -65px !important;
 }
 
 
@@ -402,6 +399,7 @@ button.menu-options {
 	font-size: 0.9rem;
 	border-top:1px solid #cccccc;
     opacity: 1;
+    padding-top:10px;
 }
 
 .menu-botton a {
@@ -433,21 +431,44 @@ i.fas.fa-bars {
     color: #b0aba7;
 }
 
-ul.dropdown-menu {
+ul#menu-box {
+    background-color: #ffffff;
     margin-top: 15px !important;
     border-radius: 0;
     box-shadow: 0 2px 6px rgb(0 0 0 / 18%), inset 0 2px 6px rgb(0 0 0 / 18%);
+
+    width: 100%;
+    position: fixed;
+    left:0;
+}
+ul#menu-box li {
+    list-style: none;
+    font-size: 0.8em !important;
 }
 
-.dropdown-item {
-    display: block;
-    font-size: 16px;
-    font-weight: 400;
-    line-height: 206.25%;
-    color: #878787 !important;
-    padding-left: 10px;
+.grid-container-lang {
+    color: #999;
+    font-weight: 600;
+    height: auto;
+    text-transform: uppercase !important;
+    display: grid;
+    grid-template-columns: 8% 15% 15% 15%;
+}
+.grid-item-lang {
+    text-align: center;
+}
+.grid-item-lang  a {
+    border: 1px solid #a6c4d1;
+    color: #999;
+    text-decoration: none;
+    padding: 8px;
+    border-radius:5px;
 }
 
+i.far.fa-flag {
+    font-weight: 900;
+}
+/*
 .dropdown-item:hover {
     background: #a5c3d0;
     color: #fff !important;
@@ -461,6 +482,8 @@ ul.dropdown-menu {
     display: block;
     width: 1000;
 }
+*/
+
 
 .btn.btn-dark-pad {
     background: #a5c2d1 !important;
@@ -653,19 +676,6 @@ label.form-check-label {
     color: #fff !important;
 }
 
-/***********************************************
-************** Languages Style *****************
-***********************************************/
-
-.grid-container-lang {
-    display: grid;
-    grid-template-columns: 5% 7% 7% 7%;
-}
-.grid-item-lang {
-    border-right: 1px solid #a6c4d1;
-    text-align: center;
-}
-
 /***********************************************/
 
 .item-right {
@@ -683,5 +693,5 @@ label.form-check-label {
 }
 
 @media only screen and (max-width: 750px) {
-    button.menu-options {font-size:0.6em !important}
+    /*button.menu-options {font-size:0.6em !important}*/
 }

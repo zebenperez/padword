@@ -210,11 +210,11 @@ def booking_view(request):
     try:
         fi_id = request.GET["obj_id"]
         fi = FormInstance.objects.get(pk = fi_id)
-        form = get_or_none(Form, fi.form_uuid, 'uuid')
+        #form = get_or_none(Form, fi.form_uuid, 'uuid')
         items = ShoppingCart.objects.filter(form_instance_id=fi.pk)
 
         cat_uuid = request.GET["cat_id"] if "cat_id" in request.GET else ""
-        context = {'fi': fi, 'index': "0", 'project_uuid': form.project.uuid, 'items':items, 'cat_uuid': cat_uuid}
+        context = {'fi': fi, 'index': "0", 'project_uuid': fi.form.project.uuid, 'items':items, 'cat_uuid': cat_uuid}
         return render(request, 'bookings/guest/view-booking.html', context)
     except Exception as e:
         print(e)
