@@ -2,77 +2,12 @@
 
 {%block extralinks%} <link rel="stylesheet" href="{% static 'css/menu_lagos.css' %}" > {% endblock %}
 
+{% include "bookings/menus/menu_top_lagos.html" %}
+
 {% get_current_language as LANGUAGE_CODE %}
-<div class="row topbar pt-1 pb-1" style="margin:0px;">
-    <div class="col-2 text-center pt-2">
-        <button id="back-btn" class="btn btn-header-pwa text-center ark pl-2 pr-2" data-url="{% url "show-category-menu" %}" data-target="main" 
-            data-cat_id="" data-cat_home="{{form.category}}" style="display:none"><i class="fas fa-chevron-left"></i> </button>
-        <button id="back-btn-bookings" class="btn btn-header-pwa text-center ark" data-url="{% url "my-bookings" %}" data-target="main" 
-            data-project_uuid="{{project_uuid}}" data-cat_id="{{form.category}}" style="display:none"> <i class="fas fa-chevron-left"></i> </button>
-    </div>
-
-    <div class="col-8 text-center pt-2">
-        <img class="" src="/static/img/logo-sand-sea.png">
-    </div>
-
-    <div class="col-2">
-        <ul class="nav justify-content-center mt-2">
-            <li class="nav-item dropdown pt-2">
-                <a class="nav-link dropdown-toggler" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false"><i class="fas fa-bars"></i></a>
-                <ul class="dropdown-menu">
-                    <li>
-                        <div class="grid-container-lang dropdown-item">
-                            <div class="grid-item-lang pt-2"><i class="far fa-flag"></i></div>
-                            <div class="grid-item-lang"><a class="ark" href="#" data-url="{% url "guest-set-lang" %}" data-target="main-base" data-lang="es" 
-                                data-cat_id="{{form.category}}"> ES</a></div>
-                            <div class="grid-item-lang"><a class="ark" href="#" data-url="{% url "guest-set-lang" %}" data-target="main-base" data-lang="en" 
-                                data-cat_id="{{form.category}}"> EN</a></div>
-                            <div class="grid-item-lang"><a class="ark" href="#" data-url="{% url "guest-set-lang" %}" data-target="main-base" data-lang="de" 
-                                data-cat_id="{{form.category}}"> DE</a></div>
-                        </div>
-                   </li>
- 
-                    <li><button class="dropdown-item menu-options ark" data-url="{% url "show-category-menu" %}" data-target="main"
-                            data-project_uuid="{{project_uuid}}" data-cat_id="ccf3f873-395b-2759-ff18-74b141bc922a" href="#"><i class="fas fa-hotel"></i>
-                            {% padword_translate_obj 'ccf3f873-395b-2759-ff18-74b141bc922a'%}</button></li>
-
-                    <li><button class="dropdown-item menu-options ark" data-url="{% url "show-category-menu" %}" data-target="main"
-                            data-project_uuid="{{project_uuid}}" data-cat_id="726d79a4-1147-f7e2-36e3-8f15c60f34aa" href="#"><i class="fas fa-arrow-circle-up"></i>
-                            {% padword_translate_obj '726d79a4-1147-f7e2-36e3-8f15c60f34aa'%}</button></li>
-
-                    <li><button class="dropdown-item menu-options ark" data-url="{% url "show-category-menu" %}" data-target="main"
-                            data-project_uuid="{{project_uuid}}" data-cat_id="2c7b8895-cf8c-56c7-f97d-b2d45d4be50e" href="#"><i class="fas fa-map-signs"></i>
-                            {% padword_translate_obj '2c7b8895-cf8c-56c7-f97d-b2d45d4be50e'%}</button></li>
-
-                    <li><button class="dropdown-item menu-options ark" data-url="{% url "show-category-menu" %}" data-target="main"
-                            data-project_uuid="{{project_uuid}}" data-cat_id="d6f8be57-6b2c-07d0-1219-59f60df43c84" href="#"><i class="fas fa-wifi"></i>
-                            {% padword_translate_obj 'd6f8be57-6b2c-07d0-1219-59f60df43c84'%}</button></li>
-                    <li>
-                        <button class="dropdown-item ark" data-url="{% url "close-spa" %}" data-target="div-main" data-category_uuid="{{form.category}}">
-                            <i class="fas fa-sign-out-alt"></i> {% trans "Close session" %}</button>
-
-                    </li>
-
-
-
-                    {% comment %}
-                    <li><a class="dropdown-item menu-options ark" data-url="{% url "show-category-menu" %}" idata-target="main"
-                            data-cat_id="eb0dadb2-629d-685e-da8a-21009a8a5f3c" href="#"><i class="fas fa-key"></i> Tu llave</a></li>
-                    <li><a class="dropdown-item" href="#"><i class="fas fa-hotel"></i> El Hotel</a></li>
-                    <li><a class="dropdown-item" href="#"><i class="fas fa-map-signs"></i> A tu alrededor</a></li>
-                    <li><a class="dropdown-item" href="#"><i class="fas fa-wifi"></i> Wifi</a></li>
-                    <li>
-                        <a class="dropdown-item" href="{% url "close-spa" %}?category_uuid={{form.category}}">
-                            <i class="fas fa-sign-out-alt"></i> Cerrar sesión</a>
-                    </li>
-                    {% endcomment %}
-                </ul>
-            </li>
-        </ul>
-    </div>
- 
-</div>
 
 <div id="main" class="main-pwa"> {% include form.form_type.template with category=form.get_category %} </div>
 
 {% include "bookings/menus/menu_bottom.html" %}
+
+<script> $("#back-btn-bookings").click(function(){ $(this).hide(); $("#back-btn").show(); }); </script>

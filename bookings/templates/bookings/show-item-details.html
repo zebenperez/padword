@@ -1,10 +1,10 @@
 {% load i18n padword_tags static %}
 
 <div class="row">
-    <div class="col-lg-8 col-8 btn-dark pt-2">
-        <h5 class="card-title text-left">{% padword_translate item.name %}</h5>
+    <div class="col-lg-10 col-10 btn-dark pt-2">
+        <span class="card-title text-left">{% padword_translate item.name %}</span>
     </div>
-    <div class="col-lg-4 col-4 btn-dark price pt-1" id="div-total-shopping-cart">{{item.price}} {%if item.price != ""%}&euro;{%endif%}  </div>
+    <div class="col-lg-2 col-2 btn-dark price pt-1" id="div-total-shopping-cart">{{item.price}} {%if item.price != ""%}&euro;{%endif%}  </div>
 </div>
 <div class="row">
     {% if item.image %}
@@ -17,9 +17,9 @@
     {% endif %}
 </div>
 <div class="row">
-    <div class="col-12 description-item p-3">
+    <div class="col-12 description-item">
         {% for ia in item.allergen_list.all %}
-            <img src="{{ia.allergen.icon.url}}" alt="{{ia.allergen.name}}" title="{{ia.allergen.name}}" style="width:1.8em"/>
+            <img src="{{ia.allergen.icon.url}}" alt="{{ia.allergen.name}}" title="{{ia.allergen.name}}" style="width:5em"/>
         {% endfor %}
     </div>
 </div>

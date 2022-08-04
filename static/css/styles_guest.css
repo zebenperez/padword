@@ -56,8 +56,9 @@ i.fas.fa-home, i.far.fa-calendar, i.fas.fa-sign-in-alt {
     color: #3c385c !important; 
     font-size: 1.2rem;
 }
-h5.big.card-title {
-    font-size: 1.3rem;
+span.big.card-title {
+    font-size: 1rem !important;
+    font-weight: 100 !important;
     color: #404a5d !important;
 }
 h4.success {
@@ -283,8 +284,90 @@ a.btn-light {
 
 
 /*****************************/
-/* table style*/
+/* MY BOOKINGS - BY GUEST- STYLES */
 /*****************************/
+
+td.booking-line {
+	height: 40px;
+	vertical-align: middle;
+}
+
+.title-col {
+	color: #111;
+	font-size: 12px;
+	text-align: left;
+}
+.booking-line {
+	background: #fff !important;
+    color: #404a5d !important;
+	text-align: left;
+	vertical-align:middle;
+    font-size: 0.8rem;
+   /* border:1px solid #ededed;*/
+    border-radius: 5px;
+    border:2px solid #ccc;
+	box-shadow: rgba(50, 50, 105, 0.15) 0px 2px 5px 0px, rgba(0, 0, 0, 0.05) 0px 1px 1px 0px;
+}
+.booking-line:hover {
+	background: #f7f8fa !important;
+}
+/*
+.booking-line .chevron {
+    text-align: right;
+}
+*/
+
+.booking-line-item {
+	align-items: top;
+	background: #fff !important;
+	border-radius: 5px;
+	box-shadow: 0 1px 8px 0 rgb(0 0 0 / 12%), 0 2px 3px -1px rgb(0 0 0 / 20%);
+	color: #666;
+}
+
+.booking-name, .booking-status {
+    font-size: 0.9rem !important;
+}
+
+i.fas.fa-angle-up, i.fas.fa-angle-down {
+    font-size: 1.1rem;
+}
+
+/************************************
+ 
+ Estilo del formulario tipo GENERAL
+
+************************************/
+
+
+.book-details { 
+    border: 2px solid #dfdfdf !important;
+    border-radius: 15px !important;
+    padding: 15px !important;
+    text-align: center !important;
+    width: 96% !important;
+    margin:auto !important;
+    margin-top: 5px !important;
+    margin-bottom: 5px !important;
+}
+.book-details .item { 
+    border-bottom: 1px solid #dfdfdf !important;
+    color: #404a5d !important;
+    font-weight: bold !important;
+    padding-top: 10px !important;
+    padding-bottom: 10px !important;
+}
+
+.book-details .btn-dark.fw-normal {
+    background: white !important;
+    color: #404a5d !important;
+    font-weight: normal !important;
+}
+
+
+/*****************************
+ table style
+*****************************/
 
 .sh-td {
 	color: white;
@@ -357,13 +440,11 @@ tbody, td, tfoot, th, thead, tr {
 }
 
 img { 
-	/*height: 130px; */
 	max-width: -webkit-fill-available;
 }
 
 h5.card-title { 
-	/*font-size: 1rem; */
-/*	min-height: 80px; */
+	font-size: 1rem; 
 	overflow-wrap: normal;
     padding-top: 10px;
 
@@ -521,54 +602,13 @@ span#count-badge.count.badge #span-notifications {
     padding-top: 8px !important;
 }
 .imagen-item {
-    border:1px solid #ccc; 
+    border-top:1px solid #ccc; 
 }
 .description-item {
-    border:1px solid #ccc; 
+    border-top:1px solid #ccc; 
     font-size: 0.9rem; 
     line-height:2;
-}
-
-
-/*********  Booking List Style ***************/
-
-
-td.booking-line {
-	height: 40px;
-	vertical-align: middle;
-}
-
-.title-col {
-	color: #111;
-	font-size: 12px;
-	text-align: left;
-}
-.booking-line {
-	background: #fff !important;
-    color: #404a5d !important;
-	text-align: left;
-	vertical-align:middle;
-    font-size: 0.8rem;
-    border-top: 0;
-    border-left:1px solid #dedede;
-    border-right:1px solid #dedede;
-    border-bottom:1px solid #dedede;
-}
-.booking-line:hover {
-	background: #f7f8fa !important;
-}
-
-.booking-line .chevron {
-    text-align: right;
-}
-
-.booking-line-item {
-	align-items: top;
-	background: #fff !important;
-	border:1px solid #e6e6e6;
-	border-radius: 5px;
-	box-shadow: 0 1px 8px 0 rgb(0 0 0 / 12%), 0 2px 3px -1px rgb(0 0 0 / 20%);
-	color: #666;
+    text-align: center;
 }
 
 .card-img, .card-img-bottom, .card-img-top {
@@ -593,6 +633,8 @@ img.img-cart-line {
 	box-shadow: 0px;
 
     height: 100px;
+
+    object-fit: cover !important;
 }
 
 .grid-guest {
@@ -784,11 +826,13 @@ h4.slogan span {
 
 .prev { 
     padding-left:40; 
-    margin-top: -65px !important
+    /*margin-top: -65px !important;*/
+    margin-top: -150px !important;
 }
 .next { 
     padding-right:40;
-    margin-top: -65px !important
+    /*margin-top: -65px !important;*/
+    margin-top: -150px !important;
 }
 
 h1.ql-align-center {
@@ -851,7 +895,7 @@ img.img-cart {border-radius: 10px 10px 10px 10px; box-shadow: 10px 0px 10px 0px 
 		font-size: 0.9rem !important; 
 	}
     #booking-list {
-        max-height: 500px;
+        max-height: 600px;
     }
 
 }
@@ -901,7 +945,7 @@ img.img-cart {border-radius: 10px 10px 10px 10px; box-shadow: 10px 0px 10px 0px 
 		color:red !important;
 	}
 	.text-secondary {
-		height: 100px;
+		max-height: 100px;
 		overflow-y: scroll;
 	}
 
@@ -920,56 +964,56 @@ div.card.info-panel {
     background: white;
 }
 
+.b-grey {
+    border:1px solid #ccc !important;
+}
 
 /***********************************************/
 /***** NUEVO: fijar tamaño contenedor item *****/
 
-.box-new {
-    height:350px !important;
-   /* border:1px solid blue !important;*/
+.box-new { 
+    height: 240px !important; 
+    border:1px solid #dfdfdf; 
 }
 
 img.object-fit_cover.img-new {
-/*    height: 90px !important;*/
     height:auto !important;
 }
 
-.card-body.card-new {
-    height: 180px !important;
-    padding: 0px !important;
-}
-
-h5.card-title.text-dark.text-center.title-new { 
+.row-01.h5.card-title.text-dark.text-center.title-new { 
 	font-size: 0.8rem; 
     height: 90px !important;
     display: flex;
     align-items:center;
     justify-content:center;
+/*    border:1px solid green;*/
+}
+.row-02 .price-new {
+    width:100%;
+    height:30px !important; 
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+/*    border:1px solid green;*/
 }
 
-.price-new {
-    position:absolute;bottom: 135px !important;width:100%;
+.row-03.allerg-new {
+    width:100%;
+    height:72px !important;
+    text-align: center;
+/*    border:1px solid green;*/
 }
 
-.allerg-new {
-    position:absolute;bottom: 100px !important;width:100%;
-}
-.allerg-new img {
-    width: 1.8em;
+.row-03.allerg-new img {
+    width: 2.8em;
 }
 
-.info-new {
-    position:absolute;bottom: 60px !important;width:100%;
+.row-04.info-new {
+    width:100%;
+    height:50px !important; 
+/*    border:1px solid blue;*/
 }
 
-@media (max-width: 768px) {
- 
-    .box-new {
-        height:400px !important;
-/*        border:1px solid red !important;*/
-    }
-   
-}
 
 /*********************************
 *********** CHAT BOX ************

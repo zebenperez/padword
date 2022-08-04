@@ -8,9 +8,9 @@
                 {% for q in b.get_first_level_questions %}
                     {# Preguntas generales #}
                     {% if q.question_type.code == "general" %}
-                        <div class="div-info">
+                        <div class="div-info book-details">
                             {% for f in q.field_set.all %}
-                                <div class="item mb-4">
+                                <div class="item">
                                     <div class="btn-dark fw-normal">{%if q.field_set.all|length > 0%} {%padword_translate f.text%} {%endif%}</div>
                                     <div class="td_{{q.id}}_{{index}}"> {% field_value fi q f index %} </div>
                                 </div>

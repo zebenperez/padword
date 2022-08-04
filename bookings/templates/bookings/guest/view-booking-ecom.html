@@ -3,10 +3,9 @@
 <div id="mask"> &nbsp; </div>
 
 <div class="main-content-booking container-fluid">
-    <div class="div-transp-">
         <div class="row"> 
-            <div class="col-8 btn-dark pt-4 pb-2 text-left">{% padword_translate fi.form.get_category.name %}</div> 
-            <div class="col-4 btn-dark pt-4 pb-2 text-right"><span id="info-shopping">{{items.count}} art.&nbsp;&nbsp;&nbsp; 
+            <div class="col-7 btn-dark pt-4 pb-2 text-left">{% padword_translate fi.form.get_category.name %}</div> 
+            <div class="col-5 btn-dark pt-4 pb-2 text-right"><span id="info-shopping">{{items.count}} art.&nbsp;&nbsp;&nbsp; 
                 {{fi.get_total|stringformat:".2f"}} &euro; </span></div>
 	    </div>
         <div class="row"> 
@@ -20,18 +19,17 @@
         <div class="row bloque mt-3">
             <div id="main" class="col-lg-10 offset-lg-1 col-md-10 offset-md-1 col-xs-12">
                 {% for item in items %}
-                    <div class="row booking-line-item mt-3 p-3">
-                        <div class="col-2 d-flex justify-content-center">
+                    <div class="row booking-line-item mt-2 pt-2 pb-2">
+                        <div class="col-3 d-flex justify-content-center">
                             <img class="img-cart-line" src="{% if item.item.image %}{{item.item.image.url}} {%else%} {% static 'img/none.png' %}{%endif%}" alt="{% padword_translate item.item.name %}">
                         </div>
-                        <div class="col-10 text-left">
+                        <div class="col-9 text-left">
 			                <p><strong>{% padword_translate item.item.name %}</strong></p>
                             <p class=""><i class="far fa-comment-alt"></i>&nbsp; {{item.comments}}</p>
                         </div>
                     </div>
                 {% endfor %}
             </div>
-        </div>
 
         {%comment%}
         <div class="row mt-4 mb-4 d-flex justify-content-center ">
