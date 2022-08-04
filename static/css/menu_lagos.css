@@ -677,7 +677,9 @@ label.form-check-label {
 }
 
 /***********************************************/
-
+.info-panel > p{
+    margin:0px !important;
+}
 .item-right {
     background-color: #fff;
     padding: 0px !important;

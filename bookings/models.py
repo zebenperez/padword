@@ -292,6 +292,8 @@ class FormInstance(models.Model):
         return False
         
     def get_public_blocks(self):
+        print(self.form.uuid)
+        print(self.form.blocks.all())
         return self.form.blocks.filter(private=False)
 
     def set_status(self, status_code, user="", comment=""):
