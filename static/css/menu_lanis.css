@@ -233,6 +233,84 @@ button.menu-options {
 }
 
 /*****************************/
+/* List Cart Style  */
+/*****************************/
+
+.row.cart-list {
+    padding-right: calc(var(--bs-gutter-x) * .0) !important;
+    padding-left: calc(var(--bs-gutter-x) * .0) !important;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 45px;
+
+    margin-left:-10px !important;
+    margin-right:-10px !important;
+
+    border-bottom: 1px solid #d8e3ed;
+}
+
+.article-title {
+    font-size: 0.9rem;
+    display: flex;
+    align-items: left;
+    justify-content:left;
+}
+
+.article-price {
+    font-size: 0.9rem;
+}
+
+.box-new {
+    height: auto !important;
+}
+.col-sum {
+    border-radius: 15px;
+    background-color: #d1e1e7;
+    font-size: 0.9rem;
+}
+
+.col-sum input {
+    padding:0;
+}
+
+.minus, .plus {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.fas.fa-minus, .fas.fa-plus {
+    color: #777 !important;
+    font-size: 0.8rem;
+}
+
+/*****************************/
+/* END List Cart Style  */
+/*****************************/
+
+h5.card-title.text-dark.text-center.title-new {
+    font-size: 0.8rem;
+    height: 45px !important;
+    display: flex;
+    align-items: start;
+    justify-content: center;
+}
+
+.price-new {
+    bottom: 105px !important;
+}
+
+.info-new {
+    bottom: 60px !important;
+
+}
+
+.footer-new {
+}
+
+
+/*****************************/
 /* Error page style*/
 /*****************************/
 
@@ -258,7 +336,6 @@ button.menu-options {
 
 .img-carousel {
     background-color: #fff;
- /*   border-radius: 0.25rem;*/
     border-radius: 0.25rem 0.25rem 0 0;
 }
 
@@ -266,6 +343,50 @@ button.menu-options {
     width: 1024px !important;
     object-fit: cover !important;
     height: 350px !important;
+}
+
+.carousel-control-next, .carousel-control-prev {
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 15%;
+    padding: 0;
+    color: #fff;
+    font-size: 2rem;
+    text-align: center;
+    background: 0 0;
+    border: 0;
+    opacity: .9;
+    transition: opacity .15s ease;
+}
+
+.prev {
+    margin-left: 30px;
+}
+
+.next {
+    margin-right: 30px;
+}
+
+#cover .img {
+ /*   height: 250px;*/
+    background: white !important;
+}
+
+div#cover.image {
+    text-align: center;
+    background: white !important;
+}
+
+#cover.img-new {
+    /*height: 375px;*/
+}
+
+img.object-fit_cover.img-new {
+    height: 280px !important;
+    width: 100%;
+    object-fit: cover;
 }
 
 
