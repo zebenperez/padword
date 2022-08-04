@@ -84,7 +84,6 @@ def translate(request, json_str):
         json_dict = json.loads(json_str)
         return json_dict[lang.upper()]
     except Exception as e:
-        #print (show_exc(e))
         try:
             return json.loads(json_str)['ES']
         except Exception as e:
@@ -95,7 +94,6 @@ def translate2(lang, json_str):
         json_dict = json.loads(json_str)
         return json_dict[lang.upper()]
     except Exception as e:
-        #print (show_exc(e))
         try:
             return json.loads(json_str)['ES']
         except Exception as e:

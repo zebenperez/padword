@@ -226,12 +226,16 @@ def padword_translate_obj(context, obj_id):
         #except:
         #    lang = request.GET['lang'] if 'lang' in request.GET else request.LANGUAGE_CODE
         obj = get_obj(obj_id, 'Category')
-        lang = context["guest"].language if "guest" in context else translation.get_language()
-        lang = lang.split('-')[0]
-        json_str = obj.name
-        json_dict = json.loads(json_str)
-        return mark_safe(json_dict[lang.upper()])
+        if obj != None:
+            lang = context["guest"].language if "guest" in context else translation.get_language()
+            lang = lang.split('-')[0]
+            json_str = obj.name
+            json_dict = json.loads(json_str)
+            return mark_safe(json_dict[lang.upper()])
+        else:
+            return "UNKNOWN"
     except Exception as e:
+        print (show_exc(e))
         try:
             json_dict = json.loads(json_str)
             return json_dict[list(json_dict.keys())[0]]
