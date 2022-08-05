@@ -48,7 +48,6 @@ img {
 }
 
 .card.info-panel p {
-/*    border:1px solid red;*/
     padding-left: 0px !important;
     padding-right: 0px !important;
 }
@@ -154,11 +153,9 @@ a.btn.btn-header-pwa.ark {
 /******************************************/
 
 .row.blog {
-/*    border:1px solid blue;*/
     width:100% !important;
 }
 .p-none {
-/*    border:1px solid red;*/
     padding-left:0px !important;    
     padding-right:0px !important; 
 }
@@ -489,62 +486,15 @@ i.far.fa-flag {
     background: #a5c2d1 !important;
 }
 
-/*****************************/
-/* List Cart Style  */
-/*****************************/
-
-.row.cart-list {
-    padding-right: calc(var(--bs-gutter-x) * .0) !important;
-    padding-left: calc(var(--bs-gutter-x) * .0) !important;
-
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 45px;
-
-    margin-left:-10px !important;
-    margin-right:-10px !important;
-
-    border-bottom: 1px solid #d8e3ed;
-}
-
-.article-title {
-    font-size: 0.9rem;
-    display: flex;
-    align-items: left;
-    justify-content:left;
-}
-
-.article-price {
-    font-size: 0.9rem;
-}
-
 .box-new {
     height: auto !important;
 }
-.col-sum {
-    border-radius: 15px;
-    background-color: #d1e1e7;
-    font-size: 0.9rem;
+
+.row.cart-list {
+    margin-left:-25px !important;
+    margin-right:-25px !important;
 }
 
-.col-sum input {
-    padding:0;
-}
-
-.minus, .plus {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-.fas.fa-minus, .fas.fa-plus {
-    color: #777 !important;
-    font-size: 0.8rem;
-}
-
-/*****************************/
-/* END List Cart Style  */
-/*****************************/
 
 h5.card-title.text-dark.text-center.title-new {
     font-size: 0.8rem;

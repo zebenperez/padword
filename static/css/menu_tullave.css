@@ -135,7 +135,6 @@ a.btn.btn-header-pwa.ark {
   /*  width: 1024px !important;*/
     object-fit: cover !important;
     height: 275px !important;
-/*    border:1px solid red !important;*/
 }
 
 .carousel-control-next, .carousel-control-prev {
@@ -542,7 +541,6 @@ label.form-check-label {
 }
 
 .card.slider-cart {
-    border:1px solid red !important;
     margin-top: 80px;
 }
 

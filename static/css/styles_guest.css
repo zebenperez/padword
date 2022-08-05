@@ -597,6 +597,17 @@ span#count-badge.count.badge #span-notifications {
     background-color: #e4d9d1 !important;
 }
 
+.btn-marine-blue {
+    background-color: #a5c3d0 !important;
+    font-size: 1.2em !important;
+    border-radius: 5px;
+    box-shadow: 0 1px 8px 0 rgb(0 0 0 / 12%), 0 2px 3px -1px rgb(0 0 0 / 20%);
+    color: #000 !important;
+    height: 50px;
+    line-height: 40px;
+}
+
+
 .price { 
     text-align: right; 
     padding-top: 8px !important;
@@ -968,12 +979,65 @@ div.card.info-panel {
     border:1px solid #ccc !important;
 }
 
+/*****************************/
+/* List Cart Style  */
+/*****************************/
+
+.row.cart-list {
+    padding-right: calc(var(--bs-gutter-x) * .0) !important;
+    padding-left: calc(var(--bs-gutter-x) * .0) !important;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 45px;
+    margin-left:-10px !important;
+    margin-right:-10px !important;
+    border-bottom: 1px solid #d8e3ed;
+}
+
+.article-title {
+    font-size: 0.9rem;
+    display: flex;
+    align-items: left;
+    justify-content:left;
+}
+
+.article-price {
+    font-size: 0.9rem;
+}
+.col-sum {
+    border-radius: 15px;
+    background-color: #d1e1e7;
+    font-size: 0.9rem;
+}
+
+.col-sum input {
+    padding:0;
+}
+
+.minus, .plus {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.fas.fa-minus, .fas.fa-plus {
+    color: #777 !important;
+    font-size: 0.8rem;
+}
+
+/*****************************/
+/* END List Cart Style  */
+/*****************************/
+
 /***********************************************/
 /***** NUEVO: fijar tamaño contenedor item *****/
 
 .box-new { 
     height: 240px !important; 
-    border:1px solid #dfdfdf; 
+}
+
+.card.box-new { 
+    border:1px solid #dfdfdf !important; 
 }
 
 img.object-fit_cover.img-new {
@@ -986,7 +1050,6 @@ img.object-fit_cover.img-new {
     display: flex;
     align-items:center;
     justify-content:center;
-/*    border:1px solid green;*/
 }
 .row-02 .price-new {
     width:100%;
@@ -994,14 +1057,12 @@ img.object-fit_cover.img-new {
     display: flex !important;
     justify-content: center !important;
     align-items: center !important;
-/*    border:1px solid green;*/
 }
 
 .row-03.allerg-new {
     width:100%;
     height:72px !important;
     text-align: center;
-/*    border:1px solid green;*/
 }
 
 .row-03.allerg-new img {
@@ -1011,9 +1072,7 @@ img.object-fit_cover.img-new {
 .row-04.info-new {
     width:100%;
     height:50px !important; 
-/*    border:1px solid blue;*/
 }
-
 
 /*********************************
 *********** CHAT BOX ************

@@ -79,8 +79,8 @@
             <button id="btn-payment-type-{{fi.id}}" class="btn btn-marine-blue w-100 ark" data-url="{% url "booking-payment-type" %}" 
                 data-target-modal="common-modal" data-obj_id="{{fi.id}}"> {% trans "Finalize order" %} <i class="fas fa-credit-card"></i></button>
         {% else %}
-            <button id="btn-send-order-{{fi.id}}" class="btn btn-marine w-100 ark" data-bs-dismiss="modal" data-url="{% url "booking-send" %}" 
-                data-target="main" data-obj_id="{{fi.id}}"> {% trans "Send Order" %}</button>
+            <button id="btn-send-order-{{fi.id}}" class="btn btn-marine-blue w-100 ark" data-bs-dismiss="modal" data-url="{% url "booking-send" %}" 
+                data-target="main" data-obj_id="{{fi.id}}"> {% trans "Finalize order" %} <i class="fas fa-credit-card"></i></button>
         {% endif %}
     </div>
 </div>

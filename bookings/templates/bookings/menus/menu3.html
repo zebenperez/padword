@@ -28,7 +28,7 @@
     </div>
 </div>
 
-<div class="row w-100">
+<div class="row card w-100" style="margin:0px !important;">
     {% for item in category.get_items_active %}
         <div class="col-lg-4 col-12">
             <div class="card mb-3 pb-3">
@@ -36,10 +36,10 @@
                     {%if item.images.count > 0%}
                         {% include "bookings/show-item-gallery.html" %}
                     {% elif item.image %} 
-                        <img src="{{item.image.url}}" class="object-fit_cover" alt="{% padword_translate item.name %}"> 
+                        <img src="{{item.image.url}}" class="object-fit_cover img-new" alt="{% padword_translate item.name %}"> 
                     {% endif %}
                 </div>
-                <div class="card-body">
+                <div class="box-new">
                     <h5 class="card-title text-dark text-center">{% padword_translate item.name %}</h5>
                     <h4 class="card-title text-dark text-center">{{ item.price}} {%if item.price%} &euro; {%endif%}</h4>
                     {#<p class="card-text text-secondary">{% padword_translate item.description %}</p>#}
