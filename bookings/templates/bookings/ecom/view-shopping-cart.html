@@ -1,7 +1,5 @@
 {% load i18n bookings_tag common_tag padword_tags static %}
 
-<div class="row justify-content-center"> <p class="small alert text-center"><strong>*</strong> 
-    {% trans 'You can add comments to the article with click on comment buttons' %} <i class="fas fa-comments"></i></p> </div>
 {% for fi in fi_list %}
     {% with items=fi.get_items total=fi.get_total %}
         {% if fi.form.form_type.code == "ecom" or fi.form.form_type.code == "ecom2" %}

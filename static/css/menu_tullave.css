@@ -1,6 +1,7 @@
 #main {
     height: auto !important;
     background: #f8fcff !important;
+    margin-top:70px;
 }
 
 #main-base {
@@ -16,6 +17,7 @@
     width: 100%;
     background: #f8fcff !important;
     top: 170px;
+    top: 200px !important;
 }
 .container {
 	background-position: center; 
@@ -196,6 +198,7 @@ div#cover.image {
 
 .row.div-slogan {
     padding:0px !important;
+    margin-top: -70px;
 }
 .div-key {
     max-height: 100px;
@@ -370,7 +373,7 @@ button.menu-options {
 button.menu-options.ark i.far.fa-comments, 
 button.menu-options.ark i.fas.fa-sun,
 button.menu-options.ark i.fas.fa-map,
-button.menu-options.ark i.fas.fa-share-alt,
+button.menu-options.ark i.fas.fa-home,
 button.menu-options.ark i.far.fa-bell {
     color: #746150 !important;
     font-size: 1.3rem !important;

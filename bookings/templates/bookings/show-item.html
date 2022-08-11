@@ -13,7 +13,7 @@
         <div class="row-02"><h4 class="card-title text-dark text-center price-new">{{item.price}} {%if item.price != ""%}&euro;{%endif%} </h4></div>
         <div class="row-03 allerg-new">
             {% for ia in item.allergen_list.all %}
-                <img src="{{ia.allergen.icon.url}}" alt="{{ia.allergen.name}}" title="{{ia.allergen.name}}" />
+                <img src="{{ia.allergen.icon.url}}" alt="{{ia.allergen.name}}" title="{{ia.allergen.name}}" style="width: 2.8em !important;" />
             {% endfor %}
         </div>
         <div class="row-04 info-new">

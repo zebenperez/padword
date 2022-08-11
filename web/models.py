@@ -297,10 +297,21 @@ class Lock(models.Model):
         obj = ShLock()
         return obj.get_lock_charge(self.uuid)
 
-    def get_code(self, code, start_date, end_date):
+    def set_code(self, code, start_date, end_date):
         obj = ShLock()
-        return obj.get_lock_code(self.uuid, code, start_date, end_date)
+        return obj.set_lock_code(self.uuid, code, start_date, end_date)
 
+    def change_code(self, code_id, new_code, start_date, end_date):
+        obj = ShLock()
+        return obj.change_lock_code(self.uuid, code_id, new_code, start_date, end_date)
+
+    def remove_code(self, code_id):
+        obj = ShLock()
+        return obj.remove_lock_code(self.uuid, code_id)
+
+    def get_all_passcodes(self):
+        obj = ShLock()
+        return obj.get_lock_all_passcodes(self.uuid)
 
     class Meta:
         verbose_name = _('Lock')

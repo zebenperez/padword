@@ -9,23 +9,24 @@
          </button>
     </div>
     <div class="col-lg-2 col-2" style="padding:0;">
+        <button class="menu-options ark" id="btn-notifications" data-url="{% url "my-notifications" %}" 
+            data-target="main" data-project_uuid="{{project_uuid}}"> <i class="far fa-bell"></i> <br /><span>Notifications</span> 
+            <span class="count badge" id="notification-badge" {%if guest.get_not_read_notifications == 0%}style="display:none"{%endif%}>
+            <span id="span-notifications">{{ guest.get_not_read_notifications }}</span></span>
+        </button>
+    </div>
+    <div class="col-lg-2 col-2" style="padding:0;">
+        <button class="menu-options ark" id="btn-home" data-url="{% url "show-category-menu" %}" data-target="main"
+            data-cat_id="0ffbba4a-7391-c860-c2ae-f166b93820c6"><i class="fas fa-home"></i><br /><span>Home</span></button>
+    </div>
+
+    <div class="col-lg-2 col-2" style="padding:0;">
         <button class="menu-options ark" data-url="{% url "my-bookings" %}" data-target="main"
              data-project_uuid="{{project_uuid}}" data-cat_id="{{form.category}}"><i class="fas fa-sun"></i><br /><span>Weather</span></button>
     </div>
      <div class="col-lg-2 col-2" style="padding:0;">
         <button class="menu-options ark" data-url="{% url "my-bookings" %}" data-target="main"
              data-project_uuid="{{project_uuid}}" data-cat_id="{{form.category}}"><i class="fas fa-map"></i><br /><span>Map</span></button>
-    </div>
-    <div class="col-lg-2 col-2" style="padding:0;">
-        <button class="menu-options ark" data-url="{% url "my-bookings" %}" data-target="main"
-             data-project_uuid="{{project_uuid}}" data-cat_id="{{form.category}}"><i class="fas fa-share-alt"></i><br /><span>Social</span></button>
-    </div>
-    <div class="col-lg-2 col-2" style="padding:0;">
-        <button class="menu-options ark" id="btn-notifications" data-url="{% url "my-notifications" %}" 
-            data-target="main" data-project_uuid="{{project_uuid}}"> <i class="far fa-bell"></i> <br /><span>Notifications</span> 
-            <span class="count badge" id="notification-badge" {%if guest.get_not_read_notifications == 0%}style="display:none"{%endif%}>
-            <span id="span-notifications">{{ guest.get_not_read_notifications }}</span></span>
-        </button>
     </div>
 </div>
 

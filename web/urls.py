@@ -41,6 +41,7 @@ urlpatterns = [
     path('locks/search/', views.lock_search, name='lock-search'),
     path('locks/form/', views.lock_form, name='lock-form'),
     path('locks/remove/', views.lock_remove, name='lock-remove'),
+    path('locks/get-all-passcodes/', views.lock_get_all_passcodes, name='lock-get-all-passcodes'),
 
     #---------------------- E-Keys ---------------------
     #path('ekeys/', views.ekeys, name='ekeys'),

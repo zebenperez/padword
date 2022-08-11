@@ -402,7 +402,7 @@ msgstr "Sauvez"
 #, fuzzy
 #| msgid "Shopping"
 msgid "View Shopping Cart"
-msgstr "Shopping"
+msgstr "Voir le panier"
 
 #: templates/bookings/ecom/shopping_cart.html:22
 #: templates/bookings/ecom/shopping_cart2.html:24
@@ -439,8 +439,8 @@ msgstr ""
 
 #: templates/bookings/ecom/view-shopping-cart.html:16
 #: templates/bookings/show-item-details.html:28
-msgid "Continue"
-msgstr "Continuer"
+msgid "Continue shopping"
+msgstr "Poursuivre les achats"
 
 #: templates/bookings/general/autocomplete_field.html:1
 #: templates/bookings/guest/bookings-by-guest-original.html:42

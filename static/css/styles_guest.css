@@ -122,17 +122,27 @@ i.fas.fa-ban.text-cancel {
 }
 .item-right,
 .item-right input.form-control {
-    background-color: #eae6e4;
+/*    background-color: #eae6e4;*/
 /*    border:1px solid #dbdbdb;*/
     border-radius: 5px;
     color: #a4aab0 !important;
 }
 
 .item-left {
-    color: #474747 !important;
+/*    color: #474747 !important;*/
+    /*font-size: 1rem !important;*/
 	font-weight:normal !important;
-    font-size: 1rem !important;
+    font-size: 0.8rem !important;
+    color: #404a5d !important;
 }
+
+input.form-control.autosave_form_field,
+select.form-control.autosave_form_field {
+/*    color: #404a5d !important;*/
+    font-weight: bold !important;
+    font-size: 0.8rem !important;
+}
+
 .div-info-tb {
     border: none !important;
 } 
@@ -1067,6 +1077,7 @@ img.object-fit_cover.img-new {
 
 .row-03.allerg-new img {
     width: 2.8em;
+/*    border:1px solid red;*/
 }
 
 .row-04.info-new {

@@ -1,0 +1,22 @@
+{% load i18n padword_tags %}
+
+
+<h2 class="common-modal-head">{% trans 'Passcode list' %}</h2>
+
+<div class="row justify-center"> 
+    <div class="col-2"> {% trans "Code" %} </div>
+    <div class="col-2"> {% trans "Start date" %} </div>
+    <div class="col-2"> {% trans "End date" %} </div>
+</div>
+{% for item in obj.get_all_passcodes %}
+    <div class="row justify-center"> 
+        <div class="col-2"> {{item.keyboardPwd}} </div> 
+        <div class="col-2"> {{item.startDate|str_to_date}} </div> 
+        <div class="col-2"> {{item.endDate|str_to_date}} </div> 
+    </div>
+{% endfor %}
+
+<div class="d-flex justify-content-end p-2">
+	<button type="button" class="btn btn-primary ark m-2" data-bs-dismiss="modal"
+	    data-url="{% url "lock-search" %}" data-target="lock-list">{% trans "Cerrar" %}</button>
+</div>

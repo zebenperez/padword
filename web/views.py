@@ -477,10 +477,15 @@ def update_locks():
 
 @group_required("admins")
 def locks(request):
+    msg = ""
     try:
         update_locks()
+    except Exception as e:
+        msg = e
+ 
+    try:
         items = Lock.objects.all()
-        return render (request, "web/locks/locks.html",{'items':items} )
+        return render (request, "web/locks/locks.html",{'items':items, 'msg': msg})
     except Exception as e:
         return render(request, 'error_exception.html', {'exc':show_exc(e)})
 
@@ -512,6 +517,13 @@ def lock_remove(request):
         obj.delete()
     items = Lock.objects.all()
     return render (request, "web/locks/lock-list.html",{'items':items} )
+
+@group_required("admins")
+def lock_get_all_passcodes(request):
+    obj = get_or_none(Lock, request.GET["obj_id"]) if "obj_id" in request.GET else None
+    if obj == None:
+        return render(request, 'error_exception.html', {'exc':'Lock not found!'})
+    return render(request, "web/locks/lock-all-passcodes.html", {'obj': obj,})
 
 
 '''

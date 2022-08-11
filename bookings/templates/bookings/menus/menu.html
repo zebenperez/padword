@@ -2,7 +2,12 @@
 
 
 {% if category.parent and back == "True" %}{%include "bookings/back-btn.html" with uuid=category.parent.uuid %}{% endif %}
+
+{% comment %}
 <div class="row d-flex mt-1 guest-card col-12 p-4 mb-2">
+{% endcomment %}
+
+<div class="">
     {% for item in category.get_items_active %}
         <div class="col-lg-6 col-12 justify-content-center"> {% include "bookings/show-item.html" %} </div>
     {% endfor %}

@@ -144,17 +144,27 @@ def guest_pagination(request):
 @group_required("admins","projects")
 def guest_save_room(request):
     try:
+        err = ""
         guest = get_or_none(Guest, request.GET["obj_id"]) 
         value = request.GET["value"]
         guest.room = value
         guest.save()
         lock = webmod.Lock.objects.filter(room = value, project_uuid = guest.project_id).first()
         if lock != None and guest != None:
-            code = lock.get_code(guest.mobile[-4:], guest.check_in, guest.check_out)
-            key, created = Key.objects.get_or_create(lock = lock, guest = guest, code = guest.mobile[-4:])
+            code_id = lock.set_code(guest.mobile[-4:], guest.check_in, guest.check_out)
+            if not "Error" in str(code_id):
+                key = Key.objects.create(lock = lock, guest = guest, code = guest.mobile[-4:], code_id = code_id)
+            else:
+                err = code_id
+            #key, created = Key.objects.get_or_create(lock = lock, guest = guest, code = guest.mobile[-4:], code_id = code_id)
         else:
-            guest.keys.all().delete()
-        return render(request, "guest/keys/guest-keys.html", {'obj': guest,})
+            for key in guest.keys.all():
+                errcode = key.lock.remove_code(key.code_id)
+                if errcode == 0:
+                    key.delete()
+ 
+            #guest.keys.all().delete()
+        return render(request, "guest/keys/guest-keys.html", {'obj': guest, "err": err})
     except Exception as e:
         return render(request, "error_exception.html", {'exc':show_exc(e)})
 
@@ -468,9 +478,37 @@ def messages_check(request):
 @group_required("admins", "projects")
 def key_open(request):
     sh_lock = ShLock()
-    print(request.GET["obj_id"])
-    sh_lock.open_lock_by_id(request.GET["obj_id"])
-    return HttpResponse("")
+    msg = sh_lock.open_lock_by_id(request.GET["obj_id"])
+    msg = _("Opened") if msg else msg
+    return HttpResponse(msg)
+
+@group_required("admins", "projects")
+def key_change_code(request):
+    try:
+        key = get_or_none(Key, request.POST["key"])
+        code = request.POST["code"]
+
+        errcode = key.lock.change_code(key.code_id, code, key.guest.check_in, key.guest.check_out)
+        if errcode == 0:
+            key.code = code
+            key.save()
+        return render(request, "guest/keys/guest-key-details.html", {"item": key})
+    except Exception as e:
+        return render(request, "error_exception.html", {'exc':show_exc(e)})
+
+@group_required("admins", "projects")
+def key_remove(request):
+    try:
+        key = get_or_none(Key, request.GET["obj_id"])
+
+        errcode = key.lock.remove_code(key.code_id)
+        if errcode == 0:
+            key.delete()
+            return HttpResponse("")
+        return render(request, "guest/keys/guest-key-details.html", {"item": key})
+    except Exception as e:
+        return render(request, "error_exception.html", {'exc':show_exc(e)})
+
 
 #def get_key_list(obj):
 #    sh_lock = ShLock()

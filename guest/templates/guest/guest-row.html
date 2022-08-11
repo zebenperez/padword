@@ -21,10 +21,10 @@
         {% else %}
             <a class="btn btn-xs ark" data-url="{% url "guest-form" %}" data-target-modal="common-modal" data-obj_id="{{item.id}}"> 
                 <i class="fas fa-edit"></i></a>  
-            {% comment %}
+            {%comment%}
             <a class="btn btn-xs ark" data-url="{% url "guest-form-simple" %}" data-target-modal="common-modal" data-obj_id="{{item.id}}"> 
                 <i class="fas fa-edit"></i></a>  
-            {% endcomment %}
+            {%endcomment%}
         {% endif %}
 
 	    <a class="btn btn-sm ark" data-url="{% url "guest-remove" %}" data-target="guest-list" data-obj_id="{{item.id}}" 

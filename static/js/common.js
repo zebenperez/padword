@@ -188,6 +188,7 @@ function uploadObjFile(obj, url, target, obj_id, field, token)
 
 function submitForm(frm, target)
 {
+    $("body").css("cursor", "progress");
     $.ajax({
         url: frm.attr('action'),
         type: frm.attr('method'),
@@ -196,6 +197,7 @@ function submitForm(frm, target)
             $('#'+target).html(data);
         },
         error: function (data) { alert("Error: "+data.responseText); },
+        complete : function(){$("body").css("cursor", "default");}
     });
 }
 

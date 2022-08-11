@@ -288,6 +288,7 @@ class Message(models.Model):
 
 class Key(models.Model):
     code = models.CharField(max_length=100, verbose_name=_('Code'), default="")
+    code_id = models.CharField(max_length=100, verbose_name=_('Code Id'), default="")
     lock = models.ForeignKey(Lock, verbose_name=_("Lock"), on_delete=models.CASCADE, blank=True, null=True, related_name="keys")
     guest = models.ForeignKey(Guest, verbose_name=_("Guest"), on_delete=models.CASCADE, blank=True, null=True, related_name="keys")
 

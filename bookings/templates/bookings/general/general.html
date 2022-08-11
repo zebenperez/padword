@@ -13,12 +13,12 @@
 <div id="obligatory-warning" class="col-12 alert alert-danger" style="display:none">{%trans "You must fill in all the required fields"%} (*)</div>
 <div class="col-12 end-page" id="end-page">
     <div class="row mt-4 mb-4 d-flex justify-content-center">
-        <div class="col-5 actions text-center mb-3">
-            <button id="btn-send" class="btn btn-marine w-100 ark" data-url="{% url "booking-send" %}" 
+        <div class="col-lg-5 offset-lg-1 col-md-6 col-xs-5 text-center mb-3">
+            <button id="btn-send" class="btn btn-marine-blue w-100 ark" data-url="{% url "booking-send" %}" 
                 data-target="main" data-obj_id="{{fi.id}}" style="display:none"></button>
-            <button id="btn-send-order" class="btn btn-marine w-100"> {% trans "Send Order" %}</button>
+            <button id="btn-send-order" class="btn btn-marine-blue w-100"> {% trans "Send Order" %}</button>
         </div>
-        <div class="col-5 actions text-center mb-2">
+        <div class="col-lg-5 offset-lg-1 col-md-6 col-xs-5">
             <button class="btn btn-marine w-100 ark" data-url="{% url "booking-remove" %}"
                 data-target="main" data-obj_id="{{fi.id}}"> {% trans "Cancel Order" %}</button>
         </div>

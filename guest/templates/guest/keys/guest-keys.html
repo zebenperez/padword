@@ -3,19 +3,10 @@
 <div class="card">
     <div class="card-header"> {% trans "Locks asigned" %} </div>
 
+    {% if err and err != "" %}<div class="alert alert-danger">{{err}}</div>{% endif %}
+
     <div class="card-body">
-        {% for item in obj.keys.all %}
-            <div class="row" id="row_{{item.id}}">
-                <div class="col-5">{{item.lock.alias}}</div>
-                <div class="col-5">{{item.code}}</div>
-                <div class="col-2 text-right">
-                    <a class="btn btn-sm ark" data-url="{% url "guest-key-open" %}" data-obj_id="{{item.lock.uuid}}" data-target="">
-                        <i class="fas fa-key"></i></a>
-                    <a class="btn btn-sm autoremove" data-model-name="guest.key" data-obj-id="{{item.id}}" data-url="{% url "autoremove_obj" %}" 
-                        data-target="row_{{item.id}}" data-confirm="{%trans "Are you sure to remove this element?"%}"><i class="fas fa-trash"></i></a>
-                </div>
-            </div>
-        {% endfor %}
+        {% for item in obj.keys.all %} <div id="key-details-{{item.id}}">{% include "guest/keys/guest-key-details.html" %}</div> {% endfor %}
     </div>
 </div>
 

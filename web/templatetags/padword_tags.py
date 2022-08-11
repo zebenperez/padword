@@ -3,12 +3,12 @@ from django import template
 from django.urls import reverse
 from django.utils import translation 
 
-import json
 from padword.commons import show_exc, get_items_per_page, user_in_group
 from web.models import Project, ProjectUser
 from contents.models import Allergen, Category, CategoryUser, Feature, ItemPromo, PaymentType
-import string, random
-import os
+
+from datetime import datetime
+import string, random, json, os
 
 register = template.Library()
 
@@ -120,6 +120,9 @@ def can_remove_cat(user):
             return True
     return False 
 
+@register.filter
+def str_to_date(value):
+    return datetime.fromtimestamp(value/1000.0).strftime("%Y-%m-%d %H:%M:%S")
 
 '''
     Simple Tags

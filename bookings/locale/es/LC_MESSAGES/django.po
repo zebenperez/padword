@@ -166,7 +166,7 @@ msgstr "Privado"
 
 #: models.py:162 models.py:184 models.py:203 templates/forms/block-form.html:7
 msgid "Order"
-msgstr "Orden"
+msgstr "Pedido"
 
 #: models.py:164 models.py:334 models.py:355 models.py:370
 msgid "Text"
@@ -402,13 +402,13 @@ msgstr "Guardar"
 #, fuzzy
 #| msgid "Shopping"
 msgid "View Shopping Cart"
-msgstr "Shopping"
+msgstr "Ver carrito"
 
 #: templates/bookings/ecom/shopping_cart.html:22
 #: templates/bookings/ecom/shopping_cart2.html:24
 #: templates/bookings/general/general.html:23
 msgid "Cancel Order"
-msgstr "Cancelar"
+msgstr "Cancelar pedido"
 
 #: templates/bookings/ecom/view-shopping-cart-fi.html:7
 msgid "art."
@@ -433,7 +433,7 @@ msgstr "Finalizar pedido"
 
 #: templates/bookings/ecom/view-shopping-cart.html:13
 msgid "You can add comments to the article with click on comment buttons"
-msgstr ""
+msgstr "Puede añadir comentarios al artículo haciendo clic en los botones de comentario"
 "Puedes añadir comentarios a los artículos pinchando en el botón comentario"
 
 #: templates/bookings/ecom/view-shopping-cart.html:16
@@ -605,7 +605,7 @@ msgstr "Inicio"
 
 #: templates/bookings/menus/menu_top.html:32
 msgid "Notifications"
-msgstr ""
+msgstr "Notificaciones"
 
 #: templates/bookings/menus/menu_top.html:41
 msgid "Chat"

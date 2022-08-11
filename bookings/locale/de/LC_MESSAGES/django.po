@@ -401,7 +401,7 @@ msgstr "Speichern Sie"
 #, fuzzy
 #| msgid "Shopping"
 msgid "View Shopping Cart"
-msgstr "Shopping"
+msgstr "Einkausfswagen ansehen"
 
 #: templates/bookings/ecom/shopping_cart.html:22
 #: templates/bookings/ecom/shopping_cart2.html:24
@@ -422,13 +422,13 @@ msgid "Remove article from shopping-cart"
 msgstr "Artikel aus dem Einkaufswagen entfernen"
 
 #: templates/bookings/ecom/view-shopping-cart-fi.html:34
-msgid "Add comment at this article"
+msgid "You can add comments to the article with click on comment buttons"
 msgstr "Kommentar zu diesem Artikel hinzufügen"
 
 #: templates/bookings/ecom/view-shopping-cart-fi.html:47
 #: templates/bookings/general/general.html:19
-msgid "Send Order"
-msgstr "Senden"
+msgid "Finalize order"
+msgstr "Bestellung abschließen"
 
 #: templates/bookings/ecom/view-shopping-cart.html:13
 msgid "You can add comments to the article with click on comment buttons"
@@ -438,8 +438,8 @@ msgstr ""
 
 #: templates/bookings/ecom/view-shopping-cart.html:16
 #: templates/bookings/show-item-details.html:28
-msgid "Continue"
-msgstr "Fortsetzen"
+msgid "Continue shopping"
+msgstr "Shoppen fortsetzen"
 
 #: templates/bookings/general/autocomplete_field.html:1
 #: templates/bookings/guest/bookings-by-guest-original.html:42
@@ -447,7 +447,7 @@ msgstr "Fortsetzen"
 #: templates/bookings/guest/view-booking.html:22
 #: templates/bookings/menus/menu_top.html:61
 msgid "Close"
-msgstr "Schließen"
+msgstr "Abmelden"
 
 #: templates/bookings/general/field_form.html:62
 #: templates/bookings/general/field_form.html:78
@@ -605,7 +605,7 @@ msgstr "Startseite"
 
 #: templates/bookings/menus/menu_top.html:32
 msgid "Notifications"
-msgstr ""
+msgstr "Notifikationen"
 
 #: templates/bookings/menus/menu_top.html:41
 msgid "Chat"
