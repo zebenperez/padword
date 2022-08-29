@@ -224,7 +224,7 @@ def status_form(request):
     except Exception as e:
         return render(request, 'error_exception.html', {'exc':show_exc(e)})
 
-@group_required("admins", "projects")
+@group_required("admins", "projects", "categories")
 def change_status(request):
     try:
         if request.POST:
