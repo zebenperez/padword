@@ -11,9 +11,14 @@ REMOVE_PASSCODE_PREFIX_URL = '/keyboardPwd/delete'
 GET_ALL_PASSCODE_URL = '{}/{}?clientId={}&accessToken={}&lockId={}&pageNo={}&pageSize={}&date={}'
 GET_ALL_PASSCODE_PREFIX_URL = 'lock/listKeyboardPwd'
 
+ADD_CARD_URL = '{}/{}?clientId={}&accessToken={}&lockId={}&cardNumber={}&startDate={}&endDate={}&addType=2&date={}'
+#ADD_CARD_PREFIX_URL = '/identityCard/addForReversedCardNumber'
+ADD_CARD_PREFIX_URL = '/identityCard/add'
+
 LIST_FIELD = 'list'
 KEYBOARD_PWD_ID = 'keyboardPwdId'
 KEYBOARD_PWD = 'keyboardPwd'
+CARD_ID = 'cardId'
 ERROR_CODE_FIELD = 'errcode'
 
 class ShTTLock(TTLock):
@@ -85,6 +90,23 @@ class ShTTLock(TTLock):
         for records in _response.get(LIST_FIELD):
             yield records
 
+    def lock_add_card(self, lockId=None, cardNumber="", startDate=0, endDate=0):
+        if not lockId:
+            raise TTlockAPIError()
+
+        _url_request = ADD_CARD_URL.format(
+            API_URI,
+            ADD_CARD_PREFIX_URL,
+            self.clientId,
+            self.accessToken,
+            lockId,
+            cardNumber,
+            int(round((startDate.timestamp() * 1000))),
+            int(round((endDate.timestamp() * 1000))),
+            TTLock.__get_current_millis__(),
+        )
+        return TTLock.__send_request__(_url_request).json().get(CARD_ID)
+
 
 class ShLock:
     def __init__(self):
@@ -141,4 +163,11 @@ class ShLock:
             return self.ttlock.lock_get_all_passcodes(lock_id)
         except Exception as e:
             return e
+
+    def lock_add_card(self, lock_id, card_number, start_date, end_date):
+        try:
+            return self.ttlock.lock_add_card(lock_id, card_number, start_date, end_date)
+        except Exception as e:
+            return e
+
 

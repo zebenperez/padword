@@ -5,6 +5,7 @@ from django.utils.translation import ugettext as _
 from padword.commons import show_exc
 from .lock_lib import ShLock
 import datetime
+import requests
 
 # Create your models here.
 
@@ -68,6 +69,12 @@ class Project(models.Model):
         devices = Device.objects.filter(channel__in = Channel.objects.filter(project=self))
         return devices.count()
 
+    def get_first_menu(self, username):
+        pu = ProjectUser.objects.filter(username=username, project_uuid=self.uuid).first()
+        if pu == None or len(pu.menus) == 0:
+            return ""
+        return pu.menus.split(";")[0]
+
 class Channel(models.Model):
     uuid = models.CharField(max_length=255, verbose_name=_('UUID'), default="", unique=True)
     ui_uuid = models.CharField(max_length=255, verbose_name=_('UI-UUID'), default='00000000-0000-0000-0000-000000000000')
@@ -94,6 +101,7 @@ class ProjectUser(models.Model):
     #channels = models.ManyToManyField(Channel, verbose_name=_("Channels"), blank=True)
     project_uuid = models.CharField(max_length = 255, verbose_name= _('Project UUID'), default='admin')
     username = models.CharField(max_length = 255, verbose_name= _('Username'), default='admin')
+    menus = models.CharField(max_length = 1000, verbose_name= _('Menus'), default='orders;guests;notifications')
     image = models.ImageField(upload_to=upload_image, blank=True, verbose_name="Imagen de perfil", help_text="Select file to upload")
 
     class Meta:
@@ -290,7 +298,7 @@ class Lock(models.Model):
     def state(self):
         obj = ShLock()
         state = obj.get_lock_state(self.uuid)
-        return _("Opened") if state != 0 else _("Closed")
+        return _("unlock") if state != 0 else _("lock")
 
     @property
     def charge(self):
@@ -313,7 +321,82 @@ class Lock(models.Model):
         obj = ShLock()
         return obj.get_lock_all_passcodes(self.uuid)
 
+    def add_card(self, card_number, start_date, end_date):
+        obj = ShLock()
+        return obj.lock_add_card(self.uuid, card_number, start_date, end_date)
+
+    def get_cards(self):
+        url = 'https://euapi.ttlock.com/v3/identityCard/list'
+        params = dict(
+            clientId='c5cd9353990e4061a082a7a275897de1',
+            accessToken='4719a3f737f7d1adafe139fbea20f6fb',
+            lockId=int(self.uuid),
+            pageNo=1,
+            pageSize=100,
+            date = int(round(datetime.datetime.now().timestamp() * 1000))
+        )
+        resp = requests.get(url=url, params=params)
+        data = resp.json() # Check the JSON Response Content documentation below
+        keycard_list = KeyCard.objects.none()
+        keycard_numbers = []
+        for keycard_json in data['list']:
+            keycard_numbers.append(keycard_json['cardNumber'])
+        keycard_list = KeyCard.objects.filter(bluetooth__in = keycard_numbers)
+        return keycard_list
+
+    def css_charge(self):
+        if self.charge > 90:
+            return "fa-battery-full perc-100"
+        if self.charge > 75:
+            return "fa-battery-three-quarters perc-75"
+        if self.charge > 50:
+            return "fa-battery-half perc-50"
+        if self.charge > 25:
+            return "fa-battery-quarter perc-25"
+        return "fa-battery-exclamation perc-0"
+
     class Meta:
         verbose_name = _('Lock')
 
+class Room(models.Model):
+    uuid = models.CharField(max_length=255, verbose_name=_('UUID'), default="")
+    alias = models.CharField(max_length=255, verbose_name=_('Alias'), default="", null=True)
+    number = models.CharField(max_length=255, verbose_name=_('Number'), default="")
+    project_uuid = models.CharField(max_length=255, verbose_name=_('Project UUID'), default="")
+    parent = models.ForeignKey('self', verbose_name = 'Parent', on_delete=models.SET_NULL, null=True)
+
+    def childrens(self):
+        return Room.objects.filter(parent=self)
+
+    @property
+    def is_busy(self):
+        from guest.models import Guest
+        return Guest.objects.filter(project_id = self.project_uuid, room = self.number, check_in__lte = datetime.date.today(), check_out__gte = datetime.date.today()).exists()
+
+    @property
+    def current_guest(self):
+        from guest.models import Guest
+        return Guest.objects.filter(project_id = self.project_uuid, room = self.number, check_in__lte = datetime.date.today(), check_out__gte = datetime.date.today()).order_by('pk').last()
+
+    @property
+    def state(self):
+        if self.is_busy:
+            return ('lock text-danger')
+        return ('unlock text-success')
+
+    def get_locks(self):
+        return Lock.objects.filter(project_uuid = self.project_uuid, room = self.number).order_by('pk')
+
+    def get_cards(self):
+        cards = KeyCard.objects.none()
+        for lock in self.get_locks():
+            cards = cards or lock.get_cards()
+        return (cards)
+
+class KeyCard(models.Model):
+    uuid = models.CharField(max_length=255, verbose_name=_('UUID'), default="")
+    bluetooth = models.CharField(max_length=255, verbose_name=_('Bluetooth Code'), default="")
+    cardreader = models.CharField(max_length=255, verbose_name=_('Card Reader Code'), default="")
+    project_uuid = models.CharField(max_length=255, verbose_name=_('Project UUID'), default="")
+    lock = models.ForeignKey(Lock, verbose_name = _('Lock'), on_delete=models.SET_NULL, null=True)
 

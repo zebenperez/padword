@@ -124,6 +124,14 @@ def can_remove_cat(user):
 def str_to_date(value):
     return datetime.fromtimestamp(value/1000.0).strftime("%Y-%m-%d %H:%M:%S")
 
+@register.filter
+def have_menu(user_project, menu):
+    up = user_project.split("|")
+    pu = ProjectUser.objects.filter(username=up[0], project_uuid=up[1]).first()
+    if pu == None:
+        return False
+    return menu in pu.menus
+
 '''
     Simple Tags
 '''
@@ -345,7 +353,7 @@ def ark(url, div, **kwargs):
         prefix = kwargs.pop('prefix', False)
         posfix = kwargs.pop('posfix', False)
         url = reverse(url, kwargs=kwargs)
-        return {'div':div, 'url':url, 'go':go, 'prefix':prefix, 'posfix':posfix}
+        return {'div':div, 'url':url}#, 'go':go, 'prefix':prefix, 'posfix':posfix}
     except Exception as e:
         url = reverse(url)
         return {'div':div, 'url':url, 'go':go}
@@ -379,5 +387,9 @@ def get_promos(obj):
 @register.inclusion_tag('forms/emails.html')
 def show_emails(obj):
     return {'obj': obj, 'email_texts': obj.get_email_texts}
+
+@register.inclusion_tag('forms/timetable.html')
+def show_timetable(obj):
+    return {'obj': obj,}
 
 

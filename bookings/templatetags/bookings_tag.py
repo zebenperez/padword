@@ -1,6 +1,6 @@
 from django import template
 from django.utils.safestring import mark_safe
-from bookings.common_lib import get_answer_instance, get_max_index, get_guest_total_items
+from bookings.common_lib import get_answer_instance, get_max_index, get_guest_total_items, check_timetable as ch_timetable
 
 register=template.Library()
 
@@ -11,6 +11,10 @@ register=template.Library()
 @register.filter
 def get_indexes(q, fi):
     return range(0, (get_max_index(q, fi)+ 1))
+
+@register.filter
+def check_timetable(form):
+    return ch_timetable(form)
 
 '''
 	Simple tag

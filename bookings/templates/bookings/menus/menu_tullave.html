@@ -4,7 +4,7 @@
 
 <div class="row div-slogan"><div class="col-12 text-center main-slide">{% get_promos category %}</div></div>
  
-<div class="row div-key mt-5">
+<div class="row div-key mt-4">
     <div class="col-12 text-center">
         <a class="menu-options collapsible-header waves-effect btn-large pt-3" data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample"><i class="fa fa-lock"></i> Mis Llaves</a>
         <div class="collapse" id="collapseExample">
@@ -20,7 +20,6 @@
                 <button class="collapsible-header waves-effect btn-large-2 ark-disabled">
                     <i class="fa fa-lock"></i> Entrance <span id="open-lock-msg" class="open-lock-msg"></span></button>
             </div>
-            {% comment %}
             <div class="collapse-option mt-3">
                 <button class="collapsible-header waves-effect btn-large-2 ark-disabled"
                     data-url="{% url "open-lock" %}" data-target="open-lock-msg">
@@ -28,7 +27,6 @@
             </div>
             <div class="collapse-option mt-3"><a class="collapsible-header waves-effect btn-large-2"><i class="fa fa-lock"></i> Locker Room</a></div>
             <div class="collapse-option mt-3"><a class="collapsible-header waves-effect btn-large-2"><i class="fa fa-lock"></i> Server Room</a></div>
-            {% endcomment %}
         </div>
     </div>
 </div>
@@ -46,9 +44,9 @@
         </button> <br /><span>{% padword_translate_obj '0fb0e3ad-df39-bff2-9d58-5ec46fce9745'%}</span> 
     </div>
     <div class="tabs-3 col-4 offset-1 mb-1 align-middle justify-content-center p2">
-        <button class="menu-options ark" data-url="{% url "show-category-menu" %}" data-target="main" 
-            data-cat_id="30478ba7-72b8-fb75-c238-16dfadf656d7"><i class="fas fa-credit-card"></i> 
-        </button><br /><span>{% padword_translate_obj '30478ba7-72b8-fb75-c238-16dfadf656d7'%}</span>
+        <button class="menu-options ark" data-url="{% url "my-bookings" %}" data-target="main"
+             data-project_uuid="{{project_uuid}}" data-cat_id="{{form.category}}"><i class="fas fa-credit-card"></i>
+        </button><br /><span>Mis pedidos</span>
     </div> 
     <div class="tabs-4 col-4 offset-2 mb-1 align-middle justify-content-center p2">
         <button class="menu-options ark" data-url="{% url "show-category-menu" %}" data-target="main" 

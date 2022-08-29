@@ -9,7 +9,7 @@ from web.models import Channel, Company, Device, Project, ProjectUser
 from contents.models import Category
 
 from .common_lib import generate_qr
-from .models import AnswerType, Field, Form, FormChannel, FormEmail, FormInstance, FormType, Question, QuestionType, Block, Status
+from .models import AnswerType, Field, Form, FormChannel, FormEmail, FormInstance, FormTimetable, FormType, Question, QuestionType, Block, Status
 
 import logging
 logger = logging.getLogger(__name__)
@@ -300,6 +300,25 @@ def remove_email(request):
         form = obj.form
         obj.delete()
         return render(request, "forms/emails.html", {"obj": form, 'email_texts': form.get_email_texts})
+    except Exception as e:
+        return render(request, "error_exception.html", {'exc': show_exc(e)})
+
+@group_required("admins", "projects")
+def new_timetable(request):
+    try:
+        obj = get_or_none(Form, request.GET["obj_id"])
+        FormTimetable.objects.create(form=obj)
+        return render(request, "forms/timetable.html", {"obj": obj})
+    except Exception as e:
+        return render(request, "error_exception.html", {'exc': show_exc(e)})
+
+@group_required("admins", "projects")
+def remove_timetable(request):
+    try:
+        obj = get_or_none(FormTimetable, request.GET["obj_id"])
+        form = obj.form
+        obj.delete()
+        return render(request, "forms/timetable.html", {"obj": form})
     except Exception as e:
         return render(request, "error_exception.html", {'exc': show_exc(e)})
 

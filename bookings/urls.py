@@ -27,6 +27,9 @@ urlpatterns = [
     path('forms/new_email', fv.new_email, name="form-new-email"),
     path('forms/remove_email', fv.remove_email, name="form-remove-email"),
 
+    path('forms/new_timetable', fv.new_timetable, name="form-new-timetable"),
+    path('forms/remove_timetable', fv.remove_timetable, name="form-remove-timetable"),
+
     path('channel/add/', fv.channel_add, name='channel-add'),
     path('channel/remove/', fv.channel_remove, name='channel-remove'),
 

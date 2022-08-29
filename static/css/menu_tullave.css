@@ -170,6 +170,12 @@ div#cover.image {
     /*height: 375px;*/
 }
 
+img.object-fit_cover.img-new {
+    height: 280px !important;
+    width: 100%;
+    object-fit: cover;
+}
+
 .color-brown {
     color: #7F6C5A !important;
     font-size: 2.28rem;
@@ -429,6 +435,37 @@ ul.dropdown-menu {
 }
 
 
+.box-new {
+    height: auto !important;
+}
+
+.row.cart-list {
+    margin-left:-25px !important;
+    margin-right:-25px !important;
+}
+
+
+h5.card-title.text-dark.text-center.title-new {
+    font-size: 0.8rem;
+    height: 45px !important;
+    display: flex;
+    align-items: start;
+    justify-content: center;
+}
+
+.price-new {
+    bottom: 105px !important;
+}
+
+.info-new {
+    bottom: 60px !important;
+
+}
+
+.footer-new {
+}
+
+
 
 /*****************************/
 /* devices style*/
@@ -544,6 +581,6 @@ label.form-check-label {
 }
 
 .card.slider-cart {
-    margin-top: 80px;
+    /*margin-top: 80px;*/
 }
 

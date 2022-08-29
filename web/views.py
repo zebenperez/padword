@@ -14,6 +14,7 @@ from .lock_lib import ShLock
 from django.conf import settings
 import os
 import requests
+import time, datetime
 
 
 # Create your views here.
@@ -32,9 +33,27 @@ def index(request, chk=None):
     if request.user.groups.filter(name='projects').exists():
         if not hasattr(request, "project_id"):
             return render(request, 'error_exception.html', {'exc': _('Project not found!')})
-        return redirect('bookings-by-project', request.project_id)
+        #return redirect('bookings-by-project', request.project_id)
+        return redirect_project_user(request)
 
     return redirect('projects')
+
+def redirect_project_user(request):
+    project = get_or_none(Project, request.project_id)
+    if project == None:
+        return render(request, 'error_exception.html', {'exc': _('Project not found!')})
+
+    menu = project.get_first_menu(request.user.username)
+    if menu == "orders":
+        return redirect('bookings-by-project', request.project_id)
+    elif menu == "guests":
+        return redirect('guests-by-project', request.project_id)
+    elif menu == "notifications":
+        return redirect('guest-notifications')
+    #elif menu == "locks":
+        #return redirect('locks-by-project', request.project_id)
+    else:
+        return render(request, 'error_exception.html', {'exc': _('Menu not found!')})
 
 def thanks(request):
     return render(request, "thanks.html")
@@ -485,6 +504,7 @@ def locks(request):
  
     try:
         items = Lock.objects.all()
+        print(items)
         return render (request, "web/locks/locks.html",{'items':items, 'msg': msg})
     except Exception as e:
         return render(request, 'error_exception.html', {'exc':show_exc(e)})
@@ -519,11 +539,39 @@ def lock_remove(request):
     return render (request, "web/locks/lock-list.html",{'items':items} )
 
 @group_required("admins")
-def lock_get_all_passcodes(request):
+def lock_get_all_passcodes(request, obj_id=None):
     obj = get_or_none(Lock, request.GET["obj_id"]) if "obj_id" in request.GET else None
     if obj == None:
         return render(request, 'error_exception.html', {'exc':'Lock not found!'})
     return render(request, "web/locks/lock-all-passcodes.html", {'obj': obj,})
+
+@group_required("admins")
+def lock_get_cards(request):
+    obj = get_or_none(Lock, request.GET["obj_id"]) if "obj_id" in request.GET else None
+    url = 'https://euapi.ttlock.com/v3/identityCard/list'
+    if obj is None:
+        list_obj = Lock.objects.all()
+    else:
+        list_obj = [obj]
+
+    for obj in list_obj:
+        params = dict(
+            clientId='c5cd9353990e4061a082a7a275897de1',
+            accessToken='4719a3f737f7d1adafe139fbea20f6fb',
+            lockId=int(obj.uuid),
+            pageNo=1,
+            pageSize=100,
+            date = int(round(datetime.datetime.now().timestamp() * 1000))
+        )
+        resp = requests.get(url=url, params=params)
+        data = resp.json() # Check the JSON Response Content documentation below
+        for keycard_json in data['list']:
+            keycard = KeyCard.objects.get(bluetooth = keycard_json['cardNumber'])
+            keycard.lock = obj
+            keycard.save()
+
+    return HttpResponse("OK")
+
 
 
 '''

@@ -1,4 +1,4 @@
-{% load i18n %}
+{% load i18n padword_tags %}
 
 <h2 class="common-modal-head">{% trans 'New lock' %}</h2>
 
@@ -26,6 +26,29 @@
             data-target="div-notification"/> <span id="project_uuid__msg"></span>
 	</div>
 </div>
+<div class="d-flex p-2" id="pass-codes">
+    <table class="table table-hover table-striped">
+        <thead>
+            <tr>
+                <th colspan="3"> <label class="label">{% trans 'Passcode List' %}:</label></th>
+            </tr>
+            <tr>
+                <th> {% trans 'Code' %} </th>
+                <th> {% trans 'Start Date' %} </th>
+                <th> {% trans 'End Date' %} </th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for item in obj.get_all_passcodes %}
+            <tr>
+                <td> {{item.keyboardPwd}} </td> 
+                <td> {{item.startDate|str_to_date}} </td> 
+                <td> {{item.endDate|str_to_date}} </td> 
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
 
 <div class="d-flex justify-content-end p-2">
 	<button type="button" class="btn btn-primary ark m-2" data-bs-dismiss="modal"
@@ -34,3 +57,4 @@
     	data-url="{% url "lock-remove" %}" data-target="lock-list" data-obj_id="{{obj.id}}" 
 	    data-confirm="{% trans "Are you sure to remove this element?" %}">{% trans "Remove" %}</button>
 </div>
+

@@ -847,13 +847,14 @@ h4.slogan span {
 
 .prev { 
     padding-left:40; 
-    /*margin-top: -65px !important;*/
-    margin-top: -150px !important;
+   /* margin-top: -150px !important;*/
+    margin-top: -65px !important;
 }
 .next { 
     padding-right:40;
-    /*margin-top: -65px !important;*/
-    margin-top: -150px !important;
+    /* margin-top: -150px !important;*/
+    margin-top: -65px !important;
+
 }
 
 h1.ql-align-center {

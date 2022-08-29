@@ -282,6 +282,12 @@ function validateCheckIn()
 
 function pushHistory(url) { history.pushState({}, 'main', window.location.href); }
 
+function showAlert(body, close) {
+    var text="<p>"+body+"</p><div class='text-end'><button type='button' class='btn btn-marine' data-bs-dismiss='modal'>"+close+"</button></div>";
+    $('#common-modal-body').html(text);
+    $('#common-modal').modal('show');
+}
+
 $(document).ready(()=>{
     $("body").on("keyup", ".autosearch", function(e){
         var obj = $(this);

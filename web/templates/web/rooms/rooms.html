@@ -18,11 +18,14 @@
 
     <div class="content">
         <div class="toolbar-content">
-            <h2 class="b-right">{% trans 'Locks' %} (<span id="items-counter">{{items|length}}</span>)</h2>
-            {#<a class="btn btn-primary ark" data-url="{% url "company-form" %}" data-target-modal="common-modal">{% trans "New company" %}</a>  #}
+            <h2 class="b-right">{% trans 'Rooms' %} </h2>
             {% include "common-modal.html" %}
         </div>
-        <div id="lock-list">{% include "web/locks/lock-list.html" %}</div>
+        {% for row in list_rooms %}
+        {%with items=row.1 project=row.0 %}
+        <div id="room-list-{{project.uuid}}" class="mb-2">{% include "web/rooms/rooms-list.html" with project=project items=items%}</div>
+        {%endwith%}
+        {%endfor%}
     </div>
 
 {% endblock central_content %}

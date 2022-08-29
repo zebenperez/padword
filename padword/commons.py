@@ -118,3 +118,17 @@ def get_items_per_page():
         return settings.ITEMS_PER_PAGE
     except:
         return 20
+
+def reverse_cardkey(cardReader_value):
+    try:
+        n = 2
+        hex_value   = str(hex(int(cardReader_value)))
+        hex_value = hex_value[2:]
+        hex_value = f'{hex_value:>8s}'
+        hex_value = hex_value.replace(' ','0')
+        reverse_hex = [hex_value[idx:idx + n] for idx in range(0, len(hex_value), n)]
+        reverse_hex = ''.join(reversed(reverse_hex))
+        return (int(reverse_hex, 16))
+    except:
+        return (0)
+

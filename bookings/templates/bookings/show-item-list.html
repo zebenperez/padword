@@ -13,7 +13,7 @@
             <span class="article-price">{{item.price}} {%if item.price != ""%}&euro;{%endif%} </span>
         </div>
 
-        {% if show_footer %}
+        {% if show_footer and fi.form|check_timetable %}
             <div class="col-4 col-sum">
                 <div class="row">
                     <div class="col-2 p-0 minus">

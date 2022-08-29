@@ -1,0 +1,22 @@
+
+    <div class="card card-container ark"  data-url="{% url "lock-form" %}" data-target-modal="common-modal" data-obj_id="{{item.id}}">
+        <div class="card-body lock-box">
+            <div class="alias text-center"><i class="fas fa-{{item.state}}"></i>{{item.alias}}</div>
+            <div class="room d-flex justify-content-end mt-1">
+                <div class="w-50 text-left">Room</div>
+                <div class="w-50 text-right"><strong>{{item.room}}</strong></div>
+            </div>
+            <div class="icons-1 d-flex justify-content-end mt-2">
+                <div class="w-50 text-center"><i class="fa fa-bell-slash"></i></div>
+                <div class="w-50 text-center"><i class="fa fa-bed"></i></div>
+            </div>  
+            <div class="icons-2 d-flex justify-content-end mt-3">
+                <div class="w-50 text-center"><i class="fas fa-wifi lock-on"></i> </div>
+                <div class="w-50 text-center"><i class="fa {{item.css_charge}} fa-rotate-270 pb-2 text-center"></i><br />
+                    <span class="bat-percentage">{{item.charge}}%</span>
+                </div>  
+
+            </div>
+        </div>
+    </div>
+

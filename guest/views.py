@@ -146,23 +146,25 @@ def guest_save_room(request):
     try:
         err = ""
         guest = get_or_none(Guest, request.GET["obj_id"]) 
+        if guest == None:
+            return render(request, "error_exception.html", {'exc': _('Guest not found!')})
+
         value = request.GET["value"]
         guest.room = value
         guest.save()
-        lock = webmod.Lock.objects.filter(room = value, project_uuid = guest.project_id).first()
-        if lock != None and guest != None:
-            code_id = lock.set_code(guest.mobile[-4:], guest.check_in, guest.check_out)
-            if not "Error" in str(code_id):
-                key = Key.objects.create(lock = lock, guest = guest, code = guest.mobile[-4:], code_id = code_id)
-            else:
-                err = code_id
-            #key, created = Key.objects.get_or_create(lock = lock, guest = guest, code = guest.mobile[-4:], code_id = code_id)
+        lock_list = webmod.Lock.objects.filter(room = value, project_uuid = guest.project_id)
+        if len(lock_list) > 0:
+            for lock in lock_list:
+                code_id = lock.set_code(guest.mobile[-4:], guest.check_in, guest.check_out)
+                if not "Error" in str(code_id):
+                    key = Key.objects.create(lock = lock, guest = guest, code = guest.mobile[-4:], code_id = code_id)
+                else:
+                    err = code_id
         else:
             for key in guest.keys.all():
                 errcode = key.lock.remove_code(key.code_id)
                 if errcode == 0:
                     key.delete()
- 
             #guest.keys.all().delete()
         return render(request, "guest/keys/guest-keys.html", {'obj': guest, "err": err})
     except Exception as e:
@@ -505,6 +507,19 @@ def key_remove(request):
         if errcode == 0:
             key.delete()
             return HttpResponse("")
+        return render(request, "guest/keys/guest-key-details.html", {"item": key})
+    except Exception as e:
+        return render(request, "error_exception.html", {'exc':show_exc(e)})
+
+@group_required("admins", "projects")
+def key_add_card(request):
+    try:
+        key = get_or_none(Key, request.POST["key"])
+        code = request.POST["code"]
+
+        key.lock.add_card(code, key.guest.check_in, key.guest.check_out)
+        key.card_id = code
+        key.save()
         return render(request, "guest/keys/guest-key-details.html", {"item": key})
     except Exception as e:
         return render(request, "error_exception.html", {'exc':show_exc(e)})

@@ -2,6 +2,7 @@ from django.apps import apps
 from django.db.models import Max
 from django.contrib.auth.models import User
 from PIL import Image
+from datetime import datetime
 from .models import AnswerInstance, Form, FormInstance, FormInstanceLog, GuestUser
 
 import qrcode, io
@@ -91,6 +92,18 @@ def generate_qr(data, logo, color, color_back):
     byteArr = byteIO.getvalue()
 
     return byteArr
+
+def check_timetable(form):
+    timetables = form.timetables.all()
+    if len(timetables) == 0:
+        return True
+    now = datetime.now()
+    for tt in timetables:
+        if tt.check_day(now.weekday()) and tt.check_time((now.hour * 60) + now.minute):
+            return True
+        #if (not tt.check_day(now.weekday())) or (tt.check_day(now.weekday()) and not tt.check_time((now.hour * 60) + now.minute)):
+        #    return tt.desc
+    return False
 
 '''
     Common Functions

@@ -6,22 +6,30 @@
     {% if back %}{% include "bookings/back-btn.html" with uuid=category.parent.uuid %}{% endif %}
 {% endif %}
 
+{% if not form|check_timetable %} 
+    <div class="alert alert-warning text-center">{% trans "Service not available in this moment, sorry for the inconvenience!" %}</div> 
+    {#<script> showAlert("{{form|check_timetable|safe}}", "{% trans "Close" %}"); </script>#}
+    <script> showAlert("Service not available in this moment, sorry for the inconvenience!", "{% trans "Close" %}"); </script>
+{% endif %}
+
 {% if form.show_desc %} <div class="col-12 card info-panel p-4">{% padword_translate form.desc %}</div> {% endif %}
 
 <div class="card slider-cart">
     {% include "bookings/ecom/shopping_cart_list.html" %}
 
-    <div class="col-12">
-        <div class="row mt-4 mb-4 d-flex justify-content-center">
-            <div class="col-lg-3 col-md-4 col-xs-2 offset-xs-1 actions text-center mb-3">
-                <button class="btn btn-marine ark w-100" data-url="{% url 'view-shopping-cart' %}" data-target-modal="common-modal" 
-                    data-project_uuid="{{fi.form.project.uuid}}" data-form_id="{{fi.pk}}"> {% trans 'View Shopping Cart' %}</button>
-            </div>
-            <div class="col-lg-3 offset-lg-1 col-md-4 offset-md-1 col-xs-2 offset-xs-1 actions text-center">
-                <button class="btn btn-marine w-100 ark" data-url="{% url "booking-remove" %}"
-                    data-target="main" data-obj_id="{{fi.id}}"> {% trans "Cancel Order" %}</button>
+    {% if form|check_timetable %}
+        <div class="col-12">
+            <div class="row mt-4 mb-4 d-flex justify-content-center">
+                <div class="col-lg-3 col-md-4 col-xs-2 offset-xs-1 actions text-center mb-3">
+                    <button class="btn btn-marine ark w-100" data-url="{% url 'view-shopping-cart' %}" data-target-modal="common-modal" 
+                        data-project_uuid="{{fi.form.project.uuid}}" data-form_id="{{fi.pk}}"> {% trans 'View Shopping Cart' %}</button>
+                </div>
+                <div class="col-lg-3 offset-lg-1 col-md-4 offset-md-1 col-xs-2 offset-xs-1 actions text-center">
+                    <button class="btn btn-marine w-100 ark" data-url="{% url "booking-remove" %}"
+                        data-target="main" data-obj_id="{{fi.id}}"> {% trans "Cancel Order" %}</button>
+                </div>
             </div>
         </div>
-    </div>
+    {% endif %}
 </div>
 

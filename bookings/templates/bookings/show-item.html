@@ -20,7 +20,7 @@
             {% if not item.description|is_empty:request.LANGUAGE_CODE %}{% include "bookings/show-item-btn.html" %}{% endif %}
         </div>
 
-        {% if show_footer %}
+        {% if show_footer and fi.form|check_timetable %}
             <div class="row card-footer footer-new">
                 <div class="col-3 d-flex justify-content-start">
                     <a class="p-2 btn btn-sm ark" data-url="{% url 'remove-generic-item-shopping-cart' %}" 

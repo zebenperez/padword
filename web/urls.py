@@ -1,7 +1,7 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 from django.urls import path
-from . import views, auto_views
+from . import views, auto_views, room_views, card_views
 
 urlpatterns = [ 
     #path('index/<slug:chk>/', views.index, name='web-index-new'),
@@ -42,6 +42,18 @@ urlpatterns = [
     path('locks/form/', views.lock_form, name='lock-form'),
     path('locks/remove/', views.lock_remove, name='lock-remove'),
     path('locks/get-all-passcodes/', views.lock_get_all_passcodes, name='lock-get-all-passcodes'),
+    path('locks/get-cards/', views.lock_get_cards, name='lock-get-cards'),
+    #--------------------- Rooms --------------------
+    path('rooms/', room_views.rooms, name='rooms'),
+    path('rooms/search/', room_views.room_search, name='room-search'),
+    path('rooms/floors/', room_views.room_floors, name='room-floors'),
+    path('rooms/form/', room_views.room_form, name='room-form'),
+    path('rooms/remove/', room_views.room_remove, name='room-remove'),
+    #--------------------- KeyCard --------------------
+    path('keycards/', card_views.keycards, name='keycards'),
+    path('keycards/search/', card_views.keycard_search, name='keycard-search'),
+    path('keycards/form/', card_views.keycard_form, name='keycard-form'),
+    path('keycards/remove/', card_views.keycard_remove, name='keycard-remove'),
 
     #---------------------- E-Keys ---------------------
     #path('ekeys/', views.ekeys, name='ekeys'),

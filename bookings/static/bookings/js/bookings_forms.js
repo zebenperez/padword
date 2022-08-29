@@ -116,7 +116,6 @@ function openFullScreen() {
     }
 }
 
-
 $(document).ready(()=>{
     $("body").on("change", ".autosave_form_field", function(e){
         var obj = $(this);

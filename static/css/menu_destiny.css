@@ -134,10 +134,8 @@ a.btn.btn-header-pwa.ark {
 }
 
 .img-carousel img.object-fit_cover-gallery {
-  /*  width: 1024px !important;*/
     object-fit: cover !important;
     height: 275px !important;
-/*    border:1px solid red !important;*/
 }
 
 .carousel-control-next, .carousel-control-prev {
@@ -173,13 +171,23 @@ a.btn.btn-header-pwa.ark {
 
 div#cover.image {
     text-align: center;
-    /*background: white !important;*/
     background: #f8fcff !important;
 }
 
 #cover img {
     /*height: 375px;*/
 }
+
+#cover.img-new {
+    /*height: 375px;*/
+}
+
+img.object-fit_cover.img-new {
+    height: 280px !important;
+    width: 100%;
+    object-fit: cover;
+}
+
 
 .color-brown {
     color: #7F6C5A !important;
@@ -446,6 +454,37 @@ ul.dropdown-menu {
     background-color: #CD8E75 !important;
     color: #ffffff !important;
 }
+
+.box-new {
+    height: auto !important;
+}
+
+.row.cart-list {
+    margin-left:-25px !important;
+    margin-right:-25px !important;
+}
+
+
+h5.card-title.text-dark.text-center.title-new {
+    font-size: 0.8rem;
+    height: 45px !important;
+    display: flex;
+    align-items: start;
+    justify-content: center;
+}
+
+.price-new {
+    bottom: 105px !important;
+}
+
+.info-new {
+    bottom: 60px !important;
+
+}
+
+.footer-new {
+}
+
 
 /*****************************/
 /* devices style*/

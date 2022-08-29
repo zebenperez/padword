@@ -59,12 +59,12 @@
 
                     <div class="text-center pt-2"><div class="pt-2"><a href="#"><i class="far fa-envelope"></i></a></div></div>
 
-                    <div class="text-center pt-2">
-                        <div class="">
+                    <div class="text-center pt-3">
+                        <div class="pt-1">
                             <a data-bs-toggle="collapse" class="dropdown-toggle" href="#collapseProfile" role="button" 
                                 aria-expanded="false" aria-controls="collapseProfile">
                                 {#<img class="w-2r bdrs-50p" src="https://randomuser.me/api/portraits/men/10.jpg" alt="">#}
-                                <img class="w-2r bdrs-50p" src="{% get_user_img request.user %}" alt="user image">
+                                {#<img class="w-2r bdrs-50p" src="{% get_user_img request.user %}" alt="user image">#}
                             </a>	
                             <div class="collapse" id="collapseProfile">
                                 <div class="user-dropdown card card-body">
@@ -82,7 +82,7 @@
             {% endif %}
             <main id="main-content">
                 <aside id="sidebar" class="bg-light closed"> <div id="side_menu"> {% get_main_menu request.user %} </div> </aside>
-                <section id="content-section" class="mt-3 ml-3"> {% block central_content %}{% endblock central_content %} </section>
+                <section id="content-section" class="ml-3"> {% block central_content %}{% endblock central_content %} </section>
             </main>
 
             <div class="row">

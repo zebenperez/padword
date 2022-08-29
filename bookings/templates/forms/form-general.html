@@ -104,6 +104,12 @@
                     <div class="collapse" id="collapseEmails"> <div id="div-emails-{{obj.id}}">
                         {% show_emails obj %}</div> </div>
                 </div>
+                <div class="col-12">
+                    <a data-bs-toggle="collapse" href="#collapseTimetable" role="button" aria-expanded="false" aria-controls="collapseTimetable">
+                        {% trans "Timetable" %} </a>
+                    <div class="collapse" id="collapseTimetable"> <div id="div-timetable-{{obj.id}}">
+                        {% show_timetable obj %}</div> </div>
+                </div>
             </div>
         </div>
     </div>

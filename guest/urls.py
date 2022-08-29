@@ -49,6 +49,8 @@ urlpatterns = [
     path('guests/key-open/', views.key_open, name="guest-key-open"),
     path('guests/key-change-code/', views.key_change_code, name="guest-key-change-code"),
     path('guests/key-remove/', views.key_remove, name="guest-key-remove"),
+
+    path('guests/key-add-card/', views.key_add_card, name="guest-key-add-card"),
     #path('guests/keys/', views.keys, name="guest-keys"),
     #path('guests/key/assign/', views.key_assign, name="guest-assign-key"),
     #path('guests/key/remove/', views.key_remove, name="guest-remove-key"),

@@ -1,5 +1,38 @@
 {% load i18n %}
 
+{% comment %}  --- New Style ---  {% endcomment %}
+
+<div class="d-flex menu-actions-blue">
+    <div class="flex-grow-1 p-2"><span class="bg-ico-bar"><i class="fas fa-lock"></i></span>&nbsp; Vista general</div>
+    <div class="action p-2"><a href="#"><i class="fas fa-credit-card"></i> Add card</a></div>
+    <div class="action p-2"><a href="#"><i class="fas fa-key"></i> Open lock</a></div>
+    <div class="action p-2"><a href="#"><i class="fas fa-edit"></i> Change lock code</a></div>
+    <div class="action p-1">
+        <select name="" id="">
+            <option value="option0">Seleccione</option>
+            <option value="option1">Option 1</option>
+            <option value="option2">Option 2</option>
+            <option value="option3">Option 3</option>
+        </select>
+    </div>
+</div>
+
+<div class="d-flex flex-row comp-name-bar mt-2 mb-1"><i class="fas fa-home"></i> Hotel de ejemplo</div>
+
+<div class="div-locks-content">
+    <div class="locks-head">Planta 1</div>
+    <div class="locks-group d-flex flex-wrap p-2">
+        {% for item in items %}
+            {% include "web/locks/lock-card.html" with item=item %}
+        {%endfor%}
+    </div>
+</div>
+
+<br />
+
+{% comment %}  --- New Style ---  {% endcomment %}
+
+{%comment%}
 <table class="table table-striped table-hover">
     <thead>
         <tr class="small small">
@@ -14,23 +47,24 @@
     </thead>
     <tbody>
         {% for item in items %}
-            <tr class="small" id="row_{{item.id}}">
-                <td>{{ item.uuid }}</td>
-                <td>{{ item.alias }}</td>
-                <td>{{ item.project.name }}</td>
-                <td>{{ item.room }}</td>
-                <td>{{ item.state }}</td>
-                <td>{{ item.charge }} %</td>
-                <td class="d-flex justify-content-end">
-                    <a class="me-1 btn btn-xs ark" data-url="{% url "lock-get-all-passcodes" %}" data-target-modal="common-modal" 
-                        data-obj_id="{{item.id}}"><i class="fas fa-code"></i></a>  
-                    <a class="me-1 btn btn-xs ark" data-url="{% url "lock-form" %}" data-target-modal="common-modal" 
-                        data-obj_id="{{item.id}}"><i class="fas fa-edit"></i></a>  
-                    <a class="btn btn-sm autoremove" data-model-name="web.lock" data-obj-id="{{item.id}}" data-url="{% url "autoremove_obj" %}" 
-                        data-target="row_{{item.id}}" data-confirm="{%trans "Are you sure to remove this element?"%}"><i class="fas fa-trash"></i></a>
-                </td>
-            </tr>
+        <tr class="small" id="row_{{item.id}}">
+            <td>{{ item.uuid }}</td>
+            <td>{{ item.alias }}</td>
+            <td>{{ item.project.name }}</td>
+            <td>{{ item.room }}</td>
+            <td>{{ item.state }}</td>
+            <td>{{ item.charge }} %</td>
+            <td class="d-flex justify-content-end">
+                <a class="me-1 btn btn-xs ark" data-url="{% url "lock-get-all-passcodes" %}" data-target-modal="common-modal" 
+                    data-obj_id="{{item.id}}"><i class="fas fa-code"></i></a>  
+                <a class="me-1 btn btn-xs ark" data-url="{% url "lock-form" %}" data-target-modal="common-modal" 
+                    data-obj_id="{{item.id}}"><i class="fas fa-edit"></i></a>  
+                <a class="btn btn-sm autoremove" data-model-name="web.lock" data-obj-id="{{item.id}}" data-url="{% url "autoremove_obj" %}" 
+                    data-target="row_{{item.id}}" data-confirm="{%trans "Are you sure to remove this element?"%}"><i class="fas fa-trash"></i></a>
+            </td>
+        </tr>
         {% endfor %}
     </tbody>
 </table>
+{%endcomment%}
 <script>$('#items-counter').html('{{items|length}}');</script>

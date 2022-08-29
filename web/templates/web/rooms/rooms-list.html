@@ -1,0 +1,27 @@
+{% load i18n %}
+
+{% comment %}  --- New Style ---  {% endcomment %}
+
+<div class="d-flex menu-actions-blue">
+    <div class="flex-grow-1 p-2"><span class="bg-ico-bar"><i class="fas fa-home"></i></span>&nbsp; Floors in {{project.name}} ({{items|length}})</div>
+    <div class="action p-2">
+        <a class="btn btn-xs ark" data-url="{% url "room-form" %}" data-project="{{project.uuid}}" data-target-modal="common-modal" 
+                                  title="{% trans 'Add room' %}"><i class="fas fa-bed"></i> {% trans 'Add room' %}</a>  
+    </div>
+</div>
+
+{% for floor in items %}
+<div class="div-rooms-content">
+    <div class="locks-head">{{ floor.alias }} ({{floor.childrens.count}})</div>
+    <div class="locks-group d-flex flex-wrap p-2">
+        {% for room in floor.childrens.all %}
+        {% include "web/rooms/room-card.html" with item=room %}
+        {%endfor%}
+        {% if floor.childrens|length == 0 %}
+        {% include "web/rooms/room-card.html" with item=floor %}
+        {% endif %}
+    </div>
+</div>
+{% endfor %}
+
+<script>$('#items-counter').html('{{items|length}}');</script>

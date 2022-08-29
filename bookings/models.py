@@ -115,6 +115,7 @@ class Form(models.Model):
     qr = models.ImageField(upload_to=upload_form_qr, blank=True, verbose_name="QR", help_text="Select file to upload")
     desc = models.TextField(verbose_name=_("Description"), default="", blank=True)
     desc_width = models.CharField(max_length=10, verbose_name=_("Description Width"), default="100", blank=True)
+    desc_out_of_order = models.TextField(verbose_name=_("Description out of order"), default="", blank=True)
 
     form_type = models.ForeignKey(FormType, on_delete=models.CASCADE, verbose_name=_("Form type"), blank=True, null=True)
     #blocks = models.ManyToManyField(Block, blank=True, verbose_name=_("Questions blocks"))
@@ -238,6 +239,40 @@ class FormEmailText(models.Model):
     body_new = models.TextField(verbose_name=_("Body New"), default="", blank=True)
     body_change = models.TextField(verbose_name=_("Body Change"), default="", blank=True)
     form = models.ForeignKey(Form, on_delete=models.CASCADE, verbose_name=_("Form"), blank=True, null=True, related_name="email_texts")
+
+class FormTimetable(models.Model):
+    monday = models.BooleanField(verbose_name=_("Monday"), default=False)
+    tuesday = models.BooleanField(verbose_name=_("Tuesday"), default=False)
+    wednesday = models.BooleanField(verbose_name=_("Wednesday"), default=False)
+    thursday = models.BooleanField(verbose_name=_("Thursday"), default=False)
+    friday = models.BooleanField(verbose_name=_("Friday"), default=False)
+    saturday = models.BooleanField(verbose_name=_("Saturday"), default=False)
+    sunday = models.BooleanField(verbose_name=_("Sunday"), default=False)
+    ini_time = models.TimeField(_("Initial Time"), blank=True, default=datetime.time(00, 00))
+    end_time = models.TimeField(_("End Time"), blank=True, default=datetime.time(00, 00))
+    form = models.ForeignKey(Form, on_delete=models.CASCADE, verbose_name=_("Form"), blank=True, null=True, related_name="timetables")
+
+    def check_day(self, day):
+        if day == 0 and self.monday:
+            return True
+        elif day == 1 and self.tuesday:
+            return True
+        elif day == 2 and self.wednesday:
+            return True
+        elif day == 3 and self.thursday:
+            return True
+        elif day == 4 and self.friday:
+            return True
+        elif day == 5 and self.saturday:
+            return True
+        elif day == 6 and self.sunday:
+            return True
+        return False
+
+    def check_time(self, time):
+        ini_time = (self.ini_time.hour * 60) + self.ini_time.minute
+        end_time = (self.end_time.hour * 60) + self.end_time.minute
+        return (ini_time <= time and end_time >= time)
 
 class FormInstance(models.Model):
     code = models.CharField(verbose_name=_("Code"), max_length=20, default="")
