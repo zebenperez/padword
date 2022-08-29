@@ -285,6 +285,13 @@ def get_user_img(user):
 def items_per_page():
     return get_items_per_page()
 
+@register.simple_tag
+def get_category_url(cat_uuid):
+    cat = Category.objects.filter(uuid=cat_uuid).first()
+    if cat != None:
+        return cat.url
+    return ""
+
 '''
     Filters
 '''
