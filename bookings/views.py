@@ -127,6 +127,14 @@ def filter_search_status(items, status):
             item_list.append(item)
     return item_list
 
+def filter_search_project_status(items, project_uuid, status):
+    item_list = []
+    for item in items:
+        if (item.form.get_category.project_uuid == project_uuid):
+            if (item.get_status != None and status != "" and item.get_status.status.id == int(status)) or (status == "" and item.get_status != None):
+                item_list.append(item)
+    return item_list
+
 def search(user, project_uuid, project, form_uuid, form, ini_date, end_date, name, status):
     uuid_project_list = get_uuid_project_list(user, project, project_uuid)
     kwargs = {'form_uuid__in': filter_search_form_uuid(form, form_uuid, uuid_project_list)}
@@ -139,7 +147,10 @@ def search(user, project_uuid, project, form_uuid, form, ini_date, end_date, nam
         kwargs["guest_uuid__in"] = filter_search_guest(name, uuid_project_list)
 
     items = FormInstance.objects.filter(**kwargs)
-    items = filter_search_status(items, status)
+    if project_uuid != "":
+        items = filter_search_project_status(items, project_uuid, status)
+    else:
+        items = filter_search_status(items, status)
 
     return items
 
