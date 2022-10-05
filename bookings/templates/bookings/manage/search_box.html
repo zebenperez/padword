@@ -17,29 +17,29 @@
         <div class="col-md-3 col-6">
             <input type="text" class="autosearch form-control form-control-dark w-30" name="s-project" id="s-project" 
                 placeholder="{% trans "Project name" %}" value="{{project_name}}" data-url="{% url "bookings-search" %}" data-target="booking-list" 
-                data-related="s-page,s-project,s-form,s-ini_date,s-end_date,s-name,s-status" 
+                data-related="s-page,s-project,s-form,s-ini_date,s-end_date,s-name,s-status,s-project_uuid" 
                 {%if request.project_id or request.category_id%}disabled{%endif%}/>
         </div>
         <div class="col-md-3 col-6">
             <input type="text" class="autosearch form-control form-control-dark w-30" name="s-form" id="s-form" 
                 placeholder="{% trans "Service name" %}" value="{% padword_translate form_name %}" data-url="{% url "bookings-search" %}" 
-                data-target="booking-list" data-related="s-page,s-project,s-form,s-ini_date,s-end_date,s-name,s-status"
+                data-target="booking-list" data-related="s-page,s-project,s-form,s-ini_date,s-end_date,s-name,s-status,s-project_uuid"
                 {%if request.category_id %}disabled{%endif%}/>
         </div>
         <div class="col-md-2 col-xs-12">
             <input type="text" class="autosearch form-control form-control-dark w-30" name="s-name" id="s-name" 
                 placeholder="{% trans "Guest Name, Surname, Email, Phone, Room" %}" data-url="{% url "bookings-search" %}" data-target="booking-list" 
-                data-related="s-page,s-project,s-form,s-ini_date,s-end_date,s-name,s-status" />
+                data-related="s-page,s-project,s-form,s-ini_date,s-end_date,s-name,s-status,s-project_uuid" />
         </div>
         <div class="col-md-2 col-6">
             <input type="date" class="autosearch_change form-control form-control-dark w-30" name="s-ini_date" id="s-ini_date" 
                 placeholder="{% trans "Initial date" %}" value="{{ini_date|date:'Y-m-d'}}" data-url="{% url "bookings-search" %}" 
-                data-target="booking-list" data-related="s-page,s-project,s-form,s-ini_date,s-end_date,s-name,s-status" />
+                data-target="booking-list" data-related="s-page,s-project,s-form,s-ini_date,s-end_date,s-name,s-status,s-project_uuid" />
         </div>
         <div class="col-md-2 col-6">
             <input type="date" class="autosearch_change form-control form-control-dark w-30" name="s-end_date" id="s-end_date" 
                 placeholder="{% trans "End date" %}" value="{{end_date|date:'Y-m-d'}}" data-url="{% url "bookings-search" %}" 
-                data-target="booking-list" data-related="s-page,s-project,s-form,s-ini_date,s-end_date,s-name,s-status" />
+                data-target="booking-list" data-related="s-page,s-project,s-form,s-ini_date,s-end_date,s-name,s-status,s-project_uuid" />
         </div>
     </div>
 
