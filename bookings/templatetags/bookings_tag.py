@@ -16,6 +16,10 @@ def get_indexes(q, fi):
 def check_timetable(form):
     return ch_timetable(form)
 
+@register.filter
+def get_cat_uuid(form, name):
+    return form.get_category_uuid_by_code(name)
+
 '''
 	Simple tag
 '''

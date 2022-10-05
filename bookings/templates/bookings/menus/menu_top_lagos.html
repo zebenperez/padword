@@ -34,31 +34,41 @@
                     </li>
  
                     <li>
-                        <button class="menu-options ark close-menu" data-url="{% url "show-category-menu" %}" data-target="main"
-                            data-project_uuid="{{project_uuid}}" data-cat_id="ccf3f873-395b-2759-ff18-74b141bc922a" data-hide="menu-box">
-                            <i class="fas fa-hotel"></i> {% padword_translate_obj 'ccf3f873-395b-2759-ff18-74b141bc922a'%}</button>
+                        {% with cat_uuid=form|get_cat_uuid:"info_hotel" %}
+                            <button class="menu-options ark close-menu" data-url="{% url "show-category-menu" %}" data-target="main"
+                                data-project_uuid="{{project_uuid}}" data-cat_id="{{cat_uuid}}" data-hide="menu-box">
+                                <i class="fas fa-hotel"></i> {% padword_translate_obj cat_uuid %}</button>
+                        {% endwith %}
                     </li>
 
                     <li>
-                        <button class="menu-options ark" data-url="{% url "show-category-menu" %}" data-target="main"
-                            data-project_uuid="{{project_uuid}}" data-cat_id="726d79a4-1147-f7e2-36e3-8f15c60f34aa" data-hide="menu-box">
-                            <i class="fas fa-arrow-circle-up"></i> {% padword_translate_obj '726d79a4-1147-f7e2-36e3-8f15c60f34aa'%}</button>
+                        {% with cat_uuid=form|get_cat_uuid:"upgrade" %}
+                            <button class="menu-options ark" data-url="{% url "show-category-menu" %}" data-target="main"
+                                data-project_uuid="{{project_uuid}}" data-cat_id="{{cat_uuid}}" data-hide="menu-box">
+                                <i class="fas fa-arrow-circle-up"></i> {% padword_translate_obj cat_uuid %}</button>
+                        {% endwith %}
                     </li>
                      <li>
-                        <button class="menu-options ark" data-url="{% url "show-category-menu" %}" data-target="main"
-                            data-project_uuid="{{project_uuid}}" data-cat_id="2c7b8895-cf8c-56c7-f97d-b2d45d4be50e" data-hide="menu-box">
-                            <i class="fas fa-map-signs"></i> {% padword_translate_obj '2c7b8895-cf8c-56c7-f97d-b2d45d4be50e'%}</button>
+                        {% with cat_uuid=form|get_cat_uuid:"alrededor" %}
+                            <button class="menu-options ark" data-url="{% url "show-category-menu" %}" data-target="main"
+                                data-project_uuid="{{project_uuid}}" data-cat_id="{{cat_uuid}}" data-hide="menu-box">
+                                <i class="fas fa-map-signs"></i> {% padword_translate_obj cat_uuid %}</button>
+                        {% endwith %}
                     </li>
 
                     <li>
-                        <button class="menu-options ark" data-url="{% url "show-category-menu" %}" data-target="main"
-                            data-project_uuid="{{project_uuid}}" data-cat_id="d6f8be57-6b2c-07d0-1219-59f60df43c84" data-hide="menu-box">
-                            <i class="fas fa-wifi"></i> {% padword_translate_obj 'd6f8be57-6b2c-07d0-1219-59f60df43c84'%}</button>
+                        {% with cat_uuid=form|get_cat_uuid:"wifi" %}
+                            <button class="menu-options ark" data-url="{% url "show-category-menu" %}" data-target="main"
+                                data-project_uuid="{{project_uuid}}" data-cat_id="{{cat_uuid}}" data-hide="menu-box">
+                                <i class="fas fa-wifi"></i> {% padword_translate_obj cat_uuid %}</button>
+                        {% endwith %}
                     </li>
-
-                    <li>
-                        <button class="menu-options" onclick="window.location='{% get_category_url "c8ff3e16-d834-5234-90ec-759f75897415" %}'">
-                            <i class="fas fa-map-marked-alt"></i> {% padword_translate_obj 'c8ff3e16-d834-5234-90ec-759f75897415'%}</button>
+                     <li>
+                        {% with cat_uuid=form|get_cat_uuid:"info_util" %}
+                            <button class="menu-options ark" data-url="{% url "show-category-menu" %}" data-target="main"
+                                data-project_uuid="{{project_uuid}}" data-cat_id="{{info_util}}" data-hide="menu-box">
+                                <i class="fas fa-info-circle"></i> {% padword_translate_obj info_util %}</button>
+                        {% endwith %}
                     </li>
 
                     <li>

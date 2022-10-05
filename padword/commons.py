@@ -78,6 +78,12 @@ def get_bool(val):
     except:
         return False
 
+def get_int(val):
+    try:
+        return int(val)
+    except:
+        return 0
+
 def translate(request, json_str):
     try:
         lang = request.GET['lang'] if 'lang' in request.GET else request.LANGUAGE_CODE
@@ -131,4 +137,10 @@ def reverse_cardkey(cardReader_value):
         return (int(reverse_hex, 16))
     except:
         return (0)
+
+def set_session(request, key, default=""):
+    request.session[key] = request.GET[key] if key in request.GET else default
+
+def get_random_str(n):
+    return ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(n))
 

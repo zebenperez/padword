@@ -1,7 +1,7 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 from django.urls import path
-from . import views, auto_views, room_views, card_views
+from . import views, auto_views, room_views, card_views, lock_views, lock_user_views, lock_group_views
 
 urlpatterns = [ 
     #path('index/<slug:chk>/', views.index, name='web-index-new'),
@@ -15,6 +15,7 @@ urlpatterns = [
     path('projects/form/', views.project_form, name='project-form'),
     path('projects/remove/', views.project_remove, name='project-remove'),
     path('projects/upload-json/', views.project_upload_json, name='project-upload-json'),
+    path('projects/user-token/', views.project_user_token, name='project-user-token'),
     #--------------------- Channels --------------------
     path('channels/project-<slug:project_id>/', views.channels, name='channels-by-project'),
     path('channels/company-<slug:company_id>/', views.channels, name='channels-by-company'),
@@ -37,18 +38,50 @@ urlpatterns = [
     path('devices/assign/', views.device_assign, name='device-assign'),
     path('devices/remove/', views.device_remove, name='device-remove'),
     #--------------------- Locks --------------------
-    path('locks/', views.locks, name='locks'),
-    path('locks/search/', views.lock_search, name='lock-search'),
-    path('locks/form/', views.lock_form, name='lock-form'),
-    path('locks/remove/', views.lock_remove, name='lock-remove'),
-    path('locks/get-all-passcodes/', views.lock_get_all_passcodes, name='lock-get-all-passcodes'),
-    path('locks/get-cards/', views.lock_get_cards, name='lock-get-cards'),
+    #path('locks/', lock_views.locks, name='locks'),
+    path('locks-by-project/<int:project_id>/', lock_views.locks_by_project, name='locks-by-project'),
+    path('locks/search/', lock_views.lock_search, name='lock-search'),
+    path('locks/form/', lock_views.lock_form, name='lock-form'),
+    path('locks/remove/', lock_views.lock_remove, name='lock-remove'),
+    path('locks/get-all-passcodes/', lock_views.lock_get_all_passcodes, name='lock-get-all-passcodes'),
+    path('locks/remove/code/', lock_views.lock_remove_code, name='lock-remove-code'),
+    path('locks/get-all-cards/', lock_views.lock_get_all_cards, name='lock-get-all-cards'),
+    path('locks/remove/card/', lock_views.lock_remove_card, name='lock-remove-card'),
+    path('locks/set-action/', lock_views.lock_set_action, name='lock-set-action'),
+    #--------------------- LocksUsers --------------------
+    path('locks-users/', lock_user_views.locks_users, name='locks-users'),
+    path('locks-users/search/', lock_user_views.lock_user_search, name='lock-user-search'),
+    path('locks-users/form/', lock_user_views.lock_user_form, name='lock-user-form'),
+    path('locks-users/set-password/', lock_user_views.lock_user_set_password, name='lock-user-set-password'),
+    path('locks-users/register/', lock_user_views.lock_user_register, name='lock-user-register'),
+    path('locks-users/remove/', lock_user_views.lock_user_remove, name='lock-user-remove'),
+    path('locks-users/remove-by-username/', lock_user_views.lock_user_remove_by_username, name='lock-user-remove-by-username'),
+    #--------------------- LocksGroups --------------------
+    #path('locks-groups/', lock_group_views.locks_groups, name='locks-groups'),
+    path('locks-groups-by-project/<int:project_id>/', lock_group_views.locks_groups_by_project, name='locks-groups-by-project'),
+    path('locks-groups/search/', lock_group_views.lock_group_search, name='lock-group-search'),
+    path('locks-groups/form/', lock_group_views.lock_group_form, name='lock-group-form'),
+    path('locks-groups/save/', lock_group_views.lock_group_save, name='lock-group-save'),
+    path('locks-groups/remove/', lock_group_views.lock_group_remove, name='lock-group-remove'),
+    path('locks-groups/remove-by-id/', lock_group_views.lock_group_remove_by_id, name='lock-group-remove-by-id'),
     #--------------------- Rooms --------------------
     path('rooms/', room_views.rooms, name='rooms'),
-    path('rooms/search/', room_views.room_search, name='room-search'),
-    path('rooms/floors/', room_views.room_floors, name='room-floors'),
+    #path('rooms/search/', room_views.room_search, name='room-search'),
+    #path('rooms/floors/', room_views.room_floors, name='room-floors'),
+    path('rooms/list/', room_views.room_list, name='room-list'),
     path('rooms/form/', room_views.room_form, name='room-form'),
     path('rooms/remove/', room_views.room_remove, name='room-remove'),
+    path('rooms/by-project/', room_views.rooms_by_project, name='rooms-by-project'),
+    path('rooms/lock-details/', room_views.room_lock_details, name='room-lock-details'),
+    path('rooms/lock-list/', room_views.room_lock_list, name='room-lock-list'),
+    #path('rooms/lock-add/', room_views.room_lock_add, name='room-lock-add'),
+    path('rooms/lock-add-card/', room_views.room_lock_add_card, name='room-lock-add-card'),
+    path('rooms/lock-remove-card/', room_views.room_lock_remove_card, name='room-lock-remove-card'),
+    path('rooms/lock-add-code/', room_views.room_lock_add_code, name='room-lock-add-code'),
+    path('rooms/lock-remove-code/', room_views.room_lock_remove_code, name='room-lock-remove-code'),
+    path('rooms/lock-add-ekey/', room_views.room_lock_add_ekey, name='room-lock-add-ekey'),
+    path('rooms/lock-remove-ekey/', room_views.room_lock_remove_ekey, name='room-lock-remove-ekey'),
+    path('ekey-url/<slug:token>//', room_views.ekey_url, name='ekey-url'),
     #--------------------- KeyCard --------------------
     path('keycards/', card_views.keycards, name='keycards'),
     path('keycards/search/', card_views.keycard_search, name='keycard-search'),

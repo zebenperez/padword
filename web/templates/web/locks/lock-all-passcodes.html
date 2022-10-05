@@ -3,18 +3,35 @@
 
 <h2 class="common-modal-head">{% trans 'Passcode list' %}</h2>
 
-<div class="row justify-center"> 
-    <div class="col-2"> {% trans "Code" %} </div>
-    <div class="col-2"> {% trans "Start date" %} </div>
-    <div class="col-2"> {% trans "End date" %} </div>
-</div>
-{% for item in obj.get_all_passcodes %}
-    <div class="row justify-center"> 
-        <div class="col-2"> {{item.keyboardPwd}} </div> 
-        <div class="col-2"> {{item.startDate|str_to_date}} </div> 
-        <div class="col-2"> {{item.endDate|str_to_date}} </div> 
-    </div>
-{% endfor %}
+<table class="table table-hover table-striped">
+    <thead>
+        <tr> 
+            <th>{%trans 'Code'%}</th> 
+            <th>{%trans 'Start Date'%}</th> 
+            <th>{%trans 'End Date'%}</th> 
+            <th>{%trans 'Guest'%}</th> 
+            <th>{%trans 'Type'%}</th> 
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for item in obj.get_all_passcodes %}
+            <tr id="tr-{{item.id}}">
+                <td> {{item.keyboardPwd}} </td> 
+                <td> {{item.startDate|str_to_date}} </td> 
+                <td> {{item.endDate|str_to_date}} </td> 
+                <td> {{obj|get_code_guest:item.keyboardPwd}} </td> 
+                {#<td> {{item.keyboardPwdType}} </td> #}
+                <td> {{item.keyboardPwdType|get_code_type:item.endDate}} </td> 
+                <td class="text-end">
+                    <a class="btn btn-outline-warning ark w-100" title="{%trans "Remove code"%}" data-url="{% url "lock-remove-code" %}"
+                        data-obj_id="{{obj.id}}" data-code_id="{{item.keyboardPwdId}}" 
+                        data-confirm="{%trans "Are you sure to remove this element?"%}" data-target="tr-{{item.id}}">{%trans "Remove code"%} </a>
+                </td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
 
 <div class="d-flex justify-content-end p-2">
 	<button type="button" class="btn btn-primary ark m-2" data-bs-dismiss="modal"

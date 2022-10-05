@@ -1,0 +1,32 @@
+{% load i18n %}
+
+<div class="row manual-cod">
+    <div class="col-5 pt-2">{% trans "Card numbers" %}: </div>
+    <div class="col-7">
+        <a class="btn w-100 toggle-btn text-left" data-target="add_card__{{lock.id}}"
+            data-text='<img src="/static/img/add-card.png" width="18%">' 
+            data-text-alt='<img src="/static/img/quit.png" width="18%">'
+            data-set-focus="card-{{lock.id}}">
+            <img src="/static/img/add-card.png" width="18%" title="{% trans "Add card" %}"></a>
+    </div>
+</div>
+<div id="add_card__{{lock.id}}" style="display:none">
+    <div class="col-12 mt-1">
+        <input type="text" class="form-control ark_change add-code text-center p-2" name="code" id="card-{{lock.id}}" 
+            data-url="{% url "guest-key-add-card" %}" data-target="div-locks" data-guest_id="{{guest.id}}" 
+            placeholder="{% trans "Acerque la tarjeta al lector" %}" />
+    </div>
+</div>
+
+{% for key_card in key_card_list %}
+    <div class="row">
+        <div class="col-4 pt-2"><img src="/static/img/key-card.png" width="22%"></div>
+        <div class="col-6 pt-1"><strong>{{key_card.code}}</strong></div>
+        <div class="col-2">
+            <a class="btn ark w-100" title="{%trans "Remove card"%}" data-url="{% url "guest-key-remove-card" %}" 
+                data-obj_id="{{key_card.id}}" data-confirm="{%trans "Are you sure to remove this element?"%}" 
+                data-target="div-locks"><i class='fas fa-times-circle'></i></a>
+        </div>
+    </div>
+{% endfor %}
+

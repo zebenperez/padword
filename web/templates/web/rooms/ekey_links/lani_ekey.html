@@ -1,0 +1,44 @@
+{% extends "base_guest.html" %}
+{% load i18n static padword_tags %}
+
+
+{% block central_content %}
+
+    {%block extralinks%} <link rel="stylesheet" href="{% static 'css/menu_ascav.css' %}" > {% endblock %}
+
+    <div class="row topbar pt-1 pb-1" style="margin:0px;">
+        <div class="col-2 text-center pt-2"> </div>
+        <div class="col-8 text-center pt-2"> <img class="" src="/static/img/logo-padword.png"> </div>
+        <div class="col-2"> </div>
+    </div>
+
+    <div id="main" class="main-pwa pl-4 pr-4">
+        <div class="row div-slogan">
+            <div class="col-12 text-justify"><span>Padword</span><br/ >Soluciones digitales para comodidad de huéspedes y flexibilidad de negocios</div>
+            <div class="col-12 slogan-ascav">
+                <div class="text-center w-100"><img src="/static/img/ascav.png"></div>
+                <div class="text-left text w-100">Asociación Canaria del Alquiler Vacacional</div>
+        </div>
+         
+        <div class="row div-key pt-3">
+            <div class="col-12 text-center">
+                <a class="menu-options collapsible-header waves-effect btn-large pt-3" data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample"><img src="/static/img/keys-w.png"><span class="btn-name pt-2"> Llaves</span></a>
+                <div class="collapse" id="collapseExample">
+                    <div class="form-check form-switch">
+                        <input class="form-check-input ark_change" type="checkbox" role="switch" id="flexSwitchCheckDefault"
+                            data-url="{% url "open-lock" %}" data-target="div-notifications" data-obj_id="{{obj.uuid}}" onclick="setUncheck($(this))">
+                        <label class="form-check-label" for="flexSwitchCheckDefault">{{obj.alias}}</label>
+                        <div id="div-notifications"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        function setUncheck(obj)
+        {
+            if (obj.is(":checked"))
+                setTimeout(() => { obj.prop("checked", false); }, "5000");
+        }
+    </script>
+{% endblock %}

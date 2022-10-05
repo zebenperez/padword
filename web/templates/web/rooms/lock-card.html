@@ -1,0 +1,35 @@
+{% load i18n %}
+
+<div class="card">
+    <div class="card-header div-assigned-lock">
+        <div>Locks assigned</div>
+        {%comment%}
+        <div class="text-end"><a id="btn-add-lock" class="btn btn-outline-warning ark" data-url="{% url "room-lock-list" %}" 
+            data-target="lock-add-details" data-obj_id="{{obj.id}}" data-show="lock-add-details" data-hide="btn-add-lock"> 
+            {% trans "Add lock" %}</a></div>
+        {%endcomment%}
+    </div>
+
+    {#<div id="lock-add-details" style="display:none"></div>#}
+    <div class="row">
+    {% for lock in obj.get_locks.all %}
+        <div class="col-2">
+            <div class="card-container ark" data-url="{% url "room-lock-details" %}" data-target="lock-details" data-obj_id="{{lock.id}}"
+                onclick="$('.card-container').removeClass('current');$(this).addClass('current');">
+                <div class="row lock-box">
+                    <div class="alias text-center pt-1 pb-1">{{lock.alias}}</div>
+                    <div class="icons-2 d-flex justify-content-end mt-3">
+                        <div class="w-50 text-center"><i class="fas fa-wifi lock-on"></i> </div>
+                        <div class="w-50 text-center"><i class="fa {{lock.css_charge}} fa-rotate-270 pb-2 text-center"></i><br />
+                            <span class="bat-percentage">{{lock.charge}}%</span>
+                        </div>  
+                    </div>
+                </div>
+            </div>
+        </div>
+    {%endfor%}
+    </div>
+
+</div>
+
+<div id="lock-details"></div>

@@ -1,18 +1,6 @@
 {% load i18n bookings_tag common_tag padword_tags static %}
 	
 <div class="row languages">
-    {%comment%}
-    <div class="col-lg-1 offset-lg-4 col-2 offset-3">
-        <a href="#" class="text-center ark" data-url="{% url "guest-access" "34f8144d-bd8f-e180-5cd1-1680513396d3" "de" %}" data-target="main-base"
-            data-cat_id="{{form.category}}"> <img class="btn btn-secondary p-2" src="/static/img/de.png"></a></div>
-    <div class="col-lg-2 col-2">
-        <a href="#" class="text-center ark" data-url="{% url "guest-access" "34f8144d-bd8f-e180-5cd1-1680513396d3" "es" %}" data-target="main-base">
-            <img class="btn btn-secondary p-2" src="/static/img/es.png"></a></div>
-    <div class="col-lg-1 col-2">
-        <a href="#" class="text-center ark" data-url="{% url "guest-access" "34f8144d-bd8f-e180-5cd1-1680513396d3" "en" %}" data-target="main-base">
-            <img class="btn btn-secondary p-2" src="/static/img/en.png"> </a> </div>
-    {%endcomment%}
-
     <div class="col-lg-1 offset-lg-4 col-2 offset-3">
         <a href="#" class="text-center ark" data-url="{% url "guest-set-lang" %}" data-target="main-base" data-lang="de"
             data-cat_id="{{form.category}}"> <img class="btn btn-secondary p-2" src="/static/img/de.png"></a></div>
@@ -24,55 +12,58 @@
             data-cat_id="{{form.category}}"> <img class="btn btn-secondary p-2" src="/static/img/en.png"> </a> </div>
 </div>
 
-<div class="row div-slogan">
-    <div class="col-12 text-center"> <div class="slogan">{% trans "Instant Relaxation" %} </div> </div>
-</div>
+<div class="row div-slogan"><div class="col-12 text-center"><div class="slogan">{% trans "Instant Relaxation" %}</div></div></div>
 
 <div class="row div-boxes">
     <div class="col-lg-4 col-6">
         <div class="i-love-btn">
-            <a href="https://www.hotelsuitevillamaria.es/promociones/?utm_source=padword&utm_medium=button&utm_campaign=padword" target="_blank" 
-                class="btn btn-primary"> <i class="far fa-grin-hearts"></i> 
-                {% padword_translate_obj 'af153cdf-334d-0f06-f505-8e3ddb2a7162' %}</a>
+            {% with cat_uuid=form|get_cat_uuid:"encanto" %}
+                <a href="https://www.hotelsuitevillamaria.es/promociones/?utm_source=padword&utm_medium=button&utm_campaign=padword" 
+                    target="_blank" class="btn btn-primary"> <i class="far fa-grin-hearts"></i> {% padword_translate_obj cat_uuid %}</a>
+            {%endwith%}
         </div>
     </div>
     <div class="col-lg-4 col-6">
-        <div class="sugest-btn"><a href="https://www.hotelsuitevillamaria.es/es/category/sostenibilidad/" target="_blank" 
-            class="btn btn-secondary"> <i class="fas fa-leaf"></i> {% padword_translate_obj 'e3332f7c-18c5-127a-5bd5-52c9c75d5d7c' %}</a>
+        <div class="sugest-btn">
+            {% with cat_uuid=form|get_cat_uuid:"sostenibilidad" %}
+                <a href="https://www.hotelsuitevillamaria.es/es/category/sostenibilidad/" target="_blank" 
+                    class="btn btn-secondary"> <i class="fas fa-leaf"></i> {% padword_translate_obj cat_uuid %}</a>
+            {%endwith%}
         </div>
     </div>
-    {% comment %}
-    <div class="col-lg-4 col-6 mt-3">
-        <div class="covid19-btn"><a href="https://www.hotelsuitevillamaria.es/es/seguridad/" target="_blank" class="btn btn-outline-danger">
-                <i class="fas fa-info-circle"></i> {% padword_translate_obj '860c38f1-f584-38a9-1fb2-c01c73edc032' %}</a>
-        </div>
-    </div>
-    {% endcomment %}
 </div>
 
 <div class="row menu-tabs align-items-end">
     <div class="col-3 mb-1 align-middle justify-content-center p2">
         <div class="tabs">
-            <button class="menu-options ark" data-url="{% url "show-category-menu" %}" data-target="main" 
-                data-cat_id="2c76e064-0ba0-feb6-13d9-5bc8047ac94c"> {% padword_translate_obj '2c76e064-0ba0-feb6-13d9-5bc8047ac94c'%}</button>
+            {% with cat_uuid=form|get_cat_uuid:"mi_villa" %}
+                <button class="menu-options ark" data-url="{% url "show-category-menu" %}" data-target="main" 
+                    data-cat_id="{{cat_uuid}}"> {% padword_translate_obj cat_uuid %}</button>
+            {%endwith%}
         </div>
     </div> 
     <div class="col-3 mb-1 align-middle justify-content-center p2">
         <div class="tabs">
-            <button class="menu-options ark" data-url="{% url "show-category-menu" %}" data-target="main" 
-                data-cat_id="7ecc8b67-5df7-0478-f421-810f01046968"> {% padword_translate_obj '7ecc8b67-5df7-0478-f421-810f01046968'%}</button>
+            {% with cat_uuid=form|get_cat_uuid:"hotel" %}
+                <button class="menu-options ark" data-url="{% url "show-category-menu" %}" data-target="main" 
+                    data-cat_id="{{cat_uuid}}"> {% padword_translate_obj cat_uuid %}</button>
+            {%endwith%}
         </div>
     </div>
     <div class="col-3 mb-1 align-middle justify-content-center p2">
         <div class="tabs">
-            <button class="menu-options ark" data-url="{% url "show-category-menu" %}" data-target="main" 
-                data-cat_id="53a8cca8-8f84-87db-33b7-62b589e78ecd"> {% padword_translate_obj '53a8cca8-8f84-87db-33b7-62b589e78ecd'%}</button>
+            {% with cat_uuid=form|get_cat_uuid:"gastro" %}
+                <button class="menu-options ark" data-url="{% url "show-category-menu" %}" data-target="main" 
+                    data-cat_id="{{cat_uuid}}"> {% padword_translate_obj cat_uuid %}</button>
+            {%endwith%}
         </div>
     </div>
     <div class="col-3 mb-1 align-middle justify-content-center p2">
         <div class="tabs">
-            <button class="menu-options ark" data-url="{% url "show-category-menu" %}" data-target="main" 
-                data-cat_id="99c41828-ce93-68e6-52c9-5b59c627ae82"> {% padword_translate_obj '99c41828-ce93-68e6-52c9-5b59c627ae82'%}</button>
+            {% with cat_uuid=form|get_cat_uuid:"wellness" %}
+                <button class="menu-options ark" data-url="{% url "show-category-menu" %}" data-target="main" 
+                    data-cat_id="{{cat_uuid}}"> {% padword_translate_obj cat_uuid %}</button>
+            {%endwith%}
         </div>
     </div>
 
@@ -80,27 +71,26 @@
 
 <div class="row menu-botton">
     <div class="col-lg-3 offset-lg-1 col-4" style="padding:0;">
-        <button style="color:white !important;" class="menu-options ark" data-url="{% url "show-category-menu" %}" data-target="main"
-            data-cat_id="e7797a43-31fc-df69-dcdf-eef7631964db"><i class="fas fa-wifi"></i><br />
-            {% padword_translate_obj 'e7797a43-31fc-df69-dcdf-eef7631964db'%}</button>
+        {% with cat_uuid=form|get_cat_uuid:"conectate" %}
+            <button style="color:white !important;" class="menu-options ark" data-url="{% url "show-category-menu" %}" data-target="main"
+                data-cat_id="{{cat_uuid}}"><i class="fas fa-wifi"></i><br /> {% padword_translate_obj cat_uuid %}</button>
+        {%endwith%}
     </div>
     <div class="col-lg-4 col-4" style="padding:0;">
-        <button style="color:white !important;" class="menu-options ark" data-url="{% url "show-category-menu" %}" data-target="main"
-             data-cat_id="1dbf29a7-cb6a-3724-2c6a-194cdb464aa6"><i class="far fa-star"></i> <br />
-             {% padword_translate_obj '1dbf29a7-cb6a-3724-2c6a-194cdb464aa6'%}</button>
+        {% with cat_uuid=form|get_cat_uuid:"sugerencias" %}
+            <button style="color:white !important;" class="menu-options ark" data-url="{% url "show-category-menu" %}" data-target="main"
+                data-cat_id="{{cat_uuid}}"><i class="far fa-star"></i> <br /> {% padword_translate_obj cat_uuid %}</button>
+        {%endwith%}
     </div>
     <div class="col-lg-3 col-4" style="padding:0;">
-        <button style="color:white !important;" class="menu-options ark" data-url="{% url "show-category-menu" %}" data-target="main"
-             data-cat_id="b1a25c45-c43b-8263-e46f-031f2593a623"><i class="fas fa-concierge-bell"></i> <br />
-             {% padword_translate_obj 'b1a25c45-c43b-8263-e46f-031f2593a623'%}</button>
+        {% with cat_uuid=form|get_cat_uuid:"servicios" %}
+            <button style="color:white !important;" class="menu-options ark" data-url="{% url "show-category-menu" %}" data-target="main"
+                data-cat_id="{{cat_uuid}}"><i class="fas fa-concierge-bell"></i> <br /> {% padword_translate_obj cat_uuid %}</button>
+        {%endwith%}
     </div>
 </div>
 
 <script id="realtime-script">
-    //$('#counter-item-{{item_refresh.pk}}').val('{{total_items}}');
-    //$('#counter-item-mob-{{item_refresh.pk}}').val('{{total_items}}');
-    //$('#span-total-price').html('{{total|floatformat:2}}');
-    //$('#span-total-items').html('{{items|length}}');
     $('#span-total-items').html('{% get_total_items request.user.username category.project_uuid %}');
     if (parseInt($("#span-total-items").html()) > 0)
         $("#count-badge").show();

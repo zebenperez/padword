@@ -7,11 +7,14 @@
 <div class="row div-key mt-5">
     <div class="col-12 text-center">
         <a class="menu-options collapsible-header waves-effect btn-large pt-3" data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample"><i class="fa fa-lock"></i> Mis Llaves</a>
+        <div class="collapse" id="collapseExample"> {% include "bookings/show-guest-keys.html" %} </div>
+        {%comment%}
         <div class="collapse" id="collapseExample">
             <div class="collapse-option mt-3"><a class="collapsible-header waves-effect btn-large-2"><i class="fa fa-lock"></i> Entrada</a></div>
             <div class="collapse-option mt-3"><a class="collapsible-header waves-effect btn-large-2"><i class="fa fa-lock"></i> Habitación</a></div>
             <div class="collapse-option mt-3"><a class="collapsible-header waves-effect btn-large-2"><i class="fa fa-lock"></i> Garaje</a></div>
         </div>
+        {%endcomment%}
     </div>
 </div>
 

@@ -98,8 +98,64 @@ class Guest(models.Model):
 
         return Message.objects.filter(**kwargs)
 
-    def get_locks_id(self):
-        return [key.lock for key in self.keys.all()]
+    #def get_locks_id(self):
+    #    return [key.lock for key in self.keys.all()]
+
+    def get_locks(self):
+        return Lock.objects.filter(Q(room=self.room) | Q(room="*")).filter(project_uuid = self.project_id)
+
+    def add_key_code(self, lock, code=""):
+        code = self.mobile[-4:] if code == "" else code
+        code_id = lock.set_code(code, self.check_in, self.check_out)
+        if not "Error" in str(code_id):
+            key = KeyCode.objects.create(lock = lock, guest = self, code = code, code_id = code_id)
+        else:
+            key = KeyCode.objects.create(lock = lock, guest = self)
+            return code_id
+        return ""
+
+    def change_all_key_code(self, code):
+        for key in self.keycodes.all():
+            if key.code_id != "":
+                errcode = key.lock.change_code(key.code_id, code, key.guest.check_in, key.guest.check_out)
+                if errcode == 0:
+                    key.code = code
+                    key.save()
+            else:
+                code_id = key.lock.set_code(code, self.check_in, self.check_out)
+                if not "Error" in str(code_id):
+                    key.code_id = code_id
+                    key.code = code
+                    key.save()
+
+    def change_all_key_code_date(self):
+        for key in self.keycodes.all():
+            start_date = key.guest.check_in - datetime.timedelta(hours=1)
+            errcode = key.lock.change_code(key.code_id, key.code, start_date, key.guest.check_out)
+
+    def remove_all_key_codes(self):
+        for key in self.keycodes.all():
+            errcode = key.lock.remove_code(key.code_id)
+            if errcode == 0:
+                key.delete()
+
+    def add_all_key_card(self, code):
+        for lock in self.get_locks():
+            errcode = lock.add_card(code, self.check_in, self.check_out)
+            if not "Error" in str(errcode):
+                KeyCard.objects.create(code=code, card_id=errcode, lock=lock, guest=self)
+
+    def change_all_key_card_date(self):
+        for key in self.keycards.all():
+            start_date = key.guest.check_in - datetime.timedelta(hours=1)
+            errcode = key.lock.change_period_card(key.card_id, start_date, key.guest.check_out)
+
+    def remove_all_key_cards(self, code=""):
+        key_list = self.keycards.filter(code=code) if code != "" else self.keycards.all()
+        for key in key_list:
+            errcode = key.lock.remove_card(key.card_id)
+            if errcode == 0:
+                key.delete()
 
     @classmethod
     def by_project(cls, projects):
@@ -286,12 +342,21 @@ class Message(models.Model):
         verbose_name_plural = _("Chat")
         ordering = ["date"]
 
-class Key(models.Model):
+class KeyCode(models.Model):
     code = models.CharField(max_length=100, verbose_name=_('Code'), default="")
     code_id = models.CharField(max_length=100, verbose_name=_('Code Id'), default="")
+    lock = models.ForeignKey(Lock, verbose_name=_("Lock"), on_delete=models.CASCADE, blank=True, null=True, related_name="keycodes")
+    guest = models.ForeignKey(Guest, verbose_name=_("Guest"), on_delete=models.CASCADE, blank=True, null=True, related_name="keycodes")
+
+    class Meta:
+        verbose_name = _("Key")
+        verbose_name_plural = _("Keys")
+
+class KeyCard(models.Model):
+    code = models.CharField(max_length=100, verbose_name=_('Code'), default="")
     card_id = models.CharField(max_length=100, verbose_name=_('Card Id'), default="")
-    lock = models.ForeignKey(Lock, verbose_name=_("Lock"), on_delete=models.CASCADE, blank=True, null=True, related_name="keys")
-    guest = models.ForeignKey(Guest, verbose_name=_("Guest"), on_delete=models.CASCADE, blank=True, null=True, related_name="keys")
+    lock = models.ForeignKey(Lock, verbose_name=_("Lock"), on_delete=models.CASCADE, blank=True, null=True, related_name="keycards")
+    guest = models.ForeignKey(Guest, verbose_name=_("Guest"), on_delete=models.CASCADE, blank=True, null=True, related_name="keycards")
 
     class Meta:
         verbose_name = _("Key")

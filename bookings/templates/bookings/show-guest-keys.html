@@ -1,0 +1,19 @@
+{% load i18n static padword_tags %}
+
+
+{% for lock in guest.get_locks %}
+    <div class="form-check form-switch p-2 mt-3">
+        <input class="form-check-input ark_change" type="checkbox" role="switch" id="flexSwitchCheckDefault"
+            data-url="{% url "open-lock" %}" data-target="div-notifications" data-obj_id="{{lock.id}}" onclick="setUncheck($(this))">
+        <label class="form-check-label pt-3" for="flexSwitchCheckDefault">{{lock.alias}}</label>
+        <div id="div-notifications mt-3"></div>
+    </div>
+{% endfor %}
+<script>
+    function setUncheck(obj)
+    {
+        if (obj.is(":checked"))
+            setTimeout(() => { obj.prop("checked", false); }, "5000");
+    }
+</script>
+

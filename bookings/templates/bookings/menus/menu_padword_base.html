@@ -27,8 +27,10 @@
                     <li><a class="dropdown-item" href="#"><i class="fas fa-hotel"></i> El Hotel</a></li>
                     <li><a class="dropdown-item" href="#"><i class="fas fa-map-signs"></i> A tu alrededor</a></li>
                     <li><a class="dropdown-item" href="#"><i class="fas fa-wifi"></i> Wifi</a></li>
-                   <!-- <li><a class="dropdown-item" href="#"><i class="fas fa-exchange-alt"></i> Cambio de hotel</a></li>-->
-                    <li><a class="dropdown-item" href="#"><i class="fas fa-sign-out-alt"></i> Cerrar sesión</a></li>
+                    <li>
+                        <a class="dropdown-item" href="{% url "close-spa" %}?category_uuid={{form.category}}"><i class="fas fa-sign-out-alt"></i> Cerrar sesión</a>
+                    </li>
+                                                                    
                 </ul>
             </li>
         </ul>

@@ -1,0 +1,37 @@
+{% load i18n padword_tags %}
+
+<h2 class="common-modal-head">{% trans 'New lock user' %}</h2>
+
+<span id="div-notification"></span><br/>
+
+<div class="row justify-center">
+	<div class="col-sm-6 col-md-6 col-12">
+		<label class="label">{% trans "Username" %}:</label>
+        <input type="text" class="form-control autosave input mb-4" id="username" name="username" value="{{obj.username}}" title="{{obj.username}}" 
+			data-model-name="web.lockuser" data-obj-id="{{obj.id}}" data-url="{% url "autosave_field" %}" data-target="div-notification"/>
+			<span id="username__msg"></span>
+	</div>
+
+	<div class="col-sm-6 col-md-6 col-12">
+		<label class="label">{% trans "Password" %}:</label>
+        <input type="text" class="form-control input mb-4 ark_change" id="password" name="password" value="{{obj.password}}" title="{{obj.password}}" 
+            data-url="{% url "lock-user-set-password" %}" data-obj_id="{{obj.id}}" data-target="div-notification"/>
+			<span id="password__msg"></span>
+	</div>
+
+	<div class="col-sm-6 col-md-6 col-12">
+    	<label class="label">{% trans "Project UUID" %}:</label>
+		<input type="text" class="form-control autosave input mb-4" id="project_uuid" name="project_uuid" value="{{obj.project_uuid}}" 
+            title="{{obj.project_uuid}}" data-model-name="web.lockuser" data-obj-id="{{obj.id}}" data-url="{% url "autosave_field" %}" 
+            data-target="div-notification"/> <span id="project_uuid__msg"></span>
+	</div>
+</div>
+
+<div class="d-flex justify-content-end p-2">
+	<button type="button" class="btn btn-primary ark m-2" data-bs-dismiss="modal"
+	    data-url="{% url "lock-user-search" %}" data-target="lock-user-list">{% trans "Save" %}</button>
+	<button type="button" class="btn btn-danger ark m-2" data-bs-dismiss="modal"
+    	data-url="{% url "lock-user-remove" %}" data-target="lock-user-list" data-obj_id="{{obj.id}}" 
+	    data-confirm="{% trans "Are you sure to remove this element?" %}">{% trans "Remove" %}</button>
+</div>
+

@@ -1,0 +1,31 @@
+{% load i18n padword_tags %}
+
+<h2 class="common-modal-head">{% trans 'New lock group' %}</h2>
+
+<span id="div-notification"></span><br/>
+
+<form method="POST" action="{% url "lock-group-save" %}" id="form-lock-group" />
+    {%csrf_token%}
+    <input type="hidden" id="obj_id" name="obj_id" value="{{obj.id}}"/>
+
+    <div class="row justify-center">
+        <div class="col-sm-6 col-md-6 col-12">
+            <label class="label">{% trans "Name" %}:</label>
+            <input type="text" class="form-control input mb-4" id="name" name="name" value="{{obj.name}}" title="{{obj.name}}"/>
+                <span id="name__msg"></span>
+        </div>
+        <div class="col-sm-6 col-md-6 col-12">
+            <label class="label">{% trans "Project UUID" %}:</label>
+            <input type="text" class="form-control input mb-4" id="project_uuid" name="project_uuid" value="{{obj.project_uuid}}" 
+                title="{{obj.project_uuid}}" readonly/> <span id="name__msg"></span>
+        </div>
+    </div>
+
+    <div class="d-flex justify-content-end p-2">
+        <button type="button" class="btn btn-primary m-2 saveform" data-bs-dismiss="modal"
+            data-form="form-lock-group" data-target="lock-group-list"> {% trans "Save" %}</button>
+        <button type="button" class="btn btn-danger ark m-2" data-bs-dismiss="modal"
+            data-url="{% url "lock-group-remove" %}" data-target="lock-group-list" data-obj_id="{{obj.id}}" 
+            data-confirm="{% trans "Are you sure to remove this element?" %}">{% trans "Remove" %}</button>
+    </div>
+</form>

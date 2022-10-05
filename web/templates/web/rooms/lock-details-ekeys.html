@@ -1,0 +1,55 @@
+{% load i18n padword_tags %}
+
+{% if msg and msg != "" %} <div class="alert alert-warning">{{msg}}</div>{% endif %}
+
+<table class="table table-hover table-striped">
+    <thead>
+        <tr> 
+            <th>{%trans 'User'%}</th> 
+            {#<th>{%trans 'User sender'%}</th> #}
+            <th>{%trans 'Key name'%}</th> 
+            <th>{%trans 'Key id'%}</th> 
+            <th>{%trans 'Start Date'%}</th> 
+            <th>{%trans 'End Date'%}</th> 
+            <th>{%trans 'Link'%}</th> 
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for item in obj.get_all_ekeys %}
+            <tr>
+                <td> {{item.username}} </td> 
+                <td> {{item.key_name}} </td> 
+                <td> {{item.ekey_id}} </td> 
+                <td> {{item.ini_date|date:"d-m-Y h:i"}} </td> 
+                <td> {{item.end_date|date:"d-m-Y h:i"}} </td> 
+                <td> <a href="{% url "ekey-url" item.token %}" target="_blank">{% trans "Link" %}</a></td>
+                <td class="text-end">
+                    <a class="btn btn-outline-warning ark w-100" title="{%trans "Remove code"%}" data-url="{% url "room-lock-remove-ekey" %}"
+                        data-obj_id="{{item.id}}" data-confirm="{%trans "Are you sure to remove this element?"%}" data-target="ekey-details">
+                        {%trans "Remove eKey"%} </a>
+                </td>
+            </tr>
+
+            {%comment%}
+            <tr>
+                <td> {{item.username}} </td> 
+                {#<td> {{item.senderUsername}} </td> #}
+                <td> {{item.keyName}} </td> 
+                <td> {{item.keyId}} </td> 
+                {#<td> {{item.startDate|str_to_date}} </td> #}
+                {#<td> {{item.endDate|str_to_date}} </td> #}
+                <td> {{item.startDate}} </td> 
+                <td> {{item.endDate}} </td> 
+                <td> <a href="{% url "ekey-url" item.token %}" target="_blank">{% trans "Link" %}</a></td>
+                <td class="text-end">
+                    <a class="btn btn-outline-warning ark w-100" title="{%trans "Remove code"%}" data-url="{% url "room-lock-remove-ekey" %}"
+                        data-obj_id="{{obj.id}}" data-ekey_id="{{item.keyId}}" 
+                        data-confirm="{%trans "Are you sure to remove this element?"%}" data-target="ekey-details">{%trans "Remove eKey"%} </a>
+                </td>
+            </tr>
+            {%endcomment%}
+        {% endfor %}
+    </tbody>
+</table>
+

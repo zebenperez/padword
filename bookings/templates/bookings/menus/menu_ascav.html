@@ -1,0 +1,69 @@
+{% load i18n bookings_tag common_tag padword_tags static %}
+
+{% get_current_language as LANGUAGE_CODE %}
+
+<div class="row div-slogan">
+    <div class="col-12 text-justify"><span>Padword</span><br/ >Soluciones digitales para comodidad de huéspedes y flexibilidad de negocios</div>
+    <div class="col-12 slogan-ascav">
+        <div class="text-center w-100"><img src="/static/img/ascav.png"></div>
+        <div class="text-left text w-100">Asociación Canaria del Alquiler Vacacional</div>
+</div>
+ 
+<div class="row div-key pt-5">
+    <div class="col-12 text-center">
+        <a class="menu-options collapsible-header waves-effect btn-large pt-3" data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample"><img src="/static/img/keys-w.png"><span class="btn-name"> Llaves</span></a>
+        <div class="collapse" id="collapseExample"> {% include "bookings/show-guest-keys.html" %} </div>
+        {%comment%}
+        <div class="collapse" id="collapseExample">
+            {% for key in guest.keys.all %}
+                <div class="form-check form-switch">
+                    <input class="form-check-input ark_change" type="checkbox" role="switch" id="flexSwitchCheckDefault"
+                         data-url="{% url "open-lock" %}" data-target="" data-obj_id="{{key.lock}}">
+                    <label class="form-check-label" for="flexSwitchCheckDefault">Entrance</label>
+                </div>
+            {% endfor %}
+            <div class="collapse-option text-center mt-3"><a class="menu-options collapsible-header btn-large pt-3 ark-disabled">
+                    <i class="fa fa-lock"></i><span class="btn-name text-right"> Entrance</span> <span id="open-lock-msg" class="open-lock-msg"></span></a>
+            </div>
+            <div class="collapse-option text-center mt-3"><a class="menu-options collapsible-header btn-large pt-3 ark-disabled"
+                    data-url="{% url "open-lock" %}" data-target="open-lock-msg">
+                    <i class="fa fa-lock"></i><span class="btn-name text-right"> Entrance</span> <span id="open-lock-msg" class="open-lock-msg"></span></a>
+            </div>
+            <div class="collapse-option text-center mt-3"><a class="menu-options collapsible-header btn-large pt-3 ark-disabled">
+                    <i class="fa fa-lock"></i><span class="btn-name"> Locker Room</span></a></div>
+            <div class="collapse-option text-center mt-3"><a class="menu-options collapsible-header btn-large pt-3 ark-disabled">
+                    <i class="fa fa-lock"></i><span class="btn-name"> Server Room</span></a></div>
+        </div>
+        {%endcomment%}
+    </div>
+</div>
+
+<div class="row pt-3 mt-5" style="border-top: 5px solid #000;"> 
+    <div class="col-12 text-center mt-3">
+        <a class="menu-options collapsible-header btn-large pt-3 ark" data-url="{% url "show-category-menu" %}" data-target="main"                                                 data-cat_id="7a8d33df-8684-ed8f-2dbb-24ef9cefb41c"><img src="/static/img/info-w.png">
+           <span class="btn-name">{% padword_translate_obj '7a8d33df-8684-ed8f-2dbb-24ef9cefb41c'%}</span></a>
+    </div> 
+    <div class="col-12 text-center mt-4">
+        <a class="menu-options collapsible-header btn-large pt-3 ark" data-url="{% url "show-category-menu" %}" data-target="main"                                                 data-cat_id="206a3f1a-e98c-b7ef-8401-89cc5a4a39f8"><img src="/static/img/map-w.png">
+           <span class="btn-name">{% padword_translate_obj '206a3f1a-e98c-b7ef-8401-89cc5a4a39f8'%}</span></a>
+    </div> 
+    <div class="col-12 text-center mt-4">
+        <a class="menu-options collapsible-header btn-large pt-3 ark" data-url="{% url "show-category-menu" %}" data-target="main" 
+            data-cat_id="debacf36-c3ec-8871-c19c-f0bb3f4f8832"><img src="/static/img/recommend-w.png">
+            <span class="btn-name">{% padword_translate_obj 'debacf36-c3ec-8871-c19c-f0bb3f4f8832'%}</span></a>
+    </div> 
+    <div class="col-12 text-center mt-4">
+        <a class="menu-options collapsible-header btn-large pt-3 ark" data-url="{% url "show-category-menu" %}" data-target="main" 
+           data-cat_id="d2cb00fc-a7b1-68bd-170d-23efc12ad945"><img src="/static/img/exper-w.png">
+           <span class="btn-name">{% padword_translate_obj 'd2cb00fc-a7b1-68bd-170d-23efc12ad945'%}</span></a>
+    </div>
+</div>
+
+<script id="realtime-script">
+    $('#span-total-items').html('{% get_total_items request.user.username category.project_uuid %}');
+    if (parseInt($("#span-total-items").html()) > 0)
+        $("#count-badge").show();
+    else
+        $("#count-badge").hide();
+    $('#realtime-script').remove();
+</script>

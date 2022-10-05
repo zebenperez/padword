@@ -1,179 +1,72 @@
-{% load i18n %}
+{% load i18n padword_tags %}
+
 
 <h2 class="common-modal-head">{% trans 'New guest' %}</h2>
 
-
 <span id="div-notification"></span><br/>
 
-<div class="row justify-center">
-	<div class="col-6 mb-4">
-        <label class="label">{% trans "Name" %}*:</label>
-        <input type="text" class="form-control autosave input mb-1" id="name" name="name" value="{{obj.name}}" 
-            title="{% trans "This field is required" %}" data-model-name="guest.guest" data-obj-id="{{obj.id}}" data-url="{% url "autosave_field" %}" 
-            data-target="div-notification" required/> <span class="msg_error" id="name__msg"></span>
-	</div>
+<div class="card">
+    <div class="card-header">{% trans "Main" %}</div>
+    <div class="card-body"> {% include "guest/guest-form-main.html" %} </div>
+<div>
 
-	<div class="col-6 mb-4">
-	    <label class="label">{% trans "Surname" %}*:</label>
-		<input type="text" class="form-control autosave input mb-1" id="surname" name="surname" value="{{obj.surname}}" 
-            title="{% trans "This field is required" %}" data-model-name="guest.guest" data-obj-id="{{obj.id}}" data-url="{% url "autosave_field" %}" 
-            data-target="div-notification" required/> <span class="msg_error" id="surname__msg"></span>
-	</div>
+<div class="card">
+    <div class="card-header">
+        <div class="row toggle-btn" data-target="body-extra" data-id-change="icon-extra" 
+            data-text='<i class="fas fa-plus"></i>' data-text-alt='<i class="fas fa-minus"></i>'>
+            <div class="col-10"><strong>{% trans "Extra" %}</strong></div>
+            <div class="col-2 text-end" id="icon-extra"><i class="fas fa-plus"></i></div>
+        </div>
+    </div>
+    <div class="card-body hide" id="body-extra"> {% include "guest/guest-form-extra.html" %} </div>
+<div>
 
-	<div class="col-3">
-		<label class="label">{% trans "Check-in date" %}*:</label>
-		<input type="date" class="form-control autosave input mb-4" id="check_in" name="check_in" value="{{obj.check_in|date:"Y-m-d"}}" 
-            title="{% trans "This field is required" %}" data-model-name="guest.guest" data-obj-id="{{obj.id}}" data-url="{% url "autosave_field" %}" 
-            data-target="div-notification" required/> <span class="msg_error" id="check_in__msg"></span>
-	</div>
+<div class="card">
+    <div class="card-header">
+        <div class="row toggle-btn" data-target="body-locks" data-id-change="icon-locks" 
+            data-text='<i class="fas fa-plus"></i>' data-text-alt='<i class="fas fa-minus"></i>'>
+            <div class="col-10"><strong>{% trans "Locks" %}</strong></div>
+            <div class="col-2 text-end" id="icon-locks"> <i class="fas fa-plus"></i> </div>
+        </div>
+    </div>
+    <div class="card-body" id="body-locks"> <div id="div-locks">{% include "guest/keys/guest-keys.html" %}</div> </div> 
+<div>
 
-	<div class="col-3">
-		<label class="label">{% trans "Check-in time" %}*:</label>
-		<input type="time" class="form-control autosave input mb-4" id="check_in_time" name="check_in" value="{{obj.check_in|date:"H:i"}}" 
-            title="{% trans "This field is required" %}" data-model-name="guest.guest" data-obj-id="{{obj.id}}" data-url="{% url "autosave_field" %}" 
-            data-target="div-notification" required/> <span class="msg_error" id="check_in_time__msg"></span>
-	</div>
 
-	<div class="col-3">
-		<label class="label">{% trans "Check-out date" %}*:</label>
-		<input type="date" class="form-control autosave input mb-4" id="check_out" name="check_out" value="{{obj.check_out|date:"Y-m-d"}}" 
-            title="{% trans "This field is required" %}" data-model-name="guest.guest" data-obj-id="{{obj.id}}" data-url="{% url "autosave_field" %}" 
-            data-target="div-notification" data-check="check_in" required/> <span class="msg_error" id="check_out__msg"></span>
-	</div>
-
-	<div class="col-3">
-		<label class="label">{% trans "Check-out time" %}*:</label>
-		<input type="time" class="form-control autosave input mb-4" id="check_out_time" name="check_out" value="{{obj.check_out|date:"H:i"}}" 
-            title="{% trans "This field is required" %}" data-model-name="guest.guest" data-obj-id="{{obj.id}}" data-url="{% url "autosave_field" %}" 
-            data-target="div-notification" data-check="check_in" required/> <span class="msg_error" id="check_out_time__msg"></span>
-	</div>
-
-	<div class="col-6">
-		<label class="label">{% trans "Room" %}*:</label>
-		<input type="text" class="form-control autosave input mb-4" id="room" name="room" value="{{obj.room}}" 
-            title="{% trans "This field is required" %}" data-model-name="guest.guest" data-obj-id="{{obj.id}}" data-url="{% url "autosave_field" %}" 
-            data-target="div-notification" required/> <span class="msg_error" id="room__msg"></span>
-	</div>
-
-	<div class="col-6">
-		<label class="label">{% trans "Languaje" %}*:</label>
-		<input type="text" class="form-control autosave input mb-4" id="language" name="language" value="{{obj.language}}" 
-            title="{% trans "This field is required" %}" data-model-name="guest.guest" data-obj-id="{{obj.id}}" data-url="{% url "autosave_field" %}" 
-            data-target="div-notification" required/> <span class="msg_error" id="language__msg"></span>
-	</div>
-
-    {#<div class="col-6"> <label class="label">{% trans "Guest type" %}*:</label> </div>#}
-
-	<div class="col-6">
-		<label class="label">{% trans "Confirm code" %}:</label>
-		<input type="text" class="form-control autosave input mb-4" id="pin" name="pin" value="{{obj.pin}}" 
-            title="{{obj.pin}}" data-model-name="guest.guest" data-obj-id="{{obj.id}}" data-url="{% url "autosave_field" %}" 
-            data-target="div-notification"/> <span class="msg_error" id="pin__msg"></span>
-	</div>
-
-    {#<div class="col-6"> <label class="label">{% trans "Country" %}*:</label> </div>#}
-
-	<div class="col-6">
-		<label class="label">{% trans "Born date" %}:</label>
-		<input type="date" class="form-control autosave input mb-4" id="birthdate" name="birthdate" value="{{obj.birthdate|date:"Y-m-d"}}" 
-            title="{{obj.birthdate}}" data-model-name="guest.guest" data-obj-id="{{obj.id}}" data-url="{% url "autosave_field" %}" 
-            data-target="div-notification"/> <span class="msg_error" id="birthdate__msg"></span>
-	</div>
-
-	<div class="col-3">
-		<label class="label">{% trans "Married" %}:</label>
-        <select class="form-control autosave input mb-4" id="married" name="married" data-model-name="guest.guest" data-obj-id="{{obj.id}}"
-            data-url="{% url "autosave_field" %}" data-target="div-notification">
-            <option value="0" {%if obj.married == 0%}selected{%endif%}>{% trans "NO" %}</option>
-            <option value="1" {%if obj.married == 1%}selected{%endif%}>{% trans "YES" %}</option>
-        </select><span class="msg_error" id="married__msg"></span>
-	</div>
-
-	<div class="col-3">
-		<label class="label">{% trans "Children" %}:</label>
-        <select class="form-control autosave input mb-4" id="with_kids" name="with_kids" data-model-name="guest.guest" data-obj-id="{{obj.id}}"
-            data-url="{% url "autosave_field" %}" data-target="div-notification">
-            <option value="0" {%if obj.with_kids == 0%}selected{%endif%}>{% trans "NO" %}</option>
-            <option value="1" {%if obj.with_kids == 1%}selected{%endif%}>{% trans "YES" %}</option>
-        </select><span class="msg_error" id="with_kids__msg"></span>
-	</div>
-
-	<div class="col-2">
-		<label class="label">{% trans "Adults" %}:</label>
-		<input type="number" class="form-control autosave input mb-4" id="adults" name="adults" value="{{obj.adults}}" 
-            title="{{obj.adults}}" data-model-name="guest.guest" data-obj-id="{{obj.id}}" data-url="{% url "autosave_field" %}" 
-            data-target="div-notification"/> <span class="msg_error" id="adults__msg"></span>
-	</div>
-
-	<div class="col-2">
-		<label class="label">{% trans "Children" %}:</label>
-		<input type="number" class="form-control autosave input mb-4" id="children" name="children" value="{{obj.children}}" 
-            title="{{obj.children}}" data-model-name="guest.guest" data-obj-id="{{obj.id}}" data-url="{% url "autosave_field" %}" 
-            data-target="div-notification"/> <span class="msg_error" id="children__msg"></span>
-	</div>
-
-	<div class="col-2">
-		<label class="label">{% trans "Babies" %}:</label>
-		<input type="number" class="form-control autosave input mb-4" id="babies" name="babies" value="{{obj.babies}}" 
-            title="{{obj.babies}}" data-model-name="guest.guest" data-obj-id="{{obj.id}}" data-url="{% url "autosave_field" %}" 
-            data-target="div-notification"/> <span class="msg_error" id="babies__msg"></span>
-	</div>
-
-    {# ------------ ROW 4 --------------#}
-	<div class="col-3 col-md-6 col-sm-12">
-		<label class="label">{% trans "Mobile phone" %}*:</label>
-		<input type="tel" class="form-control autosave input mb-4" id="mobile" name="mobile" value="{{obj.mobile|default:""}}" 
-            title="{% trans "Please enter valid phone number"%}" data-model-name="guest.guest" data-obj-id="{{obj.id}}" 
-            data-url="{% url "autosave_field" %}" data-target="div-notification" data-check="email" minlength="9" maxlength="14" required/> 
-            <span class="msg_error" id="mobile__msg"></span>
-	</div>
-
-	<div class="col-3 col-md-6 col-sm-12">
-		<label class="label">{% trans "Email" %}*:</label>
-		<input type="text" class="form-control autosave input mb-4" id="email" name="email" value="{{obj.email|default:""}}" 
-            title="{% trans "Please enter valid email number"%}" data-model-name="guest.guest" data-obj-id="{{obj.id}}" 
-            data-url="{% url "autosave_field" %}" data-target="div-notification" data-check="mobile" 
-            pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" required/> <span class="msg_error" id="email__msg"></span>
-	</div>
-
-	<div class="col-3 col-md-6 col-sm-12">
-		<label class="label">{% trans "UUID" %}:</label>
-		<input type="text" class="form-control autosave input mb-4" id="uuid" name="uuid" value="{{obj.UUID}}" title="{{obj.UUID}}" 
-			data-model-name="guest.guest" data-obj-id="{{obj.id}}" data-url="{% url "autosave_field" %}" data-target="div-notification" readonly/>
-			<span class="msg_error" id="uuid__msg"></span>
-	</div>
-
-	<div class="col-3 col-md-6 col-sm-12">
-		<label class="label">{% trans "PID" %}:</label>
-		<input type="text" class="form-control autosave input  mb-4" id="pid" name="pid" value="{{obj.PID}}" title="{{obj.PID}}" 
-			data-model-name="guest.guest" data-obj-id="{{obj.id}}" data-url="{% url "autosave_field" %}" data-target="div-notification"/>
-			<span class="msg_error" id="pid__msg"></span>
-	</div>
-
-    {# ------------ ROW 5 --------------#}
-	<div class="col-3 col-md-6 col-sm-12">
-		<label class="label">{% trans "Project UUID" %}:</label>
-		<input type="text" class="form-control autosave input mb-4" id="project_id" name="project_id" value="{{obj.project_id}}" 
-            title="{{obj.project_id}}" data-model-name="guest.guest" data-obj-id="{{obj.id}}" data-url="{% url "autosave_field" %}" 
-            data-target="div-notification" {%if project_uuid%}readonly{%endif%}/> <span class="msg_error" id="project_id__msg"></span>
-	</div>
-
-	<div class="col-3 col-md-6 col-sm-12">
-        <label class="label">{% trans "Deleted" %}:</label>
-        <select class="form-control autosave input mb-4" id="deleted" name="deleted" data-model-name="guest.guest" data-obj-id="{{obj.id}}"
-            data-url="{% url "autosave_field" %}" data-target="div-notification">
-            <option value="0" {%if obj.deleted == 0%}selected{%endif%}>{% trans "NO" %}</option>
-            <option value="1" {%if obj.deleted == 1%}selected{%endif%}>{% trans "YES" %}</option>
-        </select><span class="msg_error" id="married__msg"></span>
-
-	</div>
-</div>
+{% if request.user|in_group:"admins" %}
+    <div class="card">
+        <div class="card-header">
+            <div class="row toggle-btn" data-target="body-admin" data-id-change="icon-admin" 
+                data-text='<i class="fas fa-plus"></i>' data-text-alt='<i class="fas fa-minus"></i>'>
+                <div class="col-10"><strong>{% trans "Admin" %}</strong></div>
+                <div class="col-2 text-end" id="icon-admin"><i class="fas fa-plus"></i> </div>
+            </div>
+        </div>
+        <div class="card-body hide" id="body-admin"> {% include "guest/guest-form-admin.html" %} </div>
+    <div>
+{% endif %}
 
 <div class="d-flex justify-content-end p-2">
+    {%comment%}
 	<button type="button" class="btn btn-primary ark-validate m-2" data-url="{% url "guest-search" %}" data-validate="input" data-check_in="true" 
         data-modal="common.modal" data-target="guest-list" {%if project_uuid%}data-project_uuid="{{project_uuid}}"{%endif%}>{%trans "Save"%}</button>
+    {%endcomment%}
+	<button type="button" id="btn-save" class="btn btn-primary ark-validate m-2 hide" data-url="{%url "guest-search"%}" data-validate="input" 
+        data-check_in="true" data-modal="common.modal" data-target="guest-list" data-guest_search_name="{{request.session.guest_search_name}}"
+        data-project_uuid="{{project_uuid}}">
+        {%trans "Save"%}</button>
+
+	<button type="button" id="btn-check-save" class="btn btn-primary m-2">{%trans "Save"%}</button>
 	<button type="button" class="btn btn-danger ark m-2" data-bs-dismiss="modal" data-url="{% url "guest-remove" %}" data-target="guest-list" 
         data-obj_id="{{obj.id}}" {%if project_uuid%}data-project_uuid="{{project_uuid}}"{%endif%} 
         data-confirm="{% trans "Are you sure to remove this element?" %}">{% trans "Remove" %}</button>
 </div>
+<script>
+    $("#btn-check-save").click(function(){
+        if ($("#s-room").hasClass("text-danger"))
+            alert("{% trans "You must choose a valid room number or empty" %}");
+        else
+            $("#btn-save").click();
+    });
+</script>
 

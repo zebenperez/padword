@@ -5,16 +5,18 @@
 
 {% block central_content %}
 
-    {% if msg != "" %}
-        <div class="alert alert-danger">{{msg}}</div>
-    {% endif %}
-
-    {% comment %}
+    <h4>{{project.name}}</h4>
     <div class="toolbar-search">
-        <input type="text" class="autosearch form-control form-control-dark w-100" name="s-name" id="s-name" 
-        placeholder="{% trans 'Name' %}" data-url="{% url "company-search" %}" data-target="company-list" data-related="s-name"/>
+        <input type="text" class="autosearch form-control form-control-dark w-100" name="lock_search_alias" id="lock_search_alias"
+            placeholder="{% trans 'Alias' %}" data-url="{% url "lock-search" %}" data-target="lock-list" 
+            data-related="lock_search_alias,project_uuid" value="{{request.session.lock_search_alias}}"/>
+        <input type="hidden" id="project_uuid" name="project_uuid" value="{{project_uuid}}"/>
+        {%comment%}
+        <input type="text" class="autosearch form-control form-control-dark w-100" name="lock_search_project" id="lock_search_project"
+            placeholder="{% trans 'Project name' %}" data-url="{% url "lock-search" %}" data-target="lock-list" 
+            data-related="lock_search_alias,lock_search_project" value="{{request.session.lock_search_project}}"/>
+        {%endcomment%}
     </div>
-    {% endcomment %}
 
     <div class="content">
         <div class="toolbar-content">

@@ -13,12 +13,19 @@
         </div>
         <div class="col-sm-8 col-md-8 col-12">
             <div class="row justify-center">
-                <div class="col-12">
+                <div class="col-8">
                     {% trans "Name" %} 
                     <input type="text" class="form-control autosave b-bottom mb-4" id="name" name="name" 
                         value="{% padword_translate obj.get_category.name %}" title="{% padword_translate obj.get_category.name %}" 
                         data-lang="{% current_lang %}" data-model-name="contents.category" data-obj-id="{{obj.get_category.id}}" 
                         data-url="{% url "autosave_field" %}" data-target="div-notification"/> <span id="name__msg"></span>
+                </div>
+                <div class="col-4">
+                    {% trans "Code" %} 
+                    <input type="text" class="form-control autosave b-bottom mb-4" id="internal" name="internal" 
+                        value="{{obj.get_category.internal|default:""}}" title="{{obj.get_category.internal}}" data-model-name="contents.category" 
+                        data-obj-id="{{obj.get_category.id}}" data-url="{% url "autosave_field" %}" data-target="div-notification"/> 
+                        <span id="internal__msg"></span>
                 </div>
                 <div class="col-12">
                     {% trans "Description" %}:

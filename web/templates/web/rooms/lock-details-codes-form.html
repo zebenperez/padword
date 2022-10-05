@@ -1,0 +1,37 @@
+{% load i18n padword_tags %}
+
+
+<form method="POST" action="{% url "room-lock-add-code" %}" id="form-code" />
+    {%csrf_token%}
+    <input type="hidden" name="lock_id" value="{{obj.id}}"/>
+    <div class="row mt-3" style="--bs-gutter-x: 0rem;">
+        <div class="col-2">
+            <input type="text" class="form-control check_one" id="code" name="code" placeholder="{%trans "4-9 Digits code - Empty for random code"%}" title="{%trans "4-9 Digits code - Empty for random code"%}"
+                data-ini_date="{{ini_date|date:"Y-m-d"}}" data-end_date="{{end_date|date:"Y-m-d"}}" data-type="3"/>
+        </div>
+        <div class="col-2"> 
+            <input type="date" class="form-control check_per check_one text-center" id="ini_date" name="ini_date" value="{{ini_date|date:"Y-m-d"}}"/> 
+        </div>
+        <div class="col-1"> 
+            <input type="time" class="form-control check_per check_one text-center" id="ini_time" name="ini_time" value="00:00"/> 
+        </div>
+        <div class="col-2"> 
+            <input type="date" class="form-control check_per check_one text-center" id="end_date" name="end_date" value="{{end_date|date:"Y-m-d"}}"/>
+        </div>
+        <div class="col-1"> 
+            <input type="time" class="form-control check_per check_one text-center" id="end_time" name="end_time" value="23:59"/> 
+        </div>
+        <div class="col-2 permanent text-center"> 
+            <input type="checkbox" class="check_per check_one toggle-tags" id="permanent" name="permanent" data-class-name="check_per" /> 
+                {% trans "Permanent" %}
+        </div>
+        <div class="col-1 one-use text-center"> 
+            <input type="checkbox" class="check_per check_one toggle-tags" id="one" name="one" data-class-name="check_one"/> 
+                {% trans "One use" %}
+        </div>
+        <div class="col-1 text-center"><a class="pointer saveform" data-form="form-code" data-target="code-details" title="{% trans "Save" %}">
+                <i class="fas fa-plus"></i></a>
+        </div>
+    </div>
+</form>
+

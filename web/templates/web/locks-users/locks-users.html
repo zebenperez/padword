@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% load i18n padword_tags %}
+
+{% block second_menu %}{% get_second_menu request.user %} {% endblock second_menu %}
+
+{% block central_content %}
+
+    {% if msg and msg != "" %}
+        <div class="alert alert-danger">{{msg}}</div>
+    {% endif %}
+
+    <div class="toolbar-search">
+        <input type="text" class="autosearch form-control form-control-dark w-100" name="lock_user_search_username" id="lock_user_search_username"
+            placeholder="{% trans 'Username' %}" data-url="{% url "lock-user-search" %}" data-target="lock-user-list" 
+            data-related="lock_user_search_username,lock_user_search_project" value="{{request.session.lock_user_search_username}}"/>
+        <input type="text" class="autosearch form-control form-control-dark w-100" name="lock_user_search_project" id="lock_user_search_project"
+            placeholder="{% trans 'Project name' %}" data-url="{% url "lock-user-search" %}" data-target="lock-user-list" 
+            data-related="lock_user_search_alias,lock_user_search_project" value="{{request.session.lock_user_search_project}}"/>
+    </div>
+
+    <div class="content">
+        <div class="toolbar-content">
+            <h2 class="b-right">{% trans 'Locks Users' %} (<span id="items-counter">{{items|length}}</span>)</h2>
+            {% include "common-modal.html" %}
+        </div>
+        <div id="lock-user-list">{% include "web/locks-users/lock-user-list.html" %}</div>
+    </div>
+
+{% endblock central_content %}

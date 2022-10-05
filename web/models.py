@@ -2,9 +2,9 @@ from django.db import models
 from django.contrib.auth.models import User, Group
 from django.conf import settings
 from django.utils.translation import ugettext as _
-from padword.commons import show_exc
+from padword.commons import show_exc, get_int
 from .lock_lib import ShLock
-import datetime
+import datetime, pytz
 import requests
 
 # Create your models here.
@@ -25,6 +25,7 @@ class Company(models.Model):
 class Project(models.Model):
     uuid = models.CharField(max_length=255, verbose_name='UUID', default="", unique=True)
     name = models.CharField(max_length=255, verbose_name='Name', default="")
+    prefix = models.CharField(max_length=10, verbose_name='Prefix', default="")
     longitude = models.CharField(max_length=255, verbose_name='Longitud', default="", blank=True)
     latitude = models.CharField(max_length=255, verbose_name='Latitud', default="", blank=True)
     used_languages = models.CharField(max_length=255, verbose_name=_('Used Languages'), default="ES", blank=True)
@@ -69,11 +70,41 @@ class Project(models.Model):
         devices = Device.objects.filter(channel__in = Channel.objects.filter(project=self))
         return devices.count()
 
+    @property
+    def lock_access_token(self):
+        plu = ProjectLockUser.objects.filter(project_uuid=self.uuid).first()
+        return plu.token if plu != None and plu.token != "" else ""
+
     def get_first_menu(self, username):
         pu = ProjectUser.objects.filter(username=username, project_uuid=self.uuid).first()
         if pu == None or len(pu.menus) == 0:
             return ""
         return pu.menus.split(";")[0]
+
+class ProjectLockUser(models.Model):
+    username = models.CharField(max_length=255, verbose_name=_('Lock Username'), default="")
+    password = models.CharField(max_length=255, verbose_name=_('Lock Password'), default="")
+    token = models.CharField(max_length=255, verbose_name=_('Lock Token'), default="")
+    refresh_token = models.CharField(max_length=255, verbose_name=_('Lock Refresh Token'), default="")
+    uid = models.CharField(max_length=10, verbose_name=_('UID'), default="")
+    expire = models.CharField(max_length=100, verbose_name=_('Expire'), default="")
+    project_uuid = models.CharField(max_length=255, verbose_name=_('Project UUID'), default="")
+
+    @property
+    def project(self):
+        try:
+            return Project.objects.get(uuid=self.project_uuid)
+        except:
+            return None
+
+    def get_token(self):
+        obj = ShLock()
+        res = obj.get_token(self.username, self.password)
+        self.token = res["access_token"]
+        self.refresh_token = res["refresh_token"]
+        self.uid = res["uid"]
+        self.expire = res["expires_in"]
+        self.save()
 
 class Channel(models.Model):
     uuid = models.CharField(max_length=255, verbose_name=_('UUID'), default="", unique=True)
@@ -282,10 +313,14 @@ class DeviceByProject(models.Model):
             return (Device.objects.none())
 
 class Lock(models.Model):
+    last_update = models.DateTimeField(verbose_name=_('Last update'), default=datetime.datetime.now, null=True)
     uuid = models.CharField(max_length=255, verbose_name=_('UUID'), default="")
     alias = models.CharField(max_length=255, verbose_name=_('Alias'), default="", null=True)
     room = models.CharField(max_length=255, verbose_name=_('Room'), default="")
+    charge_cache = models.CharField(max_length=10, verbose_name=_('Charge cache'), default="")
+    state_cache = models.CharField(max_length=100, verbose_name=_('State cache'), default="")
     project_uuid = models.CharField(max_length=255, verbose_name=_('Project UUID'), default="")
+    group_uuid = models.CharField(max_length=255, verbose_name=_('Project UUID'), default="")
 
     @property
     def project(self):
@@ -293,37 +328,106 @@ class Lock(models.Model):
             return Project.objects.get(uuid=self.project_uuid)
         except Exception as e:
             return None
+    @property
+    def group(self):
+        try:
+            return LockGroup.objects.get(uuid=self.group_uuid)
+        except Exception as e:
+            return None
+
+    @property
+    def room_obj(self):
+        return Room.objects.filter(project_uuid=self.project_uuid, number=self.room).first()
 
     @property
     def state(self):
-        obj = ShLock()
-        state = obj.get_lock_state(self.uuid)
-        return _("unlock") if state != 0 else _("lock")
+        now = pytz.utc.localize(datetime.datetime.now())
+        if ((now - self.last_update).seconds/60) > 15:
+            self.update_params()
+        return _("unlock") if get_int(self.state_cache) != 0 else _("lock")
 
     @property
     def charge(self):
-        obj = ShLock()
-        return obj.get_lock_charge(self.uuid)
+        now = pytz.utc.localize(datetime.datetime.now())
+        if ((now - self.last_update).seconds/60) > 15:
+            self.update_params()
+        return self.charge_cache
+
+    def update_params(self):
+        obj = ShLock(self.project.lock_access_token)
+        state_cache = obj.get_lock_state(self.uuid)
+        charge_cache = obj.get_lock_charge(self.uuid)
+        self.state_cache = state_cache if "Error" not in str(state_cache) else ""
+        self.charge_cache = charge_cache if "Error" not in str(charge_cache) else ""
+        self.last_update = pytz.utc.localize(datetime.datetime.now())
+        self.save()
+
+    def open_lock(self):
+        sh_lock = ShLock(self.project.lock_access_token)
+        return sh_lock.open_lock_by_id(self.uuid)
 
     def set_code(self, code, start_date, end_date):
-        obj = ShLock()
+        obj = ShLock(self.project.lock_access_token)
         return obj.set_lock_code(self.uuid, code, start_date, end_date)
 
+    def get_code(self, code_type, start_date, end_date):
+        obj = ShLock(self.project.lock_access_token)
+        return obj.get_lock_code(self.uuid, code_type, start_date, end_date)
+
     def change_code(self, code_id, new_code, start_date, end_date):
-        obj = ShLock()
+        obj = ShLock(self.project.lock_access_token)
         return obj.change_lock_code(self.uuid, code_id, new_code, start_date, end_date)
 
     def remove_code(self, code_id):
-        obj = ShLock()
+        key_code_list = self.keycodes.filter(code_id=code_id)
+        for key_code in key_code_list:
+            key_code.delete()
+        obj = ShLock(self.project.lock_access_token)
         return obj.remove_lock_code(self.uuid, code_id)
 
     def get_all_passcodes(self):
-        obj = ShLock()
+        obj = ShLock(self.project.lock_access_token)
         return obj.get_lock_all_passcodes(self.uuid)
 
     def add_card(self, card_number, start_date, end_date):
-        obj = ShLock()
+        obj = ShLock(self.project.lock_access_token)
         return obj.lock_add_card(self.uuid, card_number, start_date, end_date)
+
+    def remove_card(self, code_id):
+        key_card_list = self.keycards.filter(card_id=code_id)
+        for key_card in key_card_list:
+            key_card.delete()
+        obj = ShLock(self.project.lock_access_token)
+        return obj.remove_lock_card(self.uuid, code_id)
+
+    def get_all_cards(self):
+        obj = ShLock(self.project.lock_access_token)
+        return obj.get_lock_all_cards(self.uuid)
+
+    def change_period_card(self, card_id, start_date, end_date):
+        obj = ShLock(self.project.lock_access_token)
+        return obj.change_period_lock_card(self.uuid, card_id, start_date, end_date)
+
+    def set_group(self):
+        obj = ShLock(self.project.lock_access_token)
+        return obj.set_lock_group(self.uuid, self.group.remote_id)
+
+    def add_ekey(self, username, key_name, start_date, end_date):
+        obj = ShLock(self.project.lock_access_token)
+        return obj.send_lock_key(self.uuid, username, key_name, start_date, end_date)
+
+    def remove_ekey(self, ekey_id):
+        #key_code_list = self.ekeys.filter(ekey_id=ekey_id)
+        #for ekey in ekey_list:
+        #    ekey.delete()
+        obj = ShLock(self.project.lock_access_token)
+        return obj.remove_lock_key(self.uuid, ekey_id)
+
+    def get_all_ekeys(self):
+        #obj = ShLock()
+        #return obj.get_lock_all_keys(self.uuid)
+        return LockEkey.objects.filter(lock_uuid=self.uuid)
+
 
     def get_cards(self):
         url = 'https://euapi.ttlock.com/v3/identityCard/list'
@@ -345,14 +449,16 @@ class Lock(models.Model):
         return keycard_list
 
     def css_charge(self):
-        if self.charge > 90:
-            return "fa-battery-full perc-100"
-        if self.charge > 75:
-            return "fa-battery-three-quarters perc-75"
-        if self.charge > 50:
-            return "fa-battery-half perc-50"
-        if self.charge > 25:
-            return "fa-battery-quarter perc-25"
+        try:
+            if get_int(self.charge_cache) > 90:
+                return "fa-battery-full perc-100"
+            if get_int(self.charge_cache) > 75:
+                return "fa-battery-three-quarters perc-75"
+            if get_int(self.charge_cache) > 50:
+                return "fa-battery-half perc-50"
+            if get_int(self.charge_cache) > 25:
+                return "fa-battery-quarter perc-25"
+        except: pass
         return "fa-battery-exclamation perc-0"
 
     class Meta:
@@ -363,10 +469,11 @@ class Room(models.Model):
     alias = models.CharField(max_length=255, verbose_name=_('Alias'), default="", null=True)
     number = models.CharField(max_length=255, verbose_name=_('Number'), default="")
     project_uuid = models.CharField(max_length=255, verbose_name=_('Project UUID'), default="")
-    parent = models.ForeignKey('self', verbose_name = 'Parent', on_delete=models.SET_NULL, null=True)
+    lock_group_uuid = models.CharField(max_length=255, verbose_name=_('Lock Group UUID'), default="")
+    #parent = models.ForeignKey('self', verbose_name = 'Parent', on_delete=models.SET_NULL, null=True)
 
-    def childrens(self):
-        return Room.objects.filter(parent=self)
+    #def childrens(self):
+    #    return Room.objects.filter(parent=self)
 
     @property
     def is_busy(self):
@@ -384,8 +491,28 @@ class Room(models.Model):
             return ('lock text-danger')
         return ('unlock text-success')
 
+    #@property
+    #def floor(self):
+    #    obj = self
+    #    while obj.parent != None:
+    #        obj = obj.parent
+    #    return obj.alias
+
+    @property
+    def project(self):
+        try:
+            return Project.objects.get(uuid=self.project_uuid)
+        except:
+            return None
+
     def get_locks(self):
         return Lock.objects.filter(project_uuid = self.project_uuid, room = self.number).order_by('pk')
+
+    def unassign_locks(self):
+        lock_list = Lock.objects.filter(project_uuid = self.project_uuid, room = self.number).order_by('pk')
+        for lock in lock_list:
+            lock.room = ""
+            lock.save()
 
     def get_cards(self):
         cards = KeyCard.objects.none()
@@ -399,4 +526,105 @@ class KeyCard(models.Model):
     cardreader = models.CharField(max_length=255, verbose_name=_('Card Reader Code'), default="")
     project_uuid = models.CharField(max_length=255, verbose_name=_('Project UUID'), default="")
     lock = models.ForeignKey(Lock, verbose_name = _('Lock'), on_delete=models.SET_NULL, null=True)
+
+class LockUser(models.Model):
+    uuid = models.CharField(max_length=255, verbose_name=_('UUID'), default="")
+    lock_username = models.CharField(max_length=255, verbose_name=_('Lock Username'), default="")
+    lock_password = models.CharField(max_length=255, verbose_name=_('Lock Password'), default="")
+    username = models.CharField(max_length=255, verbose_name=_('Username'), default="")
+    password = models.CharField(max_length=255, verbose_name=_('Password'), default="")
+    project_uuid = models.CharField(max_length=255, verbose_name=_('Project UUID'), default="")
+
+    @property
+    def project(self):
+        try:
+            return Project.objects.get(uuid=self.project_uuid)
+        except Exception as e:
+            return None
+
+    def create_lock_user(self):
+        obj = ShLock(self.project.lock_access_token)
+        return obj.register_user(self.username, self.lock_password)
+
+    def delete_lock_user(self):
+        obj = ShLock(self.project.lock_access_token)
+        return obj.delete_user(self.lock_username)
+
+    @staticmethod
+    def list_user_not_assigned():
+        obj = ShLock(self.project.lock_access_token)
+        user_list = obj.list_user()
+        result = []
+        for user in user_list:
+            val = LockUser.objects.filter(lock_username=user["username"]).count()
+            if val == 0:
+                result.append(user)
+        return result
+
+    @staticmethod
+    def delete_user_by_username(username):
+        obj = ShLock(self.project.lock_access_token)
+        return obj.delete_user(username)
+
+    class Meta:
+        verbose_name = _('Lock')
+
+class LockGroup(models.Model):
+    uuid = models.CharField(max_length=255, verbose_name=_('UUID'), default="")
+    name = models.CharField(max_length=255, verbose_name=_('Alias'), default="", null=True)
+    remote_id = models.CharField(max_length=10, verbose_name=_('Room'), default="")
+    remote_name = models.CharField(max_length=255, verbose_name=_('Remote Name'), default="")
+    project_uuid = models.CharField(max_length = 255, verbose_name= _('Project UUID'), default='')
+
+    @property
+    def project(self):
+        try:
+            return Project.objects.get(uuid=self.project_uuid)
+        except:
+            return None
+
+    def create_lock_group(self):
+        obj = ShLock(self.project.lock_access_token)
+        return obj.add_group(self.remote_name)
+
+    def delete_lock_group(self):
+        obj = ShLock(self.project.lock_access_token)
+        return obj.delete_group(self.remote_id)
+
+    @staticmethod
+    def list_group_not_assigned(access_token):
+        obj = ShLock(access_token)
+        group_list = obj.list_group()
+        result = []
+        for group in group_list:
+            val = LockGroup.objects.filter(remote_name=group["groupName"]).count()
+            if val == 0:
+                result.append(group)
+        return result
+
+    @staticmethod
+    def delete_group_by_id(group_id):
+        obj = ShLock(self.project.lock_access_token)
+        return obj.delete_group(group_id)
+
+    class Meta:
+        verbose_name = _('Lock group')
+
+class LockEkey(models.Model):
+    token = models.CharField(max_length = 32, verbose_name=_('Token'), default="")
+    username = models.CharField(max_length = 255, verbose_name= _('Username'), default='')
+    key_name= models.CharField(max_length = 255, verbose_name= _('Key name'), default='')
+    ekey_id = models.CharField(max_length = 10, verbose_name= _('Ekey id'), default='')
+    lock_uuid = models.CharField(max_length = 255, verbose_name= _('lock UUID'), default='')
+
+    ini_date = models.DateTimeField(verbose_name=_('Ini date'), default=datetime.datetime.now, null=True)
+    end_date = models.DateTimeField(verbose_name=_('End date'), default=datetime.datetime.now, null=True)
+
+    @property
+    def lock(self):
+        try:
+            return Lock.objects.get(uuid=self.lock_uuid)
+        except:
+            return None
+
 

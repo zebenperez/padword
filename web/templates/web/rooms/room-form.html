@@ -1,79 +1,110 @@
 {% load i18n padword_tags %}
-<h2 class="common-modal-head">{% trans 'New room' %}</h2>
 
-<span id="div-notification"></span><br/>
+
+<h2 class="common-modal-head">
+    <div class="row">
+        <div class="col-11">{% trans 'Edit room' %}</div>
+
+        {%comment%}
+	    <div class="col-1"><button type="button" class="btn ark" data-bs-dismiss="modal" data-url="{% url "room-floors" %}" 
+            data-project="{{obj.project_uuid}}" data-target="room-list-{{obj.project_uuid}}"><i class="fas fa-times"></i></button></div>
+        {%endcomment%}
+	    <div class="col-1"><button type="button" class="btn ark" data-bs-dismiss="modal" data-url="{% url "room-list" %}" 
+            data-target="room-list"><i class="fas fa-times"></i></button></div>
+    </div>
+</h2>
+
+<span id="div-notification"></span>
 
 <div class="row justify-center">
-    <div class="col-6">
-        <div class="row justify-center">
-            <div class="col-sm-6 col-md-6 col-12">
-                <label class="label">{% trans "Alias" %}:</label>
-                <input type="text" class="form-control autosave input mb-4" id="alias" name="alias" value="{{obj.alias}}" title="{{obj.alias}}" 
-                    data-model-name="web.room" data-obj-id="{{obj.id}}" data-url="{% url "autosave_field" %}" data-target="div-notification"/>
-                    <span id="alias__msg"></span>
-            </div>
-
-            <div class="col-sm-6 col-md-6 col-12">
-                <label class="label">{% trans "Number" %}:</label>
-                <input type="text" class="form-control autosave input mb-4" id="number" name="number" value="{{obj.number}}" title="{{obj.number}}" 
-                    data-model-name="web.room" data-obj-id="{{obj.id}}" data-url="{% url "autosave_field" %}" data-target="div-notification"/>
-                    <span id="number__msg"></span>
-            </div>
-
-            <div class="col-sm-6 col-md-6 col-12">
-                {% trans "Project" %}:
-                <select class="form-control input autosave b-bottom mb-4" id="project_uuid" name="project_uuid" value="{{obj.project_uuid}}" title="{{obj.project_uuid}}" 
-                    data-model-name="web.room" data-obj-id="{{obj.id}}" data-url="{% url "autosave_field" %}" data-target="div-notification"/>
-                    <option value="">{% trans "-- Select a project" %}</option>
-                    {% for proj in projects %}
-                        <option value="{{proj.uuid}}" {%if obj.project_uuid == proj.uuid %}selected{%endif%}>{{proj.name}}</option>
-                    {% endfor %}
-                </select>
-                <span id="project_uuid__msg"></span>
-            </div>
-            <div class="col-sm-6 col-md-6 col-12">
-                {% trans "Floor" %}:
-                <select class="form-control input autosave b-bottom mb-4" id="parent" name="parent" value="{{obj.parent.pk}}" title="{{obj.parent.name}}" 
-                    data-model-name="web.room" data-obj-id="{{obj.id}}" data-url="{% url "autosave_field" %}" data-target="div-notification"/>
-                    <option value="">{% trans "-- Select a floor" %}</option>
-                    {% for floor in floors %}
-                        <option value="{{floor.pk}}" {%if obj.parent == floor %}selected{%endif%}>{{floor.alias}}</option>
-                    {% endfor %}
-                </select>
-                <span id="project_uuid__msg"></span>
-            </div>
-        </div>
+    <div class="col-3">
+        <label class="label">{% trans "Alias" %}:</label>
+        <input type="text" class="form-control autosave input" id="alias" name="alias" value="{{obj.alias}}" title="{{obj.alias}}" 
+            data-model-name="web.room" data-obj-id="{{obj.id}}" data-url="{% url "autosave_field" %}" data-target="div-notification"/>
+            <span id="alias__msg"></span>
     </div>
-    <div class="col-6">
-        <div class="row justify-center">
-            <div class="col-12">
-                <label>{% trans 'Current Guest' %}</label> : <strong>{{ obj.current_guest.name }} {{ obj.current_guest.surname }}</strong>
-            </div>
-            <hr>
-            <div class="col-12">
-                <label> {% trans 'Locks' %}: </label>
-                {% for lock in obj.get_locks.all %}  <a class="btn btn-success btn-sm ark m-1" data-url="{% url "lock-form" %}" data-target-modal="common-modal" data-obj_id="{{lock.id}}">{{lock.alias}}</a> {% endfor %}
-            </div>
-            <hr>
-            <div class="col-12">
-                <label> {% trans 'Card Keys' %}: </label>
-                {% for keycard in obj.get_cards.all %}<strong>#{{keycard.cardreader}}</strong> &nbsp; {% endfor %}
-            </div>
-            <hr>
-            <div class="col-12">
-                <label> {% trans 'Pass Codes' %}: </label>
-                {% for lock in obj.get_locks.all %} {% for passcode in lock.get_all_passcodes %}<strong>#{{passcode.keyboardPwd}}</strong> &nbsp; {% endfor %}{% endfor %}
-            </div>
-            <hr>
-        </div>
+    <div class="col-3">
+        <label class="label">{% trans "Number" %}:</label>
+        <input type="text" class="form-control autosave input" id="number" name="number" value="{{obj.number}}" title="{{obj.number}}" 
+            data-model-name="web.room" data-obj-id="{{obj.id}}" data-url="{% url "autosave_field" %}" data-target="div-notification"/>
+            <span id="number__msg"></span>
     </div>
+    <div class="col-3">
+        {% trans "Project" %}:
+        <input type="text" class="form-control input" name="project" value="{{obj.project.name}}" readonly/>
+        {%comment%}
+        <select class="form-control input autosave b-bottom" id="project_uuid" name="project_uuid" value="{{obj.project_uuid}}" 
+            title="{{obj.project_uuid}}" data-model-name="web.room" data-obj-id="{{obj.id}}" data-url="{% url "autosave_field" %}" 
+            data-target="div-notification"/>
+            <option value="">{% trans "-- Select a project" %}</option>
+            {% for proj in projects %}
+                <option value="{{proj.uuid}}" {%if obj.project_uuid == proj.uuid %}selected{%endif%}>{{proj.name}}</option>
+            {% endfor %}
+        </select>
+        <span id="project_uuid__msg"></span>
+        {%endcomment%}
+    </div>
+    <div class="col-3">
+        {% trans "Group" %}:
+        <select class="form-control input autosave b-bottom" id="lock_group_uuid" name="lock_group_uuid" value="{{obj.lock_group_uuid}}" 
+            data-model-name="web.room" data-obj-id="{{obj.id}}" data-url="{% url "autosave_field" %}" data-target="div-notification"/>
+            <option value="">{% trans "-- Select a group" %}</option>
+            {% for group in group_list %}
+                <option value="{{group.uuid}}" {%if obj.lock_group_uuid == group.uuid %}selected{%endif%}>{{group.name}}</option>
+            {% endfor %}
+        </select>
+    </div>
+    {%comment%}
+    <div class="col-3">
+        {% trans "Floor" %}:
+        <select class="form-control input autosave b-bottom" id="parent" name="parent" value="{{obj.parent.pk}}" title="{{obj.parent.name}}" 
+            data-model-name="web.room" data-obj-id="{{obj.id}}" data-url="{% url "autosave_field" %}" data-target="div-notification"/>
+            <option value="">{% trans "-- Select a floor" %}</option>
+            {% for floor in floors %}
+                <option value="{{floor.pk}}" {%if obj.parent == floor %}selected{%endif%}>{{floor.alias}}</option>
+            {% endfor %}
+        </select>
+        <span id="project_uuid__msg"></span>
+    </div>
+    {%endcomment%}
 </div>
 
+<div class="row justify-center pt-0">
+    <div id="lock-list">{% include "web/rooms/lock-card.html" %}</div>
+</div>
+
+
+{%comment%}
+<div class="row justify-center">
+    <div class="col-12">
+        <label>{% trans 'Current Guest' %}</label> : <strong>{{ obj.current_guest.name }} {{ obj.current_guest.surname }}</strong>
+    </div>
+    <hr>
+    <div class="col-12">
+        <label> {% trans 'Locks' %}: </label>
+        {% for lock in obj.get_locks.all %}  <a class="btn btn-success btn-sm ark m-1" data-url="{% url "lock-form" %}" data-target-modal="common-modal" data-obj_id="{{lock.id}}">{{lock.alias}}</a> {% endfor %}
+    </div>
+    <hr>
+    <div class="col-12">
+        <label> {% trans 'Card Keys' %}: </label>
+        {% for keycard in obj.get_cards.all %}<strong>#{{keycard.cardreader}}</strong> &nbsp; {% endfor %}
+    </div>
+    <hr>
+    <div class="col-12">
+        <label> {% trans 'Pass Codes' %}: </label>
+        {% for lock in obj.get_locks.all %} {% for passcode in lock.get_all_passcodes %}<strong>#{{passcode.keyboardPwd}}</strong> &nbsp; {% endfor %}{% endfor %}
+    </div>
+    <hr>
+</div>
+{%endcomment%}
+
+{%comment%}
 <div class="d-flex justify-content-end p-2">
-	<button type="button" class="btn btn-primary ark m-2" data-bs-dismiss="modal"
-                          data-url="{% url "room-floors" %}" data-project="{{obj.project_uuid}}" data-target="room-list-{{obj.project_uuid}}">{% trans "Save" %}</button>
+	<button type="button" class="btn btn-primary ark m-2" data-bs-dismiss="modal" data-url="{% url "room-floors" %}" 
+        data-project="{{obj.project_uuid}}" data-target="room-list-{{obj.project_uuid}}">{% trans "Save" %}</button>
 	<button type="button" class="btn btn-danger ark m-2" data-bs-dismiss="modal"
     	data-url="{% url "room-remove" %}" data-target="room-list" data-obj_id="{{obj.id}}" 
 	    data-confirm="{% trans "Are you sure to remove this element?" %}">{% trans "Remove" %}</button>
 </div>
+{%endcomment%}
 

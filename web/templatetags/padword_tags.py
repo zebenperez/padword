@@ -2,10 +2,12 @@ from django.utils.safestring import mark_safe
 from django import template
 from django.urls import reverse
 from django.utils import translation 
+from django.utils.translation import ugettext_lazy as _ 
 
 from padword.commons import show_exc, get_items_per_page, user_in_group
 from web.models import Project, ProjectUser
 from contents.models import Allergen, Category, CategoryUser, Feature, ItemPromo, PaymentType
+from guest.models import KeyCode, KeyCard
 
 from datetime import datetime
 import string, random, json, os
@@ -131,6 +133,32 @@ def have_menu(user_project, menu):
     if pu == None:
         return False
     return menu in pu.menus
+
+@register.filter
+def get_code_guest(lock, code):
+    key_code_list = KeyCode.objects.filter(lock=lock, code=code)
+    result = ["{} {}".format(item.guest.name, item.guest.surname) for item in key_code_list]
+    return mark_safe("<br/>".join(result))
+
+@register.filter
+def get_code_type(value, date):
+    end_date = datetime.fromtimestamp(date/1000.0)
+    if value == 1:
+        return _("One use")
+    if value == 3 and end_date.year == 2099:
+        return _("Permanent")
+    return _("Period")
+
+@register.filter
+def get_card_guest(lock, code):
+    key_card_list = KeyCard.objects.filter(lock=lock, code=code)
+    result = ["{} {}".format(item.guest.name, item.guest.surname) for item in key_card_list]
+    return mark_safe("<br/>".join(result))
+
+@register.filter
+def get_ekey_link(lock, ekey_id):
+    return ""
+
 
 '''
     Simple Tags

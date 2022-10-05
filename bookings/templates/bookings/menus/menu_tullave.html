@@ -7,6 +7,8 @@
 <div class="row div-key mt-4">
     <div class="col-12 text-center">
         <a class="menu-options collapsible-header waves-effect btn-large pt-3" data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample"><i class="fa fa-lock"></i> Mis Llaves</a>
+        <div class="collapse" id="collapseExample"> {% include "bookings/show-guest-keys.html" %} </div>
+        {%comment%}
         <div class="collapse" id="collapseExample">
             {% for key in guest.keys.all %}
                 <div class="form-check form-switch">
@@ -28,6 +30,7 @@
             <div class="collapse-option mt-3"><a class="collapsible-header waves-effect btn-large-2"><i class="fa fa-lock"></i> Locker Room</a></div>
             <div class="collapse-option mt-3"><a class="collapsible-header waves-effect btn-large-2"><i class="fa fa-lock"></i> Server Room</a></div>
         </div>
+        {%endcomment%}
     </div>
 </div>
 

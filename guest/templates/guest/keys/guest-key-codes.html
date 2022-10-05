@@ -1,0 +1,32 @@
+{% load i18n %}
+
+{% for key_code in key_code_list %}
+    <div class="row">
+        <div class="col-5 pt-1">{% trans "Manual code" %}: </div>
+        <div class="col-4 pt-1">{{key_code.code}}</div>
+        <div class="col-3">
+            <a class="btn w-100 toggle-btn text-right" data-target="edit__{{key_code.id}}" 
+                data-text='<i class="fas fa-sync"></i>' data-text-alt='<img src="/static/img/quit.png" width="75%">' title="{% trans "Change code" %}"><i class="fas fa-sync"></i></a>
+        </div>
+    </div>
+    <div id="edit__{{key_code.id}}" style="display:none">
+        <form class="" method="post" action="{% url "guest-key-change-code" %}" id="form-key-{{key_code.id}}">
+            {% csrf_token %}
+            <input type="hidden" class="form-control" name="key_code" value="{{key_code.id}}" />
+            <div class="row">
+                <div class="col-8"> 
+                    <input type="text" class="form-control change-code p-2" name="code" id="key-code-{{key_code.id}}" value="{{key_code.code}}" /> </div>
+                <div class="col-4 pt-1">
+                    <button class="btn btn-primary saveform" data-form="form-key-{{key_code.id}}" data-target="div-locks">
+                        {% trans "Change" %}</button>
+                    {%comment%}
+                    <button class="btn btn-primary saveform" data-form="form-key-{{key_code.id}}" data-target="key-codes-{{key_code.lock.id}}">
+                        {% trans "Change" %}</button></div>
+                    {%endcomment%}
+                </div>
+            </div>
+        </form>
+    </div>
+{% endfor %}
+
+

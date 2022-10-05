@@ -30,6 +30,35 @@
 
 	<div class="col-3">
 		<label class="label">{% trans "Check-in date" %}*:</label>
+		<input type="date" class="form-control input mb-4 ark_change" id="check_in" name="check_in" value="{{obj.check_in|date:"Y-m-d"}}" 
+            title="{% trans "This field is required" %}" data-target="" data-obj_id="{{obj.id}}" data-url="{% url "guest-save-date" %}" 
+            data-target="div-notification" data-field="check_in" required/> <span class="msg_error" id="check_in__msg"></span>
+	</div>
+
+	<div class="col-3">
+		<label class="label">{% trans "Check-in time" %}*:</label>
+		<input type="time" class="form-control input mb-4 ark_change" id="check_in_time" name="check_in" value="{{obj.check_in|date:"H:i"}}" 
+            title="{% trans "This field is required" %}" data-target="" data-obj_id="{{obj.id}}" data-url="{% url "guest-save-date" %}" 
+            data-target="div-notification" data-field="check_in" required/> <span class="msg_error" id="check_in_time__msg"></span>
+	</div>
+
+	<div class="col-3">
+		<label class="label">{% trans "Check-out date" %}*:</label>
+		<input type="date" class="form-control input mb-4 ark_change" id="check_out" name="check_out" value="{{obj.check_out|date:"Y-m-d"}}" 
+            title="{% trans "This field is required" %}" data-target="" data-obj_id="{{obj.id}}" data-url="{% url "guest-save-date" %}" 
+            data-target="div-notification" data-field="check_out" required/> <span class="msg_error" id="check_out__msg"></span>
+	</div>
+
+	<div class="col-3">
+		<label class="label">{% trans "Check-out time" %}*:</label>
+		<input type="time" class="form-control input mb-4 ark_change" id="check_out_time" name="check_out" value="{{obj.check_out|date:"H:i"}}" 
+            title="{% trans "This field is required" %}" data-target="" data-obj_id="{{obj.id}}" data-url="{% url "guest-save-date" %}" 
+            data-target="div-notification" data-field="check_out" required/> <span class="msg_error" id="check_out_time__msg"></span>
+	</div>
+
+    {%comment%}
+	<div class="col-3">
+		<label class="label">{% trans "Check-in date" %}*:</label>
 		<input type="date" class="form-control autosave input mb-4" id="check_in" name="check_in" value="{{obj.check_in|date:"Y-m-d"}}" 
             title="{% trans "This field is required" %}" data-model-name="guest.guest" data-obj-id="{{obj.id}}" data-url="{% url "autosave_field" %}" 
             data-target="div-notification" required/> <span class="msg_error" id="check_in__msg"></span>
@@ -55,8 +84,18 @@
             title="{% trans "This field is required" %}" data-model-name="guest.guest" data-obj-id="{{obj.id}}" data-url="{% url "autosave_field" %}" 
             data-target="div-notification" data-check="check_in" required/> <span class="msg_error" id="check_out_time__msg"></span>
 	</div>
+    {%endcomment%}
 
-	<div class="col-6">
+    {%comment%}
+	<div class="col-12">
+		<label class="label">{% trans "Project UUID" %}:</label>
+		<input type="text" class="form-control autosave input mb-4" id="project_id" name="project_id" value="{{obj.project_id}}" 
+            title="{{obj.project_id}}" data-model-name="guest.guest" data-obj-id="{{obj.id}}" data-url="{% url "autosave_field" %}" 
+            data-target="div-notification" {%if project_uuid%}readonly{%endif%}/> <span class="msg_error" id="project_id__msg"></span>
+	</div>
+    {%endcomment%}
+
+	<div class="col-12">
 		<label class="label">{% trans "Room" %}*:</label>
         {%comment%}
 		<input type="text" class="form-control autosave-room input mb-4" id="room" name="room" value="{{obj.room}}" 
@@ -67,14 +106,6 @@
             title="{% trans "This field is required" %}" data-url="{% url "guest-save-room" %}" data-target="div-locks" data-obj_id="{{obj.id}}" 
             required/> <span class="msg_error" id="room__msg"></span>
         <div id="div-locks">{% include "guest/keys/guest-keys.html" %}</div>
-	</div>
-
-
-	<div class="col-3 col-md-6 col-sm-12">
-		<label class="label">{% trans "Project UUID" %}:</label>
-		<input type="text" class="form-control autosave input mb-4" id="project_id" name="project_id" value="{{obj.project_id}}" 
-            title="{{obj.project_id}}" data-model-name="guest.guest" data-obj-id="{{obj.id}}" data-url="{% url "autosave_field" %}" 
-            data-target="div-notification" {%if project_uuid%}readonly{%endif%}/> <span class="msg_error" id="project_id__msg"></span>
 	</div>
 
     <hr/>

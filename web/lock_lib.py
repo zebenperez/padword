@@ -1,117 +1,15 @@
 from django.conf import settings
-from ttlockwrapper import TTLock
-
-API_URI = 'https://api.ttlock.com/v3'
-ADD_PASSCODE_URL = '{}/{}?clientId={}&accessToken={}&lockId={}&keyboardPwd={}&startDate={}&endDate={}&addType=2&date={}'
-ADD_PASSCODE_PREFIX_URL = '/keyboardPwd/add'
-CHANGE_PASSCODE_URL = '{}/{}?clientId={}&accessToken={}&lockId={}&keyboardPwdId={}&newKeyboardPwd={}&startDate={}&endDate={}&changeType=2&date={}'
-CHANGE_PASSCODE_PREFIX_URL = '/keyboardPwd/change'
-REMOVE_PASSCODE_URL = '{}/{}?clientId={}&accessToken={}&lockId={}&keyboardPwdId={}&deleteType=2&date={}'
-REMOVE_PASSCODE_PREFIX_URL = '/keyboardPwd/delete'
-GET_ALL_PASSCODE_URL = '{}/{}?clientId={}&accessToken={}&lockId={}&pageNo={}&pageSize={}&date={}'
-GET_ALL_PASSCODE_PREFIX_URL = 'lock/listKeyboardPwd'
-
-ADD_CARD_URL = '{}/{}?clientId={}&accessToken={}&lockId={}&cardNumber={}&startDate={}&endDate={}&addType=2&date={}'
-#ADD_CARD_PREFIX_URL = '/identityCard/addForReversedCardNumber'
-ADD_CARD_PREFIX_URL = '/identityCard/add'
-
-LIST_FIELD = 'list'
-KEYBOARD_PWD_ID = 'keyboardPwdId'
-KEYBOARD_PWD = 'keyboardPwd'
-CARD_ID = 'cardId'
-ERROR_CODE_FIELD = 'errcode'
-
-class ShTTLock(TTLock):
-    def lock_add_passcode(self, lockId=None, code="", startDate=0, endDate=0):
-        if not lockId:
-            raise TTlockAPIError()
-
-        _url_request = ADD_PASSCODE_URL.format(
-            API_URI,
-            ADD_PASSCODE_PREFIX_URL,
-            self.clientId,
-            self.accessToken,
-            lockId,
-            code,
-            int(round((startDate.timestamp() * 1000))),
-            int(round((endDate.timestamp() * 1000))),
-            TTLock.__get_current_millis__(),
-        )
-        return TTLock.__send_request__(_url_request).json().get(KEYBOARD_PWD_ID)
-
-    def lock_change_passcode(self, lockId=None, codeId="", newCode="", startDate=0, endDate=0):
-        if not lockId:
-            raise TTlockAPIError()
-
-        _url_request = CHANGE_PASSCODE_URL.format(
-            API_URI,
-            CHANGE_PASSCODE_PREFIX_URL,
-            self.clientId,
-            self.accessToken,
-            lockId,
-            codeId,
-            newCode,
-            int(round((startDate.timestamp() * 1000))),
-            int(round((endDate.timestamp() * 1000))),
-            TTLock.__get_current_millis__(),
-        )
-        return TTLock.__send_request__(_url_request).json().get(ERROR_CODE_FIELD)
-
-    def lock_remove_passcode(self, lockId=None, codeId=""):
-        if not lockId:
-            raise TTlockAPIError()
-
-        _url_request = REMOVE_PASSCODE_URL.format(
-            API_URI,
-            REMOVE_PASSCODE_PREFIX_URL,
-            self.clientId,
-            self.accessToken,
-            lockId,
-            codeId,
-            TTLock.__get_current_millis__(),
-        )
-        return TTLock.__send_request__(_url_request).json().get(ERROR_CODE_FIELD)
-
-    def lock_get_all_passcodes(self, lockId=None, pageNo=1, pageSize=100):
-        if not lockId:
-            raise TTlockAPIError()
-
-        _url_request = GET_ALL_PASSCODE_URL.format(
-            API_URI,
-            GET_ALL_PASSCODE_PREFIX_URL,
-            self.clientId,
-            self.accessToken,
-            lockId,
-            pageNo,
-            pageSize,
-            TTLock.__get_current_millis__(),
-        )
-        _response = TTLock.__send_request__(_url_request).json()
-        for records in _response.get(LIST_FIELD):
-            yield records
-
-    def lock_add_card(self, lockId=None, cardNumber="", startDate=0, endDate=0):
-        if not lockId:
-            raise TTlockAPIError()
-
-        _url_request = ADD_CARD_URL.format(
-            API_URI,
-            ADD_CARD_PREFIX_URL,
-            self.clientId,
-            self.accessToken,
-            lockId,
-            cardNumber,
-            int(round((startDate.timestamp() * 1000))),
-            int(round((endDate.timestamp() * 1000))),
-            TTLock.__get_current_millis__(),
-        )
-        return TTLock.__send_request__(_url_request).json().get(CARD_ID)
-
+#from ttlockwrapper import TTLock
+#from web.lock_lib_const import *
+from web.ttlock import TTLock
 
 class ShLock:
-    def __init__(self):
-        self.ttlock = ShTTLock(settings.TTLOCK_CLIENT, settings.TTLOCK_TOKEN)
+    def __init__(self, accessToken=""):
+        self.clientId = settings.TTLOCK_CLIENT
+        self.clientSecret = settings.TTLOCK_SECRET
+        self.ttlock = TTLock(self.clientId, accessToken)
 
+    #--------------- LOCKS --------------
     def get_locks(self, locks_id=[]):
         gateways = list(self.ttlock.get_gateway_generator())
 
@@ -122,10 +20,17 @@ class ShLock:
         all_locks_id = [str(lock.get('lockId')) for lock in locks] 
         return [item for item in all_locks_id if item not in locks_id]
 
+    def get_lock_all(self):
+        try:
+            return self.ttlock.lock_get_all()
+        except Exception as e:
+            return e
+
     def open_lock_by_id(self, lock_id):
         try:
             return self.ttlock.unlock(int(lock_id))
         except Exception as e:
+            print(e)
             return e
 
     def get_lock_state(self, lock_id):
@@ -140,9 +45,16 @@ class ShLock:
         except Exception as e:
             return e
 
+    #--------------- CODES --------------
     def set_lock_code(self, lock_id, code, start_date, end_date):
         try:
             return self.ttlock.lock_add_passcode(lock_id, code, start_date, end_date)
+        except Exception as e:
+            return e
+
+    def get_lock_code(self, lock_id, code_type, start_date, end_date):
+        try:
+            return self.ttlock.lock_get_passcode(lock_id, code_type, start_date, end_date)
         except Exception as e:
             return e
 
@@ -164,9 +76,99 @@ class ShLock:
         except Exception as e:
             return e
 
+    #--------------- CARDS --------------
     def lock_add_card(self, lock_id, card_number, start_date, end_date):
         try:
             return self.ttlock.lock_add_card(lock_id, card_number, start_date, end_date)
+        except Exception as e:
+            return e
+
+    def remove_lock_card(self, lock_id, code_id):
+        try:
+            return self.ttlock.lock_remove_card(lock_id, code_id)
+        except Exception as e:
+            return e
+
+    def get_lock_all_cards(self, lock_id):
+        try:
+            return self.ttlock.lock_get_all_cards(lock_id)
+        except Exception as e:
+            return e
+
+    def change_period_lock_card(self, lock_id, cardId, startDate, endDate):
+        try:
+            return self.ttlock.lock_change_period_card(lock_id, cardId, startDate, endDate)
+        except Exception as e:
+            return e
+
+    #--------------- GROUPS --------------
+    def add_group(self, name):
+        try:
+            return self.ttlock.add_group(name)
+        except Exception as e:
+            return e
+
+    def list_group(self):
+        try:
+            return self.ttlock.list_group()
+        except Exception as e:
+            return e
+
+    def set_lock_group(self, lock_id, group_id):
+        try:
+            return self.ttlock.set_lock_group(lock_id, group_id)
+        except Exception as e:
+            return e
+
+    def delete_group(self, group_id):
+        try:
+            return self.ttlock.delete_group(group_id)
+        except Exception as e:
+            return e
+
+    #--------------- EKEYS --------------
+    def send_lock_key(self, lock_id, username, key_name, start_date, end_date):
+        try:
+            return self.ttlock.lock_send_key(lock_id, username, key_name, start_date, end_date)
+        except Exception as e:
+            return e
+
+    def get_lock_all_keys(self, lock_id):
+        try:
+            return self.ttlock.lock_get_all_keys(lock_id)
+        except Exception as e:
+            return e
+
+    def remove_lock_key(self, lock_id, key_id):
+        try:
+            return self.ttlock.lock_remove_key(lock_id, key_id)
+        except Exception as e:
+            return e
+
+
+    #--------------- USERS --------------
+    def get_token(self, username, password):
+        try:
+            return TTLock.get_ext_token(self.clientId, self.clientSecret, username, password)
+        except Exception as e:
+            return e
+
+    #### FIXME: revisar esto
+    def register_user(self, username, password):
+        try:
+            return self.ttlock.register_user(username, password, self.clientSecret)
+        except Exception as e:
+            return e
+
+    def delete_user(self, username):
+        try:
+            return self.ttlock.delete_user(username, self.clientSecret)
+        except Exception as e:
+            return e
+
+    def list_user(self):
+        try:
+            return self.ttlock.list_user(self.clientSecret)
         except Exception as e:
             return e
 

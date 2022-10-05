@@ -1,30 +1,14 @@
 {% load i18n bookings_tag common_tag padword_tags static %}
 
-{% comment %}
-<div class="row languages">
-    <div class="col-lg-1 offset-lg-4 col-2 offset-2">
-        <a href="#" class="text-center ark" data-url="{% url "guest-access" "d4aa331f-5026-c4d5-c86c-4e1c71dd252e" "de" %}" data-target="main"
-            data-cat_id="{{form.category}}"> <img class="btn btn-secondary p-2" src="/static/img/de.png"></a></div>
-    <div class="col-lg-1 col-2">
-        <a href="#" class="text-center ark" data-url="{% url "guest-access" "d4aa331f-5026-c4d5-c86c-4e1c71dd252e" "es" %}" data-target="main">
-            <img class="btn btn-secondary p-2" src="/static/img/es.png"></a></div>
-    <div class="col-lg-1 col-2">
-        <a href="#" class="text-center ark" data-url="{% url "guest-access" "d4aa331f-5026-c4d5-c86c-4e1c71dd252e" "fr" %}" data-target="main">
-            <img class="btn btn-secondary p-2" src="/static/img/ru.png"></a></div>
-    <div class="col-lg-1 col-2">
-        <a href="#" class="text-center ark" data-url="{% url "guest-access" "d4aa331f-5026-c4d5-c86c-4e1c71dd252e" "en" %}" data-target="main">
-            <img class="btn btn-secondary p-2" src="/static/img/en.png">
-        </a>
-    </div>
-</div>
-{% endcomment %}
-
-{#<div class="row div-slogan"><div class="col-12 text-center main-slide"><img class="" src="/static/img/bg-lagos.jpg"></div></div>#}
 <div class="row div-slogan"><div class="col-12 text-center main-slide">{% get_promos category %}</div></div>
  
 <div class="row div-key">
     <div class="col-12 text-center pt-2">
-        <a class="menu-options" href="https://open.tullaveonline.com/?k=jWFk2nTF"> <img class="" src="/static/img/key.png"><br />Tu llave</a>
+        {#<a class="menu-options" href="https://open.tullaveonline.com/?k=jWFk2nTF"> <img class="" src="/static/img/key.png"><br />Tu llave</a>#}
+        <a class="menu-options collapsible-header waves-effect btn-large pt-3" data-bs-toggle="collapse" href="#collapseExample" role="button" 
+            aria-expanded="false" aria-controls="collapseExample"><img src="/static/img/key.png"><br/> {% trans "Tu Llave" %}</a>
+        <div class="collapse" id="collapseExample"> {% include "bookings/show-guest-keys.html" %} </div>
+
     </div> 
 </div>
 

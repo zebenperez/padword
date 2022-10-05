@@ -367,8 +367,8 @@ i.fa.fa-lock {
 }
 
 .ico-image {
-    /*width: 75%;*/
-    width: 60%;
+    /*width: 60%;*/
+    width: 50%;
 }
 
 button.menu-options { 
@@ -380,7 +380,7 @@ button.menu-options {
     font-weight: 600;
     /*height: 60px; No funciona bien en Safari*/
 	height: auto;
-    line-height:3.5;
+/*    line-height:3.5;*/
     text-transform: uppercase !important;
 }
 
@@ -440,6 +440,7 @@ ul#menu-box {
 ul#menu-box li {
     list-style: none;
     font-size: 0.8em !important;
+    line-height:3.5;
 }
 
 .grid-container-lang {

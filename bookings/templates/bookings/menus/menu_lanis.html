@@ -2,25 +2,6 @@
 
 
 <div class="row languages">
-    {%comment%}
-    <div class="col-lg-1 offset-lg-4 col-2 offset-2">
-        <a href="#" class="text-center ark" data-url="{% url "guest-access" "b2262194-8d2c-ef35-86b5-1150d12e184e" "de" %}" data-target="main" 
-            data-cat_id="{{form.category}}"> <img class="btn btn-secondary p-2" src="/static/img/de.png"></a>
-    </div>
-    <div class="col-lg-1 col-2 ">
-        <a href="#" class="text-center ark" data-url="{% url "guest-access" "b2262194-8d2c-ef35-86b5-1150d12e184e" "es" %}" data-target="main" 
-            data-cat_id="{{form.category}}"> <img class="btn btn-secondary p-2" src="/static/img/es.png"></a>
-    </div>
-    <div class="col-lg-1 col-2 ">
-        <a href="#" class="text-center ark" data-url="{% url "guest-access" "b2262194-8d2c-ef35-86b5-1150d12e184e" "fr" %}" data-target="main" 
-            data-cat_id="{{form.category}}"> <img class="btn btn-secondary p-2" src="/static/img/fr.png"></a>
-    </div>
-    <div class="col-lg-1 col-2 ">
-        <a href="#" class="text-center ark" data-url="{% url "guest-access" "b2262194-8d2c-ef35-86b5-1150d12e184e" "en" %}" data-target="main" 
-            data-cat_id="{{form.category}}"> <img class="btn btn-secondary p-2" src="/static/img/en.png"></a>
-    </div>
-    {%endcomment%}
-
     <div class="col-lg-1 offset-lg-4 col-2 offset-2">
         <a href="#" class="text-center ark" data-url="{% url "guest-set-lang" %}" data-target="main-base" data-lang="de"
             data-cat_id="{{form.category}}"> <img class="btn btn-secondary p-2" src="/static/img/de.png"></a></div>
@@ -40,26 +21,34 @@
 <div class="row menu-tabs align-items-end w-100">
     <div class="col-3 mb-1 align-middle justify-content-center p2">
         <div class="">
-            <button class="menu-options ark" data-url="{% url "show-category-menu" %}" data-target="main" 
-                data-cat_id="1ed087d7-1847-6eca-a04a-f7fb0edafc4d">{% padword_translate_obj '1ed087d7-1847-6eca-a04a-f7fb0edafc4d' %}</button>
+            {% with cat_uuid=form|get_cat_uuid:"gastro" %}
+                <button class="menu-options ark" data-url="{% url "show-category-menu" %}" data-target="main" 
+                    data-cat_id="{{cat_uuid}}">{% padword_translate_obj cat_uuid %}</button>
+            {% endwith %}
         </div>
     </div> 
     <div class="col-3 mb-1 align-middle justify-content-center p2">
         <div class="">
-            <button class="menu-options ark" data-url="{% url "show-category-menu" %}" data-target="main" 
-                data-cat_id="bdf0b388-ae1d-99d3-48eb-ce549e36c291">{% padword_translate_obj 'bdf0b388-ae1d-99d3-48eb-ce549e36c291' %}</button>
+            {% with cat_uuid=form|get_cat_uuid:"beauty" %}
+                <button class="menu-options ark" data-url="{% url "show-category-menu" %}" data-target="main" 
+                    data-cat_id="{{cat_uuid}}">{% padword_translate_obj cat_uuid %}</button>
+            {% endwith %}
         </div>
     </div>
     <div class="col-3 mb-1 align-middle justify-content-center p2">
         <div class="">
-            <button class="menu-options ark" data-url="{% url "show-category-menu" %}" data-target="main" 
-                data-cat_id="32090073-b71a-6358-890b-825e372a4c5c">{% padword_translate_obj '32090073-b71a-6358-890b-825e372a4c5c' %}</button>
+            {% with cat_uuid=form|get_cat_uuid:"serv_hotel" %}
+                <button class="menu-options ark" data-url="{% url "show-category-menu" %}" data-target="main" 
+                    data-cat_id="{{cat_uuid}}">{% padword_translate_obj cat_uuid %}</button>
+            {% endwith %}
         </div>
     </div>
     <div class="col-3 mb-1 align-middle justify-content-center p2">
         <div class="">
-            <button class="menu-options ark" data-url="{% url "show-category-menu" %}" data-target="main" 
-                data-cat_id="0ed26826-d5da-c58a-8257-08ced033f26a">{% padword_translate_obj '0ed26826-d5da-c58a-8257-08ced033f26a' %}</button>
+            {% with cat_uuid=form|get_cat_uuid:"exper" %}
+                <button class="menu-options ark" data-url="{% url "show-category-menu" %}" data-target="main" 
+                    data-cat_id="{{cat_uuid}}">{% padword_translate_obj cat_uuid %}</button>
+            {% endwith %}
         </div>
     </div>
 </div>
@@ -67,32 +56,26 @@
 <div class="row menu-botton w-100">
     <div class="col-lg-3 offset-1 col-3" style="padding:0;">
         <div>
-            <a class="text-white pointer ark" data-url="{%url "show-category-menu"%}" data-target="main" 
-                data-cat_id="52ac91d1-debd-526b-1041-ea73cb21b111"> <i class="far fa-star"></i>
-                <span>{% padword_translate_obj '52ac91d1-debd-526b-1041-ea73cb21b111' %}</span></a>
+            {% with cat_uuid=form|get_cat_uuid:"covid" %}
+                <a class="text-white pointer ark" data-url="{%url "show-category-menu"%}" data-target="main" data-cat_id="{{cat_uuid}}"> 
+                    <i class="far fa-star"></i> <span>{% padword_translate_obj cat_uuid %}</span></a>
+            {% endwith %}
         </div>
     </div>
-    {% comment %}
-    <div class="col-lg-3 offset-1 col-3" style="padding:0;">
-        <div>
-            <a class="text-white pointer ark" data-url="{%url "show-category-menu"%}" data-target="main" 
-                data-cat_id="0c15e1ec-887e-1394-060f-f5dcf6255678"> <i class="far fa-comments"></i>
-                <span>{% padword_translate_obj '0c15e1ec-887e-1394-060f-f5dcf6255678' %}</span></a>
-        </div>
-    </div>
-    {% endcomment %}
     <div class="col-lg-4 col-4" style="padding:0;">
         <div>
-            <a class="text-white pointer ark" data-url="{%url "show-category-menu"%}" data-target="main" 
-                data-cat_id="9e3f3d0d-f57e-91a1-ef2b-fb2bde770d5d"> <i class="fas fa-wifi"></i>
-                <span>{% padword_translate_obj '9e3f3d0d-f57e-91a1-ef2b-fb2bde770d5d' %}</span></a>
+            {% with cat_uuid=form|get_cat_uuid:"internet" %}
+                <a class="text-white pointer ark" data-url="{%url "show-category-menu"%}" data-target="main" data-cat_id="{{cat_uuid}}"> 
+                    <i class="fas fa-wifi"></i> <span>{% padword_translate_obj cat_uuid %}</span></a>
+            {% endwith %}
         </div>
     </div>
     <div class="col-lg-3 col-3" style="padding:0;">
         <div>
-            <a class="text-white pointer ark" data-url="{%url "show-category-menu"%}" data-target="main" 
-                data-cat_id="b8b6e74d-6291-b638-ad40-bc5b1461a017"> <i class="far fa-star"></i>
-                <span> {% padword_translate_obj 'b8b6e74d-6291-b638-ad40-bc5b1461a017' %}</span></a>
+            {% with cat_uuid=form|get_cat_uuid:"lanza" %}
+                <a class="text-white pointer ark" data-url="{%url "show-category-menu"%}" data-target="main" data-cat_id="{{cat_uuid}}"> 
+                    <i class="far fa-star"></i> <span> {% padword_translate_obj cat_uuid %}</span></a>
+            {% endwith %}
         </div>
     </div>
 </div>
@@ -100,10 +83,6 @@
 {% if lang and category %} {%csrf_token%} {% endif %}
 
 <script id="realtime-script">
-    //$('#counter-item-{{item_refresh.pk}}').val('{{total_items}}');
-    //$('#counter-item-mob-{{item_refresh.pk}}').val('{{total_items}}');
-    //$('#span-total-price').html('{{total|floatformat:2}}');
-    //$('#span-total-items').html('{{items|length}}');
     $("#back-btn").hide();
     $('#span-total-items').html('{% get_total_items request.user.username category.project_uuid %}');
     if (parseInt($("#span-total-items").html()) > 0)
@@ -111,5 +90,4 @@
     else
         $("#count-badge").hide();
     $('#realtime-script').remove();
-    {#{% if lang  and category %} {% ark 'reload-top-menu' 'div-top-lang-menu' category_uuid=category.uuid %} {% endif %}#}
 </script>

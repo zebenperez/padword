@@ -1,12 +1,33 @@
-{% load i18n %}
+{% load i18n guest_tags %}
 
 <div class="card">
     <div class="card-header"> {% trans "Locks assigned" %} </div>
 
-    {% if err and err != "" %}<div class="alert alert-danger">{{err}}</div>{% endif %}
+    {% if err and err != "" %}<div class="alert alert-danger">{{err|safe}}</div>{% endif %}
 
-    <div class="card-body">
-        {% for item in obj.keys.all %} <div id="key-details-{{item.id}}">{% include "guest/keys/guest-key-details.html" %}</div> {% endfor %}
+    <div class="card-body p-0">
+        {#{% for item in obj.keys.all %} <div id="key-details-{{item.id}}">{% include "guest/keys/guest-key-details.html" %}</div> {% endfor %}#}
+        {#{% for item in obj.get_locks %} <div id="key-details-{{item.id}}">{% include "guest/keys/guest-key-details.html" %}</div> {% endfor %}#}
+            
+        <div class="div-assigned-lock">
+        {% for item in obj.get_locks %} 
+        
+                <div class="row lock-box">
+                    {#<div class="col-4 name pt-2 pb-1">{% trans "Name" %}: </div>#}
+                    <div class="col-12 alias text-center pt-2 pb-2"><strong>{{item.alias}}</strong></div>
+                    <div class="col-12 text-center pt-1 pb-1">
+                        <a class="btn btn-green ark w-50" data-url="{% url "guest-key-open" %}" data-obj_id="{{item.id}}" 
+                            data-target="notification__{{item.id}}" title="{% trans "Open lock" %}">{% trans "Open lock" %} 
+                            <img src="/static/img/door-open.png" width="10%"></a>
+                    </div>
+                    <div id="notification__{{item.id}}"></div>
+                    <div class="row-manual-cod" id="key-codes-{{item.id}}"> {% guest_key_codes obj item %} </div> 
+                    <div class="row-cards" id="key-cards-{{item.id}}"> {% guest_key_cards obj item %} </div>
+                </div>
+
+        {% endfor %}
+        </div>
+
     </div>
 </div>
 

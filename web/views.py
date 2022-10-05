@@ -5,10 +5,10 @@ from django.shortcuts import render, redirect
 from django.utils.translation import ugettext_lazy as _ 
 from django.views.decorators.csrf import csrf_exempt
 
-from padword.commons import show_exc, get_or_none, get_param, new_ui_slug, translate
+from padword.commons import show_exc, get_or_none, get_param, new_ui_slug, translate, set_session
 from padword.decorators import group_required
 from .models import *
-from .lock_lib import ShLock
+#from .lock_lib import ShLock
 
 
 from django.conf import settings
@@ -60,6 +60,10 @@ def thanks(request):
 
 def csrf_failure(request, reason=""):
     return render(request, "csrf_error.html")
+
+def get_or_create_user_lock(project_uuid):
+    obj, created = ProjectLockUser.objects.get_or_create(project_uuid = project_uuid)
+    return obj 
 
 '''
     Projects
@@ -114,7 +118,10 @@ def project_form(request):
                 obj.company = company
                 obj.save()
 
-        return render(request, "web/projects/project-form.html", {'obj': obj, 'companies': Company.objects.all(), 'company_id': company_id})
+        user_lock = get_or_create_user_lock(obj.uuid)
+
+        context = {'obj': obj, 'companies': Company.objects.all(), 'company_id': company_id, 'user_lock': user_lock}
+        return render(request, "web/projects/project-form.html", context)
     except Exception as e:
         return render(request, 'error_exception.html', {'exc':show_exc(e)})
 
@@ -123,6 +130,7 @@ def project_remove(request):
     company_id = get_param(request.GET, "company_id", None)
     obj = get_or_none(Project, request.GET["obj_id"]) if "obj_id" in request.GET else None
     if obj != None:
+        ProjectLockUser.objects.filter(project_uuid=obj.uuid).delete()
         obj.delete()
 
     company = get_or_none(Company, company_id)
@@ -135,6 +143,13 @@ def project_upload_json(request):
     if obj != None:
         return render(request, "web/projects/upload-json.html", {'obj':obj,})
     return render(request, 'error_exception.html', {'exc': 'Project not found!'})
+
+@group_required("admins")
+def project_user_token(request):
+    obj = get_or_none(ProjectLockUser, request.GET["obj_id"]) if "obj_id" in request.GET else None
+    obj.get_token()
+
+    return render(request, "web/projects/project-token.html", {'user_lock':obj,})
 
 '''
     Channels
@@ -486,107 +501,134 @@ def ServiceWorker(request):
 #     template_name = "sw.js"
 #     content_type="application/javascript"
 
-'''
-    Locks
-'''
-def update_locks():
-    sh_lock = ShLock()
-    for item in sh_lock.get_locks():
-        Lock.objects.get_or_create(uuid=item)
-
-@group_required("admins")
-def locks(request):
-    msg = ""
-    try:
-        update_locks()
-    except Exception as e:
-        msg = e
- 
-    try:
-        items = Lock.objects.all()
-        print(items)
-        return render (request, "web/locks/locks.html",{'items':items, 'msg': msg})
-    except Exception as e:
-        return render(request, 'error_exception.html', {'exc':show_exc(e)})
-
-@group_required("admins")
-def lock_search(request):
-    try:
-        filters_to_search = ["alias__icontains", ]
-        items = Lock.objects.none()
-        for myfilter in filters_to_search:
-            kwargs = {}
-            if "s-alias" in request.GET and request.GET["s-alias"] != "":
-                kwargs[myfilter] = request.GET["s-alias"]
-            items = items.union(Lock.objects.filter(**kwargs))
-        return render(request, "web/locks/lock-list.html", {'items': items,})
-    except Exception as e:
-        return render(request, 'error_exception.html', {'exc':show_exc(e)})
-
-@group_required("admins")
-def lock_form(request):
-    obj = get_or_none(Lock, request.GET["obj_id"]) if "obj_id" in request.GET else None
-    if obj == None:
-        return render(request, 'error_exception.html', {'exc':'Lock not found!'})
-    return render(request, "web/locks/lock-form.html", {'obj': obj,})
-
-@group_required("admins")
-def lock_remove(request):
-    obj = get_or_none(Lock, request.GET["obj_id"]) if "obj_id" in request.GET else None
-    if obj != None:
-        obj.delete()
-    items = Lock.objects.all()
-    return render (request, "web/locks/lock-list.html",{'items':items} )
-
-@group_required("admins")
-def lock_get_all_passcodes(request, obj_id=None):
-    obj = get_or_none(Lock, request.GET["obj_id"]) if "obj_id" in request.GET else None
-    if obj == None:
-        return render(request, 'error_exception.html', {'exc':'Lock not found!'})
-    return render(request, "web/locks/lock-all-passcodes.html", {'obj': obj,})
-
-@group_required("admins")
-def lock_get_cards(request):
-    obj = get_or_none(Lock, request.GET["obj_id"]) if "obj_id" in request.GET else None
-    url = 'https://euapi.ttlock.com/v3/identityCard/list'
-    if obj is None:
-        list_obj = Lock.objects.all()
-    else:
-        list_obj = [obj]
-
-    for obj in list_obj:
-        params = dict(
-            clientId='c5cd9353990e4061a082a7a275897de1',
-            accessToken='4719a3f737f7d1adafe139fbea20f6fb',
-            lockId=int(obj.uuid),
-            pageNo=1,
-            pageSize=100,
-            date = int(round(datetime.datetime.now().timestamp() * 1000))
-        )
-        resp = requests.get(url=url, params=params)
-        data = resp.json() # Check the JSON Response Content documentation below
-        for keycard_json in data['list']:
-            keycard = KeyCard.objects.get(bluetooth = keycard_json['cardNumber'])
-            keycard.lock = obj
-            keycard.save()
-
-    return HttpResponse("OK")
-
-
-
-'''
-    EKeys
-'''
-@group_required("admins")
-def ekeys(request):
-    URL = "https://app.tullaveonline.com"
-    URL2 = "https://app.tullaveonline.com/?controller=login"
-    URL3 = "https://app.tullaveonline.com/?controller=precheckin"
-    client = requests.session()
-    page = client.get(URL)
-    login_data = dict(usuario="admin", password="admin", action="dologin")
-    r = client.post(URL2, data=login_data, headers=dict(Referer=URL))
-    page = client.get(URL3)
-    return render (request, "web/ekeys.html", {'page': page.text.replace('src="js/', 'src="https://app.millaveonline.com/js/')})
-
+#'''
+#    Locks
+#'''
+#def update_locks():
+#    sh_lock = ShLock()
+#    for item in sh_lock.get_locks():
+#        Lock.objects.get_or_create(uuid=item)
+#
+##def set_lock_filter_session(request):
+##    request.session["lock_search_alias"] = request.GET["s-alias"] if "s-alias" in request.GET and request.GET["s-alias"] else ""
+#
+#def get_lock_items(request):
+#    kwargs = {}
+#
+#    if "lock_search_alias" in request.session and request.session["lock_search_alias"] != "":
+#        kwargs["alias__icontains"] = request.session["lock_search_alias"]
+#    if "lock_search_project" in request.session and request.session["lock_search_project"] != "":
+#        project_uuid_list = [item.uuid for item in Project.objects.filter(name__icontains=request.session["lock_search_project"])]
+#        kwargs["project_uuid__in"] = project_uuid_list
+#
+#    return Lock.objects.filter(**kwargs) if len(kwargs) > 0 else Lock.objects.all()
+#
+#@group_required("admins")
+#def locks(request):
+#    msg = ""
+#    try:
+#        update_locks()
+#    except Exception as e:
+#        msg = e
+# 
+#    try:
+#        items = get_lock_items(request)
+#        return render (request, "web/locks/locks.html",{'items':items, 'msg': msg})
+#    except Exception as e:
+#        return render(request, 'error_exception.html', {'exc':show_exc(e)})
+#
+#@group_required("admins")
+#def lock_search(request):
+#    try:
+#        #set_lock_filter_session(request)
+#        set_session(request, "lock_search_alias")
+#        set_session(request, "lock_search_project")
+#        items = get_lock_items(request)
+#        return render(request, "web/locks/lock-list.html", {'items': items,})
+#    except Exception as e:
+#        return render(request, 'error_exception.html', {'exc':show_exc(e)})
+#
+#@group_required("admins")
+#def lock_form(request):
+#    obj = get_or_none(Lock, request.GET["obj_id"]) if "obj_id" in request.GET else None
+#    if obj == None:
+#        return render(request, 'error_exception.html', {'exc':'Lock not found!'})
+#    return render(request, "web/locks/lock-form.html", {'obj': obj,})
+#
+#@group_required("admins")
+#def lock_remove(request):
+#    obj = get_or_none(Lock, request.GET["obj_id"]) if "obj_id" in request.GET else None
+#    if obj != None:
+#        obj.delete()
+#    items = Lock.objects.all()
+#    return render (request, "web/locks/lock-list.html",{'items':items} )
+#
+#@group_required("admins")
+#def lock_get_all_passcodes(request, obj_id=None):
+#    obj = get_or_none(Lock, request.GET["obj_id"]) if "obj_id" in request.GET else None
+#    if obj == None:
+#        return render(request, 'error_exception.html', {'exc':'Lock not found!'})
+#    return render(request, "web/locks/lock-all-passcodes.html", {'obj': obj,})
+#
+#@group_required("admins")
+#def lock_set_code(request):
+#    try:
+#        code = request.POST["code"]
+#        card = request.POST["card"]
+#        print("--1--")
+#        print(code)
+#        print(card)
+#        for key in request.POST.keys():
+#            if "ch_" in key:
+#                print(key)
+#                print(request.POST[key])
+#                print("-----------------")
+#        return redirect(locks)
+#    except Exception as e:
+#        return render(request, 'error_exception.html', {'exc':show_exc(e)})
+#
+#@group_required("admins")
+#def lock_get_cards(request):
+#    obj = get_or_none(Lock, request.GET["obj_id"]) if "obj_id" in request.GET else None
+#    url = 'https://euapi.ttlock.com/v3/identityCard/list'
+#    if obj is None:
+#        list_obj = Lock.objects.all()
+#    else:
+#        list_obj = [obj]
+#
+#    for obj in list_obj:
+#        params = dict(
+#            clientId='c5cd9353990e4061a082a7a275897de1',
+#            accessToken='4719a3f737f7d1adafe139fbea20f6fb',
+#            lockId=int(obj.uuid),
+#            pageNo=1,
+#            pageSize=100,
+#            date = int(round(datetime.datetime.now().timestamp() * 1000))
+#        )
+#        resp = requests.get(url=url, params=params)
+#        data = resp.json() # Check the JSON Response Content documentation below
+#        for keycard_json in data['list']:
+#            keycard = KeyCard.objects.get(bluetooth = keycard_json['cardNumber'])
+#            keycard.lock = obj
+#            keycard.save()
+#
+#    return HttpResponse("OK")
+#
+#
+#
+#'''
+#    EKeys
+#'''
+#@group_required("admins")
+#def ekeys(request):
+#    URL = "https://app.tullaveonline.com"
+#    URL2 = "https://app.tullaveonline.com/?controller=login"
+#    URL3 = "https://app.tullaveonline.com/?controller=precheckin"
+#    client = requests.session()
+#    page = client.get(URL)
+#    login_data = dict(usuario="admin", password="admin", action="dologin")
+#    r = client.post(URL2, data=login_data, headers=dict(Referer=URL))
+#    page = client.get(URL3)
+#    return render (request, "web/ekeys.html", {'page': page.text.replace('src="js/', 'src="https://app.millaveonline.com/js/')})
+#
 

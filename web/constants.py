@@ -1,0 +1,103 @@
+
+GOOD_HTTP_CODES = [200, 201, 202, 203]
+USER_FIELD = 'username'
+ACCESS_TOKEN_FIELD = 'access_token'
+REFRESH_TOKEN_FIELD = 'refresh_token'
+EXPIRE_TIME_TOKEN_FIELD = 'expires_in'
+ERROR_CODE_FIELD = 'errcode'
+MENSSAGE_FIELD = 'errmsg'
+LIST_FIELD = 'list'
+STATE_FIELD = 'state'
+PAGES_FIELD = 'pages'
+GATEWAY_MAC_FIELD = 'gatewayMac'
+LOCK_MAC_FIELD ='lockMac'
+LOCK_ALIAS_FIELD = 'lockAlias'
+LOCK_ID_FIELD = 'lockId'
+GATEWAY_ID_FIELD = 'gatewayId'
+ELECTRIC_QUANTITY_FIELD = 'electricQuantity'
+API_URI='https://api.ttlock.com/v3'
+GATEWAY_LIST_RESOURCE = 'gateway/list'
+LOCK_RESOURCE = 'lock/lock'
+UNLOCK_RESOURCE = 'lock/unlock'
+LOCKS_PER_GATEWAY_RESOURCE = 'gateway/listLock'
+LOCK_RECORDS_RESOURCE = 'lockRecord/list'
+LOCK_STATE_RESOURCE = 'lock/queryOpenState'
+LOCK_ELECTRIC_QUANTITY_RESOURCE='lock/queryElectricQuantity'
+GATEWAY_LIST_URL = '{}/{}?clientId={}&accessToken={}&pageNo={}&pageSize={}&date={}'
+LOCKS_PER_GATEWAY_URL = '{}/{}?clientId={}&accessToken={}&gatewayId={}&date={}'
+LOCK_RECORDS_URL = '{}/{}?clientId={}&accessToken={}&lockId={}&pageNo={}&pageSize={}&startDate={}&endDate={}&date={}'
+LOCK_QUERY_URL = '{}/{}?clientId={}&accessToken={}&lockId={}&date={}'
+
+USER_RESOURCE = 'user/register'
+USER_CREATE_URL = '{}/{}?clientId={}&clientSecret={}&username={}&password={}&date={}'
+
+TOKEN_RESOURCE = 'oauth2/token'
+TOKEN_CREATE_URL = 'https://api.ttlock.com/{}?client_id={}&client_secret={}&username={}&password={}&grant_type=password&redirect_uri={}'
+TOKEN_EXT_CREATE_URL = 'https://api.ttlock.com/{}'
+
+TOKEN_REFRESH_URL = 'https://api.ttlock.com/{}?client_id={}&client_secret={}&refresh_token={}&grant_type=refresh_token&redirect_uri={}'
+
+
+UNLOCK_CODES = {1:'App unlock', 2:'touch the parking lock', 3:'gateway unlock', 4:'passcode unlock', 5:'parking lock raise', 6:'parking lock lower', 7:'IC card unlock', 8:'fingerprint unlock', 9:'wristband unlock', 10:'mechanical key unlock', 11:'Bluetooth lock', 12:'gateway unlock', 29:'unexpected unlock', 30:'door magnet close', 31:'door magnet open', 32:'open from inside', 33:'lock by fingerprint', 34:'lock by passcode', 35:'lock by IC card', 36:'lock by Mechanical key', 37:'Remote Control', 44:'Tamper alert', 45:'Auto Lock', 46:'unlock by unlock key', 47:'lock by lock key', 48:'Use INVALID Passcode several times'}
+
+
+#----------- SHIDIX --------------
+GET_ALL_LOCKS_URL = '{}/{}?clientId={}&accessToken={}&pageNo={}&pageSize={}&date={}'
+GET_ALL_LOCKS_PREFIX_URL = 'lock/list'
+
+ADD_PASSCODE_URL = '{}/{}?clientId={}&accessToken={}&lockId={}&keyboardPwd={}&startDate={}&endDate={}&addType=2&date={}'
+ADD_PASSCODE_PREFIX_URL = '/keyboardPwd/add'
+CHANGE_PASSCODE_URL = '{}/{}?clientId={}&accessToken={}&lockId={}&keyboardPwdId={}&newKeyboardPwd={}&startDate={}&endDate={}&changeType=2&date={}'
+CHANGE_PASSCODE_PREFIX_URL = '/keyboardPwd/change'
+REMOVE_PASSCODE_URL = '{}/{}?clientId={}&accessToken={}&lockId={}&keyboardPwdId={}&deleteType=2&date={}'
+REMOVE_PASSCODE_PREFIX_URL = '/keyboardPwd/delete'
+GET_ALL_PASSCODE_URL = '{}/{}?clientId={}&accessToken={}&lockId={}&pageNo={}&pageSize={}&date={}'
+GET_ALL_PASSCODE_PREFIX_URL = 'lock/listKeyboardPwd'
+RANDOM_PASSCODE_URL = '{}/{}?clientId={}&accessToken={}&lockId={}&keyboardPwdType={}&startDate={}&endDate={}&date={}'
+RANDOM_PASSCODE_PREFIX_URL = '/keyboardPwd/get'
+
+ADD_CARD_URL = '{}/{}?clientId={}&accessToken={}&lockId={}&cardNumber={}&startDate={}&endDate={}&addType=2&date={}'
+#ADD_CARD_PREFIX_URL = '/identityCard/addForReversedCardNumber'
+ADD_CARD_PREFIX_URL = '/identityCard/add'
+REMOVE_CARD_URL = '{}/{}?clientId={}&accessToken={}&lockId={}&cardId={}&deleteType=2&date={}'
+REMOVE_CARD_PREFIX_URL = '/identityCard/delete'
+GET_ALL_CARD_URL = '{}/{}?clientId={}&accessToken={}&lockId={}&pageNo={}&pageSize={}&date={}'
+GET_ALL_CARD_PREFIX_URL = 'identityCard/list'
+CHANGE_PERIOD_CARD_URL = '{}/{}?clientId={}&accessToken={}&lockId={}&cardId={}&startDate={}&endDate={}&changeType=2&date={}'
+CHANGE_PERIOD_CARD_PREFIX_URL = 'identityCard/changePeriod'
+
+ADD_GROUP_URL = '{}/{}?clientId={}&accessToken={}&name={}&date={}'
+ADD_GROUP_PREFIX_URL = 'group/add'
+LIST_GROUP_URL = '{}/{}?clientId={}&accessToken={}&date={}'
+LIST_GROUP_PREFIX_URL = 'group/list'
+SET_LOCK_GROUP_URL = '{}/{}?clientId={}&accessToken={}&lockId={}&groupId={}&date={}'
+SET_LOCK_GROUP_PREFIX_URL = 'lock/setGroup'
+DELETE_GROUP_URL = '{}/{}?clientId={}&accessToken={}&groupId={}&date={}'
+DELETE_GROUP_PREFIX_URL = 'group/delete'
+
+REGISTER_USER_URL = '{}/{}?clientId={}&clientSecret={}&username={}&password={}&date={}'
+REGISTER_USER_PREFIX_URL = 'user/register'
+DELETE_USER_URL = '{}/{}?clientId={}&clientSecret={}&username={}&date={}'
+DELETE_USER_PREFIX_URL = 'user/delete'
+LIST_USER_URL = '{}/{}?clientId={}&clientSecret={}&pageNo={}&pageSize={}&date={}'
+LIST_USER_PREFIX_URL = 'user/list'
+
+SEND_KEY_URL = '{}/{}?clientId={}&accessToken={}&lockId={}&receiverUsername={}&keyName={}&startDate={}&endDate={}&remoteEnable=1&createUser=1&date={}'
+SEND_KEY_PREFIX_URL = '/key/send'
+GET_ALL_KEY_URL = '{}/{}?clientId={}&accessToken={}&lockId={}&pageNo={}&pageSize={}&date={}'
+GET_ALL_KEY_PREFIX_URL = '/lock/listKey'
+REMOVE_KEY_URL = '{}/{}?clientId={}&accessToken={}&lockId={}&keyId={}&date={}'
+REMOVE_KEY_PREFIX_URL = '/key/delete'
+
+KEYBOARD_PWD_ID = 'keyboardPwdId'
+KEYBOARD_PWD = 'keyboardPwd'
+CARD_ID = 'cardId'
+KEY_ID = 'keyId'
+USERNAME = 'username'
+GROUP_ID = 'groupId'
+CLIENT_ID = 'clientId'
+CLIENT_SECRET = 'clientSecret'
+USERNAME = 'username'
+PASSWORD = 'password'
+
+

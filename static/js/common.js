@@ -1,6 +1,9 @@
+function setWait() { $("body").addClass("loading"); }
+function unsetWait() { $("body").removeClass("loading"); }
+
 function ajaxGet(url, datas, target, modal_target)
 {
-    $("body").css("cursor", "progress");
+    setWait();
     $.ajax({
         url : url,
         type : 'GET',
@@ -22,7 +25,8 @@ function ajaxGet(url, datas, target, modal_target)
                     $('#'+target).html(data);
         },
         error : function(e){alert("Error: "+e.responseText);},
-        complete : function(){$("body").css("cursor", "default");}
+        complete : function(){unsetWait();}
+        //complete : function(){$("body").css("cursor", "default"); $("body").removeClass("loading-");}
     });
 };
 
@@ -188,7 +192,7 @@ function uploadObjFile(obj, url, target, obj_id, field, token)
 
 function submitForm(frm, target)
 {
-    $("body").css("cursor", "progress");
+    setWait();
     $.ajax({
         url: frm.attr('action'),
         type: frm.attr('method'),
@@ -197,7 +201,8 @@ function submitForm(frm, target)
             $('#'+target).html(data);
         },
         error: function (data) { alert("Error: "+data.responseText); },
-        complete : function(){$("body").css("cursor", "default");}
+        complete : function(){unsetWait();}
+        //complete : function(){$("body").css("cursor", "default");}
     });
 }
 
@@ -384,7 +389,6 @@ $(document).ready(()=>{
         }
     });
 
-
     $("body").on("change", ".ark_change", function(e){
         var obj = $(this);
         if (((obj.data("confirm")) && confirm(obj.data("confirm"))) || !(obj.data("confirm")))
@@ -410,6 +414,33 @@ $(document).ready(()=>{
             e.preventDefault();
         }
     });
+
+    $("body").on("focusout", ".ark_focusout", function(e){
+        var obj = $(this);
+        if (((obj.data("confirm")) && confirm(obj.data("confirm"))) || !(obj.data("confirm")))
+        {
+            var url = obj.data("url");
+            var value = obj.val();
+            var target = "";
+            var target_modal = "";
+            if (obj.data("target"))
+                target = obj.data("target");
+            if (obj.data("target-modal"))
+                target_modal = obj.data("target-modal");
+
+            var datas = {'value': value};
+            var args = obj.data();
+            for(var i in args)
+                if (i != "url")
+                    datas[i] = args[i]
+            ajaxGet(url, datas, target, target_modal);
+
+            if (obj.data("clear"))
+                clearHtml($("#" + obj.data("clear")));
+            e.preventDefault();
+        }
+    });
+
 
     $("body").on("click", ".ark-validate", function(e){
         var obj = $(this);
@@ -609,6 +640,32 @@ $(document).ready(()=>{
         else
             $(this).html("editor");
         e.preventDefault();
+    });
+
+    $("body").on("click", ".toggle-btn", function(e){
+        var obj = $(this);
+        var target = obj.data("target");
+        var text = obj.data("text");
+        var textAlt = obj.data("text-alt");
+
+        $("#"+target).slideToggle();
+        if (obj.data("id-change"))
+            $("#"+$(obj.data("id-change"))).html(obj.html() == textAlt ? text : textAlt);
+        else
+            obj.html(obj.html() == textAlt ? text : textAlt);
+        if (obj.data("set-focus"))
+            $("#"+obj.data("set-focus")).focus()
+    });
+
+    $("body").on("click", ".toggle-tags", function(e){
+        var class_name = $(this).data("class-name");
+        if ($(this).is(":checked"))
+        {
+            $("."+class_name).prop("disabled", true);
+            $(this).prop("disabled", false);
+        }
+        else
+            $("."+class_name).prop("disabled", false);
     });
 });
 

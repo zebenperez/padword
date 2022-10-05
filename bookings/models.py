@@ -153,6 +153,10 @@ class Form(models.Model):
     def get_public_blocks(self):
         return self.blocks.filter(private=False)
 
+    def get_category_uuid_by_code(self, code):
+        cat = Category.objects.filter(project_uuid=self.project.uuid, internal=code).first()
+        return cat.uuid if cat != None else ""
+
     class Meta:
         verbose_name = _('2.- Form')
         verbose_name_plural = _('2.- Forms')

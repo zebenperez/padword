@@ -1,0 +1,30 @@
+{% load i18n padword_tags %}
+
+
+<h2 class="common-modal-head">{% trans 'Passcode list' %}</h2>
+
+<table class="table table-hover table-striped">
+    <thead>
+        <tr> <th>{%trans 'Code'%}</th> <th>{%trans 'Start Date'%}</th> <th>{%trans 'End Date'%}</th> <th>{%trans 'Guest'%}</th> <th></th></tr>
+    </thead>
+    <tbody>
+        {% for item in obj.get_all_cards %}
+            <tr id="tr-{{item.id}}">
+                <td> {{item.cardNumber}} </td> 
+                <td> {{item.startDate|str_to_date}} </td> 
+                <td> {{item.endDate|str_to_date}} </td> 
+                <td> {{obj|get_card_guest:item.cardNumber}} </td> 
+                <td class="text-end">
+                    <a class="btn btn-outline-warning ark w-100" title="{%trans "Remove card"%}" data-url="{% url "lock-remove-card" %}"
+                        data-obj_id="{{obj.id}}" data-card_id="{{item.cardId}}" data-confirm="{%trans "Are you sure to remove this element?"%}" 
+                        data-target="tr-{{item.id}}">{%trans "Remove card"%} </a>
+                </td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<div class="d-flex justify-content-end p-2">
+	<button type="button" class="btn btn-primary ark m-2" data-bs-dismiss="modal"
+	    data-url="{% url "lock-search" %}" data-target="lock-list">{% trans "Cerrar" %}</button>
+</div>

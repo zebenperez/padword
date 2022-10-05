@@ -10,7 +10,7 @@ from django.utils import translation
 
 from padword.decorators import group_required
 from padword.commons import show_exc, get_or_none, get_param, get_float, get_bool, new_ui_slug
-from web.models import Device, Project, ProjectUser
+from web.models import Device, Project, ProjectUser, Lock
 from contents.models import Category, ShoppingCart, Item, PaymentType
 from guest.models import Guest, GuestNotification
 from web.lock_lib import ShLock
@@ -665,22 +665,8 @@ def set_guest_language(request):
 '''
 @group_required("admins", "projects", "guests")
 def open_lock(request):
-    sh_lock = ShLock()
-    sh_lock.open_lock_by_id(request.GET["obj_id"])
-    return HttpResponse("")
-#    open_lock = False
-#    clientId = settings.TTLOCK_CLIENT
-#    token = settings.TTLOCK_TOKEN
-#    ttlock = TTLock(clientId, token)
-#
-#    gateways = list(ttlock.get_gateway_generator())
-#
-#    locks = []
-#    for gateway in gateways:
-#        locks += list(ttlock.get_locks_per_gateway_generator(gateway.get("gatewayId")))
-#
-#    for lock in locks:
-#        ttlock.unlock(lock.get('lockId'))
-#        open_lock = True
-#    return render(request, 'bookings/guest/open-lock-msg.html', {'open': open_lock,})
+    lock = get_or_none(Lock, request.GET["obj_id"])
+    msg = lock.open_lock()
+    msg = _("The lock could not be opened, sorry for the inconvenience.") if msg != True else ""
+    return HttpResponse(msg)
 

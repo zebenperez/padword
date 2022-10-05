@@ -2,11 +2,6 @@
 
 <div class="row div-top w-100 p-0 m-0">
     <div class="col-lg-1 col-1 text-center p-0">
-        {%comment%}
-        <button id="back-btn" class="btn btn-header-pwa text-center ark pl-2 pr-2" data-url="{% url "show-category-menu" %}" data-target="main" 
-            data-cat_id="" data-cat_home="{{form.category}}" style="display:none" onclick="window.history.back()">
-            <i class="fas fa-chevron-left"></i> </button>
-        {%endcomment%}
         <button id="back-btn" class="btn btn-header-pwa text-center ark pl-2 pr-2" data-url="{% url "show-category-menu" %}" data-target="main" 
             data-cat_id="" data-cat_home="{{form.category}}" style="display:none">
             <i class="fas fa-chevron-left"></i> </button>
@@ -39,16 +34,6 @@
                     <i class="far fa-calendar"></i> <br /> <span>{% trans 'Bookings' %}</span>
                 </button>
             </div>
-                                {%comment%}
-            <div class="col-2 text-center p-0">
-                <button class="btn btn-header-pwa text-center history ark" id="btn-messages" data-url="{% url "my-messages" %}" 
-                    data-target="main" data-project_uuid="{{project_uuid}}"> <i class="far fa-comments"></i> <br /> 
-                    <span class="subtext">{% trans 'Chat' %}</span>
-                    <span class="count badge" id="notification-badge" {%if guest.get_not_read_notifications == 0%}style="display:none"{%endif%}>
-                        <span id="span-notifications">{{ guest.get_not_read_notifications }}</span></span>
-                </button>
-            </div>
-                    {%endcomment%}
 
             <div class="col-2 text-center p-0">
                 <button class="btn btn-header-pwa text-center history ark" id="shopping-cart-btn" data-url="{% url 'view-shopping-cart' %}" 
@@ -62,21 +47,12 @@
             <div class="col-2 text-center p-0">
                 <button class="btn btn-header-pwa ark" data-url="{% url "close-spa" %}" data-target="div-main" 
                     data-category_uuid="{{form.category}}"> <i class="fas fa-sign-in-alt"></i> <br/> <span>{% trans 'Close' %}</span></button>
-                {%comment%}
-                <a class="btn btn-header-pwa" href="{% url "close-spa" %}?category_uuid={{form.category}}"> 
-                    <i class="fas fa-sign-in-alt"></i> <br/> <span>{% trans 'Close' %}</span></button>
-                {%endcomment%}
             </div>
         </div>
     </div>
 </div>
 
 <script>
-    {%comment%}
-    $("#btn-home").click(function(){ $("#back-btn").hide();});
-    $("#back-btn").click(function(){ if ($(this).data("cat_id") == $(this).data("cat_home")) $(this).hide(); else $(this).show(); });
-    {%endcomment%}
-
     $("#btn-home").click(function(){ $("#back-btn").hide(); $("#back-btn-bookings").hide();});
     $("#btn-bookings").click(function(){ $("#back-btn").hide(); $("#back-btn-bookings").hide();});
     $("#back-btn").click(function(){ if ($(this).data("cat_id") == $(this).data("cat_home")) $(this).hide(); else $(this).show(); });

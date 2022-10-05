@@ -233,6 +233,11 @@ div.row.blog {
     width: 94%;
 }
 
+#collapseExample.collapse.show {
+    z-index: 1000 !important; 
+/*    border:1px solid blue !important;*/
+}
+
 ul.collapsible {
     box-shadow: none !important;
     border-top: 0px !important;

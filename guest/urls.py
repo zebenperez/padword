@@ -17,7 +17,10 @@ urlpatterns = [
     path('guests/project-<slug:project_id>/', views.guests_by_project, name='guests-by-project'),
     path('guests/project/form/', views.guest_form_by_project, name='guest-form-by-project'),
 
+    path('guests/save-date/', views.guest_save_date, name='guest-save-date'),
     path('guests/save-room/', views.guest_save_room, name='guest-save-room'),
+
+    path('guests/rooms/autocomplete/', views.guest_room_autocomplete, name='guest-room-autocomplete'),
 
     #--------------------- GUESTS --------------------
     path('', views.index, name='device-index'),
@@ -48,9 +51,10 @@ urlpatterns = [
     #--------------------- KEYS --------------------
     path('guests/key-open/', views.key_open, name="guest-key-open"),
     path('guests/key-change-code/', views.key_change_code, name="guest-key-change-code"),
-    path('guests/key-remove/', views.key_remove, name="guest-key-remove"),
+    #path('guests/key-remove-code/', views.key_remove_code, name="guest-key-remove-code"),
 
     path('guests/key-add-card/', views.key_add_card, name="guest-key-add-card"),
+    path('guests/key-remove-card/', views.key_remove_card, name="guest-key-remove-card"),
     #path('guests/keys/', views.keys, name="guest-keys"),
     #path('guests/key/assign/', views.key_assign, name="guest-assign-key"),
     #path('guests/key/remove/', views.key_remove, name="guest-remove-key"),

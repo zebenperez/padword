@@ -26,6 +26,8 @@
             data-target="div-notification"/> <span id="project_uuid__msg"></span>
 	</div>
 </div>
+
+{%comment%}
 <div class="d-flex p-2" id="pass-codes">
     <table class="table table-hover table-striped">
         <thead>
@@ -49,10 +51,11 @@
         </tbody>
     </table>
 </div>
+{%endcomment%}
 
 <div class="d-flex justify-content-end p-2">
 	<button type="button" class="btn btn-primary ark m-2" data-bs-dismiss="modal"
-	    data-url="{% url "lock-search" %}" data-target="lock-list">{% trans "Save" %}</button>
+        data-url="{% url "lock-search" %}" data-target="lock-list" data-project_uuid="{{obj.project_uuid}}">{% trans "Save" %}</button>
 	<button type="button" class="btn btn-danger ark m-2" data-bs-dismiss="modal"
     	data-url="{% url "lock-remove" %}" data-target="lock-list" data-obj_id="{{obj.id}}" 
 	    data-confirm="{% trans "Are you sure to remove this element?" %}">{% trans "Remove" %}</button>

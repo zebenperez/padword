@@ -1,0 +1,34 @@
+{% load i18n padword_tags %}
+
+{% if msg and msg != "" %} <div class="alert alert-warning">{{msg}}</div>{% endif %}
+
+<table class="table table-hover table-striped">
+    <thead>
+        <tr> 
+            <th>{%trans 'Code'%}</th> 
+            <th>{%trans 'Start Date'%}</th> 
+            <th>{%trans 'End Date'%}</th> 
+            <th>{%trans 'Guest'%}</th> 
+            <th>{%trans 'Type'%}</th> 
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for item in obj.get_all_passcodes %}
+            <tr>
+                <td> {{item.keyboardPwd}} </td> 
+                <td> {{item.startDate|str_to_date}} </td> 
+                <td> {{item.endDate|str_to_date}} </td> 
+                <td> {{obj|get_code_guest:item.keyboardPwd}} </td> 
+                {#<td> {{item.keyboardPwdType}} </td> #}
+                <td> {{item.keyboardPwdType|get_code_type:item.endDate}} </td> 
+                <td class="text-end">
+                    <a class="btn btn-outline-warning ark w-100" title="{%trans "Remove code"%}" data-url="{% url "room-lock-remove-code" %}"
+                        data-obj_id="{{obj.id}}" data-code_id="{{item.keyboardPwdId}}" 
+                        data-confirm="{%trans "Are you sure to remove this element?"%}" data-target="code-details">{%trans "Remove code"%} </a>
+                </td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+

@@ -1125,3 +1125,9 @@ img.object-fit_cover.img-new {
 }
 
 /*********** end CHAT BOX ************/
+
+.modal-content {
+    border: 3px solid #FF8C81 !important;
+    border-radius: 0.5rem;
+}
+
