@@ -44,17 +44,17 @@
         </button> <br /><span>{% padword_translate_obj 'de52ee51-9ac2-4baa-cefa-ff88939ea1c6'%}</span> 
     </div>
     <div class="tabs-3 col-4 offset-1 mb-1 align-middle justify-content-center p2">
-        {%comment%}
         <button class="menu-options ark" data-url="{% url "my-bookings" %}" data-target="main"
              data-project_uuid="{{project_uuid}}" data-cat_id="{{form.category}}"><i class="fas fa-credit-card"></i>
         </button><br /><span>Mis pedidos</span>
-        {%endcomment%}
+        {%comment%}
         <button class="menu-options ark" data-url="{% url "show-category-menu" %}" data-target="main" 
             data-cat_id="d739e503-89f1-a5e1-78e3-d71114d7d0d5"><i class="fas fa-credit-card"></i> 
         </button><br /><span>{% padword_translate_obj 'd739e503-89f1-a5e1-78e3-d71114d7d0d5'%}</span>
+        {%endcomment%}
     </div> 
     <div class="tabs-4 col-4 offset-2 mb-1 align-middle justify-content-center p2">
-        <button class="menu-options ark" data-url="{% url "show-category-menu" %}" data-target="main" 
+        <button class="menu-options ark" id="btn-notifications"  data-url="{% url "show-category-menu" %}" data-target="main" 
             data-cat_id="52d2b39d-0842-7d27-a350-972bd5674c95"><i class="fas fa-clipboard-list"></i>
         </button><br /><span>{% padword_translate_obj '52d2b39d-0842-7d27-a350-972bd5674c95'%}</span>
     </div>

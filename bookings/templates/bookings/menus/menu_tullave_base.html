@@ -32,12 +32,22 @@
                     </li>
                     <li><a class="dropdown-item menu-options ark" data-url="{% url "show-category-menu" %}" idata-target="main"
                             data-cat_id="4e7bff89-9c82-bccc-d721-0f240a23ae68" href="#"><i class="fas fa-key"></i> Mis Llaves</a></li>
-                    <!-- <li><a class="dropdown-item" href="#"><i class="far fa-calendar-check"></i> Agenda</a></li> -->
-                    <li><a class="dropdown-item" href="#"><i class="fas fa-hotel"></i> El Hotel</a></li>
-                    <li><a class="dropdown-item" href="#"><i class="fas fa-map-signs"></i> A tu alrededor</a></li>
-                    <li><a class="dropdown-item" href="#"><i class="fas fa-wifi"></i> Wifi</a></li>
+                    <li>
+                        <a class="dropdown-item menu-options ark" data-url="{% url "show-category-menu" %}" data-target="main"
+                            data-project_uuid="{{project_uuid}}" data-cat_id="1407782e-5ed3-b9ba-62a0-e83c4bc46d08" data-hide="menu-box">
+                            <i class="fas fa-hotel"></i> {% padword_translate_obj '1407782e-5ed3-b9ba-62a0-e83c4bc46d08'%}</a>
+                    </li>
+                     <li>
+                        <a class="dropdown-item menu-options ark" data-url="{% url "show-category-menu" %}" data-target="main"
+                            data-project_uuid="{{project_uuid}}" data-cat_id="8212aa48-42d4-9a67-d4a2-116389f0677f" data-hide="menu-box">
+                            <i class="fas fa-map-signs"></i> {% padword_translate_obj '8212aa48-42d4-9a67-d4a2-116389f0677f'%}</a>
+                    </li>
+                    <li>
+                        <a class="dropdown-item menu-options ark" data-url="{% url "show-category-menu" %}" data-target="main"
+                            data-project_uuid="{{project_uuid}}" data-cat_id="a39b568c-8a9d-501c-ce4f-3c31faf0a808" data-hide="menu-box">
+                            <i class="fas fa-wifi"></i> {% padword_translate_obj 'a39b568c-8a9d-501c-ce4f-3c31faf0a808'%}</a>
+                    </li>
                     <li><a class="dropdown-item" href="#"><i class="fas fa-exchange-alt"></i> Cambio de hotel</a></li>
-                    {#<li><a class="dropdown-item" href="#"><i class="fas fa-sign-out-alt"></i> Cerrar sesión</a></li>#}
                     <li>
                         <a class="dropdown-item" href="{% url "close-spa" %}?category_uuid={{form.category}}">
                             <i class="fas fa-sign-out-alt"></i> Cerrar sesión</a>
