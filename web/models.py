@@ -525,7 +525,7 @@ class KeyCard(models.Model):
     bluetooth = models.CharField(max_length=255, verbose_name=_('Bluetooth Code'), default="")
     cardreader = models.CharField(max_length=255, verbose_name=_('Card Reader Code'), default="")
     project_uuid = models.CharField(max_length=255, verbose_name=_('Project UUID'), default="")
-    lock = models.ForeignKey(Lock, verbose_name = _('Lock'), on_delete=models.SET_NULL, null=True)
+    lock = models.ForeignKey(Lock, verbose_name = _('Lock'), on_delete=models.CASCADE, null=True)
 
 class LockUser(models.Model):
     uuid = models.CharField(max_length=255, verbose_name=_('UUID'), default="")

@@ -6,6 +6,7 @@ from padword.commons import show_exc, get_or_none, get_param, new_ui_slug, trans
 from padword.decorators import group_required
 from .models import *
 from .lock_lib import ShLock
+from guest.models import KeyCode, KeyCard
 
 import requests
 import time, datetime
@@ -14,12 +15,26 @@ import time, datetime
 '''
     Locks
 '''
+def remove_lock(lock):
+    KeyCode.objects.filter(lock=lock.uuid).delete()
+    KeyCard.objects.filter(lock=lock.uuid).delete()
+    lock.delete()
+
+
 def update_locks(project):
     sh_lock = ShLock(project.lock_access_token)
+
     #for item in sh_lock.get_lock_all():
     #    print(item)
+
+    current_locks = []
     for item in sh_lock.get_locks():
         Lock.objects.get_or_create(uuid=item, project_uuid=project.uuid)
+        if item not in current_locks:
+            current_locks.append(item)
+    lock_list = Lock.objects.filter(project_uuid=project.uuid).exclude(uuid__in = current_locks)
+    for lock in lock_list:
+        remove_lock(lock)
 
 #def set_lock_filter_session(request):
 #    request.session["lock_search_alias"] = request.GET["s-alias"] if "s-alias" in request.GET and request.GET["s-alias"] else ""
@@ -90,7 +105,8 @@ def lock_remove(request):
     obj = get_or_none(Lock, request.GET["obj_id"]) if "obj_id" in request.GET else None
     if obj != None:
         project_uuid = obj.project_uuid
-        obj.delete()
+        #obj.delete()
+        remove_lock(obj)
     context = get_context(request, project_uuid)
     return render (request, "web/locks/lock-list.html", context)
 

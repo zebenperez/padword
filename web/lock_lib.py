@@ -17,7 +17,12 @@ class ShLock:
         for gateway in gateways:
             locks += list(self.ttlock.get_locks_per_gateway_generator(gateway.get("gatewayId")))
 
-        all_locks_id = [str(lock.get('lockId')) for lock in locks] 
+        #all_locks_id = [str(lock.get('lockId')) for lock in locks] 
+        all_locks_id = []
+        for lock in locks:
+            if str(lock.get('lockId')) not in all_locks_id:
+                all_locks_id.append(str(lock.get('lockId')))
+
         return [item for item in all_locks_id if item not in locks_id]
 
     def get_lock_all(self):
