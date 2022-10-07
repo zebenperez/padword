@@ -53,7 +53,6 @@ def login(request):
 '''
     Bookings
 '''
-#def get_booking_context(project=None, form=None):
 def get_booking_context(project=None, form_list=[]):
     context = {}
     today = datetime.datetime.today()
@@ -91,6 +90,7 @@ def get_booking_context(project=None, form_list=[]):
     context["end_date"] = end_date
     context["status_list"] = Status.objects.all()
     context["items"] = item_list
+    context['total_items'] = len(item_list)
     return context
 
 
@@ -292,10 +292,6 @@ def bookings_notifications(request, ini_date, end_date):
 def bookings(request):
     try:
         context = get_booking_context()
-        try:
-            context['total_items'] = context['items'].count()
-        except:
-            context['total_items'] = 0
         context['items'] = context['items'][0:ITEMS_PER_PAGE]
         context['page'] = 0
         return render (request, "bookings/manage/bookings.html", context)
@@ -348,7 +344,6 @@ def bookings_by_project(request, project_id):
         if project_id == -1:
             return render(request, 'error_exception.html', {'exc': _('Project not found!')})
         context = get_booking_context(project=get_or_none(Project, project_id))
-        context['total_items'] = len(context['items'])
         context['items'] = context['items'][0:ITEMS_PER_PAGE]
         context['page'] = 0
         return render (request, "bookings/manage/bookings.html", context)
@@ -415,15 +410,8 @@ def bookings_cat_page(request):
         return render(request, 'error_exception.html', {'exc':show_exc(e)})
 
 @group_required("categories")
-#def bookings_by_category(request, category_id):
 def bookings_by_category(request):
     try:
-        #category = get_or_none(Category, category_id)
-        #if category == None:
-        #    return render(request, 'error_exception.html', {'exc': _('Category not found!')})
-        #form = get_or_none(Form, category.uuid, "category")
-        #if form == None:
-        #    return render(request, 'error_exception.html', {'exc': _('Form not found!')})
         categories = [item.uuid for item in request.category_user.categories]
         form_list = Form.objects.filter(category__in=categories).distinct()
         if len(form_list) == 0 or len(categories) == 0:
@@ -431,7 +419,6 @@ def bookings_by_category(request):
         project = request.category_user.categories[0].project
 
         context = get_booking_context(project, form_list)
-        context['total_items'] = len(context['items']) if "items" in context else 0
         context['items'] = context['items'][0:ITEMS_PER_PAGE]
         context['page'] = 0
         return render (request, "bookings/cat-manage/bookings.html", context)

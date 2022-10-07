@@ -25,9 +25,21 @@ class ShLock:
 
         return [item for item in all_locks_id if item not in locks_id]
 
+    def get_lock_details(self, lock_id):
+        try:
+            return self.ttlock.lock_get_details(lock_id)
+        except Exception as e:
+            return e
+
     def get_lock_all(self):
         try:
             return self.ttlock.lock_get_all()
+        except Exception as e:
+            return e
+
+    def get_lock_gateway(self, lock_id):
+        try:
+            return self.ttlock.lock_get_gateway(lock_id)
         except Exception as e:
             return e
 

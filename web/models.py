@@ -319,6 +319,7 @@ class Lock(models.Model):
     room = models.CharField(max_length=255, verbose_name=_('Room'), default="")
     charge_cache = models.CharField(max_length=10, verbose_name=_('Charge cache'), default="")
     state_cache = models.CharField(max_length=100, verbose_name=_('State cache'), default="")
+    gateway_cache = models.CharField(max_length=100, verbose_name=_('Gateway cache'), default="")
     project_uuid = models.CharField(max_length=255, verbose_name=_('Project UUID'), default="")
     group_uuid = models.CharField(max_length=255, verbose_name=_('Project UUID'), default="")
 
@@ -353,12 +354,23 @@ class Lock(models.Model):
             self.update_params()
         return self.charge_cache
 
+    @property
+    def gateway(self):
+        now = pytz.utc.localize(datetime.datetime.now())
+        if ((now - self.last_update).seconds/60) > 15:
+            self.update_params()
+        return self.gateway_cache
+
     def update_params(self):
         obj = ShLock(self.project.lock_access_token)
+
         state_cache = obj.get_lock_state(self.uuid)
         charge_cache = obj.get_lock_charge(self.uuid)
+        gateway_cache = obj.get_lock_gateway(self.uuid)
+
         self.state_cache = state_cache if "Error" not in str(state_cache) else ""
         self.charge_cache = charge_cache if "Error" not in str(charge_cache) else ""
+        self.gateway_cache = _("Connected") if len(gateway_cache["list"]) > 0 else _("Not connected")
         self.last_update = pytz.utc.localize(datetime.datetime.now())
         self.save()
 

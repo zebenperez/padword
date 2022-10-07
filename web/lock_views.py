@@ -9,7 +9,7 @@ from .lock_lib import ShLock
 from guest.models import KeyCode, KeyCard
 
 import requests
-import time, datetime
+import time, datetime, pytz
 
 
 '''
@@ -24,14 +24,24 @@ def remove_lock(lock):
 def update_locks(project):
     sh_lock = ShLock(project.lock_access_token)
 
-    #for item in sh_lock.get_lock_all():
-    #    print(item)
-
     current_locks = []
-    for item in sh_lock.get_locks():
-        Lock.objects.get_or_create(uuid=item, project_uuid=project.uuid)
-        if item not in current_locks:
-            current_locks.append(item)
+    for item in sh_lock.get_lock_all():
+        uuid=item["lockId"]
+        lock, created = Lock.objects.get_or_create(uuid=uuid, project_uuid=project.uuid)
+        lock.last_update = pytz.utc.localize(datetime.datetime.now())
+        lock.alias = item["lockAlias"]
+        lock.charge_cache = item["electricQuantity"]
+        lock.gateway_cache = _("Connected") if item["hasGateway"] == 1 else _("Not connected")
+        lock.save()
+        if uuid not in current_locks:
+            current_locks.append(uuid)
+
+    #current_locks = []
+    #for item in sh_lock.get_locks():
+    #    Lock.objects.get_or_create(uuid=item, project_uuid=project.uuid)
+    #    if item not in current_locks:
+    #        current_locks.append(item)
+
     lock_list = Lock.objects.filter(project_uuid=project.uuid).exclude(uuid__in = current_locks)
     for lock in lock_list:
         remove_lock(lock)

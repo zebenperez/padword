@@ -224,6 +224,20 @@ class TTLock():
         return TTLock.__is_erro_code_success__(TTLock.__send_request__(_url_request).json().get(ERROR_CODE_FIELD))
 
     #------------------------- SHIDIX --------------------------
+    def lock_get_details(self, lockId=None):
+        if not lockId:
+            raise TTlockAPIError()
+
+        _url_request = GET_LOCK_URL.format(
+            API_URI,
+            GET_LOCK_PREFIX_URL,
+            self.clientId,
+            self.accessToken,
+            lockId,
+            TTLock.__get_current_millis__(),
+        )
+        return TTLock.__send_request__(_url_request).json()
+
     def lock_get_all(self, pageNo=1, pageSize=100):
         _url_request = GET_ALL_LOCKS_URL.format(
             API_URI,
@@ -237,6 +251,20 @@ class TTLock():
         _response = TTLock.__send_request__(_url_request).json()
         for records in _response.get(LIST_FIELD):
             yield records
+
+    def lock_get_gateway(self, lockId=None):
+        if not lockId:
+            raise TTlockAPIError()
+
+        _url_request = GET_LOCK_GATEWAY_URL.format(
+            API_URI,
+            GET_LOCK_GATEWAY_PREFIX_URL,
+            self.clientId,
+            self.accessToken,
+            lockId,
+            TTLock.__get_current_millis__(),
+        )
+        return TTLock.__send_request__(_url_request).json()
 
     def lock_add_passcode(self, lockId=None, code="", startDate=0, endDate=0):
         if not lockId:

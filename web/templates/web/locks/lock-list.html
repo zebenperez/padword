@@ -62,6 +62,7 @@
                 <th> {% trans 'Room' %} </th>
                 <th> {% trans 'Status' %} </th>
                 <th> {% trans 'Charge' %} </th>
+                <th> {% trans 'Gateway' %} </th>
                 <th></th>
             </tr>
         </thead>
@@ -77,6 +78,7 @@
                 <td>{{ item.room }}</td>
                 <td>{{ item.state }}</td>
                 <td>{{ item.charge }} %</td>
+                <td>{{ item.gateway }}</td>
                 <td class="d-flex justify-content-end">
                     <a class="me-1 btn btn-xs ark" data-url="{% url "lock-get-all-passcodes" %}" data-target-modal="common-modal" 
                         data-obj_id="{{item.id}}"><i class="fas fa-code"></i></a>  
