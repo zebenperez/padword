@@ -44,17 +44,17 @@
     </thead>
     <tbody>
         {% for item in items %}
-        <tr class="small" id="row_{{item.id}}">
-            <td>{{ item.uuid }}</td>
-            <td>{{ item.name }}</td>
-            <td>{{ item.remote_name }}</td>
-            <td>{{ item.remote_id }}</td>
-            <td>{{ item.project.name }}</td>
-            <td class="d-flex justify-content-end">
-                <a class="me-1 btn btn-xs ark" data-url="{% url "lock-group-remove" %}" data-target="lock-group-list" 
-                    data-obj_id="{{item.id}}"><i class="fas fa-trash"></i></a>  
-            </td>
-        </tr>
+            <tr class="small" id="row_{{item.id}}">
+                <td>{{ item.uuid }}</td>
+                <td>{{ item.name }}</td>
+                <td>{{ item.remote_name }}</td>
+                <td>{{ item.remote_id }}</td>
+                <td>{{ item.project.name }}</td>
+                <td class="d-flex justify-content-end">
+                    <a class="me-1 btn btn-xs ark" data-url="{% url "lock-group-remove" %}" data-target="lock-group-list" data-obj_id="{{item.id}}">
+                        <i class="fas fa-trash"></i></a>  
+                </td>
+            </tr>
         {% endfor %}
     </tbody>
 </table>

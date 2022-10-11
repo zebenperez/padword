@@ -1,0 +1,6 @@
+{% load i18n padword_tags %}
+
+{% for item in items %}
+    <tr class="small" id="row_{{item.id}}"> {% include "bookings/pr-manage/booking-row.html" %} </tr>
+{% endfor %}
+{% if items|length > 0 %} <script> $('#btn-see-more').data('page',"{{page|add:"1"}}"); </script> {% endif %}

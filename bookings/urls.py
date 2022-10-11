@@ -44,7 +44,6 @@ urlpatterns = [
 
     path('bookings/', views.bookings, name='bookings'),
     #path('bookings_by_form/<int:form_id>/', views.bookings_by_form, name='bookings-by-form'),
-    path('bookings_by_project/<int:project_id>/', views.bookings_by_project, name='bookings-by-project'),
     path('booking-refresh/<int:obj_id>/', views.booking_refresh, name='booking-refresh'),
     path('booking-refresh/', views.booking_refresh, name='booking-refresh'),
     path('booking-refresh-status/<int:obj_id>/', views.booking_refresh_status, name='booking-refresh-status'),
@@ -60,6 +59,11 @@ urlpatterns = [
     path('booking-log/<int:fi_id>/', views.booking_log, name='booking-log'),
     path('status-form/', views.status_form, name='status-form'),
     path('change-status/', views.change_status, name='change-status'),
+
+    #------------- Bookings Project --------------#
+    path('bookings_by_project/<int:project_id>/', views.bookings_by_project, name='bookings-by-project'),
+    path('bookings/project/search/', views.bookings_pr_search, name='bookings-pr-search'),
+    path('bookings/project/search/page/', views.bookings_pr_page, name='bookings-pr-page'),
 
     #------------- Bookings Category --------------#
     #path('bookings_by_category/<int:category_id>/', views.bookings_by_category, name='bookings-by-category'),
