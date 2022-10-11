@@ -6,7 +6,7 @@
         {% padword_translate item.form.get_category.parent.name %} <i class="fas fa-angle-double-right"></i>
         {% padword_translate item.form.get_category.name %}
     </div>
-    <div class="col-2">{{item.guest.name}} {{item.guest.surname}}<br/>{{item.guest.mobile}}<br/>{{item.guest.email}} {{item.guest_uuid}}</div>
+    <div class="col-2">{{item.guest.name}} {{item.guest.surname}}<br/>{{item.guest.mobile}}<br/>{{item.guest.email}}</div>
     <div class="col-1">{{ item.guest.room}}</div>
     <div class="col-2">{{ item.date|timezone:"Atlantic/Canary"|date:'d/m/Y H:i:s'}}</div>
     <div class="col-1" id="status-{{item.pk}}">{% padword_translate item.get_status.status.name %} </div>

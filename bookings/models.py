@@ -107,7 +107,7 @@ def upload_form_qr(instance, filename):
 class Form(models.Model):
     active = models.BooleanField(default=False, help_text=_("This form is active for guests"), verbose_name="Active")
     show_desc = models.BooleanField(default=False, help_text=_("Show description"), verbose_name="Show description")
-    uuid = models.CharField(max_length=255, verbose_name=_('UUID'), default="")
+    uuid = models.CharField(max_length=255, verbose_name=_('UUID'), default="", unique=True)
     name = models.CharField(max_length=200, verbose_name=_("Name"))
     category = models.CharField(max_length=200, verbose_name=_("Category"), default="")
     image = models.ImageField(upload_to=upload_form_image, blank=True, verbose_name="Imagen de fondo", help_text="Select file to upload")

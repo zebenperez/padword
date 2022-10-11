@@ -106,7 +106,7 @@ def filter_search_status(items, status):
 def filter_search_status_project(items, status, project_uuid):
     item_list = []
     for item in items:
-        if item.form.project.uuid == project_uuid:
+        if item.form.project != None and item.form.project.uuid == project_uuid:
             if (item.get_status != None and status != "" and item.get_status.status.id == int(status)) or (status == "" and item.get_status != None):
                 item_list.append(item)
     return item_list
@@ -368,9 +368,7 @@ def pr_search(project_uuid, form, ini_date, end_date, name, status):
         categories_list = list(Category.objects.filter(project_uuid = project_uuid, name__icontains = form).values_list('uuid', flat=True))
     else:
         categories_list = list(Category.objects.filter(project_uuid = project_uuid).values_list('uuid', flat=True))
-    categories_list2 = Category.objects.filter(project_uuid = project_uuid)
     form_list = list(Form.objects.filter(form_type__order=True, category__in = categories_list).values_list('uuid', flat=True))
-    form_list2 = Form.objects.filter(form_type__order=True, category__in = categories_list)
 
     kwargs = {'form_uuid__in': form_list}
     if ini_date != "":
@@ -415,7 +413,7 @@ def bookings_pr_search(request):
         items = pr_search(project_uuid, form, ini_date, end_date, name, status)
 
         context={'total_items': len(items), 'items': items[0:ITEMS_PER_PAGE], 'status': status, 'page': 0}
-        return render(request, "bookings/cat-manage/booking-list.html", context)
+        return render(request, "bookings/pr-manage/booking-list.html", context)
     except Exception as e:
         print (show_exc(e))
         return render(request, 'error_exception.html', {'exc':show_exc(e)})
@@ -434,7 +432,7 @@ def bookings_pr_page(request):
         items = pr_search(project_uuid, form, ini_date, end_date, name, status)
 
         context={'total_items': len(items), 'items': items[int(page)*ITEMS_PER_PAGE:(int(page) + 1)*ITEMS_PER_PAGE], 'status': status, 'page': page}
-        return render(request, "bookings/cat-manage/booking-page.html", context)
+        return render(request, "bookings/pr-manage/booking-page.html", context)
     except Exception as e:
         print (show_exc(e))
         return render(request, 'error_exception.html', {'exc':show_exc(e)})
@@ -580,6 +578,35 @@ def form_edit_category_user(request):
         return render(request, 'error_exception.html', {'exc':show_exc(e)})
 
 
+
+'''
+    FIX
+'''
+@login_required
+def fix_uuid(request):
+    form_list = Form.objects.all()
+    review = []
+    for f in form_list:
+        f_list = Form.objects.filter(uuid=f.uuid)
+        if len(f_list) > 1 and f.uuid not in review:
+            print("-----------------------------")
+            j = 0
+            for i in f_list:
+                if i.get_category != None:
+                    if "Lanis" not in i.get_category.project.name and "Lagos" not in i.get_category.project.name:
+                        i.uuid = "{}-{}-{}".format(i.get_category.project.name[:8].replace(" ", "_"), j, i.uuid)
+                        #i.save()
+                    elif "Lagos" in i.get_category.project.name and j == 1:
+                        i.uuid = "{}-{}".format(j, i.uuid)
+                        #i.save()
+                    print("{} {}".format(i.uuid, i.get_category.project))
+                else:
+                    i.uuid = "None-{}-{}".format(j, i.uuid)
+                    #i.save()
+                    print("{} {}".format(i.category, i.uuid))
+                j += 1
+            review.append(f.uuid)
+    return HttpResponse("OK --> {}".format(len(review)))
 
 '''
     Test
