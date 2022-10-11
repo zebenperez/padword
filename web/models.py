@@ -518,7 +518,7 @@ class Room(models.Model):
             return None
 
     def get_locks(self):
-        return Lock.objects.filter(project_uuid = self.project_uuid, room = self.number).order_by('pk')
+        return Lock.objects.filter(project_uuid = self.project_uuid, room = self.number).order_by('pk') if self.number != "" else []
 
     def unassign_locks(self):
         lock_list = Lock.objects.filter(project_uuid = self.project_uuid, room = self.number).order_by('pk')
