@@ -53,71 +53,47 @@ def login(request):
 '''
     Bookings
 '''
-def get_booking_context(project=None, form_list=[]):
+def get_booking_context():
     context = {}
     today = datetime.datetime.today()
     ini_date = today + datetime.timedelta(days=-3)
     end_date = today + datetime.timedelta(days=1)
+    #edate = datetime.datetime(end_date.year, end_date.month, end_date.day, 23, 59, 59)
 
-    edate = datetime.datetime(end_date.year, end_date.month, end_date.day, 23, 59, 59)
-    kwargs = {'date__gte': ini_date.strftime("%Y-%m-%d"), 'date__lte': edate}
-
-    if project != None:
-        context["project_uuid"] = project.uuid
-        context["project_name"] = project.name
-#        if form != None:
-#            kwargs['form_uuid'] = form.uuid
-#            context["form_name"] = form.get_category.name
-        if form_list != []:
-            kwargs['form_uuid__in'] = [item.uuid for item in form_list]
-            context["form_list"] = form_list
-        else:
-            uuid_list = [item.uuid for item in Category.objects.filter(project_uuid=project.uuid)]
-            forms_uuid_list = [item.uuid for item in Form.objects.filter(form_type__order = True, category__in = uuid_list)]
-            kwargs["form_uuid__in"] = forms_uuid_list
-
-    items = FormInstance.objects.filter(**kwargs)
-    if items.count() == 0 and project == None:
-        context["msg"] = 'There are no results for the search. Here the last 100 reservations.'
-        items = FormInstance.objects.all()[:100]
-
-    item_list = []
-    for it in items:
-        if it.get_status != None:
-            item_list.append(it)
+    items = search("", "", ini_date, end_date.strftime("%Y-%m-%d"), "", "")
 
     context["ini_date"] = ini_date
     context["end_date"] = end_date
     context["status_list"] = Status.objects.all()
-    context["items"] = item_list
-    context['total_items'] = len(item_list)
+    context['items'] = items[0:ITEMS_PER_PAGE]
+    context['total_items'] = len(items)
     return context
 
 
-def get_uuid_project_list(user, project, project_uuid):
-    if project_uuid != "":
-        return [project_uuid]
-    if user.groups.filter(name="categories").exists():
-        cat_uuid_list = list(CategoryUser.objects.filter(username=user.username).values_list('category_uuid', flat=True))
-        return list(Category.objects.filter(uuid__in=cat_uuid_list).values_list('project_uuid', flat=True))
-    if user.groups.filter(name="projects").exists():
-        return list(ProjectUser.objects.filter(username=user.username).values_list('project_uuid', flat=True))
-    if project != "":
-        return list(set(Project.objects.filter(name__icontains = project).values_list('uuid', flat=True)))
-    return list(set(Project.objects.all().values_list('uuid', flat=True)))
-
-def filter_search_form_uuid(form, form_uuid, uuid_project_list):
-    if form_uuid != "":
-        return [form_uuid]
-    if form != "":
-        categories_list = list(Category.objects.filter(name__icontains = form).values_list('uuid', flat=True))
-    else:
-        categories_list = list(Category.objects.filter(project_uuid__in = uuid_project_list).values_list('uuid', flat=True))
-    forms_list = list(Form.objects.filter(form_type__order=True, category__in = categories_list).values_list('uuid', flat=True))
-    return forms_list
-
+#def get_uuid_project_list(user, project, project_uuid):
+#    if project_uuid != "":
+#        return [project_uuid]
+#    if user.groups.filter(name="categories").exists():
+#        cat_uuid_list = list(CategoryUser.objects.filter(username=user.username).values_list('category_uuid', flat=True))
+#        return list(Category.objects.filter(uuid__in=cat_uuid_list).values_list('project_uuid', flat=True))
+#    if user.groups.filter(name="projects").exists():
+#        return list(ProjectUser.objects.filter(username=user.username).values_list('project_uuid', flat=True))
+#    if project != "":
+#        return list(set(Project.objects.filter(name__icontains = project).values_list('uuid', flat=True)))
+#    return list(set(Project.objects.all().values_list('uuid', flat=True)))
+#
+#def filter_search_form_uuid(form, form_uuid, uuid_project_list):
+#    if form_uuid != "":
+#        return [form_uuid]
+#    if form != "":
+#        categories_list = list(Category.objects.filter(name__icontains = form).values_list('uuid', flat=True))
+#    else:
+#        categories_list = list(Category.objects.filter(project_uuid__in = uuid_project_list).values_list('uuid', flat=True))
+#    forms_list = list(Form.objects.filter(form_type__order=True, category__in = categories_list).values_list('uuid', flat=True))
+#    return forms_list
+#
 def filter_search_guest(name, uuid_project_list):
-    uuid_guests = Guest.objects.filter(Q(name__icontains=name) | Q(surname__icontains=name) | Q(email__icontains=name) | Q(mobile__icontains=name) | Q(room=name)).filter(project_id__in = uuid_project_list)
+    uuid_guests = list(Guest.objects.filter(Q(name__icontains=name) | Q(surname__icontains=name) | Q(email__icontains=name) | Q(mobile__icontains=name) | Q(room=name)).filter(project_id__in = uuid_project_list).values_list('UUID', flat=True))
     return uuid_guests
 
 def filter_search_status(items, status):
@@ -127,17 +103,76 @@ def filter_search_status(items, status):
             item_list.append(item)
     return item_list
 
-def filter_search_project_status(items, project_uuid, status):
+def filter_search_status_project(items, status, project_uuid):
     item_list = []
     for item in items:
-        if (item.form.get_category.project_uuid == project_uuid):
+        if item.form.project.uuid == project_uuid:
             if (item.get_status != None and status != "" and item.get_status.status.id == int(status)) or (status == "" and item.get_status != None):
                 item_list.append(item)
     return item_list
 
-def search(user, project_uuid, project, form_uuid, form, ini_date, end_date, name, status):
-    uuid_project_list = get_uuid_project_list(user, project, project_uuid)
-    kwargs = {'form_uuid__in': filter_search_form_uuid(form, form_uuid, uuid_project_list)}
+
+#def filter_search_project_status(items, project_uuid, status):
+#    item_list = []
+#    for item in items:
+#        if (item.form.get_category.project_uuid == project_uuid):
+#            if (item.get_status != None and status != "" and item.get_status.status.id == int(status)) or (status == "" and item.get_status != None):
+#                item_list.append(item)
+#    return item_list
+#
+#def search(user, project_uuid, project, form_uuid, form, ini_date, end_date, name, status):
+#    uuid_project_list = get_uuid_project_list(user, project, project_uuid)
+#    kwargs = {'form_uuid__in': filter_search_form_uuid(form, form_uuid, uuid_project_list)}
+#    if ini_date != "":
+#        kwargs["date__gte"] = ini_date
+#    if end_date != "":
+#        ed = end_date.split("-")
+#        kwargs["date__lte"] = datetime.datetime(int(ed[0]), int(ed[1]), int(ed[2]), 23, 59, 59)
+#    if name != "":
+#        kwargs["guest_uuid__in"] = filter_search_guest(name, uuid_project_list)
+#
+#    items = FormInstance.objects.filter(**kwargs)
+#    if project_uuid != "":
+#        items = filter_search_project_status(items, project_uuid, status)
+#    else:
+#        items = filter_search_status(items, status)
+#
+#    return items
+#
+##@group_required("admins", "projects", "categories")
+#@group_required("admins", "projects")
+#def bookings_search(request):
+#    try:
+#        project = get_param(request.GET, "s-project")
+#        project_uuid = get_param(request.GET, "s-project_uuid")
+#        form = get_param(request.GET, "s-form")
+#        form_uuid = get_param(request.GET, "s-form_uuid")
+#        ini_date = get_param(request.GET, "s-ini_date")
+#        end_date = get_param(request.GET, "s-end_date")
+#        name = get_param(request.GET, "s-name")
+#        status = get_param(request.GET, "s-status")
+#
+#        items = search(request.user, project_uuid, project, form_uuid, form, ini_date, end_date, name, status)
+#
+#        context={'total_items': len(items), 'items': items[0:ITEMS_PER_PAGE], 'status': status, 'page': 0}
+#        return render(request, "bookings/manage/booking-list.html", context)
+#    except Exception as e:
+#        print (show_exc(e))
+#        return render(request, 'error_exception.html', {'exc':show_exc(e)})
+
+def search(project, form, ini_date, end_date, name, status):
+    if project != "":
+        uuid_project_list = list(set(Project.objects.filter(name__icontains = project).values_list('uuid', flat=True)))
+    else:
+        uuid_project_list = list(set(Project.objects.all().values_list('uuid', flat=True)))
+
+    if form != "":
+        categories_list = list(Category.objects.filter(name__icontains = form).values_list('uuid', flat=True))
+    else:
+        categories_list = list(Category.objects.filter(project_uuid__in = uuid_project_list).values_list('uuid', flat=True))
+    form_list = list(Form.objects.filter(form_type__order=True, category__in = categories_list).values_list('uuid', flat=True))
+
+    kwargs = {'form_uuid__in': form_list}
     if ini_date != "":
         kwargs["date__gte"] = ini_date
     if end_date != "":
@@ -147,33 +182,8 @@ def search(user, project_uuid, project, form_uuid, form, ini_date, end_date, nam
         kwargs["guest_uuid__in"] = filter_search_guest(name, uuid_project_list)
 
     items = FormInstance.objects.filter(**kwargs)
-    if project_uuid != "":
-        items = filter_search_project_status(items, project_uuid, status)
-    else:
-        items = filter_search_status(items, status)
+    return filter_search_status(items, status)
 
-    return items
-
-#@group_required("admins", "projects", "categories")
-@group_required("admins", "projects")
-def bookings_search(request):
-    try:
-        project = get_param(request.GET, "s-project")
-        project_uuid = get_param(request.GET, "s-project_uuid")
-        form = get_param(request.GET, "s-form")
-        form_uuid = get_param(request.GET, "s-form_uuid")
-        ini_date = get_param(request.GET, "s-ini_date")
-        end_date = get_param(request.GET, "s-end_date")
-        name = get_param(request.GET, "s-name")
-        status = get_param(request.GET, "s-status")
-
-        items = search(request.user, project_uuid, project, form_uuid, form, ini_date, end_date, name, status)
-
-        context={'total_items': len(items), 'items': items[0:ITEMS_PER_PAGE], 'status': status, 'page': 0}
-        return render(request, "bookings/manage/booking-list.html", context)
-    except Exception as e:
-        print (show_exc(e))
-        return render(request, 'error_exception.html', {'exc':show_exc(e)})
 
 @group_required("admins", "projects", "categories", "guests")
 #def booking_view(request, fi_id):
@@ -292,7 +302,6 @@ def bookings_notifications(request, ini_date, end_date):
 def bookings(request):
     try:
         context = get_booking_context()
-        context['items'] = context['items'][0:ITEMS_PER_PAGE]
         context['page'] = 0
         return render (request, "bookings/manage/bookings.html", context)
     except Exception as e:
@@ -300,20 +309,36 @@ def bookings(request):
         return render(request, 'full_error_exception.html', {'exc':show_exc(e)})
     return render(request, 'full_error_exception.html', {})
 
+@group_required("admins")
+def bookings_search(request):
+    try:
+        project = get_param(request.GET, "s-project")
+        form = get_param(request.GET, "s-form")
+        ini_date = get_param(request.GET, "s-ini_date")
+        end_date = get_param(request.GET, "s-end_date")
+        name = get_param(request.GET, "s-name")
+        status = get_param(request.GET, "s-status")
+
+        items = search(project, form, ini_date, end_date, name, status)
+
+        context={'total_items': len(items), 'items': items[0:ITEMS_PER_PAGE], 'status': status, 'page': 0}
+        return render(request, "bookings/manage/booking-list.html", context)
+    except Exception as e:
+        print (show_exc(e))
+        return render(request, 'error_exception.html', {'exc':show_exc(e)})
+
 @group_required("admins", "projects")
 def bookings_page(request):
     try:
         project = get_param(request.GET, "s-project")
-        project_uuid = get_param(request.GET, "s-project_uuid")
         form = get_param(request.GET, "s-form")
-        form_uuid = get_param(request.GET, "s-form_uuid")
         ini_date = get_param(request.GET, "s-ini_date")
         end_date = get_param(request.GET, "s-end_date")
         name = get_param(request.GET, "s-name")
         status = get_param(request.GET, "s-status")
         page = get_param(request.GET, "s-page", "0")
 
-        items = search(request.user, project_uuid, project, form_uuid, form, ini_date, end_date, name, status)
+        items = search(project, form, ini_date, end_date, name, status)
 
         context={'total_items': len(items), 'items': items[int(page)*ITEMS_PER_PAGE:(int(page) + 1)*ITEMS_PER_PAGE], 'status': status, 'page': page}
         return render(request, "bookings/manage/booking-page.html", context)
@@ -338,15 +363,91 @@ def booking_preview(request, form_uuid):
 '''
     Project users
 '''
-@group_required("admins", "projects")
+def pr_search(project_uuid, form, ini_date, end_date, name, status):
+    if form != "":
+        categories_list = list(Category.objects.filter(project_uuid = project_uuid, name__icontains = form).values_list('uuid', flat=True))
+    else:
+        categories_list = list(Category.objects.filter(project_uuid = project_uuid).values_list('uuid', flat=True))
+    categories_list2 = Category.objects.filter(project_uuid = project_uuid)
+    form_list = list(Form.objects.filter(form_type__order=True, category__in = categories_list).values_list('uuid', flat=True))
+    form_list2 = Form.objects.filter(form_type__order=True, category__in = categories_list)
+
+    kwargs = {'form_uuid__in': form_list}
+    if ini_date != "":
+        kwargs["date__gte"] = ini_date
+    if end_date != "":
+        ed = end_date.split("-")
+        kwargs["date__lte"] = datetime.datetime(int(ed[0]), int(ed[1]), int(ed[2]), 23, 59, 59)
+    if name != "":
+        kwargs["guest_uuid__in"] = filter_search_guest(name, [project_uuid])
+
+    items = FormInstance.objects.filter(**kwargs)
+    return filter_search_status_project(items, status, project_uuid)
+
+def get_booking_project_context(project):
+    context = {}
+    today = datetime.datetime.today()
+    ini_date = today + datetime.timedelta(days=-3)
+    end_date = today + datetime.timedelta(days=1)
+    #edate = datetime.datetime(end_date.year, end_date.month, end_date.day, 23, 59, 59)
+            
+    items = pr_search(project.uuid, "", ini_date, end_date.strftime("%Y-%m-%d"), "", "")
+
+    context["project_uuid"] = project.uuid
+    context["project_name"] = project.name
+    context["ini_date"] = ini_date
+    context["end_date"] = end_date
+    context["status_list"] = Status.objects.all()
+    context['items'] = items[0:ITEMS_PER_PAGE]
+    context['total_items'] = len(items)
+    return context
+
+@group_required("projects")
+def bookings_pr_search(request):
+    try:
+        project_uuid = get_param(request.GET, "s-project_uuid")
+        form = get_param(request.GET, "s-form")
+        ini_date = get_param(request.GET, "s-ini_date")
+        end_date = get_param(request.GET, "s-end_date")
+        name = get_param(request.GET, "s-name")
+        status = get_param(request.GET, "s-status")
+
+        items = pr_search(project_uuid, form, ini_date, end_date, name, status)
+
+        context={'total_items': len(items), 'items': items[0:ITEMS_PER_PAGE], 'status': status, 'page': 0}
+        return render(request, "bookings/cat-manage/booking-list.html", context)
+    except Exception as e:
+        print (show_exc(e))
+        return render(request, 'error_exception.html', {'exc':show_exc(e)})
+
+@group_required("projects")
+def bookings_pr_page(request):
+    try:
+        project_uuid = get_param(request.GET, "s-project_uuid")
+        form = get_param(request.GET, "s-form")
+        ini_date = get_param(request.GET, "s-ini_date")
+        end_date = get_param(request.GET, "s-end_date")
+        name = get_param(request.GET, "s-name")
+        status = get_param(request.GET, "s-status")
+        page = get_param(request.GET, "s-page", "0")
+
+        items = pr_search(project_uuid, form, ini_date, end_date, name, status)
+
+        context={'total_items': len(items), 'items': items[int(page)*ITEMS_PER_PAGE:(int(page) + 1)*ITEMS_PER_PAGE], 'status': status, 'page': page}
+        return render(request, "bookings/cat-manage/booking-page.html", context)
+    except Exception as e:
+        print (show_exc(e))
+        return render(request, 'error_exception.html', {'exc':show_exc(e)})
+
+
+@group_required("projects")
 def bookings_by_project(request, project_id):
     try:
         if project_id == -1:
             return render(request, 'error_exception.html', {'exc': _('Project not found!')})
-        context = get_booking_context(project=get_or_none(Project, project_id))
-        context['items'] = context['items'][0:ITEMS_PER_PAGE]
+        context = get_booking_project_context(get_or_none(Project, project_id))
         context['page'] = 0
-        return render (request, "bookings/manage/bookings.html", context)
+        return render (request, "bookings/pr-manage/bookings.html", context)
     except Exception as e:
         print (show_exc(e))
         logger.error("[bookings-bookings_by_project] {}".format(str(e)))
@@ -355,6 +456,43 @@ def bookings_by_project(request, project_id):
 '''
     Category users
 '''
+def cat_search(project_uuid, category_user, form, ini_date, end_date, name, status):
+    if form == "":
+        categories = [item.uuid for item in category_user.categories]
+        form_list = list(Form.objects.filter(category__in=categories).distinct().values_list("uuid", flat=True))
+    else:
+        form_list = [form]
+    kwargs = {'form_uuid__in': form_list}
+    if ini_date != "":
+        kwargs["date__gte"] = ini_date
+    if end_date != "":
+        ed = end_date.split("-")
+        kwargs["date__lte"] = datetime.datetime(int(ed[0]), int(ed[1]), int(ed[2]), 23, 59, 59)
+    if name != "":
+        kwargs["guest_uuid__in"] = filter_search_guest(name, [project_uuid])
+
+    items = FormInstance.objects.filter(**kwargs)
+    return filter_search_status_project(items, status, project_uuid)
+
+def get_booking_category_context(project, category_user, form_list):
+    context = {}
+    today = datetime.datetime.today()
+    ini_date = today + datetime.timedelta(days=-3)
+    end_date = today + datetime.timedelta(days=1)
+
+    items = cat_search(project.uuid, category_user, "", ini_date, end_date.strftime("%Y-%m-%d"), "", "")
+
+    context["project_uuid"] = project.uuid
+    context["project_name"] = project.name
+    context["form_list"] = form_list
+    context["ini_date"] = ini_date
+    context["end_date"] = end_date
+    context["status_list"] = Status.objects.all()
+    context["items"] = items
+    context['items'] = items[0:ITEMS_PER_PAGE]
+    context['total_items'] = len(items)
+    return context
+
 @group_required("categories")
 def bookings_cat_search(request):
     try:
@@ -366,22 +504,7 @@ def bookings_cat_search(request):
         name = get_param(request.GET, "s-name")
         status = get_param(request.GET, "s-status")
 
-        if form == "":
-            categories = [item.uuid for item in request.category_user.categories]
-            form_list = Form.objects.filter(category__in=categories).distinct()
-        else:
-            form_list = [form]
-        kwargs = {'form_uuid__in': form_list}
-        if ini_date != "":
-            kwargs["date__gte"] = ini_date
-        if end_date != "":
-            ed = end_date.split("-")
-            kwargs["date__lte"] = datetime.datetime(int(ed[0]), int(ed[1]), int(ed[2]), 23, 59, 59)
-        if name != "":
-            kwargs["guest_uuid__in"] = filter_search_guest(name, [project_uuid])
-
-        items = FormInstance.objects.filter(**kwargs)
-        items = filter_search_status(items, status)
+        items = cat_search(project_uuid, request.category_user, form, ini_date, end_date, name, status)
 
         context={'total_items': len(items), 'items': items[0:ITEMS_PER_PAGE], 'status': status, 'page': 0}
         return render(request, "bookings/cat-manage/booking-list.html", context)
@@ -401,7 +524,7 @@ def bookings_cat_page(request):
         status = get_param(request.GET, "s-status")
         page = get_param(request.GET, "s-page", "0")
 
-        items = search(request.user, project_uuid, "", form_uuid, "", ini_date, end_date, name, status)
+        items = cat_search(project_uuid, request.category_user, form, ini_date, end_date, name, status)
 
         context={'total_items': len(items), 'items': items[int(page)*ITEMS_PER_PAGE:(int(page) + 1)*ITEMS_PER_PAGE], 'status': status, 'page': page}
         return render(request, "bookings/cat-manage/booking-page.html", context)
@@ -418,8 +541,7 @@ def bookings_by_category(request):
             return render(request, 'error_exception.html', {'exc': _('Form not found!')})
         project = request.category_user.categories[0].project
 
-        context = get_booking_context(project, form_list)
-        context['items'] = context['items'][0:ITEMS_PER_PAGE]
+        context = get_booking_category_context(project, request.category_user, form_list)
         context['page'] = 0
         return render (request, "bookings/cat-manage/bookings.html", context)
     except Exception as e:

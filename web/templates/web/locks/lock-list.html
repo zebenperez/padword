@@ -3,7 +3,7 @@
 
 {% if msg and msg != "" %} <div class="alert alert-danger">{{msg}}</div> {% endif %}
 
-<div class="d-flex menu-actions-blue">
+<div class="d-flex menu-actions-blue" style="border:1px solid black">
     <div class="flex-grow-1 p-2"><span class="bg-ico-bar"><i class="fas fa-lock"></i></span>&nbsp; Vista general</div>
     <div class="action p-2">
         <a class="toggle-btn" data-target="div-form-group" data-text="{% trans "Add group" %}" data-text-alt="{% trans "Close" %}"

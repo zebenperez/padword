@@ -1,0 +1,20 @@
+{% load i18n bookings_tag common_tag padword_tags static %}
+
+{% get_current_language as LANGUAGE_CODE %}
+
+<div class="row div-slogan"><div class="col-12 pt-4">{% trans "Text in the guest's language" %}</div></div>
+<div class="col-12 slogan-bruja text-center text w-100">{{guest.room_obj.alias}} (Apartamento {{guest.room}}) </div>
+<div class="row div-key pt-5">
+    <div class="col-12 text-center gral-content"> 
+        <div class="collapse" id="collapseExample"> {% include "bookings/show-guest-keys.html" %} </div>
+    </div>
+</div>
+
+<script id="realtime-script">
+    $('#span-total-items').html('{% get_total_items request.user.username category.project_uuid %}');
+    if (parseInt($("#span-total-items").html()) > 0)
+        $("#count-badge").show();
+    else
+        $("#count-badge").hide();
+    $('#realtime-script').remove();
+</script>

@@ -6,9 +6,9 @@ from django.conf import settings
 from django.contrib.auth.models import User
 
 from padword.commons import show_exc
-from web.models import Channel, Project, Lock
+from web.models import Channel, Project, Lock, Room
 
-import datetime
+import datetime, pytz
 
 class Guest(models.Model):
 #     channel = models.ForeignKey('web.Channel', to_field='uuid', on_delete=models.SET_NULL, null=True)
@@ -57,6 +57,14 @@ class Guest(models.Model):
             print (show_exc(e))
             return Channel.objects.none()
 
+    @property
+    def room_obj(self):
+        try:
+            return Room.objects.filter(project_uuid=self.project_id, number=self.room).first()
+        except Exception as e:
+            return Project(name='UNKNOWN')
+
+
     def get_code(self):
         if self.email != None and self.email != "" and "@" in self.email:
             return self.email
@@ -67,7 +75,8 @@ class Guest(models.Model):
         return ""
 
     def have_valid_booking(self):
-        date = timezone.now()
+        #date = timezone.now()
+        date = pytz.utc.localize(datetime.datetime.now() + datetime.timedelta(hours=1))
         return (self.check_in <= date and self.check_out >= date) 
 
     def check_all_notifications(self):
@@ -193,7 +202,8 @@ class Guest(models.Model):
 
     @staticmethod
     def check_valid_booking(project, code, room=""):
-        date = datetime.datetime.now()
+        #date = datetime.datetime.now()
+        date = datetime.datetime.now() + datetime.timedelta(hours=1)
         if room != "":
             return Guest.objects.filter(Q(mobile=code) | Q(email=code)).filter(project_id=project, room=room, check_in__lte=date, check_out__gte=date).first()
         return Guest.objects.filter(Q(mobile=code) | Q(email=code)).filter(project_id=project, check_in__lte=date, check_out__gte=date).first()

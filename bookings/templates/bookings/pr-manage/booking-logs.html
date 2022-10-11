@@ -1,0 +1,15 @@
+{% load i18n padword_tags %}
+
+<h2>{% trans 'Log' %}</h2>
+
+<div class="row justify-center">
+    {#<ul> {% for item in fi.logs.all %} <li>({{item.date}}) {{item.text}}</li> {% endfor %} </ul>#}
+    <ul> 
+        {% for item in fi.status_list.all %} 
+            <li>({{item.date}}) {% padword_translate item.status.name %} - {% padword_translate item.comment%}</li> 
+        {% endfor %} 
+    </ul>
+</div>
+
+<div class="d-flex justify-content-end"> <button type="button" class="btn btn-sm" data-bs-dismiss="modal">{% trans "close" %}</button> </div>
+

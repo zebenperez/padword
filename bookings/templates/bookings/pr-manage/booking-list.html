@@ -1,0 +1,47 @@
+{% load i18n padword_tags %}
+
+
+{% if msg %} <div class="d-flex row"> <div class="col"><div class="alert alert-info"><strong>{{msg}}.</strong></div></div> </div> {% endif %}
+
+<div class="d-flex p-2">
+    <table class="table table-striped table-hover m-1">
+        <thead>
+            <tr class="small small">
+                <th class="row p-1">
+                    <div class="col-2"> {% trans 'Service' %} </div>
+                    <div class="col-2"> {% trans 'Guest' %} </div>
+                    <div class="col-1"> {% trans 'Room' %} </div>
+                    {#<div class="col-2 d-none d-md-block"> {% trans 'Device' %} </div>#}
+                    <div class="col-2"> {% trans 'Date' %} </div>
+                    <div class="col-1"> {% trans 'Status' %} </div>
+                    <div class="col-2"> {% trans 'Payment Type' %} </div>
+                    <div class="col-1"> {% trans 'Amount' %} </div>
+                    {#<div class="col-2 d-none d-xxl-block"> {% trans 'Code' %} </div>#}
+                </th>
+            </tr>
+        </thead>
+        <tfoot>
+            <tr>
+                <td><a class="small d-flex justify-content-center btn" id="btn-see-more" onclick="$('#s-page').val($('#btn-see-more').data('page'));$('#s-page').trigger('change');">...</a></td>
+            </tr>
+        </tfoot>
+        <tbody id="table-list-bookings">
+            {% include "bookings/pr-manage/booking-page.html" %}
+        </tbody>
+    </table>
+</div>
+<script>
+    checkNotify($("#s-ini_date").val(), $("#s-end_date").val());
+    $('#btn-see-more').data('page',{{page|add:1}});
+    $('#total-items').html('{{total_items}}');
+    var observer = new IntersectionObserver(function(entries) {
+        if ((entries[0].isIntersecting === true) && ({{total_items}} > {% items_per_page %}))
+        {
+            $('#btn-see-more').trigger("click");
+        }
+    }, { threshold: [1] });
+    observer.observe(document.querySelector("#btn-see-more"));
+    
+    $('.btn-status').removeClass('btn-primary').addClass('btn-light');
+    $('#btn-status-{{status}}').removeClass('btn-light').addClass('btn-primary');
+</script>
