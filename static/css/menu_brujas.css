@@ -577,14 +577,14 @@ span.badge.bg-success {
 
 label.form-check-label {
     color:#7f6c5a;
-    position:absolute;
-    left:22%;
-    top:35%;
+    font-size: 1rem;
+    width: 25%;
 }
+
 .form-switch .form-check-input {
-    width: 17.5em;
+    width: 70%;
+    margin:auto;
     height: 79px;
-    margin-left: -2.4em;
     background-image: url(/static/img/lock-close.png) !important;
     background-position: left center;
     background-size: 65px;
@@ -592,6 +592,13 @@ label.form-check-label {
     border: 1px solid #7f6c5a;
     transition: background-position .15s ease-in-out;
 }
+
+.bruja-keys {
+    /*grid-columns: 70% 30% !important;*/
+    width: 100%;
+    height: 100px;
+}
+
 .form-check-input {
     padding-left: 20px !important;
 }
