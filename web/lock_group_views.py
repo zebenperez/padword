@@ -25,7 +25,7 @@ def get_lock_group_items(request, project):
 def get_context(request, project):
     group_items = LockGroup.list_group_not_assigned(project.lock_access_token)
     items = get_lock_group_items(request, project)
-    return {'items':items, 'group_items': group_items}
+    return {'items':items, 'group_items': group_items, 'project': project}
 
 @group_required("admins")
 #def locks_groups(request):
@@ -33,7 +33,6 @@ def locks_groups_by_project(request, project_id):
     try:
         project = get_or_none(Project, project_id)
         context = get_context(request, project)
-        context["project"] = project
         return render (request, "web/locks-groups/locks-groups.html", context)
     except Exception as e:
         return render(request, 'error_exception.html', {'exc':show_exc(e)})
@@ -82,9 +81,10 @@ def lock_group_remove(request):
     obj = get_or_none(LockGroup, request.GET["obj_id"]) if "obj_id" in request.GET else None
     if obj != None:
         Room.objects.filter(lock_group_uuid=obj.uuid).update(lock_group_uuid='')
+        project = obj.project
         obj.delete_lock_group()
         obj.delete()
-    context = get_context(request)
+    context = get_context(request, project)
     return render (request, "web/locks-groups/lock-group-list.html", context)
 
 @group_required("admins")

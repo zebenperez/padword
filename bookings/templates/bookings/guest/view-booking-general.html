@@ -1,8 +1,8 @@
 {% load i18n bookings_tag common_tag padword_tags %}
 
 <div id="mask"> &nbsp; </div>
-<div class="row">
-    <div id="main" class="info-panel" style="background: white;">
+<div class="row" style="--bs-gutter-x: 0rem !important;">
+    <div id="main" class="info-panel head-details">
         {% for b in fi.get_public_blocks %}
             <div class="" id="div-block">
                 {% for q in b.get_first_level_questions %}
@@ -18,8 +18,8 @@
                         </div>
                     {# Preguntas con formato de tabla #}
                     {% elif q.question_type.code == "table" %}
-                        <div class="div-info-tb mt-4">
-                            <table class="table mt-4" id="table_{{q.id}}" width="100%">
+                        <div class="div-info-tb">
+                            <table class="table" id="table_{{q.id}}" width="100%">
                                 <thead><tr>
                                     {%for f in q.field_set.all%}<td class="sh-td item-left">{% padword_translate f.text %}</td>{%endfor%}
                                 </tr></thead>

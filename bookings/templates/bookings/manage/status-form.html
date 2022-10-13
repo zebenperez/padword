@@ -1,8 +1,8 @@
 {% load i18n padword_tags %}
 
 
-<div class="row btn-dark fw-normal p-2">
-    <div class="col-lg-9 col-10">{% trans 'Current Status:'%} <span class="status-info">{% padword_translate fi.get_status.status.name%}</span></div>
+<div class="row fw-normal-status pt-2 pb-2">
+    <div class="col-lg-9 col-10">{% trans 'Current Status:'%} <strong>{% padword_translate fi.get_status.status.name%}</strong></div>
     <div class="col-lg-3 col-2 text-right">
         <a data-bs-toggle="collapse" href="#collapseStatus" role="button" aria-expanded="false" aria-controls="collapseStatus">
             {%trans "Change Status"%} <i class="fas fa-exchange-alt"></i></a>
