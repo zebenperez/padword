@@ -36,7 +36,6 @@ class GuestViewSet(viewsets.ModelViewSet):
     @action(detail=False, methods=['get'])
     def get_guest(self, request):
         try:
-            print(request.GET)
             item = Guest.objects.get(pk = request.GET["id"])
             return self.serialize_guest(item)
         except Exception as e:
