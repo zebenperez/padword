@@ -20,7 +20,7 @@ class GuestViewSet(viewsets.ModelViewSet):
     queryset = Guest.objects.none()
     serializer_class = GuestSerializer
     permission_classes = [IsAuthenticated,]
-    http_method_names = ['post', ]
+    http_method_names = ['post', 'get',]
 
     def serialize_guest(self, item):
         if item != None:

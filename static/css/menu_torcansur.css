@@ -574,13 +574,17 @@ span.badge.bg-success {
 label.form-check-label {
     color:#1c5ca3;
     font-size: 1rem;
+    position: absolute;
+    left: 22%;
+    padding-top: 30px !important;
     width: 25%;
+    float:none!important;
 }
 
 .form-switch .form-check-input {
-    width: 70%;
-    margin:auto;
+    width: 17.5em;
     height: 79px;
+    margin-left: 0.25em;
     background-image: url(/static/img/lock-close.png) !important;
     background-position: left center;
     background-size: 65px;
@@ -594,13 +598,27 @@ label.form-check-label {
     height: 100px;
 }
 
+.form-check .form-check-input {
+    float: none !important;
+}
+
 .form-check-input {
     padding-left: 20px !important;
 }
+/*
 .form-check-input:checked {
     background-color: #bbee9a !important;
 }
 .form-check-input:checked[type=checkbox] {
+    background-image: url(/static/img/lock-open.png) !important;
+    color: #fff !important;
+}
+*/
+
+.form-check-input-checked {
+    background-color: #bbee9a !important;
+}
+.form-check-input-checked[type=checkbox] {
     background-image: url(/static/img/lock-open.png) !important;
     color: #fff !important;
 }
