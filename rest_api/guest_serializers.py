@@ -44,7 +44,6 @@ class GuestSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = Guest
-        fields = ['pk', 'UUID', 'name', 'surname', 'project_id', 'language', 'check_in', 'check_out', 'room', 'mobile', 'email']
-        #fields = ['pk', 'born_year', 'name', 'activity', 'country', 'profile', 'race', 'responsability', 'sex', 'fcoc']
+        fields = ['UUID', 'name', 'surname', 'language', 'mobile', 'email', 'check_in', 'check_out', 'room', 'project_id']
 
 
