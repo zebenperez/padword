@@ -582,7 +582,8 @@ label.form-check-label {
 }
 
 .form-switch .form-check-input {
-    width: 19.2em;
+    /*width: 19.2em;*/
+    width: auto;
     height: 79px;
     margin-left: 0.25em;
     background-image: url(/static/img/lock-close.png) !important;
