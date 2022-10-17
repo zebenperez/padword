@@ -1,4 +1,4 @@
-from rest_framework import viewsets
+from rest_framework import viewsets, permissions, status
 from rest_framework.decorators import action
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
@@ -7,6 +7,9 @@ from .guest_serializers import GuestSerializer
 
 from guest.models import Guest
 from web.models import ProjectUser
+from padword.commons import new_ui_slug
+
+from datetime import datetime
 
 import logging
 logger = logging.getLogger(__name__)
@@ -20,7 +23,6 @@ class GuestViewSet(viewsets.ModelViewSet):
     queryset = Guest.objects.none()
     serializer_class = GuestSerializer
     permission_classes = [IsAuthenticated,]
-    http_method_names = ['post', 'get',]
 
     def serialize_guest(self, item):
         if item != None:
@@ -38,16 +40,17 @@ class GuestViewSet(viewsets.ModelViewSet):
         try:
             pu = ProjectUser.objects.get(username=self.request.user.username)
             data = {
-                "UUID": request.POST.get('uuid', ""),
+                "UUID": new_ui_slug(Guest),
                 "name": request.POST.get('name', ""),
                 "surname": request.POST.get('surname', ""),
                 "language": request.POST.get('language', ""),
                 "mobile": request.POST.get('mobile', ""),
                 "email": request.POST.get('email', ""),
-                "check_in": request.POST.get('check_in', ""),
-                "check_out": request.POST.get('check_out', ""),
+                "check_in": datetime.strptime(request.POST.get('check_in', ""), "%Y-%m-%d %H:%M"),
+                "check_out": datetime.strptime(request.POST.get('check_out', ""), "%Y-%m-%d %H:%M"),
                 "project_id": pu.project_uuid,
             }
+            print(data)
             serializer = self.serializer_class(data=data)
             #serializer = self.serializer_class(data=request.data)
             if serializer.is_valid():
