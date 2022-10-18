@@ -50,11 +50,11 @@ class GuestViewSet(viewsets.ModelViewSet):
                 "check_out": datetime.strptime(request.POST.get('check_out', ""), "%Y-%m-%d %H:%M"),
                 "project_id": pu.project_uuid,
             }
-            print(data)
+            #print(data)
             serializer = self.serializer_class(data=data)
-            #serializer = self.serializer_class(data=request.data)
             if serializer.is_valid():
-                serializer.save()
+                #serializer.save()
+                Guest.objects.create(**data)
                 return Response(data=serializer.data, status=status.HTTP_201_CREATED)
             else:
                 return Response(data=serializer.errors, status=status.HTTP_400_BAD_REQUEST)
@@ -64,7 +64,7 @@ class GuestViewSet(viewsets.ModelViewSet):
     @action(detail=False, methods=['get'])
     def get_guest(self, request):
         try:
-            item = Guest.objects.get(UUID = request.GET["uuid"])
+            item = Guest.objects.get(UUID = request.GET["UUID"])
             return self.serialize_guest(item)
         except Exception as e:
             logger.error("(get_guest): %s" % e)
