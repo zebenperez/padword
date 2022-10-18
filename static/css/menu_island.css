@@ -573,7 +573,7 @@ span.badge.bg-success {
 /******** Deslizador manual ***************/
 
 label.form-check-label {
-    color:#2a3258;
+    color:#3e999a;
     font-size: 1rem;
     position: absolute;
     left: 22%;
@@ -591,7 +591,7 @@ label.form-check-label {
     background-position: left center;
     background-size: 65px;
     border-radius: 2em;
-    border: 1px solid #2a3258;
+    border: 1px solid #3e999a;
     transition: background-position .15s ease-in-out;
 }
 
