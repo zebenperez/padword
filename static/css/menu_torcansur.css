@@ -202,6 +202,10 @@ img.object-fit_cover.img-new {
     height: 120px;
 }
 
+.separator img {
+    height: 12px;
+}
+
 .row.div-slogan {
     /*
     background-image: url(/static/img/bg-hills.png) !important;

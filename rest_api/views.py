@@ -59,7 +59,55 @@ class GuestViewSet(viewsets.ModelViewSet):
             else:
                 return Response(data=serializer.errors, status=status.HTTP_400_BAD_REQUEST)
         except:
-            return Response(data=serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+            return Response(data={'error': 'true'}, status=status.HTTP_400_BAD_REQUEST)
+
+    def retrieve(self, request, pk=None):
+        try:
+            guest = Guest.objects.get(UUID=pk)
+            return Response(self.serializer_class(guest).data, status=status.HTTP_200_OK)
+        except Exception as e:
+            print(e)
+            return Response(data={'error': 'true'}, status=status.HTTP_400_BAD_REQUEST)
+
+    def destroy(self, request, pk=None):
+        try:
+            guest = Guest.objects.get(UUID=pk)
+            guest.delete()
+            return Response(data={'error': 'false'}, status=status.HTTP_200_OK)
+        except Exception as e:
+            print(e)
+            return Response(data={'error': 'true'}, status=status.HTTP_400_BAD_REQUEST)
+
+    def update(self, request, pk=None):
+        try:
+            guest = Guest.objects.get(UUID=pk)
+            data = {}
+            if "name" in request.POST:
+                guest.name = request.POST["name"]
+            if "surname" in request.POST:
+                guest.surname = request.POST["surname"]
+            if "language" in request.POST:
+                guest.language = request.POST["language"]
+            if "mobile" in request.POST:
+                guest.mobile = request.POST["mobile"]
+            if "email" in request.POST:
+                guest.email = request.POST["email"]
+            if "check_in" in request.POST:
+                guest.check_in = datetime.strptime(request.POST["check_in"], "%Y-%m-%d %H:%M")
+            if "check_out" in request.POST:
+                guest.check_out = datetime.strptime(request.POST["check_out"], "%Y-%m-%d %H:%M")
+            guest.save()
+ 
+            return Response(self.serializer_class(guest).data, status=status.HTTP_200_OK)
+        except Exception as e:
+            print(e)
+            return Response(data={'error': 'true'}, status=status.HTTP_400_BAD_REQUEST)
+        #response = {'message': 'Update function is not offered in this path.'}
+        #return Response(response, status=status.HTTP_403_FORBIDDEN)
+
+    def partial_update(self, request, pk=None):
+        response = {'message': 'Update function is not offered in this path.'}
+        return Response(response, status=status.HTTP_403_FORBIDDEN)
 
     @action(detail=False, methods=['get'])
     def get_guest(self, request):

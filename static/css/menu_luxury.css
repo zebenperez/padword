@@ -202,6 +202,10 @@ img.object-fit_cover.img-new {
     height: 120px;
 }
 
+.separator img {
+    height: 12px;
+}
+
 .row.div-slogan {
     /*
     background-image: url(/static/img/bg-hills.png) !important;
@@ -213,14 +217,14 @@ img.object-fit_cover.img-new {
     color: #fff;
 }
 
-.slogan-luxury {
+.slogan-quinta {
     background-color: #fff;
     border-top: 1px solid #94734a;
     color: #94734a;
     font-size: 1.5rem;
 }
-.slogan-luxury img { height: 50px; }
-.slogan-luxury .text { margin-top:35px !important; }
+.slogan-quinta img { height: 50px; }
+.slogan-quinta .text { margin-top:35px !important; }
 
 .div-key {
     background-color: #2e2e2e;
@@ -595,7 +599,7 @@ label.form-check-label {
     transition: background-position .15s ease-in-out;
 }
 
-.luxury-keys {
+.quinta-keys {
     width: 100%;
     height: 100px;
 }
