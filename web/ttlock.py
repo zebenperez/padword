@@ -16,7 +16,7 @@ class TTlockAPIError(Exception):
         self.error_code = error_code
         self.menssage=menssage
     def __str__(self):
-        return '{}'.format(self.menssage)
+        return 'Error: {}'.format(self.menssage)
         #return 'Error returned from TTlockAPI: Error_code {} - {}'.format(self.error_code,self.menssage)
 
 class TTLock():
