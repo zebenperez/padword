@@ -64,6 +64,7 @@ urlpatterns = [
     path('locks-groups/save/', lock_group_views.lock_group_save, name='lock-group-save'),
     path('locks-groups/remove/', lock_group_views.lock_group_remove, name='lock-group-remove'),
     path('locks-groups/remove-by-id/', lock_group_views.lock_group_remove_by_id, name='lock-group-remove-by-id'),
+    path('locks-groups/add/', lock_group_views.lock_group_add, name='lock-group-add'),
     #--------------------- Rooms --------------------
     path('rooms/', room_views.rooms, name='rooms'),
     #path('rooms/search/', room_views.room_search, name='room-search'),

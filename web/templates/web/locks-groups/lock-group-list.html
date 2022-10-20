@@ -15,6 +15,8 @@
             <tr class="small">
                 <td>{{ item.groupName }}</td>
                 <td class="d-flex justify-content-end">
+                    <a class="btn btn-sm ark" data-url="{% url "lock-group-add" %}" data-target="lock-group-list" data-obj_id="{{item.groupId}}" 
+                        data-project_uuid="{{project.uuid}}" data-name="{{item.groupName}}"> <i class="fas fa-plus"></i></a>  
                     <a class="btn btn-sm ark" data-url="{% url "lock-group-remove-by-id" %}" data-group_id="{{item.groupId}}" 
                         data-confirm="{%trans "Are you sure to remove this element?"%}" data-target="lock-group-list"><i class="fas fa-trash"></i></a>
                 </td>
@@ -39,6 +41,7 @@
             <th> {% trans 'TTLock Name' %} </th>
             <th> {% trans 'TTLock Id' %} </th>
             <th> {% trans 'Project' %} </th>
+            <th> {% trans 'Orden' %} </th>
             <th></th>
         </tr>
     </thead>
@@ -50,7 +53,10 @@
                 <td>{{ item.remote_name }}</td>
                 <td>{{ item.remote_id }}</td>
                 <td>{{ item.project.name }}</td>
+                <td>{{ item.order }}</td>
                 <td class="d-flex justify-content-end">
+                    <a class="me-1 btn btn-xs ark" data-url="{% url "lock-group-form" %}" data-target-modal="common-modal" data-obj_id="{{item.pk}}" 
+                        data-project_uuid="{{project.uuid}}"> <i class="fas fa-edit"></i></a>  
                     <a class="me-1 btn btn-xs ark" data-url="{% url "lock-group-remove" %}" data-target="lock-group-list" data-obj_id="{{item.id}}">
                         <i class="fas fa-trash"></i></a>  
                 </td>

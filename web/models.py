@@ -582,6 +582,7 @@ class LockUser(models.Model):
         verbose_name = _('Lock')
 
 class LockGroup(models.Model):
+    order = models.IntegerField(verbose_name=_('Order'), default=0, null=True)
     uuid = models.CharField(max_length=255, verbose_name=_('UUID'), default="")
     name = models.CharField(max_length=255, verbose_name=_('Alias'), default="", null=True)
     remote_id = models.CharField(max_length=10, verbose_name=_('Room'), default="")
@@ -621,6 +622,7 @@ class LockGroup(models.Model):
 
     class Meta:
         verbose_name = _('Lock group')
+        ordering = ["order"]
 
 class LockEkey(models.Model):
     token = models.CharField(max_length = 32, verbose_name=_('Token'), default="")

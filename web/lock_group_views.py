@@ -50,8 +50,14 @@ def lock_group_search(request):
 def lock_group_form(request):
     obj_id = get_param(request.GET, "obj_id")
     project_uuid = get_param(request.GET, "project_uuid")
-    obj = get_or_none(LockGroup, obj_id) if obj_id != "" else LockGroup.objects.create(uuid = new_ui_slug(LockGroup), project_uuid=project_uuid)
-    return render(request, "web/locks-groups/lock-group-form.html", {'obj': obj})
+    #obj = get_or_none(LockGroup, obj_id) if obj_id != "" else LockGroup.objects.create(uuid = new_ui_slug(LockGroup), project_uuid=project_uuid)
+    if obj_id != "":
+        obj = get_or_none(LockGroup, obj_id)
+        edit = True
+    else:
+        obj = LockGroup.objects.create(uuid = new_ui_slug(LockGroup), project_uuid=project_uuid)
+        edit = False
+    return render(request, "web/locks-groups/lock-group-form.html", {'obj': obj, 'edit': edit})
 
 @group_required("admins")
 def lock_group_save(request):
@@ -59,16 +65,39 @@ def lock_group_save(request):
         value = get_param(request.POST, "name")
         project_uuid = get_param(request.POST, "project_uuid")
         obj_id = get_param(request.POST, "obj_id")
+        order = get_param(request.POST, "order")
 
         project = get_or_none(Project, project_uuid, "uuid")
         obj = get_or_none(LockGroup, obj_id)
 
         if obj != None and project != None:
-            obj.name = value
-            obj.remote_name = "{} {}".format(project.name, value)
-            obj.project_uuid = project_uuid
+            obj.order = order
+            if obj.name != value:
+                obj.name = value
+                obj.remote_name = "{} {}".format(project.name, value)
+                obj.project_uuid = project_uuid
+                obj.save()
+                obj.remote_id = obj.create_lock_group()
             obj.save()
-            obj.remote_id = obj.create_lock_group()
+        context = get_context(request, project)
+        return render(request, "web/locks-groups/lock-group-list.html", context)
+    except Exception as e:
+        print(e)
+        return HttpResponse("Error: {}".format(show_exc(e)))
+
+@group_required("admins")
+def lock_group_add(request):
+    try:
+        project_uuid = get_param(request.GET, "project_uuid")
+        remote_id = get_param(request.GET, "obj_id")
+        name = get_param(request.GET, "name")
+
+        project = get_or_none(Project, project_uuid, "uuid")
+        if project != None:
+            obj = LockGroup.objects.create(uuid=new_ui_slug(LockGroup), project_uuid=project_uuid)
+            obj.name = name.replace(project.name, "")
+            obj.remote_name = name
+            obj.remote_id = remote_id
             obj.save()
         context = get_context(request, project)
         return render(request, "web/locks-groups/lock-group-list.html", context)

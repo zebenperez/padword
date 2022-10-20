@@ -7,18 +7,26 @@
 <form method="POST" action="{% url "lock-group-save" %}" id="form-lock-group" />
     {%csrf_token%}
     <input type="hidden" id="obj_id" name="obj_id" value="{{obj.id}}"/>
+    <input type="hidden" id="project_uuid" name="project_uuid" value="{{obj.project_uuid}}"/>
 
     <div class="row justify-center">
-        <div class="col-sm-6 col-md-6 col-12">
+        <div class="col-10">
             <label class="label">{% trans "Name" %}:</label>
-            <input type="text" class="form-control input mb-4" id="name" name="name" value="{{obj.name}}" title="{{obj.name}}"/>
-                <span id="name__msg"></span>
+            <input type="text" class="form-control input mb-4" id="name" name="name" value="{{obj.name}}" title="{{obj.name}}"
+                {%if edit%}readonly{%endif%}/> <span id="name__msg"></span>
         </div>
+        <div class="col-2">
+            <label class="label">{% trans "Order" %}:</label>
+            <input type="text" class="form-control input mb-4" id="order" name="order" value="{{obj.order}}" title="{{obj.order}}"/>
+                <span id="order__msg"></span>
+        </div>
+        {%comment%}
         <div class="col-sm-6 col-md-6 col-12">
             <label class="label">{% trans "Project UUID" %}:</label>
             <input type="text" class="form-control input mb-4" id="project_uuid" name="project_uuid" value="{{obj.project_uuid}}" 
                 title="{{obj.project_uuid}}" readonly/> <span id="name__msg"></span>
         </div>
+        {%endcomment%}
     </div>
 
     <div class="d-flex justify-content-end p-2">
