@@ -111,7 +111,7 @@ class Guest(models.Model):
     #    return [key.lock for key in self.keys.all()]
 
     def get_locks(self):
-        return Lock.objects.filter(Q(room=self.room) | Q(room="*")).filter(project_uuid = self.project_id) if self.room != "" else []
+        return Lock.objects.filter(Q(room=self.room) | Q(room="*")).filter(project_uuid=self.project_id).order_by("-room") if self.room != "" else []
 
     def add_key_code(self, lock, code=""):
         code = self.mobile[-4:] if code == "" else code

@@ -1143,6 +1143,15 @@ a.btn.btn-outline-warning {
     padding: 0;
 }
 
+.row.lock-box .alias-common {
+    background: #777;
+    color: #fff;
+    font-size:0.8rem !important;
+    font-weight: 600;
+    text-transform: uppercase;
+    padding: 0;
+}
+
 .row.lock-box .row {
     padding: 5px 0 5px 0;
     font-size:0.8rem !important;

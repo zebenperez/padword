@@ -14,7 +14,8 @@
         
                 <div class="row lock-box">
                     {#<div class="col-4 name pt-2 pb-1">{% trans "Name" %}: </div>#}
-                    <div class="col-12 alias text-center pt-2 pb-2"><strong>{{item.alias}}</strong></div>
+                    <div class="col-12 text-center pt-2 pb-2 {%if item.room == "*"%}alias-common{%else%}alias{%endif%}">
+                        <strong>{{item.alias}}</strong></div>
                     <div class="col-12 text-center pt-1 pb-1">
                         <a class="btn btn-green ark w-50" data-url="{% url "guest-key-open" %}" data-obj_id="{{item.id}}" 
                             data-target="notification__{{item.id}}" title="{% trans "Open lock" %}">{% trans "Open lock" %} 

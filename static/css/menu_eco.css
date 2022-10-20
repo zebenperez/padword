@@ -1,5 +1,5 @@
 .welcome-page {
-    background-color: #000000 !important;
+    background-color: #ffffff !important;
     background-image: none !important;
     /*height: 92% !important;*/
 }
@@ -15,7 +15,7 @@
 
 .main-pwa .row {
     margin:0;
-    background-color: #000000;
+    background-color: #ffffff !important;
     padding-top: 20px;
 }
 
@@ -31,7 +31,7 @@
 }
 
 .gral-content {
-    background-color: #000000;
+    background-color: #ffffff !important;
 }
 
 
@@ -194,7 +194,7 @@ img.object-fit_cover.img-new {
 
 
 .topbar {
-    background: #000000 !important;
+    background-color: #ffffff;
 	position:fixed !important;
     top:0 !important;
     width: 100% !important;
@@ -574,13 +574,14 @@ span.badge.bg-success {
 /******** Deslizador manual ***************/
 
 label.form-check-label {
-    color:#7f6c5a;
-    font-size: 1rem;
+    color:#000;
+    font-size: 0.9rem;
     position: absolute;
     left: 22%;
     margin-top: -65px !important;
     width: 60%;
     float:none!important;
+    text-transform: uppercase;
 }
 
 .form-switch .form-check-input {
@@ -592,7 +593,7 @@ label.form-check-label {
     background-position: left center;
     background-size: 65px;
     border-radius: 2em;
-    border: 1px solid #7f6c5a;
+    border: 1px solid #000;
     transition: background-position .15s ease-in-out;
 }
 
