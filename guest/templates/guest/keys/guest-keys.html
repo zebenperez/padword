@@ -3,7 +3,7 @@
 <div class="card">
     <div class="card-header"> {% trans "Locks assigned" %} </div>
 
-    {% if err and err != "" %}<div class="alert alert-danger">{%blocktrans%}{{err|safe}}{%endblocktrans%}</div>{% endif %}
+    {% if err and err != "" %}<div class="alert alert-danger">{{err|safe}}</div>{% endif %}
 
     <div class="card-body p-0">
         {#{% for item in obj.keys.all %} <div id="key-details-{{item.id}}">{% include "guest/keys/guest-key-details.html" %}</div> {% endfor %}#}
