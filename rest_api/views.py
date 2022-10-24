@@ -46,6 +46,7 @@ class GuestViewSet(viewsets.ModelViewSet):
                 "language": request.POST.get('language', ""),
                 "mobile": request.POST.get('mobile', ""),
                 "email": request.POST.get('email', ""),
+                "room": request.POST.get('room', ""),
                 "check_in": datetime.strptime(request.POST.get('check_in', ""), "%Y-%m-%d %H:%M"),
                 "check_out": datetime.strptime(request.POST.get('check_out', ""), "%Y-%m-%d %H:%M"),
                 "project_id": pu.project_uuid,
@@ -54,12 +55,13 @@ class GuestViewSet(viewsets.ModelViewSet):
             serializer = self.serializer_class(data=data)
             if serializer.is_valid():
                 #serializer.save()
-                Guest.objects.create(**data)
+                guest = Guest.objects.create(**data)
+                guest.add_all_key_code()
                 return Response(data=serializer.data, status=status.HTTP_201_CREATED)
             else:
                 return Response(data=serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-        except:
-            return Response(data={'error': 'true'}, status=status.HTTP_400_BAD_REQUEST)
+        except Exception as e:
+            return Response(data={'error': 'true', 'msg': str(e)}, status=status.HTTP_400_BAD_REQUEST)
 
     def retrieve(self, request, pk=None):
         try:
@@ -110,10 +112,10 @@ class GuestViewSet(viewsets.ModelViewSet):
         return Response(response, status=status.HTTP_403_FORBIDDEN)
 
     @action(detail=False, methods=['get'])
-    def get_guest(self, request):
+    def get_locks(self, request):
         try:
-            item = Guest.objects.get(UUID = request.GET["UUID"])
-            return self.serialize_guest(item)
+            guest = Guest.objects.get(UUID = request.GET["UUID"])
+            return Response(guest.get_locks_json(), status=status.HTTP_200_OK)
         except Exception as e:
             logger.error("(get_guest): %s" % e)
             return Response({"error": True})

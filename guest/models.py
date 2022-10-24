@@ -113,6 +113,20 @@ class Guest(models.Model):
     def get_locks(self):
         return Lock.objects.filter(Q(room=self.room) | Q(room="*")).filter(project_uuid=self.project_id).order_by("-room") if self.room != "" else []
 
+    def get_locks_json(self):
+        lock_list = Lock.objects.filter(Q(room=self.room) | Q(room="*")).filter(project_uuid=self.project_id).order_by("-room") if self.room != "" else []
+        dic = {}
+        for lock in lock_list:
+            dic["uuid"] = lock.uuid
+            dic["alias"] = lock.alias
+            dic["codes"] = []
+            for code in self.keycodes.filter(lock=lock):
+                dic["codes"].append(code.code)
+            dic["cards"] = []
+            for card in self.keycards.filter(lock=lock):
+                dic["cards"].append(card.code)
+        return dic
+
     def add_key_code(self, lock, code=""):
         code = self.mobile[-4:] if code == "" else code
         code_id = lock.set_code(code, self.check_in, self.check_out)
@@ -122,6 +136,15 @@ class Guest(models.Model):
             key = KeyCode.objects.create(lock = lock, guest = self)
             return code_id
         return ""
+
+    def add_all_key_code(self):
+        for lock in self.get_locks():
+            code = self.mobile[-4:]
+            code_id = lock.set_code(code, self.check_in, self.check_out)
+            if not "Error" in str(code_id):
+                key = KeyCode.objects.create(lock = lock, guest = self, code = code, code_id = code_id)
+            else:
+                key = KeyCode.objects.create(lock = lock, guest = self)
 
     def change_all_key_code(self, code):
         for key in self.keycodes.all():

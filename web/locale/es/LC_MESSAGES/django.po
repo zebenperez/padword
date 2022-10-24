@@ -27,7 +27,7 @@ msgstr ""
 #: templates/web/devices/search_box.html:21
 #: templates/web/projects/project-form.html:55
 msgid "UUID"
-msgstr ""
+msgstr "UUID"
 
 #: models.py:12 models.py:73 templates/web/channels/channel-form.html:9
 #: templates/web/channels/channel-list.html:5
@@ -37,7 +37,7 @@ msgstr ""
 #: templates/web/projects/project-form.html:10
 #: templates/web/projects/project-list.html:7
 msgid "Name"
-msgstr ""
+msgstr "Nombre"
 
 #: models.py:13 models.py:74 models.py:132 models.py:206
 #: templates/web/channels/channel-form.html:28
@@ -47,7 +47,7 @@ msgstr ""
 #: templates/web/devices/device-form.html:30
 #: templates/web/projects/project-form.html:29
 msgid "Active"
-msgstr ""
+msgstr "Activo"
 
 #: models.py:14 models.py:75 models.py:133 models.py:207
 #: templates/web/channels/channel-form.html:40
@@ -55,120 +55,120 @@ msgstr ""
 #: templates/web/devices/device-form.html:40
 #: templates/web/projects/project-form.html:41
 msgid "Created at"
-msgstr ""
+msgstr "Creado en"
 
 #: models.py:20 templates/web/channels/channel-list.html:7
 #: templates/web/projects/project-form.html:17
 #: templates/web/projects/project-list.html:8
 msgid "Company"
-msgstr ""
+msgstr "Compañía"
 
 #: models.py:28
 msgid "Used Languages"
-msgstr ""
+msgstr "Idiomas utilizados"
 
 #: models.py:41 models.py:77 templates/web/channels/channel-form.html:16
 #: templates/web/channels/channel-list.html:6
 #: templates/web/devices/device-list.html:51
 msgid "Project"
-msgstr ""
+msgstr "Proyecto"
 
 #: models.py:72 templates/web/channels/channel-form.html:54
 msgid "UI-UUID"
-msgstr ""
+msgstr "UI-UUID"
 
 #: models.py:83 models.py:137 templates/web/devices/device-list.html:52
 msgid "Channel"
-msgstr ""
+msgstr "Canal"
 
 #: models.py:88 models.py:209
 msgid "Project UUID"
-msgstr ""
+msgstr "UUID del Proyecto"
 
 #: models.py:89
 msgid "Username"
-msgstr ""
+msgstr "Nombre de usuario"
 
 #: models.py:92
 msgid "Project user"
-msgstr ""
+msgstr "Usuario del proyecto"
 
 #: models.py:124 models.py:198 templates/web/devices/device-form.html:16
 #: templates/web/devices/search_box.html:39
 msgid "Alias"
-msgstr ""
+msgstr "Alias"
 
 #: models.py:125 models.py:199 templates/web/devices/device-form.html:23
 #: templates/web/devices/search_box.html:34
 msgid "IMEI"
-msgstr ""
+msgstr "IMEI"
 
 #: models.py:126 models.py:200 templates/web/devices/device-form.html:48
 msgid "Net type"
-msgstr ""
+msgstr "Tipo de red"
 
 #: models.py:127 models.py:201
 msgid "Mac"
-msgstr ""
+msgstr "Mac"
 
 #: models.py:128 models.py:202
 msgid "WiFi Mac"
-msgstr ""
+msgstr "Wifi Mac"
 
 #: models.py:129 models.py:203 templates/web/devices/device-form.html:69
 #: templates/web/devices/device-list.html:54
 #: templates/web/devices/search_box.html:26
 msgid "Room"
-msgstr ""
+msgstr "Habitación"
 
 #: models.py:130 models.py:204
 msgid "Android ID"
-msgstr ""
+msgstr "ID Android"
 
 #: models.py:131 models.py:205
 msgid "Serial Number"
-msgstr ""
+msgstr "Número de serie"
 
 #: models.py:134
 msgid "Updated at"
-msgstr ""
+msgstr "Actualizado en"
 
 #: models.py:143 models.py:217
 msgid "Device"
-msgstr ""
+msgstr "Dispositivo"
 
 #: models.py:208
 msgid "Channel ID"
-msgstr ""
+msgstr "Canal ID"
 
 #: templates/web/channels/channel-form.html:3
 msgid "New Channel"
-msgstr ""
+msgstr "Nuevo canal"
 
 #: templates/web/channels/channel-form.html:19
 msgid "-- Select a project"
-msgstr ""
+msgstr "-- Seleccione un proyecto"
 
 #: templates/web/channels/channel-form.html:31
 #: templates/web/companies/company-form.html:19
 #: templates/web/devices/device-form.html:33
 #: templates/web/projects/project-form.html:32
 msgid "Yes"
-msgstr ""
+msgstr "Si"
 
 #: templates/web/channels/channel-form.html:32
 #: templates/web/companies/company-form.html:20
 #: templates/web/devices/device-form.html:34
 #: templates/web/projects/project-form.html:33
 msgid "No"
-msgstr ""
+msgstr "No"
 
 #: templates/web/channels/channel-form.html:63
 #: templates/web/companies/company-form.html:42
 #: templates/web/devices/device-form.html:104
 #: templates/web/projects/project-form.html:64
 msgid "Save"
-msgstr ""
+msgstr "Guardar"
 
 #: templates/web/channels/channel-form.html:66
 #: templates/web/channels/channel-list.html:27
@@ -179,7 +179,7 @@ msgstr ""
 #: templates/web/projects/project-form.html:67
 #: templates/web/projects/project-list.html:37
 msgid "Are you sure to remove this element?"
-msgstr ""
+msgstr "¿Está seguro de eliminar este elemento?"
 
 #: templates/web/channels/channel-form.html:66
 #: templates/web/channels/channel-list.html:26
@@ -187,7 +187,7 @@ msgstr ""
 #: templates/web/devices/device-form.html:108
 #: templates/web/projects/project-form.html:67
 msgid "Remove"
-msgstr ""
+msgstr "Eliminar"
 
 #: templates/web/channels/channel-list.html:21
 #: templates/web/companies/company-list.html:21
@@ -196,159 +196,159 @@ msgstr ""
 #: templates/web/projects/project-list.html:25
 #: templates/web/second-menu.html:13
 msgid "Devices"
-msgstr ""
+msgstr "Dispositivos"
 
 #: templates/web/channels/channel-list.html:23
 msgid "Edit"
-msgstr ""
+msgstr "Editar"
 
 #: templates/web/channels/channels.html:11
 msgid "Name, Company or Project"
-msgstr ""
+msgstr "Nombre, Compañía o Proyecto"
 
 #: templates/web/channels/channels.html:20
 #: templates/web/companies/company-list.html:19
 #: templates/web/projects/project-list.html:23
 #: templates/web/second-menu.html:12
 msgid "Channels"
-msgstr ""
+msgstr "Canales"
 
 #: templates/web/channels/channels.html:24
 msgid "New channel"
-msgstr ""
+msgstr "Nuevo canal"
 
 #: templates/web/companies/companies.html:15 templates/web/second-menu.html:10
 msgid "Companies"
-msgstr ""
+msgstr "Compañías"
 
 #: templates/web/companies/companies.html:16
 #: templates/web/companies/company-form.html:3
 msgid "New company"
-msgstr ""
+msgstr "Nueva compañía"
 
 #: templates/web/companies/company-list.html:17
 #: templates/web/projects/projects.html:17 templates/web/second-menu.html:11
 msgid "Projects"
-msgstr ""
+msgstr "Proyectos"
 
 #: templates/web/devices/device-assign.html:3
 msgid "Choose device"
-msgstr ""
+msgstr "Elija el dispositivo"
 
 #: templates/web/devices/device-assign.html:7
 msgid "Assigneds"
-msgstr ""
+msgstr "Asignados"
 
 #: templates/web/devices/device-assign.html:18
 msgid "Unassigneds"
-msgstr ""
+msgstr "Desasignados"
 
 #: templates/web/devices/device-assign.html:30
 msgid "Close"
-msgstr ""
+msgstr "Cerrar"
 
 #: templates/web/devices/device-form.html:3
 #: templates/web/devices/devices.html:36
 msgid "New device"
-msgstr ""
+msgstr "Nuevo dispositivo"
 
 #: templates/web/devices/device-form.html:55
 msgid "MAC"
-msgstr ""
+msgstr "MAC"
 
 #: templates/web/devices/device-form.html:62
 msgid "WIFI MAC"
-msgstr ""
+msgstr "WIFI MAC"
 
 #: templates/web/devices/device-form.html:76
 msgid "Android ID padword"
-msgstr ""
+msgstr "ID Android padword"
 
 #: templates/web/devices/device-form.html:83
 msgid "Serial number"
-msgstr ""
+msgstr "Número de serie"
 
 #: templates/web/devices/device-form.html:90
 msgid "Channel UUID"
-msgstr ""
+msgstr "Canal UUID"
 
 #: templates/web/devices/device-form.html:93
-msgid "-- Selecciona un proyecto"
-msgstr ""
+msgid "-- Select a project"
+msgstr "-- Seleccione un proyecto"
 
 #: templates/web/devices/device-list.html:48
 msgid "IMEI - Serial - Alias"
-msgstr ""
+msgstr "IMEI - Serie - Alias"
 
 #: templates/web/devices/device-list.html:55
 msgid "Android Id"
-msgstr ""
+msgstr "Id Android"
 
 #: templates/web/devices/devices.html:33
 msgid "Assign device"
-msgstr ""
+msgstr "Asignar dispositivo"
 
 #: templates/web/devices/search_box.html:7
 msgid "Project name"
-msgstr ""
+msgstr "Nombre del proyecto"
 
 #: templates/web/devices/search_box.html:13
 msgid "Channel name"
-msgstr ""
+msgstr "Nombre del canal"
 
 #: templates/web/devices/search_box.html:44
 msgid "Serial"
-msgstr ""
+msgstr "Sere"
 
 #: templates/web/index.html:7
 msgid "Section title"
-msgstr ""
+msgstr "Título de la sección"
 
 #: templates/web/projects/project-form.html:3
 msgid "New proyect"
-msgstr ""
+msgstr "Nuevo proyecto"
 
 #: templates/web/projects/project-form.html:20
 msgid "-- Select a company"
-msgstr ""
+msgstr "-- Seleccione una compañía"
 
 #: templates/web/projects/project-form.html:48
 msgid "Used Languages (code separated by colons)"
-msgstr ""
+msgstr "Idiomas utilizados (código separado por dos puntos)"
 
 #: templates/web/projects/project-form.html:49
 msgid "Languages in project"
-msgstr ""
+msgstr "Idiomas del proyecto"
 
 #: templates/web/projects/project-list.html:28
 msgid "Categories"
-msgstr ""
+msgstr "Categorías"
 
 #: templates/web/projects/project-list.html:33
 #: templates/web/second-menu.html:15
 msgid "Bookings"
-msgstr ""
+msgstr "Reservas"
 
 #: templates/web/projects/projects.html:10
 msgid "Name or company"
-msgstr ""
+msgstr "Nombre o compañía"
 
 #: templates/web/projects/projects.html:20
 msgid "New project"
-msgstr ""
+msgstr "Nuevo proyecto"
 
 #: templates/web/projects/upload-json.html:3
 msgid "Upload content"
-msgstr ""
+msgstr "Subir contenido"
 
 #: templates/web/projects/upload-json.html:13
 msgid "Upload"
-msgstr ""
+msgstr "Subir"
 
 #: templates/web/projects/upload-json.html:14
 msgid "Cancel"
-msgstr ""
+msgstr "Cancelar"
 
 #: templates/web/second-menu.html:14
 msgid "Forms"
-msgstr ""
+msgstr "Formularios"
