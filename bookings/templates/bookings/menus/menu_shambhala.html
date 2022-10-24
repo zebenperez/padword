@@ -3,12 +3,12 @@
 {% get_current_language as LANGUAGE_CODE %}
 
 <div class="row div-slogan"><div class="col-12 pt-4">{% trans "Text in the guest's language" %}</div></div>
-<div class="col-12 slogan-island text-center text w-100">{{guest.room_obj.alias}} </div>
+<div class="col-12 slogan-shambhala text-center text w-100">{{guest.room_obj.alias}} </div>
 <div class="row div-key pt-5">
     <div class="col-12 text-center gral-content"> 
         {% comment %} <div class="collapse" id="collapseExample"> {% include "bookings/show-guest-keys.html" %} </div> {% endcomment %}
         {% for lock in guest.get_locks %}
-            <div class="form-check form-switch p-2 mt-2 island-keys">
+            <div class="form-check form-switch p-2 mt-2 shambhala-keys">
                 <div class="form-check-input ark" type="checkbox" role="switch" id="flexSwitchCheckDefault"
                     data-url="{% url "open-lock" %}" data-target="div-notifications" data-obj_id="{{lock.id}}"
                     onclick="setUncheck($(this), 'form-check-input-checked')">
@@ -29,9 +29,6 @@
         </script>
 
     </div>
-    
-    <div class="simple-footer">C. Guirre, Corralejo (35660 Corralejo - Las Palmas)<br />653 67 77 19</div>
-
 </div>
 
 <script id="realtime-script">

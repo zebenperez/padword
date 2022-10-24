@@ -1,17 +1,21 @@
 .welcome-page {
-    background-color: #ffffff !important;
+    background-color: #000000 !important;
     background-image: none !important;
     height: 92% !important;
 }
 
 #main {
     height: auto !important;
-    margin-top:70px;
+    margin-top:120px;
+}
+
+#main-base {
+    /*background: #f8fcff !important;*/
 }
 
 .main-pwa .row {
     margin:0;
-    background-color: #ffffff !important;
+    background-color: #000000;
     padding-top: 20px;
 }
 
@@ -27,7 +31,7 @@
 }
 
 .gral-content {
-    background-color: #ffffff !important;
+    background-color: #000000;
 }
 
 
@@ -191,37 +195,33 @@ img.object-fit_cover.img-new {
 
 .topbar {
     /*background: #f8fcff !important;*/
-    background: #ffffff !important;
+    background-color: #232323;
 	position:fixed !important;
     top:0 !important;
     width: 100% !important;
-    height: 70px !important;
+    height: 120px !important;
     z-index: 1; 
 }
 .topbar img {
-    height: 120px;
+    height: 70px;
 }
 
-.separator img {
-    height: 12px;
-}
-
+/*
 .row.div-slogan {
-    /*
     background-image: url(/static/img/bg-hills.png) !important;
     background-repeat: no-repeat;
     background-position: bottom !important;
-     */
     padding:0px !important;
-    height: 100px;
+    height: 120px;
     color: #fff;
 }
+*/
 
 .slogan-quinta {
-    background-color: #fff;
-    border-top: 1px solid #94734a;
-    color: #94734a;
+    background-color: #000000;
+    color: #fff;
     font-size: 1.5rem;
+/*    border:1px solid blue;*/
 }
 .slogan-quinta img { height: 50px; }
 .slogan-quinta .text { margin-top:35px !important; }
@@ -486,11 +486,7 @@ h5.card-title.text-dark.text-center.title-new {
 
 }
 
-.simple-footer {
-    border-top:1px solid #000; 
-    bottom: 10px;
-    font-size: 0.9rem;
-    position:absolute; 
+.footer-new {
 }
 
 
@@ -581,25 +577,25 @@ span.badge.bg-success {
 /******** Deslizador manual ***************/
 
 label.form-check-label {
-    color:#2a3258;
+    color:#7f6c5a;
     font-size: 1rem;
     position: absolute;
     left: 22%;
-    padding-top: 30px !important;
-    width: 60%;
+    margin-top: -65px !important;
+    width: 25%;
     float:none!important;
 }
 
 .form-switch .form-check-input {
-    /*width: 19.2em;*/
-    width: auto;
+    /*width: 17.5em;*/
+    width: 100%;
     height: 79px;
     margin-left: 0.25em;
     background-image: url(/static/img/lock-close.png) !important;
     background-position: left center;
     background-size: 65px;
     border-radius: 2em;
-    border: 1px solid #2a3258;
+    border: 1px solid #7f6c5a;
     transition: background-position .15s ease-in-out;
 }
 
@@ -612,23 +608,14 @@ label.form-check-label {
     float: none !important;
 }
 
+
 .form-check-input {
     padding-left: 20px !important;
 }
-/*
 .form-check-input:checked {
     background-color: #bbee9a !important;
 }
 .form-check-input:checked[type=checkbox] {
-    background-image: url(/static/img/lock-open.png) !important;
-    color: #fff !important;
-}
-*/
-
-.form-check-input-checked {
-    background-color: #bbee9a !important;
-}
-.form-check-input-checked[type=checkbox] {
     background-image: url(/static/img/lock-open.png) !important;
     color: #fff !important;
 }

@@ -1,6 +1,6 @@
 {% load i18n bookings_tag common_tag padword_tags static%}
 
-{%block extralinks%} <link rel="stylesheet" href="{% static 'css/menu_zahara.css' %}" > {% endblock %}
+{%block extralinks%} <link rel="stylesheet" href="{% static 'css/menu_dponte.css' %}" > {% endblock %}
 
 {% get_current_language as LANGUAGE_CODE %}
 <div class="row topbar pt-1 pb-1" style="margin:0px;">
@@ -12,7 +12,7 @@
     </div>
 
     <div class="col-8 text-center pt-3">
-        <img class="" src="/static/img/logo-zahara.jpg">
+        <img class="" src="/static/img/logo-dponte.jpg">
     </div>
     <div class="col-12 text-center separator mt-3" style="padding:0;">
         <img class="" src="/static/img/bg-separator.jpg">
@@ -52,7 +52,5 @@
  
 </div>
 
-<div id="main" class="main-pwa pl-4 pr-4"> {% include form.form_type.template with category=form.get_category %}</div>
-
-
+<div id="main" class="main-pwa pl-4 pr-4"> {% include form.form_type.template with category=form.get_category %} </div>
 

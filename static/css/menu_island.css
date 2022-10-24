@@ -485,9 +485,15 @@ h5.card-title.text-dark.text-center.title-new {
     bottom: 60px !important;
 
 }
-
-.footer-new {
+ 
+.simple-footer {
+    border-top:1px solid #000; 
+    bottom: 10px;
+    font-size: 0.9rem;
+    position:absolute; 
 }
+
+
 
 
 
