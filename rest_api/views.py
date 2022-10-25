@@ -83,6 +83,7 @@ class GuestViewSet(viewsets.ModelViewSet):
     def update(self, request, pk=None):
         try:
             guest = Guest.objects.get(UUID=pk)
+            update_dates = False
             data = {}
             if "name" in request.POST:
                 guest.name = request.POST["name"]
@@ -96,14 +97,22 @@ class GuestViewSet(viewsets.ModelViewSet):
                 guest.email = request.POST["email"]
             if "check_in" in request.POST:
                 guest.check_in = datetime.strptime(request.POST["check_in"], "%Y-%m-%d %H:%M")
+                update_dates = True
             if "check_out" in request.POST:
                 guest.check_out = datetime.strptime(request.POST["check_out"], "%Y-%m-%d %H:%M")
+                update_dates = True
+            if "room" in request.POST and request.POST["room"] != guest.room:
+                guest.change_room(request.POST["room"])
             guest.save()
+            if update_dates:
+                guest.change_all_key_code_date()
+                guest.change_all_key_card_date()
+                guest.remove_all_key_cards()
  
             return Response(self.serializer_class(guest).data, status=status.HTTP_200_OK)
         except Exception as e:
             print(e)
-            return Response(data={'error': 'true'}, status=status.HTTP_400_BAD_REQUEST)
+            return Response(data={'error': 'true', 'msg': str(e)}, status=status.HTTP_400_BAD_REQUEST)
         #response = {'message': 'Update function is not offered in this path.'}
         #return Response(response, status=status.HTTP_403_FORBIDDEN)
 
