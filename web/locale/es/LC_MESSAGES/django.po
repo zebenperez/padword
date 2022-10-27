@@ -145,10 +145,6 @@ msgstr "Canal ID"
 msgid "New Channel"
 msgstr "Nuevo canal"
 
-#: templates/web/channels/channel-form.html:19
-msgid "-- Select a project"
-msgstr "-- Seleccione un proyecto"
-
 #: templates/web/channels/channel-form.html:31
 #: templates/web/companies/company-form.html:19
 #: templates/web/devices/device-form.html:33
@@ -273,6 +269,7 @@ msgid "Channel UUID"
 msgstr "Canal UUID"
 
 #: templates/web/devices/device-form.html:93
+#: templates/web/channels/channel-form.html:19
 msgid "-- Select a project"
 msgstr "-- Seleccione un proyecto"
 
