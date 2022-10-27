@@ -11,7 +11,7 @@
 {% else %}
     <div class="row">
         <div class="col-6">
-            <a href="{% url 'categories-by-project' category.project_uuid %}" class="btn btn-primary h-100 w-100">{% trans 'Clone other categroy from this project' %}</a> 
+            <a href="{% url 'categories-by-project' category.project_uuid %}" class="btn btn-primary h-100 w-100">{% trans 'Clone other category from this project' %}</a> 
         </div>
         <div class="col-6">
             <a href="{% url 'categories-by-project' target.uuid %}" class="btn btn-primary h-100 w-100">{% trans 'Go to the target project' %}</a> 

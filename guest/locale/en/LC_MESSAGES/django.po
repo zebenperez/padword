@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-10-27 10:28+0000\n"
+"POT-Creation-Date: 2022-10-27 12:37+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -181,6 +181,7 @@ msgid "PID"
 msgstr ""
 
 #: templates/guest/guest-form-admin.html:21
+#: templates/guest/notifications/notification-form.html:15
 msgid "Project UUID"
 msgstr ""
 
@@ -242,8 +243,8 @@ msgstr ""
 msgid "Surname"
 msgstr ""
 
-#: templates/guest/guest-form-main.html:20
-msgid "Languaje"
+#: templates/guest/guest-form-main.html:20 templates/guest/guest-list.html:13
+msgid "Language"
 msgstr ""
 
 #: templates/guest/guest-form-main.html:37
@@ -261,7 +262,7 @@ msgid "Email"
 msgstr ""
 
 #: templates/guest/guest-form-main.html:47
-msgid "Please enter valid email number"
+msgid "Please enter valid email"
 msgstr ""
 
 #: templates/guest/guest-form-main.html:53
@@ -319,10 +320,6 @@ msgid "Check out"
 msgstr ""
 
 #: templates/guest/guest-list.html:13
-msgid "Language"
-msgstr ""
-
-#: templates/guest/guest-list.html:13
 msgid "Options"
 msgstr ""
 
@@ -331,7 +328,8 @@ msgid "Name, Surname, Email, Phone or Room"
 msgstr ""
 
 #: templates/guest/guests.html:18
-msgid "Huéspedes"
+#: templates/guest/notifications/notification-list.html:13
+msgid "Guests"
 msgstr ""
 
 #: templates/guest/keys/guest-key-cards.html:4
@@ -343,7 +341,7 @@ msgid "Add card"
 msgstr ""
 
 #: templates/guest/keys/guest-key-cards.html:17
-msgid "Acerque la tarjeta al lector"
+msgid "Hold the card close to the reader"
 msgstr ""
 
 #: templates/guest/keys/guest-key-cards.html:26
@@ -379,10 +377,6 @@ msgstr ""
 msgid "New notification"
 msgstr ""
 
-#: templates/guest/notifications/notification-form.html:15
-msgid "Porject uuid"
-msgstr ""
-
 #: templates/guest/notifications/notification-form.html:22
 msgid "Published"
 msgstr ""
@@ -405,10 +399,6 @@ msgstr ""
 
 #: templates/guest/notifications/notification-list.html:12
 msgid "Date"
-msgstr ""
-
-#: templates/guest/notifications/notification-list.html:13
-msgid "Guests"
 msgstr ""
 
 #: templates/guest/notifications/notification-row.html:8

@@ -182,7 +182,7 @@
 	<div class="col-3 col-md-6 col-sm-12">
 		<label class="label">{% trans "Email" %}*:</label>
 		<input type="text" class="form-control autosave input mb-4" id="email" name="email" value="{{obj.email|default:""}}" 
-            title="{% trans "Please enter valid email number"%}" data-model-name="guest.guest" data-obj-id="{{obj.id}}" 
+            title="{% trans "Please enter valid email"%}" data-model-name="guest.guest" data-obj-id="{{obj.id}}" 
             data-url="{% url "autosave_field" %}" data-target="div-notification" data-check="mobile" 
             pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" required/> <span class="msg_error" id="email__msg"></span>
 	</div>

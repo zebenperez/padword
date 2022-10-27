@@ -3,7 +3,6 @@
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
-#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
@@ -20,11 +19,11 @@ msgstr ""
 
 #: lock_views.py:34 models.py:373
 msgid "Connected"
-msgstr ""
+msgstr "Conectado"
 
 #: lock_views.py:34 models.py:373
 msgid "Not connected"
-msgstr ""
+msgstr "No conectado"
 
 #: models.py:13 models.py:110 models.py:170 models.py:244 models.py:317
 #: models.py:480 models.py:536 models.py:543 models.py:586
@@ -95,32 +94,28 @@ msgid "Project"
 msgstr "Proyecto"
 
 #: models.py:85 models.py:544
-#, fuzzy
-#| msgid "Username"
 msgid "Lock Username"
-msgstr "Nombre de usuario"
+msgstr "Usuario de la cerradura"
 
 #: models.py:86 models.py:545
 msgid "Lock Password"
-msgstr ""
+msgstr "Contraseña de la cerradura"
 
 #: models.py:87
 msgid "Lock Token"
-msgstr ""
+msgstr "Token de la cerradura"
 
 #: models.py:88
 msgid "Lock Refresh Token"
-msgstr ""
+msgstr "Actualizar el token de la cerradura"
 
 #: models.py:89
-#, fuzzy
-#| msgid "UUID"
 msgid "UID"
 msgstr "UUID"
 
 #: models.py:90
 msgid "Expire"
-msgstr ""
+msgstr "Expirar"
 
 #: models.py:91 models.py:133 models.py:256 models.py:323 models.py:324
 #: models.py:483 models.py:539 models.py:548 models.py:590
@@ -147,7 +142,7 @@ msgstr "Nombre de usuario"
 
 #: models.py:135
 msgid "Menus"
-msgstr ""
+msgstr "Menús"
 
 #: models.py:139
 msgid "Project user"
@@ -209,100 +204,94 @@ msgstr "Canal ID"
 
 #: models.py:316
 msgid "Last update"
-msgstr ""
+msgstr "Última actualización"
 
 #: models.py:320
 msgid "Charge cache"
-msgstr ""
+msgstr "Caché de la carga"
 
 #: models.py:321
 msgid "State cache"
-msgstr ""
+msgstr "Caché del estado"
 
 #: models.py:322
 msgid "Gateway cache"
-msgstr ""
+msgstr "Caché del gateway"
 
 #: models.py:348
 msgid "unlock"
-msgstr ""
+msgstr "Desbloquear"
 
 #: models.py:348
 msgid "lock"
-msgstr ""
+msgstr "bloquear"
 
 #: models.py:477 models.py:540 models.py:582
 #: templates/web/keycards/keycard-card.html:9
 msgid "Lock"
-msgstr ""
+msgstr "Bloquear"
 
-#: models.py:482 templates/web/rooms/room-form.html:28
-#, fuzzy
 #| msgid "Serial Number"
 msgid "Number"
-msgstr "Número de serie"
+msgstr "Número"
 
 #: models.py:484
 msgid "Lock Group UUID"
-msgstr ""
+msgstr "Bloquear UUID del grupo"
 
 #: models.py:537 templates/web/keycards/keycard-form.html:10
 msgid "Bluetooth Code"
-msgstr ""
+msgstr "Código Bluetooth"
 
 #: models.py:538 templates/web/keycards/keycard-form.html:17
 msgid "Card Reader Code"
-msgstr ""
+msgstr "Código del lector de tarjetas"
 
 #: models.py:547 templates/web/locks-users/lock-user-form.html:16
 msgid "Password"
-msgstr ""
+msgstr "Contraseña"
 
 #: models.py:585 templates/web/locks-groups/lock-group-form.html:19
 msgid "Order"
-msgstr ""
+msgstr "Posición"
 
 #: models.py:589
 msgid "Remote Name"
-msgstr ""
+msgstr "Nombre remoto"
 
 #: models.py:624
 msgid "Lock group"
-msgstr ""
+msgstr "Bloquear grupo"
 
 #: models.py:628 templates/web/projects/project-token.html:5
 msgid "Token"
-msgstr ""
+msgstr "Token"
 
 #: models.py:630 templates/web/rooms/lock-details-ekey-form.html:13
 #: templates/web/rooms/lock-details-ekey-form.html:14
 #: templates/web/rooms/lock-details-ekeys.html:10
-#, fuzzy
-#| msgid "Username"
 msgid "Key name"
-msgstr "Nombre de usuario"
+msgstr "Nombre de la llave"
 
 #: models.py:631
 msgid "Ekey id"
-msgstr ""
+msgstr "ID de la llave electrónica"
 
 #: models.py:632
-#, fuzzy
-#| msgid "Project UUID"
 msgid "lock UUID"
-msgstr "UUID del Proyecto"
+msgstr "bloquear UUID"
 
 #: models.py:634
 msgid "Ini date"
-msgstr ""
+msgstr "Fecha de inicio"
 
 #: models.py:635
 msgid "End date"
-msgstr ""
+msgstr "Fecha de fin"
 
 #: room_views.py:145 room_views.py:222
 msgid "ERROR: Code must not to be empty!"
-msgstr ""
+msgstr "ERROR: El código no debe estar vacío"
 
 #: templates/web/channels/channel-form.html:3
 msgid "New Channel"
@@ -440,6 +429,8 @@ msgstr "Desasignados"
 #: templates/web/rooms/lock-details.html:27
 #: templates/web/rooms/lock-details.html:38
 #: templates/web/rooms/lock-details.html:59
+#: templates/web/locks/lock-all-cards.html:29
+#: templates/web/locks/lock-all-passcodes.html:38
 msgid "Close"
 msgstr "Cerrar"
 
@@ -491,7 +482,7 @@ msgstr "Nombre del canal"
 
 #: templates/web/devices/search_box.html:44
 msgid "Serial"
-msgstr "Sere"
+msgstr "Serie"
 
 #: templates/web/index.html:7
 msgid "Section title"
@@ -499,82 +490,80 @@ msgstr "Título de la sección"
 
 #: templates/web/keycards/keycard-card.html:5
 msgid "Bluetooth"
-msgstr ""
+msgstr "Bluetooth"
 
 #: templates/web/keycards/keycard-card.html:7
 msgid "Card Reader"
-msgstr ""
+msgstr "Lector de tarjetas"
 
 #: templates/web/keycards/keycard-form.html:2
 msgid "New keycard"
-msgstr ""
+msgstr "Nueva tarjeta de acceso"
 
 #: templates/web/keycards/keycards-list.html:10
 msgid "Add keycard"
-msgstr ""
+msgstr "Añadir tarjeta de acceso"
 
 #: templates/web/keycards/keycards.html:22
 msgid "Key Cards"
-msgstr ""
+msgstr "Tarjetas de acceso"
 
 #: templates/web/locks-groups/lock-group-form.html:3
 msgid "New lock group"
-msgstr ""
+msgstr "Nuevo grupo de cerraduras"
 
 #: templates/web/locks-groups/lock-group-list.html:7
 msgid "TTLock Groups"
-msgstr ""
+msgstr "Grupo de TTLock"
 
 #: templates/web/locks-groups/lock-group-list.html:32
 msgid "Add Group"
-msgstr ""
+msgstr "Añadir grupo"
 
 #: templates/web/locks-groups/lock-group-list.html:41
 msgid "TTLock Name"
-msgstr ""
+msgstr "Nombre TTLock"
 
 #: templates/web/locks-groups/lock-group-list.html:42
 msgid "TTLock Id"
-msgstr ""
+msgstr "Id TTLock"
 
 #: templates/web/locks-groups/lock-group-list.html:44
 msgid "Orden"
-msgstr ""
+msgstr "Posición"
 
 #: templates/web/locks-groups/locks-groups.html:19
 msgid "Locks Groups"
-msgstr ""
+msgstr "Grupos de cerraduras"
 
 #: templates/web/locks-users/lock-user-form.html:3
 msgid "New lock user"
-msgstr ""
+msgstr "Nuevo usuario de la cerradura"
 
 #: templates/web/locks-users/lock-user-list.html:7
 msgid "TTLock Users"
-msgstr ""
+msgstr "Usuarios TTLock"
 
 #: templates/web/locks-users/lock-user-list.html:30
 msgid "Add User"
-msgstr ""
+msgstr "Añadir usuario"
 
 #: templates/web/locks-users/lock-user-list.html:39
-#, fuzzy
-#| msgid "Username"
 msgid "TTLock username"
-msgstr "Nombre de usuario"
+msgstr "Nombre de usuario de TTLock"
 
 #: templates/web/locks-users/lock-user-list.html:40
 msgid "TTLock password"
-msgstr ""
+msgstr "Contraseña TTLock"
 
 #: templates/web/locks-users/locks-users.html:23
 msgid "Locks Users"
-msgstr ""
+msgstr "Usuarios de cerraduras"
 
 #: templates/web/locks/lock-all-cards.html:4
 #: templates/web/locks/lock-all-passcodes.html:4
 msgid "Passcode list"
-msgstr ""
+msgstr "Lista de códigos de acceso"
 
 #: templates/web/locks/lock-all-cards.html:8
 #: templates/web/locks/lock-all-passcodes.html:9
@@ -582,7 +571,7 @@ msgstr ""
 #: templates/web/rooms/lock-details-codes.html:8
 #: templates/web/rooms/lock.details-codes.html:11
 msgid "Code"
-msgstr ""
+msgstr "Código"
 
 #: templates/web/locks/lock-all-cards.html:8
 #: templates/web/locks/lock-all-passcodes.html:10
@@ -591,7 +580,7 @@ msgstr ""
 #: templates/web/rooms/lock-details-ekeys.html:12
 #: templates/web/rooms/lock.details-codes.html:11
 msgid "Start Date"
-msgstr ""
+msgstr "Fecha de inicio"
 
 #: templates/web/locks/lock-all-cards.html:8
 #: templates/web/locks/lock-all-passcodes.html:11
@@ -600,7 +589,7 @@ msgstr ""
 #: templates/web/rooms/lock-details-ekeys.html:13
 #: templates/web/rooms/lock.details-codes.html:11
 msgid "End Date"
-msgstr ""
+msgstr "Fecha de fin"
 
 #: templates/web/locks/lock-all-cards.html:8
 #: templates/web/locks/lock-all-passcodes.html:12
@@ -608,27 +597,20 @@ msgstr ""
 #: templates/web/rooms/lock-details-codes.html:11
 #: templates/web/rooms/lock.details-codes.html:11
 msgid "Guest"
-msgstr ""
+msgstr "Huésped"
 
 #: templates/web/locks/lock-all-cards.html:18
 #: templates/web/locks/lock-all-cards.html:20
 #: templates/web/rooms/lock-details-cards.html:25
 #: templates/web/rooms/lock-details-cards.html:27
-#, fuzzy
-#| msgid "Remove"
 msgid "Remove card"
-msgstr "Eliminar"
-
-#: templates/web/locks/lock-all-cards.html:29
-#: templates/web/locks/lock-all-passcodes.html:38
-msgid "Cerrar"
-msgstr ""
+msgstr "Eliminar tarjeta"
 
 #: templates/web/locks/lock-all-passcodes.html:13
 #: templates/web/rooms/lock-details-cards.html:12
 #: templates/web/rooms/lock-details-codes.html:12
 msgid "Type"
-msgstr ""
+msgstr "Tipo"
 
 #: templates/web/locks/lock-all-passcodes.html:27
 #: templates/web/locks/lock-all-passcodes.html:29
@@ -637,35 +619,29 @@ msgstr ""
 #: templates/web/rooms/lock-details-ekeys.html:28
 #: templates/web/rooms/lock.details-codes.html:21
 #: templates/web/rooms/lock.details-codes.html:23
-#, fuzzy
-#| msgid "Remove"
 msgid "Remove code"
-msgstr "Eliminar"
+msgstr "Eliminar código"
 
 #: templates/web/locks/lock-form.html:3
-#, fuzzy
-#| msgid "New proyect"
 msgid "New lock"
-msgstr "Nuevo proyecto"
+msgstr "Nueva cerradura"
 
 #: templates/web/locks/lock-list.html:9 templates/web/locks/lock-list.html:10
 msgid "Add group"
-msgstr ""
+msgstr "Añadir grupo"
 
 #: templates/web/locks/lock-list.html:13 templates/web/locks/lock-list.html:14
 msgid "Add master card"
-msgstr ""
+msgstr "Añadir tarjeta maestra"
 
 #: templates/web/locks/lock-list.html:17 templates/web/locks/lock-list.html:18
 msgid "Add master code"
-msgstr ""
+msgstr "Añadir código maestro"
 
 #: templates/web/locks/lock-list.html:40
 #: templates/web/rooms/lock-details-cards-form.html:9
-#, fuzzy
-#| msgid "Serial number"
 msgid "Card number"
-msgstr "Número de serie"
+msgstr "Número de tarjeta"
 
 #: templates/web/locks/lock-list.html:47
 #: templates/web/rooms/lock-details-cards-form.html:26
@@ -673,29 +649,29 @@ msgstr "Número de serie"
 #: templates/web/rooms/lock-details-ekey-form.html:30
 #: templatetags/padword_tags.py:149
 msgid "Permanent"
-msgstr ""
+msgstr "Permanente"
 
 #: templates/web/locks/lock-list.html:61 templates/web/rooms/room-form.html:50
 msgid "Group"
-msgstr ""
+msgstr "Grupo"
 
 #: templates/web/locks/lock-list.html:63 templates/web/rooms/lock-list.html:15
 msgid "Status"
-msgstr ""
+msgstr "Estado"
 
 #: templates/web/locks/lock-list.html:64 templates/web/rooms/lock-list.html:16
 msgid "Charge"
-msgstr ""
+msgstr "Carga"
 
 #: templates/web/locks/lock-list.html:65
 msgid "Gateway"
-msgstr ""
+msgstr "Puerta de enlace"
 
 #: templates/web/locks/locks.html:24
 #: templates/web/projects/project-form.html:71
 #: templates/web/projects/project-list.html:28
 msgid "Locks"
-msgstr ""
+msgstr "Cerraduras"
 
 #: templates/web/projects/project-form.html:3
 msgid "New proyect"
@@ -707,7 +683,7 @@ msgstr "-- Seleccione una compañía"
 
 #: templates/web/projects/project-form.html:29
 msgid "Prefix"
-msgstr ""
+msgstr "Prefijo"
 
 #: templates/web/projects/project-form.html:56
 msgid "Used Languages (code separated by colons)"
@@ -718,26 +694,24 @@ msgid "Languages in project"
 msgstr "Idiomas del proyecto"
 
 #: templates/web/projects/project-form.html:74
-#, fuzzy
-#| msgid "Username"
 msgid "TTLock Username"
-msgstr "Nombre de usuario"
+msgstr "Nombre de usuario TTLock"
 
 #: templates/web/projects/project-form.html:81
 msgid "TTLock Password"
-msgstr ""
+msgstr "Contraseña TTLock"
 
 #: templates/web/projects/project-form.html:88
 msgid "Get token"
-msgstr ""
+msgstr "Obtener token"
 
 #: templates/web/projects/project-list.html:22
 msgid "Finger print"
-msgstr ""
+msgstr "Huella dactilar"
 
 #: templates/web/projects/project-list.html:30
 msgid "Lock groups"
-msgstr ""
+msgstr "Grupo de cerraduras"
 
 #: templates/web/projects/project-list.html:34
 msgid "Categories"
@@ -755,7 +729,7 @@ msgstr "Reservas"
 
 #: templates/web/projects/project-token.html:12
 msgid "Refresh Token"
-msgstr ""
+msgstr "Actualizar token"
 
 #: templates/web/projects/projects.html:12
 msgid "Name or company"
@@ -775,98 +749,88 @@ msgstr "Cancelar"
 
 #: templates/web/rooms/lock-details-codes-form.html:9
 msgid "4-9 Digits code - Empty for random code"
-msgstr ""
+msgstr "Código de 4-9 dígitos - Vacío para código aleatorio"
 
 #: templates/web/rooms/lock-details-codes-form.html:30
 #: templatetags/padword_tags.py:147
 msgid "One use"
-msgstr ""
+msgstr "Un solo uso"
 
 #: templates/web/rooms/lock-details-ekey-form.html:9
 #: templates/web/rooms/lock-details-ekey-form.html:10
 msgid "User to send"
-msgstr ""
+msgstr "Usuario a enviar"
 
 #: templates/web/rooms/lock-details-ekeys.html:8
-#, fuzzy
-#| msgid "Username"
 msgid "User"
-msgstr "Nombre de usuario"
+msgstr "Usuario"
 
 #: templates/web/rooms/lock-details-ekeys.html:11
 msgid "Key id"
-msgstr ""
+msgstr "Id de la llave"
 
 #: templates/web/rooms/lock-details-ekeys.html:14
 #: templates/web/rooms/lock-details-ekeys.html:26
 msgid "Link"
-msgstr ""
+msgstr "Enlace"
 
 #: templates/web/rooms/lock-details-ekeys.html:30
-#, fuzzy
-#| msgid "Remove"
 msgid "Remove eKey"
-msgstr "Eliminar"
+msgstr "Eliminar eKey"
 
 #: templates/web/rooms/lock-details.html:17
 msgid "Passcodes"
-msgstr ""
+msgstr "Códigos de acceso"
 
 #: templates/web/rooms/lock-details.html:18
 msgid "Cards"
-msgstr ""
+msgstr "Tarjetas"
 
 #: templates/web/rooms/lock-details.html:19
 msgid "eKeys"
-msgstr ""
+msgstr "eKeys"
 
 #: templates/web/rooms/lock-details.html:27
 #: templates/web/rooms/lock.details-codes.html:8
 msgid "Add code"
-msgstr ""
+msgstr "Añadir código"
 
 #: templates/web/rooms/lock-details.html:37
 #: templates/web/rooms/lock-details.html:38
 msgid "Add card"
-msgstr ""
+msgstr "Añadir tarjeta"
 
 #: templates/web/rooms/lock-details.html:59
 msgid "Add eKey"
-msgstr ""
+msgstr "Añadir eKey"
 
 #: templates/web/rooms/lock-list.html:8
 msgid "There are not lock to assign."
-msgstr ""
+msgstr "No hay cerradura para asignar"
 
 #: templates/web/rooms/lock.details-codes.html:6
 msgid "Passcode List"
-msgstr ""
+msgstr "Lista de códigos de acceso"
 
 #: templates/web/rooms/room-card.html:10
 msgid "Delete"
-msgstr ""
+msgstr "Borrar"
 
 #: templates/web/rooms/room-form.html:6
-#, fuzzy
-#| msgid "Edit"
 msgid "Edit room"
-msgstr "Editar"
+msgstr "Editar habitación"
 
 #: templates/web/rooms/room-form.html:53
-#, fuzzy
-#| msgid "-- Select a project"
 msgid "-- Select a group"
-msgstr "-- Seleccione un proyecto"
+msgstr "-- Seleccione un grupo"
 
 #: templates/web/rooms/room-group-list.html:7
 msgid "Add room"
-msgstr ""
+msgstr "Añadir habitación"
 
 #: templates/web/rooms/rooms-list.html:5
-#, fuzzy
-#| msgid "Room"
 msgid "Rooms"
-msgstr "Habitación"
+msgstr "Habitaciones"
 
 #: templates/web/second-menu.html:14
 msgid "Forms"
@@ -874,18 +838,16 @@ msgstr "Formularios"
 
 #: templatetags/padword_tags.py:150
 msgid "Period"
-msgstr ""
+msgstr "Periodo"
 
 #: views.py:29
 msgid "Category not found!"
-msgstr ""
+msgstr "No se ha encontrado la categoría"
 
 #: views.py:35 views.py:44
-#, fuzzy
-#| msgid "Project name"
 msgid "Project not found!"
-msgstr "Nombre del proyecto"
+msgstr "No se ha encontrado el proyecto"
 
 #: views.py:56
 msgid "Menu not found!"
-msgstr ""
+msgstr "No se ha encontrado el menú"
