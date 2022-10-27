@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-09-20 16:46+0200\n"
+"POT-Creation-Date: 2022-10-27 10:28+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,145 +18,454 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: models.py:113 models.py:126 models.py:203 templates/guest/second_menu.html:3
+#: models.py:260 models.py:273 models.py:350 models.py:374 models.py:386
+#: models.py:398 models.py:408 templates/device/device-list.html:7
+#: templates/guest/second_menu.html:3
 msgid "Guest"
-msgstr ""
+msgstr "Huésped"
 
-#: models.py:116 templates/guest/guest-form.html:10
-#: templates/guest/guest-list.html:9
+#: models.py:263 templates/guest/guest-form-main.html:6
+#: templates/guest/guest-form-simple.html:10 templates/guest/guest-list.html:12
 msgid "Name"
-msgstr ""
+msgstr "Nombre"
 
-#: models.py:117
+#: models.py:264 models.py:395 models.py:405
 msgid "Code"
-msgstr ""
+msgstr "Código"
 
-#: models.py:118
+#: models.py:265
 msgid "Created at"
-msgstr ""
+msgstr "Creado en"
 
-#: models.py:119
+#: models.py:266
 msgid "Updated at"
+msgstr "Actualizado"
+
+#: models.py:354 templates/guest/notifications/notification-form.html:44
+msgid "All users"
 msgstr ""
 
-#: templates/guest/guest-form.html:3 templates/guest/guests.html:24
+#: models.py:355
+msgid "Public"
+msgstr ""
+
+#: models.py:357 templates/guest/notifications/notification-form.html:62
+#: templates/guest/notifications/notification-list.html:14
+msgid "Subject"
+msgstr ""
+
+#: models.py:358 models.py:385
+#: templates/guest/notifications/notification-form.html:69
+#: templates/guest/notifications/notification-list.html:15
+msgid "Message"
+msgstr ""
+
+#: models.py:369 models.py:375
+msgid "Notification"
+msgstr ""
+
+#: models.py:373
+msgid "Read"
+msgstr ""
+
+#: models.py:378
+msgid "Guest notification"
+msgstr ""
+
+#: models.py:381
+#, fuzzy
+#| msgid "Guest type"
+msgid "Guest Readed"
+msgstr "Tipo de huésped"
+
+#: models.py:382
+msgid "Sender Readed"
+msgstr ""
+
+#: models.py:383
+#, fuzzy
+#| msgid "Guests"
+msgid "Guest Message"
+msgstr "Huéspedes"
+
+#: models.py:390 models.py:391
+msgid "Chat"
+msgstr ""
+
+#: models.py:396
+#, fuzzy
+#| msgid "Code"
+msgid "Code Id"
+msgstr "Código"
+
+#: models.py:397 models.py:407
+msgid "Lock"
+msgstr ""
+
+#: models.py:401 models.py:411
+msgid "Key"
+msgstr ""
+
+#: models.py:402 models.py:412
+msgid "Keys"
+msgstr ""
+
+#: models.py:406
+msgid "Card Id"
+msgstr ""
+
+#: templates/device/device-form.html:3 templates/device/device-room.html:3
+#: templates/guest/guest-form-simple.html:3 templates/guest/guest-form.html:4
+#: templates/guest/guests.html:21 templates/guest/guests.html:23
 msgid "New guest"
+msgstr "Nuevo huésped"
+
+#: templates/device/device-form.html:10 templates/device/device-list.html:5
+msgid "Alias"
+msgstr ""
+
+#: templates/device/device-form.html:19 templates/device/device-room.html:25
+#: templates/guest/guest-form-simple.html:226
+#: templates/guest/guest-form.html:58 templates/guest/guest-form.html:60
+#: templates/guest/notifications/notification-form.html:83
+msgid "Save"
+msgstr "Guardar"
+
+#: templates/device/device-list.html:6 templates/device/device-room.html:11
+#: templates/guest/guest-form-main.html:81
+#: templates/guest/guest-form-simple.html:101 templates/guest/guest-list.html:9
+msgid "Room"
+msgstr "Habitación"
+
+#: templates/device/device-list.html:8
+msgid "IMEI"
+msgstr ""
+
+#: templates/device/device-list.html:9
+msgid "Wifi MAC"
+msgstr ""
+
+#: templates/device/device-list.html:10
+msgid "Canal"
+msgstr ""
+
+#: templates/device/device-list.html:11
+msgid "Activo"
+msgstr ""
+
+#: templates/device/device-list.html:12
+msgid "Fecha de actualización"
+msgstr ""
+
+#: templates/device/device-page.html:20
+#: templates/guest/guest-form-simple.html:229
+#: templates/guest/guest-form.html:63 templates/guest/guest-row.html:29
+#: templates/guest/keys/guest-key-cards.html:27
+#: templates/guest/notifications/notification-form.html:85
+#: templates/guest/notifications/notification-row.html:26
+msgid "Are you sure to remove this element?"
+msgstr "¿Está seguro de eliminar este elemento?"
+
+#: templates/device/device-room.html:14
+msgid "-- Select room --"
+msgstr ""
+
+#: templates/device/devices.html:9
+msgid "Alias, IMEI"
+msgstr ""
+
+#: templates/device/devices.html:23
+msgid "Tablets"
+msgstr ""
+
+#: templates/guest/guest-form-admin.html:6
+msgid "UUID"
+msgstr "UUID"
+
+#: templates/guest/guest-form-admin.html:13 templates/guest/guest-list.html:9
+msgid "PID"
+msgstr "PID"
+
+#: templates/guest/guest-form-admin.html:21
+msgid "Project UUID"
+msgstr "UUID del proyecto"
+
+#: templates/guest/guest-form-admin.html:28
+msgid "Deleted"
+msgstr "Borrado"
+
+#: templates/guest/guest-form-admin.html:31
+#: templates/guest/guest-form-extra.html:15
+#: templates/guest/guest-form-extra.html:24
+msgid "NO"
+msgstr "NO"
+
+#: templates/guest/guest-form-admin.html:32
+#: templates/guest/guest-form-extra.html:16
+#: templates/guest/guest-form-extra.html:25
+msgid "YES"
+msgstr "SI"
+
+#: templates/guest/guest-form-extra.html:5
+msgid "Born date"
+msgstr "Fecha de nacimiento"
+
+#: templates/guest/guest-form-extra.html:12
+msgid "Married"
+msgstr "Casado/a"
+
+#: templates/guest/guest-form-extra.html:21
+#: templates/guest/guest-form-extra.html:37
+msgid "Children"
+msgstr "Niños"
+
+#: templates/guest/guest-form-extra.html:30
+msgid "Adults"
+msgstr "Adultos"
+
+#: templates/guest/guest-form-extra.html:44
+msgid "Babies"
+msgstr "Bebés"
+
+#: templates/guest/guest-form-main.html:8
+#: templates/guest/guest-form-main.html:15
+#: templates/guest/guest-form-main.html:55
+#: templates/guest/guest-form-main.html:62
+#: templates/guest/guest-form-main.html:69
+#: templates/guest/guest-form-main.html:76
+#: templates/guest/guest-form-simple.html:12
+#: templates/guest/guest-form-simple.html:19
+#: templates/guest/guest-form-simple.html:34
+#: templates/guest/guest-form-simple.html:41
+#: templates/guest/guest-form-simple.html:48
+#: templates/guest/guest-form-simple.html:55
+#: templates/guest/guest-form-simple.html:109
+msgid "This field is required"
+msgstr ""
+
+#: templates/guest/guest-form-main.html:13
+#: templates/guest/guest-form-simple.html:17
+msgid "Surname"
+msgstr "Apellidos"
+
+#: templates/guest/guest-form-main.html:20
+msgid "Languaje"
+msgstr "Lenguaje"
+
+#: templates/guest/guest-form-main.html:37
+#: templates/guest/guest-form-simple.html:24
+msgid "Mobile phone"
+msgstr "Teléfono móvil"
+
+#: templates/guest/guest-form-main.html:39
+#: templates/guest/guest-form-simple.html:26
+msgid "Please enter valid phone number"
+msgstr ""
+
+#: templates/guest/guest-form-main.html:45
+msgid "Email"
+msgstr "Correo electrónico"
+
+#: templates/guest/guest-form-main.html:47
+msgid "Please enter valid email number"
+msgstr ""
+
+#: templates/guest/guest-form-main.html:53
+#: templates/guest/guest-form-simple.html:32
+#, fuzzy
+#| msgid "Check-in"
+msgid "Check-in date"
+msgstr "Registro de entrada"
+
+#: templates/guest/guest-form-main.html:60
+#: templates/guest/guest-form-simple.html:39
+#, fuzzy
+#| msgid "Check-in"
+msgid "Check-in time"
+msgstr "Registro de entrada"
+
+#: templates/guest/guest-form-main.html:67
+#: templates/guest/guest-form-simple.html:46
+#, fuzzy
+#| msgid "Check-out"
+msgid "Check-out date"
+msgstr "Registro de salida"
+
+#: templates/guest/guest-form-main.html:74
+#: templates/guest/guest-form-simple.html:53
+#, fuzzy
+#| msgid "Check-out"
+msgid "Check-out time"
+msgstr "Registro de salida"
+
+#: templates/guest/guest-form-simple.html:229
+#: templates/guest/guest-form.html:63
+#: templates/guest/notifications/notification-form.html:86
+msgid "Remove"
+msgstr "Eliminar"
+
+#: templates/guest/guest-form.html:9
+msgid "Main"
 msgstr ""
 
 #: templates/guest/guest-form.html:17
-msgid "Surname"
+msgid "Extra"
 msgstr ""
 
-#: templates/guest/guest-form.html:24
-msgid "Check-in"
+#: templates/guest/guest-form.html:28
+msgid "Locks"
 msgstr ""
 
-#: templates/guest/guest-form.html:31
-msgid "Check-out"
+#: templates/guest/guest-form.html:41
+msgid "Admin"
 msgstr ""
 
-#: templates/guest/guest-form.html:38 templates/guest/guest-list.html:5
-msgid "Room"
-msgstr ""
-
-#: templates/guest/guest-form.html:45
-msgid "Guest type"
-msgstr ""
-
-#: templates/guest/guest-form.html:49
-msgid "Confirm code"
-msgstr ""
-
-#: templates/guest/guest-form.html:56
-msgid "Country"
-msgstr ""
-
-#: templates/guest/guest-form.html:60
-msgid "Languaje"
-msgstr ""
-
-#: templates/guest/guest-form.html:67
-msgid "Born date"
-msgstr ""
-
-#: templates/guest/guest-form.html:74
-msgid "Married"
-msgstr ""
-
-#: templates/guest/guest-form.html:77 templates/guest/guest-form.html:86
-#: templates/guest/guest-form.html:153
-msgid "NO"
-msgstr ""
-
-#: templates/guest/guest-form.html:78 templates/guest/guest-form.html:87
-#: templates/guest/guest-form.html:154
-msgid "YES"
-msgstr ""
-
-#: templates/guest/guest-form.html:83 templates/guest/guest-form.html:99
-msgid "Children"
-msgstr ""
-
-#: templates/guest/guest-form.html:92
-msgid "Adults"
-msgstr ""
-
-#: templates/guest/guest-form.html:106
-msgid "Babies"
-msgstr ""
-
-#: templates/guest/guest-form.html:114
-msgid "Mobile phone"
-msgstr ""
-
-#: templates/guest/guest-form.html:121
-msgid "Email"
-msgstr ""
-
-#: templates/guest/guest-form.html:128
-msgid "UUID"
-msgstr ""
-
-#: templates/guest/guest-form.html:135 templates/guest/guest-list.html:6
-msgid "PID"
-msgstr ""
-
-#: templates/guest/guest-form.html:143
-msgid "Project UUID"
-msgstr ""
-
-#: templates/guest/guest-form.html:150
-msgid "Deleted"
-msgstr ""
-
-#: templates/guest/guest-form.html:162
-msgid "Save"
-msgstr ""
-
-#: templates/guest/guest-form.html:164 templates/guest/guest-page.html:13
-msgid "Are you sure to remove this element?"
-msgstr ""
-
-#: templates/guest/guest-form.html:164
-msgid "Remove"
-msgstr ""
-
-#: templates/guest/guest-list.html:7
-msgid "Check in"
-msgstr ""
-
-#: templates/guest/guest-list.html:8
-msgid "Check out"
+#: templates/guest/guest-form.html:68
+msgid "You must choose a valid room number or empty"
 msgstr ""
 
 #: templates/guest/guest-list.html:10
+msgid "Check in"
+msgstr "Registro de entrada"
+
+#: templates/guest/guest-list.html:11
+msgid "Check out"
+msgstr "Registro de salida"
+
+#: templates/guest/guest-list.html:13
 msgid "Language"
+msgstr "Lenguaje"
+
+#: templates/guest/guest-list.html:13
+msgid "Options"
 msgstr ""
 
-#: templates/guest/guests.html:9
-msgid "Name, Surname, or Room"
-msgstr ""
+#: templates/guest/guests.html:12
+#, fuzzy
+#| msgid "Name, Surname, or Room"
+msgid "Name, Surname, Email, Phone or Room"
+msgstr "Nombre, Apellidos o Habitación"
 
-#: templates/guest/guests.html:22
+#: templates/guest/guests.html:18
 msgid "Huéspedes"
 msgstr ""
+
+#: templates/guest/keys/guest-key-cards.html:4
+msgid "Card numbers"
+msgstr ""
+
+#: templates/guest/keys/guest-key-cards.html:10
+msgid "Add card"
+msgstr ""
+
+#: templates/guest/keys/guest-key-cards.html:17
+msgid "Acerque la tarjeta al lector"
+msgstr ""
+
+#: templates/guest/keys/guest-key-cards.html:26
+#, fuzzy
+#| msgid "Remove"
+msgid "Remove card"
+msgstr "Eliminar"
+
+#: templates/guest/keys/guest-key-codes.html:5
+msgid "Manual code"
+msgstr ""
+
+#: templates/guest/keys/guest-key-codes.html:9
+#, fuzzy
+#| msgid "Confirm code"
+msgid "Change code"
+msgstr "Confirmar código"
+
+#: templates/guest/keys/guest-key-codes.html:21
+msgid "Change"
+msgstr ""
+
+#: templates/guest/keys/guest-keys.html:4
+msgid "Locks assigned"
+msgstr ""
+
+#: templates/guest/keys/guest-keys.html:21
+msgid "Open lock"
+msgstr ""
+
+#: templates/guest/notifications/guest-list.html:12
+msgid "Select"
+msgstr ""
+
+#: templates/guest/notifications/notification-form.html:6
+#: templates/guest/notifications/notifications.html:19
+msgid "New notification"
+msgstr ""
+
+#: templates/guest/notifications/notification-form.html:15
+msgid "Porject uuid"
+msgstr ""
+
+#: templates/guest/notifications/notification-form.html:22
+msgid "Published"
+msgstr ""
+
+#: templates/guest/notifications/notification-form.html:30
+#, fuzzy
+#| msgid "New guest"
+msgid "Search guests"
+msgstr "Nuevo huésped"
+
+#: templates/guest/notifications/notification-form.html:38
+#, fuzzy
+#| msgid "New guest"
+msgid "Send to guests"
+msgstr "Nuevo huésped"
+
+#: templates/guest/notifications/notification-form.html:81
+msgid "Send"
+msgstr ""
+
+#: templates/guest/notifications/notification-list.html:10
+#, fuzzy
+#| msgid "Project UUID"
+msgid "Project"
+msgstr "UUID del proyecto"
+
+#: templates/guest/notifications/notification-list.html:12
+msgid "Date"
+msgstr ""
+
+#: templates/guest/notifications/notification-list.html:13
+msgid "Guests"
+msgstr "Huéspedes"
+
+#: templates/guest/notifications/notification-row.html:8
+msgid "ALL"
+msgstr ""
+
+#: templates/guest/notifications/notifications.html:11
+#, fuzzy
+#| msgid "Name, Surname, or Room"
+msgid "Guest name or room"
+msgstr "Nombre, Apellidos o Habitación"
+
+#: templates/guest/notifications/notifications.html:17
+msgid "Notifications"
+msgstr ""
+
+#: views.py:187 views.py:212
+msgid "Guest not found!"
+msgstr ""
+
+#: views.py:287
+msgid "Project not found!"
+msgstr ""
+
+#: views.py:293
+msgid "This user have not permission for this section!"
+msgstr ""
+
+#: views.py:327 views.py:337
+msgid "Object not found!"
+msgstr ""
+
+#~ msgid "Country"
+#~ msgstr "País"
