@@ -7,7 +7,7 @@ from .guest_serializers import GuestSerializer
 
 from guest.models import Guest
 from web.models import ProjectUser
-from padword.commons import new_ui_slug
+from padword.commons import new_ui_slug, reverse_cardkey 
 
 from datetime import datetime
 
@@ -124,6 +124,30 @@ class GuestViewSet(viewsets.ModelViewSet):
     def get_locks(self, request):
         try:
             guest = Guest.objects.get(UUID = request.GET["UUID"])
+            return Response(guest.get_locks_json(), status=status.HTTP_200_OK)
+        except Exception as e:
+            logger.error("(get_guest): %s" % e)
+            return Response({"error": 'true'})
+
+    @action(detail=False, methods=['post'])
+    def add_card(self, request):
+        try:
+            guest_uuid = request.POST["UUID"]
+            code = reverse_cardkey(request.POST["card"])
+            guest = Guest.objects.get(UUID=guest_uuid)
+            guest.add_all_key_card(code)
+            return Response(guest.get_locks_json(), status=status.HTTP_200_OK)
+        except Exception as e:
+            logger.error("(get_guest): %s" % e)
+            return Response({"error": True})
+
+    @action(detail=False, methods=['post'])
+    def remove_card(self, request):
+        try:
+            guest_uuid = request.POST["UUID"]
+            code = reverse_cardkey(request.POST["card"])
+            guest = Guest.objects.get(UUID=guest_uuid)
+            guest.remove_all_key_cards(code)
             return Response(guest.get_locks_json(), status=status.HTTP_200_OK)
         except Exception as e:
             logger.error("(get_guest): %s" % e)
