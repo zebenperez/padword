@@ -48,7 +48,7 @@
     </div>
     <div class="tabs-3 col-4 offset-1 mb-1 align-middle justify-content-center p2">
         <button class="menu-options ark" data-url="{% url "my-bookings" %}" data-target="main"
-             data-project_uuid="{{project_uuid}}" data-cat_id="{{form.category}}"><i class="fas fa-credit-card"></i>
+             data-project_uuid="{{form.project.uuid}}" data-cat_id="{{form.category}}"><i class="fas fa-credit-card"></i>
         </button><br /><span>Mis pedidos</span>
         {%comment%}
         <button class="menu-options ark" data-url="{% url "show-category-menu" %}" data-target="main" 
