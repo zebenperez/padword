@@ -3,19 +3,20 @@
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
+#, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: PACKAGE VERSION"
-"Report-Msgid-Bugs-To: "
-"POT-Creation-Date: 2022-10-27 10:26+0000"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>"
-"Language-Team: LANGUAGE <LL@li.org>"
-"Language: "
-"MIME-Version: 1.0"
-"Content-Type: text/plain; charset=UTF-8"
-"Content-Transfer-Encoding: 8bit"
-"Plural-Forms: nplurals=2; plural=(n != 1);"
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2022-10-28 08:57+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: form_views.py:82 form_views.py:129 views.py:354 views.py:539
 msgid "Form not found!"
@@ -42,7 +43,6 @@ msgid "- Not readed notifications -> {}"
 msgstr "Notificacionees no leídas"
 
 #: guest_views.py:636
-#| msgid "You have some news in your orders:"
 msgid "You have some news"
 msgstr "Tienes novedades en tus pedidos:"
 
@@ -88,7 +88,7 @@ msgstr "Tipo de campo"
 
 #: models.py:44 models.py:62 models.py:211
 msgid "Answer type"
-msgstr "Tipo de respuesta"
+msgstr "Tipo de respuestas"
 
 #: models.py:45
 msgid "Answers types"
@@ -136,7 +136,7 @@ msgstr "Tipo de formulario"
 
 #: models.py:86
 msgid "Forms type"
-msgstr "Tipo de formularios"
+msgstr "Tipos de formularios"
 
 #: models.py:108
 msgid "This form is active for guests"
@@ -504,8 +504,6 @@ msgstr "Cerrar"
 #: templates/bookings/ecom/shopping_cart.html:25
 #: templates/bookings/ecom/shopping_cart2.html:26
 #: templates/bookings/ecom/shopping_cart3.html:25
-#, fuzzy
-#| msgid "Shopping"
 msgid "View Shopping Cart"
 msgstr "Ver carrito"
 
@@ -526,8 +524,6 @@ msgstr "Volver"
 
 #: templates/bookings/ecom/view-payment-types.html:32
 #: templates/bookings/general/general.html:19
-#, fuzzy
-#| msgid "Order"
 msgid "Send Order"
 msgstr "Enviar pedido"
 
@@ -990,6 +986,3 @@ msgstr "No se ha encontrado el usuario"
 #: views.py:43
 msgid "Token not found!"
 msgstr "No se ha encontrado el token"
-
-#~ msgid "Chat"
-#~ msgstr "Chat"

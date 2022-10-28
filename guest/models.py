@@ -196,7 +196,6 @@ class Guest(models.Model):
         self.remove_all_key_cards()
         self.room = new_room
         self.save()
-        print(code_list)
         if len(code_list) > 0:
             for code in code_list:
                 self.add_all_key_code(code)

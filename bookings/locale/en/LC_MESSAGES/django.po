@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-10-27 10:26+0000\n"
+"POT-Creation-Date: 2022-10-28 08:57+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -720,7 +720,7 @@ msgstr ""
 
 #: templates/bookings/manage/status-form.html:39
 #: templates/bookings/pr-manage/status-form.html:39
-msgid "Comentario para el siguiente estado"
+msgid "Comment for the following state"
 msgstr ""
 
 #: templates/bookings/menus/menu_brujas.html:5
@@ -875,7 +875,7 @@ msgid "Logo"
 msgstr ""
 
 #: templates/forms/form-general.html:3
-msgid "Datos Generales"
+msgid "General data"
 msgstr ""
 
 #: templates/forms/form-general.html:7
