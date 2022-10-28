@@ -211,18 +211,22 @@ def guest_save_room(request):
         if guest == None:
             return render(request, "error_exception.html", {'exc': _('Guest not found!')})
 
+        print("--1--")
         value = request.GET["value"]
-        guest.room = value
-        guest.save()
-        lock_list = guest.get_locks()
-        if len(lock_list) > 0:
-            for lock in lock_list:
-                res = guest.add_key_code(lock)
-                if "Error" in str(res):
-                    err = "{}<br/>{}: {}".format(err, lock.alias, res)
+        if value == "":
+            guest.room = value
+            guest.save()
         else:
-            guest.remove_all_key_codes()
-            guest.remove_all_key_cards()
+            guest.change_room(value)
+#        lock_list = guest.get_locks()
+#        if len(lock_list) > 0:
+#            for lock in lock_list:
+#                res = guest.add_key_code(lock)
+#                if "Error" in str(res):
+#                    err = "{}<br/>{}: {}".format(err, lock.alias, res)
+#        else:
+#            guest.remove_all_key_codes()
+#            guest.remove_all_key_cards()
         return render(request, "guest/keys/guest-keys.html", {'obj': guest, "err": err})
     except Exception as e:
         return render(request, "error_exception.html", {'exc':show_exc(e)})
