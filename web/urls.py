@@ -75,6 +75,7 @@ urlpatterns = [
     path('rooms/by-project/', room_views.rooms_by_project, name='rooms-by-project'),
     path('rooms/lock-details/', room_views.room_lock_details, name='room-lock-details'),
     path('rooms/lock-list/', room_views.room_lock_list, name='room-lock-list'),
+    path('rooms/set-group/', room_views.room_set_group, name='room-set-group'),
     #path('rooms/lock-add/', room_views.room_lock_add, name='room-lock-add'),
     path('rooms/lock-add-card/', room_views.room_lock_add_card, name='room-lock-add-card'),
     path('rooms/lock-remove-card/', room_views.room_lock_remove_card, name='room-lock-remove-card'),

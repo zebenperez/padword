@@ -520,6 +520,12 @@ class Room(models.Model):
     def get_locks(self):
         return Lock.objects.filter(project_uuid = self.project_uuid, room = self.number).order_by('pk') if self.number != "" else []
 
+    def set_locks_group(self, val):
+        for lock in self.get_locks():
+            lock.group_uuid = val
+            lock.save()
+            lock.set_group()
+
     def unassign_locks(self):
         lock_list = Lock.objects.filter(project_uuid = self.project_uuid, room = self.number).order_by('pk')
         for lock in lock_list:

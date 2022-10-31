@@ -81,6 +81,21 @@ def room_remove(request):
     #return render (request, "web/rooms/rooms-list.html", {'list_rooms':list_rooms})
     return render (request, "web/rooms/rooms-list.html", {'list_projects': get_projects(request)})
 
+@group_required("admins")
+def room_set_group(request):
+    try:
+        obj = get_or_none(Room, request.GET["obj_id"])
+        val = get_param(request.GET, "value")
+        if obj != None:
+            obj.lock_group_uuid = val
+            obj.save()
+            obj.set_locks_group(val)
+            return HttpResponse("")
+        return HttpResponse(_("Error, room not found!"))
+    except Exception as e:
+        print(e)
+        return HttpResponse("Error, {}".format(str(e)))
+
 #@group_required("admins")
 #def room_floors(request):
 #    project_uuid = request.GET["project"]
