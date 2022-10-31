@@ -174,7 +174,8 @@ a.btn.btn-secondary.ark {
 }
 
 .toolbar-search.projects {
-    display:grid;grid-template-columns: 0% 2% 98%;
+    display:grid;
+    grid-template-columns: 1% 2% 97%;
 }
 
 .toolbar-search.projects i.fas.fa-search {
