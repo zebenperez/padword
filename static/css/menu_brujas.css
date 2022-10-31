@@ -579,10 +579,11 @@ label.form-check-label {
     color:#7f6c5a;
     font-size: 1rem;
     position: absolute;
-    left: 20%;
+    left: 23%;
     margin-top: -65px !important;
-    width: 75%;
-    float:none!important;
+    width: 70%;
+    float:none !important;
+    text-align: left !important;
 }
 
 .form-switch .form-check-input {
