@@ -112,7 +112,7 @@ def guest_search(request):
     except Exception as e:
         return JsonResponse({'results':[], 'error':1, 'error-msg':show_exc(e)})
 
-@group_required("admins")
+@group_required("admins", "projects")
 def guest_form(request):
     try:
         date = datetime.datetime.now().replace(hour=12, minute=00)
@@ -436,7 +436,7 @@ def notification_remove(request):
     if obj != None:
         obj.delete()
 
-    items = Notification.objects.all() 
+    items = get_notifications(request)
     return render(request, "guest/notifications/notification-list.html", {'items':items[0:ITEMS_PER_PAGE]})
 
 @group_required("admins", "projects")
@@ -446,7 +446,7 @@ def notification_send(request):
         obj.public = True
         obj.save()
 
-    items = Notification.objects.all() 
+    items = get_notifications(request)
     return render(request, "guest/notifications/notification-list.html", {'items':items[0:ITEMS_PER_PAGE]})
 
 
