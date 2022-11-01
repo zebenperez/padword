@@ -18,3 +18,4 @@ migrations.sh
 *.sql
 **.bak
 **.pro
+**.mo
