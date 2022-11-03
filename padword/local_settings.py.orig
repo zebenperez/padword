@@ -3,19 +3,71 @@ ALLOWED_HOSTS = ['*']
 DATABASES = { 
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'padword-ms-configuration', 
-        'USER': 'padword',
-        'PASSWORD': 'padword',
-        'HOST': 'db-cfg',   
+        'NAME': 'padword_sx_pro', 
+        'USER': 'padword_sx_pro',
+        'PASSWORD': 'padword_sx_pro',
+        'HOST': 'localhost',   
         'PORT': '3306', # Set to empty string for default.
     }   ,
-    'guest': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'padword-ms-guests', 
-        'USER': 'padword',
-        'PASSWORD': 'padword',
-        'HOST': 'db-cfg',   
-        'PORT': '3306', # Set to empty string for default.
-    }   
+#     'cfg': {
+#         'ENGINE': 'django.db.backends.mysql',
+#         'NAME': 'padword-ms-configuration', 
+#         'USER': 'padword',
+#         'PASSWORD': 'padword',
+#         'HOST': 'localhost',   
+#         'PORT': '3306', # Set to empty string for default.
+#     }   ,
+#     'content': {
+#         'ENGINE': 'django.db.backends.mysql',
+#         'NAME': 'padword-ms-content', 
+#         'USER': 'padword',
+#         'PASSWORD': 'padword',
+#         'HOST': 'localhost',   
+#         'PORT': '3306', # Set to empty string for default.
+#     }   ,
+#     'guest': {
+#         'ENGINE': 'django.db.backends.mysql',
+#         'NAME': 'padword-ms-guests', 
+#         'USER': 'padword',
+#         'PASSWORD': 'padword',
+#         'HOST': 'localhost',   
+#         'PORT': '3306', # Set to empty string for default.
+#     },
+#     'users': {
+#         'ENGINE': 'django.db.backends.mysql',
+#         'NAME': 'padword-backend', 
+#         'USER': 'padword',
+#         'PASSWORD': 'padword',
+#         'HOST': 'localhost',   
+#         'PORT': '3306', # Set to empty string for default.
+#     }   
 }
 
+CSRF_FAILURE_VIEW = 'web.views.csrf_failure'
+
+CHAT_IMAGES_URL = "/"
+
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.memcached.MemcachedCache',
+        'LOCATION': '127.0.0.1:11211',
+        'OPTIONS': {
+            'server_max_value_length': 1024 * 1024 * 5,  # 5 MB data cache
+        }
+    },
+    'level2': {
+        'BACKEND': 'django.core.cache.backends.db.DatabaseCache',
+        'LOCATION': 'level2_cache',
+    }
+}
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_USE_TLS = True
+EMAIL_HOST = 'smtp.ionos.es'
+EMAIL_PORT = 587
+EMAIL_HOST_USER = "notifications@padword.com"
+EMAIL_HOST_PASSWORD = "*PadworD2022*"
+EMAIL_FROM_DEFAULT = 'no-reply@padword.es'
+
+TTLOCK_CLIENT = "6837be858720407083044510f842de9e"
+TTLOCK_SECRET = "a37ed0d28d0d2b8e314a2ade813d4131"

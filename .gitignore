@@ -16,3 +16,6 @@ migrations.sh
 *.html.py
 *.txt.py
 *.sql
+**.bak
+**.pro
+**.mo

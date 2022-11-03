@@ -7,11 +7,12 @@ class PadwordRouter(object):
     oldversion application.
     """
     apps = {
-                'default':['auth'],
-                'cfg':['web'],
+                #'default':['auth'],
+                #'cfg':['web'],
                 #'default':['guest'],
-                'guest':['guest'],
-                'content':['contents'],
+                #'guest':['guest'],
+                #'content':['contents'],
+                #'users':['user_remote'],
             }
 
     def db_for_read(self, model, **hints):
