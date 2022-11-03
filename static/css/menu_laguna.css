@@ -1,12 +1,16 @@
 .welcome-page {
     background-color: #ffffff !important;
     background-image: none !important;
-    height: 92% !important;
+    /*height: 92% !important;*/
 }
 
 #main {
     height: auto !important;
-    margin-top:70px;
+/*    margin-top:70px;*/
+}
+
+#main-base {
+    /*background: #f8fcff !important;*/
 }
 
 .main-pwa .row {
@@ -47,17 +51,17 @@ button.btn.btn-primary {
     line-height: 2;
 }
 
-.btn.btn-secondary, 
-a.btn.btn-secondary, 
-button.btn.btn-secondary { 
+.btn.btn-slagunandary, 
+a.btn.btn-slagunandary, 
+button.btn.btn-slagunandary { 
 	background:#fff !important;
 	color:#777;
 	border-radius: 15px;
 	border:none;
     line-height: 2;
 }
-a.btn.btn-secondary:hover,
-button.btn.btn-secondary:hover { 
+a.btn.btn-slagunandary:hover,
+button.btn.btn-slagunandary:hover { 
 	background:#a8abad;
     color: #333;
 }
@@ -190,40 +194,33 @@ img.object-fit_cover.img-new {
 
 
 .topbar {
-    /*background: #f8fcff !important;*/
-    background: #ffffff !important;
+    background-color: #f7f7f7;
 	position:fixed !important;
     top:0 !important;
     width: 100% !important;
-    height: 70px !important;
     z-index: 1; 
 }
 .topbar img {
-    height: 120px;
-}
-
-.separator img {
-    height: 12px;
+    height: 100px;
 }
 
 .row.div-slogan {
-    /*
-    background-image: url(/static/img/bg-hills.png) !important;
+    background-image: url(/static/img/bg-laguna-hotel.jpg) !important;
     background-repeat: no-repeat;
     background-position: bottom !important;
-     */
     padding:0px !important;
-    height: 120px;
+    margin-top: 10px;
+    height: 100px;
     color: #fff;
 }
 
-.slogan-torcansur {
-    background-color: #fff;
-    color: #1c5ca3;
+.slogan-laguna {
+    background-color: #000000;
+    color: #fff !important;
     font-size: 1.5rem;
 }
-.slogan-torcansur img { height: 50px; }
-.slogan-torcansur .text { margin-top:35px !important; }
+.slogan-laguna img { height: 50px; }
+.slogan-laguna .text { margin-top:35px !important; }
 
 .div-key {
     background-color: #2e2e2e;
@@ -232,22 +229,6 @@ img.object-fit_cover.img-new {
 }
 .collapse-option {
     margin-bottom: 50px;
-}
-
-.alert-info {
-    /* Opción 01 */
-    background-color: #fff3cd;
-    border-color: #ffeeba;
-    color: #856404;
-    font-size: 0.8rem;
-    
-/* Opción 02 */
-    /*
-    background-color: transparent;
-    border-color: #ffeeba;
-    color: #856404;
-    font-size: 0.8rem;
-    */
 }
 
 div.row.blog {
@@ -296,7 +277,7 @@ a.collapsible-header {
     border-radius: 90px !important;
     height: auto !important;
     font-size: 15px !important;
-    text-decoration: none;
+    text-dlagunaration: none;
 }
 
 a.collapsible-header span.btn-name {
@@ -462,7 +443,7 @@ ul.dropdown-menu {
 }
 .dropdown-item a {
     color: #878787 !important;
-    text-decoration: none;
+    text-dlagunaration: none;
 }
 
 .dropdown-menu.show {
@@ -501,7 +482,11 @@ h5.card-title.text-dark.text-center.title-new {
 
 }
 
-.footer-new {
+.simple-footer {
+    border-top:1px solid #000; 
+    bottom: 10px;
+    font-size: 0.9rem;
+    position:absolute; 
 }
 
 
@@ -592,29 +577,30 @@ span.badge.bg-success {
 /******** Deslizador manual ***************/
 
 label.form-check-label {
-    color:#1c5ca3;
-    font-size: 1rem;
+    color:#000;
+    font-size: 0.9rem;
     position: absolute;
     left: 22%;
-    padding-top: 30px !important;
+    margin-top: -65px !important;
     width: 60%;
     float:none!important;
+    text-transform: uppercase;
 }
 
 .form-switch .form-check-input {
-    /*width: 19.2em;*/
-    width: auto;
+    /*width: 17.5em;*/
+    width: 100% !important;
     height: 79px;
     margin-left: 0.25em;
     background-image: url(/static/img/lock-close.png) !important;
     background-position: left center;
     background-size: 65px;
     border-radius: 2em;
-    border: 1px solid #1c5ca3;
+    border: 1px solid #000;
     transition: background-position .15s ease-in-out;
 }
 
-.torcansur-keys {
+.laguna-keys {
     width: 100%;
     height: 100px;
 }
@@ -623,23 +609,14 @@ label.form-check-label {
     float: none !important;
 }
 
+
 .form-check-input {
     padding-left: 20px !important;
 }
-/*
 .form-check-input:checked {
     background-color: #bbee9a !important;
 }
 .form-check-input:checked[type=checkbox] {
-    background-image: url(/static/img/lock-open.png) !important;
-    color: #fff !important;
-}
-*/
-
-.form-check-input-checked {
-    background-color: #bbee9a !important;
-}
-.form-check-input-checked[type=checkbox] {
     background-image: url(/static/img/lock-open.png) !important;
     color: #fff !important;
 }

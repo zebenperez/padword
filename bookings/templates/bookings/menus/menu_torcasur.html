@@ -8,11 +8,14 @@
     <div class="col-12 text-center gral-content"> 
         {% comment %} <div class="collapse" id="collapseExample"> {% include "bookings/show-guest-keys.html" %} </div> {% endcomment %}
         {% for lock in guest.get_locks %}
+        {% comment %}<div class="alert-info">Marcar 122 + <i class="fas fa-bell"></i></div> {% endcomment %}
             <div class="form-check form-switch p-2 mt-2 torcansur-keys">
                 <div class="form-check-input ark" type="checkbox" role="switch" id="flexSwitchCheckDefault"
                     data-url="{% url "open-lock" %}" data-target="div-notifications" data-obj_id="{{lock.id}}"
                     onclick="setUncheck($(this), 'form-check-input-checked')">
-                    <label class="form-check-label pt-4" for="flexSwitchCheckDefault">{{lock.alias}}</label> </div>
+                    <label class="form-check-label pt-4" for="flexSwitchCheckDefault">{{lock.alias}}</label>
+                    <div class="alert-info">Marcar 122 + <i class="fas fa-bell"></i></div>
+                </div>
                 <div id="div-notifications mt-3"></div>
             </div>
         {% endfor %}
