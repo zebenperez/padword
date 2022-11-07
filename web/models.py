@@ -381,7 +381,7 @@ class Lock(models.Model):
 
     def set_code(self, code, start_date, end_date):
         obj = ShLock(self.project.lock_access_token)
-        return obj.set_lock_code(self.uuid, code, start_date, end_date)
+        return obj.set_lock_code(self.uuid, code, self.alias, start_date, end_date)
 
     def get_code(self, code_type, start_date, end_date):
         obj = ShLock(self.project.lock_access_token)

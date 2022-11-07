@@ -267,7 +267,7 @@ class TTLock():
         )
         return TTLock.__send_request__(_url_request).json()
 
-    def lock_add_passcode(self, lockId=None, code="", startDate=0, endDate=0):
+    def lock_add_passcode(self, lockId=None, code="", name="", startDate=0, endDate=0):
         if not lockId:
             raise TTlockAPIError()
 
@@ -278,6 +278,7 @@ class TTLock():
             self.accessToken,
             lockId,
             code,
+            name,
             get_date(startDate),
             get_date(endDate),
             TTLock.__get_current_millis__(),

@@ -63,9 +63,9 @@ class ShLock:
             return e
 
     #--------------- CODES --------------
-    def set_lock_code(self, lock_id, code, start_date, end_date):
+    def set_lock_code(self, lock_id, code, name, start_date, end_date):
         try:
-            return self.ttlock.lock_add_passcode(lock_id, code, start_date, end_date)
+            return self.ttlock.lock_add_passcode(lock_id, code, name, start_date, end_date)
         except Exception as e:
             return e
 
