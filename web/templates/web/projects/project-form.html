@@ -1,4 +1,4 @@
-{% load i18n %}
+{% load i18n padword_tags %}
 
 <h2 class="common-modal-head">{% trans 'New proyect' %}</h2>
 
@@ -25,14 +25,14 @@
 		<span id="active__msg"></span>
 	</div>
 	
-    <div class="col-md-4 col-12">
+    <div class="col-md-2 col-12">
         <label class="label">{% trans "Prefix" %}:</label>
 		<input type="text" class="form-control autosave input mb-4" id="prefix" name="prefix" value="{{obj.prefix}}" title="{{obj.prefix}}" 
 			data-model-name="web.project" data-obj-id="{{obj.id}}" data-url="{% url "autosave_field" %}" data-target="div-notification"/>
 			<span id="prefix__msg"></span>
 	</div>
 
-	<div class="col-sm-6 col-md-2 col-12">
+	<div class="col-md-2 col-12">
 		<label class="label">{% trans "Active" %}:</label>
 
 		<select class="form-control autosave input mb-4" id="active" name="active" value="{{obj.active}}" title="{{obj.active}}" 
@@ -45,21 +45,22 @@
 </div>
 
 <div class="row justify-center">
-	<div class="col-sm-3 col-md-3 col-12">
+	<div class="col-md-2 col-12">
 		<label class="label">{% trans "Created at" %}:</label>
 		<input type="date" class="form-control autosave input mb-4" id="created_at" name="created_at" value="{{obj.created_at|date:'Y-m-d'}}" title="{{obj.created_at}}" 
 			data-model-name="web.project" data-obj-id="{{obj.id}}" data-url="{% url "autosave_field" %}" data-target="div-notification"/>
 			<span id="created_at__msg"></span>	
 	</div>
 
-	<div class="col-sm-5 col-md-5 col-12">
-		<label class="label">{% trans "Used Languages (code separated by colons)" %}:</label>
+	<div class="col-md-5 col-12">
+        {#<label class="label">{% trans "Used Languages (code separated by colons)" %}:</label>#}
+        <label class="label">{% trans "Languages" %}:</label>
         <input type="input" class="form-control autosave input mb-4" id="used_languates" name="used_languages" value="{{obj.used_languages}}" title={% trans 'Languages in project' %}"" 
 			data-model-name="web.project" data-obj-id="{{obj.id}}" data-url="{% url "autosave_field" %}" data-target="div-notification"/>
 			<span id="used_languages__msg"></span>	
 	</div>
 	
-	<div class="col-sm-4 col-md-4 col-12">
+	<div class="col-md-5 col-12">
 		<label class="label">{% trans "UUID" %}:</label>
 		<input type="text" class="form-control autosave input mb-4" id="uuid" name="uuid" value="{{obj.uuid}}" title="{{obj.uuid}}" 
 			data-model-name="web.project" data-obj-id="{{obj.id}}" data-url="{% url "autosave_field" %}" data-target="div-notification"/>
@@ -70,23 +71,44 @@
 
 <h2 class="common-modal-head">{% trans 'Locks' %}</h2>
 <div class="row justify-center">
-	<div class="col-6">
+	<div class="col-5">
 		<label class="label">{% trans "TTLock Username" %}:</label>
-		<input type="text" class="form-control autosave input mb-4" id="username" name="username" value="{{user_lock.username}}" 
+		<input type="text" class="form-control autosave input" id="username" name="username" value="{{user_lock.username}}" 
             title="{{user_lock.username}}" data-model-name="web.projectlockuser" data-obj-id="{{user_lock.id}}" data-url="{% url "autosave_field" %}" 
             data-target="div-notification"/> <span id="lock_username__msg"></span>	
 	</div>
 
-	<div class="col-6">
+	<div class="col-5">
 		<label class="label">{% trans "TTLock Password" %}:</label>
-        <input type="text" class="form-control autosave input mb-4" id="password" name="password" value="{{user_lock.password}}" 
+        <input type="text" class="form-control autosave input" id="password" name="password" value="{{user_lock.password}}" 
             title="{{user_lock.password}}" data-model-name="web.projectlockuser" data-obj-id="{{user_lock.id}}" data-url="{% url "autosave_field" %}" 
             data-target="div-notification"/> <span id="lock_password__msg"></span>	
 	</div>
+	<div class="col-2 mt-4">
+        <a class="btn btn-primary pointer ark" data-url="{% url "project-user-token" %}" data-target="span-token" data-obj_id="{{user_lock.id}}">
+            {% trans "Get token" %}</a>
+	</div>
 </div>		
 
-<a class="pointer ark" data-url="{% url "project-user-token" %}" data-target="span-token" data-obj_id="{{user_lock.id}}">{% trans "Get token" %}</a>
 <span id="span-token">{% include "web/projects/project-token.html" %}</span>
+
+<div class="row justify-center m-0 p-0">
+    <div class="col-12 d-flex justify-content-end">
+        {% for lang in obj.get_languages %}
+            <a class="btn btn-{% is_current_lang lang 'primary' 'secondary'%} ark ms-2 me-2 pointer" data-url="{% url "project-form" %}" 
+                data-target-modal="common-modal" data-lang="{{lang}}" data-obj_id="{{obj.id}}">{{lang}}</a>
+        {%endfor%}
+    </div>
+
+	<div class="col-12">
+		<label class="label">{% trans "Text to share" %}:</label>
+		<textarea class="form-control autosave input mb-4" id="text_to_share" name="text_to_share" data-lang="{% current_lang %}"
+            title="{{user_lock.text_to_share}}" data-model-name="web.projectlockuser" data-obj-id="{{user_lock.id}}" 
+            data-url="{% url "autosave_field" %}" data-target="div-notification">{% padword_translate user_lock.text_to_share %}</textarea> 
+        <span id="lock_username__msg"></span>	
+	</div>
+</div>
+
 
 <div class="d-flex justify-content-end p-2">
     <button type="button" class="btn btn-primary ark m-2" data-bs-dismiss="modal" data-url="{% url "project-search" %}" 

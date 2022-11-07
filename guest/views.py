@@ -16,6 +16,7 @@ import web.models as webmod
 ITEMS_PER_PAGE=20
 
 
+@group_required("admins")
 def index(request):
     try:
         guests = Guest.objects.all()
@@ -211,13 +212,14 @@ def guest_save_room(request):
         if guest == None:
             return render(request, "error_exception.html", {'exc': _('Guest not found!')})
 
-        print("--1--")
         value = request.GET["value"]
         if value == "":
             guest.room = value
             guest.save()
+            guest.remove_all_key_codes()
+            guest.remove_all_key_cards()
         else:
-            guest.change_room(value)
+            err = guest.change_room(value)
 #        lock_list = guest.get_locks()
 #        if len(lock_list) > 0:
 #            for lock in lock_list:

@@ -1123,6 +1123,9 @@ a.btn.btn-outline-warning {
     width: 100px !important;
     padding: 4px 1px 4px 1px !important;
 }
+a.btn.btn-outline-warning.large {
+    width: 130px !important;
+}
 
 .btn-outline-warning {
     color: #ff9200 !important;
@@ -1188,6 +1191,18 @@ a.btn.btn-green {
 #lock-details .nav-link.active {
     background: #5b7898 !important;
     color: white !important;
+}
+
+.fa-whatsapp {
+    color: #0cc243;
+    margin-right: 15px;
+}
+
+.fa-whatsapp, .fa-envelope.share {
+    font-size: 1.5rem;
+}
+.fa-whatsapp:hover, .fa-envelope.share:hover {
+    font-weight: 600;
 }
 
 .hide { display: none; }

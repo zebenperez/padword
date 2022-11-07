@@ -23,12 +23,29 @@
                 {#<td> {{item.keyboardPwdType}} </td> #}
                 <td> {{item.keyboardPwdType|get_code_type:item.endDate}} </td> 
                 <td class="text-end">
-                    <a class="btn btn-outline-warning ark w-100" title="{%trans "Remove code"%}" data-url="{% url "room-lock-remove-code" %}"
+                    <a class="btn btn-outline-warning toggle-btn w-100" data-target="tr-share-{{item.id}}" data-text="{%trans "Share code"%}" 
+                        data-text-alt="{%trans "Close"%}">{%trans "Share code"%} </a>
+                    <a class="btn btn-outline-warning ark large" title="{%trans "Remove code"%}" data-url="{% url "room-lock-remove-code" %}"
                         data-obj_id="{{obj.id}}" data-code_id="{{item.keyboardPwdId}}" 
                         data-confirm="{%trans "Are you sure to remove this element?"%}" data-target="code-details">{%trans "Remove code"%} </a>
                 </td>
+            </tr>
+            <tr id="tr-share-{{item.id}}" class="hide">
+                {%with text=obj|get_share_text:item.keyboardPwd%}
+                    <td colspan="5">
+                        <textarea id="text-to-share" class="form-control">{% padword_translate text %}</textarea>
+                    </td>
+                    <td class="text-end">
+                        <a data-sharer="whatsapp" data-title="{% padword_translate text %}" data-url="" class="share-btn pointer">
+                            <i class="fab fa-whatsapp"></i></a>
+                        <a data-sharer="email" data-title="{% trans "New code" %}" data-url="" data-subject="{% padword_translate text %}" data-to="" 
+                            class="share-btn pointer"><i class="far fa-envelope share"></i></a>
+                    </td>
+                {%endwith%}
             </tr>
         {% endfor %}
     </tbody>
 </table>
 
+{#<script>$(".share-btn").click(function(){console.log("--1--");window.Sharer.init();console.log("--2--")});</script>#}
+<script>window.Sharer.init();</script>

@@ -89,6 +89,7 @@ class ProjectLockUser(models.Model):
     uid = models.CharField(max_length=10, verbose_name=_('UID'), default="")
     expire = models.CharField(max_length=100, verbose_name=_('Expire'), default="")
     project_uuid = models.CharField(max_length=255, verbose_name=_('Project UUID'), default="")
+    text_to_share = models.TextField(verbose_name=_('Text to share'), default="")
 
     @property
     def project(self):
@@ -477,6 +478,7 @@ class Lock(models.Model):
         verbose_name = _('Lock')
 
 class Room(models.Model):
+    order = models.IntegerField(verbose_name=_('Order'), default=0, null=True)
     uuid = models.CharField(max_length=255, verbose_name=_('UUID'), default="")
     alias = models.CharField(max_length=255, verbose_name=_('Alias'), default="", null=True)
     number = models.CharField(max_length=255, verbose_name=_('Number'), default="")
@@ -537,6 +539,9 @@ class Room(models.Model):
         for lock in self.get_locks():
             cards = cards or lock.get_cards()
         return (cards)
+
+    class Meta:
+        ordering = ["order"]
 
 class KeyCard(models.Model):
     uuid = models.CharField(max_length=255, verbose_name=_('UUID'), default="")

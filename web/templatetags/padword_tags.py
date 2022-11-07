@@ -4,8 +4,8 @@ from django.urls import reverse
 from django.utils import translation 
 from django.utils.translation import ugettext_lazy as _ 
 
-from padword.commons import show_exc, get_items_per_page, user_in_group
-from web.models import Project, ProjectUser
+from padword.commons import show_exc, get_items_per_page, user_in_group, get_or_none
+from web.models import Project, ProjectUser, ProjectLockUser
 from contents.models import Allergen, Category, CategoryUser, Feature, ItemPromo, PaymentType
 from guest.models import KeyCode, KeyCard
 
@@ -159,6 +159,10 @@ def get_card_guest(lock, code):
 def get_ekey_link(lock, ekey_id):
     return ""
 
+@register.filter
+def get_share_text(lock, code):
+    plu = get_or_none(ProjectLockUser, lock.project.uuid, "project_uuid")
+    return plu.text_to_share.replace("__CODE__", code)
 
 '''
     Simple Tags

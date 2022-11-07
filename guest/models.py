@@ -138,6 +138,7 @@ class Guest(models.Model):
         return ""
 
     def add_all_key_code(self, code=""):
+        err = ""
         for lock in self.get_locks():
             code = self.mobile[-4:] if code == "" else code
             code_id = lock.set_code(code, self.check_in, self.check_out)
@@ -145,6 +146,8 @@ class Guest(models.Model):
                 key = KeyCode.objects.create(lock = lock, guest = self, code = code, code_id = code_id)
             else:
                 key = KeyCode.objects.create(lock = lock, guest = self)
+                err = "{}<br/>{}: {}".format(err, lock.alias, code_id) if err != "" else "{}: {}".format(lock.alias, code_id)
+        return err
 
     def change_all_key_code(self, code):
         for key in self.keycodes.all():
@@ -196,13 +199,16 @@ class Guest(models.Model):
         self.remove_all_key_cards()
         self.room = new_room
         self.save()
+        err = ""
         if len(code_list) > 0:
             for code in code_list:
-                self.add_all_key_code(code)
+                err += self.add_all_key_code(code)
         else:
-            self.add_all_key_code()
+            err += self.add_all_key_code()
+
         for code in card_list:
             self.add_all_key_card(code)
+        return err
 
     @classmethod
     def by_project(cls, projects):

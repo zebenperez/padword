@@ -77,7 +77,9 @@ def lock_group_save(request):
                 obj.remote_name = "{} {}".format(project.name, value)
                 obj.project_uuid = project_uuid
                 obj.save()
-                obj.remote_id = obj.create_lock_group()
+                remote_id = obj.create_lock_group()
+                if not "Error" in remote_id:
+                    obj.remote_id = remote_id
             obj.save()
         context = get_context(request, project)
         return render(request, "web/locks-groups/lock-group-list.html", context)
