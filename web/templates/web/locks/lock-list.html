@@ -1,4 +1,4 @@
-{% load i18n %}
+{% load i18n padword_tags %}
 
 
 {% if msg and msg != "" %} <div class="alert alert-danger">{{msg}}</div> {% endif %}
@@ -71,7 +71,7 @@
             <tr class="small" id="row_{{item.id}}">
                 <td><input type="checkbox" name="ch_{{item.id}}" /></td>
                 <td>{{ item.uuid }}</td>
-                <td>{{ item.alias }}</td>
+                <td>{% padword_translate item.alias %}</td>
                 <td>{{ item.project.name }}</td>
                 {#<td>{{ item.room_obj.floor }}</td>#}
                 <td>{{ item.group.name }}</td>

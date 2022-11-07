@@ -4,12 +4,20 @@
 
 <span id="div-notification"></span><br/>
 
+<div class="row">
+    <div class="col-12 d-flex justify-content-end">
+        {% for lang in obj.project.get_languages %}
+            <a class="btn btn-{% is_current_lang lang 'primary' 'secondary'%} ark ms-2 me-2 pointer" data-url="{% url "lock-form" %}" 
+                data-target-modal="common-modal" data-lang="{{lang}}" data-obj_id="{{obj.id}}">{{lang}}</a>
+        {%endfor%}
+    </div>
+</div>
 <div class="row justify-center">
 	<div class="col-sm-6 col-md-6 col-12">
 		<label class="label">{% trans "Alias" %}:</label>
-        <input type="text" class="form-control autosave input mb-4" id="alias" name="alias" value="{{obj.alias}}" title="{{obj.alias}}" 
-			data-model-name="web.lock" data-obj-id="{{obj.id}}" data-url="{% url "autosave_field" %}" data-target="div-notification"/>
-			<span id="alias__msg"></span>
+        <input type="text" class="form-control autosave input mb-4" id="alias" name="alias" value="{% padword_translate obj.alias %}" 
+            title="{{obj.alias}}" data-lang="{% current_lang %}" data-model-name="web.lock" data-obj-id="{{obj.id}}" 
+            data-url="{% url "autosave_field" %}" data-target="div-notification"/> <span id="alias__msg"></span>
 	</div>
 
 	<div class="col-sm-6 col-md-6 col-12">
