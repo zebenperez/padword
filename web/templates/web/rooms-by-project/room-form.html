@@ -1,0 +1,22 @@
+{% load i18n padword_tags %}
+
+
+<h2 class="common-modal-head">
+    <div class="row">
+        <div class="col-11">{% trans 'Edit room' %}</div>
+	    <div class="col-1"><button type="button" class="btn ark" data-bs-dismiss="modal" data-url="{% url "room-list-by-project" %}" 
+            data-target="room-list"><i class="fas fa-times"></i></button></div>
+    </div>
+</h2>
+
+<span id="div-notification"></span>
+
+<div class="row justify-center">
+    <div class="col-3"> {% trans "Alias" %}: {%padword_translate obj.alias%} </div>
+    <div class="col-3"> {% trans "Number" %}: {{obj.number}} </div>
+    <div class="col-3"> {% trans "Project" %}: {{obj.project.name}} </div>
+    <div class="col-3"> {% trans "Group" %}: {{obj.lock_group.name}} </div>
+</div>
+
+<div class="row justify-center pt-0"> <div id="lock-list">{% include "web/rooms/lock-card.html" %}</div> </div>
+

@@ -519,6 +519,13 @@ class Room(models.Model):
         except:
             return None
 
+    @property
+    def lock_group(self):
+        try:
+            return LockGroup.objects.get(uuid=self.lock_group_uuid)
+        except:
+            return None
+
     def get_locks(self):
         return Lock.objects.filter(project_uuid = self.project_uuid, room = self.number).order_by('pk') if self.number != "" else []
 

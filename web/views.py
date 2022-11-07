@@ -50,6 +50,8 @@ def redirect_project_user(request):
         return redirect('guests-by-project', project.uuid)
     elif menu == "notifications":
         return redirect('guest-notifications')
+    elif menu == "rooms":
+        return redirect('rooms-by-project')
     #elif menu == "locks":
         #return redirect('locks-by-project', request.project_id)
     else:

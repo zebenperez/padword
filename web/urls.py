@@ -72,7 +72,7 @@ urlpatterns = [
     path('rooms/list/', room_views.room_list, name='room-list'),
     path('rooms/form/', room_views.room_form, name='room-form'),
     path('rooms/remove/', room_views.room_remove, name='room-remove'),
-    path('rooms/by-project/', room_views.rooms_by_project, name='rooms-by-project'),
+    path('rooms/search/', room_views.rooms_search, name='rooms-search'),
     path('rooms/lock-details/', room_views.room_lock_details, name='room-lock-details'),
     path('rooms/lock-list/', room_views.room_lock_list, name='room-lock-list'),
     path('rooms/set-group/', room_views.room_set_group, name='room-set-group'),
@@ -84,6 +84,11 @@ urlpatterns = [
     path('rooms/lock-add-ekey/', room_views.room_lock_add_ekey, name='room-lock-add-ekey'),
     path('rooms/lock-remove-ekey/', room_views.room_lock_remove_ekey, name='room-lock-remove-ekey'),
     path('ekey-url/<slug:token>//', room_views.ekey_url, name='ekey-url'),
+    #--------------------- Rooms by projects --------------------
+    path('rooms/by-project/', room_views.rooms_by_project, name='rooms-by-project'),
+    path('rooms/list/by-project/', room_views.room_list_by_project, name='room-list-by-project'),
+    path('rooms/form/by-project/', room_views.room_form_by_project, name='room-form-by-project'),
+
     #--------------------- KeyCard --------------------
     path('keycards/', card_views.keycards, name='keycards'),
     path('keycards/search/', card_views.keycard_search, name='keycard-search'),

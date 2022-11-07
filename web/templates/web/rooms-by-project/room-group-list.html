@@ -1,0 +1,18 @@
+{% load i18n rooms_tags %}
+
+<div class="d-flex menu-actions-blue">
+    <div class="flex-grow-1 p-2 mt-1"><span class="bg-ico-bar"><i class="fas fa-home hotel"></i></span>&nbsp; Floors in {{project.name}}</div>
+    <div class="action p-2"> </div>
+</div>
+
+{% for group in group_list %}
+    <div class="div-rooms-content">
+        <div class="locks-head">{{ group.name }} </div>
+        <div class="locks-group d-flex flex-wrap p-2"> {% room_list_by_project project group %} </div>
+    </div>
+{% endfor %}
+
+<div class="locks-group d-flex flex-wrap p-2">
+    {% room_list_by_project project %}
+</div>
+

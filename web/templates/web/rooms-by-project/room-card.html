@@ -1,16 +1,10 @@
-{% load i18n %}
+{% load i18n padword_tags %}
 
 <div class="col-2">
-    <div class="card ark" data-url="{%url "room-form"%}" data-target-modal="common-modal" data-obj_id="{{item.id}}" 
+    <div class="card ark" data-url="{%url "room-form-by-project"%}" data-target-modal="common-modal" data-obj_id="{{item.id}}" 
         data-project="{{item.project_uuid}}">
         <div class="row lock-box">
-            <div class="col-10 alias text-center pt-1 pb-1" tyle="border:1px solid red"><strong>{{ item.alias }}</strong></div>
-            <div class="col-2 alias pt-2 text-center" style="background:#5b7898;">
-                <a class="ark" data-url="{% url "room-remove" %}" data-target="room-list" data-obj_id="{{item.id}}" 
-                    data-confirm="{%trans "Are you sure to remove this element?"%}" title="{%trans "Delete" %}">
-                    <i class="fas fa-trash" style="color:#fff; font-size: 0.8rem;"></i></a>
-            </div>
-            <!--<div class="col-12 text-center">Room number: <strong>{{item.number|default:'100'}}</strong></div>-->
+            <div class="col-12 alias text-center pt-1 pb-1" tyle="border:1px solid red"><strong>{% padword_translate item.alias %}</strong></div>
             <div class="icons-1 d-flex justify-content-center mt-2 mb-2">
                 <div class="w-25 text-center"><i class="fas fa-{{item.state|default:'lock'}}"></i></div>
                 <div class="w-50 text-center">Status</div>

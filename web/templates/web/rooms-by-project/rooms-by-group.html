@@ -1,0 +1,3 @@
+{% load i18n %}
+
+{% for room in room_list %} {% include "web/rooms-by-project/room-card.html" with item=room %} {% endfor %}

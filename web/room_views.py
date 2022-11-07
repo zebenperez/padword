@@ -34,7 +34,7 @@ def room_list (request):
     return render (request, "web/rooms/rooms-list.html", {'list_projects': get_projects(request)})
 
 @group_required("admins")
-def rooms_by_project (request):
+def rooms_search (request):
     set_session(request, "room_search_name")
     #list_rooms = get_room_items(request)
     #return render (request, "web/rooms/rooms-list.html", {'list_rooms':list_rooms})
@@ -259,5 +259,35 @@ def ekey_url(request, token):
         return render(request, "web/rooms/ekey_links/{}_ekey.html".format(lockEkey.lock.project.name[:4].lower()), {"obj": lockEkey.lock,})
     except Exception as e:
         return render(request, "error_exception.html", {'exc':show_exc(e)})
+
+
+'''
+    Rooms by project
+'''
+@group_required("admins", "projects")
+def rooms_by_project(request):
+    try:
+        project = get_or_none(Project, request.project_id)
+        return render(request, "web/rooms-by-project/rooms.html", {'project': project})
+    except Exception as e:
+        return render(request, "error_exception.html", {'exc':show_exc(e)})
+
+@group_required("admins", "projects")
+def room_list_by_project(request):
+    try:
+        project = get_or_none(Project, request.project_id)
+        return render(request, "web/rooms-by-project/rooms-list.html", {'project': project})
+    except Exception as e:
+        return render(request, "error_exception.html", {'exc':show_exc(e)})
+
+@group_required("admins", "projects")
+def room_form_by_project(request):
+    try:
+        project = get_or_none(Project, request.project_id)
+        obj = get_or_none(Room, request.GET["obj_id"])  
+        group_list = LockGroup.objects.filter(project_uuid = project.uuid)
+        return render(request, "web/rooms-by-project/room-form.html", {'obj': obj, 'group_list': group_list})
+    except Exception as e:
+        return render(request, 'error_exception.html', {'exc':show_exc(e)})
 
 
