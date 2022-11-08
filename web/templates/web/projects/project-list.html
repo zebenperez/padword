@@ -30,7 +30,7 @@
                     <a class="btn" href="#" onclick='alert("{{item.uuid}}"); return False' title="{% trans 'Finger print' %}">
                         <i class="fas fa-fingerprint"></i></a>
                     {% if item.uuid %}
-                        <a class="btn btn-xs" href="{% url 'categories-by-project' item.uuid %}" title="{% trans 'Categories' %}">
+                        <a class="btn btn-xs" href="{% url 'categories-by-project' item.uuid|slugify %}" title="{% trans 'Categories' %}">
                             <i class="fas fa-project-diagram"></i></a>
                     {% endif %}
                     <a class="btn btn-xs ark" data-url="{% url "project-form" %}" data-target-modal="common-modal" 
