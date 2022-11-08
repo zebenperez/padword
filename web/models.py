@@ -81,6 +81,10 @@ class Project(models.Model):
             return ""
         return pu.menus.split(";")[0]
 
+    def gateway_list(self):
+        obj = ShLock(self.lock_access_token)
+        return obj.get_gateways()
+ 
 class ProjectLockUser(models.Model):
     username = models.CharField(max_length=255, verbose_name=_('Lock Username'), default="")
     password = models.CharField(max_length=255, verbose_name=_('Lock Password'), default="")

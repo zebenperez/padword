@@ -19,29 +19,33 @@
                 <div class="col-md-4 col-6">{{ item.company.name }}</div>
                 <div class="col-1 d-flex d-none d-md-block justify-content-center">{{ item.get_devices | length }}</div>
                 <div class="col-md-3 pt-md-0 pt-3 col-12 d-flex justify-content-md-end justify-content-center">
-                    <a class="btn" href="#" onclick='alert("{{item.uuid}}"); return False' title="{% trans 'Finger print' %}"><i class="fas fa-fingerprint"></i></a>
-                    <a class="btn btn-xs" href="{% url 'channels-by-project' item.pk %}" title="{% trans 'Channels' %}">
-                        <i class="fas fa-comments"></i></a>
-                    <a class="btn btn-xs" href="{% url 'devices-by-project' item.pk %}" title="{% trans 'Devices' %}">
-                        <i class="fas fa-tablet-alt"></i></a>
                     {% if item.lock_access_token != "" %}
                         <a class="btn btn-xs" href="{% url 'locks-by-project' item.id %}" title="{% trans 'Locks' %}">
                             <i class="fas fa-key"></i></a>
+                        <a class="btn btn-xs" href="{% url 'gateways-by-project' item.id %}" title="{% trans 'Gateways' %}">
+                            <i class="fas fa-signal"></i></a>
                         <a class="btn btn-xs" href="{% url 'locks-groups-by-project' item.id %}" title="{% trans 'Lock groups' %}">
                             <i class="fas fa-layer-group"></i></a>
                     {% endif %}
-                    {% if item.uuid %}
-                        <a class="btn btn-xs" href="{% url 'categories-by-project' item.uuid %}" title="{% trans 'Categories' %}">
-                            <i class="fas fa-project-diagram"></i></a>
-                    {% endif %}
-                    <a class="btn btn-xs ark" data-url="{% url "project-upload-json" %}" data-target-modal="common-modal" 
-                        data-obj_id="{{item.id}}" data-company_id="{{company.id}}" title="{% trans 'Upload' %}"><i class="fas fa-upload"></i></a>  
-                    <a class="btn btn-xs" href="{% url 'bookings-by-project' item.pk %}" title="{% trans 'Bookings' %}"> <i class="fas fa-list"></i></a>
+                    <a class="btn" href="#" onclick='alert("{{item.uuid}}"); return False' title="{% trans 'Finger print' %}">
+                        <i class="fas fa-fingerprint"></i></a>
+                    <a class="btn btn-xs" href="{% url 'categories-by-project' item.uuid %}" title="{% trans 'Categories' %}">
+                        <i class="fas fa-project-diagram"></i></a>
                     <a class="btn btn-xs ark" data-url="{% url "project-form" %}" data-target-modal="common-modal" 
                         data-obj_id="{{item.id}}" data-company_id="{{company.id}}" title="{% trans 'Edit' %}"><i class="fas fa-edit"></i></a>  
                     <a class="btn btn-sm autoremove" data-model-name="web.project" data-obj-id="{{item.id}}" data-url="{% url "autoremove_obj" %}" 
                         data-target="row_{{item.id}}" data-confirm="{% trans "Are you sure to remove this element?" %}"
                         data-company_id="{{company.id}}" title="{% trans 'Remove' %}"><i class="fas fa-trash"></i></a>
+                    {%comment%}
+                        <a class="btn btn-xs ark" data-url="{% url "project-upload-json" %}" data-target-modal="common-modal" 
+                            data-obj_id="{{item.id}}" data-company_id="{{company.id}}" title="{%trans 'Upload'%}"><i class="fas fa-upload"></i></a>  
+                        <a class="btn btn-xs" href="{% url 'bookings-by-project' item.pk %}" title="{% trans 'Bookings' %}"> 
+                            <i class="fas fa-list"></i></a>
+                        <a class="btn btn-xs" href="{% url 'channels-by-project' item.pk %}" title="{% trans 'Channels' %}">
+                            <i class="fas fa-comments"></i></a>
+                        <a class="btn btn-xs" href="{% url 'devices-by-project' item.pk %}" title="{% trans 'Devices' %}">
+                            <i class="fas fa-tablet-alt"></i></a>
+                    {%endcomment%}
                 </div>
             </td>
         </tr>

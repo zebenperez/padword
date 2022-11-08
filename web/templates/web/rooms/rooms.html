@@ -9,7 +9,7 @@
 
     <div class="toolbar-search">
         <input type="text" class="autosearch form-control form-control-dark w-100" name="room_search_name" id="room_search_name" 
-            placeholder="{% trans 'Name' %}" data-url="{% url "rooms-by-project" %}" data-target="room-list" data-related="room_search_name"
+            placeholder="{% trans 'Name' %}" data-url="{% url "rooms-search" %}" data-target="room-list" data-related="room_search_name"
             value="{{request.session.room_search_name}}"/>
     </div>
 

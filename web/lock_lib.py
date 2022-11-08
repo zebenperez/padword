@@ -189,4 +189,7 @@ class ShLock:
         except Exception as e:
             return e
 
-
+    #--------------- GATEWAYS --------------
+    def get_gateways(self, locks_id=[]):
+        gateways = list(self.ttlock.get_gateway_generator())
+        return gateways

@@ -1,0 +1,38 @@
+{% load i18n %}
+
+
+{% if msg and msg != "" %} <div class="alert alert-danger">{{msg}}</div> {% endif %}
+
+<div class="d-flex menu-actions-blue">
+    <div class="flex-grow-1 p-2"><span class="bg-ico-bar"><i class="fas fa-lock"></i></span>&nbsp; {% trans "TTLock Gateways" %}</div>
+    <div class="action p-2"> </div>
+</div>
+
+<table class="table table-striped table-hover">
+    <thead> <tr class="small small"> 
+            <th> {% trans 'Name' %} </th> 
+            <th> {% trans 'Version' %} </th> 
+            <th> {% trans 'Connected locks' %} </th> 
+            <th> {% trans 'Is online' %} </th> 
+            <th></th> 
+    </tr> </thead>
+    <tbody>
+        {% for item in gateway_list %}
+            <tr class="small">
+                <td>{{ item.networkName }}</td>
+                <td>{{ item.gatewayVersion }}</td>
+                <td>{{ item.lockNum }}</td>
+                <td>{% if item.isOnline == 1 %}{% trans "Yes" %}{% else %}{% trans "No" %}{% endif %}</td>
+                <td class="d-flex justify-content-end">
+                    {%comment%}
+                    <a class="btn btn-sm ark" data-url="{% url "lock-group-add" %}" data-target="lock-group-list" data-obj_id="{{item.groupId}}" 
+                        data-project_uuid="{{project.uuid}}" data-name="{{item.groupName}}"> <i class="fas fa-plus"></i></a>  
+                    <a class="btn btn-sm ark" data-url="{% url "lock-group-remove-by-id" %}" data-group_id="{{item.groupId}}" 
+                        data-confirm="{%trans "Are you sure to remove this element?"%}" data-target="lock-group-list"><i class="fas fa-trash"></i></a>
+                    {%endcomment%}
+                </td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+

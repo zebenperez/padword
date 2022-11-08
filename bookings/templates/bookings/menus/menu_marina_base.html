@@ -1,0 +1,58 @@
+{% load i18n bookings_tag common_tag padword_tags static%}
+
+{%block extralinks%} <link rel="stylesheet" href="{% static 'css/menu_marina.css' %}" > {% endblock %}
+
+{% get_current_language as LANGUAGE_CODE %}
+<div class="row topbar pt-1 pb-1" style="margin:0px;">
+    <div class="col-2 text-center pt-2">
+        <button id="back-btn" class="btn btn-header-pwa text-center ark pl-2 pr-2" data-url="{% url "show-category-menu" %}" data-target="main" 
+            data-cat_id="" data-cat_home="{{form.category}}" style="display:none"><i class="fas fa-chevron-left"></i> </button>
+        <button id="back-btn-bookings" class="btn btn-header-pwa text-center ark" data-url="{% url "my-bookings" %}" data-target="main" 
+            data-project_uuid="{{project_uuid}}" data-cat_id="{{form.category}}" style="display:none"> <i class="fas fa-chevron-left"></i> </button>
+    </div>
+
+    <div class="col-8 text-center pt-1">
+        <img class="" src="/static/img/logo-marina.jpg">
+    </div>
+    {% comment %}
+    <div class="col-12 text-center separator mt-3" style="padding:0;">
+        <img class="" src="/static/img/bg-separator.jpg">
+    </div>
+    {% endcomment %}
+
+    <div class="col-2">
+        <ul class="nav justify-content-center mt-2">
+            {% comment %}
+            <li class="nav-item dropdown pt-2">
+                <a class="nav-link dropdown-toggler" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false"><i class="fas fa-bars"></i></a>
+                <ul class="dropdown-menu">
+                    <!--  <li><a class="dropdown-item" href="#"><i class="fas fa-user-circle"></i> Zona personal</a></li> -->
+                    <li class="dropdown-item">
+                        <i class="far fa-flag"></i>
+                        <a class="ark" href="#" data-url="{% url "guest-set-lang" %}" data-target="main-base" data-lang="es" 
+                            data-cat_id="{{form.category}}"> ES</a> -
+                        <a class="ark" href="#" data-url="{% url "guest-set-lang" %}" data-target="main-base" data-lang="en" 
+                            data-cat_id="{{form.category}}"> EN</a> -
+                        <a class="ark" href="#" data-url="{% url "guest-set-lang" %}" data-target="main-base" data-lang="de" 
+                            data-cat_id="{{form.category}}"> DE</a>
+                    </li>
+                    <li><a class="dropdown-item menu-options ark" data-url="{% url "show-category-menu" %}" idata-target="main"
+                            data-cat_id="d6b401f6-3b52-7646-e8ce-ff91590958de" href="#"><i class="fas fa-home"></i> Home</a></li>
+
+                    <li><a class="dropdown-item menu-options ark" data-url="{% url "show-category-menu" %}" idata-target="main"
+                            data-cat_id="4e7bff89-9c82-bccc-d721-0f240a23ae68" href="#"><i class="fas fa-key"></i> Llaves</a></li>
+                    <li><a class="dropdown-item" href="#"><i class="fas fa-map-signs"></i> A tu alrededor</a></li>
+                    <li>
+                        <a class="dropdown-item" href="{% url "close-spa" %}?category_uuid={{form.category}}">
+                            <i class="fas fa-sign-out-alt"></i> Cerrar sesión</a>
+                    </li>
+                </ul>
+            </li>
+            {% endcomment %}
+        </ul>
+    </div>
+ 
+</div>
+
+<div id="main" class="main-pwa pl-4 pr-4"> {% include form.form_type.template with category=form.get_category %} </div>
+

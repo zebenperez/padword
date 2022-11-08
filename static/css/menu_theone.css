@@ -190,16 +190,15 @@ img.object-fit_cover.img-new {
 
 
 .topbar {
-    /*background: #f8fcff !important;*/
     background: #ffffff !important;
 	position:fixed !important;
     top:0 !important;
     width: 100% !important;
-    height: 70px !important;
+    height: 80px !important;
     z-index: 1; 
 }
 .topbar img {
-/*    height: 120px;*/
+    height: 70px;
 }
 
 .separator img {
@@ -207,23 +206,21 @@ img.object-fit_cover.img-new {
 }
 
 .row.div-slogan {
-    /*
-    background-image: url(/static/img/bg-hills.png) !important;
+    background-image: url(/static/img/slide-theone.jpg) !important;
     background-repeat: no-repeat;
     background-position: bottom !important;
-     */
     padding:0px !important;
-    height: 120px;
+    height: 150px;
     color: #fff;
 }
 
-.slogan-livian {
+.slogan-theone {
     background-color: #fff;
     color: #009ee0;
     font-size: 1.5rem;
 }
-.slogan-livian img { height: 50px; }
-.slogan-livian .text { margin-top:35px !important; }
+.slogan-theone img { height: 50px; }
+.slogan-theone .text { margin-top:35px !important; }
 
 .div-key {
     background-color: #2e2e2e;
@@ -620,7 +617,7 @@ label.form-check-label {
     transition: background-position .15s ease-in-out;
 }
 
-.livian-keys {
+.theone-keys {
     width: 100%;
     height: 100px;
 }

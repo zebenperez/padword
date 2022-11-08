@@ -1,7 +1,7 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 from django.urls import path
-from . import views, auto_views, room_views, card_views, lock_views, lock_user_views, lock_group_views
+from . import views, auto_views, room_views, card_views, lock_views, lock_user_views, lock_group_views, gateway_views
 
 urlpatterns = [ 
     #path('index/<slug:chk>/', views.index, name='web-index-new'),
@@ -94,6 +94,9 @@ urlpatterns = [
     path('keycards/search/', card_views.keycard_search, name='keycard-search'),
     path('keycards/form/', card_views.keycard_form, name='keycard-form'),
     path('keycards/remove/', card_views.keycard_remove, name='keycard-remove'),
+
+    #--------------------- Gateways --------------------
+    path('gateways-by-project/<int:project_id>/', gateway_views.gateways_by_project, name='gateways-by-project'),
 
     #---------------------- E-Keys ---------------------
     #path('ekeys/', views.ekeys, name='ekeys'),
