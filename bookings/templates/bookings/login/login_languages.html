@@ -6,20 +6,20 @@
 <div class="row login">
 	<div class="col-8 offset-2 login-box justify-content-center mt-4">
 		<div class="panel-login">
-			<div class="toolbar-heading mt-4">{% trans "Log in" %} </div>
+			<div class="toolbar-heading mt-5">{% trans "Log in" %} </div>
             <div class="panel-body">
                 {% if error_msg %}
                 <div class="alert alert-info">{{error_msg}}</div>
                 {% endif %}
 			    <br/>
-			    <form class="form-horizontal p-4" method="post" action="{% url "booking-new-guest" %}" id="form-guest">
+			    <form class="form-horizontal p-2" method="post" action="{% url "booking-new-guest" %}" id="form-guest">
 				    {% csrf_token %}
                     {#<input type="hidden" name="form_uuid" value="{{form_uuid}}"/>#}
                     <input type="hidden" name="project_uuid" value="{{project_uuid}}"/>
                     <input type="hidden" name="category_uuid" value="{{category_uuid}}"/>
                     <div class="form-group mb-4">
 				        <div><label class="control-label">{% trans "Prefered Language" %} </label></div>
-                        <select class="form-control" name="lang" id="lang">
+                        <select class="form-control languages" name="lang" id="lang">
                             <option value="es">{% trans "ES - Español" %}</option>
                             <option value="en">{% trans "EN - English" %}</option>
                             <option value="de">{% trans "DE - Deutsch" %}</option>
@@ -27,7 +27,7 @@
                     </div><br />
 
                     <div class="form-group mb-4">
-				        <div><label class="control-label text-left">{% trans "Phone or email" %} </label></div>
+				        <div><label class="control-label">{% trans "Phone or email" %} </label></div>
 				        <div class="form-group"><input placeholder="" nautocomplete="off" class="form-control login" type="text" name="code" id="code"/></div>
                     </div><br />
                     <div class="form-group mb-4">

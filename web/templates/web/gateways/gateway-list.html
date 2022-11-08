@@ -1,4 +1,4 @@
-{% load i18n %}
+{% load i18n padword_tags %}
 
 
 {% if msg and msg != "" %} <div class="alert alert-danger">{{msg}}</div> {% endif %}
@@ -14,23 +14,15 @@
             <th> {% trans 'Version' %} </th> 
             <th> {% trans 'Connected locks' %} </th> 
             <th> {% trans 'Is online' %} </th> 
-            <th></th> 
     </tr> </thead>
     <tbody>
         {% for item in gateway_list %}
             <tr class="small">
                 <td>{{ item.networkName }}</td>
                 <td>{{ item.gatewayVersion }}</td>
-                <td>{{ item.lockNum }}</td>
+                {#<td>{{ item.lockNum }}</td>#}
+                <td>Total: {{ item.lockNum }}<br/><br/>{% get_locks_by_gateway project item.gatewayId %}</td>
                 <td>{% if item.isOnline == 1 %}{% trans "Yes" %}{% else %}{% trans "No" %}{% endif %}</td>
-                <td class="d-flex justify-content-end">
-                    {%comment%}
-                    <a class="btn btn-sm ark" data-url="{% url "lock-group-add" %}" data-target="lock-group-list" data-obj_id="{{item.groupId}}" 
-                        data-project_uuid="{{project.uuid}}" data-name="{{item.groupName}}"> <i class="fas fa-plus"></i></a>  
-                    <a class="btn btn-sm ark" data-url="{% url "lock-group-remove-by-id" %}" data-group_id="{{item.groupId}}" 
-                        data-confirm="{%trans "Are you sure to remove this element?"%}" data-target="lock-group-list"><i class="fas fa-trash"></i></a>
-                    {%endcomment%}
-                </td>
             </tr>
         {% endfor %}
     </tbody>

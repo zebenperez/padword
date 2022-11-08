@@ -190,6 +190,11 @@ class ShLock:
             return e
 
     #--------------- GATEWAYS --------------
-    def get_gateways(self, locks_id=[]):
+    def get_gateways(self):
         gateways = list(self.ttlock.get_gateway_generator())
         return gateways
+
+    def get_gateway_locks(self, gateway_id):
+        locks = list(self.ttlock.get_locks_per_gateway_generator(gateway_id))
+        return locks
+

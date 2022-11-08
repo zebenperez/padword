@@ -48,6 +48,7 @@ urlpatterns = [
     path('locks/get-all-cards/', lock_views.lock_get_all_cards, name='lock-get-all-cards'),
     path('locks/remove/card/', lock_views.lock_remove_card, name='lock-remove-card'),
     path('locks/set-action/', lock_views.lock_set_action, name='lock-set-action'),
+    path('locks/share-code/', lock_views.lock_share_code, name='lock-share-code'),
     #--------------------- LocksUsers --------------------
     path('locks-users/', lock_user_views.locks_users, name='locks-users'),
     path('locks-users/search/', lock_user_views.lock_user_search, name='lock-user-search'),

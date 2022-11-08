@@ -1,0 +1,17 @@
+{% load i18n padword_tags %}
+
+<!-- Modal -->
+<div class="modal" id="share-modal" tabindex="-1" role="dialog" aria-labelledby="shareModalLabel" aria-hidden="true">
+	<div class="modal-dialog  modal-dialog-centered" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="exampleModalLabel"></h5>
+                {#<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>#}
+                <button type="button" class="btn-close" aria-label="Close" onclick="$('#share-modal').modal('toggle');"></button>
+			</div>
+			<div class="modal-body" id="share-modal-body">	
+			</div>
+		</div>
+	</div>
+</div>
+<script>window.Sharer.init();</script>

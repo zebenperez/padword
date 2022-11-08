@@ -491,7 +491,7 @@ a.btn.btn-outline-danger:hover {
 	padding: 10px 30px 10px 30px;
 }
 
-.btn.btn-access { border: 1px solid #022948; color: #022948; }
+.btn.btn-access { border: 1px solid #fff; color: #fff; background:#666; }
 
 .btn.btn-primary-pad { border: 1px solid #0d6efd; color: #0d6efd; }
 
@@ -506,8 +506,6 @@ a.btn.btn-outline-danger:hover {
     font-size: 0.9em;
     background-color: #022948; 
     color: #fff !important; 
-/*    padding: 10px 30px 10px 30px;*/
-
     background-color: #83807e; 
     color: #eae6e4 !important; 
 
@@ -672,6 +670,10 @@ img.img-cart-line {
 	text-decoration: none;
 }
 
+/***********************************************
+    LOGIN SCREEN
+***********************************************/
+
 .login-box {
 	border:1px solid #ccc;
 	border-radius: 15px;
@@ -695,6 +697,13 @@ img.img-cart-line {
 #item-selected span {
 	color: #333 !important;
 	font-weight: 600;
+}
+
+.form-control.languages, input#code.form-control.login, input#room.form-control.login {
+    border-radius: 15px !important;
+}
+label.control-label {
+    font-size: 1rem;
 }
 
 

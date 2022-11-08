@@ -84,7 +84,11 @@ class Project(models.Model):
     def gateway_list(self):
         obj = ShLock(self.lock_access_token)
         return obj.get_gateways()
- 
+
+    def gateway_lock_list(self, gateway_id):
+        obj = ShLock(self.lock_access_token)
+        return obj.get_gateway_locks(gateway_id)
+
 class ProjectLockUser(models.Model):
     username = models.CharField(max_length=255, verbose_name=_('Lock Username'), default="")
     password = models.CharField(max_length=255, verbose_name=_('Lock Password'), default="")
@@ -383,9 +387,10 @@ class Lock(models.Model):
         sh_lock = ShLock(self.project.lock_access_token)
         return sh_lock.open_lock_by_id(self.uuid)
 
-    def set_code(self, code, start_date, end_date):
+    def set_code(self, code, start_date, end_date, name=""):
         obj = ShLock(self.project.lock_access_token)
-        return obj.set_lock_code(self.uuid, code, self.alias, start_date, end_date)
+        code_name = name if name != "" else self.alias
+        return obj.set_lock_code(self.uuid, code, code_name, start_date, end_date)
 
     def get_code(self, code_type, start_date, end_date):
         obj = ShLock(self.project.lock_access_token)

@@ -210,6 +210,19 @@ def lock_set_action(request):
     except Exception as e:
         return render(request, 'error_exception.html', {'exc':show_exc(e)})
 
+@group_required("admins")
+def lock_share_code(request):
+    try:
+        lock = get_or_none(Lock, request.GET["obj_id"])
+        code = request.GET["code"]
+
+        plu = get_or_none(ProjectLockUser, lock.project.uuid, "project_uuid")
+        text = plu.text_to_share.replace("__CODE__", code)
+        return render(request, "web/locks/share-modal-body.html", {"text": text})
+    except Exception as e:
+        return render(request, "error_exception.html", {'exc':show_exc(e)})
+
+
 #@group_required("admins")
 #def lock_get_cards(request):
 #    obj = get_or_none(Lock, request.GET["obj_id"]) if "obj_id" in request.GET else None

@@ -134,15 +134,6 @@ a.btn.btn-primary.ark,
 a.btn.btn-secondary.ark {
     font-size:0.8rem !important;
 }
-
-.panel-login {
-	background-color: #fff;
-	border-radius: 0.25rem;
-	border: 1px solid #e2e2e2;
-	text-align: left;
-	width: 100%;
-}
-
 .toolbar-heading {
 	background-color: #f9f9f9;
 	border-top-left-radius: 0.25rem;
@@ -271,14 +262,20 @@ h2.pathway.b-right  {
 	text-align: center!important; 
 }
 
-
-
 .form-control {
 	padding: 0rem 0.5em 0.1rem 0.5em;
 	font-size: 0.9em;
 	color: #333;
 	border-color: #ced4da;
 	border-width: 0px 0px 1px 0px !important;
+}
+
+.panel-login {
+	background-color: #fff;
+	border-radius: 0.25rem;
+	border: 1px solid #e2e2e2;
+	text-align: left;
+	width: 100%;
 }
 
 input.form-control.login {
@@ -296,7 +293,6 @@ input.form-control.login {
 	border-radius: 0.25rem;
 	transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
 }
-
 
 /************* Modal popup styles ***********/
 

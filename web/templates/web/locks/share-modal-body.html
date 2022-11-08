@@ -1,0 +1,9 @@
+{% load i18n padword_tags %}
+
+<textarea id="text-to-share" class="form-control">{% padword_translate text %}</textarea>
+<br/>
+<a data-sharer="whatsapp" data-title="{% padword_translate text %}" data-url="" class="share-btn pointer">
+    <i class="fab fa-whatsapp"></i></a>
+<a data-sharer="email" data-title="{% trans "New code" %}" data-url="" data-subject="{% padword_translate text %}" data-to=""
+    class="share-btn pointer"><i class="far fa-envelope share"></i></a>
+

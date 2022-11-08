@@ -129,7 +129,7 @@ class Guest(models.Model):
 
     def add_key_code(self, lock, code=""):
         code = self.mobile[-4:] if code == "" else code
-        code_id = lock.set_code(code, self.check_in, self.check_out)
+        code_id = lock.set_code(code, self.check_in, self.check_out, "{} {}".format(self.name, self.surname))
         if not "Error" in str(code_id):
             key = KeyCode.objects.create(lock = lock, guest = self, code = code, code_id = code_id)
         else:
@@ -141,7 +141,7 @@ class Guest(models.Model):
         err = ""
         for lock in self.get_locks():
             code = self.mobile[-4:] if code == "" else code
-            code_id = lock.set_code(code, self.check_in, self.check_out)
+            code_id = lock.set_code(code, self.check_in, self.check_out, "{} {}".format(self.name, self.surname))
             if not "Error" in str(code_id):
                 key = KeyCode.objects.create(lock = lock, guest = self, code = code, code_id = code_id)
             else:
@@ -157,7 +157,7 @@ class Guest(models.Model):
                     key.code = code
                     key.save()
             else:
-                code_id = key.lock.set_code(code, self.check_in, self.check_out)
+                code_id = key.lock.set_code(code, self.check_in, self.check_out, "{} {}".format(self.name, self.surname))
                 if not "Error" in str(code_id):
                     key.code_id = code_id
                     key.code = code

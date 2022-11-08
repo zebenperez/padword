@@ -29,8 +29,10 @@
                     {% endif %}
                     <a class="btn" href="#" onclick='alert("{{item.uuid}}"); return False' title="{% trans 'Finger print' %}">
                         <i class="fas fa-fingerprint"></i></a>
-                    <a class="btn btn-xs" href="{% url 'categories-by-project' item.uuid %}" title="{% trans 'Categories' %}">
-                        <i class="fas fa-project-diagram"></i></a>
+                    {% if item.uuid %}
+                        <a class="btn btn-xs" href="{% url 'categories-by-project' item.uuid %}" title="{% trans 'Categories' %}">
+                            <i class="fas fa-project-diagram"></i></a>
+                    {% endif %}
                     <a class="btn btn-xs ark" data-url="{% url "project-form" %}" data-target-modal="common-modal" 
                         data-obj_id="{{item.id}}" data-company_id="{{company.id}}" title="{% trans 'Edit' %}"><i class="fas fa-edit"></i></a>  
                     <a class="btn btn-sm autoremove" data-model-name="web.project" data-obj-id="{{item.id}}" data-url="{% url "autoremove_obj" %}" 
