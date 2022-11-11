@@ -1,0 +1,44 @@
+{% load i18n bookings_tag common_tag padword_tags static %}
+
+{% get_current_language as LANGUAGE_CODE %}
+
+<div class="row div-slogan"><div class="col-12 pt-4">{% trans "Text in the guest's language" %}</div></div>
+<div class="col-12 slogan-favorita text-center text w-100">{{guest.room_obj.alias}} </div>
+<div class="row div-key pt-5">
+    <div class="col-12 text-center gral-content"> 
+        {% comment %} <div class="collapse" id="collapseExample"> {% include "bookings/show-guest-keys.html" %} </div> {% endcomment %}
+        {% for lock in guest.get_locks %}
+        {% comment %}<div class="alert-info">Marcar 122 + <i class="fas fa-bell"></i></div> {% endcomment %}
+            <div class="form-check form-switch p-2 mt-2 favorita-keys">
+                <div class="form-check-input ark" type="checkbox" role="switch" id="flexSwitchCheckDefault"
+                    data-url="{% url "open-lock" %}" data-target="div-notifications" data-obj_id="{{lock.id}}"
+                    onclick="setUncheck($(this), 'form-check-input-checked')">
+                    <label class="form-check-label pt-4" for="flexSwitchCheckDefault">{{lock.alias}}</label>
+                </div>
+                <div id="div-notifications mt-3"></div>
+            </div>
+        {% endfor %}
+
+        <script>
+            function setUncheck(obj, className)
+            {
+                if (!obj.hasClass(className))
+                {
+                    obj.addClass(className);
+                    setTimeout(() => { obj.removeClass(className); }, "5000");
+                }
+            }
+        </script>
+
+    </div>
+    <div class="simple-footer">Plaza San Hiscio 4, Tarifa (11380 - Cádiz)<br />690 180 253</div>
+</div>
+
+<script id="realtime-script">
+    $('#span-total-items').html('{% get_total_items request.user.username category.project_uuid %}');
+    if (parseInt($("#span-total-items").html()) > 0)
+        $("#count-badge").show();
+    else
+        $("#count-badge").hide();
+    $('#realtime-script').remove();
+</script>
