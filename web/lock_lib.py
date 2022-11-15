@@ -39,7 +39,12 @@ class ShLock:
 
     def get_lock_gateway(self, lock_id):
         try:
-            return self.ttlock.lock_get_gateway(lock_id)
+            gateways = self.ttlock.lock_get_gateway(lock_id)
+            val = ""
+            for gateway in gateways.get('list'):
+                val += "{}|{};".format(str(gateway.get("gatewayName")), str(gateway.get("rssi")))
+            return val[:-1] if len(val) > 0 else val
+            #return self.ttlock.lock_get_gateway(lock_id)
         except Exception as e:
             return e
 

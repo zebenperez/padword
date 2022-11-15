@@ -2,8 +2,26 @@
 
 <textarea id="text-to-share" class="form-control">{% padword_translate text %}</textarea>
 <br/>
-<a data-sharer="whatsapp" data-title="{% padword_translate text %}" data-url="" class="share-btn pointer">
-    <i class="fab fa-whatsapp"></i></a>
-<a data-sharer="email" data-title="{% trans "New code" %}" data-url="" data-subject="{% padword_translate text %}" data-to=""
-    class="share-btn pointer"><i class="far fa-envelope share"></i></a>
+<div class="modal-icons-share">
+    <div class="text-center"><a data-sharer="whatsapp" data-title="{% padword_translate text %}" data-url="" class="share-btn pointer">
+            <i class="fab fa-whatsapp"></i><br />{% trans "Share on whatsapp" %}</a></div>
+    <div class="text-center"><a data-sharer="telegram" data-title="{% padword_translate text %}" data-url="" class="share-btn pointer">
+        <i class="fab fa-telegram"></i><br />{% trans "Share on telegram" %}</a></div>
+    <div class="text-center"><a data-sharer="email" data-title="{% trans "New code" %}" data-url="" data-subject="{% padword_translate text %}" data-to=""
+        class="share-btn pointer"><i class="far fa-envelope share"></i><br />{% trans "Send by email" %}</a></div>
+    <div class="text-center"><a class="pointer copy-to-clipboard" data-src="text-to-share" data-answer="copy-answer"><i class="fas fa-copy"></i><br />{% trans "Copy to clicboard" %}</a> <span id="copy-answer"></span></div>
+</div>
 
+<script>
+    window.Sharer.init();
+
+    $("#text-to-share").change(function(){
+        var text = $(this).html();
+        $(".share-btn").each(function(){
+            if ($(this).data("subject"))
+                $(this).data("subject", text);
+            else
+                $(this).data("title", text);
+        });
+    });
+</script>

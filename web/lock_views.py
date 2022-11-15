@@ -6,7 +6,7 @@ from padword.commons import show_exc, get_or_none, get_param, new_ui_slug, trans
 from padword.decorators import group_required
 from .models import *
 from .lock_lib import ShLock
-from guest.models import KeyCode, KeyCard
+from guest.models import KeyCode, KeyCard, Guest
 
 import requests
 import time, datetime, pytz
@@ -30,8 +30,8 @@ def update_locks(project):
         lock, created = Lock.objects.get_or_create(uuid=uuid, project_uuid=project.uuid)
         lock.last_update = pytz.utc.localize(datetime.datetime.now())
         lock.alias = item["lockAlias"]
-        lock.charge_cache = item["electricQuantity"]
-        lock.gateway_cache = _("Connected") if item["hasGateway"] == 1 else _("Not connected")
+        #lock.charge_cache = item["electricQuantity"]
+        #lock.gateway_cache = _("Connected") if item["hasGateway"] == 1 else _("Not connected")
         lock.save()
         if uuid not in current_locks:
             current_locks.append(uuid)
@@ -210,13 +210,26 @@ def lock_set_action(request):
     except Exception as e:
         return render(request, 'error_exception.html', {'exc':show_exc(e)})
 
-@group_required("admins")
+@group_required("admins", "projects")
 def lock_share_code(request):
     try:
         lock = get_or_none(Lock, request.GET["obj_id"])
         code = request.GET["code"]
 
         plu = get_or_none(ProjectLockUser, lock.project.uuid, "project_uuid")
+        text = plu.text_to_share.replace("__CODE__", code)
+        return render(request, "web/locks/share-modal-body.html", {"text": text})
+    except Exception as e:
+        return render(request, "error_exception.html", {'exc':show_exc(e)})
+
+@group_required("admins", "projects")
+def lock_share_code_guest(request):
+    try:
+        guest = get_or_none(Guest, request.GET["obj_id"])
+        key_code = guest.keycodes.all().first()
+        code = key_code.code if key_code != None else ""
+
+        plu = get_or_none(ProjectLockUser, guest.project.uuid, "project_uuid")
         text = plu.text_to_share.replace("__CODE__", code)
         return render(request, "web/locks/share-modal-body.html", {"text": text})
     except Exception as e:

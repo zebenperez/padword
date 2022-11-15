@@ -31,8 +31,14 @@
             <i class="fas fa-tablet-alt"></i>  {% trans "Categories" %}</a> </li>
         {% endcomment %}
         {% with user_project=user.username|addstr:"|"|addstr:project.uuid %}
+            {% comment %}
             {% if user_project|have_menu:"guests" %}
                 <li class="nav-item"><a class="nav-link " href="{% url 'guests-by-project' project.uuid %}">
+                    <i class="fas fa-users"></i>  {% trans "Guests" %}</a> </li>
+            {% endif %}
+            {% endcomment %}
+            {% if user_project|have_menu:"guests" %}
+                <li class="nav-item"><a class="nav-link " href="{% url 'guests-by-project' %}">
                     <i class="fas fa-users"></i>  {% trans "Guests" %}</a> </li>
             {% endif %}
             {% if user_project|have_menu:"orders" %}

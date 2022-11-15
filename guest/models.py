@@ -144,6 +144,10 @@ class Guest(models.Model):
             code_id = lock.set_code(code, self.check_in, self.check_out, "{} {}".format(self.name, self.surname))
             if not "Error" in str(code_id):
                 key = KeyCode.objects.create(lock = lock, guest = self, code = code, code_id = code_id)
+            elif "passcode" in str(code_id) and "already exists" in str(code_id):
+                for passcode in lock.get_all_passcodes():
+                    if passcode.get("keyboardPwd") == code:
+                        key = KeyCode.objects.create(lock = lock, guest = self, code = code, code_id = passcode.get("keyboardPwdId"))
             else:
                 key = KeyCode.objects.create(lock = lock, guest = self)
                 err = "{}<br/>{}: {}".format(err, lock.alias, code_id) if err != "" else "{}: {}".format(lock.alias, code_id)
@@ -193,8 +197,10 @@ class Guest(models.Model):
                 key.delete()
 
     def change_room(self, new_room=""):
-        code_list = [item.code for item in self.keycodes.all()]
-        card_list = [item.code for item in self.keycards.all()]
+        #code_list = [item.code for item in self.keycodes.all().distinct('code')]
+        code_list = list(self.keycodes.all().values_list('code', flat=True).distinct())
+        #card_list = [item.code for item in self.keycards.all().distinct('code')]
+        card_list = list(self.keycards.all().values_list('code', flat=True).distinct())
         self.remove_all_key_codes()
         self.remove_all_key_cards()
         self.room = new_room

@@ -32,34 +32,16 @@
     <div class="card-body" id="body-locks"> <div id="div-locks">{% include "guest/keys/guest-keys.html" %}</div> </div> 
 <div>
 
-
-{% if request.user|in_group:"admins" %}
-    <div class="card">
-        <div class="card-header">
-            <div class="row toggle-btn" data-target="body-admin" data-id-change="icon-admin" 
-                data-text='<i class="fas fa-plus"></i>' data-text-alt='<i class="fas fa-minus"></i>'>
-                <div class="col-10"><strong>{% trans "Admin" %}</strong></div>
-                <div class="col-2 text-end" id="icon-admin"><i class="fas fa-plus"></i> </div>
-            </div>
-        </div>
-        <div class="card-body hide" id="body-admin"> {% include "guest/guest-form-admin.html" %} </div>
-    <div>
-{% endif %}
-
 <div class="d-flex justify-content-end p-2">
 
     <button type="button" class="btn btn-success m-2 ark" title="{%trans "Share code"%}" data-url="{% url "lock-share-code-guest" %}" 
         data-obj_id="{{obj.id}}" data-target-modal="share-modal">{% trans "Share" %} <i class="fas fa-share-alt"></i></button>
-    {%comment%}
-	<button type="button" class="btn btn-primary ark-validate m-2" data-url="{% url "guest-search" %}" data-validate="input" data-check_in="true" 
-        data-modal="common.modal" data-target="guest-list" {%if project_uuid%}data-project_uuid="{{project_uuid}}"{%endif%}>{%trans "Save"%}</button>
-    {%endcomment%}
-	<button type="button" id="btn-save" class="btn btn-primary ark-validate m-2 hide" data-url="{%url "guest-search"%}" data-validate="input" 
-        data-check_in="true" data-modal="common.modal" data-target="guest-list" data-guest_search_name="{{request.session.guest_search_name}}"
-        data-project_uuid="{{project_uuid}}">
-        {%trans "Save"%}</button>
 
+	<button type="button" id="btn-save" class="btn btn-primary ark-validate m-2 hide" data-url="{%url "guest-search-by-project"%}" 
+        data-validate="input" data-check_in="true" data-target="guest-list" data-guest_search_name="{{request.session.guest_search_name}}"> 
+        {%trans "Save"%}</button>
 	<button type="button" id="btn-check-save" class="btn btn-primary m-2">{%trans "Save"%}</button>
+
 	<button type="button" class="btn btn-danger ark m-2" data-bs-dismiss="modal" data-url="{% url "guest-remove" %}" data-target="guest-list" 
         data-obj_id="{{obj.id}}" {%if project_uuid%}data-project_uuid="{{project_uuid}}"{%endif%} 
         data-confirm="{% trans "Are you sure to remove this element?" %}">{% trans "Remove" %}</button>

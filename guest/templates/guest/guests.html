@@ -4,29 +4,31 @@
 {% block second_menu %}{% get_second_menu request.user %}{% endblock second_menu %}
 
 {% block central_content %}
-<input type="hidden" name="s-page" id="s-page" value="{{page}}" data-target="table-list-guests" data-related="s-page,guest_search_name" 
-    data-append="append" data-url="{% url 'guest-page' %}" class="autosearch_change"/>
-<div class="toolbar-search">
-    {#<input type="hidden" name="project_uuid" id="project_uuid" value="{{project_uuid}}"/>#}
-    <input type="text" class="autosearch form-control form-control-dark w-100" name="guest_search_name" id="guest_search_name" 
-        placeholder="{% trans 'Name, Surname, Email, Phone or Room' %}" data-url="{% url "guest-search" %}" data-target="guest-list" 
-        data-related="guest_search_name" value="{{request.session.guest_search_name}}"/>
-</div>
-
-<div class="content mt-4">
-    <div class="toolbar-content"> 
-        <h2 class="">{% trans 'Guests' %} (<span id="total-items">{{total_items}}</span>)</h2> 
-        {% if project_uuid %}
-            <a class="btn btn-primary ark" data-url="{% url "guest-form-by-project" %}" data-target-modal="common-modal" 
-                data-project_uuid="{{project_uuid}}"> {%trans "New guest"%}</a>  
-        {% else %}
-            <a class="btn btn-primary ark" data-url="{% url "guest-form" %}" data-target-modal="common-modal">{%trans "New guest"%}</a>  
-        {% endif %}
+    {%comment%}
+    <input type="hidden" name="s-page" id="s-page" value="{{page}}" data-target="table-list-guests" data-related="s-page,guest_search_name" 
+        data-append="append" data-url="{% url 'guest-page' %}" class="autosearch_change"/>
+    {%endcomment%}
+    <div class="toolbar-search">
+        {#<input type="hidden" name="project_uuid" id="project_uuid" value="{{project_uuid}}"/>#}
+        <input type="text" class="autosearch form-control form-control-dark w-100" name="guest_search_name" id="guest_search_name" 
+            placeholder="{% trans 'Name, Surname, Email, Phone or Room' %}" data-url="{% url "guest-search" %}" data-target="guest-list" 
+            data-related="guest_search_name" value="{{request.session.guest_search_name}}"/>
     </div>
-    <div id="guest-list">
-        {% include "guest/guest-list.html" %}
-    </div>
-</div>
-<div id="div-chat">{#{% include "guest/chat.html" with guest_msg="False" %}#}</div>
 
+    <div class="content mt-4">
+        <div class="toolbar-content"> 
+            <h2 class="">{% trans 'Guests' %} (<span id="total-items">{{total_items}}</span>)</h2> 
+            {% if project_uuid %}
+                <a class="btn btn-primary ark" data-url="{% url "guest-form-by-project" %}" data-target-modal="common-modal" 
+                    data-project_uuid="{{project_uuid}}"> {%trans "New guest"%}</a>  
+            {% else %}
+                <a class="btn btn-primary ark" data-url="{% url "guest-form" %}" data-target-modal="common-modal">{%trans "New guest"%}</a>  
+            {% endif %}
+        </div>
+        <div id="guest-list">
+            {% include "guest/guest-list.html" %}
+        </div>
+    </div>
+    <div id="div-chat">{#{% include "guest/chat.html" with guest_msg="False" %}#}</div>
+    {% include "web/locks/share-modal.html" %}
 {% endblock central_content %}

@@ -1,4 +1,4 @@
-{% load i18n %}
+{% load i18n lock_tags %}
 
 <div class="card">
     <div class="card-header div-assigned-lock">
@@ -19,7 +19,7 @@
                 <div class="row lock-box">
                     <div class="alias text-center pt-1 pb-1">{{lock.alias}}</div>
                     <div class="icons-2 d-flex justify-content-end mt-3">
-                        <div class="w-50 text-center"><i class="fas fa-wifi lock-on"></i> </div>
+                        <div class="w-50 text-center">{#<i class="fas fa-wifi lock-on"></i>#} {% get_wifi_icon lock.gateway %}</div>
                         <div class="w-50 text-center"><i class="fa {{lock.css_charge}} fa-rotate-270 pb-2 text-center"></i><br />
                             <span class="bat-percentage">{{lock.charge}}%</span>
                         </div>  

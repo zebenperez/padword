@@ -49,59 +49,17 @@ def get_guest_items(request):
 @group_required("admins")
 def guests(request):
     try:
-        #items= Guest.objects.filter(check_out__gte = datetime.datetime.now())
-        #items= Guest.objects.all()
         request.session["project_uuid"] = ""
         items = get_guest_items(request)
         total_count = items.count()
 
         context = {'total_items': total_count, 'items': items[0:ITEMS_PER_PAGE], 'page': 0}
-        #context = {}
-        #page = 0
-        #context['total_items'] = items.count()
-        #context['items'] = items[int(page)*ITEMS_PER_PAGE:(int(page) + 1)*ITEMS_PER_PAGE]
-        #context['page'] = 0
-
         return render (request, "guest/guests.html", context)
     except Exception as e:
-        return JsonResponse({'results':[], 'error':1, 'error-msg':show_exc(e)})
+        return render(request, 'error_exception.html', {'exc':show_exc(e)})
+        #return JsonResponse({'results':[], 'error':1, 'error-msg':show_exc(e)})
 
-#@group_required("admins", "projects")
-#def guest_search(request):
-#    try:
-#        project_uuid = request.GET["project_uuid"] if "project_uuid" in request.GET else ""
-#        filters_to_search = ["name__icontains", "room", "surname__icontains", "email__icontains", "mobile__icontains"]
-#        search_value = request.GET["s-name"] if "s-name" in request.GET else ""
-#        page = "0"
-#        if search_value != "":
-#            items = Guest.objects.none()
-#            for myfilter in filters_to_search:
-#                kwargs = {}
-#                kwargs[myfilter] = search_value
-#                if project_uuid != "":
-#                    items = items | Guest.objects.filter(project_id=project_uuid).filter(**kwargs)
-#                else:
-#                    items = items | Guest.objects.filter(**kwargs)
-#
-#            projects = webmod.Project.objects.filter(name__icontains = search_value)
-#            items |= Guest.by_project(projects)
-#
-#        else:
-#            if project_uuid != "":
-#                items = Guest.objects.filter(project_id=project_uuid)
-#            else:
-#                #items = Guest.objects.filter(check_out__gte = datetime.datetime.today())
-#                items = Guest.objects.all()
-#        context = {}
-#        context['project_uuid'] = project_uuid
-#        context['total_items'] = items.count()
-#        context['items'] = items[int(page)*ITEMS_PER_PAGE:(int(page) + 1)*ITEMS_PER_PAGE]
-#        context['page'] = 0
-#        return render(request, "guest/guest-list.html", context)
-#    except Exception as e:
-#        return JsonResponse({'results':[], 'error':1, 'error-msg':show_exc(e)})
-
-@group_required("admins", "projects")
+@group_required("admins")
 def guest_search(request):
     try:
         set_session(request, "guest_search_name")
@@ -111,9 +69,9 @@ def guest_search(request):
         context["project_uuid"] = get_param(request.GET, "project_uuid")
         return render(request, "guest/guest-list.html", context)
     except Exception as e:
-        return JsonResponse({'results':[], 'error':1, 'error-msg':show_exc(e)})
+        return render(request, 'error_exception.html', {'exc':show_exc(e)})
 
-@group_required("admins", "projects")
+@group_required("admins")
 def guest_form(request):
     try:
         date = datetime.datetime.now().replace(hour=12, minute=00)
@@ -122,14 +80,14 @@ def guest_form(request):
     except Exception as e:
         return render(request, 'error_exception.html', {'exc':show_exc(e)})
 
-@group_required("admins")
-def guest_form_simple(request):
-    try:
-        date = datetime.datetime.now().replace(hour=12, minute=00)
-        obj = get_or_none(Guest, request.GET["obj_id"]) if "obj_id" in request.GET else Guest.objects.create(UUID = new_ui_slug(Guest), check_in = date, check_out = date)
-        return render(request, "guest/guest-form-simple.html", {'obj': obj,})
-    except Exception as e:
-        return render(request, 'error_exception.html', {'exc':show_exc(e)})
+#@group_required("admins")
+#def guest_form_simple(request):
+#    try:
+#        date = datetime.datetime.now().replace(hour=12, minute=00)
+#        obj = get_or_none(Guest, request.GET["obj_id"]) if "obj_id" in request.GET else Guest.objects.create(UUID = new_ui_slug(Guest), check_in = date, check_out = date)
+#        return render(request, "guest/guest-form-simple.html", {'obj': obj,})
+#    except Exception as e:
+#        return render(request, 'error_exception.html', {'exc':show_exc(e)})
 
 @group_required("admins", "projects")
 def guest_remove(request):
@@ -145,39 +103,20 @@ def guest_remove(request):
     items = get_guest_items(request)
     return render(request, "guest/guest-list.html", {'items':items, 'project_uuid': project_uuid})
 
-@group_required("admins","projects")
-def guest_pagination(request):
-    try:
-        set_session(request, "guest_search_name")
-        page = get_param(request.GET, "s-page", "0")
-        items = get_guest_items(request)
-
-#        name = get_param(request.GET, "s-name")
+#@group_required("admins","projects")
+#def guest_pagination(request):
+#    try:
+#        set_session(request, "guest_search_name")
 #        page = get_param(request.GET, "s-page", "0")
-#        project_uuid = get_param(request.GET, "project_uuid", "")
-#        if name != "":
-#            items = Guest.objects.none()
-#            filters_to_search = ["name__icontains", "room", "surname__icontains", "email__icontains"]
-#            for myfilter in filters_to_search:
-#                kwargs = {}
-#                kwargs[myfilter] = name
-#                items |= Guest.objects.filter(**kwargs)
+#        items = get_guest_items(request)
 #
-#            projects = webmod.Project.objects.filter(name__icontains = name)
-#            items != Guest.by_project(projects)
-#        else:
-#            items = Guest.objects.all()
-#
-#        if project_uuid != "":
-#            items = items.filter(project_id=project_uuid)
-#
-        context = {}
-        context['total_items'] = items.count()
-        context['items'] = items[int(page)*ITEMS_PER_PAGE:(int(page) + 1)*ITEMS_PER_PAGE]
-        context['page'] = page 
-        return render(request, "guest/guest-page.html", context)
-    except Exception as e:
-        return render(request, "error_exception.html", {'exc':show_exc(e)})
+#        context = {}
+#        context['total_items'] = items.count()
+#        context['items'] = items[int(page)*ITEMS_PER_PAGE:(int(page) + 1)*ITEMS_PER_PAGE]
+#        context['page'] = page 
+#        return render(request, "guest/guest-page.html", context)
+#    except Exception as e:
+#        return render(request, "error_exception.html", {'exc':show_exc(e)})
 
 @group_required("admins","projects")
 def guest_save_date(request):
@@ -203,7 +142,6 @@ def guest_save_date(request):
     except Exception as e:
         return render(request, "error_exception.html", {'exc':show_exc(e)})
 
-
 @group_required("admins","projects")
 def guest_save_room(request):
     try:
@@ -220,15 +158,6 @@ def guest_save_room(request):
             guest.remove_all_key_cards()
         else:
             err = guest.change_room(value)
-#        lock_list = guest.get_locks()
-#        if len(lock_list) > 0:
-#            for lock in lock_list:
-#                res = guest.add_key_code(lock)
-#                if "Error" in str(res):
-#                    err = "{}<br/>{}: {}".format(err, lock.alias, res)
-#        else:
-#            guest.remove_all_key_codes()
-#            guest.remove_all_key_cards()
         return render(request, "guest/keys/guest-keys.html", {'obj': guest, "err": err})
     except Exception as e:
         return render(request, "error_exception.html", {'exc':show_exc(e)})
@@ -251,33 +180,68 @@ def guest_room_autocomplete(request):
 '''
     Guests by projects
 '''
-@group_required("admins", "projects")
-def guests_by_project(request, project_id):
+def get_guest_items_by_project(request, project_uuid):
+    filters_to_search = ["name__icontains", "room", "surname__icontains", "email__icontains", "mobile__icontains"]
+    search_value = request.session["guest_search_name"] if "guest_search_name" in request.session else ""
+
+    full_query = Q(**{'project_id': project_uuid})
+    if search_value != "":
+        for myfilter in filters_to_search:
+            full_query |= Q(**{myfilter: search_value})
+        projects_uuid = [item.uuid for item in webmod.Project.objects.filter(name__icontains = search_value)]
+        full_query |= Q(**{'project_id__in': projects_uuid})
+
+    return Guest.objects.filter(full_query) if len(full_query) > 0 else Guest.objects.all()
+
+@group_required("projects")
+def guests_by_project(request):
     try:
-        project = get_or_none(Project, project_id, "uuid")
-        request.session["project_uuid"] = project.uuid
-        #items= Guest.objects.filter(check_out__gte = datetime.datetime.now())
-        items = Guest.objects.filter(project_id = project_id)
-        total_count = items.count()
+        project = get_or_none(Project, request.project_id)
+        items = Guest.objects.filter(project_id = project.uuid)
 
-        context = {}
-        page = 0
-        context['total_items'] = items.count()
-        context['items'] = items[int(page)*ITEMS_PER_PAGE:(int(page) + 1)*ITEMS_PER_PAGE]
-        context['page'] = 0
-        context['project_uuid'] = project_id
-
-        return render (request, "guest/guests.html", context)
+        context = {'total_items': items.count(), 'page': 0, 'project_uuid':project.uuid, 'items': items[0:ITEMS_PER_PAGE]}
+        return render (request, "guest-by-project/guests.html", context)
     except Exception as e:
-        return JsonResponse({'results':[], 'error':1, 'error-msg':show_exc(e)})
+        return render(request, 'error_exception.html', {'exc':show_exc(e)})
 
-@group_required("admins", "projects")
+@group_required("projects")
+def guest_search_by_project(request):
+    try:
+        project = get_or_none(Project, request.project_id)
+        set_session(request, "guest_search_name")
+        items = get_guest_items_by_project(request, project.uuid)
+
+        context = {'total_items': items.count(), 'items': items[0:ITEMS_PER_PAGE], 'page': 0, 'project_uuid': project.uuid}
+        return render(request, "guest-by-project/guest-list.html", context)
+    except Exception as e:
+        return render(request, 'error_exception.html', {'exc':show_exc(e)})
+
+@group_required("projects")
 def guest_form_by_project(request):
     try:
-        project_uuid = request.GET["project_uuid"]
-        date = datetime.datetime.now().replace(hour=12, minute=00)
-        obj = get_or_none(Guest, request.GET["obj_id"]) if "obj_id" in request.GET else Guest.objects.create(UUID = new_ui_slug(Guest), project_id = project_uuid, check_in = date, check_out = date)
-        return render(request, "guest/guest-form.html", {'obj': obj, 'project_uuid': project_uuid})
+        project = get_or_none(Project, request.project_id)
+        if "obj_id" in request.GET:
+            obj = get_or_none(Guest, request.GET["obj_id"]) 
+        else:
+            date = datetime.datetime.now().replace(hour=12, minute=00)
+            obj = Guest.objects.create(UUID = new_ui_slug(Guest), project_id = project.uuid, check_in = date, check_out = date)
+        return render(request, "guest-by-project/guest-form.html", {'obj': obj, 'project_uuid': project.uuid})
+    except Exception as e:
+        return render(request, 'error_exception.html', {'exc':show_exc(e)})
+
+@group_required("projects")
+def guest_remove_by_project(request):
+    try:
+        project = get_or_none(Project, request.project_id)
+        obj = get_or_none(Guest, request.GET["obj_id"]) if "obj_id" in request.GET else None
+        if obj != None:
+            GuestUser.delete_by_guest(obj.UUID)
+            obj.remove_all_key_codes()
+            obj.remove_all_key_cards()
+            obj.delete()
+
+        items = get_guest_items(request)
+        return render(request, "guest/guest-list.html", {'items':items, 'project_uuid': project.uuid})
     except Exception as e:
         return render(request, 'error_exception.html', {'exc':show_exc(e)})
 

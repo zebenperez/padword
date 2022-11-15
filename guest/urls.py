@@ -10,19 +10,21 @@ urlpatterns = [
     path('guests/', views.guests, name='guests'),
     path('guests/search/', views.guest_search, name='guest-search'),
     path('guests/form/', views.guest_form, name='guest-form'),
-    path('guests/form-simple/', views.guest_form_simple, name='guest-form-simple'),
+    #path('guests/form-simple/', views.guest_form_simple, name='guest-form-simple'),
     path('guests/remove/', views.guest_remove, name='guest-remove'),
-    path('guests/page/', views.guest_pagination, name='guest-page'),
+    #path('guests/page/', views.guest_pagination, name='guest-page'),
 
-    path('guests/project-<slug:project_id>/', views.guests_by_project, name='guests-by-project'),
+    path('guests/project/', views.guests_by_project, name='guests-by-project'),
+    path('guests/project/search', views.guest_search_by_project, name='guest-search-by-project'),
     path('guests/project/form/', views.guest_form_by_project, name='guest-form-by-project'),
+    path('guests/project/remove/', views.guest_remove_by_project, name='guest-remove-by-project'),
 
     path('guests/save-date/', views.guest_save_date, name='guest-save-date'),
     path('guests/save-room/', views.guest_save_room, name='guest-save-room'),
 
     path('guests/rooms/autocomplete/', views.guest_room_autocomplete, name='guest-room-autocomplete'),
 
-    #--------------------- GUESTS --------------------
+    #--------------------- DEVICES --------------------
     path('', views.index, name='device-index'),
     path('devices/', views.devices, name='guest-devices'),
     path('devices/search/', views.device_search, name='guest-device-search'),

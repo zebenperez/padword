@@ -379,7 +379,8 @@ class Lock(models.Model):
 
         self.state_cache = state_cache if "Error" not in str(state_cache) else ""
         self.charge_cache = charge_cache if "Error" not in str(charge_cache) else ""
-        self.gateway_cache = _("Connected") if len(gateway_cache["list"]) > 0 else _("Not connected")
+        #self.gateway_cache = _("Connected") if len(gateway_cache["list"]) > 0 else _("Not connected")
+        self.gateway_cache = gateway_cache
         self.last_update = pytz.utc.localize(datetime.datetime.now())
         self.save()
 
@@ -481,7 +482,7 @@ class Lock(models.Model):
             if get_int(self.charge_cache) > 25:
                 return "fa-battery-quarter perc-25"
         except: pass
-        return "fa-battery-exclamation perc-0"
+        return "fa-battery-empty perc-0"
 
     class Meta:
         verbose_name = _('Lock')

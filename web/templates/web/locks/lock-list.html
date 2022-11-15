@@ -1,4 +1,4 @@
-{% load i18n padword_tags %}
+{% load i18n padword_tags lock_tags %}
 
 
 {% if msg and msg != "" %} <div class="alert alert-danger">{{msg}}</div> {% endif %}
@@ -78,7 +78,8 @@
                 <td>{{ item.room }}</td>
                 <td>{{ item.state }}</td>
                 <td>{{ item.charge }} %</td>
-                <td>{{ item.gateway }}</td>
+                {#<td>{{ item.gateway }}</td>#}
+                <td>{% get_wifi_icon item.gateway %}</td>
                 <td class="d-flex justify-content-end">
                     <a class="me-1 btn btn-xs ark" data-url="{% url "lock-get-all-passcodes" %}" data-target-modal="common-modal" 
                         data-obj_id="{{item.id}}"><i class="fas fa-code"></i></a>  

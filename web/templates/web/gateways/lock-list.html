@@ -1,4 +1,4 @@
-{% load i18n %}
+{% load i18n lock_tags %}
 
-<ul>{% for item in lock_list %}<li>{{ item.lockName }} ({{ item.lockAlias }})</li>{% endfor %}</ul>
+<ul>{% for item in lock_list %}<li>{{ item.lockAlias }} {% get_wifi_icon item.rssi %} ({{ item.lockName }})</li>{% endfor %}</ul>
 

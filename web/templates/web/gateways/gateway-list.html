@@ -1,4 +1,4 @@
-{% load i18n padword_tags %}
+{% load i18n lock_tags %}
 
 
 {% if msg and msg != "" %} <div class="alert alert-danger">{{msg}}</div> {% endif %}
@@ -10,7 +10,7 @@
 
 <table class="table table-striped table-hover">
     <thead> <tr class="small small"> 
-            <th> {% trans 'Name' %} </th> 
+            <th> {% trans 'Network name' %} </th> 
             <th> {% trans 'Version' %} </th> 
             <th> {% trans 'Connected locks' %} </th> 
             <th> {% trans 'Is online' %} </th> 

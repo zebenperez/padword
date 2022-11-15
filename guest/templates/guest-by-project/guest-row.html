@@ -12,17 +12,8 @@
             <i class="fas fa-comments"></i></a>
         <a class="btn" href="#" onclick='alert("{{item.uuid}}"); return False'><i class="fas fa-fingerprint"></i></a>
 
-        {% if project_uuid and project_uuid != "" %}
-            <a class="btn btn-xs ark" data-url="{% url "guest-form-by-project" %}" data-target-modal="common-modal" 
-                data-project_uuid="{{project_uuid}}" data-obj_id="{{item.id}}"> <i class="fas fa-edit"></i></a>  
-        {% else %}
-            <a class="btn btn-xs ark" data-url="{% url "guest-form" %}" data-target-modal="common-modal" data-obj_id="{{item.id}}"> 
-                <i class="fas fa-edit"></i></a>  
-            {%comment%}
-            <a class="btn btn-xs ark" data-url="{% url "guest-form-simple" %}" data-target-modal="common-modal" data-obj_id="{{item.id}}"> 
-                <i class="fa fa-key"></i></a>  
-            {%endcomment%}
-        {% endif %}
+        <a class="btn btn-xs ark" data-url="{% url "guest-form-by-project" %}" data-target-modal="common-modal" 
+            data-project_uuid="{{project_uuid}}" data-obj_id="{{item.id}}"> <i class="fas fa-edit"></i></a>  
 
 	    <a class="btn btn-sm ark" data-url="{% url "guest-remove" %}" data-target="guest-list" data-obj_id="{{item.id}}" 
             {%if project_uuid%}data-project_uuid="{{project_uuid}}"{%endif%} data-confirm="{% trans "Are you sure to remove this element?" %}">

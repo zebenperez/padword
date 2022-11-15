@@ -431,7 +431,4 @@ def show_emails(obj):
 def show_timetable(obj):
     return {'obj': obj,}
 
-@register.inclusion_tag('web/gateways/lock-list.html')
-def get_locks_by_gateway(project, gateway_id):
-    return {'lock_list': project.gateway_lock_list(gateway_id),}
 

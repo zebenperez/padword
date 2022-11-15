@@ -1101,6 +1101,11 @@ i.perc-75 { color: #ffdc02; font-size: 1.2rem; }
 i.perc-100 { color: #03b700; font-size: 1.2rem; }
 i.fa.fa-key { color: #FF8C81 !important;}
 
+i.wifi-high { color: green; }
+i.wifi-medium { color: orange; }
+i.wifi-low { color: red; }
+i.wifi-empty { color: grey; }
+
 .bat-percentage {
     letter-spacing:0px;
     font-size:0.6rem;
@@ -1189,16 +1194,38 @@ a.btn.btn-green {
     color: white !important;
 }
 
-.fa-whatsapp {
-    color: #0cc243;
-    margin-right: 15px;
+/********* Share icons style ********************/
+
+h5.modal-title.share { color: rgba(0,0,0,.54); }
+
+.modal-icons-share {
+    display: grid; 
+    grid-template-columns: 25% 25% 25% 25%;
+}
+.modal-icons-share div {
+    padding: 10px 0 10px 0;
+    border: 1px solid transparent;
 }
 
-.fa-whatsapp, .fa-envelope.share {
-    font-size: 1.5rem;
+.modal-icons-share a {
+    color: #777;
+    font-size: 0.8rem;
+    text-decoration: none;
 }
-.fa-whatsapp:hover, .fa-envelope.share:hover {
-    font-weight: 600;
+
+.fa-whatsapp { color: #0cc243; }
+.fa-telegram { color: #3390ec; }
+.fa-envelope.share { color: #e44134; }
+
+.fa-whatsapp, .fab.fa-telegram, .fa-envelope.share, .fas.fa-copy { font-size: 1.5rem; }
+
+.modal-icons-share div:hover {
+    background:#f8f8f8;
+    border: 1px solid #d0d0d0;
+    border-radius: 10px;
 }
+
+/********************************/
+
 
 .hide { display: none; }

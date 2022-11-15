@@ -667,6 +667,18 @@ $(document).ready(()=>{
         else
             $("."+class_name).prop("disabled", false);
     });
+
+    $("body").on("click", ".copy-to-clipboard", function(e){
+        var answer = $("#"+$(this).data("answer"));
+        $("#"+$(this).data("src")).select();
+
+        try {
+            var ok = document.execCommand('copy');
+            if (ok) answer.html('Copied!');
+            else    answer.html('Unable to copy!');
+        } catch (err) { answer.html('Unsupported Browser!'); }
+    });
+
 });
 
 
