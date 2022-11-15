@@ -47,7 +47,8 @@ def redirect_project_user(request):
     if menu == "orders":
         return redirect('bookings-by-project', request.project_id)
     elif menu == "guests":
-        return redirect('guests-by-project', project.uuid)
+        #return redirect('guests-by-project', project.uuid)
+        return redirect('guests-by-project')
     elif menu == "notifications":
         return redirect('guest-notifications')
     elif menu == "rooms":
