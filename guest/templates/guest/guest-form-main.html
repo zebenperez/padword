@@ -32,7 +32,7 @@
         {%endcomment%}
 	</div>
 
-	<div class="col-5">
+	<div class="col-6">
         <label class="label">{% trans "Mobile phone" %}*:</label>
 	    <div style="display: grid; grid-template-columns: 90% 10%; height: 40px; border: 1px solid #ccc !important; border-radius: 5px">
             <div><input style="border:none !important;" type="tel" class="form-control autosave input mb-4" id="mobile" name="mobile" value="{{obj.mobile|default:""}}" 
@@ -44,11 +44,13 @@
                 <i class="fa-regular fa-rotate"></i></button></div>
 	    </div>
 	</div>
+        {%comment%}
 	<div class="col-1" style="border:1px solid red">
                <button style="border:1px solid blue" class="btn ark" data-url="{%url "guest-update-code"%}" data-target="div-locks" data-obj_id="{{obj.id}}" 
             title="{%trans "Update code locks"%}"
             data-confirm="{% trans "Code will be updated with last four digits of mobile phone." %}"> <i class="fas fa-lock"></i></button>
 	</div>
+        {%endcomment%}
 
 	<div class="col-6">
 		<label class="label">{% trans "Email" %}*:</label>
