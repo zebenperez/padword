@@ -39,6 +39,15 @@
             data-url="{% url "autosave_field" %}" data-target="div-notification" data-check="email" minlength="9" maxlength="14" required/> 
             <span class="msg_error" id="mobile__msg"></span>
 	</div>
+    {%comment%}
+	<div class="col-1" style="border:1px solid red">
+        <button style="border:1px solid blue" class="btn generate-random" data-longitude="6" data-target="mobile" title="{%trans "Generate random number"%}">
+            <i class="fas fa-phone"></i></button>
+        <button style="border:1px solid blue" class="btn ark" data-url="{% url "guest-update-code" %}" data-target="div-locks" data-obj_id="{{obj.id}}" 
+            title="{%trans "Update code locks"%}"
+            data-confirm="{% trans "Code will be updated with last four digits of mobile phone." %}"> <i class="fas fa-lock"></i></button>
+	</div>
+    {%endcomment%}
 
 	<div class="col-6">
 		<label class="label">{% trans "Email" %}*:</label>

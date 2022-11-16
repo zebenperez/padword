@@ -154,18 +154,24 @@ class Guest(models.Model):
         return err
 
     def change_all_key_code(self, code):
+        err = ""
         for key in self.keycodes.all():
             if key.code_id != "":
                 errcode = key.lock.change_code(key.code_id, code, key.guest.check_in, key.guest.check_out)
                 if errcode == 0:
                     key.code = code
                     key.save()
+                else:
+                    err += "{}<br/>{}".format(err, str(errcode))
             else:
                 code_id = key.lock.set_code(code, self.check_in, self.check_out, "{} {}".format(self.name, self.surname))
                 if not "Error" in str(code_id):
                     key.code_id = code_id
                     key.code = code
                     key.save()
+                else:
+                    err += "{}<br/>{}".format(err, str(code_id))
+        return err
 
     def change_all_key_code_date(self):
         for key in self.keycodes.all():
@@ -197,18 +203,19 @@ class Guest(models.Model):
                 key.delete()
 
     def change_room(self, new_room=""):
-        #code_list = [item.code for item in self.keycodes.all().distinct('code')]
-        code_list = list(self.keycodes.all().values_list('code', flat=True).distinct())
-        #card_list = [item.code for item in self.keycards.all().distinct('code')]
+        #code_list = list(self.keycodes.all().values_list('code', flat=True).distinct())
+        current_code = self.keycodes.first()
         card_list = list(self.keycards.all().values_list('code', flat=True).distinct())
         self.remove_all_key_codes()
         self.remove_all_key_cards()
         self.room = new_room
         self.save()
         err = ""
-        if len(code_list) > 0:
-            for code in code_list:
-                err += self.add_all_key_code(code)
+        #if len(code_list) > 0:
+        #    for code in code_list:
+        #        err += self.add_all_key_code(code)
+        if current_code != None:
+            err += self.add_all_key_code(current_code.code)
         else:
             err += self.add_all_key_code()
 

@@ -119,6 +119,19 @@ def guest_remove(request):
 #        return render(request, "error_exception.html", {'exc':show_exc(e)})
 
 @group_required("admins","projects")
+def guest_update_code(request):
+    try:
+        guest = get_or_none(Guest, request.GET["obj_id"]) 
+        if guest == None:
+            return render(request, "error_exception.html", {'exc': _('Guest not found!')})
+
+        err = guest.change_all_key_code(guest.mobile[-4:])
+        return render(request, "guest/keys/guest-keys.html", {'obj': guest, "err": err})
+    except Exception as e:
+        return render(request, "error_exception.html", {'exc':show_exc(e)})
+
+
+@group_required("admins","projects")
 def guest_save_date(request):
     try:
         err = ""
@@ -240,7 +253,7 @@ def guest_remove_by_project(request):
             obj.remove_all_key_cards()
             obj.delete()
 
-        items = get_guest_items(request)
+        items = get_guest_items_by_project(request, project.uuid)
         return render(request, "guest/guest-list.html", {'items':items, 'project_uuid': project.uuid})
     except Exception as e:
         return render(request, 'error_exception.html', {'exc':show_exc(e)})

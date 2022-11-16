@@ -15,9 +15,8 @@
         <a class="btn btn-xs ark" data-url="{% url "guest-form-by-project" %}" data-target-modal="common-modal" 
             data-project_uuid="{{project_uuid}}" data-obj_id="{{item.id}}"> <i class="fas fa-edit"></i></a>  
 
-	    <a class="btn btn-sm ark" data-url="{% url "guest-remove" %}" data-target="guest-list" data-obj_id="{{item.id}}" 
-            {%if project_uuid%}data-project_uuid="{{project_uuid}}"{%endif%} data-confirm="{% trans "Are you sure to remove this element?" %}">
-            <i class="fas fa-trash"></i></a>
+	    <a class="btn btn-sm ark" data-url="{% url "guest-remove-by-project" %}" data-target="guest-list" data-obj_id="{{item.id}}" 
+            data-confirm="{% trans "Are you sure to remove this element?" %}"> <i class="fas fa-trash"></i></a>
 
         <a class="btn btn-sm ark" title="{%trans "Share code"%}" data-url="{% url "lock-share-code-guest" %}" data-obj_id="{{item.id}}" 
             data-target-modal="share-modal"><i class="fas fa-share-alt"></i></a>

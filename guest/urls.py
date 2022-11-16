@@ -19,6 +19,7 @@ urlpatterns = [
     path('guests/project/form/', views.guest_form_by_project, name='guest-form-by-project'),
     path('guests/project/remove/', views.guest_remove_by_project, name='guest-remove-by-project'),
 
+    path('guests/update-code/', views.guest_update_code, name='guest-update-code'),
     path('guests/save-date/', views.guest_save_date, name='guest-save-date'),
     path('guests/save-room/', views.guest_save_room, name='guest-save-room'),
 
