@@ -680,12 +680,16 @@ $(document).ready(()=>{
     });
 
     $("body").on("click", ".generate-random", function(e){
-        var lon = $(this).data("longitude");
-        var target = $(this).data("target");
-        var str = ""
-        for (var i=0; i < lon; i++)
-            str += Math.floor(Math.random() * 6);
-        $("#"+target).val(str).change();
+        var obj = $(this);
+        if (((obj.data("confirm")) && confirm(obj.data("confirm"))) || !(obj.data("confirm")))
+        {
+            var lon = $(this).data("longitude");
+            var target = $(this).data("target");
+            var str = ""
+            for (var i=0; i < lon; i++)
+                str += Math.floor(Math.random() * 6);
+            $("#"+target).val(str).change();
+        }
     });
 
 

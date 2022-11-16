@@ -89,7 +89,7 @@ def guest_form(request):
 #    except Exception as e:
 #        return render(request, 'error_exception.html', {'exc':show_exc(e)})
 
-@group_required("admins", "projects")
+@group_required("admins")
 def guest_remove(request):
     project_uuid = request.GET["project_uuid"] if "project_uuid" in request.GET else None
     obj = get_or_none(Guest, request.GET["obj_id"]) if "obj_id" in request.GET else None

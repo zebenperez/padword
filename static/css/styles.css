@@ -646,6 +646,20 @@ i.fas.fa-home, i.far.fa-folder-open, i.fas.fa-users, i.fas.fa-bed, i.fas.fa-tabl
 
 i.fas.fa-home:hover, i.far.fa-folder-open:hover, i.fas.fa-users:hover, i.fas.fa-bed:hover, i.fas.fa-tablet-alt:hover, i.fas.fa-book:hover, i.fas.fa-envelope:hover, i.fas.fa-lock:hover {color: #5b7898; }
 
+i.fas.fa-check-square {
+    color: #72c937;
+    background: #ffffff;
+    font-size: 2rem;
+}
+
+.change-mobile {
+    display: grid !important; 
+    grid-template-columns: 90% 10%; 
+    height: 40px; 
+    border: 1px solid #ccc !important; 
+    border-radius: 5px;
+}
+
 
 #content-section {
 	height: 95vh;

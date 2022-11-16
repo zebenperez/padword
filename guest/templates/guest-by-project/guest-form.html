@@ -42,9 +42,9 @@
         {%trans "Save"%}</button>
 	<button type="button" id="btn-check-save" class="btn btn-primary m-2">{%trans "Save"%}</button>
 
-	<button type="button" class="btn btn-danger ark m-2" data-bs-dismiss="modal" data-url="{% url "guest-remove" %}" data-target="guest-list" 
-        data-obj_id="{{obj.id}}" {%if project_uuid%}data-project_uuid="{{project_uuid}}"{%endif%} 
-        data-confirm="{% trans "Are you sure to remove this element?" %}">{% trans "Remove" %}</button>
+	<button type="button" class="btn btn-danger ark m-2" data-bs-dismiss="modal" data-url="{% url "guest-remove-by-project" %}" 
+        data-target="guest-list" data-obj_id="{{obj.id}}" data-confirm="{% trans "Are you sure to remove this element?" %}">
+        {% trans "Remove" %}</button>
 </div>
 <script>
     $("#btn-check-save").click(function(){
