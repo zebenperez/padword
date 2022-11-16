@@ -328,7 +328,7 @@ class Lock(models.Model):
     room = models.CharField(max_length=255, verbose_name=_('Room'), default="")
     charge_cache = models.CharField(max_length=10, verbose_name=_('Charge cache'), default="")
     state_cache = models.CharField(max_length=100, verbose_name=_('State cache'), default="")
-    gateway_cache = models.CharField(max_length=100, verbose_name=_('Gateway cache'), default="")
+    gateway_cache = models.CharField(max_length=900, verbose_name=_('Gateway cache'), default="")
     project_uuid = models.CharField(max_length=255, verbose_name=_('Project UUID'), default="")
     group_uuid = models.CharField(max_length=255, verbose_name=_('Project UUID'), default="")
 

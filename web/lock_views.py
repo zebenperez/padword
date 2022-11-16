@@ -217,7 +217,8 @@ def lock_share_code(request):
         code = request.GET["code"]
 
         plu = get_or_none(ProjectLockUser, lock.project.uuid, "project_uuid")
-        text = plu.text_to_share.replace("__CODE__", code)
+        alias = lock.room_obj.alias if lock.room_obj != None else ""
+        text = plu.text_to_share.replace("__CODE__",code).replace("__ROOM__",lock.room).replace("__ALIAS__",alias).replace("__PHONE__","")
         return render(request, "web/locks/share-modal-body.html", {"text": text})
     except Exception as e:
         return render(request, "error_exception.html", {'exc':show_exc(e)})
@@ -230,7 +231,8 @@ def lock_share_code_guest(request):
         code = key_code.code if key_code != None else ""
 
         plu = get_or_none(ProjectLockUser, guest.project.uuid, "project_uuid")
-        text = plu.text_to_share.replace("__CODE__", code)
+        alias = guest.room_obj.alias if guest.room_obj != None else ""
+        text = plu.text_to_share.replace("__CODE__",code).replace("__ROOM__",guest.room).replace("__ALIAS__",alias).replace("__PHONE__",guest.mobile)
         return render(request, "web/locks/share-modal-body.html", {"text": text})
     except Exception as e:
         return render(request, "error_exception.html", {'exc':show_exc(e)})
