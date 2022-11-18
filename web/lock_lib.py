@@ -203,3 +203,15 @@ class ShLock:
         locks = list(self.ttlock.get_locks_per_gateway_generator(gateway_id))
         return locks
 
+    def get_gateway_name(self, lock_id, gateway_id):
+        try:
+            gateways = self.ttlock.lock_get_gateway(lock_id)
+            val = ""
+            for gateway in gateways.get('list'):
+                if str(gateway.get("gatewayId")) == str(gateway_id):
+                    return gateway.get("gatewayName")
+            return ""
+        except Exception as e:
+            return e
+
+

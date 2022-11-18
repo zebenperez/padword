@@ -1,4 +1,4 @@
 {% load i18n lock_tags %}
 
 <ul>{% for item in lock_list %}<li>{{ item.lockAlias }} {% get_wifi_icon item.rssi %} ({{ item.lockName }})</li>{% endfor %}</ul>
-
+<script>$("#gt-name-{{gateway_id}}").html("{{gateway_name}}")</script>

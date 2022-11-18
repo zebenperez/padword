@@ -126,7 +126,7 @@ def get_date(dic, key_date, key_time, offset=""):
     default = datetime.now() + offset if offset != "" else datetime.now()
     return datetime.strptime("{} {}".format(date, time), "%Y-%m-%d %H:%M") if date != "" and time != "" else default
 
-@group_required("admins")
+@group_required("admins", "projects")
 def room_lock_details(request):
     try:
         lock = get_or_none(Lock, request.GET["obj_id"])
@@ -135,12 +135,12 @@ def room_lock_details(request):
     except Exception as e:
         return render(request, 'error_exception.html', {'exc':show_exc(e)})
 
-@group_required("admins")
+@group_required("admins", "projects")
 def room_lock_list(request):
     items = Lock.objects.filter(project_uuid="", room="")
     return render(request, "web/rooms/lock-list.html", {'items': items, 'obj_id': request.GET["obj_id"]})
 
-@group_required("admins")
+@group_required("admins", "projects")
 def room_lock_add_card(request):
     try:
         lock = get_or_none(Lock, request.POST["lock_id"])
@@ -162,7 +162,7 @@ def room_lock_add_card(request):
     except Exception as e:
         return render(request, "error_exception.html", {'exc':show_exc(e)})
 
-@group_required("admins")
+@group_required("admins", "projects")
 def room_lock_remove_card(request):
     try:
         lock = get_or_none(Lock, request.GET["obj_id"])
@@ -173,7 +173,7 @@ def room_lock_remove_card(request):
     except Exception as e:
         return render(request, "error_exception.html", {'exc':show_exc(e)})
 
-@group_required("admins")
+@group_required("admins", "projects")
 def room_lock_add_code(request):
     try:
         lock = get_or_none(Lock, request.POST["lock_id"])
@@ -198,7 +198,7 @@ def room_lock_add_code(request):
     except Exception as e:
         return render(request, "error_exception.html", {'exc':show_exc(e)})
 
-@group_required("admins")
+@group_required("admins", "projects")
 def room_lock_remove_code(request):
     try:
         lock = get_or_none(Lock, request.GET["obj_id"])
@@ -210,7 +210,7 @@ def room_lock_remove_code(request):
     except Exception as e:
         return render(request, "error_exception.html", {'exc':show_exc(e)})
 
-@group_required("admins")
+@group_required("admins", "projects")
 def room_lock_add_ekey(request):
     try:
         lock = get_or_none(Lock, request.POST["lock_id"])
@@ -240,7 +240,7 @@ def room_lock_add_ekey(request):
         return render(request, "error_exception.html", {'exc':show_exc(e)})
 
 
-@group_required("admins")
+@group_required("admins", "projects")
 def room_lock_remove_ekey(request):
     try:
         lockEkey = get_or_none(LockEkey, request.GET["obj_id"])

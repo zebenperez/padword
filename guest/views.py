@@ -197,14 +197,12 @@ def get_guest_items_by_project(request, project_uuid):
     filters_to_search = ["name__icontains", "room", "surname__icontains", "email__icontains", "mobile__icontains"]
     search_value = request.session["guest_search_name"] if "guest_search_name" in request.session else ""
 
-    full_query = Q(**{'project_id': project_uuid})
+    full_query = Q()
     if search_value != "":
         for myfilter in filters_to_search:
             full_query |= Q(**{myfilter: search_value})
-        projects_uuid = [item.uuid for item in webmod.Project.objects.filter(name__icontains = search_value)]
-        full_query |= Q(**{'project_id__in': projects_uuid})
 
-    return Guest.objects.filter(full_query) if len(full_query) > 0 else Guest.objects.all()
+    return Guest.objects.filter(project_id=project_uuid).filter(full_query)
 
 @group_required("projects")
 def guests_by_project(request):

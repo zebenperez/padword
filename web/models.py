@@ -451,6 +451,9 @@ class Lock(models.Model):
         #return obj.get_lock_all_keys(self.uuid)
         return LockEkey.objects.filter(lock_uuid=self.uuid)
 
+    def get_gateway_name_by_id(self, gateway_id):
+        obj = ShLock(self.project.lock_access_token)
+        return obj.get_gateway_name(self.uuid, gateway_id)
 
     def get_cards(self):
         url = 'https://euapi.ttlock.com/v3/identityCard/list'
