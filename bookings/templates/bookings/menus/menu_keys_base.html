@@ -1,0 +1,22 @@
+{% load i18n bookings_tag common_tag padword_tags static%}
+
+{%block extralinks%}{%with css_name='css/menu_{}.css'|replace:prefix%}<link rel="stylesheet" href="{%static css_name%}">{%endwith%}{%endblock%}
+
+{% get_current_language as LANGUAGE_CODE %}
+<div class="row topbar pt-1 pb-1" style="margin:0px;">
+    <div class="col-2 text-center pt-2">
+        <button id="back-btn" class="btn btn-header-pwa text-center ark pl-2 pr-2" data-url="{% url "show-category-menu" %}" data-target="main" 
+            data-cat_id="" data-cat_home="{{form.category}}" style="display:none"><i class="fas fa-chevron-left"></i> </button>
+        <button id="back-btn-bookings" class="btn btn-header-pwa text-center ark" data-url="{% url "my-bookings" %}" data-target="main" 
+            data-project_uuid="{{project_uuid}}" data-cat_id="{{form.category}}" style="display:none"> <i class="fas fa-chevron-left"></i> </button>
+    </div>
+
+    <div class="col-8 text-center pt-3">{%with img_name='/static/img/logo-{}.jpg'|replace:prefix%}<img class="" src="{{img_name}}">{%endwith%}</div>
+
+    <div class="col-12 text-center separator mt-3" style="padding:0;"><img class="" src="/static/img/bg-separator.jpg"></div>
+
+    <div class="col-2"> <ul class="nav justify-content-center mt-2"> </ul> </div>
+</div>
+
+<div id="main" class="main-pwa pl-4 pr-4"> {% include form.form_type.template with category=form.get_category %} </div>
+

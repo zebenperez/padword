@@ -1,0 +1,49 @@
+{% load i18n bookings_tag common_tag padword_tags static %}
+
+{% get_current_language as LANGUAGE_CODE %}
+
+<div class="row div-slogan"><div class="col-12 pt-4">{% trans "Text in the guest's language" %}</div></div>
+
+{%with class_name="slogan-{}"|replace:prefix%}<div class="col-12 {{class_name}} text-center text w-100">{{guest.room_obj.alias}}</div>{%endwith%}
+
+<div class="row div-key pt-5">
+    <div class="col-12 text-center gral-content"> 
+        {% for lock in guest.get_locks %}
+            {%with class_name="{}-keys"|replace:prefix%}
+                <div class="form-check form-switch p-2 mt-2 {{class_name}}">
+                    <div class="form-check-input ark" type="checkbox" role="switch" id="flexSwitchCheckDefault"
+                        data-url="{% url "open-lock" %}" 
+                        data-target="div-notifications" 
+                        data-obj_id="{{lock.id}}"
+                        onclick="setUncheck($(this), 'form-check-input-checked')">
+                        <label class="form-check-label pt-4" for="flexSwitchCheckDefault">{{lock.alias}}</label>
+                    </div>
+                    <div id="div-notifications mt-3"></div>
+                </div>
+            {%endwith%}
+        {% endfor %}
+    </div>
+    <div class="simple-footer">{% padword_translate form.desc %}</div>
+</div>
+
+<script>
+    function setUncheck(obj, className)
+    {
+        if (!obj.hasClass(className))
+        {
+            obj.addClass(className);
+            setTimeout(() => { obj.removeClass(className); }, "5000");
+        }
+    }
+</script>
+
+{%comment%}
+<script id="realtime-script">
+    $('#span-total-items').html('{% get_total_items request.user.username category.project_uuid %}');
+    if (parseInt($("#span-total-items").html()) > 0)
+        $("#count-badge").show();
+    else
+        $("#count-badge").hide();
+    $('#realtime-script').remove();
+</script>
+{%endcomment%}
