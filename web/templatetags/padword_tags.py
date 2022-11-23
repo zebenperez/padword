@@ -164,6 +164,10 @@ def get_share_text(lock, code):
     plu = get_or_none(ProjectLockUser, lock.project.uuid, "project_uuid")
     return plu.text_to_share.replace("__CODE__", code)
 
+@register.filter
+def replace(string, val):
+    return string.replace("{}", val)
+
 '''
     Simple Tags
 '''
