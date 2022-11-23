@@ -1,0 +1,25 @@
+{% load i18n padword_tags lock_tags %}
+
+
+<td><input type="checkbox" name="ch_{{item.id}}" /></td>
+<td>{{ item.uuid }}</td>
+<td>{% padword_translate item.alias %}</td>
+<td>{{ item.project.name }}</td>
+<td>{{ item.group.name }}</td>
+<td>{{ item.room }}</td>
+<td>{{ item.state }}</td>
+<td>{{ item.charge }} %</td>
+<td>{% get_wifi_icon item.gateway %}</td>
+<td class="d-flex justify-content-end">
+    <a class="me-1 btn btn-xs ark" data-url="{% url "lock-update-params" %}" data-target="row_{{item.id}}" 
+        data-obj_id="{{item.id}}"><i class="fas fa-sync"></i></a>  
+    <a class="me-1 btn btn-xs ark" data-url="{% url "lock-get-all-passcodes" %}" data-target-modal="common-modal" 
+        data-obj_id="{{item.id}}"><i class="fas fa-code"></i></a>  
+    <a class="me-1 btn btn-xs ark" data-url="{% url "lock-get-all-cards" %}" data-target-modal="common-modal" 
+        data-obj_id="{{item.id}}"><i class="fas fa-credit-card"></i></a>  
+    <a class="me-1 btn btn-xs ark" data-url="{% url "lock-form" %}" data-target-modal="common-modal" 
+        data-obj_id="{{item.id}}"><i class="fas fa-edit"></i></a>  
+    <a class="btn btn-sm autoremove" data-model-name="web.lock" data-obj-id="{{item.id}}" data-url="{% url "autoremove_obj" %}" 
+        data-target="row_{{item.id}}" data-confirm="{%trans "Are you sure to remove this element?"%}"><i class="fas fa-trash"></i></a>
+</td>
+
