@@ -198,7 +198,8 @@ img.object-fit_cover.img-new {
     z-index: 1; 
 }
 .topbar img {
-    height: 80px;
+    height: 90px;
+    margin-top: -10px;
 }
 
 .separator img {
