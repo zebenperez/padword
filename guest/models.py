@@ -10,9 +10,8 @@ from web.models import Channel, Project, Lock, Room
 
 import datetime, pytz
 
+
 class Guest(models.Model):
-#     channel = models.ForeignKey('web.Channel', to_field='uuid', on_delete=models.SET_NULL, null=True)
-#     project = models.ForeignKey('web.Project', to_field='uuid', on_delete=models.SET_NULL, null=True)
     PID = models.IntegerField(verbose_name='PID', default=0)
     UUID = models.CharField(max_length=255, verbose_name='UUID', default="")
     room = models.CharField(max_length=255, verbose_name='Room', default="")
@@ -94,11 +93,8 @@ class Guest(models.Model):
         limit = datetime.datetime.now() + datetime.timedelta(days=-7)
         return self.notifications.filter(notification__public=True, notification__date__gte=limit).order_by('-notification__date')
 
-    #def get_messages(self, guest_access, sender=None, date=""):
     def get_messages(self, guest_access):
         kwargs = {'guest': self}
-        #if date != "":
-        #    kwargs["date__gt"] = date
 
         if guest_access: 
             message_list = Message.objects.filter(**kwargs).filter(guest_msg=False).update(guest_read=True)
@@ -107,14 +103,23 @@ class Guest(models.Model):
 
         return Message.objects.filter(**kwargs)
 
-    #def get_locks_id(self):
-    #    return [key.lock for key in self.keys.all()]
-
+    '''
+        Locks
+    '''
     def get_locks(self):
-        return Lock.objects.filter(Q(room=self.room) | Q(room="*")).filter(project_uuid=self.project_id).order_by("-room") if self.room != "" else []
+        #return Lock.objects.filter(Q(room=self.room) | Q(room="*")).filter(project_uuid=self.project_id).order_by("-room") if self.room != "" else []
+        if self.room == "":
+            return []
+        items = Lock.objects.none()
+        room_list = Lock.objects.filter(room=self.room, project_uuid=self.project_id).order_by("-room")
+        global_list = Lock.objects.filter(room="*", group_uuid="", project_uuid=self.project_id).order_by("-room")
+        group_uuid_list = [lock.group_uuid for lock in room_list]
+        group_list = Lock.objects.filter(room="*", group_uuid__in=group_uuid_list, project_uuid=self.project_id).order_by("-room")
+        return items.union(room_list).union(global_list).union(group_list)
 
     def get_locks_json(self):
-        lock_list = Lock.objects.filter(Q(room=self.room) | Q(room="*")).filter(project_uuid=self.project_id).order_by("-room") if self.room != "" else []
+        #lock_list = Lock.objects.filter(Q(room=self.room) | Q(room="*")).filter(project_uuid=self.project_id).order_by("-room") if self.room != "" else []
+        lock_list = self.get_locks()
         dic = {}
         for lock in lock_list:
             dic["uuid"] = lock.uuid
@@ -128,10 +133,14 @@ class Guest(models.Model):
         return dic
 
     def add_key_code(self, lock, code=""):
-        code = self.mobile[-4:] if code == "" else code
+        code = self.mobile_to_code() if code == "" else code
         code_id = lock.set_code(code, self.check_in, self.check_out, "{} {}".format(self.name, self.surname))
         if not "Error" in str(code_id):
             key = KeyCode.objects.create(lock = lock, guest = self, code = code, code_id = code_id)
+        elif "passcode" in str(code_id) and "already exists" in str(code_id):
+            for passcode in lock.get_all_passcodes():
+                if passcode.get("keyboardPwd") == code:
+                    key = KeyCode.objects.create(lock = lock, guest = self, code = code, code_id = passcode.get("keyboardPwdId"))
         else:
             key = KeyCode.objects.create(lock = lock, guest = self)
             return code_id
@@ -140,37 +149,14 @@ class Guest(models.Model):
     def add_all_key_code(self, code=""):
         err = ""
         for lock in self.get_locks():
-            code = self.mobile[-4:] if code == "" else code
-            code_id = lock.set_code(code, self.check_in, self.check_out, "{} {}".format(self.name, self.surname))
-            if not "Error" in str(code_id):
-                key = KeyCode.objects.create(lock = lock, guest = self, code = code, code_id = code_id)
-            elif "passcode" in str(code_id) and "already exists" in str(code_id):
-                for passcode in lock.get_all_passcodes():
-                    if passcode.get("keyboardPwd") == code:
-                        key = KeyCode.objects.create(lock = lock, guest = self, code = code, code_id = passcode.get("keyboardPwdId"))
-            else:
-                key = KeyCode.objects.create(lock = lock, guest = self)
-                err = "{}<br/>{}: {}".format(err, lock.alias, code_id) if err != "" else "{}: {}".format(lock.alias, code_id)
+            error = self.add_key_code(lock, code)
+            if error != "":
+                err = "{}<br/>{}: {}".format(err, lock.alias, error) if err != "" else "{}: {}".format(lock.alias, error)
         return err
 
     def change_all_key_code(self, code):
-        err = ""
-        for key in self.keycodes.all():
-            if key.code_id != "":
-                errcode = key.lock.change_code(key.code_id, code, key.guest.check_in, key.guest.check_out)
-                if errcode == 0:
-                    key.code = code
-                    key.save()
-                else:
-                    err += "{}<br/>{}".format(err, str(errcode))
-            else:
-                code_id = key.lock.set_code(code, self.check_in, self.check_out, "{} {}".format(self.name, self.surname))
-                if not "Error" in str(code_id):
-                    key.code_id = code_id
-                    key.code = code
-                    key.save()
-                else:
-                    err += "{}<br/>{}".format(err, str(code_id))
+        self.remove_all_key_codes()
+        err = self.add_all_key_code(code)
         return err
 
     def change_all_key_code_date(self):
@@ -203,7 +189,6 @@ class Guest(models.Model):
                 key.delete()
 
     def change_room(self, new_room=""):
-        #code_list = list(self.keycodes.all().values_list('code', flat=True).distinct())
         current_code = self.keycodes.first()
         card_list = list(self.keycards.all().values_list('code', flat=True).distinct())
         self.remove_all_key_codes()
@@ -211,9 +196,6 @@ class Guest(models.Model):
         self.room = new_room
         self.save()
         err = ""
-        #if len(code_list) > 0:
-        #    for code in code_list:
-        #        err += self.add_all_key_code(code)
         if current_code != None:
             err += self.add_all_key_code(current_code.code)
         else:
@@ -222,6 +204,15 @@ class Guest(models.Model):
         for code in card_list:
             self.add_all_key_card(code)
         return err
+
+    def can_open_lock(self, lock):
+        return ((self.room == lock.room) or (lock.room == "*"))
+
+    def mobile_to_code(self):
+        try:
+            return self.mobile.rstrip()[-4:]
+        except:
+            return ""
 
     @classmethod
     def by_project(cls, projects):

@@ -4,9 +4,10 @@ from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 
 from .guest_serializers import GuestSerializer
+from .lock_serializers import LockSerializer
 
 from guest.models import Guest
-from web.models import ProjectUser
+from web.models import ProjectUser, Lock
 from padword.commons import new_ui_slug, reverse_cardkey 
 
 from datetime import datetime
@@ -152,5 +153,40 @@ class GuestViewSet(viewsets.ModelViewSet):
         except Exception as e:
             logger.error("(get_guest): %s" % e)
             return Response({"error": True})
+
+
+class LockViewSet(viewsets.ModelViewSet):
+    """
+    API endpoint that allows users to be viewed or edited.
+    """
+    queryset = Lock.objects.none()
+    serializer_class = LockSerializer
+    permission_classes = [IsAuthenticated,]
+
+    def serialize_guest(self, item):
+        if item != None:
+            return Response(LockSerializer(item, many=False).data)
+        return Response({"error": True})
+
+    def get_queryset(self):
+        try:
+            pu = ProjectUser.objects.get(username=self.request.user.username)
+            return Lock.objects.filter(project_uuid=pu.project_uuid)
+        except:
+            return Lock.objects.none()
+
+    @action(detail=False, methods=['get'])
+    def get_passcodes(self, request):
+        try:
+            lock = Lock.objects.get(uuid = request.GET["uuid"])
+            code_list = lock.get_all_passcodes()
+            c_list = []
+            for c in code_list:
+                dic = {"uuid":c["lockId"],"startDate":c["startDate"],"endDate":c["endDate"],"type":c["keyboardPwdType"],"passcode":c["keyboardPwd"]}
+                c_list.append(dic)
+            return Response(c_list, status=status.HTTP_200_OK)
+        except Exception as e:
+            logger.error("(get_passcodes): %s" % e)
+            return Response({"error": 'true'})
 
 

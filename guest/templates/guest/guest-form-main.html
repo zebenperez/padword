@@ -35,19 +35,19 @@
 	<div class="col-5">
         <label class="label">{% trans "Mobile phone" %}*:</label>
 	    <div class="change-mobile">
-            <div><input style="border:none !important;" type="tel" class="form-control autosave input mb-4" id="mobile" name="mobile" value="{{obj.mobile|default:""}}" 
-                title="{% trans "Please enter valid phone number"%}" data-model-name="guest.guest" data-obj-id="{{obj.id}}" 
-                data-url="{% url "autosave_field" %}" data-target="div-notification" data-check="email" minlength="9" maxlength="14" required/> 
-                <span class="msg_error" id="mobile__msg"></span></div>
+            <div><input style="border:none !important;" type="tel" class="form-control autosave input mb-4" id="mobile" name="mobile" 
+                value="{{obj.mobile|default:""}}" title="{% trans "Please enter valid phone number"%}" data-model-name="guest.guest" 
+                data-obj-id="{{obj.id}}" data-url="{% url "autosave_field" %}" data-target="div-notification" data-check="email" minlength="6" 
+                maxlength="14" required/> <span class="msg_error" id="mobile__msg"></span></div>
             <div><button class="btn generate-random mt-1" data-longitude="6" data-target="mobile" 
                 title="{%trans "Generate random number"%}" data-confirm="{% trans "Are you sure to modify the mobile phone?." %}">
                 <i class="fas fa-sync"></i></button></div>
 	    </div>
 	</div>
 	<div class="col-1" style="padding:0;">
-               <button class="btn ark" data-url="{%url "guest-update-code"%}" data-target="div-locks" data-obj_id="{{obj.id}}" 
-            title="{%trans "Update code locks"%}"
-            data-confirm="{% trans "Code will be updated with last four digits of mobile phone." %}"> <i class="fas fa-check-square mt-3"></i></button>
+        <button class="btn ark" data-url="{%url "guest-update-code"%}" data-target="div-locks" data-obj_id="{{obj.id}}" 
+            title="{%trans "Update code locks"%}" data-confirm="{% trans "Code will be updated with last four digits of mobile phone." %}"> 
+            <i class="fas fa-check-square mt-3"></i></button>
 	</div>
 
 	<div class="col-6">

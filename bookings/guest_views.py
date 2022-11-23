@@ -663,10 +663,14 @@ def set_guest_language(request):
 '''
     Open Locks
 '''
-@group_required("admins", "projects", "guests")
+#@group_required("admins", "projects", "guests")
+@group_required("guests")
 def open_lock(request):
     lock = get_or_none(Lock, request.GET["obj_id"])
-    msg = lock.open_lock()
+    guest = get_guest(request.user.username, lock.project.uuid)
+    msg = False
+    if guest != None and guest.can_open_lock(lock):
+        msg = lock.open_lock() 
     msg = _("The lock could not be opened, sorry for the inconvenience.") if msg != True else ""
     return HttpResponse(msg)
 

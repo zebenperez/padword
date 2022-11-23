@@ -69,6 +69,12 @@ class Answer(models.Model):
 		verbose_name_plural = _('Answers')
 		ordering = ['id']
 
+def upload_form_type_css(instance, filename):
+    ascii_filename = str(filename.encode('ascii', 'ignore'))
+    instance.filename = ascii_filename
+    folder = "form_types/css/"
+    return '/'.join(['%s' % (folder), ascii_filename])
+
 class FormType(models.Model):
     order = models.BooleanField(default=False, verbose_name="Order")
     code = models.CharField(max_length=10, verbose_name=_("Code"), default="")
@@ -77,6 +83,7 @@ class FormType(models.Model):
     template_base = models.CharField(max_length=200, verbose_name=_("Template Base"), default="", blank=True)
     template_login = models.CharField(max_length=200, verbose_name=_("Template Login"), default="", blank=True)
     project_uuid = models.CharField(max_length=255, verbose_name=_("Project UUID"), default="", blank=True)
+    css = models.FileField(upload_to=upload_form_type_css, blank=True, verbose_name=_("CSS"), help_text="Select file to upload")
 
     def __str__(self):
         return self.name

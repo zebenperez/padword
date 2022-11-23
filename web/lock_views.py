@@ -237,6 +237,14 @@ def lock_share_code_guest(request):
     except Exception as e:
         return render(request, "error_exception.html", {'exc':show_exc(e)})
 
+@group_required("admins", "projects")
+def lock_update_params(request):
+    lock = get_or_none(Lock, request.GET["obj_id"])
+    lock.update_params()
+    return render(request, "web/locks/lock-list-row.html", {"item": lock})
+
+
+
 
 #@group_required("admins")
 #def lock_get_cards(request):

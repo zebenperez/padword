@@ -69,6 +69,8 @@
         <tbody>
             {% for item in items %}
             <tr class="small" id="row_{{item.id}}">
+                {% include "web/locks/lock-list-row.html" %}
+                {%comment%}
                 <td><input type="checkbox" name="ch_{{item.id}}" /></td>
                 <td>{{ item.uuid }}</td>
                 <td>{% padword_translate item.alias %}</td>
@@ -81,6 +83,8 @@
                 {#<td>{{ item.gateway }}</td>#}
                 <td>{% get_wifi_icon item.gateway %}</td>
                 <td class="d-flex justify-content-end">
+                    <a class="me-1 btn btn-xs ark" data-url="{% url "lock-update-params" %}" data-target="row_{{item.id}}" 
+                        data-obj_id="{{item.id}}"><i class="fas fa-sync"></i></a>  
                     <a class="me-1 btn btn-xs ark" data-url="{% url "lock-get-all-passcodes" %}" data-target-modal="common-modal" 
                         data-obj_id="{{item.id}}"><i class="fas fa-code"></i></a>  
                     <a class="me-1 btn btn-xs ark" data-url="{% url "lock-get-all-cards" %}" data-target-modal="common-modal" 
@@ -90,6 +94,7 @@
                     <a class="btn btn-sm autoremove" data-model-name="web.lock" data-obj-id="{{item.id}}" data-url="{% url "autoremove_obj" %}" 
                         data-target="row_{{item.id}}" data-confirm="{%trans "Are you sure to remove this element?"%}"><i class="fas fa-trash"></i></a>
                 </td>
+                {%endcomment%}
             </tr>
             {% endfor %}
         </tbody>

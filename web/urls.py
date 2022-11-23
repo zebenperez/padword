@@ -50,6 +50,7 @@ urlpatterns = [
     path('locks/set-action/', lock_views.lock_set_action, name='lock-set-action'),
     path('locks/share-code/', lock_views.lock_share_code, name='lock-share-code'),
     path('locks/share-code-guest/', lock_views.lock_share_code_guest, name='lock-share-code-guest'),
+    path('locks/update-params/', lock_views.lock_update_params, name='lock-update-params'),
     #--------------------- LocksUsers --------------------
     path('locks-users/', lock_user_views.locks_users, name='locks-users'),
     path('locks-users/search/', lock_user_views.lock_user_search, name='lock-user-search'),

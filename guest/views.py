@@ -125,7 +125,7 @@ def guest_update_code(request):
         if guest == None:
             return render(request, "error_exception.html", {'exc': _('Guest not found!')})
 
-        err = guest.change_all_key_code(guest.mobile[-4:])
+        err = guest.change_all_key_code(guest.mobile_to_code())
         return render(request, "guest/keys/guest-keys.html", {'obj': guest, "err": err})
     except Exception as e:
         return render(request, "error_exception.html", {'exc':show_exc(e)})
@@ -252,7 +252,7 @@ def guest_remove_by_project(request):
             obj.delete()
 
         items = get_guest_items_by_project(request, project.uuid)
-        return render(request, "guest/guest-list.html", {'items':items, 'project_uuid': project.uuid})
+        return render(request, "guest-by-project/guest-list.html", {'items':items, 'project_uuid': project.uuid})
     except Exception as e:
         return render(request, 'error_exception.html', {'exc':show_exc(e)})
 
