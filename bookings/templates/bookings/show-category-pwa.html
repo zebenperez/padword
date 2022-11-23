@@ -3,7 +3,7 @@
         
 <div id="main-base"> 
     {% if form.form_type.template_base != "" %}
-        {% include form.form_type.template_base with category=form.get_category prefix=form.form_type.get_project_prefix %} 
+        {% include form.form_type.template_base with category=form.get_category prefix=form.project.prefix %} 
     {% else %}
         <div id="main"> {% include form.form_type.template with category=form.get_category %} </div>
     {% endif %}
