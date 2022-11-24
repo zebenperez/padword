@@ -2,7 +2,7 @@
 
 {% get_current_language as LANGUAGE_CODE %}
 
-<div class="row div-slogan"><div class="col-12 pt-4">{% trans "Text in the guest's language" %}</div></div>
+{#<div class="row div-slogan"><div class="col-12 pt-4">{% trans "Text in the guest's language" %}</div></div>#}
 <div class="col-12 slogan-bruja text-center text w-100">{{guest.room_obj.alias}} </div>
 <div class="row div-key pt-5">
     <div class="col-12 text-center gral-content"> {% include "bookings/show-guest-keys.html" %} </div>  
