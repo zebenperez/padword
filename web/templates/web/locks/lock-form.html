@@ -33,6 +33,13 @@
             title="{{obj.project_uuid}}" data-model-name="web.lock" data-obj-id="{{obj.id}}" data-url="{% url "autosave_field" %}" 
             data-target="div-notification"/> <span id="project_uuid__msg"></span>
 	</div>
+
+	<div class="col-sm-6 col-md-6 col-12">
+    	<label class="label">{% trans "Group UUID" %}:</label>
+		<input type="text" class="form-control autosave input mb-4" id="group_uuid" name="group_uuid" value="{{obj.group_uuid}}" 
+            title="{{obj.group_uuid}}" data-model-name="web.lock" data-obj-id="{{obj.id}}" data-url="{% url "autosave_field" %}" 
+            data-target="div-notification"/> <span id="group_uuid__msg"></span>
+	</div>
 </div>
 
 {%comment%}

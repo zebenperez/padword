@@ -112,8 +112,8 @@ class Guest(models.Model):
             return []
         items = Lock.objects.none()
         room_list = Lock.objects.filter(room=self.room, project_uuid=self.project_id).order_by("-room")
-        #global_list = Lock.objects.filter(room="*", group_uuid="", project_uuid=self.project_id).order_by("-room")
-        global_list = Lock.objects.filter(room="*", project_uuid=self.project_id).order_by("-room")
+        global_list = Lock.objects.filter(room="*", group_uuid="", project_uuid=self.project_id).order_by("-room")
+        #global_list = Lock.objects.filter(room="*", project_uuid=self.project_id).order_by("-room")
         group_uuid_list = [lock.group_uuid for lock in room_list]
         group_list = Lock.objects.filter(room="*", group_uuid__in=group_uuid_list, project_uuid=self.project_id).order_by("-room")
         return items.union(room_list).union(global_list).union(group_list)

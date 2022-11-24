@@ -175,6 +175,26 @@ class LockViewSet(viewsets.ModelViewSet):
         except:
             return Lock.objects.none()
 
+    def create(self, request):
+        response = {'message': 'Create function is not offered in this path.'}
+        return Response(response, status=status.HTTP_403_FORBIDDEN)
+
+    def retrieve(self, request, pk=None):
+        response = {'message': 'Retrieve function is not offered in this path.'}
+        return Response(response, status=status.HTTP_403_FORBIDDEN)
+
+    def destroy(self, request, pk=None):
+        response = {'message': 'Destroy function is not offered in this path.'}
+        return Response(response, status=status.HTTP_403_FORBIDDEN)
+
+    def update(self, request, pk=None):
+        response = {'message': 'Update function is not offered in this path.'}
+        return Response(response, status=status.HTTP_403_FORBIDDEN)
+
+    def partial_update(self, request, pk=None):
+        response = {'message': 'Update function is not offered in this path.'}
+        return Response(response, status=status.HTTP_403_FORBIDDEN)
+
     @action(detail=False, methods=['get'])
     def get_passcodes(self, request):
         try:
@@ -182,11 +202,90 @@ class LockViewSet(viewsets.ModelViewSet):
             code_list = lock.get_all_passcodes()
             c_list = []
             for c in code_list:
-                dic = {"uuid":c["lockId"],"startDate":c["startDate"],"endDate":c["endDate"],"type":c["keyboardPwdType"],"passcode":c["keyboardPwd"]}
+                dic = {"uuid":c["lockId"],"code_id":c["keyboardPwdId"],"startDate":c["startDate"],"endDate":c["endDate"],"type":c["keyboardPwdType"],"passcode":c["keyboardPwd"]}
                 c_list.append(dic)
             return Response(c_list, status=status.HTTP_200_OK)
         except Exception as e:
             logger.error("(get_passcodes): %s" % e)
             return Response({"error": 'true'})
+
+    @action(detail=False, methods=['post'])
+    def add_passcode(self, request):
+        try:
+            lock_uuid = request.POST["uuid"]
+            code = request.POST["code"]
+            start_date = datetime.strptime(request.POST.get('start_date', ""), "%Y-%m-%d %H:%M")
+            end_date = datetime.strptime(request.POST.get('end_date', ""), "%Y-%m-%d %H:%M")
+            lock = Lock.objects.get(uuid=lock_uuid)
+            err = lock.set_code(code, start_date, end_date)
+            if "Error" in str(err):
+                return Response({"error": True, "msg": str(err)})
+            else:
+                return Response({"error": False, "msg": "Code added successfully!"}, status=status.HTTP_200_OK)
+        except Exception as e:
+            logger.error("(add_passcode): %s" % e)
+            return Response({"error": True})
+
+    @action(detail=False, methods=['post'])
+    def remove_passcode(self, request):
+        try:
+            lock_uuid = request.POST["uuid"]
+            code_id = request.POST["code_id"]
+            lock = Lock.objects.get(uuid=lock_uuid)
+            err = lock.remove_code(code_id)
+            if "Error" in str(err):
+                return Response({"error": True, "msg": str(err)})
+            else:
+                return Response({"error": False, "msg": "Code removed successfully!"}, status=status.HTTP_200_OK)
+        except Exception as e:
+            logger.error("(remove_passcode): %s" % e)
+            return Response({"error": True})
+
+
+    @action(detail=False, methods=['get'])
+    def get_cardcodes(self, request):
+        try:
+            lock = Lock.objects.get(uuid = request.GET["uuid"])
+            code_list = lock.get_all_cards()
+            c_list = []
+            for c in code_list:
+                dic = {"uuid":c["lockId"],"code_id":c["cardId"],"startDate":c["startDate"],"endDate":c["endDate"],"cardcode":c["cardNumber"]}
+                c_list.append(dic)
+            return Response(c_list, status=status.HTTP_200_OK)
+        except Exception as e:
+            logger.error("(get_cardcodes): %s" % e)
+            return Response({"error": 'true'})
+
+    @action(detail=False, methods=['post'])
+    def add_cardcode(self, request):
+        try:
+            lock_uuid = request.POST["uuid"]
+            code = reverse_cardkey(request.POST["code"])
+            start_date = datetime.strptime(request.POST.get('start_date', ""), "%Y-%m-%d %H:%M")
+            end_date = datetime.strptime(request.POST.get('end_date', ""), "%Y-%m-%d %H:%M")
+            lock = Lock.objects.get(uuid=lock_uuid)
+            err = lock.add_card(code, start_date, end_date)
+            if "Error" in str(err):
+                return Response({"error": True, "msg": str(err)})
+            else:
+                return Response({"error": False, "msg": "Card added successfully!"}, status=status.HTTP_200_OK)
+        except Exception as e:
+            logger.error("(add_cardcode): %s" % e)
+            return Response({"error": True})
+
+    @action(detail=False, methods=['post'])
+    def remove_cardcode(self, request):
+        try:
+            lock_uuid = request.POST["uuid"]
+            code_id = request.POST["code_id"]
+            lock = Lock.objects.get(uuid=lock_uuid)
+            err = lock.remove_card(code_id)
+            if "Error" in str(err):
+                return Response({"error": True, "msg": str(err)})
+            else:
+                return Response({"error": False, "msg": "Card removed successfully!"}, status=status.HTTP_200_OK)
+        except Exception as e:
+            logger.error("(remove_cardcode): %s" % e)
+            return Response({"error": True})
 
 

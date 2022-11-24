@@ -17,7 +17,7 @@
         <div class="toolbar-content">
 			<h2 class="pathway b-right">
                 {% if company %}<a href="{% url "companies" %}">{{company.name}}</a> <i class="fas fa-angle-double-right"></i>{% endif %} 
-                {% trans 'Projects' %} <span id="items-counter" class="badge badge-secondary">{{items|length}}</span></h2>
+                {% trans 'Projects' %} (<span id="items-counter">{{items|length}}</span>)</h2>
 
             <a class="btn btn-primary ark" data-url="{% url "project-form" %}" data-target-modal="common-modal"
                 data-company_id="{{company.id}}">{% trans "New project"%}</a>  

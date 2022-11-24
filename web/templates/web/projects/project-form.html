@@ -37,8 +37,8 @@
 
 		<select class="form-control autosave input mb-4" id="active" name="active" value="{{obj.active}}" title="{{obj.active}}" 
 			data-model-name="web.project" data-obj-id="{{obj.id}}" data-url="{% url "autosave_field" %}" data-target="div-notification"/>
-		    <option value="1" {%if obj.active == "1"%}selected{%endif%}>{% trans "Yes" %}</option>
-		    <option value="0" {%if obj.active == "0"%}selected{%endif%}>{% trans "No" %}</option>
+		    <option value="1" {%if obj.active == 1%}selected{%endif%}>{% trans "Yes" %}</option>
+		    <option value="0" {%if obj.active == 0%}selected{%endif%}>{% trans "No" %}</option>
 		</select>
 		<span id="active__msg"></span>
 	</div>
