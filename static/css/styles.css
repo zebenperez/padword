@@ -642,7 +642,7 @@ i.fas.fa-envelope { padding-right: 10px; }
 i.fas.fa-lock { padding-right: 10px; }
 */
 i.fas.fa-home.hotel { padding-right:0px; }
-i.fas.fa-home, i.far.fa-folder-open, i.fas.fa-users, i.fas.fa-bed, i.fas.fa-tablet-alt, i.fas.fa-book, i.fas.fa-envelope, i.fas.fa-lock, i.fas.fa-user, i.fas.fa-layer-group  { padding-right: 10px; }
+i.fas.fa-home, i.far.fa-folder-open, i.fas.fa-users, i.fas.fa-bed, i.fas.fa-tablet-alt, i.fas.fa-book, i.fas.fa-envelope, i.fas.fa-lock, i.fas.fa-user, i.fas.fa-layer-group, i.fas.fa-power-off { padding-right: 10px; }
 
 i.fas.fa-home:hover, i.far.fa-folder-open:hover, i.fas.fa-users:hover, i.fas.fa-bed:hover, i.fas.fa-tablet-alt:hover, i.fas.fa-book:hover, i.fas.fa-envelope:hover, i.fas.fa-lock:hover {color: #5b7898; }
 

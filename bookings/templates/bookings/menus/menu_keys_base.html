@@ -12,7 +12,7 @@
             data-project_uuid="{{project_uuid}}" data-cat_id="{{form.category}}" style="display:none"> <i class="fas fa-chevron-left"></i> </button>
     </div>
 
-    <div class="col-8 text-center pt-3"><img class="" src="{{form.logo.url}}"></div>
+    <div class="col-8 text-center pt-3">{%if form.logo%}<img class="" src="{{form.logo.url}}">{%endif%}</div>
 
     <div class="col-12 text-center separator mt-3" style="padding:0;"><img class="" src="/static/img/bg-separator.jpg"></div>
 
