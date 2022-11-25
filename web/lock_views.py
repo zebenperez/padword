@@ -64,6 +64,8 @@ def get_lock_items(request, project_uuid):
     #return Lock.objects.filter(**kwargs) if len(kwargs) > 0 else Lock.objects.all()
 
 def get_context(request, project_uuid):
+    print("--1--")
+    print(project_uuid)
     context = {}
     now = datetime.datetime.now()
     context["items"] = get_lock_items(request, project_uuid)
