@@ -78,7 +78,7 @@ def lock_group_save(request):
                 obj.project_uuid = project_uuid
                 obj.save()
                 remote_id = obj.create_lock_group()
-                if not "Error" in remote_id:
+                if not "Error" in str(remote_id):
                     obj.remote_id = remote_id
             obj.save()
         context = get_context(request, project)
@@ -122,13 +122,14 @@ def lock_group_remove(request):
 def lock_group_remove_by_id(request):
     try:
         group_id = get_param(request.GET, "group_id")
-        err = json.load(LockGroup.delete_group_by_id(group_id))
-        msg = err["errmsg"] if err["errcode"] != 0 else ""
+        project = get_or_none(Project, request.GET["project_uuid"], "uuid")
+        err = json.load(LockGroup.delete_group_by_id(group_id, project))
+        msg = err["errmsg"] if int(err["errcode"]) != 0 else ""
     except Exception as e:
         print(e)
         msg = e
 
-    context = get_context(request)
+    context = get_context(request, project)
     context["msg"] = msg
     return render (request, "web/locks-groups/lock-group-list.html", context)
 

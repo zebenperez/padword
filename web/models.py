@@ -647,8 +647,8 @@ class LockGroup(models.Model):
         return result
 
     @staticmethod
-    def delete_group_by_id(group_id):
-        obj = ShLock(self.project.lock_access_token)
+    def delete_group_by_id(group_id, project):
+        obj = ShLock(project.lock_access_token)
         return obj.delete_group(group_id)
 
     class Meta:

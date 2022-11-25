@@ -18,7 +18,8 @@
                     <a class="btn btn-sm ark" data-url="{% url "lock-group-add" %}" data-target="lock-group-list" data-obj_id="{{item.groupId}}" 
                         data-project_uuid="{{project.uuid}}" data-name="{{item.groupName}}"> <i class="fas fa-plus"></i></a>  
                     <a class="btn btn-sm ark" data-url="{% url "lock-group-remove-by-id" %}" data-group_id="{{item.groupId}}" 
-                        data-confirm="{%trans "Are you sure to remove this element?"%}" data-target="lock-group-list"><i class="fas fa-trash"></i></a>
+                        data-project_uuid="{{project.uuid}}" data-confirm="{%trans "Are you sure to remove this element?"%}" 
+                        data-target="lock-group-list"><i class="fas fa-trash"></i></a>
                 </td>
             </tr>
         {% endfor %}
