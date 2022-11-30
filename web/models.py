@@ -33,6 +33,7 @@ class Project(models.Model):
     currency = models.CharField(max_length=255, verbose_name='Moneda', default="EUR", blank=True)
     radius = models.IntegerField(verbose_name = 'Radio (Km)', default=100)
     active = models.IntegerField(verbose_name = 'Active', default=1)
+    time_zone = models.IntegerField(verbose_name = 'Time zone', default=0)
     created_at = models.DateTimeField(verbose_name='Created at', default=datetime.datetime.now)
 
     company = models.ForeignKey(Company, verbose_name = 'Company', on_delete=models.SET_NULL, null=True)

@@ -12,6 +12,7 @@
     <thead> <tr class="small small"> 
             <th> {% trans 'Name' %} </th> 
             <th> {% trans 'Network name' %} </th> 
+            <th> {% trans 'MAC' %} </th> 
             <th> {% trans 'Version' %} </th> 
             <th> {% trans 'Connected locks' %} </th> 
             <th> {% trans 'Is online' %} </th> 
@@ -21,6 +22,7 @@
             <tr class="small">
                 <td><span id="gt-name-{{item.gatewayId}}"></span></td>
                 <td>{{ item.networkName }}</td>
+                <td>{{ item.gatewayMac }}</td>
                 <td>{{ item.gatewayVersion }}</td>
                 {#<td>{{ item.lockNum }}</td>#}
                 <td>Total: {{ item.lockNum }}<br/><br/>{% get_locks_by_gateway project item.gatewayId %}</td>

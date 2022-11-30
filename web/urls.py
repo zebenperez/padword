@@ -72,7 +72,7 @@ urlpatterns = [
     path('rooms/', room_views.rooms, name='rooms'),
     #path('rooms/search/', room_views.room_search, name='room-search'),
     #path('rooms/floors/', room_views.room_floors, name='room-floors'),
-    path('rooms/list/', room_views.room_list, name='room-list'),
+    path('rooms/list/', room_views.room_list, name='room-status-list'),
     path('rooms/form/', room_views.room_form, name='room-form'),
     path('rooms/remove/', room_views.room_remove, name='room-remove'),
     path('rooms/search/', room_views.rooms_search, name='rooms-search'),
@@ -86,7 +86,7 @@ urlpatterns = [
     path('rooms/lock-remove-code/', room_views.room_lock_remove_code, name='room-lock-remove-code'),
     path('rooms/lock-add-ekey/', room_views.room_lock_add_ekey, name='room-lock-add-ekey'),
     path('rooms/lock-remove-ekey/', room_views.room_lock_remove_ekey, name='room-lock-remove-ekey'),
-    path('ekey-url/<slug:token>//', room_views.ekey_url, name='ekey-url'),
+    path('ekey-url/<slug:token>/', room_views.ekey_url, name='ekey-url'),
     #--------------------- Rooms by projects --------------------
     path('rooms/by-project/', room_views.rooms_by_project, name='rooms-by-project'),
     path('rooms/list/by-project/', room_views.room_list_by_project, name='room-list-by-project'),

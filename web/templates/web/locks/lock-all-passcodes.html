@@ -35,5 +35,5 @@
 
 <div class="d-flex justify-content-end p-2">
 	<button type="button" class="btn btn-primary ark m-2" data-bs-dismiss="modal"
-	    data-url="{% url "lock-search" %}" data-target="lock-list">{% trans "Close" %}</button>
+	    data-url="{% url "lock-search" %}" data-target="lock-list" data-project_uuid="{{obj.project_uuid}}">{% trans "Close" %}</button>
 </div>

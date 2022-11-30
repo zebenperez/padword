@@ -6,14 +6,14 @@
 <span id="div-notification"></span><br/>
 
 <div class="row justify-center">
-	<div class="col-md-4 col-12">
+	<div class="col-md-3 col-12">
         <label class="label">{% trans "Name" %}:</label>
 		<input type="text" class="form-control autosave input mb-4" id="name" name="name" value="{{obj.name}}" title="{{obj.name}}" 
 			data-model-name="web.project" data-obj-id="{{obj.id}}" data-url="{% url "autosave_field" %}" data-target="div-notification"/>
 			<span id="name__msg"></span>
 	</div>
 
-	<div class="col-md-4 col-12">
+	<div class="col-md-3 col-12">
         <label class="label">{% trans "Company" %}:</label>
 		<select class="form-control autosave input mb-4" id="company" name="company" value="{{obj.company.id}}" title="{{obj.company.name}}" 
 			data-model-name="web.project" data-obj-id="{{obj.id}}" data-url="{% url "autosave_field" %}" data-target="div-notification"/>
@@ -41,6 +41,14 @@
 		    <option value="0" {%if obj.active == 0%}selected{%endif%}>{% trans "No" %}</option>
 		</select>
 		<span id="active__msg"></span>
+	</div>
+
+	<div class="col-md-2 col-12">
+		<label class="label">{% trans "Time zone" %}:</label>
+
+		<input type="text" class="form-control autosave input mb-4" id="time_zone" name="time_zone" value="{{obj.time_zone}}" 
+            title="{{obj.time_zone}}" data-model-name="web.project" data-obj-id="{{obj.id}}" data-url="{% url "autosave_field" %}"
+            data-target="div-notification"/> <span id="time_zone__msg"></span>
 	</div>
 </div>
 
