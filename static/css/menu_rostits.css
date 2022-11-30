@@ -203,6 +203,7 @@ img.object-fit_cover.img-new {
 
 .separator img {
     height: 12px;
+    display: none;
 }
 
 .row.div-slogan {
@@ -379,12 +380,16 @@ a.collapsible-header.waves-effect.btn-large-2 {
 button.menu-options { 
     background: none;
    	border:0;
-    color: #b0aba7 !important;
+    color: #333333 !important;
     font-size: 0.7rem !important;
     font-weight: 600;
 	height: 60px;
     line-height:1.5;
     text-transform: uppercase !important;
+}
+
+.nav-link {
+    padding: 0 !important;
 }
 
 .menu-botton {
@@ -431,7 +436,7 @@ i.fas.fa-home {
 *****************************************/
 
 i.fas.fa-bars {
-    color: #b0aba7;
+    color: #ffffff;
 }
 
 ul.dropdown-menu {

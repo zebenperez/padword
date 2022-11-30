@@ -364,7 +364,7 @@ a.collapsible-header.waves-effect.btn-large-2 {
 button.menu-options { 
     background: none;
    	border:0;
-    color: #b0aba7 !important;
+    /*color: #00524d !important;*/
     font-size: 0.7rem !important;
     font-weight: 600;
 	height: 60px;
@@ -416,7 +416,8 @@ i.fas.fa-home {
 *****************************************/
 
 i.fas.fa-bars {
-    color: #b0aba7;
+    color: #ffffff;
+    margin-top: 12px !important;
 }
 
 ul.dropdown-menu {

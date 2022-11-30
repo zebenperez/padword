@@ -201,10 +201,24 @@ img.object-fit_cover.img-new {
     width: 100% !important;
     height: 70px !important;
     z-index: 1; */
-    display: none;
+ /*   display: none;*/
+    margin-top: -10px !important;
+    height: 0px !important;
 }
 .topbar img {
-    height: auto;
+/*    height: auto;*/
+    display: none;
+}
+
+li.nav-item.dropdown {
+    position:absolute !important; 
+    z-index:1000000 !important;
+}
+
+
+.ul#menu-box {
+    border:1px solid red;
+    margin-top: 0px !important;
 }
 
 .row.div-slogan {
@@ -213,7 +227,8 @@ img.object-fit_cover.img-new {
     background-position: bottom !important;
     padding:0px !important;
     height: 305px;
-    color: #fff;
+/*    color: #fff;*/
+    color: transparent !important;
 }
 
 .slogan-iberica-beds {
@@ -223,6 +238,10 @@ img.object-fit_cover.img-new {
 }
 .slogan-iberica-beds img { height: 50px; }
 .slogan-iberica-beds .text { margin-top:35px !important; }
+
+.separator {
+    display: none !important;
+}
 
 .div-key {
     background-color: #2e2e2e;
@@ -369,7 +388,7 @@ a.collapsible-header.waves-effect.btn-large-2 {
 button.menu-options { 
     background: none;
    	border:0;
-    color: #b0aba7 !important;
+    color: #333333 !important;
     font-size: 0.7rem !important;
     font-weight: 600;
 	height: 60px;
@@ -421,7 +440,7 @@ i.fas.fa-home {
 *****************************************/
 
 i.fas.fa-bars {
-    color: #b0aba7;
+    color: #ffffff;
 }
 
 ul.dropdown-menu {

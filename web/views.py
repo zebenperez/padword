@@ -112,8 +112,7 @@ def project_search(request):
 @group_required("admins")
 def project_form(request):
     try:
-        print(request.GET)
-        obj = get_or_none(Project, request.GET["obj_id"]) if "obj_id" in request.GET else Project.objects.create(company=Company.objects.filter(active=1).first(), uuid = new_ui_slug(Project))
+        obj = get_or_none(Project, request.GET["obj_id"]) if "obj_id" in request.GET else Project.objects.create(company=Company.objects.filter(active=1).first(), uuid = new_ui_slug(Project), time_zone=0)
 
         company_id = get_param(request.GET, "company_id")
         if company_id != "":

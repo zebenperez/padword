@@ -7,6 +7,7 @@ from .custom_auth import CustomAuthToken
 router = routers.DefaultRouter()
 router.register(r'guest', views.GuestViewSet)
 router.register(r'locks', views.LockViewSet)
+router.register(r'rooms', views.RoomViewSet)
 
 # Wire up our API using automatic URL routing.
 # Additionally, we include login URLs for the browsable API.

@@ -3,11 +3,10 @@ from rest_framework.decorators import action
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 
-from .guest_serializers import GuestSerializer
-from .lock_serializers import LockSerializer
+from .models_serializers import GuestSerializer, LockSerializer, RoomSerializer
 
 from guest.models import Guest
-from web.models import ProjectUser, Lock
+from web.models import ProjectUser, Lock, Room
 from padword.commons import new_ui_slug, reverse_cardkey 
 
 from datetime import datetime
@@ -227,6 +226,24 @@ class LockViewSet(viewsets.ModelViewSet):
             return Response({"error": True})
 
     @action(detail=False, methods=['post'])
+    def change_passcode(self, request):
+        try:
+            lock_uuid = request.POST["uuid"]
+            code_id = request.POST["code_id"]
+            code = request.POST["code"]
+            start_date = datetime.strptime(request.POST.get('start_date', ""), "%Y-%m-%d %H:%M")
+            end_date = datetime.strptime(request.POST.get('end_date', ""), "%Y-%m-%d %H:%M")
+            lock = Lock.objects.get(uuid=lock_uuid)
+            err = lock.change_code(code_id, code, start_date, end_date)
+            if "Error" in str(err):
+                return Response({"error": True, "msg": str(err)})
+            else:
+                return Response({"error": False, "msg": "Code changed successfully!"}, status=status.HTTP_200_OK)
+        except Exception as e:
+            logger.error("(add_passcode): %s" % e)
+            return Response({"error": True})
+
+    @action(detail=False, methods=['post'])
     def remove_passcode(self, request):
         try:
             lock_uuid = request.POST["uuid"]
@@ -287,5 +304,63 @@ class LockViewSet(viewsets.ModelViewSet):
         except Exception as e:
             logger.error("(remove_cardcode): %s" % e)
             return Response({"error": True})
+
+    @action(detail=False, methods=['post'])
+    def change_period_card(self, request):
+        try:
+            lock_uuid = request.POST["uuid"]
+            code_id = request.POST["code_id"]
+            start_date = datetime.strptime(request.POST.get('start_date', ""), "%Y-%m-%d %H:%M")
+            end_date = datetime.strptime(request.POST.get('end_date', ""), "%Y-%m-%d %H:%M")
+            lock = Lock.objects.get(uuid=lock_uuid)
+            err = lock.change_period_card(code_id, start_date, end_date)
+            if "Error" in str(err):
+                return Response({"error": True, "msg": str(err)})
+            else:
+                return Response({"error": False, "msg": "Card added successfully!"}, status=status.HTTP_200_OK)
+        except Exception as e:
+            logger.error("(add_cardcode): %s" % e)
+            return Response({"error": True})
+
+
+class RoomViewSet(viewsets.ModelViewSet):
+    """
+    API endpoint that allows users to be viewed or edited.
+    """
+    queryset = Room.objects.none()
+    serializer_class = RoomSerializer
+    permission_classes = [IsAuthenticated,]
+
+    def serialize_guest(self, item):
+        if item != None:
+            return Response(RoomSerializer(item, many=False).data)
+        return Response({"error": True})
+
+    def get_queryset(self):
+        try:
+            pu = ProjectUser.objects.get(username=self.request.user.username)
+            return Room.objects.filter(project_uuid=pu.project_uuid)
+        except:
+            return Room.objects.none()
+
+    def create(self, request):
+        response = {'message': 'Create function is not offered in this path.'}
+        return Response(response, status=status.HTTP_403_FORBIDDEN)
+
+    def retrieve(self, request, pk=None):
+        response = {'message': 'Retrieve function is not offered in this path.'}
+        return Response(response, status=status.HTTP_403_FORBIDDEN)
+
+    def destroy(self, request, pk=None):
+        response = {'message': 'Destroy function is not offered in this path.'}
+        return Response(response, status=status.HTTP_403_FORBIDDEN)
+
+    def update(self, request, pk=None):
+        response = {'message': 'Update function is not offered in this path.'}
+        return Response(response, status=status.HTTP_403_FORBIDDEN)
+
+    def partial_update(self, request, pk=None):
+        response = {'message': 'Update function is not offered in this path.'}
+        return Response(response, status=status.HTTP_403_FORBIDDEN)
 
 

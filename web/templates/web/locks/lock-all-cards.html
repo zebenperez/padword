@@ -10,7 +10,7 @@
     <tbody>
         {% for item in obj.get_all_cards %}
             <tr id="tr-{{item.id}}">
-                <td> {{item.cardNumber}} </td> 
+                <td> {{item.cardNumber}} ({{item.cardId}})</td> 
                 <td> {{item.startDate|str_to_date}} </td> 
                 <td> {{item.endDate|str_to_date}} </td> 
                 <td> {{obj|get_card_guest:item.cardNumber}} </td> 
@@ -26,5 +26,5 @@
 
 <div class="d-flex justify-content-end p-2">
 	<button type="button" class="btn btn-primary ark m-2" data-bs-dismiss="modal"
-	    data-url="{% url "lock-search" %}" data-target="lock-list">{% trans "Close" %}</button>
+	    data-url="{% url "lock-search" %}" data-target="lock-list" data-project_uuid="{{obj.project_uuid}}">{% trans "Close" %}</button>
 </div>

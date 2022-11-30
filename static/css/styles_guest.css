@@ -46,6 +46,32 @@ img {
     max-height: 100px;
     object-fit: cover;
 }
+
+ul#menu-box {
+    background-color: #ffffff;
+    margin-top: 25px !important;
+    border-radius: 0;
+    box-shadow: 0 2px 6px rgb(0 0 0 / 18%), inset 0 2px 6px rgb(0 0 0 / 18%);
+    width: 50%;
+    position: fixed;
+    right: 0;
+    padding:0;
+    z-index:1000000;
+}
+ul#menu-box li {
+    list-style: none;
+    font-size: 0.8em !important;
+    line-height: 2.5;
+    border-bottom: 1px solid #dfdfdf;
+    text-align: left;
+    padding-left: 15px;
+}
+
+button.menu-options.gral {
+    text-transform: capitalize !important;
+    color: #333;
+}
+
 button.btn.btn-header-pwa.ark, a.btn.btn-header-pwa.ark { margin-top: 15px;}
 button.btn.btn-header-pwa.ark span, span.subtext  { 
     color: #3c385c !important;

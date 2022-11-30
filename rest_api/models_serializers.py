@@ -1,5 +1,6 @@
 from rest_framework import serializers
 from guest.models import Guest
+from web.models import Lock, Room
 
 
 #class ActivitySerializer(serializers.ModelSerializer):
@@ -46,4 +47,12 @@ class GuestSerializer(serializers.HyperlinkedModelSerializer):
         model = Guest
         fields = ['UUID', 'name', 'surname', 'language', 'mobile', 'email', 'check_in', 'check_out', 'room']
 
+class LockSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = Lock
+        fields = ['uuid', 'alias', 'room']
 
+class RoomSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = Room
+        fields = ['uuid', 'alias', 'number', 'order']
