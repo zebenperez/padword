@@ -21,7 +21,7 @@ def get_wifi_icon(gateways):
 @register.inclusion_tag('web/gateways/lock-list.html')
 def get_locks_by_gateway(project, gateway_id):
     lock_list = project.gateway_lock_list(gateway_id)
-    lock = Lock.objects.filter(uuid=lock_list[0]["lockId"]).first()
+    lock = Lock.objects.filter(uuid=lock_list[0]["lockId"]).first() if len(lock_list) > 0 else None
     gateway_name = lock.get_gateway_name_by_id(gateway_id) if lock != None else "Not found!"
     return {'lock_list': lock_list, 'gateway_id': gateway_id, 'gateway_name': gateway_name}
 
