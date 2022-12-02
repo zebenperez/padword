@@ -220,7 +220,6 @@ def room_lock_add_ekey(request):
         end_date = get_date(request.POST, "end_date", "end_time", timedelta(days=7))
         permanent = get_param(request.POST, "permanent")
 
-        lockEkey = LockEkey.objects.create(token=get_random_str(8), username=username, key_name=key_name, ini_date=ini_date, end_date=end_date, lock_uuid=lock.uuid)
 
         msg = ""
         if username != "" and key_name != "":
@@ -231,8 +230,7 @@ def room_lock_add_ekey(request):
             if "Error" in str(errcode):
                 msg = errcode  
             else:
-                lockEkey.ekey_id = str(errcode)
-                lockEkey.save()
+                lockEkey = LockEkey.objects.create(token=get_random_str(8), username=username, key_name=key_name, ini_date=ini_date, end_date=end_date, lock_uuid=lock.uuid, ekey_id = str(errcode))
         else:
             msg = _("ERROR: Code must not to be empty!")
         return render(request, "web/rooms/lock-details-ekeys.html", {"obj": lock, "msg": msg})
@@ -244,6 +242,7 @@ def room_lock_add_ekey(request):
 def room_lock_remove_ekey(request):
     try:
         lockEkey = get_or_none(LockEkey, request.GET["obj_id"])
+        lock = lockEkey.lock
 
         errcode = lockEkey.lock.remove_ekey(lockEkey.ekey_id)
         msg = errcode if "Error" in str(errcode) else ""

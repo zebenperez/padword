@@ -53,6 +53,10 @@
                 <li class="nav-item"><a class="nav-link " href="{% url 'rooms-by-project' %}">
                     <i class="fas fa-bed"></i>  {% trans "Rooms" %}</a> </li>
             {% endif %}
+            {% if user_project|have_menu:"locks" %}
+                <li class="nav-item"><a class="nav-link " href="{% url 'locks-by-project2' %}">
+                    <i class="fas fa-key"></i>  {% trans "Locks" %}</a> </li>
+            {% endif %}
         {% endwith %}
     {% elif menu == "clients" %}
     {% elif menu == "categories" %}

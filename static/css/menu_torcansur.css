@@ -202,7 +202,9 @@ img.object-fit_cover.img-new {
     height: 120px;
 }
 
-.separator img {
+.separator {
+   background-image: url(/static/img/bg-separator.jpg) !important;
+    background-position: center;
     height: 12px;
 }
 
@@ -217,7 +219,7 @@ img.object-fit_cover.img-new {
     color: #fff;
 }
 
-.slogan-torcansur {
+.slogan-torcansur, .slogan-.text-center {
     background-color: #fff;
     color: #1c5ca3;
     font-size: 1.5rem;
@@ -386,7 +388,7 @@ a.collapsible-header.waves-effect.btn-large-2 {
 button.menu-options { 
     background: none;
    	border:0;
-    color: #b0aba7 !important;
+    color: #333333 !important;
     font-size: 0.7rem !important;
     font-weight: 600;
 	height: 60px;

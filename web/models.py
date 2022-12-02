@@ -434,7 +434,10 @@ class Lock(models.Model):
 
     def set_group(self):
         obj = ShLock(self.project.lock_access_token)
-        return obj.set_lock_group(self.uuid, self.group.remote_id)
+        if self.group != None:
+            return obj.set_lock_group(self.uuid, self.group.remote_id)
+        else:
+            return obj.set_lock_group(self.uuid, "")
 
     def add_ekey(self, username, key_name, start_date, end_date):
         obj = ShLock(self.project.lock_access_token)

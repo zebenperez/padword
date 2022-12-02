@@ -51,6 +51,14 @@ urlpatterns = [
     path('locks/share-code/', lock_views.lock_share_code, name='lock-share-code'),
     path('locks/share-code-guest/', lock_views.lock_share_code_guest, name='lock-share-code-guest'),
     path('locks/update-params/', lock_views.lock_update_params, name='lock-update-params'),
+    path('locks/set-group/', lock_views.lock_set_group, name='lock-set-group'),
+
+    path('locks/by-project/', lock_views.locks_by_project2, name='locks-by-project2'),
+    path('locks/search/by-project/', lock_views.lock_search_by_project, name='lock-search-by-project'),
+    path('locks/update-params/by-project/', lock_views.lock_update_params_by_project, name='lock-update-params-by-project'),
+    path('locks/get-all-passcodes/by-project/', lock_views.lock_get_all_passcodes_by_project, name='lock-get-all-passcodes-by-project'),
+    path('locks/get-all-cards/by-project/', lock_views.lock_get_all_cards_by_project, name='lock-get-all-cards-by-project'),
+    path('locks/set-action/by-project/', lock_views.lock_set_action_by_project, name='lock-set-action-by-project'),
     #--------------------- LocksUsers --------------------
     path('locks-users/', lock_user_views.locks_users, name='locks-users'),
     path('locks-users/search/', lock_user_views.lock_user_search, name='lock-user-search'),

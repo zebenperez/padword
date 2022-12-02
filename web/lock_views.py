@@ -63,11 +63,13 @@ def get_lock_items(request, project_uuid):
 
     #return Lock.objects.filter(**kwargs) if len(kwargs) > 0 else Lock.objects.all()
 
-def get_context(request, project_uuid):
+#def get_context(request, project_uuid):
+def get_context(request, project):
     context = {}
     now = datetime.datetime.now()
-    context["items"] = get_lock_items(request, project_uuid)
-    context["lock_group_list"] = LockGroup.objects.filter(project_uuid=project_uuid)
+    context["project"] = project
+    context["items"] = get_lock_items(request, project.uuid)
+    context["lock_group_list"] = LockGroup.objects.filter(project_uuid=project.uuid)
     context["ini_date"] = now
     context["end_date"] = now + datetime.timedelta(days=7)
     return context
@@ -84,7 +86,7 @@ def locks_by_project(request, project_id):
         msg = e
  
     try:
-        context = get_context(request, project.uuid)
+        context = get_context(request, project)
         context["project"] = project
         context["msg"] = msg
         return render (request, "web/locks/locks.html", context)
@@ -97,8 +99,9 @@ def lock_search(request):
         #set_lock_filter_session(request)
         #set_session(request, "lock_search_project")
         project_uuid = get_param(request.GET, "project_uuid")
+        project = get_or_none(Project, project_uuid, "uuid")
         set_session(request, "lock_search_alias")
-        context = get_context(request, project_uuid)
+        context = get_context(request, project)
         return render(request, "web/locks/lock-list.html", context)
     except Exception as e:
         return render(request, 'error_exception.html', {'exc':show_exc(e)})
@@ -114,10 +117,10 @@ def lock_form(request):
 def lock_remove(request):
     obj = get_or_none(Lock, request.GET["obj_id"]) if "obj_id" in request.GET else None
     if obj != None:
-        project_uuid = obj.project_uuid
+        project = obj.project
         #obj.delete()
         remove_lock(obj)
-    context = get_context(request, project_uuid)
+    context = get_context(request, project)
     return render (request, "web/locks/lock-list.html", context)
 
 @group_required("admins")
@@ -127,7 +130,7 @@ def lock_get_all_passcodes(request, obj_id=None):
         return render(request, 'error_exception.html', {'exc':'Lock not found!'})
     return render(request, "web/locks/lock-all-passcodes.html", {'obj': obj,})
 
-@group_required("admins")
+@group_required("admins", "projects")
 def lock_remove_code(request):
     try:
         lock = get_or_none(Lock, request.GET["obj_id"])
@@ -149,7 +152,7 @@ def lock_get_all_cards(request, obj_id=None):
         return render(request, 'error_exception.html', {'exc':'Lock not found!'})
     return render(request, "web/locks/lock-all-cards.html", {'obj': obj,})
 
-@group_required("admins")
+@group_required("admins", "projects")
 def lock_remove_card(request):
     try:
         lock = get_or_none(Lock, request.GET["obj_id"])
@@ -169,6 +172,7 @@ def lock_set_action(request):
         errcode = ""
 
         project_uuid = get_param(request.POST, "project_uuid")
+        project = get_or_none(Project, project_uuid, "uuid")
         action = get_param(request.POST, "action")
 
         value = get_param(request.POST, "value")
@@ -189,25 +193,27 @@ def lock_set_action(request):
                     if action == "1":
                         lock.group_uuid = lock_group_uuid
                         lock.save()
+                        lock.set_group()
                     if action == "2":
                         if permanent == "":
                             errcode = lock.add_card(code, ini_date, end_date)
                         elif permanent != "":
-                            errcode = lock.add_card(code, ini_date, datetime(2099, 12, 31))
+                            errcode = lock.add_card(code, ini_date, datetime.datetime(2099, 12, 31))
                     if action == "3":
                         #if permanent == "" and one == "":
                         if permanent == "":
                             errcode = lock.set_code(code, ini_date, end_date)
                         elif permanent != "":
-                            errcode = lock.set_code(code, ini_date, datetime(2099, 12, 31))
+                            errcode = lock.set_code(code, ini_date, datetime.datetime(2099, 12, 31))
                         #elif one != "":
                         #    errcode = lock.get_code(1, ini_date, end_date)
                     msg = errcode if "Error" in str(errcode) else ""
                  
-        context = get_context(request, project_uuid)
+        context = get_context(request, project)
         context["msg"] = msg
         return render(request, "web/locks/lock-list.html", context)
     except Exception as e:
+        print(e)
         return render(request, 'error_exception.html', {'exc':show_exc(e)})
 
 @group_required("admins", "projects")
@@ -237,12 +243,110 @@ def lock_share_code_guest(request):
     except Exception as e:
         return render(request, "error_exception.html", {'exc':show_exc(e)})
 
-@group_required("admins", "projects")
+@group_required("admins")
 def lock_update_params(request):
     lock = get_or_none(Lock, request.GET["obj_id"])
     lock.update_params()
     return render(request, "web/locks/lock-list-row.html", {"item": lock})
 
+@group_required("admins")
+def lock_set_group(request):
+    try:
+        value = request.GET["value"]
+        lock = get_or_none(Lock, request.GET["obj_id"])
+        lock.group_uuid = value
+        lock.save()
+        lock.set_group()
+        return HttpResponse(_("Saved!"))
+    except Exception as e:
+        return HttpResponse("Error: {}".format(e))
+
+
+'''
+    Locks for "projects" users
+'''
+@group_required("projects")
+def locks_by_project2(request):
+    try:
+        project = get_or_none(Project, request.project_id)
+        context = get_context(request, project)
+        context["project"] = project
+        return render(request, "web/locks-by-project/locks.html", context)
+    except Exception as e:
+        return render(request, "error_exception.html", {'exc':show_exc(e)})
+
+@group_required("projects")
+def lock_search_by_project(request):
+    try:
+        project = get_or_none(Project, request.project_id)
+        set_session(request, "lock_search_alias")
+        context = get_context(request, project)
+        return render(request, "web/locks-by-project/lock-list.html", context)
+    except Exception as e:
+        print(e)
+        return render(request, 'error_exception.html', {'exc':show_exc(e)})
+
+
+@group_required("projects")
+def lock_update_params_by_project(request):
+    lock = get_or_none(Lock, request.GET["obj_id"])
+    lock.update_params()
+    return render(request, "web/locks-by-project/lock-list-row.html", {"item": lock})
+
+@group_required("projects")
+def lock_get_all_passcodes_by_project(request):
+    obj = get_or_none(Lock, request.GET["obj_id"]) if "obj_id" in request.GET else None
+    if obj == None:
+        return render(request, 'error_exception.html', {'exc':'Lock not found!'})
+    return render(request, "web/locks-by-project/lock-all-passcodes.html", {'obj': obj,})
+
+@group_required("projects")
+def lock_get_all_cards_by_project(request, obj_id=None):
+    obj = get_or_none(Lock, request.GET["obj_id"]) if "obj_id" in request.GET else None
+    if obj == None:
+        return render(request, 'error_exception.html', {'exc':'Lock not found!'})
+    return render(request, "web/locks-by-project/lock-all-cards.html", {'obj': obj,})
+
+@group_required("projects")
+def lock_set_action_by_project(request):
+    try:
+        msg = ""
+        errcode = ""
+
+        project = get_or_none(Project, request.project_id)
+        action = get_param(request.POST, "action")
+
+        value = get_param(request.POST, "value")
+
+        code = reverse_cardkey(get_param(request.POST, "code")) if action == "2" else get_param(request.POST, "code")
+        ini_date = get_param(request.POST, "ini_date", datetime.datetime.now())
+        ini_date = datetime.datetime.strptime(ini_date, "%Y-%m-%d") if isinstance(ini_date, str) else ini_date
+        end_date = get_param(request.POST, "end_date", datetime.datetime.now() + datetime.timedelta(days=7))
+        end_date = datetime.datetime.strptime(end_date, "%Y-%m-%d") if isinstance(end_date, str) else end_date
+        permanent = get_param(request.POST, "permanent")
+
+        for key in request.POST.keys():
+            if "ch_" in key:
+                lock = get_or_none(Lock, key.split("_")[1])
+                if lock != None:
+                    if action == "2":
+                        if permanent == "":
+                            errcode = lock.add_card(code, ini_date, end_date)
+                        elif permanent != "":
+                            errcode = lock.add_card(code, ini_date, datetime.datetime(2099, 12, 31))
+                    if action == "3":
+                        if permanent == "":
+                            errcode = lock.set_code(code, ini_date, end_date)
+                        elif permanent != "":
+                            errcode = lock.set_code(code, ini_date, datetime.datetime(2099, 12, 31))
+                    msg = errcode if "Error" in str(errcode) else ""
+                 
+        context = get_context(request, project)
+        context["msg"] = msg
+        return render(request, "web/locks-by-project/lock-list.html", context)
+    except Exception as e:
+        print(e)
+        return render(request, 'error_exception.html', {'exc':show_exc(e)})
 
 
 

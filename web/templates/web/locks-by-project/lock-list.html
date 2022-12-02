@@ -1,0 +1,65 @@
+{% load i18n padword_tags lock_tags %}
+
+
+{% if msg and msg != "" %} <div class="alert alert-danger">{{msg}}</div> {% endif %}
+
+<div class="d-flex menu-actions-blue" style="border:1px solid black">
+    <div class="flex-grow-1 p-2"><span class="bg-ico-bar"><i class="fas fa-lock"></i></span>&nbsp; Vista general</div>
+    <div class="action p-2">
+        <a class="toggle-btn" data-target="div-form" data-text="{% trans "Add master card" %}" data-text-alt="{% trans "Close" %}"
+            onclick="$('#action').val('2')"> <i class="fas fa-edit"></i> {% trans "Add master card" %}</a>
+    </div>
+    <div class="action p-2">
+        <a class="toggle-btn" data-target="div-form" data-text="{% trans "Add master code" %}" data-text-alt="{% trans "Close" %}"
+            onclick="$('#action').val('3')"> <i class="fas fa-edit"></i> {% trans "Add master code" %}</a>
+    </div>
+</div>
+
+<form class="form" method="POST" action="{% url "lock-set-action-by-project" %}" id="form-actions">
+    {%csrf_token%}
+    <input type="hidden" id="action" name="action" value=""/>
+
+    <div id="div-form" style="display:none"> 
+        <div class="row">
+            <div class="col-5"><input type="text" class="form-control check_one" id="code" name="code" placeholder="{%trans "Code or Card number"%}"
+                    data-ini_date="{{ini_date|date:"Y-m-d"}}" data-end_date="{{end_date|date:"Y-m-d"}}" data-type="3"/> </div>
+            <div class="col-2"> <input type="date" class="form-control check_per check_one" id="ini_date" name="ini_date" 
+                value="{{ini_date|date:"Y-m-d"}}"/> </div>
+            <div class="col-2"> <input type="date" class="form-control check_per check_one" id="end_date" name="end_date" 
+                value="{{end_date|date:"Y-m-d"}}"/> </div>
+            <div class="col-2"> <input type="checkbox" class="check_per check_one toggle-tags" id="permanent" name="permanent" 
+                data-class-name="check_per"/> {% trans "Permanent" %} </div>
+            <div class="col-1"><button class="btn saveform" data-form="form-actions" data-target="lock-list">
+                <i class="fas fa-plus"></i> {% trans "Save" %}</button> </div>
+        </div>
+    </div>
+
+    <table class="table table-striped table-hover">
+        <thead>
+            <tr class="small small">
+                <th><input type="checkbox" name="ch_0" id="check-all"/></th>
+                <th> {% trans 'UUID' %} </th>
+                <th> {% trans 'Alias' %} </th>
+                <th> {% trans 'Project' %} </th>
+                <th> {% trans 'Group' %} </th>
+                <th> {% trans 'Room' %} </th>
+                <th> {% trans 'Status' %} </th>
+                <th> {% trans 'Charge' %} </th>
+                <th> {% trans 'Gateway' %} </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in items %}
+                <tr class="small" id="row_{{item.id}}"> {% include "web/locks-by-project/lock-list-row.html" %} </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</form>
+
+<script>
+    $('#items-counter').html('{{items|length}}');
+    $('#check-all').click(function(){ $('input:checkbox').not(this).prop('checked', this.checked); });
+    $(document).ready(function(){$(window).keydown(function(event){if(event.keyCode == 13){event.preventDefault();return false;}});});
+</script>
+
