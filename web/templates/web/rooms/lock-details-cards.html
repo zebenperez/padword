@@ -6,6 +6,7 @@
     <thead>
         <tr> 
             <th>{%trans 'Code'%}</th> 
+            <th>{%trans 'Name'%}</th> 
             <th>{%trans 'Start Date'%}</th> 
             <th>{%trans 'End Date'%}</th> 
             <th>{%trans 'Guest'%}</th> 
@@ -17,6 +18,7 @@
         {% for item in obj.get_all_cards %}
             <tr>
                 <td> {{item.cardNumber}} </td> 
+                <td> {{item.cardName}} </td> 
                 <td> {{item.startDate|str_to_date}} </td> 
                 <td> {{item.endDate|str_to_date}} </td> 
                 <td> {{obj|get_card_guest:item.cardNumber}} </td> 

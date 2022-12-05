@@ -1,7 +1,7 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 from django.urls import path
-from . import views, auto_views, room_views, card_views, lock_views, lock_user_views, lock_group_views, gateway_views
+from . import views, auto_views, room_views, card_views, lock_views, lock_user_views, lock_group_views, gateway_views, ekey_views
 
 urlpatterns = [ 
     #path('index/<slug:chk>/', views.index, name='web-index-new'),
@@ -47,6 +47,7 @@ urlpatterns = [
     path('locks/remove/code/', lock_views.lock_remove_code, name='lock-remove-code'),
     path('locks/get-all-cards/', lock_views.lock_get_all_cards, name='lock-get-all-cards'),
     path('locks/remove/card/', lock_views.lock_remove_card, name='lock-remove-card'),
+    path('locks/get-all-records/', lock_views.lock_get_all_records, name='lock-get-all-records'),
     path('locks/set-action/', lock_views.lock_set_action, name='lock-set-action'),
     path('locks/share-code/', lock_views.lock_share_code, name='lock-share-code'),
     path('locks/share-code-guest/', lock_views.lock_share_code_guest, name='lock-share-code-guest'),
@@ -58,6 +59,7 @@ urlpatterns = [
     path('locks/update-params/by-project/', lock_views.lock_update_params_by_project, name='lock-update-params-by-project'),
     path('locks/get-all-passcodes/by-project/', lock_views.lock_get_all_passcodes_by_project, name='lock-get-all-passcodes-by-project'),
     path('locks/get-all-cards/by-project/', lock_views.lock_get_all_cards_by_project, name='lock-get-all-cards-by-project'),
+    path('locks/get-all-records/by-project/', lock_views.lock_get_all_records_by_project, name='lock-get-all-records-by-project'),
     path('locks/set-action/by-project/', lock_views.lock_set_action_by_project, name='lock-set-action-by-project'),
     #--------------------- LocksUsers --------------------
     path('locks-users/', lock_user_views.locks_users, name='locks-users'),
@@ -108,6 +110,9 @@ urlpatterns = [
 
     #--------------------- Gateways --------------------
     path('gateways-by-project/<int:project_id>/', gateway_views.gateways_by_project, name='gateways-by-project'),
+
+    #--------------------- eKeys --------------------
+    path('ekeys-by-project/<int:project_id>/', ekey_views.ekeys_by_project, name='ekeys-by-project'),
 
     #---------------------- E-Keys ---------------------
     #path('ekeys/', views.ekeys, name='ekeys'),

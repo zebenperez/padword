@@ -90,6 +90,11 @@ class Project(models.Model):
         obj = ShLock(self.lock_access_token)
         return obj.get_gateway_locks(gateway_id)
 
+    def ekey_list(self):
+        obj = ShLock(self.lock_access_token)
+        return obj.get_ekeys()
+
+
 class ProjectLockUser(models.Model):
     username = models.CharField(max_length=255, verbose_name=_('Lock Username'), default="")
     password = models.CharField(max_length=255, verbose_name=_('Lock Password'), default="")
@@ -413,9 +418,10 @@ class Lock(models.Model):
         obj = ShLock(self.project.lock_access_token)
         return obj.get_lock_all_passcodes(self.uuid)
 
-    def add_card(self, card_number, start_date, end_date):
+    def add_card(self, card_number, start_date, end_date, name=""):
         obj = ShLock(self.project.lock_access_token)
-        return obj.lock_add_card(self.uuid, card_number, start_date, end_date)
+        card_name = name if name != "" else self.alias
+        return obj.lock_add_card(self.uuid, card_number, card_name, start_date, end_date)
 
     def remove_card(self, code_id):
         key_card_list = self.keycards.filter(card_id=code_id)
@@ -458,6 +464,11 @@ class Lock(models.Model):
     def get_gateway_name_by_id(self, gateway_id):
         obj = ShLock(self.project.lock_access_token)
         return obj.get_gateway_name(self.uuid, gateway_id)
+
+    def get_all_records(self):
+        obj = ShLock(self.project.lock_access_token)
+        return obj.get_lock_all_records(self.uuid)
+
 
     def get_cards(self):
         url = 'https://euapi.ttlock.com/v3/identityCard/list'

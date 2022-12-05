@@ -145,6 +145,7 @@ def room_lock_add_card(request):
     try:
         lock = get_or_none(Lock, request.POST["lock_id"])
         code = reverse_cardkey(get_param(request.POST, "code"))
+        name = get_param(request.POST, "name")
         ini_date = get_date(request.POST, "ini_date", "ini_time")
         end_date = get_date(request.POST, "end_date", "end_time", timedelta(days=7))
         permanent = get_param(request.POST, "permanent")
@@ -152,9 +153,9 @@ def room_lock_add_card(request):
         msg = ""
         if code != "":
             if permanent == "":
-                errcode = lock.add_card(code, ini_date, end_date)
+                errcode = lock.add_card(code, ini_date, end_date, name)
             elif permanent != "":
-                errcode = lock.add_card(code, ini_date, datetime(2099, 12, 31))
+                errcode = lock.add_card(code, ini_date, datetime(2099, 12, 31), name)
             msg = errcode if "Error" in str(errcode) else ""
         else:
             msg = _("ERROR: Code must not to be empty!")
@@ -178,6 +179,7 @@ def room_lock_add_code(request):
     try:
         lock = get_or_none(Lock, request.POST["lock_id"])
         code = get_param(request.POST, "code")
+        name = get_param(request.POST, "name")
         ini_date = get_date(request.POST, "ini_date", "ini_time")
         end_date = get_date(request.POST, "end_date", "end_time", timedelta(days=7))
         permanent = get_param(request.POST, "permanent")
@@ -186,9 +188,9 @@ def room_lock_add_code(request):
         msg = ""
         errcode = ""
         if permanent == "" and one == "" and code != "":
-            errcode = lock.set_code(code, ini_date, end_date)
+            errcode = lock.set_code(code, ini_date, end_date, name)
         elif permanent != "" and code != "":
-            errcode = lock.set_code(code, ini_date, datetime(2099, 12, 31))
+            errcode = lock.set_code(code, ini_date, datetime(2099, 12, 31), name)
         elif permanent != "" and code == "":
             errcode = lock.get_code(2, ini_date, datetime(2099, 12, 31))
         elif one != "":

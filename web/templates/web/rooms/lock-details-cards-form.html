@@ -5,23 +5,28 @@
     {%csrf_token%}
     <input type="hidden" name="lock_id" value="{{obj.id}}"/>
     <div class="row mt-3" style="--bs-gutter-x: 0rem;">
-        <div class="col-2">
+        <div class="col-6">
             <input type="text" class="form-control check_one" id="card_code" name="code" placeholder="{%trans "Card number"%}"
                 data-ini_date="{{ini_date|date:"Y-m-d"}}" data-end_date="{{end_date|date:"Y-m-d"}}" data-type="3"/>
         </div>
+        <div class="col-6">
+            <input type="text" class="form-control check_one" id="name" name="name" placeholder="{%trans "Card name"%}"/>
+        </div>
+    </div>
+    <div class="row mt-3" style="--bs-gutter-x: 0rem;">
         <div class="col-2"> 
             <input type="date" class="form-control check_per check_one text-center" id="ini_date" name="ini_date" value="{{ini_date|date:"Y-m-d"}}"/> 
         </div>
-        <div class="col-1"> 
+        <div class="col-2"> 
             <input type="time" class="form-control check_per check_one text-center" id="ini_time" name="ini_time" value="00:00"/> 
         </div>
         <div class="col-2"> 
             <input type="date" class="form-control check_per check_one text-center" id="end_date" name="end_date" value="{{end_date|date:"Y-m-d"}}"/>
         </div>
-        <div class="col-1"> 
+        <div class="col-2"> 
             <input type="time" class="form-control check_per check_one text-center" id="end_time" name="end_time" value="23:59"/> 
         </div>
-        <div class="col-3 permanent text-center"> 
+        <div class="col-2 permanent text-center"> 
             <input type="checkbox" class="check_per check_one toggle-tags" id="permanent" name="permanent" data-class-name="check_per"/> 
                 {% trans "Permanent" %}
         </div>

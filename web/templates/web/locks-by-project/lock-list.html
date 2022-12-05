@@ -21,15 +21,18 @@
 
     <div id="div-form" style="display:none"> 
         <div class="row">
-            <div class="col-5"><input type="text" class="form-control check_one" id="code" name="code" placeholder="{%trans "Code or Card number"%}"
-                    data-ini_date="{{ini_date|date:"Y-m-d"}}" data-end_date="{{end_date|date:"Y-m-d"}}" data-type="3"/> </div>
-            <div class="col-2"> <input type="date" class="form-control check_per check_one" id="ini_date" name="ini_date" 
+            <div class="col-6"><input type="text" class="form-control check_one" id="code" name="code" placeholder="{%trans "Code or Card number"%}"
+                data-ini_date="{{ini_date|date:"Y-m-d"}}" data-end_date="{{end_date|date:"Y-m-d"}}" data-type="3"/> </div>
+            <div class="col-6"><input type="text" class="form-control check_one" id="name" name="name" placeholder="{%trans "Name"%}"/> </div>
+        </div>
+        <div class="row">
+            <div class="col-4"> <input type="date" class="form-control check_per check_one" id="ini_date" name="ini_date" 
                 value="{{ini_date|date:"Y-m-d"}}"/> </div>
-            <div class="col-2"> <input type="date" class="form-control check_per check_one" id="end_date" name="end_date" 
+            <div class="col-4"> <input type="date" class="form-control check_per check_one" id="end_date" name="end_date" 
                 value="{{end_date|date:"Y-m-d"}}"/> </div>
             <div class="col-2"> <input type="checkbox" class="check_per check_one toggle-tags" id="permanent" name="permanent" 
                 data-class-name="check_per"/> {% trans "Permanent" %} </div>
-            <div class="col-1"><button class="btn saveform" data-form="form-actions" data-target="lock-list">
+            <div class="col-2"><button class="btn saveform" data-form="form-actions" data-target="lock-list">
                 <i class="fas fa-plus"></i> {% trans "Save" %}</button> </div>
         </div>
     </div>

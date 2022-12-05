@@ -17,6 +17,8 @@
         data-obj_id="{{item.id}}"><i class="fas fa-code"></i></a>  
     <a class="me-1 btn btn-xs ark" data-url="{% url "lock-get-all-cards" %}" data-target-modal="common-modal" 
         data-obj_id="{{item.id}}"><i class="fas fa-credit-card"></i></a>  
+    <a class="me-1 btn btn-xs ark" data-url="{% url "lock-get-all-records" %}" data-target-modal="common-modal" 
+        data-obj_id="{{item.id}}"><i class="fas fa-bars"></i></a>  
     <a class="me-1 btn btn-xs ark" data-url="{% url "lock-form" %}" data-target-modal="common-modal" 
         data-obj_id="{{item.id}}"><i class="fas fa-edit"></i></a>  
     <a class="btn btn-sm autoremove" data-model-name="web.lock" data-obj-id="{{item.id}}" data-url="{% url "autoremove_obj" %}" 

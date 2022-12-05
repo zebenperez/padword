@@ -164,6 +164,13 @@ def lock_remove_card(request):
     except Exception as e:
         return render(request, "error_exception.html", {'exc':show_exc(e)})
 
+@group_required("admins")
+def lock_get_all_records(request, obj_id=None):
+    obj = get_or_none(Lock, request.GET["obj_id"]) if "obj_id" in request.GET else None
+    if obj == None:
+        return render(request, 'error_exception.html', {'exc':'Lock not found!'})
+    return render(request, "web/locks/lock-all-records.html", {'obj': obj,})
+
 
 @group_required("admins")
 def lock_set_action(request):
@@ -178,6 +185,7 @@ def lock_set_action(request):
         value = get_param(request.POST, "value")
 
         code = reverse_cardkey(get_param(request.POST, "code")) if action == "2" else get_param(request.POST, "code")
+        name = get_param(request.POST, "name")
         ini_date = get_param(request.POST, "ini_date", datetime.datetime.now())
         ini_date = datetime.datetime.strptime(ini_date, "%Y-%m-%d") if isinstance(ini_date, str) else ini_date
         end_date = get_param(request.POST, "end_date", datetime.datetime.now() + datetime.timedelta(days=7))
@@ -196,15 +204,15 @@ def lock_set_action(request):
                         lock.set_group()
                     if action == "2":
                         if permanent == "":
-                            errcode = lock.add_card(code, ini_date, end_date)
+                            errcode = lock.add_card(code, ini_date, end_date, name)
                         elif permanent != "":
-                            errcode = lock.add_card(code, ini_date, datetime.datetime(2099, 12, 31))
+                            errcode = lock.add_card(code, ini_date, datetime.datetime(2099, 12, 31), name)
                     if action == "3":
                         #if permanent == "" and one == "":
                         if permanent == "":
-                            errcode = lock.set_code(code, ini_date, end_date)
+                            errcode = lock.set_code(code, ini_date, end_date, name)
                         elif permanent != "":
-                            errcode = lock.set_code(code, ini_date, datetime.datetime(2099, 12, 31))
+                            errcode = lock.set_code(code, ini_date, datetime.datetime(2099, 12, 31), name)
                         #elif one != "":
                         #    errcode = lock.get_code(1, ini_date, end_date)
                     msg = errcode if "Error" in str(errcode) else ""
@@ -308,6 +316,13 @@ def lock_get_all_cards_by_project(request, obj_id=None):
     return render(request, "web/locks-by-project/lock-all-cards.html", {'obj': obj,})
 
 @group_required("projects")
+def lock_get_all_records_by_project(request, obj_id=None):
+    obj = get_or_none(Lock, request.GET["obj_id"]) if "obj_id" in request.GET else None
+    if obj == None:
+        return render(request, 'error_exception.html', {'exc':'Lock not found!'})
+    return render(request, "web/locks-by-project/lock-all-records.html", {'obj': obj,})
+
+@group_required("projects")
 def lock_set_action_by_project(request):
     try:
         msg = ""
@@ -319,6 +334,7 @@ def lock_set_action_by_project(request):
         value = get_param(request.POST, "value")
 
         code = reverse_cardkey(get_param(request.POST, "code")) if action == "2" else get_param(request.POST, "code")
+        name = get_param(request.POST, "name")
         ini_date = get_param(request.POST, "ini_date", datetime.datetime.now())
         ini_date = datetime.datetime.strptime(ini_date, "%Y-%m-%d") if isinstance(ini_date, str) else ini_date
         end_date = get_param(request.POST, "end_date", datetime.datetime.now() + datetime.timedelta(days=7))
@@ -331,14 +347,14 @@ def lock_set_action_by_project(request):
                 if lock != None:
                     if action == "2":
                         if permanent == "":
-                            errcode = lock.add_card(code, ini_date, end_date)
+                            errcode = lock.add_card(code, ini_date, end_date, name)
                         elif permanent != "":
-                            errcode = lock.add_card(code, ini_date, datetime.datetime(2099, 12, 31))
+                            errcode = lock.add_card(code, ini_date, datetime.datetime(2099, 12, 31), name)
                     if action == "3":
                         if permanent == "":
-                            errcode = lock.set_code(code, ini_date, end_date)
+                            errcode = lock.set_code(code, ini_date, end_date, name)
                         elif permanent != "":
-                            errcode = lock.set_code(code, ini_date, datetime.datetime(2099, 12, 31))
+                            errcode = lock.set_code(code, ini_date, datetime.datetime(2099, 12, 31), name)
                     msg = errcode if "Error" in str(errcode) else ""
                  
         context = get_context(request, project)

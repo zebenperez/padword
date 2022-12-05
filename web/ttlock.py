@@ -354,7 +354,7 @@ class TTLock():
         for records in _response.get(LIST_FIELD):
             yield records
 
-    def lock_add_card(self, lockId=None, cardNumber="", startDate=0, endDate=0):
+    def lock_add_card(self, lockId=None, cardNumber="", cardName="", startDate=0, endDate=0):
         if not lockId:
             raise TTlockAPIError()
 
@@ -365,6 +365,7 @@ class TTLock():
             self.accessToken,
             lockId,
             cardNumber,
+            cardName,
             get_date(startDate),
             get_date(endDate),
             TTLock.__get_current_millis__(),
@@ -558,5 +559,19 @@ class TTLock():
             TTLock.__get_current_millis__(),
         )
         return TTLock.__send_request__(_url_request).json().get(ERROR_CODE_FIELD)
+
+    def lock_get_all_acc_keys(self, pageNo=1, pageSize=100):
+        _url_request = GET_ALL_ACC_KEY_URL.format(
+            API_URI,
+            GET_ALL_ACC_KEY_PREFIX_URL,
+            self.clientId,
+            self.accessToken,
+            pageNo,
+            pageSize,
+            TTLock.__get_current_millis__(),
+        )
+        _response = TTLock.__send_request__(_url_request).json()
+        for records in _response.get(LIST_FIELD):
+            yield records
 
 

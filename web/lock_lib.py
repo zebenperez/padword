@@ -67,6 +67,10 @@ class ShLock:
         except Exception as e:
             return e
 
+    def get_lock_all_records(self, lock_id):
+        records = list(self.ttlock.get_lock_records_generator(lock_id))
+        return records
+
     #--------------- CODES --------------
     def set_lock_code(self, lock_id, code, name, start_date, end_date):
         try:
@@ -99,9 +103,9 @@ class ShLock:
             return e
 
     #--------------- CARDS --------------
-    def lock_add_card(self, lock_id, card_number, start_date, end_date):
+    def lock_add_card(self, lock_id, card_number, card_name, start_date, end_date):
         try:
-            return self.ttlock.lock_add_card(lock_id, card_number, start_date, end_date)
+            return self.ttlock.lock_add_card(lock_id, card_number, card_name, start_date, end_date)
         except Exception as e:
             return e
 
@@ -213,5 +217,10 @@ class ShLock:
             return ""
         except Exception as e:
             return e
+
+    #--------------- EKEYS --------------
+    def get_ekeys(self):
+        ekeys = list(self.ttlock.lock_get_all_acc_keys())
+        return ekeys
 
 

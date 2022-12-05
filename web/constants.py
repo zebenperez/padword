@@ -60,7 +60,7 @@ GET_ALL_PASSCODE_PREFIX_URL = 'lock/listKeyboardPwd'
 RANDOM_PASSCODE_URL = '{}/{}?clientId={}&accessToken={}&lockId={}&keyboardPwdType={}&startDate={}&endDate={}&date={}'
 RANDOM_PASSCODE_PREFIX_URL = '/keyboardPwd/get'
 
-ADD_CARD_URL = '{}/{}?clientId={}&accessToken={}&lockId={}&cardNumber={}&startDate={}&endDate={}&addType=2&date={}'
+ADD_CARD_URL = '{}/{}?clientId={}&accessToken={}&lockId={}&cardNumber={}&cardName={}&startDate={}&endDate={}&addType=2&date={}'
 #ADD_CARD_PREFIX_URL = '/identityCard/addForReversedCardNumber'
 ADD_CARD_PREFIX_URL = '/identityCard/add'
 REMOVE_CARD_URL = '{}/{}?clientId={}&accessToken={}&lockId={}&cardId={}&deleteType=2&date={}'
@@ -92,6 +92,8 @@ GET_ALL_KEY_URL = '{}/{}?clientId={}&accessToken={}&lockId={}&pageNo={}&pageSize
 GET_ALL_KEY_PREFIX_URL = '/lock/listKey'
 REMOVE_KEY_URL = '{}/{}?clientId={}&accessToken={}&lockId={}&keyId={}&date={}'
 REMOVE_KEY_PREFIX_URL = '/key/delete'
+GET_ALL_ACC_KEY_URL = '{}/{}?clientId={}&accessToken={}&pageNo={}&pageSize={}&date={}'
+GET_ALL_ACC_KEY_PREFIX_URL = '/key/list'
 
 KEYBOARD_PWD_ID = 'keyboardPwdId'
 KEYBOARD_PWD = 'keyboardPwd'

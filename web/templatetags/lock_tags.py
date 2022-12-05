@@ -25,3 +25,7 @@ def get_locks_by_gateway(project, gateway_id):
     gateway_name = lock.get_gateway_name_by_id(gateway_id) if lock != None else "Not found!"
     return {'lock_list': lock_list, 'gateway_id': gateway_id, 'gateway_name': gateway_name}
 
+@register.inclusion_tag('web/locks/record-type.html')
+def get_record_type(code):
+    return {'code': code}
+ 

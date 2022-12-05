@@ -1,0 +1,83 @@
+{% load i18n %}
+
+{% if code == 1 %}
+    {% trans "Unlock by app" %}
+{% elif code == 4 %}
+    {% trans "Unlock by passcode" %}
+{% elif code == 5 %}
+    {% trans "Rise the lock" %}
+{% elif code == 6 %}
+    {% trans "Lower the lock" %}
+{% elif code == 7 %}
+    {% trans "Unlock by IC card" %}
+{% elif code == 8 %}
+    {% trans "Unlock by fingerprint" %}
+{% elif code == 9 %}
+    {% trans "Unlock by wrist strap" %}
+{% elif code == 10 %}
+    {% trans "Unlock by Mechanical key" %}
+{% elif code == 11 %}
+    {% trans "Lock by app" %}
+{% elif code == 12 %}
+    {% trans "Unlock by gateway" %}
+{% elif code == 29 %}
+    {% trans "Apply some force on the Lock" %}
+{% elif code == 30 %}
+    {% trans "Door sensor closed" %}
+{% elif code == 31 %}
+    {% trans "Door sensor open" %}
+{% elif code == 32 %}
+    {% trans "Open from inside" %}
+{% elif code == 33 %}
+    {% trans "Lock by fingerprint" %}
+{% elif code == 34 %}
+    {% trans "Lock by passcode" %}
+{% elif code == 35 %}
+    {% trans "Lock by IC card" %}
+{% elif code == 36 %}
+    {% trans "Lock by Mechanical key" %}
+{% elif code == 37 %}
+    {% trans "Remote Control" %}
+{% elif code == 42 %}
+    {% trans "Received new local mail" %}
+{% elif code == 43 %}
+    {% trans "Received new other cities mail" %}
+{% elif code == 44 %}
+    {% trans "Tamper alert" %}
+{% elif code == 45 %}
+    {% trans "Auto Lock" %}
+{% elif code == 46 %}
+    {% trans "Unlock by unlock key" %}
+{% elif code == 47 %}
+    {% trans "Lock by lock key" %}
+{% elif code == 48 %}
+    {% trans "System locked ( Caused by, for example: Using INVALID Passcode/Fingerprint/Card several times)" %}
+{% elif code == 49 %}
+    {% trans "Unlock by hotel card" %}
+{% elif code == 50 %}
+    {% trans "Unlocked due to the high temperature" %}
+{% elif code == 52 %}
+    {% trans "Dead lock with APP" %}
+{% elif code == 53 %}
+    {% trans "Dead lock with passcode" %}
+{% elif code == 54 %}
+    {% trans "The car left (for parking lock)" %}
+{% elif code == 55 %}
+    {% trans "Unlock with key fob" %}
+{% elif code == 57 %}
+    {% trans "Unlock with QR code success" %}
+{% elif code == 58 %}
+    {% trans "Unlock with QR code failed, it's expired" %}
+{% elif code == 59 %}
+    {% trans "Double locked" %}
+{% elif code == 60 %}
+    {% trans "Cancel double lock" %}
+{% elif code == 61 %}
+    {% trans "Lock with QR code success" %}
+{% elif code == 62 %}
+    {% trans "Lock with QR code failed, the lock is double locked" %}
+{% elif code == 63 %}
+    {% trans "Auto unlock at passage mode" %}
+{% else %}
+    {% trans "Unknown" %}
+{% endif %}
