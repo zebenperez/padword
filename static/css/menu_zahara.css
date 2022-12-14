@@ -201,6 +201,13 @@ img.object-fit_cover.img-new {
 .topbar img {
 /*    height: 120px;*/
 }
+.separator {
+    background-image: url(/static/img/bg-separator.jpg) !important;
+    background-position: center;
+    height: 12px;
+    -webkit-filter: grayscale(100%); 
+    filter: grayscale(100%); 
+}
 
 .separator img {
     height: 12px;
@@ -370,7 +377,7 @@ a.collapsible-header.waves-effect.btn-large-2 {
 button.menu-options { 
     background: none;
    	border:0;
-    color: #b0aba7 !important;
+/*    color: #b0aba7 !important;*/
     font-size: 0.7rem !important;
     font-weight: 600;
 	height: 60px;

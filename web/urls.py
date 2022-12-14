@@ -40,6 +40,7 @@ urlpatterns = [
     #--------------------- Locks --------------------
     #path('locks/', lock_views.locks, name='locks'),
     path('locks-by-project/<int:project_id>/', lock_views.locks_by_project, name='locks-by-project'),
+    path('locks/row/', lock_views.lock_row, name='lock-row'),
     path('locks/search/', lock_views.lock_search, name='lock-search'),
     path('locks/form/', lock_views.lock_form, name='lock-form'),
     path('locks/remove/', lock_views.lock_remove, name='lock-remove'),
@@ -55,6 +56,7 @@ urlpatterns = [
     path('locks/set-group/', lock_views.lock_set_group, name='lock-set-group'),
 
     path('locks/by-project/', lock_views.locks_by_project2, name='locks-by-project2'),
+    path('locks/row/by-project/', lock_views.lock_row_by_project, name='lock-row-by-project'),
     path('locks/search/by-project/', lock_views.lock_search_by_project, name='lock-search-by-project'),
     path('locks/update-params/by-project/', lock_views.lock_update_params_by_project, name='lock-update-params-by-project'),
     path('locks/get-all-passcodes/by-project/', lock_views.lock_get_all_passcodes_by_project, name='lock-get-all-passcodes-by-project'),

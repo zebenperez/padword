@@ -30,6 +30,34 @@ function ajaxGet(url, datas, target, modal_target)
     });
 };
 
+function ajaxGetMute(url, datas, target, modal_target)
+{
+    $.ajax({
+        url : url,
+        type : 'GET',
+        data : datas,
+        cache : false,
+        dataType : 'html',
+        beforeSend : function(){},
+        success : function(data){
+            if (modal_target != "")
+            {
+                if (data != "")
+                {
+                    $('#'+modal_target+"-body").html(data);
+                    $('#'+modal_target).modal('show');
+                }
+            }
+            else
+                if (target != "")
+                    $('#'+target).html(data);
+        },
+        error : function(e){alert("Error: "+e.responseText);},
+        complete : function(){unsetWait();}
+        //complete : function(){$("body").css("cursor", "default"); $("body").removeClass("loading-");}
+    });
+};
+
 function ajaxGetAppend(url, datas, target, modal_target)
 {
     $("body").css("cursor", "progress");

@@ -71,33 +71,9 @@
         </thead>
         <tbody>
             {% for item in items %}
-            <tr class="small" id="row_{{item.id}}">
-                {% include "web/locks/lock-list-row.html" %}
-                {%comment%}
-                <td><input type="checkbox" name="ch_{{item.id}}" /></td>
-                <td>{{ item.uuid }}</td>
-                <td>{% padword_translate item.alias %}</td>
-                <td>{{ item.project.name }}</td>
-                {#<td>{{ item.room_obj.floor }}</td>#}
-                <td>{{ item.group.name }}</td>
-                <td>{{ item.room }}</td>
-                <td>{{ item.state }}</td>
-                <td>{{ item.charge }} %</td>
-                {#<td>{{ item.gateway }}</td>#}
-                <td>{% get_wifi_icon item.gateway %}</td>
-                <td class="d-flex justify-content-end">
-                    <a class="me-1 btn btn-xs ark" data-url="{% url "lock-update-params" %}" data-target="row_{{item.id}}" 
-                        data-obj_id="{{item.id}}"><i class="fas fa-sync"></i></a>  
-                    <a class="me-1 btn btn-xs ark" data-url="{% url "lock-get-all-passcodes" %}" data-target-modal="common-modal" 
-                        data-obj_id="{{item.id}}"><i class="fas fa-code"></i></a>  
-                    <a class="me-1 btn btn-xs ark" data-url="{% url "lock-get-all-cards" %}" data-target-modal="common-modal" 
-                        data-obj_id="{{item.id}}"><i class="fas fa-credit-card"></i></a>  
-                    <a class="me-1 btn btn-xs ark" data-url="{% url "lock-form" %}" data-target-modal="common-modal" 
-                        data-obj_id="{{item.id}}"><i class="fas fa-edit"></i></a>  
-                    <a class="btn btn-sm autoremove" data-model-name="web.lock" data-obj-id="{{item.id}}" data-url="{% url "autoremove_obj" %}" 
-                        data-target="row_{{item.id}}" data-confirm="{%trans "Are you sure to remove this element?"%}"><i class="fas fa-trash"></i></a>
-                </td>
-                {%endcomment%}
+            <tr class="small load-row" id="row_{{item.id}}" data-obj_id="{{item.id}}">
+                {#{% include "web/locks/lock-list-row.html" %}#}
+                <td colspan="10"><i class="fas fa-spinner fa-spin"></i> loading...</td>
             </tr>
             {% endfor %}
         </tbody>
@@ -108,5 +84,9 @@
     $('#items-counter').html('{{items|length}}');
     $('#check-all').click(function(){ $('input:checkbox').not(this).prop('checked', this.checked); });
     $(document).ready(function(){$(window).keydown(function(event){if(event.keyCode == 13){event.preventDefault();return false;}});});
+    $(".load-row").each(function(){
+        var id = $(this).data("obj_id");
+        ajaxGet("{% url "lock-row" %}", {"obj_id": id}, "row_"+id, "");
+    });
 </script>
 

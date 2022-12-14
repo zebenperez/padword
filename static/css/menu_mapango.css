@@ -203,6 +203,7 @@ img.object-fit_cover.img-new {
 }
 .topbar img {
     height: 100px;
+    margin-top: -15px;
 }
 
 .row.div-slogan {
@@ -210,15 +211,16 @@ img.object-fit_cover.img-new {
     background-repeat: no-repeat;
     background-position: bottom !important;
     padding:0px !important;
-    margin-top: 10px;
-    height: 100px;
+  /*  margin-top: 10px;*/
+    height: 75px;
     color: #fff;
 }
 
-.slogan-mapango {
+.slogan-mapango, .slogan-.text-center {
     background-color: #525050;
     color: #fff !important;
     font-size: 1.5rem;
+    margin-top: 40px;
 }
 .slogan-mapango img { height: 50px; }
 .slogan-mapango .text { margin-top:35px !important; }
@@ -242,6 +244,10 @@ div.row.blog {
 
 .row.slider-row .col-lg-12.col-12.justify-content-center {
     padding:0px !important;
+}
+
+.separator {
+    display:none;
 }
 
 /*****************************/
@@ -421,6 +427,7 @@ i.fas.fa-home {
 
 i.fas.fa-bars {
     color: #b0aba7;
+    margin-top: -25px;
 }
 
 ul.dropdown-menu {
@@ -583,7 +590,7 @@ label.form-check-label {
     font-size: 0.9rem;
     position: absolute;
     left: 22%;
-    margin-top: -65px !important;
+/*    margin-top: -65px !important;*/
     width: 60%;
     float:none!important;
     text-transform: uppercase;

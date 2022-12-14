@@ -12,7 +12,7 @@
 .main-pwa .row {
     margin:0;
     background-color: #ffffff !important;
-    padding-top: 20px;
+   /* padding-top: 20px;*/
 }
 
 .main-pwa {
@@ -200,6 +200,14 @@ img.object-fit_cover.img-new {
 }
 .topbar img {
     height: 120px;
+    margin-top: -25px;
+}
+.separator {
+    background-image: url(/static/img/bg-separator.jpg) !important;
+    background-position: center;
+    height: 12px;
+    margin-top:0px !important;
+    -webkit-filter: hue-rotate(330deg);
 }
 
 .separator img {
@@ -213,11 +221,11 @@ img.object-fit_cover.img-new {
     background-position: bottom !important;
      */
     padding:0px !important;
-    height: 100px;
+    height: 60px;
     color: #fff;
 }
 
-.slogan-island {
+.slogan-island, .slogan-.text-center {
     background-color: #fff;
   /*  border-top: 1px solid #3e999a !important;*/
     color: #3e999a;
@@ -230,6 +238,7 @@ img.object-fit_cover.img-new {
     background-color: #2e2e2e;
     max-height: 150px;
     font-size: 1.3rem;
+    padding-top: -20px !important;
 }
 .collapse-option {
     margin-bottom: 50px;
@@ -371,7 +380,7 @@ a.collapsible-header.waves-effect.btn-large-2 {
 button.menu-options { 
     background: none;
    	border:0;
-    color: #b0aba7 !important;
+/*    color: #b0aba7 !important;*/
     font-size: 0.7rem !important;
     font-weight: 600;
 	height: 60px;
@@ -487,12 +496,15 @@ h5.card-title.text-dark.text-center.title-new {
 }
  
 .simple-footer {
-    border-top:1px solid #000; 
+    border-top:1px solid #308e9a; 
     bottom: 10px;
     font-size: 0.9rem;
     position:absolute; 
 }
 
+.simple-footer span {
+    color: #308e9a !important;
+}
 
 
 

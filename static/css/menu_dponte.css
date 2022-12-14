@@ -201,6 +201,12 @@ img.object-fit_cover.img-new {
 .topbar img {
     height: 120px;
 }
+.separator {
+    background-image: url(/static/img/bg-separator.jpg) !important;
+    background-position: center;
+    height: 12px;
+}
+
 
 .separator img {
     height: 12px;
@@ -227,9 +233,11 @@ img.object-fit_cover.img-new {
 
 .div-key {
     background-color: #2e2e2e;
-    max-height: 150px;
+    /*max-height: 150px;*/
     font-size: 1.3rem;
+    padding-top: -20px !important;       
 }
+
 .collapse-option {
     margin-bottom: 50px;
 }
@@ -370,7 +378,7 @@ a.collapsible-header.waves-effect.btn-large-2 {
 button.menu-options { 
     background: none;
    	border:0;
-    color: #b0aba7 !important;
+/*    color: #b0aba7 !important;*/
     font-size: 0.7rem !important;
     font-weight: 600;
 	height: 60px;

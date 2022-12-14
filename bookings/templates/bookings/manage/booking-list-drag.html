@@ -1,0 +1,74 @@
+{% load i18n padword_tags %}
+
+<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+<script>
+        $( function() {
+            $( ".ui-draggable" ).draggable( {
+                start:function(event, ui) {$(this).addClass('indragmode');},
+                stop:function(event, ui) {$(this).removeClass('indragmode');},
+            });
+            $( ".ui-droppable" ).droppable({
+                drop: function( event, ui ) {
+                    $(ui.draggable).prependTo('#'+$(this).attr("id"));
+                    var datas = {};
+                    datas["status"] = $(this).attr("data-pk");
+                    datas["fi_id"] = $(ui.draggable).attr("data-pk");
+                    datas["comment"] = '';
+                    url = "{% url 'change-status' %}";
+                    ajaxGetMute(url, datas, "", "");
+                    $(ui.draggable).removeAttr('style');
+                }
+            });
+        } );
+
+</script>
+
+
+{% if msg %} <div class="d-flex row"> <div class="col"><div class="alert alert-info"><strong>{{msg}}.</strong></div></div> </div> {% endif %}
+
+<div class="d-flex p-2">
+    <table class="table table-striped table-hover m-1">
+        <thead>
+            <tr class="small small">
+                <th class="row p-1">
+                    {% for status in status_list %}
+                    <div class="col text-center ms-1 me-1">
+                        <small>{% padword_translate status.name %}</small><br>
+                    </div>
+                    {% endfor %}
+                </th>
+            </tr>
+            <tr class="small small">
+                <th class="row p-1">
+                    {% for status in status_list %}
+                    <div class="col text-center ms-1 me-1 ui-droppable ui-widget-header" id="status-{{status.pk}}" style="" data-pk="{{status.pk}}">
+                    </div>
+                    {% endfor %}
+                </th>
+            </tr>
+        </thead>
+        <tfoot>
+            <tr>
+                <td><a class="small d-flex justify-content-center btn" id="btn-see-more" onclick="$('#s-page').val($('#btn-see-more').data('page'));$('#s-page').trigger('change');">...</a></td>
+            </tr>
+        </tfoot>
+        <tbody id="table-list-bookings">
+            {% include "bookings/manage/booking-page-drag.html" %}
+        </tbody>
+    </table>
+</div>
+<script>
+    checkNotify($("#s-ini_date").val(), $("#s-end_date").val());
+    $('#btn-see-more').data('page',{{page|add:1}});
+    $('#total-items').html('{{total_items}}');
+    var observer = new IntersectionObserver(function(entries) {
+        if ((entries[0].isIntersecting === true) && ({{total_items}} > {% items_per_page %}))
+        {
+            $('#btn-see-more').trigger("click");
+        }
+    }, { threshold: [1] });
+    observer.observe(document.querySelector("#btn-see-more"));
+    
+    $('.btn-status').removeClass('btn-primary').addClass('btn-light');
+    $('#btn-status-{{status}}').removeClass('btn-light').addClass('btn-primary');
+</script>

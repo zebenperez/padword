@@ -32,8 +32,11 @@
                 value="{{end_date|date:"Y-m-d"}}"/> </div>
             <div class="col-2"> <input type="checkbox" class="check_per check_one toggle-tags" id="permanent" name="permanent" 
                 data-class-name="check_per"/> {% trans "Permanent" %} </div>
+            <div class="col-2"><button class="btn" type="submit"> <i class="fas fa-plus"></i> {% trans "Save" %}</button> </div>
+            {%comment%}
             <div class="col-2"><button class="btn saveform" data-form="form-actions" data-target="lock-list">
                 <i class="fas fa-plus"></i> {% trans "Save" %}</button> </div>
+            {%endcomment%}
         </div>
     </div>
 
@@ -53,8 +56,9 @@
             </tr>
         </thead>
         <tbody>
-            {% for item in items %}
-                <tr class="small" id="row_{{item.id}}"> {% include "web/locks-by-project/lock-list-row.html" %} </tr>
+            {% for item in items %} 
+                <tr id="row_{{item.id}}" class="load-row" data-obj_id="{{item.id}}">
+                    <td colspan="10"><i class="fas fa-spinner fa-spin"></i> loading...</td></tr> 
             {% endfor %}
         </tbody>
     </table>
@@ -64,5 +68,9 @@
     $('#items-counter').html('{{items|length}}');
     $('#check-all').click(function(){ $('input:checkbox').not(this).prop('checked', this.checked); });
     $(document).ready(function(){$(window).keydown(function(event){if(event.keyCode == 13){event.preventDefault();return false;}});});
+    $(".load-row").each(function(){
+        var id = $(this).data("obj_id");
+        ajaxGet("{% url "lock-row-by-project" %}", {"obj_id": id}, "row_"+id, "");
+    });
 </script>
 

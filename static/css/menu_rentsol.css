@@ -200,6 +200,7 @@ img.object-fit_cover.img-new {
 }
 .topbar img {
     height: 100px;
+    margin-top:-10px;
 }
 
 .separator img {
@@ -217,7 +218,7 @@ img.object-fit_cover.img-new {
     color: #fff;
 }
 
-.slogan-rentsol {
+.slogan-rentsol, .slogan-.text-center {
     background-color: #fff;
     color: #000000;
     font-size: 1.5rem;
@@ -229,6 +230,7 @@ img.object-fit_cover.img-new {
     background-color: #2e2e2e;
     max-height: 150px;
     font-size: 1.3rem;
+    padding-top:0 !important;
 }
 .collapse-option {
     margin-bottom: 50px;
@@ -370,7 +372,7 @@ a.collapsible-header.waves-effect.btn-large-2 {
 button.menu-options { 
     background: none;
    	border:0;
-    color: #b0aba7 !important;
+/*    color: #b0aba7 !important;*/
     font-size: 0.7rem !important;
     font-weight: 600;
 	height: 60px;
@@ -422,7 +424,7 @@ i.fas.fa-home {
 *****************************************/
 
 i.fas.fa-bars {
-    color: #b0aba7;
+    color: #ffffff;
 }
 
 ul.dropdown-menu {

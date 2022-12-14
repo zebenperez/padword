@@ -93,6 +93,14 @@ def locks_by_project(request, project_id):
     except Exception as e:
         return render(request, 'error_exception.html', {'exc':show_exc(e)})
 
+@group_required("projects")
+def lock_row(request):
+    try:
+        item = get_or_none(Lock, request.GET["obj_id"])
+        return render(request, "web/locks/lock-list-row.html", {'item': item})
+    except Exception as e:
+        return render(request, "error_exception.html", {'exc':show_exc(e)})
+
 @group_required("admins")
 def lock_search(request):
     try:
@@ -284,6 +292,14 @@ def locks_by_project2(request):
         return render(request, "error_exception.html", {'exc':show_exc(e)})
 
 @group_required("projects")
+def lock_row_by_project(request):
+    try:
+        item = get_or_none(Lock, request.GET["obj_id"])
+        return render(request, "web/locks-by-project/lock-list-row.html", {'item': item})
+    except Exception as e:
+        return render(request, "error_exception.html", {'exc':show_exc(e)})
+
+@group_required("projects")
 def lock_search_by_project(request):
     try:
         project = get_or_none(Project, request.project_id)
@@ -359,7 +375,8 @@ def lock_set_action_by_project(request):
                  
         context = get_context(request, project)
         context["msg"] = msg
-        return render(request, "web/locks-by-project/lock-list.html", context)
+        return redirect(locks_by_project2)
+        #return render(request, "web/locks-by-project/lock-list.html", context)
     except Exception as e:
         print(e)
         return render(request, 'error_exception.html', {'exc':show_exc(e)})

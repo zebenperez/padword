@@ -41,6 +41,8 @@ def get_guest_items(request):
             full_query |= Q(**{myfilter: search_value})
         projects_uuid = [item.uuid for item in webmod.Project.objects.filter(name__icontains = search_value)]
         full_query |= Q(**{'project_id__in': projects_uuid})
+        rooms_number = [item.number for item in webmod.Room.objects.filter(alias__icontains = search_value)]
+        full_query |= Q(**{'room__in': rooms_number})
     if project_uuid != "":
         full_query &= Q(**{'project_id': project_uuid})
 
@@ -183,7 +185,7 @@ def guest_room_autocomplete(request):
         guest = get_or_none(Guest, obj_id)
         items = []
         if value != "":
-            items = webmod.Room.objects.filter(project_uuid=guest.project_id, number__icontains=value)
+            items = webmod.Room.objects.filter(project_uuid=guest.project_id).filter(Q(number__icontains=value) | Q(alias__icontains=value))
 
         return render(request, "guest/room-list.html", {'items': items, 'obj': guest, 'value':value})
     except Exception as e:
@@ -201,6 +203,8 @@ def get_guest_items_by_project(request, project_uuid):
     if search_value != "":
         for myfilter in filters_to_search:
             full_query |= Q(**{myfilter: search_value})
+        rooms_number = [item.number for item in webmod.Room.objects.filter(alias__icontains = search_value)]
+        full_query |= Q(**{'room__in': rooms_number})
 
     return Guest.objects.filter(project_id=project_uuid).filter(full_query)
 

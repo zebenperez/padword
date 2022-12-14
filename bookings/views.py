@@ -69,29 +69,6 @@ def get_booking_context():
     context['total_items'] = len(items)
     return context
 
-
-#def get_uuid_project_list(user, project, project_uuid):
-#    if project_uuid != "":
-#        return [project_uuid]
-#    if user.groups.filter(name="categories").exists():
-#        cat_uuid_list = list(CategoryUser.objects.filter(username=user.username).values_list('category_uuid', flat=True))
-#        return list(Category.objects.filter(uuid__in=cat_uuid_list).values_list('project_uuid', flat=True))
-#    if user.groups.filter(name="projects").exists():
-#        return list(ProjectUser.objects.filter(username=user.username).values_list('project_uuid', flat=True))
-#    if project != "":
-#        return list(set(Project.objects.filter(name__icontains = project).values_list('uuid', flat=True)))
-#    return list(set(Project.objects.all().values_list('uuid', flat=True)))
-#
-#def filter_search_form_uuid(form, form_uuid, uuid_project_list):
-#    if form_uuid != "":
-#        return [form_uuid]
-#    if form != "":
-#        categories_list = list(Category.objects.filter(name__icontains = form).values_list('uuid', flat=True))
-#    else:
-#        categories_list = list(Category.objects.filter(project_uuid__in = uuid_project_list).values_list('uuid', flat=True))
-#    forms_list = list(Form.objects.filter(form_type__order=True, category__in = categories_list).values_list('uuid', flat=True))
-#    return forms_list
-#
 def filter_search_guest(name, uuid_project_list):
     uuid_guests = list(Guest.objects.filter(Q(name__icontains=name) | Q(surname__icontains=name) | Q(email__icontains=name) | Q(mobile__icontains=name) | Q(room=name)).filter(project_id__in = uuid_project_list).values_list('UUID', flat=True))
     return uuid_guests
@@ -110,55 +87,6 @@ def filter_search_status_project(items, status, project_uuid):
             if (item.get_status != None and status != "" and item.get_status.status.id == int(status)) or (status == "" and item.get_status != None):
                 item_list.append(item)
     return item_list
-
-
-#def filter_search_project_status(items, project_uuid, status):
-#    item_list = []
-#    for item in items:
-#        if (item.form.get_category.project_uuid == project_uuid):
-#            if (item.get_status != None and status != "" and item.get_status.status.id == int(status)) or (status == "" and item.get_status != None):
-#                item_list.append(item)
-#    return item_list
-#
-#def search(user, project_uuid, project, form_uuid, form, ini_date, end_date, name, status):
-#    uuid_project_list = get_uuid_project_list(user, project, project_uuid)
-#    kwargs = {'form_uuid__in': filter_search_form_uuid(form, form_uuid, uuid_project_list)}
-#    if ini_date != "":
-#        kwargs["date__gte"] = ini_date
-#    if end_date != "":
-#        ed = end_date.split("-")
-#        kwargs["date__lte"] = datetime.datetime(int(ed[0]), int(ed[1]), int(ed[2]), 23, 59, 59)
-#    if name != "":
-#        kwargs["guest_uuid__in"] = filter_search_guest(name, uuid_project_list)
-#
-#    items = FormInstance.objects.filter(**kwargs)
-#    if project_uuid != "":
-#        items = filter_search_project_status(items, project_uuid, status)
-#    else:
-#        items = filter_search_status(items, status)
-#
-#    return items
-#
-##@group_required("admins", "projects", "categories")
-#@group_required("admins", "projects")
-#def bookings_search(request):
-#    try:
-#        project = get_param(request.GET, "s-project")
-#        project_uuid = get_param(request.GET, "s-project_uuid")
-#        form = get_param(request.GET, "s-form")
-#        form_uuid = get_param(request.GET, "s-form_uuid")
-#        ini_date = get_param(request.GET, "s-ini_date")
-#        end_date = get_param(request.GET, "s-end_date")
-#        name = get_param(request.GET, "s-name")
-#        status = get_param(request.GET, "s-status")
-#
-#        items = search(request.user, project_uuid, project, form_uuid, form, ini_date, end_date, name, status)
-#
-#        context={'total_items': len(items), 'items': items[0:ITEMS_PER_PAGE], 'status': status, 'page': 0}
-#        return render(request, "bookings/manage/booking-list.html", context)
-#    except Exception as e:
-#        print (show_exc(e))
-#        return render(request, 'error_exception.html', {'exc':show_exc(e)})
 
 def search(project, form, ini_date, end_date, name, status):
     if project != "":
@@ -186,7 +114,6 @@ def search(project, form, ini_date, end_date, name, status):
 
 
 @group_required("admins", "projects", "categories", "guests")
-#def booking_view(request, fi_id):
 def booking_view(request):
     try:
         fi_id = request.GET["obj_id"]
@@ -303,7 +230,7 @@ def bookings(request):
     try:
         context = get_booking_context()
         context['page'] = 0
-        return render (request, "bookings/manage/bookings.html", context)
+        return render (request, "bookings/manage/bookings-drag.html", context)
     except Exception as e:
         logger.error("[bookings-bookings] {}".format(str(e)))
         return render(request, 'full_error_exception.html', {'exc':show_exc(e)})
@@ -322,7 +249,8 @@ def bookings_search(request):
         items = search(project, form, ini_date, end_date, name, status)
 
         context={'total_items': len(items), 'items': items[0:ITEMS_PER_PAGE], 'status': status, 'page': 0}
-        return render(request, "bookings/manage/booking-list.html", context)
+        context["status_list"] = Status.objects.all()
+        return render(request, "bookings/manage/booking-list-drag.html", context)
     except Exception as e:
         print (show_exc(e))
         return render(request, 'error_exception.html', {'exc':show_exc(e)})
@@ -341,7 +269,7 @@ def bookings_page(request):
         items = search(project, form, ini_date, end_date, name, status)
 
         context={'total_items': len(items), 'items': items[int(page)*ITEMS_PER_PAGE:(int(page) + 1)*ITEMS_PER_PAGE], 'status': status, 'page': page}
-        return render(request, "bookings/manage/booking-page.html", context)
+        return render(request, "bookings/manage/booking-page-drag.html", context)
     except Exception as e:
         print (show_exc(e))
         return render(request, 'error_exception.html', {'exc':show_exc(e)})

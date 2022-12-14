@@ -202,6 +202,13 @@ img.object-fit_cover.img-new {
 /*    height: 120px;*/
 }
 
+.separator {
+    background-image: url(/static/img/bg-separator.jpg) !important;
+    background-position: center;
+    height: 12px;
+    margin-top: -5px !important;
+}
+
 .separator img {
     height: 12px;
 }
@@ -213,10 +220,11 @@ img.object-fit_cover.img-new {
     background-position: bottom !important;
      */
     padding:0px !important;
-    height: 120px;
+    height: 50px;
     color: #fff;
 }
 
+.slogan-.text-center, 
 .slogan-lightbooking {
     background-color: #fff;
     color: #009ee0;
@@ -229,6 +237,7 @@ img.object-fit_cover.img-new {
     background-color: #2e2e2e;
     max-height: 150px;
     font-size: 1.3rem;
+    padding-top: 0px !important;
 }
 .collapse-option {
     margin-bottom: 50px;
@@ -439,6 +448,7 @@ i.fas.fa-home {
 
 i.fas.fa-bars {
     color: #b0aba7;
+    margin-top: 15px;
 }
 
 ul.dropdown-menu {
@@ -602,7 +612,7 @@ label.form-check-label {
     font-size: 1rem;
     position: absolute;
     left: 22%;
-    padding-top: 30px !important;
+    padding-top: 25px !important;
     width: 60%;
     float:none!important;
 }

@@ -202,6 +202,12 @@ img.object-fit_cover.img-new {
 /*    height: 120px;*/
 }
 
+.separator {
+    background-image: url(/static/img/bg-separator.jpg) !important;
+    background-position: center;
+    height: 12px;
+}
+
 .separator img {
     height: 12px;
 }
@@ -217,7 +223,7 @@ img.object-fit_cover.img-new {
     color: #fff;
 }
 
-.slogan-coliving {
+.slogan-coliving, .slogan-.text-center {
     background-color: #fff;
     color: #001846;
     font-size: 1.5rem;
@@ -229,6 +235,7 @@ img.object-fit_cover.img-new {
     background-color: #2e2e2e;
     max-height: 150px;
     font-size: 1.3rem;
+    padding-top: 0px !important;
 }
 .collapse-option {
     margin-bottom: 50px;
@@ -604,7 +611,7 @@ label.form-check-label {
 
 .coliving-keys {
     width: 100%;
-    height: 100px;
+    height: 85px;
 }
 
 .form-check .form-check-input {

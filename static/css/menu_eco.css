@@ -212,10 +212,10 @@ img.object-fit_cover.img-new {
     padding:0px !important;
     margin-top: 50px;
     height: 320px;
-    color: #fff;
+    color: transparent;
 }
 
-.slogan-eco {
+.slogan-eco, .slogan-.text-center {
     background-color: #000000;
     color: #fff !important;
     font-size: 1.5rem;
@@ -368,7 +368,7 @@ a.collapsible-header.waves-effect.btn-large-2 {
 button.menu-options { 
     background: none;
    	border:0;
-    color: #b0aba7 !important;
+/*    color: #b0aba7 !important;*/
     font-size: 0.7rem !important;
     font-weight: 600;
 	height: 60px;
@@ -578,7 +578,7 @@ label.form-check-label {
     font-size: 0.9rem;
     position: absolute;
     left: 22%;
-    margin-top: -65px !important;
+/*    margin-top: -65px !important;*/
     width: 60%;
     float:none!important;
     text-transform: uppercase;

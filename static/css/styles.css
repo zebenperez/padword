@@ -1215,3 +1215,8 @@ h5.modal-title.share { color: rgba(0,0,0,.54); }
 
 
 .hide { display: none; }
+
+.indragmode {
+    transform: rotate(10deg);
+    transform-origin: left top;
+}

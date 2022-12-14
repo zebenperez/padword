@@ -37,7 +37,7 @@
                     data-target="booking-list" data-related="{{related}}" />
             </div>
         </div>
-
+        {% comment %}
         <div class="row mt-1">
             <div class="col-12 d-flex justify-content-center">
                 <a id="btn-status-" class="btn btn-status btn-{% if status == '' or not status %}primary{%else%}light{%endif%} pointer me-1" 
@@ -49,6 +49,7 @@
                 {% endfor %}
             </div>
         </div>
+        {% endcomment %}
     </div>
     <script>
         $(".btn-status").click(function(){

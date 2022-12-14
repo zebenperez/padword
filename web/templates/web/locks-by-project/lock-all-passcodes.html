@@ -17,7 +17,7 @@
     </thead>
     <tbody>
         {% for item in obj.get_all_passcodes %}
-            <tr id="tr-{{item.id}}">
+            <tr id="tr-{{item.keyboardPwdId}}">
                 <td> {{item.keyboardPwd}} </td> 
                 <td> {{item.keyboardPwdName}} </td> 
                 <td> {{item.startDate|str_to_date}} </td> 
@@ -27,7 +27,8 @@
                 <td class="text-end">
                     <a class="btn btn-outline-warning ark w-100" title="{%trans "Remove code"%}" data-url="{% url "lock-remove-code" %}"
                         data-obj_id="{{obj.id}}" data-code_id="{{item.keyboardPwdId}}" 
-                        data-confirm="{%trans "Are you sure to remove this element?"%}" data-target="tr-{{item.id}}">{%trans "Remove code"%} </a>
+                        data-confirm="{%trans "Are you sure to remove this element?"%}" data-target="tr-{{item.keyboardPwdId}}">
+                        {%trans "Remove code"%} </a>
                 </td>
             </tr>
         {% endfor %}
