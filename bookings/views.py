@@ -21,6 +21,7 @@ import json
 logger = logging.getLogger(__name__)
 
 ITEMS_PER_PAGE=get_items_per_page()
+ITEMS_PER_PAGE=10000
 
 '''
     Login

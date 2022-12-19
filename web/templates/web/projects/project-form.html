@@ -79,14 +79,13 @@
 
 <h2 class="common-modal-head">{% trans 'Locks' %}</h2>
 <div class="row justify-center">
-	<div class="col-5">
+	<div class="col-4">
 		<label class="label">{% trans "TTLock Username" %}:</label>
 		<input type="text" class="form-control autosave input" id="username" name="username" value="{{user_lock.username}}" 
             title="{{user_lock.username}}" data-model-name="web.projectlockuser" data-obj-id="{{user_lock.id}}" data-url="{% url "autosave_field" %}" 
             data-target="div-notification"/> <span id="lock_username__msg"></span>	
 	</div>
-
-	<div class="col-5">
+	<div class="col-4">
 		<label class="label">{% trans "TTLock Password" %}:</label>
         <input type="text" class="form-control autosave input" id="password" name="password" value="{{user_lock.password}}" 
             title="{{user_lock.password}}" data-model-name="web.projectlockuser" data-obj-id="{{user_lock.id}}" data-url="{% url "autosave_field" %}" 
@@ -95,6 +94,10 @@
 	<div class="col-2 mt-4">
         <a class="btn btn-primary pointer ark" data-url="{% url "project-user-token" %}" data-target="span-token" data-obj_id="{{user_lock.id}}">
             {% trans "Get token" %}</a>
+	</div>
+	<div class="col-2 mt-4">
+        <a class="btn btn-primary pointer ark" data-url="{% url "project-user-refresh-token" %}" data-target="span-token" 
+            data-obj_id="{{user_lock.id}}"> {% trans "Refresh token" %}</a>
 	</div>
 </div>		
 

@@ -16,6 +16,7 @@ urlpatterns = [
     path('projects/remove/', views.project_remove, name='project-remove'),
     path('projects/upload-json/', views.project_upload_json, name='project-upload-json'),
     path('projects/user-token/', views.project_user_token, name='project-user-token'),
+    path('projects/user-refresh-token/', views.project_user_refresh_token, name='project-user-refresh-token'),
     #--------------------- Channels --------------------
     path('channels/project-<slug:project_id>/', views.channels, name='channels-by-project'),
     path('channels/company-<slug:company_id>/', views.channels, name='channels-by-company'),
@@ -112,6 +113,7 @@ urlpatterns = [
 
     #--------------------- Gateways --------------------
     path('gateways-by-project/<int:project_id>/', gateway_views.gateways_by_project, name='gateways-by-project'),
+    path('gateways-by-project2/', gateway_views.gateways_by_project2, name='gateways-by-project2'),
 
     #--------------------- eKeys --------------------
     path('ekeys-by-project/<int:project_id>/', ekey_views.ekeys_by_project, name='ekeys-by-project'),

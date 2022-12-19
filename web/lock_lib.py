@@ -179,6 +179,12 @@ class ShLock:
         except Exception as e:
             return e
 
+    def refresh_token(self, refresh_token):
+        try:
+            return TTLock.refresh_ext_token(self.clientId, self.clientSecret, refresh_token)
+        except Exception as e:
+            return e
+
     #### FIXME: revisar esto
     def register_user(self, username, password):
         try:

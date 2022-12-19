@@ -4,6 +4,19 @@
 {% block second_menu %}{% get_second_menu request.user %}{% endblock second_menu %}
 
 {% block central_content %}
+
+    <script>
+
+        function bookings_by_state() 
+        { 
+            $('.col-status').each( 
+                function (index) {
+                    $('#counter-'+$(this).attr('data-pk')).html(''+$(this).children().length);
+                }
+            );
+        }
+    </script>
+
     {% include "bookings/manage/search_box.html" %}
 
     <div class="content mt-4">
@@ -17,5 +30,5 @@
     {% include "common-modal.html" %}
 
     {% if request.project_id %} <script> $('#sidebar').removeClass('expanded').removeClass('d-sm-block'); </script> {% endif %}
-    <script> upload(); function upload(){setTimeout(function(){$("#s-status").change();upload();}, 300000);}; </script>
+    <script> upload(); function upload(){setTimeout(function(){$("#s-status").change();upload();}, 30000);}; </script>
 {% endblock central_content %}

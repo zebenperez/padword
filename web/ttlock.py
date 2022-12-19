@@ -99,6 +99,13 @@ class TTLock():
         return TTLock.__send_request__(_url_request,'POST').json()
 
     @classmethod
+    def refresh_ext_token(cls,clientId,clientSecret,refreshToken):
+        _url_request = TOKEN_EXT_REFRESH_URL.format( TOKEN_RESOURCE,)
+        dic = {CLIENT_ID:clientId, CLIENT_SECRET:clientSecret, GRANT_TYPE_FIELD:'refresh_token', REFRESH_TOKEN_FIELD:refreshToken}
+
+        return TTLock.__send_post_request__(_url_request, dic).json()
+
+    @classmethod
     def __verify_page__(cls,pageNo, totalPages):
         return pageNo<=totalPages
     

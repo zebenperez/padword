@@ -17,5 +17,8 @@
     {% include "common-modal.html" %}
 
     {% if request.project_id %} <script> $('#sidebar').removeClass('expanded').removeClass('d-sm-block'); </script> {% endif %}
-    <script> upload(); function upload(){setTimeout(function(){$("#s-status").change();upload();}, 30000);}; </script>
+    <script> 
+        upload(); function upload(){setTimeout(function(){$("#s-status").change();upload();}, 30000);}; 
+        bookings_by_state();
+    </script>
 {% endblock central_content %}

@@ -74,14 +74,14 @@ body.loading .overlay{
 }
 
 .table-striped th {
-*	border-bottom:1px solid #dee2e6 !important;
+	border-bottom:1px solid #dee2e6 !important;
 	color: rgba(0,0,0,.6);
 	font-size: 0.9rem;
 	padding: 1rem !important;
 	margin-left:0;
 	margin-right:0;
 }
-/*
+/
 .table-striped>tbody>tr {
 	--bs-table-accent-bg: white !important;
 }
@@ -542,6 +542,7 @@ img.img-cart-line {
 .item {
 	font-weight: 600;
 	color: #212529;
+
 }
 
 
@@ -1219,4 +1220,69 @@ h5.modal-title.share { color: rgba(0,0,0,.54); }
 .indragmode {
     transform: rotate(10deg);
     transform-origin: left top;
+    z-index:1000!important;
 }
+
+
+/********* Drag and Drop style ********************/
+
+th.row.status-head {
+    padding-left:0px !important;
+    padding-right:0px !important;
+}
+.row.status-head .col {
+    font-size: 1rem !important;
+}
+th.row.div-cards {
+    padding:0px !important;
+}
+.ui-droppable {
+    border:3px solid #fff;
+    background: #ebecf0;
+    border-radius: 7px;
+    width:20%;
+}
+.card.mt-2.ui-draggable.ui-draggable-handle {
+    border: 1px solid #fff;
+    border-radius: 5px;
+    -webkit-box-shadow: -2px 8px 5px -9px rgba(0,0,0,0.75);
+    -moz-box-shadow: -2px 8px 5px -9px rgba(0,0,0,0.75);
+    box-shadow: -2px 8px 5px -9px rgba(0,0,0,0.75);
+}
+.card.mt-2.ui-draggable.ui-draggable-handle:hover {
+    border: 1px solid #e0e0e0 !important;
+    cursor: pointer;
+    -webkit-box-shadow: -1px 2px 19px -11px rgba(0,0,0,0.7);
+    -moz-box-shadow: -1px 2px 19px -11px rgba(0,0,0,0.7);
+    box-shadow: -1px 2px 19px -11px rgba(0,0,0,0.7);
+
+}
+.card-header.drag {
+    background: #fff;
+    font-size: 0.85rem !important;
+    padding: 5px;
+}
+.card-header.drag span { 
+}    
+.card-body.drag {
+    padding: 0px !important;
+}
+.card-body.drag div.info, .card-body.drag div.room, .card-body.drag div.date, .card-body.drag div.payment{
+    font-size: 0.75rem !important;
+    font-weight: normal;
+    line-height: 16px;
+    padding: 5px;
+  /*  text-align: left !important;*/
+}
+.card-body.drag div.status {
+    padding: 5px;
+}
+.card-footer.drag {
+    padding: 5px;
+    border: none !important;
+}
+.card-footer.drag .fas {
+    color: rgb(0 0 0 / 41%);
+    font-size: 0.75rem !important;
+}
+

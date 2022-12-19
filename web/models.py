@@ -112,12 +112,27 @@ class ProjectLockUser(models.Model):
         except:
             return None
 
+    @property
+    def expire_date(self):
+        try:
+            return datetime.datetime.fromtimestamp(int(self.expire)).strftime("%d-%m-%Y, %I:%M:%S")
+        except Exception as e:
+            return "--"
+
     def get_token(self):
         obj = ShLock()
         res = obj.get_token(self.username, self.password)
         self.token = res["access_token"]
         self.refresh_token = res["refresh_token"]
         self.uid = res["uid"]
+        self.expire = res["expires_in"]
+        self.save()
+
+    def get_new_token(self):
+        obj = ShLock()
+        res = obj.refresh_token(self.refresh_token)
+        self.token = res["access_token"]
+        self.refresh_token = res["refresh_token"]
         self.expire = res["expires_in"]
         self.save()
 
