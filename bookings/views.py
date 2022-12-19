@@ -231,7 +231,8 @@ def bookings(request):
     try:
         context = get_booking_context()
         context['page'] = 0
-        return render (request, "bookings/manage/bookings-drag.html", context)
+        return render (request, "bookings/manage/bookings.html", context)
+        #return render (request, "bookings/manage/bookings-drag.html", context)
     except Exception as e:
         logger.error("[bookings-bookings] {}".format(str(e)))
         return render(request, 'full_error_exception.html', {'exc':show_exc(e)})
@@ -251,7 +252,8 @@ def bookings_search(request):
 
         context={'total_items': len(items), 'items': items[0:ITEMS_PER_PAGE], 'status': status, 'page': 0}
         context["status_list"] = Status.objects.all()
-        return render(request, "bookings/manage/booking-list-drag.html", context)
+        return render(request, "bookings/manage/booking-list.html", context)
+        #return render(request, "bookings/manage/booking-list-drag.html", context)
     except Exception as e:
         print (show_exc(e))
         return render(request, 'error_exception.html', {'exc':show_exc(e)})
@@ -270,7 +272,8 @@ def bookings_page(request):
         items = search(project, form, ini_date, end_date, name, status)
 
         context={'total_items': len(items), 'items': items[int(page)*ITEMS_PER_PAGE:(int(page) + 1)*ITEMS_PER_PAGE], 'status': status, 'page': page}
-        return render(request, "bookings/manage/booking-page-drag.html", context)
+        return render(request, "bookings/manage/booking-page.html", context)
+        #return render(request, "bookings/manage/booking-page-drag.html", context)
     except Exception as e:
         print (show_exc(e))
         return render(request, 'error_exception.html', {'exc':show_exc(e)})
