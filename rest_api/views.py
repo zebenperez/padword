@@ -68,8 +68,7 @@ class GuestViewSet(viewsets.ModelViewSet):
             guest = Guest.objects.get(UUID=pk)
             return Response(self.serializer_class(guest).data, status=status.HTTP_200_OK)
         except Exception as e:
-            print(e)
-            return Response(data={'error': 'true'}, status=status.HTTP_400_BAD_REQUEST)
+            return Response(data={'error': 'true', 'msg': str(e)}, status=status.HTTP_400_BAD_REQUEST)
 
     def destroy(self, request, pk=None):
         try:
@@ -77,8 +76,7 @@ class GuestViewSet(viewsets.ModelViewSet):
             guest.delete()
             return Response(data={'error': 'false'}, status=status.HTTP_200_OK)
         except Exception as e:
-            print(e)
-            return Response(data={'error': 'true'}, status=status.HTTP_400_BAD_REQUEST)
+            return Response(data={'error': 'true', 'msg': str(e)}, status=status.HTTP_400_BAD_REQUEST)
 
     def update(self, request, pk=None):
         try:
@@ -111,7 +109,6 @@ class GuestViewSet(viewsets.ModelViewSet):
  
             return Response(self.serializer_class(guest).data, status=status.HTTP_200_OK)
         except Exception as e:
-            print(e)
             return Response(data={'error': 'true', 'msg': str(e)}, status=status.HTTP_400_BAD_REQUEST)
         #response = {'message': 'Update function is not offered in this path.'}
         #return Response(response, status=status.HTTP_403_FORBIDDEN)
@@ -127,7 +124,7 @@ class GuestViewSet(viewsets.ModelViewSet):
             return Response(guest.get_locks_json(), status=status.HTTP_200_OK)
         except Exception as e:
             logger.error("(get_guest): %s" % e)
-            return Response({"error": 'true'})
+            return Response({"error": 'true', 'msg': str(e)})
 
     @action(detail=False, methods=['post'])
     def add_card(self, request):
@@ -139,7 +136,7 @@ class GuestViewSet(viewsets.ModelViewSet):
             return Response(guest.get_locks_json(), status=status.HTTP_200_OK)
         except Exception as e:
             logger.error("(get_guest): %s" % e)
-            return Response({"error": True})
+            return Response({"error": True, 'msg': str(e)})
 
     @action(detail=False, methods=['post'])
     def remove_card(self, request):
@@ -151,7 +148,7 @@ class GuestViewSet(viewsets.ModelViewSet):
             return Response(guest.get_locks_json(), status=status.HTTP_200_OK)
         except Exception as e:
             logger.error("(get_guest): %s" % e)
-            return Response({"error": True})
+            return Response({"error": True, 'msg': str(e)})
 
 
 class LockViewSet(viewsets.ModelViewSet):
@@ -206,7 +203,7 @@ class LockViewSet(viewsets.ModelViewSet):
             return Response(c_list, status=status.HTTP_200_OK)
         except Exception as e:
             logger.error("(get_passcodes): %s" % e)
-            return Response({"error": 'true'})
+            return Response({"error": 'true', 'msg': str(e)})
 
     @action(detail=False, methods=['post'])
     def add_passcode(self, request):
@@ -223,7 +220,7 @@ class LockViewSet(viewsets.ModelViewSet):
                 return Response({"error": False, "msg": "Code added successfully!"}, status=status.HTTP_200_OK)
         except Exception as e:
             logger.error("(add_passcode): %s" % e)
-            return Response({"error": True})
+            return Response({"error": True, 'msg': str(e)})
 
     @action(detail=False, methods=['post'])
     def change_passcode(self, request):
@@ -241,7 +238,7 @@ class LockViewSet(viewsets.ModelViewSet):
                 return Response({"error": False, "msg": "Code changed successfully!"}, status=status.HTTP_200_OK)
         except Exception as e:
             logger.error("(add_passcode): %s" % e)
-            return Response({"error": True})
+            return Response({"error": True, 'msg': str(e)})
 
     @action(detail=False, methods=['post'])
     def remove_passcode(self, request):
@@ -256,7 +253,7 @@ class LockViewSet(viewsets.ModelViewSet):
                 return Response({"error": False, "msg": "Code removed successfully!"}, status=status.HTTP_200_OK)
         except Exception as e:
             logger.error("(remove_passcode): %s" % e)
-            return Response({"error": True})
+            return Response({"error": True, 'msg': str(e)})
 
 
     @action(detail=False, methods=['get'])
@@ -271,7 +268,7 @@ class LockViewSet(viewsets.ModelViewSet):
             return Response(c_list, status=status.HTTP_200_OK)
         except Exception as e:
             logger.error("(get_cardcodes): %s" % e)
-            return Response({"error": 'true'})
+            return Response({"error": 'true', 'msg': str(e)})
 
     @action(detail=False, methods=['post'])
     def add_cardcode(self, request):
@@ -288,7 +285,7 @@ class LockViewSet(viewsets.ModelViewSet):
                 return Response({"error": False, "msg": "Card added successfully!"}, status=status.HTTP_200_OK)
         except Exception as e:
             logger.error("(add_cardcode): %s" % e)
-            return Response({"error": True})
+            return Response({"error": True, 'msg': str(e)})
 
     @action(detail=False, methods=['post'])
     def remove_cardcode(self, request):
@@ -303,7 +300,7 @@ class LockViewSet(viewsets.ModelViewSet):
                 return Response({"error": False, "msg": "Card removed successfully!"}, status=status.HTTP_200_OK)
         except Exception as e:
             logger.error("(remove_cardcode): %s" % e)
-            return Response({"error": True})
+            return Response({"error": True, 'msg': str(e)})
 
     @action(detail=False, methods=['post'])
     def change_period_card(self, request):
@@ -320,7 +317,7 @@ class LockViewSet(viewsets.ModelViewSet):
                 return Response({"error": False, "msg": "Card added successfully!"}, status=status.HTTP_200_OK)
         except Exception as e:
             logger.error("(add_cardcode): %s" % e)
-            return Response({"error": True})
+            return Response({"error": True, 'msg': str(e)})
 
 
 class RoomViewSet(viewsets.ModelViewSet):
