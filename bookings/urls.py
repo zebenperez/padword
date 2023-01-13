@@ -152,6 +152,7 @@ urlpatterns = [
     path('shopping/show-category-menu/<slug:cat_id>/', gv.show_category_menu, name='show-category-menu'),
     #path('shopping/show-category-menu/<int:form_id>/<slug:cat_id>/', gv.show_category_menu, name='show-category-menu'),
     path('shopping/show-category-menu/', gv.show_category_menu, name='show-category-menu'),
+    path('shopping/show-key-menu/', gv.show_key_menu, name='show-key-menu'),
 
     path('fix-uuid/', views.fix_uuid, name='booking-fix-uuid'),
     path('test/', views.test, name='booking-test'),

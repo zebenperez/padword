@@ -615,6 +615,19 @@ def show_category_menu(request, cat_id=None, back="True"):
         print(show_exc(e))
         return render(request, "error_exception.html", {'exc':show_exc(e)})
 
+@group_required("admins", "projects", "guests")
+def show_key_menu(request):
+    try:
+        cat_id = request.GET["cat_id"] if "cat_id" in request.GET else 0
+        category = get_or_none(Category, cat_id, "uuid")
+        guest = get_guest(request.user.username, category.project_uuid)
+
+        return render(request, 'bookings/menus/menu_keys.html', {'category':category, 'guest':guest,})
+    except Exception as e:
+        print(show_exc(e))
+        return render(request, "error_exception.html", {'exc':show_exc(e)})
+
+
 '''
     Bookings items
 '''
