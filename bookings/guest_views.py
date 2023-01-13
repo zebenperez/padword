@@ -622,7 +622,7 @@ def show_key_menu(request):
         category = get_or_none(Category, cat_id, "uuid")
         guest = get_guest(request.user.username, category.project_uuid)
 
-        return render(request, 'bookings/menus/menu_keys.html', {'category':category, 'guest':guest,})
+        return render(request, 'bookings/menus/menu_keys_inner.html', {'category':category, 'guest':guest,})
     except Exception as e:
         print(show_exc(e))
         return render(request, "error_exception.html", {'exc':show_exc(e)})
