@@ -567,10 +567,15 @@ span.badge.bg-success {
 /******** Deslizador manual ***************/
 
 label.form-check-label {
-    color:#7f6c5a;
-    position:absolute;
-    left:22%;
-    top:35%;
+/*    position: absolute;*/
+/*    float:none !important;*/
+    color:#769d02;
+    font-size: 1rem;
+    margin-top: -65px !important;
+    margin-left: 18%;
+    width: 70%;
+    text-align: left !important;
+
 }
 .form-switch .form-check-input {
     /*width: 20.4em;*/

@@ -593,7 +593,7 @@ label.form-check-label {
     font-size: 1rem;
     position: absolute;
     left: 28%;
-    margin-top: -65px !important;
+/*    margin-top: -65px !important;*/
     width: 70%;
     float:none !important;
     text-align: left !important;
