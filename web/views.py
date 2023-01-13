@@ -45,7 +45,8 @@ def redirect_project_user(request):
 
     menu = project.get_first_menu(request.user.username)
     if menu == "orders":
-        return redirect('bookings-by-project', request.project_id)
+        return redirect('bookings-by-project')
+        #return redirect('bookings-by-project', request.project_id)
     elif menu == "guests":
         #return redirect('guests-by-project', project.uuid)
         return redirect('guests-by-project')
@@ -66,6 +67,10 @@ def csrf_failure(request, reason=""):
 
 def get_or_create_user_lock(project_uuid):
     obj, created = ProjectLockUser.objects.get_or_create(project_uuid = project_uuid)
+    return obj 
+
+def get_or_create_user_sensibo(project_uuid):
+    obj, created = ProjectSensiboUser.objects.get_or_create(project_uuid = project_uuid)
     return obj 
 
 '''
@@ -122,8 +127,9 @@ def project_form(request):
                 obj.save()
 
         user_lock = get_or_create_user_lock(obj.uuid)
+        user_sensibo = get_or_create_user_sensibo(obj.uuid)
 
-        context = {'obj': obj, 'companies': Company.objects.all(), 'company_id': company_id, 'user_lock': user_lock}
+        context = {'obj': obj, 'companies': Company.objects.all(), 'company_id': company_id, 'user_lock': user_lock, 'user_sensibo': user_sensibo}
         return render(request, "web/projects/project-form.html", context)
     except Exception as e:
         return render(request, 'error_exception.html', {'exc':show_exc(e)})

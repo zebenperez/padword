@@ -1,0 +1,52 @@
+{% load i18n %}
+
+<div class="row justify-center">
+	<div class="col-3">
+		<label class="label">{% trans "Time to start (previous checkin)" %}:</label>
+		<input type="time" class="form-control autosave input mb-4" id="start_time" name="start_time" value="{{obj.start_time}}" 
+            title="{{obj.start_time}}" data-model-name="guest.guest" data-obj-id="{{obj.id}}" data-url="{% url "autosave_field" %}" 
+            data-target="div-notification"/> <span class="msg_error" id="start_time__msg"></span>
+	</div>
+
+	<div class="col-3">
+		<label class="label">{% trans "Mode" %}:</label>
+        <select class="form-control autosave input mb-4" id="mode" name="mode" data-model-name="guest.guest" data-obj-id="{{obj.id}}"
+            data-url="{% url "autosave_field" %}" data-target="div-notification">
+            <option value="cool" {%if obj.mode == "cool"%}selected{%endif%}>{% trans "Cool" %}</option>
+            <option value="heat" {%if obj.mode == "heat"%}selected{%endif%}>{% trans "Heat" %}</option>
+            <option value="fan" {%if obj.mode == "fan"%}selected{%endif%}>{% trans "Fan" %}</option>
+            <option value="dry" {%if obj.mode == "dry"%}selected{%endif%}>{% trans "Dry" %}</option>
+            <option value="auto" {%if obj.mode == "auto"%}selected{%endif%}>{% trans "Auto" %}</option>
+        </select><span class="msg_error" id="mode__msg"></span>
+	</div>
+
+	<div class="col-3">
+		<label class="label">{% trans "Temperature" %}:</label>
+        <select class="form-control autosave input mb-4" id="temp" name="temp" data-model-name="guest.guest" data-obj-id="{{obj.id}}"
+            data-url="{% url "autosave_field" %}" data-target="div-notification">
+            <option value="16" {%if obj.temp == 16%}selected{%endif%}>{% trans "16" %}</option>
+            <option value="17" {%if obj.temp == 17%}selected{%endif%}>{% trans "17" %}</option>
+            <option value="18" {%if obj.temp == 18%}selected{%endif%}>{% trans "18" %}</option>
+            <option value="19" {%if obj.temp == 19%}selected{%endif%}>{% trans "19" %}</option>
+            <option value="20" {%if obj.temp == 20%}selected{%endif%}>{% trans "20" %}</option>
+            <option value="21" {%if obj.temp == 21%}selected{%endif%}>{% trans "21" %}</option>
+            <option value="22" {%if obj.temp == 22%}selected{%endif%}>{% trans "22" %}</option>
+            <option value="23" {%if obj.temp == 23%}selected{%endif%}>{% trans "23" %}</option>
+            <option value="24" {%if obj.temp == 24%}selected{%endif%}>{% trans "24" %}</option>
+            <option value="25" {%if obj.temp == 25%}selected{%endif%}>{% trans "25" %}</option>
+        </select><span class="msg_error" id="temp__msg"></span>
+	</div>
+
+	<div class="col-3">
+		<label class="label">{% trans "Level" %}:</label>
+        <select class="form-control autosave input mb-4" id="level" name="level" data-model-name="guest.guest" data-obj-id="{{obj.id}}"
+            data-url="{% url "autosave_field" %}" data-target="div-notification">
+            <option value="low" {%if obj.mode == "low"%}selected{%endif%}>{% trans "Low" %}</option>
+            <option value="medium" {%if obj.mode == "medium"%}selected{%endif%}>{% trans "Medium" %}</option>
+            <option value="high" {%if obj.mode == "high"%}selected{%endif%}>{% trans "High" %}</option>
+            <option value="auto" {%if obj.mode == "auto"%}selected{%endif%}>{% trans "Auto" %}</option>
+        </select><span class="msg_error" id="level__msg"></span>
+	</div>
+</div>
+
+

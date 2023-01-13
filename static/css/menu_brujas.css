@@ -16,7 +16,6 @@
 .main-pwa .row {
     margin:0;
     background-color: #000000;
-    padding-top: 20px;
 }
 
 .main-pwa {
@@ -205,22 +204,22 @@ img.object-fit_cover.img-new {
 .topbar img {
     height: 50px;
 }
-
 .row.div-slogan {
+/*
     background-image: url(/static/img/bg-hills.png) !important;
     background-repeat: no-repeat;
     background-position: bottom !important;
     padding:0px !important;
     height: 120px;
-    color: #fff;
-/*    border:1px solid red;*/
+*/
+    color: transparent !important;
+    display: none;
 }
 
-.slogan-bruja {
+.slogan-bruja, .slogan-.text-center {
     background-color: #000000;
     color: #fff;
     font-size: 1.5rem;
-/*    border:1px solid blue;*/
 }
 .slogan-bruja img { height: 50px; }
 .slogan-bruja .text { margin-top:35px !important; }
@@ -370,7 +369,7 @@ a.collapsible-header.waves-effect.btn-large-2 {
 button.menu-options { 
     background: none;
    	border:0;
-    color: #b0aba7 !important;
+/*    color: #b0aba7 !important;*/
     font-size: 0.7rem !important;
     font-weight: 600;
 	height: 60px;
@@ -422,7 +421,8 @@ i.fas.fa-home {
 *****************************************/
 
 i.fas.fa-bars {
-    color: #b0aba7;
+    color: #000000;
+    margin-top:-8px;
 }
 
 ul.dropdown-menu {
@@ -486,6 +486,14 @@ h5.card-title.text-dark.text-center.title-new {
 }
 
 .footer-new {
+}
+
+.simple-footer {
+    border-top:1px solid #ffffff; 
+    bottom: 10px;
+    color: #ffffff;
+    font-size: 0.9rem;
+    position:absolute; 
 }
 
 
@@ -573,6 +581,11 @@ span.badge.bg-success {
     width: 100% !important;
 }
 
+.form-check-input:checked {
+    background-color: #38cc38 !important;
+    border-color: #38cc38 !important;
+}
+
 /******** Deslizador manual ***************/
 
 label.form-check-label {
@@ -580,7 +593,7 @@ label.form-check-label {
     font-size: 1rem;
     position: absolute;
     left: 23%;
-    margin-top: -65px !important;
+  /*  margin-top: -65px !important;*/
     width: 70%;
     float:none !important;
     text-align: left !important;
@@ -611,7 +624,9 @@ label.form-check-label {
 .form-check-input {
     padding-left: 20px !important;
 }
-.form-check-input:checked {
+
+/*
+ * .form-check-input:checked {
     background-color: #bbee9a !important;
 }
 .form-check-input:checked[type=checkbox] {
@@ -619,6 +634,7 @@ label.form-check-label {
     color: #fff !important;
 }
 
+*/
 .card.slider-cart {
     /*margin-top: 80px;*/
 }

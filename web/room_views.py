@@ -216,12 +216,12 @@ def room_lock_remove_code(request):
 def room_lock_add_ekey(request):
     try:
         lock = get_or_none(Lock, request.POST["lock_id"])
+        prefix = get_param(request.POST, "prefix")
         username = get_param(request.POST, "username")
         key_name = get_param(request.POST, "key_name")
         ini_date = get_date(request.POST, "ini_date", "ini_time")
         end_date = get_date(request.POST, "end_date", "end_time", timedelta(days=7))
         permanent = get_param(request.POST, "permanent")
-
 
         msg = ""
         if username != "" and key_name != "":

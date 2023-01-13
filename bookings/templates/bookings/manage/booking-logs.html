@@ -6,7 +6,7 @@
     {#<ul> {% for item in fi.logs.all %} <li>({{item.date}}) {{item.text}}</li> {% endfor %} </ul>#}
     <ul> 
         {% for item in fi.status_list.all %} 
-            <li>({{item.date}}) {% padword_translate item.status.name %} - {% padword_translate item.comment%}</li> 
+            <li>({{item.date}}) <span class="status-name">{% padword_translate item.status.name %}</span> - {% padword_translate item.comment%}</li> 
         {% endfor %} 
     </ul>
 </div>

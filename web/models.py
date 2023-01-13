@@ -4,6 +4,7 @@ from django.conf import settings
 from django.utils.translation import ugettext as _
 from padword.commons import show_exc, get_int
 from .lock_lib import ShLock
+from .sensibo_lib import ShSensibo
 import datetime, pytz
 import requests
 
@@ -72,9 +73,18 @@ class Project(models.Model):
         return devices.count()
 
     @property
+    def get_rooms(self):
+        return Room.objects.filter(project_uuid = self.uuid)
+
+    @property
     def lock_access_token(self):
         plu = ProjectLockUser.objects.filter(project_uuid=self.uuid).first()
         return plu.token if plu != None and plu.token != "" else ""
+
+    @property
+    def sensibo_api_key(self):
+        psu = ProjectSensiboUser.objects.filter(project_uuid=self.uuid).first()
+        return psu.api_key if psu != None and psu.api_key != "" else ""
 
     def get_first_menu(self, username):
         pu = ProjectUser.objects.filter(username=username, project_uuid=self.uuid).first()
@@ -94,6 +104,48 @@ class Project(models.Model):
         obj = ShLock(self.lock_access_token)
         return obj.get_ekeys()
 
+    def sensibo_device_list(self):
+        obj = ShSensibo(self.sensibo_api_key)
+        #return obj.get_devices()
+        d_list = obj.get_devices()
+        device_list = []
+        for key, value in d_list.items():
+            device_list.append({'name': key, 'uid': value})
+        return device_list
+
+    def sensibo_get_measurement(self, device_uid):
+        obj = ShSensibo(self.sensibo_api_key)
+        #return obj.get_measurement(device_uid)
+        measurement = obj.get_measurement(device_uid)
+        node = {}
+        if len(measurement) > 0:
+            node["temperature"] = measurement[0]["temperature"]
+            node["humidity"] = measurement[0]["humidity"]
+            node["feels_like"] = measurement[0]["feelsLike"]
+            node["rssi"] = measurement[0]["rssi"]
+            node["motion"] = measurement[0]["motion"]
+            node["room_occupied"] = measurement[0]["roomIsOccupied"]
+        return node
+
+    def sensibo_get_ac_state(self, device_uid):
+        obj = ShSensibo(self.sensibo_api_key)
+        #return obj.get_ac_state(device_uid)
+        ac_state = obj.get_ac_state(device_uid)
+        node = {}
+        node["on"] = ac_state["on"]
+        node["mode"] = ac_state["mode"]
+        node["fan_level"] = ac_state["fanLevel"]
+        node["swing"] = ac_state["swing"]
+        node["light"] = ac_state["light"]
+        return node
+
+    def sensibo_change_ac_state(self, device_uid, ac_state):
+        obj = ShSensibo(self.sensibo_api_key)
+        return obj.change_ac_state(device_uid, ac_state)
+
+    def sensibo_change_ac_state_param(self, device_uid, ac_state, param_name, param_value):
+        obj = ShSensibo(self.sensibo_api_key)
+        return obj.change_ac_state_param(device_uid, ac_state, param_name, param_value)
 
 class ProjectLockUser(models.Model):
     username = models.CharField(max_length=255, verbose_name=_('Lock Username'), default="")
@@ -135,6 +187,18 @@ class ProjectLockUser(models.Model):
         self.refresh_token = res["refresh_token"]
         self.expire = res["expires_in"]
         self.save()
+
+class ProjectSensiboUser(models.Model):
+    api_key = models.CharField(max_length=255, verbose_name=_('API KEY'), default="")
+    project_uuid = models.CharField(max_length=255, verbose_name=_('Project UUID'), default="")
+
+    @property
+    def project(self):
+        try:
+            return Project.objects.get(uuid=self.project_uuid)
+        except:
+            return None
+
 
 class Channel(models.Model):
     uuid = models.CharField(max_length=255, verbose_name=_('UUID'), default="", unique=True)
@@ -359,6 +423,7 @@ class Lock(models.Model):
             return Project.objects.get(uuid=self.project_uuid)
         except Exception as e:
             return None
+
     @property
     def group(self):
         try:
@@ -702,4 +767,15 @@ class LockEkey(models.Model):
         except:
             return None
 
+class SensiboDevice(models.Model):
+    uuid = models.CharField(max_length=255, verbose_name=_('UUID'), default="")
+    room = models.CharField(max_length=255, verbose_name=_('Room'), default="")
+    project_uuid = models.CharField(max_length=255, verbose_name=_('Project UUID'), default="")
+
+    @property
+    def project(self):
+        try:
+            return Project.objects.get(uuid=self.project_uuid)
+        except Exception as e:
+            return None
 

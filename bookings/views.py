@@ -12,7 +12,7 @@ from contents.models import Category, CategoryUser, ShoppingCart, Item
 from user_remote.models import PWUser
 
 from .common_lib import user_in_group
-from .models import Form, FormInstance, Status, GuestUser
+from .models import Form, FormInstance, FormInstanceStatus, Status, GuestUser
 from guest.models import Guest
 
 import datetime
@@ -121,11 +121,12 @@ def booking_view(request):
         fi = FormInstance.objects.get(pk = fi_id)
         form = get_or_none(Form, fi.form_uuid, 'uuid')
         items = ShoppingCart.objects.filter(form_instance_id=fi.pk)
+        show_status = get_param(request.GET, "show_status", "True")
 
         if (fi.get_status != None and fi.get_status.status != None and fi.get_status.status.code == "01") or (fi.get_status is None):
             fi.set_status("02", request.user, "")
 
-        context = {'fi': fi, 'index': "0", 'items':items, 'status_list': Status.objects.all(), 'manage': True}
+        context = {'fi': fi, 'index': "0", 'items':items, 'status_list': Status.objects.all(), 'manage': True, 'show_status': show_status}
         return render(request, 'bookings/guest/view-booking.html', context)
     except Exception as e:
         print(e)
@@ -194,6 +195,22 @@ def change_status(request):
         print(e)
         logger.error("[bookings-change_status] {}".format(str(e)))
     return render(request, 'error_exception.html', {'exc': 'Status not found!'})
+
+@group_required("admins", "projects", "categories")
+def booking_cancel(request):
+    try:
+        fi_id = request.GET["obj_id"]
+
+        status = get_or_none(Status, "05", "code")
+        fi = get_or_none(FormInstance, fi_id)
+        if status != None and fi != None:
+            fi.set_status(status.code, request.user, "")
+
+        return render(request, 'bookings/pr-manage/update-status-counter.html', {})
+    except Exception as e:
+        logger.error("[bookings-change_status] {}".format(str(e)))
+        return HttpResponse("Error: {}".format(e))
+
 
 @group_required("admins", "projects", "categories")
 def booking_log(request, fi_id):
@@ -335,14 +352,15 @@ def get_booking_project_context(project):
 @group_required("projects")
 def bookings_pr_search(request):
     try:
-        project_uuid = get_param(request.GET, "s-project_uuid")
+        project = get_or_none(Project, request.project_id)
+        #project_uuid = get_param(request.GET, "s-project_uuid")
         form = get_param(request.GET, "s-form")
         ini_date = get_param(request.GET, "s-ini_date")
         end_date = get_param(request.GET, "s-end_date")
         name = get_param(request.GET, "s-name")
         status = get_param(request.GET, "s-status")
 
-        items = pr_search(project_uuid, form, ini_date, end_date, name, status)
+        items = pr_search(project.uuid, form, ini_date, end_date, name, status)
 
         context={'total_items': len(items), 'items': items[0:ITEMS_PER_PAGE], 'status': status, 'page': 0}
         return render(request, "bookings/pr-manage/booking-list.html", context)
@@ -353,7 +371,8 @@ def bookings_pr_search(request):
 @group_required("projects")
 def bookings_pr_page(request):
     try:
-        project_uuid = get_param(request.GET, "s-project_uuid")
+        project = get_or_none(Project, request.project_id)
+        #project_uuid = get_param(request.GET, "s-project_uuid")
         form = get_param(request.GET, "s-form")
         ini_date = get_param(request.GET, "s-ini_date")
         end_date = get_param(request.GET, "s-end_date")
@@ -361,7 +380,7 @@ def bookings_pr_page(request):
         status = get_param(request.GET, "s-status")
         page = get_param(request.GET, "s-page", "0")
 
-        items = pr_search(project_uuid, form, ini_date, end_date, name, status)
+        items = pr_search(project.uuid, form, ini_date, end_date, name, status)
 
         context={'total_items': len(items), 'items': items[int(page)*ITEMS_PER_PAGE:(int(page) + 1)*ITEMS_PER_PAGE], 'status': status, 'page': page}
         return render(request, "bookings/pr-manage/booking-page.html", context)
@@ -371,17 +390,53 @@ def bookings_pr_page(request):
 
 
 @group_required("projects")
-def bookings_by_project(request, project_id):
+def bookings_by_project(request):
     try:
-        if project_id == -1:
-            return render(request, 'error_exception.html', {'exc': _('Project not found!')})
-        context = get_booking_project_context(get_or_none(Project, project_id))
+        #if project_id == -1:
+        #    return render(request, 'error_exception.html', {'exc': _('Project not found!')})
+        #context = get_booking_project_context(get_or_none(Project, project_id))
+        project = get_or_none(Project, request.project_id)
+        context = get_booking_project_context(project)
         context['page'] = 0
         return render (request, "bookings/pr-manage/bookings.html", context)
     except Exception as e:
         print (show_exc(e))
         logger.error("[bookings-bookings_by_project] {}".format(str(e)))
         return render(request, 'error_exception.html', {'exc':show_exc(e)})
+'''
+    Project users live
+'''
+@group_required("projects")
+def bookings_live_by_project(request):
+    try:
+        project = get_or_none(Project, request.project_id)
+        context = {}
+            
+        categories_list = list(Category.objects.filter(project_uuid = project.uuid).values_list('uuid', flat=True))
+        form_list = list(Form.objects.filter(form_type__order = True, category__in = categories_list).values_list('uuid', flat=True))
+
+        items = FormInstance.objects.filter(form_uuid__in = form_list)
+    
+        item_list = []
+        for item in items:
+            if item.form.project != None and item.form.project.uuid == project.uuid:
+                if item.get_status != None and item.get_status.status.code != "05":
+                    item_list.append(item)
+
+        today = datetime.datetime.today()
+
+        context["status_list"] = Status.objects.all().exclude(code="05")
+        context['items'] = item_list[0:ITEMS_PER_PAGE]
+        context['total_items'] = len(item_list)
+        context['page'] = 0
+        context['ini_date'] = today + datetime.timedelta(days=-1000)
+        context['end_date'] = today + datetime.timedelta(days=1)
+
+        return render (request, "bookings/pr-manage/bookings-drag.html", context)
+    except Exception as e:
+        logger.error("[bookings-bookings_by_project] {}".format(str(e)))
+        return render(request, 'error_exception.html', {'exc':show_exc(e)})
+
 
 '''
     Category users

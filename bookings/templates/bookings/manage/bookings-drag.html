@@ -4,9 +4,7 @@
 {% block second_menu %}{% get_second_menu request.user %}{% endblock second_menu %}
 
 {% block central_content %}
-
     <script>
-
         function bookings_by_state() 
         { 
             $('.col-status').each( 
@@ -17,18 +15,14 @@
         }
     </script>
 
-    {% include "bookings/manage/search_box.html" %}
+    {#{% include "bookings/manage/search_box.html" %}#}
 
     <div class="content mt-4">
-        <div class="toolbar-content">
-            <h2 class="b-right">{% trans 'Bookings' %} (<span id="total-items">{{total_items}}</span>)</h2>
-        </div>
-        <div id="booking-list">
-            {% include "bookings/manage/booking-list-drag.html" %}
-        </div>
+        <div class="toolbar-content"> <h2 class="b-right">{% trans 'Bookings' %} (<span id="total-items">{{total_items}}</span>)</h2> </div>
+        <div id="booking-list"> {% include "bookings/manage/booking-list-drag.html" %} </div>
     </div>
     {% include "common-modal.html" %}
 
     {% if request.project_id %} <script> $('#sidebar').removeClass('expanded').removeClass('d-sm-block'); </script> {% endif %}
-    <script> upload(); function upload(){setTimeout(function(){$("#s-status").change();upload();}, 30000);}; </script>
+    {#<script> upload(); function upload(){setTimeout(function(){$("#s-status").change();upload();}, 30000);}; </script>#}
 {% endblock central_content %}

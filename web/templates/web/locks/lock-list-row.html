@@ -11,17 +11,18 @@
 <td>{{ item.charge }} %</td>
 <td>{% get_wifi_icon item.gateway %}</td>
 <td class="d-flex justify-content-end">
-    <a class="me-1 btn btn-xs ark" data-url="{% url "lock-update-params" %}" data-target="row_{{item.id}}" 
+    <a class="me-1 btn btn-xs ark" title="{%trans "Update parameters"%}" data-url="{% url "lock-update-params" %}" data-target="row_{{item.id}}" 
         data-obj_id="{{item.id}}"><i class="fas fa-sync"></i></a>  
-    <a class="me-1 btn btn-xs ark" data-url="{% url "lock-get-all-passcodes" %}" data-target-modal="common-modal" 
+    <a class="me-1 btn btn-xs ark" title="{%trans "Get all passcodes"%}" data-url="{%url "lock-get-all-passcodes"%}" data-target-modal="common-modal" 
         data-obj_id="{{item.id}}"><i class="fas fa-code"></i></a>  
-    <a class="me-1 btn btn-xs ark" data-url="{% url "lock-get-all-cards" %}" data-target-modal="common-modal" 
+    <a class="me-1 btn btn-xs ark" title="{%trans "Get all cards"%}" data-url="{% url "lock-get-all-cards" %}" data-target-modal="common-modal" 
         data-obj_id="{{item.id}}"><i class="fas fa-credit-card"></i></a>  
-    <a class="me-1 btn btn-xs ark" data-url="{% url "lock-get-all-records" %}" data-target-modal="common-modal" 
+    <a class="me-1 btn btn-xs ark" title="{%trans "Get all registers"%}" data-url="{% url "lock-get-all-records" %}" data-target-modal="common-modal" 
         data-obj_id="{{item.id}}"><i class="fas fa-bars"></i></a>  
-    <a class="me-1 btn btn-xs ark" data-url="{% url "lock-form" %}" data-target-modal="common-modal" 
+    <a class="me-1 btn btn-xs ark" title="{%trans "Edit lock"%}" data-url="{% url "lock-form" %}" data-target-modal="common-modal" 
         data-obj_id="{{item.id}}"><i class="fas fa-edit"></i></a>  
-    <a class="btn btn-sm autoremove" data-model-name="web.lock" data-obj-id="{{item.id}}" data-url="{% url "autoremove_obj" %}" 
-        data-target="row_{{item.id}}" data-confirm="{%trans "Are you sure to remove this element?"%}"><i class="fas fa-trash"></i></a>
+    <a class="btn btn-sm autoremove" title="{%trans "Remove lock"%}" data-model-name="web.lock" data-obj-id="{{item.id}}" 
+        data-url="{% url "autoremove_obj" %}" data-target="row_{{item.id}}" data-confirm="{%trans "Are you sure to remove this element?"%}">
+        <i class="fas fa-trash"></i></a>
 </td>
 

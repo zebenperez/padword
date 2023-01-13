@@ -431,3 +431,14 @@ class KeyCard(models.Model):
         verbose_name = _("Key")
         verbose_name_plural = _("Keys")
 
+#class SensiboDevice(models.Model):
+#    start_time = models.CharField(max_length=20, verbose_name=_('Start Time'), default="")
+#    mode = models.CharField(max_length=20, verbose_name=_('Mode'), default="")
+#    temp = models.CharField(max_length=20, verbose_name=_('Temp'), default="")
+#    level = models.CharField(max_length=20, verbose_name=_('Level'), default="")
+#    guest = models.ForeignKey(Guest, verbose_name=_("Guest"), on_delete=models.CASCADE, blank=True, null=True, related_name="sensibo_devices")
+#
+#    class Meta:
+#        verbose_name = _("Sensibo device")
+#        verbose_name_plural = _("Sensibo devices")
+#
