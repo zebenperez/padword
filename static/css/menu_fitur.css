@@ -30,7 +30,10 @@
 	background-size: cover; 
 	width: 100%;
 }
+.col-10.card.info-panel.p-2 {
+    padding-top: 70px;
 
+}
 button.me-1.btn.btn-access.ark {
     border: 1px solid #769d02;
     color: #fff;
