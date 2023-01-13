@@ -1,7 +1,7 @@
 {% load i18n bookings_tag common_tag padword_tags %}
 
 <script>$("#back-btn").hide(); $("#back-btn-bookings").show()</script>
-<div class="col-12 card info-panel" style="width: 96%; margin-left:2%; border:1px solid blue">
+<div class="col-12 card info-panel">
     <div class="content">
         {% if "ecom" in fi.form.form_type.code %}
             {% include "bookings/guest/view-booking-ecom.html" %}
@@ -11,7 +11,7 @@
 
         {% if manage %}
             <div class="row mb-4 d-flex justify-content-center change-status-box">
-                {% if status_list %} <div id="div-status">{% include "bookings/manage/status-form.html" %}</div> {% endif %}
+                {% if status_list and show_status == "True"%}<div id="div-status">{% include "bookings/manage/status-form.html" %}</div>{% endif %}
 
                 <div class="actions text-center mt-2">
                     {%comment%}

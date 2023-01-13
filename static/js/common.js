@@ -358,6 +358,8 @@ $(document).ready(()=>{
                 $("#" + obj.data("show")).show();
             if (obj.data("hide"))
                 $("#" + obj.data("hide")).hide();
+            if (obj.data("remove"))
+                $("#" + obj.data("remove")).remove();
 
             e.preventDefault();
             e.stopImmediatePropagation();

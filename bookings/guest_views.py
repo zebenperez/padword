@@ -73,6 +73,28 @@ def guest_access(request, category_uuid):
     context["next_url"] = next_url
     return render(request, 'bookings/guest/guest-welcome.html', context)
 
+def guest_access_anonymous(request, category_uuid):
+    try:
+        cat = get_or_none(Category, category_uuid, "uuid")
+        guest = Guest.check_valid_booking(cat.project.uuid, "611111111", "1234")
+
+        user, err = GuestUser.get_or_create_guest_user(guest.UUID, cat.project.uuid, guest.id)
+        if err != "":
+            return render(request, 'error_exception.html', {'exc': err})
+        auth.login(request, user)
+
+        context = {'project_uuid': cat.project.uuid, 'cat': cat}
+        if check_user(request.user, guest):
+            next_url = reverse("pwa-index-cat", kwargs = {'category_uuid':category_uuid})
+            context["guest"] = guest
+            context["next_url"] = next_url
+            return render(request, 'bookings/guest/guest-welcome.html', context)
+        err = "User not valid"
+    except Exception as e:
+        print(e)
+        err = show_exc(e)
+    return render(request, 'error_exception.html', {'exc':err})
+ 
 
 def guest_form_login(request):
     try:

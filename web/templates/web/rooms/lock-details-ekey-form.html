@@ -1,13 +1,16 @@
 {% load i18n padword_tags %}
 
 
+
 <form method="POST" action="{% url "room-lock-add-ekey" %}" id="form-ekey" />
     {%csrf_token%}
     <input type="hidden" name="lock_id" value="{{obj.id}}"/>
     <div class="row mt-3" style="--bs-gutter-x: 0rem;">
         <div class="col-2">
+            <input type="hidden" id="prefix" name="prefix" value="+34" />
+            <input type="text" id="phone" name="phone" style="width:10px"/>
             <input type="text" class="form-control check_one" id="username" name="username" placeholder="{%trans "User to send"%}" 
-                title="{%trans "User to send"%}"/>
+                title="{%trans "User to send"%}" />
         </div>
         <div class="col-2">
             <input type="text" class="form-control check_one" id="key_name" name="key_name" placeholder="{%trans "Key name"%}" 
@@ -40,4 +43,27 @@
         </div>
     </div>
 </form>
+
+<script>
+    var input = document.querySelector("#phone");
+    var iti = window.intlTelInput(input, { 
+    //$("#username").intlTelInput({
+        separateDialCode: true, 
+        // If there are some countries you want to show on the top. here we are promoting russia and singapore.
+        //preferredCountries: ["ru", "sg"],
+
+        //Default country
+        initialCountry:"es",
+
+        // show only these countres, remove all other
+        //onlyCountries: ["ru", "cn","pk", "sg", "my", "bd"],
+
+        // If there are some countries you want to execlde. here we are exluding india and israel.
+        //excludeCountries: ["in","il"]
+    });
+    input.addEventListener("countrychange", function() {
+        var data = iti.getSelectedCountryData();
+        $("#prefix").val(data["dialCode"]);
+    });
+</script>
 

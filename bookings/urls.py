@@ -59,11 +59,16 @@ urlpatterns = [
     path('booking-log/<int:fi_id>/', views.booking_log, name='booking-log'),
     path('status-form/', views.status_form, name='status-form'),
     path('change-status/', views.change_status, name='change-status'),
+    path('booking/cancel/', views.booking_cancel, name='booking-cancel'),
 
     #------------- Bookings Project --------------#
-    path('bookings_by_project/<int:project_id>/', views.bookings_by_project, name='bookings-by-project'),
+    #path('bookings_by_project/<int:project_id>/', views.bookings_by_project, name='bookings-by-project'),
+    path('bookings_by_project/', views.bookings_by_project, name='bookings-by-project'),
     path('bookings/project/search/', views.bookings_pr_search, name='bookings-pr-search'),
     path('bookings/project/search/page/', views.bookings_pr_page, name='bookings-pr-page'),
+
+    #------------- Bookings Project Live --------------#
+    path('bookings/live/project/', views.bookings_live_by_project, name='bookings-live-by-project'),
 
     #------------- Bookings Category --------------#
     #path('bookings_by_category/<int:category_id>/', views.bookings_by_category, name='bookings-by-category'),
@@ -75,6 +80,7 @@ urlpatterns = [
 
     #------------- Bookings Guests --------------#
     path('guest-access/<slug:category_uuid>/', gv.guest_access, name='guest-access'),
+    path('guest-access-anonymous/<slug:category_uuid>/', gv.guest_access_anonymous, name='guest-access-anonymous'),
     path('guest-set-lang/', gv.set_guest_language, name='guest-set-lang'),
     #path('guest-set-lang/<slug:category_uuid>/<str:lang>/', gv.set_guest_language, name='guest-set-lang'),
     #path('guest-access/<slug:form_uuid>/', gv.guest_access, name='guest-access'),

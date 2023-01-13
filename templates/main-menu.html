@@ -41,8 +41,12 @@
                 <li class="nav-item"><a class="nav-link " href="{% url 'guests-by-project' %}">
                     <i class="fas fa-users"></i>  {% trans "Guests" %}</a> </li>
             {% endif %}
+            {% if user_project|have_menu:"orders_live" %}
+                <li class="nav-item"><a class="nav-link " href="{% url 'bookings-live-by-project' %}">
+                    <i class="fas fa-bookmark"></i>  {% trans "Orders Live" %}</a> </li>
+            {% endif %}
             {% if user_project|have_menu:"orders" %}
-                <li class="nav-item"><a class="nav-link " href="{% url 'bookings-by-project' project.id %}">
+                <li class="nav-item"><a class="nav-link " href="{% url 'bookings-by-project' %}">
                     <i class="fas fa-book"></i>  {% trans "Orders" %}</a> </li>
             {% endif %}
             {% if user_project|have_menu:"notifications" %}
@@ -60,6 +64,10 @@
             {% if user_project|have_menu:"gateways" %}
                 <li class="nav-item"><a class="nav-link " href="{% url 'gateways-by-project2' %}">
                     <i class="fas fa-signal"></i>  {% trans "Gateways" %}</a> </li>
+            {% endif %}
+            {% if user_project|have_menu:"sensibo" %}
+                <li class="nav-item"><a class="nav-link " href="{% url 'sensibo-device-by-project2' %}">
+                    <i class="fas fa-wind"></i>  {% trans "Air conditioner" %}</a> </li>
             {% endif %}
         {% endwith %}
     {% elif menu == "clients" %}

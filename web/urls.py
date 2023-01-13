@@ -1,7 +1,7 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 from django.urls import path
-from . import views, auto_views, room_views, card_views, lock_views, lock_user_views, lock_group_views, gateway_views, ekey_views
+from . import views, auto_views, room_views, card_views, lock_views, lock_user_views, lock_group_views, gateway_views, ekey_views, sensibo_views
 
 urlpatterns = [ 
     #path('index/<slug:chk>/', views.index, name='web-index-new'),
@@ -81,6 +81,16 @@ urlpatterns = [
     path('locks-groups/remove/', lock_group_views.lock_group_remove, name='lock-group-remove'),
     path('locks-groups/remove-by-id/', lock_group_views.lock_group_remove_by_id, name='lock-group-remove-by-id'),
     path('locks-groups/add/', lock_group_views.lock_group_add, name='lock-group-add'),
+
+    #--------------------- Sensibo devices --------------------
+    path('sensibo-device-by-project/<int:project_id>/', sensibo_views.devices_by_project, name='sensibo-device-by-project'),
+    path('sensibo-device-switch/', sensibo_views.device_switch, name='sensibo-device-switch'),
+    path('sensibo-device-set-state/', sensibo_views.device_set_state, name='sensibo-device-set-state'),
+    path('sensibo-device-save-room/', sensibo_views.device_save_room, name='sensibo-device-save-room'),
+    path('sensibo-device-by-project2/', sensibo_views.devices_by_project2, name='sensibo-device-by-project2'),
+    path('sensibo-device-switch-project/', sensibo_views.device_switch_project, name='sensibo-device-switch-project'),
+    path('sensibo-device-set-state-project/', sensibo_views.device_set_state_project, name='sensibo-device-set-state-project'),
+
     #--------------------- Rooms --------------------
     path('rooms/', room_views.rooms, name='rooms'),
     #path('rooms/search/', room_views.room_search, name='room-search'),

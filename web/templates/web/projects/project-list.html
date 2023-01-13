@@ -29,6 +29,11 @@
                         <a class="btn btn-xs" href="{% url 'locks-groups-by-project' item.id %}" title="{% trans 'Lock groups' %}">
                             <i class="fas fa-layer-group"></i></a>
                     {% endif %}
+                    {% if item.sensibo_api_key != "" %}
+                        <a class="btn btn-xs" href="{% url 'sensibo-device-by-project' item.id %}" title="{% trans 'Sensibo device' %}">
+                            <i class="fas fa-wind"></i></a>
+                    {% endif %}
+ 
                     <a class="btn" href="#" onclick='alert("{{item.uuid}}"); return False' title="{% trans 'Finger print' %}">
                         <i class="fas fa-fingerprint"></i></a>
                     {% if item.uuid %}

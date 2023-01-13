@@ -4,7 +4,7 @@
     <div class="card ark" data-url="{%url "room-form"%}" data-target-modal="common-modal" data-obj_id="{{item.id}}" 
         data-project="{{item.project_uuid}}">
         <div class="row lock-box">
-            <div class="col-10 alias text-center pt-1 pb-1" tyle="border:1px solid red"><strong>{{ item.alias }}</strong></div>
+            <div class="col-10 alias text-center pt-1 pb-1"><strong>{{ item.alias }}</strong></div>
             <div class="col-2 alias pt-2 text-center" style="background:#5b7898;">
                 <a class="ark" data-url="{% url "room-remove" %}" data-target="room-list" data-obj_id="{{item.id}}" 
                     data-confirm="{%trans "Are you sure to remove this element?"%}" title="{%trans "Delete" %}">

@@ -1,7 +1,8 @@
 {% load i18n padword_tags %}
 
 
-{% with related="s-page,s-project_uuid,s-form,s-ini_date,s-end_date,s-name,s-status" search_url="bookings-pr-search" %}
+{#{% with related="s-page,s-project_uuid,s-form,s-ini_date,s-end_date,s-name,s-status" search_url="bookings-pr-search" %}#}
+{% with related="s-page,s-form,s-ini_date,s-end_date,s-name,s-status" search_url="bookings-pr-search" %}
 
     <input type="hidden" name="s-page" id="s-page" value="{{page}}" data-target="table-list-bookings" data-related="{{related}}" data-append="append" 
         data-url="{% url 'bookings-pr-page' %}" class="autosearch_change"/>
@@ -9,7 +10,7 @@
     <input type="hidden" name="s-status" id="s-status" value="{{status}}" data-target="booking-list" data-related="{{related}}" 
         data-url="{% url search_url %}" class="autosearch_change"/>
 
-    <input type="hidden" name="s-project_uuid" id="s-project_uuid" value="{{project_uuid}}"/>
+    {#<input type="hidden" name="s-project_uuid" id="s-project_uuid" value="{{project_uuid}}"/>#}
 
     <div class="toolbar-search">
         <div class="row">

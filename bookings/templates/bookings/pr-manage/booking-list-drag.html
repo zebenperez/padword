@@ -1,0 +1,65 @@
+{% load i18n padword_tags %}
+
+<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+
+
+{% if msg %} <div class="d-flex row"> <div class="col"><div class="alert alert-info"><strong>{{msg}}.</strong></div></div> </div> {% endif %}
+
+<div class="text-end pt-2"><span class="btn btn-outline-success completed" onclick="$('.toggle').slideToggle();$('i', this).toggleClass('fa-eye fa-eye-slash');"> 
+    <i class="fas fa-eye"></i> {% trans "View completed" %} </span></div>
+
+{% comment %}
+<div class="row status-head">
+    {% for status in status_list %}
+        <div class="col text-center ms-1 me-1 {%if status.code == "04"%}hide toggle{%endif%}">
+            <small>{% padword_translate status.name %} (<span id="counter-{{status.pk}}">0</span>)</small>
+        </div>
+    {% endfor %}
+</div>
+{% endcomment %}
+<div class="row div-cards text-center mt-2">
+    {% for status in status_list %}
+        <div class="col text-center ui-droppable ui-widget-header col-status pt-2 {%if status.code == "04"%}hide toggle{%endif%}" 
+            id="status-{{status.pk}}" data-pk="{{status.pk}}">
+            <small id="header-status-{{status.pk}}">{% padword_translate status.name %} (<span id="counter-{{status.pk}}">0</span>)</small>
+        </div>
+    {% endfor %}
+</div>
+<div id="table-list-bookings"> {% include "bookings/pr-manage/booking-page-drag.html" %} </div>
+
+<script>
+    {#checkNotify($("#s-ini_date").val(), $("#s-end_date").val());#}
+    {#$('#total-items').html('{{total_items}}');#}
+    checkNotify("{{ini_date|date:'Y-m-d'}}", "{{end_date|date:'Y-m-d'}}");
+    
+    $('#btn-status-{{status}}').removeClass('btn-light').addClass('btn-primary');
+    bookings_by_state();
+
+    $( function() {
+        $( ".ui-draggable" ).draggable( {
+            start:function(event, ui) {
+                $(this).addClass('indragmode');
+                $(this).attr('oldParent',$(this).parent().attr("id"));
+            },
+            stop:function(event, ui) {
+                $(this).removeClass('indragmode');
+            },
+            containment: ".div-cards",
+        });
+
+        $( ".ui-droppable" ).droppable({
+            drop: function( event, ui ) {
+                $(ui.draggable).prependTo('#'+$(this).attr("id"));
+                $('#header-'+$(this).attr("id")).prependTo('#'+$(this).attr("id"));
+                var datas = {};
+                datas["status"] = $(this).attr("data-pk");
+                datas["fi_id"] = $(ui.draggable).attr("data-pk");
+                datas["comment"] = '';
+                url = "{% url 'change-status' %}";
+                ajaxGetMute(url, datas, "", "");
+                $(ui.draggable).removeAttr('style');
+                bookings_by_state();
+            }
+        });
+    } );
+</script>

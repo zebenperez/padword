@@ -4,7 +4,7 @@
     <div class="card ark" data-url="{%url "room-form-by-project"%}" data-target-modal="common-modal" data-obj_id="{{item.id}}" 
         data-project="{{item.project_uuid}}">
         <div class="row lock-box">
-            <div class="col-12 alias text-center pt-1 pb-1" tyle="border:1px solid red"><strong>{% padword_translate item.alias %}</strong></div>
+            <div class="col-12 alias text-center pt-1 pb-1"><strong>{% padword_translate item.alias %}</strong></div>
             <div class="icons-1 d-flex justify-content-center mt-2 mb-2">
                 <div class="w-25 text-center"><i class="fas fa-{{item.state|default:'lock'}}"></i></div>
                 <div class="w-50 text-center">Status</div>
