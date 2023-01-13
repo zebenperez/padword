@@ -132,7 +132,11 @@ def have_menu(user_project, menu):
     pu = ProjectUser.objects.filter(username=up[0], project_uuid=up[1]).first()
     if pu == None:
         return False
-    return menu in pu.menus
+    for m in pu.menus.split(";"):
+        if m == menu:
+            return True
+    return False
+    #return menu in pu.menus
 
 @register.filter
 def get_code_guest(lock, code):

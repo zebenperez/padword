@@ -11,7 +11,7 @@
 
 #main-base {
     background: #000000 !important;
-    padding-bottom: 7vh !important;
+    /*padding-bottom: 7vh !important;*/
 }
 
 .main-pwa .row {
@@ -372,6 +372,10 @@ button.menu-options.ark span {
     color:#769d02 !important;
     font-size: 1.1rem;
     text-transform: uppercase !important;
+}
+
+span.foot-title {
+    color: #ffffff;
 }
 
 /*
