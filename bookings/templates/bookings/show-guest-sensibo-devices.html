@@ -1,0 +1,12 @@
+{% load i18n static padword_tags %}
+
+
+{% for lock in guest.get_locks %}
+    <div class="form-check form-switch p-2 mt-3">
+        <input class="form-check-input ark_change" type="checkbox" role="switch" id="Switch_{{lock.id}}"
+            data-url="{% url "open-lock" %}" data-target="div-notifications" data-obj_id="{{lock.id}}" onclick="setUncheck($(this))">
+        <label class="form-check-label pt-3" for="Switch_{{lock.id}}">{{lock.alias}}</label>
+        <div id="div-notifications mt-3"></div>
+    </div>
+{% endfor %}
+

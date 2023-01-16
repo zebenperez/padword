@@ -32,18 +32,18 @@
     <div class="card-body" id="body-locks"> <div id="div-locks">{% include "guest/keys/guest-keys.html" %}</div> </div> 
 <div>
 
-{%comment%}
-<div class="card">
-    <div class="card-header">
-        <div class="row toggle-btn" data-target="body-sensibo" data-id-change="icon-sensibo" 
-            data-text='<i class="fas fa-plus"></i>' data-text-alt='<i class="fas fa-minus"></i>'>
-            <div class="col-10"><strong>{% trans "Air aconditioner" %}</strong></div>
-            <div class="col-2 text-end" id="icon-sensibo"> <i class="fas fa-plus"></i> </div>
+{% if obj.project.sensibo_api_key != "" %}
+    <div class="card">
+        <div class="card-header">
+            <div class="row toggle-btn" data-target="body-sensibo" data-id-change="icon-sensibo" 
+                data-text='<i class="fas fa-plus"></i>' data-text-alt='<i class="fas fa-minus"></i>'>
+                <div class="col-10"><strong>{% trans "Air aconditioner" %}</strong></div>
+                <div class="col-2 text-end" id="icon-sensibo"> <i class="fas fa-plus"></i> </div>
+            </div>
         </div>
-    </div>
-    <div class="card-body hide" id="body-sensibo"> <div id="div-locks">{% include "guest/sensibo/guest-sensibo.html" %}</div> </div> 
-<div>
-{%endcomment%}
+        <div class="card-body hide" id="body-sensibo"> <div id="div-sensibo">{% include "guest/sensibo/guest-sensibo-devices.html" %}</div> </div> 
+    <div>
+{% endif %}
 
 {% if request.user|in_group:"admins" %}
     <div class="card">

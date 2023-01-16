@@ -1,0 +1,61 @@
+{% load i18n bookings_tag common_tag padword_tags static%}
+
+
+{%include "bookings/back-btn.html" with uuid=category.uuid %}
+
+{% for item in device_list %}
+<div class="row div-key pt-3">
+    <div class="card">
+        <div class="row lock-box">
+            <div class="col-12 alias text-center pt-1 pb-1"><strong>{{ item.name }}</strong></div>
+            <div class="row mb-2 text-center" style="margin:0;">
+                <div class="col-12 fan-low pl-2">{{ item.ac_state.mode }} - {{ item.ac_state.fan_level }}</div>
+                <div class="col-12 temperature pl-2">{{item.measurement.temperature}}&#176;</div>
+                <div class="col-12 humidity pl-2"><i class="fas fa-tint"></i> {{ item.measurement.humidity }}</div>
+            </div>
+            <div class="icons-2 sens d-flex justify-content-start mt-3 mb-2 pt-2">
+                <div class="text-center on-off">
+                    <a class="ark" title="{%trans "Toggle switch"%}" data-url="{% url "sensibo-device-switch-project" %}" 
+                        data-target="row_{{item.uid}}" data-obj_id="{{project.id}}" data-name="{{item.name}}" data-uid="{{item.uid}}"> 
+                        {%if item.ac_state.on%}
+                            <span class="turn-off p-2"><img src="/static/img/turn-on.png" width="50%"></span>
+                        {%else%}
+                            <span class="turn-on p-2"><img src="/static/img/turn-off.png" width="50%"></span>
+                        {%endif%}
+                    </a>  
+                </div>
+                <div class="text-center">
+                    <i class="fas fa-snowflake active" onclick="$('#div-mode-options').slideToggle()"></i>
+                    <div id="div-mode-options" class="hide">
+                        {% include "web/sensibo-by-project/device-option.html" with param="mode" value="cool" cvalue=item.ac_state.mode %}
+                        {% include "web/sensibo-by-project/device-option.html" with param="mode" value="heat" cvalue=item.ac_state.mode %}
+                        {% include "web/sensibo-by-project/device-option.html" with param="mode" value="fan" cvalue=item.ac_state.mode %}
+                        {% include "web/sensibo-by-project/device-option.html" with param="mode" value="dry" cvalue=item.ac_state.mode %}
+                        {% include "web/sensibo-by-project/device-option.html" with param="mode" value="auto" cvalue=item.ac_state.mode %}
+                    </div>
+                </div>
+                <div class="text-center">
+                    <i class="fas fa-temperature-low active" onclick="$('#div-temp-options').slideToggle()"></i>
+                    <div id="div-temp-options" class="hide">
+                        {% for i in temp_range %}
+                            {% include "web/sensibo-by-project/device-option.html" with param="targetTemperature" value=i %}
+                        {% endfor %}
+                    </div>
+                </div>
+                <div class="text-center">
+                    <i class="fas fa-dna active" onclick="$('#div-fan-options').slideToggle()"></i>
+                    <div id="div-fan-options" class="hide">
+                        {%include "web/sensibo-by-project/device-option.html" with param="fanLevel" value="low" cvalue=item.ac_state.fan_level%}
+                        {%include "web/sensibo-by-project/device-option.html" with param="fanLevel" value="medium" cvalue=item.ac_state.fan_level%}
+                        {%include "web/sensibo-by-project/device-option.html" with param="fanLevel" value="high" cvalue=item.ac_state.fan_level%}
+                        {%include "web/sensibo-by-project/device-option.html" with param="fanLevel" value="auto" cvalue=item.ac_state.fan_level%}
+                    </div>
+                </div>
+                {#<div class="text-center"><i class="fas fa-magic active"></i></div>#}
+            </div>  
+        </div>
+    </div>
+</div>
+{% endfor %}
+
+

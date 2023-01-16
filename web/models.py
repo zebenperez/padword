@@ -769,6 +769,7 @@ class LockEkey(models.Model):
 
 class SensiboDevice(models.Model):
     uuid = models.CharField(max_length=255, verbose_name=_('UUID'), default="")
+    name = models.CharField(max_length=255, verbose_name=_('Name'), default="")
     room = models.CharField(max_length=255, verbose_name=_('Room'), default="")
     project_uuid = models.CharField(max_length=255, verbose_name=_('Project UUID'), default="")
 

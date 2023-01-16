@@ -30,9 +30,13 @@ def devices_by_project(request, project_id):
         project = get_or_none(Project, project_id)
         device_list = project.sensibo_device_list()
         for dev in device_list:
+            obj, created = SensiboDevice.objects.get_or_create(project_uuid=project.uuid, uuid=dev["uid"])
+            if obj.name != dev["name"]:
+                obj.name = dev["name"]
+                obj.save()
             dev["measurement"] = project.sensibo_get_measurement(dev["uid"])
             dev["ac_state"] = project.sensibo_get_ac_state(dev["uid"])
-            dev["room_obj"], created = SensiboDevice.objects.get_or_create(project_uuid=project.uuid, uuid=dev["uid"])
+            dev["room_obj"] = obj
 
         context = get_device_project_context(project)
         context['device_list'] = device_list

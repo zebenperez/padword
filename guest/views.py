@@ -78,7 +78,7 @@ def guest_form(request):
     try:
         date = datetime.datetime.now().replace(hour=12, minute=00)
         obj = get_or_none(Guest, request.GET["obj_id"]) if "obj_id" in request.GET else Guest.objects.create(UUID = new_ui_slug(Guest), check_in = date, check_out = date)
-        return render(request, "guest/guest-form.html", {'obj': obj,})
+        return render(request, "guest/guest-form.html", {'obj': obj, 'temp_range': range(16,26)})
     except Exception as e:
         return render(request, 'error_exception.html', {'exc':show_exc(e)})
 
@@ -171,8 +171,10 @@ def guest_save_room(request):
             guest.save()
             guest.remove_all_key_codes()
             guest.remove_all_key_cards()
+            guest.remove_all_sensibo_devices()
         else:
             err = guest.change_room(value)
+            guest.change_sensibo_devices(value)
         return render(request, "guest/keys/guest-keys.html", {'obj': guest, "err": err})
     except Exception as e:
         return render(request, "error_exception.html", {'exc':show_exc(e)})
@@ -240,7 +242,7 @@ def guest_form_by_project(request):
         else:
             date = datetime.datetime.now().replace(hour=12, minute=00)
             obj = Guest.objects.create(UUID = new_ui_slug(Guest), project_id = project.uuid, check_in = date, check_out = date)
-        return render(request, "guest-by-project/guest-form.html", {'obj': obj, 'project_uuid': project.uuid})
+        return render(request, "guest-by-project/guest-form.html", {'obj': obj, 'project_uuid': project.uuid, 'temp_range': range(16,26)})
     except Exception as e:
         return render(request, 'error_exception.html', {'exc':show_exc(e)})
 

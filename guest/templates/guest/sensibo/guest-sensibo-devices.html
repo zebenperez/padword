@@ -1,0 +1,15 @@
+{% load i18n guest_tags %}
+
+<div class="card">
+    <div class="card-header"> {% trans "Air aconditioner assigned" %} </div>
+
+    {% if err and err != "" %}<div class="alert alert-danger">{{err|safe}}</div>{% endif %}
+
+    <div class="card-body p-0">
+        {% for item in obj.sensibo_devices.all %} 
+            {% include "guest/sensibo/guest-sensibo-form.html" %} 
+        {% endfor %}
+    </div>
+</div>
+
+

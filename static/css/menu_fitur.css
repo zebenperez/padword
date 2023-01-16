@@ -381,6 +381,12 @@ span.foot-title {
     color: #ffffff;
 }
 
+.menu-botton {
+    position:fixed; 
+	bottom:0; 
+	left: 0%;
+}
+
 /*
 .menu-botton {
     background:#ffffff;
@@ -618,4 +624,58 @@ label.form-check-label {
     width: 30px;
     height: 25px;
 }
+
+
+/*********  Sensibo ***********/
+
+.hide { display: none; }
+.fan-low {
+    color: #252621;
+    font-size: 0.85rem;
+    font-weight: lighter;
+    text-transform: capitalize;
+}
+.temperature {
+    color: #848484;
+    font-size: 3rem;
+    font-weight: lighter;
+}
+.humidity {
+    color: #a7a7a7;
+    font-weight: lighter;
+}
+.icons-2.sens.d-flex.justify-content-start.mt-3.mb-2.pt-2 {
+    display: grid !important; 
+    grid-template-columns: 34% 22% 22% 22% !important;
+}
+.icons-2.sens .on-off {
+    color: #3b88ff;
+}
+.icons-2 i.active { color: #757575; font-size: 13px;}
+
+a.ark {
+    text-decoration: none !important; font-size: 13px;
+}
+
+#div-mode-options, #div-temp-options, #div-fan-options, #div-room-options {
+    border:1px solid #dfdfdf;
+    border-radius: 5px;
+    margin-top: 15px;
+}
+#div-mode-options li, #div-temp-options li, #div-fan-options li, #div-room-options li {
+    line-height: 1.5rem;
+    list-style: none;
+}
+#div-mode-options li:hover, #div-temp-options li:hover, #div-fan-options li:hover, #div-room-options li:hover {
+    background: #ccc;
+}
+#div-mode-options li a, #div-temp-options li a, #div-fan-options li a, #div-room-options li a {
+    color: #999;
+}
+
+span.actual {
+    color: #000; 
+}
+
+
 

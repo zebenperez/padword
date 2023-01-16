@@ -1,14 +1,14 @@
 {% load i18n %}
 
 <div class="row justify-center">
-	<div class="col-6">
+	<div class="col-3">
 		<label class="label">{% trans "Born date" %}:</label>
 		<input type="date" class="form-control autosave input mb-4" id="birthdate" name="birthdate" value="{{obj.birthdate|date:"Y-m-d"}}" 
             title="{{obj.birthdate}}" data-model-name="guest.guest" data-obj-id="{{obj.id}}" data-url="{% url "autosave_field" %}" 
             data-target="div-notification"/> <span class="msg_error" id="birthdate__msg"></span>
 	</div>
 
-	<div class="col-3">
+	<div class="col-2">
 		<label class="label">{% trans "Married" %}:</label>
         <select class="form-control autosave input mb-4" id="married" name="married" data-model-name="guest.guest" data-obj-id="{{obj.id}}"
             data-url="{% url "autosave_field" %}" data-target="div-notification">
@@ -17,7 +17,7 @@
         </select><span class="msg_error" id="married__msg"></span>
 	</div>
 
-	<div class="col-3">
+	<div class="col-2">
 		<label class="label">{% trans "Children" %}:</label>
         <select class="form-control autosave input mb-4" id="with_kids" name="with_kids" data-model-name="guest.guest" data-obj-id="{{obj.id}}"
             data-url="{% url "autosave_field" %}" data-target="div-notification">
@@ -40,7 +40,7 @@
             data-target="div-notification"/> <span class="msg_error" id="children__msg"></span>
 	</div>
 
-	<div class="col-2">
+	<div class="col-1">
 		<label class="label">{% trans "Babies" %}:</label>
 		<input type="number" class="form-control autosave input mb-4" id="babies" name="babies" value="{{obj.babies}}" 
             title="{{obj.babies}}" data-model-name="guest.guest" data-obj-id="{{obj.id}}" data-url="{% url "autosave_field" %}" 
