@@ -381,6 +381,13 @@ span.foot-title {
     color: #ffffff;
 }
 
+.menu-botton {
+    position:fixed; 
+	bottom:0; 
+	left: 0%;
+
+}
+
 /*
 .menu-botton {
     background:#ffffff;
