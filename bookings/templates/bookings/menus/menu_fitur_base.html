@@ -46,6 +46,8 @@
  
 </div>
 
+<button class="btn btn-header-pwa text-center ide ark" id="btn-home" data-url="{% url 'show-category-menu' %}" data-target="main" 
+    data-cat_id="{{form.category}}"> <i class="fas fa-home"></i> <br /> <span>{% trans 'AppHome' %}</span></button>
 <div id="main" class="main-pwa pl-4 pr-4"> {% include form.form_type.template with category=form.get_category %} </div>
 
 {%comment%}
