@@ -722,6 +722,37 @@ $(document).ready(()=>{
         }
     });
 
+    $("body").on("click", ".scan-nfc", async () => {
+        var obj = $(this);
+        var container = $("#div-scan");
+        try {
+            const ndef = new NDEFReader();
+            await ndef.scan();
+            //container.html("> Scan started");
+
+            ndef.addEventListener("readingerror", () => {
+                container.append("Argh! Cannot read data from the NFC tag. Try another one?");
+            });
+
+            ndef.addEventListener("reading", ({ message, serialNumber }) => {
+            /*container.append(`> Serial Number: ${serialNumber}`);
+            container.append(`> Records: (${message.records.length})`);
+            container.append(`> Records: (${message.records})`);*/
+            const decoder = new TextDecoder();
+            for (const record of message.records) {
+                /*container.append(`Record type:  ${record.recordType}`);
+                container.append(`Record:    ${record.data}`);
+                container.append(`--JSON--`);*/
+                const val = decoder.decode(record.data);
+                val_arr = val.split(",");
+                container.html(`Su tarjeta es:    ${val_arr[0]}`);
+            }
+        });
+        } catch (error) {
+            container.append("Argh! " + error);
+        }
+
+    });
 
 });
 

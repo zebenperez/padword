@@ -15,12 +15,15 @@
             </div>
             <br/>
             <div class="justify-content-center">
-                <a class="btn btn-outline-primary btn-select-payment w-100" data-id="{{item.id}}" data-pt="{{item.payment_type.id}}" 
-                    data-cash='{{item.payment_type.code}}'> {% padword_translate item.payment_type.name %}</a>
+                <a class="btn btn-outline-primary btn-select-payment w-100 {%if item.payment_type.code == "03"%}scan-nfc{%endif%}"
+                    data-id="{{item.id}}" data-pt="{{item.payment_type.id}}" data-cash='{{item.payment_type.code}}'> 
+                    {% padword_translate item.payment_type.name %}</a>
             </div>
         </div>
     {% endfor %}
 </div>
+
+<div id="div-scan" class="hide">{% trans "SCAN..." %}</div>
 
 <div class="row mt-5 justify-content-center">
     <div class="col-lg-5 offset-lg-1 col-md-6 col-xs-5 text-center mb-3">
@@ -42,8 +45,14 @@
             $("#cash-value").show();
         else
         {
-            $("#cash-value").hide();
-            $("#btn-send-order-{{fi.id}}").data("amount", "");
+            if ($(this).data("cash") == "03")
+                $("#div-scan").show();
+            else
+            {
+                $("#cash-value").hide();
+                $("#div-scan").hide();
+                $("#btn-send-order-{{fi.id}}").data("amount", "");
+            }
         }
     });
 

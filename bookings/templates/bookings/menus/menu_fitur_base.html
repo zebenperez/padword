@@ -11,8 +11,9 @@
             data-project_uuid="{{project_uuid}}" data-cat_id="{{form.category}}" style="display:none"> <i class="fas fa-chevron-left"></i> </button>
     </div>
 
-    <div class="col-8 text-center pt-2">
-        <img class="" src="/static/img/logo-full-padword.png">
+    <div class="col-8 text-center">
+        <button class="btn btn-header-pwa text-center ark" id="btn-home" data-url="{% url 'show-category-menu' %}" data-target="main" 
+            data-cat_id="{{form.category}}"> <img class="" src="/static/img/logo-full-padword.png"></button>
     </div>
 
     <div class="col-2">
@@ -45,8 +46,6 @@
  
 </div>
 
-<button class="btn btn-header-pwa text-center hide ark" id="btn-home" data-url="{% url 'show-category-menu' %}" data-target="main" 
-    data-cat_id="{{form.category}}"> <i class="fas fa-home"></i> <br /> <span>{% trans 'AppHome' %}</span></button>
 <div id="main" class="main-pwa pl-4 pr-4"> {% include form.form_type.template with category=form.get_category %} </div>
 
 {%comment%}
