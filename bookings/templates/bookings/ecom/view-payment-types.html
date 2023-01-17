@@ -5,25 +5,38 @@
 
 <div class="row justify-content-center">
     {% for item in fi.form.get_category.payment_types.all %}
-        <div class="col-6 col-lg-4 justify-content-center mt-1 pt-box" id="pt-box-{{item.id}}" tyle="border:1px solid #ccc">
+        <div class="col-12 col-lg-4 justify-content-center mt-1 pt-box pay-method" id="pt-box-{{item.id}}">
             <div class="image mobile" id="cover">
-                <img src="{{item.payment_type.icon.url}}" class="card-img-top" alt="{% padword_translate item.payment_type.name %}" style="width:50%">
-                {% if item.payment_type.code == "01" %}
-                    <input type="text" class="form-control" id="cash-value" placeholder="{%trans "Amount to pay (10, 20, 50...)"%}" 
-                        style="display:none"/>
-                {% endif %}
-            </div>
-            <br/>
+                <img src="{{item.payment_type.icon.url}}" class="ard-img-top" alt="{% padword_translate item.payment_type.name %}" style="width:50px"></div>
             <div class="justify-content-center">
-                <a class="btn btn-outline-primary btn-select-payment w-100 {%if item.payment_type.code == "03"%}scan-nfc{%endif%}"
-                    data-id="{{item.id}}" data-pt="{{item.payment_type.id}}" data-cash='{{item.payment_type.code}}'> 
+                <a class="btn btn-outline-primary btn-select-payment w-100 mt-2 {%if item.payment_type.code == "03"%}scan-nfc{%endif%}"
+                    data-id="{{item.id}}" data-pt="{{item.payment_type.id}}" data-cash='{{item.payment_type.code}}' data-scan-container="div-scan"> 
                     {% padword_translate item.payment_type.name %}</a>
             </div>
         </div>
     {% endfor %}
 </div>
 
-<div id="div-scan" class="hide">{% trans "SCAN..." %}</div>
+<input type="text" class="form-control hide mt-2" id="cash-value" placeholder="{%trans "Amount to pay (10, 20, 50...)"%}" />
+
+{%comment%}<div id="div-scan" class="hide">{% trans "SCAN..." %}</div> {%endcomment%}
+
+<div id="div-scan" class="hide">
+    <div id="div-scan-wait">
+        <img alt="Loading Screen Animation - Hourglass" 
+            width="100%" 
+            height="" 
+            data-id="4275501" 
+            data-animated-url="https://cdn.dribbble.com/users/416315/screenshots/4275501/media/81a14e385dee6f7ca9e90d578b72d2b8.gif" 
+            skip_resize="true" 
+            srcset="https://cdn.dribbble.com/users/416315/screenshots/4275501/media/81a14e385dee6f7ca9e90d578b72d2b8.gif 320w, https://cdn.dribbble.com/users/416315/screenshots/4275501/media/81a14e385dee6f7ca9e90d578b72d2b8.gif 400w" 
+            sizes="(max-width: 919px) 100vw, max(768px, 98vh)" src="https://cdn.dribbble.com/users/416315/screenshots/4275501/media/81a14e385dee6f7ca9e90d578b72d2b8.gif">
+    </div>
+    <div id="div-scan-readed" class="hide">
+        {% trans "Your card number is" %} <span id="div-scan-card-number"></span><br/>
+        {% trans "Purchase will be load in your card" %}
+    </div>
+</div>
 
 <div class="row mt-5 justify-content-center">
     <div class="col-lg-5 offset-lg-1 col-md-6 col-xs-5 text-center mb-3">
@@ -42,11 +55,17 @@
         $("#pt-box-"+$(this).data("id")).addClass("selected");
         $("#btn-send-order-{{fi.id}}").data("payment_type", $(this).data("pt"));
         if ($(this).data("cash") == "01")
+        {
             $("#cash-value").show();
+            $("#div-scan").hide();
+        }
         else
         {
             if ($(this).data("cash") == "03")
+            {
+                $("#cash-value").hide();
                 $("#div-scan").show();
+            }
             else
             {
                 $("#cash-value").hide();

@@ -1,0 +1,12 @@
+{% load i18n bookings_tag common_tag padword_tags static%}
+
+
+{%include "bookings/back-btn.html" with uuid=category.uuid %}
+
+{% for item in device_list %}
+    <div class="row div-key pt-3" id="row_{{item.uid}}">
+        {%include "bookings/sensibo/device-card.html" %}
+    </div>
+{% endfor %}
+
+

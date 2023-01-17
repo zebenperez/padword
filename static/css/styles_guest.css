@@ -659,8 +659,13 @@ span#count-badge.count.badge #span-notifications {
 .card-img, .card-img-bottom, .card-img-top {
 	width: auto;
 /*	height: 50%;*/
-}
+} 
 
+.card-img-top.spec-img {
+    height: 150px !important; 
+    width: 100% !important;; 
+    object-fit: cover !important;;
+}
 div#cover.image {
 	text-align: center;
     background: rgb(255,255,255);
