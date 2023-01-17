@@ -1,6 +1,6 @@
 from django.urls import include, path, re_path
 from django.contrib import admin
-from bookings import views, form_views as fv, guest_views as gv
+from bookings import views, form_views as fv, guest_views as gv, guest_sensibo_views as gsv
 
 urlpatterns = [ 
     #--------------------- Forms --------------------
@@ -137,6 +137,11 @@ urlpatterns = [
     #path('booking-new/<slug:form_uuid>/<slug:device_imei>/', views.booking_new, name='booking-new'),
     #path('booking-new/<slug:form_uuid>/<slug:device_imei>/<slug:room_number>/<slug:guest_name>/<slug:guest_surname>/', views.booking_new, name='booking-new'),
 
+    #------------- Bookings Sensibo Guests --------------#
+    path('guest-show-sensibo-menu/', gsv.show_sensibo_menu, name='show-sensibo-menu'),
+    path('guest-sensibo-device-switch/', gsv.device_switch, name='guest-sensibo-device-switch'),
+    path('guest-sensibo-device-set-state/', gsv.device_set_state, name='guest-sensibo-device-set-state'),
+
     #------- Shopping -----------#
     path('shopping/add-to-cart/', gv.item_to_shopping_cart, name='item-to-shopping-cart'),
     path('shopping/remove-generic-from-cart/', gv.remove_generic_item_from_shopping_cart, name='remove-generic-item-shopping-cart'),
@@ -153,7 +158,6 @@ urlpatterns = [
     #path('shopping/show-category-menu/<int:form_id>/<slug:cat_id>/', gv.show_category_menu, name='show-category-menu'),
     path('shopping/show-category-menu/', gv.show_category_menu, name='show-category-menu'),
     path('shopping/show-key-menu/', gv.show_key_menu, name='show-key-menu'),
-    path('shopping/show-sensibo-menu/', gv.show_sensibo_menu, name='show-sensibo-menu'),
 
     path('fix-uuid/', views.fix_uuid, name='booking-fix-uuid'),
     path('test/', views.test, name='booking-test'),

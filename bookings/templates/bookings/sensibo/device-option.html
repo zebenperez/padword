@@ -1,0 +1,17 @@
+
+<li>
+    <a class="ark pointer" 
+        data-url="{% url "guest-sensibo-device-set-state" %}" 
+        data-target="row_{{item.uid}}" 
+        data-obj_id="{{project.id}}" 
+        data-name="{{item.name}}"
+        data-uid="{{item.uid}}" 
+        data-param="{{param}}" 
+        data-value="{{value}}">
+            {% if cvalue == value %} 
+                <span class="actual">{{value}}</span>
+            {% else %}
+                {{value}}
+            {% endif %} 
+    </a>
+</li>

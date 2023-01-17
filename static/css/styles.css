@@ -17,8 +17,8 @@ body {
     left: 0;
     z-index: 9999;
     cursor: progress;
-    background: url('//upload.wikimedia.org/wikipedia/commons/thumb/e/e5/Phi_fenomeni.gif/50px-Phi_fenomeni.gif')
-              50% 50% no-repeat rgb(200,200,200,0.7);
+    background: url('https://usagif.com/wp-content/uploads/loading-12.gif') 50% 50% no-repeat ;
+    background-size: 50px 50px;
 }
 
 body.loading{
@@ -426,7 +426,6 @@ select.input {
 .permanent, .one-use {
     font-size: 0.8rem;
 }
-
 /************* btn styles ***********/
 
 .save, .cancel {
@@ -585,7 +584,7 @@ div.striped-nested>div>div:nth-of-type(even) { background: #FFFFFF; }
     
     .fa, .fas, .far {
     	font-size: 12px;
-}
+    }
 
 
 }

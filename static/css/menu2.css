@@ -73,6 +73,12 @@ div#cover.image.mobile img.card-img-top {
     height: 150px !important;
 }
 
+img.card-img-top.spec-img {
+    height: 150px !important; 
+    width: 100% !important;; 
+    object-fit: cover !important;;
+}
+
 /* Carousel controls*/
 .carousel-control-next, .carousel-control-prev {
 	position: absolute;

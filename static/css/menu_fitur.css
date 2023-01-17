@@ -31,7 +31,8 @@
 	width: 100%;
 }
 .col-10.card.info-panel.p-2 {
-    padding-top: 70px !important;
+    padding-top: 30px !important;
+    height: 100%;
 
 }
 button.me-1.btn.btn-access.ark {
@@ -211,10 +212,20 @@ img.object-fit_cover.img-new {
     top:0 !important;
     width: 100% !important;
     height: 115px;
-    z-index: 1; 
+    /*z-index: 1000000 !important; */
 }
 .topbar img {
+}
+
+ img.logo-pad {
+    width: 100% !important;
     height: 65px;
+/*    border:1px solid red;*/
+}
+img.logo-bars {
+    width: 23px !important;
+    height: 23px;
+/*    border:1px solid blue;*/
 }
 
 .row.div-slogan {
@@ -448,11 +459,13 @@ ul.dropdown-menu {
     display: block;
     width: 1000;
 }
-
+/*
 .dropdown-menu.show img {
-    width: 23px;
+    width: 23px !important;
     height: 23px;
 }
+*/
+
 .btn.btn-dark-pad {
     background: #a5c2d1 !important;
 }
@@ -609,24 +622,27 @@ label.form-check-label {
     color: #fff !important;
 }
 
-.card.slider-cart {
-    /*margin-top: 80px;*/
-}
-
-
 .btn-marine-blue {
     background: #769d02 !important;
     color: white !important;
     font-size: 1rem !important;
 }
-
+/*
 .nav-link.dropdown-toggler img {
     width: 30px;
     height: 25px;
 }
+*/
 
+/********* Sensibo *********/
 
-/*********  Sensibo ***********/
+.card,
+.card.sensibo-card {
+    background-color: #f1f1f1;
+    width: 96%;
+    height: auto !important;
+    margin:auto;
+}
 
 .hide { display: none; }
 .fan-low {
@@ -651,7 +667,7 @@ label.form-check-label {
 .icons-2.sens .on-off {
     color: #3b88ff;
 }
-.icons-2 i.active { color: #757575; font-size: 13px;}
+.icons-2 i.active { color: #757575; font-size: 20px;}
 
 a.ark {
     text-decoration: none !important; font-size: 13px;
@@ -677,5 +693,20 @@ span.actual {
     color: #000; 
 }
 
+/********* end Sensibo *********/
+
+.pay-method {
+    display: grid !important; 
+    grid-template-columns: 50% 50%; !important 
+    grid-gap: 10px !important;
+}
 
 
+.book-details {
+    background-color: #ffffff !important;
+    border: 2px solid #769d02 !important;
+}
+
+.row.special li {
+    list-style: none !important;
+}

@@ -60,6 +60,9 @@ def check_user(user, guest):
 
 def guest_access(request, category_uuid):
     cat = get_or_none(Category, category_uuid, "uuid")
+    if cat.project.prefix == "fitur22":
+        return redirect(reverse("guest-access-anonymous", kwargs = {'category_uuid':category_uuid}))
+
     context = {'project_uuid': cat.project.uuid, 'cat': cat}
     guest = get_guest(request.user.username, cat.project.uuid)
     #if check_user(request.user, project_uuid=cat.project.uuid):
@@ -623,24 +626,6 @@ def show_key_menu(request):
         guest = get_guest(request.user.username, category.project_uuid)
 
         return render(request, 'bookings/menus/menu_keys_inner.html', {'category':category, 'guest':guest,})
-    except Exception as e:
-        print(show_exc(e))
-        return render(request, "error_exception.html", {'exc':show_exc(e)})
-
-@group_required("admins", "projects", "guests")
-def show_sensibo_menu(request):
-    try:
-        cat_id = request.GET["cat_id"] if "cat_id" in request.GET else 0
-        category = get_or_none(Category, cat_id, "uuid")
-        project = category.project
-
-        device_list = project.sensibo_device_list()
-        for dev in device_list:
-            dev["measurement"] = project.sensibo_get_measurement(dev["uid"])
-            dev["ac_state"] = project.sensibo_get_ac_state(dev["uid"])
-
-        context = {'category':category, 'temp_range':range(16, 26), 'device_list':device_list}
-        return render(request, 'bookings/menus/menu_sensibo_inner.html', context)
     except Exception as e:
         print(show_exc(e))
         return render(request, "error_exception.html", {'exc':show_exc(e)})

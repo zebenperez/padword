@@ -31,15 +31,18 @@
              data-project_uuid="{{form.project.uuid}}" data-cat_id="{{form.category}}"><img class="" src="/static/img/ico_pedidos.png"><br /><br />
              <span>Pedidos</span></button>
     </div>
-       <span class="foot-title mb-2">Contáctanos</span>
+    <span class="foot-title mb-2">Contáctanos</span>
     <div class="row menu-botton w-100 mt-2 p-2" style="background: #769d02;">
-        <div class="col-lg-3 col-2" style="padding:0;">
+        <div class="col-lg-3 col-3" style="padding:0">
+            <a href="https://wa.me/+34 607 39 29 77"><img class="" src="/static/img/whatsapp-b.png" width="30px"></a>
+        </div>
+        <div class="col-lg-3 col-3" style="padding:0">
             <a href="https://wa.me/+34 607 39 29 77"><img class="" src="/static/img/whatsapp.png" width="30px"></a>
         </div>
-        <div class="col-lg-3 offset-1 col-6" style="padding:0;">
+        <div class="col-lg-3 col-3" style="padding:0">
             <a href="mailto:info@padword.es"><img class="" src="/static/img/email.png" width="30px"></a>
         </div>
-        <div class="col-lg-3 offset-1 col-2" style="padding:0;">
+        <div class="col-lg-3 col-3" style="padding:0">
             <a href="https://www.padword.com/consultanos"><img class="" src="/static/img/contact.png" width="30px"></a>
         </div>
     </div>
@@ -47,6 +50,7 @@
 </div>
 
 <script id="realtime-script">
+    $("#back-btn-bookings").click(function(){ $(this).hide(); $("#back-btn").show(); });
     $('#span-total-items').html('{% get_total_items request.user.username category.project_uuid %}');
     if (parseInt($("#span-total-items").html()) > 0)
         $("#count-badge").show();
