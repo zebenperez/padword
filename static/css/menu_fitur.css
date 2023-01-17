@@ -212,7 +212,7 @@ img.object-fit_cover.img-new {
     top:0 !important;
     width: 100% !important;
     height: 115px;
-    /*z-index: 1000000 !important; */
+    z-index: 1 !important; */
 }
 .topbar img {
 }
