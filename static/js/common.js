@@ -756,7 +756,7 @@ $(document).ready(()=>{
         const ac = new AbortController();
         scanNFC(id, {signal: ac.signal});
         ac.abort(); 
-        setTimeout(() => {ac.abort(); $(`${id}-wait`).hide();}, 5000);
+        setTimeout(() => {ac.abort(); $(`${id}-wait`).hide();}, 20000);
     });
 
 });
