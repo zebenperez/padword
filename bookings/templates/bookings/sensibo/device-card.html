@@ -10,16 +10,15 @@
             <div class="col-12 humidity pl-2"><i class="fas fa-tint"></i> {{ item.measurement.humidity }}</div>
         </div>
         <div class="icons-2 sens d-flex justify-content-start mt-3 mb-2 pt-2">
-            <div class="text-center on-off">
-                <a class="ark" title="{%trans "Toggle switch"%}" data-url="{% url "guest-sensibo-device-switch" %}" 
+            <div class="ark text-center on-off" data-url="{% url "guest-sensibo-device-switch" %}" 
                     data-target="row_{{item.uid}}" data-obj_id="{{project.id}}" data-name="{{item.name}}" data-uid="{{item.uid}}"> 
                     {%if item.ac_state.on%}
-                        <span class="turn-off p-2"><img src="/static/img/turn-on.png" width="55%"></span>
+                        <span class="turn-off"><img src="/static/img/turn-on.png" width="55%"></span>
                     {%else%}
-                        <span class="turn-on p-2"><img src="/static/img/turn-off.png" width="55%"></span>
+                        <span class="turn-on"><img src="/static/img/turn-off.png" width="55%"></span>
                     {%endif%}
-                </a>  
             </div>
+
             <div class="text-center">
                 <i class="fas fa-snowflake active" onclick="$('#div-mode-options').slideToggle()"></i>
                 <div id="div-mode-options" class="hide">
