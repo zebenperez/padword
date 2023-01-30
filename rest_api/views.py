@@ -304,7 +304,7 @@ class LockViewSet(viewsets.ModelViewSet):
     @action(detail=False, methods=['post'])
     def add_cardcode(self, request):
         try:
-            #logger.info("[{}]: \"{}\"".format(self.request.user, request.POST))
+            logger.info("[{}]: \"{}\"".format(self.request.user, request.POST))
             pu = ProjectUser.objects.get(username=self.request.user.username)
             lock_uuid = request.POST["uuid"]
             code = reverse_cardkey(request.POST["code"])
