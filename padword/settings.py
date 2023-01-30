@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'contents',
     'user_remote',
     'guestpwa',
+    'rest_api',
 #     'chat',
 #     'pwa',
 ]
@@ -156,4 +157,41 @@ try:
     from .local_settings import *
 except Exception:
     pass
+
+LOG_FILENAME = os.path.join(BASE_DIR, 'logs.txt')
+DEBUG_LEVEL = "INFO"
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'verbose': {
+            'format': '{levelname} {asctime} {name}->{funcName} {message}',
+            'style': '{',
+        },
+        'simple': {
+            'format': '{levelname} {message}',
+            'style': '{',
+        },
+    },
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+            'formatter': 'simple',
+        },
+        'file': {
+            'level': DEBUG_LEVEL,
+            'class': 'logging.FileHandler',
+            'filename': LOG_FILENAME,
+            'formatter': 'verbose',
+        },
+    },
+    'loggers': {
+        'rest_api': {
+            'handlers': ['file', 'console'],
+            'level': DEBUG_LEVEL,
+            'propagate': True,
+        },
+    },
+}
+
 

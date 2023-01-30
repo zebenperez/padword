@@ -32,8 +32,10 @@ class GuestViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         try:
             pu = ProjectUser.objects.get(username=self.request.user.username)
+            logger.info("[{}]: \"Guest list\"".format(self.request.user))
             return Guest.objects.filter(project_id=pu.project_uuid)
-        except:
+        except Exception as e:
+            logger.error("[{}]: \"{}\"".format(self.request.user, str(e)))
             return Guest.objects.none()
 
     def create(self, request):
@@ -57,25 +59,33 @@ class GuestViewSet(viewsets.ModelViewSet):
                 #serializer.save()
                 guest = Guest.objects.create(**data)
                 guest.add_all_key_code()
+                logger.info("[{}]: \"Guest {} {} created\"".format(self.request.user, guest.name, guest.surname))
                 return Response(data=serializer.data, status=status.HTTP_201_CREATED)
             else:
+                logger.error("[{}]: \"Bad request!\"".format(self.request.user))
                 return Response(data=serializer.errors, status=status.HTTP_400_BAD_REQUEST)
         except Exception as e:
+            logger.error("[{}]: \"{}\"".format(self.request.user, str(e)))
             return Response(data={'error': 'true', 'msg': str(e)}, status=status.HTTP_400_BAD_REQUEST)
 
     def retrieve(self, request, pk=None):
         try:
             guest = Guest.objects.get(UUID=pk)
+            logger.info("[{}]: \"Guest {} {} retrieved\"".format(self.request.user, guest.name, guest.surname))
             return Response(self.serializer_class(guest).data, status=status.HTTP_200_OK)
         except Exception as e:
+            logger.error("[{}]: \"{}\"".format(self.request.user, str(e)))
             return Response(data={'error': 'true', 'msg': str(e)}, status=status.HTTP_400_BAD_REQUEST)
 
     def destroy(self, request, pk=None):
         try:
             guest = Guest.objects.get(UUID=pk)
+            guest_name = "{} {}".format(guest.name, guest.surname)
             guest.delete()
+            logger.info("[{}]: \"Guest {} destroyed\"".format(self.request.user, guest_name))
             return Response(data={'error': 'false'}, status=status.HTTP_200_OK)
         except Exception as e:
+            logger.error("[{}]: \"{}\"".format(self.request.user, str(e)))
             return Response(data={'error': 'true', 'msg': str(e)}, status=status.HTTP_400_BAD_REQUEST)
 
     def update(self, request, pk=None):
@@ -107,13 +117,16 @@ class GuestViewSet(viewsets.ModelViewSet):
                 guest.change_all_key_card_date()
                 guest.remove_all_key_cards()
  
+            logger.info("[{}]: \"Guest {} {} updated\"".format(self.request.user, guest.name, guest.surname))
             return Response(self.serializer_class(guest).data, status=status.HTTP_200_OK)
         except Exception as e:
+            logger.error("[{}]: \"{}\"".format(self.request.user, str(e)))
             return Response(data={'error': 'true', 'msg': str(e)}, status=status.HTTP_400_BAD_REQUEST)
         #response = {'message': 'Update function is not offered in this path.'}
         #return Response(response, status=status.HTTP_403_FORBIDDEN)
 
     def partial_update(self, request, pk=None):
+        logger.error("[{}]: \"Partial update function is not offered in this path.\"".format(self.request.user))
         response = {'message': 'Update function is not offered in this path.'}
         return Response(response, status=status.HTTP_403_FORBIDDEN)
 
@@ -121,9 +134,10 @@ class GuestViewSet(viewsets.ModelViewSet):
     def get_locks(self, request):
         try:
             guest = Guest.objects.get(UUID = request.GET["UUID"])
+            logger.info("[{}]: \"Get locks of guest {} {}\"".format(self.request.user, guest.name, guest.surname))
             return Response(guest.get_locks_json(), status=status.HTTP_200_OK)
         except Exception as e:
-            logger.error("(get_guest): %s" % e)
+            logger.error("[{}]: \"{}\"".format(self.request.user, str(e)))
             return Response({"error": 'true', 'msg': str(e)})
 
     @action(detail=False, methods=['post'])
@@ -133,9 +147,10 @@ class GuestViewSet(viewsets.ModelViewSet):
             code = reverse_cardkey(request.POST["card"])
             guest = Guest.objects.get(UUID=guest_uuid)
             guest.add_all_key_card(code)
+            logger.info("[{}]: \"Added card to guest {} {}\"".format(self.request.user, guest.name, guest.surname))
             return Response(guest.get_locks_json(), status=status.HTTP_200_OK)
         except Exception as e:
-            logger.error("(get_guest): %s" % e)
+            logger.error("[{}]: \"{}\"".format(self.request.user, str(e)))
             return Response({"error": True, 'msg': str(e)})
 
     @action(detail=False, methods=['post'])
@@ -145,9 +160,10 @@ class GuestViewSet(viewsets.ModelViewSet):
             code = reverse_cardkey(request.POST["card"])
             guest = Guest.objects.get(UUID=guest_uuid)
             guest.remove_all_key_cards(code)
+            logger.info("[{}]: \"Removed card of guest {} {}\"".format(self.request.user, guest.name, guest.surname))
             return Response(guest.get_locks_json(), status=status.HTTP_200_OK)
         except Exception as e:
-            logger.error("(get_guest): %s" % e)
+            logger.error("[{}]: \"{}\"".format(self.request.user, str(e)))
             return Response({"error": True, 'msg': str(e)})
 
 
@@ -167,27 +183,34 @@ class LockViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         try:
             pu = ProjectUser.objects.get(username=self.request.user.username)
+            logger.info("[{}]: \"Lock list\"".format(self.request.user))
             return Lock.objects.filter(project_uuid=pu.project_uuid)
         except:
+            logger.error("[{}]: \"{}\"".format(self.request.user, str(e)))
             return Lock.objects.none()
 
     def create(self, request):
+        logger.error("[{}]: \"Create function is not offered in this path.\"".format(self.request.user))
         response = {'message': 'Create function is not offered in this path.'}
         return Response(response, status=status.HTTP_403_FORBIDDEN)
 
     def retrieve(self, request, pk=None):
+        logger.error("[{}]: \"Retrieve function is not offered in this path.\"".format(self.request.user))
         response = {'message': 'Retrieve function is not offered in this path.'}
         return Response(response, status=status.HTTP_403_FORBIDDEN)
 
     def destroy(self, request, pk=None):
+        logger.error("[{}]: \"Destroy function is not offered in this path.\"".format(self.request.user))
         response = {'message': 'Destroy function is not offered in this path.'}
         return Response(response, status=status.HTTP_403_FORBIDDEN)
 
     def update(self, request, pk=None):
+        logger.error("[{}]: \"Update function is not offered in this path.\"".format(self.request.user))
         response = {'message': 'Update function is not offered in this path.'}
         return Response(response, status=status.HTTP_403_FORBIDDEN)
 
     def partial_update(self, request, pk=None):
+        logger.error("[{}]: \"Partial update function is not offered in this path.\"".format(self.request.user))
         response = {'message': 'Update function is not offered in this path.'}
         return Response(response, status=status.HTTP_403_FORBIDDEN)
 
@@ -200,9 +223,10 @@ class LockViewSet(viewsets.ModelViewSet):
             for c in code_list:
                 dic = {"uuid":c["lockId"],"code_id":c["keyboardPwdId"],"startDate":c["startDate"],"endDate":c["endDate"],"type":c["keyboardPwdType"],"passcode":c["keyboardPwd"]}
                 c_list.append(dic)
+            logger.info("[{}]: \"Get passcode of lock {}\"".format(self.request.user, lock.uuid))
             return Response(c_list, status=status.HTTP_200_OK)
         except Exception as e:
-            logger.error("(get_passcodes): %s" % e)
+            logger.error("[{}]: \"{}\"".format(self.request.user, str(e)))
             return Response({"error": 'true', 'msg': str(e)})
 
     @action(detail=False, methods=['post'])
@@ -215,11 +239,13 @@ class LockViewSet(viewsets.ModelViewSet):
             lock = Lock.objects.get(uuid=lock_uuid)
             err = lock.set_code(code, start_date, end_date)
             if "Error" in str(err):
+                logger.error("[{}]: \"{}\"".format(self.request.user, str(err)))
                 return Response({"error": True, "msg": str(err)})
             else:
+                logger.info("[{}]: \"Added passcode to lock {}\"".format(self.request.user, lock_uuid))
                 return Response({"error": False, "msg": "Code added successfully!"}, status=status.HTTP_200_OK)
         except Exception as e:
-            logger.error("(add_passcode): %s" % e)
+            logger.error("[{}]: \"{}\"".format(self.request.user, str(e)))
             return Response({"error": True, 'msg': str(e)})
 
     @action(detail=False, methods=['post'])
@@ -233,11 +259,13 @@ class LockViewSet(viewsets.ModelViewSet):
             lock = Lock.objects.get(uuid=lock_uuid)
             err = lock.change_code(code_id, code, start_date, end_date)
             if "Error" in str(err):
+                logger.error("[{}]: \"{}\"".format(self.request.user, str(err)))
                 return Response({"error": True, "msg": str(err)})
             else:
+                logger.info("[{}]: \"Changed passcode to lock {}\"".format(self.request.user, lock_uuid))
                 return Response({"error": False, "msg": "Code changed successfully!"}, status=status.HTTP_200_OK)
         except Exception as e:
-            logger.error("(add_passcode): %s" % e)
+            logger.error("[{}]: \"{}\"".format(self.request.user, str(e)))
             return Response({"error": True, 'msg': str(e)})
 
     @action(detail=False, methods=['post'])
@@ -248,11 +276,13 @@ class LockViewSet(viewsets.ModelViewSet):
             lock = Lock.objects.get(uuid=lock_uuid)
             err = lock.remove_code(code_id)
             if "Error" in str(err):
+                logger.error("[{}]: \"{}\"".format(self.request.user, str(err)))
                 return Response({"error": True, "msg": str(err)})
             else:
+                logger.info("[{}]: \"Removed passcode to lock {}\"".format(self.request.user, lock_uuid))
                 return Response({"error": False, "msg": "Code removed successfully!"}, status=status.HTTP_200_OK)
         except Exception as e:
-            logger.error("(remove_passcode): %s" % e)
+            logger.error("[{}]: \"{}\"".format(self.request.user, str(e)))
             return Response({"error": True, 'msg': str(e)})
 
 
@@ -265,9 +295,10 @@ class LockViewSet(viewsets.ModelViewSet):
             for c in code_list:
                 dic = {"uuid":c["lockId"],"code_id":c["cardId"],"startDate":c["startDate"],"endDate":c["endDate"],"cardcode":c["cardNumber"]}
                 c_list.append(dic)
+            logger.info("[{}]: \"Get card code of lock {}\"".format(self.request.user, lock.uuid))
             return Response(c_list, status=status.HTTP_200_OK)
         except Exception as e:
-            logger.error("(get_cardcodes): %s" % e)
+            logger.error("[{}]: \"{}\"".format(self.request.user, str(e)))
             return Response({"error": 'true', 'msg': str(e)})
 
     @action(detail=False, methods=['post'])
@@ -280,11 +311,13 @@ class LockViewSet(viewsets.ModelViewSet):
             lock = Lock.objects.get(uuid=lock_uuid)
             err = lock.add_card(code, start_date, end_date)
             if "Error" in str(err):
+                logger.error("[{}]: \"{}\"".format(self.request.user, str(err)))
                 return Response({"error": True, "msg": str(err)})
             else:
+                logger.info("[{}]: \"Add cardcode to lock {}\"".format(self.request.user, lock_uuid))
                 return Response({"error": False, "msg": "Card added successfully!"}, status=status.HTTP_200_OK)
         except Exception as e:
-            logger.error("(add_cardcode): %s" % e)
+            logger.error("[{}]: \"{}\"".format(self.request.user, str(e)))
             return Response({"error": True, 'msg': str(e)})
 
     @action(detail=False, methods=['post'])
@@ -295,11 +328,13 @@ class LockViewSet(viewsets.ModelViewSet):
             lock = Lock.objects.get(uuid=lock_uuid)
             err = lock.remove_card(code_id)
             if "Error" in str(err):
+                logger.error("[{}]: \"{}\"".format(self.request.user, str(err)))
                 return Response({"error": True, "msg": str(err)})
             else:
+                logger.info("[{}]: \"Remove cardcode of lock {}\"".format(self.request.user, lock_uuid))
                 return Response({"error": False, "msg": "Card removed successfully!"}, status=status.HTTP_200_OK)
         except Exception as e:
-            logger.error("(remove_cardcode): %s" % e)
+            logger.error("[{}]: \"{}\"".format(self.request.user, str(e)))
             return Response({"error": True, 'msg': str(e)})
 
     @action(detail=False, methods=['post'])
@@ -312,11 +347,13 @@ class LockViewSet(viewsets.ModelViewSet):
             lock = Lock.objects.get(uuid=lock_uuid)
             err = lock.change_period_card(code_id, start_date, end_date)
             if "Error" in str(err):
+                logger.error("[{}]: \"{}\"".format(self.request.user, str(err)))
                 return Response({"error": True, "msg": str(err)})
             else:
+                logger.info("[{}]: \"Change card period of lock {}\"".format(self.request.user, lock_uuid))
                 return Response({"error": False, "msg": "Card added successfully!"}, status=status.HTTP_200_OK)
         except Exception as e:
-            logger.error("(add_cardcode): %s" % e)
+            logger.error("[{}]: \"{}\"".format(self.request.user, str(e)))
             return Response({"error": True, 'msg': str(e)})
 
 
@@ -336,27 +373,34 @@ class RoomViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         try:
             pu = ProjectUser.objects.get(username=self.request.user.username)
+            logger.info("[{}]: \"Room list\"".format(self.request.user))
             return Room.objects.filter(project_uuid=pu.project_uuid)
         except:
+            logger.error("[{}]: \"{}\"".format(self.request.user, str(e)))
             return Room.objects.none()
 
     def create(self, request):
+        logger.error("[{}]: \"Create function is not offered in this path.\"".format(self.request.user))
         response = {'message': 'Create function is not offered in this path.'}
         return Response(response, status=status.HTTP_403_FORBIDDEN)
 
     def retrieve(self, request, pk=None):
+        logger.error("[{}]: \"Retrieve function is not offered in this path.\"".format(self.request.user))
         response = {'message': 'Retrieve function is not offered in this path.'}
         return Response(response, status=status.HTTP_403_FORBIDDEN)
 
     def destroy(self, request, pk=None):
+        logger.error("[{}]: \"Destroy function is not offered in this path.\"".format(self.request.user))
         response = {'message': 'Destroy function is not offered in this path.'}
         return Response(response, status=status.HTTP_403_FORBIDDEN)
 
     def update(self, request, pk=None):
+        logger.error("[{}]: \"Update function is not offered in this path.\"".format(self.request.user))
         response = {'message': 'Update function is not offered in this path.'}
         return Response(response, status=status.HTTP_403_FORBIDDEN)
 
     def partial_update(self, request, pk=None):
+        logger.error("[{}]: \"Partial update function is not offered in this path.\"".format(self.request.user))
         response = {'message': 'Update function is not offered in this path.'}
         return Response(response, status=status.HTTP_403_FORBIDDEN)
 
