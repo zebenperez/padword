@@ -304,11 +304,18 @@ class LockViewSet(viewsets.ModelViewSet):
     @action(detail=False, methods=['post'])
     def add_cardcode(self, request):
         try:
+            #logger.info("[{}]: \"{}\"".format(self.request.user, request.POST))
+            pu = ProjectUser.objects.get(username=self.request.user.username)
             lock_uuid = request.POST["uuid"]
             code = reverse_cardkey(request.POST["code"])
             start_date = datetime.strptime(request.POST.get('start_date', ""), "%Y-%m-%d %H:%M")
             end_date = datetime.strptime(request.POST.get('end_date', ""), "%Y-%m-%d %H:%M")
-            lock = Lock.objects.get(uuid=lock_uuid)
+            #lock = Lock.objects.get(uuid=lock_uuid)
+            #lock_list = Lock.objects.filter(uuid=lock_uuid, project_uuid=pu.project_uuid)
+            #for l in lock_list:
+            #    logger.info("[{}]: \"{} {} {}\"".format(self.request.user, l.uuid, l.alias, l.project_uuid))
+            lock = Lock.objects.filter(uuid=lock_uuid, project_uuid=pu.project_uuid).first()
+
             err = lock.add_card(code, start_date, end_date)
             if "Error" in str(err):
                 logger.error("[{}]: \"{}\"".format(self.request.user, str(err)))
