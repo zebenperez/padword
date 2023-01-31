@@ -255,7 +255,7 @@ def lock_share_code_guest(request):
         plu = get_or_none(ProjectLockUser, guest.project.uuid, "project_uuid")
         alias = guest.room_obj.alias if guest.room_obj != None else ""
         text = plu.text_to_share.replace("__CODE__",code).replace("__ROOM__",guest.room).replace("__ALIAS__",alias).replace("__PHONE__",guest.mobile)
-        return render(request, "web/locks/share-modal-body.html", {"text": text})
+        return render(request, "web/locks/share-modal-body.html", {"guest": guest, "text": text})
     except Exception as e:
         return render(request, "error_exception.html", {'exc':show_exc(e)})
 

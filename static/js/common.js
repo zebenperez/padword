@@ -60,7 +60,8 @@ function ajaxGetMute(url, datas, target, modal_target)
 
 function ajaxGetAppend(url, datas, target, modal_target)
 {
-    $("body").css("cursor", "progress");
+    //$("body").css("cursor", "progress");
+    setWait();
     $.ajax({
         url : url,
         type : 'GET',
@@ -79,7 +80,8 @@ function ajaxGetAppend(url, datas, target, modal_target)
                     $('#'+target).append(data);
         },
         error : function(e){alert("Error: "+e.responseText);},
-        complete : function(){$("body").css("cursor", "default");}
+        complete : function(){unsetWait();}
+        //complete : function(){$("body").css("cursor", "default");}
     });
 };
 
@@ -377,6 +379,33 @@ $(document).ready(()=>{
                 target = obj.data("target");
             if (obj.data("target-modal"))
                 target_modal = obj.data("target-modal");
+
+            var datas = {};
+            var args = obj.data();
+            for(var i in args)
+                if (i != "url")
+                    datas[i] = args[i]
+            ajaxGetAppend(url, datas, target, target_modal);
+            if (obj.data("show"))
+                $("#" + obj.data("show")).show();
+            e.preventDefault();
+        }
+    });
+
+    $("body").on("click", ".ark-append-page", function(e){
+        var obj = $(this);
+        if (((obj.data("confirm")) && confirm(obj.data("confirm"))) || !(obj.data("confirm")))
+        {
+            url = obj.data("url");
+            var target = "";
+            var target_modal = "";
+            if (obj.data("target"))
+                target = obj.data("target");
+            if (obj.data("target-modal"))
+                target_modal = obj.data("target-modal");
+
+            var page = parseInt(obj.data("page"));
+            obj.data("page", page+1);
 
             var datas = {};
             var args = obj.data();

@@ -16,21 +16,18 @@
             </tr>
         </thead>
         <tfoot>
-            <tr><td><a class="small d-flex justify-content-center btn" id="btn-see-more" 
-                onclick="$('#s-page').val($('#btn-see-more').data('page'));$('#s-page').trigger('change');">...</a></td> </tr>
+            <tr>
+                <td>
+                    <div id="div-see-more">
+                        <a class="small d-flex justify-content-center btn ark-append-page" id="btn-see-more" 
+                            data-url="{% url "guest-page-by-project" %}" data-target="table-list-guests" data-page="0">
+                            <small>{% trans "See more" %}</small></a> 
+                    </div>
+                </td>
+            </tr>
         </tfoot>
         <tbody id="table-list-guests"> {% include "guest-by-project/guest-page.html" %} </tbody>
     </table>
 </div>
-<script>
-    $('#btn-see-more').data('page',{{page|add:1}}); 
-    $('#total-items').html('{{total_items}}');
-    var observer = new IntersectionObserver(function(entries) {
-        if(entries[0].isIntersecting === true)
-        {
-            $('#btn-see-more').trigger("click");
-        }
-    }, { threshold: [1] });
-    observer.observe(document.querySelector("#btn-see-more"));
-</script>
+<script> $('#total-items').html('{{total_items}}'); </script>
 {% include "common-modal.html" %}

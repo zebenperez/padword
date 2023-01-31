@@ -281,6 +281,7 @@ h2.pathway.b-right  {
 	width: 100%;
 }
 
+
 input.form-control.login {
 	display: block;
 	width: 100%;
@@ -859,11 +860,12 @@ i.fas.fa-check-square {
     flex-basis: 99.5%;
     height: 99vh;
     padding-top: 15px;
-    padding-left: 10px;
-    padding-right: 15px;
+/*    padding-left: 10px;
+    padding-right: 15px;*/
     overflow-y: scroll;
     padding-bottom: 3.5rem;
 }
+
 div#cover.image.special {
     text-align: center;
     background: rgb(255,255,255);

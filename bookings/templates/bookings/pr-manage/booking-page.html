@@ -3,4 +3,6 @@
 {% for item in items %}
     <tr class="small" id="row_{{item.id}}"> {% include "bookings/pr-manage/booking-row.html" %} </tr>
 {% endfor %}
-{% if items|length > 0 %} <script> $('#btn-see-more').data('page',"{{page|add:"1"}}"); </script> {% endif %}
+
+<script>{% if total_items >= index %}$("#div-see-more").show();{%else%}$("#div-see-more").hide();{% endif %}</script>
+{#{% if items|length > 0 %} <script> $('#btn-see-more').data('page',"{{page|add:"1"}}"); </script> {% endif %}#}

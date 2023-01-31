@@ -532,7 +532,7 @@ class TTLock():
             get_date(endDate),
             TTLock.__get_current_millis__(),
         )
-        return TTLock.__send_request__(_url_request).json().get(KEY_ID)
+        return TTLock.__send_request__(_url_request, "POST").json().get(KEY_ID)
 
     def lock_get_all_keys(self, lockId=None, pageNo=1, pageSize=100):
         if not lockId:

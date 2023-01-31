@@ -21,7 +21,7 @@ import json
 logger = logging.getLogger(__name__)
 
 ITEMS_PER_PAGE=get_items_per_page()
-ITEMS_PER_PAGE=10000
+#ITEMS_PER_PAGE=10000
 
 '''
     Login
@@ -247,7 +247,8 @@ def bookings_notifications(request, ini_date, end_date):
 def bookings(request):
     try:
         context = get_booking_context()
-        context['page'] = 0
+        #context['page'] = 0
+        context['index'] = ITEMS_PER_PAGE
         return render (request, "bookings/manage/bookings.html", context)
         #return render (request, "bookings/manage/bookings-drag.html", context)
     except Exception as e:
@@ -267,7 +268,8 @@ def bookings_search(request):
 
         items = search(project, form, ini_date, end_date, name, status)
 
-        context={'total_items': len(items), 'items': items[0:ITEMS_PER_PAGE], 'status': status, 'page': 0}
+        context={'total_items': len(items), 'items': items[0:ITEMS_PER_PAGE], 'status': status, 'index': ITEMS_PER_PAGE}
+        #context={'total_items': len(items), 'items': items[0:ITEMS_PER_PAGE], 'status': status, 'page': 0}
         context["status_list"] = Status.objects.all()
         return render(request, "bookings/manage/booking-list.html", context)
         #return render(request, "bookings/manage/booking-list-drag.html", context)
@@ -275,7 +277,8 @@ def bookings_search(request):
         print (show_exc(e))
         return render(request, 'error_exception.html', {'exc':show_exc(e)})
 
-@group_required("admins", "projects")
+#@group_required("admins", "projects")
+@group_required("admins")
 def bookings_page(request):
     try:
         project = get_param(request.GET, "s-project")
@@ -284,11 +287,14 @@ def bookings_page(request):
         end_date = get_param(request.GET, "s-end_date")
         name = get_param(request.GET, "s-name")
         status = get_param(request.GET, "s-status")
-        page = get_param(request.GET, "s-page", "0")
+        page = get_param(request.GET, "page", "0")
+        ini = int(page)*ITEMS_PER_PAGE
+        end = ini+ITEMS_PER_PAGE
 
         items = search(project, form, ini_date, end_date, name, status)
 
-        context={'total_items': len(items), 'items': items[int(page)*ITEMS_PER_PAGE:(int(page) + 1)*ITEMS_PER_PAGE], 'status': status, 'page': page}
+        #context={'total_items': len(items), 'items': items[int(page)*ITEMS_PER_PAGE:(int(page) + 1)*ITEMS_PER_PAGE], 'status': status, 'page': page}
+        context={'total_items': len(items), 'items': items[ini:end], 'status': status, 'index': end}
         return render(request, "bookings/manage/booking-page.html", context)
         #return render(request, "bookings/manage/booking-page-drag.html", context)
     except Exception as e:
@@ -362,7 +368,8 @@ def bookings_pr_search(request):
 
         items = pr_search(project.uuid, form, ini_date, end_date, name, status)
 
-        context={'total_items': len(items), 'items': items[0:ITEMS_PER_PAGE], 'status': status, 'page': 0}
+        context={'total_items': len(items), 'items': items[0:ITEMS_PER_PAGE], 'status': status, 'index': ITEMS_PER_PAGE}
+        #context={'total_items': len(items), 'items': items[0:ITEMS_PER_PAGE], 'status': status, 'page': 0}
         return render(request, "bookings/pr-manage/booking-list.html", context)
     except Exception as e:
         print (show_exc(e))
@@ -378,11 +385,15 @@ def bookings_pr_page(request):
         end_date = get_param(request.GET, "s-end_date")
         name = get_param(request.GET, "s-name")
         status = get_param(request.GET, "s-status")
-        page = get_param(request.GET, "s-page", "0")
+        #page = get_param(request.GET, "s-page", "0")
+        page = get_param(request.GET, "page", "0")
+        ini = int(page)*ITEMS_PER_PAGE
+        end = ini+ITEMS_PER_PAGE
 
         items = pr_search(project.uuid, form, ini_date, end_date, name, status)
 
-        context={'total_items': len(items), 'items': items[int(page)*ITEMS_PER_PAGE:(int(page) + 1)*ITEMS_PER_PAGE], 'status': status, 'page': page}
+        context={'total_items': len(items), 'items': items[ini:end], 'status': status, 'index': end}
+        #context={'total_items': len(items), 'items': items[int(page)*ITEMS_PER_PAGE:(int(page) + 1)*ITEMS_PER_PAGE], 'status': status, 'page': page}
         return render(request, "bookings/pr-manage/booking-page.html", context)
     except Exception as e:
         print (show_exc(e))
@@ -397,7 +408,8 @@ def bookings_by_project(request):
         #context = get_booking_project_context(get_or_none(Project, project_id))
         project = get_or_none(Project, request.project_id)
         context = get_booking_project_context(project)
-        context['page'] = 0
+        context['index'] = ITEMS_PER_PAGE
+        #context['page'] = 0
         return render (request, "bookings/pr-manage/bookings.html", context)
     except Exception as e:
         print (show_exc(e))

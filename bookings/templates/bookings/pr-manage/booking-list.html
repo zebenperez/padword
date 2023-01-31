@@ -22,7 +22,16 @@
         </thead>
         <tfoot>
             <tr>
+                {%comment%}
                 <td><a class="small d-flex justify-content-center btn" id="btn-see-more" onclick="$('#s-page').val($('#btn-see-more').data('page'));$('#s-page').trigger('change');">...</a></td>
+                {%endcomment%}
+                <td>
+                    <div id="div-see-more">
+                        <a class="small d-flex justify-content-center btn ark-append-page" id="btn-see-more" 
+                            data-url="{% url "bookings-pr-page" %}" data-target="table-list-bookings" data-page="0">
+                            <small>{% trans "See more" %}</small></a> 
+                    </div>
+                </td>
             </tr>
         </tfoot>
         <tbody id="table-list-bookings">
@@ -32,8 +41,10 @@
 </div>
 <script>
     checkNotify($("#s-ini_date").val(), $("#s-end_date").val());
-    $('#btn-see-more').data('page',{{page|add:1}});
     $('#total-items').html('{{total_items}}');
+
+    {%comment%}
+    $('#btn-see-more').data('page',{{page|add:1}});
     var observer = new IntersectionObserver(function(entries) {
         if ((entries[0].isIntersecting === true) && ({{total_items}} > {% items_per_page %}))
         {
@@ -41,6 +52,7 @@
         }
     }, { threshold: [1] });
     observer.observe(document.querySelector("#btn-see-more"));
+    {%endcomment%}
     
     $('.btn-status').removeClass('btn-primary').addClass('btn-light');
     $('#btn-status-{{status}}').removeClass('btn-light').addClass('btn-primary');
