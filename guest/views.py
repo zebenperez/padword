@@ -267,9 +267,9 @@ def guest_page_by_project(request):
         page = get_param(request.GET, "page", 0)
         ini = int(page)*ITEMS_PER_PAGE
         end = ini+ITEMS_PER_PAGE
-        items = get_guest_items_by_project(request, project.uuid, ini, end)
+        items, total_count = get_guest_items_by_project(request, project.uuid, ini, end)
 
-        context = {'total_items': items.count(), 'items': items, 'index': end}
+        context = {'total_items': total_count, 'items': items, 'index': end}
         context["project_uuid"] = get_param(request.GET, "project_uuid")
         return render(request, "guest/guest-page.html", context)
     except Exception as e:
