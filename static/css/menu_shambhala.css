@@ -188,7 +188,6 @@ img.object-fit_cover.img-new {
 
 /******************************************/
 
-
 .topbar {
     /*background: #f8fcff !important;*/
     background: #ffffff !important;
@@ -199,6 +198,7 @@ img.object-fit_cover.img-new {
     z-index: 1; 
 }
 .topbar img {
+    height: 70px;
 }
 .separator {
     background-image: url(/static/img/bg-separator-shamb.png) !important;

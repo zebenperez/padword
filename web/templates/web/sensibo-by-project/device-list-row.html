@@ -21,9 +21,9 @@
                     <a class="ark" title="{%trans "Toggle switch"%}" data-url="{% url "sensibo-device-switch-project" %}" 
                         data-target="row_{{item.uid}}" data-obj_id="{{project.id}}" data-name="{{item.name}}" data-uid="{{item.uid}}"> 
                         {%if item.ac_state.on%}
-                            <span class="turn-off p-2"><img src="/static/img/turn-off.png" width="50%"></span>
+                            <span class="turn-on p-2"><img src="/static/img/turn-on.png" width="100%"></span>
                         {%else%}
-                            <span class="turn-on p-2"><img src="/static/img/turn-on.png" width="50%"></span>
+                            <span class="turn-off p-2"><img src="/static/img/turn-off.png" width="100%"></span>
                         {%endif%}
                     </a>  
                 </div>

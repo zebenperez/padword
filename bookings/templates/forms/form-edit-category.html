@@ -3,10 +3,12 @@
 <div class="text-end">
     <a class="btn btn-sm save" title="{%trans 'QR'%}" href="{% url "guest-access" obj.category %}" target="_blank">
         <i class="fas fa-qrcode"></i> {%trans "QR"%}</a>  
+    {%comment%}
     {% if obj.project.prefix == "fitur22" %}
         <a class="btn btn-sm save" title="{%trans 'PWA'%}" href="{% url "guest-access-anonymous" obj.category %}" target="_blank">
             <i class="fas fa-desktop"></i> {%trans "PWA Anonymous"%}</a>  
     {% endif %}
+    {%endcomment%}
     <a class="btn btn-sm save" title="{%trans 'PWA'%}" href="{% url "guest-access" obj.category %}" target="_blank">
         <i class="fas fa-desktop"></i> {%trans "PWA"%}</a>  
     <a class="btn btn-sm save" title="{% trans 'Preview' %}" href="{% url "booking-preview" obj.uuid %}" target="_blank">

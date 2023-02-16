@@ -36,6 +36,7 @@ class Guest(models.Model):
     email = models.CharField(max_length=255, verbose_name='Email', default="")
     balance = models.FloatField(verbose_name='Balance', default=0.)
     deleted = models.IntegerField(verbose_name='Deleted', default=0)
+    ext_id = models.CharField(max_length=255, verbose_name='External ID', default="")
 
     @property
     def project(self):
@@ -63,6 +64,13 @@ class Guest(models.Model):
         except Exception as e:
             return Project(name='UNKNOWN')
 
+    @property
+    def check_in_gmt(self):
+        return self.project.gmt_date(self.check_in)
+
+    @property
+    def check_out_gmt(self):
+        return self.project.gmt_date(self.check_out)
 
     def get_code(self):
         if self.email != None and self.email != "" and "@" in self.email:
@@ -106,12 +114,6 @@ class Guest(models.Model):
     '''
         Locks
     '''
-    def get_start_date(self):
-        try:
-            return self.check_in + datetime.timedelta(hours=self.project.time_zone)
-        except:
-            return self.check_in
-
     def get_locks(self):
         #return Lock.objects.filter(Q(room=self.room) | Q(room="*")).filter(project_uuid=self.project_id).order_by("-room") if self.room != "" else []
         if self.room == "":
@@ -142,7 +144,8 @@ class Guest(models.Model):
     def add_key_code(self, lock, code=""):
         code = self.mobile_to_code() if code == "" else code
         #code_id = lock.set_code(code, self.check_in, self.check_out, "{} {}".format(self.name, self.surname))
-        code_id = lock.set_code(code, self.get_start_date(), self.check_out, "{} {}".format(self.name, self.surname))
+        #code_id = lock.set_code(code, self.get_start_date(), self.check_out, "{} {}".format(self.name, self.surname))
+        code_id = lock.set_code(code, self.check_in_gmt, self.check_out_gmt, "{} {}".format(self.name, self.surname))
         if not "Error" in str(code_id):
             key = KeyCode.objects.create(lock = lock, guest = self, code = code, code_id = code_id)
         elif "passcode" in str(code_id) and "already exists" in str(code_id):
@@ -171,7 +174,8 @@ class Guest(models.Model):
         for key in self.keycodes.all():
             #start_date = key.guest.check_in - datetime.timedelta(hours=1)
             #errcode = key.lock.change_code(key.code_id, key.code, start_date, key.guest.check_out)
-            errcode = key.lock.change_code(key.code_id, key.code, key.guest.get_start_date(), key.guest.check_out)
+            #errcode = key.lock.change_code(key.code_id, key.code, key.guest.get_start_date(), key.guest.check_out)
+            errcode = key.lock.change_code(key.code_id, key.code, key.guest.check_in_gmt, key.guest.check_out_gmt)
 
     def remove_all_key_codes(self):
         for key in self.keycodes.all():
@@ -182,7 +186,8 @@ class Guest(models.Model):
     def add_all_key_card(self, code):
         for lock in self.get_locks():
             #errcode = lock.add_card(code, self.check_in, self.check_out)
-            errcode = lock.add_card(code, self.get_start_date(), self.check_out)
+            #errcode = lock.add_card(code, self.get_start_date(), self.check_out)
+            errcode = lock.add_card(code, self.check_in_gmt, self.check_out_gmt)
             if not "Error" in str(errcode):
                 KeyCard.objects.create(code=code, card_id=errcode, lock=lock, guest=self)
 
@@ -190,7 +195,8 @@ class Guest(models.Model):
         for key in self.keycards.all():
             #start_date = key.guest.check_in - datetime.timedelta(hours=1)
             #errcode = key.lock.change_period_card(key.card_id, start_date, key.guest.check_out)
-            errcode = key.lock.change_period_card(key.card_id, key.guest.get_start_date(), key.guest.check_out)
+            #errcode = key.lock.change_period_card(key.card_id, key.guest.get_start_date(), key.guest.check_out)
+            errcode = key.lock.change_period_card(key.card_id, key.guest.check_in_gmt, key.guest.check_out_gmt)
 
     def remove_all_key_cards(self, code=""):
         key_list = self.keycards.filter(code=code) if code != "" else self.keycards.all()
@@ -225,6 +231,9 @@ class Guest(models.Model):
         except:
             return ""
 
+    '''
+        Sensibo
+    '''
     def remove_all_sensibo_devices(self):
         for dev in self.sensibo_devices.all():
             dev.delete()
@@ -282,6 +291,11 @@ class Guest(models.Model):
         date = datetime.datetime.now()
         return Guest.objects.filter(project_id=project, check_in__lte=date, check_out__gte=date)
                
+    def delete_all(self):
+        self.remove_all_key_codes()
+        self.remove_all_key_cards()
+        self.delete()
+
     class Meta:
         if len (settings.DATABASES) > 1:
             managed = False

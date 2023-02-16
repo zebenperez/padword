@@ -1,24 +1,19 @@
 {% load i18n padword_tags %}
-<td class="row p-1">
-    <div class="col-2 d-flex justify-content-start lh-4">{{ item.room|default_if_none:'000' }} ({{item.room_obj.alias}})</div>
-    {#<div class="col-1">{{ item.PID|default_if_none:' ' }}</div>#}
-    <div class="col-2">{{ item.check_in|date:'Y-m-d'}}</div>
-    <div class="col-2"><span class="badge rounded-pill bg-success" style="font-size:1em">{{ item.check_out|date:'Y-m-d'}}</span></div>
-    <div class="col-3">{{ item.name }} {{item.surname}}
-        {% if request.user|in_group:'admins' or request.user.is_staff %}<br><small>{{item.project.name}}</small>{%endif%}</div>
-    <div class="col-3"> 
-        {{item.language}} &nbsp;
-        <a class="btn ark" href="#" data-url="{% url "show-chat" %}" data-target="div-chat" data-guest="{{item.id}}" data-guest_msg="False">
-            <i class="fas fa-comments"></i></a>
-        <a class="btn" href="#" onclick='alert("{{item.uuid}}"); return False'><i class="fas fa-fingerprint"></i></a>
 
-        <a class="btn btn-xs ark" data-url="{% url "guest-form-by-project" %}" data-target-modal="common-modal" 
-            data-project_uuid="{{project_uuid}}" data-obj_id="{{item.id}}"> <i class="fas fa-edit"></i></a>  
 
-	    <a class="btn btn-sm ark" data-url="{% url "guest-remove-by-project" %}" data-target="guest-list" data-obj_id="{{item.id}}" 
-            data-confirm="{% trans "Are you sure to remove this element?" %}"> <i class="fas fa-trash"></i></a>
-
-        <a class="btn btn-sm ark" title="{%trans "Share code"%}" data-url="{% url "lock-share-code-guest" %}" data-obj_id="{{item.id}}" 
-            data-target-modal="share-modal"><i class="fas fa-share-alt"></i></a>
-    </div>
+<td> {{ item.room|default_if_none:'000' }} ({{item.room_obj.alias}})</td>
+<td> {{ item.check_in|date:'Y-m-d'}}</td>
+<td> <span class="badge rounded-pill bg-success" style="font-size:1em">{{ item.check_out|date:'Y-m-d'}}</span></td>
+<td> {{item.name}} 
+    {{item.surname}} {%if request.user|in_group:'admins' or request.user.is_staff%}<br><small>{{item.project.name}}</small>{%endif%}</td>
+<td> {{item.language}} &nbsp;
+    <a class="btn ark" href="#" data-url="{% url "show-chat" %}" data-target="div-chat" data-guest="{{item.id}}" data-guest_msg="False">
+        <i class="fas fa-comments"></i></a>
+    <a class="btn" href="#" onclick='alert("{{item.uuid}}"); return False'><i class="fas fa-fingerprint"></i></a>
+    <a class="btn btn-xs ark" data-url="{% url "guest-form-by-project" %}" data-target-modal="common-modal" 
+        data-project_uuid="{{project_uuid}}" data-obj_id="{{item.id}}"> <i class="fas fa-edit"></i></a>  
+	<a class="btn btn-sm ark" data-url="{% url "guest-remove-by-project" %}" data-target="guest-list" data-obj_id="{{item.id}}" 
+        data-confirm="{% trans "Are you sure to remove this element?" %}"> <i class="fas fa-trash"></i></a>
+    <a class="btn btn-sm ark" title="{%trans "Share code"%}" data-url="{% url "lock-share-code-guest" %}" data-obj_id="{{item.id}}" 
+        data-target-modal="share-modal"><i class="fas fa-share-alt"></i></a>
 </td>

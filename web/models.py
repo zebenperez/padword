@@ -32,9 +32,10 @@ class Project(models.Model):
     used_languages = models.CharField(max_length=255, verbose_name=_('Used Languages'), default="ES", blank=True)
     default_language = models.CharField(max_length=255, verbose_name='Idioma por defecto', default="ES", blank=True)
     currency = models.CharField(max_length=255, verbose_name='Moneda', default="EUR", blank=True)
-    radius = models.IntegerField(verbose_name = 'Radio (Km)', default=100)
-    active = models.IntegerField(verbose_name = 'Active', default=1)
-    time_zone = models.IntegerField(verbose_name = 'Time zone', default=0)
+    time_zone = models.CharField(max_length=50, verbose_name='Time zone', default="+00:00")
+    radius = models.IntegerField(verbose_name='Radio (Km)', default=100)
+    active = models.IntegerField(verbose_name='Active', default=1)
+    #time_zone = models.IntegerField(verbose_name = 'Time zone', default=0)
     created_at = models.DateTimeField(verbose_name='Created at', default=datetime.datetime.now)
 
     company = models.ForeignKey(Company, verbose_name = 'Company', on_delete=models.SET_NULL, null=True)
@@ -146,6 +147,30 @@ class Project(models.Model):
     def sensibo_change_ac_state_param(self, device_uid, ac_state, param_name, param_value):
         obj = ShSensibo(self.sensibo_api_key)
         return obj.change_ac_state_param(device_uid, ac_state, param_name, param_value)
+
+    def gmt_date(self, date):
+        try:
+            time_zone = self.time_zone.split(":")
+            plus = True if "+" in time_zone[0] else False
+            hour = int(time_zone[0]) * -1 if plus else int(time_zone[0])
+            minutes = int(time_zone[1]) * -0.6 if plus else int(time_zone[1]) * 0.6
+
+            gmt_date = date + datetime.timedelta(hours=hour) + datetime.timedelta(minutes=minutes)
+            return gmt_date
+        except Exception as e:
+            return date
+
+    def local_date(self, date):
+        try:
+            time_zone = self.time_zone.split(":")
+            plus = True if "+" in time_zone[0] else False
+            hour = int(time_zone[0]) if plus else int(time_zone[0]) * -1
+            minutes = int(time_zone[1]) * 0.6 if plus else int(time_zone[1]) * -0.6
+
+            local_date = date + datetime.timedelta(hours=hour) + datetime.timedelta(minutes=minutes)
+            return local_date
+        except Exception as e:
+            return date
 
 class ProjectLockUser(models.Model):
     username = models.CharField(max_length=255, verbose_name=_('Lock Username'), default="")

@@ -60,6 +60,8 @@
 
 <div class="d-flex justify-content-end p-2">
 
+    {#<a class="btn btn-info m-2" href="{% url "guest-access-auto" obj.UUID %}" target="_blank">{% trans "PWA" %} <i class="fas fa-share-alt"></i></a>#}
+
     <button type="button" class="btn btn-success m-2 ark" title="{%trans "Share code"%}" data-url="{% url "lock-share-code-guest" %}" 
         data-obj_id="{{obj.id}}" data-target-modal="share-modal">{% trans "Share" %} <i class="fas fa-share-alt"></i></button>
     {%comment%}

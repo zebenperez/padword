@@ -762,9 +762,6 @@ p.ql-align-right {
 	text-align: right;
 }
 
-
-
-
 .welcome-page h3 {
 	color: #fff;
 	text-transform: uppercase;
@@ -786,9 +783,18 @@ p.ql-align-right {
 
 .welcome-inner {
 	position:absolute;
-	top:40%;
-	left:0%;
+	top: 30%;
+	left: 0%;
     margin-top: -150px !important;
+}
+
+.welcome-inner .error-msg {
+    background: #fff;
+    border-radius: 5px ;
+    color: grey;
+    font-size: 1rem;
+    line-height: 1.8;
+    opacity: 0.8;
 }
 
 /*****************************/

@@ -6,22 +6,22 @@
     <div class="action p-2"> </div>
 </div>
 
-<table class="table table-striped table-hover">
+<table class="table table-striped table-hover" id="main-table">
     <thead> <tr class="small small"> 
-        <th> {% trans 'Room' %} </th> 
-        <th> {% trans 'Name' %} </th> 
+        <th> {% trans 'Room' %} <i class="fas fa-sort"></i> </th> 
+        <th> {% trans 'Name' %} <i class="fas fa-sort"></i> </th> 
         {#<th> {% trans 'Code' %} </th> #}
-        <th> {% trans 'Temperature' %} </th> 
-        <th> {% trans 'Humidity' %} </th> 
-        <th> {% trans 'Feels like' %} </th> 
-        <th> {% trans 'Rssi' %} </th> 
-        <th> {% trans 'Motion' %} </th> 
-        <th> {% trans 'Room occupied' %} </th> 
+        <th> {% trans 'Temperature' %} <i class="fas fa-sort"></i> </th> 
+        <th> {% trans 'Humidity' %} <i class="fas fa-sort"></i> </th> 
+        <th> {% trans 'Feels like' %} <i class="fas fa-sort"></i> </th> 
+        <th> {% trans 'Rssi' %} <i class="fas fa-sort"></i> </th> 
+        <th> {% trans 'Motion' %} <i class="fas fa-sort"></i> </th> 
+        <th> {% trans 'Room occupied' %} <i class="fas fa-sort"></i> </th> 
         {#<th> {% trans 'Switched on' %} </th>#}
-        <th> {% trans 'Mode' %} </th> 
-        <th> {% trans 'Fan level' %} </th> 
-        <th> {% trans 'Swing' %} </th> 
-        <th> {% trans 'Light' %} </th> 
+        <th> {% trans 'Mode' %} <i class="fas fa-sort"></i> </th> 
+        <th> {% trans 'Fan level' %} <i class="fas fa-sort"></i> </th> 
+        <th> {% trans 'Swing' %} <i class="fas fa-sort"></i> </th> 
+        <th> {% trans 'Light' %} <i class="fas fa-sort"></i> </th> 
         <th></th>
     </tr> </thead>
     <tbody>
@@ -30,6 +30,8 @@
         {% endfor %}
     </tbody>
 </table>
+
+<script> $("#main-table").tablesorter(); </script>
 
 {%comment%}
 <table class="table table-striped table-hover">

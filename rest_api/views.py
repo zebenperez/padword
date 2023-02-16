@@ -3,9 +3,12 @@ from rest_framework.decorators import action
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 
+from django.urls import reverse
+
 from .models_serializers import GuestSerializer, LockSerializer, RoomSerializer
 
 from guest.models import Guest
+from bookings.models import GuestUser
 from web.models import ProjectUser, Lock, Room
 from padword.commons import new_ui_slug, reverse_cardkey 
 
@@ -49,6 +52,7 @@ class GuestViewSet(viewsets.ModelViewSet):
                 "mobile": request.POST.get('mobile', ""),
                 "email": request.POST.get('email', ""),
                 "room": request.POST.get('room', ""),
+                "ext_id": request.POST.get('ext_id', ""),
                 "check_in": datetime.strptime(request.POST.get('check_in', ""), "%Y-%m-%d %H:%M"),
                 "check_out": datetime.strptime(request.POST.get('check_out', ""), "%Y-%m-%d %H:%M"),
                 "project_id": pu.project_uuid,
@@ -81,7 +85,8 @@ class GuestViewSet(viewsets.ModelViewSet):
         try:
             guest = Guest.objects.get(UUID=pk)
             guest_name = "{} {}".format(guest.name, guest.surname)
-            guest.delete()
+            GuestUser.delete_by_guest(guest.UUID)
+            guest.delete_all()
             logger.info("[{}]: \"Guest {} destroyed\"".format(self.request.user, guest_name))
             return Response(data={'error': 'false'}, status=status.HTTP_200_OK)
         except Exception as e:
@@ -103,6 +108,8 @@ class GuestViewSet(viewsets.ModelViewSet):
                 guest.mobile = request.POST["mobile"]
             if "email" in request.POST:
                 guest.email = request.POST["email"]
+            if "ext_id" in request.POST:
+                guest.ext_id = request.POST["ext_id"]
             if "check_in" in request.POST:
                 guest.check_in = datetime.strptime(request.POST["check_in"], "%Y-%m-%d %H:%M")
                 update_dates = True
@@ -165,6 +172,46 @@ class GuestViewSet(viewsets.ModelViewSet):
         except Exception as e:
             logger.error("[{}]: \"{}\"".format(self.request.user, str(e)))
             return Response({"error": True, 'msg': str(e)})
+
+    @action(detail=False, methods=['get'])
+    def get_pwa_url(self, request):
+        try:
+            guest_uuid = request.GET["UUID"]
+            guest = Guest.objects.get(UUID=guest_uuid)
+            logger.info("[{}]: \"Get PWA url of guest {} {}\"".format(self.request.user, guest.name, guest.surname))
+            pwa_url = request.build_absolute_uri(reverse("guest-access-auto", kwargs = {'guest_uuid': guest.UUID}))
+            return Response({'link': '{}'.format(pwa_url)}, status=status.HTTP_200_OK)
+        except Exception as e:
+            logger.error("[{}]: \"{}\"".format(self.request.user, str(e)))
+            return Response({"error": True, 'msg': str(e)})
+
+    @action(detail=False, methods=['get'])
+    def get_guest_by_ext_id(self, request):
+        try:
+            guest_ext_id = request.GET["ext_id"]
+            guest = Guest.objects.filter(ext_id = guest_ext_id).first()
+            if guest == None:
+                logger.error("[{}]: \"Guest not found!\"".format(self.request.user))
+                return Response({"error": True, 'msg': 'Guest not found!'})
+            logger.info("[{}]: \"Get guest {} {} by ext_id {}\"".format(self.request.user, guest.name, guest.surname, guest_ext_id))
+            return Response(self.serializer_class(guest).data, status=status.HTTP_200_OK)
+        except Exception as e:
+            logger.error("[{}]: \"{}\"".format(self.request.user, str(e)))
+            return Response({"error": True, 'msg': str(e)})
+
+    @action(detail=False, methods=['get'])
+    def get_locks_by_ext_id(self, request):
+        try:
+            guest_ext_id = request.GET["ext_id"]
+            guest = Guest.objects.filter(ext_id = guest_ext_id).first()
+            if guest == None:
+                logger.error("[{}]: \"Guest not found!\"".format(self.request.user))
+                return Response({"error": True, 'msg': 'Guest not found!'})
+            logger.info("[{}]: \"Get locks of guest {} {}\"".format(self.request.user, guest.name, guest.surname))
+            return Response(guest.get_locks_json(), status=status.HTTP_200_OK)
+        except Exception as e:
+            logger.error("[{}]: \"{}\"".format(self.request.user, str(e)))
+            return Response({"error": 'true', 'msg': str(e)})
 
 
 class LockViewSet(viewsets.ModelViewSet):

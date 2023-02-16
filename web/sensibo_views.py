@@ -17,7 +17,7 @@ def get_device_project_context(project):
     return context 
 
 def get_item(project, uid, name, room_obj=None):
-    item = {'name': name}
+    item = {'uid': uid, 'name': name}
     item["measurement"] = project.sensibo_get_measurement(uid)
     item["ac_state"] = project.sensibo_get_ac_state(uid)
     if room_obj != None:
@@ -97,7 +97,7 @@ def device_save_room(request):
 
         context = get_device_project_context(project)
         context['item'] = get_item(project, uid, name, sd)
-        context["item"] = item
+        #context["item"] = item
         return render (request, "web/sensibo/device-list-row.html", context)
     except Exception as e:
         return render(request, 'error_exception.html', {'exc':show_exc(e)})
@@ -131,15 +131,12 @@ def device_switch_project(request):
         msg = project.sensibo_change_ac_state(uid, ac_state)
         #msg = project.sensibo_change_ac_state_param(uid, ac_state, "fanLevel", "low")
 
-        item = {'name': name}
-        item["measurement"] = project.sensibo_get_measurement(uid)
-        item["ac_state"] = project.sensibo_get_ac_state(uid)
-
         context = get_device_project_context(project)
-        context["item"] = item
+        context['item'] = get_item(project, uid, name)
         context["msg"] = msg
         return render (request, "web/sensibo-by-project/device-list-row.html", context)
     except Exception as e:
+        print(e)
         return render(request, 'error_exception.html', {'exc':show_exc(e)})
 
 @group_required("projects")
@@ -155,12 +152,8 @@ def device_set_state_project(request):
             value = int(value)
         msg = project.sensibo_change_ac_state_param(uid, ac_state, param, value)
 
-        item = {'name': name}
-        item["measurement"] = project.sensibo_get_measurement(uid)
-        item["ac_state"] = project.sensibo_get_ac_state(uid)
-
         context = get_device_project_context(project)
-        context["item"] = item
+        context['item'] = get_item(project, uid, name)
         context["msg"] = msg
         return render (request, "web/sensibo-by-project/device-list-row.html", context)
     except Exception as e:

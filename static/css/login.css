@@ -1,7 +1,10 @@
 #login-body {     
-    background-image: url(/static/img/prueba-03.jpg) !important;
-    background-repeat: no-repeat;
-    background-size: 100%;
+    background-image: url(/static/img/bg-portal.jpg) !important;
+    background-repeat:no-repeat;
+    background-position: center;
+    background-size: cover;
+    width: 100%;
+    height: auto;
 }
 
 .row.login-container {
@@ -36,16 +39,14 @@ h4.title {
     color: #505d65;
 }
 .form-container {
-    width: 90%;
+    width: 96%;
+    padding: 10px 30px 80px 30px;
     margin: auto;
     margin-top: 1rem;
-    background-color: #dfdfdf;
+    /*background-color: #dfdfdf;*/
+    background-color: #fff;
     border-radius: 5px;
-}
-
-input.form-control.login {
-    background: transparent !important;
-    border:1px solid #505d65 !important;
+    opacity: 0.95;
 }
 
 button.btn.btn-submit {
@@ -56,6 +57,11 @@ button.btn.btn-submit {
 button.btn.btn-submit:hover {
     background: #141414;
 }
+.banner {
+    background: #fff;
+    position: fixed;
+    bottom: 0;
+}
 
 
 /****************************
@@ -64,15 +70,28 @@ button.btn.btn-submit:hover {
 
 @media only screen and (max-width: 480px)
 {
-    .login-left{
+    #login-body {     
+        background-image: url(/static/img/bg-portal-mb.jpg) !important;
+        background-repeat:no-repeat;
+        background-position: top center;
+        /*background-size: cover;*/
+        background-size: contain;
+        position:fixed;
+        top:0;
+        width: 100%;
+        height: auto;
+    }
+    .login-left {
         display: none;
     }
-    .login-right{
+    .login-right {
         width: 100%;
     }
-    .banner {
-        position: fixed;
-        bottom: 0;
+    .form-container {
+        height: 90%;
+        margin: auto;
+        margin-top: 1rem;
+        width: 98%;
     }
 }
                                                                         

@@ -10,7 +10,7 @@
         <input type="text" class="autosearch form-control form-control-dark w-100" name="lock_search_alias" id="lock_search_alias"
             placeholder="{% trans 'Alias' %}" data-url="{% url "lock-search" %}" data-target="lock-list" 
             data-related="lock_search_alias,project_uuid" value="{{request.session.lock_search_alias}}"/>
-        <input type="hidden" id="project_uuid" name="project_uuid" value="{{project_uuid}}"/>
+        <input type="hidden" id="project_uuid" name="project_uuid" value="{{project.uuid}}"/>
         {%comment%}
         <input type="text" class="autosearch form-control form-control-dark w-100" name="lock_search_project" id="lock_search_project"
             placeholder="{% trans 'Project name' %}" data-url="{% url "lock-search" %}" data-target="lock-list" 

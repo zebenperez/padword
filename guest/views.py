@@ -117,12 +117,13 @@ def guest_remove(request):
     obj = get_or_none(Guest, request.GET["obj_id"]) if "obj_id" in request.GET else None
     if obj != None:
         GuestUser.delete_by_guest(obj.UUID)
-        obj.remove_all_key_codes()
-        obj.remove_all_key_cards()
-        obj.delete()
+        obj.delete_all()
+        #obj.remove_all_key_codes()
+        #obj.remove_all_key_cards()
+        #obj.delete()
 
     #items = Guest.objects.all() if project_uuid == None else Guest.objects.filter(project_id=project_uuid)
-    items = get_guest_items(request)
+    items, total_count = get_guest_items(request)
     return render(request, "guest/guest-list.html", {'items':items, 'project_uuid': project_uuid})
 
 #@group_required("admins","projects")
@@ -267,12 +268,13 @@ def guest_page_by_project(request):
         page = get_param(request.GET, "page", 0)
         ini = int(page)*ITEMS_PER_PAGE
         end = ini+ITEMS_PER_PAGE
-        items = get_guest_items_by_project(request, project.uuid, ini, end)
+        items, total_count = get_guest_items_by_project(request, project.uuid, ini, end)
 
-        context = {'total_items': items.count(), 'items': items, 'index': end}
+        context = {'total_items': total_count, 'items': items, 'index': end}
         context["project_uuid"] = get_param(request.GET, "project_uuid")
-        return render(request, "guest/guest-page.html", context)
+        return render(request, "guest-by-project/guest-page.html", context)
     except Exception as e:
+        print(e)
         return render(request, 'error_exception.html', {'exc':show_exc(e)})
 
 

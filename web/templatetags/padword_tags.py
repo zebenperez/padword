@@ -127,6 +127,10 @@ def str_to_date(value):
     return datetime.fromtimestamp(value/1000.0).strftime("%Y-%m-%d %H:%M:%S")
 
 @register.filter
+def str_to_local_date(value, project):
+    return project.local_date(datetime.fromtimestamp(value/1000.0)).strftime("%Y-%m-%d %H:%M:%S")
+
+@register.filter
 def have_menu(user_project, menu):
     up = user_project.split("|")
     pu = ProjectUser.objects.filter(username=up[0], project_uuid=up[1]).first()

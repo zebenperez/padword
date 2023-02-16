@@ -53,19 +53,19 @@
         </div>
     </div>
 
-    <table class="table table-striped table-hover">
+    <table class="table table-striped table-hover" id="main-table">
         <thead>
             <tr class="small small">
                 <th><input type="checkbox" name="ch_0" id="check-all"/></th>
-                <th> {% trans 'UUID' %} </th>
-                <th> {% trans 'Alias' %} </th>
-                <th> {% trans 'Project' %} </th>
+                <th> {% trans 'UUID' %} <i class="fas fa-sort"></i> </th>
+                <th> {% trans 'Alias' %} <i class="fas fa-sort"></i> </th>
+                <th> {% trans 'Project' %} <i class="fas fa-sort"></i> </th>
                 {#<th> {% trans 'Floor' %} </th>#}
-                <th> {% trans 'Group' %} </th>
-                <th> {% trans 'Room' %} </th>
-                <th> {% trans 'Status' %} </th>
-                <th> {% trans 'Charge' %} </th>
-                <th> {% trans 'Gateway' %} </th>
+                <th> {% trans 'Group' %} <i class="fas fa-sort"></i> </th>
+                <th> {% trans 'Room' %} <i class="fas fa-sort"></i> </th>
+                <th> {% trans 'Status' %} <i class="fas fa-sort"></i> </th>
+                <th> {% trans 'Charge' %} <i class="fas fa-sort"></i> </th>
+                <th> {% trans 'Gateway' %} <i class="fas fa-sort"></i> </th>
                 <th></th>
             </tr>
         </thead>
@@ -81,6 +81,7 @@
 </form>
 
 <script>
+    $("#main-table").tablesorter();
     $('#items-counter').html('{{items|length}}');
     $('#check-all').click(function(){ $('input:checkbox').not(this).prop('checked', this.checked); });
     $(document).ready(function(){$(window).keydown(function(event){if(event.keyCode == 13){event.preventDefault();return false;}});});

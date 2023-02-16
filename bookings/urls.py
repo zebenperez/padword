@@ -80,7 +80,8 @@ urlpatterns = [
 
     #------------- Bookings Guests --------------#
     path('guest-access/<slug:category_uuid>/', gv.guest_access, name='guest-access'),
-    path('guest-access-anonymous/<slug:category_uuid>/', gv.guest_access_anonymous, name='guest-access-anonymous'),
+    path('guest-access-auto/<slug:guest_uuid>/', gv.guest_access_auto, name='guest-access-auto'),
+    #path('guest-access-anonymous/<slug:category_uuid>/', gv.guest_access_anonymous, name='guest-access-anonymous'),
     path('guest-set-lang/', gv.set_guest_language, name='guest-set-lang'),
     #path('guest-set-lang/<slug:category_uuid>/<str:lang>/', gv.set_guest_language, name='guest-set-lang'),
     #path('guest-access/<slug:form_uuid>/', gv.guest_access, name='guest-access'),

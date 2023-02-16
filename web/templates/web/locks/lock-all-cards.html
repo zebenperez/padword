@@ -19,8 +19,8 @@
             <tr id="tr-{{item.id}}">
                 <td> {{item.cardNumber}} ({{item.cardId}})</td> 
                 <td> {{item.cardName}}</td> 
-                <td> {{item.startDate|str_to_date}} </td> 
-                <td> {{item.endDate|str_to_date}} </td> 
+                <td> {{item.startDate|str_to_date}} (Local) <br/>{{item.startDate|str_to_date}} (GMT) </td> 
+                <td> {{item.endDate|str_to_date}} (Local) <br/>{{item.endDate|str_to_date}} (GMT) </td> 
                 <td> {{obj|get_card_guest:item.cardNumber}} </td> 
                 <td class="text-end">
                     <a class="btn btn-outline-warning ark w-100" title="{%trans "Remove card"%}" data-url="{% url "lock-remove-card" %}"

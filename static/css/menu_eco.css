@@ -32,6 +32,7 @@
 
 .gral-content {
     background-color: #ffffff !important;
+    padding-bottom: 3.5rem;
 }
 
 
@@ -198,7 +199,7 @@ img.object-fit_cover.img-new {
 	position:fixed !important;
     top:0 !important;
     width: 100% !important;
-    height: 90px !important;
+/*    height: 90px !important;*/
     z-index: 1; 
 }
 .topbar img {
@@ -483,8 +484,15 @@ h5.card-title.text-dark.text-center.title-new {
 
 }
 
-.footer-new {
+.simple-footer {
+    border-top:1px solid #000; 
+    color: #000;
+    background: #fff;
+    bottom: 0;
+    font-00 0.9rem;
+    position: fixed; 
 }
+
 
 
 

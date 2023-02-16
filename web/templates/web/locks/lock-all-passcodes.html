@@ -20,8 +20,8 @@
             <tr id="tr-{{item.id}}">
                 <td> {{item.keyboardPwd}} </td> 
                 <td> {{item.keyboardPwdName}} </td> 
-                <td> {{item.startDate|str_to_date}} </td> 
-                <td> {{item.endDate|str_to_date}} </td> 
+                <td> {{item.startDate|str_to_local_date:obj.project}} (Local) <br/>{{item.startDate|str_to_date}} (GMT) </td> 
+                <td> {{item.endDate|str_to_local_date:obj.project}} (Local) <br/>{{item.endDate|str_to_date}} (GMT) </td> 
                 <td> {{obj|get_code_guest:item.keyboardPwd}} </td> 
                 {#<td> {{item.keyboardPwdType}} </td> #}
                 <td> {{item.keyboardPwdType|get_code_type:item.endDate}} </td> 

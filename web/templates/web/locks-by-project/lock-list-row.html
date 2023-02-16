@@ -1,4 +1,4 @@
-{% load i18n padword_tags lock_tags %}
+{% load i18n padword_tags lock_tags static %}
 
 
 <td><input type="checkbox" name="ch_{{item.id}}" /></td>
@@ -14,10 +14,12 @@
     <a class="me-1 btn btn-xs ark" title="{%trans "Update parameters"%}" data-url="{% url "lock-update-params-by-project" %}" 
         data-target="row_{{item.id}}" data-obj_id="{{item.id}}"><i class="fas fa-sync"></i></a>  
     <a class="me-1 btn btn-xs ark" title="{%trans "Get all passcodes"%}" data-url="{% url "lock-get-all-passcodes-by-project" %}" 
-        data-target-modal="common-modal" data-obj_id="{{item.id}}"><i class="fas fa-code"></i></a>  
+        data-target-modal="common-modal" data-obj_id="{{item.id}}"><img src="{% static "/img/ico-passcodes.png" %}"/>
+    </a>  
     <a class="me-1 btn btn-xs ark" title="{%trans "Get all cards"%}" data-url="{% url "lock-get-all-cards-by-project" %}" 
         data-target-modal="common-modal" data-obj_id="{{item.id}}"><i class="fas fa-credit-card"></i></a>  
     <a class="me-1 btn btn-xs ark" title="{%trans "Get all registers"%}" data-url="{% url "lock-get-all-records-by-project" %}" 
         data-target-modal="common-modal" data-obj_id="{{item.id}}"><i class="fas fa-bars"></i></a>  
 </td>
 
+<script> $("#main-table").trigger("update"); </script>

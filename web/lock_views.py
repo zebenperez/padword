@@ -1,6 +1,7 @@
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.utils.translation import ugettext_lazy as _ 
+from django.urls import reverse
 
 from padword.commons import show_exc, get_or_none, get_param, new_ui_slug, translate, set_session, reverse_cardkey
 from padword.decorators import group_required
@@ -255,6 +256,8 @@ def lock_share_code_guest(request):
         plu = get_or_none(ProjectLockUser, guest.project.uuid, "project_uuid")
         alias = guest.room_obj.alias if guest.room_obj != None else ""
         text = plu.text_to_share.replace("__CODE__",code).replace("__ROOM__",guest.room).replace("__ALIAS__",alias).replace("__PHONE__",guest.mobile)
+        pwa_url = request.build_absolute_uri(reverse("guest-access-auto", kwargs = {'guest_uuid': guest.UUID}))
+        text = text.replace("__URLPWA__", pwa_url)
         return render(request, "web/locks/share-modal-body.html", {"guest": guest, "text": text})
     except Exception as e:
         return render(request, "error_exception.html", {'exc':show_exc(e)})
@@ -375,7 +378,9 @@ def lock_set_action_by_project(request):
                  
         context = get_context(request, project)
         context["msg"] = msg
-        return redirect(locks_by_project2)
+        #return redirect(locks_by_project2)
+        context["project"] = project
+        return render(request, "web/locks-by-project/locks.html", context)
         #return render(request, "web/locks-by-project/lock-list.html", context)
     except Exception as e:
         print(e)

@@ -76,6 +76,7 @@ def upload_form_type_css(instance, filename):
     return '/'.join(['%s' % (folder), ascii_filename])
 
 class FormType(models.Model):
+    main = models.BooleanField(default=False, verbose_name="Main")
     order = models.BooleanField(default=False, verbose_name="Order")
     code = models.CharField(max_length=10, verbose_name=_("Code"), default="")
     name = models.CharField(max_length=200, verbose_name=_("Name"))
@@ -163,6 +164,11 @@ class Form(models.Model):
     def get_category_uuid_by_code(self, code):
         cat = Category.objects.filter(project_uuid=self.project.uuid, internal=code).first()
         return cat.uuid if cat != None else ""
+
+    @staticmethod
+    def get_main(project):
+        ft = FormType.objects.filter(project_uuid = project.uuid, main = True).first()
+        return Form.objects.filter(form_type = ft).first()
 
     class Meta:
         verbose_name = _('2.- Form')

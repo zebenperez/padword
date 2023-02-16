@@ -1,9 +1,11 @@
-{% extends "base.html" %}
+{% extends "base_login.html" %}
 {% load i18n padword_tags %}
 {% block extrahead %} <META HTTP-EQUIV="CACHE-CONTROL" CONTENT="NO-CACHE"> {% endblock %}
 
+
 {% block central_content %}
 
+{% comment %}
 	{% if form.errors %}
 		<p>{% trans "Your username and password didn't match. Please try again." %}</p>
 	{% endif %}
@@ -43,6 +45,7 @@
         </div>
     </div>
 
+{% endcomment %}
 
 <script> $('#sidebar').removeClass('expanded').removeClass('d-sm-book'); </script>
 {% endblock %}
