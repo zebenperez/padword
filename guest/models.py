@@ -36,7 +36,7 @@ class Guest(models.Model):
     email = models.CharField(max_length=255, verbose_name='Email', default="")
     balance = models.FloatField(verbose_name='Balance', default=0.)
     deleted = models.IntegerField(verbose_name='Deleted', default=0)
-    ext_id = models.CharField(max_length=255, verbose_name='External ID', default="")
+    ext_id = models.CharField(max_length=255, verbose_name='External ID', default="", blank=True, null=True)
 
     @property
     def project(self):
