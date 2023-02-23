@@ -35,7 +35,7 @@ class Project(models.Model):
     time_zone = models.CharField(max_length=50, verbose_name='Time zone', default="+00:00")
     radius = models.IntegerField(verbose_name='Radio (Km)', default=100)
     active = models.IntegerField(verbose_name='Active', default=1)
-    #time_zone = models.IntegerField(verbose_name = 'Time zone', default=0)
+    guest_delete = models.IntegerField(verbose_name='Delete guest after', default=90)
     created_at = models.DateTimeField(verbose_name='Created at', default=datetime.datetime.now)
 
     company = models.ForeignKey(Company, verbose_name = 'Company', on_delete=models.SET_NULL, null=True)
@@ -104,6 +104,9 @@ class Project(models.Model):
     def ekey_list(self):
         obj = ShLock(self.lock_access_token)
         return obj.get_ekeys()
+
+    def get_keycards(self):
+        return KeyCard.objects.filter(project_uuid=self.uuid)
 
     def sensibo_device_list(self):
         obj = ShSensibo(self.sensibo_api_key)

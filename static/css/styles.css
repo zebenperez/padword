@@ -1453,5 +1453,4 @@ th.row.div-cards {
 
 .col-status { min-height: 150px !important;}
 
-
-
+.deleted { text-decoration:line-through; }

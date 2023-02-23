@@ -18,6 +18,7 @@
     <div class="content mt-4">
         <div class="toolbar-content"> 
             <h2 class="">{% trans 'Guests' %} (<span id="total-items">{{total_items}}</span>)</h2> 
+            <button class="btn btn-default" onclick="$('.deleted').toggle()">{% trans "Hide/Show deleted" %}</button> 
             {% if project_uuid %}
                 <a class="btn btn-primary ark" data-url="{% url "guest-form-by-project" %}" data-target-modal="common-modal" 
                     data-project_uuid="{{project_uuid}}"> {%trans "New guest"%}</a>  

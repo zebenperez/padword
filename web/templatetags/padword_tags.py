@@ -409,6 +409,10 @@ def ark(url, div, **kwargs):
         url = reverse(url)
         return {'div':div, 'url':url, 'go':go}
 
+@register.inclusion_tag('contents/prices.html')
+def show_prices(obj):
+    return {'obj': obj,}
+
 @register.inclusion_tag('contents/allergens.html')
 def show_allergen(obj):
     return {'obj': obj, 'item_list': Allergen.objects.all()}

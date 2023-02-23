@@ -1,0 +1,14 @@
+{% load i18n padword_tags %}
+
+
+{% for item in obj.project.regimes.all %}
+    <div class="row">
+        <div class="col-4"> {{item.regime.name}} ({{item.regime.code}}) </div>
+        <div class="col-8">
+            <input type="text" class="form-control b-bottom mb-4" id="price" name="price" value="" 
+                data-url="{% url "autosave_field" %}" data-target="div-notification" data-obj_id="{{obj.id}}" data-regime_code="{{item.code}}"/> 
+            <span id="price__msg"></span>
+        </div>
+    </div>
+{% endfor %}
+

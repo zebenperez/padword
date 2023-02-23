@@ -43,7 +43,6 @@ h4.title {
     padding: 10px 30px 80px 30px;
     margin: auto;
     margin-top: 1rem;
-    /*background-color: #dfdfdf;*/
     background-color: #fff;
     border-radius: 5px;
     opacity: 0.95;
@@ -74,7 +73,6 @@ button.btn.btn-submit:hover {
         background-image: url(/static/img/bg-portal-mb.jpg) !important;
         background-repeat:no-repeat;
         background-position: top center;
-        /*background-size: cover;*/
         background-size: contain;
         position:fixed;
         top:0;
@@ -88,10 +86,17 @@ button.btn.btn-submit:hover {
         width: 100%;
     }
     .form-container {
-        height: 90%;
+        height: 75%;
         margin: auto;
-        margin-top: 1rem;
         width: 98%;
     }
+    .logo-padword {
+        position: fixed;
+        bottom: 50px;
+    }
+    .logo-padword img {
+        height: 100px;
+    }
+    
 }
                                                                         

@@ -47,6 +47,7 @@ def get_guest_items(request, ini=0, end=ITEMS_PER_PAGE):
         full_query &= Q(**{'project_id': project_uuid})
 
     items = Guest.objects.filter(full_query) if len(full_query) > 0 else Guest.objects.all()
+    #items = Guest.objects.filter(deleted=0).filter(full_query) if len(full_query) > 0 else Guest.objects.filter(deleted=0)
     return items[ini:end], items.count()
     #return Guest.objects.filter(full_query) if len(full_query) > 0 else Guest.objects.all()
 
@@ -98,7 +99,9 @@ def guest_form(request):
     try:
         date = datetime.datetime.now().replace(hour=12, minute=00)
         obj = get_or_none(Guest, request.GET["obj_id"]) if "obj_id" in request.GET else Guest.objects.create(UUID = new_ui_slug(Guest), check_in = date, check_out = date)
-        return render(request, "guest/guest-form.html", {'obj': obj, 'temp_range': range(16,26)})
+        regime_list = [item.regime for item in obj.project.regimes.all()]
+        print(regime_list)
+        return render(request, "guest/guest-form.html", {'obj': obj, 'temp_range': range(16,26), 'regime_list': regime_list,})
     except Exception as e:
         return render(request, 'error_exception.html', {'exc':show_exc(e)})
 
@@ -123,6 +126,20 @@ def guest_remove(request):
         #obj.delete()
 
     #items = Guest.objects.all() if project_uuid == None else Guest.objects.filter(project_id=project_uuid)
+    items, total_count = get_guest_items(request)
+    return render(request, "guest/guest-list.html", {'items':items, 'project_uuid': project_uuid})
+
+@group_required("admins")
+def guest_soft_remove(request):
+    project_uuid = request.GET["project_uuid"] if "project_uuid" in request.GET else None
+    obj = get_or_none(Guest, request.GET["obj_id"]) if "obj_id" in request.GET else None
+    if obj != None:
+        GuestUser.delete_by_guest(obj.UUID)
+        obj.remove_all_key_codes()
+        obj.remove_all_key_cards()
+        obj.deleted = 1
+        obj.save()
+
     items, total_count = get_guest_items(request)
     return render(request, "guest/guest-list.html", {'items':items, 'project_uuid': project_uuid})
 
@@ -214,10 +231,30 @@ def guest_room_autocomplete(request):
     except Exception as e:
         return render(request, "error_exception.html", {'exc':show_exc(e)})
 
+@group_required("admins", "projects")
+def guest_set_regime(request):
+    try:
+        value = get_param(request.GET, "value")
+        guest = get_or_none(Guest, get_param(request.GET, "obj_id"))
+        guest.regimes.all().delete()
+        if value != "":
+            regime = get_or_none(Regime, value)
+            gr = GuestRegime.objects.create(regime=regime, guest=guest)
+        return HttpResponse(_("Saved!"))
+    except Exception as e:
+        return render(request, "error_exception.html", {'exc':show_exc(e)})
+
 
 '''
     Guests by projects
 '''
+def delete_expired(project):
+    limit = datetime.datetime.now() + datetime.timedelta(days=-90)
+    guest_list = Guest.objects.filter(project_id=project.uuid, deleted=0, check_out__lt=limit)
+    for guest in guest_list:
+        guest.deleted = 1
+        guest.save()
+
 def get_guest_items_by_project(request, project_uuid, ini=0, end=ITEMS_PER_PAGE):
     filters_to_search = ["name__icontains", "room", "surname__icontains", "email__icontains", "mobile__icontains"]
     search_value = request.session["guest_search_name"] if "guest_search_name" in request.session else ""
@@ -229,7 +266,8 @@ def get_guest_items_by_project(request, project_uuid, ini=0, end=ITEMS_PER_PAGE)
         rooms_number = [item.number for item in webmod.Room.objects.filter(alias__icontains = search_value)]
         full_query |= Q(**{'room__in': rooms_number})
 
-    items = Guest.objects.filter(project_id=project_uuid).filter(full_query)
+    #items = Guest.objects.filter(project_id=project_uuid).filter(full_query)
+    items = Guest.objects.filter(project_id=project_uuid, deleted=0).filter(full_query)
     return items[ini:end], items.count()
     #return Guest.objects.filter(project_id=project_uuid).filter(full_query)
 
@@ -238,12 +276,14 @@ def guests_by_project(request):
     try:
         project = get_or_none(Project, request.project_id)
         #items = Guest.objects.filter(project_id = project.uuid)
+        delete_expired(project)
         items, total_count = get_guest_items_by_project(request, project.uuid)
 
         context = {'total_items': total_count, 'items': items, 'index': ITEMS_PER_PAGE}
         #context = {'total_items': items.count(), 'page': 0, 'project_uuid':project.uuid, 'items': items[0:ITEMS_PER_PAGE]}
         return render (request, "guest-by-project/guests.html", context)
     except Exception as e:
+        print(e)
         return render(request, 'error_exception.html', {'exc':show_exc(e)})
 
 @group_required("projects")
@@ -301,6 +341,23 @@ def guest_remove_by_project(request):
             obj.remove_all_key_codes()
             obj.remove_all_key_cards()
             obj.delete()
+
+        items = get_guest_items_by_project(request, project.uuid)
+        return render(request, "guest-by-project/guest-list.html", {'items':items, 'project_uuid': project.uuid})
+    except Exception as e:
+        return render(request, 'error_exception.html', {'exc':show_exc(e)})
+
+@group_required("projects")
+def guest_soft_remove_by_project(request):
+    try:
+        project = get_or_none(Project, request.project_id)
+        obj = get_or_none(Guest, request.GET["obj_id"]) if "obj_id" in request.GET else None
+        if obj != None:
+            GuestUser.delete_by_guest(obj.UUID)
+            obj.remove_all_key_codes()
+            obj.remove_all_key_cards()
+            obj.deleted = 1
+            obj.save()
 
         items = get_guest_items_by_project(request, project.uuid)
         return render(request, "guest-by-project/guest-list.html", {'items':items, 'project_uuid': project.uuid})

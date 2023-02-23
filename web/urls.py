@@ -17,6 +17,7 @@ urlpatterns = [
     path('projects/upload-json/', views.project_upload_json, name='project-upload-json'),
     path('projects/user-token/', views.project_user_token, name='project-user-token'),
     path('projects/user-refresh-token/', views.project_user_refresh_token, name='project-user-refresh-token'),
+    path('projects/regime-toggle/', views.project_regime_toggle, name='project-regime-toggle'),
     #--------------------- Channels --------------------
     path('channels/project-<slug:project_id>/', views.channels, name='channels-by-project'),
     path('channels/company-<slug:company_id>/', views.channels, name='channels-by-company'),
@@ -120,6 +121,9 @@ urlpatterns = [
     path('keycards/search/', card_views.keycard_search, name='keycard-search'),
     path('keycards/form/', card_views.keycard_form, name='keycard-form'),
     path('keycards/remove/', card_views.keycard_remove, name='keycard-remove'),
+
+    path('keycards/number/', card_views.keycard_number, name='keycard-number'),
+    path('keycards/number-search/', card_views.keycard_number_search, name='keycard-number-search'),
 
     #--------------------- Gateways --------------------
     path('gateways-by-project/<int:project_id>/', gateway_views.gateways_by_project, name='gateways-by-project'),

@@ -7,13 +7,17 @@
 <td> {{item.name}} 
     {{item.surname}} {%if request.user|in_group:'admins' or request.user.is_staff%}<br><small>{{item.project.name}}</small>{%endif%}</td>
 <td> {{item.language}} &nbsp;
-    <a class="btn ark" href="#" data-url="{% url "show-chat" %}" data-target="div-chat" data-guest="{{item.id}}" data-guest_msg="False">
-        <i class="fas fa-comments"></i></a>
+    <a class="btn ark" href="#" data-url="{% url "show-chat" %}" data-target="div-chat" data-guest="{{item.id}}" data-guest_msg="False"
+        title="{% trans "Chat" %}"> <i class="fas fa-comments"></i></a>
     <a class="btn" href="#" onclick='alert("{{item.uuid}}"); return False'><i class="fas fa-fingerprint"></i></a>
     <a class="btn btn-xs ark" data-url="{% url "guest-form-by-project" %}" data-target-modal="common-modal" 
-        data-project_uuid="{{project_uuid}}" data-obj_id="{{item.id}}"> <i class="fas fa-edit"></i></a>  
+        data-project_uuid="{{project_uuid}}" data-obj_id="{{item.id}}" title="{% trans "Edit" %}"> <i class="fas fa-edit"></i></a>  
+	<a class="btn btn-sm ark" data-url="{% url "guest-soft-remove-by-project" %}" data-target="guest-list" data-obj_id="{{item.id}}" 
+        data-confirm="{% trans "Are you sure to remove this element?" %}" title="{% trans "Remove" %}"> <i class="fas fa-trash"></i></a>
+    {%comment%}
 	<a class="btn btn-sm ark" data-url="{% url "guest-remove-by-project" %}" data-target="guest-list" data-obj_id="{{item.id}}" 
         data-confirm="{% trans "Are you sure to remove this element?" %}"> <i class="fas fa-trash"></i></a>
+    {%endcomment%}
     <a class="btn btn-sm ark" title="{%trans "Share code"%}" data-url="{% url "lock-share-code-guest" %}" data-obj_id="{{item.id}}" 
         data-target-modal="share-modal"><i class="fas fa-share-alt"></i></a>
 </td>

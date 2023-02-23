@@ -13,6 +13,7 @@ urlpatterns = [
     path('guests/form/', views.guest_form, name='guest-form'),
     #path('guests/form-simple/', views.guest_form_simple, name='guest-form-simple'),
     path('guests/remove/', views.guest_remove, name='guest-remove'),
+    path('guests/soft-remove/', views.guest_soft_remove, name='guest-soft-remove'),
     #path('guests/page/', views.guest_pagination, name='guest-page'),
 
     path('guests/project/', views.guests_by_project, name='guests-by-project'),
@@ -20,12 +21,15 @@ urlpatterns = [
     path('guests/project/page', views.guest_page_by_project, name='guest-page-by-project'),
     path('guests/project/form/', views.guest_form_by_project, name='guest-form-by-project'),
     path('guests/project/remove/', views.guest_remove_by_project, name='guest-remove-by-project'),
+    path('guests/project/soft-remove/', views.guest_soft_remove_by_project, name='guest-soft-remove-by-project'),
 
     path('guests/update-code/', views.guest_update_code, name='guest-update-code'),
     path('guests/save-date/', views.guest_save_date, name='guest-save-date'),
     path('guests/save-room/', views.guest_save_room, name='guest-save-room'),
 
     path('guests/rooms/autocomplete/', views.guest_room_autocomplete, name='guest-room-autocomplete'),
+
+    path('guests/set-regime/', views.guest_set_regime, name='guest-set-regime'),
 
     #--------------------- DEVICES --------------------
     path('', views.index, name='device-index'),

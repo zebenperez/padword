@@ -1,21 +1,20 @@
 {% load i18n %}
 
-{% comment %}  --- New Style ---  {% endcomment %}
-
-<div class="d-flex menu-actions-blue">
-    <div class="flex-grow-1 p-2"><span class="bg-ico-bar"><i class="fas fa-home"></i></span>&nbsp; Key Cards in {{project.name}} ({{items|length}})</div>
-    <div class="action p-2">
-        <a class="btn btn-xs ark" data-url="{% url "keycard-form" %}" data-project="{{project.uuid}}" data-target-modal="common-modal" 
-           title="{% trans 'Add keycard' %}"><i class="fas fa-bed"></i> {% trans 'Add keycard' %}</a>  
+{% for project in project_list %}
+    <div class="d-flex menu-actions-blue">
+        <div class="flex-grow-1 p-2">
+            <span class="bg-ico-bar"><i class="fas fa-home"></i></span>&nbsp; Key Cards in {{project.name}} ({{items|length}})</div>
+        <div class="action p-2">
+            <a class="btn btn-xs ark" data-url="{% url "keycard-form" %}" data-project="{{project.uuid}}" data-target-modal="common-modal" 
+               title="{% trans 'Add keycard' %}"><i class="fas fa-bed"></i> {% trans 'Add keycard' %}</a>  
+        </div>
     </div>
-</div>
 
-<div class="div-keycards-content">
-    <div class="locks-group d-flex flex-wrap p-2">
-        {% for keycard in items %}
-        {% include "web/keycards/keycard-card.html" with item=keycard %}
-        {% endfor %}
+    <div class="div-keycards-content">
+        <div class="locks-group d-flex flex-wrap p-2">
+            {% for keycard in project.get_keycards %}
+                {% include "web/keycards/keycard-card.html" with item=keycard %}
+            {% endfor %}
+        </div>
     </div>
-</div>
-
-<script>$('#items-counter').html('{{items|length}}');</script>
+{% endfor %}

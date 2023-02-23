@@ -1,0 +1,15 @@
+{% load i18n padword_tags %}
+
+
+<h2 class="common-modal-head">{% trans 'Regimes' %}</h2>
+<div class="row justify-center">
+    {% for item in regime_list %}
+	    <div class="col-2">
+            <button class="btn {%if item in project_regime_list%}btn-primary{%else%}btn-default{%endif%} ark" 
+                data-url="{% url "project-regime-toggle" %}" data-target="" data-obj_id="{{item.id}}" data-project_id="{{obj.id}}"
+                onclick="$(this).toggleClass('btn-default btn-primary')">{{item.name}}</button>
+        </div>
+    {% endfor %}
+</div>		
+
+

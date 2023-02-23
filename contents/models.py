@@ -393,6 +393,15 @@ class ItemPromo(models.Model):
         ic_list = list(ItemInCat.objects.filter(category__in=cat_uuid_list).values_list('item', flat=True))
         return ItemPromo.objects.filter(item__uuid__in = ic_list)
 
+class ItemPrice(models.Model):
+    price = models.FloatField(verbose_name='Price', default=0, null=True, blank=True)
+    regime_code = models.CharField(max_length=50, verbose_name= _('Regime code'), default='')
+    item = models.ForeignKey(Item, on_delete=models.CASCADE, null=True, related_name="prices")
+
+    class Meta:
+        verbose_name = "Item Price"
+        verbose_name_plural = "Item Prices"
+
 class CategoryUser(models.Model):
     view_cat = models.BooleanField(default=False, verbose_name=_("View category"))
     remove_cat = models.BooleanField(default=False, verbose_name=_("Remove category"))

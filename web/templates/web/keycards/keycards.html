@@ -5,27 +5,29 @@
 
 {% block central_content %}
 
-    {% if msg != "" %}
-        <div class="alert alert-danger">{{msg}}</div>
-    {% endif %}
+    {% if msg and msg != "" %} <div class="alert alert-danger">{{msg}}</div> {% endif %}
 
-    {% comment %}
     <div class="toolbar-search">
-        <input type="text" class="autosearch form-control form-control-dark w-100" name="s-name" id="s-name" 
-        placeholder="{% trans 'Name' %}" data-url="{% url "company-search" %}" data-target="company-list" data-related="s-name"/>
+        <input type="text" class="autosearch form-control form-control-dark w-100" name="keycard_search_name" id="keycard_search_name" 
+            placeholder="{% trans 'Name' %}" data-url="{% url "keycard-search" %}" data-target="keycard-list" data-related="keycard_search_name"/>
     </div>
-    {% endcomment %}
 
+    <div id="keycard-list">{% include "web/keycards/keycards-list.html" %}</div>
+    {% include "common-modal.html" %}
+
+    {%comment%}
     <div class="content">
         <div class="toolbar-content">
             <h2 class="b-right">{% trans 'Key Cards' %} </h2>
             {% include "common-modal.html" %}
         </div>
         {% for row in list_keycards %}
-        {%with items=row.1 project=row.0 %}
-        <div id="keycard-list-{{project.uuid}}" class="mb-2">{% include "web/keycards/keycards-list.html" with project=project items=items%}</div>
-        {%endwith%}
+            {%with items=row.1 project=row.0 %}
+                <div id="keycard-list-{{project.uuid}}" class="mb-2">
+                    {% include "web/keycards/keycards-list.html" with project=project items=items%}</div>
+            {%endwith%}
         {%endfor%}
     </div>
+    {%endcomment%}
 
 {% endblock central_content %}

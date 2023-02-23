@@ -72,6 +72,13 @@ class Guest(models.Model):
     def check_out_gmt(self):
         return self.project.gmt_date(self.check_out)
 
+    @property
+    def regime(self):
+        try:
+            return self.regimes.first().regime
+        except:
+            return None
+
     def get_code(self):
         if self.email != None and self.email != "" and "@" in self.email:
             return self.email
@@ -244,6 +251,9 @@ class Guest(models.Model):
         for dev in dev_list:
             SensiboDevice.objects.create(guest=self, uuid=dev.uuid, name=dev.name)
 
+    '''
+        Statics
+    '''
     @classmethod
     def by_project(cls, projects):
         try:
@@ -467,4 +477,23 @@ class SensiboDevice(models.Model):
     class Meta:
         verbose_name = _("Sensibo device")
         verbose_name_plural = _("Sensibo devices")
+
+'''
+    Regime
+'''
+class Regime(models.Model):
+    code = models.CharField(max_length=50, verbose_name='Code', default="")
+    name = models.CharField(max_length=255, verbose_name='Name', default="")
+
+    class Meta:
+        verbose_name = _('Regime')
+
+class ProjectRegime(models.Model):
+    regime = models.ForeignKey(Regime, on_delete=models.CASCADE, verbose_name=_("Regime"), related_name="projects")
+    project = models.ForeignKey(Project, on_delete=models.CASCADE, verbose_name=_("Project"), related_name="regimes")
+
+class GuestRegime(models.Model):
+    regime = models.ForeignKey(Regime, on_delete=models.CASCADE, verbose_name=_("Regime"), related_name="guests")
+    guest = models.ForeignKey(Guest, on_delete=models.CASCADE, verbose_name=_("Guest"), related_name="regimes")
+
 

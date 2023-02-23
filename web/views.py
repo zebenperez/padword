@@ -7,6 +7,7 @@ from django.views.decorators.csrf import csrf_exempt
 
 from padword.commons import show_exc, get_or_none, get_param, new_ui_slug, translate, set_session
 from padword.decorators import group_required
+from guest.models import Regime, ProjectRegime
 from .models import *
 #from .lock_lib import ShLock
 
@@ -129,7 +130,16 @@ def project_form(request):
         user_lock = get_or_create_user_lock(obj.uuid)
         user_sensibo = get_or_create_user_sensibo(obj.uuid)
 
-        context = {'obj': obj, 'companies': Company.objects.all(), 'company_id': company_id, 'user_lock': user_lock, 'user_sensibo': user_sensibo}
+        regime_list = Regime.objects.all()
+        context = {
+            'obj': obj, 
+            'companies': Company.objects.all(), 
+            'company_id': company_id, 
+            'user_lock': user_lock, 
+            'user_sensibo': user_sensibo, 
+            'project_regime_list': [item.regime for item in obj.regimes.all()],
+            'regime_list': regime_list
+        }
         return render(request, "web/projects/project-form.html", context)
     except Exception as e:
         return render(request, 'error_exception.html', {'exc':show_exc(e)})
@@ -167,6 +177,19 @@ def project_user_refresh_token(request):
 
     return render(request, "web/projects/project-token.html", {'user_lock':obj,})
 
+@group_required("admins")
+def project_regime_toggle(request):
+    try:
+        project = get_or_none(Project, request.GET["project_id"])
+        regime = get_or_none(Regime, request.GET["obj_id"])
+        pr_list = ProjectRegime.objects.filter(regime=regime, project=project)
+        if len(pr_list) > 0:
+            pr_list.delete()
+        else:
+            ProjectRegime.objects.create(regime=regime, project=project)
+    except Exception as e:
+        print (show_exc(e))
+    return HttpResponse("")
 
 '''
     Channels

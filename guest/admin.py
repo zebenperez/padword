@@ -1,3 +1,8 @@
 from django.contrib import admin
+from .models import *
 
-# Register your models here.
+
+class RegimeAdmin(admin.ModelAdmin):
+    list_display = ('code', 'name')
+
+admin.site.register(Regime, RegimeAdmin)
