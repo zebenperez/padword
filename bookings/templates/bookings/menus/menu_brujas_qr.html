@@ -1,0 +1,54 @@
+{% load i18n bookings_tag common_tag padword_tags static %}
+
+{% get_current_language as LANGUAGE_CODE %}
+
+<div class="row div-slogan"><div class="col-12 pt-4">{% trans "Info" %}</div></div>
+<div class="col-12 gral-content">
+    <div class="p-2">
+        {% with cat_uuid=form|get_cat_uuid:"info_es" %}
+            <button class="btn lang-option ark p-1 mt-1" data-url="{% url "show-category-menu" %}" data-target="main" data-cat_id="{{cat_uuid}}">
+                <img class="left" src="/static/img/es-flag.png"><span>Por favor, seleccione su idioma</span> </button>
+        {% endwith %}
+    </div>
+    <div class="p-2">
+        {% with cat_uuid=form|get_cat_uuid:"info_en" %}
+            <button class="btn lang-option ark p-1 mt-2" data-url="{% url "show-category-menu" %}" data-target="main" data-cat_id="{{cat_uuid}}">
+                <img class="left" src="/static/img/en-flag.png"><span>Please, select your language </span></button>
+        {% endwith %}
+    </div>
+   <div class="p-2">
+        {% with cat_uuid=form|get_cat_uuid:"info_de" %}
+            <button class="btn lang-option ark p-1 mt-2" data-url="{% url "show-category-menu" %}" data-target="main" data-cat_id="{{cat_uuid}}">
+                <img class="left" src="/static/img/de-flag.png"><span>Bitte wählen Sie Ihre Sprache </span></button>
+        {% endwith %}
+    </div>
+    <div class="p-2">
+        {% with cat_uuid=form|get_cat_uuid:"info_fr" %}
+            <button class="btn lang-option ark p-1 mt-2" data-url="{% url "show-category-menu" %}" data-target="main" data-cat_id="{{cat_uuid}}">
+                <img class="left" src="/static/img/fr-flag.png"><span>Veuillez sélectionner votre langue</span> </button>
+        {% endwith %}
+    </div>
+   <div class="p-2">
+        {% with cat_uuid=form|get_cat_uuid:"info_it" %}
+            <button class="btn lang-option ark p-1 mt-2" data-url="{% url "show-category-menu" %}" data-target="main" data-cat_id="{{cat_uuid}}">
+                <img class="left" src="/static/img/it-flag.png"><span>Selezionare la lingua desiderata</span></button>
+        {% endwith %}
+    </div>
+    <div class="p-2">
+        {% with cat_uuid=form|get_cat_uuid:"info_ru" %}
+            <button class="btn lang-option ark p-1 mt-2" data-url="{% url "show-category-menu" %}" data-target="main" data-cat_id="{{cat_uuid}}">
+                <img class="left" src="/static/img/ru-flag.png"><span>Пожалуйста, выберите ваш язык</span></button>
+        {% endwith %}
+    </div>
+
+</div>  
+
+<script id="realtime-script">
+    $("#back-btn").hide();
+    $('#span-total-items').html('{% get_total_items request.user.username category.project_uuid %}');
+    if (parseInt($("#span-total-items").html()) > 0)
+        $("#count-badge").show();
+    else
+        $("#count-badge").hide();
+    $('#realtime-script').remove();
+</script>
