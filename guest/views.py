@@ -276,7 +276,7 @@ def guests_by_project(request):
     try:
         project = get_or_none(Project, request.project_id)
         #items = Guest.objects.filter(project_id = project.uuid)
-        delete_expired(project)
+        #delete_expired(project)
         items, total_count = get_guest_items_by_project(request, project.uuid)
 
         context = {'total_items': total_count, 'items': items, 'index': ITEMS_PER_PAGE}
