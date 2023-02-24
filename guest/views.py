@@ -359,7 +359,7 @@ def guest_soft_remove_by_project(request):
             obj.deleted = 1
             obj.save()
 
-        items = get_guest_items_by_project(request, project.uuid)
+        items, total_count = get_guest_items_by_project(request, project.uuid)
         return render(request, "guest-by-project/guest-list.html", {'items':items, 'project_uuid': project.uuid})
     except Exception as e:
         return render(request, 'error_exception.html', {'exc':show_exc(e)})
