@@ -208,7 +208,7 @@ input.form-control.input-k {
     border:1px solid #e0e0e0; 
     border-radius:15px; 
     display: grid; 
-    grid-template-columns: 25% 5% 70%;
+    grid-template-columns: 25% 70%;
     justify-content: center; 
     align-items: center;
 }
