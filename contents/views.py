@@ -7,7 +7,7 @@ from .models import *
 from bookings.models import Form 
 import json, os, time, datetime
 from padword.decorators import group_required
-from padword.commons import show_exc, get_or_none, get_param, new_ui_slug, translate
+from padword.commons import show_exc, get_float, get_or_none, get_param, new_ui_slug, translate
 from .forms import ImageUploadForm
 
 # Create your views here.
@@ -515,6 +515,24 @@ def item_remove_banner(request):
     except Exception as e:
         print(e)
         return render(request, 'error_exception.html', {'msg': str(e)})
+
+@group_required("admins", "projects")
+def item_change_price(request):
+    try:
+        obj_id = request.GET["obj_id"]
+        code = request.GET["regime_code"]
+        value = request.GET["value"]
+
+        obj = get_or_none(Item, obj_id) 
+        ip, created = ItemPrice.objects.get_or_create(item=obj, regime_code=code)
+        ip.price = get_float(value)
+        ip.save()
+
+        return HttpResponse("Saved!")
+    except Exception as e:
+        print(e)
+        return render(request, 'error_exception.html', {'msg': str(e)})
+
 
 '''
     Category Users

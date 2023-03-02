@@ -295,6 +295,7 @@ class FormInstance(models.Model):
     code = models.CharField(verbose_name=_("Code"), max_length=20, default="")
     date = models.DateTimeField(_('Creation date'), default=datetime.datetime.now, null=True)
     guest_uuid = models.CharField(max_length=255, verbose_name=_("Guest UUID"), default="")
+    guest_name = models.CharField(max_length=255, verbose_name=_("Guest name"), default="")
     form_uuid = models.CharField(max_length=255, verbose_name=_("Form UUID"), default="")
     #status = models.ForeignKey(Status, on_delete=models.SET_NULL, verbose_name=_("Status"), blank=True, null=True)
     amount = models.CharField(max_length=100, verbose_name=_("Amount to pay"), default="")

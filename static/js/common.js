@@ -788,6 +788,21 @@ $(document).ready(()=>{
         setTimeout(() => {ac.abort(); $(`${id}-wait`).hide();}, 20000);
     });
 
+    $("body").on("keyup", ".sp-search", function() {
+        var value = $(this).val();
+        var search_class = $(this).data("search-class");
+        var search_prefix = $(this).data("search-prefix");
+        $("."+search_class).each(function(){
+            var str = $(this).html();
+            var id = $(this).data("id");
+            if (str.indexOf(value) >= 0)
+                $("#"+search_prefix+id).show();
+            else
+                $("#"+search_prefix+id).hide();
+        });
+
+    });
+
 });
 
 

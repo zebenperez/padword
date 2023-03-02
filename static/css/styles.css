@@ -8,6 +8,10 @@ body {
 	background-color: #f9fafb; 
 }
 
+p {
+    margin:0 !important;
+}
+
 .overlay{
     display: none;
     position: fixed;
@@ -182,6 +186,43 @@ input#s-name.autosearch.form-control.form-control-dark.w-100
 {
     border: 0;
 }
+/*******************************/
+.row.key-number {
+    color: #5b7898;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin:0;
+    font-size: 0.9rem;
+}
+.row.key-number .form-control {
+    border: none !important;
+}
+
+input.form-control.input-k {
+    height: 1em; 
+    margin:0;
+}
+
+.left-k {
+    border:1px solid #e0e0e0; 
+    border-radius:15px; 
+    display: grid; 
+    grid-template-columns: 25% 5% 70%;
+    justify-content: center; 
+    align-items: center;
+}
+
+.right-k {
+    border:1px solid #e0e0e0; 
+    border-radius:15px; 
+    display: grid; 
+    grid-template-columns: 50% 50%;
+    justify-content: center; 
+    align-items: center;
+}
+
+/*******************************/
 
 .row.btn-dark i.fas.fa-exchange-alt, 
 .row.btn-dark a {

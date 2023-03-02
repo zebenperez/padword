@@ -42,6 +42,7 @@ urlpatterns = [
     path('items/remove_promo', views.remove_promo, name="items-remove-promo"),
     path('items/add-banner/', views.item_add_banner, name='item-add-banner'),
     path('items/remove-banner/', views.item_remove_banner, name='item-remove-banner'),
+    path('items/change-price/', views.item_change_price, name='item-change-price'),
 
 
     #---------------------- AUTO -----------------------

@@ -29,7 +29,7 @@
                 <td> {{item.end_date|str_to_date}} (Local) <br/>{{item.end_date|str_to_date}} (GMT) </td> 
                 <td> {{item.guests}}</td> 
                 <td>
-                    <a class="me-1 btn btn-xs ark" title="{%trans "Remove from guest"%}" data-url="{% url "keycard-number-guest-remove" %}" 
+                    <a class="me-1 btn btn-xs ark" title="{%trans "Remove from guest"%}" data-url="{%url "keycard-number-guest-remove-by-project"%}" 
                         data-target="keycard-result" data-value="{{item.value}}" data-card_id="{{item.card_id}}" data-lock="{{item.lock_id}}">
                         <i class="fas fa-trash"></i></a>  
                 </td>

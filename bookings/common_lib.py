@@ -37,9 +37,9 @@ def get_login_template(cat_uuid):
 '''
     Form functions
 '''
-def get_or_create_form_instance(form, guest_uuid):
+def get_or_create_form_instance(form, guest_uuid, guest_name=""):
     if form.form_type.order:
-        fi, created = FormInstance.objects.get_or_create(form_uuid=form.uuid, guest_uuid=guest_uuid, status_list__isnull=True)
+        fi, created = FormInstance.objects.get_or_create(form_uuid=form.uuid, guest_uuid=guest_uuid, guest_name=guest_name, status_list__isnull=True)
         #fi, created = FormInstance.objects.get_or_create(form_uuid=form.uuid, guest_uuid=guest_uuid)
         return fi
     return None

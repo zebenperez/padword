@@ -2,6 +2,7 @@ from django.db import models
 from django.db.models import Q
 from django.utils.translation import ugettext as _
 from django.utils import timezone
+from django.urls import reverse
 from django.conf import settings
 from django.contrib.auth.models import User
 
@@ -78,6 +79,13 @@ class Guest(models.Model):
             return self.regimes.first().regime
         except:
             return None
+
+    @property
+    def pwa_link(self):
+        try:
+            return "{}{}".format(settings.MAIN_URL, reverse("guest-access-auto", kwargs = {'guest_uuid': self.UUID}))
+        except:
+            return reverse("guest-access-auto", kwargs = {'guest_uuid': self.UUID})
 
     def get_code(self):
         if self.email != None and self.email != "" and "@" in self.email:
@@ -305,6 +313,12 @@ class Guest(models.Model):
         self.remove_all_key_codes()
         self.remove_all_key_cards()
         self.delete()
+
+    def delete_soft(self):
+        self.remove_all_key_codes()
+        self.remove_all_key_cards()
+        self.deleted = 1
+        self.save()
 
     class Meta:
         if len (settings.DATABASES) > 1:

@@ -640,7 +640,8 @@ def show_category_menu(request, cat_id=None, back="True"):
         fi = None
         form = Form.objects.filter(category=category.uuid).first()
         guest = get_guest(request.user.username, category.project_uuid)
-        fi = get_or_create_form_instance(form, guest.UUID) if guest != None else None
+        guest_details = "{} {} {} {}".format(guest.name, guest.surname, guest.mobile, guest.email)
+        fi = get_or_create_form_instance(form, guest.UUID, guest_details) if guest != None else None
         items = FormInstance.get_all_items(guest)
 
         return render(request, form.form_type.template, {'category':category,'form':form,'fi':fi,'index':0,'items':items,'guest':guest,'back': back})

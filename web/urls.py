@@ -124,6 +124,10 @@ urlpatterns = [
 
     path('keycards/number/', card_views.keycard_number, name='keycard-number'),
     path('keycards/number-search/', card_views.keycard_number_search, name='keycard-number-search'),
+    path('keycards/number-guest-remove/', card_views.keycard_number_guest_remove, name='keycard-number-guest-remove'),
+    path('keycards/number-by-project/', card_views.keycard_number_by_project, name='keycard-number-by-project'),
+    path('keycards/number-search-by-project/', card_views.keycard_number_search_by_project, name='keycard-number-search-by-project'),
+    path('keycards/number-guest-remove-by-project/',card_views.keycard_number_guest_remove_by_project,name='keycard-number-guest-remove-by-project'),
 
     #--------------------- Gateways --------------------
     path('gateways-by-project/<int:project_id>/', gateway_views.gateways_by_project, name='gateways-by-project'),

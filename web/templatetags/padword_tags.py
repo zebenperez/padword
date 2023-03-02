@@ -61,20 +61,20 @@ def random_str(nchars='128'):
         n = 128
     return (''.join(random.choice(string.ascii_letters) for i in range(n)))
 
-@register.filter()
-def have_allergen(obj, allergen):
-    a_list = [item.allergen for item in obj.allergen_list.all()]
-    return allergen in a_list
+#@register.filter()
+#def have_allergen(obj, allergen):
+#    a_list = [item.allergen for item in obj.allergen_list.all()]
+#    return allergen in a_list
 
-@register.filter()
-def have_feature(obj, feature):
-    a_list = [item.feature for item in obj.features.all()]
-    return feature in a_list
+#@register.filter()
+#def have_feature(obj, feature):
+#    a_list = [item.feature for item in obj.features.all()]
+#    return feature in a_list
 
-@register.filter()
-def have_payment_type(obj, payment_type):
-    a_list = [item.payment_type for item in obj.payment_types.all()]
-    return payment_type in a_list
+#@register.filter()
+#def have_payment_type(obj, payment_type):
+#    a_list = [item.payment_type for item in obj.payment_types.all()]
+#    return payment_type in a_list
 
 @register.filter()
 def is_empty(json_str, lang):
@@ -409,18 +409,18 @@ def ark(url, div, **kwargs):
         url = reverse(url)
         return {'div':div, 'url':url, 'go':go}
 
-@register.inclusion_tag('contents/prices.html')
-def show_prices(obj):
-    return {'obj': obj,}
-
-@register.inclusion_tag('contents/allergens.html')
-def show_allergen(obj):
-    return {'obj': obj, 'item_list': Allergen.objects.all()}
-
-@register.inclusion_tag('contents/extras.html')
-def show_extras(obj):
-    return {'obj': obj,}
-
+#@register.inclusion_tag('contents/prices.html')
+#def show_prices(obj):
+#    return {'obj': obj,}
+#
+#@register.inclusion_tag('contents/allergens.html')
+#def show_allergen(obj):
+#    return {'obj': obj, 'item_list': Allergen.objects.all()}
+#
+#@register.inclusion_tag('contents/extras.html')
+#def show_extras(obj):
+#    return {'obj': obj,}
+#
 @register.inclusion_tag('contents/features.html')
 def show_feature(obj):
     return {'obj': obj, 'item_list': Feature.objects.all()}
@@ -429,10 +429,10 @@ def show_feature(obj):
 def show_payment_types(obj):
     return {'obj': obj, 'item_list': PaymentType.objects.all()}
 
-@register.inclusion_tag('contents/promos.html')
-def show_promos(obj):
-    return {'obj': obj,}
-
+#@register.inclusion_tag('contents/promos.html')
+#def show_promos(obj):
+#    return {'obj': obj,}
+#
 @register.inclusion_tag('bookings/show-promo-gallery.html')
 def get_promos(obj):
     promo_list = ItemPromo.get_current(obj.project_uuid)

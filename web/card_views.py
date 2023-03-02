@@ -79,13 +79,11 @@ def keycard_search (request):
 #    except Exception as e:
 #        return render(request, 'error_exception.html', {'exc':show_exc(e)})
 
-@group_required("admins")
-def keycard_number(request):
-    return render (request, "web/keycards/keycard-number.html", {})
 
-@group_required("admins")
-def keycard_number_search(request):
-    value = get_param(request.GET, "value")
+'''
+    Key Number
+'''
+def number_search(value):
     card_result = []
     if value != "":
         cardkey = str(reverse_cardkey(value))
@@ -98,7 +96,9 @@ def keycard_number_search(request):
                         guest_card_list = GuestKeyCard.objects.filter(lock=lock, code=cardkey)
                         guests = ["{} {}".format(item.guest.name, item.guest.surname) for item in guest_card_list]
                         dic = {
+                            'value': value, 
                             'project': lock.project.name, 
+                            'lock_id': lock.id, 
                             'lock_alias': lock.alias, 
                             'lock_room': lock.room, 
                             'card_id': card["cardId"], 
@@ -112,6 +112,83 @@ def keycard_number_search(request):
             except Exception as e:
                 #print(e)
                 pass
-    print(card_result)
+    return card_result
+
+@group_required("admins")
+def keycard_number(request):
+    return render (request, "web/keycards/keycard-number.html", {})
+
+@group_required("admins")
+def keycard_number_search(request):
+    value = get_param(request.GET, "value")
+    card_result = number_search(value)
     return render (request, "web/keycards/keycard-number-search.html", {'card_list': card_result})
+
+@group_required("admins")
+def keycard_number_guest_remove(request):
+    value = request.GET["value"]
+    card_id = request.GET["card_id"]
+    lock_id = request.GET["lock"]
+
+    lock = get_or_none(Lock, lock_id)
+    lock.remove_card(card_id)
+    card_result = number_search(value)
+    return render (request, "web/keycards/keycard-number-search.html", {'card_list': card_result})
+
+'''
+    Key Number by project
+'''
+def number_search_by_project(value, project):
+    card_result = []
+    if value != "":
+        cardkey = str(reverse_cardkey(value))
+        lock_list = Lock.objects.filter(project_uuid = project.uuid)
+        for lock in lock_list:
+            try:
+                card_list = lock.get_all_cards()
+                for card in card_list:
+                    if (card["cardNumber"] == cardkey):
+                        guest_card_list = GuestKeyCard.objects.filter(lock=lock, code=cardkey)
+                        guests = ["{} {}".format(item.guest.name, item.guest.surname) for item in guest_card_list]
+                        dic = {
+                            'value': value, 
+                            'project': lock.project.name, 
+                            'lock_id': lock.id, 
+                            'lock_alias': lock.alias, 
+                            'lock_room': lock.room, 
+                            'card_id': card["cardId"], 
+                            'card_number': card["cardNumber"],
+                            'card_name': card["cardName"],
+                            'start_date': card["startDate"],
+                            'end_date': card["endDate"],
+                            'guests': "<br/>".join(guests)
+                        }
+                        card_result.append(dic)
+            except Exception as e:
+                #print(e)
+                pass
+    return card_result
+
+@group_required("projects")
+def keycard_number_by_project(request):
+    return render (request, "web/keycards-by-project/keycard-number.html", {})
+
+@group_required("projects")
+def keycard_number_search_by_project(request):
+    project = get_or_none(Project, request.project_id)
+    value = get_param(request.GET, "value")
+    card_result = number_search_by_project(value, project)
+    return render (request, "web/keycards-by-project/keycard-number-search.html", {'card_list': card_result})
+
+@group_required("projects")
+def keycard_number_guest_remove_by_project(request):
+    project = get_or_none(Project, request.project_id)
+    value = request.GET["value"]
+    card_id = request.GET["card_id"]
+    lock_id = request.GET["lock"]
+
+    lock = get_or_none(Lock, lock_id)
+    lock.remove_card(card_id)
+    card_result = number_search_by_project(value, project)
+    return render(request, "web/keycards-by-project/keycard-number-search.html", {'card_list': card_result})
 

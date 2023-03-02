@@ -8,7 +8,7 @@ import datetime
 
 from .models import *
 from web.lock_lib import ShLock
-from padword.commons import show_exc, get_or_none, new_ui_slug, translate, user_in_group, get_param, reverse_cardkey, set_session
+from padword.commons import show_exc, get_or_none, get_float, new_ui_slug, translate, user_in_group, get_param, reverse_cardkey, set_session
 from padword.decorators import group_required
 from bookings.models import GuestUser
 import web.models as webmod 
@@ -135,10 +135,11 @@ def guest_soft_remove(request):
     obj = get_or_none(Guest, request.GET["obj_id"]) if "obj_id" in request.GET else None
     if obj != None:
         GuestUser.delete_by_guest(obj.UUID)
-        obj.remove_all_key_codes()
-        obj.remove_all_key_cards()
-        obj.deleted = 1
-        obj.save()
+        obj.delete_soft()
+        #obj.remove_all_key_codes()
+        #obj.remove_all_key_cards()
+        #obj.deleted = 1
+        #obj.save()
 
     items, total_count = get_guest_items(request)
     return render(request, "guest/guest-list.html", {'items':items, 'project_uuid': project_uuid})
@@ -249,11 +250,13 @@ def guest_set_regime(request):
     Guests by projects
 '''
 def delete_expired(project):
-    limit = datetime.datetime.now() + datetime.timedelta(days=-90)
+    limit = datetime.datetime.now() - datetime.timedelta(days=project.guest_delete)
     guest_list = Guest.objects.filter(project_id=project.uuid, deleted=0, check_out__lt=limit)
     for guest in guest_list:
-        guest.deleted = 1
-        guest.save()
+        GuestUser.delete_by_guest(guest.UUID)
+        guest.delete_soft()
+        #guest.deleted = 1
+        #guest.save()
 
 def get_guest_items_by_project(request, project_uuid, ini=0, end=ITEMS_PER_PAGE):
     filters_to_search = ["name__icontains", "room", "surname__icontains", "email__icontains", "mobile__icontains"]
@@ -276,7 +279,7 @@ def guests_by_project(request):
     try:
         project = get_or_none(Project, request.project_id)
         #items = Guest.objects.filter(project_id = project.uuid)
-        #delete_expired(project)
+        delete_expired(project)
         items, total_count = get_guest_items_by_project(request, project.uuid)
 
         context = {'total_items': total_count, 'items': items, 'index': ITEMS_PER_PAGE}
@@ -338,9 +341,10 @@ def guest_remove_by_project(request):
         obj = get_or_none(Guest, request.GET["obj_id"]) if "obj_id" in request.GET else None
         if obj != None:
             GuestUser.delete_by_guest(obj.UUID)
-            obj.remove_all_key_codes()
-            obj.remove_all_key_cards()
-            obj.delete()
+            obj.delete_all()
+            #obj.remove_all_key_codes()
+            #obj.remove_all_key_cards()
+            #obj.delete()
 
         items = get_guest_items_by_project(request, project.uuid)
         return render(request, "guest-by-project/guest-list.html", {'items':items, 'project_uuid': project.uuid})
@@ -354,12 +358,9 @@ def guest_soft_remove_by_project(request):
         obj = get_or_none(Guest, request.GET["obj_id"]) if "obj_id" in request.GET else None
         if obj != None:
             GuestUser.delete_by_guest(obj.UUID)
-            obj.remove_all_key_codes()
-            obj.remove_all_key_cards()
-            obj.deleted = 1
-            obj.save()
+            obj.delete_soft()
 
-        items = get_guest_items_by_project(request, project.uuid)
+        items, total_count = get_guest_items_by_project(request, project.uuid)
         return render(request, "guest-by-project/guest-list.html", {'items':items, 'project_uuid': project.uuid})
     except Exception as e:
         return render(request, 'error_exception.html', {'exc':show_exc(e)})

@@ -8,16 +8,15 @@
     <div class="toolbar-search">
         <div class="row key-number p-2">
             <div class="col-6 left-k p-2">
-                <div style="border:1px solid red">{% trans "Card number" %}:</div>
-                <div style="border:1px solid red" class="text-end"><img src="/static/img/hand.png"></div>
-                <div style="border:1px solid red">
-                    <input type="text" class="form-control input-k w-100 ark_change" name="number" id="number" 
-                        placeholder="{% trans 'Click here and then place the card on the reader' %}" data-url="{% url "keycard-number-search" %}" 
-                        data-target="keycard-result" onchange="setNumbers($(this))"/>
+                <div>{% trans "Card number" %}: </div>
+                <div>
+                    <input type="text" class="form-control input-k form-control-dark w-100 ark_change" name="number" id="number" 
+                        placeholder="{% trans 'Card number' %}" data-url="{% url "keycard-number-search-by-project" %}" data-target="keycard-result"
+                        onchange="setNumbers($(this))"/>
                 </div>
             </div>
             <div class="col-4 offset-2 right-k p-2">
-                <div class="">{% trans "Current card number" %}:</div>
+                <div class="">{% trans "Current card number" %}: </div>
                 <div class="text-end"><span id="current-card"></span> </div>
             </div>
         </div>

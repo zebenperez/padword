@@ -58,13 +58,19 @@ class GuestViewSet(viewsets.ModelViewSet):
                 "project_id": pu.project_uuid,
             }
             #print(data)
+
+            if len(data["mobile"]) < 9:
+                msg = "Mobile is required and must be at least 9 characters long!"
+                logger.error("[{}]: \"{}\"".format(self.request.user, msg))
+                return Response(data={'error': 'true', 'msg': msg}, status=status.HTTP_400_BAD_REQUEST)
+
             serializer = self.serializer_class(data=data)
             if serializer.is_valid():
                 #serializer.save()
                 guest = Guest.objects.create(**data)
                 guest.add_all_key_code()
                 logger.info("[{}]: \"Guest {} {} created\"".format(self.request.user, guest.name, guest.surname))
-                return Response(data=serializer.data, status=status.HTTP_201_CREATED)
+                return Response(data=self.serializer_class(guest).data, status=status.HTTP_201_CREATED)
             else:
                 logger.error("[{}]: \"Bad request!\"".format(self.request.user))
                 return Response(data=serializer.errors, status=status.HTTP_400_BAD_REQUEST)
@@ -105,7 +111,12 @@ class GuestViewSet(viewsets.ModelViewSet):
             if "language" in request.POST:
                 guest.language = request.POST["language"]
             if "mobile" in request.POST:
-                guest.mobile = request.POST["mobile"]
+                if len(data["mobile"]) < 9:
+                    msg = "Mobile is required and must be at least 9 characters long!"
+                    logger.error("[{}]: \"{}\"".format(self.request.user, msg))
+                    return Response(data={'error': 'true', 'msg': msg}, status=status.HTTP_400_BAD_REQUEST)
+                else:
+                    guest.mobile = request.POST["mobile"]
             if "email" in request.POST:
                 guest.email = request.POST["email"]
             if "ext_id" in request.POST:
@@ -222,7 +233,7 @@ class LockViewSet(viewsets.ModelViewSet):
     serializer_class = LockSerializer
     permission_classes = [IsAuthenticated,]
 
-    def serialize_guest(self, item):
+    def serialize_lock(self, item):
         if item != None:
             return Response(LockSerializer(item, many=False).data)
         return Response({"error": True})
@@ -419,7 +430,7 @@ class RoomViewSet(viewsets.ModelViewSet):
     serializer_class = RoomSerializer
     permission_classes = [IsAuthenticated,]
 
-    def serialize_guest(self, item):
+    def serialize_room(self, item):
         if item != None:
             return Response(RoomSerializer(item, many=False).data)
         return Response({"error": True})

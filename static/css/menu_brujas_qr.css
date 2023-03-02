@@ -1,6 +1,6 @@
 body {
-    line-height: 17px !important;
-    font-size: 12px !important;
+    line-height: 18px !important;
+    font-size: 13px !important;
 }
 
 .welcome-page {
@@ -47,6 +47,13 @@ body {
 p {
     margin:0 !important;
 }
+
+h1 { font-size: 2em !important; }
+h2 { font-size: 1.5em !important; }
+h3 { font-size: 1.17em !important;  text-transform: none !important; }
+h4, h4.ql-align-center { font-size: 1em !important; display: initial !important; font-style: normal;}
+h5, h5.ql-align-center  { font-size: 0.83em !important; display: initial !important; font-style: normal; }
+h6, h6.ql-align-center  { font-size: 0.67em !important; display: initial !important; font-style: normal; }
 
 img {
     background-color: transparent;

@@ -262,6 +262,10 @@ class Item(models.Model):
         except Exception as e:
             return Project(name='UNKNOWN')
 
+    def get_price(self, code):
+        ip = self.prices.filter(regime_code=code).first()
+        return ip.price if ip != None else 0
+
     @classmethod
     def by_category(cls, categories):
         try:

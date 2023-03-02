@@ -7,7 +7,13 @@
         {% padword_translate item.form.get_category.name %}
         {# <br><span style="font-size:0.6em">&nbsp;&nbsp;&nbsp;&nbsp;</span>{{item.form.form_type}}{% if item.form.form_type.code == 'ecom' %} ({{item.get_items|length}} art.) {%endif%} #}
     </div>
-    <div class="col-2">{{item.guest.name}} {{item.guest.surname}}<br/>{{item.guest.mobile}}<br/>{{item.guest.email}}</div>
+    <div class="col-2">
+        {% if item.guest != None %}
+            {{item.guest.name}} {{item.guest.surname}}<br/>{{item.guest.mobile}}<br/>{{item.guest.email}}
+        {% else %}
+            {{item.guest_name}}
+        {% endif %}
+    </div>
     <div class="col-1">{{ item.guest.room}}</div>
     {#<div class="col-2 d-none d-md-block">{{item.device.uuid}}</div>#}
     {#<div class="col-2">{{ item.date|timezone:"Atlantic/Canary"|date:'d/m/Y H:i:s'}}</div>#}

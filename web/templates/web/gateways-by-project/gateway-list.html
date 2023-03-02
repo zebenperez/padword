@@ -20,7 +20,8 @@
     <tbody>
         {% for item in gateway_list %}
             <tr class="small">
-                <td><span id="gt-name-{{item.gatewayId}}"></span></td>
+                {#<td><span id="gt-name-{{item.gatewayId}}"></span></td>#}
+                <td>{{ item.gatewayName}}</td>
                 <td>{{ item.networkName }}</td>
                 <td>{{ item.gatewayMac }}</td>
                 <td>{{ item.gatewayVersion }}</td>
