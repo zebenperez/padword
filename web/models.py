@@ -6,6 +6,7 @@ from django.utils.translation import ugettext as _
 from padword.commons import show_exc, get_int
 from .lock_lib import ShLock
 from sensibo.sensibo_lib import ShSensibo
+from sensibo.models import ProjectSensiboUser
 
 import datetime, pytz
 import requests
