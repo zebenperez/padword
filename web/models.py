@@ -125,12 +125,12 @@ class Project(models.Model):
         measurement = obj.get_measurement(device_uid)
         node = {}
         if len(measurement) > 0:
-            node["temperature"] = measurement[0]["temperature"]
-            node["humidity"] = measurement[0]["humidity"]
-            node["feels_like"] = measurement[0]["feelsLike"]
-            node["rssi"] = measurement[0]["rssi"]
-            node["motion"] = measurement[0]["motion"]
-            node["room_occupied"] = measurement[0]["roomIsOccupied"]
+            node["temperature"] = measurement[0]["temperature"] if "temperature" in measurement[0] else ""
+            node["humidity"] = measurement[0]["humidity"] if "humidity" in measurement[0] else ""
+            node["feels_like"] = measurement[0]["feelsLike"] if "feelsLike" in measurement[0] else ""
+            node["rssi"] = measurement[0]["rssi"] if "rssi" in measurement[0] else ""
+            node["motion"] = measurement[0]["motion"] if "motion" in measurement[0] else ""
+            node["room_occupied"] = measurement[0]["roomIsOccupied"] if "roomIsOccupied" in measurement[0] else ""
         return node
 
     def sensibo_get_ac_state(self, device_uid):
@@ -138,12 +138,12 @@ class Project(models.Model):
         #return obj.get_ac_state(device_uid)
         ac_state = obj.get_ac_state(device_uid)
         node = {}
-        if len(ac_state) > 0:
-            node["on"] = ac_state["on"]
-            node["mode"] = ac_state["mode"]
-            node["fan_level"] = ac_state["fanLevel"]
-            node["swing"] = ac_state["swing"]
-            node["light"] = ac_state["light"]
+        if len(ac_state) > 0 and "acState" in ac_state[0]:
+            node["on"] = ac_state[0]["acState"]["on"] if "on" in ac_state[0]["acState"] else ""
+            node["mode"] = ac_state[0]["acState"]["mode"] if "mode" in ac_state[0]["acState"] else ""
+            node["fan_level"] = ac_state[0]["acState"]["fanLevel"] if "fanLevel" in ac_state[0]["acState"] else ""
+            node["swing"] = ac_state[0]["acState"]["swing"] if "swing" in ac_state[0]["acState"] else ""
+            node["light"] = ac_state[0]["acState"]["light"] if "light" in ac_state[0]["acState"] else ""
         return node
 
     def sensibo_change_ac_state(self, device_uid, ac_state):
