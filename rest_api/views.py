@@ -92,7 +92,8 @@ class GuestViewSet(viewsets.ModelViewSet):
             guest = Guest.objects.get(UUID=pk)
             guest_name = "{} {}".format(guest.name, guest.surname)
             GuestUser.delete_by_guest(guest.UUID)
-            guest.delete_all()
+            #guest.delete_all()
+            guest.delete_soft()
             logger.info("[{}]: \"Guest {} destroyed\"".format(self.request.user, guest_name))
             return Response(data={'error': 'false'}, status=status.HTTP_200_OK)
         except Exception as e:

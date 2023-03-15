@@ -94,7 +94,7 @@ def locks_by_project(request, project_id):
     except Exception as e:
         return render(request, 'error_exception.html', {'exc':show_exc(e)})
 
-@group_required("projects")
+@group_required("admins")
 def lock_row(request):
     try:
         item = get_or_none(Lock, request.GET["obj_id"])
