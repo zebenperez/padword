@@ -28,6 +28,8 @@ urlpatterns = [
     path('contents/', include('contents.urls')),
     path('bookings/', include('bookings.urls')),
     path('user_remote/', include('user_remote.urls')),
+    path('sensibo/', include('sensibo.urls'), name="sensibo"),
+    path('connector/', include('connector.urls'), name="connector"),
     path('rest-api/', include('rest_api.urls'), name="rest_api"),
 #    path('chat/', include('chat.urls')),
 

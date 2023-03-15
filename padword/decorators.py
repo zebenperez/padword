@@ -1,10 +1,16 @@
 from django.shortcuts import render, redirect
+from django.urls import resolve
 from web.models import ProjectUser, Project
 from contents.models import CategoryUser
+
+import logging
+logger = logging.getLogger(__name__)
+
 
 def group_required(*group_names):
     def _method_wrapper(f):
         def _arguments_wrapper(request, *args, **kwargs) :
+            logger.info("[{}]: \"{}\"".format(request.user, request.path_info))
             if request.user.is_authenticated:
                 if bool(request.user.groups.filter(name__in=group_names)) or request.user.is_superuser:
                     cu = CategoryUser.objects.filter(username=request.user.username).first()

@@ -90,7 +90,7 @@ function sendNotify(title,desc,url, data)
 function checkNotify(ini_date, end_date)
 {
     //fetch('/bookings/bookings/notifications/').then(response => response.json()).then(data => sendNotify('Hay ' + data + ' peticiones pendientes', 'Haz click sobre la notificación para acceder al listado.', '/bookings/bookings/', data));
-    fetch('/bookings/bookings/notifications/'+ini_date+'/'+end_date+'/').then(response => response.json()).then(data => sendNotify('Hay ' + data + ' peticiones pendientes', '', '/bookings/bookings/', data));
+    fetch('/bookings/bookings/notifications/'+ini_date+'/'+end_date+'/').then(response => response.json()).then(data => {sendNotify('Hay ' + data + ' peticiones pendientes', '', '/bookings/bookings/', data); console.log(data);});
     setTimeout(checkNotify, 600000);
 }
 

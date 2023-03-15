@@ -606,9 +606,7 @@ label.form-check-label {
     width: 60%;
     float:none!important;
 }
-
 .form-switch .form-check-input {
-    /*width: 19.2em;*/
     width: auto;
     height: 79px;
     margin-left: 0.25em;
@@ -619,38 +617,21 @@ label.form-check-label {
     border: 1px solid #0086a8;
     transition: background-position .15s ease-in-out;
 }
-
 .favorita-keys {
     width: 100%;
     height: 100px;
 }
-
 .form-check .form-check-input {
     float: none !important;
 }
-
 .form-check-input {
     padding-left: 20px !important;
 }
-/*
-.form-check-input:checked {
-    background-color: #bbee9a !important;
-}
-.form-check-input:checked[type=checkbox] {
-    background-image: url(/static/img/lock-open.png) !important;
-    color: #fff !important;
-}
-*/
-
 .form-check-input-checked {
     background-color: #bbee9a !important;
 }
 .form-check-input-checked[type=checkbox] {
     background-image: url(/static/img/lock-open.png) !important;
     color: #fff !important;
-}
-
-.card.slider-cart {
-    /*margin-top: 80px;*/
 }
 

@@ -1,7 +1,8 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 from django.urls import path
-from . import views, auto_views, room_views, card_views, lock_views, lock_user_views, lock_group_views, gateway_views, ekey_views, sensibo_views
+from . import views, auto_views, room_views, card_views, lock_views, lock_user_views, lock_group_views 
+from . import gateway_views, ekey_views
 
 urlpatterns = [ 
     #path('index/<slug:chk>/', views.index, name='web-index-new'),
@@ -48,14 +49,18 @@ urlpatterns = [
     path('locks/remove/', lock_views.lock_remove, name='lock-remove'),
     path('locks/get-all-passcodes/', lock_views.lock_get_all_passcodes, name='lock-get-all-passcodes'),
     path('locks/remove/code/', lock_views.lock_remove_code, name='lock-remove-code'),
+    path('locks/remove-all-passcodes/', lock_views.lock_remove_all_passcodes, name='lock-remove-all-passcodes'),
     path('locks/get-all-cards/', lock_views.lock_get_all_cards, name='lock-get-all-cards'),
     path('locks/remove/card/', lock_views.lock_remove_card, name='lock-remove-card'),
+    path('locks/remove-all-cards/', lock_views.lock_remove_all_cards, name='lock-remove-all-cards'),
     path('locks/get-all-records/', lock_views.lock_get_all_records, name='lock-get-all-records'),
     path('locks/set-action/', lock_views.lock_set_action, name='lock-set-action'),
     path('locks/share-code/', lock_views.lock_share_code, name='lock-share-code'),
     path('locks/share-code-guest/', lock_views.lock_share_code_guest, name='lock-share-code-guest'),
     path('locks/update-params/', lock_views.lock_update_params, name='lock-update-params'),
     path('locks/set-group/', lock_views.lock_set_group, name='lock-set-group'),
+    path('locks/export-csv/<int:lock_id>/', lock_views.lock_export_csv, name='lock-export-csv'),
+    path('locks/export-pdf/<int:lock_id>/', lock_views.lock_export_pdf, name='lock-export-pdf'),
 
     path('locks/by-project/', lock_views.locks_by_project2, name='locks-by-project2'),
     path('locks/row/by-project/', lock_views.lock_row_by_project, name='lock-row-by-project'),
@@ -84,13 +89,13 @@ urlpatterns = [
     path('locks-groups/add/', lock_group_views.lock_group_add, name='lock-group-add'),
 
     #--------------------- Sensibo devices --------------------
-    path('sensibo-device-by-project/<int:project_id>/', sensibo_views.devices_by_project, name='sensibo-device-by-project'),
-    path('sensibo-device-switch/', sensibo_views.device_switch, name='sensibo-device-switch'),
-    path('sensibo-device-set-state/', sensibo_views.device_set_state, name='sensibo-device-set-state'),
-    path('sensibo-device-save-room/', sensibo_views.device_save_room, name='sensibo-device-save-room'),
-    path('sensibo-device-by-project2/', sensibo_views.devices_by_project2, name='sensibo-device-by-project2'),
-    path('sensibo-device-switch-project/', sensibo_views.device_switch_project, name='sensibo-device-switch-project'),
-    path('sensibo-device-set-state-project/', sensibo_views.device_set_state_project, name='sensibo-device-set-state-project'),
+    #path('sensibo-device-by-project/<int:project_id>/', sensibo_views.devices_by_project, name='sensibo-device-by-project'),
+    #path('sensibo-device-switch/', sensibo_views.device_switch, name='sensibo-device-switch'),
+    #path('sensibo-device-set-state/', sensibo_views.device_set_state, name='sensibo-device-set-state'),
+    #path('sensibo-device-save-room/', sensibo_views.device_save_room, name='sensibo-device-save-room'),
+    #path('sensibo-device-by-project2/', sensibo_views.devices_by_project2, name='sensibo-device-by-project2'),
+    #path('sensibo-device-switch-project/', sensibo_views.device_switch_project, name='sensibo-device-switch-project'),
+    #path('sensibo-device-set-state-project/', sensibo_views.device_set_state_project, name='sensibo-device-set-state-project'),
 
     #--------------------- Rooms --------------------
     path('rooms/', room_views.rooms, name='rooms'),
@@ -135,6 +140,9 @@ urlpatterns = [
 
     #--------------------- eKeys --------------------
     path('ekeys-by-project/<int:project_id>/', ekey_views.ekeys_by_project, name='ekeys-by-project'),
+
+    #--------------------- Connector --------------------
+    #path('connector/avantio/get-booking-list/', connector_views.avantio_get_booking_list, name='connector-avantio-get-booking-list'),
 
     #---------------------- E-Keys ---------------------
     #path('ekeys/', views.ekeys, name='ekeys'),

@@ -46,6 +46,8 @@ INSTALLED_APPS = [
     'contents',
     'user_remote',
     'guestpwa',
+    'sensibo',
+    'connector',
     'rest_api',
 #     'chat',
 #     'pwa',
@@ -187,6 +189,11 @@ LOGGING = {
     },
     'loggers': {
         'rest_api': {
+            'handlers': ['file', 'console'],
+            'level': DEBUG_LEVEL,
+            'propagate': True,
+        },
+        'padword': {
             'handlers': ['file', 'console'],
             'level': DEBUG_LEVEL,
             'propagate': True,

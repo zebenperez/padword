@@ -44,9 +44,11 @@
     <body id="login-body">
         <div class="row login-container">
         
+        {% comment %}
         {% if form.errors %}
 		    <p>{% trans "Your username and password didn't match. Please try again." %}</p>
     	{% endif %}
+        {% endcomment %}
 
             <div class="col-lg-9 col-12 login-left"> </div>
 

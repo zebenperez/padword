@@ -6,19 +6,14 @@
 {% block central_content %}
 
     <h4>{{project.name}}</h4>
-    <div class="toolbar-search">
-        <input type="text" class="autosearch form-control form-control-dark w-100" name="lock_search_alias" id="lock_search_alias"
-            placeholder="{% trans 'Alias' %}" data-url="{% url "lock-search" %}" data-target="lock-list" 
-            data-related="lock_search_alias,project_uuid" value="{{request.session.lock_search_alias}}"/>
-        <input type="hidden" id="project_uuid" name="project_uuid" value="{{project.uuid}}"/>
-        {%comment%}
-        <input type="text" class="autosearch form-control form-control-dark w-100" name="lock_search_project" id="lock_search_project"
-            placeholder="{% trans 'Project name' %}" data-url="{% url "lock-search" %}" data-target="lock-list" 
-            data-related="lock_search_alias,lock_search_project" value="{{request.session.lock_search_project}}"/>
-        {%endcomment%}
-    </div>
+        <div class="row mt-3">
+            <div class="col-lg-3 col-12 ">{% include "web/locks/lock-search.html" %}</div>
+            <div class="col-lg-3 col-12 ">{% include "web/locks/lock-add-group.html" %}</div>
+            <div class="col-lg-3 col-12 ">{% include "web/locks/lock-add-code.html" %}</div>
+            <div class="col-lg-3 col-12 ">{% include "web/locks/lock-remove-code.html" %}</div>
+        </div>
 
-    <div class="content">
+    <div class="content mt-3">
         <div class="toolbar-content">
             <h2 class="b-right">{% trans 'Locks' %} (<span id="items-counter">{{items|length}}</span>)</h2>
             {#<a class="btn btn-primary ark" data-url="{% url "company-form" %}" data-target-modal="common-modal">{% trans "New company" %}</a>  #}
@@ -27,4 +22,15 @@
         <div id="lock-list">{% include "web/locks/lock-list.html" %}</div>
     </div>
 
+    <script> 
+        $(".toggle-main").click(function(){
+            let id = '#'+$(this).data('toggle');
+            $(id).toggle(); 
+            if ($(id).is(':visible'))
+                $('input:checkbox').not($('#perm')).prop('checked', 'checked');
+            else
+                $('input:checkbox').not(this).prop('checked', '');
+            $('#action').val($(this).data("action"));
+        }); 
+    </script>
 {% endblock central_content %}

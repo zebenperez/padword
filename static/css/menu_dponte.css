@@ -224,13 +224,13 @@ img.object-fit_cover.img-new {
     color: #fff;
 }
 
-.slogan-zahara {
+.slogan-dponte {
     background-color: #fff;
     color: #000000;
     font-size: 1.5rem;
 }
-.slogan-zahara img { height: 50px; }
-.slogan-zahara .text { margin-top:35px !important; }
+.slogan-dponte img { height: 50px; }
+.slogan-dponte .text { margin-top:35px !important; }
 
 .div-key {
     background-color: #2e2e2e;
@@ -598,9 +598,7 @@ label.form-check-label {
     width: 60%;
     float:none!important;
 }
-
 .form-switch .form-check-input {
-    /*width: 19.2em;*/
     width: auto;
     height: 79px;
     margin-left: 0.25em;
@@ -611,38 +609,21 @@ label.form-check-label {
     border: 1px solid #000000;
     transition: background-position .15s ease-in-out;
 }
-
-.zahara-keys {
+.dponte-keys {
     width: 100%;
     height: 100px;
 }
-
 .form-check .form-check-input {
     float: none !important;
 }
-
 .form-check-input {
     padding-left: 20px !important;
 }
-/*
-.form-check-input:checked {
-    background-color: #bbee9a !important;
-}
-.form-check-input:checked[type=checkbox] {
-    background-image: url(/static/img/lock-open.png) !important;
-    color: #fff !important;
-}
-*/
-
 .form-check-input-checked {
     background-color: #bbee9a !important;
 }
 .form-check-input-checked[type=checkbox] {
     background-image: url(/static/img/lock-open.png) !important;
     color: #fff !important;
-}
-
-.card.slider-cart {
-    /*margin-top: 80px;*/
 }
 

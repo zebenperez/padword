@@ -1,0 +1,19 @@
+{% load i18n padword_tags %}
+
+<div class="card">
+    <div class="card-header toggle-main text-center pointer" data-toggle="card-group" data-action="1"> {% trans "Add Group" %}</div>
+    <div class="card-body hide" id="card-group">
+        <div id="div-form-group">
+            <div class="row">
+                <div class="col-12 mt-2">
+                    <select class="form-control set-hidden select-k" data-id="lock_group">
+                        <option value="{% trans "Select" %}">{% trans "Select group" %}</option>{%for item in lock_group_list%}<option value="{{item.uuid}}">{{item.name}}</option>{%endfor%}
+                    </select>
+                </div>
+                <div class="col-12 text-center mt-3"><button class="btn btn-primary saveform w-100" data-form="form-actions" data-target="lock-list">
+                    <i class="fas fa-plus"></i> {% trans "Save" %}</button> </div>
+            </div>
+        </div>
+    </div>
+</div>
+

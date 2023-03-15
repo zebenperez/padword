@@ -32,6 +32,18 @@
     <div class="card-body" id="body-locks"> <div id="div-locks">{% include "guest/keys/guest-keys.html" %}</div> </div> 
 <div>
 
+<div class="card">
+    <div class="card-header">
+        <div class="row toggle-btn" data-target="body-bands" data-id-change="icon-bands" 
+            data-text='<i class="fas fa-plus"></i>' data-text-alt='<i class="fas fa-minus"></i>'>
+            <div class="col-10"><strong>{% trans "Wristbands" %}</strong></div>
+            <div class="col-2 text-end" id="icon-bands"> <i class="fas fa-plus"></i> </div>
+        </div>
+    </div>
+    <div class="card-body hide" id="body-bands"> <div id="div-bands">{% include "guest/bands/guest-bands.html" %}</div> </div> 
+<div>
+
+
 {% if obj.project.sensibo_api_key != "" %}
     <div class="card">
         <div class="card-header">

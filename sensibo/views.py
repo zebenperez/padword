@@ -4,7 +4,8 @@ from django.utils.translation import ugettext_lazy as _
 
 from padword.commons import show_exc, get_or_none, get_param, new_ui_slug, translate, set_session, reverse_cardkey
 from padword.decorators import group_required
-from .models import *
+from web.models import Project
+from .models import SensiboDevice
 
 
 '''
@@ -40,7 +41,7 @@ def devices_by_project(request, project_id):
 
         context = get_device_project_context(project)
         context['device_list'] = device_list
-        return render (request, "web/sensibo/devices.html", context)
+        return render (request, "sensibo/devices.html", context)
         #return render (request, "web/sensibo/devices.html", {'project': project, 'device_list': project.sensibo_device_list()})
     except Exception as e:
         return render(request, 'error_exception.html', {'exc':show_exc(e)})
@@ -58,7 +59,7 @@ def device_switch(request):
         context = get_device_project_context(project)
         context['item'] = get_item(project, uid, name)
         context['msg'] = msg
-        return render (request, "web/sensibo/device-list-row.html", context)
+        return render (request, "sensibo/device-list-row.html", context)
     except Exception as e:
         return render(request, 'error_exception.html', {'exc':show_exc(e)})
 
@@ -78,7 +79,7 @@ def device_set_state(request):
         context = get_device_project_context(project)
         context['item'] = get_item(project, uid, name)
         context["msg"] = msg
-        return render (request, "web/sensibo/device-list-row.html", context)
+        return render (request, "sensibo/device-list-row.html", context)
     except Exception as e:
         return render(request, 'error_exception.html', {'exc':show_exc(e)})
 
@@ -98,7 +99,7 @@ def device_save_room(request):
         context = get_device_project_context(project)
         context['item'] = get_item(project, uid, name, sd)
         #context["item"] = item
-        return render (request, "web/sensibo/device-list-row.html", context)
+        return render (request, "sensibo/device-list-row.html", context)
     except Exception as e:
         return render(request, 'error_exception.html', {'exc':show_exc(e)})
 
@@ -117,7 +118,7 @@ def devices_by_project2(request):
 
         context = get_device_project_context(project)
         context["device_list"] = device_list
-        return render (request, "web/sensibo-by-project/devices.html", context)
+        return render (request, "sensibo-by-project/devices.html", context)
     except Exception as e:
         return render(request, 'error_exception.html', {'exc':show_exc(e)})
 
@@ -134,7 +135,7 @@ def device_switch_project(request):
         context = get_device_project_context(project)
         context['item'] = get_item(project, uid, name)
         context["msg"] = msg
-        return render (request, "web/sensibo-by-project/device-list-row.html", context)
+        return render (request, "sensibo-by-project/device-list-row.html", context)
     except Exception as e:
         print(e)
         return render(request, 'error_exception.html', {'exc':show_exc(e)})
@@ -155,7 +156,7 @@ def device_set_state_project(request):
         context = get_device_project_context(project)
         context['item'] = get_item(project, uid, name)
         context["msg"] = msg
-        return render (request, "web/sensibo-by-project/device-list-row.html", context)
+        return render (request, "sensibo-by-project/device-list-row.html", context)
     except Exception as e:
         return render(request, 'error_exception.html', {'exc':show_exc(e)})
 

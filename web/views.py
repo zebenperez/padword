@@ -8,6 +8,7 @@ from django.views.decorators.csrf import csrf_exempt
 from padword.commons import show_exc, get_or_none, get_param, new_ui_slug, translate, set_session
 from padword.decorators import group_required
 from guest.models import Regime, ProjectRegime
+from sensibo.models import ProjectSensiboUser
 from .models import *
 #from .lock_lib import ShLock
 

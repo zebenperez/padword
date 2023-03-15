@@ -1,4 +1,5 @@
 from django.conf import settings
+from django.utils.translation import ugettext_lazy as _ 
 #from ttlockwrapper import TTLock
 #from web.lock_lib_const import *
 from web.ttlock import TTLock
@@ -229,4 +230,84 @@ class ShLock:
         ekeys = list(self.ttlock.lock_get_all_acc_keys())
         return ekeys
 
-
+def get_record_type(code):
+    if code == 1:
+        return _("Unlock by app")
+    elif code == 4:
+        return _("Unlock by passcode")
+    elif code == 5:
+        return _("Rise the lock")
+    elif code == 6:
+        return _("Lower the lock")
+    elif code == 7:
+        return _("Unlock by IC card")
+    elif code == 8:
+        return _("Unlock by fingerprint")
+    elif code == 9:
+        return _("Unlock by wrist strap")
+    elif code == 10:
+        return _("Unlock by Mechanical key")
+    elif code == 11:
+        return _("Lock by app")
+    elif code == 12:
+        return _("Unlock by gateway")
+    elif code == 29:
+        return _("Apply some force on the Lock")
+    elif code == 30:
+        return _("Door sensor closed")
+    elif code == 31:
+        return _("Door sensor open")
+    elif code == 32:
+        return _("Open from inside")
+    elif code == 33:
+        return _("Lock by fingerprint")
+    elif code == 34:
+        return _("Lock by passcode")
+    elif code == 35:
+        return _("Lock by IC card")
+    elif code == 36:
+        return _("Lock by Mechanical key")
+    elif code == 37:
+        return _("Remote Control")
+    elif code == 42:
+        return _("Received new local mail")
+    elif code == 43:
+        return _("Received new other cities mail")
+    elif code == 44:
+        return _("Tamper alert")
+    elif code == 45:
+        return _("Auto Lock")
+    elif code == 46:
+        return _("Unlock by unlock key")
+    elif code == 47:
+        return _("Lock by lock key")
+    elif code == 48:
+        return _("System locked ( Caused by, for example: Using INVALID Passcode/Fingerprint/Card several times)")
+    elif code == 49:
+        return _("Unlock by hotel card")
+    elif code == 50:
+        return _("Unlocked due to the high temperature")
+    elif code == 52:
+        return _("Dead lock with APP")
+    elif code == 53:
+        return _("Dead lock with passcode")
+    elif code == 54:
+        return _("The car left (for parking lock)")
+    elif code == 55:
+        return _("Unlock with key fob")
+    elif code == 57:
+        return _("Unlock with QR code success")
+    elif code == 58:
+        return _("Unlock with QR code failed, it's expired")
+    elif code == 59:
+        return _("Double locked")
+    elif code == 60:
+        return _("Cancel double lock")
+    elif code == 61:
+        return _("Lock with QR code success")
+    elif code == 62:
+        return _("Lock with QR code failed, the lock is double locked")
+    elif code == 63:
+        return _("Auto unlock at passage mode")
+    else:
+        return _("Unknown")

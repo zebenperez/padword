@@ -5,18 +5,6 @@
 
 <div class="d-flex menu-actions-blue" style="border:1px solid black">
     <div class="flex-grow-1 p-2"><span class="bg-ico-bar"><i class="fas fa-lock"></i></span>&nbsp; Vista general</div>
-    <div class="action p-2">
-        <a class="toggle-btn" data-target="div-form-group" data-text="{% trans "Add group" %}" data-text-alt="{% trans "Close" %}"
-            onclick="$('#action').val('1')"> <i class="fas fa-users"></i> {% trans "Add group" %}</a>
-    </div>
-    <div class="action p-2">
-        <a class="toggle-btn" data-target="div-form" data-text="{% trans "Add master card" %}" data-text-alt="{% trans "Close" %}"
-            onclick="$('#action').val('2')"> <i class="fas fa-edit"></i> {% trans "Add master card" %}</a>
-    </div>
-    <div class="action p-2">
-        <a class="toggle-btn" data-target="div-form" data-text="{% trans "Add master code" %}" data-text-alt="{% trans "Close" %}"
-            onclick="$('#action').val('3')"> <i class="fas fa-edit"></i> {% trans "Add master code" %}</a>
-    </div>
 </div>
 
 <form class="form" method="POST" action="{% url "lock-set-action" %}" id="form-actions">
@@ -24,41 +12,22 @@
     <input type="hidden" id="action" name="action" value=""/>
     <input type="hidden" id="project_uuid" name="project_uuid" value="{{project.uuid}}"/>
 
-    <div id="div-form-group" style="display:none"> 
-        <div class="row">
-            <div class="col-11">
-                <select class="form-control" name="lock_group">
-                    <option value=""></option> {% for item in lock_group_list %} <option value="{{item.uuid}}">{{item.name}}</option> {% endfor %}
-                </select>
-            </div>
-            <div class="col-1"><button class="btn saveform" data-form="form-actions" data-target="lock-list">
-                <i class="fas fa-plus"></i> {% trans "Save" %}</button> </div>
-        </div>
-    </div>
-    <div id="div-form" style="display:none"> 
-        <div class="row">
-            <div class="col-6"><input type="text" class="form-control check_one" id="code" name="code" placeholder="{%trans "Code or Card number"%}"
-                data-ini_date="{{ini_date|date:"Y-m-d"}}" data-end_date="{{end_date|date:"Y-m-d"}}" data-type="3"/> </div>
-            <div class="col-6"><input type="text" class="form-control check_one" id="name" name="name" placeholder="{%trans "Name"%}"/> </div>
-        </div>
-        <div class="row">
-            <div class="col-4"> <input type="date" class="form-control check_per check_one" id="ini_date" name="ini_date" 
-                value="{{ini_date|date:"Y-m-d"}}"/> </div>
-            <div class="col-4"> <input type="date" class="form-control check_per check_one" id="end_date" name="end_date" 
-                value="{{end_date|date:"Y-m-d"}}"/> </div>
-            <div class="col-2"> <input type="checkbox" class="check_per check_one toggle-tags" id="permanent" name="permanent" 
-                data-class-name="check_per"/> {% trans "Permanent" %} </div>
-            <div class="col-2"><button class="btn saveform" data-form="form-actions" data-target="lock-list">
-                <i class="fas fa-plus"></i> {% trans "Save" %}</button> </div>
-        </div>
-    </div>
+    <input type="hidden" id="lock_group" name="lock_group" value=""/>
 
-    <table class="table table-striped table-hover" id="main-table">
+    <input type="hidden" id="code" name="code" value=""/>
+    <input type="hidden" id="name" name="name" value=""/>
+    <input type="hidden" id="ini_date" name="ini_date" value=""/>
+    <input type="hidden" id="end_date" name="end_date" value=""/>
+    <input type="hidden" id="permanent" name="permanent"/>
+
+    <input type="hidden" id="code_remove" name="code_remove" value=""/>
+
+    <table class="table table-striped table-hover mt-3" id="main-table">
         <thead>
             <tr class="small small">
                 <th><input type="checkbox" name="ch_0" id="check-all"/></th>
                 <th> {% trans 'UUID' %} <i class="fas fa-sort"></i> </th>
-                <th> {% trans 'Alias' %} <i class="fas fa-sort"></i> </th>
+                <th> {% trans 'Lock Alias' %} <i class="fas fa-sort"></i> </th>
                 <th> {% trans 'Project' %} <i class="fas fa-sort"></i> </th>
                 {#<th> {% trans 'Floor' %} </th>#}
                 <th> {% trans 'Group' %} <i class="fas fa-sort"></i> </th>

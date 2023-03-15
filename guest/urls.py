@@ -31,6 +31,10 @@ urlpatterns = [
 
     path('guests/set-regime/', views.guest_set_regime, name='guest-set-regime'),
 
+    path('guests/band/add', views.guest_band_add, name='guest-band-add'),
+    path('guests/band/save', views.guest_band_save, name='guest-band-save'),
+    path('guests/band/remove', views.guest_band_remove, name='guest-band-remove'),
+
     #--------------------- DEVICES --------------------
     path('', views.index, name='device-index'),
     path('devices/', views.devices, name='guest-devices'),

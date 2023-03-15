@@ -751,8 +751,22 @@ $(document).ready(()=>{
         }
     });
 
-    async function scanNFC(id, {signal} = {}) {
-        var container = $(id);
+    $("body").on("change", ".set-hidden", function(e){
+        var obj = $(this);
+        var id = obj.data("id");
+        if (obj.is(':checkbox'))
+            if (obj.is(':checked'))
+                $(`#${id}`).val('on');
+            else
+                $(`#${id}`).val('');
+        else
+            $(`#${id}`).val(obj.val());
+        e.preventDefault();
+    });
+
+
+    async function scanNFC(id, url, guest_uuid, {signal} = {}) {
+        var container = $(`#${id}`);
         try {
             const ndef = new NDEFReader(signal);
             await ndef.scan();
@@ -768,9 +782,10 @@ $(document).ready(()=>{
                     const val = decoder.decode(record.data);
                     val_arr = val.split(",");
                     //container.html(`Su tarjeta es:    ${val_arr[0]}`);
-                    $(`${id}-wait`).hide();
-                    $(`${id}-readed`).show();
-                    $(`${id}-card-number`).html(val_arr[0]);
+                    $(`#${id}-wait`).hide();
+                    $(`#${id}-readed`).show();
+                    $(`#${id}-card-number`).html(val_arr[0]);
+                    ajaxGet(url, {'guest_uuid': guest_uuid, 'value': val_arr[0]}, `${id}-readed`, '');
                 }
             });
         } catch (e) {
@@ -781,11 +796,13 @@ $(document).ready(()=>{
     }
 
     $("body").on("click", ".scan-nfc", function() {
-        var id = "#"+$(this).data("scan-container");
+        var id = $(this).data("scan-container");
+        var url = $(this).data("scan-url");
+        var guest_uuid = $(this).data("guest-uuid");
         const ac = new AbortController();
-        scanNFC(id, {signal: ac.signal});
+        scanNFC(id, url, guest_uuid, {signal: ac.signal});
         ac.abort(); 
-        setTimeout(() => {ac.abort(); $(`${id}-wait`).hide();}, 20000);
+        setTimeout(() => {ac.abort(); $(`#${id}-wait`).hide();}, 20000);
     });
 
     $("body").on("keyup", ".sp-search", function() {

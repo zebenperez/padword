@@ -29,6 +29,8 @@
 </table>
 
 <div class="d-flex justify-content-end p-2">
+	<a class="btn btn-info m-2" href="{% url "lock-export-csv" obj.id %}" target="_blank">{% trans "CSV Export" %}</a>
+	<a class="btn btn-info m-2" href="{% url "lock-export-pdf" obj.id %}" target="_blank">{% trans "PDF Export" %}</a>
 	<button type="button" class="btn btn-primary ark m-2" data-bs-dismiss="modal"
 	    data-url="{% url "lock-search" %}" data-target="lock-list" data-project_uuid="{{obj.project_uuid}}">{% trans "Close" %}</button>
 </div>

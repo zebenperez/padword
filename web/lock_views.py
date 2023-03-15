@@ -3,13 +3,13 @@ from django.shortcuts import render, redirect
 from django.utils.translation import ugettext_lazy as _ 
 from django.urls import reverse
 
-from padword.commons import show_exc, get_or_none, get_param, new_ui_slug, translate, set_session, reverse_cardkey
+from padword.commons import show_exc, get_or_none, get_param, new_ui_slug, translate, set_session, reverse_cardkey, timestamp_to_date
 from padword.decorators import group_required
 from .models import *
-from .lock_lib import ShLock
+from .lock_lib import ShLock, get_record_type
 from guest.models import KeyCode, KeyCard, Guest
 
-import requests
+import csv, requests
 import time, datetime, pytz
 
 
@@ -21,7 +21,6 @@ def remove_lock(lock):
     KeyCard.objects.filter(lock=lock.uuid).delete()
     lock.delete()
 
-
 def update_locks(project):
     sh_lock = ShLock(project.lock_access_token)
 
@@ -31,24 +30,13 @@ def update_locks(project):
         lock, created = Lock.objects.get_or_create(uuid=uuid, project_uuid=project.uuid)
         lock.last_update = pytz.utc.localize(datetime.datetime.now())
         lock.alias = item["lockAlias"]
-        #lock.charge_cache = item["electricQuantity"]
-        #lock.gateway_cache = _("Connected") if item["hasGateway"] == 1 else _("Not connected")
         lock.save()
         if uuid not in current_locks:
             current_locks.append(uuid)
 
-    #current_locks = []
-    #for item in sh_lock.get_locks():
-    #    Lock.objects.get_or_create(uuid=item, project_uuid=project.uuid)
-    #    if item not in current_locks:
-    #        current_locks.append(item)
-
     lock_list = Lock.objects.filter(project_uuid=project.uuid).exclude(uuid__in = current_locks)
     for lock in lock_list:
         remove_lock(lock)
-
-#def set_lock_filter_session(request):
-#    request.session["lock_search_alias"] = request.GET["s-alias"] if "s-alias" in request.GET and request.GET["s-alias"] else ""
 
 def get_lock_items(request, project_uuid):
     kwargs = {'project_uuid': project_uuid}
@@ -56,15 +44,28 @@ def get_lock_items(request, project_uuid):
     if "lock_search_alias" in request.session and request.session["lock_search_alias"] != "":
         kwargs["alias__icontains"] = request.session["lock_search_alias"]
 
-    return Lock.objects.filter(**kwargs)
+    lock_list = list(Lock.objects.filter(**kwargs))
 
-    #if "lock_search_project" in request.session and request.session["lock_search_project"] != "":
-    #    project_uuid_list = [item.uuid for item in Project.objects.filter(name__icontains=request.session["lock_search_project"])]
-    #    kwargs["project_uuid__in"] = project_uuid_list
+    if "lock_search_passcode" in request.session and request.session["lock_search_passcode"] != "":
+        lock_code = []
+        for lock in lock_list:
+            item_list = lock.get_all_passcodes()
+            for item in item_list:
+                if item["keyboardPwd"] == request.session["lock_search_passcode"]: 
+                    lock_code.append(lock)
+        lock_list = set(lock_list) & set(lock_code)
 
-    #return Lock.objects.filter(**kwargs) if len(kwargs) > 0 else Lock.objects.all()
+    if "lock_search_cardcode" in request.session and request.session["lock_search_cardcode"] != "":
+        lock_code = []
+        for lock in lock_list:
+            item_list = lock.get_all_cards()
+            for item in item_list:
+                if str(item["cardNumber"]) == str(reverse_cardkey(request.session["lock_search_cardcode"])): 
+                    lock_code.append(lock)
+        lock_list = set(lock_list) & set(lock_code)
 
-#def get_context(request, project_uuid):
+    return lock_list 
+
 def get_context(request, project):
     context = {}
     now = datetime.datetime.now()
@@ -94,7 +95,7 @@ def locks_by_project(request, project_id):
     except Exception as e:
         return render(request, 'error_exception.html', {'exc':show_exc(e)})
 
-@group_required("projects")
+@group_required("admins")
 def lock_row(request):
     try:
         item = get_or_none(Lock, request.GET["obj_id"])
@@ -109,7 +110,11 @@ def lock_search(request):
         #set_session(request, "lock_search_project")
         project_uuid = get_param(request.GET, "project_uuid")
         project = get_or_none(Project, project_uuid, "uuid")
+
         set_session(request, "lock_search_alias")
+        set_session(request, "lock_search_passcode")
+        set_session(request, "lock_search_cardcode")
+
         context = get_context(request, project)
         return render(request, "web/locks/lock-list.html", context)
     except Exception as e:
@@ -153,6 +158,16 @@ def lock_remove_code(request):
     except Exception as e:
         return render(request, "error_exception.html", {'exc':show_exc(e)})
 
+@group_required("admins")
+def lock_remove_all_passcodes(request, obj_id=None):
+    try:
+        lock = get_or_none(Lock, request.GET["obj_id"])
+        err = ""
+        for code in lock.get_all_passcodes():
+            err += "Code {}: {}<br/>".format(code["keyboardPwd"], lock.remove_code(code["keyboardPwdId"]))
+        return render(request, "web/locks/lock-all-passcodes.html", {'obj': lock, "err": err})
+    except Exception as e:
+        return render(request, "error_exception.html", {'exc':show_exc(e)})
 
 @group_required("admins")
 def lock_get_all_cards(request, obj_id=None):
@@ -170,6 +185,17 @@ def lock_remove_card(request):
         errcode = lock.remove_card(card_id)
         return HttpResponse("")
         #return render(request, "web/locks/lock-all-cards.html", {'obj': lock,})
+    except Exception as e:
+        return render(request, "error_exception.html", {'exc':show_exc(e)})
+
+@group_required("admins")
+def lock_remove_all_cards(request, obj_id=None):
+    try:
+        lock = get_or_none(Lock, request.GET["obj_id"])
+        err = ""
+        for code in lock.get_all_cards():
+            err += "Code {}: {}<br/>".format(code["cardNumber"], lock.remove_card(code["cardId"]))
+        return render(request, "web/locks/lock-all-cards.html", {'obj': lock, 'err': err})
     except Exception as e:
         return render(request, "error_exception.html", {'exc':show_exc(e)})
 
@@ -203,6 +229,8 @@ def lock_set_action(request):
 
         lock_group_uuid = get_param(request.POST, "lock_group")
 
+        code_remove = get_param(request.POST, "code_remove")
+
         for key in request.POST.keys():
             if "ch_" in key:
                 lock = get_or_none(Lock, key.split("_")[1])
@@ -224,6 +252,16 @@ def lock_set_action(request):
                             errcode = lock.set_code(code, ini_date, datetime.datetime(2099, 12, 31), name)
                         #elif one != "":
                         #    errcode = lock.get_code(1, ini_date, end_date)
+                    if action == "4":
+                        item_list = lock.get_all_passcodes()
+                        for item in item_list:
+                            if item["keyboardPwd"] == code_remove:
+                                errcode = lock.remove_code(item["keyboardPwdId"])
+                    if action == "5":
+                        item_list = lock.get_all_cards()
+                        for item in item_list:
+                            if str(item["cardNumber"]) == str(reverse_cardkey(code_remove)): 
+                                errcode = lock.remove_card(item["cardId"])
                     msg = errcode if "Error" in str(errcode) else ""
                  
         context = get_context(request, project)
@@ -280,6 +318,34 @@ def lock_set_group(request):
     except Exception as e:
         return HttpResponse("Error: {}".format(e))
 
+@group_required("admins")
+def lock_export_csv(request, lock_id):
+    try:
+        lock = get_or_none(Lock, lock_id)
+        response = HttpResponse(
+            content_type='text/csv',
+            headers={'Content-Disposition': 'attachment; filename="{}_{}.csv"'.format(lock.project.name, lock.alias)},
+        )
+
+        writer = csv.writer(response)
+        writer.writerow(['Record type', 'Success', 'Username', 'Code', 'Lock date', 'Server date'])
+        for item in lock.get_all_records():
+            item_type = get_record_type(item["recordType"])
+            success = _("Yes") if item["success"] == 1 else _("No")
+            lock_date = timestamp_to_date(item["lockDate"])
+            server_date = timestamp_to_date(item["serverDate"])
+            writer.writerow([item_type, success, item["username"], item["keyboardPwd"], lock_date, server_date])
+        return response
+    except Exception as e:
+        return HttpResponse("Error: {}".format(e))
+
+@group_required("admins")
+def lock_export_pdf(request, lock_id):
+    try:
+        lock = get_or_none(Lock, lock_id)
+        return render(request, "web/locks/lock-records-print.html", {'obj': lock,})
+    except Exception as e:
+        return HttpResponse("Error: {}".format(e))
 
 '''
     Locks for "projects" users

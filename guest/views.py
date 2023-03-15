@@ -245,6 +245,36 @@ def guest_set_regime(request):
     except Exception as e:
         return render(request, "error_exception.html", {'exc':show_exc(e)})
 
+@group_required("admins", "projects")
+def guest_band_add(request):
+    try:
+        guest = get_or_none(Guest, get_param(request.GET, "obj_id"))
+        Wristband.objects.create(guest=guest)
+        return render(request, "guest/bands/guest-bands.html", {'obj': guest,})
+    except Exception as e:
+        return render(request, "error_exception.html", {'exc':show_exc(e)})
+
+@group_required("admins", "projects")
+def guest_band_save(request):
+    try:
+        band = get_or_none(Wristband, get_param(request.GET, "obj_id"))
+        code = get_param(request.GET, "value")
+        band.code = reverse_cardkey(code)
+        band.save()
+        return render(request, "guest/bands/guest-bands.html", {'obj': band.guest,})
+    except Exception as e:
+        return render(request, "error_exception.html", {'exc':show_exc(e)})
+
+@group_required("admins", "projects")
+def guest_band_remove(request):
+    try:
+        band = get_or_none(Wristband, get_param(request.GET, "obj_id"))
+        guest = band.guest
+        band.delete()
+        return render(request, "guest/bands/guest-bands.html", {'obj': guest,})
+    except Exception as e:
+        return render(request, "error_exception.html", {'exc':show_exc(e)})
+
 
 '''
     Guests by projects

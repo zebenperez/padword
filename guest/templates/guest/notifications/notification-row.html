@@ -12,7 +12,7 @@
     </div>
     <div class="col-3">{% padword_translate item.subject %}</div>
     <div class="col-3">{% padword_translate item.msg %}</div>
-    <div class="col-2">
+    <div class="col-2 text-end">
         {% if not item.public %}
             {% if item.guests.all|length > 0 or obj.all_users %}
                 <a class="btn btn-xs ark" data-url="{% url "guest-notification-send" %}" data-target="notification-list" data-obj_id="{{item.id}}"> 

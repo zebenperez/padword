@@ -25,9 +25,7 @@
         <th></th>
     </tr> </thead>
     <tbody>
-        {% for item in device_list %}
-            <tr class="small" id="row_{{item.uid}}"> {% include "web/sensibo/device-list-row.html" %} </tr>
-        {% endfor %}
+        {% for item in device_list %} <tr class="small" id="row_{{item.uid}}"> {% include "sensibo/device-list-row.html" %} </tr> {% endfor %}
     </tbody>
 </table>
 

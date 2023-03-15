@@ -1,8 +1,16 @@
 from django import template
 from web.models import Lock
+from web.lock_lib import get_record_type as grt
         
 register = template.Library()
 
+
+'''
+    Inclusion Tags
+'''
+@register.simple_tag
+def get_record_type(code):
+    return grt(code)
 
 '''
     Inclusion Tags
@@ -26,7 +34,7 @@ def get_locks_by_gateway(project, gateway_id):
     #return {'lock_list': lock_list, 'gateway_id': gateway_id, 'gateway_name': gateway_name}
     return {'lock_list': lock_list, 'gateway_id': gateway_id}
 
-@register.inclusion_tag('web/locks/record-type.html')
-def get_record_type(code):
-    return {'code': code}
+#@register.inclusion_tag('web/locks/record-type.html')
+#def get_record_type(code):
+#    return {'code': code}
  

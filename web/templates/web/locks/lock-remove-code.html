@@ -1,0 +1,22 @@
+{% load i18n padword_tags %}
+
+<div class="card">
+    <div class="card-header toggle-main text-center pointer" data-toggle="card-remove-code" data-action="4"> {% trans "Remove Master Code" %} <br /> {% trans "or" %} {% trans "Master Card" %}</div>
+    <div class="card-body hide" id="card-remove-code">
+        <div id="div-form-remove hide">
+            <div class="row">
+                <div class="col-6 small"> 
+                    <input type="radio" class="set-hidden" name="radio_remove_code" value="4" data-id="action" checked/> {% trans "Code" %} 
+                </div>
+                <div class="col-6 small"> 
+                    <input type="radio" class="set-hidden" name="radio_remove_code" value="5" data-id="action"/> {% trans "Card" %} 
+                </div>
+                <div class="col-12 mt-3"><input type="text" class="form-control set-hidden input-k" data-id="code_remove" placeholder="{%trans "Code"%}"/> </div>
+                <div class="col-12 mt-3 text-center"><button class="btn btn-primary mt-2 saveform w-100" data-form="form-actions" data-target="lock-list">
+                    <i class="fas fa-minus"></i> {% trans "Remove" %}</button> </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+

@@ -10,7 +10,8 @@
                 <img src="{{item.payment_type.icon.url}}" class="ard-img-top" alt="{% padword_translate item.payment_type.name %}" style="width:50px"></div>
             <div class="justify-content-center">
                 <a class="btn btn-outline-primary btn-select-payment w-100 mt-2 {%if item.payment_type.code == "03"%}scan-nfc{%endif%}"
-                    data-id="{{item.id}}" data-pt="{{item.payment_type.id}}" data-cash='{{item.payment_type.code}}' data-scan-container="div-scan"> 
+                    data-id="{{item.id}}" data-pt="{{item.payment_type.id}}" data-cash='{{item.payment_type.code}}' 
+                    data-scan-container="div-scan" data-scan-url="{% url "band-scan" %}" data-guest-uuid="{{fi.guest_uuid}}"> 
                     {% padword_translate item.payment_type.name %}</a>
             </div>
         </div>
@@ -33,8 +34,10 @@
             sizes="(max-width: 919px) 100vw, max(768px, 98vh)" src="https://cdn.dribbble.com/users/416315/screenshots/4275501/media/81a14e385dee6f7ca9e90d578b72d2b8.gif">
     </div>
     <div id="div-scan-readed" class="hide">
+        {%comment%}
         {% trans "Your card number is" %} <span id="div-scan-card-number"></span><br/>
         {% trans "Purchase will be load in your card" %}
+        {%endcomment%}
     </div>
 </div>
 

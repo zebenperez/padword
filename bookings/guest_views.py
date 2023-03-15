@@ -9,10 +9,10 @@ from django.views.i18n import check_for_language
 from django.utils import translation
 
 from padword.decorators import group_required
-from padword.commons import show_exc, get_or_none, get_param, get_float, get_bool, new_ui_slug
+from padword.commons import show_exc, get_or_none, get_param, get_float, get_bool, new_ui_slug, reverse_cardkey
 from web.models import Device, Project, ProjectUser, Lock
 from contents.models import Category, ShoppingCart, Item, PaymentType
-from guest.models import Guest, GuestNotification
+from guest.models import Guest, GuestNotification, Wristband
 from web.lock_lib import ShLock
 
 from .common_lib import get_or_create_form_instance, get_max_index, get_or_create_answer_instance, user_in_group, get_guest, get_login_template
@@ -673,7 +673,6 @@ def show_item(request):
         guest = get_or_none(Guest, int(guest_id)) if guest_id != "" else None
         item = get_or_none(Item, int(item_id))
 
-        print("--1-")
         return render(request, "bookings/show-item-details.html", {'item':item, 'guest': guest})
     except Exception as e:
         print(e)
@@ -728,6 +727,21 @@ def set_guest_language(request):
     except Exception as e:
         #print (show_exc(e))
         return render(request, 'error_exception.html', {'exc': show_exc(e), 'error-msg': show_exc(e)})
+
+'''
+    Bands
+'''
+@group_required("guests")
+def band_scan(request):
+    try:
+        guest = get_or_none(Guest, get_param(request.GET, "guest_uuid", "UUID"), "UUID")
+        value = get_param(request.GET, "value")
+        band = Wristband.objects.filter(guest=guest, code=reverse_cardkey(value)).first()
+        return render(request, "bookings/ecom/band-scan.html", {'band': band})
+    except Exception as e:
+        print(e)
+        return render(request, 'error_exception.html', {'exc': show_exc(e), 'error-msg': show_exc(e)})
+
 
 '''
     Open Locks

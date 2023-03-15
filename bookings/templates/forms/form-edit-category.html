@@ -11,8 +11,10 @@
     {%endcomment%}
     <a class="btn btn-sm save" title="{%trans 'PWA'%}" href="{% url "guest-access" obj.category %}" target="_blank">
         <i class="fas fa-desktop"></i> {%trans "PWA"%}</a>  
+    {%comment%}
     <a class="btn btn-sm save" title="{% trans 'Preview' %}" href="{% url "booking-preview" obj.uuid %}" target="_blank">
         <i class="far fa-eye"></i> {% trans "Preview" %}</a>  
+    {%endcomment%}
     <a class="btn btn-sm save" title="{% trans 'Update' %}" onclick="location.reload();"><i class="fas fa-sync-alt"></i> {% trans "update" %}</a>  
 
     {%comment%}

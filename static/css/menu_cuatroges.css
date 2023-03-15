@@ -560,7 +560,6 @@ span.badge.bg-success {
     margin-left: 20%;
 }
 
-
 .collapsible-header.waves-effect.btn-large-2.ark-disabled {
     background-color: #ffffff !important;
     border: 1px solid #7f6c5a;
@@ -581,9 +580,7 @@ label.form-check-label {
     width: 25%;
     float:none!important;
 }
-
 .form-switch .form-check-input {
-    /*width: 17.5em;*/
     width: 100%;
     height: 79px;
     margin-left: 0.25em;
@@ -594,29 +591,21 @@ label.form-check-label {
     border: 1px solid #7f6c5a;
     transition: background-position .15s ease-in-out;
 }
-
 .cuatroges-keys {
     width: 100%;
     height: 100px;
 }
-
 .form-check .form-check-input {
     float: none !important;
 }
-
-
 .form-check-input {
     padding-left: 20px !important;
 }
-.form-check-input:checked {
+.form-check-input-checked {
     background-color: #bbee9a !important;
 }
-.form-check-input:checked[type=checkbox] {
+.form-check-input-checked[type=checkbox] {
     background-image: url(/static/img/lock-open.png) !important;
     color: #fff !important;
-}
-
-.card.slider-cart {
-    /*margin-top: 80px;*/
 }
 

@@ -34,20 +34,20 @@
 <td>
     <span class="pointer" onclick="$('#div-mode-options').slideToggle()">{{item.ac_state.mode}} <i class="fas fa-chevron-down"></i></span>
     <div id="div-mode-options" class="hide">
-        {% include "web/sensibo/device-option.html" with param="mode" value="cool" cvalue=item.ac_state.mode %}
-        {% include "web/sensibo/device-option.html" with param="mode" value="heat" cvalue=item.ac_state.mode %}
-        {% include "web/sensibo/device-option.html" with param="mode" value="fan" cvalue=item.ac_state.mode %}
-        {% include "web/sensibo/device-option.html" with param="mode" value="dry" cvalue=item.ac_state.mode %}
-        {% include "web/sensibo/device-option.html" with param="mode" value="auto" cvalue=item.ac_state.mode %}
+        {% include "sensibo/device-option.html" with param="mode" value="cool" cvalue=item.ac_state.mode %}
+        {% include "sensibo/device-option.html" with param="mode" value="heat" cvalue=item.ac_state.mode %}
+        {% include "sensibo/device-option.html" with param="mode" value="fan" cvalue=item.ac_state.mode %}
+        {% include "sensibo/device-option.html" with param="mode" value="dry" cvalue=item.ac_state.mode %}
+        {% include "sensibo/device-option.html" with param="mode" value="auto" cvalue=item.ac_state.mode %}
     </div>
 </td>
 <td>
     <span class="pointer" onclick="$('#div-fan-options').slideToggle()">{{item.ac_state.fan_level}} <i class="fas fa-chevron-down"></i></span>
     <div id="div-fan-options" class="hide">
-        {%include "web/sensibo/device-option.html" with param="fanLevel" value="low" cvalue=item.ac_state.fan_level%}
-        {%include "web/sensibo/device-option.html" with param="fanLevel" value="medium" cvalue=item.ac_state.fan_level%}
-        {%include "web/sensibo/device-option.html" with param="fanLevel" value="high" cvalue=item.ac_state.fan_level%}
-        {%include "web/sensibo/device-option.html" with param="fanLevel" value="auto" cvalue=item.ac_state.fan_level%}
+        {%include "sensibo/device-option.html" with param="fanLevel" value="low" cvalue=item.ac_state.fan_level%}
+        {%include "sensibo/device-option.html" with param="fanLevel" value="medium" cvalue=item.ac_state.fan_level%}
+        {%include "sensibo/device-option.html" with param="fanLevel" value="high" cvalue=item.ac_state.fan_level%}
+        {%include "sensibo/device-option.html" with param="fanLevel" value="auto" cvalue=item.ac_state.fan_level%}
     </div>
 </td>
 <td>{{ item.ac_state.swing }}</td>
@@ -60,7 +60,7 @@
     <i class="fas fa-temperature-low active" onclick="$('#div-temp-options').slideToggle()"></i>
     <div id="div-temp-options" class="hide">
         {% for i in temp_range %}
-            {% include "web/sensibo/device-option.html" with param="targetTemperature" value=i %}
+            {% include "sensibo/device-option.html" with param="targetTemperature" value=i %}
         {% endfor %}
     </div>
 

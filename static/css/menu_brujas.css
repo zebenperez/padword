@@ -593,12 +593,10 @@ label.form-check-label {
     font-size: 1rem;
     position: absolute;
     left: 28%;
-/*    margin-top: -65px !important;*/
     width: 70%;
     float:none !important;
     text-align: left !important;
 }
-
 .form-switch .form-check-input {
     width: 100%;
     height: 79px;
@@ -610,32 +608,21 @@ label.form-check-label {
     border: 1px solid #7f6c5a;
     transition: background-position .15s ease-in-out;
 }
-
 .bruja-keys {
     width: 100%;
     height: 100px;
 }
-
 .form-check .form-check-input {
     float: none !important;
 }
-
-
 .form-check-input {
     padding-left: 20px !important;
 }
-
-/*
- * .form-check-input:checked {
+.form-check-input-checked {
     background-color: #bbee9a !important;
 }
-.form-check-input:checked[type=checkbox] {
+.form-check-input-checked[type=checkbox] {
     background-image: url(/static/img/lock-open.png) !important;
     color: #fff !important;
-}
-
-*/
-.card.slider-cart {
-    /*margin-top: 80px;*/
 }
 

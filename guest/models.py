@@ -7,7 +7,8 @@ from django.conf import settings
 from django.contrib.auth.models import User
 
 from padword.commons import show_exc
-from web.models import Channel, Project, Lock, Room, SensiboDevice as AdminSensiboDevice
+from web.models import Channel, Project, Lock, Room
+from sensibo.models import SensiboDevice as AdminSensiboDevice
 
 import datetime, pytz
 
@@ -491,6 +492,14 @@ class SensiboDevice(models.Model):
     class Meta:
         verbose_name = _("Sensibo device")
         verbose_name_plural = _("Sensibo devices")
+
+class Wristband(models.Model):
+    code = models.CharField(max_length=255, verbose_name=_('Code'), default="")
+    guest = models.ForeignKey(Guest, verbose_name=_("Guest"), on_delete=models.CASCADE, blank=True, null=True, related_name="bands")
+
+    class Meta:
+        verbose_name = _("Wristband")
+        verbose_name_plural = _("Wristbands")
 
 '''
     Regime

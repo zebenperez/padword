@@ -1,0 +1,56 @@
+{% load i18n static padword_tags lock_tags %}
+
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description" content="">
+        <title>Padword by Shidix</title>
+
+        <!-- Bootstrap core CSS -->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" 
+            integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
+        <!-- Font awesome -->
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" 
+            integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+
+        <!-- JQuery -->
+        <script src="https://code.jquery.com/jquery-3.5.1.js" ></script>
+
+        <!-- Shidix -->
+        <link rel="stylesheet" href="{% static 'css/styles.css' %}" >
+
+        <!-- Favicons -->
+        <meta name="theme-color" content="#7952b3">
+    </head>
+
+    <body>
+        <div class="d-flex justify-content-end"> <a class="btn btn-default" onclick="window.print()"> &#128424; {% trans "Imprimir" %}</a> </div>
+        <h2 class="common-modal-head">{% trans 'Passcode list' %}</h2>
+        <table class="table table-hover table-striped">
+            <thead>
+                <tr> 
+                    <th>{%trans 'Record type'%}</th> 
+                    <th>{%trans 'Success'%}</th> 
+                    <th>{%trans 'Username'%}</th> 
+                    <th>{%trans 'Code'%}</th> 
+                    <th>{%trans 'Lock date'%}</th> 
+                    <th>{%trans 'Server date'%}</th> 
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in obj.get_all_records %}
+                    <tr>
+                        <td> {% get_record_type item.recordType %}</td> 
+                        <td> {% if item.success == 1 %}{% trans "Yes" %}{% else %}{% trans "No" %}{% endif %}</td> 
+                        <td> {{item.username}}</td> 
+                        <td> {{item.keyboardPwd}}</td> 
+                        <td> {{item.lockDate|str_to_date}} </td> 
+                        <td> {{item.serverDate|str_to_date}} </td> 
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </body>
+</html>

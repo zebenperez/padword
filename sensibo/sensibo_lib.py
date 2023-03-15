@@ -1,7 +1,5 @@
 from django.conf import settings
-#from ttlockwrapper import TTLock
-#from web.lock_lib_const import *
-from web.sensibo_client import SensiboClientAPI
+from .sensibo_client import SensiboClientAPI
 
 class ShSensibo:
     def __init__(self, apiKey=""):

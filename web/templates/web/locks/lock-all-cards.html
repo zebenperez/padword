@@ -1,21 +1,27 @@
 {% load i18n padword_tags %}
 
 
-<div class="row">
-    <div class="col-1">{% trans "Code" %}</div>
+{% if err and err != "" %} <div class="alert alert-danger">{{err|safe}}</div> {% endif %}
+
+<div class="row p-3" style="margin:0;">
+    <div class="col-1 small"><strong>{% trans "Code" %}</strong></div>
     <div class="col-2">
         <input type="text" class="form-control sp-search" id="search" placeholder="{% trans "Search for code..." %}" 
             data-search-class="search-code" data-search-prefix="tr-"/>
     </div>
-    <div class="col-1">{% trans "Name" %}</div>
+    <div class="col-1 small"><strong>{% trans "Name" %}</strong></div>
     <div class="col-2">
         <input type="text" class="form-control sp-search" id="search" placeholder="{% trans "Search for name..." %}" 
             data-search-class="search-name" data-search-prefix="tr-"/>
     </div>
-    <div class="col-1">{% trans "Guest" %}</div>
+    <div class="col-1 small"><strong>{% trans "Guest" %}</strong></div>
     <div class="col-2">
         <input type="text" class="form-control sp-search" id="search" placeholder="{% trans "Search for name..." %}" 
             data-search-class="search-guest" data-search-prefix="tr-"/>
+    </div>
+    <div class="col-2 offset-1">
+        <button type="button" class="btn btn-delete ark w-100" data-url="{% url "lock-remove-all-cards" %}" data-target-modal="common-modal" 
+            data-obj_id="{{obj.id}}">{% trans "Delete all" %}</button>
     </div>
 </div>
 

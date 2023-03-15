@@ -10,7 +10,8 @@ from .models_serializers import GuestSerializer, LockSerializer, RoomSerializer
 from guest.models import Guest
 from bookings.models import GuestUser
 from web.models import ProjectUser, Lock, Room
-from padword.commons import new_ui_slug, reverse_cardkey 
+from web.lock_lib import get_record_type
+from padword.commons import new_ui_slug, reverse_cardkey, timestamp_to_date
 
 from datetime import datetime
 
@@ -111,7 +112,7 @@ class GuestViewSet(viewsets.ModelViewSet):
             if "language" in request.POST:
                 guest.language = request.POST["language"]
             if "mobile" in request.POST:
-                if len(data["mobile"]) < 9:
+                if len(request.POST["mobile"]) < 9:
                     msg = "Mobile is required and must be at least 9 characters long!"
                     logger.error("[{}]: \"{}\"".format(self.request.user, msg))
                     return Response(data={'error': 'true', 'msg': msg}, status=status.HTTP_400_BAD_REQUEST)
@@ -275,7 +276,11 @@ class LockViewSet(viewsets.ModelViewSet):
     @action(detail=False, methods=['get'])
     def get_passcodes(self, request):
         try:
-            lock = Lock.objects.get(uuid = request.GET["uuid"])
+            pu = ProjectUser.objects.get(username=self.request.user.username)
+            lock_list = Lock.objects.filter(uuid = request.GET["uuid"], project_uuid=pu.project_uuid)
+            for l in lock_list:
+                print("{} {}".format(l.project_uuid, l.uuid))
+            lock = Lock.objects.get(uuid = request.GET["uuid"], project_uuid = pu.project_uuid)
             code_list = lock.get_all_passcodes()
             c_list = []
             for c in code_list:
@@ -290,18 +295,19 @@ class LockViewSet(viewsets.ModelViewSet):
     @action(detail=False, methods=['post'])
     def add_passcode(self, request):
         try:
+            pu = ProjectUser.objects.get(username=self.request.user.username)
             lock_uuid = request.POST["uuid"]
             code = request.POST["code"]
             start_date = datetime.strptime(request.POST.get('start_date', ""), "%Y-%m-%d %H:%M")
             end_date = datetime.strptime(request.POST.get('end_date', ""), "%Y-%m-%d %H:%M")
-            lock = Lock.objects.get(uuid=lock_uuid)
+            lock = Lock.objects.get(uuid=lock_uuid, project_uuid=pu.project_uuid)
             err = lock.set_code(code, start_date, end_date)
             if "Error" in str(err):
                 logger.error("[{}]: \"{}\"".format(self.request.user, str(err)))
                 return Response({"error": True, "msg": str(err)})
             else:
                 logger.info("[{}]: \"Added passcode to lock {}\"".format(self.request.user, lock_uuid))
-                return Response({"error": False, "msg": "Code added successfully!"}, status=status.HTTP_200_OK)
+                return Response({"error": False, "code_id": err, "msg": "Code added successfully!"}, status=status.HTTP_200_OK)
         except Exception as e:
             logger.error("[{}]: \"{}\"".format(self.request.user, str(e)))
             return Response({"error": True, 'msg': str(e)})
@@ -309,12 +315,13 @@ class LockViewSet(viewsets.ModelViewSet):
     @action(detail=False, methods=['post'])
     def change_passcode(self, request):
         try:
+            pu = ProjectUser.objects.get(username=self.request.user.username)
             lock_uuid = request.POST["uuid"]
             code_id = request.POST["code_id"]
             code = request.POST["code"]
             start_date = datetime.strptime(request.POST.get('start_date', ""), "%Y-%m-%d %H:%M")
             end_date = datetime.strptime(request.POST.get('end_date', ""), "%Y-%m-%d %H:%M")
-            lock = Lock.objects.get(uuid=lock_uuid)
+            lock = Lock.objects.get(uuid=lock_uuid, project_uuid=pu.project_uuid)
             err = lock.change_code(code_id, code, start_date, end_date)
             if "Error" in str(err):
                 logger.error("[{}]: \"{}\"".format(self.request.user, str(err)))
@@ -329,9 +336,10 @@ class LockViewSet(viewsets.ModelViewSet):
     @action(detail=False, methods=['post'])
     def remove_passcode(self, request):
         try:
+            pu = ProjectUser.objects.get(username=self.request.user.username)
             lock_uuid = request.POST["uuid"]
             code_id = request.POST["code_id"]
-            lock = Lock.objects.get(uuid=lock_uuid)
+            lock = Lock.objects.get(uuid=lock_uuid, project_uuid=pu.project_uuid)
             err = lock.remove_code(code_id)
             if "Error" in str(err):
                 logger.error("[{}]: \"{}\"".format(self.request.user, str(err)))
@@ -347,7 +355,8 @@ class LockViewSet(viewsets.ModelViewSet):
     @action(detail=False, methods=['get'])
     def get_cardcodes(self, request):
         try:
-            lock = Lock.objects.get(uuid = request.GET["uuid"])
+            pu = ProjectUser.objects.get(username=self.request.user.username)
+            lock = Lock.objects.get(uuid = request.GET["uuid"], project_uuid = pu.project_uuid)
             code_list = lock.get_all_cards()
             c_list = []
             for c in code_list:
@@ -362,7 +371,7 @@ class LockViewSet(viewsets.ModelViewSet):
     @action(detail=False, methods=['post'])
     def add_cardcode(self, request):
         try:
-            logger.info("[{}]: \"{}\"".format(self.request.user, request.POST))
+            #logger.info("[{}]: \"{}\"".format(self.request.user, request.POST))
             pu = ProjectUser.objects.get(username=self.request.user.username)
             lock_uuid = request.POST["uuid"]
             code = reverse_cardkey(request.POST["code"])
@@ -372,7 +381,8 @@ class LockViewSet(viewsets.ModelViewSet):
             #lock_list = Lock.objects.filter(uuid=lock_uuid, project_uuid=pu.project_uuid)
             #for l in lock_list:
             #    logger.info("[{}]: \"{} {} {}\"".format(self.request.user, l.uuid, l.alias, l.project_uuid))
-            lock = Lock.objects.filter(uuid=lock_uuid, project_uuid=pu.project_uuid).first()
+            #lock = Lock.objects.filter(uuid=lock_uuid, project_uuid=pu.project_uuid).first()
+            lock = Lock.objects.get(uuid=lock_uuid, project_uuid=pu.project_uuid)
 
             err = lock.add_card(code, start_date, end_date)
             if "Error" in str(err):
@@ -380,7 +390,7 @@ class LockViewSet(viewsets.ModelViewSet):
                 return Response({"error": True, "msg": str(err)})
             else:
                 logger.info("[{}]: \"Add cardcode to lock {}\"".format(self.request.user, lock_uuid))
-                return Response({"error": False, "msg": "Card added successfully!"}, status=status.HTTP_200_OK)
+                return Response({"error": False, "code_id": err, "msg": "Card added successfully!"}, status=status.HTTP_200_OK)
         except Exception as e:
             logger.error("[{}]: \"{}\"".format(self.request.user, str(e)))
             return Response({"error": True, 'msg': str(e)})
@@ -388,9 +398,10 @@ class LockViewSet(viewsets.ModelViewSet):
     @action(detail=False, methods=['post'])
     def remove_cardcode(self, request):
         try:
+            pu = ProjectUser.objects.get(username=self.request.user.username)
             lock_uuid = request.POST["uuid"]
             code_id = request.POST["code_id"]
-            lock = Lock.objects.get(uuid=lock_uuid)
+            lock = Lock.objects.get(uuid=lock_uuid, project_uuid=pu.project_uuid)
             err = lock.remove_card(code_id)
             if "Error" in str(err):
                 logger.error("[{}]: \"{}\"".format(self.request.user, str(err)))
@@ -405,11 +416,12 @@ class LockViewSet(viewsets.ModelViewSet):
     @action(detail=False, methods=['post'])
     def change_period_card(self, request):
         try:
+            pu = ProjectUser.objects.get(username=self.request.user.username)
             lock_uuid = request.POST["uuid"]
             code_id = request.POST["code_id"]
             start_date = datetime.strptime(request.POST.get('start_date', ""), "%Y-%m-%d %H:%M")
             end_date = datetime.strptime(request.POST.get('end_date', ""), "%Y-%m-%d %H:%M")
-            lock = Lock.objects.get(uuid=lock_uuid)
+            lock = Lock.objects.get(uuid=lock_uuid, project_uuid=pu.project_uuid)
             err = lock.change_period_card(code_id, start_date, end_date)
             if "Error" in str(err):
                 logger.error("[{}]: \"{}\"".format(self.request.user, str(err)))
@@ -420,6 +432,30 @@ class LockViewSet(viewsets.ModelViewSet):
         except Exception as e:
             logger.error("[{}]: \"{}\"".format(self.request.user, str(e)))
             return Response({"error": True, 'msg': str(e)})
+
+    @action(detail=False, methods=['get'])
+    def get_records(self, request):
+        try:
+            pu = ProjectUser.objects.get(username=self.request.user.username)
+            lock = Lock.objects.get(uuid = request.GET["uuid"], project_uuid=pu.project_uuid)
+            code_list = lock.get_all_records()
+            c_list = []
+            for c in code_list:
+                dic = {
+                    "uuid": c["lockId"],
+                    "type": get_record_type(c["recordType"]),
+                    "success": "Yes" if c["success"] == 1 else "No",
+                    "username": c["username"],
+                    "code": c["keyboardPwd"],
+                    "lock_date": timestamp_to_date(c["lockDate"]),
+                    "server_date": timestamp_to_date(c["serverDate"])
+                }
+                c_list.append(dic)
+            logger.info("[{}]: \"Get records of lock {}\"".format(self.request.user, lock.uuid))
+            return Response(c_list, status=status.HTTP_200_OK)
+        except Exception as e:
+            logger.error("[{}]: \"{}\"".format(self.request.user, str(e)))
+            return Response({"error": 'true', 'msg': str(e)})
 
 
 class RoomViewSet(viewsets.ModelViewSet):
