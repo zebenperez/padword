@@ -7,11 +7,14 @@
             <div class="row">
                 <div class="col-12 mt-2">
                     <select class="form-control set-hidden select-k" data-id="lock_group">
-                        <option value="{% trans "Select" %}">{% trans "Select group" %}</option>{%for item in lock_group_list%}<option value="{{item.uuid}}">{{item.name}}</option>{%endfor%}
+                        <option value="{% trans "Select" %}">{% trans "Select group" %}</option>
+                        {%for item in lock_group_list%}<option value="{{item.uuid}}">{{item.name}}</option>{%endfor%}
                     </select>
                 </div>
-                <div class="col-12 text-center mt-3"><button class="btn btn-primary saveform w-100" data-form="form-actions" data-target="lock-list">
-                    <i class="fas fa-plus"></i> {% trans "Save" %}</button> </div>
+                <div class="col-12 text-center mt-3">
+                    <button class="btn btn-primary saveform w-100" data-form="form-actions" data-target="locks-content">
+                        <i class="fas fa-plus"></i> {% trans "Save" %}</button> 
+                </div>
             </div>
         </div>
     </div>

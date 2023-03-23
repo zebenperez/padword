@@ -5,6 +5,10 @@
 
 <div class="d-flex menu-actions-blue" style="border:1px solid black">
     <div class="flex-grow-1 p-2"><span class="bg-ico-bar"><i class="fas fa-lock"></i></span>&nbsp; Vista general</div>
+</div>
+{%comment%}
+<div class="d-flex menu-actions-blue" style="border:1px solid black">
+    <div class="flex-grow-1 p-2"><span class="bg-ico-bar"><i class="fas fa-lock"></i></span>&nbsp; Vista general</div>
     <div class="action p-2">
         <a class="toggle-btn" data-target="div-form" data-text="{% trans "Add master card" %}" data-text-alt="{% trans "Close" %}"
             onclick="$('#action').val('2')"> <i class="fas fa-edit"></i> {% trans "Add master card" %}</a>
@@ -14,11 +18,20 @@
             onclick="$('#action').val('3')"> <i class="fas fa-edit"></i> {% trans "Add master code" %}</a>
     </div>
 </div>
+{%endcomment%}
 
 <form class="form" method="POST" action="{% url "lock-set-action-by-project" %}" id="form-actions">
     {%csrf_token%}
     <input type="hidden" id="action" name="action" value=""/>
 
+    <input type="hidden" id="code" name="code" value=""/>
+    <input type="hidden" id="name" name="name" value=""/>
+    <input type="hidden" id="ini_date" name="ini_date" value=""/>
+    <input type="hidden" id="end_date" name="end_date" value=""/>
+    <input type="hidden" id="permanent" name="permanent"/>
+    <input type="hidden" id="code_remove" name="code_remove" value=""/>
+
+    {%comment%}
     <div id="div-form" style="display:none"> 
         <div class="row">
             <div class="col-6"><input type="text" class="form-control check_one" id="code" name="code" placeholder="{%trans "Code or Card number"%}"
@@ -33,12 +46,9 @@
             <div class="col-2"> <input type="checkbox" class="check_per check_one toggle-tags" id="permanent" name="permanent" 
                 data-class-name="check_per"/> {% trans "Permanent" %} </div>
             <div class="col-2"><button class="btn" type="submit"> <i class="fas fa-plus"></i> {% trans "Save" %}</button> </div>
-            {%comment%}
-            <div class="col-2"><button class="btn saveform" data-form="form-actions" data-target="lock-list">
-                <i class="fas fa-plus"></i> {% trans "Save" %}</button> </div>
-            {%endcomment%}
         </div>
     </div>
+    {%endcomment%}
 
     <table class="table table-striped table-hover" id="main-table">
         <thead>

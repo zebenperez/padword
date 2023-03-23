@@ -4,22 +4,21 @@
     <div class="card-header text-center pointer" onclick="$('#card-body-search').toggle()"> {% trans "Search" %}</div>
     <div class="card-body hide" id="card-body-search">
         <div class="row m-0">
-            <form class="form" method="GET" action="{% url "lock-search" %}" id="form-search">
+            <form class="form" method="GET" action="{% url "lock-search-by-project" %}" id="form-search">
                 {%csrf_token%}
                 <input type="hidden" id="project_uuid" name="project_uuid" value="{{project.uuid}}"/>
                 <div class="col-12 mt-2 p-0">
-                    <input type="text" class="form-control w-100 input-k reset" name="lock_search_alias" id="lock_search_alias" 
+                    <input type="text" class="form-control w-100 input-k" name="lock_search_alias" id="lock_search_alias" 
                         placeholder="{%trans 'Alias'%}" value="{{request.session.lock_search_alias}}"/>
                 </div>
                 <div class="col-12 mt-2 p-0">
-                    <input type="text" class="form-control w-100 input-k reset" name="lock_search_passcode" id="lock_search_passcode" 
-                        placeholder="{%trans 'Code'%}" value="{{request.session.lock_search_passcode}}"/>
+                    <input type="text" class="form-control w-100 input-k" name="lock_search_passcode" id="lock_search_passcode" 
+                        placeholder="{% trans 'Code' %}" value="{{request.session.lock_search_passcode}}"/>
                 </div>
                 <div class="col-12 mt-2 p-0">
-                    <input type="text" class="form-control w-100 input-k reset" name="lock_search_cardcode" id="lock_search_cardcode" 
-                        placeholder="{%trans 'Card Code'%}" value="{{request.session.lock_search_cardcode}}"/>
+                    <input type="text" class="form-control w-100 input-k" name="lock_search_cardcode" id="lock_search_cardcode" 
+                        placeholder="{% trans 'Card Code' %}" value="{{request.session.lock_search_cardcode}}"/>
                 </div>
-
                 <div class="col-12 mt-3 text-center">
                     <button class="btn btn-primary mt-2 saveform w-100" data-form="form-search" data-target="lock-list">
                         <i class="fas fa-plus"></i> {% trans "Search" %}</button> 
@@ -31,24 +30,22 @@
                 <input type="hidden" id="project_uuid" name="project_uuid" value="{{project.uuid}}"/>
                 <div class="col-12 mt-2 p-0">
                     <input type="text" class="autosearch_change form-control w-100 input-k" name="lock_search_alias" 
-                        id="lock_search_alias" placeholder="{% trans 'Alias' %}" data-url="{% url "lock-search" %}" data-target="lock-list" 
+                        id="lock_search_alias" placeholder="{% trans 'Alias' %}" data-url="{% url "lock-search-by-project" %}" data-target="lock-list" 
                         data-related="{{related}}" value="{{request.session.lock_search_alias}}"/>
                 </div>
                 <div class="col-12 mt-2 p-0">
                     <input type="text" class="autosearch_change form-control w-100 input-k" name="lock_search_passcode" 
-                        id="lock_search_passcode" placeholder="{% trans 'Code' %}" data-url="{% url "lock-search" %}" data-target="lock-list" 
-                        data-related="{{related}}" value="{{request.session.lock_search_passcode}}"/>
+                        id="lock_search_passcode" placeholder="{% trans 'Code' %}" data-url="{% url "lock-search-by-project" %}" 
+                        data-target="lock-list" data-related="{{related}}" value="{{request.session.lock_search_passcode}}"/>
                 </div>
                 <div class="col-12 mt-2 p-0">
                     <input type="text" class="autosearch_change form-control w-100 input-k" name="lock_search_cardcode" 
-                        id="lock_search_cardcode" placeholder="{% trans 'Card Code' %}" data-url="{% url "lock-search" %}" data-target="lock-list"
-                        data-related="{{related}}" value="{{request.session.lock_search_cardcode}}"/>
+                        id="lock_search_cardcode" placeholder="{% trans 'Card Code' %}" data-url="{% url "lock-search-by-project" %}" 
+                        data-target="lock-list" data-related="{{related}}" value="{{request.session.lock_search_cardcode}}"/>
                 </div>
-                <div class="col-12 text-center btn btn-primary mt-3" onclick="$('#lock_search_alias').change()">
-                    <a><i class="fas fa-search"></i> {% trans 'Search' %}</a></div>
+                <div class="col-12 text-center btn btn-primary mt-3"><a><i class="fas fa-search"></i> {% trans 'Search' %}</a></div>
             {% endwith %}
             {%endcomment%}
- 
         </div>
     </div>
 </div>

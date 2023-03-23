@@ -1,12 +1,58 @@
 from django import template
+from django.utils.safestring import mark_safe
+from django.utils.translation import ugettext_lazy as _ 
+
+from datetime import datetime
+
+from padword.commons import reverse_cardkey
 from web.models import Lock
 from web.lock_lib import get_record_type as grt
-        
+from guest.models import KeyCode, KeyCard
+
 register = template.Library()
 
 
 '''
-    Inclusion Tags
+    Filter
+'''
+@register.filter
+def get_code_type(value, date):
+    end_date = datetime.fromtimestamp(date/1000.0)
+    if value == 1:
+        return _("One use")
+    if value == 3 and end_date.year == 2099:
+        return _("Permanent")
+    return _("Period")
+
+@register.filter
+def get_card_type(date):
+    end_date = datetime.fromtimestamp(date/1000.0)
+    if end_date.year == 2099:
+        return _("Permanent")
+    return _("Period")
+
+@register.filter
+def get_code_guest(lock, code):
+    key_code_list = KeyCode.objects.filter(lock=lock, code=code)
+    result = ["{} {}".format(item.guest.name, item.guest.surname) for item in key_code_list]
+    return mark_safe("<br/>".join(result))
+
+@register.filter
+def get_card_guest(lock, code):
+    key_card_list = KeyCard.objects.filter(lock=lock, code=code)
+    result = ["{} {}".format(item.guest.name, item.guest.surname) for item in key_card_list]
+    return mark_safe("<br/>".join(result))
+
+@register.filter
+def get_ekey_link(lock, ekey_id):
+    return ""
+
+@register.filter
+def get_reverse(code):
+    return str(reverse_cardkey(code))
+
+'''
+    Simple Tags
 '''
 @register.simple_tag
 def get_record_type(code):

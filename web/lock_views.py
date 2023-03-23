@@ -114,6 +114,7 @@ def lock_search(request):
         set_session(request, "lock_search_alias")
         set_session(request, "lock_search_passcode")
         set_session(request, "lock_search_cardcode")
+        print(request.session["lock_search_cardcode"])
 
         context = get_context(request, project)
         return render(request, "web/locks/lock-list.html", context)
@@ -164,7 +165,9 @@ def lock_remove_all_passcodes(request, obj_id=None):
         lock = get_or_none(Lock, request.GET["obj_id"])
         err = ""
         for code in lock.get_all_passcodes():
-            err += "Code {}: {}<br/>".format(code["keyboardPwd"], lock.remove_code(code["keyboardPwdId"]))
+            err2 = lock.remove_code(code["keyboardPwdId"])
+            if err2 != 0:
+                err += "Code {}: {}<br/>".format(code["keyboardPwd"], err2)
         return render(request, "web/locks/lock-all-passcodes.html", {'obj': lock, "err": err})
     except Exception as e:
         return render(request, "error_exception.html", {'exc':show_exc(e)})
@@ -194,7 +197,9 @@ def lock_remove_all_cards(request, obj_id=None):
         lock = get_or_none(Lock, request.GET["obj_id"])
         err = ""
         for code in lock.get_all_cards():
-            err += "Code {}: {}<br/>".format(code["cardNumber"], lock.remove_card(code["cardId"]))
+            err2 = lock.remove_card(code["cardId"])
+            if err2 != 0:
+                err += "Code {}: {}<br/>".format(code["cardNumber"], err2)
         return render(request, "web/locks/lock-all-cards.html", {'obj': lock, 'err': err})
     except Exception as e:
         return render(request, "error_exception.html", {'exc':show_exc(e)})
@@ -219,7 +224,7 @@ def lock_set_action(request):
 
         value = get_param(request.POST, "value")
 
-        code = reverse_cardkey(get_param(request.POST, "code")) if action == "2" else get_param(request.POST, "code")
+        code = reverse_cardkey(get_param(request.POST, "code")) if action == "3" else get_param(request.POST, "code")
         name = get_param(request.POST, "name")
         ini_date = get_param(request.POST, "ini_date", datetime.datetime.now())
         ini_date = datetime.datetime.strptime(ini_date, "%Y-%m-%d") if isinstance(ini_date, str) else ini_date
@@ -232,41 +237,47 @@ def lock_set_action(request):
         code_remove = get_param(request.POST, "code_remove")
 
         for key in request.POST.keys():
-            if "ch_" in key:
-                lock = get_or_none(Lock, key.split("_")[1])
-                if lock != None:
-                    if action == "1":
-                        lock.group_uuid = lock_group_uuid
-                        lock.save()
-                        lock.set_group()
-                    if action == "2":
-                        if permanent == "":
-                            errcode = lock.add_card(code, ini_date, end_date, name)
-                        elif permanent != "":
-                            errcode = lock.add_card(code, ini_date, datetime.datetime(2099, 12, 31), name)
-                    if action == "3":
-                        #if permanent == "" and one == "":
-                        if permanent == "":
-                            errcode = lock.set_code(code, ini_date, end_date, name)
-                        elif permanent != "":
-                            errcode = lock.set_code(code, ini_date, datetime.datetime(2099, 12, 31), name)
-                        #elif one != "":
-                        #    errcode = lock.get_code(1, ini_date, end_date)
-                    if action == "4":
-                        item_list = lock.get_all_passcodes()
-                        for item in item_list:
-                            if item["keyboardPwd"] == code_remove:
-                                errcode = lock.remove_code(item["keyboardPwdId"])
-                    if action == "5":
-                        item_list = lock.get_all_cards()
-                        for item in item_list:
-                            if str(item["cardNumber"]) == str(reverse_cardkey(code_remove)): 
-                                errcode = lock.remove_card(item["cardId"])
-                    msg = errcode if "Error" in str(errcode) else ""
-                 
+            try:
+                if "ch_" in key:
+                    lock = get_or_none(Lock, key.split("_")[1])
+                    if lock != None:
+                        if action == "1":
+                            lock.group_uuid = lock_group_uuid
+                            lock.save()
+                            lock.set_group()
+                        if action == "2":
+                            #if permanent == "" and one == "":
+                            if permanent == "":
+                                errcode = lock.set_code(code, ini_date, end_date, name)
+                            elif permanent != "":
+                                errcode = lock.set_code(code, ini_date, datetime.datetime(2099, 12, 31), name)
+                            print(errcode)
+                            #elif one != "":
+                            #    errcode = lock.get_code(1, ini_date, end_date)
+                        if action == "3":
+                            if permanent == "":
+                                errcode = lock.add_card(code, ini_date, end_date, name)
+                            elif permanent != "":
+                                errcode = lock.add_card(code, ini_date, datetime.datetime(2099, 12, 31), name)
+                        if action == "4":
+                            item_list = lock.get_all_passcodes()
+                            for item in item_list:
+                                if item["keyboardPwd"] == code_remove:
+                                    errcode = lock.remove_code(item["keyboardPwdId"])
+                        if action == "5":
+                            item_list = lock.get_all_cards()
+                            for item in item_list:
+                                if str(item["cardNumber"]) == str(reverse_cardkey(code_remove)): 
+                                    errcode = lock.remove_card(item["cardId"])
+                        msg = errcode if "Error" in str(errcode) else ""
+            except Exception as e:
+                msg += "<br/>{}".format(e)
+                     
         context = get_context(request, project)
         context["msg"] = msg
-        return render(request, "web/locks/lock-list.html", context)
+        context["project"] = project
+        return render (request, "web/locks/locks-content.html", context)
+        #return render(request, "web/locks/lock-list.html", context)
     except Exception as e:
         print(e)
         return render(request, 'error_exception.html', {'exc':show_exc(e)})
@@ -318,7 +329,7 @@ def lock_set_group(request):
     except Exception as e:
         return HttpResponse("Error: {}".format(e))
 
-@group_required("admins")
+@group_required("admins", "projects")
 def lock_export_csv(request, lock_id):
     try:
         lock = get_or_none(Lock, lock_id)
@@ -339,7 +350,7 @@ def lock_export_csv(request, lock_id):
     except Exception as e:
         return HttpResponse("Error: {}".format(e))
 
-@group_required("admins")
+@group_required("admins", "projects")
 def lock_export_pdf(request, lock_id):
     try:
         lock = get_or_none(Lock, lock_id)
@@ -373,12 +384,13 @@ def lock_search_by_project(request):
     try:
         project = get_or_none(Project, request.project_id)
         set_session(request, "lock_search_alias")
+        set_session(request, "lock_search_passcode")
+        set_session(request, "lock_search_cardcode")
         context = get_context(request, project)
         return render(request, "web/locks-by-project/lock-list.html", context)
     except Exception as e:
         print(e)
         return render(request, 'error_exception.html', {'exc':show_exc(e)})
-
 
 @group_required("projects")
 def lock_update_params_by_project(request):
@@ -418,7 +430,7 @@ def lock_set_action_by_project(request):
 
         value = get_param(request.POST, "value")
 
-        code = reverse_cardkey(get_param(request.POST, "code")) if action == "2" else get_param(request.POST, "code")
+        code = reverse_cardkey(get_param(request.POST, "code")) if action == "3" else get_param(request.POST, "code")
         name = get_param(request.POST, "name")
         ini_date = get_param(request.POST, "ini_date", datetime.datetime.now())
         ini_date = datetime.datetime.strptime(ini_date, "%Y-%m-%d") if isinstance(ini_date, str) else ini_date
@@ -426,27 +438,43 @@ def lock_set_action_by_project(request):
         end_date = datetime.datetime.strptime(end_date, "%Y-%m-%d") if isinstance(end_date, str) else end_date
         permanent = get_param(request.POST, "permanent")
 
+        code_remove = get_param(request.POST, "code_remove")
+
         for key in request.POST.keys():
-            if "ch_" in key:
-                lock = get_or_none(Lock, key.split("_")[1])
-                if lock != None:
-                    if action == "2":
-                        if permanent == "":
-                            errcode = lock.add_card(code, ini_date, end_date, name)
-                        elif permanent != "":
-                            errcode = lock.add_card(code, ini_date, datetime.datetime(2099, 12, 31), name)
-                    if action == "3":
-                        if permanent == "":
-                            errcode = lock.set_code(code, ini_date, end_date, name)
-                        elif permanent != "":
-                            errcode = lock.set_code(code, ini_date, datetime.datetime(2099, 12, 31), name)
-                    msg = errcode if "Error" in str(errcode) else ""
+            try:
+                if "ch_" in key:
+                    lock = get_or_none(Lock, key.split("_")[1])
+                    if lock != None:
+                        if action == "2":
+                            if permanent == "":
+                                errcode = lock.set_code(code, ini_date, end_date, name)
+                            elif permanent != "":
+                                errcode = lock.set_code(code, ini_date, datetime.datetime(2099, 12, 31), name)
+                        if action == "3":
+                            if permanent == "":
+                                errcode = lock.add_card(code, ini_date, end_date, name)
+                            elif permanent != "":
+                                errcode = lock.add_card(code, ini_date, datetime.datetime(2099, 12, 31), name)
+                        if action == "4":
+                            item_list = lock.get_all_passcodes()
+                            for item in item_list:
+                                if item["keyboardPwd"] == code_remove:
+                                    errcode = lock.remove_code(item["keyboardPwdId"])
+                        if action == "5":
+                            item_list = lock.get_all_cards()
+                            for item in item_list:
+                                if str(item["cardNumber"]) == str(reverse_cardkey(code_remove)): 
+                                    errcode = lock.remove_card(item["cardId"])
+                        msg = errcode if "Error" in str(errcode) else ""
+            except Exception as e:
+                msg += "<br/>{}".format(e)
                  
         context = get_context(request, project)
         context["msg"] = msg
         #return redirect(locks_by_project2)
         context["project"] = project
-        return render(request, "web/locks-by-project/locks.html", context)
+        return render (request, "web/locks-by-project/locks-content.html", context)
+        #return render(request, "web/locks-by-project/locks.html", context)
         #return render(request, "web/locks-by-project/lock-list.html", context)
     except Exception as e:
         print(e)

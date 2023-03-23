@@ -1,0 +1,30 @@
+{% load i18n padword_tags %}
+
+
+<h4>{{project.name}}</h4>
+<div class="row mt-3">
+    <div class="col-lg-4 col-12 ">{% include "web/locks-by-project/lock-search.html" %}</div>
+    <div class="col-lg-4 col-12 ">{% include "web/locks-by-project/lock-add-code.html" %}</div>
+    <div class="col-lg-4 col-12 ">{% include "web/locks-by-project/lock-remove-code.html" %}</div>
+</div>
+
+<div class="content mt-3">
+    <div class="toolbar-content">
+        <h2 class="b-right">{% trans 'Locks' %} (<span id="items-counter">{{items|length}}</span>)</h2>
+        {% include "common-modal.html" %}
+    </div>
+    <div id="lock-list">{% include "web/locks-by-project/lock-list.html" %}</div>
+</div>
+
+<script> 
+    $(".toggle-main").click(function(){
+        let id = '#'+$(this).data('toggle');
+        $(id).toggle(); 
+        if ($(id).is(':visible'))
+            $('input:checkbox').not($('#perm')).prop('checked', 'checked');
+        else
+            $('input:checkbox').not(this).prop('checked', '');
+        $('#action').val($(this).data("action"));
+    }); 
+</script>
+

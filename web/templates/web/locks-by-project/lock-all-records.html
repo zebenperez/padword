@@ -1,7 +1,17 @@
 {% load i18n padword_tags lock_tags %}
 
-
-<h2 class="common-modal-head">{% trans 'Passcode list' %}</h2>
+<div class="row p-0 m-0 lock-sticky-top">
+    <div class="d-flex justify-content-end p-2">
+        <a class="btn btn-info m-2 text-white" href="{% url "lock-export-csv" obj.id %}" target="_blank">{% trans "CSV Export" %}</a>
+        <a class="btn btn-info m-2 text-white" href="{% url "lock-export-pdf" obj.id %}" target="_blank">{% trans "PDF Export / Print" %}</a>
+        {%comment%}
+	    <button type="button" class="btn ark" data-bs-dismiss="modal" data-url="{% url "lock-search-by-project" %}" data-target="lock-list" 
+            data-project_uuid="{{obj.project_uuid}}" title="{% trans "Close" %}"> <i class="fas fa-times"></i></button>
+        {%endcomment%}
+	    <button type="button" class="btn" data-bs-dismiss="modal" title="{% trans "Close" %}"><i class="fas fa-times"></i></button>
+    </div>
+    <h2 class="common-modal-head">{% trans 'Access history' %}</h2>
+</div>  
 
 <table class="table table-hover table-striped">
     <thead>
@@ -28,7 +38,3 @@
     </tbody>
 </table>
 
-<div class="d-flex justify-content-end p-2">
-	<button type="button" class="btn btn-primary ark m-2" data-bs-dismiss="modal"
-	    data-url="{% url "lock-search-by-project" %}" data-target="lock-list" data-project_uuid="{{obj.project_uuid}}">{% trans "Close" %}</button>
-</div>

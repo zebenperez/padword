@@ -5,45 +5,53 @@
 
 <span id="div-notification"></span><br/>
 
-<div class="card">
-    <div class="card-header">{% trans "Main" %}</div>
+<div class="card pb-3">
+    <div class="card-header"><strong>{% trans "Main" %}</strong></div>
     <div class="card-body"> {% include "guest/guest-form-main.html" %} </div>
-<div>
 
-<div class="card">
-    <div class="card-header">
-        <div class="row toggle-btn" data-target="body-extra" data-id-change="icon-extra" 
-            data-text='<i class="fas fa-plus"></i>' data-text-alt='<i class="fas fa-minus"></i>'>
-            <div class="col-10"><strong>{% trans "Extra" %}</strong></div>
-            <div class="col-2 text-end" id="icon-extra"><i class="fas fa-plus"></i></div>
-        </div>
-    </div>
-    <div class="card-body hide" id="body-extra"> {% include "guest/guest-form-extra.html" %} </div>
-<div>
-
-<div class="card">
-    <div class="card-header">
-        <div class="row toggle-btn" data-target="body-locks" data-id-change="icon-locks" 
-            data-text='<i class="fas fa-plus"></i>' data-text-alt='<i class="fas fa-minus"></i>'>
-            <div class="col-10"><strong>{% trans "Locks" %}</strong></div>
-            <div class="col-2 text-end" id="icon-locks"> <i class="fas fa-plus"></i> </div>
-        </div>
-    </div>
-    <div class="card-body" id="body-locks"> <div id="div-locks">{% include "guest/keys/guest-keys.html" %}</div> </div> 
-<div>
-
-{% if obj.project.sensibo_api_key != "" %}
-    <div class="card">
-        <div class="card-header">
-            <div class="row toggle-btn" data-target="body-sensibo" data-id-change="icon-sensibo" 
-                data-text='<i class="fas fa-plus"></i>' data-text-alt='<i class="fas fa-minus"></i>'>
-                <div class="col-10"><strong>{% trans "Air aconditioner" %}</strong></div>
-                <div class="col-2 text-end" id="icon-sensibo"> <i class="fas fa-plus"></i> </div>
+    <div class="row m-0">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <div class="row toggle-btn w-100" data-target="body-extra" data-id-change="icon-extra" 
+                        data-text='<i class="fas fa-plus"></i>' data-text-alt='<i class="fas fa-minus"></i>'>
+                        <div class="col-10"><strong>{% trans "Extra" %}</strong></div>
+                        <div class="col-2 text-end" id="icon-extra"><i class="fas fa-plus"></i></div>
+                    </div>
+                </div>
+                <div class="card-body hide" id="body-extra"> {% include "guest/guest-form-extra.html" %} </div>
             </div>
         </div>
-        <div class="card-body hide" id="body-sensibo"> <div id="div-sensibo">{% include "guest/sensibo/guest-sensibo-devices.html" %}</div> </div> 
-    <div>
-{% endif %}
+
+        <div class="col-12 mt-2">
+            <div class="card">
+                <div class="card-header">
+                    <div class="row toggle-btn w-100" data-target="body-locks" data-id-change="icon-locks" 
+                        data-text='<i class="fas fa-plus"></i>' data-text-alt='<i class="fas fa-minus"></i>'>
+                        <div class="col-10"><strong>{% trans "Locks" %}</strong></div>
+                        <div class="col-2 text-end" id="icon-locks"> <i class="fas fa-plus"></i> </div>
+                    </div>
+                </div>
+                <div class="card-body" id="body-locks"> <div id="div-locks">{% include "guest/keys/guest-keys.html" %}</div> </div> 
+            </div>
+        </div>
+
+        {% if obj.project.sensibo_api_key != "" %}
+            <div class="col-12 mt-2">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="row toggle-btn w-100" data-target="body-sensibo" data-id-change="icon-sensibo" 
+                            data-text='<i class="fas fa-plus"></i>' data-text-alt='<i class="fas fa-minus"></i>'>
+                            <div class="col-10"><strong>{% trans "Air aconditioner" %}</strong></div>
+                            <div class="col-2 text-end" id="icon-sensibo"> <i class="fas fa-plus"></i> </div>
+                        </div>
+                    </div>
+                    <div class="card-body hide" id="body-sensibo"> <div id="div-sensibo">{% include "guest/sensibo/guest-sensibo-devices.html" %}</div> </div> 
+                </div>
+            </div>
+        {% endif %}
+    </div>
+</div>
 
 <div class="d-flex justify-content-end p-2">
 

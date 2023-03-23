@@ -1,16 +1,25 @@
-{% load i18n padword_tags %}
+{% load i18n padword_tags lock_tags %}
 
-
-<h2 class="common-modal-head">{% trans 'Card list' %}</h2>
+<div class="row p-0 m-0 lock-sticky-top">
+    <div class="d-flex justify-content-end p-2">
+        {%comment%}
+        <button type="button" class="btn ark" data-bs-dismiss="modal" data-url="{% url "lock-search-by-project" %}" data-target="lock-list" 
+            data-project_uuid="{{obj.project_uuid}}" title="{% trans "Close" %}"> <i class="fas fa-times"></i></button>
+        {%endcomment%}
+	    <button type="button" class="btn" data-bs-dismiss="modal" title="{% trans "Close" %}"><i class="fas fa-times"></i></button>
+    </div>
+    <h2 class="common-modal-head">{% trans 'Card list' %}</h2>
+</div>
 
 <table class="table table-hover table-striped">
     <thead>
         <tr> 
-            <th>{%trans 'Code'%}</th> 
+            <th>{%trans 'Card'%}</th> 
             <th>{%trans 'Name'%}</th> 
             <th>{%trans 'Start Date'%}</th> 
             <th>{%trans 'End Date'%}</th> 
             <th>{%trans 'Guest'%}</th> 
+            <th>{%trans 'Type'%}</th> 
             <th></th>
         </tr>
     </thead>
@@ -22,6 +31,7 @@
                 <td> {{item.startDate|str_to_date}} (Local) <br/>{{item.startDate|str_to_date}} (GMT) </td> 
                 <td> {{item.endDate|str_to_date}} (Local) <br/>{{item.endDate|str_to_date}} (GMT) </td> 
                 <td> {{obj|get_card_guest:item.cardNumber}} </td> 
+                <td> {{item.endDate|get_card_type}} </td> 
                 <td class="text-end">
                     <a class="btn btn-outline-warning ark w-100" title="{%trans "Remove card"%}" data-url="{% url "lock-remove-card" %}"
                         data-obj_id="{{obj.id}}" data-card_id="{{item.cardId}}" data-confirm="{%trans "Are you sure to remove this element?"%}" 
@@ -32,7 +42,3 @@
     </tbody>
 </table>
 
-<div class="d-flex justify-content-end p-2">
-	<button type="button" class="btn btn-primary ark m-2" data-bs-dismiss="modal"
-	    data-url="{% url "lock-search-by-project" %}" data-target="lock-list" data-project_uuid="{{obj.project_uuid}}">{% trans "Close" %}</button>
-</div>
