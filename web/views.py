@@ -9,6 +9,7 @@ from padword.commons import show_exc, get_or_none, get_param, new_ui_slug, trans
 from padword.decorators import group_required
 from guest.models import Regime, ProjectRegime
 from sensibo.models import ProjectSensiboUser
+from connector.models import ProjectAvantioUser
 from .models import *
 #from .lock_lib import ShLock
 
@@ -75,6 +76,10 @@ def get_or_create_user_sensibo(project_uuid):
     obj, created = ProjectSensiboUser.objects.get_or_create(project_uuid = project_uuid)
     return obj 
 
+def get_or_create_user_avantio(project_uuid):
+    obj, created = ProjectAvantioUser.objects.get_or_create(project_uuid = project_uuid)
+    return obj 
+
 '''
     Projects
 '''
@@ -130,6 +135,7 @@ def project_form(request):
 
         user_lock = get_or_create_user_lock(obj.uuid)
         user_sensibo = get_or_create_user_sensibo(obj.uuid)
+        user_avantio = get_or_create_user_avantio(obj.uuid)
 
         regime_list = Regime.objects.all()
         context = {
@@ -138,6 +144,7 @@ def project_form(request):
             'company_id': company_id, 
             'user_lock': user_lock, 
             'user_sensibo': user_sensibo, 
+            'user_avantio': user_avantio, 
             'project_regime_list': [item.regime for item in obj.regimes.all()],
             'regime_list': regime_list
         }

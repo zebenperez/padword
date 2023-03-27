@@ -35,8 +35,8 @@ class AvantioBooking:
         self.client = client
     
 class ShAvantio:
-    def __init__(self):
-        self.credentials = {"Credentials": {"UserName": "GA5db1150035", "Password": "efd4ec0bf530"}}
+    def __init__(self, username, password):
+        self.credentials = {"Credentials": {"UserName": username, "Password": password}}
         #self.settings = Settings(strict=False, xml_huge_tree=True, xsd_ignore_sequence_order=True)
         self.client = Client(WSDL, transport=Transport(session=Session()))
 

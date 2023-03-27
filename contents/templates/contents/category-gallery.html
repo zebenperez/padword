@@ -1,24 +1,25 @@
 {% load i18n common_tag %}
 
 <div class="row justify-center">
-    {% for item in obj.images.all %}
-        <div class="col-sm-12 col-md-3 col-3">
-            <div class="col-lg-10 col-xs-10"><span><img src="{{item.image.url}}" alt="image" width="200px"/></span></div> <br/>
-            <div class="col-lg-2 col-xs-2 actions file-remove text-right">
-                <a class="ark pointer" id="btn-image-{{item.pk}}" title="Borrar fichero" data-confirm="{%trans "Are you sure to remove this file?"%}" 
-                    data-url="{% url "category-remove-image-gallery" %}" data-target="div-gallery" data-obj_id="{{item.id}}" data-field="image">
-                    <i class="fas fa-trash"></i></a>
-            </div>
-            <input class="form-control autosave" type="number" id="order" name="order" data-model-name="contents.categoryimage" 
-                data-obj-id="{{item.id}}" data-url="{%url "autosave_field"%}" data-target="div-notification" value="{{item.order}}"> 
-        </div> 
-    {% endfor %}
-    <div class="col-sm-12 col-md-3 col-3">
+    <div class="col-12">
         <label for="id_image_{{obj.id}}" class="btn btn-primary file-field-btn text-white"> <i class="fas fa-upload"></i> 
             <span class="text">{% trans "Upload File" %}</span> </label>
         <input type="file" class="upload d-none custom-file-upload" name="image" id="id_image_{{obj.id}}" 
             data-url="{% url 'category-add-image-gallery' %}" data-target="div-gallery" data-obj-id="{{obj.id}}" data-field="image" 
             data-csrf-token="{{csrf_token}}" multiple style="display:none;"/><br/><br/>
     </div> 
+
+    {% for item in obj.images.all %}
+        <div class="col-lg-3 col-12">
+            <div class="col-12"><span><img src="{{item.image.url}}" alt="image" class="w-100"/></span></div> <br/>
+            <div class="col-12 actions file-remove text-center">
+                <button class="btn btn-danger ark pointer" id="btn-image-{{item.pk}}" title="Borrar fichero" data-confirm="{%trans "Are you sure to remove this file?"%}" 
+                    data-url="{% url "category-remove-image-gallery" %}" data-target="div-gallery" data-obj_id="{{item.id}}" data-field="image">
+                    <i class="fas fa-trash"></i></button>
+            </div>
+            <input class="form-control autosave" type="number" id="order" name="order" data-model-name="contents.categoryimage" 
+                data-obj-id="{{item.id}}" data-url="{%url "autosave_field"%}" data-target="div-notification" value="{{item.order}}"> 
+        </div> 
+    {% endfor %}
 </div> 
 

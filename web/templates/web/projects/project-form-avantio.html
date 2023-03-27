@@ -1,0 +1,29 @@
+{% load i18n padword_tags %}
+
+
+<div class="card">
+    <div class="card-header toggle-btn" data-target="body-avantio" data-id-change="icon-extra"
+        data-text='<i class="fas fa-plus"></i>' data-text-alt='<i class="fas fa-minus"></i>'>
+        <div class="row w-100">
+            <div class="col-6 text-right" id="icon-extra"><i class="fas fa-plus"></i></div>
+            <div class="col-6 text-left"><strong>{% trans "Avantio" %}</strong></div>
+        </div>
+    </div>
+    <div class="card-body hide" id="body-avantio"> 
+        <div class="row justify-center">
+            <div class="col-6">
+                <label class="label">{% trans "Username" %}:</label>
+                <input type="text" class="form-control autosave input" id="username" name="username" value="{{user_avantio.username}}" 
+                    title="{{user_avantio.username}}" data-model-name="connector.projectavantiouser" data-obj-id="{{user_avantio.id}}" 
+                    data-url="{% url "autosave_field" %}" data-target="div-notification"/> <span id="username__msg"></span>	
+            </div>
+            <div class="col-6">
+                <label class="label">{% trans "Password" %}:</label>
+                <input type="text" class="form-control autosave input" id="password" name="password" value="{{user_avantio.password}}" 
+                    title="{{user_avantio.password}}" data-model-name="connector.projectavantiouser" data-obj-id="{{user_avantio.id}}" 
+                    data-url="{% url "autosave_field" %}" data-target="div-notification"/> <span id="password__msg"></span>	
+            </div>
+        </div>		
+    </div>		
+</div>		
+

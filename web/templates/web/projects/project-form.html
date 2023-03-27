@@ -1,7 +1,9 @@
 {% load i18n padword_tags %}
 
-<h2 class="common-modal-head">{% trans 'New proyect' %}</h2>
-
+<div class="row">
+    <div class="col-11"> <h2 class="common-modal-head">{% trans 'New proyect' %}</h2></div>
+    <div class="col-1"> <button type="button" class="btn btn-sm" data-bs-dismiss="modal"><i class="fas fa-times"></i></button> </div>
+</div>
 
 <span id="div-notification"></span><br/>
 
@@ -9,6 +11,7 @@
 {% include "web/projects/project-form-regime.html" %}
 {% include "web/projects/project-form-locks.html" %}
 {% include "web/projects/project-form-sensibo.html" %}
+{% include "web/projects/project-form-avantio.html" %}
 
 
 <div class="d-flex justify-content-end p-2">

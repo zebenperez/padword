@@ -15,8 +15,8 @@
                 <div class="card-header">
                     <div class="row toggle-btn w-100" data-target="body-extra" data-id-change="icon-extra" 
                         data-text='<i class="fas fa-plus"></i>' data-text-alt='<i class="fas fa-minus"></i>'>
-                        <div class="col-10"><strong>{% trans "Extra" %}</strong></div>
-                        <div class="col-2 text-end" id="icon-extra"><i class="fas fa-plus"></i></div>
+                        <div class="col-6 text-right" id="icon-extra"><i class="fas fa-plus"></i></div>
+                        <div class="col-6 text-left"><strong>{% trans "Extra" %}</strong></div>
                     </div>
                 </div>
                 <div class="card-body hide" id="body-extra"> {% include "guest/guest-form-extra.html" %} </div>
@@ -28,8 +28,8 @@
                 <div class="card-header">
                     <div class="row toggle-btn w-100" data-target="body-locks" data-id-change="icon-locks" 
                         data-text='<i class="fas fa-plus"></i>' data-text-alt='<i class="fas fa-minus"></i>'>
-                        <div class="col-10"><strong>{% trans "Locks" %}</strong></div>
-                        <div class="col-2 text-end" id="icon-locks"> <i class="fas fa-plus"></i> </div>
+                        <div class="col-6 text-right" id="icon-locks"> <i class="fas fa-plus"></i> </div>
+                        <div class="col-6 text-left"><strong>{% trans "Locks" %}</strong></div>
                     </div>
                 </div>
                 <div class="card-body" id="body-locks"> <div id="div-locks">{% include "guest/keys/guest-keys.html" %}</div> </div> 
@@ -41,8 +41,8 @@
                 <div class="card-header">
                     <div class="row toggle-btn w-100" data-target="body-bands" data-id-change="icon-bands" 
                         data-text='<i class="fas fa-plus"></i>' data-text-alt='<i class="fas fa-minus"></i>'>
-                        <div class="col-10"><strong>{% trans "Wristbands" %}</strong></div>
-                        <div class="col-2 text-end" id="icon-bands"> <i class="fas fa-plus"></i> </div>
+                        <div class="col-6 text-right" id="icon-bands"> <i class="fas fa-plus"></i> </div>
+                        <div class="col-6 text-left"><strong>{% trans "Wristbands" %}</strong></div>
                     </div>
                 </div>
                 <div class="card-body hide" id="body-bands"> <div id="div-bands">{% include "guest/bands/guest-bands.html" %}</div> </div> 
@@ -56,8 +56,8 @@
                     <div class="card-header">
                         <div class="row toggle-btn w-100" data-target="body-sensibo" data-id-change="icon-sensibo" 
                             data-text='<i class="fas fa-plus"></i>' data-text-alt='<i class="fas fa-minus"></i>'>
-                            <div class="col-10"><strong>{% trans "Air aconditioner" %}</strong></div>
-                            <div class="col-2 text-end" id="icon-sensibo"> <i class="fas fa-plus"></i> </div>
+                            <div class="col-6 text-right" id="icon-sensibo"> <i class="fas fa-plus"></i> </div>
+                            <div class="col-6 text-left"><strong>{% trans "Air aconditioner" %}</strong></div>
                         </div>
                     </div>
                     <div class="card-body hide" id="body-sensibo"> <div id="div-sensibo">{% include "guest/sensibo/guest-sensibo-devices.html" %}</div> </div> 
@@ -71,8 +71,8 @@
                     <div class="card-header">
                         <div class="row toggle-btn w-100" data-target="body-admin" data-id-change="icon-admin" 
                             data-text='<i class="fas fa-plus"></i>' data-text-alt='<i class="fas fa-minus"></i>'>
-                            <div class="col-10"><strong>{% trans "Admin" %}</strong></div>
-                            <div class="col-2 text-end" id="icon-admin"><i class="fas fa-plus"></i> </div>
+                            <div class="col-6 text-right" id="icon-admin"><i class="fas fa-plus"></i> </div>
+                            <div class="col-6 text-left"><strong>{% trans "Admin" %}</strong></div>
                         </div>
                     </div>
                     <div class="card-body hide" id="body-admin"> {% include "guest/guest-form-admin.html" %} </div>

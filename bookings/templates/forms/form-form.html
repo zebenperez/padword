@@ -17,22 +17,22 @@
         <div class="row justify-center">
            <div class="col-12">
                 <div class="row">
-                    <div class="col-8">{#{% trans "Descripción" %}:#}</div>
-                    <div class="col-1">
-                        <input class="form-control autosave" type="number" id="desc_width" name="desc_width" data-model-name="bookings.form" 
+                    <div class="col-5">{#{% trans "Descripción" %}:#}</div>
+                    <div class="col-2 text-end">
+                        <input class="form-control autosave text-end" type="number" id="desc_width" name="desc_width" data-model-name="bookings.form" 
                             data-obj-id="{{obj.id}}" data-url="{%url "autosave_field"%}" data-target="div-notification" value="{{obj.desc_width}}"
                             min="0" max="12" step="1"/>
                     </div>
-                    <div class="col-1"> <label class="form-check-label" for="show_desc">{% trans "Width" %}</label> </div>
-                    <div class="col-2">
+                    <div class="col-3"> <label class="form-check-label grey" for="show_desc">{% trans "Width" %}</label> </div>
+                    <div class="col-2 text-end">
                         <div class="form-check form-switch">
                             <input class="form-check-input autosave" type="checkbox" id="show_desc" name="show_desc" data-model-name="bookings.form" 
                                 data-obj-id="{{obj.id}}" data-bool="True" data-url="{%url "autosave_field"%}" data-target="div-notification"
                                 {%if obj.show_desc%}checked{%endif%}>
-                            <label class="form-check-label" for="show_desc">{% trans "Show" %}</label>
+                            <label class="form-check-label grey" for="show_desc">{% trans "Show" %}</label>
                         </div>
                     </div>
-                    <textarea class="form-control autosavepost b-bottom mb-4" id="desc" name="desc"  data-lang="{% current_lang %}" 
+                    <textarea class="form-control autosavepost b-bottom mt-2 mb-4" id="desc" name="desc"  data-lang="{% current_lang %}" 
                         data-model-name="bookings.form" data-obj-id="{{obj.id}}" data-url="{%url "autosave_field_post"%}" 
                         data-target="div-notification" style="display:none"></textarea> <span id="desc__msg"></span>
                     <div id="desc-editor" style="height:200px; overflow:scroll;"> {% padword_translate obj.desc %}</div>
@@ -47,8 +47,8 @@
     <div class="card-body">
         <div class="row justify-center">
             {#<div class="col-12"> {% trans "Background image" %}: <div id="div-files">{% include "forms/form-document.html" %}</div></div>#}
-            <div class="col-6"> {% trans "Logo" %}: <div id="div-logo">{% include "forms/form-logo.html" %}</div> </div>
-            <div class="col-6"> {% trans "QR" %}: <div id="div-qr">{% include "forms/form-qr.html" %}</div> </div>
+            <div class="col-6 grey"> {% trans "Logo" %}: <div id="div-logo">{% include "forms/form-logo.html" %}</div> </div>
+            <div class="col-6 grey"> {% trans "QR" %}: <div id="div-qr">{% include "forms/form-qr.html" %}</div> </div>
         </div>
     </div>
 </div>

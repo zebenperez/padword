@@ -7,12 +7,12 @@
         data-url="{% url 'form-add-logo' %}" data-target="div-logo" data-obj-id="{{obj.id}}" 
         data-field="logo" data-csrf-token="{{csrf_token}}" multiple style="display:none;"/><br /><br />
 {% else %}
-    <div class="col-lg-10 col-xs-10"><span><img src="{{obj.logo.url}}" alt="logo" width="200px"/></span></div>
+    <div class="col-12 text-center"><img src="{{obj.logo.url}}" alt="logo" class="auto"/></div>
     <br/>
-    <div class="col-lg-2 col-xs-2 actions file-remove text-right">
-        <a class="ark pointer" id="btn-logo-{{obj.pk}}" title="Borrar fichero" data-confirm="{% trans "Are you sure to remove this file?" %}" 
+    <div class="col-12 actions file-remove text-center">
+        <button type="button" class="btn btn-danger ark pointer" id="btn-logo-{{obj.pk}}" title="Borrar fichero" data-confirm="{% trans "Are you sure to remove this file?" %}" 
             data-url="{% url "form-remove-logo" %}" data-target="div-logo" data-obj_id="{{obj.id}}" data-field="logo">
-            <i class="fas fa-trash"></i></a>
+            <i class="fas fa-trash"></i></button>
     </div>
 {% endif %}
 

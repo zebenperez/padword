@@ -3,12 +3,11 @@
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
-#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-10-27 12:37+0000\n"
+"POT-Creation-Date: 2023-03-23 13:00+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,99 +17,148 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: models.py:260 models.py:273 models.py:350 models.py:374 models.py:386
-#: models.py:398 models.py:408 templates/device/device-list.html:7
-#: templates/guest/second_menu.html:3
+#: models.py:329 models.py:342 models.py:419 models.py:443 models.py:455
+#: models.py:467 models.py:477 models.py:490 models.py:498 models.py:520
+#: templates/device/device-list.html:7 templates/guest/second_menu.html:3
 msgid "Guest"
 msgstr ""
 
-#: models.py:263 templates/guest/guest-form-main.html:6
-#: templates/guest/guest-form-simple.html:10 templates/guest/guest-list.html:12
+#: models.py:332 models.py:485 templates/guest-by-project/guest-list.html:11
+#: templates/guest/guest-form-main.html:6
+#: templates/guest/guest-form-simple.html:10 templates/guest/guest-list.html:11
 msgid "Name"
 msgstr ""
 
-#: models.py:264 models.py:395 models.py:405
+#: models.py:333 models.py:464 models.py:474 models.py:497
 msgid "Code"
 msgstr ""
 
-#: models.py:265
+#: models.py:334
 msgid "Created at"
 msgstr ""
 
-#: models.py:266
+#: models.py:335
 msgid "Updated at"
 msgstr ""
 
-#: models.py:354 templates/guest/notifications/notification-form.html:44
+#: models.py:423 templates/guest/notifications/notification-form.html:44
 msgid "All users"
 msgstr ""
 
-#: models.py:355
+#: models.py:424
 msgid "Public"
 msgstr ""
 
-#: models.py:357 templates/guest/notifications/notification-form.html:62
+#: models.py:426 templates/guest/notifications/notification-form.html:62
 #: templates/guest/notifications/notification-list.html:14
 msgid "Subject"
 msgstr ""
 
-#: models.py:358 models.py:385
+#: models.py:427 models.py:454
 #: templates/guest/notifications/notification-form.html:69
 #: templates/guest/notifications/notification-list.html:15
 msgid "Message"
 msgstr ""
 
-#: models.py:369 models.py:375
+#: models.py:438 models.py:444
 msgid "Notification"
 msgstr ""
 
-#: models.py:373
+#: models.py:442
 msgid "Read"
 msgstr ""
 
-#: models.py:378
+#: models.py:447
 msgid "Guest notification"
 msgstr ""
 
-#: models.py:381
+#: models.py:450
 msgid "Guest Readed"
 msgstr ""
 
-#: models.py:382
+#: models.py:451
 msgid "Sender Readed"
 msgstr ""
 
-#: models.py:383
+#: models.py:452
 msgid "Guest Message"
 msgstr ""
 
-#: models.py:390 models.py:391
+#: models.py:459 models.py:460 templates/guest-by-project/guest-row.html:11
+#: templates/guest/guest-row.html:12
 msgid "Chat"
 msgstr ""
 
-#: models.py:396
+#: models.py:465
 msgid "Code Id"
 msgstr ""
 
-#: models.py:397 models.py:407
+#: models.py:466 models.py:476
 msgid "Lock"
 msgstr ""
 
-#: models.py:401 models.py:411
+#: models.py:470 models.py:480
 msgid "Key"
 msgstr ""
 
-#: models.py:402 models.py:412
+#: models.py:471 models.py:481
 msgid "Keys"
 msgstr ""
 
-#: models.py:406
+#: models.py:475
 msgid "Card Id"
 msgstr ""
 
+#: models.py:484 templates/guest/guest-form-admin.html:6
+msgid "UUID"
+msgstr ""
+
+#: models.py:486
+msgid "Start Time"
+msgstr ""
+
+#: models.py:487 templates/guest/sensibo/guest-sensibo-form.html:15
+msgid "Mode"
+msgstr ""
+
+#: models.py:488
+msgid "Temp"
+msgstr ""
+
+#: models.py:489 templates/guest/sensibo/guest-sensibo-form.html:37
+msgid "Level"
+msgstr ""
+
+#: models.py:493
+msgid "Sensibo device"
+msgstr ""
+
+#: models.py:494
+msgid "Sensibo devices"
+msgstr ""
+
+#: models.py:501
+msgid "Wristband"
+msgstr ""
+
+#: models.py:502 templates/guest/guest-form.html:44
+msgid "Wristbands"
+msgstr ""
+
+#: models.py:512 models.py:515 models.py:519
+#: templates/guest/guest-form-main.html:106
+msgid "Regime"
+msgstr ""
+
+#: models.py:516 templates/guest/notifications/notification-list.html:10
+msgid "Project"
+msgstr ""
+
 #: templates/device/device-form.html:3 templates/device/device-room.html:3
+#: templates/guest-by-project/guest-form.html:4
+#: templates/guest-by-project/guests.html:16
 #: templates/guest/guest-form-simple.html:3 templates/guest/guest-form.html:4
-#: templates/guest/guests.html:21 templates/guest/guests.html:23
+#: templates/guest/guests.html:25 templates/guest/guests.html:27
 msgid "New guest"
 msgstr ""
 
@@ -119,15 +167,18 @@ msgid "Alias"
 msgstr ""
 
 #: templates/device/device-form.html:19 templates/device/device-room.html:25
+#: templates/guest-by-project/guest-form.html:63
+#: templates/guest-by-project/guest-form.html:64
 #: templates/guest/guest-form-simple.html:226
-#: templates/guest/guest-form.html:58 templates/guest/guest-form.html:60
+#: templates/guest/guest-form.html:99 templates/guest/guest-form.html:101
 #: templates/guest/notifications/notification-form.html:83
 msgid "Save"
 msgstr ""
 
 #: templates/device/device-list.html:6 templates/device/device-room.html:11
-#: templates/guest/guest-form-main.html:81
-#: templates/guest/guest-form-simple.html:101 templates/guest/guest-list.html:9
+#: templates/guest-by-project/guest-list.html:8
+#: templates/guest/guest-form-main.html:98
+#: templates/guest/guest-form-simple.html:101 templates/guest/guest-list.html:8
 msgid "Room"
 msgstr ""
 
@@ -140,20 +191,23 @@ msgid "Wifi MAC"
 msgstr ""
 
 #: templates/device/device-list.html:10
-msgid "Canal"
+msgid "Channel"
 msgstr ""
 
 #: templates/device/device-list.html:11
-msgid "Activo"
+msgid "Active"
 msgstr ""
 
 #: templates/device/device-list.html:12
-msgid "Fecha de actualización"
+msgid "Date of update"
 msgstr ""
 
 #: templates/device/device-page.html:20
+#: templates/guest-by-project/guest-form.html:67
+#: templates/guest-by-project/guest-row.html:16
 #: templates/guest/guest-form-simple.html:229
-#: templates/guest/guest-form.html:63 templates/guest/guest-row.html:29
+#: templates/guest/guest-form.html:104 templates/guest/guest-row.html:29
+#: templates/guest/guest-row.html:33
 #: templates/guest/keys/guest-key-cards.html:27
 #: templates/guest/notifications/notification-form.html:85
 #: templates/guest/notifications/notification-row.html:26
@@ -172,11 +226,101 @@ msgstr ""
 msgid "Tablets"
 msgstr ""
 
-#: templates/guest/guest-form-admin.html:6
-msgid "UUID"
+#: templates/guest-by-project/guest-form.html:9
+#: templates/guest/guest-form.html:9
+msgid "Main"
 msgstr ""
 
-#: templates/guest/guest-form-admin.html:13 templates/guest/guest-list.html:9
+#: templates/guest-by-project/guest-form.html:18
+#: templates/guest/guest-form.html:18
+msgid "Extra"
+msgstr ""
+
+#: templates/guest-by-project/guest-form.html:31
+#: templates/guest/guest-form.html:31
+msgid "Locks"
+msgstr ""
+
+#: templates/guest-by-project/guest-form.html:45
+#: templates/guest/guest-form.html:59
+msgid "Air aconditioner"
+msgstr ""
+
+#: templates/guest-by-project/guest-form.html:58
+#: templates/guest-by-project/guest-row.html:22
+#: templates/guest/guest-form.html:89 templates/guest/guest-row.html:36
+msgid "Share code"
+msgstr ""
+
+#: templates/guest-by-project/guest-form.html:59
+#: templates/guest/guest-form.html:90
+msgid "Share"
+msgstr ""
+
+#: templates/guest-by-project/guest-form.html:68
+#: templates/guest-by-project/guest-row.html:16
+#: templates/guest/guest-form-simple.html:229
+#: templates/guest/guest-form.html:104 templates/guest/guest-row.html:34
+#: templates/guest/notifications/notification-form.html:86
+msgid "Remove"
+msgstr ""
+
+#: templates/guest-by-project/guest-form.html:73
+#: templates/guest/guest-form.html:109
+msgid "You must choose a valid room number or empty"
+msgstr ""
+
+#: templates/guest-by-project/guest-list.html:9
+#: templates/guest/guest-list.html:9
+msgid "Check in"
+msgstr ""
+
+#: templates/guest-by-project/guest-list.html:10
+#: templates/guest/guest-list.html:10
+msgid "Check out"
+msgstr ""
+
+#: templates/guest-by-project/guest-list.html:12
+#: templates/guest/guest-form-main.html:20
+msgid "Language"
+msgstr ""
+
+#: templates/guest-by-project/guest-list.html:12
+msgid "Options"
+msgstr ""
+
+#: templates/guest-by-project/guest-list.html:22
+#: templates/guest/guest-list.html:22
+msgid "See more"
+msgstr ""
+
+#: templates/guest-by-project/guest-row.html:14
+#: templates/guest/guest-row.html:16 templates/guest/guest-row.html:20
+msgid "Edit"
+msgstr ""
+
+#: templates/guest-by-project/guests.html:9 templates/guest/guests.html:15
+msgid "Name, Surname, Email, Phone or Room"
+msgstr ""
+
+#: templates/guest-by-project/guests.html:15 templates/guest/guests.html:21
+#: templates/guest/notifications/notification-list.html:13
+msgid "Guests"
+msgstr ""
+
+#: templates/guest/bands/guest-bands.html:4
+msgid "Wristbands assigned"
+msgstr ""
+
+#: templates/guest/bands/guest-bands.html:9
+msgid "Add"
+msgstr ""
+
+#: templates/guest/bands/guest-bands.html:15
+msgid "Band code"
+msgstr ""
+
+#: templates/guest/guest-form-admin.html:13
 msgid "PID"
 msgstr ""
 
@@ -191,13 +335,13 @@ msgstr ""
 
 #: templates/guest/guest-form-admin.html:31
 #: templates/guest/guest-form-extra.html:15
-#: templates/guest/guest-form-extra.html:24
+#: templates/guest/guest-form-extra.html:31
 msgid "NO"
 msgstr ""
 
 #: templates/guest/guest-form-admin.html:32
 #: templates/guest/guest-form-extra.html:16
-#: templates/guest/guest-form-extra.html:25
+#: templates/guest/guest-form-extra.html:32
 msgid "YES"
 msgstr ""
 
@@ -210,12 +354,12 @@ msgid "Married"
 msgstr ""
 
 #: templates/guest/guest-form-extra.html:21
-#: templates/guest/guest-form-extra.html:37
-msgid "Children"
+msgid "Adults"
 msgstr ""
 
-#: templates/guest/guest-form-extra.html:30
-msgid "Adults"
+#: templates/guest/guest-form-extra.html:28
+#: templates/guest/guest-form-extra.html:37
+msgid "Children"
 msgstr ""
 
 #: templates/guest/guest-form-extra.html:44
@@ -224,10 +368,10 @@ msgstr ""
 
 #: templates/guest/guest-form-main.html:8
 #: templates/guest/guest-form-main.html:15
-#: templates/guest/guest-form-main.html:55
-#: templates/guest/guest-form-main.html:62
-#: templates/guest/guest-form-main.html:69
-#: templates/guest/guest-form-main.html:76
+#: templates/guest/guest-form-main.html:72
+#: templates/guest/guest-form-main.html:79
+#: templates/guest/guest-form-main.html:86
+#: templates/guest/guest-form-main.html:93
 #: templates/guest/guest-form-simple.html:12
 #: templates/guest/guest-form-simple.html:19
 #: templates/guest/guest-form-simple.html:34
@@ -243,93 +387,78 @@ msgstr ""
 msgid "Surname"
 msgstr ""
 
-#: templates/guest/guest-form-main.html:20 templates/guest/guest-list.html:13
-msgid "Language"
+#: templates/guest/guest-form-main.html:37
+msgid "External ID"
 msgstr ""
 
-#: templates/guest/guest-form-main.html:37
+#: templates/guest/guest-form-main.html:44
 #: templates/guest/guest-form-simple.html:24
 msgid "Mobile phone"
 msgstr ""
 
-#: templates/guest/guest-form-main.html:39
+#: templates/guest/guest-form-main.html:47
 #: templates/guest/guest-form-simple.html:26
 msgid "Please enter valid phone number"
 msgstr ""
 
-#: templates/guest/guest-form-main.html:45
+#: templates/guest/guest-form-main.html:51
+msgid "Generate random number"
+msgstr ""
+
+#: templates/guest/guest-form-main.html:51
+msgid "Are you sure to modify the mobile phone?."
+msgstr ""
+
+#: templates/guest/guest-form-main.html:57
+msgid "Update code locks"
+msgstr ""
+
+#: templates/guest/guest-form-main.html:57
+msgid "Code will be updated with last four digits of mobile phone."
+msgstr ""
+
+#: templates/guest/guest-form-main.html:62
 msgid "Email"
 msgstr ""
 
-#: templates/guest/guest-form-main.html:47
+#: templates/guest/guest-form-main.html:64
 msgid "Please enter valid email"
 msgstr ""
 
-#: templates/guest/guest-form-main.html:53
+#: templates/guest/guest-form-main.html:70
 #: templates/guest/guest-form-simple.html:32
 msgid "Check-in date"
 msgstr ""
 
-#: templates/guest/guest-form-main.html:60
+#: templates/guest/guest-form-main.html:77
 #: templates/guest/guest-form-simple.html:39
 msgid "Check-in time"
 msgstr ""
 
-#: templates/guest/guest-form-main.html:67
+#: templates/guest/guest-form-main.html:84
 #: templates/guest/guest-form-simple.html:46
 msgid "Check-out date"
 msgstr ""
 
-#: templates/guest/guest-form-main.html:74
+#: templates/guest/guest-form-main.html:91
 #: templates/guest/guest-form-simple.html:53
 msgid "Check-out time"
 msgstr ""
 
-#: templates/guest/guest-form-simple.html:229
-#: templates/guest/guest-form.html:63
-#: templates/guest/notifications/notification-form.html:86
-msgid "Remove"
+#: templates/guest/guest-form-main.html:109
+msgid "Select regime"
 msgstr ""
 
-#: templates/guest/guest-form.html:9
-msgid "Main"
-msgstr ""
-
-#: templates/guest/guest-form.html:17
-msgid "Extra"
-msgstr ""
-
-#: templates/guest/guest-form.html:28
-msgid "Locks"
-msgstr ""
-
-#: templates/guest/guest-form.html:41
+#: templates/guest/guest-form.html:74
 msgid "Admin"
 msgstr ""
 
-#: templates/guest/guest-form.html:68
-msgid "You must choose a valid room number or empty"
+#: templates/guest/guest-row.html:30
+msgid "Soft remove"
 msgstr ""
 
-#: templates/guest/guest-list.html:10
-msgid "Check in"
-msgstr ""
-
-#: templates/guest/guest-list.html:11
-msgid "Check out"
-msgstr ""
-
-#: templates/guest/guest-list.html:13
-msgid "Options"
-msgstr ""
-
-#: templates/guest/guests.html:12
-msgid "Name, Surname, Email, Phone or Room"
-msgstr ""
-
-#: templates/guest/guests.html:18
-#: templates/guest/notifications/notification-list.html:13
-msgid "Guests"
+#: templates/guest/guests.html:22
+msgid "Hide/Show deleted"
 msgstr ""
 
 #: templates/guest/keys/guest-key-cards.html:4
@@ -393,10 +522,6 @@ msgstr ""
 msgid "Send"
 msgstr ""
 
-#: templates/guest/notifications/notification-list.html:10
-msgid "Project"
-msgstr ""
-
 #: templates/guest/notifications/notification-list.html:12
 msgid "Date"
 msgstr ""
@@ -413,18 +538,71 @@ msgstr ""
 msgid "Notifications"
 msgstr ""
 
-#: views.py:187 views.py:212
+#: templates/guest/room-list.html:12
+msgid "Not assign"
+msgstr ""
+
+#: templates/guest/sensibo/guest-sensibo-devices.html:4
+msgid "Air aconditioner assigned"
+msgstr ""
+
+#: templates/guest/sensibo/guest-sensibo-form.html:8
+msgid "Time to start (previous checkin)"
+msgstr ""
+
+#: templates/guest/sensibo/guest-sensibo-form.html:18
+msgid "Cool"
+msgstr ""
+
+#: templates/guest/sensibo/guest-sensibo-form.html:19
+msgid "Heat"
+msgstr ""
+
+#: templates/guest/sensibo/guest-sensibo-form.html:20
+msgid "Fan"
+msgstr ""
+
+#: templates/guest/sensibo/guest-sensibo-form.html:21
+msgid "Dry"
+msgstr ""
+
+#: templates/guest/sensibo/guest-sensibo-form.html:22
+#: templates/guest/sensibo/guest-sensibo-form.html:43
+msgid "Auto"
+msgstr ""
+
+#: templates/guest/sensibo/guest-sensibo-form.html:27
+msgid "Temperature"
+msgstr ""
+
+#: templates/guest/sensibo/guest-sensibo-form.html:40
+msgid "Low"
+msgstr ""
+
+#: templates/guest/sensibo/guest-sensibo-form.html:41
+msgid "Medium"
+msgstr ""
+
+#: templates/guest/sensibo/guest-sensibo-form.html:42
+msgid "High"
+msgstr ""
+
+#: views.py:167 views.py:181 views.py:205
 msgid "Guest not found!"
 msgstr ""
 
-#: views.py:287
+#: views.py:244
+msgid "Saved!"
+msgstr ""
+
+#: views.py:407
 msgid "Project not found!"
 msgstr ""
 
-#: views.py:293
+#: views.py:413
 msgid "This user have not permission for this section!"
 msgstr ""
 
-#: views.py:327 views.py:337
+#: views.py:447 views.py:457
 msgid "Object not found!"
 msgstr ""

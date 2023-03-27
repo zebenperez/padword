@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-10-27 10:27+0000\n"
+"POT-Creation-Date: 2023-03-23 13:06+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,279 +17,502 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: lock_views.py:34 models.py:373
-msgid "Connected"
-msgstr "Conectado"
+#: lock_lib.py:235 templates/web/locks/record-type.html:4
+msgid "Unlock by app"
+msgstr ""
 
-#: lock_views.py:34 models.py:373
-msgid "Not connected"
-msgstr "No conectado"
+#: lock_lib.py:237 templates/web/locks/record-type.html:6
+msgid "Unlock by passcode"
+msgstr "Contraseña TTLock"
 
-#: models.py:13 models.py:110 models.py:170 models.py:244 models.py:317
-#: models.py:480 models.py:536 models.py:543 models.py:586
+#: lock_lib.py:239 templates/web/locks/record-type.html:8
+msgid "Rise the lock"
+msgstr ""
+
+#: lock_lib.py:241 templates/web/locks/record-type.html:10
+msgid "Lower the lock"
+msgstr ""
+
+#: lock_lib.py:243 templates/web/locks/record-type.html:12
+msgid "Unlock by IC card"
+msgstr ""
+
+#: lock_lib.py:245 templates/web/locks/record-type.html:14
+msgid "Unlock by fingerprint"
+msgstr "Huella dactilar"
+
+#: lock_lib.py:247 templates/web/locks/record-type.html:16
+msgid "Unlock by wrist strap"
+msgstr ""
+
+#: lock_lib.py:249 templates/web/locks/record-type.html:18
+msgid "Unlock by Mechanical key"
+msgstr ""
+
+#: lock_lib.py:251 templates/web/locks/record-type.html:20
+msgid "Lock by app"
+msgstr ""
+
+#: lock_lib.py:253 templates/web/locks/record-type.html:22
+msgid "Unlock by gateway"
+msgstr ""
+
+#: lock_lib.py:255 templates/web/locks/record-type.html:24
+msgid "Apply some force on the Lock"
+msgstr ""
+
+#: lock_lib.py:257 templates/web/locks/record-type.html:26
+msgid "Door sensor closed"
+msgstr ""
+
+#: lock_lib.py:259 templates/web/locks/record-type.html:28
+msgid "Door sensor open"
+msgstr ""
+
+#: lock_lib.py:261 templates/web/locks/record-type.html:30
+msgid "Open from inside"
+msgstr ""
+
+#: lock_lib.py:263 templates/web/locks/record-type.html:32
+msgid "Lock by fingerprint"
+msgstr "Huella dactilar"
+
+#: lock_lib.py:265 templates/web/locks/record-type.html:34
+msgid "Lock by passcode"
+msgstr "Contraseña TTLock"
+
+#: lock_lib.py:267 templates/web/locks/record-type.html:36
+msgid "Lock by IC card"
+msgstr ""
+
+#: lock_lib.py:269 templates/web/locks/record-type.html:38
+msgid "Lock by Mechanical key"
+msgstr ""
+
+#: lock_lib.py:271 templates/web/locks/record-type.html:40
+msgid "Remote Control"
+msgstr ""
+
+#: lock_lib.py:273 templates/web/locks/record-type.html:42
+msgid "Received new local mail"
+msgstr ""
+
+#: lock_lib.py:275 templates/web/locks/record-type.html:44
+msgid "Received new other cities mail"
+msgstr ""
+
+#: lock_lib.py:277 templates/web/locks/record-type.html:46
+msgid "Tamper alert"
+msgstr ""
+
+#: lock_lib.py:279 templates/web/locks/record-type.html:48
+msgid "Auto Lock"
+msgstr "Bloquear"
+
+#: lock_lib.py:281 templates/web/locks/record-type.html:50
+msgid "Unlock by unlock key"
+msgstr ""
+
+#: lock_lib.py:283 templates/web/locks/record-type.html:52
+msgid "Lock by lock key"
+msgstr "Token de la cerradura"
+
+#: lock_lib.py:285 templates/web/locks/record-type.html:54
+msgid ""
+"System locked ( Caused by, for example: Using INVALID Passcode/Fingerprint/"
+"Card several times)"
+msgstr ""
+
+#: lock_lib.py:287 templates/web/locks/record-type.html:56
+msgid "Unlock by hotel card"
+msgstr ""
+
+#: lock_lib.py:289 templates/web/locks/record-type.html:58
+msgid "Unlocked due to the high temperature"
+msgstr ""
+
+#: lock_lib.py:291 templates/web/locks/record-type.html:60
+msgid "Dead lock with APP"
+msgstr ""
+
+#: lock_lib.py:293 templates/web/locks/record-type.html:62
+msgid "Dead lock with passcode"
+msgstr ""
+
+#: lock_lib.py:295 templates/web/locks/record-type.html:64
+msgid "The car left (for parking lock)"
+msgstr ""
+
+#: lock_lib.py:297 templates/web/locks/record-type.html:66
+msgid "Unlock with key fob"
+msgstr ""
+
+#: lock_lib.py:299 templates/web/locks/record-type.html:68
+msgid "Unlock with QR code success"
+msgstr ""
+
+#: lock_lib.py:301 templates/web/locks/record-type.html:70
+msgid "Unlock with QR code failed, it's expired"
+msgstr ""
+
+#: lock_lib.py:303 templates/web/locks/record-type.html:72
+msgid "Double locked"
+msgstr ""
+
+#: lock_lib.py:305 templates/web/locks/record-type.html:74
+msgid "Cancel double lock"
+msgstr ""
+
+#: lock_lib.py:307 templates/web/locks/record-type.html:76
+msgid "Lock with QR code success"
+msgstr ""
+
+#: lock_lib.py:309 templates/web/locks/record-type.html:78
+msgid "Lock with QR code failed, the lock is double locked"
+msgstr ""
+
+#: lock_lib.py:311 templates/web/locks/record-type.html:80
+msgid "Auto unlock at passage mode"
+msgstr ""
+
+#: lock_lib.py:313 templates/web/locks/record-type.html:82
+msgid "Unknown"
+msgstr ""
+
+#: lock_views.py:328
+msgid "Saved!"
+msgstr "Guardar"
+
+#: lock_views.py:345 templates/web/channels/channel-form.html:31
+#: templates/web/companies/company-form.html:19
+#: templates/web/devices/device-form.html:33
+#: templates/web/gateways-by-project/gateway-list.html:30
+#: templates/web/gateways/gateway-list.html:30
+#: templates/web/locks-by-project/lock-all-records.html:32
+#: templates/web/locks/lock-all-records.html:31
+#: templates/web/locks/lock-records-print.html:46
+#: templates/web/projects/project-form-main.html:30
+#: templates/web/rooms/lock-details-records.html:20
+msgid "Yes"
+msgstr "Si"
+
+#: lock_views.py:345 templates/web/channels/channel-form.html:32
+#: templates/web/companies/company-form.html:20
+#: templates/web/devices/device-form.html:34
+#: templates/web/gateways-by-project/gateway-list.html:30
+#: templates/web/gateways/gateway-list.html:30
+#: templates/web/locks-by-project/lock-all-records.html:32
+#: templates/web/locks/lock-all-records.html:31
+#: templates/web/locks/lock-records-print.html:46
+#: templates/web/projects/project-form-main.html:31
+#: templates/web/rooms/lock-details-records.html:20
+msgid "No"
+msgstr "No"
+
+#: models.py:17 models.py:236 models.py:296 models.py:370 models.py:443
+#: models.py:622 models.py:694 models.py:701 models.py:744
 #: templates/web/channels/channel-form.html:47
 #: templates/web/companies/company-form.html:33
-#: templates/web/companies/company-list.html:7
+#: templates/web/companies/company-list.html:9
 #: templates/web/devices/device-form.html:9
 #: templates/web/devices/device-list.html:50
 #: templates/web/devices/search_box.html:21
-#: templates/web/locks-groups/lock-group-list.html:39
+#: templates/web/locks-by-project/lock-list.html:58
+#: templates/web/locks-groups/lock-group-list.html:40
 #: templates/web/locks-users/lock-user-list.html:37
-#: templates/web/locks/lock-list.html:57
-#: templates/web/projects/project-form.html:63
+#: templates/web/locks/lock-list.html:29
+#: templates/web/projects/project-form-main.html:81
 #: templates/web/rooms/lock-list.html:13
 msgid "UUID"
 msgstr "UUID"
 
-#: models.py:14 models.py:112 templates/web/channels/channel-form.html:9
+#: models.py:18 models.py:238 templates/web/channels/channel-form.html:9
 #: templates/web/channels/channel-list.html:5
 #: templates/web/companies/companies.html:10
 #: templates/web/companies/company-form.html:9
-#: templates/web/companies/company-list.html:5
+#: templates/web/companies/company-list.html:7
+#: templates/web/gateways-by-project/gateway-list.html:13
+#: templates/web/gateways/gateway-list.html:13
+#: templates/web/keycards/keycard-number-search.html:13
+#: templates/web/keycards/keycards.html:12
+#: templates/web/locks-by-project/lock-add-code.html:23
+#: templates/web/locks-by-project/lock-all-cards.html:19
+#: templates/web/locks-by-project/lock-all-passcodes.html:19
 #: templates/web/locks-groups/lock-group-form.html:14
 #: templates/web/locks-groups/lock-group-list.html:12
-#: templates/web/locks-groups/lock-group-list.html:40
+#: templates/web/locks-groups/lock-group-list.html:41
 #: templates/web/locks-groups/locks-groups.html:13
-#: templates/web/projects/project-form.html:10
-#: templates/web/projects/project-list.html:7 templates/web/rooms/rooms.html:12
+#: templates/web/locks/lock-add-code.html:21
+#: templates/web/locks/lock-all-cards.html:19
+#: templates/web/locks/lock-all-cards.html:41
+#: templates/web/locks/lock-all-passcodes.html:20
+#: templates/web/locks/lock-all-passcodes.html:42
+#: templates/web/projects/project-form-main.html:7
+#: templates/web/projects/project-list.html:6
+#: templates/web/rooms/lock-details-cards.html:9
+#: templates/web/rooms/lock-details-codes-form.html:14
+#: templates/web/rooms/lock-details-codes.html:9
+#: templates/web/rooms/rooms.html:12
 msgid "Name"
 msgstr "Nombre"
 
-#: models.py:15 models.py:113 models.py:179 models.py:253
+#: models.py:19 models.py:239 models.py:305 models.py:379
 #: templates/web/channels/channel-form.html:28
 #: templates/web/channels/channel-list.html:8
 #: templates/web/companies/company-form.html:16
-#: templates/web/companies/company-list.html:6
+#: templates/web/companies/company-list.html:8
 #: templates/web/devices/device-form.html:30
-#: templates/web/projects/project-form.html:36
+#: templates/web/projects/project-form-main.html:26
 msgid "Active"
 msgstr "Activo"
 
-#: models.py:16 models.py:114 models.py:180 models.py:254
+#: models.py:20 models.py:240 models.py:306 models.py:380
 #: templates/web/channels/channel-form.html:40
 #: templates/web/companies/company-form.html:26
 #: templates/web/devices/device-form.html:40
-#: templates/web/projects/project-form.html:49
 msgid "Created at"
 msgstr "Creado en"
 
-#: models.py:22 templates/web/channels/channel-list.html:7
-#: templates/web/projects/project-form.html:17
-#: templates/web/projects/project-list.html:8
+#: models.py:26 templates/web/channels/channel-list.html:7
+#: templates/web/projects/project-form-main.html:14
+#: templates/web/projects/project-list.html:7
 msgid "Company"
 msgstr "Compañía"
 
-#: models.py:31
+#: models.py:35
 msgid "Used Languages"
 msgstr "Idiomas utilizados"
 
-#: models.py:44 models.py:116 templates/web/channels/channel-form.html:16
+#: models.py:50 models.py:242 templates/web/channels/channel-form.html:16
 #: templates/web/channels/channel-list.html:6
 #: templates/web/devices/device-list.html:51
 #: templates/web/keycards/keycard-form.html:24
-#: templates/web/locks-groups/lock-group-list.html:43
+#: templates/web/keycards/keycard-number-search.html:9
+#: templates/web/locks-by-project/lock-list.html:60
+#: templates/web/locks-groups/lock-group-list.html:44
 #: templates/web/locks-users/lock-user-list.html:41
-#: templates/web/locks/lock-list.html:59 templates/web/rooms/room-form.html:34
+#: templates/web/locks/lock-list.html:31
+#: templates/web/rooms-by-project/room-form.html:17
+#: templates/web/rooms/room-form.html:34
 msgid "Project"
 msgstr "Proyecto"
 
-#: models.py:85 models.py:544
+#: models.py:183 models.py:702
 msgid "Lock Username"
 msgstr "Usuario de la cerradura"
 
-#: models.py:86 models.py:545
+#: models.py:184 models.py:703
 msgid "Lock Password"
 msgstr "Contraseña de la cerradura"
 
-#: models.py:87
+#: models.py:185
 msgid "Lock Token"
 msgstr "Token de la cerradura"
 
-#: models.py:88
+#: models.py:186
 msgid "Lock Refresh Token"
 msgstr "Actualizar el token de la cerradura"
 
-#: models.py:89
+#: models.py:187
 msgid "UID"
 msgstr "UUID"
 
-#: models.py:90
+#: models.py:188
 msgid "Expire"
 msgstr "Expirar"
 
-#: models.py:91 models.py:133 models.py:256 models.py:323 models.py:324
-#: models.py:483 models.py:539 models.py:548 models.py:590
+#: models.py:189 models.py:259 models.py:382 models.py:449 models.py:450
+#: models.py:625 models.py:697 models.py:706 models.py:748
 #: templates/web/locks-users/lock-user-form.html:23
-#: templates/web/locks/lock-form.html:23
+#: templates/web/locks/lock-form.html:31
 msgid "Project UUID"
 msgstr "UUID del Proyecto"
 
-#: models.py:111 templates/web/channels/channel-form.html:54
+#: models.py:190 templates/web/projects/project-form-locks.html:39
+msgid "Text to share"
+msgstr ""
+
+#: models.py:237 templates/web/channels/channel-form.html:54
 msgid "UI-UUID"
 msgstr "UI-UUID"
 
-#: models.py:122 models.py:184 templates/web/devices/device-list.html:52
+#: models.py:248 models.py:310 templates/web/devices/device-list.html:52
 msgid "Channel"
 msgstr "Canal"
 
-#: models.py:134 models.py:546 models.py:629
+#: models.py:260 models.py:704 models.py:787
+#: templates/web/locks-by-project/lock-all-records.html:22
 #: templates/web/locks-users/lock-user-form.html:9
 #: templates/web/locks-users/lock-user-list.html:12
 #: templates/web/locks-users/lock-user-list.html:38
 #: templates/web/locks-users/locks-users.html:14
+#: templates/web/locks/lock-all-records.html:21
+#: templates/web/locks/lock-records-print.html:36
+#: templates/web/rooms/lock-details-records.html:10
 msgid "Username"
 msgstr "Nombre de usuario"
 
-#: models.py:135
+#: models.py:261
 msgid "Menus"
 msgstr "Menús"
 
-#: models.py:139
+#: models.py:265
 msgid "Project user"
 msgstr "Usuario del proyecto"
 
-#: models.py:171 models.py:245 models.py:318 models.py:481 models.py:587
+#: models.py:297 models.py:371 models.py:444 models.py:623 models.py:745
 #: templates/web/devices/device-form.html:16
 #: templates/web/devices/search_box.html:39
-#: templates/web/locks/lock-form.html:9 templates/web/locks/lock-list.html:58
-#: templates/web/locks/locks.html:11 templates/web/rooms/lock-list.html:14
-#: templates/web/rooms/room-form.html:22
+#: templates/web/locks-by-project/lock-search.html:12
+#: templates/web/locks/lock-form.html:17
+#: templates/web/locks/lock-search.html:12
+#: templates/web/rooms-by-project/room-form.html:15
+#: templates/web/rooms/lock-list.html:14 templates/web/rooms/room-form.html:22
 msgid "Alias"
 msgstr "Alias"
 
-#: models.py:172 models.py:246 templates/web/devices/device-form.html:23
+#: models.py:298 models.py:372 templates/web/devices/device-form.html:23
 #: templates/web/devices/search_box.html:34
 msgid "IMEI"
 msgstr "IMEI"
 
-#: models.py:173 models.py:247 templates/web/devices/device-form.html:48
+#: models.py:299 models.py:373 templates/web/devices/device-form.html:48
 msgid "Net type"
 msgstr "Tipo de red"
 
-#: models.py:174 models.py:248
+#: models.py:300 models.py:374
 msgid "Mac"
 msgstr "Mac"
 
-#: models.py:175 models.py:249
+#: models.py:301 models.py:375
 msgid "WiFi Mac"
 msgstr "Wifi Mac"
 
-#: models.py:176 models.py:250 models.py:319 models.py:588
+#: models.py:302 models.py:376 models.py:445 models.py:746
 #: templates/web/devices/device-form.html:69
 #: templates/web/devices/device-list.html:54
 #: templates/web/devices/search_box.html:26
-#: templates/web/locks/lock-form.html:16 templates/web/locks/lock-list.html:62
+#: templates/web/keycards-by-project/keycard-number-search.html:11
+#: templates/web/keycards/keycard-number-search.html:11
+#: templates/web/locks-by-project/lock-list.html:62
+#: templates/web/locks/lock-form.html:24 templates/web/locks/lock-list.html:34
 msgid "Room"
 msgstr "Habitación"
 
-#: models.py:177 models.py:251
+#: models.py:303 models.py:377
 msgid "Android ID"
 msgstr "ID Android"
 
-#: models.py:178 models.py:252
+#: models.py:304 models.py:378
 msgid "Serial Number"
 msgstr "Número de serie"
 
-#: models.py:181
+#: models.py:307
 msgid "Updated at"
 msgstr "Actualizado en"
 
-#: models.py:190 models.py:264
+#: models.py:316 models.py:390
 msgid "Device"
 msgstr "Dispositivo"
 
-#: models.py:255
+#: models.py:381
 msgid "Channel ID"
 msgstr "Canal ID"
 
-#: models.py:316
+#: models.py:442
 msgid "Last update"
 msgstr "Última actualización"
 
-#: models.py:320
+#: models.py:446
 msgid "Charge cache"
 msgstr "Caché de la carga"
 
-#: models.py:321
+#: models.py:447
 msgid "State cache"
 msgstr "Caché del estado"
 
-#: models.py:322
+#: models.py:448
 msgid "Gateway cache"
 msgstr "Caché del gateway"
 
-#: models.py:348
+#: models.py:475
 msgid "unlock"
 msgstr "Desbloquear"
 
-#: models.py:348
+#: models.py:475
 msgid "lock"
 msgstr "bloquear"
 
-#: models.py:477 models.py:540 models.py:582
+#: models.py:618 models.py:698 models.py:740
 #: templates/web/keycards/keycard-card.html:9
 msgid "Lock"
 msgstr "Bloquear"
 
-#| msgid "Serial Number"
-msgid "Number"
-msgstr "Número"
-
-#: models.py:484
-msgid "Lock Group UUID"
-msgstr "Bloquear UUID del grupo"
-
-#: models.py:537 templates/web/keycards/keycard-form.html:10
-msgid "Bluetooth Code"
-msgstr "Código Bluetooth"
-
-#: models.py:538 templates/web/keycards/keycard-form.html:17
-msgid "Card Reader Code"
-msgstr "Código del lector de tarjetas"
-
-#: models.py:547 templates/web/locks-users/lock-user-form.html:16
-msgid "Password"
-msgstr "Contraseña"
-
-#: models.py:585 templates/web/locks-groups/lock-group-form.html:19
+#: models.py:621 models.py:743
+#: templates/web/locks-groups/lock-group-form.html:19
 msgid "Order"
 msgstr "Posición"
 
-#: models.py:589
+#: models.py:624 templates/web/rooms-by-project/room-form.html:16
+#: templates/web/rooms/room-form.html:28
+msgid "Number"
+msgstr "Número"
+
+#: models.py:626
+msgid "Lock Group UUID"
+msgstr "Bloquear UUID del grupo"
+
+#: models.py:695 templates/web/keycards/keycard-form.html:10
+msgid "Bluetooth Code"
+msgstr "Código Bluetooth"
+
+#: models.py:696 templates/web/keycards/keycard-form.html:17
+msgid "Card Reader Code"
+msgstr "Código del lector de tarjetas"
+
+#: models.py:705 templates/web/locks-users/lock-user-form.html:16
+msgid "Password"
+msgstr "Contraseña"
+
+#: models.py:747
 msgid "Remote Name"
 msgstr "Nombre remoto"
 
-#: models.py:624
+#: models.py:782
 msgid "Lock group"
 msgstr "Bloquear grupo"
 
-#: models.py:628 templates/web/projects/project-token.html:5
+#: models.py:786 templates/web/projects/project-token.html:5
 msgid "Token"
 msgstr "Token"
 
-#: models.py:630 templates/web/rooms/lock-details-ekey-form.html:13
-#: templates/web/rooms/lock-details-ekey-form.html:14
+#: models.py:788 templates/web/rooms/lock-details-ekey-form.html:16
+#: templates/web/rooms/lock-details-ekey-form.html:17
 #: templates/web/rooms/lock-details-ekeys.html:10
 msgid "Key name"
 msgstr "Nombre de la llave"
 
-#: models.py:631
+#: models.py:789
 msgid "Ekey id"
 msgstr "ID de la llave electrónica"
 
-#: models.py:632
+#: models.py:790
 msgid "lock UUID"
 msgstr "bloquear UUID"
 
-#: models.py:634
+#: models.py:792
 msgid "Ini date"
 msgstr "Fecha de inicio"
 
-#: models.py:635
+#: models.py:793 templates/web/ekeys/ekey-list.html:17
 msgid "End date"
 msgstr "Fecha de fin"
 
-#: room_views.py:145 room_views.py:222
+#: room_views.py:94
+msgid "Error, room not found!"
+msgstr "No se ha encontrado el proyecto"
+
+#: room_views.py:161 room_views.py:237
 msgid "ERROR: Code must not to be empty!"
 msgstr "ERROR: El código no debe estar vacío"
 
@@ -302,53 +525,44 @@ msgstr "Nuevo canal"
 msgid "-- Select a project"
 msgstr "-- Seleccione un proyecto"
 
-#: templates/web/channels/channel-form.html:31
-#: templates/web/companies/company-form.html:19
-#: templates/web/devices/device-form.html:33
-#: templates/web/projects/project-form.html:40
-msgid "Yes"
-msgstr "Si"
-
-#: templates/web/channels/channel-form.html:32
-#: templates/web/companies/company-form.html:20
-#: templates/web/devices/device-form.html:34
-#: templates/web/projects/project-form.html:41
-msgid "No"
-msgstr "No"
-
 #: templates/web/channels/channel-form.html:63
 #: templates/web/companies/company-form.html:42
 #: templates/web/devices/device-form.html:104
 #: templates/web/keycards/keycard-form.html:40
+#: templates/web/locks-by-project/lock-add-code.html:39
 #: templates/web/locks-groups/lock-group-form.html:35
 #: templates/web/locks-users/lock-user-form.html:32
-#: templates/web/locks/lock-form.html:58 templates/web/locks/lock-list.html:35
-#: templates/web/locks/lock-list.html:49
-#: templates/web/projects/project-form.html:93
-#: templates/web/rooms/lock-details-cards-form.html:28
-#: templates/web/rooms/lock-details-codes-form.html:32
-#: templates/web/rooms/lock-details-ekey-form.html:39
+#: templates/web/locks/lock-add-code.html:37
+#: templates/web/locks/lock-add-group.html:16
+#: templates/web/locks/lock-form.html:79
+#: templates/web/projects/project-form.html:16
+#: templates/web/rooms/lock-details-cards-form.html:33
+#: templates/web/rooms/lock-details-codes-form.html:38
+#: templates/web/rooms/lock-details-ekey-form.html:42
 msgid "Save"
 msgstr "Guardar"
 
 #: templates/web/channels/channel-form.html:66
 #: templates/web/channels/channel-list.html:27
 #: templates/web/companies/company-form.html:45
-#: templates/web/companies/company-list.html:26
+#: templates/web/companies/company-list.html:28
 #: templates/web/devices/device-form.html:107
 #: templates/web/devices/device-list.html:79
 #: templates/web/keycards/keycard-form.html:43
+#: templates/web/locks-by-project/lock-all-cards.html:38
+#: templates/web/locks-by-project/lock-all-passcodes.html:39
 #: templates/web/locks-groups/lock-group-form.html:38
 #: templates/web/locks-groups/lock-group-list.html:21
 #: templates/web/locks-users/lock-user-form.html:35
 #: templates/web/locks-users/lock-user-list.html:19
-#: templates/web/locks/lock-all-cards.html:19
-#: templates/web/locks/lock-all-passcodes.html:29
-#: templates/web/locks/lock-form.html:61 templates/web/locks/lock-list.html:90
-#: templates/web/projects/project-form.html:96
-#: templates/web/projects/project-list.html:43
-#: templates/web/rooms/lock-details-cards.html:26
-#: templates/web/rooms/lock-details-codes.html:28
+#: templates/web/locks/lock-all-cards.html:60
+#: templates/web/locks/lock-all-passcodes.html:63
+#: templates/web/locks/lock-form.html:82
+#: templates/web/locks/lock-list-row.html:26
+#: templates/web/projects/project-form.html:19
+#: templates/web/projects/project-list.html:44
+#: templates/web/rooms/lock-details-cards.html:28
+#: templates/web/rooms/lock-details-codes.html:38
 #: templates/web/rooms/lock-details-ekeys.html:29
 #: templates/web/rooms/lock.details-codes.html:23
 #: templates/web/rooms/room-card.html:10
@@ -360,25 +574,25 @@ msgstr "¿Está seguro de eliminar este elemento?"
 #: templates/web/companies/company-form.html:45
 #: templates/web/devices/device-form.html:108
 #: templates/web/keycards/keycard-form.html:43
+#: templates/web/locks-by-project/lock-remove-code.html:20
 #: templates/web/locks-groups/lock-group-form.html:38
 #: templates/web/locks-users/lock-user-form.html:35
-#: templates/web/locks/lock-form.html:61
-#: templates/web/projects/project-form.html:96
-#: templates/web/projects/project-list.html:44
+#: templates/web/locks/lock-form.html:82
+#: templates/web/locks/lock-remove-code.html:19
+#: templates/web/projects/project-form.html:19
+#: templates/web/projects/project-list.html:45
 msgid "Remove"
 msgstr "Eliminar"
 
 #: templates/web/channels/channel-list.html:21
-#: templates/web/companies/company-list.html:21
+#: templates/web/companies/company-list.html:23
 #: templates/web/devices/devices.html:27
-#: templates/web/projects/project-list.html:9
-#: templates/web/projects/project-list.html:25
-#: templates/web/second-menu.html:13
+#: templates/web/projects/project-list.html:8 templates/web/second-menu.html:13
 msgid "Devices"
 msgstr "Dispositivos"
 
 #: templates/web/channels/channel-list.html:23
-#: templates/web/projects/project-list.html:41
+#: templates/web/projects/project-list.html:42
 msgid "Edit"
 msgstr "Editar"
 
@@ -387,8 +601,7 @@ msgid "Name, Company or Project"
 msgstr "Nombre, Compañía o Proyecto"
 
 #: templates/web/channels/channels.html:20
-#: templates/web/companies/company-list.html:19
-#: templates/web/projects/project-list.html:23
+#: templates/web/companies/company-list.html:21
 #: templates/web/second-menu.html:12
 msgid "Channels"
 msgstr "Canales"
@@ -406,7 +619,7 @@ msgstr "Compañías"
 msgid "New company"
 msgstr "Nueva compañía"
 
-#: templates/web/companies/company-list.html:17
+#: templates/web/companies/company-list.html:19
 #: templates/web/projects/projects.html:20 templates/web/second-menu.html:11
 msgid "Projects"
 msgstr "Proyectos"
@@ -424,13 +637,15 @@ msgid "Unassigneds"
 msgstr "Desasignados"
 
 #: templates/web/devices/device-assign.html:30
-#: templates/web/locks/lock-list.html:9 templates/web/locks/lock-list.html:13
-#: templates/web/locks/lock-list.html:17
-#: templates/web/rooms/lock-details.html:27
-#: templates/web/rooms/lock-details.html:38
-#: templates/web/rooms/lock-details.html:59
-#: templates/web/locks/lock-all-cards.html:29
-#: templates/web/locks/lock-all-passcodes.html:38
+#: templates/web/locks-by-project/lock-all-cards.html:10
+#: templates/web/locks-by-project/lock-all-passcodes.html:10
+#: templates/web/locks-by-project/lock-all-records.html:12
+#: templates/web/locks/lock-all-cards.html:12
+#: templates/web/locks/lock-all-passcodes.html:12
+#: templates/web/locks/lock-all-records.html:11
+#: templates/web/rooms/lock-details.html:28
+#: templates/web/rooms/lock-details.html:39
+#: templates/web/rooms/lock-details.html:60
 msgid "Close"
 msgstr "Cerrar"
 
@@ -440,6 +655,8 @@ msgid "New device"
 msgstr "Nuevo dispositivo"
 
 #: templates/web/devices/device-form.html:55
+#: templates/web/gateways-by-project/gateway-list.html:15
+#: templates/web/gateways/gateway-list.html:15
 msgid "MAC"
 msgstr "MAC"
 
@@ -458,6 +675,10 @@ msgstr "Número de serie"
 #: templates/web/devices/device-form.html:90
 msgid "Channel UUID"
 msgstr "Canal UUID"
+
+#: templates/web/devices/device-form.html:93
+msgid "-- Selecciona un proyecto"
+msgstr "-- Seleccione un proyecto"
 
 #: templates/web/devices/device-list.html:48
 msgid "IMEI - Serial - Alias"
@@ -484,9 +705,136 @@ msgstr "Nombre del canal"
 msgid "Serial"
 msgstr "Serie"
 
+#: templates/web/ekeys/ekey-list.html:7
+msgid "TTLock eKeys"
+msgstr "Usuarios TTLock"
+
+#: templates/web/ekeys/ekey-list.html:13
+msgid "eKey"
+msgstr "eKeys"
+
+#: templates/web/ekeys/ekey-list.html:14
+msgid "Lock Name"
+msgstr "Nombre TTLock"
+
+#: templates/web/ekeys/ekey-list.html:15
+#: templates/web/locks-by-project/lock-list.html:59
+#: templates/web/locks/lock-list.html:30
+msgid "Lock Alias"
+msgstr "Alias"
+
+#: templates/web/ekeys/ekey-list.html:16
+msgid "Start date"
+msgstr "Fecha de inicio"
+
+#: templates/web/ekeys/ekeys.html:21
+#: templates/web/projects/project-list.html:25
+#: templates/web/rooms/lock-details.html:19
+msgid "eKeys"
+msgstr "eKeys"
+
+#: templates/web/gateways-by-project/gateway-list.html:7
+#: templates/web/gateways/gateway-list.html:7
+msgid "TTLock Gateways"
+msgstr "Nombre TTLock"
+
+#: templates/web/gateways-by-project/gateway-list.html:14
+#: templates/web/gateways/gateway-list.html:14
+msgid "Network name"
+msgstr "Nombre de la llave"
+
+#: templates/web/gateways-by-project/gateway-list.html:16
+#: templates/web/gateways/gateway-list.html:16
+msgid "Version"
+msgstr ""
+
+#: templates/web/gateways-by-project/gateway-list.html:17
+#: templates/web/gateways/gateway-list.html:17
+msgid "Connected locks"
+msgstr "Conectado"
+
+#: templates/web/gateways-by-project/gateway-list.html:18
+#: templates/web/gateways/gateway-list.html:18
+msgid "Is online"
+msgstr ""
+
+#: templates/web/gateways-by-project/gateways.html:11
+#: templates/web/gateways/gateways.html:21
+#: templates/web/projects/project-list.html:23
+msgid "Gateways"
+msgstr "Puerta de enlace"
+
 #: templates/web/index.html:7
 msgid "Section title"
 msgstr "Título de la sección"
+
+#: templates/web/keycards-by-project/keycard-number-search.html:4
+#: templates/web/keycards/keycard-number-search.html:4
+#: templates/web/locks-by-project/lock-all-cards.html:12
+#: templates/web/locks/lock-all-cards.html:35
+msgid "Card list"
+msgstr "Tarjetas"
+
+#: templates/web/keycards-by-project/keycard-number-search.html:14
+#: templates/web/keycards/keycard-number-search.html:14
+#: templates/web/locks-by-project/lock-all-cards.html:20
+#: templates/web/locks-by-project/lock-all-passcodes.html:20
+#: templates/web/locks/lock-all-cards.html:42
+#: templates/web/locks/lock-all-passcodes.html:43
+#: templates/web/rooms/lock-details-cards.html:10
+#: templates/web/rooms/lock-details-codes.html:10
+#: templates/web/rooms/lock-details-ekeys.html:12
+#: templates/web/rooms/lock.details-codes.html:11
+msgid "Start Date"
+msgstr "Fecha de inicio"
+
+#: templates/web/keycards-by-project/keycard-number-search.html:15
+#: templates/web/keycards/keycard-number-search.html:15
+#: templates/web/locks-by-project/lock-all-cards.html:21
+#: templates/web/locks-by-project/lock-all-passcodes.html:21
+#: templates/web/locks/lock-all-cards.html:43
+#: templates/web/locks/lock-all-passcodes.html:44
+#: templates/web/rooms/lock-details-cards.html:11
+#: templates/web/rooms/lock-details-codes.html:11
+#: templates/web/rooms/lock-details-ekeys.html:13
+#: templates/web/rooms/lock.details-codes.html:11
+msgid "End Date"
+msgstr "Fecha de fin"
+
+#: templates/web/keycards-by-project/keycard-number-search.html:16
+#: templates/web/keycards/keycard-number-search.html:16
+#: templates/web/locks-by-project/lock-all-cards.html:22
+#: templates/web/locks-by-project/lock-all-passcodes.html:22
+#: templates/web/locks/lock-all-cards.html:24
+#: templates/web/locks/lock-all-cards.html:44
+#: templates/web/locks/lock-all-passcodes.html:25
+#: templates/web/locks/lock-all-passcodes.html:45
+#: templates/web/rooms/lock-details-cards.html:12
+#: templates/web/rooms/lock-details-codes.html:12
+#: templates/web/rooms/lock.details-codes.html:11
+msgid "Guest"
+msgstr "Huésped"
+
+#: templates/web/keycards-by-project/keycard-number-search.html:32
+#: templates/web/keycards/keycard-number-search.html:32
+msgid "Remove from guest"
+msgstr "Eliminar código"
+
+#: templates/web/keycards-by-project/keycard-number.html:11
+#: templates/web/keycards/keycard-number.html:11
+#: templates/web/rooms/lock-details-cards-form.html:9
+msgid "Card number"
+msgstr "Número de tarjeta"
+
+#: templates/web/keycards-by-project/keycard-number.html:14
+#: templates/web/keycards/keycard-number.html:14
+msgid "Click here and then place the card on the reader"
+msgstr ""
+
+#: templates/web/keycards-by-project/keycard-number.html:20
+#: templates/web/keycards/keycard-number.html:29
+msgid "Current card number"
+msgstr "Número de tarjeta"
 
 #: templates/web/keycards/keycard-card.html:5
 msgid "Bluetooth"
@@ -500,13 +848,228 @@ msgstr "Lector de tarjetas"
 msgid "New keycard"
 msgstr "Nueva tarjeta de acceso"
 
-#: templates/web/keycards/keycards-list.html:10
+#: templates/web/keycards/keycard-number-search.html:10
+msgid "Lock alias"
+msgstr "Cerraduras"
+
+#: templates/web/keycards/keycard-number-search.html:12
+#: templates/web/locks-by-project/lock-add-code.html:12
+#: templates/web/locks-by-project/lock-all-passcodes.html:18
+#: templates/web/locks-by-project/lock-all-records.html:23
+#: templates/web/locks-by-project/lock-remove-code.html:10
+#: templates/web/locks-by-project/lock-remove-code.html:16
+#: templates/web/locks-by-project/lock-search.html:16
+#: templates/web/locks/lock-add-code.html:10
+#: templates/web/locks/lock-all-passcodes.html:15
+#: templates/web/locks/lock-all-passcodes.html:41
+#: templates/web/locks/lock-all-records.html:22
+#: templates/web/locks/lock-records-print.html:37
+#: templates/web/locks/lock-remove-code.html:9
+#: templates/web/locks/lock-remove-code.html:15
+#: templates/web/locks/lock-search.html:16
+#: templates/web/rooms/lock-details-cards.html:8
+#: templates/web/rooms/lock-details-codes.html:8
+#: templates/web/rooms/lock-details-records.html:11
+#: templates/web/rooms/lock.details-codes.html:11
+msgid "Code"
+msgstr "Código"
+
+#: templates/web/keycards/keycards-list.html:9
 msgid "Add keycard"
 msgstr "Añadir tarjeta de acceso"
 
-#: templates/web/keycards/keycards.html:22
-msgid "Key Cards"
-msgstr "Tarjetas de acceso"
+#: templates/web/locks-by-project/lock-add-code.html:5
+#: templates/web/locks/lock-add-code.html:4
+msgid "Add Master Code"
+msgstr "Añadir código maestro"
+
+#: templates/web/locks-by-project/lock-add-code.html:5
+#: templates/web/locks-by-project/lock-remove-code.html:5
+#: templates/web/locks/lock-add-code.html:4
+#: templates/web/locks/lock-remove-code.html:4
+msgid "Master Card"
+msgstr "Añadir tarjeta maestra"
+
+#: templates/web/locks-by-project/lock-add-code.html:10
+#: templates/web/locks/lock-add-code.html:8
+msgid "Fill in the information below and press the save button"
+msgstr ""
+
+#: templates/web/locks-by-project/lock-add-code.html:15
+#: templates/web/locks-by-project/lock-all-cards.html:18
+#: templates/web/locks-by-project/lock-remove-code.html:13
+#: templates/web/locks/lock-add-code.html:13
+#: templates/web/locks/lock-all-cards.html:14
+#: templates/web/locks/lock-all-cards.html:40
+#: templates/web/locks/lock-remove-code.html:12
+msgid "Card"
+msgstr "Tarjetas"
+
+#: templates/web/locks-by-project/lock-add-code.html:19
+#: templates/web/locks-by-project/lock-add-code.html:23
+#: templates/web/locks/lock-add-code.html:17
+#: templates/web/locks/lock-add-code.html:21
+msgid "Click and write"
+msgstr ""
+
+#: templates/web/locks-by-project/lock-add-code.html:19
+#: templates/web/locks/lock-add-code.html:17
+msgid "Code or Card number"
+msgstr "Número de tarjeta"
+
+#: templates/web/locks-by-project/lock-add-code.html:35
+#: templates/web/locks/lock-add-code.html:33
+#: templates/web/rooms/lock-details-cards-form.html:31
+#: templates/web/rooms/lock-details-codes-form.html:32
+#: templates/web/rooms/lock-details-ekey-form.html:33
+#: templatetags/lock_tags.py:24 templatetags/lock_tags.py:31
+msgid "Permanent"
+msgstr "Permanente"
+
+#: templates/web/locks-by-project/lock-all-cards.html:23
+#: templates/web/locks-by-project/lock-all-passcodes.html:23
+#: templates/web/locks/lock-all-cards.html:45
+#: templates/web/locks/lock-all-passcodes.html:46
+#: templates/web/rooms/lock-details-cards.html:13
+#: templates/web/rooms/lock-details-codes.html:13
+msgid "Type"
+msgstr "Tipo"
+
+#: templates/web/locks-by-project/lock-all-cards.html:37
+#: templates/web/locks-by-project/lock-all-cards.html:39
+#: templates/web/locks/lock-all-cards.html:59
+#: templates/web/locks/lock-all-cards.html:61
+#: templates/web/rooms/lock-details-cards.html:27
+#: templates/web/rooms/lock-details-cards.html:29
+msgid "Remove card"
+msgstr "Eliminar tarjeta"
+
+#: templates/web/locks-by-project/lock-all-passcodes.html:12
+#: templates/web/locks/lock-all-passcodes.html:36
+#: templates/web/locks/lock-records-print.html:30
+msgid "Passcode list"
+msgstr "Lista de códigos de acceso"
+
+#: templates/web/locks-by-project/lock-all-passcodes.html:37
+#: templates/web/locks-by-project/lock-all-passcodes.html:40
+#: templates/web/locks/lock-all-passcodes.html:61
+#: templates/web/locks/lock-all-passcodes.html:64
+#: templates/web/rooms/lock-details-codes.html:36
+#: templates/web/rooms/lock-details-codes.html:38
+#: templates/web/rooms/lock-details-ekeys.html:28
+#: templates/web/rooms/lock.details-codes.html:21
+#: templates/web/rooms/lock.details-codes.html:23
+msgid "Remove code"
+msgstr "Eliminar código"
+
+#: templates/web/locks-by-project/lock-all-records.html:5
+#: templates/web/locks/lock-all-records.html:4
+msgid "CSV Export"
+msgstr ""
+
+#: templates/web/locks-by-project/lock-all-records.html:6
+#: templates/web/locks/lock-all-records.html:5
+msgid "PDF Export / Print"
+msgstr ""
+
+#: templates/web/locks-by-project/lock-all-records.html:14
+#: templates/web/locks/lock-all-records.html:14
+msgid "Access history"
+msgstr ""
+
+#: templates/web/locks-by-project/lock-all-records.html:20
+#: templates/web/locks/lock-all-records.html:19
+#: templates/web/locks/lock-records-print.html:34
+#: templates/web/rooms/lock-details-records.html:8
+msgid "Record type"
+msgstr "Tipo de red"
+
+#: templates/web/locks-by-project/lock-all-records.html:21
+#: templates/web/locks/lock-all-records.html:20
+#: templates/web/locks/lock-records-print.html:35
+#: templates/web/rooms/lock-details-records.html:9
+msgid "Success"
+msgstr ""
+
+#: templates/web/locks-by-project/lock-all-records.html:24
+#: templates/web/locks/lock-all-records.html:23
+#: templates/web/locks/lock-records-print.html:38
+#: templates/web/rooms/lock-details-records.html:12
+msgid "Lock date"
+msgstr "Nombre TTLock"
+
+#: templates/web/locks-by-project/lock-all-records.html:25
+#: templates/web/locks/lock-all-records.html:24
+#: templates/web/locks/lock-records-print.html:39
+#: templates/web/rooms/lock-details-records.html:13
+msgid "Server date"
+msgstr ""
+
+#: templates/web/locks-by-project/lock-list-row.html:14
+#: templates/web/locks/lock-list-row.html:14
+msgid "Update parameters"
+msgstr "Actualizado en"
+
+#: templates/web/locks-by-project/lock-list-row.html:16
+#: templates/web/locks/lock-list-row.html:16
+msgid "Get all passcodes"
+msgstr "Códigos de acceso"
+
+#: templates/web/locks-by-project/lock-list-row.html:19
+#: templates/web/locks/lock-list-row.html:19
+msgid "Get all cards"
+msgstr ""
+
+#: templates/web/locks-by-project/lock-list-row.html:21
+#: templates/web/locks/lock-list-row.html:21
+msgid "Get all registers"
+msgstr ""
+
+#: templates/web/locks-by-project/lock-list.html:61
+#: templates/web/locks/lock-list.html:33
+#: templates/web/rooms-by-project/room-form.html:18
+#: templates/web/rooms/room-form.html:37
+msgid "Group"
+msgstr "Grupo"
+
+#: templates/web/locks-by-project/lock-list.html:63
+#: templates/web/locks/lock-list.html:35 templates/web/rooms/lock-list.html:15
+msgid "Status"
+msgstr "Estado"
+
+#: templates/web/locks-by-project/lock-list.html:64
+#: templates/web/locks/lock-list.html:36 templates/web/rooms/lock-list.html:16
+msgid "Charge"
+msgstr "Carga"
+
+#: templates/web/locks-by-project/lock-list.html:65
+#: templates/web/locks/lock-list.html:37
+msgid "Gateway"
+msgstr "Puerta de enlace"
+
+#: templates/web/locks-by-project/lock-remove-code.html:5
+#: templates/web/locks/lock-remove-code.html:4
+msgid "Remove Master Code"
+msgstr "Eliminar tarjeta"
+
+#: templates/web/locks-by-project/lock-search.html:4
+#: templates/web/locks-by-project/lock-search.html:24
+#: templates/web/locks/lock-search.html:4
+#: templates/web/locks/lock-search.html:25
+msgid "Search"
+msgstr ""
+
+#: templates/web/locks-by-project/lock-search.html:20
+#: templates/web/locks/lock-search.html:20
+msgid "Card Code"
+msgstr "Código del lector de tarjetas"
+
+#: templates/web/locks-by-project/locks-content.html:13
+#: templates/web/locks/locks-content.html:14
+#: templates/web/projects/project-form-locks.html:4
+#: templates/web/projects/project-list.html:21
+msgid "Locks"
+msgstr "Cerraduras"
 
 #: templates/web/locks-groups/lock-group-form.html:3
 msgid "New lock group"
@@ -516,19 +1079,21 @@ msgstr "Nuevo grupo de cerraduras"
 msgid "TTLock Groups"
 msgstr "Grupo de TTLock"
 
-#: templates/web/locks-groups/lock-group-list.html:32
+#: templates/web/locks-groups/lock-group-list.html:33
+#: templates/web/locks/lock-add-group.html:4
 msgid "Add Group"
 msgstr "Añadir grupo"
 
-#: templates/web/locks-groups/lock-group-list.html:41
+#: templates/web/locks-groups/lock-group-list.html:42
 msgid "TTLock Name"
 msgstr "Nombre TTLock"
 
-#: templates/web/locks-groups/lock-group-list.html:42
+#: templates/web/locks-groups/lock-group-list.html:43
 msgid "TTLock Id"
 msgstr "Id TTLock"
 
-#: templates/web/locks-groups/lock-group-list.html:44
+#: templates/web/locks-groups/lock-group-list.html:45
+#: templates/web/rooms/room-form.html:16
 msgid "Orden"
 msgstr "Posición"
 
@@ -560,172 +1125,154 @@ msgstr "Contraseña TTLock"
 msgid "Locks Users"
 msgstr "Usuarios de cerraduras"
 
-#: templates/web/locks/lock-all-cards.html:4
-#: templates/web/locks/lock-all-passcodes.html:4
-msgid "Passcode list"
-msgstr "Lista de códigos de acceso"
+#: templates/web/locks/lock-add-group.html:10
+msgid "Select"
+msgstr ""
 
-#: templates/web/locks/lock-all-cards.html:8
-#: templates/web/locks/lock-all-passcodes.html:9
-#: templates/web/rooms/lock-details-cards.html:8
-#: templates/web/rooms/lock-details-codes.html:8
-#: templates/web/rooms/lock.details-codes.html:11
-msgid "Code"
-msgstr "Código"
+#: templates/web/locks/lock-add-group.html:10
+msgid "Select group"
+msgstr "-- Seleccione un grupo"
 
-#: templates/web/locks/lock-all-cards.html:8
-#: templates/web/locks/lock-all-passcodes.html:10
-#: templates/web/rooms/lock-details-cards.html:9
-#: templates/web/rooms/lock-details-codes.html:9
-#: templates/web/rooms/lock-details-ekeys.html:12
-#: templates/web/rooms/lock.details-codes.html:11
-msgid "Start Date"
-msgstr "Fecha de inicio"
+#: templates/web/locks/lock-all-cards.html:16
+msgid "Search for card..."
+msgstr ""
 
-#: templates/web/locks/lock-all-cards.html:8
-#: templates/web/locks/lock-all-passcodes.html:11
-#: templates/web/rooms/lock-details-cards.html:10
-#: templates/web/rooms/lock-details-codes.html:10
-#: templates/web/rooms/lock-details-ekeys.html:13
-#: templates/web/rooms/lock.details-codes.html:11
-msgid "End Date"
-msgstr "Fecha de fin"
-
-#: templates/web/locks/lock-all-cards.html:8
-#: templates/web/locks/lock-all-passcodes.html:12
-#: templates/web/rooms/lock-details-cards.html:11
-#: templates/web/rooms/lock-details-codes.html:11
-#: templates/web/rooms/lock.details-codes.html:11
-msgid "Guest"
-msgstr "Huésped"
-
-#: templates/web/locks/lock-all-cards.html:18
-#: templates/web/locks/lock-all-cards.html:20
-#: templates/web/rooms/lock-details-cards.html:25
-#: templates/web/rooms/lock-details-cards.html:27
-msgid "Remove card"
-msgstr "Eliminar tarjeta"
-
-#: templates/web/locks/lock-all-passcodes.html:13
-#: templates/web/rooms/lock-details-cards.html:12
-#: templates/web/rooms/lock-details-codes.html:12
-msgid "Type"
-msgstr "Tipo"
-
+#: templates/web/locks/lock-all-cards.html:21
+#: templates/web/locks/lock-all-cards.html:26
+#: templates/web/locks/lock-all-passcodes.html:22
 #: templates/web/locks/lock-all-passcodes.html:27
-#: templates/web/locks/lock-all-passcodes.html:29
-#: templates/web/rooms/lock-details-codes.html:26
-#: templates/web/rooms/lock-details-codes.html:28
-#: templates/web/rooms/lock-details-ekeys.html:28
-#: templates/web/rooms/lock.details-codes.html:21
-#: templates/web/rooms/lock.details-codes.html:23
-msgid "Remove code"
-msgstr "Eliminar código"
+msgid "Search for name..."
+msgstr ""
+
+#: templates/web/locks/lock-all-cards.html:31
+#: templates/web/locks/lock-all-passcodes.html:32
+msgid "Delete all"
+msgstr "Borrar"
+
+#: templates/web/locks/lock-all-passcodes.html:17
+msgid "Search for code..."
+msgstr ""
 
 #: templates/web/locks/lock-form.html:3
-msgid "New lock"
-msgstr "Nueva cerradura"
+msgid "Info lock"
+msgstr "Desbloquear"
 
-#: templates/web/locks/lock-list.html:9 templates/web/locks/lock-list.html:10
-msgid "Add group"
-msgstr "Añadir grupo"
+#: templates/web/locks/lock-form.html:38
+msgid "Group UUID"
+msgstr "Bloquear UUID del grupo"
 
-#: templates/web/locks/lock-list.html:13 templates/web/locks/lock-list.html:14
-msgid "Add master card"
-msgstr "Añadir tarjeta maestra"
+#: templates/web/locks/lock-list-row.html:23
+msgid "Edit lock"
+msgstr "Editar habitación"
 
-#: templates/web/locks/lock-list.html:17 templates/web/locks/lock-list.html:18
-msgid "Add master code"
-msgstr "Añadir código maestro"
+#: templates/web/locks/lock-list-row.html:25
+msgid "Remove lock"
+msgstr "Eliminar tarjeta"
 
-#: templates/web/locks/lock-list.html:40
-#: templates/web/rooms/lock-details-cards-form.html:9
-msgid "Card number"
-msgstr "Número de tarjeta"
+#: templates/web/locks/lock-records-print.html:29
+msgid "Imprimir"
+msgstr ""
 
-#: templates/web/locks/lock-list.html:47
-#: templates/web/rooms/lock-details-cards-form.html:26
-#: templates/web/rooms/lock-details-codes-form.html:26
-#: templates/web/rooms/lock-details-ekey-form.html:30
-#: templatetags/padword_tags.py:149
-msgid "Permanent"
-msgstr "Permanente"
+#: templates/web/locks/share-modal-body.html:7
+msgid "Share on whatsapp"
+msgstr ""
 
-#: templates/web/locks/lock-list.html:61 templates/web/rooms/room-form.html:50
-msgid "Group"
-msgstr "Grupo"
+#: templates/web/locks/share-modal-body.html:9
+msgid "Share on telegram"
+msgstr ""
 
-#: templates/web/locks/lock-list.html:63 templates/web/rooms/lock-list.html:15
-msgid "Status"
-msgstr "Estado"
+#: templates/web/locks/share-modal-body.html:10
+msgid "New code"
+msgstr "Nuevo dispositivo"
 
-#: templates/web/locks/lock-list.html:64 templates/web/rooms/lock-list.html:16
-msgid "Charge"
-msgstr "Carga"
+#: templates/web/locks/share-modal-body.html:11
+msgid "Send by email"
+msgstr ""
 
-#: templates/web/locks/lock-list.html:65
-msgid "Gateway"
-msgstr "Puerta de enlace"
+#: templates/web/locks/share-modal-body.html:13
+msgid "Copy to clicboard"
+msgstr ""
 
-#: templates/web/locks/locks.html:24
-#: templates/web/projects/project-form.html:71
-#: templates/web/projects/project-list.html:28
-msgid "Locks"
-msgstr "Cerraduras"
+#: templates/web/locks/share-modal.html:8
+msgid "Share"
+msgstr ""
+
+#: templates/web/projects/project-form-locks.html:7
+msgid "TTLock Username"
+msgstr "Nombre de usuario TTLock"
+
+#: templates/web/projects/project-form-locks.html:13
+msgid "TTLock Password"
+msgstr "Contraseña TTLock"
+
+#: templates/web/projects/project-form-locks.html:20
+msgid "Get token"
+msgstr "Obtener token"
+
+#: templates/web/projects/project-form-locks.html:24
+msgid "Refresh token"
+msgstr "Actualizar token"
+
+#: templates/web/projects/project-form-main.html:17
+#: templates/web/projects/project-form-main.html:42
+msgid "-- Select a company"
+msgstr "-- Seleccione una compañía"
+
+#: templates/web/projects/project-form-main.html:38
+msgid "Time zone"
+msgstr ""
+
+#: templates/web/projects/project-form-main.html:56
+msgid "Days after checkout to delete guest"
+msgstr ""
+
+#: templates/web/projects/project-form-main.html:63
+msgid "Prefix"
+msgstr "Prefijo"
+
+#: templates/web/projects/project-form-main.html:89
+msgid "Languages"
+msgstr "Idiomas utilizados"
+
+#: templates/web/projects/project-form-main.html:90
+msgid "Languages in project"
+msgstr "Idiomas del proyecto"
+
+#: templates/web/projects/project-form-regime.html:4
+msgid "Regimes"
+msgstr ""
+
+#: templates/web/projects/project-form-sensibo.html:4
+msgid "Air conditioner"
+msgstr ""
+
+#: templates/web/projects/project-form-sensibo.html:7
+msgid "PadAir Api Key"
+msgstr ""
 
 #: templates/web/projects/project-form.html:3
 msgid "New proyect"
 msgstr "Nuevo proyecto"
 
-#: templates/web/projects/project-form.html:20
-msgid "-- Select a company"
-msgstr "-- Seleccione una compañía"
-
-#: templates/web/projects/project-form.html:29
-msgid "Prefix"
-msgstr "Prefijo"
-
-#: templates/web/projects/project-form.html:56
-msgid "Used Languages (code separated by colons)"
-msgstr "Idiomas utilizados (código separado por dos puntos)"
-
-#: templates/web/projects/project-form.html:57
-msgid "Languages in project"
-msgstr "Idiomas del proyecto"
-
-#: templates/web/projects/project-form.html:74
-msgid "TTLock Username"
-msgstr "Nombre de usuario TTLock"
-
-#: templates/web/projects/project-form.html:81
-msgid "TTLock Password"
-msgstr "Contraseña TTLock"
-
-#: templates/web/projects/project-form.html:88
-msgid "Get token"
-msgstr "Obtener token"
-
-#: templates/web/projects/project-list.html:22
-msgid "Finger print"
-msgstr "Huella dactilar"
-
-#: templates/web/projects/project-list.html:30
+#: templates/web/projects/project-list.html:27
 msgid "Lock groups"
 msgstr "Grupo de cerraduras"
 
-#: templates/web/projects/project-list.html:34
+#: templates/web/projects/project-list.html:31
+msgid "Sensibo device"
+msgstr "Nuevo dispositivo"
+
+#: templates/web/projects/project-list.html:35
+msgid "Finger print"
+msgstr "Huella dactilar"
+
+#: templates/web/projects/project-list.html:38
 msgid "Categories"
 msgstr "Categorías"
 
-#: templates/web/projects/project-list.html:38
-#: templates/web/projects/upload-json.html:13
-msgid "Upload"
-msgstr "Subir"
-
-#: templates/web/projects/project-list.html:39
-#: templates/web/second-menu.html:15
-msgid "Bookings"
-msgstr "Reservas"
+#: templates/web/projects/project-token.html:5
+msgid "expire:"
+msgstr "Expirar"
 
 #: templates/web/projects/project-token.html:12
 msgid "Refresh Token"
@@ -743,21 +1290,45 @@ msgstr "Nuevo proyecto"
 msgid "Upload content"
 msgstr "Subir contenido"
 
+#: templates/web/projects/upload-json.html:13
+msgid "Upload"
+msgstr "Subir"
+
 #: templates/web/projects/upload-json.html:14
 msgid "Cancel"
 msgstr "Cancelar"
 
+#: templates/web/rooms-by-project/room-form.html:6
+#: templates/web/rooms/room-form.html:6
+msgid "Edit room"
+msgstr "Editar habitación"
+
+#: templates/web/rooms-by-project/rooms-list.html:4
+#: templates/web/rooms/rooms-list.html:5
+msgid "Rooms"
+msgstr "Habitaciones"
+
+#: templates/web/rooms/lock-details-cards-form.html:13
+msgid "Card name"
+msgstr "Número de tarjeta"
+
 #: templates/web/rooms/lock-details-codes-form.html:9
+#: templates/web/rooms/lock-details-codes-form.html:10
 msgid "4-9 Digits code - Empty for random code"
 msgstr "Código de 4-9 dígitos - Vacío para código aleatorio"
 
-#: templates/web/rooms/lock-details-codes-form.html:30
-#: templatetags/padword_tags.py:147
+#: templates/web/rooms/lock-details-codes-form.html:36
+#: templatetags/lock_tags.py:22
 msgid "One use"
 msgstr "Un solo uso"
 
-#: templates/web/rooms/lock-details-ekey-form.html:9
-#: templates/web/rooms/lock-details-ekey-form.html:10
+#: templates/web/rooms/lock-details-codes.html:33
+#: templates/web/rooms/lock-details-codes.html:34
+msgid "Share code"
+msgstr ""
+
+#: templates/web/rooms/lock-details-ekey-form.html:12
+#: templates/web/rooms/lock-details-ekey-form.html:13
 msgid "User to send"
 msgstr "Usuario a enviar"
 
@@ -786,21 +1357,21 @@ msgstr "Códigos de acceso"
 msgid "Cards"
 msgstr "Tarjetas"
 
-#: templates/web/rooms/lock-details.html:19
-msgid "eKeys"
-msgstr "eKeys"
+#: templates/web/rooms/lock-details.html:20
+msgid "Records"
+msgstr ""
 
-#: templates/web/rooms/lock-details.html:27
+#: templates/web/rooms/lock-details.html:28
 #: templates/web/rooms/lock.details-codes.html:8
 msgid "Add code"
 msgstr "Añadir código"
 
-#: templates/web/rooms/lock-details.html:37
 #: templates/web/rooms/lock-details.html:38
+#: templates/web/rooms/lock-details.html:39
 msgid "Add card"
 msgstr "Añadir tarjeta"
 
-#: templates/web/rooms/lock-details.html:59
+#: templates/web/rooms/lock-details.html:60
 msgid "Add eKey"
 msgstr "Añadir eKey"
 
@@ -816,11 +1387,7 @@ msgstr "Lista de códigos de acceso"
 msgid "Delete"
 msgstr "Borrar"
 
-#: templates/web/rooms/room-form.html:6
-msgid "Edit room"
-msgstr "Editar habitación"
-
-#: templates/web/rooms/room-form.html:53
+#: templates/web/rooms/room-form.html:41
 msgid "-- Select a group"
 msgstr "-- Seleccione un grupo"
 
@@ -828,26 +1395,41 @@ msgstr "-- Seleccione un grupo"
 msgid "Add room"
 msgstr "Añadir habitación"
 
-#: templates/web/rooms/rooms-list.html:5
-msgid "Rooms"
-msgstr "Habitaciones"
-
 #: templates/web/second-menu.html:14
 msgid "Forms"
 msgstr "Formularios"
 
-#: templatetags/padword_tags.py:150
+#: templates/web/second-menu.html:15
+msgid "Bookings"
+msgstr "Reservas"
+
+#: templatetags/lock_tags.py:25 templatetags/lock_tags.py:32
 msgid "Period"
 msgstr "Periodo"
 
-#: views.py:29
+#: views.py:31
 msgid "Category not found!"
 msgstr "No se ha encontrado la categoría"
 
-#: views.py:35 views.py:44
+#: views.py:37 views.py:46
 msgid "Project not found!"
 msgstr "No se ha encontrado el proyecto"
 
-#: views.py:56
+#: views.py:62
 msgid "Menu not found!"
 msgstr "No se ha encontrado el menú"
+
+#~ msgid "Not connected"
+#~ msgstr "No conectado"
+
+#~ msgid "Key Cards"
+#~ msgstr "Tarjetas de acceso"
+
+#~ msgid "New lock"
+#~ msgstr "Nueva cerradura"
+
+#~ msgid "Add group"
+#~ msgstr "Añadir grupo"
+
+#~ msgid "Used Languages (code separated by colons)"
+#~ msgstr "Idiomas utilizados (código separado por dos puntos)"

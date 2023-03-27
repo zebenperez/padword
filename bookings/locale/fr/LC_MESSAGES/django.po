@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-10-28 08:57+0000\n"
+"POT-Creation-Date: 2023-03-23 13:04+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,50 +17,50 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#: form_views.py:82 form_views.py:129 views.py:354 views.py:539
+#: form_views.py:82 form_views.py:129 views.py:309 views.py:538
 msgid "Form not found!"
 msgstr "Formulaire non trouvé !"
 
-#: form_views.py:88 form_views.py:110 views.py:558 views.py:564
+#: form_views.py:88 form_views.py:110 views.py:557 views.py:563
 msgid "Category not found!"
 msgstr "Catégorie non trouvée !"
 
-#: guest_views.py:101
+#: guest_views.py:95
+msgid "User not valid!"
+msgstr "Utilisateur non trouvé !"
+
+#: guest_views.py:156
 msgid "You must to complete username and password!"
 msgstr ""
 
-#: guest_views.py:476
+#: guest_views.py:531
 msgid "Sorry, there was a problem with your booking, please try again!"
 msgstr ""
 "Désolé, il y a eu un problème avec votre réservation, veuillez réessayer !"
 
-#: guest_views.py:634
-#, fuzzy
-#| msgid "Order {} with current status {}"
+#: guest_views.py:702
 msgid "- Order {} with current status {}\n"
 msgstr "Commande {} avec statut actuel {}"
 
-#: guest_views.py:635
+#: guest_views.py:703
 msgid "- Not readed notifications -> {}"
 msgstr ""
 
-#: guest_views.py:636
-#, fuzzy
-#| msgid "You have some news in your orders:\n"
+#: guest_views.py:704
 msgid "You have some news\n"
 msgstr "Vous avez des nouvelles dans vos commandes : \n"
 
-#: guest_views.py:670
+#: guest_views.py:757
 msgid "The lock could not be opened, sorry for the inconvenience."
 msgstr ""
 
-#: models.py:24 models.py:37 models.py:48 models.py:74 models.py:168
-#: models.py:191 models.py:209 models.py:282
+#: models.py:24 models.py:37 models.py:48 models.py:81 models.py:181
+#: models.py:204 models.py:222 models.py:295
 #: templates/forms/form-general.html:24
 msgid "Code"
 msgstr "Code"
 
-#: models.py:25 models.py:38 models.py:49 models.py:75 models.py:111
+#: models.py:25 models.py:38 models.py:49 models.py:82 models.py:119
 #: templates/bookings/guest/bookings-by-guest-actual.html:18
 #: templates/bookings/guest/bookings-by-guest-original.html:12
 #: templates/forms/block-form.html:14 templates/forms/form-general.html:17
@@ -72,7 +72,7 @@ msgstr "Nom"
 msgid "Color"
 msgstr "Couleur"
 
-#: models.py:32 models.py:33 models.py:399
+#: models.py:32 models.py:33 models.py:413
 #: templates/bookings/cat-manage/booking-list.html:17
 #: templates/bookings/guest/bookings-by-guest-actual.html:21
 #: templates/bookings/guest/bookings-by-guest-original.html:15
@@ -90,7 +90,7 @@ msgstr "Statut"
 msgid "Field type"
 msgstr "Type de champ"
 
-#: models.py:44 models.py:62 models.py:211
+#: models.py:44 models.py:62 models.py:224
 msgid "Answer type"
 msgstr "Type de réponse"
 
@@ -98,7 +98,7 @@ msgstr "Type de réponse"
 msgid "Answers types"
 msgstr "Types de réponses"
 
-#: models.py:55 models.py:193 templates/forms/block-form.html:31
+#: models.py:55 models.py:206 templates/forms/block-form.html:31
 msgid "Question type"
 msgstr "Type de question"
 
@@ -118,221 +118,221 @@ msgstr "Réponse"
 msgid "Answers"
 msgstr "Réponses"
 
-#: models.py:76
+#: models.py:83
 msgid "Template"
 msgstr "Modèle"
 
-#: models.py:77
+#: models.py:84
 msgid "Template Base"
 msgstr "Modèle"
 
-#: models.py:78
-#, fuzzy
-#| msgid "Template"
+#: models.py:85
 msgid "Template Login"
 msgstr "Modèle"
 
-#: models.py:79 models.py:425
+#: models.py:86 models.py:439
 msgid "Project UUID"
 msgstr "UUID du projet"
 
-#: models.py:85 models.py:120
+#: models.py:87
+msgid "CSS"
+msgstr ""
+
+#: models.py:93 models.py:128
 msgid "Form type"
 msgstr "Type de formulaire"
 
-#: models.py:86
+#: models.py:94
 msgid "Forms type"
 msgstr "Types de formulaires"
 
-#: models.py:108
+#: models.py:116
 msgid "This form is active for guests"
 msgstr "Ce formulaire est actif pour les invités"
 
-#: models.py:109
+#: models.py:117
 msgid "Show description"
 msgstr "Afficher la description"
 
-#: models.py:110 templates/forms/form-general.html:87
+#: models.py:118 templates/forms/form-general.html:87
 msgid "UUID"
 msgstr "UUID"
 
-#: models.py:112 templates/forms/form-list.html:10
+#: models.py:120 templates/forms/form-list.html:10
 msgid "Category"
 msgstr "Catégorie"
 
-#: models.py:116 templates/forms/form-form.html:15
+#: models.py:124 templates/forms/form-form.html:15
 #: templates/forms/form-general.html:31 templates/forms/timetable.html:9
 msgid "Description"
 msgstr "Description"
 
-#: models.py:117
+#: models.py:125
 msgid "Description Width"
 msgstr "Description Largeur"
 
-#: models.py:118
-#, fuzzy
-#| msgid "Description Width"
+#: models.py:126
 msgid "Description out of order"
 msgstr "Description Largeur"
 
-#: models.py:161
+#: models.py:174
 msgid "2.- Form"
 msgstr "2.- Formulaire"
 
-#: models.py:162
+#: models.py:175
 msgid "2.- Forms"
 msgstr "2.- Formes"
 
-#: models.py:166
+#: models.py:179
 msgid "Private"
 msgstr "Privé"
 
-#: models.py:167 models.py:189 models.py:208 templates/forms/block-form.html:7
+#: models.py:180 models.py:202 models.py:221 templates/forms/block-form.html:7
 msgid "Order"
 msgstr "Commandez"
 
-#: models.py:169 models.py:377 models.py:398 models.py:413
+#: models.py:182 models.py:391 models.py:412 models.py:427
 msgid "Text"
 msgstr "Texte"
 
-#: models.py:170 models.py:228 models.py:237 models.py:245 models.py:257
-#: models.py:381
+#: models.py:183 models.py:241 models.py:250 models.py:258 models.py:270
+#: models.py:395
 msgid "Form"
 msgstr "Formulaire"
 
-#: models.py:184
+#: models.py:197
 msgid "3.- Question block"
 msgstr "3.- Bloc de questions"
 
-#: models.py:185
+#: models.py:198
 msgid "3.- Questions blocks"
 msgstr "3.- Blocs de questions"
 
-#: models.py:190
+#: models.py:203
 msgid "Max number of answers"
 msgstr "Nombre maximal de réponses"
 
-#: models.py:192 models.py:210 models.py:212 models.py:379
+#: models.py:205 models.py:223 models.py:225 models.py:393
 msgid "Question"
 msgstr "Question"
 
-#: models.py:194
+#: models.py:207
 msgid "Block"
 msgstr "Bloc"
 
-#: models.py:195
+#: models.py:208
 msgid "Parent"
 msgstr "Parent"
 
-#: models.py:201
+#: models.py:214
 msgid "4.- Question"
 msgstr "4.- Question"
 
-#: models.py:202
+#: models.py:215
 msgid "4.- Questions"
 msgstr "4.- Questions"
 
-#: models.py:206
+#: models.py:219
 msgid "Obligatory"
 msgstr "Obligatoire"
 
-#: models.py:207
+#: models.py:220
 msgid "Read only"
 msgstr "Lecture seulement"
 
-#: models.py:222 models.py:380
+#: models.py:235 models.py:394
 msgid "Field"
 msgstr "Champ"
 
-#: models.py:223
+#: models.py:236
 msgid "Fields"
 msgstr "Champs"
 
-#: models.py:227
+#: models.py:240
 msgid "Channel"
 msgstr "Chaîne"
 
-#: models.py:236
+#: models.py:249
 msgid "Email"
 msgstr ""
 
-#: models.py:240
+#: models.py:253
 msgid "Email From"
 msgstr ""
 
-#: models.py:241
+#: models.py:254
 msgid "Subject New"
 msgstr ""
 
-#: models.py:242
+#: models.py:255
 msgid "Subject Change"
 msgstr ""
 
-#: models.py:243
+#: models.py:256
 msgid "Body New"
 msgstr ""
 
-#: models.py:244
+#: models.py:257
 msgid "Body Change"
 msgstr ""
 
-#: models.py:248 templates/forms/timetable.html:22
+#: models.py:261 templates/forms/timetable.html:22
 msgid "Monday"
 msgstr ""
 
-#: models.py:249 templates/forms/timetable.html:26
+#: models.py:262 templates/forms/timetable.html:26
 msgid "Tuesday"
 msgstr ""
 
-#: models.py:250 templates/forms/timetable.html:30
+#: models.py:263 templates/forms/timetable.html:30
 msgid "Wednesday"
 msgstr ""
 
-#: models.py:251 templates/forms/timetable.html:34
+#: models.py:264 templates/forms/timetable.html:34
 msgid "Thursday"
 msgstr ""
 
-#: models.py:252 templates/forms/timetable.html:38
+#: models.py:265 templates/forms/timetable.html:38
 msgid "Friday"
 msgstr ""
 
-#: models.py:253 templates/forms/timetable.html:42
+#: models.py:266 templates/forms/timetable.html:42
 msgid "Saturday"
 msgstr ""
 
-#: models.py:254 templates/forms/timetable.html:46
+#: models.py:267 templates/forms/timetable.html:46
 msgid "Sunday"
 msgstr ""
 
-#: models.py:255
-#, fuzzy
-#| msgid "Initial date"
+#: models.py:268
 msgid "Initial Time"
 msgstr "Date initiale"
 
-#: models.py:256
-#, fuzzy
-#| msgid "End date"
+#: models.py:269
 msgid "End Time"
 msgstr "Date de fin"
 
-#: models.py:283
+#: models.py:296
 msgid "Creation date"
 msgstr "Date de création"
 
-#: models.py:284 models.py:424
+#: models.py:297 models.py:438
 msgid "Guest UUID"
 msgstr "UUID de l'invité"
 
-#: models.py:285
+#: models.py:298
+msgid "Guest name"
+msgstr "Utilisateur invité"
+
+#: models.py:299
 msgid "Form UUID"
 msgstr "UUID du formulaire"
 
-#: models.py:287
+#: models.py:301
 msgid "Amount to pay"
 msgstr ""
 
-#: models.py:288 templates/bookings/cat-manage/booking-list.html:15
+#: models.py:302 templates/bookings/cat-manage/booking-list.html:15
 #: templates/bookings/guest/bookings-by-guest-actual.html:22
 #: templates/bookings/manage/booking-list.html:17
 #: templates/bookings/pr-manage/booking-list.html:17
@@ -340,59 +340,59 @@ msgstr ""
 msgid "Payment Type"
 msgstr ""
 
-#: models.py:365
+#: models.py:379
 msgid "1.- Form instance"
 msgstr "1.- Forme de l'instance"
 
-#: models.py:366
+#: models.py:380
 msgid "1.- Form instances"
 msgstr "1.- Instances de forme"
 
-#: models.py:376
+#: models.py:390
 msgid "Index"
 msgstr "Index"
 
-#: models.py:378
+#: models.py:392
 msgid "Document"
 msgstr "Document"
 
-#: models.py:391
+#: models.py:405
 msgid "Answer instance"
 msgstr "Exemple de réponse"
 
-#: models.py:392
+#: models.py:406
 msgid "Answer instances"
 msgstr "Réponses aux instances"
 
-#: models.py:395
+#: models.py:409
 msgid "Read"
 msgstr "Lire"
 
-#: models.py:397 models.py:412
+#: models.py:411 models.py:426
 msgid "User"
 msgstr "Utilisateur"
 
-#: models.py:400 models.py:414
+#: models.py:414 models.py:428
 msgid "Form instance"
 msgstr "Exemple de formulaire"
 
-#: models.py:406 models.py:407
+#: models.py:420 models.py:421
 msgid "Form Instance Status"
 msgstr "Statut de l'instance du formulaire"
 
-#: models.py:420
+#: models.py:434
 msgid "Form log"
 msgstr "Journal des formulaires"
 
-#: models.py:421
+#: models.py:435
 msgid "Form logs"
 msgstr "Journaux de bord"
 
-#: models.py:426
+#: models.py:440
 msgid "Username"
 msgstr "Nom d'utilisateur :"
 
-#: models.py:429
+#: models.py:443
 msgid "Guest user"
 msgstr "Utilisateur invité"
 
@@ -432,52 +432,71 @@ msgstr ""
 
 #: templates/bookings/cat-manage/booking-row.html:17
 #: templates/bookings/manage/booking-logs.html:3
-#: templates/bookings/manage/booking-row.html:27
+#: templates/bookings/manage/booking-page-drag.html:26
+#: templates/bookings/manage/booking-row-drag.html:27
+#: templates/bookings/manage/booking-row.html:33
 #: templates/bookings/pr-manage/booking-logs.html:3
+#: templates/bookings/pr-manage/booking-page-drag.html:24
 #: templates/bookings/pr-manage/booking-row.html:20
 msgid "Log"
 msgstr "Log"
 
 #: templates/bookings/cat-manage/booking-row.html:19
-#: templates/bookings/manage/booking-row.html:29
+#: templates/bookings/manage/booking-page-drag.html:28
+#: templates/bookings/manage/booking-row-drag.html:29
+#: templates/bookings/manage/booking-row.html:35
+#: templates/bookings/pr-manage/booking-page-drag.html:26
 #: templates/bookings/pr-manage/booking-row.html:22
 msgid "View"
 msgstr "Voir"
 
 #: templates/bookings/cat-manage/bookings.html:11
 #: templates/bookings/guest/bookings-by-guest-original.html:7
+#: templates/bookings/manage/bookings-drag.html:21
 #: templates/bookings/manage/bookings.html:11
 #: templates/bookings/menus/menu_top.html:24
 #: templates/bookings/menus/menu_top_lanis.html:34
+#: templates/bookings/pr-manage/bookings-drag.html:28
 #: templates/bookings/pr-manage/bookings.html:11
 msgid "Bookings"
 msgstr "Réservations"
 
 #: templates/bookings/cat-manage/search_box.html:30
 #: templates/bookings/cat-manage/search_box.html:54
-#: templates/bookings/manage/search_box.html:44
-#: templates/bookings/pr-manage/search_box.html:49
+#: templates/bookings/pr-manage/search_box.html:50
 #: templates/forms/forms.html:23
 msgid "All"
 msgstr "Tous"
 
 #: templates/bookings/cat-manage/search_box.html:36
 #: templates/bookings/manage/search_box.html:26
-#: templates/bookings/pr-manage/search_box.html:31
+#: templates/bookings/pr-manage/search_box.html:32
 msgid "Guest Name, Surname, Email, Phone, Room"
 msgstr "Nom, prénom, email, téléphone, chambre de l'invité."
 
 #: templates/bookings/cat-manage/search_box.html:40
 #: templates/bookings/manage/search_box.html:31
-#: templates/bookings/pr-manage/search_box.html:36
+#: templates/bookings/pr-manage/search_box.html:37
 msgid "Initial date"
 msgstr "Date initiale"
 
 #: templates/bookings/cat-manage/search_box.html:45
 #: templates/bookings/manage/search_box.html:36
-#: templates/bookings/pr-manage/search_box.html:41
+#: templates/bookings/pr-manage/search_box.html:42
 msgid "End date"
 msgstr "Date de fin"
+
+#: templates/bookings/ecom/band-scan.html:4
+msgid "Your regime is"
+msgstr ""
+
+#: templates/bookings/ecom/band-scan.html:5
+msgid "Your card number is"
+msgstr ""
+
+#: templates/bookings/ecom/band-scan.html:6
+msgid "Purchase will be load in your card"
+msgstr ""
 
 #: templates/bookings/ecom/items-shop-field.html:42
 msgid "Select"
@@ -516,8 +535,6 @@ msgstr "Fermer"
 #: templates/bookings/ecom/shopping_cart.html:25
 #: templates/bookings/ecom/shopping_cart2.html:26
 #: templates/bookings/ecom/shopping_cart3.html:25
-#, fuzzy
-#| msgid "Shopping"
 msgid "View Shopping Cart"
 msgstr "Voir le panier"
 
@@ -528,15 +545,15 @@ msgstr "Voir le panier"
 msgid "Cancel Order"
 msgstr "Annuler la commande"
 
-#: templates/bookings/ecom/view-payment-types.html:12
+#: templates/bookings/ecom/view-payment-types.html:21
 msgid "Amount to pay (10, 20, 50...)"
 msgstr ""
 
-#: templates/bookings/ecom/view-payment-types.html:28
+#: templates/bookings/ecom/view-payment-types.html:49
 msgid "Back"
 msgstr ""
 
-#: templates/bookings/ecom/view-payment-types.html:32
+#: templates/bookings/ecom/view-payment-types.html:53
 #: templates/bookings/general/general.html:19
 msgid "Send Order"
 msgstr "Envoyer la commande"
@@ -620,6 +637,7 @@ msgstr "Merci d'utiliser ce service !"
 msgid "(This window will be close in a few seconds)"
 msgstr "(Cette fenêtre sera fermée dans quelques secondes)"
 
+#: templates/bookings/guest/guest-welcome-error.html:8
 #: templates/bookings/guest/guest-welcome.html:8
 msgid "Welcome"
 msgstr "Bienvenue sur"
@@ -627,6 +645,7 @@ msgstr "Bienvenue sur"
 #: templates/bookings/guest/guest-welcome.html:15
 #: templates/bookings/guest/guest-welcome.html:18
 #: templates/bookings/login/login_lagos.html:42
+#: templates/bookings/login/login_languages.html:42
 msgid "Access"
 msgstr "Accès"
 
@@ -655,35 +674,48 @@ msgid "Your reservation has been cancelled correctly!"
 msgstr "Votre réservation a été correctement annulée !"
 
 #: templates/bookings/login/login_lagos.html:3
+#: templates/bookings/login/login_languages.html:3
 msgid "Your username and password didn't match. Please try again."
 msgstr ""
 
 #: templates/bookings/login/login_lagos.html:9
+#: templates/bookings/login/login_languages.html:9
 msgid "Log in"
 msgstr ""
 
 #: templates/bookings/login/login_lagos.html:21
+#: templates/bookings/login/login_languages.html:21
 msgid "Prefered Language"
 msgstr ""
 
 #: templates/bookings/login/login_lagos.html:23
+#: templates/bookings/login/login_languages.html:23
 msgid "ES - Español"
 msgstr ""
 
 #: templates/bookings/login/login_lagos.html:24
+#: templates/bookings/login/login_languages.html:24
 msgid "EN - English"
 msgstr ""
 
 #: templates/bookings/login/login_lagos.html:25
+#: templates/bookings/login/login_languages.html:25
 msgid "DE - Deutsch"
 msgstr ""
 
 #: templates/bookings/login/login_lagos.html:30
+#: templates/bookings/login/login_languages.html:30
 msgid "Phone or email"
 msgstr ""
 
 #: templates/bookings/login/login_lagos.html:34
+#: templates/bookings/login/login_languages.html:34
 msgid "Room number"
+msgstr ""
+
+#: templates/bookings/manage/booking-list.html:33
+#: templates/bookings/pr-manage/booking-list.html:33
+msgid "See more"
 msgstr ""
 
 #: templates/bookings/manage/booking-logs.html:14
@@ -691,19 +723,25 @@ msgstr ""
 msgid "close"
 msgstr "Fermer"
 
-#: templates/bookings/manage/booking-row.html:20
+#: templates/bookings/manage/booking-page-drag.html:19
+#: templates/bookings/manage/booking-row-drag.html:20
+#: templates/bookings/manage/booking-row.html:26
 #: templates/bookings/pr-manage/booking-row.html:18
 msgid "Booking ID"
 msgstr "ID de réservation"
 
-#: templates/bookings/manage/booking-row.html:33
+#: templates/bookings/manage/booking-page-drag.html:32
+#: templates/bookings/manage/booking-row-drag.html:33
+#: templates/bookings/manage/booking-row.html:39
 #: templates/bookings/pr-manage/booking-row.html:26
 #: templates/forms/emails.html:16 templates/forms/form-row.html:13
 #: templates/forms/timetable.html:59
 msgid "Remove"
 msgstr "Retirer"
 
-#: templates/bookings/manage/booking-row.html:34
+#: templates/bookings/manage/booking-page-drag.html:33
+#: templates/bookings/manage/booking-row-drag.html:34
+#: templates/bookings/manage/booking-row.html:40
 #: templates/bookings/pr-manage/booking-row.html:27
 #: templates/forms/form-row.html:13
 msgid "Are you sure to remove this element?"
@@ -715,7 +753,7 @@ msgid "Project name"
 msgstr "Nom du projet"
 
 #: templates/bookings/manage/search_box.html:21
-#: templates/bookings/pr-manage/search_box.html:26
+#: templates/bookings/pr-manage/search_box.html:27
 msgid "Service name"
 msgstr "Nom du service"
 
@@ -736,13 +774,39 @@ msgstr "Changement de statut"
 msgid "Comment for the following state"
 msgstr ""
 
-#: templates/bookings/menus/menu_brujas.html:5
+#: templates/bookings/menus/menu_brujas_qr.html:5
+msgid "Info"
+msgstr ""
+
+#: templates/bookings/menus/menu_brujas_qr_base.html:22
+#: templates/bookings/menus/menu_keys_base.html:23
+msgid "Cerrar ventana"
+msgstr ""
+
+#: templates/bookings/menus/menu_brujas_qr_base.html:26
+#: templates/bookings/menus/menu_keys_base.html:27
+#: templates/bookings/menus/menu_top_lagos.html:76
+msgid "Close session"
+msgstr ""
+
+#: templates/bookings/menus/menu_coliving.html:5
+#: templates/bookings/menus/menu_destkey.html:5
 #: templates/bookings/menus/menu_dponte.html:5
+#: templates/bookings/menus/menu_favorita.html:5
 #: templates/bookings/menus/menu_island.html:5
+#: templates/bookings/menus/menu_keys.html:5
+#: templates/bookings/menus/menu_lightbooking.html:5
+#: templates/bookings/menus/menu_livian.html:5
 #: templates/bookings/menus/menu_luxury.html:5
+#: templates/bookings/menus/menu_marina.html:5
+#: templates/bookings/menus/menu_nivaria.html:5
+#: templates/bookings/menus/menu_parigi.html:5
+#: templates/bookings/menus/menu_quality.html:5
 #: templates/bookings/menus/menu_rentsol.html:5
 #: templates/bookings/menus/menu_rodeos.html:5
+#: templates/bookings/menus/menu_rostits.html:5
 #: templates/bookings/menus/menu_shambhala.html:5
+#: templates/bookings/menus/menu_theone.html:5
 #: templates/bookings/menus/menu_torcasur.html:5
 #: templates/bookings/menus/menu_zahara.html:5
 msgid "Text in the guest's language"
@@ -752,14 +816,19 @@ msgstr ""
 msgid "Cuatro Gestión"
 msgstr ""
 
-#: templates/bookings/menus/menu_padword.html:9
-msgid "Tu Llave"
-msgstr ""
-
+#: templates/bookings/menus/menu_fitur_base.html:49
 #: templates/bookings/menus/menu_top.html:18
 #: templates/bookings/menus/menu_top_lanis.html:18
 msgid "AppHome"
 msgstr "Home"
+
+#: templates/bookings/menus/menu_lanis.html:85
+msgid "Mis Llaves"
+msgstr ""
+
+#: templates/bookings/menus/menu_padword.html:9
+msgid "Tu Llave"
+msgstr ""
 
 #: templates/bookings/menus/menu_top.html:32
 #: templates/bookings/menus/menu_top_lanis.html:23
@@ -771,13 +840,21 @@ msgstr ""
 msgid "Shopping"
 msgstr "Shopping"
 
-#: templates/bookings/menus/menu_top_lagos.html:76
-msgid "Close session"
-msgstr ""
-
 #: templates/bookings/menus/menu_villa.html:15
 msgid "Instant Relaxation"
 msgstr ""
+
+#: templates/bookings/pr-manage/booking-list-drag.html:9
+msgid "View completed"
+msgstr "Voir l'article"
+
+#: templates/bookings/pr-manage/booking-page-drag.html:28
+msgid "Cancel"
+msgstr "Annuler la commande"
+
+#: templates/bookings/pr-manage/booking-page-drag.html:30
+msgid "Are you sure to cancel this booking?"
+msgstr "Êtes-vous sûr de vouloir supprimer cet article ?"
 
 #: templates/bookings/show-category-gallery.html:26
 #: templates/bookings/show-promo-gallery.html:27
@@ -789,8 +866,6 @@ msgid "View Item"
 msgstr "Voir l'article"
 
 #: templates/bookings/show-item-details.html:28
-#, fuzzy
-#| msgid "Continue shopping"
 msgid "Continue"
 msgstr "Poursuivre les achats"
 
@@ -816,8 +891,6 @@ msgid "Channel UUID"
 msgstr "UUID du canal"
 
 #: templates/forms/emails.html:4
-#, fuzzy
-#| msgid "Add item"
 msgid "Add email"
 msgstr "Ajouter un article"
 
@@ -850,30 +923,32 @@ msgstr "Télécharger le fichier"
 msgid "Are you sure to remove this file?"
 msgstr "Etes-vous sûr de vouloir supprimer ce fichier ?"
 
-#: templates/forms/form-edit-category.html:4 templates/forms/form-edit.html:8
+#: templates/forms/form-edit-category.html:4
+#: templates/forms/form-edit-category.html:5 templates/forms/form-edit.html:8
 #: templates/forms/form-form.html:46 templates/forms/form-form.html:51
 msgid "QR"
 msgstr "QR"
 
-#: templates/forms/form-edit-category.html:5 templates/forms/form-edit.html:9
+#: templates/forms/form-edit-category.html:13
+#: templates/forms/form-edit-category.html:14 templates/forms/form-edit.html:9
 msgid "PWA"
 msgstr "PWA"
 
-#: templates/forms/form-edit-category.html:6 templates/forms/form-edit.html:10
-msgid "Preview"
-msgstr "Prévisualisation"
-
-#: templates/forms/form-edit-category.html:7
+#: templates/forms/form-edit-category.html:20
 msgid "Update"
 msgstr "Mise à jour"
 
-#: templates/forms/form-edit-category.html:7
+#: templates/forms/form-edit-category.html:20
 msgid "update"
 msgstr "Mise à jour"
 
 #: templates/forms/form-edit-content.html:7
 msgid "Change lang"
 msgstr "Changer de langue"
+
+#: templates/forms/form-edit.html:10
+msgid "Preview"
+msgstr "Prévisualisation"
 
 #: templates/forms/form-form.html:10
 msgid "Images"
@@ -892,8 +967,6 @@ msgid "Logo"
 msgstr "Logo"
 
 #: templates/forms/form-general.html:3
-#, fuzzy
-#| msgid "Generate QR"
 msgid "General data"
 msgstr "Générer QR"
 
@@ -994,20 +1067,18 @@ msgid "Channel name"
 msgstr "Nom du canal"
 
 #: templates/forms/timetable.html:5
-#, fuzzy
-#| msgid "Add item"
 msgid "Add timetable"
 msgstr "Ajouter un article"
 
-#: views.py:39 views.py:445
+#: views.py:40
 msgid "Project not found!"
 msgstr "Projet non trouvé !"
 
-#: views.py:41 views.py:47
+#: views.py:42 views.py:48
 msgid "User not found!"
 msgstr "Utilisateur non trouvé !"
 
-#: views.py:43
+#: views.py:44
 msgid "Token not found!"
 msgstr "Token non trouvé !"
 

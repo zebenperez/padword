@@ -708,9 +708,10 @@ $(document).ready(()=>{
         var textAlt = obj.data("text-alt");
 
         $("#"+target).slideToggle();
-        if (obj.data("id-change"))
-            $("#"+$(obj.data("id-change"))).html(obj.html() == textAlt ? text : textAlt);
-        else
+        if (obj.data("id-change")) {
+            var change_obj = $("#"+obj.data("id-change"));
+            change_obj.html(change_obj.html() == textAlt ? text : textAlt);
+        } else
             obj.html(obj.html() == textAlt ? text : textAlt);
         if (obj.data("set-focus"))
             $("#"+obj.data("set-focus")).focus()
