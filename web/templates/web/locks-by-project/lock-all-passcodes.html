@@ -1,5 +1,33 @@
 {% load i18n padword_tags lock_tags %}
 
+
+<div class="row p-3 m-0 lock-sticky-top">
+    <div class="d-flex justify-content-end pb-2">
+        <button type="button" class="btn" data-bs-dismiss="modal" title="{% trans "Close" %}"><i class="fas fa-times"></i></button>
+    </div>  
+
+    <div class="col-1 small"><strong>{% trans "Code" %}</strong></div>
+    <div class="col-2">
+        <input type="text" class="form-control sp-search" id="search" placeholder="{% trans "Search for code..." %}" 
+            data-search-class="search-code" data-search-prefix="tr-"/>
+    </div>
+    <div class="col-1 small"><strong>{% trans "Name" %}</strong></div>
+    <div class="col-2">
+        <input type="text" class="form-control sp-search" id="search" placeholder="{% trans "Search for name..." %}" 
+            data-search-class="search-name" data-search-prefix="tr-"/>
+    </div>
+    <div class="col-1 small"><strong>{% trans "Guest" %}</strong></div>
+    <div class="col-2">
+        <input type="text" class="form-control sp-search" id="search" placeholder="{% trans "Search for name..." %}" 
+            data-search-class="search-guest" data-search-prefix="tr-"/>
+    </div>
+    <div class="col-3">
+        <button type="button" class="btn btn-delete ark w-100" data-url="{% url "lock-remove-all-passcodes" %}" data-target-modal="common-modal" 
+            data-obj_id="{{obj.id}}">{% trans "Delete all" %}</button>
+	</div>
+</div>
+
+
 <div class="row p-0 m-0 lock-sticky-top">
     <div class="d-flex justify-content-end pb-2">
         {%comment%}
@@ -26,11 +54,11 @@
     <tbody>
         {% for item in obj.get_all_passcodes %}
             <tr id="tr-{{item.keyboardPwdId}}">
-                <td> {{item.keyboardPwd}} </td> 
-                <td> {{item.keyboardPwdName}} </td> 
+                <td class="search-code" data-id="{{item.keyboardPwdId}}"> {{item.keyboardPwd}} </td> 
+                <td class="search-name" data-id="{{item.keyboardPwdId}}"> {{item.keyboardPwdName}} </td> 
                 <td> {{item.startDate|str_to_date}} (Local) <br/>{{item.startDate|str_to_date}} (GMT) </td> 
                 <td> {{item.endDate|str_to_date}} (Local) <br/>{{item.endDate|str_to_date}} (GMT) </td> 
-                <td> {{obj|get_code_guest:item.keyboardPwd}} </td> 
+                <td class="search-guest" data-id="{{item.keyboardPwdId}}"> {{obj|get_code_guest:item.keyboardPwd}} </td> 
                 <td> {{item.keyboardPwdType|get_code_type:item.endDate}} </td> 
                 <td class="text-end">
                     <a class="btn btn-outline-warning ark w-100" title="{%trans "Remove code"%}" data-url="{% url "lock-remove-code" %}"

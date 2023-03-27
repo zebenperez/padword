@@ -159,7 +159,7 @@ def lock_remove_code(request):
     except Exception as e:
         return render(request, "error_exception.html", {'exc':show_exc(e)})
 
-@group_required("admins")
+@group_required("admins", "projects")
 def lock_remove_all_passcodes(request, obj_id=None):
     try:
         lock = get_or_none(Lock, request.GET["obj_id"])
@@ -191,7 +191,7 @@ def lock_remove_card(request):
     except Exception as e:
         return render(request, "error_exception.html", {'exc':show_exc(e)})
 
-@group_required("admins")
+@group_required("admins", "projects")
 def lock_remove_all_cards(request, obj_id=None):
     try:
         lock = get_or_none(Lock, request.GET["obj_id"])

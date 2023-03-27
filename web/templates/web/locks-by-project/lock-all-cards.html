@@ -1,15 +1,33 @@
 {% load i18n padword_tags lock_tags %}
 
-<div class="row p-0 m-0 lock-sticky-top">
-    <div class="d-flex justify-content-end p-2">
-        {%comment%}
-        <button type="button" class="btn ark" data-bs-dismiss="modal" data-url="{% url "lock-search-by-project" %}" data-target="lock-list" 
-            data-project_uuid="{{obj.project_uuid}}" title="{% trans "Close" %}"> <i class="fas fa-times"></i></button>
-        {%endcomment%}
-	    <button type="button" class="btn" data-bs-dismiss="modal" title="{% trans "Close" %}"><i class="fas fa-times"></i></button>
+{% if err and err != "" %} <div class="alert alert-danger">{{err|safe}}</div> {% endif %}
+
+<div class="row p-3 m-0 lock-sticky-top">
+    <div class="d-flex justify-content-end pb-2">
+	    <button type="button" class="btn" data-bs-dismiss="modal" title="{% trans "Close" %}"><i class="fas fa-times"></i> </button>
+    </div>  
+    <div class="col-1 small"><strong>{% trans "Card" %}</strong></div>
+    <div class="col-2">
+        <input type="text" class="form-control sp-search" id="search" placeholder="{% trans "Search for card..." %}" 
+            data-search-class="search-code" data-search-prefix="tr-"/>
     </div>
-    <h2 class="common-modal-head">{% trans 'Card list' %}</h2>
+    <div class="col-1 small"><strong>{% trans "Name" %}</strong></div>
+    <div class="col-2">
+        <input type="text" class="form-control sp-search" id="search" placeholder="{% trans "Search for name..." %}" 
+            data-search-class="search-name" data-search-prefix="tr-"/>
+    </div>
+    <div class="col-1 small"><strong>{% trans "Guest" %}</strong></div>
+    <div class="col-2">
+        <input type="text" class="form-control sp-search" id="search" placeholder="{% trans "Search for name..." %}" 
+            data-search-class="search-guest" data-search-prefix="tr-"/>
+    </div>
+    <div class="col-3">
+        <button type="button" class="btn btn-delete ark w-100" data-url="{% url "lock-remove-all-cards" %}" data-target-modal="common-modal" 
+            data-obj_id="{{obj.id}}">{% trans "Delete all" %}</button>
+    </div>
 </div>
+
+<h2 class="common-modal-head">{% trans 'Card list' %}</h2>
 
 <table class="table table-hover table-striped">
     <thead>
@@ -26,11 +44,11 @@
     <tbody>
         {% for item in obj.get_all_cards %}
             <tr id="tr-{{item.cardId}}">
-                <td> {{item.cardNumber}} ({{item.cardId}})</td> 
-                <td> {{item.cardName}}</td> 
+                <td class="search-code" data-id="{{item.cardId}}"> {{item.cardNumber}} ({{item.cardId}})</td> 
+                <td class="search-name" data-id="{{item.cardId}}"> {{item.cardName}}</td> 
                 <td> {{item.startDate|str_to_date}} (Local) <br/>{{item.startDate|str_to_date}} (GMT) </td> 
                 <td> {{item.endDate|str_to_date}} (Local) <br/>{{item.endDate|str_to_date}} (GMT) </td> 
-                <td> {{obj|get_card_guest:item.cardNumber}} </td> 
+                <td class="search-guest" data-id="{{item.cardId}}"> {{obj|get_card_guest:item.cardNumber}} </td> 
                 <td> {{item.endDate|get_card_type}} </td> 
                 <td class="text-end">
                     <a class="btn btn-outline-warning ark w-100" title="{%trans "Remove card"%}" data-url="{% url "lock-remove-card" %}"
