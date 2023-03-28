@@ -1,13 +1,11 @@
 {% load i18n %}
 
 
-<h2 class="common-modal-head">
-    <div class="row">
-        <div class="col-11">{% trans 'Edit room' %}</div>
-	    <div class="col-1"><button type="button" class="btn ark" data-bs-dismiss="modal" data-url="{% url "room-status-list" %}" 
-            data-target="room-list"><i class="fas fa-times"></i></button></div>
-    </div>
-</h2>
+<div class="row common-modal-head m-0 p-0">
+    <div class="col-11"><h2>{% trans 'Edit room' %}</h2></div>
+    <div class="col-1"><button type="button" class="btn btn-sm ark" data-bs-dismiss="modal" data-url="{% url "room-status-list" %}" 
+        data-target="room-list"><i class="fas fa-times"></i></button></div>
+</div>
 
 <span id="div-notification"></span>
 

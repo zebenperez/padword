@@ -1,7 +1,10 @@
 {% load i18n padword_tags %}
 
 
-<h2 class="common-modal-head">{% trans 'New guest' %}</h2>
+<div class="row w-100 common-modal-head m-0 p-0">
+    <div class="col-11"><h2>{% trans 'New guest' %}</h2></div>
+    <div class="col-1"><button type="button" class="btn btn-sm" data-bs-dismiss="modal"><i class="fas fa-times"></i></button> </div>
+</div>
 
 <span id="div-notification"></span><br/>
 
@@ -12,9 +15,9 @@
     <div class="row m-0">
         <div class="col-12">
             <div class="card">
-                <div class="card-header">
-                    <div class="row toggle-btn w-100" data-target="body-extra" data-id-change="icon-extra" 
+                <div class="card-header toggle-btn" data-target="body-extra" data-id-change="icon-extra" 
                         data-text='<i class="fas fa-plus"></i>' data-text-alt='<i class="fas fa-minus"></i>'>
+                    <div class="row w-100">
                         <div class="col-6 text-right" id="icon-extra"><i class="fas fa-plus"></i></div>
                         <div class="col-6 text-left"><strong>{% trans "Extra" %}</strong></div>
                     </div>
@@ -25,9 +28,9 @@
 
         <div class="col-12 mt-2">
             <div class="card">
-                <div class="card-header">
-                    <div class="row toggle-btn w-100" data-target="body-locks" data-id-change="icon-locks" 
+                <div class="card-header toggle-btn" data-target="body-locks" data-id-change="icon-locks" 
                         data-text='<i class="fas fa-plus"></i>' data-text-alt='<i class="fas fa-minus"></i>'>
+                    <div class="row w-100">
                         <div class="col-6 text-right" id="icon-locks"> <i class="fas fa-plus"></i> </div>
                         <div class="col-6 text-left"><strong>{% trans "Locks" %}</strong></div>
                     </div>
@@ -38,9 +41,9 @@
 
         <div class="col-12 mt-2">
             <div class="card">
-                <div class="card-header">
-                    <div class="row toggle-btn w-100" data-target="body-bands" data-id-change="icon-bands" 
+                <div class="card-header toggle-btn" data-target="body-bands" data-id-change="icon-bands" 
                         data-text='<i class="fas fa-plus"></i>' data-text-alt='<i class="fas fa-minus"></i>'>
+                    <div class="row w-100">
                         <div class="col-6 text-right" id="icon-bands"> <i class="fas fa-plus"></i> </div>
                         <div class="col-6 text-left"><strong>{% trans "Wristbands" %}</strong></div>
                     </div>
@@ -53,9 +56,9 @@
         {% if obj.project.sensibo_api_key != "" %}
             <div class="col-12 mt-2">
                 <div class="card">
-                    <div class="card-header">
-                        <div class="row toggle-btn w-100" data-target="body-sensibo" data-id-change="icon-sensibo" 
+                    <div class="card-header toggle-btn" data-target="body-sensibo" data-id-change="icon-sensibo" 
                             data-text='<i class="fas fa-plus"></i>' data-text-alt='<i class="fas fa-minus"></i>'>
+                        <div class="row w-100">
                             <div class="col-6 text-right" id="icon-sensibo"> <i class="fas fa-plus"></i> </div>
                             <div class="col-6 text-left"><strong>{% trans "Air aconditioner" %}</strong></div>
                         </div>
@@ -68,9 +71,9 @@
         {% if request.user|in_group:"admins" %}
             <div class="col-12 mt-2">
                 <div class="card">
-                    <div class="card-header">
-                        <div class="row toggle-btn w-100" data-target="body-admin" data-id-change="icon-admin" 
+                    <div class="card-header toggle-btn" data-target="body-admin" data-id-change="icon-admin" 
                             data-text='<i class="fas fa-plus"></i>' data-text-alt='<i class="fas fa-minus"></i>'>
+                        <div class="row w-100">
                             <div class="col-6 text-right" id="icon-admin"><i class="fas fa-plus"></i> </div>
                             <div class="col-6 text-left"><strong>{% trans "Admin" %}</strong></div>
                         </div>

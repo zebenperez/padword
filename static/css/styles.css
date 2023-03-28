@@ -201,24 +201,23 @@ input#s-name.autosearch.form-control.form-control-dark.w-100 { border: 0; }
 
 /* width */
 ::-webkit-scrollbar {
-    height: 5px;
-    width: 12px;
+    height: 5px !important;
+    width: 12px !important;
 }
 
 /* Track */
 ::-webkit-scrollbar-track {
-    background: #fff;
+    background: #fff !important;
 }
 
 /* Handle */
 ::-webkit-scrollbar-thumb {
-    background: #fff;
+    background: #fff !important;
 }
 
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
-    /*background: #e96a04;*/ /* naranja */
-    background: #a1c517;
+    background: #a1c517 !important;
 }
 
 /*******************************/
@@ -456,6 +455,7 @@ input.form-control.login {
 
 #common-modal-body .row.justify-center { padding: 1rem; }
 
+.row.common-modal-head,
 h2.common-modal-head {
     font-size: 1.1rem !important;
     padding: 1rem;
