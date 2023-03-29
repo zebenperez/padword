@@ -458,6 +458,21 @@ class LockViewSet(viewsets.ModelViewSet):
             logger.error("[{}]: \"{}\"".format(self.request.user, str(e)))
             return Response({"error": 'true', 'msg': str(e)})
 
+    @action(detail=False, methods=['get'])
+    def open_lock(self, request):
+        try:
+            pu = ProjectUser.objects.get(username=self.request.user.username)
+            lock = Lock.objects.get(uuid = request.GET["uuid"], project_uuid=pu.project_uuid)
+            msg = lock.open_lock() 
+            if msg == True:
+                logger.info("[{}]: \"The lock {} is open\"".format(self.request.user, lock.uuid))
+                return Response({"error": 'false', 'msg': 'The lock {} is open'.format(lock.uuid)}, status=status.HTTP_200_OK)
+            logger.info("[{}]: \"The lock {} could not be opened\"".format(self.request.user, lock.uuid))
+            return Response({"error": 'true', 'msg': 'The lock {} could not be opened'.format(lock.uuid)})
+        except Exception as e:
+            logger.error("[{}]: \"{}\"".format(self.request.user, str(e)))
+            return Response({"error": 'true', 'msg': str(e)})
+
 
 class RoomViewSet(viewsets.ModelViewSet):
     """
