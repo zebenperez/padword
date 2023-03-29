@@ -35,7 +35,7 @@ class Guest(models.Model):
     children = models.IntegerField(verbose_name='Childrens', default=0)
     babies = models.IntegerField(verbose_name='Babies', default=0)
     mobile = models.CharField(max_length=255, verbose_name='Mobile', default="")
-    email = models.CharField(max_length=255, verbose_name='Email', default="")
+    email = models.CharField(max_length=255, verbose_name='Email', default="", blank=True)
     balance = models.FloatField(verbose_name='Balance', default=0.)
     deleted = models.IntegerField(verbose_name='Deleted', default=0)
     ext_id = models.CharField(max_length=255, verbose_name='External ID', default="", blank=True, null=True)
