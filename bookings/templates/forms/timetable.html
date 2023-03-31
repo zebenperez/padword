@@ -1,8 +1,8 @@
 {% load i18n padword_tags %}
 
 <div class="row"><div class="col-12 text-right">
-    <a class="ark" data-url="{% url 'form-new-timetable' %}" data-target="div-timetable-{{obj.id}}" data-obj_id="{{obj.id}}"> 
-        {% trans "Add timetable" %}</a>
+    <button type="button" class="btn btn-primary ark" data-url="{% url 'form-new-timetable' %}" data-target="div-timetable-{{obj.id}}" data-obj_id="{{obj.id}}"> 
+        {% trans "Add timetable" %}</button>
 </div></div>
 
 <div class="row">

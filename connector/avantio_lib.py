@@ -72,3 +72,20 @@ class ShAvantio:
                 booking_list.append(ab)
         return booking_list
 
+    def get_booking_notifications(self):
+        booking_list = []
+        resp = ""
+        with self.client.settings(raw_response=True):
+            resp = self.client.service.GetBookingNotifications(**self.credentials)
+            print(resp)
+        return resp
+
+    def send_pwa_link(self, code, link):
+        with self.client.settings(raw_response=True):
+            req = self.credentials
+            req["Localizer"] = {"BookingCode": code.split("|")[1], "Localizator": code.split("|")[0]} 
+            req["WebAppURL"] = link
+            resp = self.client.service.SetSmartLock(**req)
+        return ""
+
+

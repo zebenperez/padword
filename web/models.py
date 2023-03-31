@@ -163,6 +163,13 @@ class Project(models.Model):
             minutes = int(time_zone[1]) * -0.6 if plus else int(time_zone[1]) * 0.6
 
             gmt_date = date + datetime.timedelta(hours=hour) + datetime.timedelta(minutes=minutes)
+
+            #check daylight saving time
+            #timeZone = pytz.timezone("Atlantic/Canary")
+            #aware_dt = timeZone.localize(date)
+            #if aware_dt.dst() != datetime.timedelta(0,0):
+            #    gmt_date += datetime.timedelta(hours=-1)
+
             return gmt_date
         except Exception as e:
             return date

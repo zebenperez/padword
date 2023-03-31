@@ -10,8 +10,7 @@
         {#{% for item in obj.get_locks %} <div id="key-details-{{item.id}}">{% include "guest/keys/guest-key-details.html" %}</div> {% endfor %}#}
             
         <div class="div-assigned-lock">
-        {% for item in obj.get_locks %} 
-        
+            {% for item in obj.get_locks %} 
                 <div class="row lock-box">
                     {#<div class="col-4 name pt-2 pb-1">{% trans "Name" %}: </div>#}
                     <div class="col-12 text-center pt-2 pb-2 {%if item.room == "*"%}alias-common{%else%}alias{%endif%}">
@@ -25,10 +24,10 @@
                     <div class="row-manual-cod" id="key-codes-{{item.id}}"> {% guest_key_codes obj item %} </div> 
                     <div class="row-cards" id="key-cards-{{item.id}}"> {% guest_key_cards obj item %} </div>
                 </div>
-
-        {% endfor %}
+            {% endfor %}
         </div>
-
+                
+        <div class="" id="div-bands"> {% include "guest/bands/guest-bands.html" %} </div> 
     </div>
 </div>
 

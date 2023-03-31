@@ -2,8 +2,8 @@
 
 
 <td> {{ item.room|default_if_none:'000' }} ({{item.room_obj.alias}})</td>
-<td> {{ item.check_in|date:'Y-m-d'}}</td>
-<td> <span class="badge rounded-pill bg-success" style="font-size:1em">{{ item.check_out|date:'Y-m-d'}}</span></td>
+<td> <span class="badge rounded-pill bg-success" {{ item.check_in|date:'Y-m-d'}}</td>
+<td> <span class="badge rounded-pill bg-danger">{{ item.check_out|date:'Y-m-d'}}</span></td>
 <td> {{item.name}} 
     {{item.surname}} {%if request.user|in_group:'admins' or request.user.is_staff%}<br><small>{{item.project.name}}</small>{%endif%}</td>
 <td class="text-end"> {{item.language}} &nbsp;

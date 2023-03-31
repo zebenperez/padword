@@ -29,10 +29,10 @@
             <span id="number__msg"></span>
     </div>
     <div class="col-3">
-        {% trans "Project" %}: <input type="text" class="form-control input" name="project" value="{{obj.project.name}}" readonly/>
+        <label class="label">{% trans "Project" %}:</label> <input type="text" class="form-control input" name="project" value="{{obj.project.name}}" readonly/>
     </div>
     <div class="col-3">
-        {% trans "Group" %}:
+        <label class="label">{% trans "Group" %}:</label>
         <select class="form-control input b-bottom ark_change" id="lock_group_uuid" name="lock_group_uuid" 
             data-url="{% url "room-set-group" %}" data-target="div-notification" data-obj_id="{{obj.id}}"/>
             

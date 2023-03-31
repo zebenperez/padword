@@ -1,19 +1,22 @@
 {% load i18n %}
 
-<h2>{% trans 'New Channel' %}</h2>
+<div class="row w-100 common-modal-head m-0 p-0">
+    <div class="col-11"> <h2>{% trans 'New Channel' %}</h2></div>
+    <div class="col-1"> <button type="button" class="btn btn-sm" data-bs-dismiss="modal"><i class="fas fa-times"></i></button> </div>
+</div>
 
 <span id="div-notification"></span><br/>
 
 <div class="row justify-center">
 	<div class="col-sm-6 col-md-5 col-12">
-		{% trans "Name" %}:
+		<label class="label">{% trans "Name" %}:</label>
 		<input type="text" class="form-control autosave b-bottom mb-4" id="name" name="name" value="{{obj.name}}" title="{{obj.name}}" 
 			data-model-name="web.channel" data-obj-id="{{obj.id}}" data-url="{% url "autosave_field" %}" data-target="div-notification"/>
 			<span id="name__msg"></span>
 	</div>
 
 	<div class="col-sm-6 col-md-5 col-12">
-		{% trans "Project" %}:
+		<label class="label">{% trans "Project" %}:</label>
 		<select class="form-control autosave b-bottom mb-4" id="project" name="project" value="{{obj.project.id}}" title="{{obj.project.name}}" 
 			data-model-name="web.channel" data-obj-id="{{obj.id}}" data-url="{% url "autosave_field" %}" data-target="div-notification"/>
 		    <option value="">{% trans "-- Select a project" %}</option>
@@ -25,7 +28,7 @@
 	</div>
 	
 	<div class="col-sm-6 col-md-2 col-12">
-		{% trans "Active" %}:
+		<label class="label">{% trans "Active" %}:</label>
 		<select class="form-control autosave b-bottom mb-4" id="active" name="active" value="{{obj.active}}" title="{{obj.active}}" 
 			data-model-name="web.channel" data-obj-id="{{obj.id}}" data-url="{% url "autosave_field" %}" data-target="div-notification"/>
 		    <option value="1" {%if obj.active == 1%}selected{%endif%}>{% trans "Yes" %}</option>
@@ -37,21 +40,21 @@
 
 <div class="row justify-center">
 	<div class="col-sm-6 col-md-6 col-12">
-		{% trans "Created at" %}:
+		<label class="label">{% trans "Created at" %}:</label>
 		<input type="date" class="form-control autosave b-bottom mb-4" id="created_at" name="created_at" value="{{obj.created_at|date:'Y-m-d'}}" title="{{obj.created_at}}" 
 			data-model-name="web.channel" data-obj-id="{{obj.id}}" data-url="{% url "autosave_field" %}" data-target="div-notification"/>
 			<span id="created_at__msg"></span>	
 	</div>
 	
 	<div class="col-sm-6 col-md-6 col-12">
-		{% trans "UUID" %}:
+		<label class="label">{% trans "UUID" %}:</label>
 		<input type="text" class="form-control autosave b-bottom mb-4" id="uuid" name="uuid" value="{{obj.uuid}}" title="{{obj.uuid}}" 
 			data-model-name="web.channel" data-obj-id="{{obj.id}}" readonly data-url="{% url "autosave_field" %}" data-target="div-notification"/>
 			<span id="uuid__msg"></span>
 	</div>
 
 	<div class="col-sm-6 col-md-6 col-12">
-		{% trans "UI-UUID" %}:
+		<label class="label">{% trans "UI-UUID" %}:</label>
 		<input type="text" class="form-control autosave b-bottom mb-4" id="ui_uuid" name="ui_uuid" value="{{obj.ui_uuid}}" title="{{obj.ui_uuid}}" 
 			data-model-name="web.channel" data-obj-id="{{obj.id}}" data-url="{% url "autosave_field" %}" data-target="div-notification"/>
 			<span id="ui_uuid__msg"></span>
@@ -59,9 +62,9 @@
 </div>		
 
 <div class="d-flex justify-content-end">
-	<button type="button" class="btn btn-sm ark save" data-bs-dismiss="modal" data-url="{% url "channel-search" %}" data-target="channel-list"
+	<button type="button" class="btn btn-primary ark m-2" data-bs-dismiss="modal" data-url="{% url "channel-search" %}" data-target="channel-list"
          data-project_id="{{project_id}}" data-company_id="{{company_id}}">{% trans "Save" %}</button>
-	<button type="button" class="btn btn-sm ark cancel" data-bs-dismiss="modal"
+	<button type="button" class="btn btn-danger ark m-2" data-bs-dismiss="modal"
    		data-url="{% url "web-channel-remove" %}" data-target="channel-list" data-obj_id="{{obj.id}}" data-project_id="{{project_id}}" 
         data-company_id="{{company_id}}" data-confirm="{% trans "Are you sure to remove this element?" %}">{% trans "Remove" %}</button>
 </div>

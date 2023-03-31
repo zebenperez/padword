@@ -7,11 +7,13 @@
         data-url="{% url 'category-add-image' %}" data-target="div-image" data-obj-id="{{obj.id}}" 
         data-field="image" data-csrf-token="{{csrf_token}}" multiple style="display:none;"/><br /><br />
 {% else %}
-    <div class="col-12"><span><img src="{{obj.image.url}}" alt="image" class="w-100"/></span></div><br />
-    <div class="col-12 actions file-remove text-center">
-        <button type="button" class="btn btn-danger ark pointer" id="btn-image-{{obj.pk}}" title="Borrar fichero" 
-            data-confirm="{% trans "Are you sure to remove this file?" %}" 
-            data-url="{% url "category-remove-image" %}" data-target="div-image" data-obj_id="{{obj.id}}" data-field="image"><i class="fas fa-trash"></i></button>
+<div class="row">
+    <div class="col-10"><span><img src="{{obj.image.url}}" alt="image" width="100%" /></span></div>
+        <div class="col-2 actions file-remove text-left">
+            <button type="button" class="btn btn-danger ark pointer" id="btn-image-{{obj.pk}}" title="Borrar fichero" 
+                data-confirm="{% trans "Are you sure to remove this file?" %}" 
+                data-url="{% url "category-remove-image" %}" data-target="div-image" data-obj_id="{{obj.id}}" data-field="image"><i class="fas fa-trash"></i></button>
+        </div>
     </div>
 {% endif %}
 

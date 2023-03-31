@@ -33,14 +33,15 @@ def index(request):
 def get_guest_items(request, ini=0, end=ITEMS_PER_PAGE):
     filters_to_search = ["name__icontains", "room", "surname__icontains", "email__icontains", "mobile__icontains"]
     search_value = request.session["guest_search_name"] if "guest_search_name" in request.session else ""
-    project_uuid = request.session["project_uuid"] if "project_uuid" in request.session else ""
+    project_uuid = request.session["guest_search_project"] if "guest_search_project" in request.session else ""
+    #project_uuid = request.session["project_uuid"] if "project_uuid" in request.session else ""
 
     full_query = Q()
     if search_value != "":
         for myfilter in filters_to_search:
             full_query |= Q(**{myfilter: search_value})
-        projects_uuid = [item.uuid for item in webmod.Project.objects.filter(name__icontains = search_value)]
-        full_query |= Q(**{'project_id__in': projects_uuid})
+        #projects_uuid = [item.uuid for item in webmod.Project.objects.filter(name__icontains = search_value)]
+        #full_query |= Q(**{'project_id__in': projects_uuid})
         rooms_number = [item.number for item in webmod.Room.objects.filter(alias__icontains = search_value)]
         full_query |= Q(**{'room__in': rooms_number})
     if project_uuid != "":
@@ -58,7 +59,8 @@ def guests(request):
         items, total_count = get_guest_items(request)
         #total_count = items.count()
 
-        context = {'total_items': total_count, 'items': items, 'index': ITEMS_PER_PAGE}
+        project_list = Project.objects.filter(active=1).order_by('name')
+        context = {'total_items': total_count, 'items': items, 'index': ITEMS_PER_PAGE, 'project_list': project_list}
         #context = {'total_items': total_count, 'items': items[0:ITEMS_PER_PAGE], 'page': 0}
         return render (request, "guest/guests.html", context)
     except Exception as e:
@@ -69,6 +71,7 @@ def guests(request):
 def guest_search(request):
     try:
         set_session(request, "guest_search_name")
+        set_session(request, "guest_search_project")
         items, total_count = get_guest_items(request)
 
         context = {'total_items': total_count, 'items': items, 'index': ITEMS_PER_PAGE}
@@ -311,8 +314,9 @@ def guests_by_project(request):
         #items = Guest.objects.filter(project_id = project.uuid)
         #delete_expired(project)
         items, total_count = get_guest_items_by_project(request, project.uuid)
+        limit = datetime.datetime.now() - datetime.timedelta(days=project.guest_delete)
 
-        context = {'total_items': total_count, 'items': items, 'index': ITEMS_PER_PAGE}
+        context = {'total_items': total_count, 'items': items, 'index': ITEMS_PER_PAGE, 'project': project, 'limit': limit}
         #context = {'total_items': items.count(), 'page': 0, 'project_uuid':project.uuid, 'items': items[0:ITEMS_PER_PAGE]}
         return render (request, "guest-by-project/guests.html", context)
     except Exception as e:
@@ -389,6 +393,21 @@ def guest_soft_remove_by_project(request):
         if obj != None:
             GuestUser.delete_by_guest(obj.UUID)
             obj.delete_soft()
+
+        items, total_count = get_guest_items_by_project(request, project.uuid)
+        return render(request, "guest-by-project/guest-list.html", {'items':items, 'project_uuid': project.uuid})
+    except Exception as e:
+        return render(request, 'error_exception.html', {'exc':show_exc(e)})
+
+@group_required("projects")
+def guest_soft_remove_all_by_project(request):
+    try:
+        project = get_or_none(Project, request.project_id)
+        limit = datetime.datetime.now() - datetime.timedelta(days=project.guest_delete)
+        guest_list = Guest.objects.filter(project_id=project.uuid, deleted=0, check_out__lt=limit)
+        for guest in guest_list:
+            GuestUser.delete_by_guest(guest.UUID)
+            guest.delete_soft()
 
         items, total_count = get_guest_items_by_project(request, project.uuid)
         return render(request, "guest-by-project/guest-list.html", {'items':items, 'project_uuid': project.uuid})

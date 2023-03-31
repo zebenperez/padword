@@ -39,6 +39,7 @@
             </div>
         </div>
 
+        {%comment%}
         <div class="col-12 mt-2">
             <div class="card">
                 <div class="card-header toggle-btn" data-target="body-bands" data-id-change="icon-bands" 
@@ -48,9 +49,10 @@
                         <div class="col-6 text-left"><strong>{% trans "Wristbands" %}</strong></div>
                     </div>
                 </div>
-                <div class="card-body hide" id="body-bands"> <div id="div-bands">{% include "guest/bands/guest-bands.html" %}</div> </div> 
+                <div class="card-body hide" id="body-bands"> {% include "guest/bands/guest-bands.html" %} </div> 
             </div>
         </div>
+        {%endcomment%}
 
 
         {% if obj.project.sensibo_api_key != "" %}
