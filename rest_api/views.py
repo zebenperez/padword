@@ -69,8 +69,9 @@ class GuestViewSet(viewsets.ModelViewSet):
             if serializer.is_valid():
                 #serializer.save()
                 guest = Guest.objects.create(**data)
-                guest.add_all_key_code()
                 logger.info("[{}]: \"Guest {} {} created\"".format(self.request.user, guest.name, guest.surname))
+                guest.add_all_key_code()
+                logger.info("[{}]: \"Guest key codes {} {} created\"".format(self.request.user, guest.name, guest.surname))
                 return Response(data=self.serializer_class(guest).data, status=status.HTTP_201_CREATED)
             else:
                 logger.error("[{}]: \"Bad request!\"".format(self.request.user))
