@@ -81,11 +81,12 @@ class ShAvantio:
         return resp
 
     def send_pwa_link(self, code, link):
+        resp = ""
         with self.client.settings(raw_response=True):
             req = self.credentials
             req["Localizer"] = {"BookingCode": code.split("|")[1], "Localizator": code.split("|")[0]} 
             req["WebAppURL"] = link
             resp = self.client.service.SetSmartLock(**req)
-        return ""
+        return resp
 
 

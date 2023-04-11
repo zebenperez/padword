@@ -59,13 +59,14 @@ def avantio_get_booking_notif(request, project_uuid):
 @group_required("admins")
 def avantio_send_link(request, project_uuid, guest_uuid):
     try:
+        resp = "---"
         pau = ProjectAvantioUser.objects.filter(project_uuid=project_uuid).first()
         if pau != None:
             guest = get_or_none(Guest, guest_uuid, "UUID")
             if guest != None:
                 av = ShAvantio(pau.username, pau.password)
-                booking_list = av.send_pwa_link(guest.ext_id, guest.pwa_link)
-        return HttpResponse("Ok")
+                resp = av.send_pwa_link(guest.ext_id, guest.pwa_link)
+        return HttpResponse(resp)
     except Exception as e:
         return render(request, 'error_exception.html', {'exc':show_exc(e)})
 
