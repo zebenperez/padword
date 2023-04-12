@@ -26,7 +26,7 @@ def avantio_get_booking_list(request, project_uuid):
                 code = "{}|{}".format(booking.localizator, booking.booking_code)
                 guest = Guest.objects.filter(ext_id=code).first()
                 if guest == None:
-                    guest = Guest(UUID = new_ui_slug(Guest), ext_id=code, project_id=pau.project_uuid)
+                    guest = Guest(UUID = new_ui_slug(Guest, "UUID"), ext_id=code, project_id=pau.project_uuid)
                     guest.name = booking.client.name
                     guest.surname = booking.client.surname
                     #guest.language = booking.client.languaje
