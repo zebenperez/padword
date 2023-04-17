@@ -1,0 +1,12 @@
+{% load i18n padword_tags bookings_tag %}
+
+<script>
+    $('#counter-item-'+'{{item.pk}}').val("{{items}}").trigger("change");        // Contador en el formulario
+    $('#counter-item-mob-'+'{{item.pk}}').val("{{items}}").trigger("change");
+    $('#span-total-price').html("{{fi.get_total|floatformat:2}}");             // Total en el carrito general
+    $('#span-total-items').html('{{fi.get_items.count}}'); // Badget de la cabecera
+    if (parseInt($("#span-total-items").html()) > 0)
+        $("#count-badge").show();
+    else
+        $("#count-badge").hide();
+</script>

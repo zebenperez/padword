@@ -8,30 +8,31 @@
     <input type="hidden" name="s-page" id="s-page" value="{{page}}" data-target="table-list-guests" data-related="s-page,guest_search_name" 
         data-append="append" data-url="{% url 'guest-page' %}" class="autosearch_change"/>
     {%endcomment%}
-    <div class="toolbar-search">
+    <div class="toolbar-search guests">
         {#<input type="hidden" name="project_uuid" id="project_uuid" value="{{project_uuid}}"/>#}
-        <div class="row">
-            <div class="col-6">
+            <div class="text-center"><i class="fas fa-search"></i></div>
+            <div>
                 <input type="text" class="autosearch form-control form-control-dark w-100" name="guest_search_name" id="guest_search_name" 
                     placeholder="{% trans 'Name, Surname, Email, Phone or Room' %}" data-url="{% url "guest-search" %}" data-target="guest-list" 
                     data-related="guest_search_name,guest_search_project" value="{{request.session.guest_search_name}}"/>
             </div>
-            <div class="col-6">
-                <select class="autosearch_change form-control form-control-dark w-100" name="guest_search_project" id="guest_search_project" 
+            <div>
+                <select class="autosearch_change form-control form-control-dark w-100 select-k" name="guest_search_project" id="guest_search_project" 
                     data-url="{% url "guest-search" %}" data-target="guest-list" data-related="guest_search_name,guest_search_project">
                     <option value="">{% trans "-- Select project ---" %}</option>
                     {% for proj in project_list %} <option value="{{proj.uuid}}">{{proj.name}}</option> {% endfor %}
                 </select>
             </div>
-        </div>
     </div>
 
     <div class="content mt-4">
-        <div class="toolbar-content"> 
-            <h2 class="">{% trans 'Guests' %} (<span id="total-items">{{total_items}}</span>)</h2> 
-            <button class="btn btn-default" onclick="$('.guest-row').show()">{% trans "Show all" %}</button> 
-            <button class="btn btn-default" onclick="$('.guest-row').show();$('.deleted').hide()">{% trans "Show active" %}</button> 
-            <button class="btn btn-default" onclick="$('.guest-row').hide();$('.deleted').show()">{% trans "Show deleted" %}</button> 
+        <div class="toolbar-content guest"> 
+            <div><h2 class="b-right">{% trans 'Guests' %} (<span id="total-items">{{total_items}}</span>)</h2></div>
+            <div>
+                <button class="btn btn-outline-secondary btn-sm" onclick="$('.guest-row').show()">{% trans "Show all" %}</button>
+                <button class="btn btn-outline-secondary btn-sm" onclick="$('.guest-row').show();$('.deleted').hide()">{% trans "Show active" %}</button>
+                <button class="btn btn-outline-secondary btn-sm" onclick="$('.guest-row').hide();$('.deleted').show()">{% trans "Show deleted" %}</button>
+            </div>
             {% if project_uuid %}
                 <a class="btn btn-primary ark" data-url="{% url "guest-form-by-project" %}" data-target-modal="common-modal" 
                     data-project_uuid="{{project_uuid}}"> {%trans "New guest"%}</a>  

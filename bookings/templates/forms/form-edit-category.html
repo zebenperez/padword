@@ -3,20 +3,24 @@
 <div class="text-end">
     <a class="btn btn-sm save" title="{%trans 'QR'%}" href="{% url "guest-access" obj.category %}" target="_blank">
         <i class="fas fa-qrcode"></i> {%trans "QR"%}</a>  
+    <a class="btn btn-sm save" title="{%trans 'PWA'%}" href="{% url "guest-access" obj.category %}" target="_blank">
+        <i class="fas fa-desktop"></i> {%trans "PWA"%}</a>  
+    {%comment%}
+    <a class="btn btn-sm save" title="{%trans 'TPV'%}" href="{% url "tpv-access" obj.project.uuid %}" target="_blank">
+        <i class="fas fa-calculator"></i> {%trans "TPV"%}</a>  
+    {%endcomment%}
+    <a class="btn btn-sm save" title="{% trans 'Update' %}" onclick="location.reload();"><i class="fas fa-sync-alt"></i> {% trans "update" %}</a>  
+
     {%comment%}
     {% if obj.project.prefix == "fitur22" %}
         <a class="btn btn-sm save" title="{%trans 'PWA'%}" href="{% url "guest-access-anonymous" obj.category %}" target="_blank">
             <i class="fas fa-desktop"></i> {%trans "PWA Anonymous"%}</a>  
     {% endif %}
     {%endcomment%}
-    <a class="btn btn-sm save" title="{%trans 'PWA'%}" href="{% url "guest-access" obj.category %}" target="_blank">
-        <i class="fas fa-desktop"></i> {%trans "PWA"%}</a>  
     {%comment%}
     <a class="btn btn-sm save" title="{% trans 'Preview' %}" href="{% url "booking-preview" obj.uuid %}" target="_blank">
         <i class="far fa-eye"></i> {% trans "Preview" %}</a>  
     {%endcomment%}
-    <a class="btn btn-sm save" title="{% trans 'Update' %}" onclick="location.reload();"><i class="fas fa-sync-alt"></i> {% trans "update" %}</a>  
-
     {%comment%}
     <a class="btn btn-sm save" href="{% url "categories-by-project" obj.project.uuid %}">{% trans "Save" %}</a>
     <a class="btn btn-sm cancel" href="{%url "form-remove" obj.id%}" 

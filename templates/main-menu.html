@@ -18,32 +18,16 @@
         <li class="nav-item"><a class="nav-link " href="{%url "guest-notifications"%}"><i class="fas fa-envelope"></i> 
             {%trans "Notifications"%}</a></li>
         <hr/>
-        <li class="nav-item"><a class="nav-link " href="{%url "locks-users"%}"><i class="fas fa-user"></i> {%trans "Locks Users"%}</a></li>
-        <hr/>
         <li class="nav-item"><a class="nav-link " href="{%url "keycards"%}"><i class="fas fa-credit-card"></i> {%trans "Key Cards"%}</a></li>
         <hr/>
-        <li class="nav-item"><a class="nav-link " href="{%url "keycard-number"%}"><i class="fas fa-address-card"></i> 
-            {%trans "Search Key Cards"%}</a></li>
+	    <li class="nav-item"><a class="nav-link " href="{%url "keycard-number"%}"><i class="fas fa-address-card"></i> 
+            {%trans "Search Key Cards"%} <span class="new">NEW</span></a> </a></li>
         <hr/>
-        <li class="nav-item"><a class="nav-link " href="{% url "projects" %}"><i class="fas fa-dice-d6"></i> {% trans "Safe Deposit Box" %} <span class="new">NEW</span></a> </li>
-
-        {#<li class="nav-item"><a class="nav-link " href="{%url "locks"%}"><i class="fas fa-lock"></i> {%trans "Locks"%}</a></li>#}
-        {#<hr/>#}
-        {#<li class="nav-item"><a class="nav-link " href="{%url "locks-groups"%}"><i class="fas fa-layer-group"></i> {%trans "Locks Groups"%}</a></li>#}
-        {#<hr/>#}
-        {#<li class="nav-item"><a class="nav-link " href="{% url "ekeys" %}"><i class="fas fa-key"></i>  {% trans "E-Keys" %}</a> </li>#}
+        <li class="nav-item"><a class="nav-link " href="{% url "projects" %}"><i class="fas fa-dice-d6"></i> 
+	        {% trans "Safe Deposit Box" %} <span class="new">NEW</span></a> </li>
+        <hr/>
     {% elif menu == "projects" %}
-        {% comment %}
-        <li class="nav-item"><a class="nav-link " href="{% url 'categories-by-project' project.uuid %}">
-            <i class="fas fa-tablet-alt"></i>  {% trans "Categories" %}</a> </li>
-        {% endcomment %}
         {% with user_project=user.username|addstr:"|"|addstr:project.uuid %}
-            {% comment %}
-            {% if user_project|have_menu:"guests" %}
-                <li class="nav-item"><a class="nav-link " href="{% url 'guests-by-project' project.uuid %}">
-                    <i class="fas fa-users"></i>  {% trans "Guests" %}</a> </li>
-            {% endif %}
-            {% endcomment %}
             {% if user_project|have_menu:"guests" %}
                 <li class="nav-item"><a class="nav-link " href="{% url 'guests-by-project' %}">
                     <i class="fas fa-users"></i>  {% trans "Guests" %}</a> </li>
@@ -80,13 +64,25 @@
                 <li class="nav-item"><a class="nav-link " href="{% url "keycard-number-by-project" %}">
                     <i class="fas fa-address-card"></i> {%trans "Search Key Cards"%}</a></li>
             {% endif %}
+
+            {% if user_project|have_menu:"searchkeycard" %}
+	            <li class="nav-item"><a class="nav-link " href="{%url "keycard-number"%}"><i class="fas fa-address-card"></i> 
+                    {%trans "Search Key Cards"%} </a></li>
+            {% elif user_project|have_menu_promo:"searchkeycard" %}
+	            <li class="nav-item"><a class="nav-link pointer ark" data-url="{%url "show-module"%}" data-target-modal="common-modal"
+                    data-code="searchkeycard"><i class="fas fa-address-card"></i> {%trans "Search Key Cards"%} <span class="new">NEW</span> </a></li>
+            {% endif %}
+
+            {% if user_project|have_menu:"box" %}
+                <li class="nav-item"><a class="nav-link " href="{% url "projects" %}"><i class="fas fa-dice-d6"></i> 
+	                {% trans "Safe Deposit Box" %} </a> </li>
+            {% elif user_project|have_menu_promo:"box" %}
+                <li class="nav-item"><a class="nav-link pointer ark" data-url="{%url "show-module"%}" data-target-modal="common-modal" 
+                    data-code="box"> <i class="fas fa-dice-d6"></i> {% trans "Safe Deposit Box" %} <span class="new">NEW</span></a> </li>
+            {% endif %}
         {% endwith %}
     {% elif menu == "clients" %}
     {% elif menu == "categories" %}
-        {% comment %}
-        <li class="nav-item"><a class="nav-link " href="{% url 'bookings-by-category' category.id %}">
-            <i class="fas fa-book"></i>  {% trans "Orders" %}</a> </li>
-        {% endcomment %}
         {% if view_cat %}
             <li class="nav-item"><a class="nav-link " href="{%url 'categories-by-categories'%}">
                 <i class="fas fa-tablet-alt"></i> {%trans "Categories"%}</a></li>
@@ -95,6 +91,5 @@
     {% endif %}
     </ul>
 {% else %}
-{#<div class="nav-item"><a class="nav-link" href="{% url 'auth_login' %}"><i class="fas fa-sign-in-alt"></i> {% trans "Log in" %}</a></div>#}
 {% endif %}
 

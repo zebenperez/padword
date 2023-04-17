@@ -28,14 +28,14 @@
 
         <div class="col-12 mt-2">
             <div class="card">
-                <div class="card-header toggle-btn" data-target="body-locks" data-id-change="icon-locks" 
-                        data-text='<i class="fas fa-plus"></i>' data-text-alt='<i class="fas fa-minus"></i>'>
+                <div class="card-header toggle-btn" data-target="div-locks" data-id-change="icon-locks" 
+                        data-text='<i class="fas fa-minus"></i>' data-text-alt='<i class="fas fa-plus"></i>'>
                     <div class="row w-100">
-                        <div class="col-6 text-right" id="icon-locks"> <i class="fas fa-plus"></i> </div>
+                        <div class="col-6 text-right" id="icon-locks"> <i class="fas fa-minus"></i> </div>
                         <div class="col-6 text-left"><strong>{% trans "Locks" %}</strong></div>
                     </div>
                 </div>
-                <div class="card-body" id="body-locks"> <div id="div-locks">{% include "guest/keys/guest-keys.html" %}</div> </div> 
+                <div class="card-body" id="div-locks"> {% include "guest/keys/guest-keys.html" %} </div> 
             </div>
         </div>
 

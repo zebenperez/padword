@@ -1,0 +1,28 @@
+{% load i18n bookings_tag common_tag padword_tags static%}
+{% get_css_project form.project.pk %}
+        
+<div id="main-base"> 
+    {%block extralinks%} <link rel="stylesheet" href="{% static 'css/menu_lanis.css' %}" > {% endblock %}
+
+    <div class="col-10 text-end p-0">
+        <button class="btn btn-header-pwa text-center history ark" id="shopping-cart-btn" data-url="{% url 'tpv-order-view' %}" 
+            data-target-modal="common-modal" data-project_uuid="{{project_uuid}}" data-form_id=""><i class="fas fa-shopping-cart"></i> <br/>
+            <span class="subtext">{% trans 'Shopping' %}</span>
+            <span class="count badge" id="count-badge" style="display:none"> <span id="span-total-items"></span></span>
+        </button>
+    </div>
+
+    <div id="main" class="main-pwa"> 
+        {% for item in point_of_sales %}
+            <button class="menu-options ark" data-url="{% url "tpv-set-pos" %}" data-target="main" data-obj_id="{{item.id}}">
+                {{item.name}}</button>
+        {% endfor %}
+
+        {% for item in form_list %}
+            <button id="btn-children-{{item.pk}}" class="menu-options ark" data-url="{% url "tpv-shopping-cart" %}" data-target="main"
+                data-form_id="{{item.id}}" data-cat_id="{{item.category}}">{% padword_translate_obj item.category %}</button>
+        {% endfor %}
+    </div>
+</div>
+{% include "common-modal.html" %}
+

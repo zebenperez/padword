@@ -3,7 +3,7 @@ from django.contrib.auth.models import User, Group
 from django.conf import settings
 from django.utils.translation import ugettext as _
 
-from padword.commons import show_exc, get_int
+from padword.commons import show_exc, get_int, new_ui_slug
 from .lock_lib import ShLock
 from sensibo.sensibo_lib import ShSensibo
 from sensibo.models import ProjectSensiboUser
@@ -263,9 +263,10 @@ def upload_image(instance, filename):
 
 class ProjectUser(models.Model):
     #channels = models.ManyToManyField(Channel, verbose_name=_("Channels"), blank=True)
-    project_uuid = models.CharField(max_length = 255, verbose_name= _('Project UUID'), default='admin')
-    username = models.CharField(max_length = 255, verbose_name= _('Username'), default='admin')
+    project_uuid = models.CharField(max_length = 255, verbose_name= _('Project UUID'), default='')
+    username = models.CharField(max_length = 255, verbose_name= _('Username'), default='')
     menus = models.CharField(max_length = 1000, verbose_name= _('Menus'), default='orders;guests;notifications')
+    menus_promo = models.CharField(max_length = 1000, verbose_name= _('Menus Promo'), default='')
     image = models.ImageField(upload_to=upload_image, blank=True, verbose_name="Imagen de perfil", help_text="Select file to upload")
 
     class Meta:
@@ -728,8 +729,8 @@ class LockUser(models.Model):
         return obj.delete_user(self.lock_username)
 
     @staticmethod
-    def list_user_not_assigned():
-        obj = ShLock(self.project.lock_access_token)
+    def list_user_not_assigned(project):
+        obj = ShLock(project.lock_access_token)
         user_list = obj.list_user()
         result = []
         for user in user_list:
@@ -818,4 +819,34 @@ class LockEkey(models.Model):
 #            return Project.objects.get(uuid=self.project_uuid)
 #        except Exception as e:
 #            return None
+
+class Waiter(models.Model):
+    uuid = models.CharField(max_length = 255, verbose_name= _('UUID'), default=new_ui_slug)
+    project_uuid = models.CharField(max_length = 255, verbose_name= _('Project UUID'), default='')
+    username = models.CharField(max_length = 255, verbose_name= _('Username'), default='')
+
+    class Meta:
+        verbose_name = _('Waiter')
+
+    @property
+    def user(self):
+        try:
+            return User.objects.get(username=self.username)
+        except:
+            return None
+
+    @property
+    def project(self):
+        try:
+            return Project.objects.get(uuid=self.project_uuid)
+        except:
+            return None
+
+class Module(models.Model):
+    code = models.CharField(max_length = 255, verbose_name= _('Code'), default='')
+    name = models.CharField(max_length = 255, verbose_name= _('Name'), default='')
+    desc = models.TextField(verbose_name= _('Description'), default='')
+
+    class Meta:
+        verbose_name = _('Module')
 

@@ -19,6 +19,8 @@ urlpatterns = [
     path('projects/user-token/', views.project_user_token, name='project-user-token'),
     path('projects/user-refresh-token/', views.project_user_refresh_token, name='project-user-refresh-token'),
     path('projects/regime-toggle/', views.project_regime_toggle, name='project-regime-toggle'),
+    path('projects/pos-add/', views.project_pos_add, name='project-pos-add'),
+    path('projects/pos-remove/', views.project_pos_remove, name='project-pos-remove'),
     #--------------------- Channels --------------------
     path('channels/project-<slug:project_id>/', views.channels, name='channels-by-project'),
     path('channels/company-<slug:company_id>/', views.channels, name='channels-by-company'),
@@ -146,6 +148,10 @@ urlpatterns = [
 
     #---------------------- E-Keys ---------------------
     #path('ekeys/', views.ekeys, name='ekeys'),
+
+    #--------------------- Mosules --------------------
+    path('show-module/', views.show_module, name='show-module'),
+
     #---------------------- Tests ----------------------
     path('thanks/', views.thanks),
     path('check-error/', views.check_error),

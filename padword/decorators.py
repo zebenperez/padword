@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.urls import resolve
-from web.models import ProjectUser, Project
+from web.models import ProjectUser, Project, Waiter
 from contents.models import CategoryUser
 
 import logging
@@ -20,6 +20,9 @@ def group_required(*group_names):
                     pu = ProjectUser.objects.filter(username=request.user.username).first()
                     if pu != None and pu.project != None:
                         request.project_id = pu.project.id
+                    waiter = Waiter.objects.filter(username=request.user.username).first()
+                    if waiter != None:
+                        request.waiter = waiter
                     return f(request, *args, **kwargs)
                 #else:
                 #	return (render(request, "generic/error_exception.html", {'exc':"This user have not permission to access to this section"}))

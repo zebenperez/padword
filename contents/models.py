@@ -450,4 +450,20 @@ class CategoryUser(models.Model):
         pu, created = CategoryUser.objects.get_or_create(category_uuid=category_uuid, username=user.username)
         return user
 
+class PointOfSale(models.Model):
+    uuid = models.CharField(max_length = 255, verbose_name= _('UUID'), default="")
+    name = models.CharField(verbose_name="Nombre", max_length=150, blank=True, null=True, default="")
+    project_uuid = models.CharField(max_length=36, verbose_name='UUID Project', default="")
+
+    @property
+    def project(self):
+        try:
+            return Project.objects.get(uuid = self.project_uuid)
+        except Exception as e:
+            return None
+
+    class Meta:
+        verbose_name = _("Point of sale")
+        verbose_name_plural = _("Points of sales")
+
 

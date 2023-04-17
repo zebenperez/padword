@@ -4,12 +4,15 @@
 {% block second_menu %}{% get_second_menu request.user %}{% endblock second_menu %}
 
 {% block central_content %}
-    <input type="hidden" name="s-page" id="s-page" value="{{page}}" data-target="table-list-guests" data-related="s-page" 
-        data-append="append" data-url="{% url 'guest-notification-page' %}" class="autosearch_change"/>
-    <div class="toolbar-search">
-        <input type="text" class="autosearch form-control form-control-dark w-100" name="s-name" id="s-name" 
-            placeholder="{% trans 'Guest name or room' %}" data-url="{% url "guest-notification-search" %}" data-target="notification-list" 
-            data-related="s-name"/>
+
+    <div class="toolbar-search notifications">
+        <div class="text-center"><i class="fas fa-search"></i></div>
+        <div>
+            <input type="hidden" name="s-page" id="s-page" value="{{page}}" data-target="table-list-guests" data-related="s-page" 
+                 data-append="append" data-url="{% url 'guest-notification-page' %}" class="autosearch_change"/>
+             <input type="text" class="autosearch form-control form-control-dark w-100" name="s-name" id="s-name" 
+                 placeholder="{% trans 'Guest name or room' %}" data-url="{% url "guest-notification-search" %}" data-target="notification-list" 
+                 data-related="s-name"/></div>
     </div>
 
     <div class="content mt-4">

@@ -7,12 +7,15 @@
 
     {% if msg and msg != "" %} <div class="alert alert-danger">{{msg}}</div> {% endif %}
 
-    <div class="toolbar-search">
-        <input type="text" class="autosearch form-control form-control-dark w-100" name="room_search_name" id="room_search_name" 
-            placeholder="{% trans 'Name' %}" data-url="{% url "rooms-search" %}" data-target="room-list" data-related="room_search_name"
-            value="{{request.session.room_search_name}}"/>
+    <div class="toolbar-search rooms">
+        <div class="text-center"><i class="fas fa-search"></i></div>
+        <div>
+            <input type="text" class="autosearch form-control form-control-dark w-100" name="room_search_name" id="room_search_name" 
+                placeholder="{% trans 'Name' %}" data-url="{% url "rooms-search" %}" data-target="room-list" data-related="room_search_name"
+                value="{{request.session.room_search_name}}"/>
+        </div>
     </div>
 
-    <div id="room-list">{% include "web/rooms/rooms-list.html" %}</div>
+    <div class="mt-4" id="room-list">{% include "web/rooms/rooms-list.html" %}</div>
 
 {% endblock central_content %}

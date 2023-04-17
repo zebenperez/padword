@@ -1,125 +1,127 @@
 {% load i18n padword_tags %}
 
-<div class="card-header bg-secondary text-white">{% trans 'General data' %} <span id="div-notification" style="margin-left:20px"></span> </div>
-<div class="card-body">
-    <div class="row justify-center m-0">
-        <div class="col-lg-9 col-12 grey">
-            {% trans "Image" %}: <div id="div-image">{% include "contents/category-img.html" with obj=obj.get_category%}</div> 
-        </div>
-        <div class="col-lg-3 col-12 grey">
-            <div class="form-check form-switch mt-3">
-                <input class="form-check-input autosave" type="checkbox" id="show_img" name="show_img" data-model-name="contents.category" 
-                    data-obj-id="{{obj.get_category.id}}" data-bool="True" data-url="{%url "autosave_field"%}" data-target="div-notification"
-                    {%if obj.get_category.show_img%}checked{%endif%}> <label class="form-check-label" for="show_desc">{% trans "Show" %} </label>
+<div class="card">
+    <div class="card-header bg-secondary text-white">{% trans 'General data' %} <span id="div-notification" style="margin-left:20px"></span> </div>
+    <div class="card-body">
+        <div class="row justify-center m-0">
+            <div class="col-lg-9 col-12 grey">
+                {% trans "Image" %}: <div id="div-image">{% include "contents/category-img.html" with obj=obj.get_category%}</div> 
             </div>
-          </div>
-        </div>
+            <div class="col-lg-3 col-12 grey">
+                <div class="form-check form-switch mt-3">
+                    <input class="form-check-input autosave" type="checkbox" id="show_img" name="show_img" data-model-name="contents.category" 
+                        data-obj-id="{{obj.get_category.id}}" data-bool="True" data-url="{%url "autosave_field"%}" data-target="div-notification"
+                        {%if obj.get_category.show_img%}checked{%endif%}> <label class="form-check-label" for="show_desc">{% trans "Show" %} </label>
+                </div>
+              </div>
+            </div>
 
-        <div class="col-12">
-            <div class="row justify-center">
-                <div class="col-8 grey">
-                    {% trans "Name" %} 
-                    <input type="text" class="form-control autosave b-bottom mb-4" id="name" name="name" 
-                        value="{% padword_translate obj.get_category.name %}" title="{% padword_translate obj.get_category.name %}" 
-                        data-lang="{% current_lang %}" data-model-name="contents.category" data-obj-id="{{obj.get_category.id}}" 
-                        data-url="{% url "autosave_field" %}" data-target="div-notification"/> <span id="name__msg"></span>
-                </div>
-                <div class="col-4 grey">
-                    {% trans "Code" %} 
-                    <input type="text" class="form-control autosave b-bottom mb-4" id="internal" name="internal" 
-                        value="{{obj.get_category.internal|default:""}}" title="{{obj.get_category.internal}}" data-model-name="contents.category" 
-                        data-obj-id="{{obj.get_category.id}}" data-url="{% url "autosave_field" %}" data-target="div-notification"/> 
-                        <span id="internal__msg"></span>
-                </div>
-                <div class="col-12 grey">
-                    {% trans "Description" %}:
-                    <input type="text" class="form-control autosave b-bottom mb-4" id="description" name="description" 
-                        value="{% padword_translate obj.get_category.description %}" title="{% padword_translate obj.get_category.description%}"  
-                        data-lang = "{% current_lang %}" data-model-name="contents.category" data-obj-id="{{obj.get_category.id}}" 
-                        data-url="{% url "autosave_field" %}" data-target="div-notification" /> <span id="description__msg"></span>
-                </div>
-                <div class="col-12 grey">
-                    {% trans "URL" %}:
-                    <input type="text" class="form-control autosave b-bottom mb-4" id="url" name="url" 
-                        value="{{obj.get_category.url}}" title="{{obj.get_category.url}}" data-lang = "{% current_lang %}" 
-                        data-model-name="contents.category" data-obj-id="{{obj.get_category.id}}" data-url="{% url "autosave_field" %}" 
-                        data-target="div-notification" /> <span id="url__msg"></span>
-                </div>
-                <div class="col-5 grey">
-                    {% trans "Parent Category" %}:
-                    <select class="form-control autosave b-bottom mb-4" id="parent" name="parent" title="{{obj.get_category.parent.name}}" 
-                        data-model-name="contents.category" data-obj-id="{{obj.get_category.pk}}" data-url="{% url "autosave_field" %}" 
-                        data-target="div-notification">
-                        <option value="obj.get_category.parent.pk"> {% trans 'Current' %} - 
-                            {% if obj.parent %}{% padword_translate obj.parent.name %}{% else %}{% trans 'ROOT Category' %} {%endif%}</option>
-                        {% if obj.get_category.parent %}
-                            <option value="{{obj.get_category.parent.parent.pk | default:"0"}}">{% trans 'Level Up' %} - 
-                                {% if obj.get_category.parent.parent %}{% padword_translate obj.get_category.parent.parent.name %}{% else %} 
-                                {% trans 'ROOT Category' %} {%endif%}</option>
-                        {% endif %}
-                        {% for option in obj.get_category.get_parents_options %}
-                            {% if option.pk != obj.get_category.parent.pk and option.pk != obj.pk %}
-                                <option value="{{option.pk}}">{% padword_translate option.name %}</option>
+            <div class="col-12">
+                <div class="row justify-center">
+                    <div class="col-8 grey">
+                        {% trans "Name" %} 
+                        <input type="text" class="form-control autosave b-bottom mb-4" id="name" name="name" 
+                            value="{% padword_translate obj.get_category.name %}" title="{% padword_translate obj.get_category.name %}" 
+                            data-lang="{% current_lang %}" data-model-name="contents.category" data-obj-id="{{obj.get_category.id}}" 
+                            data-url="{% url "autosave_field" %}" data-target="div-notification"/> <span id="name__msg"></span>
+                    </div>
+                    <div class="col-4 grey">
+                        {% trans "Code" %} 
+                        <input type="text" class="form-control autosave b-bottom mb-4" id="internal" name="internal" 
+                            value="{{obj.get_category.internal|default:""}}" title="{{obj.get_category.internal}}" data-model-name="contents.category" 
+                            data-obj-id="{{obj.get_category.id}}" data-url="{% url "autosave_field" %}" data-target="div-notification"/> 
+                            <span id="internal__msg"></span>
+                    </div>
+                    <div class="col-12 grey">
+                        {% trans "Description" %}:
+                        <input type="text" class="form-control autosave b-bottom mb-4" id="description" name="description" 
+                            value="{% padword_translate obj.get_category.description %}" title="{% padword_translate obj.get_category.description%}"  
+                            data-lang = "{% current_lang %}" data-model-name="contents.category" data-obj-id="{{obj.get_category.id}}" 
+                            data-url="{% url "autosave_field" %}" data-target="div-notification" /> <span id="description__msg"></span>
+                    </div>
+                    <div class="col-12 grey">
+                        {% trans "URL" %}:
+                        <input type="text" class="form-control autosave b-bottom mb-4" id="url" name="url" 
+                            value="{{obj.get_category.url}}" title="{{obj.get_category.url}}" data-lang = "{% current_lang %}" 
+                            data-model-name="contents.category" data-obj-id="{{obj.get_category.id}}" data-url="{% url "autosave_field" %}" 
+                            data-target="div-notification" /> <span id="url__msg"></span>
+                    </div>
+                    <div class="col-5 grey">
+                        {% trans "Parent Category" %}:
+                        <select class="form-control autosave b-bottom mb-4" id="parent" name="parent" title="{{obj.get_category.parent.name}}" 
+                            data-model-name="contents.category" data-obj-id="{{obj.get_category.pk}}" data-url="{% url "autosave_field" %}" 
+                            data-target="div-notification">
+                            <option value="obj.get_category.parent.pk"> {% trans 'Current' %} - 
+                                {% if obj.parent %}{% padword_translate obj.parent.name %}{% else %}{% trans 'ROOT Category' %} {%endif%}</option>
+                            {% if obj.get_category.parent %}
+                                <option value="{{obj.get_category.parent.parent.pk | default:"0"}}">{% trans 'Level Up' %} - 
+                                    {% if obj.get_category.parent.parent %}{% padword_translate obj.get_category.parent.parent.name %}{% else %} 
+                                    {% trans 'ROOT Category' %} {%endif%}</option>
                             {% endif %}
-                        {%endfor%}
-                    </select>
-                    <span id="parent__msg"></span>
-                </div>
+                            {% for option in obj.get_category.get_parents_options %}
+                                {% if option.pk != obj.get_category.parent.pk and option.pk != obj.pk %}
+                                    <option value="{{option.pk}}">{% padword_translate option.name %}</option>
+                                {% endif %}
+                            {%endfor%}
+                        </select>
+                        <span id="parent__msg"></span>
+                    </div>
 
-                <div class="col-2 grey">
-                    {% trans "Position" %}:
-                    <input type="number" class="form-control autosave b-bottom mb-4" id="position" name="position" 
-                        value="{{ obj.get_category.position }}" title="{{ obj.get_category.position }}" data-model-name="contents.category" 
-                        data-obj-id="{{obj.get_category.id}}" data-url="{% url "autosave_field" %}" data-target="div-notification"/>
-                        <span id="name__msg"></span>
-                </div>
+                    <div class="col-2 grey">
+                        {% trans "Position" %}:
+                        <input type="number" class="form-control autosave b-bottom mb-4" id="position" name="position" 
+                            value="{{ obj.get_category.position }}" title="{{ obj.get_category.position }}" data-model-name="contents.category" 
+                            data-obj-id="{{obj.get_category.id}}" data-url="{% url "autosave_field" %}" data-target="div-notification"/>
+                            <span id="name__msg"></span>
+                    </div>
 
-                <div class="col-5 grey">
-                    {% trans "Type" %}:
-                    <select name="form_type" id="form_type" class="form-control autosave" data-model-name="bookings.form" 
-                        data-obj-id="{{obj.id}}" data-url="{% url "autosave_field" %}" data-target="div-notification">
-                        <option value="">-- {% trans "Select form type" %} --</option>
-                        {% for item in form_type_list %}
-                            {% if item.project_uuid == "" or item.project_uuid == obj.project.uuid %}
-                                <option value="{{item.id}}" {%if item == obj.form_type %}selected{%endif%}>{{item.name}}</option>
-                            {% endif %}
-                        {% endfor %}
-                    </select> <span id="form_type__msg"></span>
-                </div>
+                    <div class="col-5 grey">
+                        {% trans "Type" %}:
+                        <select name="form_type" id="form_type" class="form-control autosave" data-model-name="bookings.form" 
+                            data-obj-id="{{obj.id}}" data-url="{% url "autosave_field" %}" data-target="div-notification">
+                            <option value="">-- {% trans "Select form type" %} --</option>
+                            {% for item in form_type_list %}
+                                {% if item.project_uuid == "" or item.project_uuid == obj.project.uuid %}
+                                    <option value="{{item.id}}" {%if item == obj.form_type %}selected{%endif%}>{{item.name}}</option>
+                                {% endif %}
+                            {% endfor %}
+                        </select> <span id="form_type__msg"></span>
+                    </div>
 
-                <div class="col-11 grey">
-                    {% trans "UUID" %}:
-                    <input type="text" class="form-control autosave b-bottom mb-4" id="uuid" name="uuid" 
-                        value="{{obj.uuid}}" title="{{obj.uuid}}" data-model-name="bookings.form" data-obj-id="{{obj.id}}" 
-                        data-url="{% url "autosave_field" %}" data-target="div-notification" readonly/> <span id="uuid__msg"></span>
-                </div>
-                <div class="col-1 grey mt-3">
-                    <button type="button" class="btn btn-primary pointer" id="btn-edit-form-uuid"><i class="fas fa-edit"></i></button>
-                </div>
+                    <div class="col-11 grey">
+                        {% trans "UUID" %}:
+                        <input type="text" class="form-control autosave b-bottom mb-4" id="uuid" name="uuid" 
+                            value="{{obj.uuid}}" title="{{obj.uuid}}" data-model-name="bookings.form" data-obj-id="{{obj.id}}" 
+                            data-url="{% url "autosave_field" %}" data-target="div-notification" readonly/> <span id="uuid__msg"></span>
+                    </div>
+                    <div class="col-1 grey mt-3">
+                        <button type="button" class="btn btn-primary pointer" id="btn-edit-form-uuid"><i class="fas fa-edit"></i></button>
+                    </div>
 
-                <div class="col-12 grey gral-options mb-2">
-                    <a data-bs-toggle="collapse" href="#collapseFeature" role="button" aria-expanded="false" aria-controls="collapseFeature">
-                        <i class='far fa-file-alt'></i> {% trans "Features" %} </a>
-                    <div class="collapse" id="collapseFeature"> <div id="div-features-{{obj.get_category.id}}" class="opt">
-                        {% show_feature obj.get_category %}</div> </div>
-                </div>
-                <div class="col-12 grey gral-options mb-2">
-                    <a data-bs-toggle="collapse" href="#collapsePaymentType" role="button" aria-expanded="false" aria-controls="collapsePaymentType">
-                        <i class='fas fa-credit-card'></i> {% trans "Payment Type" %} </a>
-                    <div class="collapse" id="collapsePaymentType"> <div id="div-payment-types-{{obj.get_category.id}}" class="opt">
-                        {% show_payment_types obj.get_category %}</div> </div>
-                </div>
-                <div class="col-12 grey gral-options mb-2">
-                    <a data-bs-toggle="collapse" href="#collapseEmails" role="button" aria-expanded="false" aria-controls="collapseEmails">
-                        <i class="fa fa-envelope"></i> {% trans "Emails" %} </a>
-                    <div class="collapse" id="collapseEmails"> <div id="div-emails-{{obj.id}}" class="opt">
-                        {% show_emails obj %}</div> </div>
-                </div>
-                <div class="col-12 grey gral-options mb-2">
-                    <a data-bs-toggle="collapse" href="#collapseTimetable" role="button" aria-expanded="false" aria-controls="collapseTimetable">
-                        <i class='far fa-calendar-alt'></i> {% trans "Timetable" %} </a>
-                    <div class="collapse" id="collapseTimetable"> <div id="div-timetable-{{obj.id}}" class="opt">
-                        {% show_timetable obj %}</div> </div>
+                    <div class="col-12 grey gral-options mb-2">
+                        <a data-bs-toggle="collapse" href="#collapseFeature" role="button" aria-expanded="false" aria-controls="collapseFeature">
+                            <i class='far fa-file-alt'></i> {% trans "Features" %} </a>
+                        <div class="collapse" id="collapseFeature"> <div id="div-features-{{obj.get_category.id}}" class="opt">
+                            {% show_feature obj.get_category %}</div> </div>
+                    </div>
+                    <div class="col-12 grey gral-options mb-2">
+                        <a data-bs-toggle="collapse" href="#collapsePaymentType" role="button" aria-expanded="false" aria-controls="collapsePaymentType">
+                            <i class='fas fa-credit-card'></i> {% trans "Payment Type" %} </a>
+                        <div class="collapse" id="collapsePaymentType"> <div id="div-payment-types-{{obj.get_category.id}}" class="opt">
+                            {% show_payment_types obj.get_category %}</div> </div>
+                    </div>
+                    <div class="col-12 grey gral-options mb-2">
+                        <a data-bs-toggle="collapse" href="#collapseEmails" role="button" aria-expanded="false" aria-controls="collapseEmails">
+                            <i class="fa fa-envelope"></i> {% trans "Emails" %} </a>
+                        <div class="collapse" id="collapseEmails"> <div id="div-emails-{{obj.id}}" class="opt">
+                            {% show_emails obj %}</div> </div>
+                    </div>
+                    <div class="col-12 grey gral-options mb-2">
+                        <a data-bs-toggle="collapse" href="#collapseTimetable" role="button" aria-expanded="false" aria-controls="collapseTimetable">
+                            <i class='far fa-calendar-alt'></i> {% trans "Timetable" %} </a>
+                        <div class="collapse" id="collapseTimetable"> <div id="div-timetable-{{obj.id}}" class="opt">
+                            {% show_timetable obj %}</div> </div>
+                    </div>
                 </div>
             </div>
         </div>
