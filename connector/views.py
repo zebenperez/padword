@@ -32,8 +32,10 @@ def avantio_get_booking_list(request, project_uuid):
                     #guest.language = booking.client.languaje
                     guest.mobile = booking.client.phone
                     guest.email = booking.client.email
-                    guest.check_in = datetime.strptime(booking.start_date, "%Y-%m-%d")
-                    guest.check_out = datetime.strptime(booking.end_date, "%Y-%m-%d")
+                    if booking.start_date != "":
+                        guest.check_in = datetime.strptime(booking.start_date, "%Y-%m-%d")
+                    if booking.end_date != "":
+                        guest.check_out = datetime.strptime(booking.end_date, "%Y-%m-%d")
                     guest.room = booking.accommodation_code
                     guest.save()
 
