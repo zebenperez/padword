@@ -1,0 +1,70 @@
+{% load i18n padword_tags tz %}
+
+{% include "bookings/back-btn.html" with uuid=cat_uuid %}
+
+<div class="col-10 card info-panel p-2" style="width: 96%; margin-left:2%;">
+    <div class="content">
+        <div class="toolbar-content"> <h1 class="ql-align-center">{% trans 'Orders' %}</h1></div>
+        <select class="form-control mb-1" id="status-list">
+            <option value="0">{% trans "ALL" %}</option>
+            {% for status in status_list %}
+                <option value="{{status.pk}}">{% padword_translate status.name %}</option>
+            {% endfor %}
+        </select>
+        <div id="booking-list" class="mb-5">
+            <div class="">
+                {% for item in items %}
+                    {%comment%}
+                    <div class="row w-100 booking-line pointer pb-2 mb-2 ark status-{{item.get_status.status.pk}}" id="row_{{item.id}}"
+                        data-url="{% url "booking-guest-view" %}" data-target="main" data-obj_id="{{item.id}}" data-cat_id="{{cat_uuid}}"
+                        tyle="background:{{item.get_status.status.color}} !important;">
+                    {%endcomment%}
+                    <div class="row w-100 booking-line pointer pb-2 mb-2 ark status-{{item.get_status.status.pk}}" id="row_{{item.id}}"
+                        data-url="{% url "tpv-order-details" %}" data-target="booking-details-{{item.id}}" data-obj_id="{{item.id}}" 
+                        data-cat_id="{{cat_uuid}}" onclick="$('#booking-details-{{item.id}}').slideToggle(); $('.details-{{item.pk}}').toggle();">
+
+                        <div class="col-7 pl-20 pt-2" style="background:{{item.get_status.status.color}} !important;">{% trans 'Service' %}</div>
+                        <div class="col-5 pt-2 text-right" style="background:{{item.get_status.status.color}} !important;">{% trans 'Status' %}</div>
+                        {%comment%}
+                        <div class="col-1 text-right chevron pt-2" style="background:{{item.get_status.status.color}} !important;">
+                            <i class="fas fa-chevron-right"></i> </div>
+                        {%endcomment%}
+
+                        <div class="col-7 pl-20 pb-2 booking-name" style="background:{{item.get_status.status.color}} !important;">
+                            <strong>{% padword_translate item.form.get_category.name %}</strong></div>
+                        <div class="col-5 pb-2 booking-status text-right" style="background:{{item.get_status.status.color}} !important;">
+                            <strong>{% padword_translate item.get_status.status.name %}</strong>
+                        </div>
+                        <div class="col-12 pb-2 booking-status text-left" style="background:{{item.get_status.status.color}} !important;">
+                            {% if item.get_status.comment != "" %} ({% padword_translate item.get_status.comment %}) {% endif %}
+                        </div>
+                        {#<div class="col-1 pb-2" style="background:{{item.get_status.status.color}} !important;"></div>#}
+
+                        <div class="col-10 pl-20 pt-2">{{ item.date|timezone:"Atlantic/Canary"|date:'Y-m-d H:i' }}</div>
+                        <div class="col-2 pl-20 pt-1 text-end">
+                            <a class="btn pl-2 w-100 cat-title text-end"> 
+                                <i class="fas fa-angle-down details-{{item.pk}}"></i>
+                                <i class="fas fa-angle-up details-{{item.pk}}" style="display:none" ></i>
+                            </a>
+                        </div>
+
+                        <div id="booking-details-{{item.id}}" class="booking-details" style="display:none; padding:0px !important;"></div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $("#status-list").change(function(){
+        var id = $('#status-list option').filter(':selected').val();
+        if (id == "0")
+            $('.booking-line').show();
+        else
+        {
+            $('.booking-line').hide();
+            $('.status-'+id).show();
+        }
+    });
+</script>
+

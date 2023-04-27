@@ -1,0 +1,32 @@
+{% load i18n bookings_tag common_tag padword_tags %}
+
+<script>$("#back-btn").hide(); $("#back-btn-bookings").show()</script>
+<div class="col-12 card info-panel">
+    <div class="content">
+        {% include "bookings/tpv/order-details-list.html" %}
+        {%comment%}
+        {% if "ecom" in fi.form.form_type.code %}
+            {% include "bookings/guest/view-booking-ecom.html" %}
+        {% elif "general" in fi.form.form_type.code %}
+            {% include "bookings/guest/view-booking-general.html" %}
+        {% endif %}
+        {%endcomment%}
+
+        {% if manage %}
+            <div class="row mb-4 d-flex justify-content-center change-status-box">
+                {% if status_list and show_status == "True"%}<div id="div-status">{% include "bookings/manage/status-form.html" %}</div>{% endif %}
+
+                <div class="actions text-center mt-2">
+                    {%comment%}
+                    <button id="btn-close-modal" class="btn btn-marine ark" data-target="status-{{fi.id}}" 
+                        data-url="{% url 'booking-refresh-status' %}" data-obj_id="{{fi.id}}" data-bs-dismiss="modal">{%trans "Close"%}</button></div>
+                    {%endcomment%}
+                    <button id="btn-close-modal" class="btn btn-marine" data-bs-dismiss="modal">{%trans "Close"%}</button>
+                </div>
+            </div>
+        {% endif %}
+    </div>
+</div>
+
+{#{% if fi.form.image %} <script>$('body').css('background-image', 'url("{{fi.form.image.url}}")');</script> {% endif %}#}
+

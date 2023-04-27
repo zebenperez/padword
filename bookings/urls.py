@@ -167,21 +167,27 @@ urlpatterns = [
     path('tpv-access/<slug:project_uuid>/', tpv.tpv_access, name='tpv-access'),
     path('tpv-login/', tpv.tpv_login, name='tpv-login'),
     path('tpv-login-form/', tpv.tpv_login_form, name='tpv-login-form'),
+    path('tpv-close/', tpv.tpv_close, name='tpv-close'),
 
     path('tpv-index/<slug:project_uuid>/', tpv.tpv_index, name='tpv-index'),
+    path('tpv-ticket/', tpv.tpv_ticket, name='tpv-ticket'),
     path('tpv-set-pos/', tpv.tpv_set_pos, name='tpv-set-pos'),
+
     path('tpv-shopping-cart/', tpv.tpv_shopping_cart, name='tpv-shopping-cart'),
     path('tpv-category-shopping-cart/', tpv.tpv_category_shopping_cart, name='tpv-category-shopping-cart'),
-    path('tpv-remove-item/', tpv.tpv_remove_item, name='tpv-remove-item'),
     path('tpv-add-item/', tpv.tpv_add_item, name='tpv-add-item'),
-    path('tpv-set-items/', tpv.tpv_set_items, name='tpv-set-items'),
+    #path('tpv-remove-item/', tpv.tpv_remove_item, name='tpv-remove-item'),
+    #path('tpv-set-items/', tpv.tpv_set_items, name='tpv-set-items'),
 
     path('tpv-order-remove/', tpv.tpv_order_remove, name='tpv-order-remove'),
-    path('tpv-order-view/', tpv.tpv_order_view, name='tpv-order-view'),
+    #path('tpv-order-view/', tpv.tpv_order_view, name='tpv-order-view'),
     path('tpv-order-item-remove/', tpv.tpv_order_item_remove, name='tpv-order-item-remove'),
     path('tpv-order-item-comment/', tpv.tpv_order_item_comment, name='tpv-order-item-comment'),
-    path('tpv-order-payment/', tpv.tpv_order_payment, name='tpv-order-payment'),
+    #path('tpv-order-payment/', tpv.tpv_order_payment, name='tpv-order-payment'),
     path('tpv-order-send/', tpv.tpv_order_send, name='tpv-order-send'),
+
+    path('tpv-orders-by-waiter/', tpv.orders_by_waiter, name='tpv-orders-by-waiter'),
+    path('tpv-order-details/', tpv.order_details, name='tpv-order-details'),
 
 
     path('fix-uuid/', views.fix_uuid, name='booking-fix-uuid'),

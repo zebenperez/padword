@@ -334,11 +334,13 @@ class Guest(models.Model):
     def delete_all(self):
         self.remove_all_key_codes()
         self.remove_all_key_cards()
+        self.remove_all_sensibo_devices()
         self.delete()
 
     def delete_soft(self):
         msg = self.remove_all_key_codes_log()
         msg += self.remove_all_key_cards_log()
+        self.remove_all_sensibo_devices()
         self.deleted = 1
         self.save()
         return msg

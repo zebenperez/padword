@@ -1,28 +1,56 @@
 {% load i18n bookings_tag common_tag padword_tags static%}
-{% get_css_project form.project.pk %}
+{#{% get_css_project form.project.pk %}#}
+{%block extralinks%} <link rel="stylesheet" href="{% static 'css/tpv.css' %}" > {% endblock %}
         
-<div id="main-base"> 
-    {%block extralinks%} <link rel="stylesheet" href="{% static 'css/menu_lanis.css' %}" > {% endblock %}
-
-    <div class="col-10 text-end p-0">
-        <button class="btn btn-header-pwa text-center history ark" id="shopping-cart-btn" data-url="{% url 'tpv-order-view' %}" 
-            data-target-modal="common-modal" data-project_uuid="{{project_uuid}}" data-form_id=""><i class="fas fa-shopping-cart"></i> <br/>
-            <span class="subtext">{% trans 'Shopping' %}</span>
-            <span class="count badge" id="count-badge" style="display:none"> <span id="span-total-items"></span></span>
-        </button>
-    </div>
-
-    <div id="main" class="main-pwa"> 
+<div id="base">
+    <div class="row w-100 m-0">
+    {% if point_of_sales|length > 0 %}
         {% for item in point_of_sales %}
-            <button class="menu-options ark" data-url="{% url "tpv-set-pos" %}" data-target="main" data-obj_id="{{item.id}}">
-                {{item.name}}</button>
-        {% endfor %}
-
-        {% for item in form_list %}
-            <button id="btn-children-{{item.pk}}" class="menu-options ark" data-url="{% url "tpv-shopping-cart" %}" data-target="main"
-                data-form_id="{{item.id}}" data-cat_id="{{item.category}}">{% padword_translate_obj item.category %}</button>
+            <div class="col-lg-6 col-12">
+                <button class="menu-options ark" data-url="{%url "tpv-set-pos"%}" data-target="base" data-obj_id="{{item.id}}">{{item.name}}</button>
+            </div>
         {% endfor %}
     </div>
+    {% else %}
+        {% include "bookings/tpv/index-main.html" %}
+    {% endif %}
 </div>
-{% include "common-modal.html" %}
+
+
+
+
+
+            {% comment %}
+            <div class="row top-tpv w-100 text-center m-0">
+                <div class="col-4 text-center">
+                    <button class="btn btn-header-tpv text-center ark" id="btn-bookings" data-url="{% url "tpv-index" project_uuid %}" 
+                        data-target="main" data-project_uuid="{{project_uuid}}" data-cat_id="{{form.category}}" data-template="index-main">
+                        <span>{% trans 'Home' %}</span><br /><i class="fas fa-home"></i>
+                    </button>
+                </div>
+                <div class="col-4 text-center">
+                    <button class="btn btn-header-tpv text-center ark" id="btn-bookings" data-url="{%url "tpv-orders-by-waiter"%}" data-target="main" 
+                        data-project_uuid="{{project_uuid}}" data-cat_id="{{form.category}}"> 
+                        <span>{% trans 'Orders' %}</span><br /><i class="far fa-calendar"></i>           
+                    </button>
+                </div>
+                <div class="col-4 text-center">
+                    <button class="btn btn-header-tpv text-center ark" id="shopping-cart-btn" data-url="{% url 'tpv-order-view' %}" 
+                        data-target="main" data-project_uuid="{{project_uuid}}" data-form_id="">
+                        <span>{% trans 'Shopping' %}</span> <span class="count badge" id="count-badge" style="display:none"> 
+                        <span id="span-total-items"></span></span><br/><i class="fas fa-shopping-cart"></i> 
+                    </button>
+                </div>
+            </div>
+            {% endcomment %}
+        {%comment%}
+            <div class="col-4 text-center" style="border:1px solid blue">
+                <button class="btn btn-header-pwa text-center history ark" id="shopping-cart-btn" data-url="{% url 'tpv-order-view' %}" 
+                    data-target-modal="common-modal" data-project_uuid="{{project_uuid}}" data-form_id=""><i class="fas fa-shopping-cart"></i> <br/>
+                    <span class="subtext">{% trans 'Shopping' %}</span>
+                    <span class="count badge" id="count-badge" style="display:none"> <span id="span-total-items"></span></span>
+                </button>
+            </div>
+        {%endcomment%}
+
 

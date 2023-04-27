@@ -1,21 +1,15 @@
 {% load i18n bookings_tag common_tag padword_tags static%}
 
-<div class="row d-flex justify-content-center mt-1 ">
+<div class="row d-flex justify-content-start m-0">
     {% for item in category.get_items_active %}
-        <div class="col-lg-2 col-md-3 col-xs-12 justify-content-center"> {% include "bookings/tpv/show-item.html" with show_footer=True %} </div>
+        <div class="col-lg-2 col-md-3 col-xs-12 justify-content-start"> {% include "bookings/tpv/show-item.html" with show_footer=True %} </div>
     {% endfor %}
 </div>
 {%csrf_token%}
 {% for children in category.get_active_childrens %}
-    <div class="cart-item mb-4">
-        <div class="col-12 d-flex align-middle justify-content-center">
-            <a class="btn btn-dark pl-2 w-100 b-item" onclick="$('.div-shopping-cart-{{children.pk}}').toggle();"> 
-                <i class="fas fa-arrow-circle-down div-shopping-cart-{{children.pk}}" ></i>
-                <i class="fas fa-arrow-circle-up div-shopping-cart-{{children.pk}}" style="display:none" ></i>
-                {% padword_translate children.name%} 
-            </a>
-        </div>
-    <div id="div-shopping-cart-{{children.pk}}" class="div-shopping-cart-{{children.pk}}" style="display:none"></div>
+    <div class="cart-item tpv-category" data-tags="{{children.pk}}">
+        <div class="col-12 section-title mb-2"> {%padword_translate children.name%}</div>
+        <div id="div-shopping-cart-{{children.pk}}" class="div-shopping-cart-{{children.pk}}"></div>
     </div>
 
     {% with 'div-shopping-cart-'|addstr:children.pk as target %}

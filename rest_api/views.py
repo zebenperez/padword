@@ -71,6 +71,8 @@ class GuestViewSet(viewsets.ModelViewSet):
                 guest = Guest.objects.create(**data)
                 logger.info("[{}]: \"Guest {} {} created\"".format(self.request.user, guest.name, guest.surname))
                 guest.add_all_key_code()
+                #if guest.room != "":
+                #    guest.change_sensibo_devices(guest.room)
                 logger.info("[{}]: \"Guest key codes {} {} created\"".format(self.request.user, guest.name, guest.surname))
                 return Response(data=self.serializer_class(guest).data, status=status.HTTP_201_CREATED)
             else:
@@ -132,6 +134,7 @@ class GuestViewSet(viewsets.ModelViewSet):
                 update_dates = True
             if "room" in request.POST and request.POST["room"] != guest.room:
                 guest.change_room(request.POST["room"])
+                #guest.change_sensibo_devices(request.POST["room"])
             guest.save()
             if update_dates:
                 guest.change_all_key_code_date()

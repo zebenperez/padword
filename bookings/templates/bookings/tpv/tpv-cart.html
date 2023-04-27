@@ -10,19 +10,52 @@
 {% if form.show_desc %} <div class="col-12 card info-panel p-4">{% padword_translate form.desc %}</div> {% endif %}
 
 <div class="card slider-cart">
+    {# ---------------- SEARCH --------------------#}
+    <div> <input type="text" class="form-control tpv-search" data-search-class="tpv-item" placeholder="{% trans "Search..." %}"/> </div>
+
+    {# ---------------- FAVORITES --------------------#}
+    <div class="cart-item mb-1">
+        <div class="col-12 section-title mb-2">{%trans "Favorite items"%}</div>
+        <div id="div-shopping-cart-favorite" class="div-shopping-cart-favorite">
+            <div class="row d-flex justify-content-start m-0">
+                {% for item in item_favorites %}
+                    <div class="col-lg-2 col-md-3 col-xs-12 justify-content-center">
+                        {%include "bookings/tpv/show-item.html" with show_footer=True%}</div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+    {# ---------------- COMMONS --------------------#}
+    <div class="cart-item mb-1">
+        <div class="col-12 section-title mb-2">{%trans "Common items"%}</div>
+        <div id="div-shopping-cart-favorite" class="div-shopping-cart-common">
+            <div class="row d-flex justify-content-start m-0">
+                {% for item in item_commons %}
+                    <div class="col-lg-2 col-md-3 col-xs-12 justify-content-start">
+                        {%include "bookings/tpv/show-item.html" with show_footer=True%}</div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+    {# ---------------- ITEMS --------------------#}
     {% include "bookings/tpv/tpv-cart-list.html" %}
 
     {% if form|check_timetable %}
         <div class="col-12">
             <div class="row mt-4 mb-4 d-flex justify-content-center">
+                {%comment%}
                 <div class="col-lg-3 col-md-4 col-xs-2 offset-xs-1 actions text-center mb-3">
-                    <button class="btn btn-marine ark w-100" data-url="{% url 'tpv-order-view' %}" data-target-modal="common-modal" 
-                        data-project_uuid="{{fi.form.project.uuid}}" data-form_id="{{fi.pk}}"> {% trans 'View Shopping Cart' %}</button>
+                    <button class="btn btn-marine w-100 ark" id="btn-bookings" data-url="{% url "tpv-order-view" %}" 
+                        data-target="main" data-project_uuid="{{fi.form.project.uuid}}"> <span>{% trans 'View Order' %}</span>
+                    </button>
                 </div>
                 <div class="col-lg-3 offset-lg-1 col-md-4 offset-md-1 col-xs-2 offset-xs-1 actions text-center">
                     <button class="btn btn-marine w-100 ark" data-url="{% url "tpv-order-remove" %}"
                         data-target="main" data-obj_id="{{fi.id}}"> {% trans "Cancel Order" %}</button>
                 </div>
+                {%endcomment%}
             </div>
         </div>
     {% endif %}

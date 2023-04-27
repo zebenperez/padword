@@ -114,6 +114,10 @@ class Category(models.Model):
             return []
 
     @property
+    def get_items_favorites(self):
+        return [item.item for item in ItemInCat.objects.filter(category = self, item__is_active=True, item__favorite=True).order_by('position')]
+
+    @property
     def get_childrens(self):
         try:
             #return Category.objects.filter(parent = self, is_active = True)
@@ -233,6 +237,7 @@ class Item(models.Model):
     extras = models.TextField(verbose_name='Extras', blank=True, null=True)
     contains_allergens = models.IntegerField(choices=ISACTIVECHOICES, verbose_name='Active', default=0)
     image = models.ImageField(upload_to=image_file, verbose_name=_("Image"), blank=True, null=True)
+    favorite = models.BooleanField(default=False, verbose_name=_("Favorite"))
 
     def __str__(self):
         return (translate(None,self.name))

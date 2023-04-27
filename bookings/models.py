@@ -1,5 +1,5 @@
 from django.db import models
-from django.db.models import Max
+from django.db.models import Count, Max
 from django.contrib.auth.models import User, Group
 from django.utils.translation import ugettext_lazy as _ 
 
@@ -164,6 +164,11 @@ class Form(models.Model):
     def get_category_uuid_by_code(self, code):
         cat = Category.objects.filter(project_uuid=self.project.uuid, internal=code).first()
         return cat.uuid if cat != None else ""
+
+    def get_common_items(self):
+        fi_list = [fi.id for fi in FormInstance.objects.filter(form_uuid=self.uuid)]
+        item_list = list(ShoppingCart.objects.filter(form_instance_id__in=fi_list).values_list('item', flat=True).annotate(total=Count('item')).order_by('-total')[:2])
+        return Item.objects.filter(id__in=item_list)
 
     @staticmethod
     def get_main(project):

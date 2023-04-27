@@ -21,8 +21,8 @@
 </div>
 
 <div class="row mt-2">
-    <a class="btn btn-marine w-100 ark" data-url="{% url 'tpv-order-view' %}" data-target-modal="common-modal" 
-        data-project_uuid="{{obj.item.project.uuid}}"> {% trans "Save" %}</a>
+    <a class="btn btn-marine w-100 ark" data-url="{% url 'tpv-ticket' %}" data-target="ticket-summary" 
+        data-obj_id="{{obj.form_instance_id}}" data-bs-dismiss="modal"> {% trans "Save" %}</a>
 </div>
 
 <script>

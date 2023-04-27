@@ -22,13 +22,13 @@
                     title="{% padword_translate obj.name %}" data-lang="{% current_lang %}" data-model-name="contents.item" data-obj-id="{{obj.id}}" 
                     data-url="{% url "autosave_field" %}" data-target="div-notification"/> <span id="name__msg"></span>
             </div>
-            <div class="col-sm-3 col-md-3 col-12">
+            <div class="col-sm-2 col-md-2 col-12">
                 {% trans "Price" %}:
                 <input type="number" step="0.01" class="form-control autosave b-bottom mb-4" id="price" name="price" value="{{obj.price}}" 
                     title="{% trans 'Price' %}" data-model-name="contents.item" data-obj-id="{{obj.id}}" data-url="{% url "autosave_field" %}" 
                     data-target="div-notification"/> <span id="price__msg"></span>	
             </div>
-            <div class="col-sm-3 col-md-3 col-12">
+            <div class="col-sm-2 col-md-2 col-12">
                 {% trans "Active" %}:
                 <select class="form-control autosave b-bottom mb-4" id="is_active" name="is_active" value="{{obj.is_active}}" 
                     title="{{obj.ais_ctive}}" data-model-name="contents.item" data-obj-id="{{obj.id}}" data-url="{% url "autosave_field" %}" 
@@ -38,6 +38,12 @@
                 </select>
                 <span id="active__msg"></span>
             </div>
+            <div class="col-sm-2 col-md-2 col-12">
+                <input type="checkbox" class="form-check-input autosave b-bottom mb-4" id="favorite" name="favorite" title="{% trans 'Favorite' %}" 
+                    data-model-name="contents.item" data-obj-id="{{obj.id}}" data-url="{% url "autosave_field" %}" data-target="div-notification" 
+                    data-bool="True" {%if obj.favorite%}checked{%endif%}/> <span id="favorite__msg"></span>	{% trans "Favorite" %}
+            </div>
+
             <div class="col-12">
                 {% trans "Description" %} 
                 (<a id="show-html" class="small toggle-editor" data-source="description" data-editor="desc-editor-item">html</a>):
