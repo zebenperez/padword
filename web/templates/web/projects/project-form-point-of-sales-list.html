@@ -20,5 +20,15 @@
                 data-obj_id="{{item.id}}"> <i class="fas fa-trash"></i></button>
         </div>
     </div>		
+
+    <div class="row justify-center">
+        {% for cat in form.get_category.get_active_childrens %}
+            <div class="col-2">
+                <button class="btn {%if cat in item.get_categories%}btn-primary-active{%else%}btn-outline-primary{%endif%} ark" 
+                    data-url="{% url "project-pos-cat-toggle" %}" data-target="" data-obj_id="{{item.id}}" data-category_id="{{cat.id}}"
+                    onclick="$(this).toggleClass('btn-outline-primary btn-primary-active')">{% padword_translate cat.name %}</button>
+            </div>
+        {% endfor %}
+    </div>
 {% endfor %}
 

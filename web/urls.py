@@ -21,6 +21,7 @@ urlpatterns = [
     path('projects/regime-toggle/', views.project_regime_toggle, name='project-regime-toggle'),
     path('projects/pos-add/', views.project_pos_add, name='project-pos-add'),
     path('projects/pos-remove/', views.project_pos_remove, name='project-pos-remove'),
+    path('projects/pos-cat-toggle/', views.project_pos_cat_toggle, name='project-pos-cat-toggle'),
     #--------------------- Channels --------------------
     path('channels/project-<slug:project_id>/', views.channels, name='channels-by-project'),
     path('channels/company-<slug:company_id>/', views.channels, name='channels-by-company'),

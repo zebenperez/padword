@@ -467,8 +467,15 @@ class PointOfSale(models.Model):
         except Exception as e:
             return None
 
+    def get_categories(self):
+        return [item.category for item in self.categories.all()]
+
     class Meta:
         verbose_name = _("Point of sale")
         verbose_name_plural = _("Points of sales")
+
+class PointOfSaleCategory(models.Model):
+    category = models.ForeignKey(Category, on_delete=models.CASCADE, verbose_name=_("Category"), related_name="point_of_sales")
+    point_of_sale = models.ForeignKey(PointOfSale, on_delete=models.CASCADE, verbose_name=_("Point of sale"), related_name="categories")
 
 
