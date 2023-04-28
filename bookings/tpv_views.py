@@ -87,17 +87,27 @@ def tpv_index(request, project_uuid):
         if "point_of_sale" not in request.session or request.session["point_of_sale"] == "":
             project = get_or_none(Project, project_uuid, "uuid")
             point_of_sales = PointOfSale.objects.filter(project_uuid=project.uuid)
-            form = None
-            fi = None
+            return render(request, "bookings/tpv/index.html", {'point_of_sales': point_of_sales,})
         else:
             form = Form.objects.filter(form_type__code="tpv", form_type__project_uuid=project.uuid).first()
             pos = get_or_none(PointOfSale, request.session["point_of_sale"])
             fi = get_or_create_form_instance(form, pos.uuid, request.user.username)
-            point_of_sales = []
+            cat_list = [item.category for item in pos.categories.all()]
+            item_favorites = []
+            for cat in cat_list:
+                item_favorites += list(cat.get_items_favorites)
+            item_commons = form.get_common_items()
 
-        template = request.GET["template"] if "template" in request.GET and request.GET["template"] != "" else "index"
-        context = {'project_uuid':project.uuid, 'point_of_sales': point_of_sales, 'form':form, 'fi': fi}
-        return render(request, "bookings/tpv/{}.html".format(template), context)
+            #template = request.GET["template"] if "template" in request.GET and request.GET["template"] != "" else "index"
+            context = {
+                'project_uuid':project.uuid, 
+                'form':form, 
+                'fi': fi, 
+                'cat_list': cat_list,
+                'item_favorites': item_favorites,
+                'item_commons': item_commons
+            }
+            return render(request, "bookings/tpv/index.html", context)
     except Exception as e:
         print(e)
         return render(request, "error_exception.html", {'exc':show_exc(e)})
@@ -122,43 +132,43 @@ def tpv_ticket(request):
         return render(request, "error_exception.html", {'exc':show_exc(e)})
 
 
-@group_required("waiters")
-def tpv_shopping_cart(request):
-    try:
-        #form_id = get_param(request.GET, "form_id", 0)
-        #form = get_or_none(Form, form_id)
-        fi = get_or_none(FormInstance, request.GET["fi_id"])
-        form = fi.form
-        category = form.get_category
-        item_favorites = []
-        pos = get_or_none(PointOfSale, request.session["point_of_sale"])
-        #fi = get_or_create_form_instance(form, pos.uuid, request.user.username)
-
-        for cat in category.get_active_childrens:
-            item_favorites += list(cat.get_items_favorites)
-
-        item_commons = form.get_common_items()
-
-        context = {'category':category, 'form': form, 'fi':fi, 'back': False, 'item_favorites': item_favorites, 'item_commons': item_commons}
-        return render(request, form.form_type.template, context)
-    except Exception as e:
-        print(e)
-        return render(request, "error_exception.html", {'exc':show_exc(e)})
-
-@group_required("waiters")
-def tpv_category_shopping_cart(request, form_id=None, cat_id = None):
-    try:
-        form_id = get_param(request.GET, "form_id", 0)
-        cat_id = get_param(request.GET, "cat_id")
-        guest = get_or_none(Guest, get_param(request.GET, "guest_id"))
-
-        instance = get_or_none(FormInstance, form_id)
-        category = Category.objects.get(uuid=cat_id)
-        form = Form.objects.filter(category=category.uuid).first()
-        return render(request, form.form_type.template, {'category':category, 'fi':instance, 'back': False, 'guest': guest})
-    except Exception as e:
-        print(e)
-        return render(request, "error_exception.html", {'exc':show_exc(e)})
+#@group_required("waiters")
+#def tpv_shopping_cart(request):
+#    try:
+#        #form_id = get_param(request.GET, "form_id", 0)
+#        #form = get_or_none(Form, form_id)
+#        fi = get_or_none(FormInstance, request.GET["fi_id"])
+#        form = fi.form
+#        category = form.get_category
+#        item_favorites = []
+#        pos = get_or_none(PointOfSale, request.session["point_of_sale"])
+#        #fi = get_or_create_form_instance(form, pos.uuid, request.user.username)
+#
+#        for cat in category.get_active_childrens:
+#            item_favorites += list(cat.get_items_favorites)
+#
+#        item_commons = form.get_common_items()
+#
+#        context = {'category':category, 'form': form, 'fi':fi, 'back': False, 'item_favorites': item_favorites, 'item_commons': item_commons}
+#        return render(request, form.form_type.template, context)
+#    except Exception as e:
+#        print(e)
+#        return render(request, "error_exception.html", {'exc':show_exc(e)})
+#
+#@group_required("waiters")
+#def tpv_category_shopping_cart(request, form_id=None, cat_id = None):
+#    try:
+#        form_id = get_param(request.GET, "form_id", 0)
+#        cat_id = get_param(request.GET, "cat_id")
+#        guest = get_or_none(Guest, get_param(request.GET, "guest_id"))
+#
+#        instance = get_or_none(FormInstance, form_id)
+#        category = Category.objects.get(uuid=cat_id)
+#        form = Form.objects.filter(category=category.uuid).first()
+#        return render(request, form.form_type.template, {'category':category, 'fi':instance, 'back': False, 'guest': guest})
+#    except Exception as e:
+#        print(e)
+#        return render(request, "error_exception.html", {'exc':show_exc(e)})
 
 @group_required("waiters")
 def tpv_add_item(request):

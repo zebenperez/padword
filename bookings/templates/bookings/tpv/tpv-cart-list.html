@@ -1,24 +1,19 @@
 {% load i18n bookings_tag common_tag padword_tags static%}
 
-<div class="row d-flex justify-content-start m-0">
-    {% for item in category.get_items_active %}
-        <div class="col-lg-2 col-md-3 col-xs-12 justify-content-start"> {% include "bookings/tpv/show-item.html" with show_footer=True %} </div>
-    {% endfor %}
-</div>
-{%csrf_token%}
-{% for children in category.get_active_childrens %}
-    <div class="cart-item tpv-category" data-tags="{{children.pk}}">
-        <div class="col-12 section-title mb-2"> {%padword_translate children.name%}</div>
-        <div id="div-shopping-cart-{{children.pk}}" class="div-shopping-cart-{{children.pk}}"></div>
+{% for cat in cat_list %}
+    <div class="cart-item tpv-category" data-tags="{{cat.pk}}">
+        <div class="col-12 section-title mb-2"> {%padword_translate cat.name%}</div>
+        <div id="div-shopping-cart-{{cat.pk}}" class="div-shopping-cart-{{cat.pk}}">
+
+            <div class="row d-flex justify-content-start m-0">
+                {% for item in cat.get_items_active %}
+                    <div class="col-lg-2 col-md-3 col-xs-12 justify-content-start"> 
+                        {% include "bookings/tpv/show-item.html" with show_footer=True %} </div>
+                {% endfor %}
+            </div>
+
+        </div>
     </div>
-
-    {% with 'div-shopping-cart-'|addstr:children.pk as target %}
-        <button id="btn-children-{{children.pk}}" class="ark" data-url="{% url "tpv-category-shopping-cart" %}" data-target="{{target}}"
-            data-form_id="{{fi.id}}" data-cat_id="{{children.uuid}}" data-guest_id="{{guest.id}}" style="display:none"></button>
-    {% endwith %}
-    <script> $("#btn-children-{{children.pk}}").click(); </script>
-
 {% endfor %}
-<div class="d-none" id="for-scripts"> </div>
 
 

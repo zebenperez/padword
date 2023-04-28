@@ -6,7 +6,7 @@
         <div class="col-lg-3 offset-lg-3 col-7 text-center">
             <select name="" id="" class="tpv-articles w-100 text-center tpv-search-change" data-search-class="tpv-category">
                 <option value="">Todos los artículos</option>
-                {% for item in form.get_category.get_active_childrens %}
+                {% for item in cat_list %}
                     <option value="{{item.pk}}">{% padword_translate item.name %}</option>
                 {% endfor %}
             </select>
@@ -20,7 +20,7 @@
         <div class="row header-right w-100 m-0 mb-2">
             <div class="col-lg-6 text-start">Ticket</div>
             <div class="col-lg-3"><i class="fas fa-user-plus"></i></div>
-            <div class="col-lg-3"><img src="/static/img/96x96-icono.png"></div>
+            <div class="col-lg-3 logo"><img src="/static/img/96x96-icono.png"></div>
         </div>
         <div class="row w-100 m-0">
             {%comment%}
@@ -39,9 +39,12 @@
 
     <div id="main" class="main-tpv">
         {% if form and form != None %}
+            {% include "bookings/tpv/tpv-cart.html" %}
+            {%comment%}
             <button id="btn-children-{{form.pk}}" class="menu-options hide ark" data-url="{% url "tpv-shopping-cart" %}" data-target="main"
                 data-fi_id="{{fi.id}}" data-cat_id="{{form.category}}">{% padword_translate_obj form.category %}</button>
             <script>$("#btn-children-{{form.pk}}").click()</script>
+            {%endcomment%}
         {% endif %}
     </div>
     {% include "common-modal.html" %}

@@ -173,8 +173,8 @@ urlpatterns = [
     path('tpv-ticket/', tpv.tpv_ticket, name='tpv-ticket'),
     path('tpv-set-pos/', tpv.tpv_set_pos, name='tpv-set-pos'),
 
-    path('tpv-shopping-cart/', tpv.tpv_shopping_cart, name='tpv-shopping-cart'),
-    path('tpv-category-shopping-cart/', tpv.tpv_category_shopping_cart, name='tpv-category-shopping-cart'),
+    #path('tpv-shopping-cart/', tpv.tpv_shopping_cart, name='tpv-shopping-cart'),
+    #path('tpv-category-shopping-cart/', tpv.tpv_category_shopping_cart, name='tpv-category-shopping-cart'),
     path('tpv-add-item/', tpv.tpv_add_item, name='tpv-add-item'),
     #path('tpv-remove-item/', tpv.tpv_remove_item, name='tpv-remove-item'),
     #path('tpv-set-items/', tpv.tpv_set_items, name='tpv-set-items'),
