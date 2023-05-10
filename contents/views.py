@@ -267,6 +267,35 @@ def category_remove_image_gallery(request):
         #logger.error("[remove_file]" + str(e))
         return render(request, 'error_exception.html', {'msg': str(e)})
 
+@group_required("admins", "projects")
+def category_add_file(request):
+    try:
+        obj_id = request.POST["obj_id"]
+        f = request.FILES["file"]
+
+        cat = get_or_none(Category, obj_id)
+        if cat != None:
+            cf = CategoryFile.objects.create(file=f, category=cat)
+        return render(request, "contents/category-files.html", {"obj": cat,})
+    except Exception as e:
+        print(e)
+        #logger.error("[bookings-form_add_image]" + str(e))
+        return render(request, 'error_exception.html', {'msg': str(e)})
+
+@group_required("admins", "projects")
+def category_remove_file(request):
+    try:
+        obj_id = request.GET["obj_id"]
+        obj = get_or_none(CategoryFile, obj_id) 
+        cat = obj.category
+        obj.file.delete(save=True)
+        obj.delete()
+        return render(request, "contents/category-files.html", {"obj": cat,})
+    except Exception as e:
+        print(e)
+        #logger.error("[remove_file]" + str(e))
+        return render(request, 'error_exception.html', {'msg': str(e)})
+
 
 '''
     Items
@@ -525,7 +554,7 @@ def item_change_price(request):
 
         obj = get_or_none(Item, obj_id) 
         ip, created = ItemPrice.objects.get_or_create(item=obj, regime_code=code)
-        ip.price = get_float(value)
+        ip.price = get_float(value.replace(",", "."))
         ip.save()
 
         return HttpResponse("Saved!")

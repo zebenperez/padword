@@ -1,0 +1,25 @@
+{% load i18n common_tag %}
+
+<div class="row justify-center">
+    <div class="col-12">
+        <label for="id_file_{{obj.id}}" class="btn btn-primary file-field-btn text-white"> <i class="fas fa-upload"></i> 
+            <span class="text">{% trans "Upload File" %}</span> </label>
+        <input type="file" class="upload d-none hide custom-file-upload" name="file" id="id_file_{{obj.id}}" 
+            data-url="{% url 'category-add-file' %}" data-target="div-files" data-obj-id="{{obj.id}}" data-csrf-token="{{csrf_token}}" multiple/>
+        <br/><br/>
+    </div> 
+
+    {% for item in obj.files.all %}
+        <div class="col-lg-3 col-12">
+            <div class="col-12"><span><a href="{{item.file.url}}" alt="file" class="w-100">{% get_file_name item.file.name %}</a></span></div> <br/>
+            <div class="col-12 actions file-remove text-center">
+                <button class="btn btn-danger ark pointer" id="btn-file-{{item.pk}}" title="Borrar fichero" 
+                    data-confirm="{%trans "Are you sure to remove this file?"%}" data-url="{% url "category-remove-file" %}" 
+                    data-target="div-files" data-obj_id="{{item.id}}"> <i class="fas fa-trash"></i></button>
+            </div>
+            <input class="form-control autosave" type="number" id="order" name="order" data-model-name="contents.categoryfile" 
+                data-obj-id="{{item.id}}" data-url="{%url "autosave_field"%}" data-target="div-notification" value="{{item.order}}"> 
+        </div> 
+    {% endfor %}
+</div> 
+

@@ -264,8 +264,13 @@ def guest_band_add(request):
 def guest_band_save(request):
     try:
         band = get_or_none(Wristband, get_param(request.GET, "obj_id"))
-        code = get_param(request.GET, "value")
-        band.code = reverse_cardkey(code)
+        code = reverse_cardkey(get_param(request.GET, "value"))
+        b = Wristband.objects.filter(code=code).first()
+        if b != None:
+            msg = "There are another user ({} {} - {}) with this band!".format(b.guest.name, b.guest.surname, b.guest.room)
+            return render(request, "guest/keys/guest-keys.html", {"obj": band.guest, "msg": msg})
+
+        band.code = code
         band.save()
         if request.GET["band_lock"] == "true":
             band.guest.add_all_key_card(reverse_cardkey(code))

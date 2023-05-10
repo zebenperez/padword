@@ -302,6 +302,7 @@ class FormInstance(models.Model):
     guest_uuid = models.CharField(max_length=255, verbose_name=_("Guest UUID"), default="")
     guest_name = models.CharField(max_length=255, verbose_name=_("Guest name"), default="")
     form_uuid = models.CharField(max_length=255, verbose_name=_("Form UUID"), default="")
+    pos_uuid = models.CharField(max_length=255, verbose_name=_("Point of sale UUID"), default="")
     #status = models.ForeignKey(Status, on_delete=models.SET_NULL, verbose_name=_("Status"), blank=True, null=True)
     amount = models.CharField(max_length=100, verbose_name=_("Amount to pay"), default="")
     payment_type = models.ForeignKey(PaymentType, on_delete=models.SET_NULL, verbose_name=_("Payment Type"), blank=True, null=True)
@@ -332,6 +333,22 @@ class FormInstance(models.Model):
                 try:
                     total_price += float(item.item.price.replace(',','.'))
                 except:
+                    total_price += 0
+            return total_price
+        except Exception as e:
+            print (show_exc(e))
+            return 0
+
+    def get_total_by_regime(self, regime):
+        try:
+            items = ShoppingCart.objects.filter(form_instance_id=self.pk)
+            total_price = 0
+            for item in items:
+                try:
+                    price = item.item.get_price(regime)
+                    total_price += float(price)
+                except Exception as ex:
+                    print(ex)
                     total_price += 0
             return total_price
         except Exception as e:
