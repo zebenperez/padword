@@ -3,7 +3,7 @@
 <div class="">
     <div class="card-header"> {% trans "Wristbands assigned" %} </div>
     <div class="card-body p-0">
-        <div id="div-notification"></div>
+        <div id="div-notification" {%if msg and msg != ""%}class="alert-danger"{%endif%}>{{msg}}</div>
         <div class="text-center">
             <button class="btn btn-primary btn-sm ark" data-url="{% url "guest-band-add" %}" data-target="div-locks" data-obj_id="{{obj.id}}">
                 <i class="fas fa-plus"></i>{% trans "Add" %}</button>

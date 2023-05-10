@@ -20,6 +20,12 @@ def upload_category_image(instance, filename):
     folder = "contents/categories/images/%s" % (instance.id)
     return '/'.join(['%s' % (folder), datetime.datetime.now().strftime("%Y%m%d%H%M%S") + ascii_filename])
 
+def upload_category_file(instance, filename):
+    ascii_filename = str(filename.encode('ascii', 'ignore'))
+    instance.filename = ascii_filename
+    folder = "contents/categories/files/%s" % (instance.id)
+    return '/'.join(['%s' % (folder), datetime.datetime.now().strftime("%Y%m%d%H%M%S") + ascii_filename])
+
 def upload_item_image(instance, filename):
     ascii_filename = str(filename.encode('ascii', 'ignore'))
     instance.filename = ascii_filename
@@ -162,6 +168,15 @@ class CategoryImage(models.Model):
 
     class Meta:
         verbose_name = _('Category Image')
+        ordering = ['order']
+
+class CategoryFile(models.Model):
+    order = models.IntegerField(verbose_name=_('Order'), default=0)
+    file = models.FileField(upload_to=upload_category_file, verbose_name=_("File"), blank=True, null=True)
+    category = models.ForeignKey('Category', on_delete=models.CASCADE, null=True, related_name="files")
+
+    class Meta:
+        verbose_name = _('Category File')
         ordering = ['order']
 
 def feature_icon(instance, filename):

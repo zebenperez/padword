@@ -1,4 +1,8 @@
-<div class="d-none d-lg-block"><input type="text" id="div-scan" class="form-control hide" name="bans-scan"/></div>
+<div class="d-none d-lg-block">
+    <input type="text" id="div-scan" class="form-control hide ark_change" name="bans-scan"
+        data-url="{% url "tpv-check-band" %}" data-target="guest-info" data-obj_id="{{fi.id}}"/>
+</div>
+
 <div class="d-none d-sm-block">
     <div id="div-scan" class="hide">
         <div id="div-scan-wait">

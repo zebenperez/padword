@@ -3,14 +3,14 @@ from django.shortcuts import render, redirect
 from django.urls import reverse
 
 from padword.decorators import group_required
-from padword.commons import show_exc, get_or_none, get_param
+from padword.commons import show_exc, get_or_none, get_param, reverse_cardkey
 from web.models import Project, Waiter
 from contents.models import Category, ShoppingCart, Item, PaymentType, PointOfSale
 from guest.models import Guest, Wristband
 from web.lock_lib import ShLock
 
-from .common_lib import get_or_create_form_instance, get_max_index, get_or_create_answer_instance, user_in_group, get_guest, get_login_template
-from .models import AnswerInstance, Field, Form, FormChannel, FormInstance, Question, Block, GuestUser, Status
+from .common_lib import get_or_create_form_instance_tpv, user_in_group
+from .models import Form, FormInstance, Status
 from django.conf import settings
 
 
@@ -91,7 +91,7 @@ def tpv_index(request, project_uuid):
         else:
             form = Form.objects.filter(form_type__code="tpv", form_type__project_uuid=project.uuid).first()
             pos = get_or_none(PointOfSale, request.session["point_of_sale"])
-            fi = get_or_create_form_instance(form, pos.uuid, request.user.username)
+            fi = get_or_create_form_instance_tpv(form, pos.uuid, request.user.username)
             cat_list = [item.category for item in pos.categories.all()]
             item_favorites = []
             for cat in cat_list:
@@ -126,7 +126,30 @@ def tpv_set_pos(request):
 def tpv_ticket(request):
     try:
         fi = get_or_none(FormInstance, request.GET["obj_id"])
+        val = get_param(request.GET, "value", "")
+        if val != "":
+            band = Wristband.objects.filter(code = reverse_cardkey(val), guest__deleted=False)
+            #print("--1--")
+            #print(val)
+            #for b in band:
+            #    print("{} {}".format(b.guest.name, b.guest.surname))
         return render(request, "bookings/tpv/view-ticket.html", {'fi':fi,})
+    except Exception as e:
+        print(e)
+        return render(request, "error_exception.html", {'exc':show_exc(e)})
+
+@group_required("waiters")
+def tpv_check_band(request):
+    try:
+        fi = get_or_none(FormInstance, request.GET["obj_id"])
+        val = get_param(request.GET, "value", "")
+        band = Wristband.objects.filter(code = reverse_cardkey(val), guest__deleted=False).first()
+        regime = None
+        if band != None and band.guest != None:
+            gr = band.guest.regimes.first()
+            regime = gr.regime if gr != None else None
+        return render(request, "bookings/tpv/view-ticket.html", {'fi':fi, 'band': band, 'regime': regime})
+        #return render(request, "bookings/tpv/view-guest-info.html", {'fi':fi, 'band': band, 'regime': regime})
     except Exception as e:
         print(e)
         return render(request, "error_exception.html", {'exc':show_exc(e)})
@@ -235,7 +258,7 @@ def tpv_order_remove(request):
         fi.delete()
             
         pos = get_or_none(PointOfSale, request.session["point_of_sale"])
-        fi = get_or_create_form_instance(form, pos.uuid, request.user.username)
+        fi = get_or_create_form_instance_tpv(form, pos.uuid, request.user.username)
         return render(request, "bookings/tpv/view-ticket.html", {'fi': fi})
         #context = {'msg': "05", "project_uuid": project.uuid}
         #return render(request, 'bookings/tpv/show-msg.html', context)

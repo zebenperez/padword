@@ -19,6 +19,12 @@
 </div>
 <br/>
 
+<div class="card">
+    <div class="card-header bg-secondary text-white">{% trans 'Files' %} <span id="div-notification" style="margin-left:20px"></span> </div>
+    <div class="card-body"> <div id="div-files">{% include "contents/category-files.html" with obj=obj.get_category%}</div> </div>
+</div>
+<br/>
+
 {% include "forms/form-description.html" %}
 <br/>
 

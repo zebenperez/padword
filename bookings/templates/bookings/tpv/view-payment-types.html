@@ -7,12 +7,19 @@
     {% for item in fi.form.get_category.payment_types.all %}
         <div class="col-12 col-lg-4 justify-content-center mt-1 pt-box pay-method" id="pt-box-{{item.id}}">
             <div class="justify-content-center">
+                {%comment%}
                 <a class="btn btn-select-payment w-100 mt-2 pay-opts {%if item.payment_type.code == "03"%}scan-nfc{%endif%}"
                     data-id="{{item.id}}" data-pt="{{item.payment_type.id}}" data-cash='{{item.payment_type.code}}' 
                     data-scan-container="div-scan" data-scan-url="{% url "band-scan" %}" data-guest-uuid="{{fi.guest_uuid}}">
                     <img src="{{item.payment_type.icon.url}}" alt="{% padword_translate item.payment_type.name %}" style="width:20px">
                     {% padword_translate item.payment_type.name %} 
                     </a>
+                {%endcomment%}
+                <a class="btn btn-select-payment w-100 mt-2 pay-opts" data-id="{{item.id}}" data-pt="{{item.payment_type.id}}" 
+                    data-cash='{{item.payment_type.code}}' data-scan-url="{% url "band-scan" %}" data-guest-uuid="{{fi.guest_uuid}}">
+                    <img src="{{item.payment_type.icon.url}}" alt="{% padword_translate item.payment_type.name %}" style="width:20px">
+                    {% padword_translate item.payment_type.name %} 
+                </a>
             </div>
         </div>
     {% endfor %}
@@ -20,7 +27,7 @@
 
 <input type="text" class="form-control hide mt-2" id="cash-value" placeholder="{%trans "Amount to pay (10, 20, 50...)"%}" />
 
-{% include "bookings/tpv/view-payment-types-nfc.html" %}
+{#{% include "bookings/tpv/view-payment-types-nfc.html" %}#}
 
 <div class="row mt-4 justify-content-center">
     <div class="col-6 text-center mb-3">
@@ -40,6 +47,10 @@
         $(".pt-box").each(function(){$(this).removeClass("selected")});
         $("#pt-box-"+$(this).data("id")).addClass("selected");
         $("#btn-send-order-{{fi.id}}").data("payment_type", $(this).data("pt"));
+        if ($(this).data("cash") == "01") { $("#cash-value").show(); }
+        else { $("#cash-value").hide(); }
+
+        /*
         if ($(this).data("cash") == "01")
         {
             $("#cash-value").show();
@@ -51,6 +62,7 @@
             {
                 $("#cash-value").hide();
                 $("#div-scan").show();
+                $("#div-scan").focus();
             }
             else
             {
@@ -59,6 +71,7 @@
                 $("#btn-send-order-{{fi.id}}").data("amount", "");
             }
         }
+        */
     });
 
     $("#cash-value").change(function(){

@@ -2,7 +2,7 @@
     "name": "Pawdord by Shidix Technologies",
     "gcm_sender_id": "549100667689",
     "short_name": "Padword",
-    "start_url": "/pwa/",
+    "start_url": "/bookings/guest-access/8ebe5030-d423-3c7e-cc5a-d425cbdc841f/",
     "scope":"/",
     "display": "standalone",
     "background_color": "#FFF",
