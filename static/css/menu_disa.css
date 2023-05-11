@@ -1,0 +1,74 @@
+.main-pwa .row {
+    margin:0;
+}
+
+.main-pwa {
+    width: 100%;
+}
+.container {
+	background-position: center; 
+	background-repeat: no-repeat;
+	background-size: cover; 
+	width: 100%;
+}
+
+.welcome-page {
+    background: #fff !important;
+}
+
+img {
+    background-color: transparent;
+}
+
+/*****************************/
+/* Mis Llaves menu style  */
+/*****************************/
+
+.menu-tabs {
+	width: 100%;
+	margin-left: 0.1%;
+}
+
+.tabs-1 button.menu-options, 
+.tabs-2 button.menu-options {
+	font-size: 1.2rem;
+	height: 230px;
+	padding: 15px;
+	width:100%;
+}
+
+.tabs-1 button.menu-options { 
+	background:#fff; 
+	border: 2px solid #0d5d9a;
+	color:#0b497a;
+}
+
+.tabs-1 span {  
+	color:#0b497a;
+	font-size: 1.5rem;
+	font-weight: 600;
+}
+
+.tabs-2 button.menu-options { 
+	background:#fff; 
+	border: 2px solid #2994b8;
+	color:#2994b8;
+}
+.tabs-3 a, .tabs-4 a {
+	font-size: 0.9rem;
+	text-decoration: none;
+}	
+.dot {
+	height: 25px;
+	width: 25px;
+	background-color: #fff;
+	border-radius: 50%;
+	display: inline-block;
+	border: 2px solid #f6cf2a;
+	color: #f6cf2a;
+	padding: 4px;
+}
+
+.up-bar, .down-bar {
+	border-top:10px solid #f9c00e;
+}
