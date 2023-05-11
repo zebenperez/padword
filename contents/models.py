@@ -23,7 +23,7 @@ def upload_category_image(instance, filename):
 def upload_category_file(instance, filename):
     ascii_filename = str(filename.encode('ascii', 'ignore'))
     instance.filename = ascii_filename
-    folder = "contents/categories/files/%s" % (instance.id)
+    folder = "contents/categories/files/%s" % (instance.category.id)
     return '/'.join(['%s' % (folder), datetime.datetime.now().strftime("%Y%m%d%H%M%S") + ascii_filename])
 
 def upload_item_image(instance, filename):
@@ -155,6 +155,9 @@ class Category(models.Model):
         else:
             parents_options = Category.objects.none()
         return parents_options.union(Category.objects.filter(project_uuid = self.project_uuid, parent = self.parent))
+
+    def get_file_by_order(self, order):
+        return self.files.filter(order=order).first()
 
     class Meta:
         db_table = 'categories_shidix'

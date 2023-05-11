@@ -28,6 +28,11 @@ def get_item_price(item, code):
 def get_total_by_regime(fi, code):
     return fi.get_total_by_regime(code)
 
+@register.filter
+def get_file_url(cat, order):
+    cf = cat.get_file_by_order(order)
+    return cf.file.url if cf != None and cf.file else ""
+
 '''
 	Simple tag
 '''
