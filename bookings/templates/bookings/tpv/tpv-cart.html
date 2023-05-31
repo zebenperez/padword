@@ -1,0 +1,45 @@
+{% load i18n bookings_tag common_tag padword_tags static%}
+
+{#<script>$("#span-total-items").html("{{fi.get_items.count}}");$("#count-badge").show();</script>#}
+
+{% if not form|check_timetable %} 
+    <div class="alert alert-warning text-center">{% trans "Service not available in this moment, sorry for the inconvenience!" %}</div> 
+    <script> showAlert("Service not available in this moment, sorry for the inconvenience!", "{% trans "Close" %}"); </script>
+{% endif %}
+
+{% if form.show_desc %} <div class="col-12 card info-panel p-4">{% padword_translate form.desc %}</div> {% endif %}
+
+<div class="card slider-cart">
+    {# ---------------- SEARCH --------------------#}
+    <div> <input type="text" class="form-control tpv-search" data-search-class="tpv-item" placeholder="{% trans "Search..." %}"/> </div>
+
+    {# ---------------- FAVORITES --------------------#}
+    <div class="cart-item mb-1">
+        <div class="col-12 section-title mb-2">{%trans "Favorite items"%}</div>
+        <div id="div-shopping-cart-favorite" class="div-shopping-cart-favorite">
+            <div class="row d-flex justify-content-start m-0">
+                {% for item in item_favorites %}
+                    <div class="col-lg-2 col-md-3 col-xs-12 justify-content-center">
+                        {%include "bookings/tpv/show-item.html" with show_footer=True%}</div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+    {# ---------------- COMMONS --------------------#}
+    <div class="cart-item mb-1">
+        <div class="col-12 section-title mb-2">{%trans "Common items"%}</div>
+        <div id="div-shopping-cart-favorite" class="div-shopping-cart-common">
+            <div class="row d-flex justify-content-start m-0">
+                {% for item in item_commons %}
+                    <div class="col-lg-2 col-md-3 col-xs-12 justify-content-start">
+                        {%include "bookings/tpv/show-item.html" with show_footer=True%}</div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+    {# ---------------- ITEMS --------------------#}
+    {% include "bookings/tpv/tpv-cart-list.html" %}
+</div>
+

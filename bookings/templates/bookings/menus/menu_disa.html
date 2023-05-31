@@ -1,0 +1,40 @@
+{% load i18n bookings_tag common_tag padword_tags static %}
+
+{% get_current_language as LANGUAGE_CODE %}
+
+<div class="tablet-size" style="max-height: 800px;">
+{% with cat=form.get_category %}
+    <div class="row pt-3"> 
+        <div class="col-10 offset-1 up-bar text-center mt-1 pt-5 pb-5"><img src="/static/img/logo-disa.jpg" width="250"></div>
+
+        <div class="tabs-1 col-3 offset-3 mb-1 align-middle justify-content-center">
+		<div><a class="menu-options" href="{{cat|get_file_url:1}}">Memoria 2022<br ><span>Grupo DISA</span></a></div>
+        </div> 
+        <div class="tabs-2 col-3 mb-1 align-middle justify-content-center">
+            <div><a class="menu-options" href="{{cat|get_file_url:2}}">Memoria 2022<br ><span>Fundación DISA</span></a></div>
+        </div> 
+    </div>
+
+    <div class="row p-3 text-left mt-5"> 
+        <div class="tabs-3 col-3 offset-3 mb-1">
+            <a href="{{cat|get_file_url:3}}"><span class="dot"><i class="fa fa-check"></i></span> Cuentas Anuales 2022 Grupo Disa</a><br /><br />
+            <a href="{{cat|get_file_url:4}}"><span class="dot"><i class="fa fa-check"></i></span> Cuentas Anuales 2022 DISA División Internacional</a>
+        </div> 
+        <div class="tabs-4 col-3 mb-1">
+            <a href="{{cat|get_file_url:5}}"><span class="dot"><i class="fa fa-check"></i></span> Cuentas Anuales 2022 Fundación Disa</a>
+        </div> 
+        <div class="col-10 offset-1 down-bar text-center mt-5 pt-5"></div>
+    </div>
+{% endwith %}
+</div>
+
+{%comment%}
+<script id="realtime-script">
+    $('#span-total-items').html('{% get_total_items request.user.username category.project_uuid %}');
+    if (parseInt($("#span-total-items").html()) > 0)
+        $("#count-badge").show();
+    else
+        $("#count-badge").hide();
+    $('#realtime-script').remove();
+</script>
+{%endcomment%}

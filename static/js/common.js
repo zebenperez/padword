@@ -821,6 +821,44 @@ $(document).ready(()=>{
 
     });
 
+    $("body").on("keyup", ".tpv-search", function() {
+        var value = $(this).val();
+        var search_class = $(this).data("search-class");
+        if (value == "")
+            $('.'+search_class).show();
+        else
+        {
+            $("."+search_class).each(function(){
+                console.log($(this).attr('class'));
+                var tags = $(this).data("tags");
+                if (tags.toLowerCase().indexOf(value.toLowerCase()) >= 0)
+                    $(this).show();
+                else
+                    $(this).hide();
+            });
+        }
+    });
+
+    $("body").on("change", ".tpv-search-change", function() {
+        var value = $(this).val();
+        var search_class = $(this).data("search-class");
+        if (value == "")
+            $('.'+search_class).show();
+        else
+        {
+            $("."+search_class).each(function(){
+                console.log($(this).attr('class'));
+                var tags = String($(this).data("tags"));
+                console.log(tags);
+                if (tags.toLowerCase().indexOf(value.toLowerCase()) >= 0)
+                    $(this).show();
+                else
+                    $(this).hide();
+            });
+        }
+    });
+
+
 });
 
 

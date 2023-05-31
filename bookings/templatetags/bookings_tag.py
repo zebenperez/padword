@@ -20,6 +20,19 @@ def check_timetable(form):
 def get_cat_uuid(form, name):
     return form.get_category_uuid_by_code(name)
 
+@register.filter
+def get_item_price(item, code):
+    return item.item.get_price(code)
+
+@register.filter
+def get_total_by_regime(fi, code):
+    return fi.get_total_by_regime(code)
+
+@register.filter
+def get_file_url(cat, order):
+    cf = cat.get_file_by_order(order)
+    return cf.file.url if cf != None and cf.file else ""
+
 '''
 	Simple tag
 '''

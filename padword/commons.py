@@ -106,11 +106,14 @@ def translate2(lang, json_str):
             return (json_str)
 
 
-def new_ui_slug(model=None):
+def new_ui_slug(model=None, field="uuid"):
     slug = '{}-{}-{}-{}-{}'.format(''.join([random.choice(string.digits+'abcdef') for i in range(8)]),''.join([random.choice(string.digits+'abcdef') for i in range(4)]),''.join([random.choice(string.digits+'abcdef') for i in range(4)]),''.join([random.choice(string.digits+'abcdef') for i in range(4)]),''.join([random.choice(string.digits+'abcdef') for i in range(12)]))
-    if model is None:
-        while (model.objects.filter(uuid = slug).exists()):
+    if model is not None:
+        kwarg = {field: slug}
+        #while (model.objects.filter(uuid = slug).exists()):
+        while (model.objects.filter(**kwarg).exists()):
             slug = '{}-{}-{}-{}-{}'.format(''.join([random.choice(string.digits+'abcdef') for i in range(8)]),''.join([random.choice(string.digits+'abcdef') for i in range(4)]),''.join([random.choice(string.digits+'abcdef') for i in range(4)]),''.join([random.choice(string.digits+'abcdef') for i in range(4)]),''.join([random.choice(string.digits+'abcdef') for i in range(12)]))
+            kwarg = {field: slug}
     return slug
 
 def normalize_str(string):

@@ -24,15 +24,16 @@ def get_lock_user_items(request):
 
     return LockUser.objects.filter(**kwargs) if len(kwargs) > 0 else LockUser.objects.all()
 
-def get_context(request):
-    lock_items = LockUser.list_user_not_assigned()
+def get_context(request, project):
+    lock_items = LockUser.list_user_not_assigned(project)
     items = get_lock_user_items(request)
     return {'items':items, 'lock_items': lock_items}
 
 @group_required("admins")
-def locks_users(request):
+def locks_users(request, project_uuid):
     try:
-        context = get_context(request)
+        project = get_or_none(Project, project_uuid, "uuid")
+        context = get_context(request, project)
         return render (request, "web/locks-users/locks-users.html", context)
     except Exception as e:
         return render(request, 'error_exception.html', {'exc':show_exc(e)})

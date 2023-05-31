@@ -1,0 +1,19 @@
+{% load i18n bookings_tag common_tag padword_tags static%}
+{#{% get_css_project form.project.pk %}#}
+{%block extralinks%} <link rel="stylesheet" href="{% static 'css/tpv.css' %}" > {% endblock %}
+        
+<div id="base">
+    <div class="row w-100 m-0">
+    {% if point_of_sales|length > 0 %}
+        {% for item in point_of_sales %}
+            <div class="col-lg-6 col-12">
+                <button class="menu-options ark" data-url="{%url "tpv-set-pos"%}" data-target="base" data-obj_id="{{item.id}}">{{item.name}}</button>
+            </div>
+        {% endfor %}
+    </div>
+    {% else %}
+        {% include "bookings/tpv/index-main.html" %}
+    {% endif %}
+</div>
+
+

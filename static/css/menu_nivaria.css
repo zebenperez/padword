@@ -194,11 +194,14 @@ img.object-fit_cover.img-new {
 	position:fixed !important;
     top:0 !important;
     width: 100% !important;
-    height: 120px !important;
+    height: 106px !important;
     z-index: 1; 
 }
 .topbar img {
-    height: 100px;
+    height: 106px;
+    position: absolute;
+    left:0;
+    top:0;
 }
 
 .separator img {

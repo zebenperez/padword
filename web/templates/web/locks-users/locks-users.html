@@ -9,6 +9,7 @@
         <div class="alert alert-danger">{{msg}}</div>
     {% endif %}
 
+    {%comment%}
     <div class="toolbar-search">
         <input type="text" class="autosearch form-control form-control-dark w-100" name="lock_user_search_username" id="lock_user_search_username"
             placeholder="{% trans 'Username' %}" data-url="{% url "lock-user-search" %}" data-target="lock-user-list" 
@@ -25,5 +26,6 @@
         </div>
         <div id="lock-user-list">{% include "web/locks-users/lock-user-list.html" %}</div>
     </div>
+    {%endcomment%}
 
 {% endblock central_content %}

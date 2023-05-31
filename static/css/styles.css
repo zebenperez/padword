@@ -208,16 +208,38 @@ a.btn.btn-primary.ark, a.btn.btn-secondary.ark { font-size:0.8rem !important; }
     height:2.5em;
     margin:6px;
 }
-
-.toolbar-search.projects { display:grid; grid-template-columns: 1% 2% 97%; }
-
-.toolbar-search.projects i.fas.fa-search {
-    font-size: 1rem;
-    color: #777;
-    margin-top: 12px;
+.toolbar-search.guests { 
+    align-items: center;
+    display:grid; 
+    grid-template-columns: 3% 50% 47%;
 }
 
-input#s-name.autosearch.form-control.form-control-dark.w-100 { border: 0; }
+.toolbar-search.projects { 
+    align-items: center;
+    display:grid; 
+    grid-template-columns: 1% 2% 97%; 
+}
+.toolbar-search.companies, 
+.toolbar-search.rooms, 
+.toolbar-search.keycards,
+.toolbar-search.notifications {
+    align-items: center;
+    display:grid; 
+    grid-template-columns: 3% 97%;
+}
+
+.toolbar-search.projects i.fas.fa-search,
+.toolbar-search.companies i.fas.fa-search, 
+.toolbar-search.rooms i.fas.fa-search, 
+.toolbar-search.keycards i.fas.fa-search, 
+.toolbar-search.notifications i.fas.fa-search, 
+.toolbar-search.guests i.fas.fa-search { font-size: 1rem;  color: #777; }
+
+input#s-name.autosearch.form-control.form-control-dark.w-100,
+input#guest_search_name,
+input#room_search_name,
+input#s-name.autosearch.form-control.form-control-dar.w-100,
+input#keycard_search_name { border: 0 !important; }
 
 /************* Estilo del scroll ********************/
 
@@ -312,7 +334,8 @@ span.status-info {
 	padding: 15px;
 	display: flex;
 	flex-direction: row;
-	align-items: stretch;
+	/*align-items: stretch;*/
+	align-items: center;
 	justify-content: space-between;
 }
 
@@ -324,6 +347,11 @@ span.status-info {
 	overflow: hidden;
 	text-overflow: ellipsis;
 	white-space: nowrap;
+}
+.toolbar-content.guests {
+    align-items: center;
+    display:grid; 
+    grid-template-columns: 25% 50% 25%;
 }
 
 span.sub-h2 { 

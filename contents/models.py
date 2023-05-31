@@ -20,6 +20,12 @@ def upload_category_image(instance, filename):
     folder = "contents/categories/images/%s" % (instance.id)
     return '/'.join(['%s' % (folder), datetime.datetime.now().strftime("%Y%m%d%H%M%S") + ascii_filename])
 
+def upload_category_file(instance, filename):
+    ascii_filename = str(filename.encode('ascii', 'ignore'))
+    instance.filename = ascii_filename
+    folder = "contents/categories/files/%s" % (instance.category.id)
+    return '/'.join(['%s' % (folder), datetime.datetime.now().strftime("%Y%m%d%H%M%S") + ascii_filename])
+
 def upload_item_image(instance, filename):
     ascii_filename = str(filename.encode('ascii', 'ignore'))
     instance.filename = ascii_filename
@@ -114,6 +120,10 @@ class Category(models.Model):
             return []
 
     @property
+    def get_items_favorites(self):
+        return [item.item for item in ItemInCat.objects.filter(category = self, item__is_active=True, item__favorite=True).order_by('position')]
+
+    @property
     def get_childrens(self):
         try:
             #return Category.objects.filter(parent = self, is_active = True)
@@ -146,6 +156,9 @@ class Category(models.Model):
             parents_options = Category.objects.none()
         return parents_options.union(Category.objects.filter(project_uuid = self.project_uuid, parent = self.parent))
 
+    def get_file_by_order(self, order):
+        return self.files.filter(order=order).first()
+
     class Meta:
         db_table = 'categories_shidix'
         verbose_name = _('Category')
@@ -158,6 +171,15 @@ class CategoryImage(models.Model):
 
     class Meta:
         verbose_name = _('Category Image')
+        ordering = ['order']
+
+class CategoryFile(models.Model):
+    order = models.IntegerField(verbose_name=_('Order'), default=0)
+    file = models.FileField(upload_to=upload_category_file, verbose_name=_("File"), blank=True, null=True)
+    category = models.ForeignKey('Category', on_delete=models.CASCADE, null=True, related_name="files")
+
+    class Meta:
+        verbose_name = _('Category File')
         ordering = ['order']
 
 def feature_icon(instance, filename):
@@ -233,6 +255,7 @@ class Item(models.Model):
     extras = models.TextField(verbose_name='Extras', blank=True, null=True)
     contains_allergens = models.IntegerField(choices=ISACTIVECHOICES, verbose_name='Active', default=0)
     image = models.ImageField(upload_to=image_file, verbose_name=_("Image"), blank=True, null=True)
+    favorite = models.BooleanField(default=False, verbose_name=_("Favorite"))
 
     def __str__(self):
         return (translate(None,self.name))
@@ -449,5 +472,28 @@ class CategoryUser(models.Model):
                 return None
         pu, created = CategoryUser.objects.get_or_create(category_uuid=category_uuid, username=user.username)
         return user
+
+class PointOfSale(models.Model):
+    uuid = models.CharField(max_length = 255, verbose_name= _('UUID'), default="")
+    name = models.CharField(verbose_name="Nombre", max_length=150, blank=True, null=True, default="")
+    project_uuid = models.CharField(max_length=36, verbose_name='UUID Project', default="")
+
+    @property
+    def project(self):
+        try:
+            return Project.objects.get(uuid = self.project_uuid)
+        except Exception as e:
+            return None
+
+    def get_categories(self):
+        return [item.category for item in self.categories.all()]
+
+    class Meta:
+        verbose_name = _("Point of sale")
+        verbose_name_plural = _("Points of sales")
+
+class PointOfSaleCategory(models.Model):
+    category = models.ForeignKey(Category, on_delete=models.CASCADE, verbose_name=_("Category"), related_name="point_of_sales")
+    point_of_sale = models.ForeignKey(PointOfSale, on_delete=models.CASCADE, verbose_name=_("Point of sale"), related_name="categories")
 
 

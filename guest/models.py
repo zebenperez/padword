@@ -199,6 +199,16 @@ class Guest(models.Model):
             if errcode == 0:
                 key.delete()
 
+    def remove_all_key_codes_log(self):
+        msg = ""
+        for key in self.keycodes.all():
+            msg += "<br/> -> Remove code {} from key {}".format(key.code, key.lock.alias)
+            errcode = key.lock.remove_code(key.code_id)
+            msg += "<br/> --> {}".format(errcode)
+            if errcode == 0:
+                key.delete()
+        return msg
+
     def add_all_key_card(self, code):
         for lock in self.get_locks():
             #errcode = lock.add_card(code, self.check_in, self.check_out)
@@ -220,6 +230,17 @@ class Guest(models.Model):
             errcode = key.lock.remove_card(key.card_id)
             if errcode == 0:
                 key.delete()
+
+    def remove_all_key_cards_log(self, code=""):
+        key_list = self.keycards.filter(code=code) if code != "" else self.keycards.all()
+        msg = ""
+        for key in key_list:
+            msg += "<br/> -> Remove card code {} from key {}".format(key.code, key.lock.alias)
+            errcode = key.lock.remove_card(key.card_id)
+            msg += "<br/> --> {}".format(errcode)
+            if errcode == 0:
+                key.delete()
+        return msg
 
     def change_room(self, new_room=""):
         current_code = self.keycodes.first()
@@ -313,13 +334,16 @@ class Guest(models.Model):
     def delete_all(self):
         self.remove_all_key_codes()
         self.remove_all_key_cards()
+        self.remove_all_sensibo_devices()
         self.delete()
 
     def delete_soft(self):
-        self.remove_all_key_codes()
-        self.remove_all_key_cards()
+        msg = self.remove_all_key_codes_log()
+        msg += self.remove_all_key_cards_log()
+        self.remove_all_sensibo_devices()
         self.deleted = 1
         self.save()
+        return msg
 
     class Meta:
         if len (settings.DATABASES) > 1:

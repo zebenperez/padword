@@ -1,6 +1,6 @@
 from django.urls import include, path, re_path
 from django.contrib import admin
-from bookings import views, form_views as fv, guest_views as gv, guest_sensibo_views as gsv
+from bookings import views, form_views as fv, guest_views as gv, guest_sensibo_views as gsv, tpv_views as tpv
 
 urlpatterns = [ 
     #--------------------- Forms --------------------
@@ -161,6 +161,35 @@ urlpatterns = [
     #path('shopping/show-category-menu/<int:form_id>/<slug:cat_id>/', gv.show_category_menu, name='show-category-menu'),
     path('shopping/show-category-menu/', gv.show_category_menu, name='show-category-menu'),
     path('shopping/show-key-menu/', gv.show_key_menu, name='show-key-menu'),
+
+
+    #------------- Bookings Guests --------------#
+    path('tpv-access/<slug:project_uuid>/', tpv.tpv_access, name='tpv-access'),
+    path('tpv-login/', tpv.tpv_login, name='tpv-login'),
+    path('tpv-login-form/', tpv.tpv_login_form, name='tpv-login-form'),
+    path('tpv-close/', tpv.tpv_close, name='tpv-close'),
+
+    path('tpv-index/<slug:project_uuid>/', tpv.tpv_index, name='tpv-index'),
+    path('tpv-ticket/', tpv.tpv_ticket, name='tpv-ticket'),
+    path('tpv-set-pos/', tpv.tpv_set_pos, name='tpv-set-pos'),
+    path('tpv-check-band/', tpv.tpv_check_band, name='tpv-check-band'),
+
+    #path('tpv-shopping-cart/', tpv.tpv_shopping_cart, name='tpv-shopping-cart'),
+    #path('tpv-category-shopping-cart/', tpv.tpv_category_shopping_cart, name='tpv-category-shopping-cart'),
+    path('tpv-add-item/', tpv.tpv_add_item, name='tpv-add-item'),
+    #path('tpv-remove-item/', tpv.tpv_remove_item, name='tpv-remove-item'),
+    #path('tpv-set-items/', tpv.tpv_set_items, name='tpv-set-items'),
+
+    path('tpv-order-remove/', tpv.tpv_order_remove, name='tpv-order-remove'),
+    #path('tpv-order-view/', tpv.tpv_order_view, name='tpv-order-view'),
+    path('tpv-order-item-remove/', tpv.tpv_order_item_remove, name='tpv-order-item-remove'),
+    path('tpv-order-item-comment/', tpv.tpv_order_item_comment, name='tpv-order-item-comment'),
+    #path('tpv-order-payment/', tpv.tpv_order_payment, name='tpv-order-payment'),
+    path('tpv-order-send/', tpv.tpv_order_send, name='tpv-order-send'),
+
+    path('tpv-orders-by-waiter/', tpv.orders_by_waiter, name='tpv-orders-by-waiter'),
+    path('tpv-order-details/', tpv.order_details, name='tpv-order-details'),
+
 
     path('fix-uuid/', views.fix_uuid, name='booking-fix-uuid'),
     path('test/', views.test, name='booking-test'),

@@ -142,6 +142,17 @@ def have_menu(user_project, menu):
     #return menu in pu.menus
 
 @register.filter
+def have_menu_promo(user_project, menu):
+    up = user_project.split("|")
+    pu = ProjectUser.objects.filter(username=up[0], project_uuid=up[1]).first()
+    if pu == None:
+        return False
+    for m in pu.menus_promo.split(";"):
+        if m == menu:
+            return True
+    return False
+ 
+@register.filter
 def get_share_text(lock, code):
     plu = get_or_none(ProjectLockUser, lock.project.uuid, "project_uuid")
     return plu.text_to_share.replace("__CODE__", code)

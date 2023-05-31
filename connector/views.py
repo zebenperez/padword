@@ -26,14 +26,16 @@ def avantio_get_booking_list(request, project_uuid):
                 code = "{}|{}".format(booking.localizator, booking.booking_code)
                 guest = Guest.objects.filter(ext_id=code).first()
                 if guest == None:
-                    guest = Guest(UUID = new_ui_slug(Guest), ext_id=code, project_id=pau.project_uuid)
+                    guest = Guest(UUID = new_ui_slug(Guest, "UUID"), ext_id=code, project_id=pau.project_uuid)
                     guest.name = booking.client.name
                     guest.surname = booking.client.surname
                     #guest.language = booking.client.languaje
                     guest.mobile = booking.client.phone
                     guest.email = booking.client.email
-                    guest.check_in = datetime.strptime(booking.start_date, "%Y-%m-%d")
-                    guest.check_out = datetime.strptime(booking.end_date, "%Y-%m-%d")
+                    if booking.start_date != "":
+                        guest.check_in = datetime.strptime(booking.start_date, "%Y-%m-%d")
+                    if booking.end_date != "":
+                        guest.check_out = datetime.strptime(booking.end_date, "%Y-%m-%d")
                     guest.room = booking.accommodation_code
                     guest.save()
 
@@ -59,13 +61,14 @@ def avantio_get_booking_notif(request, project_uuid):
 @group_required("admins")
 def avantio_send_link(request, project_uuid, guest_uuid):
     try:
+        resp = "---"
         pau = ProjectAvantioUser.objects.filter(project_uuid=project_uuid).first()
         if pau != None:
             guest = get_or_none(Guest, guest_uuid, "UUID")
             if guest != None:
                 av = ShAvantio(pau.username, pau.password)
-                booking_list = av.send_pwa_link(guest.ext_id, guest.pwa_link)
-        return HttpResponse("Ok")
+                resp = av.send_pwa_link(guest.ext_id, guest.pwa_link)
+        return HttpResponse(resp)
     except Exception as e:
         return render(request, 'error_exception.html', {'exc':show_exc(e)})
 

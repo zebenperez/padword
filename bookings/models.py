@@ -1,5 +1,5 @@
 from django.db import models
-from django.db.models import Max
+from django.db.models import Count, Max
 from django.contrib.auth.models import User, Group
 from django.utils.translation import ugettext_lazy as _ 
 
@@ -165,6 +165,11 @@ class Form(models.Model):
         cat = Category.objects.filter(project_uuid=self.project.uuid, internal=code).first()
         return cat.uuid if cat != None else ""
 
+    def get_common_items(self):
+        fi_list = [fi.id for fi in FormInstance.objects.filter(form_uuid=self.uuid)]
+        item_list = list(ShoppingCart.objects.filter(form_instance_id__in=fi_list).values_list('item', flat=True).annotate(total=Count('item')).order_by('-total')[:2])
+        return Item.objects.filter(id__in=item_list)
+
     @staticmethod
     def get_main(project):
         ft = FormType.objects.filter(project_uuid = project.uuid, main = True).first()
@@ -297,6 +302,7 @@ class FormInstance(models.Model):
     guest_uuid = models.CharField(max_length=255, verbose_name=_("Guest UUID"), default="")
     guest_name = models.CharField(max_length=255, verbose_name=_("Guest name"), default="")
     form_uuid = models.CharField(max_length=255, verbose_name=_("Form UUID"), default="")
+    pos_uuid = models.CharField(max_length=255, verbose_name=_("Point of sale UUID"), default="")
     #status = models.ForeignKey(Status, on_delete=models.SET_NULL, verbose_name=_("Status"), blank=True, null=True)
     amount = models.CharField(max_length=100, verbose_name=_("Amount to pay"), default="")
     payment_type = models.ForeignKey(PaymentType, on_delete=models.SET_NULL, verbose_name=_("Payment Type"), blank=True, null=True)
@@ -327,6 +333,22 @@ class FormInstance(models.Model):
                 try:
                     total_price += float(item.item.price.replace(',','.'))
                 except:
+                    total_price += 0
+            return total_price
+        except Exception as e:
+            print (show_exc(e))
+            return 0
+
+    def get_total_by_regime(self, regime):
+        try:
+            items = ShoppingCart.objects.filter(form_instance_id=self.pk)
+            total_price = 0
+            for item in items:
+                try:
+                    price = item.item.get_price(regime)
+                    total_price += float(price)
+                except Exception as ex:
+                    print(ex)
                     total_price += 0
             return total_price
         except Exception as e:

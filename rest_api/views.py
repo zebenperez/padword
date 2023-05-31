@@ -46,7 +46,7 @@ class GuestViewSet(viewsets.ModelViewSet):
         try:
             pu = ProjectUser.objects.get(username=self.request.user.username)
             data = {
-                "UUID": new_ui_slug(Guest),
+                "UUID": new_ui_slug(Guest, "UUID"),
                 "name": request.POST.get('name', ""),
                 "surname": request.POST.get('surname', ""),
                 "language": request.POST.get('language', ""),
@@ -69,15 +69,18 @@ class GuestViewSet(viewsets.ModelViewSet):
             if serializer.is_valid():
                 #serializer.save()
                 guest = Guest.objects.create(**data)
-                guest.add_all_key_code()
                 logger.info("[{}]: \"Guest {} {} created\"".format(self.request.user, guest.name, guest.surname))
+                guest.add_all_key_code()
+                #if guest.room != "":
+                #    guest.change_sensibo_devices(guest.room)
+                logger.info("[{}]: \"Guest key codes {} {} created\"".format(self.request.user, guest.name, guest.surname))
                 return Response(data=self.serializer_class(guest).data, status=status.HTTP_201_CREATED)
             else:
                 logger.error("[{}]: \"Bad request!\"".format(self.request.user))
                 return Response(data=serializer.errors, status=status.HTTP_400_BAD_REQUEST)
         except Exception as e:
             logger.error("[{}]: \"{}\"".format(self.request.user, str(e)))
-            return Response(data={'error': 'true', 'msg': str(e)}, status=status.HTTP_400_BAD_REQUEST)
+            return Response(data={'error': 'true', 'msg': "Bad request!"}, status=status.HTTP_400_BAD_REQUEST)
 
     def retrieve(self, request, pk=None):
         try:
@@ -86,7 +89,7 @@ class GuestViewSet(viewsets.ModelViewSet):
             return Response(self.serializer_class(guest).data, status=status.HTTP_200_OK)
         except Exception as e:
             logger.error("[{}]: \"{}\"".format(self.request.user, str(e)))
-            return Response(data={'error': 'true', 'msg': str(e)}, status=status.HTTP_400_BAD_REQUEST)
+            return Response(data={'error': 'true', 'msg': "Bad request!"}, status=status.HTTP_400_BAD_REQUEST)
 
     def destroy(self, request, pk=None):
         try:
@@ -99,7 +102,7 @@ class GuestViewSet(viewsets.ModelViewSet):
             return Response(data={'error': 'false'}, status=status.HTTP_200_OK)
         except Exception as e:
             logger.error("[{}]: \"{}\"".format(self.request.user, str(e)))
-            return Response(data={'error': 'true', 'msg': str(e)}, status=status.HTTP_400_BAD_REQUEST)
+            return Response(data={'error': 'true', 'msg': 'Bad request!'}, status=status.HTTP_400_BAD_REQUEST)
 
     def update(self, request, pk=None):
         try:
@@ -131,6 +134,7 @@ class GuestViewSet(viewsets.ModelViewSet):
                 update_dates = True
             if "room" in request.POST and request.POST["room"] != guest.room:
                 guest.change_room(request.POST["room"])
+                #guest.change_sensibo_devices(request.POST["room"])
             guest.save()
             if update_dates:
                 guest.change_all_key_code_date()
@@ -141,7 +145,7 @@ class GuestViewSet(viewsets.ModelViewSet):
             return Response(self.serializer_class(guest).data, status=status.HTTP_200_OK)
         except Exception as e:
             logger.error("[{}]: \"{}\"".format(self.request.user, str(e)))
-            return Response(data={'error': 'true', 'msg': str(e)}, status=status.HTTP_400_BAD_REQUEST)
+            return Response(data={'error': 'true', 'msg': 'Bad request!'}, status=status.HTTP_400_BAD_REQUEST)
         #response = {'message': 'Update function is not offered in this path.'}
         #return Response(response, status=status.HTTP_403_FORBIDDEN)
 
@@ -158,7 +162,7 @@ class GuestViewSet(viewsets.ModelViewSet):
             return Response(guest.get_locks_json(), status=status.HTTP_200_OK)
         except Exception as e:
             logger.error("[{}]: \"{}\"".format(self.request.user, str(e)))
-            return Response({"error": 'true', 'msg': str(e)})
+            return Response({"error": 'true', 'msg': 'Bad request!'})
 
     @action(detail=False, methods=['post'])
     def add_card(self, request):
@@ -171,7 +175,7 @@ class GuestViewSet(viewsets.ModelViewSet):
             return Response(guest.get_locks_json(), status=status.HTTP_200_OK)
         except Exception as e:
             logger.error("[{}]: \"{}\"".format(self.request.user, str(e)))
-            return Response({"error": True, 'msg': str(e)})
+            return Response({"error": True, 'msg': 'Bad request!'})
 
     @action(detail=False, methods=['post'])
     def remove_card(self, request):
@@ -184,7 +188,7 @@ class GuestViewSet(viewsets.ModelViewSet):
             return Response(guest.get_locks_json(), status=status.HTTP_200_OK)
         except Exception as e:
             logger.error("[{}]: \"{}\"".format(self.request.user, str(e)))
-            return Response({"error": True, 'msg': str(e)})
+            return Response({"error": True, 'msg': 'Bad request!'})
 
     @action(detail=False, methods=['get'])
     def get_pwa_url(self, request):
@@ -196,7 +200,7 @@ class GuestViewSet(viewsets.ModelViewSet):
             return Response({'link': '{}'.format(pwa_url)}, status=status.HTTP_200_OK)
         except Exception as e:
             logger.error("[{}]: \"{}\"".format(self.request.user, str(e)))
-            return Response({"error": True, 'msg': str(e)})
+            return Response({"error": True, 'msg': 'Bad request!'})
 
     @action(detail=False, methods=['get'])
     def get_guest_by_ext_id(self, request):
@@ -210,7 +214,7 @@ class GuestViewSet(viewsets.ModelViewSet):
             return Response(self.serializer_class(guest).data, status=status.HTTP_200_OK)
         except Exception as e:
             logger.error("[{}]: \"{}\"".format(self.request.user, str(e)))
-            return Response({"error": True, 'msg': str(e)})
+            return Response({"error": True, 'msg': 'Bad request!'})
 
     @action(detail=False, methods=['get'])
     def get_locks_by_ext_id(self, request):
@@ -224,7 +228,7 @@ class GuestViewSet(viewsets.ModelViewSet):
             return Response(guest.get_locks_json(), status=status.HTTP_200_OK)
         except Exception as e:
             logger.error("[{}]: \"{}\"".format(self.request.user, str(e)))
-            return Response({"error": 'true', 'msg': str(e)})
+            return Response({"error": 'true', 'msg': 'Bad request!'})
 
 
 class LockViewSet(viewsets.ModelViewSet):
@@ -291,7 +295,7 @@ class LockViewSet(viewsets.ModelViewSet):
             return Response(c_list, status=status.HTTP_200_OK)
         except Exception as e:
             logger.error("[{}]: \"{}\"".format(self.request.user, str(e)))
-            return Response({"error": 'true', 'msg': str(e)})
+            return Response({"error": 'true', 'msg': 'Bad request!'})
 
     @action(detail=False, methods=['post'])
     def add_passcode(self, request):
@@ -311,7 +315,7 @@ class LockViewSet(viewsets.ModelViewSet):
                 return Response({"error": False, "code_id": err, "msg": "Code added successfully!"}, status=status.HTTP_200_OK)
         except Exception as e:
             logger.error("[{}]: \"{}\"".format(self.request.user, str(e)))
-            return Response({"error": True, 'msg': str(e)})
+            return Response({"error": True, 'msg': 'Bad request!'})
 
     @action(detail=False, methods=['post'])
     def change_passcode(self, request):
@@ -332,7 +336,7 @@ class LockViewSet(viewsets.ModelViewSet):
                 return Response({"error": False, "msg": "Code changed successfully!"}, status=status.HTTP_200_OK)
         except Exception as e:
             logger.error("[{}]: \"{}\"".format(self.request.user, str(e)))
-            return Response({"error": True, 'msg': str(e)})
+            return Response({"error": True, 'msg': 'Bad request!'})
 
     @action(detail=False, methods=['post'])
     def remove_passcode(self, request):
@@ -350,7 +354,7 @@ class LockViewSet(viewsets.ModelViewSet):
                 return Response({"error": False, "msg": "Code removed successfully!"}, status=status.HTTP_200_OK)
         except Exception as e:
             logger.error("[{}]: \"{}\"".format(self.request.user, str(e)))
-            return Response({"error": True, 'msg': str(e)})
+            return Response({"error": True, 'msg': 'Bad request!'})
 
 
     @action(detail=False, methods=['get'])
@@ -367,7 +371,7 @@ class LockViewSet(viewsets.ModelViewSet):
             return Response(c_list, status=status.HTTP_200_OK)
         except Exception as e:
             logger.error("[{}]: \"{}\"".format(self.request.user, str(e)))
-            return Response({"error": 'true', 'msg': str(e)})
+            return Response({"error": 'true', 'msg': 'Bad request!'})
 
     @action(detail=False, methods=['post'])
     def add_cardcode(self, request):
@@ -394,7 +398,7 @@ class LockViewSet(viewsets.ModelViewSet):
                 return Response({"error": False, "code_id": err, "msg": "Card added successfully!"}, status=status.HTTP_200_OK)
         except Exception as e:
             logger.error("[{}]: \"{}\"".format(self.request.user, str(e)))
-            return Response({"error": True, 'msg': str(e)})
+            return Response({"error": True, 'msg': 'Bad request!'})
 
     @action(detail=False, methods=['post'])
     def remove_cardcode(self, request):
@@ -412,7 +416,7 @@ class LockViewSet(viewsets.ModelViewSet):
                 return Response({"error": False, "msg": "Card removed successfully!"}, status=status.HTTP_200_OK)
         except Exception as e:
             logger.error("[{}]: \"{}\"".format(self.request.user, str(e)))
-            return Response({"error": True, 'msg': str(e)})
+            return Response({"error": True, 'msg': 'Bad request!'})
 
     @action(detail=False, methods=['post'])
     def change_period_card(self, request):
@@ -432,7 +436,7 @@ class LockViewSet(viewsets.ModelViewSet):
                 return Response({"error": False, "msg": "Card added successfully!"}, status=status.HTTP_200_OK)
         except Exception as e:
             logger.error("[{}]: \"{}\"".format(self.request.user, str(e)))
-            return Response({"error": True, 'msg': str(e)})
+            return Response({"error": True, 'msg': 'Bad request!'})
 
     @action(detail=False, methods=['get'])
     def get_records(self, request):
@@ -456,7 +460,7 @@ class LockViewSet(viewsets.ModelViewSet):
             return Response(c_list, status=status.HTTP_200_OK)
         except Exception as e:
             logger.error("[{}]: \"{}\"".format(self.request.user, str(e)))
-            return Response({"error": 'true', 'msg': str(e)})
+            return Response({"error": 'true', 'msg': 'Bad request!'})
 
     @action(detail=False, methods=['get'])
     def open_lock(self, request):
@@ -471,7 +475,7 @@ class LockViewSet(viewsets.ModelViewSet):
             return Response({"error": 'true', 'msg': 'The lock {} could not be opened'.format(lock.uuid)})
         except Exception as e:
             logger.error("[{}]: \"{}\"".format(self.request.user, str(e)))
-            return Response({"error": 'true', 'msg': str(e)})
+            return Response({"error": 'true', 'msg': 'Bad request!'})
 
 
 class RoomViewSet(viewsets.ModelViewSet):

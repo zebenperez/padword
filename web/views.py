@@ -10,6 +10,8 @@ from padword.decorators import group_required
 from guest.models import Regime, ProjectRegime
 from sensibo.models import ProjectSensiboUser
 from connector.models import ProjectAvantioUser
+from contents.models import Category, PointOfSale, PointOfSaleCategory
+from bookings.models import Form
 from .models import *
 #from .lock_lib import ShLock
 
@@ -138,6 +140,8 @@ def project_form(request):
         user_avantio = get_or_create_user_avantio(obj.uuid)
 
         regime_list = Regime.objects.all()
+        point_of_sale_list = PointOfSale.objects.filter(project_uuid=obj.uuid)
+        form = Form.objects.filter(form_type__code="tpv", form_type__project_uuid=obj.uuid).first()
         context = {
             'obj': obj, 
             'companies': Company.objects.all(), 
@@ -146,7 +150,9 @@ def project_form(request):
             'user_sensibo': user_sensibo, 
             'user_avantio': user_avantio, 
             'project_regime_list': [item.regime for item in obj.regimes.all()],
-            'regime_list': regime_list
+            'regime_list': regime_list,
+            'point_of_sale_list': point_of_sale_list,
+            'form': form
         }
         return render(request, "web/projects/project-form.html", context)
     except Exception as e:
@@ -198,6 +204,42 @@ def project_regime_toggle(request):
     except Exception as e:
         print (show_exc(e))
     return HttpResponse("")
+
+@group_required("admins")
+def project_pos_add(request):
+    try:
+        project = get_or_none(Project, request.GET["obj_id"])
+        PointOfSale.objects.create(project_uuid=project.uuid, uuid=new_ui_slug(PointOfSale))
+        point_of_sale_list = PointOfSale.objects.filter(project_uuid=project.uuid)
+    except Exception as e:
+        print (show_exc(e))
+    return render(request, "web/projects/project-form-point-of-sales-list.html", {'point_of_sale_list':point_of_sale_list,})
+
+@group_required("admins")
+def project_pos_remove(request):
+    try:
+        pos = get_or_none(PointOfSale, request.GET["obj_id"])
+        project = get_or_none(Project, pos.project_uuid, "uuid")
+        pos.delete()
+        point_of_sale_list = PointOfSale.objects.filter(project_uuid=project.uuid)
+    except Exception as e:
+        print (show_exc(e))
+    return render(request, "web/projects/project-form-point-of-sales-list.html", {'point_of_sale_list':point_of_sale_list,})
+
+@group_required("admins")
+def project_pos_cat_toggle(request):
+    try:
+        pos = get_or_none(PointOfSale, request.GET["obj_id"])
+        cat = get_or_none(Category, request.GET["category_id"])
+        item_list = PointOfSaleCategory.objects.filter(point_of_sale=pos, category=cat)
+        if len(item_list) > 0:
+            item_list.delete()
+        else:
+            PointOfSaleCategory.objects.create(point_of_sale=pos, category=cat)
+    except Exception as e:
+        print (show_exc(e))
+    return HttpResponse("")
+
 
 '''
     Channels
@@ -548,6 +590,19 @@ def ServiceWorker(request):
     return response
 #     template_name = "sw.js"
 #     content_type="application/javascript"
+
+'''
+    Modules
+'''
+@group_required("admins", "projects")
+def show_module(request):
+    try:
+        module = Module.objects.filter(code=request.GET["code"]).first()
+        return render (request, "show-module.html", {'module': module})
+    except Exception as e:
+        print(e)
+        return render(request, 'error_exception.html', {'exc': show_exc(e)})
+
 
 #'''
 #    Locks
