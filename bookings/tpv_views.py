@@ -1,6 +1,7 @@
 from django.contrib import auth
 from django.shortcuts import render, redirect
 from django.urls import reverse
+from django.utils.translation import ugettext_lazy as _ 
 
 from padword.decorators import group_required
 from padword.commons import show_exc, get_or_none, get_param, reverse_cardkey
@@ -314,6 +315,7 @@ def tpv_order_send(request):
         fi_id = get_param(request.GET, "obj_id")
         pt_id = get_param(request.GET, "payment_type", "")
         amount = get_param(request.GET, "amount", "")
+        amount_user = get_param(request.GET, "amount_user", "")
 
         fi = get_or_none(FormInstance, fi_id)
         fi.set_status("01", request.user, "")
@@ -321,7 +323,7 @@ def tpv_order_send(request):
         if pt_id != "":
             pt = get_or_none(PaymentType, pt_id)
             fi.payment_type = pt
-            fi.amount = amount
+            fi.amount = amount if amount_user == "" else amount_user
         fi.save()
         context = {'msg': fi.get_status.status.code, 'project_uuid': fi.form.project.uuid}
         return render(request, 'bookings/tpv/show-msg.html', context)
