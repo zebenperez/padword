@@ -2,7 +2,7 @@ from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.utils.translation import ugettext_lazy as _ 
 
-from datetime import datetime
+from datetime import datetime, timedelta
 
 from padword.commons import show_exc, get_or_none, new_ui_slug
 from padword.decorators import group_required
@@ -15,13 +15,15 @@ from .models import ProjectAvantioUser
 '''
     Avantio
 '''
-@group_required("admins")
+@group_required("admins", "projects")
 def avantio_get_booking_list(request, project_uuid):
     try:
         pau = ProjectAvantioUser.objects.filter(project_uuid=project_uuid).first()
         if pau != None:
+            end_date = datetime.today()
+            start_date = end_date + timedelta(days=-1 * pau.days)
             av = ShAvantio(pau.username, pau.password)
-            booking_list = av.get_booking_list()
+            booking_list = av.get_booking_list(start_date, end_date)
             for booking in booking_list:
                 code = "{}|{}".format(booking.localizator, booking.booking_code)
                 guest = Guest.objects.filter(ext_id=code).first()
@@ -42,9 +44,10 @@ def avantio_get_booking_list(request, project_uuid):
         #return HttpResponse(booking_list)
         return render(request, 'avantio/booking-list.html', {'booking_list': booking_list})
     except Exception as e:
+        print(e)
         return render(request, 'error_exception.html', {'exc':show_exc(e)})
 
-@group_required("admins")
+@group_required("admins", "projects")
 def avantio_get_booking_notif(request, project_uuid):
     try:
         pau = ProjectAvantioUser.objects.filter(project_uuid=project_uuid).first()
@@ -52,8 +55,9 @@ def avantio_get_booking_notif(request, project_uuid):
         if pau != None:
             av = ShAvantio(pau.username, pau.password)
             booking_list = av.get_booking_notifications()
-        return HttpResponse(booking_list)
+        #return HttpResponse(booking_list)
         #return render(request, 'avantio/booking-list.html', {'booking_list': booking_list})
+        return render(request, 'avantio/booking-notif.html', {'booking_list': booking_list})
     except Exception as e:
         return render(request, 'error_exception.html', {'exc':show_exc(e)})
 

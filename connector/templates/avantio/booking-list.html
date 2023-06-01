@@ -1,15 +1,21 @@
+{%comment%}
 {% extends 'base.html' %}
 {% load i18n %}
 
 {% block central_content %}
+{%endcomment%}
+{% load i18n %}
 
+<div class="row w-100 common-modal-head m-0 p-0">
+    <div class="col-11"><h2>{% trans 'Avantio booking list' %}</h2></div>
+    <div class="col-1"><button type="button" class="btn btn-sm ark" data-bs-dismiss="modal" data-url="{% url "guest-search-by-project" %}" 
+        data-target="guest-list"><i class="fas fa-times"></i></button> </div>
+</div>
+
+
+<div class="row m-0">
     <div class="content">
         <div id="item-list">
-            <div class="d-flex menu-actions-blue">
-                <div class="flex-grow-1 p-2"><span class="bg-ico-bar"><i class="fas fa-lock"></i></span>&nbsp; {% trans "Avantio bookings " %}</div>
-                <div class="action p-2"> </div>
-            </div>
-
             {% for item in booking_list %} 
                 <div class="row">
                     <div class="col-2">{% trans 'Start date' %}</div>
@@ -76,5 +82,13 @@
             {% endfor %}
         </div>
     </div>
+</div>
 
+<div class="d-flex justify-content-end p-2">
+    <button type="button" class="btn btn-default ark m-2" data-bs-dismiss="modal" data-url="{% url "guest-search-by-project" %}" 
+        data-target="guest-list">{% trans "Close" %}</button>
+</div>
+
+{%comment%}
 {% endblock central_content %}
+{%endcomment%}

@@ -30,8 +30,10 @@
             <div><h2 class="b-right">{% trans 'Guests' %} (<span id="total-items">{{total_items}}</span>)</h2></div>
             <div>
                 <button class="btn btn-outline-secondary btn-sm" onclick="$('.guest-row').show()">{% trans "Show all" %}</button>
-                <button class="btn btn-outline-secondary btn-sm" onclick="$('.guest-row').show();$('.deleted').hide()">{% trans "Show active" %}</button>
-                <button class="btn btn-outline-secondary btn-sm" onclick="$('.guest-row').hide();$('.deleted').show()">{% trans "Show deleted" %}</button>
+                <button class="btn btn-outline-secondary btn-sm" onclick="$('.guest-row').show();$('.deleted').hide()">
+                    {% trans "Show active" %}</button>
+                <button class="btn btn-outline-secondary btn-sm" onclick="$('.guest-row').hide();$('.deleted').show()">
+                    {% trans "Show deleted" %}</button>
             </div>
             {% if project_uuid %}
                 <a class="btn btn-primary ark" data-url="{% url "guest-form-by-project" %}" data-target-modal="common-modal" 

@@ -47,10 +47,16 @@ class ShAvantio:
             print(e)
             return ""
 
-    def get_booking_list(self):
+    def get_booking_list(self, start_date="", end_date=""):
         booking_list = []
         with self.client.settings(raw_response=True):
-            resp = self.client.service.GetBookingList(**self.credentials)
+            params = self.credentials
+            if start_date != "":
+                params["StartDate"] = start_date
+            if end_date != "":
+                params["EndDate"] = end_date
+            #resp = self.client.service.GetBookingList(**self.credentials)
+            resp = self.client.service.GetBookingList(**params)
             soup = BeautifulSoup(resp.content, 'xml')
             for b in soup.find_all('ns2:Booking'):
                 name = self.get_param(b, 'ns2:Name')
