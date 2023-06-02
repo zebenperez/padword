@@ -20,8 +20,12 @@ def avantio_get_booking_list(request, project_uuid):
     try:
         pau = ProjectAvantioUser.objects.filter(project_uuid=project_uuid).first()
         if pau != None:
-            end_date = datetime.today()
-            start_date = end_date + timedelta(days=-1 * pau.days)
+            if pau.days > 0:
+                start_date = datetime.today()
+                end_date = start_date + timedelta(days=pau.days)
+            else:
+                end_date = datetime.today()
+                start_date = end_date + timedelta(days=pau.days)
             av = ShAvantio(pau.username, pau.password)
             booking_list = av.get_booking_list(start_date, end_date)
             for booking in booking_list:
