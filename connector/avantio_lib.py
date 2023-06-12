@@ -57,6 +57,8 @@ class ShAvantio:
                 params["EndDate"] = end_date
             #resp = self.client.service.GetBookingList(**self.credentials)
             resp = self.client.service.GetBookingList(**params)
+            print("--2--")
+            print(resp.content)
             soup = BeautifulSoup(resp.content, 'xml')
             for b in soup.find_all('ns2:Booking'):
                 name = self.get_param(b, 'ns2:Name')
@@ -73,8 +75,10 @@ class ShAvantio:
                 email = self.get_param(b, 'ns2:EMail')
                 client = AvantioBookingClient(name, surname, dni, address, locality, postcode, city, country, country_code, phone, phone2, email)
 
-                start_date = self.get_param(b, 'ns2:StartDate')
-                end_date = self.get_param(b, 'ns2:EndDate')
+                #start_date = self.get_param(b, 'ns2:StartDate')
+                #end_date = self.get_param(b, 'ns2:EndDate')
+                start_date = self.get_param(b, 'ns2:ArrivalDate')
+                end_date = self.get_param(b, 'ns2:DepartureDate')
                 booking_date = self.get_param(b, 'ns2:BookingDate')
                 booking_code = self.get_param(b, 'ns2:BookingCode')
                 localizator = self.get_param(b, 'ns2:Localizator')

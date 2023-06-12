@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     'sensibo',
     'connector',
     'rest_api',
+    'django_crontab',
 #     'chat',
 #     'pwa',
 ]
@@ -159,6 +160,11 @@ try:
     from .local_settings import *
 except Exception:
     pass
+
+#try:
+#    from .cron_settings import *
+#except Exception:
+#    pass
 
 LOG_FILENAME = os.path.join(BASE_DIR, 'logs.txt')
 DEBUG_LEVEL = "INFO"
