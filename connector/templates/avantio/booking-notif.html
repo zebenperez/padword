@@ -10,7 +10,17 @@
 <div class="row m-0">
     <div class="content">
         <div id="item-list">
-            {{booking_list}}
+            {% for item in booking_list %} 
+                <div class="row">
+                    <div class="col-2">{% trans 'Booking code' %}</div>
+                    <div class="col-4">{{item.booking_code}}</div>
+
+                    <div class="col-2">{% trans 'Localizator' %}</div>
+                    <div class="col-4">{{item.localizator}}</div>
+                </div>
+                <hr/>
+            {% endfor %}
+
         </div>
     </div>
 </div>

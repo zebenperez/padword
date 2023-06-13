@@ -29,7 +29,7 @@ def avantio_get_booking_list(request, project_uuid):
             booking_list = av.get_booking_list(start_date, end_date)
             for booking in booking_list:
                 code = "{}|{}".format(booking.localizator, booking.booking_code)
-                guest = Guest.objects.filter(ext_id=code).first()
+                guest = Guest.objects.filter(ext_id=code, project_id=pau.project_uuid, deleted=0).first()
                 if guest == None:
                     guest = Guest(UUID = new_ui_slug(Guest, "UUID"), ext_id=code, project_id=pau.project_uuid)
                     guest.name = booking.client.name
@@ -43,7 +43,7 @@ def avantio_get_booking_list(request, project_uuid):
                         guest.check_out = datetime.strptime(booking.end_date, "%Y-%m-%d")
                     guest.room = booking.accommodation_code
                     guest.save()
-                    guest.add_all_key_code(code[-4])
+                    guest.add_all_key_code(code[-4:])
                     av.send_pwa_link(guest.ext_id, guest.pwa_link)
 
         #return HttpResponse(booking_list)
@@ -60,8 +60,26 @@ def avantio_get_booking_notif(request, project_uuid):
         if pau != None:
             av = ShAvantio(pau.username, pau.password)
             booking_list = av.get_booking_notifications()
-        #return HttpResponse(booking_list)
-        #return render(request, 'avantio/booking-list.html', {'booking_list': booking_list})
+            for booking in booking_list:
+                b = av.get_booking(booking.booking_code, booking.localizator)
+                if b != None:
+                    code = "{}|{}".format(b.localizator, b.booking_code)
+                    guest = Guest.objects.filter(ext_id=code, project_id=pau.project_uuid, deleted=0).first()
+                    if guest == None:
+                        guest = Guest(UUID = new_ui_slug(Guest, "UUID"), ext_id=code, project_id=pau.project_uuid)
+
+                    guest.name = b.client.name
+                    guest.surname = b.client.surname
+                    guest.mobile = b.client.phone
+                    guest.email = b.client.email
+                    if b.start_date != "":
+                        guest.check_in = datetime.strptime(b.start_date, "%Y-%m-%d")
+                    if b.end_date != "":
+                        guest.check_out = datetime.strptime(b.end_date, "%Y-%m-%d")
+                    guest.room = b.accommodation_code
+                    guest.save()
+                    #guest.add_all_key_code(code[-4:])
+                    #av.send_pwa_link(guest.ext_id, guest.pwa_link)
         return render(request, 'avantio/booking-notif.html', {'booking_list': booking_list})
     except Exception as e:
         return render(request, 'error_exception.html', {'exc':show_exc(e)})
