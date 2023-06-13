@@ -49,7 +49,7 @@ INSTALLED_APPS = [
     'sensibo',
     'connector',
     'rest_api',
-#    'django_crontab',
+    'django_crontab',
 #     'chat',
 #     'pwa',
 ]

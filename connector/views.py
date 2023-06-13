@@ -43,6 +43,7 @@ def avantio_get_booking_list(request, project_uuid):
                         guest.check_out = datetime.strptime(booking.end_date, "%Y-%m-%d")
                     guest.room = booking.accommodation_code
                     guest.save()
+                    guest.add_all_key_code(code[-4])
                     av.send_pwa_link(guest.ext_id, guest.pwa_link)
 
         #return HttpResponse(booking_list)
