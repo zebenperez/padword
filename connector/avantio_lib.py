@@ -24,7 +24,9 @@ class AvantioBookingClient:
         self.email = email
 
 class AvantioBooking:
-    def __init__(self, start_date, end_date, booking_date, booking_code, localizator, accommodation_code, user_code, client):
+    def __init__(self, start_time, end_time, start_date, end_date, booking_date, booking_code, localizator, accommodation_code, user_code, client):
+        self.start_time = start_time
+        self.end_time = end_time
         self.start_date = start_date
         self.end_date = end_date
         self.booking_date = booking_date
@@ -63,7 +65,7 @@ class ShAvantio:
             #resp = self.client.service.GetBookingList(**self.credentials)
             resp = self.client.service.GetBookingList(**params)
             #print("--2--")
-            #print(resp.content)
+            print(resp.content)
             soup = BeautifulSoup(resp.content, 'xml')
             for b in soup.find_all('ns2:Booking'):
                 name = self.get_param(b, 'ns2:Name')
@@ -82,6 +84,8 @@ class ShAvantio:
 
                 #start_date = self.get_param(b, 'ns2:StartDate')
                 #end_date = self.get_param(b, 'ns2:EndDate')
+                start_time = self.get_param(b, 'ns2:CheckInSchedule')
+                end_time = self.get_param(b, 'ns2:CheckOutSchedule')
                 start_date = self.get_param(b, 'ns2:ArrivalDate')
                 end_date = self.get_param(b, 'ns2:DepartureDate')
                 booking_date = self.get_param(b, 'ns2:BookingDate')
@@ -89,7 +93,7 @@ class ShAvantio:
                 localizator = self.get_param(b, 'ns2:Localizator')
                 accommodation_code = self.get_param(b, 'ns2:AccommodationCode')
                 user_code = self.get_param(b, 'ns2:UserCode')
-                ab = AvantioBooking(start_date, end_date, booking_date, booking_code, localizator, accommodation_code, user_code, client)
+                ab = AvantioBooking(start_time,end_time,start_date,end_date,booking_date,booking_code,localizator,accommodation_code,user_code,client)
                 booking_list.append(ab)
 
             if start_date != "":
