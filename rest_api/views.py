@@ -70,11 +70,15 @@ class GuestViewSet(viewsets.ModelViewSet):
                 #serializer.save()
                 guest = Guest.objects.create(**data)
                 logger.info("[{}]: \"Guest {} {} created\"".format(self.request.user, guest.name, guest.surname))
-                guest.add_all_key_code()
+
+                guest_data = self.serializer_class(guest).data
+                guest_data["lock_code_err"] = guest.add_all_key_code()
                 #if guest.room != "":
                 #    guest.change_sensibo_devices(guest.room)
+
                 logger.info("[{}]: \"Guest key codes {} {} created\"".format(self.request.user, guest.name, guest.surname))
-                return Response(data=self.serializer_class(guest).data, status=status.HTTP_201_CREATED)
+                return Response(data=guest_data, status=status.HTTP_201_CREATED)
+                #return Response(data=self.serializer_class(guest).data, status=status.HTTP_201_CREATED)
             else:
                 logger.error("[{}]: \"Bad request!\"".format(self.request.user))
                 return Response(data=serializer.errors, status=status.HTTP_400_BAD_REQUEST)
