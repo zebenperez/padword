@@ -140,13 +140,15 @@ class GuestViewSet(viewsets.ModelViewSet):
                 guest.change_room(request.POST["room"])
                 #guest.change_sensibo_devices(request.POST["room"])
             guest.save()
+            guest_data = self.serializer_class(guest).data
             if update_dates:
-                guest.change_all_key_code_date()
-                guest.change_all_key_card_date()
-                guest.remove_all_key_cards()
+                guest_data["lock_code_err"] = guest.change_all_key_code_date()
+                guest_data["lock_card_err"] = guest.change_all_key_card_date()
+                #guest.remove_all_key_cards()
  
             logger.info("[{}]: \"Guest {} {} updated\"".format(self.request.user, guest.name, guest.surname))
-            return Response(self.serializer_class(guest).data, status=status.HTTP_200_OK)
+            return Response(guest_data, status=status.HTTP_200_OK)
+            #return Response(self.serializer_class(guest).data, status=status.HTTP_200_OK)
         except Exception as e:
             logger.error("[{}]: \"{}\"".format(self.request.user, str(e)))
             return Response(data={'error': 'true', 'msg': 'Bad request!'}, status=status.HTTP_400_BAD_REQUEST)
