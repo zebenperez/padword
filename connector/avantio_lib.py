@@ -128,6 +128,8 @@ class ShAvantio:
 
             #start_date = self.get_param(b, 'ns2:StartDate')
             #end_date = self.get_param(b, 'ns2:EndDate')
+            start_time = self.get_param(b, 'ns2:CheckInSchedule')
+            end_time = self.get_param(b, 'ns2:CheckOutSchedule')
             start_date = self.get_param(b, 'ns2:ArrivalDate')
             end_date = self.get_param(b, 'ns2:DepartureDate')
             booking_date = self.get_param(b, 'ns2:BookingDate')
@@ -135,7 +137,7 @@ class ShAvantio:
             localizator = self.get_param(b, 'ns2:Localizator')
             accommodation_code = self.get_param(b, 'ns2:AccommodationCode')
             user_code = self.get_param(b, 'ns2:UserCode')
-            booking = AvantioBooking(start_date, end_date, booking_date, booking_code, localizator, accommodation_code, user_code, client)
+            booking=AvantioBooking(start_time,end_time,start_date,end_date,booking_date,booking_code,localizator,accommodation_code,user_code,client)
         return booking
 
 

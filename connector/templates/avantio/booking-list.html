@@ -12,6 +12,7 @@
         data-target="guest-list"><i class="fas fa-times"></i></button> </div>
 </div>
 
+{% if error and error != "" %} <div class="alert alert-danger">{{error|safe}}</div> {% endif %}
 
 <div class="row m-0">
     <div class="content">
