@@ -5,6 +5,8 @@ from zeep.transports import Transport
 #from zeep.settings import Settings
 from bs4 import BeautifulSoup
 
+from .models import ProjectAvantioUser
+
 WSDL = 'http://ws.avantio.com/soap/vrmsInputServices.php?wsdl'
 
 
@@ -160,5 +162,35 @@ class ShAvantio:
             req["WebAppURL"] = link
             resp = self.client.service.SetSmartLock(**req)
         return resp
+
+def get_booking_list(project_uuid):
+    pau = ProjectAvantioUser.objects.filter(project_uuid=project_uuid).first()
+    if pau != None:
+        if pau.days > 0:
+            start_date = datetime.today()
+            end_date = start_date + timedelta(days=pau.days)
+        else:
+            end_date = datetime.today()
+            start_date = end_date + timedelta(days=pau.days)
+        av = ShAvantio(pau.username, pau.password)
+        booking_list = av.get_booking_list(start_date, end_date)
+        for booking in booking_list:
+            code = "{}|{}".format(booking.localizator, booking.booking_code)
+            guest = Guest.objects.filter(ext_id=code, project_id=pau.project_uuid, deleted=0).first()
+            if guest == None:
+                guest = Guest(UUID = new_ui_slug(Guest, "UUID"), ext_id=code, project_id=pau.project_uuid)
+                guest.name = booking.client.name
+                guest.surname = booking.client.surname
+                #guest.language = booking.client.languaje
+                guest.mobile = booking.client.phone
+                guest.email = booking.client.email
+                if booking.start_date != "" and booking.start_time != "":
+                    guest.check_in = datetime.strptime("{} {}".format(booking.start_date, booking.start_time), "%Y-%m-%d %H:%M")
+                if booking.end_date != "" and booking.end_time != "":
+                    guest.check_out = datetime.strptime("{} {}".format(booking.end_date, booking.end_time), "%Y-%m-%d %H:%M")
+                guest.room = booking.accommodation_code
+                guest.save()
+                guest.add_all_key_code(code[-4:])
+                av.send_pwa_link(guest.ext_id, guest.pwa_link)
 
 
