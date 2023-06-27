@@ -249,6 +249,7 @@ def bookings(request):
         context = get_booking_context()
         #context['page'] = 0
         context['index'] = ITEMS_PER_PAGE
+        context['active'] = "orders"
         return render (request, "bookings/manage/bookings.html", context)
         #return render (request, "bookings/manage/bookings-drag.html", context)
     except Exception as e:
@@ -409,6 +410,7 @@ def bookings_by_project(request):
         project = get_or_none(Project, request.project_id)
         context = get_booking_project_context(project)
         context['index'] = ITEMS_PER_PAGE
+        context['active'] = "orders" 
         #context['page'] = 0
         return render (request, "bookings/pr-manage/bookings.html", context)
     except Exception as e:
@@ -443,6 +445,7 @@ def bookings_live_by_project(request):
         context['page'] = 0
         context['ini_date'] = today + datetime.timedelta(days=-1000)
         context['end_date'] = today + datetime.timedelta(days=1)
+        context['active'] = "orders_live" 
 
         return render (request, "bookings/pr-manage/bookings-drag.html", context)
     except Exception as e:

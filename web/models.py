@@ -271,7 +271,7 @@ class ProjectUser(models.Model):
     project_uuid = models.CharField(max_length = 255, verbose_name= _('Project UUID'), default='')
     username = models.CharField(max_length = 255, verbose_name= _('Username'), default='')
     menus = models.CharField(max_length = 1000, verbose_name= _('Menus'), default='orders;guests;notifications')
-    menus_promo = models.CharField(max_length = 1000, verbose_name= _('Menus Promo'), default='')
+    menus_promo = models.CharField(max_length = 1000, verbose_name= _('Menus Promo'), default='', blank=True)
     image = models.ImageField(upload_to=upload_image, blank=True, verbose_name="Imagen de perfil", help_text="Select file to upload")
 
     class Meta:

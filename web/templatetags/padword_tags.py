@@ -348,21 +348,21 @@ def items_in_bookings(fi,item):
     Inclusion Tags
 '''
 @register.inclusion_tag('main-menu.html')
-def get_main_menu(user):
+def get_main_menu(user, active=""):
     try:
         if user.groups.filter(name="guests").exists():
-            return {'user': user, 'menu': "guests"}
+            return {'user': user, 'menu': "guests", "active": active}
         if user.groups.filter(name="categories").exists():
             obj = CategoryUser.objects.filter(username=user.username).first()
             if obj != None: 
-                return {'user': user, 'menu': "categories", 'view_cat': obj.view_cat}
+                return {'user': user, 'menu': "categories", 'view_cat': obj.view_cat, "active": active}
                 #return {'user': user, 'menu': "categories", "category": obj.category}
         if user.groups.filter(name="projects").exists():
             obj = ProjectUser.objects.filter(username=user.username).first()
             if obj != None: 
-                return {'user': user, 'menu': "projects", "project": obj.project}
+                return {'user': user, 'menu': "projects", "project": obj.project, "active": active}
         if user.groups.filter(name="admins").exists() or user.is_superuser:
-            return {'user': user, 'menu': "admins"}
+            return {'user': user, 'menu': "admins", "active": active}
     except:
         return {}
 

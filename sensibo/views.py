@@ -118,6 +118,7 @@ def devices_by_project2(request):
 
         context = get_device_project_context(project)
         context["device_list"] = device_list
+        context["active"] = "sensibo"
         return render (request, "sensibo-by-project/devices.html", context)
     except Exception as e:
         return render(request, 'error_exception.html', {'exc':show_exc(e)})

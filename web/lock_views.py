@@ -367,6 +367,7 @@ def locks_by_project2(request):
         project = get_or_none(Project, request.project_id)
         context = get_context(request, project)
         context["project"] = project
+        context["active"] = 'locks'
         return render(request, "web/locks-by-project/locks.html", context)
     except Exception as e:
         return render(request, "error_exception.html", {'exc':show_exc(e)})

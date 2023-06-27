@@ -11,23 +11,41 @@
     </div>
     <div class="card-body hide" id="body-avantio"> 
         <div class="row justify-center">
-            <div class="col-4">
+            <div class="col-6">
                 <label class="label">{% trans "Username" %}:</label>
                 <input type="text" class="form-control autosave input" id="username" name="username" value="{{user_avantio.username}}" 
                     title="{{user_avantio.username}}" data-model-name="connector.projectavantiouser" data-obj-id="{{user_avantio.id}}" 
                     data-url="{% url "autosave_field" %}" data-target="div-notification"/> <span id="username__msg"></span>	
             </div>
-            <div class="col-4">
+            <div class="col-6">
                 <label class="label">{% trans "Password" %}:</label>
                 <input type="text" class="form-control autosave input" id="password" name="password" value="{{user_avantio.password}}" 
                     title="{{user_avantio.password}}" data-model-name="connector.projectavantiouser" data-obj-id="{{user_avantio.id}}" 
                     data-url="{% url "autosave_field" %}" data-target="div-notification"/> <span id="password__msg"></span>	
             </div>
-            <div class="col-4">
+            <div class="col-3">
                 <label class="label">{% trans "Days to import" %}:</label>
                 <input type="text" class="form-control autosave input" id="days" name="days" value="{{user_avantio.days}}" 
                     title="{{user_avantio.days}}" data-model-name="connector.projectavantiouser" data-obj-id="{{user_avantio.id}}" 
                     data-url="{% url "autosave_field" %}" data-target="div-notification"/> <span id="days__msg"></span>	
+            </div>
+            <div class="col-3">
+                <label class="label">{% trans "Hour to import" %}:</label>
+                <input type="text" class="form-control input ark_change" id="hour" name="hour" value="{{user_avantio.hour}}" 
+                    title="{{user_avantio.hour}}" data-url="{% url "project-set-avantio-schedule" %}" data-target="div-notification" 
+                    data-obj_id="{{user_avantio.id}}" data-field="hour"/> <span id="hour__msg"></span>	
+            </div>
+            <div class="col-3">
+                <label class="label">{% trans "Minutes to import" %}:</label>
+                <input type="text" class="form-control input ark_change" id="minute" name="minute" value="{{user_avantio.minute}}" 
+                    title="{{user_avantio.minute}}" data-url="{% url "project-set-avantio-schedule" %}" data-target="div-notification" 
+                    data-obj_id="{{user_avantio.id}}" data-field="minute"/> <span id="minute__msg"></span>	
+            </div>
+            <div class="col-3">
+                <label class="label">{% trans "Hour to import notifications" %}:</label>
+                <input type="text" class="form-control input ark_change" id="hour_notif" name="hour_notif" value="{{user_avantio.hour_notif}}" 
+                    title="{{user_avantio.hour_notif}}" data-url="{% url "project-set-avantio-schedule" %}" data-target="div-notification" 
+                    data-obj_id="{{user_avantio.id}}" data-field="hour_notif"/> <span id="hour_notif__msg"></span>	
             </div>
         </div>		
     </div>		

@@ -4,8 +4,11 @@ from zeep import Client
 from zeep.transports import Transport
 #from zeep.settings import Settings
 from bs4 import BeautifulSoup
+from datetime import datetime, timedelta
 
 from .models import ProjectAvantioUser
+from guest.models import Guest
+from padword.commons import get_or_none, new_ui_slug
 
 WSDL = 'http://ws.avantio.com/soap/vrmsInputServices.php?wsdl'
 
@@ -165,34 +168,88 @@ class ShAvantio:
             resp = self.client.service.SetSmartLock(**req)
         return resp
 
+'''
+    FUNCTIONS
+'''
+def get_date(date, time, default):
+    if date != "" and time != "":
+        return datetime.strptime("{} {}".format(date, time), "%Y-%m-%d %H:%M")
+    return default + timedelta(days=-1)
+
+def get_dates_range(pau):
+    if pau.days > 0:
+        start_date = datetime.today()
+        end_date = start_date + timedelta(days=pau.days)
+    else:
+        end_date = datetime.today()
+        start_date = end_date + timedelta(days=pau.days)
+    return start_date, end_date
+
+
 def get_booking_list(project_uuid):
+    err = ""
+    booking_list = []
     pau = ProjectAvantioUser.objects.filter(project_uuid=project_uuid).first()
     if pau != None:
-        if pau.days > 0:
-            start_date = datetime.today()
-            end_date = start_date + timedelta(days=pau.days)
-        else:
-            end_date = datetime.today()
-            start_date = end_date + timedelta(days=pau.days)
+        start_date, end_date = get_dates_range(pau)
+
         av = ShAvantio(pau.username, pau.password)
         booking_list = av.get_booking_list(start_date, end_date)
         for booking in booking_list:
-            code = "{}|{}".format(booking.localizator, booking.booking_code)
-            guest = Guest.objects.filter(ext_id=code, project_id=pau.project_uuid, deleted=0).first()
-            if guest == None:
-                guest = Guest(UUID = new_ui_slug(Guest, "UUID"), ext_id=code, project_id=pau.project_uuid)
-                guest.name = booking.client.name
-                guest.surname = booking.client.surname
-                #guest.language = booking.client.languaje
-                guest.mobile = booking.client.phone
-                guest.email = booking.client.email
-                if booking.start_date != "" and booking.start_time != "":
-                    guest.check_in = datetime.strptime("{} {}".format(booking.start_date, booking.start_time), "%Y-%m-%d %H:%M")
-                if booking.end_date != "" and booking.end_time != "":
-                    guest.check_out = datetime.strptime("{} {}".format(booking.end_date, booking.end_time), "%Y-%m-%d %H:%M")
-                guest.room = booking.accommodation_code
-                guest.save()
-                guest.add_all_key_code(code[-4:])
-                av.send_pwa_link(guest.ext_id, guest.pwa_link)
+            checkin = get_date(booking.start_date, booking.start_time, start_date)
+            if checkin >= start_date and checkin <= end_date:
+                code = "{}|{}".format(booking.localizator, booking.booking_code)
 
+                guest = Guest.objects.filter(ext_id=code, project_id=pau.project_uuid, deleted=0).first()
+                if guest == None:
+                    guest = Guest(UUID = new_ui_slug(Guest, "UUID"), ext_id=code, project_id=pau.project_uuid)
+                    guest.name = booking.client.name
+                    guest.surname = booking.client.surname
+                    #guest.language = booking.client.languaje
+                    guest.mobile = booking.client.phone
+                    guest.email = booking.client.email
+                    guest.check_in = checkin
+                    guest.check_out = get_date(booking.end_date, booking.end_time, start_date)
+                    guest.room = booking.accommodation_code
+                    guest.save()
+                    err = guest.add_all_key_code(code[-4:])
+                    av.send_pwa_link(guest.ext_id, guest.pwa_link)
+    return booking_list, err
+
+def get_booking_notif(project_uuid):
+    pau = ProjectAvantioUser.objects.filter(project_uuid=project_uuid).first()
+    booking_list = ""
+    if pau != None:
+        start_date, end_date = get_dates_range(pau)
+        av = ShAvantio(pau.username, pau.password)
+        booking_list = av.get_booking_notifications()
+        for booking in booking_list:
+            b = av.get_booking(booking.booking_code, booking.localizator)
+            if b != None:
+                checkin = get_date(b.start_date, b.start_time, start_date)
+                if checkin >= start_date and checkin <= end_date:
+                    code = "{}|{}".format(b.localizator, b.booking_code)
+                    guest = Guest.objects.filter(ext_id=code, project_id=pau.project_uuid, deleted=0).first()
+                    if guest == None:
+                        guest = Guest(UUID = new_ui_slug(Guest, "UUID"), ext_id=code, project_id=pau.project_uuid)
+
+                    guest.name = b.client.name
+                    guest.surname = b.client.surname
+                    guest.mobile = b.client.phone
+                    guest.email = b.client.email
+                    guest.check_in = checkin
+                    guest.check_out = get_date(b.end_date, b.end_time, start_date)
+                    guest.room = b.accommodation_code
+                    guest.save()
+    return booking_list
+
+def send_link(project_uuid, guest_uuid):
+    resp = "---"
+    pau = ProjectAvantioUser.objects.filter(project_uuid=project_uuid).first()
+    if pau != None:
+        guest = get_or_none(Guest, guest_uuid, "UUID")
+        if guest != None:
+            av = ShAvantio(pau.username, pau.password)
+            resp = av.send_pwa_link(guest.ext_id, guest.pwa_link)
+    return resp
 

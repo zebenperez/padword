@@ -2,10 +2,13 @@ from django.apps import apps
 from django.conf import settings
 import sys
 import datetime
+import time
 import json
 import string
 import random
 import unicodedata
+import os
+import subprocess
 
 
 '''
@@ -149,4 +152,14 @@ def get_random_str(n):
 
 def timestamp_to_date(value):
     return datetime.datetime.fromtimestamp(value/1000.0).strftime("%Y-%m-%d %H:%M:%S")
+
+'''
+    External scripts
+'''
+def update_cron(hour, minute, function, project_uuid):
+    #path = os.path.join(settings.BASE_DIR, "padword", "update_cron.sh")
+    path = os.path.join(settings.BASE_DIR, "update_cron.sh")
+    #print("{} {} {} {} {}".format(path, hour, minute, function, project_uuid))
+    print(subprocess.run(["{} {} {} {} {}".format(path, hour, minute, function, project_uuid)], shell=True))
+
 
