@@ -112,6 +112,7 @@ class GuestViewSet(viewsets.ModelViewSet):
         try:
             guest = Guest.objects.get(UUID=pk)
             update_dates = False
+            update_codes = False
             data = {}
             if "name" in request.POST:
                 guest.name = request.POST["name"]
@@ -126,6 +127,7 @@ class GuestViewSet(viewsets.ModelViewSet):
                     return Response(data={'error': 'true', 'msg': msg}, status=status.HTTP_400_BAD_REQUEST)
                 else:
                     guest.mobile = request.POST["mobile"]
+                    update_codes = True
             if "email" in request.POST:
                 guest.email = request.POST["email"]
             if "ext_id" in request.POST:
@@ -145,6 +147,8 @@ class GuestViewSet(viewsets.ModelViewSet):
                 guest_data["lock_code_err"] = guest.change_all_key_code_date()
                 guest_data["lock_card_err"] = guest.change_all_key_card_date()
                 #guest.remove_all_key_cards()
+            if update_dates:
+                guest_data["lock_code_err"] = guest.change_all_key_code(guest.mobile_to_code())
  
             logger.info("[{}]: \"Guest {} {} updated\"".format(self.request.user, guest.name, guest.surname))
             return Response(guest_data, status=status.HTTP_200_OK)
