@@ -10,6 +10,8 @@ import unicodedata
 import os
 import subprocess
 
+import logging
+logger = logging.getLogger(__name__)
 
 '''
     Exceptions
@@ -157,6 +159,7 @@ def timestamp_to_date(value):
     External scripts
 '''
 def update_cron(hour, minute, function, project_uuid):
+    #logger.error("[common-update-cron] --1--")
     #path = os.path.join(settings.BASE_DIR, "padword", "update_cron.sh")
     path = os.path.join(settings.BASE_DIR, "update_cron.sh")
     #print("{} {} {} {} {}".format(path, hour, minute, function, project_uuid))
