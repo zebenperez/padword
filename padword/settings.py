@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     'sensibo',
     'connector',
     'rest_api',
+    'django_crontab',
 #     'chat',
 #     'pwa',
 ]
@@ -157,6 +158,11 @@ REST_FRAMEWORK = {
 
 try:
     from .local_settings import *
+except Exception:
+    pass
+
+try:
+    from .cron_settings import *
 except Exception:
     pass
 

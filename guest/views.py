@@ -60,7 +60,7 @@ def guests(request):
         #total_count = items.count()
 
         project_list = Project.objects.filter(active=1).order_by('name')
-        context = {'total_items': total_count, 'items': items, 'index': ITEMS_PER_PAGE, 'project_list': project_list}
+        context = {'total_items': total_count, 'items': items, 'index': ITEMS_PER_PAGE, 'project_list': project_list, 'active': 'guests'}
         #context = {'total_items': total_count, 'items': items[0:ITEMS_PER_PAGE], 'page': 0}
         return render (request, "guest/guests.html", context)
     except Exception as e:
@@ -331,7 +331,8 @@ def guests_by_project(request):
         items, total_count = get_guest_items_by_project(request, project.uuid)
         limit = datetime.datetime.now() - datetime.timedelta(days=project.guest_delete)
 
-        context = {'total_items': total_count, 'items': items, 'index': ITEMS_PER_PAGE, 'project': project, 'limit': limit}
+        context = {'total_items': total_count, 'items': items, 'index': ITEMS_PER_PAGE, 'project': project, 'limit': limit, 'active': 'guests'}
+        print(context)
         #context = {'total_items': items.count(), 'page': 0, 'project_uuid':project.uuid, 'items': items[0:ITEMS_PER_PAGE]}
         return render (request, "guest-by-project/guests.html", context)
     except Exception as e:
@@ -555,7 +556,7 @@ def get_notifications_project_uuid(values):
 def notifications(request):
     try:
         items = get_notifications(request)
-        context = {'total_items': items.count(), 'items': items[0:ITEMS_PER_PAGE], 'page': 0}
+        context = {'total_items': items.count(), 'items': items[0:ITEMS_PER_PAGE], 'page': 0, 'active': 'notifications'}
         return render (request, "guest/notifications/notifications.html", context)
     except Exception as e:
         return render(request, 'error_exception.html', {'exc':show_exc(e)})

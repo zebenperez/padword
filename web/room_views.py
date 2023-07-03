@@ -27,7 +27,7 @@ def get_projects(request):
 @group_required("admins")
 def rooms (request):
     #list_rooms = get_room_items(request)
-    return render (request, "web/rooms/rooms.html", {'list_projects': get_projects(request)})
+    return render (request, "web/rooms/rooms.html", {'list_projects': get_projects(request), 'active': 'rooms'})
 
 @group_required("admins")
 def room_list (request):
@@ -269,7 +269,7 @@ def ekey_url(request, token):
 def rooms_by_project(request):
     try:
         project = get_or_none(Project, request.project_id)
-        return render(request, "web/rooms-by-project/rooms.html", {'project': project})
+        return render(request, "web/rooms-by-project/rooms.html", {'project': project, 'active': 'rooms'})
     except Exception as e:
         return render(request, "error_exception.html", {'exc':show_exc(e)})
 

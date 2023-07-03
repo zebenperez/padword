@@ -30,7 +30,8 @@ def gateways_by_project(request, project_id):
 def gateways_by_project2(request):
     try:
         project = get_or_none(Project, request.project_id)
-        return render (request, "web/gateways-by-project/gateways.html", {'project': project, 'gateway_list': project.gateway_list()})
+        context = {'project': project, 'gateway_list': project.gateway_list(), 'active': 'gateways'}
+        return render (request, "web/gateways-by-project/gateways.html", context)
     except Exception as e:
         return render(request, 'error_exception.html', {'exc':show_exc(e)})
 

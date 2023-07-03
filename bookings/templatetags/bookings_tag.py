@@ -26,11 +26,14 @@ def get_item_price(item, code):
 
 @register.filter
 def get_total_by_regime(fi, code):
-    return fi.get_total_by_regime(code)
+    return "{:.2f}".format(fi.get_total_by_regime(code))
 
 @register.filter
 def get_file_url(cat, order):
-    cf = cat.get_file_by_order(order)
+    try:
+        cf = cat.get_file_by_order(order)
+    except:
+        cf = None
     return cf.file.url if cf != None and cf.file else ""
 
 '''

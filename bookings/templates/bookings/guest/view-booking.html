@@ -3,7 +3,7 @@
 <script>$("#back-btn").hide(); $("#back-btn-bookings").show()</script>
 <div class="col-12 card info-panel">
     <div class="content">
-        {% if "ecom" in fi.form.form_type.code %}
+        {% if "ecom" in fi.form.form_type.code or "tpv" in fi.form.form_type.code %}
             {% include "bookings/guest/view-booking-ecom.html" %}
         {% elif "general" in fi.form.form_type.code %}
             {% include "bookings/guest/view-booking-general.html" %}

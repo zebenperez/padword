@@ -187,11 +187,15 @@ class Guest(models.Model):
         return err
 
     def change_all_key_code_date(self):
+        err = ""
         for key in self.keycodes.all():
             #start_date = key.guest.check_in - datetime.timedelta(hours=1)
             #errcode = key.lock.change_code(key.code_id, key.code, start_date, key.guest.check_out)
             #errcode = key.lock.change_code(key.code_id, key.code, key.guest.get_start_date(), key.guest.check_out)
-            errcode = key.lock.change_code(key.code_id, key.code, key.guest.check_in_gmt, key.guest.check_out_gmt)
+            error = key.lock.change_code(key.code_id, key.code, key.guest.check_in_gmt, key.guest.check_out_gmt)
+            if error != "":
+                err = "{}<br/>{}: {}".format(err, key.lock.alias, error) if err != "" else "{}: {}".format(key.lock.alias, error)
+        return err
 
     def remove_all_key_codes(self):
         for key in self.keycodes.all():
@@ -218,11 +222,15 @@ class Guest(models.Model):
                 KeyCard.objects.create(code=code, card_id=errcode, lock=lock, guest=self)
 
     def change_all_key_card_date(self):
+        err = ""
         for key in self.keycards.all():
             #start_date = key.guest.check_in - datetime.timedelta(hours=1)
             #errcode = key.lock.change_period_card(key.card_id, start_date, key.guest.check_out)
             #errcode = key.lock.change_period_card(key.card_id, key.guest.get_start_date(), key.guest.check_out)
-            errcode = key.lock.change_period_card(key.card_id, key.guest.check_in_gmt, key.guest.check_out_gmt)
+            error = key.lock.change_period_card(key.card_id, key.guest.check_in_gmt, key.guest.check_out_gmt)
+            if error != "":
+                err = "{}<br/>{}: {}".format(err, key.lock.alias, error) if err != "" else "{}: {}".format(key.lock.alias, error)
+        return err
 
     def remove_all_key_cards(self, code=""):
         key_list = self.keycards.filter(code=code) if code != "" else self.keycards.all()

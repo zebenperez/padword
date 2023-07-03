@@ -5,7 +5,7 @@ from django.shortcuts import render, redirect
 from django.utils.translation import ugettext_lazy as _ 
 from django.views.decorators.csrf import csrf_exempt
 
-from padword.commons import show_exc, get_or_none, get_param, new_ui_slug, translate, set_session
+from padword.commons import show_exc, get_or_none, get_param, new_ui_slug, translate, set_session, update_cron
 from padword.decorators import group_required
 from guest.models import Regime, ProjectRegime
 from sensibo.models import ProjectSensiboUser
@@ -97,7 +97,7 @@ def projects(request, company_id=None, project_id=None):
             items = Project.objects.all() if company is None else Project.objects.filter(company = company)
         else:
             items = Project.objects.all()
-        return render(request, "web/projects/projects.html", {'items':items, 'company': company})
+        return render(request, "web/projects/projects.html", {'items':items, 'company': company, 'active': 'projects'})
     except Exception as e:
         print (show_exc(e))
         company = None
@@ -240,6 +240,38 @@ def project_pos_cat_toggle(request):
         print (show_exc(e))
     return HttpResponse("")
 
+@group_required("admins")
+def project_set_avantio_schedule(request):
+    try:
+        pau = get_or_none(ProjectAvantioUser, request.GET["obj_id"])
+        val = get_param(request.GET, "value")
+        field = get_param(request.GET, "field")
+        if pau != None:
+            if field == "hour":
+                pau.hour = val
+            elif field == "minute":
+                pau.minute = val
+            elif field == "hour_notif":
+                pau.hour_notif = val
+            pau.save()
+
+            function = ""
+            if field == "hour" or field == "minute": 
+                function = "avantio_booking_schedule"
+                hour = pau.hour
+                minute = pau.minute
+            elif field == "hour_notif":
+                function = "avantio_notification_schedule"
+                hour = "\*\|{}".format(pau.hour_notif)
+                minute = "0"
+            if function != "":
+                update_cron(hour, minute, function, pau.project_uuid)
+
+        return HttpResponse("Saved!")
+    except Exception as e:
+        print (show_exc(e))
+        return HttpResponse("Error!")
+
 
 '''
     Channels
@@ -327,7 +359,7 @@ def channel_remove(request):
 def companies(request):
     try:
         items = Company.objects.all()
-        return render (request, "web/companies/companies.html",{'items':items} )
+        return render (request, "web/companies/companies.html",{'items':items, 'active': 'companies'} )
     except Exception as e:
         return JsonResponse({'results':[], 'error':1, 'error-msg':show_exc(e)})
 
@@ -469,7 +501,7 @@ def device_search(request):
 @group_required("admins")
 def devices(request):
     try:
-        context = {'items': Device.objects.all()}
+        context = {'items': Device.objects.all(), 'active': 'devices'}
         return render (request, "web/devices/devices.html", context)
     except Exception as e:
         return JsonResponse({'results':[], 'error':1, 'error-msg':show_exc(e)})

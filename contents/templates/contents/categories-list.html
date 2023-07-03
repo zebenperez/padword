@@ -1,6 +1,6 @@
 {% load i18n padword_tags %}
 
-<div class="col-12 btn-tools text-right mb-2">
+<div class="col-12 btn-tools text-right">
     {% if cat %}
         {% if request.user|can_edit_cat %}
             <a class="btn btn-primary ark" href="#" data-url="{% url 'change-active-category' cat.uuid %}" data-target="row-{{cat.pk}}" 
@@ -23,6 +23,6 @@
 </div>
 
 {% for item in items %}
-    <div class="row category p-2" id="row-{{item.id}}"> {% include "contents/category-row.html" with item=item %} </div>
+    <div class="row category" tyle="border:1px solid red" id="row-{{item.id}}"> {% include "contents/category-row.html" with item=item %} </div>
 {% endfor %}
 

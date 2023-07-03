@@ -79,3 +79,7 @@ img {
 .up-bar, .down-bar {
 	border-top:10px solid #f9c00e;
 }
+
+.tablet-size {
+	max-height: 800px;
+}

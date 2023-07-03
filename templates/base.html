@@ -47,7 +47,7 @@
             <div id="main" class="w-100">
                 <div class="header sticky-top bg-white">
                     <div class="text-center divbars-menu"><a href="#" class="menu-btn"><i class="fas fa-bars menu"></i></a></div>
-                    <div><img src="/static/img/Padword.png" width="120" height=""></div>
+                    <div><a href="/web/projects/"><img src="/static/img/Padword.png" width="120" height=""></a></div>
                     <div class="text-center"><a href="{% url 'auth_logout' %}" title="{% trans "Log out" %}"><i class="fas fa-power-off"></i></a></div>
                     {% comment %}
                     <div class="text-center pt-2">
@@ -95,7 +95,7 @@
             {% endif %}
             <main id="main-content">
                 <aside id="sidebar" class="bg-light closed">
-                    <div id="side_menu"> {% get_main_menu request.user %} </div>
+                    <div id="side_menu"> {% get_main_menu request.user active %} </div>
                     <div class="row contact text-center m-0">
                         <div class="col-12 cont-title mb-2 pb-1 small">{% trans "Contact" %} Padword</div>
                            <div class="col-lg-3 col-3"><a href="mailto:info@padword.es" title="inf@padword.es"><img src="/static/img/email.png" width="20px"></a></div>

@@ -36,7 +36,8 @@
     </div>
     <div class="col-6 text-center mb-3">
         <button id="btn-send-order-{{fi.id}}" class="btn btn-success-tpv w-100 ark" data-bs-dismiss="modal" data-url="{% url "tpv-order-send" %}" 
-            data-target="main" data-obj_id="{{fi.id}}" data-payment_type="" data-amount=""> {%trans "Send Order"%}</i>
+            data-target="base" data-obj_id="{{fi.id}}" data-payment_type="" data-amount="{{total}}" 
+            data-amount_user="{%if regime%}{{fi|get_total_by_regime:regime.code}}{%endif%}"> {%trans "Send Order"%}</i>
         </button>
     </div>
     </div>

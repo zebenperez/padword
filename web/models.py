@@ -7,6 +7,7 @@ from padword.commons import show_exc, get_int, new_ui_slug
 from .lock_lib import ShLock
 from sensibo.sensibo_lib import ShSensibo
 from sensibo.models import ProjectSensiboUser
+from connector.models import ProjectAvantioUser
 
 import datetime, pytz
 import requests
@@ -89,6 +90,10 @@ class Project(models.Model):
     def sensibo_api_key(self):
         psu = ProjectSensiboUser.objects.filter(project_uuid=self.uuid).first()
         return psu.api_key if psu != None and psu.api_key != "" else ""
+
+    @property
+    def avantio_user(self):
+        return ProjectAvantioUser.objects.filter(project_uuid=self.uuid).first()
 
     def get_first_menu(self, username):
         pu = ProjectUser.objects.filter(username=username, project_uuid=self.uuid).first()
@@ -266,7 +271,7 @@ class ProjectUser(models.Model):
     project_uuid = models.CharField(max_length = 255, verbose_name= _('Project UUID'), default='')
     username = models.CharField(max_length = 255, verbose_name= _('Username'), default='')
     menus = models.CharField(max_length = 1000, verbose_name= _('Menus'), default='orders;guests;notifications')
-    menus_promo = models.CharField(max_length = 1000, verbose_name= _('Menus Promo'), default='')
+    menus_promo = models.CharField(max_length = 1000, verbose_name= _('Menus Promo'), default='', blank=True)
     image = models.ImageField(upload_to=upload_image, blank=True, verbose_name="Imagen de perfil", help_text="Select file to upload")
 
     class Meta:

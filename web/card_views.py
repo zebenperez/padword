@@ -22,7 +22,7 @@ def get_projects(request):
 
 @group_required("admins")
 def keycards (request):
-    return render (request, "web/keycards/keycards.html", {'project_list': get_projects(request)})
+    return render (request, "web/keycards/keycards.html", {'project_list': get_projects(request), 'active': 'keycard'})
 #    projects = Project.objects.all()
 #    list_keycards = []
 #    for project in projects:
@@ -116,7 +116,7 @@ def number_search(value):
 
 @group_required("admins")
 def keycard_number(request):
-    return render (request, "web/keycards/keycard-number.html", {})
+    return render (request, "web/keycards/keycard-number.html", {'active': 'searchkeycard'})
 
 @group_required("admins")
 def keycard_number_search(request):
@@ -171,7 +171,7 @@ def number_search_by_project(value, project):
 
 @group_required("projects")
 def keycard_number_by_project(request):
-    return render (request, "web/keycards-by-project/keycard-number.html", {})
+    return render (request, "web/keycards-by-project/keycard-number.html", {'active': 'keycard'})
 
 @group_required("projects")
 def keycard_number_search_by_project(request):
