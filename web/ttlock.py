@@ -246,7 +246,7 @@ class TTLock():
         )
         return TTLock.__send_request__(_url_request).json()
 
-    def lock_get_all(self, pageNo=1, pageSize=100):
+    def lock_get_all(self, pageNo=1, pageSize=1000):
         _url_request = GET_ALL_LOCKS_URL.format(
             API_URI,
             GET_ALL_LOCKS_PREFIX_URL,
