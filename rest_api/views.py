@@ -147,7 +147,7 @@ class GuestViewSet(viewsets.ModelViewSet):
                 guest_data["lock_code_err"] = guest.change_all_key_code_date()
                 guest_data["lock_card_err"] = guest.change_all_key_card_date()
                 #guest.remove_all_key_cards()
-            if update_dates:
+            if update_codes:
                 guest_data["lock_code_err"] = guest.change_all_key_code(guest.mobile_to_code())
  
             logger.info("[{}]: \"Guest {} {} updated\"".format(self.request.user, guest.name, guest.surname))

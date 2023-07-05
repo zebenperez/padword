@@ -145,6 +145,7 @@ class Guest(models.Model):
     def get_locks_json(self):
         #lock_list = Lock.objects.filter(Q(room=self.room) | Q(room="*")).filter(project_uuid=self.project_id).order_by("-room") if self.room != "" else []
         lock_list = self.get_locks()
+        lock_list_result = []
         dic = {}
         for lock in lock_list:
             dic["uuid"] = lock.uuid
@@ -155,7 +156,9 @@ class Guest(models.Model):
             dic["cards"] = []
             for card in self.keycards.filter(lock=lock):
                 dic["cards"].append(card.code)
-        return dic
+            lock_list_result.append(dic)
+        #return dic
+        return lock_list_result
 
     def add_key_code(self, lock, code=""):
         code = self.mobile_to_code() if code == "" else code
