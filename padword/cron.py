@@ -1,11 +1,15 @@
 from django.template.loader import render_to_string
 from datetime import datetime
 from connector.avantio_lib import get_booking_list, get_booking_notif, send_link
+from web.models import Project
+from padword.commons import get_or_none
 
 
 def avantio_booking_schedule(project_uuid):
     #project_uuid = "0fa03300-2646-b206-981b-b078262cacc5"
-    result = "\n<br/>Importación Avantio {}<br/>\n".format(datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
+    project = get_or_none(Project, project_uuid, "uuid")
+    project_name = project.name if project != None else "---"
+    result = "\n<br/>Importación {} {}<br/>\n".format(project_name, datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
     result += "-----------------------------------------------------<br/>\n"
     try:
         booking_list, err = get_booking_list(project_uuid)
@@ -16,7 +20,9 @@ def avantio_booking_schedule(project_uuid):
 
 def avantio_notification_schedule(project_uuid):
     #project_uuid = "0fa03300-2646-b206-981b-b078262cacc5"
-    result = "\n<br/>Notificaciones Avantio {}<br/>\n".format(datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
+    project = get_or_none(Project, project_uuid, "uuid")
+    project_name = project.name if project != None else "---"
+    result = "\n<br/>Notificaciones {} {}<br/>\n".format(project_name, datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
     result += "-----------------------------------------------------<br/>\n"
     try:
         booking_list = get_booking_notif(project_uuid)
