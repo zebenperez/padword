@@ -4,6 +4,7 @@ from django.utils.translation import ugettext_lazy as _
 #from web.lock_lib_const import *
 from web.ttlock import TTLock
 
+
 class ShLock:
     def __init__(self, accessToken=""):
         self.clientId = settings.TTLOCK_CLIENT

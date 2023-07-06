@@ -35,6 +35,10 @@ urlpatterns = [
     path('guests/band/add', views.guest_band_add, name='guest-band-add'),
     path('guests/band/save', views.guest_band_save, name='guest-band-save'),
     path('guests/band/remove', views.guest_band_remove, name='guest-band-remove'),
+    path('guests/band/balance/', views.guest_bands_balance, name="guest-bands-balance"),
+    path('guests/band/balance/list/', views.guest_band_balance_list, name="guest-band-balance-list"),
+    path('guests/band/balance/form/', views.guest_band_balance_form, name="guest-band-balance-form"),
+    path('guests/band/balance/remove/', views.guest_band_balance_remove, name="guest-band-balance-remove"),
 
     #--------------------- DEVICES --------------------
     path('', views.index, name='device-index'),

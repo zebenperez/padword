@@ -10,7 +10,9 @@ from django.utils import translation
 
 from padword.decorators import group_required
 from padword.commons import show_exc, get_or_none, get_param, get_float, get_bool, new_ui_slug, reverse_cardkey
-from web.models import Device, Project, ProjectUser, Lock
+#from web.models import Device, Project, ProjectUser, Lock
+from web.models import Device, Project, ProjectUser
+from web.models_lock import Lock
 from contents.models import Category, ShoppingCart, Item, PaymentType
 from guest.models import Guest, GuestNotification, Wristband
 from web.lock_lib import ShLock

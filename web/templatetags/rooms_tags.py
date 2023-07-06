@@ -1,9 +1,18 @@
 from django import template
 
 from padword.commons import show_exc
-from web.models import Room, LockGroup
+from web.models import Room
+from web.models_lock import LockGroup
 
 register = template.Library()
+
+
+'''
+    Filter
+'''
+@register.filter
+def get_lock_group(room):
+    return LockGroup.objects.filter(uuid=room.lock_group_uuid).first()
 
 '''
     Inclusion Tags

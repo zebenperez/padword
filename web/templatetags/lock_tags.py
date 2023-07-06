@@ -5,7 +5,7 @@ from django.utils.translation import ugettext_lazy as _
 from datetime import datetime
 
 from padword.commons import reverse_cardkey
-from web.models import Lock
+from web.models_lock import Lock
 from web.lock_lib import get_record_type as grt
 from guest.models import KeyCode, KeyCard
 
