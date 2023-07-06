@@ -9,7 +9,9 @@ from .models_serializers import GuestSerializer, LockSerializer, RoomSerializer
 
 from guest.models import Guest
 from bookings.models import GuestUser
-from web.models import ProjectUser, Lock, Room
+#from web.models import ProjectUser, Lock, Room
+from web.models import ProjectUser, Room
+from web.models_lock import Lock, LockCodeExtId
 from web.lock_lib import get_record_type
 from padword.commons import new_ui_slug, reverse_cardkey, timestamp_to_date
 
@@ -292,9 +294,9 @@ class LockViewSet(viewsets.ModelViewSet):
     def get_passcodes(self, request):
         try:
             pu = ProjectUser.objects.get(username=self.request.user.username)
-            lock_list = Lock.objects.filter(uuid = request.GET["uuid"], project_uuid=pu.project_uuid)
-            for l in lock_list:
-                print("{} {}".format(l.project_uuid, l.uuid))
+            #lock_list = Lock.objects.filter(uuid = request.GET["uuid"], project_uuid=pu.project_uuid)
+            #for l in lock_list:
+            #    print("{} {}".format(l.project_uuid, l.uuid))
             lock = Lock.objects.get(uuid = request.GET["uuid"], project_uuid = pu.project_uuid)
             code_list = lock.get_all_passcodes()
             c_list = []
@@ -307,6 +309,29 @@ class LockViewSet(viewsets.ModelViewSet):
             logger.error("[{}]: \"{}\"".format(self.request.user, str(e)))
             return Response({"error": 'true', 'msg': 'Bad request!'})
 
+    @action(detail=False, methods=['get'])
+    def get_passcode_by_ext_id(self, request):
+        try:
+            pu = ProjectUser.objects.get(username=self.request.user.username)
+            ext_id = request.GET["ext_id"]
+            lcei = LockCodeExtId.objects.filter(project_uuid=pu.project_uuid, ext_id=ext_id).first()
+            if lcei == None:
+                logger.error("[{}]: \"External code not found!\"".format(self.request.user))
+                return Response({"error": True, "msg": "External code not found!"})
+            lock = Lock.objects.get(uuid = lcei.lock_uuid, project_uuid = pu.project_uuid)
+            code_list = lock.get_all_passcodes()
+            c_list = []
+            for c in code_list:
+                if c["keyboardPwd"] == lcei.code:
+                    dic = {"uuid":c["lockId"],"code_id":c["keyboardPwdId"],"startDate":c["startDate"],"endDate":c["endDate"],"type":c["keyboardPwdType"],"passcode":c["keyboardPwd"],"ext_id":ext_id}
+                    c_list.append(dic)
+            logger.info("[{}]: \"Get passcode of lock {}\"".format(self.request.user, lock.uuid))
+            return Response(c_list, status=status.HTTP_200_OK)
+        except Exception as e:
+            logger.error("[{}]: \"{}\"".format(self.request.user, str(e)))
+            return Response({"error": 'true', 'msg': 'Bad request!'})
+
+
     @action(detail=False, methods=['post'])
     def add_passcode(self, request):
         try:
@@ -317,6 +342,11 @@ class LockViewSet(viewsets.ModelViewSet):
             end_date = datetime.strptime(request.POST.get('end_date', ""), "%Y-%m-%d %H:%M")
             lock = Lock.objects.get(uuid=lock_uuid, project_uuid=pu.project_uuid)
             err = lock.set_code(code, start_date, end_date)
+
+            if "ext_id" in request.POST:
+                ext_id = request.POST["ext_id"]
+                lcei, created = LockCodeExtId.objects.get_or_create(project_uuid=pu.project_uuid, lock_uuid=lock.uuid, code=code, ext_id=ext_id)
+
             if "Error" in str(err):
                 logger.error("[{}]: \"{}\"".format(self.request.user, str(err)))
                 return Response({"error": True, "msg": str(err)})

@@ -293,6 +293,42 @@ def guest_band_remove(request):
     except Exception as e:
         return render(request, "error_exception.html", {'exc':show_exc(e)})
 
+@group_required("admins", "projects")
+def guest_bands_balance(request):
+    try:
+        guest = get_or_none(Guest, get_param(request.GET, "obj_id"))
+        return render(request, "guest/bands/bands.html", {"obj": guest})
+    except Exception as e:
+        return render(request, "error_exception.html", {'exc':show_exc(e)})
+
+@group_required("admins", "projects")
+def guest_band_balance_list(request):
+    try:
+        band = get_or_none(Wristband, get_param(request.GET, "obj_id"))
+        return render(request, "guest/bands/balance.html", {"band": band})
+    except Exception as e:
+        return render(request, "error_exception.html", {'exc':show_exc(e)})
+
+@group_required("admins", "projects")
+def guest_band_balance_form(request):
+    try:
+        band = get_or_none(Wristband, get_param(request.GET, "obj_id"))
+        balance = get_or_none(WristbandBalance, get_param(request.GET, "balance_id"))
+        if balance == None:
+            balance = WristbandBalance.objects.create(wristband=band)
+        return render(request, "guest/bands/balance-form.html", {"obj": balance})
+    except Exception as e:
+        return render(request, "error_exception.html", {'exc':show_exc(e)})
+
+@group_required("admins", "projects")
+def guest_band_balance_remove(request):
+    try:
+        balance = get_or_none(WristbandBalance, get_param(request.GET, "obj_id"))
+        band = balance.wristband
+        balance.delete()
+        return render(request, "guest/bands/balance.html", {"band": band})
+    except Exception as e:
+        return render(request, "error_exception.html", {'exc':show_exc(e)})
 
 '''
     Guests by projects

@@ -9,6 +9,7 @@ from padword.commons import show_exc, get_or_none, get_param, new_ui_slug, trans
 from padword.decorators import group_required
 from guest.models import KeyCard as GuestKeyCard
 from .models import *
+from .models_lock import *
 
 from django.conf import settings
 import os

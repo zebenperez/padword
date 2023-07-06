@@ -3,9 +3,10 @@
 {% with guest=band.guest %}
     {#<div class="card article w-100 mb-3 box-new ark" data-url="{% url 'tpv-add-item' %}" data-target="ticket-summary" data-form_id="{{fi.pk}}" data-item_id="{{item.pk}}">#}
     <div class="row ticket-line justify-content-center">
-        <div class="col-5">{{guest.name}}</div>
-        <div class="col-5">{{guest.surname}}</div>
+        <div class="col-4">{{guest.name}}</div>
+        <div class="col-4">{{guest.surname}}</div>
         <div class="col-2">{{guest.room}}</div>
+        <div class="col-2">{{band.balance}} €</div>
     </div>
 {% endwith %}
 

@@ -5,6 +5,7 @@ from django.utils.translation import ugettext_lazy as _
 from padword.commons import show_exc, get_or_none, get_param, new_ui_slug, translate, set_session, get_random_str
 from padword.decorators import group_required
 from .models import *
+from .models_lock import *
 from .lock_lib import ShLock
 
 import requests, time, datetime, hashlib, json

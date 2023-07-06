@@ -9,6 +9,7 @@ from django.conf import settings
 from padword.commons import show_exc, get_or_none, get_param, get_random_str, new_ui_slug, translate, reverse_cardkey, set_session
 from padword.decorators import group_required
 from .models import *
+from .models_lock import *
 
 from datetime import datetime, timedelta
 import os
@@ -75,7 +76,8 @@ def room_form(request):
 def room_remove(request):
     obj = get_or_none(Room, request.GET["obj_id"]) if "obj_id" in request.GET else None
     if obj != None:
-        obj.unassign_locks()
+        lock_list = Lock.get_locks_by_room(obj)
+        obj.unassign_locks(lock_list)
         obj.delete()
     #list_rooms = get_room_items(request)
     #return render (request, "web/rooms/rooms-list.html", {'list_rooms':list_rooms})
@@ -89,7 +91,8 @@ def room_set_group(request):
         if obj != None:
             obj.lock_group_uuid = val
             obj.save()
-            obj.set_locks_group(val)
+            lock_list = Lock.get_locks_by_room(obj)
+            obj.set_locks_group(val, lock_list)
             return HttpResponse("")
         return HttpResponse(_("Error, room not found!"))
     except Exception as e:

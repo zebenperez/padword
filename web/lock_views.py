@@ -6,6 +6,7 @@ from django.urls import reverse
 from padword.commons import show_exc, get_or_none, get_param, new_ui_slug, translate, set_session, reverse_cardkey, timestamp_to_date
 from padword.decorators import group_required
 from .models import *
+from .models_lock import *
 from .lock_lib import ShLock, get_record_type
 from guest.models import KeyCode, KeyCard, Guest
 

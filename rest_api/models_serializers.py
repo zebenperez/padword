@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from guest.models import Guest
-from web.models import Lock, Room
+from web.models import Room
+from web.models_lock import Lock
 
 
 #class ActivitySerializer(serializers.ModelSerializer):

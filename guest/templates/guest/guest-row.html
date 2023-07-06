@@ -23,6 +23,8 @@
             <i class="fa fa-key"></i></a>  
         {%endcomment%}
     {% endif %}
+    <a class="btn btn-xs ark" data-url="{% url "guest-bands-balance" %}" data-target-modal="common-modal" data-obj_id="{{item.id}}" 
+        title="{% trans "Bands" %}"> <i class="fas fa-circle-notch"></i></a>  
 
     <a class="btn btn-sm ark" data-url="{% url "guest-soft-remove" %}" data-target="guest-list" data-obj_id="{{item.id}}" 
         {%if project_uuid%}data-project_uuid="{{project_uuid}}"{%endif%} data-confirm="{% trans "Are you sure to remove this element?" %}"

@@ -1,5 +1,5 @@
 from django.db import models
-from django.db.models import Q
+from django.db.models import Q, Sum
 from django.utils.translation import ugettext as _
 from django.utils import timezone
 from django.urls import reverse
@@ -7,7 +7,9 @@ from django.conf import settings
 from django.contrib.auth.models import User
 
 from padword.commons import show_exc
-from web.models import Channel, Project, Lock, Room
+#from web.models import Channel, Project, Lock, Room
+from web.models import Channel, Project, Room
+from web.models_lock import Lock
 from sensibo.models import SensiboDevice as AdminSensiboDevice
 
 import datetime, pytz
@@ -532,9 +534,26 @@ class Wristband(models.Model):
     code = models.CharField(max_length=255, verbose_name=_('Code'), default="")
     guest = models.ForeignKey(Guest, verbose_name=_("Guest"), on_delete=models.CASCADE, blank=True, null=True, related_name="bands")
 
+    @property
+    def balance(self):
+        try:
+            return self.balances.aggregate(Sum('amount'))["amount__sum"]
+        except Exception as e:
+            print(e)
+            return -1
+
     class Meta:
         verbose_name = _("Wristband")
         verbose_name_plural = _("Wristbands")
+
+class WristbandBalance(models.Model):
+    date = models.DateTimeField(verbose_name=_('Date'), default=datetime.datetime.now)
+    amount = models.FloatField(verbose_name=_('Amount'), default=0)
+    wristband = models.ForeignKey(Wristband, verbose_name=_("Wristband"), on_delete=models.CASCADE, blank=True, null=True, related_name="balances")
+
+    class Meta:
+        verbose_name = _("Wristband balance")
+        verbose_name_plural = _("Wristbands balance")
 
 '''
     Regime
