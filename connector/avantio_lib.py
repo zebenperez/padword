@@ -56,7 +56,7 @@ class ShAvantio:
         try:
             return b.find(param).text
         except Exception as e:
-            print(e)
+            #print(e)
             return ""
 
     def get_booking_list(self, start_date="", end_date=""):
@@ -70,7 +70,7 @@ class ShAvantio:
             #resp = self.client.service.GetBookingList(**self.credentials)
             resp = self.client.service.GetBookingList(**params)
             #print("--2--")
-            print(resp.content)
+            #print(resp.content)
             soup = BeautifulSoup(resp.content, 'xml')
             for b in soup.find_all('ns2:Booking'):
                 name = self.get_param(b, 'ns2:Name')
