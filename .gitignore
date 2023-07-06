@@ -19,3 +19,4 @@ migrations.sh
 **.bak
 **.pro
 **.mo
+logs.txt

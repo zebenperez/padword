@@ -220,7 +220,7 @@ class GuestViewSet(viewsets.ModelViewSet):
             guest_ext_id = request.GET["ext_id"]
             guest = Guest.objects.filter(ext_id = guest_ext_id).first()
             if guest == None:
-                logger.error("[{}]: \"Guest not found!\"".format(self.request.user))
+                logger.error("[{}]: \"Guest not found! - ext_id: {}\"".format(self.request.user, guest_ext_id))
                 return Response({"error": True, 'msg': 'Guest not found!'})
             logger.info("[{}]: \"Get guest {} {} by ext_id {}\"".format(self.request.user, guest.name, guest.surname, guest_ext_id))
             return Response(self.serializer_class(guest).data, status=status.HTTP_200_OK)
