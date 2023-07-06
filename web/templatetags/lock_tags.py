@@ -51,6 +51,10 @@ def get_ekey_link(lock, ekey_id):
 def get_reverse(code):
     return str(reverse_cardkey(code))
 
+@register.filter
+def get_room_locks(room):
+    return Lock.objects.filter(project_uuid = room.project_uuid, room = room.number).order_by('pk') if room.number != "" else []
+
 '''
     Simple Tags
 '''

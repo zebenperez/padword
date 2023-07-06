@@ -12,7 +12,8 @@
 
     {#<div id="lock-add-details" style="display:none"></div>#}
     <div class="row">
-    {% for lock in obj.get_locks %}
+    {#{% for lock in obj.get_locks %}#}
+    {% for lock in obj|get_room_locks %}
         <div class="col-2">
             <div class="card-container ark" data-url="{% url "room-lock-details" %}" data-target="lock-details" data-obj_id="{{lock.id}}"
                 onclick="$('.card-container').removeClass('current');$(this).addClass('current');">
