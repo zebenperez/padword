@@ -48,5 +48,4 @@ def avantio_send_link(request, project_uuid, guest_uuid):
 def cron_log(request):
     f = open(os.path.join(settings.BASE_DIR, "cron.log"), "r", encoding='utf-8')
     text = f.read()
-    print(text)
     return render(request, 'cron-log.html', {'text': text.replace("\n", "<br/>"),})
