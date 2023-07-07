@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.utils.translation import ugettext_lazy as _ 
@@ -5,6 +6,8 @@ from django.utils.translation import ugettext_lazy as _
 from padword.commons import show_exc
 from padword.decorators import group_required
 from .avantio_lib import get_booking_list, get_booking_notif, send_link
+
+import os
 
 
 '''
@@ -38,3 +41,12 @@ def avantio_send_link(request, project_uuid, guest_uuid):
         return render(request, 'error_exception.html', {'exc':show_exc(e)})
 
 
+'''
+    Cron Logs
+'''
+@group_required("admins")
+def cron_log(request):
+    f = open(os.path.join(settings.BASE_DIR, "cron.log"), "r")
+    text = f.read()
+    print(text)
+    return render(request, 'cron-log.html', {'text': text.replace("\n", "<br/>"),})

@@ -1,0 +1,4 @@
+{% load i18n %}
+{% for item in booking_list %} 
+---- {%if item.created%}[CREATED]{%endif%} {{item.client.name}} {{item.client.surname}} {{item.client.dni}} {{item.booking_code}} {{item.booking_date}} {{item.start_date}} {{item.end_date}} {% endfor %}
+{% if error and error != "" %} {{error|safe}} {% endif %}

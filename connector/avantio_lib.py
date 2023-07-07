@@ -40,6 +40,7 @@ class AvantioBooking:
         self.accommodation_code = accommodation_code
         self.user_code = user_code
         self.client = client
+        self.created = False
     
 class AvantioNotification:
     def __init__(self, booking_code, localizator):
@@ -214,6 +215,7 @@ def get_booking_list(project_uuid):
                     guest.save()
                     err = guest.add_all_key_code(code[-4:])
                     av.send_pwa_link(guest.ext_id, guest.pwa_link)
+                    booking.created = True
     return booking_list, err
 
 def get_booking_notif(project_uuid):
@@ -232,6 +234,7 @@ def get_booking_notif(project_uuid):
                     guest = Guest.objects.filter(ext_id=code, project_id=pau.project_uuid, deleted=0).first()
                     if guest == None:
                         guest = Guest(UUID = new_ui_slug(Guest, "UUID"), ext_id=code, project_id=pau.project_uuid)
+                        booking.created = True
 
                     guest.name = b.client.name
                     guest.surname = b.client.surname

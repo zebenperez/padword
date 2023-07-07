@@ -1,0 +1,3 @@
+{% load i18n %}
+{% for item in booking_list %} 
+---- {% trans 'Booking code' %}: {{item.booking_code}}, {% trans 'Localizator' %}: {{item.localizator}}{% endfor %}
