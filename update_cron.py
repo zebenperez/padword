@@ -14,13 +14,13 @@ new_file_text = ""
 replace = False
 for line in f.readlines():
     if project_uuid in line and function in line:
-        new_line = "\t('%s %s * * *', 'padword.cron.%s', [], {'project_uuid': '%s'},'>> %s'),\n" % (minute, hour, function, project_uuid, log)
+        new_line = "\t('%s %s * * *', 'connector.cron.%s', [], {'project_uuid': '%s'},'>> %s'),\n" % (minute, hour, function, project_uuid, log)
         if minute != "-1" and "-1" not in hour:
             new_file_text += new_line
         replace = True
     else:
         if line == "]\n" and replace == False:
-            new_line = "\t('%s %s * * *', 'padword.cron.%s', [], {'project_uuid': '%s'},'>> %s'),\n]\n" % (minute, hour, function, project_uuid, log)
+            new_line = "\t('%s %s * * *', 'connector.cron.%s', [], {'project_uuid': '%s'},'>> %s'),\n]\n" % (minute,hour,function,project_uuid,log)
             new_file_text += new_line
         else:
             new_file_text += "{}".format(line)

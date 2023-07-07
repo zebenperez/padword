@@ -4,6 +4,7 @@ from django.shortcuts import render, redirect
 from django.utils.translation import ugettext_lazy as _ 
 
 from padword.commons import show_exc
+from padword.email_lib import send_email
 from padword.decorators import group_required
 from .avantio_lib import get_booking_list, get_booking_notif, send_link
 
@@ -49,3 +50,8 @@ def cron_log(request):
     f = open(os.path.join(settings.BASE_DIR, "cron.log"), "r", encoding='utf-8')
     text = f.read()
     return render(request, 'cron-log.html', {'text': text.replace("\n", "<br/>"),})
+
+@group_required("admins")
+def test_email(request):
+    send_email("test", "test", "no-reply@padword.es", ["zebenperez@gmail.com"])
+    return HttpResponse("Ok")
