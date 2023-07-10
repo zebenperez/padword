@@ -636,6 +636,31 @@ def show_module(request):
         return render(request, 'error_exception.html', {'exc': show_exc(e)})
 
 
+'''
+    Logs
+'''
+@group_required("admins")
+def logs(request):
+    f = open(os.path.join(settings.BASE_DIR, "logs.txt"), "r", encoding='utf-8')
+    text = f.read()
+    try:
+        log_list = os.listdir(settings.LOGPATH)
+    except:
+        log_list = []
+    return render(request, 'logs.html', {'text': text.replace("\n", "<br/>"), 'log_list': log_list})
+
+from django.http import FileResponse
+
+@group_required("admins")
+def download_log(request):
+    try:    
+        name = request.GET["name"]
+        response = FileResponse(open(os.path.join(settings.LOGPATH, name), 'rb'))
+        return response
+    except Exception as e:
+        return render(request, 'error_exception.html', {'exc': show_exc(e)})
+
+
 #'''
 #    Locks
 #'''

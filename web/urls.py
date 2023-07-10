@@ -151,12 +151,17 @@ urlpatterns = [
     #---------------------- E-Keys ---------------------
     #path('ekeys/', views.ekeys, name='ekeys'),
 
-    #--------------------- Mosules --------------------
+    #--------------------- Modules --------------------
     path('show-module/', views.show_module, name='show-module'),
+
+    #--------------------- Logs --------------------
+    path('logs/', views.logs, name='logs'),
+    path('download-log/', views.download_log, name='download-log'),
 
     #---------------------- Tests ----------------------
     path('thanks/', views.thanks),
     path('check-error/', views.check_error),
+
     #---------------------- AUTO -----------------------
     path('autosave_field/', auto_views.autosave_field, name='autosave_field'),
     path('autoremove_obj/', auto_views.autoremove_obj, name='autoremove_obj'),

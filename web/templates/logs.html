@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% load i18n padword_tags %}
+
+{% block second_menu %}{% get_second_menu request.user %} {% endblock second_menu %}
+
+{% block central_content %}
+    <div class="content mt-4">
+        <div class="toolbar-content"> <h2 class="pathway b-right"> {% trans 'Logs' %} </h2> </div>
+        <div style="padding-left:30px;max-height:200px;overflow:scroll">
+            <ul>
+                {% for item in log_list %}
+                <li><a href="{% url "download-log" %}?name={{item}}" target="_blank">{{item}}</a></li>
+                {% endfor %}
+            </ul>
+        </div>
+        <div class="toolbar-content"> <h2 class="pathway b-right"> {% trans 'Current Logs' %} </h2> </div>
+        <div style="padding-left:30px;max-height:600px;overflow:scroll">{{text|safe}}</div>
+    </div>
+{% endblock central_content %}
