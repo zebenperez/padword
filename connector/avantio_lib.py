@@ -118,7 +118,8 @@ class ShAvantio:
             #params['Localizator'] = localizator
             params['Localizer'] = code
             resp = self.client.service.GetBooking(**params)
-            b = BeautifulSoup(resp.content, 'xml')
+            #b = BeautifulSoup(resp.content, 'xml')
+            b = BeautifulSoup(resp.content.decode("utf-8"), 'xml')
 
             name = self.get_param(b, 'ns2:Name')
             surname = self.get_param(b, 'ns2:Surname')
@@ -154,7 +155,8 @@ class ShAvantio:
         resp = ""
         with self.client.settings(raw_response=True):
             resp = self.client.service.GetBookingNotifications(**self.credentials)
-            soup = BeautifulSoup(resp.content, 'xml')
+            #soup = BeautifulSoup(resp.content, 'xml')
+            soup = BeautifulSoup(resp.content.decode("utf-8"), 'xml')
             for b in soup.find_all('ns2:Localizer'):
                 booking_code = self.get_param(b, 'ns2:BookingCode')
                 localizator = self.get_param(b, 'ns2:Localizator')
