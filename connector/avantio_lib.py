@@ -69,10 +69,12 @@ class ShAvantio:
             if end_date != "":
                 params["EndDate"] = end_date
             #resp = self.client.service.GetBookingList(**self.credentials)
+            #print(params)
             resp = self.client.service.GetBookingList(**params)
             #print("--2--")
             #print(resp.content)
-            soup = BeautifulSoup(resp.content, 'xml')
+            soup = BeautifulSoup(resp.content.decode("utf-8"), 'xml')
+            #print(len(soup.find_all('ns2:Booking')))
             for b in soup.find_all('ns2:Booking'):
                 name = self.get_param(b, 'ns2:Name')
                 surname = self.get_param(b, 'ns2:Surname')
