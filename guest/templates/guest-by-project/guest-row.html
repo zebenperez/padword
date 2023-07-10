@@ -6,6 +6,7 @@
 <td> <span class="badge rounded-pill bg-danger">{{ item.check_out|date:'Y-m-d'}}</span></td>
 <td> {{item.name}} 
     {{item.surname}} {%if request.user|in_group:'admins' or request.user.is_staff%}<br><small>{{item.project.name}}</small>{%endif%}</td>
+<td>{{ item.ext_id }}</td>
 <td class="text-end"> {{item.language}} &nbsp;
     <a class="btn ark" href="#" data-url="{% url "show-chat" %}" data-target="div-chat" data-guest="{{item.id}}" data-guest_msg="False"
         title="{% trans "Chat" %}"> <i class="fas fa-comments"></i></a>
