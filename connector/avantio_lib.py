@@ -190,6 +190,14 @@ def get_dates_range(pau):
         start_date = end_date + timedelta(days=pau.days)
     return start_date, end_date
 
+def get_dates_range_new(pau):
+    if pau.days_new > 0:
+        start_date = datetime.today()
+        end_date = start_date + timedelta(days=pau.days_new)
+    else:
+        end_date = datetime.today()
+        start_date = end_date + timedelta(days=pau.days_new)
+    return start_date, end_dat_newe
 
 def get_booking_list(project_uuid):
     err = ""
@@ -197,12 +205,13 @@ def get_booking_list(project_uuid):
     pau = ProjectAvantioUser.objects.filter(project_uuid=project_uuid).first()
     if pau != None:
         start_date, end_date = get_dates_range(pau)
+        start_date_new, end_date_new = get_dates_range_new(pau)
 
         av = ShAvantio(pau.username, pau.password)
         booking_list = av.get_booking_list(start_date, end_date)
         for booking in booking_list:
             checkin = get_date(booking.start_date, booking.start_time, start_date)
-            if checkin >= start_date and checkin <= end_date:
+            if checkin >= start_date_new and checkin <= end_date_new:
                 code = "{}|{}".format(booking.localizator, booking.booking_code)
 
                 guest = Guest.objects.filter(ext_id=code, project_id=pau.project_uuid, deleted=0).first()
@@ -227,13 +236,14 @@ def get_booking_notif(project_uuid):
     booking_list = ""
     if pau != None:
         start_date, end_date = get_dates_range(pau)
+        start_date_new, end_date_new = get_dates_range_new(pau)
         av = ShAvantio(pau.username, pau.password)
         booking_list = av.get_booking_notifications()
         for booking in booking_list:
             b = av.get_booking(booking.booking_code, booking.localizator)
             if b != None:
                 checkin = get_date(b.start_date, b.start_time, start_date)
-                if checkin >= start_date and checkin <= end_date:
+                if checkin >= start_date_new and checkin <= end_date_new:
                     code = "{}|{}".format(b.localizator, b.booking_code)
                     guest = Guest.objects.filter(ext_id=code, project_id=pau.project_uuid, deleted=0).first()
                     if guest == None:

@@ -8,6 +8,7 @@ router = routers.DefaultRouter()
 router.register(r'guest', views.GuestViewSet)
 router.register(r'locks', views.LockViewSet)
 router.register(r'rooms', views.RoomViewSet)
+router.register(r'air', views.SensiboViewSet, basename='air')
 
 # Wire up our API using automatic URL routing.
 # Additionally, we include login URLs for the browsable API.

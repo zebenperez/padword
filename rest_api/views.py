@@ -13,6 +13,7 @@ from bookings.models import GuestUser
 from web.models import ProjectUser, Room
 from web.models_lock import Lock, LockCodeExtId
 from web.lock_lib import get_record_type
+from sensibo.models import ProjectSensiboUser
 from padword.commons import new_ui_slug, reverse_cardkey, timestamp_to_date
 
 from datetime import datetime
@@ -565,4 +566,40 @@ class RoomViewSet(viewsets.ModelViewSet):
         response = {'message': 'Update function is not offered in this path.'}
         return Response(response, status=status.HTTP_403_FORBIDDEN)
 
+
+class SensiboViewSet(viewsets.ViewSet):
+    """
+    A simple ViewSet for listing or retrieving users.
+    """
+    def list(self, request):
+        try:
+            pu = ProjectUser.objects.get(username=self.request.user.username)
+            return Response(pu.project.sensibo_device_list())
+        except Exception as e:
+            logger.error("[{}]: \"{}\"".format(self.request.user, str(e)))
+            return Response({"error": True, 'msg': 'Bad request!'})
+
+    @action(detail=False, methods=['get'])
+    def measurement(self, request):
+        try:
+            pu = ProjectUser.objects.get(username=self.request.user.username)
+            device_uid = request.GET["device_uid"]
+            data_values = pu.project.sensibo_get_measurement(device_uid)
+            data_values["error"] = "false"
+            return Response(data_values)
+        except Exception as e:
+            logger.error("[{}]: \"{}\"".format(self.request.user, str(e)))
+            return Response({"error": True, 'msg': 'Bad request!'})
+
+    @action(detail=False, methods=['get'])
+    def ac_state(self, request):
+        try:
+            pu = ProjectUser.objects.get(username=self.request.user.username)
+            device_uid = request.GET["device_uid"]
+            data_values = pu.project.sensibo_get_ac_state(device_uid)
+            data_values["error"] = "false"
+            return Response(data_values)
+        except Exception as e:
+            logger.error("[{}]: \"{}\"".format(self.request.user, str(e)))
+            return Response({"error": True, 'msg': 'Bad request!'})
 

@@ -29,13 +29,19 @@
                     title="{{user_avantio.email}}" data-model-name="connector.projectavantiouser" data-obj-id="{{user_avantio.id}}" 
                     data-url="{% url "autosave_field" %}" data-target="div-notification"/> <span id="email__msg"></span>	
             </div>
-            <div class="col-3">
+            <div class="col-2">
                 <label class="label">{% trans "Days to import" %}:</label>
                 <input type="text" class="form-control autosave input" id="days" name="days" value="{{user_avantio.days}}" 
                     title="{{user_avantio.days}}" data-model-name="connector.projectavantiouser" data-obj-id="{{user_avantio.id}}" 
                     data-url="{% url "autosave_field" %}" data-target="div-notification"/> <span id="days__msg"></span>	
             </div>
-            <div class="col-3">
+            <div class="col-2">
+                <label class="label">{% trans "Days to create" %}:</label>
+                <input type="text" class="form-control autosave input" id="days_new" name="days_new" value="{{user_avantio.days_new}}" 
+                    title="{{user_avantio.days_new}}" data-model-name="connector.projectavantiouser" data-obj-id="{{user_avantio.id}}" 
+                    data-url="{% url "autosave_field" %}" data-target="div-notification"/> <span id="days_new__msg"></span>	
+            </div>
+            <div class="col-2">
                 <label class="label">{% trans "Hour to import" %}:</label>
                 <input type="text" class="form-control input ark_change" id="hour" name="hour" value="{{user_avantio.hour}}" 
                     title="{{user_avantio.hour}}" data-url="{% url "project-set-avantio-schedule" %}" data-target="div-notification" 
