@@ -1,0 +1,100 @@
+{%comment%}
+{% extends 'base.html' %}
+{% load i18n %}
+
+{% block central_content %}
+{%endcomment%}
+{% load i18n %}
+
+<div class="row w-100 common-modal-head m-0 p-0">
+    <div class="col-11"><h2>{% trans 'Avaibook booking list' %}</h2></div>
+    <div class="col-1"><button type="button" class="btn btn-sm ark" data-bs-dismiss="modal" data-url="{% url "guest-search-by-project" %}" 
+        data-target="guest-list"><i class="fas fa-times"></i></button> </div>
+</div>
+
+{% if error and error != "" %} <div class="alert alert-danger">{{error|safe}}</div> {% endif %}
+
+<div class="row m-0">
+    <div class="content">
+        <div id="item-list">
+            {{booking_list}}
+            {%comment%}
+            {% for item in booking_list %} 
+                <div class="row">
+                    <div class="col-2">{% trans 'Start date' %}</div>
+                    <div class="col-4">{{item.start_date}}</div>
+                    <div class="col-2">{% trans 'Name' %}</div>
+                    <div class="col-4">{{item.client.name}}</div>
+
+                    <div class="col-2">{% trans 'End date' %}</div>
+                    <div class="col-4">{{item.end_date}}</div>
+                    <div class="col-2">{% trans 'Surname' %}</div>
+                    <div class="col-4">{{item.client.surname}}</div>
+
+                    <div class="col-2">{% trans 'Booking date' %}</div>
+                    <div class="col-4">{{item.booking_date}}</div>
+                    <div class="col-2">{% trans 'DNI' %}</div>
+                    <div class="col-4">{{item.client.dni}}</div>
+
+                    <div class="col-2">{% trans 'Booking code' %}</div>
+                    <div class="col-4">{{item.booking_code}}</div>
+                    <div class="col-2">{% trans 'Address' %}</div>
+                    <div class="col-4">{{item.client.address}}</div>
+
+                    <div class="col-2">{% trans 'Localizator' %}</div>
+                    <div class="col-4">{{item.localizator}}</div>
+                    <div class="col-2">{% trans 'Locality' %}</div>
+                    <div class="col-4">{{item.client.locality}}</div>
+
+                    <div class="col-2">{% trans 'Accommodation code' %}</div>
+                    <div class="col-4">{{item.accommodation_code}}</div>
+                    <div class="col-2">{% trans 'Post code' %}</div>
+                    <div class="col-4">{{item.client.postcode}}</div>
+
+                    <div class="col-2">{% trans 'User code' %}</div>
+                    <div class="col-4">{{item.user_code}}</div>
+                    <div class="col-2">{% trans 'City' %}</div>
+                    <div class="col-4">{{item.client.city}}</div>
+
+                    <div class="col-2">{% trans '' %}</div>
+                    <div class="col-4"></div>
+                    <div class="col-2">{% trans 'Country' %}</div>
+                    <div class="col-4">{{item.client.country}}</div>
+
+                    <div class="col-2">{% trans '' %}</div>
+                    <div class="col-4"></div>
+                    <div class="col-2">{% trans 'ISO Country code' %}</div>
+                    <div class="col-4">{{item.client.country_code}}</div>
+
+                    <div class="col-2">{% trans '' %}</div>
+                    <div class="col-4"></div>
+                    <div class="col-2">{% trans 'Phone' %}</div>
+                    <div class="col-4">{{item.client.phone}}</div>
+
+                    <div class="col-2">{% trans '' %}</div>
+                    <div class="col-4"></div>
+                    <div class="col-2">{% trans 'Phone 2' %}</div>
+                    <div class="col-4">{{item.client.phone2}}</div>
+
+                    <div class="col-2">{% trans '' %}</div>
+                    <div class="col-4"></div>
+                    <div class="col-2">{% trans 'Email' %}</div>
+                    <div class="col-4">{{item.client.email}}</div>
+                </div>
+                <hr/>
+            {% endfor %}
+            {%endcomment%}
+        </div>
+    </div>
+</div>
+
+{%comment%}
+<div class="d-flex justify-content-end p-2">
+    <button type="button" class="btn btn-default ark m-2" data-bs-dismiss="modal" data-url="{% url "guest-search-by-project" %}" 
+        data-target="guest-list">{% trans "Close" %}</button>
+</div>
+{%endcomment%}
+
+{%comment%}
+{% endblock central_content %}
+{%endcomment%}

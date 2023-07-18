@@ -18,6 +18,8 @@
                     {%trans "Remove clients with checkout previous to" %} {{limit}}</a>
             {% endif %}
             {% if project.avantio_user != None and project.avantio_user.username != "" %}
+                <a class="btn btn-primary ark" data-url="{% url "avaibook-get-booking-list" project.uuid %}" data-target-modal="common-modal"> 
+                    {%trans "Import avaibook bookings"%}</a>  
                 <a class="btn btn-primary ark" data-url="{% url "avantio-get-booking-list" project.uuid %}" data-target-modal="common-modal"> 
                     {%trans "Import avantio bookings"%}</a>  
                 <a class="btn btn-primary ark" data-url="{% url "avantio-get-booking-notif" project.uuid %}" data-target-modal="common-modal"> 

@@ -41,6 +41,17 @@ def avantio_send_link(request, project_uuid, guest_uuid):
     except Exception as e:
         return render(request, 'error_exception.html', {'exc':show_exc(e)})
 
+'''
+    Avaibook
+'''
+@group_required("admins", "projects")
+def avaibook_get_booking_list(request, project_uuid):
+    try:
+        booking_list, err = get_booking_list(project_uuid)
+        return render(request, 'avaibook/booking-list.html', {'booking_list': booking_list, "error": err})
+    except Exception as e:
+        print(e)
+        return render(request, 'error_exception.html', {'exc':show_exc(e)})
 
 '''
     Cron Logs
