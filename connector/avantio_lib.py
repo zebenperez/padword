@@ -197,7 +197,7 @@ def get_dates_range_new(pau):
     else:
         end_date = datetime.today()
         start_date = end_date + timedelta(days=pau.days_new)
-    return start_date, end_dat_newe
+    return start_date, end_date
 
 def get_booking_list(project_uuid):
     err = ""
