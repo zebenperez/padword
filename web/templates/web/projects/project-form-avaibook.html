@@ -1,0 +1,29 @@
+{% load i18n padword_tags %}
+
+
+<div class="card">
+    <div class="card-header toggle-btn" data-target="body-avaibook" data-id-change="icon-extra"
+        data-text='<i class="fas fa-plus"></i>' data-text-alt='<i class="fas fa-minus"></i>'>
+        <div class="row w-100">
+            <div class="col-6 text-right" id="icon-extra"><i class="fas fa-plus"></i></div>
+            <div class="col-6 text-left"><strong>{% trans "Avaibook" %}</strong></div>
+        </div>
+    </div>
+    <div class="card-body hide" id="body-avaibook"> 
+        <div class="row justify-center">
+            <div class="col-6">
+                <label class="label">{% trans "UUID" %}:</label>
+                <input type="text" class="form-control autosave input" id="uuid" name="uuid" value="{{user_avaibook.uuid}}" 
+                    title="{{user_avaibook.uuid}}" data-model-name="connector.projectavaibookuser" data-obj-id="{{user_avaibook.id}}" 
+                    data-url="{% url "autosave_field" %}" data-target="div-notification"/> <span id="uuid__msg"></span>	
+            </div>
+            <div class="col-6">
+                <label class="label">{% trans "Token" %}:</label>
+                <input type="text" class="form-control autosave input" id="token" name="token" value="{{user_avaibook.token}}" 
+                    title="{{user_avaibook.token}}" data-model-name="connector.projectavaibookuser" data-obj-id="{{user_avaibook.id}}" 
+                    data-url="{% url "autosave_field" %}" data-target="div-notification"/> <span id="token__msg"></span>	
+            </div>
+        </div>		
+    </div>		
+</div>		
+

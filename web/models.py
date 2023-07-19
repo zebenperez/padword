@@ -7,7 +7,7 @@ from padword.commons import show_exc, get_int, new_ui_slug
 from .lock_lib import ShLock
 from sensibo.sensibo_lib import ShSensibo
 from sensibo.models import ProjectSensiboUser
-from connector.models import ProjectAvantioUser
+from connector.models import ProjectAvantioUser, ProjectAvaibookUser
 
 import datetime, pytz
 import requests
@@ -94,6 +94,10 @@ class Project(models.Model):
     @property
     def avantio_user(self):
         return ProjectAvantioUser.objects.filter(project_uuid=self.uuid).first()
+
+    @property
+    def avaibook_user(self):
+        return ProjectAvaibookUser.objects.filter(project_uuid=self.uuid).first()
 
     def get_first_menu(self, username):
         pu = ProjectUser.objects.filter(username=username, project_uuid=self.uuid).first()

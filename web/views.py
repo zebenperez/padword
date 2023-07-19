@@ -9,7 +9,7 @@ from padword.commons import show_exc, get_or_none, get_param, new_ui_slug, trans
 from padword.decorators import group_required
 from guest.models import Regime, ProjectRegime
 from sensibo.models import ProjectSensiboUser
-from connector.models import ProjectAvantioUser
+from connector.models import ProjectAvantioUser, ProjectAvaibookUser
 from contents.models import Category, PointOfSale, PointOfSaleCategory
 from bookings.models import Form
 from .models import *
@@ -82,6 +82,10 @@ def get_or_create_user_avantio(project_uuid):
     obj, created = ProjectAvantioUser.objects.get_or_create(project_uuid = project_uuid)
     return obj 
 
+def get_or_create_user_avaibook(project_uuid):
+    obj, created = ProjectAvaibookUser.objects.get_or_create(project_uuid = project_uuid)
+    return obj 
+
 '''
     Projects
 '''
@@ -138,6 +142,7 @@ def project_form(request):
         user_lock = get_or_create_user_lock(obj.uuid)
         user_sensibo = get_or_create_user_sensibo(obj.uuid)
         user_avantio = get_or_create_user_avantio(obj.uuid)
+        user_avaibook = get_or_create_user_avaibook(obj.uuid)
 
         regime_list = Regime.objects.all()
         point_of_sale_list = PointOfSale.objects.filter(project_uuid=obj.uuid)
@@ -149,6 +154,7 @@ def project_form(request):
             'user_lock': user_lock, 
             'user_sensibo': user_sensibo, 
             'user_avantio': user_avantio, 
+            'user_avaibook': user_avaibook, 
             'project_regime_list': [item.regime for item in obj.regimes.all()],
             'regime_list': regime_list,
             'point_of_sale_list': point_of_sale_list,

@@ -3,10 +3,12 @@ from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.utils.translation import ugettext_lazy as _ 
 
-from padword.commons import show_exc
+from padword.commons import show_exc, get_or_none
 from padword.email_lib import send_email
 from padword.decorators import group_required
+from .models import ProjectAvaibookUser
 from .avantio_lib import get_booking_list, get_booking_notif, send_link
+from .avaibook_lib import get_booking_list as av_get_booking_list
 
 import os
 
@@ -47,8 +49,9 @@ def avantio_send_link(request, project_uuid, guest_uuid):
 @group_required("admins", "projects")
 def avaibook_get_booking_list(request, project_uuid):
     try:
-        booking_list, err = get_booking_list(project_uuid)
-        return render(request, 'avaibook/booking-list.html', {'booking_list': booking_list, "error": err})
+        pau = get_or_none(ProjectAvaibookUser, project_uuid, "project_uuid")
+        booking_list = av_get_booking_list(pau)
+        return render(request, 'avaibook/booking-list.html', {'booking_list': booking_list})
     except Exception as e:
         print(e)
         return render(request, 'error_exception.html', {'exc':show_exc(e)})

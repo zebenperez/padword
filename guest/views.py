@@ -368,7 +368,7 @@ def guests_by_project(request):
         limit = datetime.datetime.now() - datetime.timedelta(days=project.guest_delete)
 
         context = {'total_items': total_count, 'items': items, 'index': ITEMS_PER_PAGE, 'project': project, 'limit': limit, 'active': 'guests'}
-        print(context)
+        #print(context)
         #context = {'total_items': items.count(), 'page': 0, 'project_uuid':project.uuid, 'items': items[0:ITEMS_PER_PAGE]}
         return render (request, "guest-by-project/guests.html", context)
     except Exception as e:

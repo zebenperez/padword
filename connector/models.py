@@ -20,4 +20,16 @@ class ProjectAvantioUser(models.Model):
         except:
             return None
 
+class ProjectAvaibookUser(models.Model):
+    uuid = models.CharField(max_length=255, verbose_name=_('UUID'), default="")
+    token = models.CharField(max_length=255, verbose_name=_('Token'), default="")
+    project_uuid = models.CharField(max_length=255, verbose_name=_('Project UUID'), default="")
+
+    @property
+    def project(self):
+        try:
+            return Project.objects.get(uuid=self.project_uuid)
+        except:
+            return None
+
 
