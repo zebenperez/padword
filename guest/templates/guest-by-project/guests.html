@@ -20,6 +20,8 @@
             {% if project.avaibook_user != None and project.avaibook_user.username != "" %}
                 <a class="btn btn-primary ark" data-url="{% url "avaibook-get-booking-list" project.uuid %}" data-target-modal="common-modal"> 
                     {%trans "Import avaibook bookings"%}</a>  
+                <a class="btn btn-primary ark" data-url="{% url "avaibook-get-accommodation-list" project.uuid %}" data-target-modal="common-modal"> 
+                    {%trans "Import avaibook accommodation"%}</a>  
             {% endif %}
             {% if project.avantio_user != None and project.avantio_user.username != "" %}
                 <a class="btn btn-primary ark" data-url="{% url "avantio-get-booking-list" project.uuid %}" data-target-modal="common-modal"> 

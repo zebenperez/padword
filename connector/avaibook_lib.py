@@ -4,6 +4,7 @@ import urllib
 
 API_URL = "https://api.avaibook.biz/api/partner/"
 BOOKINGS_URL = "booking/bookings"
+ACCOMMODATIONS_URL = "accommodations"
 
 def get_param(dic, key):
     return dic[key] if key in dic else ""
@@ -46,6 +47,13 @@ class Avaibook():
         except Exception as err:
             raise AvaibookAPIError(menssage=err)
 
+    def get_accommodations(self):
+        try:
+            _url_request = "{}{}".format(API_URL, ACCOMMODATIONS_URL)
+            return self.__send_request__(_url_request).json()["items"]
+        except Exception as err:
+            raise AvaibookAPIError(menssage=err)
+
 class AvaibookBooking():
     def __init__(self, dic):
         self.id = get_param(dic, "id")
@@ -66,6 +74,30 @@ class AvaibookBooking():
         self.source = get_param(dic, "source")
         self.partner_name = get_param(dic, "partner_name")
 
+class AvaibookAccommodationLocation():
+    def __init__(self, dic):
+        self.address = get_param(dic, "address")
+        self.zip_code = get_param(dic, "zip_code")
+        self.city = get_param(dic, "city")
+        self.region = get_param(dic, "region")
+        self.country = get_param(dic, "country")
+        self.area = get_param(dic, "area")
+        self.longitude = get_param(dic, "longitude")
+        self.latitude = get_param(dic, "latitude")
+
+class AvaibookAccommodationUnit():
+    def __init__(self, dic):
+        self.id = get_param(dic, "id")
+        self.name = dic["name"] if "name" in dic else {}
+
+class AvaibookAccommodation():
+    def __init__(self, dic, location, units):
+        self.id = get_param(dic, "id")
+        self.name = get_param(dic, "name")
+        self.rental_type = get_param(dic, "rental_type")
+        self.location = location
+        self.units = units
+ 
 '''
     FUNCTIONS
 '''
@@ -82,3 +114,18 @@ def get_booking_list(pau):
         node = AvaibookBooking(item)
         booking_list.append(node)
     return booking_list
+
+def get_accommodation_list(pau):
+    av = Avaibook(pau.uuid, pau.token)
+    result = av.get_accommodations()
+    item_list = []
+    for item in result:
+        unit_list = []
+        for u in item["units"]:
+            unit = AvaibookAccommodationUnit(u)
+            unit_list.append(unit)
+        loc = AvaibookAccommodationLocation(item["location"]) if "location" in item else {}
+        node = AvaibookAccommodation(item, loc, unit_list)
+        item_list.append(node)
+    return item_list
+

@@ -8,7 +8,7 @@ from padword.email_lib import send_email
 from padword.decorators import group_required
 from .models import ProjectAvaibookUser
 from .avantio_lib import get_booking_list, get_booking_notif, send_link
-from .avaibook_lib import get_booking_list as av_get_booking_list
+from .avaibook_lib import get_accommodation_list, get_booking_list as av_get_booking_list
 
 import os
 
@@ -52,6 +52,16 @@ def avaibook_get_booking_list(request, project_uuid):
         pau = get_or_none(ProjectAvaibookUser, project_uuid, "project_uuid")
         booking_list = av_get_booking_list(pau)
         return render(request, 'avaibook/booking-list.html', {'booking_list': booking_list})
+    except Exception as e:
+        print(e)
+        return render(request, 'error_exception.html', {'exc':show_exc(e)})
+
+@group_required("admins", "projects")
+def avaibook_get_accommodation_list(request, project_uuid):
+    try:
+        pau = get_or_none(ProjectAvaibookUser, project_uuid, "project_uuid")
+        item_list = get_accommodation_list(pau)
+        return render(request, 'avaibook/accommodation-list.html', {'item_list': item_list})
     except Exception as e:
         print(e)
         return render(request, 'error_exception.html', {'exc':show_exc(e)})

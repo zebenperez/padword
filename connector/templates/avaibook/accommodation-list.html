@@ -1,0 +1,56 @@
+{% load i18n %}
+
+<div class="row w-100 common-modal-head m-0 p-0">
+    <div class="col-11"><h2>{% trans 'Avaibook booking list' %}</h2></div>
+    <div class="col-1"><button type="button" class="btn btn-sm ark" data-bs-dismiss="modal" data-url="{% url "guest-search-by-project" %}" 
+        data-target="guest-list"><i class="fas fa-times"></i></button> </div>
+</div>
+
+{% if error and error != "" %} <div class="alert alert-danger">{{error|safe}}</div> {% endif %}
+
+<div class="row m-0">
+    <div class="content">
+        <div id="item-list">
+            {% for item in item_list %} 
+                <div class="row">
+                    <div class="col-2">{% trans 'Id' %}</div>
+                    <div class="col-2">{{item.id}}</div>
+                    <div class="col-2">{% trans 'Name' %}</div>
+                    <div class="col-2">{{item.name}}</div>
+                    <div class="col-2">{% trans 'Rental type' %}</div>
+                    <div class="col-2">{{item.rental_type}}</div>
+
+                    <div class="col-2">{% trans 'Aaddress' %}</div>
+                    <div class="col-4">{{item.location.address}}</div>
+                    <div class="col-2">{% trans 'Zip code' %}</div>
+                    <div class="col-4">{{item.location.zip_code}}</div>
+
+                    <div class="col-2">{% trans 'City' %}</div>
+                    <div class="col-4">{{item.city}}</div>
+                    <div class="col-2">{% trans 'Region' %}</div>
+                    <div class="col-4">{{item.region}}</div>
+
+                    <div class="col-2">{% trans 'Country' %}</div>
+                    <div class="col-4">{{item.country}}</div>
+                    <div class="col-2">{% trans 'Area' %}</div>
+                    <div class="col-4">{{item.area}}</div>
+
+                    <div class="col-2">{% trans 'Longitude' %}</div>
+                    <div class="col-4">{{item.longitude}}</div>
+                    <div class="col-2">{% trans 'Latitude' %}</div>
+                    <div class="col-4">{{item.latitude}}</div>
+
+                    {% for unit in item.units %} 
+                        <div class="col-2">{% trans 'Id' %}</div>
+                        <div class="col-4">{{unit.id}}</div>
+                        <div class="col-2">{% trans 'Name' %}</div>
+                        <div class="col-4">{{unit.name}}</div>
+                    {% endfor %}
+
+                </div>
+                <hr/>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
