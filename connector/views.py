@@ -2,6 +2,7 @@ from django.conf import settings
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.utils.translation import ugettext_lazy as _ 
+from datetime import datetime
 
 from padword.commons import show_exc, get_or_none
 from padword.email_lib import send_email
@@ -20,6 +21,15 @@ import os
 def avantio_get_booking_list(request, project_uuid):
     try:
         booking_list, err = get_booking_list(project_uuid)
+
+        pau = ProjectAvantioUser.objects.filter(project_uuid=project_uuid).first()
+        if pau != None and pau.email != "":
+            result = "Importación {} {}\n".format(pau.project.name, datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
+            result += "-----------------------------------------------------"
+            result += render_to_string('avantio/booking-log.html', {'booking_list': booking_list, "error": err})
+            subject = "Importación {} {}".format(pau.project.name, datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
+            send_email(subject, result, "no-reply@padword.es", [pau.email])
+
         return render(request, 'avantio/booking-list.html', {'booking_list': booking_list, "error": err})
     except Exception as e:
         print(e)
