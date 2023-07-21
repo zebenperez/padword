@@ -2,12 +2,14 @@ from django.conf import settings
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.utils.translation import ugettext_lazy as _ 
+from django.template.loader import render_to_string
 from datetime import datetime
 
 from padword.commons import show_exc, get_or_none
 from padword.email_lib import send_email
 from padword.decorators import group_required
-from .models import ProjectAvaibookUser
+from web.models import Project
+from .models import ProjectAvantioUser, ProjectAvaibookUser
 from .avantio_lib import get_booking_list, get_booking_notif, send_link
 from .avaibook_lib import get_accommodation_list, get_booking_list as av_get_booking_list
 
@@ -24,10 +26,11 @@ def avantio_get_booking_list(request, project_uuid):
 
         pau = ProjectAvantioUser.objects.filter(project_uuid=project_uuid).first()
         if pau != None and pau.email != "":
-            result = "Importación {} {}\n".format(pau.project.name, datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
+            project = get_or_none(Project, project_uuid, "uuid")
+            result = "Importación {} {}\n".format(project.name, datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
             result += "-----------------------------------------------------"
             result += render_to_string('avantio/booking-log.html', {'booking_list': booking_list, "error": err})
-            subject = "Importación {} {}".format(pau.project.name, datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
+            subject = "Importación {} {}".format(project.name, datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
             send_email(subject, result, "no-reply@padword.es", [pau.email])
 
         return render(request, 'avantio/booking-list.html', {'booking_list': booking_list, "error": err})
