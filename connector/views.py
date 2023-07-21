@@ -1,9 +1,13 @@
 from django.conf import settings
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseForbidden 
 from django.shortcuts import render, redirect
-from django.utils.translation import ugettext_lazy as _ 
 from django.template.loader import render_to_string
+from django.utils.translation import ugettext_lazy as _ 
+from django.views.decorators.csrf import csrf_exempt
+from django.views.decorators.http import require_POST
+
 from datetime import datetime
+from secrets import compare_digest
 
 from padword.commons import show_exc, get_or_none
 from padword.email_lib import send_email
@@ -13,7 +17,7 @@ from .models import ProjectAvantioUser, ProjectAvaibookUser
 from .avantio_lib import get_booking_list, get_booking_notif, send_link
 from .avaibook_lib import get_accommodation_list, get_booking_list as av_get_booking_list
 
-import os
+import json, os
 
 
 '''
@@ -78,6 +82,26 @@ def avaibook_get_accommodation_list(request, project_uuid):
     except Exception as e:
         print(e)
         return render(request, 'error_exception.html', {'exc':show_exc(e)})
+
+@csrf_exempt
+@require_POST
+#@non_atomic_requests
+def avaibook_get_booking(request):
+    f = open(os.path.join(settings.BASE_DIR, "avaibook.log"), "a", encoding='utf-8')
+    f.write("\n---------------------------------------")
+    f.write("\n{} - Recibida reserva de avantio".format(datetime.now().strftime("%Y-%m-%d %H:%M:%S")))
+
+    given_token = request.headers.get("Avaibook-Webhook-Token", "")
+    if not compare_digest(given_token, "SHLBM!CRspnXdsjy4xWt15l6=ngX4Dv6ujUw/S5XCVkPIXrM9WRNawn0zMg4S5GO"):
+        f.write("\nToken no valido".format(datetime.now().strftime("%Y-%m-%d %H:%M:%S")))
+        return HttpResponseForbidden(
+            "Incorrect token in Avaibook-Webhook-Token header.",
+            content_type="text/plain",
+        )
+
+    booking = json.loads(request.body)
+    f.write("\n{}".format(booking))
+    return HttpResponse("Message received okay.", content_type="text/plain")
 
 '''
     Cron Logs

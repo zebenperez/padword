@@ -10,6 +10,7 @@ urlpatterns = [
     #--------------------- AVAIBOOK --------------------
     path('avaibook/get-booking-list/<slug:project_uuid>/', views.avaibook_get_booking_list, name='avaibook-get-booking-list'),
     path('avaibook/get-accommodation-list/<slug:project_uuid>/', views.avaibook_get_accommodation_list, name='avaibook-get-accommodation-list'),
+    path('avaibook/get-booking/', views.avaibook_get_booking, name='avaibook-get-booking'),
 
     #--------------------- CRON --------------------
     path('cron-log/', views.cron_log, name='cron-log'),
