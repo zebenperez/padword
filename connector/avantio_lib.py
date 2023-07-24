@@ -138,7 +138,11 @@ class ShAvantio:
             #start_date = self.get_param(b, 'ns2:StartDate')
             #end_date = self.get_param(b, 'ns2:EndDate')
             start_time = self.get_param(b, 'ns2:CheckInSchedule')
+            if start_time == "":
+                start_time = "00:01"
             end_time = self.get_param(b, 'ns2:CheckOutSchedule')
+            if end_time == "":
+                end_time = "00:01"
             start_date = self.get_param(b, 'ns2:ArrivalDate')
             end_date = self.get_param(b, 'ns2:DepartureDate')
             booking_date = self.get_param(b, 'ns2:BookingDate')
@@ -242,7 +246,7 @@ def get_booking_notif(project_uuid):
         booking_list = av.get_booking_notifications()
         for booking in booking_list:
             b = av.get_booking(booking.booking_code, booking.localizator)
-            if b != None:
+            if b != None and b.client.name != "" and b.client.surname != "":
                 checkin = get_date(b.start_date, b.start_time, start_date)
                 if checkin >= start_date_new and checkin <= end_date_new:
                     code = "{}|{}".format(b.localizator, b.booking_code)
@@ -259,6 +263,10 @@ def get_booking_notif(project_uuid):
                     guest.check_out = get_date(b.end_date, b.end_time, start_date)
                     guest.room = b.accommodation_code
                     guest.save()
+
+                    if booking.created:
+                        err = guest.add_all_key_code(code[-4:])
+                        av.send_pwa_link(guest.ext_id, guest.pwa_link)
     return booking_list
 
 def send_link(project_uuid, guest_uuid):
