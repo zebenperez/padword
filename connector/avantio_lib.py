@@ -253,7 +253,7 @@ def get_booking_notif(project_uuid):
                     guest = Guest.objects.filter(ext_id=code, project_id=pau.project_uuid, deleted=0).first()
                     if guest == None:
                         guest = Guest(UUID = new_ui_slug(Guest, "UUID"), ext_id=code, project_id=pau.project_uuid)
-                        booking.created = True
+                        b.created = True
 
                     guest.name = b.client.name
                     guest.surname = b.client.surname
@@ -264,7 +264,7 @@ def get_booking_notif(project_uuid):
                     guest.room = b.accommodation_code
                     guest.save()
 
-                    if booking.created:
+                    if b.created:
                         err = guest.add_all_key_code(code[-4:])
                         av.send_pwa_link(guest.ext_id, guest.pwa_link)
     return booking_list
