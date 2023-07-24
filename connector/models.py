@@ -3,6 +3,7 @@ from django.utils.translation import ugettext as _
 
 
 class ProjectAvantioUser(models.Model):
+    code_mobile = models.BooleanField(verbose_name=_('Get code from mobile'), default=False)
     days = models.IntegerField(verbose_name=_('Days to import'), default=1)
     days_new = models.IntegerField(verbose_name=_('Days to create'), default=1)
     hour = models.IntegerField(verbose_name=_('Hour to import'), default=0)

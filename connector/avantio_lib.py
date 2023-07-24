@@ -180,6 +180,9 @@ class ShAvantio:
 '''
     FUNCTIONS
 '''
+def get_code(pau, code):
+    return "" if pau.code_mobile else code[-4:] 
+
 def get_date(date, time, default):
     if date != "" and time != "":
         return datetime.strptime("{} {}".format(date, time), "%Y-%m-%d %H:%M")
@@ -231,7 +234,9 @@ def get_booking_list(project_uuid):
                         guest.check_out = get_date(booking.end_date, booking.end_time, start_date)
                         guest.room = booking.accommodation_code
                         guest.save()
-                        err = guest.add_all_key_code(code[-4:])
+                        #err = guest.add_all_key_code(code[-4:])
+                        lock_code = get_code(pau, code)
+                        err = guest.add_all_key_code(lock_code)
                         av.send_pwa_link(guest.ext_id, guest.pwa_link)
                         booking.created = True
     return booking_list, err
@@ -265,7 +270,8 @@ def get_booking_notif(project_uuid):
                     guest.save()
 
                     if b.created:
-                        err = guest.add_all_key_code(code[-4:])
+                        lock_code = get_code(pau, code)
+                        err = guest.add_all_key_code(lock_code)
                         av.send_pwa_link(guest.ext_id, guest.pwa_link)
     return booking_list
 
