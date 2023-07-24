@@ -5,6 +5,7 @@ import urllib
 API_URL = "https://api.avaibook.biz/api/partner/"
 BOOKINGS_URL = "booking/bookings"
 ACCOMMODATIONS_URL = "accommodations"
+WEBHOOK_TOKEN = "SHLBM!CRspnXdsjy4xWt15l6=ngX4Dv6ujUw/S5XCVkPIXrM9WRNawn0zMg4S5GO"
 
 def get_param(dic, key):
     return dic[key] if key in dic else ""

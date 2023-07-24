@@ -15,7 +15,7 @@ from padword.decorators import group_required
 from web.models import Project
 from .models import ProjectAvantioUser, ProjectAvaibookUser
 from .avantio_lib import get_booking_list, get_booking_notif, send_link
-from .avaibook_lib import get_accommodation_list, get_booking_list as av_get_booking_list
+from .avaibook_lib import get_accommodation_list, get_booking_list as av_get_booking_list, WEBHOOK_TOKEN
 
 import json, os
 
@@ -92,7 +92,7 @@ def avaibook_get_booking(request):
     f.write("\n{} - Recibida reserva de avantio".format(datetime.now().strftime("%Y-%m-%d %H:%M:%S")))
 
     given_token = request.headers.get("Avaibook-Webhook-Token", "")
-    if not compare_digest(given_token, "SHLBM!CRspnXdsjy4xWt15l6=ngX4Dv6ujUw/S5XCVkPIXrM9WRNawn0zMg4S5GO"):
+    if not compare_digest(given_token, WEBHOOK_TOKEN):
         f.write("\nToken no valido".format(datetime.now().strftime("%Y-%m-%d %H:%M:%S")))
         return HttpResponseForbidden(
             "Incorrect token in Avaibook-Webhook-Token header.",
