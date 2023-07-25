@@ -249,7 +249,7 @@ def get_booking_list(project_uuid):
         av = ShAvantio(pau.username, pau.password)
         booking_list = av.get_booking_list(start_date, end_date)
         for booking in booking_list:
-            create_booking(project_uuid, booking, start_date, start_date_new, end_date_new)
+            create_booking(pau, booking, start_date, start_date_new, end_date_new)
 
             #if booking.client.name != "" and booking.client.surname != "":
             #    checkin = get_date(booking.start_date, booking.start_time, start_date)
@@ -285,7 +285,7 @@ def get_booking_notif(project_uuid):
         booking_list = av.get_booking_notifications()
         for booking in booking_list:
             b = av.get_booking(booking.booking_code, booking.localizator)
-            create_booking(project_uuid, b, start_date, start_date_new, end_date_new)
+            create_booking(pau, b, start_date, start_date_new, end_date_new)
 
             #if b != None and b.client.name != "" and b.client.surname != "":
             #    checkin = get_date(b.start_date, b.start_time, start_date)
