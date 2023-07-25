@@ -8,6 +8,7 @@ from datetime import datetime, timedelta
 
 from .models import ProjectAvantioUser
 from guest.models import Guest
+from web.models import Room
 from padword.commons import get_or_none, new_ui_slug
 
 WSDL = 'http://ws.avantio.com/soap/vrmsInputServices.php?wsdl'
@@ -113,44 +114,47 @@ class ShAvantio:
     def get_booking(self, code, localizator):
         booking = None
         with self.client.settings(raw_response=True):
-            params = self.credentials
-            #params['BookingCode'] = code
-            #params['Localizator'] = localizator
-            params['Localizer'] = code
-            resp = self.client.service.GetBooking(**params)
-            #b = BeautifulSoup(resp.content, 'xml')
-            b = BeautifulSoup(resp.content.decode("utf-8"), 'xml')
+            try:
+                params = self.credentials
+                #params['BookingCode'] = code
+                #params['Localizator'] = localizator
+                params['Localizer'] = code
+                resp = self.client.service.GetBooking(**params)
+                #b = BeautifulSoup(resp.content, 'xml')
+                b = BeautifulSoup(resp.content.decode("utf-8"), 'xml')
 
-            name = self.get_param(b, 'ns2:Name')
-            surname = self.get_param(b, 'ns2:Surname')
-            dni = self.get_param(b, 'ns2:DNI')
-            address = self.get_param(b, 'ns2:Address')
-            locality = self.get_param(b, 'ns2:Locality')
-            postcode = self.get_param(b, 'ns2:PostCode')
-            city = self.get_param(b, 'ns2:City')
-            country = self.get_param(b, 'ns2:Country')
-            country_code = self.get_param(b, 'ns2:ISOCountryCode')
-            phone = self.get_param(b, 'ns2:Telephone')
-            phone2 = self.get_param(b, 'ns2:Telephone2')
-            email = self.get_param(b, 'ns2:EMail')
-            client = AvantioBookingClient(name, surname, dni, address, locality, postcode, city, country, country_code, phone, phone2, email)
+                name = self.get_param(b, 'ns2:Name')
+                surname = self.get_param(b, 'ns2:Surname')
+                dni = self.get_param(b, 'ns2:DNI')
+                address = self.get_param(b, 'ns2:Address')
+                locality = self.get_param(b, 'ns2:Locality')
+                postcode = self.get_param(b, 'ns2:PostCode')
+                city = self.get_param(b, 'ns2:City')
+                country = self.get_param(b, 'ns2:Country')
+                country_code = self.get_param(b, 'ns2:ISOCountryCode')
+                phone = self.get_param(b, 'ns2:Telephone')
+                phone2 = self.get_param(b, 'ns2:Telephone2')
+                email = self.get_param(b, 'ns2:EMail')
+                client = AvantioBookingClient(name, surname, dni, address, locality, postcode, city, country, country_code, phone, phone2, email)
 
-            #start_date = self.get_param(b, 'ns2:StartDate')
-            #end_date = self.get_param(b, 'ns2:EndDate')
-            start_time = self.get_param(b, 'ns2:CheckInSchedule')
-            if start_time == "":
-                start_time = "15:00"
-            end_time = self.get_param(b, 'ns2:CheckOutSchedule')
-            if end_time == "":
-                end_time = "11:00"
-            start_date = self.get_param(b, 'ns2:ArrivalDate')
-            end_date = self.get_param(b, 'ns2:DepartureDate')
-            booking_date = self.get_param(b, 'ns2:BookingDate')
-            booking_code = self.get_param(b, 'ns2:BookingCode')
-            localizator = self.get_param(b, 'ns2:Localizator')
-            accommodation_code = self.get_param(b, 'ns2:AccommodationCode')
-            user_code = self.get_param(b, 'ns2:UserCode')
-            booking=AvantioBooking(start_time,end_time,start_date,end_date,booking_date,booking_code,localizator,accommodation_code,user_code,client)
+                #start_date = self.get_param(b, 'ns2:StartDate')
+                #end_date = self.get_param(b, 'ns2:EndDate')
+                start_time = self.get_param(b, 'ns2:CheckInSchedule')
+                if start_time == "":
+                    start_time = "15:00"
+                end_time = self.get_param(b, 'ns2:CheckOutSchedule')
+                if end_time == "":
+                    end_time = "11:00"
+                start_date = self.get_param(b, 'ns2:ArrivalDate')
+                end_date = self.get_param(b, 'ns2:DepartureDate')
+                booking_date = self.get_param(b, 'ns2:BookingDate')
+                booking_code = self.get_param(b, 'ns2:BookingCode')
+                localizator = self.get_param(b, 'ns2:Localizator')
+                accommodation_code = self.get_param(b, 'ns2:AccommodationCode')
+                user_code = self.get_param(b, 'ns2:UserCode')
+                booking=AvantioBooking(start_time,end_time,start_date,end_date,booking_date,booking_code,localizator,accommodation_code,user_code,client)
+            except Exception as e:
+                print(e)
         return booking
 
 
@@ -206,6 +210,34 @@ def get_dates_range_new(pau):
         start_date = end_date + timedelta(days=pau.days_new)
     return start_date, end_date
 
+def room_exist(project_uuid, room):
+    count = Room.objects.filter(project_uuid=project_uuid, number=room).count()
+    return (count > 0)
+
+def create_booking(project_uuid, booking, start_date, s_date, e_date):
+    checkin = get_date(booking.start_date, booking.start_time, start_date)
+    room = room_exist(project_uuid, booking.accommodation_code)
+    if booking.client.name != "" and booking.client.surname != "" and checkin >= s_date and checkin <= e_date and room:
+        code = "{}|{}".format(booking.localizator, booking.booking_code)
+        guest = Guest.objects.filter(ext_id=code, project_id=pau.project_uuid, deleted=0).first()
+        if guest == None:
+            guest = Guest(UUID = new_ui_slug(Guest, "UUID"), ext_id=code, project_id=pau.project_uuid)
+            booking.created = True
+
+        guest.name = booking.client.name
+        guest.surname = booking.client.surname
+        guest.mobile = booking.client.phone
+        guest.email = booking.client.email
+        guest.check_in = checkin
+        guest.check_out = get_date(booking.end_date, booking.end_time, start_date)
+        guest.room = booking.accommodation_code
+        guest.save()
+
+        if booking.created:
+            lock_code = get_code(pau, code)
+            err = guest.add_all_key_code(lock_code)
+            av.send_pwa_link(guest.ext_id, guest.pwa_link)
+
 def get_booking_list(project_uuid):
     err = ""
     booking_list = []
@@ -217,28 +249,30 @@ def get_booking_list(project_uuid):
         av = ShAvantio(pau.username, pau.password)
         booking_list = av.get_booking_list(start_date, end_date)
         for booking in booking_list:
-            if booking.client.name != "" and booking.client.surname != "":
-                checkin = get_date(booking.start_date, booking.start_time, start_date)
-                if checkin >= start_date_new and checkin <= end_date_new:
-                    code = "{}|{}".format(booking.localizator, booking.booking_code)
+            create_booking(project_uuid, booking, start_date, start_date_new, end_date_new)
 
-                    guest = Guest.objects.filter(ext_id=code, project_id=pau.project_uuid, deleted=0).first()
-                    if guest == None:
-                        guest = Guest(UUID = new_ui_slug(Guest, "UUID"), ext_id=code, project_id=pau.project_uuid)
-                        guest.name = booking.client.name
-                        guest.surname = booking.client.surname
-                        #guest.language = booking.client.languaje
-                        guest.mobile = booking.client.phone
-                        guest.email = booking.client.email
-                        guest.check_in = checkin
-                        guest.check_out = get_date(booking.end_date, booking.end_time, start_date)
-                        guest.room = booking.accommodation_code
-                        guest.save()
-                        #err = guest.add_all_key_code(code[-4:])
-                        lock_code = get_code(pau, code)
-                        err = guest.add_all_key_code(lock_code)
-                        av.send_pwa_link(guest.ext_id, guest.pwa_link)
-                        booking.created = True
+            #if booking.client.name != "" and booking.client.surname != "":
+            #    checkin = get_date(booking.start_date, booking.start_time, start_date)
+            #    if checkin >= start_date_new and checkin <= end_date_new:
+#                    code = "{}|{}".format(booking.localizator, booking.booking_code)
+#
+#                    guest = Guest.objects.filter(ext_id=code, project_id=pau.project_uuid, deleted=0).first()
+#                    if guest == None:
+#                        guest = Guest(UUID = new_ui_slug(Guest, "UUID"), ext_id=code, project_id=pau.project_uuid)
+#                        guest.name = booking.client.name
+#                        guest.surname = booking.client.surname
+#                        #guest.language = booking.client.languaje
+#                        guest.mobile = booking.client.phone
+#                        guest.email = booking.client.email
+#                        guest.check_in = checkin
+#                        guest.check_out = get_date(booking.end_date, booking.end_time, start_date)
+#                        guest.room = booking.accommodation_code
+#                        guest.save()
+#                        #err = guest.add_all_key_code(code[-4:])
+#                        lock_code = get_code(pau, code)
+#                        err = guest.add_all_key_code(lock_code)
+#                        av.send_pwa_link(guest.ext_id, guest.pwa_link)
+#                        booking.created = True
     return booking_list, err
 
 def get_booking_notif(project_uuid):
@@ -251,28 +285,30 @@ def get_booking_notif(project_uuid):
         booking_list = av.get_booking_notifications()
         for booking in booking_list:
             b = av.get_booking(booking.booking_code, booking.localizator)
-            if b != None and b.client.name != "" and b.client.surname != "":
-                checkin = get_date(b.start_date, b.start_time, start_date)
-                if checkin >= start_date_new and checkin <= end_date_new:
-                    code = "{}|{}".format(b.localizator, b.booking_code)
-                    guest = Guest.objects.filter(ext_id=code, project_id=pau.project_uuid, deleted=0).first()
-                    if guest == None:
-                        guest = Guest(UUID = new_ui_slug(Guest, "UUID"), ext_id=code, project_id=pau.project_uuid)
-                        b.created = True
+            create_booking(project_uuid, b, start_date, start_date_new, end_date_new)
 
-                    guest.name = b.client.name
-                    guest.surname = b.client.surname
-                    guest.mobile = b.client.phone
-                    guest.email = b.client.email
-                    guest.check_in = checkin
-                    guest.check_out = get_date(b.end_date, b.end_time, start_date)
-                    guest.room = b.accommodation_code
-                    guest.save()
-
-                    if b.created:
-                        lock_code = get_code(pau, code)
-                        err = guest.add_all_key_code(lock_code)
-                        av.send_pwa_link(guest.ext_id, guest.pwa_link)
+            #if b != None and b.client.name != "" and b.client.surname != "":
+            #    checkin = get_date(b.start_date, b.start_time, start_date)
+            #    if checkin >= start_date_new and checkin <= end_date_new:
+#                    code = "{}|{}".format(b.localizator, b.booking_code)
+#                    guest = Guest.objects.filter(ext_id=code, project_id=pau.project_uuid, deleted=0).first()
+#                    if guest == None:
+#                        guest = Guest(UUID = new_ui_slug(Guest, "UUID"), ext_id=code, project_id=pau.project_uuid)
+#                        b.created = True
+#
+#                    guest.name = b.client.name
+#                    guest.surname = b.client.surname
+#                    guest.mobile = b.client.phone
+#                    guest.email = b.client.email
+#                    guest.check_in = checkin
+#                    guest.check_out = get_date(b.end_date, b.end_time, start_date)
+#                    guest.room = b.accommodation_code
+#                    guest.save()
+#
+#                    if b.created:
+#                        lock_code = get_code(pau, code)
+#                        err = guest.add_all_key_code(lock_code)
+#                        av.send_pwa_link(guest.ext_id, guest.pwa_link)
     return booking_list
 
 def send_link(project_uuid, guest_uuid):
