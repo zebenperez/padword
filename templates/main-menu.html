@@ -33,10 +33,14 @@
         <li class="nav-item"><a class="nav-link " href="{% url "projects" %}"><i class="fas fa-dice-d6"></i> 
 	        {% trans "Safe Deposit Box" %} <span class="new">NEW</span></a> </li>
         <hr/>
-        <li class="nav-item"><a class="nav-link" href="{% url "logs" %}"><i class="fas fa-clock"></i> {% trans "Logs" %} </li>
+        <li class="nav-item"><a class="nav-link" href="{% url "logs" %}"><i class="fas fa-clock"></i> {% trans "Logs" %} </a></li>
         <hr/>
-        <li class="nav-item"><a class="nav-link" href="{% url "cron-log" %}"><i class="fas fa-clock"></i> {% trans "Schedule Logs" %} </li>
+        {%comment%}
+        <li class="nav-item"><a class="nav-link" href="{% url "cron-log" %}"><i class="fas fa-clock"></i> {% trans "Schedule Logs" %} </a></li>
         <hr/>
+        <li class="nav-item"><a class="nav-link" href="{% url "avantio-log" %}"><i class="fas fa-clock"></i> {% trans "Avantio Logs" %} </a></li>
+        <hr/>
+        {%endcomment%}
     {% elif menu == "projects" %}
         {% with user_project=user.username|addstr:"|"|addstr:project.uuid %}
             {% if user_project|have_menu:"guests" %}

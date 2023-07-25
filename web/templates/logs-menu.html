@@ -1,0 +1,17 @@
+{% load i18n padword_tags %}
+
+
+<div class="toolbar-search">
+    <div class="row">
+        <div class="col-2">
+            <a class="" href="{% url "logs" %}"><i class="fas fa-clock"></i> {% trans "Logs" %} </a>
+        </div>
+        <div class="col-2">
+            <a class="" href="{% url "cron-log" %}"><i class="fas fa-clock"></i> {% trans "Schedule Logs" %} </a>
+        </div>
+        <div class="col-2">
+            <a class="" href="{% url "avantio-log" %}"><i class="fas fa-clock"></i> {% trans "Avantio Logs" %} </a>
+        </div>
+    </div>
+</div>
+

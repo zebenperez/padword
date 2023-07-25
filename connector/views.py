@@ -23,6 +23,11 @@ import json, os
 '''
     Avantio
 '''
+def avantio_write_log(result):
+    f = open(os.path.join(settings.BASE_DIR, "avantio.log"), "a", encoding='utf-8')
+    f.write(result)
+    f.close()
+
 @group_required("admins", "projects")
 def avantio_get_booking_list(request, project_uuid):
     try:
@@ -31,11 +36,12 @@ def avantio_get_booking_list(request, project_uuid):
         pau = ProjectAvantioUser.objects.filter(project_uuid=project_uuid).first()
         if pau != None and pau.email != "":
             project = get_or_none(Project, project_uuid, "uuid")
-            result = "Importación {} {}\n".format(project.name, datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
+            result = "Importación Manual {} {}\n".format(project.name, datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
             result += "-----------------------------------------------------"
             result += render_to_string('avantio/booking-log.html', {'booking_list': booking_list, "error": err})
             subject = "Importación {} {}".format(project.name, datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
             send_email(subject, result, "no-reply@padword.es", [pau.email])
+            avantio_write_log(result)
 
         return render(request, 'avantio/booking-list.html', {'booking_list': booking_list, "error": err})
     except Exception as e:
@@ -46,6 +52,15 @@ def avantio_get_booking_list(request, project_uuid):
 def avantio_get_booking_notif(request, project_uuid):
     try:
         booking_list = get_booking_notif(project_uuid)
+
+        pau = ProjectAvantioUser.objects.filter(project_uuid=project_uuid).first()
+        if pau != None and pau.email != "":
+            project = get_or_none(Project, project_uuid, "uuid")
+            result = "Notificatión Manual {} {}\n".format(project.name, datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
+            result += "-----------------------------------------------------"
+            result += render_to_string('avantio/booking-log.html', {'booking_list': booking_list})
+            avantio_write_log(result)
+
         return render(request, 'avantio/booking-notif.html', {'booking_list': booking_list})
     except Exception as e:
         print(e)
@@ -59,6 +74,12 @@ def avantio_send_link(request, project_uuid, guest_uuid):
         return HttpResponse(resp)
     except Exception as e:
         return render(request, 'error_exception.html', {'exc':show_exc(e)})
+
+@group_required("admins")
+def avantio_log(request):
+    f = open(os.path.join(settings.BASE_DIR, "avantio.log"), "r", encoding='utf-8')
+    text = f.read()
+    return render(request, 'cron-log.html', {'text': text.replace("\n", "<br/>"),})
 
 '''
     Avaibook

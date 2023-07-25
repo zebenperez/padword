@@ -18,9 +18,20 @@
     </div>
     <div class="right-tpv">
         <div class="row header-right w-100 m-0 mb-2">
-            <div class="col-lg-6 text-start">Ticket</div>
-            <div class="col-lg-3"><i class="fas fa-user-plus"></i></div>
-            <div class="col-lg-3 logo"><img src="/static/img/96x96-icono.png"></div>
+            <div class="col-lg-4 text-start">Ticket</div>
+            <div class="col-lg-4">
+                <select name="table" id="table" class="tpv-articles w-100 text-center tpv-search-change">
+                    <option id="">{% trans "-- Select table --" %}</option>
+                    <option id="1">{% trans "Table 1" %}</option>
+                    <option id="2">{% trans "Table 2" %}</option>
+                    <option id="3">{% trans "Table 3" %}</option>
+                    <option id="4">{% trans "Table 4" %}</option>
+                    <option id="5">{% trans "Table 5" %}</option>
+                    <option id="6">{% trans "Table 6" %}</option>
+                    <option id="7">{% trans "Table 7" %}</option>
+                </select>
+            </div>
+            <div class="col-lg-4 logo"><img src="/static/img/96x96-icono.png"></div>
         </div>
         <div class="row w-100 m-0">
             {%comment%}

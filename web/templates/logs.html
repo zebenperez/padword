@@ -4,6 +4,8 @@
 {% block second_menu %}{% get_second_menu request.user %} {% endblock second_menu %}
 
 {% block central_content %}
+    {% include "logs-menu.html" %}
+
     <div class="content mt-4">
         <div class="toolbar-content"> <h2 class="pathway b-right"> {% trans 'Logs' %} </h2> </div>
         <div style="padding-left:30px;max-height:200px;overflow:scroll">
