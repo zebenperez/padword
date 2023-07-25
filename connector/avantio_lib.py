@@ -140,10 +140,10 @@ class ShAvantio:
                 #start_date = self.get_param(b, 'ns2:StartDate')
                 #end_date = self.get_param(b, 'ns2:EndDate')
                 start_time = self.get_param(b, 'ns2:CheckInSchedule')
-                if start_time == "":
+                if start_time == "" or start_time == "00:00":
                     start_time = "15:00"
                 end_time = self.get_param(b, 'ns2:CheckOutSchedule')
-                if end_time == "":
+                if end_time == "" or end_time == "00:00":
                     end_time = "11:00"
                 start_date = self.get_param(b, 'ns2:ArrivalDate')
                 end_date = self.get_param(b, 'ns2:DepartureDate')
