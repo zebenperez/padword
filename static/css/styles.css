@@ -285,6 +285,13 @@ select.select-k, input.form-control.input-k {
     margin:0;
 }
 
+.band-div {
+    background: #f1f4f5;
+}
+input.form-control.highly, .highly {
+    line-height: 2.5;
+}
+
 .left-k {
     border:1px solid #e0e0e0; 
 	border-radius: 1.5rem;
@@ -866,8 +873,34 @@ ul.left-menu li.nav-item a.nav-link i:hover {
     color: #143e53; 
 }
 .nav-link { 
-    padding: .5rem 3rem .5rem 1.1em;
+/*    padding: .5rem 3rem .5rem 1.1em;*/
 }
+
+.nav-tabs {
+    border-bottom: 1px solid #486879;
+}
+
+.nav-tabs .nav-link.active {
+    color: #fff !important;
+    background-color: #ff7805 !important;
+    border-color: #486879 #486879 #fff;
+    font-weight: 600;
+}
+
+.nav-tabs .nav-link {
+    color: #486879 !important;
+    /*border-color: #e9ecef #e9ecef #fff;*/
+    border-color: #486879 #486879 #fff;
+    margin-right: 1px;
+}
+
+.tab-content.internal {
+    border-left:1px solid #486879;
+    border-right:1px solid #486879;
+    border-bottom:1px solid #486879;
+    margin-top: -8px !important;
+}
+
 
 i.fas.fa-home.hotel,
 i.fas.fa-credit-card.hotel { 

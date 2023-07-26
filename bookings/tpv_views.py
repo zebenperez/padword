@@ -7,7 +7,7 @@ from padword.decorators import group_required
 from padword.commons import show_exc, get_or_none, get_param, reverse_cardkey
 from web.models import Project, Waiter
 from contents.models import Category, ShoppingCart, Item, PaymentType, PointOfSale
-from guest.models import Guest, Wristband
+from guest.models import Guest, Wristband, WristbandBalance
 from web.lock_lib import ShLock
 
 from .common_lib import get_or_create_form_instance_tpv, user_in_group
@@ -316,6 +316,7 @@ def tpv_order_send(request):
         pt_id = get_param(request.GET, "payment_type", "")
         amount = get_param(request.GET, "amount", "")
         amount_user = get_param(request.GET, "amount_user", "")
+        band_id = get_param(request.GET, "band", "")
 
         fi = get_or_none(FormInstance, fi_id)
         fi.set_status("01", request.user, "")
@@ -324,6 +325,11 @@ def tpv_order_send(request):
             pt = get_or_none(PaymentType, pt_id)
             fi.payment_type = pt
             fi.amount = amount if amount_user == "" else amount_user
+            if pt.code == "03" and band_id != "":
+                band = get_or_none(Wristband, band_id)
+                url = "/bookings/booking-view/"
+                desc = "Ticket: <a class='ark' data-url='{}' data-target-modal='common-modal' data-obj_id='{}'> #{}</a>".format(url, fi.id, fi.id)
+                WristbandBalance.objects.create(amount=(fi.amount*-1), desc=desc, wristband=band)
         fi.save()
         context = {'msg': fi.get_status.status.code, 'project_uuid': fi.form.project.uuid}
         return render(request, 'bookings/tpv/show-msg.html', context)

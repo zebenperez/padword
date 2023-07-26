@@ -15,6 +15,7 @@ urlpatterns = [
     path('guests/remove/', views.guest_remove, name='guest-remove'),
     path('guests/soft-remove/', views.guest_soft_remove, name='guest-soft-remove'),
     #path('guests/page/', views.guest_pagination, name='guest-page'),
+    path('guests/details/', views.guest_details, name='guest-details'),
 
     path('guests/project/', views.guests_by_project, name='guests-by-project'),
     path('guests/project/search', views.guest_search_by_project, name='guest-search-by-project'),

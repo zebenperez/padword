@@ -549,6 +549,7 @@ class Wristband(models.Model):
 class WristbandBalance(models.Model):
     date = models.DateTimeField(verbose_name=_('Date'), default=datetime.datetime.now)
     amount = models.FloatField(verbose_name=_('Amount'), default=0)
+    desc = models.TextField(verbose_name=_("Description"), default="", blank=True)
     wristband = models.ForeignKey(Wristband, verbose_name=_("Wristband"), on_delete=models.CASCADE, blank=True, null=True, related_name="balances")
 
     class Meta:

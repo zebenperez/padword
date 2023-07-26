@@ -11,7 +11,7 @@
     {{item.language}} &nbsp;
     <a class="btn ark" href="#" data-url="{% url "show-chat" %}" data-target="div-chat" data-guest="{{item.id}}" data-guest_msg="False"
         title="{% trans "Chat" %}"> <i class="fas fa-comments"></i></a>
-    <a class="btn" href="#" onclick='alert("{{item.uuid}}"); return False'><i class="fas fa-fingerprint"></i></a>
+    {#<a class="btn" href="#" onclick='alert("{{item.uuid}}"); return False'><i class="fas fa-fingerprint"></i></a>#}
 
     {% if project_uuid and project_uuid != "" %}
         <a class="btn btn-xs ark" data-url="{% url "guest-form-by-project" %}" data-target-modal="common-modal" title="{% trans "Edit" %}"
@@ -24,6 +24,10 @@
             <i class="fa fa-key"></i></a>  
         {%endcomment%}
     {% endif %}
+
+    <a class="btn btn-xs ark" data-url="{% url "guest-details" %}" data-target="content-section" data-obj_id="{{item.id}}" 
+        title="{% trans "Details" %}"> <i class="fas fa-user"></i></a>  
+
     <a class="btn btn-xs ark" data-url="{% url "guest-bands-balance" %}" data-target-modal="common-modal" data-obj_id="{{item.id}}" 
         title="{% trans "Bands" %}"> <i class="fas fa-circle-notch"></i></a>  
 

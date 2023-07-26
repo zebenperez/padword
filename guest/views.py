@@ -110,6 +110,20 @@ def guest_form(request):
     except Exception as e:
         return render(request, 'error_exception.html', {'exc':show_exc(e)})
 
+@group_required("admins")
+def guest_details(request):
+    try:
+        date = datetime.datetime.now().replace(hour=12, minute=00)
+        if "obj_id" in request.GET:
+            obj = get_or_none(Guest, request.GET["obj_id"])  
+        else: 
+            obj = Guest.objects.create(UUID = new_ui_slug(Guest, "UUID"), check_in = date, check_out = date)
+        regime_list = [item.regime for item in obj.project.regimes.all()]
+        return render(request, "guest/guest-details.html", {'obj': obj, 'temp_range': range(16,26), 'regime_list': regime_list,})
+    except Exception as e:
+        return render(request, 'error_exception.html', {'exc':show_exc(e)})
+
+
 #@group_required("admins")
 #def guest_form_simple(request):
 #    try:
