@@ -39,26 +39,24 @@
     <button type="button" class="btn btn-success m-2 ark" title="{%trans "Share code"%}" data-url="{% url "lock-share-code-guest" %}" 
         data-obj_id="{{obj.id}}" data-target-modal="share-modal">{% trans "Share" %} <i class="fas fa-share-alt"></i></button>
 
-	<button type="button" id="btn-save" class="btn btn-primary ark-validate m-2 hide" data-url="{%url "guest-search"%}" data-validate="input" 
-        data-check_in="true" data-modal="common.modal" data-target="guest-list" data-guest_search_name="{{request.session.guest_search_name}}"
-        data-project_uuid="{{project_uuid}}">
-        {%trans "Save"%}</button>
+    <a type="button" id="btn-save" class="btn btn-primary m-2" href="{% url "guests" %}"> {%trans "Save"%}</a>
 
-	<button type="button" id="btn-check-save" class="btn btn-primary m-2">{%trans "Save"%}</button>
-
-	<button type="button" class="btn btn-danger ark m-2" data-bs-dismiss="modal" data-url="{% url "guest-remove" %}" data-target="guest-list" 
+	<button type="button" class="btn btn-danger ark m-2" data-url="{% url "guest-remove" %}" data-target="guest-list" 
         data-obj_id="{{obj.id}}" {%if project_uuid%}data-project_uuid="{{project_uuid}}"{%endif%} 
         data-confirm="{% trans "Are you sure to remove this element?" %}">{% trans "Remove" %}</button>
 </div>
 
 {% include "common-modal.html" %}
+{% include "web/locks/share-modal.html" %}
 
 <script>
-    $("#btn-check-save").click(function(){
+    $("#btn-save").click(function(){
         if ($("#s-room").hasClass("text-danger"))
+        {
             alert("{% trans "You must choose a valid room number or empty" %}");
-        else
-            $("#btn-save").click();
+            return false;
+        }
+        return true;
     });
 </script>
 

@@ -1,7 +1,7 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 from django.urls import path
-from . import views
+from . import views, wristband_views
 
 urlpatterns = [ 
 
@@ -40,6 +40,10 @@ urlpatterns = [
     path('guests/band/balance/list/', views.guest_band_balance_list, name="guest-band-balance-list"),
     path('guests/band/balance/form/', views.guest_band_balance_form, name="guest-band-balance-form"),
     path('guests/band/balance/remove/', views.guest_band_balance_remove, name="guest-band-balance-remove"),
+
+    #--------------------- WRISTBANDS --------------------
+    path('wristbands/', wristband_views.wristbands, name='wristbands'),
+    path('wristbands/search/', wristband_views.wristbands_search, name='wristbands-search'),
 
     #--------------------- DEVICES --------------------
     path('', views.index, name='device-index'),
