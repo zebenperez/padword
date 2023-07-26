@@ -4,7 +4,7 @@ from django.urls import reverse
 from django.utils.translation import ugettext_lazy as _ 
 
 from padword.decorators import group_required
-from padword.commons import show_exc, get_or_none, get_param, reverse_cardkey
+from padword.commons import show_exc, get_or_none, get_param, get_float, reverse_cardkey
 from web.models import Project, Waiter
 from contents.models import Category, ShoppingCart, Item, PaymentType, PointOfSale
 from guest.models import Guest, Wristband, WristbandBalance
@@ -144,7 +144,7 @@ def tpv_check_band(request):
     try:
         fi = get_or_none(FormInstance, request.GET["obj_id"])
         val = get_param(request.GET, "value", "")
-        band = Wristband.objects.filter(code = reverse_cardkey(val), guest__deleted=False).first()
+        band = Wristband.objects.filter(code = reverse_cardkey(val), guest__project_id=fi.form.project.uuid, guest__deleted=False).first()
         regime = None
         if band != None and band.guest != None:
             gr = band.guest.regimes.first()
@@ -253,17 +253,13 @@ def tpv_add_item(request):
 def tpv_order_remove(request):
     try:
         fi_id = request.GET["obj_id"]
-        fi = FormInstance.objects.get(pk = fi_id)
-        #project = fi.form.project
+        fi = get_or_none(FormInstance, fi_id)
         form = fi.form
         fi.delete()
             
-        pos = get_or_none(PointOfSale, request.session["point_of_sale"])
-        fi = get_or_create_form_instance_tpv(form, pos.uuid, request.user.username)
-        return render(request, "bookings/tpv/view-ticket.html", {'fi': fi})
-        #context = {'msg': "05", "project_uuid": project.uuid}
-        #return render(request, 'bookings/tpv/show-msg.html', context)
+        return redirect(reverse("tpv-index", kwargs = {'project_uuid': form.project.uuid}))
     except Exception as e:
+        print(e)
         logger.error("[bookings-remove_fi] {}".format(str(e)))
         return render(request, 'error_exception.html', {'exc':show_exc(e)})
 
@@ -326,10 +322,12 @@ def tpv_order_send(request):
             fi.payment_type = pt
             fi.amount = amount if amount_user == "" else amount_user
             if pt.code == "03" and band_id != "":
+                pos = get_or_none(PointOfSale, request.session["point_of_sale"])
                 band = get_or_none(Wristband, band_id)
                 url = "/bookings/booking-view/"
-                desc = "Ticket: <a class='ark' data-url='{}' data-target-modal='common-modal' data-obj_id='{}'> #{}</a>".format(url, fi.id, fi.id)
-                WristbandBalance.objects.create(amount=(fi.amount*-1), desc=desc, wristband=band)
+                desc = "Ticket from {}: ".format(pos.name)
+                desc += "<a class='ark' data-url='{}' data-target-modal='common-modal' data-obj_id='{}'> #{}</a>".format(url, fi.id, fi.id)
+                WristbandBalance.objects.create(amount=(get_float(fi.amount)*-1), desc=desc, wristband=band)
         fi.save()
         context = {'msg': fi.get_status.status.code, 'project_uuid': fi.form.project.uuid}
         return render(request, 'bookings/tpv/show-msg.html', context)
