@@ -287,7 +287,8 @@ def guest_band_save(request):
         band.code = code
         band.save()
         if request.GET["band_lock"] == "true":
-            band.guest.add_all_key_card(reverse_cardkey(code))
+            band.guest.add_all_key_card(code)
+            #band.guest.add_all_key_card(reverse_cardkey(code))
         return render(request, "guest/keys/guest-keys.html", {"obj": band.guest})
         #return render(request, "guest/bands/guest-bands.html", {'obj': band.guest,})
     except Exception as e:

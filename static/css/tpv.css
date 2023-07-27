@@ -45,10 +45,10 @@
 	-moz-box-shadow: 0px 10px 13px -9px rgba(0,0,0,0.46);
 	height: 80px;
 }
-.left-tpv span 
+.left-tpv .name 
 {
+    background-color: #35a8e0;
 	color: #ffffff;
-	text-transform: uppercase;
 }
 select.tpv-articles
 {
