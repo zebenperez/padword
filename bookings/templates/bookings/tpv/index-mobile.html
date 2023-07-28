@@ -3,7 +3,7 @@
 {% comment %} -- PRODUCTS LIST -- {% endcomment %}
 
 <div id="base-tpv-mobile">
-    <div class="row left-tpv-mobile w-100 text-center m-0">
+    <div class="row products-tpv-mobile w-100 text-center m-0">
         <div class="col-2 logo"><img src="/static/img/96x96-icono.png"></div>
         <div class="col-3 offset-2 text-center">
             <select name="" id="" class="tpv-articles w-100 text-center tpv-search-change" data-search-class="tpv-category">
@@ -13,11 +13,14 @@
                 {% endfor %}
             </select>
         </div>
-        <div class="col-1 offset-2 text-center">
+        {% comment %} 
+        <div class="col-4 offset-1 access-ticket text-center">Ticket </div>
+        {% endcomment %} 
+        <div class="col-4 offset-1 access-ticket text-center pt-2 pb-2">
             <button class="btn btn-header-pwa ark" data-url="{% url "tpv-close" %}" data-target="base" data-project_uuid="{{project_uuid}}"> 
-            <i class="fas fa-power-off"></i></button>
+            <i class="fas fa-power-off" style="color: red !important"></i>Ticket</button>
         </div>
-      </div>
+    </div>
  
     <div id="main" class="main-tpv-mobile">
         {% if form and form != None %}
@@ -28,8 +31,8 @@
    
 {% comment %} -- TICKET -- {% endcomment %}
   {% comment %}
-    <div class="row right-tpv-mobile">
-        <div class="row header-right w-100 m-0 mb-2">
+    <div class="row ticket-tpv-mobile">
+        <div class="row header-ticket w-100 m-0 mb-2">
             <div class="col-4 text-start">Ticket</div>
         </div>
         <div class="col-2">
