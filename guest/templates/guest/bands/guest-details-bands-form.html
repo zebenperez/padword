@@ -1,0 +1,47 @@
+{% load i18n guest_tags %}
+
+
+<div class="row m-2 p-2 w-100">
+    <div class="col-4"><strong>{% trans "Scan band" %}</strong></div>
+    <div class="col-8">
+        <input type="text" class="form-control ark_change highly" id="code" name="code" data-url="{%url "guest-band-save"%}" 
+            data-target="div-band-form" data-obj_id="{{obj.id}}" value="{{band.code}}" placeholder="{%trans "Band code"%}"
+            {%if step > 0%} disabled {%endif%}/>
+    </div>
+</div>
+
+<div class="row m-2 p-2 w-100  {%if step < 1%}hide{%endif%}">
+    <div class="col-4"><strong>{% trans "Add band to locks?" %}</strong></div>
+    <div class="col-8">
+        <button class="btn btn-info ark" data-url="{%url "guest-band-locks"%}" data-target="div-band-form" data-obj_id="{{band.id}}" 
+            data-locks="true" {%if step > 1%} disabled {%endif%}> {%trans "Yes"%}</button>
+        <button class="btn btn-info ark" data-url="{%url "guest-band-locks"%}" data-target="div-band-form" data-obj_id="{{band.id}}" 
+            data-locks="false" {%if step > 1%} disabled {%endif%}> {%trans "No"%}</button>
+    </div>
+</div>
+
+<div class="row m-2 p-2 w-100  {%if step < 2%}hide{%endif%}">
+    <div class="col-4"><strong>{% trans "This band is for kid?" %}</strong></div>
+    <div class="col-8">
+        <button class="btn btn-info ark" data-url="{%url "guest-band-kid"%}" data-target="div-band-form" data-obj_id="{{band.id}}" data-kid="true"
+            {%if step > 2%} disabled {%endif%}> {%trans "Yes"%}</button>
+        <button class="btn btn-info ark" data-url="{%url "guest-band-kid"%}" data-target="div-band-form" data-obj_id="{{band.id}}" data-kid="false"
+            {%if step > 2%} disabled {%endif%}> {%trans "No"%}</button>
+    </div>
+</div>
+
+<div class="row m-2 p-2 w-100 {%if step < 3%}hide{%endif%}">
+    <div class="col-4"><strong>{% trans "Add balance" %}</strong></div>
+    <div class="col-6"> 
+        <input type="text" class="form-control highly" id="ini-amount" name="ini_amount" value="0" 
+            onchange="$('#btn-balance-add').data('balance', $(this).val())" /> 
+    </div>
+    <div class="col-2"> 
+        <button class="btn btn-info ark" id="btn-balance-add" data-url="{%url "guest-band-balance-add"%}" data-target="div-band-list" 
+            data-obj_id="{{band.id}}" data-balance="" data-hide="div-band-form">{%trans "Add"%}</button>
+        <button class="btn btn-info ark" data-url="{%url "guest-band-balance-add"%}" data-target="div-band-list" data-obj_id="{{band.id}}" 
+            data-balance="" data-hide="div-band-form"> {%trans "No"%}</button>
+    </div>
+</div>
+
+

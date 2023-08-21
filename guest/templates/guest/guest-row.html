@@ -13,17 +13,19 @@
         title="{% trans "Chat" %}"> <i class="fas fa-comments"></i></a>
     {#<a class="btn" href="#" onclick='alert("{{item.uuid}}"); return False'><i class="fas fa-fingerprint"></i></a>#}
 
+    {%comment%}
     {% if project_uuid and project_uuid != "" %}
         <a class="btn btn-xs ark" data-url="{% url "guest-form-by-project" %}" data-target-modal="common-modal" title="{% trans "Edit" %}"
             data-project_uuid="{{project_uuid}}" data-obj_id="{{item.id}}"> <i class="fas fa-edit"></i></a>  
     {% else %}
         <a class="btn btn-xs ark" data-url="{% url "guest-form" %}" data-target-modal="common-modal" data-obj_id="{{item.id}}" 
             title="{% trans "Edit" %}"> <i class="fas fa-edit"></i></a>  
+    {%endcomment%}
         {%comment%}
         <a class="btn btn-xs ark" data-url="{% url "guest-form-simple" %}" data-target-modal="common-modal" data-obj_id="{{item.id}}"> 
             <i class="fa fa-key"></i></a>  
         {%endcomment%}
-    {% endif %}
+    {#{% endif %}#}
 
     <a class="btn btn-xs ark" data-url="{% url "guest-details" %}" data-target="content-section" data-obj_id="{{item.id}}" 
         title="{% trans "Details" %}"> <i class="fas fa-user"></i></a>  

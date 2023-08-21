@@ -5,9 +5,10 @@
     <div class="card-body p-0">
         <div id="div-notification" {%if msg and msg != ""%}class="alert-danger"{%endif%}>{{msg}}</div>
         <div class="text-right">
-            <button class="btn btn-primary btn-sm ark" data-url="{% url "guest-band-add" %}" data-target="div-band-list" data-obj_id="{{obj.id}}">
-                <i class="fas fa-plus"></i> {% trans "Add" %}</button>
+            <button class="btn btn-primary btn-sm ark" data-url="{% url "guest-band-add" %}" data-target="div-band-form" data-obj_id="{{obj.id}}" 
+                data-show="div-band-form"> <i class="fas fa-plus"></i> {% trans "Add" %}</button>
         </div>
+        <div id="div-band-form" class="hide"></div>
         <div id="div-band-list">{% include "guest/bands/guest-details-bands-list.html" %}</div>
     </div>
 </div>
