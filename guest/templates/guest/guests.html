@@ -35,12 +35,15 @@
                 <button class="btn btn-outline-secondary btn-sm" onclick="$('.guest-row').hide();$('.deleted').show()">
                     {% trans "Show deleted" %}</button>
             </div>
+            <a class="btn btn-primary ark" data-url="{% url "guest-details" %}" data-target="content-section">{%trans "New guest"%}</a>  
+            {%comment%}
             {% if project_uuid %}
                 <a class="btn btn-primary ark" data-url="{% url "guest-form-by-project" %}" data-target-modal="common-modal" 
                     data-project_uuid="{{project_uuid}}"> {%trans "New guest"%}</a>  
             {% else %}
                 <a class="btn btn-primary ark" data-url="{% url "guest-form" %}" data-target-modal="common-modal">{%trans "New guest"%}</a>  
             {% endif %}
+            {%endcomment%}
         </div>
         <div id="guest-list">
             {% include "guest/guest-list.html" %}

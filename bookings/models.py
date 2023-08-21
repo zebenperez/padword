@@ -32,6 +32,19 @@ class Status(models.Model):
 		verbose_name = _('Status')
 		verbose_name_plural = _('Status')
 
+class Table(models.Model):
+    uuid = models.CharField(max_length = 255, verbose_name= _('UUID'), default="")
+    name = models.CharField(max_length=200, verbose_name=_("Name"))
+    project_uuid = models.CharField(max_length=255, verbose_name=_("Project UUID"), default="", blank=True)
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        verbose_name = _('Table')
+        verbose_name_plural = _('Tables')
+        ordering = ['name']
+
 class AnswerType(models.Model):
 	field_type = models.CharField(max_length=20, verbose_name=_("Field type"), default="")
 	code = models.CharField(max_length=20, verbose_name=_("Code"), default="")
@@ -303,6 +316,7 @@ class FormInstance(models.Model):
     guest_name = models.CharField(max_length=255, verbose_name=_("Guest name"), default="")
     form_uuid = models.CharField(max_length=255, verbose_name=_("Form UUID"), default="")
     pos_uuid = models.CharField(max_length=255, verbose_name=_("Point of sale UUID"), default="")
+    table_uuid = models.CharField(max_length=255, verbose_name=_("Table UUID"), default="")
     #status = models.ForeignKey(Status, on_delete=models.SET_NULL, verbose_name=_("Status"), blank=True, null=True)
     amount = models.CharField(max_length=100, verbose_name=_("Amount to pay"), default="")
     payment_type = models.ForeignKey(PaymentType, on_delete=models.SET_NULL, verbose_name=_("Payment Type"), blank=True, null=True)

@@ -3,69 +3,57 @@
 {% comment %} -- PRODUCTS LIST -- {% endcomment %}
 
 <div id="base-tpv-mobile">
-    <div class="row products-tpv-mobile w-100 text-center m-0">
-        <div class="col-2 logo"><img src="/static/img/96x96-icono.png"></div>
-        <div class="col-3 offset-2 text-center">
-            <select name="" id="" class="tpv-articles w-100 text-center tpv-search-change" data-search-class="tpv-category">
-                <option value="">Todos los artículos</option>
-                {% for item in cat_list %}
+    <div class="header-mobile sticky-top">
+        <div class="row products-tpv-mobile w-100 text-center m-0">
+            <div class="col-2 logo"><img src="/static/img/96x96-icono.png"></div>
+            <div class="col-6 text-center">
+                <select name="" id="" class="tpv-articles w-100 text-center tpv-search-change" data-search-class="tpv-category">
+                    <option value="">Todos los artículos</option>
+                    {% for item in cat_list %}
                     <option value="{{item.pk}}">{% padword_translate item.name %}</option>
-                {% endfor %}
-            </select>
-        </div>
-        {% comment %} 
-        <div class="col-4 offset-1 access-ticket text-center">Ticket </div>
-        {% endcomment %} 
-        <div class="col-4 offset-1 access-ticket text-center pt-2 pb-2">
-            <button class="btn btn-header-pwa ark" data-url="{% url "tpv-close" %}" data-target="base" data-project_uuid="{{project_uuid}}"> 
-            <i class="fas fa-power-off" style="color: red !important"></i>Ticket</button>
-        </div>
-    </div>
- 
-    <div id="main" class="main-tpv-mobile">
-        {% if form and form != None %}
-            {% include "bookings/tpv/tpv-cart.html" %}
-        {% endif %}
-    </div>
-    {% include "common-modal.html" %}
-   
-{% comment %} -- TICKET -- {% endcomment %}
-  {% comment %}
-    <div class="row ticket-tpv-mobile">
-        <div class="row header-ticket w-100 m-0 mb-2">
-            <div class="col-4 text-start">Ticket</div>
-        </div>
-        <div class="col-2">
-                <select name="table" id="table" class="tpv-articles w-100 text-center tpv-search-change">
-                    <option id="">{% trans "-- Select table --" %}</option>
-                    <option id="1">{% trans "Table 1" %}</option>
-                    <option id="2">{% trans "Table 2" %}</option>
-                    <option id="3">{% trans "Table 3" %}</option>
-                    <option id="4">{% trans "Table 4" %}</option>
-                    <option id="5">{% trans "Table 5" %}</option>
-                    <option id="6">{% trans "Table 6" %}</option>
-                    <option id="7">{% trans "Table 7" %}</option>
+                    {% endfor %}
                 </select>
-        </div>
-
-        <div class="row w-100 m-0">
-             <div class="col-12">
-                <div class="d-none d-lg-block">
-                    <input type="text" id="div-scan" class="form-control ark_change" name="bans-scan"
-                        data-url="{% url "tpv-check-band" %}" data-target="ticket-summary" data-obj_id="{{fi.id}}" placeholder="Scan band..."/>
-                </div>
- 
-                <div id="ticket-summary">{% include "bookings/tpv/view-ticket.html" %}</div>
+            </div>
+            <div class="col-4 access-ticket text-center pt-3 pb-3">
+                <button class="btn btn-header-pwa " onclick="$('.tpv-toggle').toggle();" data-url="{% url "tpv-close" %}" data-target="base" data-project_uuid="{{project_uuid}}"> 
+                    <span class="tpv-toggle"><i class="fas fa-tag"></i> Ticket</span>
+                    <span id="title-products-mobile" class="tpv-toggle"><i class="fas fa-shopping-basket"></i> {% trans 'Products' %}</span>
+                </button>
             </div>
         </div>
+        <div class="header-bottom tpv-toggle"><input type="text" class="form-control tpv-search mobile" data-search-class="tpv-item" placeholder="{% trans "Search..." %}"/> </div>
+        <div class="header-bottom tpv-toggle" id="title-div-scan">
+            <br>
+            <input type="text" id="div-scan" class="form-control ark_change scanband mobile" name="bans-scan"
+                                                                                      data-url="{% url "tpv-check-band" %}" data-target="ticket-summary" data-obj_id="{{fi.id}}" placeholder="Scan band"/>
+        </div>
     </div>
 
-    <div id="main" class="main-tpv">
-        {% if form and form != None %}
-            {% include "bookings/tpv/tpv-cart.html" %}
-        {% endif %}
+    <div id="main" class="main-tpv-mobile">
+        <div id="tpv-cart-mobile" class="tpv-toggle">
+            {% if form and form != None %}
+            {% include "bookings/tpv/tpv-cart-mobile.html" %}
+            {% endif %}
+            {% include "common-modal.html" %}
+        </div>
+
+
+        {% comment %} -- TICKET --  {% endcomment %}
+        <div id="ticket-tpv-mobile" class="ticket-tpv-mobile tpv-toggle">
+            <div class="row w-100 m-0">
+                <div class="col-12">
+                    <div id="ticket-summary">{% include "bookings/tpv/view-ticket-mobile.html" %}</div>
+                </div>
+            </div>
+        </div>
+
+        {% comment %} -- TICKET --  {% endcomment %}
+
     </div>
-    {% include "common-modal.html" %}
- {% endcomment %}
 </div>
 
+<script>
+    $('#ticket-tpv-mobile').hide();
+    $('#title-products-mobile').hide();
+    $('#title-div-scan').hide();
+</script>

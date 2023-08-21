@@ -1,0 +1,27 @@
+{% load i18n bookings_tag common_tag padword_tags static%}
+
+<div class="card article w-100 mb-3 box-new mobile ark tpv-item" data-tags="{% padword_translate item.name %}"
+    data-url="{% url 'tpv-add-item' %}" data-target="ticket-summary" data-form_id="{{fi.pk}}" data-item_id="{{item.pk}}">
+
+    <div class="box-new mobile">
+    {% if item.image %}
+        <div class="image" id="cover"> 
+            <img src="{{item.image.url}}" class="img-fill" alt="{% padword_translate item.name %}"> 
+        </div>
+        {#<div class="card-new-nophoto"></div> #}
+    {% endif %}
+
+        <div class="row-01"><h5 class="card-title text-dark text-center title-new">{% padword_translate item.name %}</h5></div>
+        <div class="row-02"><h4 class="card-title text-dark text-center price-new">{{item.price}} {%if item.price != ""%}&euro;{%endif%} </h4></div>
+        <div class="row-03 allerg-new">
+            {% for ia in item.allergen_list.all %}
+                <img src="{{ia.allergen.icon.url}}" alt="{{ia.allergen.name}}" title="{{ia.allergen.name}}" style="width: 2.8em !important;" />
+            {% endfor %}
+        </div>
+        <div class="row-04 info-new">
+            {% if not item.description|is_empty:request.LANGUAGE_CODE %}{% include "bookings/show-item-btn.html" %}{% endif %}
+        </div>
+    </div>
+</div>
+
+

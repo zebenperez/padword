@@ -531,6 +531,7 @@ class SensiboDevice(models.Model):
         verbose_name_plural = _("Sensibo devices")
 
 class Wristband(models.Model):
+    kid = models.BooleanField(verbose_name=_("Kid"), default=False)
     code = models.CharField(max_length=255, verbose_name=_('Code'), default="")
     guest = models.ForeignKey(Guest, verbose_name=_("Guest"), on_delete=models.CASCADE, blank=True, null=True, related_name="bands")
 

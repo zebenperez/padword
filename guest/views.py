@@ -269,7 +269,8 @@ def guest_band_add(request):
     try:
         guest = get_or_none(Guest, get_param(request.GET, "obj_id"))
         Wristband.objects.create(guest=guest)
-        return render(request, "guest/keys/guest-keys.html", {"obj": guest})
+        return render(request, "guest/bands/guest-details-bands-list.html", {"obj": guest})
+        #return render(request, "guest/keys/guest-keys.html", {"obj": guest})
         #return render(request, "guest/bands/guest-bands.html", {'obj': guest,})
     except Exception as e:
         return render(request, "error_exception.html", {'exc':show_exc(e)})
@@ -285,11 +286,18 @@ def guest_band_save(request):
             return render(request, "guest/keys/guest-keys.html", {"obj": band.guest, "msg": msg})
 
         band.code = code
+        band.kid = True if "band_kid" in request.GET and request.GET["band_kid"] == "true" else False
         band.save()
         if request.GET["band_lock"] == "true":
             band.guest.add_all_key_card(code)
             #band.guest.add_all_key_card(reverse_cardkey(code))
-        return render(request, "guest/keys/guest-keys.html", {"obj": band.guest})
+
+        amount = get_float(request.GET["band_amount"])
+        if amount > 0:
+            balance = WristbandBalance.objects.create(wristband=band, amount=amount, desc=_("Init charge"))
+
+        return render(request, "guest/bands/guest-details-bands-list.html", {"obj": band.guest})
+        #return render(request, "guest/keys/guest-keys.html", {"obj": band.guest})
         #return render(request, "guest/bands/guest-bands.html", {'obj': band.guest,})
     except Exception as e:
         return render(request, "error_exception.html", {'exc':show_exc(e)})
@@ -303,7 +311,8 @@ def guest_band_remove(request):
         band.delete()
         if request.GET["band_lock"] == "true":
             guest.remove_all_key_cards(code)
-        return render(request, "guest/keys/guest-keys.html", {"obj": guest})
+        return render(request, "guest/bands/guest-details-bands-list.html", {"obj": guest})
+        #return render(request, "guest/keys/guest-keys.html", {"obj": guest})
         #return render(request, "guest/bands/guest-bands.html", {'obj': guest,})
     except Exception as e:
         return render(request, "error_exception.html", {'exc':show_exc(e)})
@@ -432,6 +441,21 @@ def guest_form_by_project(request):
             date = datetime.datetime.now().replace(hour=12, minute=00)
             obj = Guest.objects.create(UUID = new_ui_slug(Guest, "UUID"), project_id = project.uuid, check_in = date, check_out = date)
         return render(request, "guest-by-project/guest-form.html", {'obj': obj, 'project_uuid': project.uuid, 'temp_range': range(16,26)})
+    except Exception as e:
+        return render(request, 'error_exception.html', {'exc':show_exc(e)})
+
+@group_required("projects")
+def guest_details_by_project(request):
+    try:
+        project = get_or_none(Project, request.project_id)
+        if "obj_id" in request.GET:
+            obj = get_or_none(Guest, request.GET["obj_id"])  
+        else: 
+            date = datetime.datetime.now().replace(hour=12, minute=00)
+            obj = Guest.objects.create(UUID = new_ui_slug(Guest, "UUID"), project_id = project.uuid, check_in = date, check_out = date)
+        regime_list = [item.regime for item in obj.project.regimes.all()]
+        context = {'obj': obj, 'project_uuid': project.uuid, 'temp_range': range(16,26), 'regime_list': regime_list,}
+        return render(request, "guest/guest-details-by-project.html", context)
     except Exception as e:
         return render(request, 'error_exception.html', {'exc':show_exc(e)})
 

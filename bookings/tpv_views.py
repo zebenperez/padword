@@ -11,7 +11,7 @@ from guest.models import Guest, Wristband, WristbandBalance
 from web.lock_lib import ShLock
 
 from .common_lib import get_or_create_form_instance_tpv, user_in_group
-from .models import Form, FormInstance, Status
+from .models import Form, FormInstance, Status, Table
 from django.conf import settings
 
 
@@ -89,10 +89,15 @@ def tpv_index(request, project_uuid):
             project = get_or_none(Project, project_uuid, "uuid")
             point_of_sales = PointOfSale.objects.filter(project_uuid=project.uuid)
             return render(request, "bookings/tpv/index.html", {'point_of_sales': point_of_sales,})
+        elif "table" not in request.session or request.session["table"] == "":
+            project = get_or_none(Project, project_uuid, "uuid")
+            tables = Table.objects.filter(project_uuid=project.uuid)
+            return render(request, "bookings/tpv/index.html", {'tables': tables,})
         else:
             form = Form.objects.filter(form_type__code="tpv", form_type__project_uuid=project.uuid).first()
             pos = get_or_none(PointOfSale, request.session["point_of_sale"])
-            fi = get_or_create_form_instance_tpv(form, pos.uuid, request.user.username)
+            table = get_or_none(Table, request.session["table"])
+            fi = get_or_create_form_instance_tpv(form, pos.uuid, table.uuid, request.user.username)
             cat_list = [item.category for item in pos.categories.all()]
             item_favorites = []
             for cat in cat_list:
@@ -104,7 +109,10 @@ def tpv_index(request, project_uuid):
                 'project_uuid':project.uuid, 
                 'form':form, 
                 'fi': fi, 
+                'pos': pos, 
+                'table': table, 
                 'cat_list': cat_list,
+                #'table_list': Table.objects.filter(project_uuid=project.uuid),
                 'item_favorites': item_favorites,
                 'item_commons': item_commons
             }
@@ -119,6 +127,34 @@ def tpv_set_pos(request):
         pos = get_or_none(PointOfSale, request.GET["obj_id"])
         request.session["point_of_sale"] = pos.id
         return redirect(reverse("tpv-index", kwargs = {'project_uuid': pos.project_uuid}))
+    except Exception as e:
+        print(e)
+        return render(request, "error_exception.html", {'exc':show_exc(e)})
+
+@group_required("waiters")
+def tpv_change_pos(request):
+    try:
+        request.session["point_of_sale"] = ""
+        return redirect(reverse("tpv-index", kwargs = {'project_uuid': request.GET["project_uuid"]}))
+    except Exception as e:
+        print(e)
+        return render(request, "error_exception.html", {'exc':show_exc(e)})
+
+@group_required("waiters")
+def tpv_set_table(request):
+    try:
+        table = get_or_none(Table, request.GET["obj_id"])
+        request.session["table"] = table.id
+        return redirect(reverse("tpv-index", kwargs = {'project_uuid': table.project_uuid}))
+    except Exception as e:
+        print(e)
+        return render(request, "error_exception.html", {'exc':show_exc(e)})
+
+@group_required("waiters")
+def tpv_change_table(request):
+    try:
+        request.session["table"] = ""
+        return redirect(reverse("tpv-index", kwargs = {'project_uuid': request.GET["project_uuid"]}))
     except Exception as e:
         print(e)
         return render(request, "error_exception.html", {'exc':show_exc(e)})

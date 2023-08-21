@@ -3,11 +3,19 @@
 {%block extralinks%} <link rel="stylesheet" href="{% static 'css/tpv.css' %}" > {% endblock %}
         
 <div id="base">
-    <div class="row m-0">
+    <div class="row">
     {% if point_of_sales|length > 0 %}
         {% for item in point_of_sales %}
             <div class="col-lg-6 col-12">
                 <button class="menu-options ark" data-url="{%url "tpv-set-pos"%}" data-target="base" data-obj_id="{{item.id}}">{{item.name}}</button>
+            </div>
+        {% endfor %}
+    </div>
+    {% elif tables|length > 0 %}
+        {% for item in tables %}
+            <div class="col-lg-6 col-12">
+                <button class="menu-options ark" data-url="{%url "tpv-set-table"%}" data-target="base" data-obj_id="{{item.id}}">
+                    {{item.name}}</button>
             </div>
         {% endfor %}
     </div>

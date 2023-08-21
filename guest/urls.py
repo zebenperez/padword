@@ -24,6 +24,7 @@ urlpatterns = [
     path('guests/project/remove/', views.guest_remove_by_project, name='guest-remove-by-project'),
     path('guests/project/soft-remove/', views.guest_soft_remove_by_project, name='guest-soft-remove-by-project'),
     path('guests/project/soft-remove-all/', views.guest_soft_remove_all_by_project, name='guest-soft-remove-all-by-project'),
+    path('guests/project/details/', views.guest_details_by_project, name='guests-details-by-project'),
 
     path('guests/update-code/', views.guest_update_code, name='guest-update-code'),
     path('guests/save-date/', views.guest_save_date, name='guest-save-date'),

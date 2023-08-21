@@ -7,7 +7,7 @@
 }
 #base 
 {
-	background-color: #e0e0e0;
+	background-color: #fff;
 	height: 100%;
 }
 #base button.menu-options 
@@ -26,10 +26,14 @@
 #base-tpv 
 {
 	background-color: #e0e0e0;
-	/*height: 100%;*/
 	height: 99vh !important;
 	display:grid; 
 	grid-template-columns: 75% 25%;
+}
+
+a.special.ark {
+    color: #0d6efd !important;
+    text-decoration: none;
 }
 
 /*****************************/
@@ -84,7 +88,7 @@ select.tpv-articles
 
 #ticket-summary .btn-dark,
 #ticket-summary .btn-dark h5 {
-	background: #fff !important;
+	background: #dbdee4 !important;
 	color: #333 !important;
 	font-size: 1em;
 }
@@ -99,14 +103,29 @@ select.tpv-articles
 .card-img-top.spec-img {
 	height: fit-content !important;
 }
+
 .ticket-line 
 {
 	align-items: center;
 	font-size: 0.8em;
+/*	border-bottom: 1px solid #ccc;*/
+}
+.item-name {
+    font-size: 1rem;
+    font-weight: 600;
+    text-transform: uppercase !important;
+}
+.item-regime 
+{
+    color: #a1c517;
+    font-weight: 600;
+    text-transform: uppercase !important;
 }
 .comment 
 {
+    /*
 	border-bottom: 1px solid #ccc;
+    */
 }
 
 a.btn.btn-select-payment.w-100.mt-2.pay-opts 
@@ -165,6 +184,17 @@ button.btn.btn-header-pwa.ark, a.btn.btn-header-pwa.ark
 	margin-bottom: 15px;
 }
 
+input.form-control.tpv-search {
+    border-color: #a0c516;
+    border-radius: 5px !important;
+ 	box-shadow: 0px 10px 13px -9px rgba(0,0,0,0.46);
+	-webkit-box-shadow: 0px 10px 13px -9px rgba(0,0,0,0.46);
+	-moz-box-shadow: 0px 10px 13px -9px rgba(0,0,0,0.46);
+
+    width: 100% !important;
+    margin-bottom: 15px;
+}
+
 /*****************************/
 /* SECTION ITEMS */
 
@@ -187,8 +217,9 @@ button.btn.btn-header-pwa.ark, a.btn.btn-header-pwa.ark
 }
 .box-new 
 {
-	/*height:auto !important;*/
-	height: 150px !important;
+    background-color: #f5f5f5;
+	height: 140px !important;
+ /*   border:1px solid red !important;*/
 }
 div#cover.image
 {
@@ -198,21 +229,23 @@ div#cover.image
 img.img-fill 
 {
 	max-width: -webkit-fill-available;
-	height: 146px;
+/*	height: 150px;*/
 	object-fit: fill;
 }
 .row-01 h5.card-title 
 {
-	background: #000;
-	font-size: 0.9rem;
-	opacity: 0.7;
-	padding: 10px 10px 13px 10px;
+	background: #a1c517;
+	font-size: 0.8rem;
+/*	opacity: 0.7;*/
+/*	padding: 10px 10px 13px 10px;*/
 }
 h5.card-title 
 {
 	color: #fff !important;
 	position: absolute;
-	bottom: -8px;
+/*	bottom: -8px;*/
+    padding-top: 0px !important;
+    line-height: 2 !important;
 	width: 100%;
 
 }
@@ -231,35 +264,43 @@ h5.card-title
 
 
 /*****************************/
+/*****************************/
 
 /* MOBILE VERSION*/
 
 /*****************************/
+/*****************************/
+
+#main
+{
+    margin-top: 20px;
+}
+
+#main.main-tpv-mobile { padding-bottom:150px;} // Dani
 
 #base-tpv-mobile
 {
-	background-color: #e0e0e0;
+	background-color: #ffffff;
 	height: 99vh !important;
+    margin-top: 150px;
+    border:1px solid red !important;
 }
-
 
 /*****************************/
 /* HEADER */
 
-.products-tpv-mobile
+.header-mobile.sticky-top 
 {
-	align-items: center;
-	background-color: #fff;
-	box-shadow: 0px 10px 13px -9px rgba(0,0,0,0.46);
-	color: #ffffff !important;
-	-webkit-box-shadow: 0px 10px 13px -9px rgba(0,0,0,0.46);
-	-moz-box-shadow: 0px 10px 13px -9px rgba(0,0,0,0.46);
-	/*height: 80px;*/
+    box-shadow: 0px 10px 13px -9px rgba(0,0,0,0.46) !important;
+	-webkit-box-shadow: 0px 10px 13px -9px rgba(0,0,0,0.46) !important;
+	-moz-box-shadow: 0px 10px 13px -9px rgba(0,0,0,0.46) !important;
+    position: fixed !important;
+    top: 0;
+    z-index: 1020;
+    width: 100%;
+    align-items: center;
 }
-.products-tpv-mobile .name 
-{
-    color: #35a8e0;
-}
+
 select.tpv-articles
 {
 	background-color: #fff;
@@ -272,49 +313,117 @@ select.tpv-articles
 	background-color: #a1c517;
 }
 
+.access-ticket .btn.btn-header-pwa
+{
+    color: #ffffff !important;
+    font-size: 0.95rem !important;
+    font-weight: 600;
+    padding-right: 0px;
+    padding-left: 0px;
+    text-transform: uppercase !important;
+
+}
+.header-bottom
+{
+	background-color: #fff;
+    height: 60px;
+}
+
+input.form-control.tpv-search.mobile {
+    border-color: #a0c516;
+    border-radius: 5px !important;
+    box-shadow: 0px 0px 0px 0px rgb(0 0 0 / 46%) !important;
+    position: fixed !important;
+    top: 80;
+    z-index: 1020;
+    width: 96% !important;
+    align-items: center;
+    margin-left: 2% !important;
+}
+
+input#div-scan.form-control.ark_change 
+{
+    border-color: #59acd6;
+    border-radius: 5px !important;
+}
+input#div-scan.form-control.ark_change.scanband::placeholder {
+    color: #59acd6 !important;
+    font-weight: 600;
+    text-align: center;
+}
+
 /*****************************/
 /* PRODUCTS TPV */
 
+.products-tpv-mobile
+{
+	align-items: center;
+	color: #ffffff !important;
+	background-color: #fff;
+}
+
+.products-tpv-mobile .name 
+{
+    color: #35a8e0;
+}
+
 .main-tpv-mobile 
 {
-	background-color: #e0e0e0;
-	top: 90px;
+	top: 120px;
 	position: fixed;
 	width: 100%;
 	height: 90%;
 	overflow-y: scroll;
 }
 
-input.form-control.tpv-search {
- 	box-shadow: 0px 10px 13px -9px rgba(0,0,0,0.46) !important;
-	-webkit-box-shadow: 0px 10px 13px -9px rgba(0,0,0,0.46) !important;
-	-moz-box-shadow: 0px 10px 13px -9px rgba(0,0,0,0.46) !important;
-   
+.section-title 
+{
+    background: #fff !important;
+    color: #007bbf !important;
+    font-size: 1rem;
 }
+
+.box-new.mobile 
+{
+    background-color: #f5f5f5;
+	/*height: 90px !important;*/
+	/*height: 100px !important;*/
+	height: auto !important;
+}
+
+
+/**********************/
+/* 5 articles in line */
+/**********************/
+
+.col-2.mobile
+{   
+    padding: 5px !important;
+    width: 20% !important;
+}
+
+.accordion-body 
+{
+    padding: 0.1rem 1.25rem !important;
+}
+
+img.img-fill 
+{
+	max-width: -webkit-fill-available;
+	height: auto;
+	object-fit: fill;
+}
+
 /*****************************/
-/* TICKET */
+/* TICKET mobile */
 
 .ticket-tpv-mobile
 {
-	background-color: #ffffff;
-	border:1px solid #ccc;
+	background-color: #ffffff !important;
+/*	border:1px solid #ccc;*/
+    height: 50px;
+/*    border:1px solid blue;*/
 }
-
-.header-ticket
-{
-	height: 80px;
-	align-items: center;
-	box-shadow: 0px 10px 13px -9px rgba(0,0,0,0.46);
-	-webkit-box-shadow: 0px 10px 13px -9px rgba(0,0,0,0.46);
-	-moz-box-shadow: 0px 10px 13px -9px rgba(0,0,0,0.46);
-}
-
-.ticket-tpv
-{
-	background-color: #ffffff;
-	border:1px solid #ccc;
-}
-
 .header-ticket
 {
 	height: 80px;
@@ -322,5 +431,4 @@ input.form-control.tpv-search {
     box-shadow: none !important;
     -webkit-box-shadow: 0px rgb(f f f / 0% ;
 }
-
 

@@ -1,0 +1,58 @@
+{% load i18n bookings_tag common_tag padword_tags static%}
+
+{#<script>$("#span-total-items").html("{{fi.get_items.count}}");$("#count-badge").show();</script>#}
+
+{% if not form|check_timetable %} 
+<div class="alert alert-warning text-center">{% trans "Service not available in this moment, sorry for the inconvenience!" %}</div> 
+<script> showAlert("Service not available in this moment, sorry for the inconvenience!", "{% trans "Close" %}"); </script>
+{% endif %}
+
+{% if form.show_desc %} <div class="col-12 card info-panel p-4">{% padword_translate form.desc %}</div> {% endif %}
+
+<div class="slider-cart accordion" id="card-accordion">
+    {# ---------------- SEARCH --------------------#}
+    {% comment %}
+    <div> <input type="text" class="form-control tpv-search" data-search-class="tpv-item" placeholder="{% trans "Search..." %}"/> </div>
+    {% endcomment %}
+
+    {# ---------------- FAVORITES --------------------#}
+    <div class="cart-item accordion-item">
+        <div class="col-12 accordion-header" id="heading-fav">
+            <button class="section-title accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#div-shopping-cart-favorite" aria-expanded="true" aria-controls="div-shopping-cart-favorite">
+                {%trans "Favorite items"%}
+            </button>
+        </div>
+        <div class="accordion-body">
+            <div id="div-shopping-cart-favorite" class="div-shopping-cart-favorite accordion-collapse collapse show" aria-labelledby="heading-fav" data-bs-parent="#card-accordion">
+                <div class="row d-flex justify-content-start">
+                    {% for item in item_favorites %}
+                    <div class="col-2 mobile justify-content-center">
+                        {%include "bookings/tpv/show-item-mobile.html" with show_footer=True%}</div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+    {# ---------------- COMMONS --------------------#}
+    <div class="cart-item accordion-item">
+        <div class="col-12 accordion-header" id="heading-comm">
+            <button class="accordion-button collapsed section-title" type="button" data-bs-toggle="collapse" data-bs-target="#div-shopping-cart-common" aria-expanded="false" aria-controls="div-shopping-cart-common">
+                {%trans "Common items"%} 
+            </button>
+        </div>
+        <div id="div-shopping-cart-common" class="div-shopping-cart-common accordion-collapse collapse " aria-labelledby="heading-comm" data-bs-parent="#card-accordion">
+            <div class="accordion-body">
+                <div class="row d-flex justify-content-start m-0">
+                    {% for item in item_commons %}
+                    <div class="col-3 mobile justify-content-start">
+                        {%include "bookings/tpv/show-item-mobile.html" with show_footer=True%}</div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {# ---------------- ITEMS --------------------#}
+    {% include "bookings/tpv/tpv-cart-list-mobile.html" %}
+</div>
+

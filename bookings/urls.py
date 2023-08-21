@@ -172,6 +172,9 @@ urlpatterns = [
     path('tpv-index/<slug:project_uuid>/', tpv.tpv_index, name='tpv-index'),
     path('tpv-ticket/', tpv.tpv_ticket, name='tpv-ticket'),
     path('tpv-set-pos/', tpv.tpv_set_pos, name='tpv-set-pos'),
+    path('tpv-change-pos/', tpv.tpv_change_pos, name='tpv-change-pos'),
+    path('tpv-set-table/', tpv.tpv_set_table, name='tpv-set-table'),
+    path('tpv-change-table/', tpv.tpv_change_table, name='tpv-change-table'),
     path('tpv-check-band/', tpv.tpv_check_band, name='tpv-check-band'),
 
     #path('tpv-shopping-cart/', tpv.tpv_shopping_cart, name='tpv-shopping-cart'),

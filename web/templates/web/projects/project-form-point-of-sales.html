@@ -11,7 +11,7 @@
     </div>
     <div class="card-body hide" id="body-pos"> 
         <button class="btn btn-primary btn-sm ark" data-url="{% url "project-pos-add" %}" data-target="div-pos-list" data-obj_id="{{obj.id}}">
-            <i class="fas fa-plus"></i>{% trans "Add" %}</button>
+            <i class="fas fa-plus"></i> {% trans "Add" %}</button>
         <div id="div-pos-list">{% include "web/projects/project-form-point-of-sales-list.html" %}</div>
     </div>		
 </div>		

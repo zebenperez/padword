@@ -11,7 +11,7 @@ from guest.models import Regime, ProjectRegime
 from sensibo.models import ProjectSensiboUser
 from connector.models import ProjectAvantioUser, ProjectAvaibookUser
 from contents.models import Category, PointOfSale, PointOfSaleCategory
-from bookings.models import Form
+from bookings.models import Form, Table
 from .models import *
 #from .lock_lib import ShLock
 
@@ -146,6 +146,7 @@ def project_form(request):
 
         regime_list = Regime.objects.all()
         point_of_sale_list = PointOfSale.objects.filter(project_uuid=obj.uuid)
+        table_list = Table.objects.filter(project_uuid=obj.uuid)
         form = Form.objects.filter(form_type__code="tpv", form_type__project_uuid=obj.uuid).first()
         context = {
             'obj': obj, 
@@ -158,6 +159,7 @@ def project_form(request):
             'project_regime_list': [item.regime for item in obj.regimes.all()],
             'regime_list': regime_list,
             'point_of_sale_list': point_of_sale_list,
+            'table_list': table_list,
             'form': form
         }
         return render(request, "web/projects/project-form.html", context)
@@ -245,6 +247,28 @@ def project_pos_cat_toggle(request):
     except Exception as e:
         print (show_exc(e))
     return HttpResponse("")
+
+@group_required("admins")
+def project_table_add(request):
+    table_list = []
+    try:
+        project = get_or_none(Project, request.GET["obj_id"])
+        Table.objects.create(project_uuid=project.uuid, uuid=new_ui_slug(Table))
+        table_list = Table.objects.filter(project_uuid=project.uuid)
+    except Exception as e:
+        print (show_exc(e))
+    return render(request, "web/projects/project-form-table-list.html", {'table_list': table_list,})
+
+@group_required("admins")
+def project_table_remove(request):
+    try:
+        table = get_or_none(Table, request.GET["obj_id"])
+        project = get_or_none(Project, table.project_uuid, "uuid")
+        table.delete()
+        table_list = Table.objects.filter(project_uuid=project.uuid)
+    except Exception as e:
+        print (show_exc(e))
+    return render(request, "web/projects/project-form-table-list.html", {'table_list': table_list,})
 
 @group_required("admins")
 def project_set_avantio_schedule(request):
