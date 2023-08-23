@@ -14,11 +14,11 @@ from .common_lib import get_or_create_form_instance_tpv, user_in_group
 from .models import Form, FormInstance, Status, Table
 from django.conf import settings
 
-
 import datetime
 import json
 import logging
 logger = logging.getLogger(__name__)
+
 
 '''
     Bookings client methods
@@ -191,45 +191,6 @@ def tpv_check_band(request):
         print(e)
         return render(request, "error_exception.html", {'exc':show_exc(e)})
 
-
-#@group_required("waiters")
-#def tpv_shopping_cart(request):
-#    try:
-#        #form_id = get_param(request.GET, "form_id", 0)
-#        #form = get_or_none(Form, form_id)
-#        fi = get_or_none(FormInstance, request.GET["fi_id"])
-#        form = fi.form
-#        category = form.get_category
-#        item_favorites = []
-#        pos = get_or_none(PointOfSale, request.session["point_of_sale"])
-#        #fi = get_or_create_form_instance(form, pos.uuid, request.user.username)
-#
-#        for cat in category.get_active_childrens:
-#            item_favorites += list(cat.get_items_favorites)
-#
-#        item_commons = form.get_common_items()
-#
-#        context = {'category':category, 'form': form, 'fi':fi, 'back': False, 'item_favorites': item_favorites, 'item_commons': item_commons}
-#        return render(request, form.form_type.template, context)
-#    except Exception as e:
-#        print(e)
-#        return render(request, "error_exception.html", {'exc':show_exc(e)})
-#
-#@group_required("waiters")
-#def tpv_category_shopping_cart(request, form_id=None, cat_id = None):
-#    try:
-#        form_id = get_param(request.GET, "form_id", 0)
-#        cat_id = get_param(request.GET, "cat_id")
-#        guest = get_or_none(Guest, get_param(request.GET, "guest_id"))
-#
-#        instance = get_or_none(FormInstance, form_id)
-#        category = Category.objects.get(uuid=cat_id)
-#        form = Form.objects.filter(category=category.uuid).first()
-#        return render(request, form.form_type.template, {'category':category, 'fi':instance, 'back': False, 'guest': guest})
-#    except Exception as e:
-#        print(e)
-#        return render(request, "error_exception.html", {'exc':show_exc(e)})
-
 @group_required("waiters")
 def tpv_add_item(request):
     try:
@@ -247,44 +208,6 @@ def tpv_add_item(request):
     except Exception as e:
         return render(request, "error_exception.html", {'exc':show_exc(e)})
 
-#@group_required("waiters")
-#def tpv_remove_item(request):
-#    try:
-#        form_id = request.GET["form_id"]
-#        item_id = request.GET["item_id"]
-#        item = get_or_none(Item, int(item_id))
-#        instance = FormInstance.objects.get(pk=form_id)
-#        items = instance.items_in_bookings(item)
-#        obj = items.last()
-#        obj.delete()
-#        return render(request, "bookings/tpv/view-ticket.html", {'fi':instance,})
-#        #return render(request, "bookings/tpv/show-instance-result.html", {'fi':instance,'item':item,'items':items.count()})
-#    except Exception as e:
-#        print(e)
-#        return render(request, "error_exception.html", {'exc':show_exc(e)})
-#
-#@group_required("waiters")
-#def tpv_set_items(request):
-#    try:
-#        instance_id = get_param(request.GET, "form_id")
-#        instance = FormInstance.objects.get(pk=instance_id)
-#        items = ShoppingCart.objects.filter(form_instance_id=instance.pk)
-#        return HttpResponse('{} art.&nbsp;&nbsp;&nbsp;{:.2f} &euro;'.format(items.count(), instance.get_total))
-#    except Exception as e:
-#        #return HttpResponse(show_exc(e))
-#        return render(request, "error_exception.html", {'exc':show_exc(e)})
-#
-#@group_required("waiters")
-#def tpv_order_view(request, par=None):
-#    try:
-#        project_uuid = get_param(request.GET, "project_uuid")
-#        pos = get_or_none(PointOfSale, request.session["point_of_sale"])
-#        fi_list = FormInstance.objects.filter(guest_uuid = pos.uuid, status_list__isnull = True) if pos != None else []
-#        return render(request, "bookings/tpv/view-ticket.html", {'fi_list': fi_list})
-#    except Exception as e:
-#        print (show_exc(e))
-#        return render(request, "error_exception.html", {'exc':show_exc(e)})
-#
 @group_required("waiters")
 def tpv_order_remove(request):
     try:
@@ -304,16 +227,10 @@ def tpv_order_item_remove(request):
     try:
         item_id = request.GET["item_id"]
         obj = get_or_none(ShoppingCart, item_id)
-        #item = obj.item
         fi = get_or_none(FormInstance, obj.form_instance_id)
         obj.delete()
 
-        #pos = get_or_none(PointOfSale, request.session["point_of_sale"])
-        #fi_list = FormInstance.objects.filter(guest_uuid = pos.uuid, status_list__isnull = True) if pos != None else []
-        #total_items = FormInstance.get_all_items(guest)
-        #total_items = 0
         return render(request, "bookings/tpv/view-ticket.html", {'fi':fi,})
-        #return render(request, "bookings/tpv/view-ticket.html", {'fi_list':fi_list, 'item_refresh':item, 'total_items':total_items})
     except Exception as e:
         print(e)
         return render(request, "error_exception.html", {'exc':show_exc(e)})
@@ -329,18 +246,6 @@ def tpv_order_item_comment(request):
     except Exception as e:
         return render(request, "error_exception.html", {'exc':show_exc(e)})
 
-#@group_required("waiters")
-#def tpv_order_payment(request):
-#    try:
-#        fi_id = request.GET["obj_id"]
-#        fi = get_or_none(FormInstance, fi_id)
-#        context = {'fi': fi}
-#        return render(request, 'bookings/tpv/view-payment-types.html', context)
-#    except Exception as e:
-#        print(e)
-#        logger.error("[bookings-booking_send] {}".format(str(e)))
-#        return render(request, 'error_exception.html', {'exc':show_exc(e)})
-#
 @group_required("waiters")
 def tpv_order_send(request):
     try:

@@ -3,7 +3,7 @@ from django.db.models import Count, Max
 from django.contrib.auth.models import User, Group
 from django.utils.translation import ugettext_lazy as _ 
 
-from contents.models import Category, Item, ShoppingCart, PaymentType
+from contents.models import Category, Item, ShoppingCart, PaymentType, PointOfSale
 from web.models import Channel, Device, Project
 from guest.models import Guest
 
@@ -183,6 +183,38 @@ class Form(models.Model):
         item_list = list(ShoppingCart.objects.filter(form_instance_id__in=fi_list).values_list('item', flat=True).annotate(total=Count('item')).order_by('-total')[:2])
         return Item.objects.filter(id__in=item_list)
 
+    def to_tickets(self):
+        fi_list = FormInstance.objects.filter(form_uuid=self.uuid)
+        resp = {"tickets": []}
+        for fi in fi_list:
+            pos_name = fi.pos.name if fi.pos != None else ""
+            table_name = fi.table.name if fi.table != None else ""
+            guest_name = fi.guest.name if fi.guest != None else ""
+            fi_json = {
+                'id': fi.id, 
+                'fecha': fi.date.strftime("%d-%m-%Y"), 
+                'hora': fi.date.strftime("%H:%M:%S"), 
+                'total': fi.get_total, 
+                'punto de venta': pos_name, 
+                'mesa': table_name,
+                'cliente': guest_name,
+                'elementos': []
+            }
+            for item in fi.get_items:
+                category_name = item.item.category.name if item.item.category != None else ""
+                item_json = {
+                    'nombre_servicio': item.item.name,
+                    'id_servicio': item.id,
+                    'cantidad': 1,
+                    'precio_servicio': item.item.price,
+                    'subtotal': 0,
+                    'familia': category_name,
+                    'id_articulo_pms': 0
+                }
+                fi_json["elementos"].append(item_json)
+            resp["tickets"].append(fi_json)
+        return resp
+
     @staticmethod
     def get_main(project):
         ft = FormType.objects.filter(project_uuid = project.uuid, main = True).first()
@@ -331,6 +363,14 @@ class FormInstance(models.Model):
     @property
     def form(self):
         return Form.objects.filter(uuid = self.form_uuid).first()
+
+    @property
+    def pos(self):
+        return PointOfSale.objects.filter(uuid = self.pos_uuid).first()
+
+    @property
+    def table(self):
+        return Table.objects.filter(uuid = self.table_uuid).first()
 
     @property
     def device(self):

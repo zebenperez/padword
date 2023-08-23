@@ -8,7 +8,7 @@ from django.urls import reverse
 from .models_serializers import GuestSerializer, LockSerializer, RoomSerializer
 
 from guest.models import Guest
-from bookings.models import GuestUser
+from bookings.models import GuestUser, Form
 #from web.models import ProjectUser, Lock, Room
 from web.models import ProjectUser, Room
 from web.models_lock import Lock, LockCodeExtId
@@ -599,6 +599,19 @@ class SensiboViewSet(viewsets.ViewSet):
             data_values = pu.project.sensibo_get_ac_state(device_uid)
             data_values["error"] = "false"
             return Response(data_values)
+        except Exception as e:
+            logger.error("[{}]: \"{}\"".format(self.request.user, str(e)))
+            return Response({"error": True, 'msg': 'Bad request!'})
+
+class TicketViewSet(viewsets.ViewSet):
+    """
+    A simple ViewSet for listing or retrieving users.
+    """
+    def list(self, request):
+        try:
+            pu = ProjectUser.objects.get(username=self.request.user.username)
+            form = Form.objects.filter(form_type__code="tpv", form_type__project_uuid=pu.project.uuid).first()
+            return Response(form.to_tickets())
         except Exception as e:
             logger.error("[{}]: \"{}\"".format(self.request.user, str(e)))
             return Response({"error": True, 'msg': 'Bad request!'})
