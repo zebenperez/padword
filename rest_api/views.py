@@ -611,7 +611,9 @@ class TicketViewSet(viewsets.ViewSet):
         try:
             pu = ProjectUser.objects.get(username=self.request.user.username)
             form = Form.objects.filter(form_type__code="tpv", form_type__project_uuid=pu.project.uuid).first()
-            return Response(form.to_tickets())
+            if form != None:
+                return Response(form.to_tickets())
+            return Response({"error": True, 'msg': 'This project do not have TPV configured!'})
         except Exception as e:
             logger.error("[{}]: \"{}\"".format(self.request.user, str(e)))
             return Response({"error": True, 'msg': 'Bad request!'})
