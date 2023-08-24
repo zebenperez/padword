@@ -610,6 +610,13 @@ class TicketViewSet(viewsets.ViewSet):
     def list(self, request):
         try:
             pu = ProjectUser.objects.get(username=self.request.user.username)
+            start_date = request.GET["start_date"] if "start_date" in request.GET else ""
+            end_date = request.GET["end_date"] if "end_date" in request.GET else ""
+            if start_date != "":
+                s_date = datetime.strptime(start_date, "%Y-%m-%d_%H:%M")
+                e_date = datetime.strptime(end_date, "%Y-%m-%d_%H:%M") if end_date != "" else datetime.now()
+            print(s_date)
+            print(e_date)
             form = Form.objects.filter(form_type__code="tpv", form_type__project_uuid=pu.project.uuid).first()
             if form != None:
                 return Response(form.to_tickets())

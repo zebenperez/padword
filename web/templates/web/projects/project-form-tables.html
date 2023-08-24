@@ -10,9 +10,7 @@
         </div>
     </div>
     <div class="card-body hide" id="body-table"> 
-        <button class="btn btn-primary btn-sm ark" data-url="{% url "project-table-add" %}" data-target="div-table-list" data-obj_id="{{obj.id}}">
-            <i class="fas fa-plus"></i> {% trans "Add" %}</button>
-        <div id="div-table-list">{% include "web/projects/project-form-table-list.html" %}</div>
+        <div id="div-table-list"> {% include "web/projects/project-form-table-list.html" %} </div>
     </div>		
 </div>		
 

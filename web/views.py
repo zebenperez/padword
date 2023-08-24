@@ -5,7 +5,7 @@ from django.shortcuts import render, redirect
 from django.utils.translation import ugettext_lazy as _ 
 from django.views.decorators.csrf import csrf_exempt
 
-from padword.commons import show_exc, get_or_none, get_param, new_ui_slug, translate, set_session, update_cron
+from padword.commons import show_exc, get_or_none, get_param, new_ui_slug, translate, set_session, update_cron, get_int
 from padword.decorators import group_required
 from guest.models import Regime, ProjectRegime
 from sensibo.models import ProjectSensiboUser
@@ -257,7 +257,7 @@ def project_table_add(request):
         table_list = Table.objects.filter(project_uuid=project.uuid)
     except Exception as e:
         print (show_exc(e))
-    return render(request, "web/projects/project-form-table-list.html", {'table_list': table_list,})
+    return render(request, "web/projects/project-form-table-list.html", {'obj': project, 'table_list': table_list,})
 
 @group_required("admins")
 def project_table_remove(request):
@@ -268,7 +268,23 @@ def project_table_remove(request):
         table_list = Table.objects.filter(project_uuid=project.uuid)
     except Exception as e:
         print (show_exc(e))
-    return render(request, "web/projects/project-form-table-list.html", {'table_list': table_list,})
+    return render(request, "web/projects/project-form-table-list.html", {'obj': project, 'table_list': table_list,})
+
+@group_required("admins")
+def project_table_range(request):
+    try:
+        project = get_or_none(Project, request.POST["project_uuid"], "uuid")
+        ini = get_int(request.POST["ini"])
+        end = get_int(request.POST["end"]) + 1
+
+        for i in range(ini, end):
+            name = "{} {}".format(get_param(request.POST, "name"), i)
+            Table.objects.create(project_uuid=project.uuid, uuid=new_ui_slug(Table), name=name)
+
+        table_list = Table.objects.filter(project_uuid=project.uuid)
+    except Exception as e:
+        print (show_exc(e))
+    return render(request, "web/projects/project-form-table-list.html", {'obj': project, 'table_list': table_list,})
 
 @group_required("admins")
 def project_set_avantio_schedule(request):
