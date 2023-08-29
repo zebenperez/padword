@@ -13,10 +13,10 @@ from padword.commons import show_exc, get_or_none
 from padword.email_lib import send_email
 from padword.decorators import group_required
 from web.models import Project
-from .models import ProjectAvantioUser, ProjectAvaibookUser
+from .models import ProjectAvantioUser, ProjectAvaibookUser, ProjectWinhotelUser
 from .avantio_lib import get_booking_list, get_booking_notif, send_link
 from .avaibook_lib import get_accommodation_list, get_booking_list as av_get_booking_list, WEBHOOK_TOKEN
-from .winhotel_lib import ShWinhotel
+from .winhotel_lib import get_booking_list as wh_get_booking_list
 
 import json, os
 
@@ -131,14 +131,9 @@ def avaibook_get_booking(request):
 @group_required("admins", "projects")
 def winhotel_get_booking_list(request, project_uuid):
     try:
-        err = ""
-        booking_list = []
-        #pau = ProjectAvantioUser.objects.filter(project_uuid=project_uuid).first()
-        #if pau != None:
-        av = ShWinhotel("R2HigosBeach", "R2HigosBeach")
-        booking_list = av.get_booking_list()
-
-        return render(request, 'winhotel/booking-list.html', {'booking_list': booking_list, "error": err})
+        pau = get_or_none(ProjectWinhotelUser, project_uuid, "project_uuid")
+        booking_list = wh_get_booking_list(pau)
+        return render(request, 'winhotel/booking-list.html', {'booking_list': booking_list})
     except Exception as e:
         print(e)
         return render(request, 'error_exception.html', {'exc':show_exc(e)})

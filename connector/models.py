@@ -33,4 +33,16 @@ class ProjectAvaibookUser(models.Model):
         except:
             return None
 
+class ProjectWinhotelUser(models.Model):
+    source_code = models.CharField(max_length=255, verbose_name=_('Source code'), default="")
+    target_code = models.CharField(max_length=255, verbose_name=_('Target code'), default="")
+    project_uuid = models.CharField(max_length=255, verbose_name=_('Project UUID'), default="")
+
+    @property
+    def project(self):
+        try:
+            return Project.objects.get(uuid=self.project_uuid)
+        except:
+            return None
+
 
