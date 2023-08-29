@@ -13,6 +13,11 @@ USER_ID = "f6806784-68ba-4930-b26e-194fb5b9aa36"
 def get_param(dic, key):
     return dic[key] if key in dic else ""
 
+class WinhotelGuest():
+    def __init__(self, dic):
+        self.code = get_param(dic, "Code")
+        self.name = get_param(dic, "Name")
+ 
 class WinhotelBooking():
     def __init__(self, dic):
         self.id = get_param(dic, "Id")
@@ -89,6 +94,12 @@ class WinhotelBooking():
         self.remarks  = []
         for remark in remarks:
             self.remarks.append(remark)
+
+        guests = get_param(dic, "Guests")
+        self.guests = []
+        for guest in guests:
+            g = WinhotelGuest(guest)
+            self.guests.append(g)
 
 
 class WinhotelAPIError(Exception):

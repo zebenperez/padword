@@ -142,7 +142,17 @@
                     <div class="col-4">{{item.partner_codes.partner_code5}}</div>
                     <div class="col-2">{% trans 'Partner code 5' %}</div>
                     <div class="col-4">{{item.partner_codes.partner_code5}}</div>
+
+                    <br/>
+                    <h3>Huéspedes</h3>
+                    {% for guest in item.guests %}
+                        <div class="col-2">{% trans 'Code' %}</div>
+                        <div class="col-4">{{guest.code}}</div>
+                        <div class="col-2">{% trans 'Name' %}</div>
+                        <div class="col-4">{{guest.name}}</div>
+                    {% endfor %}
                 </div>
+
                 <hr/>
             {% endfor %}
         </div>
