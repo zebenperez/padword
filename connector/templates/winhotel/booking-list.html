@@ -19,65 +19,129 @@
         <div id="item-list">
             {% for item in booking_list %} 
                 <div class="row">
-                    <div class="col-2">{% trans 'Start date' %}</div>
+                    <div class="col-2">{% trans 'Id' %}</div>
+                    <div class="col-4">{{item.id}}</div>
+                    <div class="col-2">{% trans 'Code' %}</div>
+                    <div class="col-4">{{item.code}}</div>
+
+                    <div class="col-2">{% trans 'Booking State' %}</div>
+                    <div class="col-4">{{item.booking_state}}</div>
+                    <div class="col-2">{% trans 'Stay State' %}</div>
+                    <div class="col-4">{{item.stay_state}}</div>
+
+                    <div class="col-2">{% trans 'Check State' %}</div>
+                    <div class="col-4">{{item.check_state}}</div>
+                    <div class="col-2">{% trans 'Check State Date' %}</div>
+                    <div class="col-4">{{item.check_state_date}}</div>
+
+                    <div class="col-2">{% trans 'Start Date' %}</div>
                     <div class="col-4">{{item.start_date}}</div>
-                    <div class="col-2">{% trans 'Name' %}</div>
-                    <div class="col-4">{{item.client.name}}</div>
-
-                    <div class="col-2">{% trans 'End date' %}</div>
+                    <div class="col-2">{% trans 'End Date' %}</div>
                     <div class="col-4">{{item.end_date}}</div>
-                    <div class="col-2">{% trans 'Surname' %}</div>
-                    <div class="col-4">{{item.client.surname}}</div>
 
-                    <div class="col-2">{% trans 'Booking date' %}</div>
-                    <div class="col-4">{{item.booking_date}}</div>
-                    <div class="col-2">{% trans 'DNI' %}</div>
-                    <div class="col-4">{{item.client.dni}}</div>
+                    <div class="col-2">{% trans 'CheckIn Date' %}</div>
+                    <div class="col-4">{{item.check_in_date}}</div>
+                    <div class="col-2">{% trans 'CheckOut Date' %}</div>
+                    <div class="col-4">{{item.check_out_date}}</div>
 
-                    <div class="col-2">{% trans 'Booking code' %}</div>
-                    <div class="col-4">{{item.booking_code}}</div>
-                    <div class="col-2">{% trans 'Address' %}</div>
-                    <div class="col-4">{{item.client.address}}</div>
+                    <div class="col-2">{% trans 'Booker code' %}</div>
+                    <div class="col-4">{{item.booker.code}}</div>
+                    <div class="col-2">{% trans 'Booker name' %}</div>
+                    <div class="col-4">{{item.booker.name}}</div>
 
-                    <div class="col-2">{% trans 'Localizator' %}</div>
-                    <div class="col-4">{{item.localizator}}</div>
-                    <div class="col-2">{% trans 'Locality' %}</div>
-                    <div class="col-4">{{item.client.locality}}</div>
-
-                    <div class="col-2">{% trans 'Accommodation code' %}</div>
-                    <div class="col-4">{{item.accommodation_code}}</div>
-                    <div class="col-2">{% trans 'Post code' %}</div>
-                    <div class="col-4">{{item.client.postcode}}</div>
-
-                    <div class="col-2">{% trans 'User code' %}</div>
-                    <div class="col-4">{{item.user_code}}</div>
-                    <div class="col-2">{% trans 'City' %}</div>
-                    <div class="col-4">{{item.client.city}}</div>
-
-                    <div class="col-2">{% trans '' %}</div>
+                    <div class="col-2">{% trans 'Board type' %}</div>
+                    <div class="col-4">{{item.board_type}}</div>
+                    <div class="col-2"></div>
                     <div class="col-4"></div>
-                    <div class="col-2">{% trans 'Country' %}</div>
-                    <div class="col-4">{{item.client.country}}</div>
 
-                    <div class="col-2">{% trans '' %}</div>
-                    <div class="col-4"></div>
-                    <div class="col-2">{% trans 'ISO Country code' %}</div>
-                    <div class="col-4">{{item.client.country_code}}</div>
+                    <div class="col-2">{% trans 'Room type code' %}</div>
+                    <div class="col-4">{{item.room_type.code}}</div>
+                    <div class="col-2">{% trans 'Room type name' %}</div>
+                    <div class="col-4">{{item.room_type.name}}</div>
 
-                    <div class="col-2">{% trans '' %}</div>
-                    <div class="col-4"></div>
-                    <div class="col-2">{% trans 'Phone' %}</div>
-                    <div class="col-4">{{item.client.phone}}</div>
+                    {% for rate in item.rate_types %}
+                        <div class="col-2">{% trans 'Rate type code' %}</div>
+                        <div class="col-4">{{rate.code}}</div>
+                        <div class="col-2">{% trans 'Rate type name' %}</div>
+                        <div class="col-4">{{rate.name}}</div>
+                    {% endfor %}
 
-                    <div class="col-2">{% trans '' %}</div>
-                    <div class="col-4"></div>
-                    <div class="col-2">{% trans 'Phone 2' %}</div>
-                    <div class="col-4">{{item.client.phone2}}</div>
+                    {% for loc in item.localizers %}
+                        <div class="col-2">{% trans 'Localizer type' %}</div>
+                        <div class="col-4">{{loc.localizer_type}}</div>
+                        <div class="col-2">{% trans 'Localizer code' %}</div>
+                        <div class="col-4">{{loc.code}}</div>
+                    {% endfor %}
 
-                    <div class="col-2">{% trans '' %}</div>
+                    {% for occ in item.occupations %}
+                        <div class="col-2">{% trans 'Guest type code' %}</div>
+                        <div class="col-4">{{occ.guest_type.code}}</div>
+                        <div class="col-2">{% trans 'Guest type name' %}</div>
+                        <div class="col-4">{{occ.guest_type.name}}</div>
+
+                        <div class="col-2">{% trans 'Boar type code' %}</div>
+                        <div class="col-4">{{occ.boar_type.code}}</div>
+                        <div class="col-2">{% trans 'Boar type name' %}</div>
+                        <div class="col-4">{{occ.boar_type.name}}</div>
+
+                        <div class="col-2">{% trans 'Boar type real code' %}</div>
+                        <div class="col-4">{{occ.boar_type_real.code}}</div>
+                        <div class="col-2">{% trans 'Boar type real name' %}</div>
+                        <div class="col-4">{{occ.boar_type_real.name}}</div>
+
+                        <div class="col-2">{% trans 'Quantity' %}</div>
+                        <div class="col-4">{{occ.quantity}}</div>
+                        <div class="col-2"></div>
+                        <div class="col-4"></div>
+                    {% endfor %}
+
+                    {% for bc in item.booking_charges %}
+                        <div class="col-2">{% trans 'Product code' %}</div>
+                        <div class="col-4">{{bc.product_code}}</div>
+                        <div class="col-2">{% trans 'Quantiy' %}</div>
+                        <div class="col-4">{{bc.quantity}}</div>
+
+                        <div class="col-2">{% trans 'Date' %}</div>
+                        <div class="col-4">{{bc.date}}</div>
+                        <div class="col-2">{% trans 'Price' %}</div>
+                        <div class="col-4">{{bc.price.value}} - {{bc.price.currency_code}}</div>
+
+                        <div class="col-2">{% trans 'Start date' %}</div>
+                        <div class="col-4">{{bc.start_date}}</div>
+                        <div class="col-2">{% trans 'End date' %}</div>
+                        <div class="col-4">{{bc.end_Date}}</div>
+
+                        <div class="col-2">{% trans 'Description' %}</div>
+                        <div class="col-10">{{bc.description}}</div>
+                    {% endfor %}
+
+                    <div class="col-2">{% trans 'Remarks' %}</div>
+                    <div class="col-10"> {%for remark in item.remarks%}{{remark}} - {%endfor%}</div>
+
+                    <div class="col-2">{% trans 'Room code' %}</div>
+                    <div class="col-4">{{item.room_code}}</div>
+                    <div class="col-2">{% trans 'Room card' %}</div>
+                    <div class="col-4">{{item.room_card.card_id}}</div>
+
+                    <div class="col-2">{% trans 'Allotment code' %}</div>
+                    <div class="col-4">{{item.allotment_code}}</div>
+                    <div class="col-2"></div>
                     <div class="col-4"></div>
-                    <div class="col-2">{% trans 'Email' %}</div>
-                    <div class="col-4">{{item.client.email}}</div>
+
+                    <div class="col-2">{% trans 'Partner code 1' %}</div>
+                    <div class="col-4">{{item.partner_codes.partner_code1}}</div>
+                    <div class="col-2">{% trans 'Partner code 2' %}</div>
+                    <div class="col-4">{{item.partner_codes.partner_code2}}</div>
+
+                    <div class="col-2">{% trans 'Partner code 3' %}</div>
+                    <div class="col-4">{{item.partner_codes.partner_code3}}</div>
+                    <div class="col-2">{% trans 'Partner code 4' %}</div>
+                    <div class="col-4">{{item.partner_codes.partner_code4}}</div>
+
+                    <div class="col-2">{% trans 'Partner code 5' %}</div>
+                    <div class="col-4">{{item.partner_codes.partner_code5}}</div>
+                    <div class="col-2">{% trans 'Partner code 5' %}</div>
+                    <div class="col-4">{{item.partner_codes.partner_code5}}</div>
                 </div>
                 <hr/>
             {% endfor %}

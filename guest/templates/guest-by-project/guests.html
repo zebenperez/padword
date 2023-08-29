@@ -17,6 +17,10 @@
                 <a class="btn btn-primary ark" data-url="{% url "guest-soft-remove-all-by-project" %}" data-target="guest-list">
                     {%trans "Remove clients with checkout previous to" %} {{limit}}</a>
             {% endif %}
+            {% if project.winhotel_user != None and project.winhotel_user.source_code != "" %}
+                <a class="btn btn-primary ark" data-url="{% url "winhotel-get-booking-list" project.uuid %}" data-target-modal="common-modal"> 
+                    {%trans "Import winhotel bookings"%}</a>  
+            {% endif %}
             {% if project.avaibook_user != None and project.avaibook_user.uuid != "" %}
                 <a class="btn btn-primary ark" data-url="{% url "avaibook-get-booking-list" project.uuid %}" data-target-modal="common-modal"> 
                     {%trans "Import avaibook bookings"%}</a>  
