@@ -113,13 +113,13 @@ def avaibook_get_booking(request):
     f.write("\n---------------------------------------")
     f.write("\n{} - Recibida reserva de avantio".format(datetime.now().strftime("%Y-%m-%d %H:%M:%S")))
 
-    given_token = request.headers.get("Avaibook-Webhook-Token", "")
-    if not compare_digest(given_token, WEBHOOK_TOKEN):
-        f.write("\nToken no valido".format(datetime.now().strftime("%Y-%m-%d %H:%M:%S")))
-        return HttpResponseForbidden(
-            "Incorrect token in Avaibook-Webhook-Token header.",
-            content_type="text/plain",
-        )
+#    given_token = request.headers.get("Avaibook-Webhook-Token", "")
+#    if not compare_digest(given_token, WEBHOOK_TOKEN):
+#        f.write("\nToken no valido".format(datetime.now().strftime("%Y-%m-%d %H:%M:%S")))
+#        return HttpResponseForbidden(
+#            "Incorrect token in Avaibook-Webhook-Token header.",
+#            content_type="text/plain",
+#        )
 
     booking = json.loads(request.body)
     f.write("\n{}".format(booking))
