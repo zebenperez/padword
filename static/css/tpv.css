@@ -410,7 +410,8 @@ input#div-scan.form-control.ark_change.scanband::placeholder {
 img.img-fill 
 {
 	max-width: -webkit-fill-available;
-	height: auto;
+	/*height: auto;*/
+	height: 110px;
 	object-fit: fill;
 }
 
