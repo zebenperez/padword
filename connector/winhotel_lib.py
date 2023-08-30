@@ -1,3 +1,9 @@
+from datetime import datetime
+
+from guest.models import Guest
+from web.models import Room
+from padword.commons import new_ui_slug
+
 import requests
 import hashlib
 import urllib
@@ -17,9 +23,82 @@ class WinhotelGuest():
     def __init__(self, dic):
         self.code = get_param(dic, "Code")
         self.name = get_param(dic, "Name")
+        
+        contact = get_param(dic, "Contact")
+        self.contact = {
+            "code": get_param(contact, "Code"), 
+            "fidelity_code": get_param(contact, "FidelityCode"),
+            "contact_name": get_param(contact, "ContactName"),
+            "name": get_param(contact, "Name"), 
+            "surname": get_param(contact, "SurName"), 
+            "second_surname": get_param(contact, "SecondSurName"), 
+            "father_name": get_param(contact, "FatherName"), 
+            "mother_name": get_param(contact, "MotherName"), 
+            "title": get_param(contact, "Title"), 
+            "gender": get_param(contact, "Gender"), 
+            "birth_date": get_param(contact, "BirthDate"), 
+            "financials_society": get_param(contact, "FinancialsSociety"), 
+            "preference": get_param(contact, "preference"), 
+            "repeat_guest": get_param(contact, "RepeatGuest"), 
+            "data_validated": get_param(contact, "DataValidated"), 
+            "id": get_param(contact, "Id"), 
+        }
+
+        nat = get_param(contact, "Nationality")
+        self.contact["nationality"] = {"code": get_param(nat, "Code"), "name": get_param(nat, "Name"), "code_iso":  get_param(nat, "CodeISO")}
+
+        addresses = get_param(contact, "Addresses")
+        self.contact["addresses"] = []
+        for add in addresses:
+            a = {
+                "address_line1": get_param(add, "AddressLine1"), 
+                "address_line2": get_param(add, "AddressLine2"), 
+                "post_code": get_param(add, "PostCode"), 
+                "city": get_param(add, "City"), 
+                "state": get_param(add, "State"), 
+                "address_type": get_param(add, "AddressType")
+            }
+            country = get_param(add, "Country")
+            a["country"] = {"code": get_param(country, "Code"), "name": get_param(country, "Name")}
+            self.contact["addresses"].append(a)
+
+        phones = get_param(contact, "Phones")
+        self.contact["phones"] = []
+        for ph in phones:
+            p = { "phone_type":get_param(add,"PhoneType"),"phone_area":get_param(add,"PhoneArea"),"phone_number":get_param(add,"PhoneNumber"), }
+            self.contact["phones"].append(p)
+
+        language = get_param(contact, "Language")
+        self.contact["language"] = {"code": get_param(language, "Code"), "name": get_param(language, "Name")}
+        
+        emails = get_param(contact, "EMails")
+        self.contact["emails"] = []
+        for email in emails:
+            self.contact["emails"].append(email)
+
+        identity_documents = get_param(contact, "IdentityDocuments")
+        self.contact["identity_documents"] = []
+        for doc in identity_documents:
+            d = { 
+                "identity_type": get_param(doc, "IdentityType"),
+                "number_id": get_param(doc, "NumberID"),
+                "birth_date": get_param(doc, "BirthDate"), 
+                "expedition_date": get_param(doc, "ExpeditionDate"), 
+                "expiration_date": get_param(doc, "ExpirationDate"), 
+            }
+            nationality = get_param(doc, "Nationality")
+            d["nationality"] = {"code":get_param(nationality,"Code"),"name":get_param(nationality,"Name"),"code_iso":get_param(nationality,"CodeISO")}
+            self.contact["identity_documents"].append(d)
+
+        remarks = get_param(contact, "Remarks")
+        self.contact["remarks"] = []
+        for remark in remarks:
+            self.contact["remarks"].append(remark)
+
  
 class WinhotelBooking():
     def __init__(self, dic):
+        self.created = False
         self.id = get_param(dic, "Id")
         self.code= get_param(dic, "Code")
         self.booking_state = get_param(dic, "BookingState")
@@ -174,6 +253,57 @@ class Winhotel:
 '''
     FUNCTIONS
 '''
+def room_exist(project_uuid, room):
+    count = Room.objects.filter(project_uuid=project_uuid, number=room).count()
+    return (count > 0)
+
+def get_guest(booking):
+    return booking.guests[0] if len(booking.guests) > 0 else None
+
+def get_contact(guest):
+    return guest.contacts[0] if len(guest.contacts) > 0 else None
+
+def get_phone(contact):
+    return contact["phones"][0] if len(contact["phones"]) > 0 else None
+
+def get_email(contact):
+    return contact["emails"][0] if len(contact["emails"]) > 0 else None
+
+def create_booking(pau, booking):
+    checkin = datetime.strptime(booking.check_in_date.split('+')[0], "%Y-%m-%dT%H:%M:%S")
+    checkout = datetime.strptime(booking.check_out_date.split('+')[0], "%Y-%m-%dT%H:%M:%S")
+    room = booking.allotment_code 
+    room_ex = room_exist(pau.project_uuid, room)
+    if room_ex:
+        guest = Guest.objects.filter(ext_id=booking.code, project_id=pau.project_uuid, deleted=0).first()
+        if guest == None:
+            guest = Guest(UUID = new_ui_slug(Guest, "UUID"), ext_id=booking.code, project_id=pau.project_uuid)
+            booking.created = True
+
+        wguest = get_guest(booking)
+        if wguest != None:
+            guest.name = wguest.contact["name"]
+            guest.surname = wguest.contact["surname"]
+
+            phone = get_phone(wguest.contact)
+            if phone != None:
+                guest.mobile = phone["phone_number"]
+
+            email = get_email(wguest.contact)
+            if email != None:
+                guest.email = email
+            
+        guest.check_in = checkin
+        guest.check_out = checkout
+        guest.room = room
+        guest.save()
+
+        #if booking.created:
+        #    lock_code = get_code(pau, code)
+        #    err = guest.add_all_key_code(lock_code)
+        #    av.send_pwa_link(guest.ext_id, guest.pwa_link)
+
+
 def get_booking_list(pau):
     w = Winhotel(pau.source_code, pau.target_code)
     result = w.get_bookings()
@@ -182,6 +312,7 @@ def get_booking_list(pau):
     for item in result:
         node = WinhotelBooking(item)
         booking_list.append(node)
+        create_booking(pau, node)
     return booking_list
 
 

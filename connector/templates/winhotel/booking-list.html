@@ -150,6 +150,137 @@
                         <div class="col-4">{{guest.code}}</div>
                         <div class="col-2">{% trans 'Name' %}</div>
                         <div class="col-4">{{guest.name}}</div>
+
+                        <div class="col-2">{% trans 'Code' %}</div>
+                        <div class="col-4">{{guest.contact.code}}</div>
+                        <div class="col-2">{% trans 'Fidelity code' %}</div>
+                        <div class="col-4">{{guest.contact.fidelity_name}}</div>
+                    
+                        <div class="col-2">{% trans 'Contact name' %}</div>
+                        <div class="col-4">{{guest.contact.contact_name}}</div>
+                        <div class="col-2">{% trans 'Name' %}</div>
+                        <div class="col-4">{{guest.contact.name}}</div>
+ 
+                        <div class="col-2">{% trans 'Surname' %}</div>
+                        <div class="col-4">{{guest.contact.surname}}</div>
+                        <div class="col-2">{% trans 'Second surname' %}</div>
+                        <div class="col-4">{{guest.contact.second_surname}}</div>
+
+                        <div class="col-2">{% trans 'Father name' %}</div>
+                        <div class="col-4">{{guest.contact.father_name}}</div>
+                        <div class="col-2">{% trans 'Mother name' %}</div>
+                        <div class="col-4">{{guest.contact.mother_name}}</div>
+
+                        <div class="col-2">{% trans 'Title' %}</div>
+                        <div class="col-4">{{guest.contact.title}}</div>
+                        <div class="col-2">{% trans 'Gender' %}</div>
+                        <div class="col-4">{{guest.contact.gender}}</div>
+
+                        <div class="col-2">{% trans 'Birth date' %}</div>
+                        <div class="col-4">{{guest.contact.birth_date}}</div>
+                        <div class="col-2">{% trans 'Financials society' %}</div>
+                        <div class="col-4">{{guest.contact.financials_society}}</div>
+
+                        <div class="col-2">{% trans 'Preference' %}</div>
+                        <div class="col-4">{{guest.contact.preference}}</div>
+                        <div class="col-2">{% trans 'Repeat guest' %}</div>
+                        <div class="col-4">{{guest.contact.repeat_guest}}</div>
+
+                        <div class="col-2">{% trans 'Data validated' %}</div>
+                        <div class="col-4">{{guest.contact.data_validated}}</div>
+                        <div class="col-2">{% trans 'ID' %}</div>
+                        <div class="col-4">{{guest.contact.id}}</div>
+
+                        <div class="col-2">{% trans 'Nationality code' %}</div>
+                        <div class="col-4">{{guest.contact.nationality.code}}</div>
+                        <div class="col-2">{% trans 'Nationality name' %}</div>
+                        <div class="col-4">{{guest.contact.nationality.name}}</div>
+
+                        <div class="col-2">{% trans 'Nationality code iso' %}</div>
+                        <div class="col-4">{{guest.contact.nationality.code_iso}}</div>
+                        <div class="col-2"></div>
+                        <div class="col-4"></div>
+
+                        {% for re in guest.contact.remarks %}
+                            <div class="col-2">{% trans 'Remark' %}</div>
+                            <div class="col-4">{{re.remark}}</div>
+                            <div class="col-2"></div>
+                            <div class="col-4"></div>
+                        {% endfor %}
+
+                        {% for ad in guest.contact.addresses %}
+                            <div class="col-2">{% trans 'Address line 1' %}</div>
+                            <div class="col-4">{{ad.address_line1}}</div>
+                            <div class="col-2">{% trans 'Address line 2' %}</div>
+                            <div class="col-4">{{ad.address_line2}}</div>
+
+                            <div class="col-2">{% trans 'Post code' %}</div>
+                            <div class="col-4">{{ad.post_code}}</div>
+                            <div class="col-2">{% trans 'City' %}</div>
+                            <div class="col-4">{{ad.city}}</div>
+
+                            <div class="col-2">{% trans 'State' %}</div>
+                            <div class="col-4">{{ad.state}}</div>
+                            <div class="col-2">{% trans 'Address type' %}</div>
+                            <div class="col-4">{{ad.address_type}}</div>
+
+                            <div class="col-2">{% trans 'Country code' %}</div>
+                            <div class="col-4">{{ad.country.code}}</div>
+                            <div class="col-2">{% trans 'Country name' %}</div>
+                            <div class="col-4">{{ad.country.name}}</div>
+                        {% endfor %}
+
+                        {% for phone in guest.contact.phones %}
+                            <div class="col-2">{% trans 'Phone type' %}</div>
+                            <div class="col-4">{{phone.phone_type}}</div>
+                            <div class="col-2">{% trans 'Phone area' %}</div>
+                            <div class="col-4">{{phone.phone_area}}</div>
+
+                            <div class="col-2">{% trans 'Phone number' %}</div>
+                            <div class="col-4">{{phone.phone_number}}</div>
+                            <div class="col-2"></div>
+                            <div class="col-4"></div>
+                        {% endfor %}
+
+                        <div class="col-2">{% trans 'Language code' %}</div>
+                        <div class="col-4">{{phone.phone_type}}</div>
+                        <div class="col-2">{% trans 'Language name' %}</div>
+                        <div class="col-4">{{phone.phone_area}}</div>
+
+                        {% for email in guest.contact.emails %}
+                            <div class="col-2">{% trans 'Email' %}</div>
+                            <div class="col-4">{{email}}</div>
+                            <div class="col-2"></div>
+                            <div class="col-4"></div>
+                        {% endfor %}
+
+                        {% for doc in guest.contact.identity_documents %}
+                            <div class="col-2">{% trans 'Identity type' %}</div>
+                            <div class="col-4">{{doc.identity_type}}</div>
+                            <div class="col-2">{% trans 'Number ID' %}</div>
+                            <div class="col-4">{{doc.number_id}}</div>
+
+                            <div class="col-2">{% trans 'Birth date' %}</div>
+                            <div class="col-4">{{doc.birth_date}}</div>
+                            <div class="col-2"></div>
+                            <div class="col-4"></div>
+
+                            <div class="col-2">{% trans 'Expedition date' %}</div>
+                            <div class="col-4">{{doc.expedition_date}}</div>
+                            <div class="col-2">{% trans 'Expiration date' %}</div>
+                            <div class="col-4">{{doc.expiration_date}}</div>
+
+                            <div class="col-2">{% trans 'Nationality code' %}</div>
+                            <div class="col-4">{{doc.nationality.code}}</div>
+                            <div class="col-2">{% trans 'Nationality name' %}</div>
+                            <div class="col-4">{{doc.nationality.name}}</div>
+
+                            <div class="col-2">{% trans 'Nationality code ISO' %}</div>
+                            <div class="col-4">{{doc.nationality.code_iso}}</div>
+                            <div class="col-2"></div>
+                            <div class="col-4"></div>
+                        {% endfor %}
+
                     {% endfor %}
                 </div>
 
