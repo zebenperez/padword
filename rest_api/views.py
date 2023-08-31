@@ -605,6 +605,18 @@ class SensiboViewSet(viewsets.ViewSet):
             return Response({"error": True, 'msg': 'Bad request!'})
 
     @action(detail=False, methods=['get'])
+    def measurement_history(self, request):
+        try:
+            pu = ProjectUser.objects.get(username=self.request.user.username)
+            device_uid = request.GET["device_uid"]
+            data_values = pu.project.sensibo_get_measurement_history(device_uid)
+            data_values["error"] = "false"
+            return Response(data_values)
+        except Exception as e:
+            logger.error("[{}]: \"{}\"".format(self.request.user, str(e)))
+            return Response({"error": True, 'msg': 'Bad request!'})
+
+    @action(detail=False, methods=['get'])
     def ac_state(self, request):
         try:
             pu = ProjectUser.objects.get(username=self.request.user.username)

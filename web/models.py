@@ -147,6 +147,18 @@ class Project(models.Model):
             node["room_occupied"] = measurement[0]["roomIsOccupied"] if "roomIsOccupied" in measurement[0] else ""
         return node
 
+    def sensibo_get_measurement_history(self, device_uid):
+        obj = ShSensibo(self.sensibo_api_key)
+        #return obj.get_measurement(device_uid)
+        measurement = obj.get_measurement_history(device_uid)
+        node = {"temperature": []}
+        for item in measurement["temperature"]:
+            print(item)
+            temp = {"time": item["time"], "value": item["value"]}
+            node["temperature"].append(temp)
+        return node
+
+
     def sensibo_get_ac_state(self, device_uid):
         obj = ShSensibo(self.sensibo_api_key)
         #return obj.get_ac_state(device_uid)
