@@ -339,10 +339,14 @@ class LockViewSet(viewsets.ModelViewSet):
             pu = ProjectUser.objects.get(username=self.request.user.username)
             lock_uuid = request.POST["uuid"]
             code = request.POST["code"]
+            name = request.POST["name"] if "name" in request.POST else ""
             start_date = datetime.strptime(request.POST.get('start_date', ""), "%Y-%m-%d %H:%M")
             end_date = datetime.strptime(request.POST.get('end_date', ""), "%Y-%m-%d %H:%M")
+            start_date_gmt = pu.project.gmt_date(start_date)
+            end_date_gmt = pu.project.gmt_date(end_date)
             lock = Lock.objects.get(uuid=lock_uuid, project_uuid=pu.project_uuid)
-            err = lock.set_code(code, start_date, end_date)
+            #err = lock.set_code(code, start_date, end_date, name)
+            err = lock.set_code(code, start_date_gmt, end_date_gmt, name)
 
             if "ext_id" in request.POST:
                 ext_id = request.POST["ext_id"]
@@ -367,8 +371,11 @@ class LockViewSet(viewsets.ModelViewSet):
             code = request.POST["code"]
             start_date = datetime.strptime(request.POST.get('start_date', ""), "%Y-%m-%d %H:%M")
             end_date = datetime.strptime(request.POST.get('end_date', ""), "%Y-%m-%d %H:%M")
+            start_date_gmt = pu.project.gmt_date(start_date)
+            end_date_gmt = pu.project.gmt_date(end_date)
             lock = Lock.objects.get(uuid=lock_uuid, project_uuid=pu.project_uuid)
-            err = lock.change_code(code_id, code, start_date, end_date)
+            #err = lock.change_code(code_id, code, start_date, end_date)
+            err = lock.change_code(code_id, code, start_date_gmt, end_date_gmt)
             if "Error" in str(err):
                 logger.error("[{}]: \"{}\"".format(self.request.user, str(err)))
                 return Response({"error": True, "msg": str(err)})
@@ -423,6 +430,8 @@ class LockViewSet(viewsets.ModelViewSet):
             code = reverse_cardkey(request.POST["code"])
             start_date = datetime.strptime(request.POST.get('start_date', ""), "%Y-%m-%d %H:%M")
             end_date = datetime.strptime(request.POST.get('end_date', ""), "%Y-%m-%d %H:%M")
+            start_date_gmt = pu.project.gmt_date(start_date)
+            end_date_gmt = pu.project.gmt_date(end_date)
             #lock = Lock.objects.get(uuid=lock_uuid)
             #lock_list = Lock.objects.filter(uuid=lock_uuid, project_uuid=pu.project_uuid)
             #for l in lock_list:
@@ -430,7 +439,8 @@ class LockViewSet(viewsets.ModelViewSet):
             #lock = Lock.objects.filter(uuid=lock_uuid, project_uuid=pu.project_uuid).first()
             lock = Lock.objects.get(uuid=lock_uuid, project_uuid=pu.project_uuid)
 
-            err = lock.add_card(code, start_date, end_date)
+            #err = lock.add_card(code, start_date, end_date)
+            err = lock.add_card(code, start_date_gmt, end_date_gmt)
             if "Error" in str(err):
                 logger.error("[{}]: \"{}\"".format(self.request.user, str(err)))
                 return Response({"error": True, "msg": str(err)})
@@ -467,8 +477,11 @@ class LockViewSet(viewsets.ModelViewSet):
             code_id = request.POST["code_id"]
             start_date = datetime.strptime(request.POST.get('start_date', ""), "%Y-%m-%d %H:%M")
             end_date = datetime.strptime(request.POST.get('end_date', ""), "%Y-%m-%d %H:%M")
+            start_date_gmt = pu.project.gmt_date(start_date)
+            end_date_gmt = pu.project.gmt_date(end_date)
             lock = Lock.objects.get(uuid=lock_uuid, project_uuid=pu.project_uuid)
-            err = lock.change_period_card(code_id, start_date, end_date)
+            #err = lock.change_period_card(code_id, start_date, end_date)
+            err = lock.change_period_card(code_id, start_date_gmt, end_date_gmt)
             if "Error" in str(err):
                 logger.error("[{}]: \"{}\"".format(self.request.user, str(err)))
                 return Response({"error": True, "msg": str(err)})
