@@ -9,35 +9,6 @@
                 data-obj_id="{{item.id}}" data-band_lock="true"> <i class="fas fa-trash"></i></button>
         </div>
 
-        {%comment%}
-        <div class="col-2">
-            <input type="text" class="form-control ark_change highly" id="code" name="code" data-url="{%url "guest-band-save"%}" 
-                data-target="div-band-list" data-obj_id="{{item.id}}" value="{{item.code}}" placeholder="{%trans "Band code"%}"
-                data-band_lock="true" data-band_amount="0" data-band_kid="{%if item.kid%}true{%else%}false{%endif%}"/>
-        </div>
-        <div class="col-2 highly">
-            <input type="checkbox" id="band-amount" checked />
-            <label class="label">{%trans "Add amount"%} </label>
-        </div>
-        <div class="col-2">
-            <input type="text" class="form-control highly" id="ini-amount" name="ini_amount" value="0"/>
-        </div>
-        <div class="col-2 highly">
-            <input type="checkbox" id="band-kid" {%if item.kid%}checked{%endif%}/>
-            <label class="label">{%trans "For kid"%} </label>
-        </div>
-        <div class="col-3 highly">
-            <input type="checkbox" id="band-lock" checked />
-            {#onclick="$('#code').data('band_lock',$(this).is(':checked'));$('#btn-band-remove').data('band_lock',$(this).is(':checked'))"/>#}
-            <label class="label">{%trans "Add/Remove to locks"%} </label>
-        </div>
-        <div class="col-1 text-end p-0">
-            <button class="btn btn-sm ark" id="btn-band-remove" data-url="{% url "guest-band-remove" %}" data-target="div-band-list" 
-                data-obj_id="{{item.id}}" data-band_lock="true"> 
-                <i class="fas fa-trash"></i></button>
-        </div>
-        {%endcomment%}
-
         <div class="card mt-2 pt-2 pb-2">
             <div class="card-header toggle-btn" data-target="band-{{item.id}}" data-id-change="icon-extra" 
                 data-text='<i class="fas fa-plus"></i>' data-text-alt='<i class="fas fa-minus"></i>'>
@@ -51,30 +22,4 @@
 
     </div>
 {% endfor %}
-
-{%comment%}
-<script>
-    $("#band-lock").change(function(){
-        var checked = $(this).is(':checked');
-        $('#code').data('band_lock', checked);
-        $('#btn-band-remove').data('band_lock', checked);
-    });
-    $("#band-kid").change(function(){
-        var checked = $(this).is(':checked');
-        $('#code').data('band_kid', checked);
-    });
-    $("#band-amount").change(function(){
-        var checked = $(this).is(':checked');
-        var amount = $("#ini_amount").val();
-        if (checked)
-            $('#code').data('band_amount', amount);
-        else
-            $('#code').data('band_amount', "0");
-    });
-    $("#ini-amount").change(function(){
-        $('#code').data('band_amount', $(this).val());
-    });
-</script>
-{%endcomment%}
-
 

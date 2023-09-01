@@ -191,6 +191,31 @@ def guest_update_code(request):
         return render(request, "error_exception.html", {'exc':show_exc(e)})
 
 
+#@group_required("admins","projects")
+#def guest_save_date(request):
+#    try:
+#        err = ""
+#        guest = get_or_none(Guest, request.GET["obj_id"]) 
+#        if guest == None:
+#            return render(request, "error_exception.html", {'exc': _('Guest not found!')})
+#
+#        field = request.GET["field"]
+#        value = request.GET["value"]
+#        val = ""
+#        if "-" in value:
+#            val = datetime.datetime.strptime("{} {}".format(value, getattr(guest, field).strftime('%H:%M')), '%Y-%m-%d %H:%M')
+#        if ":" in value:
+#            val = datetime.datetime.strptime("{} {}".format(getattr(guest, field).strftime('%Y-%m-%d'), value), '%Y-%m-%d %H:%M')
+#        setattr(guest, field, val)
+#
+#        guest.save()
+#        guest.change_all_key_code_date()
+#        guest.change_all_key_card_date()
+#        #return HttpResponse("")
+#        return render(request, "guest/guest-details-tabs.html", {'obj': guest, 'temp_range': range(16,26)})
+#    except Exception as e:
+#        return render(request, "error_exception.html", {'exc':show_exc(e)})
+
 @group_required("admins","projects")
 def guest_save_date(request):
     try:
@@ -199,19 +224,19 @@ def guest_save_date(request):
         if guest == None:
             return render(request, "error_exception.html", {'exc': _('Guest not found!')})
 
-        field = request.GET["field"]
-        value = request.GET["value"]
-        val = ""
-        if "-" in value:
-            val = datetime.datetime.strptime("{} {}".format(value, getattr(guest, field).strftime('%H:%M')), '%Y-%m-%d %H:%M')
-        if ":" in value:
-            val = datetime.datetime.strptime("{} {}".format(getattr(guest, field).strftime('%Y-%m-%d'), value), '%Y-%m-%d %H:%M')
-        setattr(guest, field, val)
+        check_in = get_param(request.GET, "check_in")
+        check_in_time = get_param(request.GET, "check_in_time")
+        check_out = get_param(request.GET, "check_out")
+        check_out_time = get_param(request.GET, "check_out_time")
+        c_in = datetime.datetime.strptime("{} {}".format(check_in, check_in_time), '%Y-%m-%d %H:%M')
+        c_out = datetime.datetime.strptime("{} {}".format(check_out, check_out_time), '%Y-%m-%d %H:%M')
 
+        guest.check_in = c_in
+        guest.check_out = c_out
         guest.save()
         guest.change_all_key_code_date()
         guest.change_all_key_card_date()
-        return HttpResponse("")
+        return render(request, "guest/guest-details-tabs.html", {'obj': guest, 'temp_range': range(16,26)})
     except Exception as e:
         return render(request, "error_exception.html", {'exc':show_exc(e)})
 
@@ -365,8 +390,9 @@ def guest_details_by_project(request):
             obj = Guest.objects.create(UUID = new_ui_slug(Guest, "UUID"), project_id = project.uuid, check_in = date, check_out = date)
         regime_list = [item.regime for item in obj.project.regimes.all()]
         context = {'obj': obj, 'project_uuid': project.uuid, 'temp_range': range(16,26), 'regime_list': regime_list,}
-        return render(request, "guest/guest-details-by-project.html", context)
+        return render(request, "guest-by-project/guest-details-by-project.html", context)
     except Exception as e:
+        print(e)
         return render(request, 'error_exception.html', {'exc':show_exc(e)})
 
 @group_required("projects")

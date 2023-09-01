@@ -24,12 +24,6 @@
                 <option value="{{lang}}" {%if obj.language|upper == lang %}selected{%endif%}>{{lang}}</option>
             {% endfor %}
         </select>
-
-        {%comment%}
-		<input type="text" class="form-control autosave input mb-4" id="language" name="language" value="{{obj.language}}" 
-            title="{% trans "This field is required" %}" data-model-name="guest.guest" data-obj-id="{{obj.id}}" data-url="{% url "autosave_field" %}" 
-            data-target="div-notification" required/> <span class="msg_error" id="language__msg"></span>
-        {%endcomment%}
 	</div>
 
 	<div class="col-2">
@@ -67,30 +61,35 @@
 
 	<div class="col-3">
 		<label class="label">{% trans "Check-in date" %}*:</label>
-		<input type="date" class="form-control input mb-4 ark_change" id="check_in" name="check_in" value="{{obj.check_in|date:"Y-m-d"}}" 
-            title="{% trans "This field is required" %}" data-target="" data-obj_id="{{obj.id}}" data-url="{% url "guest-save-date" %}" 
-            data-target="div-notification" data-field="check_in" required/> <span class="msg_error" id="check_in__msg"></span>
+		<input type="date" class="form-control input mb-4" id="check_in" name="check_in" value="{{obj.check_in|date:"Y-m-d"}}" 
+            title="{% trans "This field is required" %}" onchange="$('#btn-date').data('check_in', $(this).val())" required/> 
+            <span class="msg_error" id="check_in__msg"></span>
 	</div>
 
-	<div class="col-3">
+	<div class="col-2">
 		<label class="label">{% trans "Check-in time" %}*:</label>
-		<input type="time" class="form-control input mb-4 ark_focusout" id="check_in_time" name="check_in" value="{{obj.check_in|date:"H:i"}}" 
-            title="{% trans "This field is required" %}" data-target="" data-obj_id="{{obj.id}}" data-url="{% url "guest-save-date" %}" 
-            data-target="div-notification" data-field="check_in" required/> <span class="msg_error" id="check_in_time__msg"></span>
+		<input type="time" class="form-control input mb-4" id="check_in_time" name="check_in" value="{{obj.check_in|date:"H:i"}}" 
+            title="{% trans "This field is required" %}" onchange="$('#btn-date').data('check_in_time', $(this).val())" required/> 
+            <span class="msg_error" id="check_in_time__msg"></span>
 	</div>
 
 	<div class="col-3">
 		<label class="label">{% trans "Check-out date" %}*:</label>
-		<input type="date" class="form-control input mb-4 ark_change" id="check_out" name="check_out" value="{{obj.check_out|date:"Y-m-d"}}" 
-            title="{% trans "This field is required" %}" data-target="" data-obj_id="{{obj.id}}" data-url="{% url "guest-save-date" %}" 
-            data-target="div-notification" data-field="check_out" required/> <span class="msg_error" id="check_out__msg"></span>
+		<input type="date" class="form-control input mb-4" id="check_out" name="check_out" value="{{obj.check_out|date:"Y-m-d"}}" 
+            title="{% trans "This field is required" %}" onchange="$('#btn-date').data('check_out', $(this).val())" required/> 
+            <span class="msg_error" id="check_out__msg"></span>
 	</div>
 
-	<div class="col-3">
+	<div class="col-2">
 		<label class="label">{% trans "Check-out time" %}*:</label>
-		<input type="time" class="form-control input mb-4 ark_focusout" id="check_out_time" name="check_out" value="{{obj.check_out|date:"H:i"}}" 
-            title="{% trans "This field is required" %}" data-target="" data-obj_id="{{obj.id}}" data-url="{% url "guest-save-date" %}" 
-            data-target="div-notification" data-field="check_out" required/> <span class="msg_error" id="check_out_time__msg"></span>
+		<input type="time" class="form-control input mb-4" id="check_out_time" name="check_out" value="{{obj.check_out|date:"H:i"}}" 
+            title="{% trans "This field is required" %}" onchange="$('#btn-date').data('check_out_time', $(this).val())" required/> 
+            <span class="msg_error" id="check_out_time__msg"></span>
+	</div>
+	<div class="col-2">
+        <button id="btn-date" class="btn btn-success ark" data-url="{% url "guest-save-date" %}" data-target="guest-tabs" data-obj_id="{{obj.id}}" 
+            data-check_in="{{obj.check_in|date:"Y-m-d"}}" data-check_in_time="{{obj.check_in|date:"H:i"}}" 
+            data-check_out="{{obj.check_out|date:"Y-m-d"}}" data-check_out_time="{{obj.check_out|date:"H:i"}}">Actualizar fechas</button>  
 	</div>
 
 	<div class="col-4">

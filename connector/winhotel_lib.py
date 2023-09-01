@@ -11,6 +11,7 @@ import json
 
 API_URL = "http://queryapi2.winhotelweb.com/"
 BOOKINGS_URL = "query/PublicQuery/BookingListQuery"
+SEND_CHARGE_URL = "query/PublicQuery/ExternalChargeInsert"
 
 USER = "PADWORD"
 PASSWORD = "Pdwrd-z123"
@@ -219,26 +220,46 @@ class Winhotel:
             "UserPasswordToken": ""
         }
 
-    def _request_bookings(self):
-        json = {}
-        request = { 
-            "QueryHeader": {
-                "HotelCodeMap": {
-                    "HotelSourceCode": self.source_code,
-                    "HotelTargetCode": self.target_code,
-                },
-                "MaxRowsResponse": 1
+    def _request_header(self):
+        return {
+            "HotelCodeMap": {
+                "HotelSourceCode": self.source_code,
+                "HotelTargetCode": self.target_code,
             },
-            "BookingListQueryParameters": {
-                "StartDateQueryParameter": {
-                    "QueryOperator": 0,
-                    "Value": "2023-09-01"
-                }
-            },
+            "MaxRowsResponse": 1
         }
-        json["QueryCredentials"] = self._credentials()
-        json["QueryRequest"] = request
-        json["UserID"] = self.user_id
+
+    def _request_bookings(self):
+        json = {"QueryCredentials": self._credentials(), "UserID": self.user_id}
+        _bookings_params = {
+            "StartDateQueryParameter": {
+                "QueryOperator": 0,
+                "Value": "2023-09-01"
+            }
+        }
+        json["QueryRequest"] = {"QueryHeader": self._request_header(), "BookingListQueryParameters": _bookings_params}
+        return json
+
+    def _request_send_charge(self):
+        json = {"QueryCredentials": self._credentials(), "UserID": self.user_id}
+        _send_charge_params = {
+            "ExternalCharge": {
+                "BookingCode": "sample string 1",
+                "CreditContact": {
+                    "RoomCode": "sample string 1",
+                    "ContactName": "sample string 2",
+                    "ContactId": 3,
+                    "HasCredit": true,
+                    "LimitCredit": 5.0
+                },
+                "Source": "sample string 2",
+                "SourceDocument": "sample string 3",
+                "Date": "2023-09-01T09:38:11.4700067+02:00",
+                "TotalAmount": 5.0,
+                "CashCode": "sample string 6"
+            }
+        }
+        json["QueryRequest"] = {"QueryHeader": self._request_header(), "InsertExternalChargeRequest": _send_charge_params}
         return json
 
     def get_bookings(self):
@@ -247,6 +268,15 @@ class Winhotel:
             _json = self._request_bookings()
             _json_data = json.dumps(_json)
             return self.__send_request__(_url_request, _json_data).json()["Bookings"]
+        except Exception as err:
+            raise WinhotelAPIError(message=err)
+
+    def send_charge(self):
+        try:
+            _url_request = "{}{}".format(API_URL, SEND_CHARGE_URL)
+            _json = self._request_send_charge()
+            _json_data = json.dumps(_json)
+            return self.__send_request__(_url_request, _json_data).json()
         except Exception as err:
             raise WinhotelAPIError(message=err)
 

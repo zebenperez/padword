@@ -104,6 +104,12 @@ class Guest(models.Model):
         date = pytz.utc.localize(datetime.datetime.now() + datetime.timedelta(hours=1))
         return (self.check_in <= date and self.check_out >= date) 
 
+    def have_valid_booking2(self):
+        date = pytz.utc.localize(datetime.datetime.now() + datetime.timedelta(hours=1))
+        check_in = self.check_in.replace(tzinfo=pytz.utc)
+        check_out = self.check_out.replace(tzinfo=pytz.utc)
+        return (check_in <= date and check_out >= date) 
+
     def check_all_notifications(self):
         guest_notifications = [item.notification.id for item in self.notifications.all()]
         notification_list = Notification.objects.filter(project_uuid=self.project_id, all_users=True).exclude(id__in=guest_notifications)

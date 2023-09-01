@@ -5,37 +5,11 @@
 
 <div class="card pb-3">
     <div class="card-header"><strong>{% trans "Main" %}</strong></div>
-    <div class="card-body"> {% include "guest/guest-form-main.html" %} </div>
+    <div class="card-body">
+        {% include "guest/guest-form-main.html" %} 
 
-        <ul class="nav nav-tabs m-2 pl-2 pr-2 pt-2">
-            <li class="nav-item"> <a class="nav-link active" data-bs-toggle="tab" href="#locks">{% trans "Locks" %}</a> </li>
-            <li class="nav-item"> <a class="nav-link" data-bs-toggle="tab" href="#bands">{% trans "Bands" %}</a> </li>
-            <li class="nav-item"> <a class="nav-link" data-bs-toggle="tab" href="#extras">{% trans "Extras" %}</a></li>
-            {% if obj.project.sensibo_api_key != "" %}
-                <li class="nav-item"> <a class="nav-link" data-bs-toggle="tab" href="#sensibo">{% trans "Air aconditioner" %}</a> </li>
-            {% endif %}
-            <li class="nav-item"> <a class="nav-link" data-bs-toggle="tab" href="#admins">{% trans "Administrator" %}</a> </li>
-        </ul>
-        <div class="tab-content internal m-2 p-2">
-            {# -------------------------- LOCKS ------------------------#}
-            <div class="tab-pane container active" id="locks"> <div id="div-locks"> {% include "guest/keys/guest-details-keys.html" %} </div> </div>
-
-            {# -------------------------- BANDS ------------------------#}
-            <div class="tab-pane container" id="bands"> <div id="div-bands"> {% include "guest/bands/guest-details-bands.html" %} </div> </div>
-
-            {# -------------------------- EXTRAS ------------------------#}
-            <div class="tab-pane container" id="extras"> <div id="extra-details"> {% include "guest/guest-form-extra.html" %} </div> </div>
-
-            {# -------------------------- SENSIBO ------------------------#}
-            {% if obj.project.sensibo_api_key != "" %}
-                <div class="tab-pane container" id="sensibo"> 
-                    <div id="body-sensibo"> <div id="div-sensibo">{% include "guest/sensibo/guest-sensibo-devices.html" %}</div> </div> 
-                </div>
-            {% endif %}
-
-            {# -------------------------- RECORDS ------------------------#}
-            <div class="tab-pane container" id="admins"> <div id="body-admin"> {% include "guest/guest-form-admin.html" %} </div> </div>
-        </div>
+        <div id="guest-tabs"> {% include "guest/guest-details-tabs.html" with show_admin="True"%} </div>
+    </div>
 </div>
 
 <div class="d-flex justify-content-end p-2">

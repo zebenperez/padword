@@ -24,7 +24,7 @@ def guest_band_save(request):
         code = reverse_cardkey(get_param(request.GET, "value"))
 
         b = Wristband.objects.filter(code=code).first()
-        if b != None:
+        if b != None and b.guest.have_valid_booking():
             msg = "There are another user ({} {} - {}) with this band!".format(b.guest.name, b.guest.surname, b.guest.room)
             return render(request, "guest/keys/guest-keys.html", {"obj": b.guest, "msg": msg})
 

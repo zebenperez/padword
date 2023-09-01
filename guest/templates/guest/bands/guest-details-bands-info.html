@@ -1,0 +1,59 @@
+{% load i18n guest_tags %}
+
+<div class="">
+    <div class="card-header mb-1"> {% trans "Wristbands assigned" %} </div>
+    <div class="card-body p-0">
+        <div id="div-notification" {%if msg and msg != ""%}class="alert-danger"{%endif%}>{{msg}}</div>
+        <div class="text-right"></div>
+        <div id="div-band-form" class="hide"></div>
+        <div id="div-band-list">
+            {% for item in obj.bands.all %} 
+                <div class="row m-2 p-2 w-100 band-div">
+                    <div class="col-2">{{item.code}} </div>
+                    <div class="col-2">{% trans "Kids" %}: {%if item.kid%}{%trans "Yes"%}{%else%}{%trans "No"%}{%endif%}</div>
+
+                    <div class="card mt-2 pt-2 pb-2">
+                        <div class="card-header toggle-btn" data-target="band-{{item.id}}" data-id-change="icon-extra" 
+                            data-text='<i class="fas fa-plus"></i>' data-text-alt='<i class="fas fa-minus"></i>'>
+                            <div class="row w-100">
+                                <div class="col-6 text-right" id="icon-extra"><i class="fas fa-plus"></i></div>
+                                <div class="col-6 text-left"><strong>{% trans "Balance" %}</strong></div>
+                            </div>
+                        </div>
+                        <div class="card-body hide" id="band-{{item.id}}"> 
+
+                            <div class="row">
+                                    <div class="col-10 {%if item.balance < 0%}text-danger{%endif%}">
+                                        {% trans "Balance:" %} {{item.balance|floatformat:2|default:""}} </div>
+                                    <div class="col-2"> </div>
+                            </div>
+                            <div id="balance-form-{{item.id}}"> </div>
+
+                            <div class="d-flex">
+                                <table class="table table-striped table-hover" id="main-table">
+                                    <thead>
+                                        <tr class="small">
+                                            <th>{%trans 'Date'%}</th><th>{%trans 'Description'%}</th><th>{%trans 'Amount'%}</th><th></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="table-list-guests"> 
+                                        {% for balance in item.balances.all %}
+                                            <tr class="small guest-row" id="row_{{item.id}}"> 
+                                                <td> {{ balance.date }} </td>
+                                                <td> {{ balance.desc|safe }} </td>
+                                                <td> {{ balance.amount }} </td>
+                                                <td class="text-end"> </td>
+                                            </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
