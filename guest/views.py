@@ -230,6 +230,8 @@ def guest_save_date(request):
         check_out_time = get_param(request.GET, "check_out_time")
         c_in = datetime.datetime.strptime("{} {}".format(check_in, check_in_time), '%Y-%m-%d %H:%M')
         c_out = datetime.datetime.strptime("{} {}".format(check_out, check_out_time), '%Y-%m-%d %H:%M')
+        if c_out < c_in:
+            return render(request, "error_exception.html", {'exc': _('Checkout can not be less than checkin!')})
 
         guest.check_in = c_in
         guest.check_out = c_out
