@@ -27,8 +27,12 @@
         {%endcomment%}
     {#{% endif %}#}
 
+    {%comment%}
     <a class="btn btn-xs ark" data-url="{% url "guest-details" %}" data-target="content-section" data-obj_id="{{item.id}}" 
         title="{% trans "Details" %}"> <i class="fas fa-user"></i></a>  
+    {%endcomment%}
+
+    <a class="btn btn-xs" href="{% url "guest-details" item.id %}" title="{% trans "Details" %}"> <i class="fas fa-user"></i></a>  
 
     {%comment%}
     <a class="btn btn-xs ark" data-url="{% url "guest-bands-balance" %}" data-target-modal="common-modal" data-obj_id="{{item.id}}" 

@@ -17,8 +17,11 @@
         data-project_uuid="{{project_uuid}}" data-obj_id="{{item.id}}" title="{% trans "Edit" %}"> <i class="fas fa-edit"></i></a>  
     {%endcomment%}
 
+    {%comment%}
     <a class="btn btn-xs ark" data-url="{% url "guests-details-by-project" %}" data-target="content-section" data-obj_id="{{item.id}}" 
         title="{% trans "Details" %}"> <i class="fas fa-user"></i></a>  
+    {%endcomment%}
+    <a class="btn btn-xs" href="{% url "guests-details-by-project" item.id %}" title="{% trans "Details" %}"> <i class="fas fa-user"></i></a>  
 
 	<a class="btn btn-sm ark" data-url="{% url "guest-soft-remove-by-project" %}" data-target="guest-list" data-obj_id="{{item.id}}" 
         data-confirm="{% trans "Are you sure to remove this element?" %}" title="{% trans "Remove" %}"> <i class="fas fa-trash"></i></a>

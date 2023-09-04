@@ -111,13 +111,10 @@ def guest_form(request):
         return render(request, 'error_exception.html', {'exc':show_exc(e)})
 
 @group_required("admins")
-def guest_details(request):
+def guest_details(request, obj_id=""):
     try:
         date = datetime.datetime.now().replace(hour=12, minute=00)
-        if "obj_id" in request.GET:
-            obj = get_or_none(Guest, request.GET["obj_id"])  
-        else: 
-            obj = Guest.objects.create(UUID = new_ui_slug(Guest, "UUID"), check_in = date, check_out = date)
+        obj = Guest.objects.create(UUID=new_ui_slug(Guest, "UUID"), check_in=date, check_out=date) if obj_id == "" else get_or_none(Guest, obj_id)
         regime_list = [item.regime for item in obj.project.regimes.all()]
         return render(request, "guest/guest-details.html", {'obj': obj, 'temp_range': range(16,26), 'regime_list': regime_list,})
     except Exception as e:
@@ -382,11 +379,11 @@ def guest_form_by_project(request):
         return render(request, 'error_exception.html', {'exc':show_exc(e)})
 
 @group_required("projects")
-def guest_details_by_project(request):
+def guest_details_by_project(request, obj_id=""):
     try:
         project = get_or_none(Project, request.project_id)
-        if "obj_id" in request.GET:
-            obj = get_or_none(Guest, request.GET["obj_id"])  
+        if obj_id != "":
+            obj = get_or_none(Guest, obj_id)  
         else: 
             date = datetime.datetime.now().replace(hour=12, minute=00)
             obj = Guest.objects.create(UUID = new_ui_slug(Guest, "UUID"), project_id = project.uuid, check_in = date, check_out = date)

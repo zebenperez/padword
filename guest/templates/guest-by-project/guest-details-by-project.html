@@ -1,39 +1,43 @@
+{% extends 'base.html' %}
 {% load i18n padword_tags %}
 
+{% block second_menu %}{% get_second_menu request.user %}{% endblock second_menu %}
 
-<span id="div-notification"></span><br/>
+{% block central_content %}
+    <span id="div-notification"></span><br/>
 
-<div class="card pb-3">
-    <div class="card-header"><strong>{% trans "Main" %}</strong></div>
-    <div class="card-body"> 
-        {% include "guest/guest-form-main.html" %} 
-        <div id="guest-tabs"> {% include "guest/guest-details-tabs.html" with show_admin="false" %} </div>
+    <div class="card pb-3">
+        <div class="card-header"><strong>{% trans "Main" %}</strong></div>
+        <div class="card-body"> 
+            {% include "guest/guest-form-main.html" %} 
+            <div id="guest-tabs"> {% include "guest/guest-details-tabs.html" with show_admin="false" %} </div>
+        </div>
     </div>
-</div>
 
-<div class="d-flex justify-content-end p-2">
+    <div class="d-flex justify-content-end p-2">
 
-    <button type="button" class="btn btn-success m-2 ark" title="{%trans "Share code"%}" data-url="{% url "lock-share-code-guest" %}" 
-        data-obj_id="{{obj.id}}" data-target-modal="share-modal">{% trans "Share" %} </button>
+        <button type="button" class="btn btn-success m-2 ark" title="{%trans "Share code"%}" data-url="{% url "lock-share-code-guest" %}" 
+            data-obj_id="{{obj.id}}" data-target-modal="share-modal">{% trans "Share" %} </button>
 
-    <a type="button" id="btn-save" class="btn btn-primary m-2" href="{% url "guests-by-project" %}"> {%trans "Save"%}</a>
+        <a type="button" id="btn-save" class="btn btn-primary m-2" href="{% url "guests-by-project" %}"> {%trans "Save"%}</a>
 
-	<button type="button" class="btn btn-danger ark m-2" data-url="{% url "guest-soft-remove-by-project" %}" data-target="guest-list" 
-        data-obj_id="{{obj.id}}" {%if project_uuid%}data-project_uuid="{{project_uuid}}"{%endif%} 
-        data-confirm="{% trans "Are you sure to remove this element?" %}">{% trans "Remove" %}</button>
-</div>
+        <button type="button" class="btn btn-danger ark m-2" data-url="{% url "guest-soft-remove-by-project" %}" data-target="guest-list" 
+            data-obj_id="{{obj.id}}" {%if project_uuid%}data-project_uuid="{{project_uuid}}"{%endif%} 
+            data-confirm="{% trans "Are you sure to remove this element?" %}">{% trans "Remove" %}</button>
+    </div>
 
-{% include "common-modal.html" %}
-{% include "web/locks/share-modal.html" %}
+    {% include "common-modal.html" %}
+    {% include "web/locks/share-modal.html" %}
 
-<script>
-    $("#btn-save").click(function(){
-        if ($("#s-room").hasClass("text-danger"))
-        {
-            alert("{% trans "You must choose a valid room number or empty" %}");
-            return false;
-        }
-        return true;
-    });
-</script>
+    <script>
+        $("#btn-save").click(function(){
+            if ($("#s-room").hasClass("text-danger"))
+            {
+                alert("{% trans "You must choose a valid room number or empty" %}");
+                return false;
+            }
+            return true;
+        });
+    </script>
+{% endblock central_content %}
 

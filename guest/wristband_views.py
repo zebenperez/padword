@@ -26,7 +26,7 @@ def guest_band_save(request):
         b = Wristband.objects.filter(code=code).first()
         if b != None and b.guest.have_valid_booking():
             msg = "There are another user ({} {} - {}) with this band!".format(b.guest.name, b.guest.surname, b.guest.room)
-            return render(request, "guest/keys/guest-keys.html", {"obj": b.guest, "msg": msg})
+            return render(request, "guest/bands/guest-details-bands-form.html", {"obj": b.guest, "band": b, "step": 0, "msg": msg})
 
         band = Wristband.objects.create(guest=guest, code=code)
         return render(request, "guest/bands/guest-details-bands-form.html", {"obj": band.guest, "band": band, "step": 1})
@@ -126,9 +126,8 @@ def wristbands(request):
 
 @group_required("admins")
 def wristbands_search(request):
-    value = get_param(request.GET, "value")
-    #card_result = number_search(value)
-    band_result = []
+    value = reverse_cardkey(get_param(request.GET, "value"))
+    band_result = Wristband.objects.filter(code=value)
     return render (request, "wristbands/wristbands-search.html", {'band_list': band_result})
 
 

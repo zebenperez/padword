@@ -1,5 +1,6 @@
 {% load i18n bookings_tag common_tag padword_tags static%}
 
+{%if band_err %}<div class="alert alert-danger">{%trans "This band is not assigned to any guest!"%}</div>{%endif%}
 {% with guest=band.guest %}
     {#<div class="card article w-100 mb-3 box-new ark" data-url="{% url 'tpv-add-item' %}" data-target="ticket-summary" data-form_id="{{fi.pk}}" data-item_id="{{item.pk}}">#}
     <div class="row ticket-line justify-content-center">

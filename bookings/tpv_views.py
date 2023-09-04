@@ -180,12 +180,14 @@ def tpv_check_band(request):
     try:
         fi = get_or_none(FormInstance, request.GET["obj_id"])
         val = get_param(request.GET, "value", "")
-        band = Wristband.objects.filter(code = reverse_cardkey(val), guest__project_id=fi.form.project.uuid, guest__deleted=False).first()
+        #band = Wristband.objects.filter(code = reverse_cardkey(val), guest__project_id=fi.form.project.uuid, guest__deleted=False).first()
+        band = Wristband.get_active_by_project(fi.form.project, reverse_cardkey(val))
         regime = None
         if band != None and band.guest != None:
             gr = band.guest.regimes.first()
             regime = gr.regime if gr != None else None
-        return render(request, "bookings/tpv/view-ticket.html", {'fi':fi, 'band': band, 'regime': regime})
+        band_err = True if band == None else False
+        return render(request, "bookings/tpv/view-ticket.html", {'fi':fi, 'band': band, 'regime': regime, 'band_err': band_err})
         #return render(request, "bookings/tpv/view-guest-info.html", {'fi':fi, 'band': band, 'regime': regime})
     except Exception as e:
         print(e)

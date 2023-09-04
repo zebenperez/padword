@@ -1,6 +1,8 @@
 {% load i18n guest_tags %}
 
 
+<div id="div-notification" {%if msg and msg != ""%}class="alert-danger"{%endif%}>{{msg}}</div>
+
 <div class="row m-2 p-2 w-100">
     <div class="col-4"><strong>{% trans "Scan band" %}</strong></div>
     <div class="col-8">

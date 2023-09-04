@@ -126,7 +126,7 @@
             $("#check_out__msg").html("{% trans "Checkout can not be less than checkin" %}");
         else {
             $("#check_out__msg").html("");
-            $('#btn-date').data('field', obj.val());
+            $('#btn-date').data(field, obj.val());
         }
     }
 </script>
