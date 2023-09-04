@@ -42,6 +42,10 @@
                 <input type="checkbox" class="form-check-input autosave b-bottom mb-4" id="favorite" name="favorite" title="{% trans 'Favorite' %}" 
                     data-model-name="contents.item" data-obj-id="{{obj.id}}" data-url="{% url "autosave_field" %}" data-target="div-notification" 
                     data-bool="True" {%if obj.favorite%}checked{%endif%}/> <span id="favorite__msg"></span>	{% trans "Favorite" %}
+
+                <input type="checkbox" class="form-check-input autosave b-bottom mb-4" id="especial" name="especial" title="{% trans 'Especial' %}" 
+                    data-model-name="contents.item" data-obj-id="{{obj.id}}" data-url="{% url "autosave_field" %}" data-target="div-notification" 
+                    data-bool="True" {%if obj.especial%}checked{%endif%}/> <span id="favorite__msg"></span>	{% trans "Especial" %}
             </div>
 
             <div class="col-12">
