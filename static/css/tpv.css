@@ -115,6 +115,7 @@ select.tpv-articles
 .ticket-line 
 {
 	align-items: center;
+    color: #444;
 	font-size: 0.8em;
 /*	border-bottom: 1px solid #ccc;*/
 }
@@ -349,15 +350,30 @@ input.form-control.tpv-search.mobile {
     margin-left: 2% !important;
 }
 
-input#div-scan.form-control.ark_change 
-{
+input#div-scan.form-control.ark_change {
     border-color: #59acd6;
     border-radius: 5px !important;
+    color: #666;
+    font-size: 0.8rem;
+    margin-bottom: 15px;
 }
 input#div-scan.form-control.ark_change.scanband::placeholder {
     color: #59acd6 !important;
     font-weight: 600;
     text-align: center;
+}
+
+.balance-band {
+    background: #a1c517; 
+    border-radius: 5px;
+    color: #fff;
+    font-size: 1rem;
+    line-height: 2;
+}
+
+.summary-price-tpv {
+    align-items: center; 
+    line-height: 3;
 }
 
 /*****************************/

@@ -3,11 +3,11 @@
 {%if band_err %}<div class="alert alert-danger">{%trans "This band is not assigned to any guest!"%}</div>{%endif%}
 {% with guest=band.guest %}
     {#<div class="card article w-100 mb-3 box-new ark" data-url="{% url 'tpv-add-item' %}" data-target="ticket-summary" data-form_id="{{fi.pk}}" data-item_id="{{item.pk}}">#}
-    <div class="row ticket-line justify-content-center">
-        <div class="col-4">{{guest.name}}</div>
-        <div class="col-4">{{guest.surname}}</div>
+    <div class="row ticket-line justify-content-center m-0">
+        <div class="col-3">{{guest.name}}</div>
+        <div class="col-3">{{guest.surname}}</div>
         <div class="col-2">{{guest.room}}</div>
-        <div class="col-2 {%if band.balance < 0%}text-danger{%endif%}">{{band.balance|floatformat:2}} {%if band%}€{%endif%}</div>
+        <div class="col-4 balance-band text-right {%if band.balance < 0%}text-danger{%endif%}"><strong>{{band.balance|floatformat:2}} {%if band%}€{%endif%}</strong></div>
     </div>
 {% endwith %}
 
