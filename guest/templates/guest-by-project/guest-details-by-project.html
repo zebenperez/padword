@@ -21,9 +21,13 @@
 
         <a type="button" id="btn-save" class="btn btn-primary m-2" href="{% url "guests-by-project" %}"> {%trans "Save"%}</a>
 
+        <a type="button" id="btn-remove" class="btn btn-danger m-2" href="{% url "guest-soft-remove-by-project" obj.id %}" 
+            onclick="return confirm('{% trans "Are you sure to remove this element?" %}')"> {%trans "Remove"%}</a>
+        {%comment%}
         <button type="button" class="btn btn-danger ark m-2" data-url="{% url "guest-soft-remove-by-project" %}" data-target="guest-list" 
             data-obj_id="{{obj.id}}" {%if project_uuid%}data-project_uuid="{{project_uuid}}"{%endif%} 
             data-confirm="{% trans "Are you sure to remove this element?" %}">{% trans "Remove" %}</button>
+        {%endcomment%}
     </div>
 
     {% include "common-modal.html" %}

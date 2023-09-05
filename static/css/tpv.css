@@ -51,9 +51,17 @@ a.special.ark {
 }
 .left-tpv .name 
 {
-    background-color: #35a8e0;
-	color: #ffffff;
 }
+.left-tpv .name button
+{
+    background-color: #df6b07;
+	color: #ffffff !important;
+} 
+.left-tpv .name button:hover
+{
+    background-color: #ff7805;
+}
+
 select.tpv-articles
 {
 	background-color: #a1c517;

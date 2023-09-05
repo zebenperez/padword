@@ -131,34 +131,46 @@ def guest_details(request, obj_id=""):
 #        return render(request, 'error_exception.html', {'exc':show_exc(e)})
 
 @group_required("admins")
-def guest_remove(request):
-    project_uuid = request.GET["project_uuid"] if "project_uuid" in request.GET else None
-    obj = get_or_none(Guest, request.GET["obj_id"]) if "obj_id" in request.GET else None
+def guest_remove(request, obj_id):
+    obj = get_or_none(Guest, obj_id)
     if obj != None:
         GuestUser.delete_by_guest(obj.UUID)
         obj.delete_all()
+    return redirect(guests)
+
+    #project_uuid = request.GET["project_uuid"] if "project_uuid" in request.GET else None
+    #obj = get_or_none(Guest, request.GET["obj_id"]) if "obj_id" in request.GET else None
+    #if obj != None:
+    #    GuestUser.delete_by_guest(obj.UUID)
+    #    obj.delete_all()
         #obj.remove_all_key_codes()
         #obj.remove_all_key_cards()
         #obj.delete()
 
     #items = Guest.objects.all() if project_uuid == None else Guest.objects.filter(project_id=project_uuid)
-    items, total_count = get_guest_items(request)
-    return render(request, "guest/guest-list.html", {'items':items, 'project_uuid': project_uuid})
+    #items, total_count = get_guest_items(request)
+    #return render(request, "guest/guest-list.html", {'items':items, 'project_uuid': project_uuid})
 
 @group_required("admins")
-def guest_soft_remove(request):
-    project_uuid = request.GET["project_uuid"] if "project_uuid" in request.GET else None
-    obj = get_or_none(Guest, request.GET["obj_id"]) if "obj_id" in request.GET else None
+def guest_soft_remove(request, obj_id):
+    obj = get_or_none(Guest, obj_id) 
     if obj != None:
         GuestUser.delete_by_guest(obj.UUID)
         obj.delete_soft()
+    return redirect(guests)
+
+    #project_uuid = request.GET["project_uuid"] if "project_uuid" in request.GET else None
+    #obj = get_or_none(Guest, request.GET["obj_id"]) if "obj_id" in request.GET else None
+    #if obj != None:
+    #    GuestUser.delete_by_guest(obj.UUID)
+    #    obj.delete_soft()
         #obj.remove_all_key_codes()
         #obj.remove_all_key_cards()
         #obj.deleted = 1
         #obj.save()
 
-    items, total_count = get_guest_items(request)
-    return render(request, "guest/guest-list.html", {'items':items, 'project_uuid': project_uuid})
+    #items, total_count = get_guest_items(request)
+    #return render(request, "guest/guest-list.html", {'items':items, 'project_uuid': project_uuid})
 
 #@group_required("admins","projects")
 #def guest_pagination(request):
@@ -412,16 +424,18 @@ def guest_remove_by_project(request):
         return render(request, 'error_exception.html', {'exc':show_exc(e)})
 
 @group_required("projects")
-def guest_soft_remove_by_project(request):
+def guest_soft_remove_by_project(request, obj_id):
     try:
         project = get_or_none(Project, request.project_id)
-        obj = get_or_none(Guest, request.GET["obj_id"]) if "obj_id" in request.GET else None
+        obj = get_or_none(Guest, obj_id) 
+        #obj = get_or_none(Guest, request.GET["obj_id"]) if "obj_id" in request.GET else None
         if obj != None:
             GuestUser.delete_by_guest(obj.UUID)
             obj.delete_soft()
 
-        items, total_count = get_guest_items_by_project(request, project.uuid)
-        return render(request, "guest-by-project/guest-list.html", {'items':items, 'project_uuid': project.uuid})
+        return redirect(guests_by_project)
+        #items, total_count = get_guest_items_by_project(request, project.uuid)
+        #return render(request, "guest-by-project/guest-list.html", {'items':items, 'project_uuid': project.uuid})
     except Exception as e:
         return render(request, 'error_exception.html', {'exc':show_exc(e)})
 

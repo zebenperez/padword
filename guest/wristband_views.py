@@ -128,6 +128,6 @@ def wristbands(request):
 def wristbands_search(request):
     value = reverse_cardkey(get_param(request.GET, "value"))
     band_result = Wristband.objects.filter(code=value)
-    return render (request, "wristbands/wristbands-search.html", {'band_list': band_result})
+    return render (request, "wristbands/wristbands-search.html", {'band_list': band_result, 'band_code': value})
 
 
