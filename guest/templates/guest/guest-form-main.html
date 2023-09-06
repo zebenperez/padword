@@ -62,38 +62,33 @@
 	<div class="col-3">
 		<label class="label">{% trans "Check-in date" %}*:</label>
 		<input type="date" class="form-control input mb-4" id="check_in" name="check_in" value="{{obj.check_in|date:"Y-m-d"}}" 
-            title="{% trans "This field is required" %}" onchange="checkDates($(this), 'check_in')" required/> 
-            {#title="{% trans "This field is required" %}" onchange="$('#btn-date').data('check_in', $(this).val())" required/> #}
+            title="{% trans "This field is required" %}" onfocusout="checkDates($(this), 'check_in')" required/> 
+            {#title="{% trans "This field is required" %}" onchange="checkDates($(this), 'check_in')" required/> #}
             <span class="msg_error" id="check_in__msg"></span>
 	</div>
 
-	<div class="col-2">
+	<div class="col-3">
 		<label class="label">{% trans "Check-in time" %}*:</label>
 		<input type="time" class="form-control input mb-4" id="check_in_time" name="check_in" value="{{obj.check_in|date:"H:i"}}" 
-            title="{% trans "This field is required" %}" onchange="checkDates($(this), 'check_in_time')" required/> 
-            {#title="{% trans "This field is required" %}" onchange="$('#btn-date').data('check_in_time', $(this).val())" required/> #}
+            title="{% trans "This field is required" %}" onfocusout="checkDates($(this), 'check_in_time')" required/> 
+            {#title="{% trans "This field is required" %}" onchange="checkDates($(this), 'check_in_time')" required/> #}
             <span class="msg_error" id="check_in_time__msg"></span>
 	</div>
 
 	<div class="col-3">
 		<label class="label">{% trans "Check-out date" %}*:</label>
 		<input type="date" class="form-control input mb-4" id="check_out" name="check_out" value="{{obj.check_out|date:"Y-m-d"}}" 
-            title="{% trans "This field is required" %}" onchange="checkDates($(this), 'check_out')" required/> 
-            {#title="{% trans "This field is required" %}" onchange="$('#btn-date').data('check_out', $(this).val())" required/> #}
+            title="{% trans "This field is required" %}" onfocusout="checkDates($(this), 'check_out')" required/> 
+            {#title="{% trans "This field is required" %}" onchange="checkDates($(this), 'check_out')" required/> #}
             <span class="msg_error" id="check_out__msg"></span>
 	</div>
 
-	<div class="col-2">
+	<div class="col-3">
 		<label class="label">{% trans "Check-out time" %}*:</label>
 		<input type="time" class="form-control input mb-4" id="check_out_time" name="check_out" value="{{obj.check_out|date:"H:i"}}" 
-            title="{% trans "This field is required" %}" onchange="checkDates($(this), 'check_out_time')" required/> 
-            {#title="{% trans "This field is required" %}" onchange="$('#btn-date').data('check_out_time', $(this).val())" required/> #}
+            title="{% trans "This field is required" %}" onfocusout="checkDates($(this), 'check_out_time')" required/> 
+            {#title="{% trans "This field is required" %}" onchange="checkDates($(this), 'check_out_time')" required/> #}
             <span class="msg_error" id="check_out_time__msg"></span>
-	</div>
-	<div class="col-2">
-        <button id="btn-date" class="btn btn-success ark" data-url="{% url "guest-save-date" %}" data-target="guest-tabs" data-obj_id="{{obj.id}}" 
-            data-check_in="{{obj.check_in|date:"Y-m-d"}}" data-check_in_time="{{obj.check_in|date:"H:i"}}" 
-            data-check_out="{{obj.check_out|date:"Y-m-d"}}" data-check_out_time="{{obj.check_out|date:"H:i"}}">Actualizar fechas</button>  
 	</div>
 
 	<div class="col-4">
@@ -116,6 +111,10 @@
         </div>
     {% endif %}
 
+    <button id="btn-date" class="btn btn-success ark hide" data-url="{% url "guest-save-date" %}" data-target="guest-tabs" data-obj_id="{{obj.id}}" 
+        data-check_in="{{obj.check_in|date:"Y-m-d"}}" data-check_in_time="{{obj.check_in|date:"H:i"}}" 
+        data-check_out="{{obj.check_out|date:"Y-m-d"}}" data-check_out_time="{{obj.check_out|date:"H:i"}}"></button>  
+
 </div>
 
 <script>
@@ -126,7 +125,8 @@
             $("#check_out__msg").html("{% trans "Checkout can not be less than checkin" %}");
         else {
             $("#check_out__msg").html("");
-            $('#btn-date').data(field, obj.val());
+            $("#btn-date").data(field, obj.val());
+            $("#btn-date").click();
         }
     }
 </script>
