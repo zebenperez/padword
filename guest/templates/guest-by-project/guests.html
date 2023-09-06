@@ -34,7 +34,7 @@
                     {%trans "Avantio notifications"%}</a>  
             {% endif %}
             {#<a class="btn btn-primary ark" data-url="{%url "guest-form-by-project"%}" data-target-modal="common-modal">{%trans "New guest"%}</a>  #}
-            <a class="btn btn-primary" href="{% url "guest-form-by-project" %}"> {%trans "New guest"%}</a>  
+            <a class="btn btn-primary" href="{% url "guest-details-by-project" %}"> {%trans "New guest"%}</a>  
         </div>
         <div id="guest-list"> {% include "guest-by-project/guest-list.html" %} </div>
     </div>
