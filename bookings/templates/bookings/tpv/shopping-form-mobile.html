@@ -1,0 +1,44 @@
+{% load i18n padword_tags static%}
+
+<div class="row">
+    <div class="col-12 description-item p-3">
+        <p class="card-text text-secondary">
+	        <textarea class="form-control autosave" id="comments" name="comments" rows="7" value="{{obj.comments}}" 
+                data-url="{% url "autosave_field" %}" data-model-name="contents.shoppingcart" data-obj-id="{{obj.pk}}" data-target="div-notification" 
+                placeholder="{% trans "Please, write here your comments" %}" >{{obj.comments}}</textarea> <span id="comments__msg"></span>
+        </p>
+        {% for item in obj.item.extra_list.all %}
+            <input type="checkbox" id="extra-{{item.id}}" class="extra" value="{% padword_translate item.name %}"/> 
+            {% padword_translate item.name %} <br/>
+        {% endfor %}
+   </div>
+</div>
+
+<div class="row mt-2">
+    <a id="btn-save" class="btn btn-marine w-100"> {% trans "Save" %}</a>
+</div>
+
+<script>
+    $("#btn-save").click(function(){
+        $('#div-comment-{{obj.id}}').hide();
+        $('#comment-{{obj.id}}').html($('#comments').val())
+    });
+
+    $(".extra").each(function(){
+        var value = $("#comments").val();
+        if (value.indexOf($(this).val()) >= 0)
+            $(this).prop("checked", "true")
+    });
+    $(".extra").click(function(){
+        var comments = $("#comments").val();
+        var extra = $(this).val();
+        if($(this).prop('checked')) 
+        {
+            if(comments.length > 0)
+                extra = "\n"+extra;
+            $("#comments").val(comments+extra).change();
+        }
+        else
+            $("#comments").val(comments.replace("\n"+extra, "").replace(extra, "")).change();
+    });
+</script>

@@ -1002,6 +1002,50 @@ ul.left-menu li.nav-item a.nav-link i:hover {
     margin-top: -8px !important;
 }
 
+/*****  WIZZARD *****/
+
+.step {
+    color: #333;
+    font-size: 14px;
+}
+
+span.step-circle {
+    background-color: #007bff;
+    color: #fff;
+    font-weight: 900;
+    width: 2em;
+    height: 2em;
+    padding: 0.5em 0;
+    border-radius: 1em;
+    display: inline-flex;
+    justify-content: center;
+    line-height: 1em;
+}
+
+input.step-code, 
+input.step-balance {
+    border:1px solid #ccc !important;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+button.btn.btn-default.ark {
+    border: 1px solid #007bff;
+    color: #007bff;
+    background-color: #fff;
+    font-size: 14px;
+}
+.btn:disabled, fieldset:disabled .btn {
+    pointer-events: none;
+    opacity: .65;
+    background-color: #f4f4f5 !important;
+    border: 1px solid #ccc !important;
+    color: #ccc !important;
+}
+
+/*****  END WIZZARD *****/
+
+
 
 i.fas.fa-home.hotel,
 i.fas.fa-credit-card.hotel { 

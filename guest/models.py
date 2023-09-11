@@ -538,7 +538,9 @@ class SensiboDevice(models.Model):
 
 class Wristband(models.Model):
     kid = models.BooleanField(verbose_name=_("Kid"), default=False)
+    locks = models.BooleanField(verbose_name=_("Locks"), default=False)
     code = models.CharField(max_length=255, verbose_name=_('Code'), default="")
+    name = models.CharField(max_length=255, verbose_name=_('Name'), default="")
     guest = models.ForeignKey(Guest, verbose_name=_("Guest"), on_delete=models.CASCADE, blank=True, null=True, related_name="bands")
 
     @property

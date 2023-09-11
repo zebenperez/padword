@@ -242,9 +242,12 @@ def tpv_order_item_comment(request):
     try:
         item_id = request.GET["item_id"]
         form_id = request.GET["form_id"]
+        temp = get_param(request.GET, "template")
         obj = get_or_none(ShoppingCart, int(item_id))
+        template = "bookings/tpv/{}.html".format(temp) if temp != "" else "bookings/tpv/shopping-form.html"
 
-        return render(request, "bookings/tpv/shopping-form.html", {'obj':obj, 'form_id':form_id})
+        return render(request, template, {'obj':obj, 'form_id':form_id})
+        #return render(request, "bookings/tpv/shopping-form.html", {'obj':obj, 'form_id':form_id})
     except Exception as e:
         return render(request, "error_exception.html", {'exc':show_exc(e)})
 

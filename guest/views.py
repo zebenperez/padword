@@ -296,7 +296,8 @@ def guest_set_regime(request):
         if value != "":
             regime = get_or_none(Regime, value)
             gr = GuestRegime.objects.create(regime=regime, guest=guest)
-        return HttpResponse(_("Saved!"))
+        return render(request, "guest/guest-details-tabs.html", {'obj': guest, 'temp_range': range(16,26)})
+        #return HttpResponse(_("Saved!"))
     except Exception as e:
         return render(request, "error_exception.html", {'exc':show_exc(e)})
 

@@ -49,13 +49,12 @@ a.special.ark {
 	-moz-box-shadow: 0px 10px 13px -9px rgba(0,0,0,0.46);
 	height: 80px;
 }
-.left-tpv .name 
-{
-}
-.left-tpv .name button
+.products-tpv-mobile .name button
 {
     background-color: #df6b07;
 	color: #ffffff !important;
+    font-size: 11px;
+    font-weight: 600 !important;
 } 
 .left-tpv .name button:hover
 {
@@ -64,9 +63,11 @@ a.special.ark {
 
 select.tpv-articles
 {
-	background-color: #a1c517;
+	background-color: #fff;
 	border: none;
-	color: #ffffff;
+	color: #a1c517;
+    height: 50px;
+    border:1px solid blue;
 }
 
 /*****************************/
@@ -239,8 +240,9 @@ div#cover.image
 img.img-fill 
 {
 	max-width: -webkit-fill-available;
-/*	height: 150px;*/
 	object-fit: fill;
+	max-height: 110px;
+    /*border:1px solid blue;*/
 }
 .row-01 h5.card-title 
 {
@@ -307,12 +309,21 @@ h5.card-title
     width: 100%;
     align-items: center;
 }
+.left-tpv .name button
+{
+    background-color: #df6b07;
+	color: #ffffff !important;
+    height: 50px;
+} 
 
-select.tpv-articles
+select.tpv-articles.mobile
 {
 	background-color: #fff;
 	border: none;
 	color: #a1c517;
+    height: 50px;
+    font-size: 13px;
+    font-weight: 600;
 }
 
 .access-ticket 
@@ -431,10 +442,12 @@ input#div-scan.form-control.ark_change.scanband::placeholder {
     padding: 0.1rem 1.25rem !important;
 }
 
-img.img-fill 
+img.img-fill.mobile 
 {
 	max-width: -webkit-fill-available;
 	object-fit: fill;
+	max-height: 70px;
+    /*border:1px solid red;*/
 }
 
 /*****************************/

@@ -2,25 +2,30 @@
 
 
 <ul class="nav nav-tabs m-2 pl-2 pr-2 pt-2">
-    <li class="nav-item"> <a class="nav-link active" data-bs-toggle="tab" href="#locks">{% trans "Locks" %}</a> </li>
-    <li class="nav-item"> <a class="nav-link" data-bs-toggle="tab" href="#bands">{% trans "Bands" %}</a> </li>
+    <li class="nav-item"> <a class="nav-link {%if not current_tab%}active{%endif%}" data-bs-toggle="tab" href="#locks">{% trans "Locks" %}</a> </li>
+    <li class="nav-item"> <a class="nav-link {%if current_tab == "bands"%}active{%endif%}" data-bs-toggle="tab" href="#bands">
+        {%trans "Bands"%}</a> </li>
     <li class="nav-item"> <a class="nav-link" data-bs-toggle="tab" href="#extras">{% trans "Extras" %}</a></li>
     {% if obj.project.sensibo_api_key != "" %}
         <li class="nav-item"> <a class="nav-link" data-bs-toggle="tab" href="#sensibo">{% trans "Air aconditioner" %}</a> </li>
     {% endif %}
-    {% if show_admin and show_admin == "True" %}
+    {#{% if show_admin and show_admin == "True" %}#}
+    {% if not request.project %}
         <li class="nav-item"> <a class="nav-link" data-bs-toggle="tab" href="#admins">{% trans "Administrator" %}</a> </li>
     {% endif %}
 </ul>
 <div class="tab-content internal m-2 p-2">
     {# -------------------------- LOCKS ------------------------#}
-    <div class="tab-pane container active" id="locks"><div id="div-locks">{%include "guest/keys/guest-details-keys.html"%}</div></div>
+    <div class="tab-pane container {%if not current_tab%}active{%endif%}" id="locks"><div id="div-locks">
+        {%include "guest/keys/guest-details-keys.html"%}</div></div>
 
     {# -------------------------- BANDS ------------------------#}
     {% if obj.have_valid_booking2 %}
-        <div class="tab-pane container" id="bands"><div id="div-bands">{%include "guest/bands/guest-details-bands.html"%}</div></div>
+        <div class="tab-pane container {%if current_tab == "bands"%}active{%endif%}" id="bands"><div id="div-bands">
+            {%include "guest/bands/guest-details-bands.html"%}</div></div>
     {% else %}
-        <div class="tab-pane container" id="bands"><div id="div-bands">{%include "guest/bands/guest-details-bands-info.html"%}</div></div>
+        <div class="tab-pane container {%if current_tab == "bands"%}active{%endif%}" id="bands"><div id="div-bands">
+            {%include "guest/bands/guest-details-bands-info.html"%}</div></div>
     {% endif %}
 
     {# -------------------------- EXTRAS ------------------------#}

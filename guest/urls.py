@@ -39,10 +39,12 @@ urlpatterns = [
     #--------------------- WRISTBANDS --------------------
     path('guests/band/add', wristband_views.guest_band_add, name='guest-band-add'),
     path('guests/band/save', wristband_views.guest_band_save, name='guest-band-save'),
+    path('guests/band/name', wristband_views.guest_band_name, name='guest-band-name'),
     path('guests/band/balance/add/', wristband_views.guest_band_balance_add, name="guest-band-balance-add"),
     path('guests/band/kid/', wristband_views.guest_band_kid, name="guest-band-kid"),
     path('guests/band/locks/', wristband_views.guest_band_locks, name="guest-band-locks"),
     path('guests/band/remove', wristband_views.guest_band_remove, name='guest-band-remove'),
+    path('guests/band/remove2', wristband_views.guest_band_remove2, name='guest-band-remove2'),
     path('guests/band/balance/', wristband_views.guest_bands_balance, name="guest-bands-balance"),
     path('guests/band/balance/list/', wristband_views.guest_band_balance_list, name="guest-band-balance-list"),
     path('guests/band/balance/form/', wristband_views.guest_band_balance_form, name="guest-band-balance-form"),

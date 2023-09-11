@@ -52,10 +52,14 @@
                     <div class="col-12" tyle="border:1px solid blue"> <div class="text-left">{{ item.item.price }}€</div> </div>
                     <div class="col-12 text-left" tyle="border:1px solid blue">
                         <a class="special ark" title="{%trans 'Add comment at this article'%}" data-url="{%url "tpv-order-item-comment"%}" 
-                            data-item_id="{{item.pk}}" data-form_id="{{fi.pk}}" data-target-modal="common-modal">{%trans 'Add comment'%}</a>
+                            data-item_id="{{item.pk}}" data-form_id="{{fi.pk}}" data-target="div-comment-{{item.id}}" 
+                            data-template="shopping-form-mobile" data-show="div-comment-{{item.id}}"> {%trans 'Add comment'%}</a>
+                    </div>
+                    <div class="col-12 text-left">
+                        <div id="div-comment-{{item.id}}"></div>
                     </div>
                     <div class="col-12 comment mt-1">
-                        <div class="small card-title text-left"><small>{{ item.comments }} &nbsp;</small></div>
+                        <div class="small card-title text-left"><small><span id="comment-{{item.id}}">{{ item.comments }}</span> &nbsp;</small></div>
                     </div>
                 </div>
             </div>
