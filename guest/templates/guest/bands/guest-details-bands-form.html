@@ -9,19 +9,19 @@
 {%endif%}
 
 <div class="row m-0 p-0 w-100">
-    <div class="col-3">
-        <div class="step p-1"><span class="step-circle">1</span>&nbsp;<strong>{% trans "Scan band" %}</strong><br /><br />
+    <div class="col-2 p-0">
+        <div class="step"><span class="step-circle">1</span>&nbsp;<strong>{% trans "Scan band" %}</strong><br /><br />
             <input type="text" class="form-control ark_change highly step-code" id="code" name="code" data-url="{%url "guest-band-save"%}" 
                 data-target="div-band-form" data-obj_id="{{obj.id}}" value="{{band.code}}" placeholder="{%trans "Acercar la tarjeta al lector"%}"
                 {%if step > 0%} disabled {%endif%}/>
         </div>
     </div>
 
-    <div class="col-3 {%if step < 1%}hide{%endif%}">
-        <div class="step p-1"><span class="step-circle">2</span>&nbsp;<strong>{% trans "Name" %}</strong><br /><br />
+    <div class="col-2 {%if step < 1%}hide{%endif%}">
+        <div class="step"><span class="step-circle">2</span>&nbsp;<strong>{% trans "Name" %}</strong><br /><br />
             <div class="row">
-                <div class="col-10">
-                    <input type="text" class="form-control ark_change highly step-code" id="name" name="name" data-url="{%url "guest-band-name"%}" 
+                <div class="col-10 p-0">
+                    <input type="text" class="form-control ark_change highly step-code ml" id="name" name="name" data-url="{%url "guest-band-name"%}" 
                         data-target="div-band-form" data-obj_id="{{obj.id}}" data-band_id="{{band.id}}" value="{{band.name}}" 
                         placeholder="{%trans "Nombre de la tarjeta"%}" {%if step > 1%} disabled {%endif%}/>
                 </div>
@@ -30,8 +30,8 @@
         </div>
     </div>
 
-    <div class="col-2 {%if step < 2%}hide{%endif%}">
-        <div class="step p-1"><span class="step-circle">2</span>&nbsp;<strong>{% trans "Add band to locks?" %}</strong><br /><br />
+    <div class="col-3 {%if step < 2%}hide{%endif%}">
+        <div class="step text-center"><span class="step-circle">3</span>&nbsp;<strong>{% trans "Add band to locks?" %}</strong><br /><br />
             {%comment%}
             <button class="btn btn-default ark" data-url="{%url "guest-band-locks"%}" data-target="div-band-form" data-obj_id="{{band.id}}" 
                 data-locks="true" {%if step > 2%} disabled {%endif%}> {%trans "Yes"%}</button>
@@ -39,7 +39,7 @@
                 data-locks="false" {%if step > 2%} disabled {%endif%}> {%trans "No"%}</button>
             {%endcomment%}
             {% if step > 2 %}
-                {%if band.locks%}{% trans "Yes" %}{%else%}{% trans "No" %}{%endif%}
+                {%if band.locks%} <span class="disabled">{% trans "Yes" %}{%else%}{% trans "No" %}</span> {%endif%}
             {% else %}
                 <button class="btn btn-default ark" data-url="{%url "guest-band-locks"%}" data-target="div-band-form" data-obj_id="{{band.id}}" 
                     data-locks="true"> {%trans "Yes"%}</button>
@@ -49,8 +49,8 @@
         </div>
     </div>
 
-    <div class="col-2 {%if step < 3%}hide{%endif%}">
-        <div class="step p-1"><span class="step-circle">3</span>&nbsp;<strong>{% trans "This band is for kid?" %}</strong><br /><br />
+    <div class="col-3 {%if step < 3%}hide{%endif%}">
+        <div class="step text-center"><span class="step-circle">4</span>&nbsp;<strong>{% trans "This band is for kid?" %}</strong><br /><br />
             {%comment%}
             <button class="btn btn-default ark" data-url="{%url "guest-band-kid"%}" data-target="div-band-form" data-obj_id="{{band.id}}" 
                 data-kid="true" {%if step > 3%} disabled {%endif%}> {%trans "Yes"%}</button>
@@ -58,7 +58,7 @@
                 data-kid="false" {%if step > 3%} disabled {%endif%}> {%trans "No"%}</button>
             {%endcomment%}
             {% if step > 3 %}
-                {%if band.locks%}{% trans "Yes" %}{%else%}{% trans "No" %}{%endif%}
+                {%if band.locks%} <span class="disabled">{% trans "Yes" %}{%else%}{% trans "No" %}</span> {%endif%}
             {% else %}
                 <button class="btn btn-default ark" data-url="{%url "guest-band-kid"%}" data-target="div-band-form" data-obj_id="{{band.id}}" 
                     data-kid="true"> {%trans "Yes"%}</button>
@@ -69,9 +69,9 @@
     </div>
 
     <div class="col-2 {%if step < 4%}hide{%endif%}">
-        <div class="step p-1"><span class="step-circle">4</span>&nbsp;<strong>{% trans "Add balance" %}</strong><br /><br />
+        <div class="step"><span class="step-circle">5</span>&nbsp;<strong>{% trans "Add balance" %}</strong><br /><br />
         <div class="row"> 
-            <div class="col-5" style="display:flex; align-items: center;"> 
+            <div class="col-5 p-0" style="display:flex; align-items: center;"> 
                 <input type="text" class="form-control highly border-0 text-right step-balance" id="ini-amount" name="ini_amount" value="0" 
                     onchange="$('#btn-balance-add').data('balance', $(this).val())" />&nbsp; <span>&euro;</span>
             </div>

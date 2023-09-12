@@ -3,7 +3,7 @@ from django.db.models import Max
 from django.contrib.auth.models import User
 from PIL import Image
 from datetime import datetime
-from .models import AnswerInstance, Form, FormInstance, FormInstanceLog, GuestUser
+from .models import AnswerInstance, Form, FormInstance, FormInstanceInfo, FormInstanceLog, GuestUser
 
 import qrcode, io
 import logging
@@ -51,6 +51,16 @@ def get_or_create_form_instance_tpv(form, pos_uuid, table_uuid, guest_name=""):
         return fi
     return None
 
+def get_or_create_form_instance_info_tpv(fi, pos, table, client, band):
+    if form.form_type.order:
+        fi_info, created = FormInstanceInfo.objects.get_or_create(fi=fi)
+        fi_info.pos=pos
+        fi_info.table=table
+        fi_info.client=client
+        fi_info.band=band
+        fi_info.save()
+        return fi_info
+    return None
 
 def get_or_create_answer_instance(fi, q, f, index):
     ai, created = AnswerInstance.objects.get_or_create(form_instance=fi, question=q, field=f, index=index)

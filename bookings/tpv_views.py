@@ -10,7 +10,7 @@ from contents.models import Category, ShoppingCart, Item, PaymentType, PointOfSa
 from guest.models import Guest, Wristband, WristbandBalance
 from web.lock_lib import ShLock
 
-from .common_lib import get_or_create_form_instance_tpv, user_in_group
+from .common_lib import get_or_create_form_instance_tpv, get_or_create_form_instance_info_tpv, user_in_group
 from .models import Form, FormInstance, Status, Table
 from django.conf import settings
 
@@ -98,6 +98,7 @@ def tpv_index(request, project_uuid):
             pos = get_or_none(PointOfSale, request.session["point_of_sale"])
             table = get_or_none(Table, request.session["table"])
             fi = get_or_create_form_instance_tpv(form, pos.uuid, table.uuid, request.user.username)
+            fi_info = get_or_create_form_instance_tpv(fi, pos.name, table.name, request.user.username, "")
             cat_list = [item.category for item in pos.categories.all()]
             item_favorites = []
             for cat in cat_list:

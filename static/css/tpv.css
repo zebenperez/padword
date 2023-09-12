@@ -88,11 +88,26 @@ select.tpv-articles
 	-moz-box-shadow: 0px 10px 13px -9px rgba(0,0,0,0.46);
 }
 
+.table-selector {
+    border:1px solid #333; 
+    border-radius: 0.25rem;
+}
+
 .logo img 
 {
 	width: 100%;
 	max-width: 40px;
 	height: auto;
+}
+
+.ticket-line.guest-info
+{
+    text-decoration: underline;
+}
+
+.blue-info {
+    text-transform: uppercase; 
+    color: #0d6efd;
 }
 
 #ticket-summary .btn-dark,

@@ -1,0 +1,42 @@
+{% load i18n padword_tags %}
+
+
+{% if msg %} <div class="d-flex row"> <div class="col"><div class="alert alert-info"><strong>{{msg}}.</strong></div></div> </div> {% endif %}
+
+<div class="d-flex p-2">
+    <table class="table table-striped table-hover m-1">
+        <thead>
+            <tr class="small small">
+                <th class="row p-1">
+                    <div class="col-2"> {% trans 'Service' %} </div>
+                    <div class="col-2"> {% trans 'Guest' %} </div>
+                    <div class="col-1"> {% trans 'Room' %} </div>
+                    <div class="col-2"> {% trans 'Date' %} </div>
+                    <div class="col-1"> {% trans 'Status' %} </div>
+                    <div class="col-2"> {% trans 'Payment Type' %} </div>
+                    <div class="col-1"> {% trans 'Amount' %} </div>
+                </th>
+            </tr>
+        </thead>
+        <tfoot>
+            <tr>
+                <td>
+                    <div id="div-see-more">
+                        <a class="small d-flex justify-content-center btn ark-append-page" id="btn-see-more" 
+                            data-url="{% url "orders-page" %}" data-target="table-list-bookings" data-page="0">
+                            <small>{% trans "See more" %}</small></a> 
+                    </div>
+                </td>
+            </tr>
+        </tfoot>
+        <tbody id="table-list-bookings">
+            {% include "bookings/tpv-orders/order-page.html" %}
+        </tbody>
+    </table>
+</div>
+<script>
+    //checkNotify($("#s-ini_date").val(), $("#s-end_date").val());
+    $('#total-items').html('{{total_items}}');
+    $('.btn-status').removeClass('btn-primary').addClass('btn-light');
+    $('#btn-status-{{status}}').removeClass('btn-light').addClass('btn-primary');
+</script>

@@ -3,23 +3,23 @@
 {%if band_err %}<div class="alert alert-danger">{%trans "This band is not assigned to any guest!"%}</div>{%endif%}
 {% with guest=band.guest %}
     {#<div class="card article w-100 mb-3 box-new ark" data-url="{% url 'tpv-add-item' %}" data-target="ticket-summary" data-form_id="{{fi.pk}}" data-item_id="{{item.pk}}">#}
-    <div class="row ticket-line justify-content-center m-0 text-center">
-        <div class="col-4">{% trans "Band" %}</div>
-        <div class="col-4">{% trans "Guest" %}</div>
-        <div class="col-4">{% trans "Room" %}</div>
+    <div class="row ticket-line guest-info justify-content-center mt-2">
+        <div class="col-3 text-left">{% trans "Band" %}</div>
+        <div class="col-6 text-center">{% trans "Guest" %}</div>
+        <div class="col-3 text-right">{% trans "Room" %}</div>
     </div>
-    <div class="row ticket-line justify-content-center m-0 text-center">
-        <div class="col-4">{{band.name}}</div>
-        <div class="col-4">{{guest.name}} {{guest.surname}}</div>
-        <div class="col-4">{{guest.room}}</div>
+    <div class="row ticket-line justify-content-center">
+        <div class="col-3 blue-info text-left">{{band.name}}</div>
+        <div class="col-6 blue-info text-center">{{guest.name}} {{guest.surname}}</div>
+        <div class="col-3 blue-info text-center">{{guest.room}}</div>
     </div>
-    <div class="row ticket-line justify-content-center m-0 text-center">
-        <div class="col-6">{% trans "Regime" %}</div>
-        <div class="col-6">{% trans "Balance" %}</div>
+    <div class="row ticket-line guest-info justify-content-center mt-2">
+        <div class="col-6 text-left">{% trans "Regime" %}</div>
+        <div class="col-6 text-right">{% trans "Balance" %}</div>
     </div>
-    <div class="row ticket-line justify-content-center m-0 text-center">
-        <div class="col-6">{{guest.regime}}</div>
-        <div class="col-4 balance-band text-right {%if band.balance < 0%}text-danger{%endif%}">
+    <div class="row ticket-line justify-content-center">
+        <div class="col-6 blue-info text-left">{{guest.regime}}</div>
+        <div class="col-4 offset-2 balance-band text-right {%if band.balance < 0%}text-danger{%endif%}">
             <strong>{{band.balance|floatformat:2}} {%if band%}€{%endif%}</strong></div>
     </div>
     {%comment%}

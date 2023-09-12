@@ -70,6 +70,14 @@
                     data-code="orders"><i class="fas fa-book"></i> {%trans "Orders"%} <span class="new">NEW</span> </a></li>
             {% endif %}
 
+            {% if user_project|have_menu:"orders_tpv" %}
+                <li class="nav-item"><a class="nav-link {%if active == "orders_tpv"%}active{%endif%}" href="{% url 'orders-by-project' %}">
+                    <i class="fas fa-book"></i>  {% trans "Orders TPV" %}</a> </li>
+            {% elif user_project|have_menu_promo:"orders" %}
+	            <li class="nav-item"><a class="nav-link pointer ark" data-url="{%url "show-module"%}" data-target-modal="common-modal"
+                    data-code="orders_tpv"><i class="fas fa-book"></i> {%trans "Orders TPV"%} <span class="new">NEW</span> </a></li>
+            {% endif %}
+
             {% if user_project|have_menu:"notifications" %}
                 <li class="nav-item"><a class="nav-link {%if active == "notifications"%}active{%endif%}" href="{% url 'guest-notifications' %}">
                     <i class="fas fa-envelope"></i> {%trans "Notifications"%}</a></li>

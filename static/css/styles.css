@@ -128,6 +128,19 @@ select.mini {
     font-size: 0.7rem;
 }
 
+.ml {
+    margin-left:15px;
+}
+
+.disabled {
+    background-color: #f4f4f5 !important;
+    line-height: 2.5 !important;
+    border: 1px solid #ccc !important;
+    padding: 0.5em !important;
+    width: 100% !important;
+    border-radius: 0.25rem;
+}
+
 /***************************/
 /***** Padword buttons *****/
 
@@ -341,6 +354,7 @@ select.select-k, input.form-control.input-k {
 .band-div {
     background: #f1f4f5;
 }
+
 input.form-control.highly, .highly {
     line-height: 2.5;
 }
@@ -1006,7 +1020,7 @@ ul.left-menu li.nav-item a.nav-link i:hover {
 
 .step {
     color: #333;
-    font-size: 14px;
+    font-size: 13px;
 }
 
 span.step-circle {
@@ -1025,15 +1039,14 @@ span.step-circle {
 input.step-code, 
 input.step-balance {
     border:1px solid #ccc !important;
-    font-size: 14px;
-    font-weight: 600;
+    font-size: 12px;
 }
 
 button.btn.btn-default.ark {
     border: 1px solid #007bff;
     color: #007bff;
     background-color: #fff;
-    font-size: 14px;
+    font-size: 12px;
 }
 .btn:disabled, fieldset:disabled .btn {
     pointer-events: none;
@@ -1041,6 +1054,10 @@ button.btn.btn-default.ark {
     background-color: #f4f4f5 !important;
     border: 1px solid #ccc !important;
     color: #ccc !important;
+}
+
+.head-band {
+    font-size: 0.8em;
 }
 
 /*****  END WIZZARD *****/

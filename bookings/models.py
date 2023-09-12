@@ -559,3 +559,11 @@ class GuestUser(models.Model):
     def delete_by_guest(guest_uuid):
         gu_list = GuestUser.objects.filter(guest_uuid=guest_uuid).delete()
 
+class FormInstanceInfo(models.Model):
+    pos = models.CharField(max_length=255, verbose_name=_("Guest name"), default="")
+    table = models.CharField(max_length=255, verbose_name=_("Guest name"), default="")
+    band = models.CharField(max_length=255, verbose_name=_("Guest name"), default="")
+    client = models.CharField(max_length=255, verbose_name=_("Guest name"), default="")
+    fi = models.ForeignKey(FormInstance, on_delete=models.CASCADE, verbose_name=_("Form Instance"), null=True, blank=True, related_name='info')
+
+ 
