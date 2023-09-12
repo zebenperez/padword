@@ -98,7 +98,7 @@ def tpv_index(request, project_uuid):
             pos = get_or_none(PointOfSale, request.session["point_of_sale"])
             table = get_or_none(Table, request.session["table"])
             fi = get_or_create_form_instance_tpv(form, pos.uuid, table.uuid, request.user.username)
-            fi_info = get_or_create_form_instance_tpv(fi, pos.name, table.name, request.user.username, "")
+            fi_info = get_or_create_form_instance_info_tpv(fi, pos.name, table.name, request.user.username, "")
             cat_list = [item.category for item in pos.categories.all()]
             item_favorites = []
             for cat in cat_list:

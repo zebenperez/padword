@@ -52,7 +52,7 @@ def get_or_create_form_instance_tpv(form, pos_uuid, table_uuid, guest_name=""):
     return None
 
 def get_or_create_form_instance_info_tpv(fi, pos, table, client, band):
-    if form.form_type.order:
+    if fi.form.form_type.order:
         fi_info, created = FormInstanceInfo.objects.get_or_create(fi=fi)
         fi_info.pos=pos
         fi_info.table=table
