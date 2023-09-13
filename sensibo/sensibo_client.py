@@ -27,6 +27,10 @@ class SensiboClientAPI(object):
         result = self._get("/pods/%s/measurements" % podUid)
         return result['result']
 
+    def pod_measurement_history(self, podUid):
+        result = self._get("/pods/%s/historicalMeasurements" % podUid)
+        return result['result']
+
     def pod_ac_state(self, podUid):
         result = self._get("/pods/%s/acStates" % podUid, limit = 1, fields="acState")
         return result['result']

@@ -2,34 +2,34 @@
 
 {% for b in obj.blocks.all %}
     <div class="card border-primary">
-        <div class="card-header bg-primary">
-            <div class="row">
-                <div class="col-1 text-end"> {% trans "Order" %}:</div>
+        <div class="card-header bg-secondary text-white">Formulario
+        </div>
+            <div class="row m-0">
+                <div class="col-2 grey text-left"> {% trans "Order" %}:</div>
                 <div class="col-1">
                     <input type="text" class="form-control autosave" id="b-order" name="order" value="{{b.order}}" title="{{b.order}}" 
                         data-model-name="bookings.block" data-obj-id="{{b.id}}" data-url="{% url "autosave_field" %}" data-target="div-notification"/>
                         <span id="b-order__msg"></span>
                 </div>
 
-                <div class="col-1 text-end"> {% trans "Name" %}:</div>
-                <div class="col-8">
+                <div class="col-2 grey text-end"> {% trans "Name" %}:</div>
+                <div class="col-6">
 		            <input type="text" class="form-control autosave" id="b-text" name="text" value="{% padword_translate b.text %}" 
                         title="{% padword_translate b.text %}" data-model-name="bookings.block" data-obj-id="{{b.id}}" 
                         data-url="{% url "autosave_field" %}" data-lang="{% current_lang %}" data-target="div-notification"/> 
                         <span id="b-text__msg"></span>
                 </div>
                 <div class="col-1">
-                    <a href="#" class="ark" data-url="{% url "block-remove" %}" data-target="div-blocks" data-obj_id="{{b.id}}" 
+                    <a href="#" class="btn btn-danger ark" data-url="{% url "block-remove" %}" data-target="div-blocks" data-obj_id="{{b.id}}" 
                         title="{% trans "Remove item"%}" data-confirm="{% trans "Are you sure to remove this item?" %}">
                         <i class="fas fa-trash"></i></a>  
                 </div>
             </div>
-        </div>
         <div class="card-body">
             {% with q=b.question_set.all.first %}
-                <div class="row">
-                    <div class="col-2 text-end"><small>{% trans "Question type" %}:</small></div>
-                    <div class="col-9">
+                <div class="row m-0">
+                    <div class="col-12 grey text-left"><small>{% trans "Question type" %}:</small></div>
+                    <div class="col-12">
                     <select name="question_type" id="question_type" class="form-control autosave" data-model-name="bookings.question" 
                         data-obj-id="{{q.id}}" data-url="{% url "autosave_field" %}" data-target="div-notification">
                         <option value="">-- {% trans "Select question type" %} --</option>
@@ -41,8 +41,8 @@
                     </div>
                 </div>
 
-                <div class="row"><div class="col-12 text-end">
-                    <a class="btn btn-secondary btn-sm ark" data-url="{% url "field-add" %}" data-target="div-question-{{q.id}}"
+                <div class="row mb-2"><div class="col-12 text-end">
+                    <a class="btn btn-primary btn-sm ark" data-url="{% url "field-add" %}" data-target="div-question-{{q.id}}"
                         data-obj_id="{{q.id}}" title="{% trans "Add item"%}"><i class="fas fa-plus"></i></a>  
                 </div></div>
 

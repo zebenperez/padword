@@ -22,6 +22,9 @@ urlpatterns = [
     path('projects/pos-add/', views.project_pos_add, name='project-pos-add'),
     path('projects/pos-remove/', views.project_pos_remove, name='project-pos-remove'),
     path('projects/pos-cat-toggle/', views.project_pos_cat_toggle, name='project-pos-cat-toggle'),
+    path('projects/table-add/', views.project_table_add, name='project-table-add'),
+    path('projects/table-remove/', views.project_table_remove, name='project-table-remove'),
+    path('projects/table-range/', views.project_table_range, name='project-table-range'),
     path('projects/set-avantio-schedule/', views.project_set_avantio_schedule, name='project-set-avantio-schedule'),
     #--------------------- Channels --------------------
     path('channels/project-<slug:project_id>/', views.channels, name='channels-by-project'),

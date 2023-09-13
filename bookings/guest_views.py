@@ -56,6 +56,8 @@ def check_user(user, guest):
         return False
     if guest == None:
         return False
+    if guest.deleted != 0:
+        return False
     if not guest.have_valid_booking():
         return False
     return True
@@ -84,6 +86,7 @@ def guest_access_auto(request, guest_uuid):
         project = guest.project
         form = Form.get_main(project)
         cat = form.get_category
+
         if not guest.have_valid_booking():
             return render(request, 'bookings/guest/guest-welcome-error.html', {'cat': cat})
             #return render(request, 'error_exception.html', {'exc': _('This user do not have a valid booking!')})
@@ -94,7 +97,8 @@ def guest_access_auto(request, guest_uuid):
         auth.login(request, user)
 
         if not check_user(request.user, guest):
-            return render(request, 'error_exception.html', {'exc': _('User not valid!')})
+            return render(request, 'bookings/guest/guest-welcome-error.html', {'cat': cat})
+            #return render(request, 'error_exception.html', {'exc': _('User not valid!')})
 
         #ft = FormType.objects.filter(project_uuid = project.uuid, main = True).first()
         #form = Form.objects.filter(form_type = ft).first()

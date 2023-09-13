@@ -1,0 +1,16 @@
+{% load i18n padword_tags %}
+
+
+<div class="card">
+    <div class="card-header toggle-btn" data-target="body-table" data-id-change="icon-extra"
+        data-text='<i class="fas fa-plus"></i>' data-text-alt='<i class="fas fa-minus"></i>'>
+        <div class="row w-100">
+            <div class="col-6 text-right" id="icon-extra"><i class="fas fa-plus"></i></div>
+            <div class="col-6 text-left"><strong>{% trans "Tables" %}</strong></div>
+        </div>
+    </div>
+    <div class="card-body hide" id="body-table"> 
+        <div id="div-table-list"> {% include "web/projects/project-form-table-list.html" %} </div>
+    </div>		
+</div>		
+

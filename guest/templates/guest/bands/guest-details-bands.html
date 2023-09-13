@@ -1,0 +1,21 @@
+{% load i18n guest_tags %}
+
+<div class="">
+    <div class="card-header mb-1"> {% trans "Wristbands assigned" %} </div>
+    <div class="card-body p-0">
+        <div id="div-notification" {%if msg and msg != ""%}class="alert-danger"{%endif%}>{{msg}}</div>
+        <div class="text-right">
+            {% if obj.regime %}
+                <button class="btn btn-primary btn-sm ark" data-url="{%url "guest-band-add"%}" data-target="div-band-form" data-obj_id="{{obj.id}}" 
+                    data-show="div-band-form"> <i class="fas fa-plus"></i> {% trans "Add" %}</button>
+            {% else %}
+                <small>{% trans "You must to select a regime before add band" %}</small>
+                <button class="btn btn-primary btn-sm ark" data-url="{%url "guest-band-add"%}" data-target="div-band-form" data-obj_id="{{obj.id}}" 
+                    data-show="div-band-form" disabled> <i class="fas fa-plus"></i> {% trans "Add" %}</button>
+            {% endif %}
+        </div>
+        <div id="div-band-form" class="hide"></div>
+        <div id="div-band-list">{% include "guest/bands/guest-details-bands-list.html" %}</div>
+    </div>
+</div>
+

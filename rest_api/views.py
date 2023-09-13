@@ -8,7 +8,7 @@ from django.urls import reverse
 from .models_serializers import GuestSerializer, LockSerializer, RoomSerializer
 
 from guest.models import Guest
-from bookings.models import GuestUser
+from bookings.models import GuestUser, Form
 #from web.models import ProjectUser, Lock, Room
 from web.models import ProjectUser, Room
 from web.models_lock import Lock, LockCodeExtId
@@ -346,10 +346,14 @@ class LockViewSet(viewsets.ModelViewSet):
             pu = ProjectUser.objects.get(username=self.request.user.username)
             lock_uuid = request.POST["uuid"]
             code = request.POST["code"]
+            name = request.POST["name"] if "name" in request.POST else ""
             start_date = datetime.strptime(request.POST.get('start_date', ""), "%Y-%m-%d %H:%M")
             end_date = datetime.strptime(request.POST.get('end_date', ""), "%Y-%m-%d %H:%M")
+            start_date_gmt = pu.project.gmt_date(start_date)
+            end_date_gmt = pu.project.gmt_date(end_date)
             lock = Lock.objects.get(uuid=lock_uuid, project_uuid=pu.project_uuid)
-            err = lock.set_code(code, start_date, end_date)
+            #err = lock.set_code(code, start_date, end_date, name)
+            err = lock.set_code(code, start_date_gmt, end_date_gmt, name)
 
             if "ext_id" in request.POST:
                 ext_id = request.POST["ext_id"]
@@ -374,8 +378,11 @@ class LockViewSet(viewsets.ModelViewSet):
             code = request.POST["code"]
             start_date = datetime.strptime(request.POST.get('start_date', ""), "%Y-%m-%d %H:%M")
             end_date = datetime.strptime(request.POST.get('end_date', ""), "%Y-%m-%d %H:%M")
+            start_date_gmt = pu.project.gmt_date(start_date)
+            end_date_gmt = pu.project.gmt_date(end_date)
             lock = Lock.objects.get(uuid=lock_uuid, project_uuid=pu.project_uuid)
-            err = lock.change_code(code_id, code, start_date, end_date)
+            #err = lock.change_code(code_id, code, start_date, end_date)
+            err = lock.change_code(code_id, code, start_date_gmt, end_date_gmt)
             if "Error" in str(err):
                 logger.error("[{}]: \"{}\"".format(self.request.user, str(err)))
                 return Response({"error": True, "msg": str(err)})
@@ -430,6 +437,8 @@ class LockViewSet(viewsets.ModelViewSet):
             code = reverse_cardkey(request.POST["code"])
             start_date = datetime.strptime(request.POST.get('start_date', ""), "%Y-%m-%d %H:%M")
             end_date = datetime.strptime(request.POST.get('end_date', ""), "%Y-%m-%d %H:%M")
+            start_date_gmt = pu.project.gmt_date(start_date)
+            end_date_gmt = pu.project.gmt_date(end_date)
             #lock = Lock.objects.get(uuid=lock_uuid)
             #lock_list = Lock.objects.filter(uuid=lock_uuid, project_uuid=pu.project_uuid)
             #for l in lock_list:
@@ -437,7 +446,8 @@ class LockViewSet(viewsets.ModelViewSet):
             #lock = Lock.objects.filter(uuid=lock_uuid, project_uuid=pu.project_uuid).first()
             lock = Lock.objects.get(uuid=lock_uuid, project_uuid=pu.project_uuid)
 
-            err = lock.add_card(code, start_date, end_date)
+            #err = lock.add_card(code, start_date, end_date)
+            err = lock.add_card(code, start_date_gmt, end_date_gmt)
             if "Error" in str(err):
                 logger.error("[{}]: \"{}\"".format(self.request.user, str(err)))
                 return Response({"error": True, "msg": str(err)})
@@ -474,8 +484,11 @@ class LockViewSet(viewsets.ModelViewSet):
             code_id = request.POST["code_id"]
             start_date = datetime.strptime(request.POST.get('start_date', ""), "%Y-%m-%d %H:%M")
             end_date = datetime.strptime(request.POST.get('end_date', ""), "%Y-%m-%d %H:%M")
+            start_date_gmt = pu.project.gmt_date(start_date)
+            end_date_gmt = pu.project.gmt_date(end_date)
             lock = Lock.objects.get(uuid=lock_uuid, project_uuid=pu.project_uuid)
-            err = lock.change_period_card(code_id, start_date, end_date)
+            #err = lock.change_period_card(code_id, start_date, end_date)
+            err = lock.change_period_card(code_id, start_date_gmt, end_date_gmt)
             if "Error" in str(err):
                 logger.error("[{}]: \"{}\"".format(self.request.user, str(err)))
                 return Response({"error": True, "msg": str(err)})
@@ -599,6 +612,18 @@ class SensiboViewSet(viewsets.ViewSet):
             return Response({"error": True, 'msg': 'Bad request!'})
 
     @action(detail=False, methods=['get'])
+    def measurement_history(self, request):
+        try:
+            pu = ProjectUser.objects.get(username=self.request.user.username)
+            device_uid = request.GET["device_uid"]
+            data_values = pu.project.sensibo_get_measurement_history(device_uid)
+            data_values["error"] = "false"
+            return Response(data_values)
+        except Exception as e:
+            logger.error("[{}]: \"{}\"".format(self.request.user, str(e)))
+            return Response({"error": True, 'msg': 'Bad request!'})
+
+    @action(detail=False, methods=['get'])
     def ac_state(self, request):
         try:
             pu = ProjectUser.objects.get(username=self.request.user.username)
@@ -606,6 +631,28 @@ class SensiboViewSet(viewsets.ViewSet):
             data_values = pu.project.sensibo_get_ac_state(device_uid)
             data_values["error"] = "false"
             return Response(data_values)
+        except Exception as e:
+            logger.error("[{}]: \"{}\"".format(self.request.user, str(e)))
+            return Response({"error": True, 'msg': 'Bad request!'})
+
+class TicketViewSet(viewsets.ViewSet):
+    """
+    A simple ViewSet for listing or retrieving users.
+    """
+    def list(self, request):
+        try:
+            pu = ProjectUser.objects.get(username=self.request.user.username)
+            start_date = request.GET["start_date"] if "start_date" in request.GET else ""
+            end_date = request.GET["end_date"] if "end_date" in request.GET else ""
+            if start_date != "":
+                s_date = datetime.strptime(start_date, "%Y-%m-%d_%H:%M")
+                e_date = datetime.strptime(end_date, "%Y-%m-%d_%H:%M") if end_date != "" else datetime.now()
+            print(s_date)
+            print(e_date)
+            form = Form.objects.filter(form_type__code="tpv", form_type__project_uuid=pu.project.uuid).first()
+            if form != None:
+                return Response(form.to_tickets())
+            return Response({"error": True, 'msg': 'This project do not have TPV configured!'})
         except Exception as e:
             logger.error("[{}]: \"{}\"".format(self.request.user, str(e)))
             return Response({"error": True, 'msg': 'Bad request!'})

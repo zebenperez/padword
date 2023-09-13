@@ -17,6 +17,10 @@
                 <a class="btn btn-primary ark" data-url="{% url "guest-soft-remove-all-by-project" %}" data-target="guest-list">
                     {%trans "Remove clients with checkout previous to" %} {{limit}}</a>
             {% endif %}
+            {% if project.winhotel_user != None and project.winhotel_user.source_code != "" %}
+                <a class="btn btn-primary ark" data-url="{% url "winhotel-get-booking-list" project.uuid %}" data-target-modal="common-modal"> 
+                    {%trans "Import winhotel bookings"%}</a>  
+            {% endif %}
             {% if project.avaibook_user != None and project.avaibook_user.uuid != "" %}
                 <a class="btn btn-primary ark" data-url="{% url "avaibook-get-booking-list" project.uuid %}" data-target-modal="common-modal"> 
                     {%trans "Import avaibook bookings"%}</a>  
@@ -29,7 +33,8 @@
                 <a class="btn btn-primary ark" data-url="{% url "avantio-get-booking-notif" project.uuid %}" data-target-modal="common-modal"> 
                     {%trans "Avantio notifications"%}</a>  
             {% endif %}
-            <a class="btn btn-primary ark" data-url="{% url "guest-form-by-project" %}" data-target-modal="common-modal"> {%trans "New guest"%}</a>  
+            {#<a class="btn btn-primary ark" data-url="{%url "guest-form-by-project"%}" data-target-modal="common-modal">{%trans "New guest"%}</a>  #}
+            <a class="btn btn-primary" href="{% url "guest-details-by-project" %}"> {%trans "New guest"%}</a>  
         </div>
         <div id="guest-list"> {% include "guest-by-project/guest-list.html" %} </div>
     </div>

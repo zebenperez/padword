@@ -5,10 +5,10 @@
         data-project="{{item.project_uuid}}">
         <div class="row lock-box">
             <div class="col-10 alias text-center pt-1 pb-1"><strong>{{ item.alias }}</strong></div>
-            <div class="col-2 alias pt-2 text-center" style="background:#5b7898;">
+            <div class="col-2 alias pt-2 text-center" tyle="background:#5b7898;">
                 <a class="ark" data-url="{% url "room-remove" %}" data-target="room-list" data-obj_id="{{item.id}}" 
                     data-confirm="{%trans "Are you sure to remove this element?"%}" title="{%trans "Delete" %}">
-                    <i class="fas fa-trash" style="color:#fff; font-size: 0.8rem;"></i></a>
+                    <i class="far fa-window-close" tyle="color:#fff; font-size: 0.8rem;"></i></a>
             </div>
             <!--<div class="col-12 text-center">Room number: <strong>{{item.number|default:'100'}}</strong></div>-->
             <div class="icons-1 d-flex justify-content-center mt-2 mb-2">

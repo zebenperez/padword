@@ -104,6 +104,12 @@ class Guest(models.Model):
         date = pytz.utc.localize(datetime.datetime.now() + datetime.timedelta(hours=1))
         return (self.check_in <= date and self.check_out >= date) 
 
+    def have_valid_booking2(self):
+        date = pytz.utc.localize(datetime.datetime.now() + datetime.timedelta(hours=1))
+        check_in = self.check_in.replace(tzinfo=pytz.utc)
+        check_out = self.check_out.replace(tzinfo=pytz.utc)
+        return (check_in <= date and check_out >= date) 
+
     def check_all_notifications(self):
         guest_notifications = [item.notification.id for item in self.notifications.all()]
         notification_list = Notification.objects.filter(project_uuid=self.project_id, all_users=True).exclude(id__in=guest_notifications)
@@ -532,7 +538,10 @@ class SensiboDevice(models.Model):
         verbose_name_plural = _("Sensibo devices")
 
 class Wristband(models.Model):
+    kid = models.BooleanField(verbose_name=_("Kid"), default=False)
+    locks = models.BooleanField(verbose_name=_("Locks"), default=False)
     code = models.CharField(max_length=255, verbose_name=_('Code'), default="")
+    name = models.CharField(max_length=255, verbose_name=_('Name'), default="")
     guest = models.ForeignKey(Guest, verbose_name=_("Guest"), on_delete=models.CASCADE, blank=True, null=True, related_name="bands")
 
     @property
@@ -543,6 +552,11 @@ class Wristband(models.Model):
             print(e)
             return -1
 
+    @staticmethod
+    def get_active_by_project(project, code):
+        now = datetime.datetime.now()
+        return Wristband.objects.filter(code=code, guest__project_id=project.uuid, guest__deleted=False, guest__check_in__lte=now, guest__check_out__gte=now).first()
+
     class Meta:
         verbose_name = _("Wristband")
         verbose_name_plural = _("Wristbands")
@@ -550,6 +564,7 @@ class Wristband(models.Model):
 class WristbandBalance(models.Model):
     date = models.DateTimeField(verbose_name=_('Date'), default=datetime.datetime.now)
     amount = models.FloatField(verbose_name=_('Amount'), default=0)
+    desc = models.TextField(verbose_name=_("Description"), default="", blank=True)
     wristband = models.ForeignKey(Wristband, verbose_name=_("Wristband"), on_delete=models.CASCADE, blank=True, null=True, related_name="balances")
 
     class Meta:

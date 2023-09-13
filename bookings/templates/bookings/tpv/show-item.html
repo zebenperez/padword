@@ -3,7 +3,7 @@
 <div class="card article w-100 mb-3 box-new ark tpv-item" data-tags="{% padword_translate item.name %}"
     data-url="{% url 'tpv-add-item' %}" data-target="ticket-summary" data-form_id="{{fi.pk}}" data-item_id="{{item.pk}}">
 
-    <div class="box-new">
+    <div class="box-new" {%if item.especial%}style="border: 2px solid red; border-radius: 5px; position: absolute; width:100%;"{%endif%}>
     {% if item.image %}
         <div class="image" id="cover"> 
             <img src="{{item.image.url}}" class="img-fill" alt="{% padword_translate item.name %}"> 

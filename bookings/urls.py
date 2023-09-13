@@ -1,6 +1,6 @@
 from django.urls import include, path, re_path
 from django.contrib import admin
-from bookings import views, form_views as fv, guest_views as gv, guest_sensibo_views as gsv, tpv_views as tpv
+from bookings import views, form_views as fv, guest_views as gv, guest_sensibo_views as gsv, tpv_views as tpv, tpv_orders_views as tpv_orders
 
 urlpatterns = [ 
     #--------------------- Forms --------------------
@@ -172,6 +172,9 @@ urlpatterns = [
     path('tpv-index/<slug:project_uuid>/', tpv.tpv_index, name='tpv-index'),
     path('tpv-ticket/', tpv.tpv_ticket, name='tpv-ticket'),
     path('tpv-set-pos/', tpv.tpv_set_pos, name='tpv-set-pos'),
+    path('tpv-change-pos/', tpv.tpv_change_pos, name='tpv-change-pos'),
+    path('tpv-set-table/', tpv.tpv_set_table, name='tpv-set-table'),
+    path('tpv-change-table/', tpv.tpv_change_table, name='tpv-change-table'),
     path('tpv-check-band/', tpv.tpv_check_band, name='tpv-check-band'),
 
     #path('tpv-shopping-cart/', tpv.tpv_shopping_cart, name='tpv-shopping-cart'),
@@ -189,6 +192,11 @@ urlpatterns = [
 
     path('tpv-orders-by-waiter/', tpv.orders_by_waiter, name='tpv-orders-by-waiter'),
     path('tpv-order-details/', tpv.order_details, name='tpv-order-details'),
+
+    #------------- TPV Orders --------------#
+    path('orders_by_project/', tpv_orders.orders_by_project, name='orders-by-project'),
+    path('orders/project/search/', tpv_orders.orders_search, name='orders-search'),
+    path('orders/project/search/page/', tpv_orders.orders_page, name='orders-page'),
 
 
     path('fix-uuid/', views.fix_uuid, name='booking-fix-uuid'),

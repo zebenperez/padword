@@ -1,0 +1,28 @@
+{% load i18n guest_tags %}
+
+{% for item in obj.bands.all %} 
+    <div class="row m-2 p-2 w-100 band-div">
+        <div class="col-2 head-band"><strong>{% trans "Band Code" %}:</strong> <br />{{item.code}} </div>
+        <div class="col-3 head-band"><strong>{% trans "Name" %}:</strong> <br /> {{item.name}} </div>
+        <div class="col-2 head-band"><strong>{% trans "Locks" %}:</strong> <br /> {{item.locks}} </div>
+        <div class="col-2 head-band"><strong>{% trans "Kids" %}:</strong> <br /> {%if item.kid%}{%trans "Yes"%}{%else%}{%trans "No"%}{%endif%}</div>
+        <div class="col-2 head-band"><strong>{% trans "Balance" %}:</strong> <br /> {{item.balance|default:0}} &euro;</div>
+        <div class="col-1 head-band text-end p-0">
+            <button class="btn btn-sm ark" id="btn-band-remove" data-url="{% url "guest-band-remove" %}" data-target="div-band-list" 
+                data-obj_id="{{item.id}}" data-band_lock="true"> <i class="fas fa-trash"></i></button>
+        </div>
+
+        <div class="card mt-2 pt-2 pb-2">
+            <div class="card-header toggle-btn" data-target="band-{{item.id}}" data-id-change="icon-extra" 
+                data-text='<i class="fas fa-plus"></i>' data-text-alt='<i class="fas fa-minus"></i>'>
+                <div class="row w-100">
+                    <div class="col-6 text-right" id="icon-extra"><i class="fas fa-plus"></i></div>
+                    <div class="col-6 text-left"><strong>{% trans "Balance" %}</strong></div>
+                </div>
+            </div>
+            <div class="card-body hide" id="band-{{item.id}}"> {% include "guest/bands/balance.html" with band=item %} </div>
+        </div>
+
+    </div>
+{% endfor %}
+

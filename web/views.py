@@ -5,13 +5,13 @@ from django.shortcuts import render, redirect
 from django.utils.translation import ugettext_lazy as _ 
 from django.views.decorators.csrf import csrf_exempt
 
-from padword.commons import show_exc, get_or_none, get_param, new_ui_slug, translate, set_session, update_cron
+from padword.commons import show_exc, get_or_none, get_param, new_ui_slug, translate, set_session, update_cron, get_int
 from padword.decorators import group_required
 from guest.models import Regime, ProjectRegime
 from sensibo.models import ProjectSensiboUser
-from connector.models import ProjectAvantioUser, ProjectAvaibookUser
+from connector.models import ProjectAvantioUser, ProjectAvaibookUser, ProjectWinhotelUser
 from contents.models import Category, PointOfSale, PointOfSaleCategory
-from bookings.models import Form
+from bookings.models import Form, Table
 from .models import *
 #from .lock_lib import ShLock
 
@@ -86,6 +86,10 @@ def get_or_create_user_avaibook(project_uuid):
     obj, created = ProjectAvaibookUser.objects.get_or_create(project_uuid = project_uuid)
     return obj 
 
+def get_or_create_user_winhotel(project_uuid):
+    obj, created = ProjectWinhotelUser.objects.get_or_create(project_uuid = project_uuid)
+    return obj 
+
 '''
     Projects
 '''
@@ -143,9 +147,11 @@ def project_form(request):
         user_sensibo = get_or_create_user_sensibo(obj.uuid)
         user_avantio = get_or_create_user_avantio(obj.uuid)
         user_avaibook = get_or_create_user_avaibook(obj.uuid)
+        user_winhotel = get_or_create_user_winhotel(obj.uuid)
 
         regime_list = Regime.objects.all()
         point_of_sale_list = PointOfSale.objects.filter(project_uuid=obj.uuid)
+        table_list = Table.objects.filter(project_uuid=obj.uuid)
         form = Form.objects.filter(form_type__code="tpv", form_type__project_uuid=obj.uuid).first()
         context = {
             'obj': obj, 
@@ -155,9 +161,11 @@ def project_form(request):
             'user_sensibo': user_sensibo, 
             'user_avantio': user_avantio, 
             'user_avaibook': user_avaibook, 
+            'user_winhotel': user_winhotel, 
             'project_regime_list': [item.regime for item in obj.regimes.all()],
             'regime_list': regime_list,
             'point_of_sale_list': point_of_sale_list,
+            'table_list': table_list,
             'form': form
         }
         return render(request, "web/projects/project-form.html", context)
@@ -245,6 +253,44 @@ def project_pos_cat_toggle(request):
     except Exception as e:
         print (show_exc(e))
     return HttpResponse("")
+
+@group_required("admins")
+def project_table_add(request):
+    table_list = []
+    try:
+        project = get_or_none(Project, request.GET["obj_id"])
+        Table.objects.create(project_uuid=project.uuid, uuid=new_ui_slug(Table))
+        table_list = Table.objects.filter(project_uuid=project.uuid)
+    except Exception as e:
+        print (show_exc(e))
+    return render(request, "web/projects/project-form-table-list.html", {'obj': project, 'table_list': table_list,})
+
+@group_required("admins")
+def project_table_remove(request):
+    try:
+        table = get_or_none(Table, request.GET["obj_id"])
+        project = get_or_none(Project, table.project_uuid, "uuid")
+        table.delete()
+        table_list = Table.objects.filter(project_uuid=project.uuid)
+    except Exception as e:
+        print (show_exc(e))
+    return render(request, "web/projects/project-form-table-list.html", {'obj': project, 'table_list': table_list,})
+
+@group_required("admins")
+def project_table_range(request):
+    try:
+        project = get_or_none(Project, request.POST["project_uuid"], "uuid")
+        ini = get_int(request.POST["ini"])
+        end = get_int(request.POST["end"]) + 1
+
+        for i in range(ini, end):
+            name = "{} {}".format(get_param(request.POST, "name"), i)
+            Table.objects.create(project_uuid=project.uuid, uuid=new_ui_slug(Table), name=name)
+
+        table_list = Table.objects.filter(project_uuid=project.uuid)
+    except Exception as e:
+        print (show_exc(e))
+    return render(request, "web/projects/project-form-table-list.html", {'obj': project, 'table_list': table_list,})
 
 @group_required("admins")
 def project_set_avantio_schedule(request):

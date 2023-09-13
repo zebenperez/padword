@@ -20,3 +20,4 @@ migrations.sh
 **.pro
 **.mo
 logs.txt
+menu_*

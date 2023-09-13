@@ -12,6 +12,9 @@ class ShSensibo:
     def get_measurement(self, device_uid):
         return self.client.pod_measurement(device_uid)
 
+    def get_measurement_history(self, device_uid):
+        return self.client.pod_measurement_history(device_uid)
+
     def get_ac_state(self, device_uid):
         return self.client.pod_ac_state(device_uid)
 

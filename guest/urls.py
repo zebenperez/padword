@@ -1,7 +1,7 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 from django.urls import path
-from . import views
+from . import views, wristband_views
 
 urlpatterns = [ 
 
@@ -12,17 +12,21 @@ urlpatterns = [
     path('guests/page/', views.guest_page, name='guest-page'),
     path('guests/form/', views.guest_form, name='guest-form'),
     #path('guests/form-simple/', views.guest_form_simple, name='guest-form-simple'),
-    path('guests/remove/', views.guest_remove, name='guest-remove'),
-    path('guests/soft-remove/', views.guest_soft_remove, name='guest-soft-remove'),
+    path('guests/remove/<int:obj_id>/', views.guest_remove, name='guest-remove'),
+    path('guests/soft-remove/<int:obj_id>/', views.guest_soft_remove, name='guest-soft-remove'),
     #path('guests/page/', views.guest_pagination, name='guest-page'),
+    path('guests/details/<int:obj_id>/', views.guest_details, name='guest-details'),
+    path('guests/details/', views.guest_details, name='guest-details'),
 
     path('guests/project/', views.guests_by_project, name='guests-by-project'),
     path('guests/project/search', views.guest_search_by_project, name='guest-search-by-project'),
     path('guests/project/page', views.guest_page_by_project, name='guest-page-by-project'),
     path('guests/project/form/', views.guest_form_by_project, name='guest-form-by-project'),
     path('guests/project/remove/', views.guest_remove_by_project, name='guest-remove-by-project'),
-    path('guests/project/soft-remove/', views.guest_soft_remove_by_project, name='guest-soft-remove-by-project'),
+    path('guests/project/soft-remove/<int:obj_id>/', views.guest_soft_remove_by_project, name='guest-soft-remove-by-project'),
     path('guests/project/soft-remove-all/', views.guest_soft_remove_all_by_project, name='guest-soft-remove-all-by-project'),
+    path('guests/project/details/<int:obj_id>/', views.guest_details_by_project, name='guest-details-by-project'),
+    path('guests/project/details/', views.guest_details_by_project, name='guest-details-by-project'),
 
     path('guests/update-code/', views.guest_update_code, name='guest-update-code'),
     path('guests/save-date/', views.guest_save_date, name='guest-save-date'),
@@ -32,13 +36,23 @@ urlpatterns = [
 
     path('guests/set-regime/', views.guest_set_regime, name='guest-set-regime'),
 
-    path('guests/band/add', views.guest_band_add, name='guest-band-add'),
-    path('guests/band/save', views.guest_band_save, name='guest-band-save'),
-    path('guests/band/remove', views.guest_band_remove, name='guest-band-remove'),
-    path('guests/band/balance/', views.guest_bands_balance, name="guest-bands-balance"),
-    path('guests/band/balance/list/', views.guest_band_balance_list, name="guest-band-balance-list"),
-    path('guests/band/balance/form/', views.guest_band_balance_form, name="guest-band-balance-form"),
-    path('guests/band/balance/remove/', views.guest_band_balance_remove, name="guest-band-balance-remove"),
+    #--------------------- WRISTBANDS --------------------
+    path('guests/band/add', wristband_views.guest_band_add, name='guest-band-add'),
+    path('guests/band/save', wristband_views.guest_band_save, name='guest-band-save'),
+    path('guests/band/name', wristband_views.guest_band_name, name='guest-band-name'),
+    path('guests/band/balance/add/', wristband_views.guest_band_balance_add, name="guest-band-balance-add"),
+    path('guests/band/kid/', wristband_views.guest_band_kid, name="guest-band-kid"),
+    path('guests/band/locks/', wristband_views.guest_band_locks, name="guest-band-locks"),
+    path('guests/band/remove', wristband_views.guest_band_remove, name='guest-band-remove'),
+    path('guests/band/remove2', wristband_views.guest_band_remove2, name='guest-band-remove2'),
+    path('guests/band/balance/', wristband_views.guest_bands_balance, name="guest-bands-balance"),
+    path('guests/band/balance/list/', wristband_views.guest_band_balance_list, name="guest-band-balance-list"),
+    path('guests/band/balance/form/', wristband_views.guest_band_balance_form, name="guest-band-balance-form"),
+    path('guests/band/balance/remove/', wristband_views.guest_band_balance_remove, name="guest-band-balance-remove"),
+
+
+    path('wristbands/', wristband_views.wristbands, name='wristbands'),
+    path('wristbands/search/', wristband_views.wristbands_search, name='wristbands-search'),
 
     #--------------------- DEVICES --------------------
     path('', views.index, name='device-index'),

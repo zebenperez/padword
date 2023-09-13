@@ -3,22 +3,21 @@
 
 {% with items=fi.get_items total=fi.get_total %}
     {% if items|length > 0 %} 
-    <div class="row mt-3 justify-content-center"><div id="guest-info" class="col-12 text-center mb-3">
+    <div class="row justify-content-center"><div id="guest-info" class="col-12 text-left mb-3">
         {% include "bookings/tpv/view-guest-info.html" %}</div></div>
 
-        <div class="row">
-            <div class="col-7 btn-dark p-2">
-                <h5 class="text-left p-2"><strong>
+        <div class="row summary-price-tpv btn-dark">
+            <div class="col-5 text-left">
+                <strong>
                     {% padword_translate fi.form.get_category.parent.name %} 
                     {% padword_translate fi.form.get_category.name %}&nbsp;({{items|length}} {% trans 'art.' %})</strong>
-                </h5>
             </div>
-            <div class="col-5 btn-dark price p-2" id="div-total-shopping-cart">
+            <div class="col-7 price-tpv text-right" id="div-total-shopping-cart">
                 <strong>{%trans 'Total price'%}: {{total|floatformat:2}} &euro;</strong></div>
         </div>
         {% if regime %}
             <div class="row">
-                <div class="col-5 offset-7 btn-dark price p-2" id="div-total-shopping-cart">
+                <div class="col-12 price p-2" id="div-total-shopping-cart">
                     <strong class="text-warning">{%trans 'Total price user'%}: {{fi|get_total_by_regime:regime.code}} &euro;</strong></div>
             </div>
         {% endif %}
@@ -35,12 +34,12 @@
                         </div>
                     {% endif %}
                 </div>
-                <div class="col-5"> <div class="text-left">{% padword_translate item.item.name %}</div> </div>
-                <div class="col-1"> <div class="text-right">{{ item.item.price }}€</div> </div>
-                <div class="col-1"> 
+                <div class="col-4 p-0 text-left"><div class="text-left">{% padword_translate item.item.name %}</div> </div>
+                <div class="col-1 p-0 text-left"><div class="text-right">{{ item.item.price }}€</div> </div>
+                <div class="col-2 p-0 text-right"> 
                     {% if regime %} <div class="text-right text-warning">{{ item|get_item_price:regime.code }}€</div> {% endif %}
                 </div>
-                <div class="col-3">
+                <div class="col-3 p-0">
                     <a class="btn btn-primary btn-sm ark" title="{%trans 'Add comment at this article'%}" data-url="{%url "tpv-order-item-comment"%}" 
                         data-item_id="{{item.pk}}" data-form_id="{{fi.pk}}" data-target-modal="common-modal"><i class="fas fa-comments"></i></a>
 

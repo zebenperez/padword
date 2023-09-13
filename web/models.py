@@ -7,7 +7,7 @@ from padword.commons import show_exc, get_int, new_ui_slug
 from .lock_lib import ShLock
 from sensibo.sensibo_lib import ShSensibo
 from sensibo.models import ProjectSensiboUser
-from connector.models import ProjectAvantioUser, ProjectAvaibookUser
+from connector.models import ProjectAvantioUser, ProjectAvaibookUser, ProjectWinhotelUser
 
 import datetime, pytz
 import requests
@@ -99,6 +99,10 @@ class Project(models.Model):
     def avaibook_user(self):
         return ProjectAvaibookUser.objects.filter(project_uuid=self.uuid).first()
 
+    @property
+    def winhotel_user(self):
+        return ProjectWinhotelUser.objects.filter(project_uuid=self.uuid).first()
+
     def get_first_menu(self, username):
         pu = ProjectUser.objects.filter(username=username, project_uuid=self.uuid).first()
         if pu == None or len(pu.menus) == 0:
@@ -142,6 +146,18 @@ class Project(models.Model):
             node["motion"] = measurement[0]["motion"] if "motion" in measurement[0] else ""
             node["room_occupied"] = measurement[0]["roomIsOccupied"] if "roomIsOccupied" in measurement[0] else ""
         return node
+
+    def sensibo_get_measurement_history(self, device_uid):
+        obj = ShSensibo(self.sensibo_api_key)
+        #return obj.get_measurement(device_uid)
+        measurement = obj.get_measurement_history(device_uid)
+        node = {"temperature": []}
+        for item in measurement["temperature"]:
+            print(item)
+            temp = {"time": item["time"], "value": item["value"]}
+            node["temperature"].append(temp)
+        return node
+
 
     def sensibo_get_ac_state(self, device_uid):
         obj = ShSensibo(self.sensibo_api_key)

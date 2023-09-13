@@ -12,6 +12,9 @@ urlpatterns = [
     path('avaibook/get-accommodation-list/<slug:project_uuid>/', views.avaibook_get_accommodation_list, name='avaibook-get-accommodation-list'),
     path('avaibook/get-booking/', views.avaibook_get_booking, name='avaibook-get-booking'),
 
+    #--------------------- WINHOTEL --------------------
+    path('winhotel/get-booking-list/<slug:project_uuid>/', views.winhotel_get_booking_list, name='winhotel-get-booking-list'),
+
     #--------------------- CRON --------------------
     path('cron-log/', views.cron_log, name='cron-log'),
     path('avantio-log/', views.avantio_log, name='avantio-log'),

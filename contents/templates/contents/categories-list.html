@@ -23,6 +23,6 @@
 </div>
 
 {% for item in items %}
-    <div class="row category" tyle="border:1px solid red" id="row-{{item.id}}"> {% include "contents/category-row.html" with item=item %} </div>
+    <div class="row category" id="row-{{item.id}}"> {% include "contents/category-row.html" with item=item %} </div>
 {% endfor %}
 

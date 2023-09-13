@@ -2,8 +2,10 @@
 
 <div id="base-tpv">
     <div class="row left-tpv w-100 text-center m-0">
-        <div class="col-lg-2 col-3 text-center">PADCash</div>
-        <div class="col-lg-3 offset-lg-3 col-7 text-center">
+        <div class="col-lg-3 col-3 name">
+            <button class="btn ark" data-url="{% url "tpv-change-pos" %}" data-target="base" data-project_uuid="{{project_uuid}}">{{pos.name}}</button>
+        </div>
+        <div class="col-lg-3 offset-lg-2 col-7 text-center">
             <select name="" id="" class="tpv-articles w-100 text-center tpv-search-change" data-search-class="tpv-category">
                 <option value="">Todos los artículos</option>
                 {% for item in cat_list %}
@@ -18,8 +20,12 @@
     </div>
     <div class="right-tpv">
         <div class="row header-right w-100 m-0 mb-2">
-            <div class="col-lg-4 text-start">Ticket</div>
-            <div class="col-lg-4">
+            <div class="col-lg-3 text-start">Ticket</div>
+            <div class="col-lg-6 col-2">
+                <button class="btn ark table-selector" data-url="{% url "tpv-change-table" %}" data-target="base" data-project_uuid="{{project_uuid}}">
+                    {{table.name}}</button>
+
+                {%comment%}
                 <select name="table" id="table" class="tpv-articles w-100 text-center tpv-search-change">
                     <option id="">{% trans "-- Select table --" %}</option>
                     <option id="1">{% trans "Table 1" %}</option>
@@ -30,8 +36,9 @@
                     <option id="6">{% trans "Table 6" %}</option>
                     <option id="7">{% trans "Table 7" %}</option>
                 </select>
+                {%endcomment%}
             </div>
-            <div class="col-lg-4 logo"><img src="/static/img/96x96-icono.png"></div>
+            <div class="col-lg-2 offset-lg-1 logo"><img src="/static/img/96x96-icono.png"></div>
         </div>
         <div class="row w-100 m-0">
             {%comment%}

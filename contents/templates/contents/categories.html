@@ -4,8 +4,8 @@
 {% block second_menu %}{% get_second_menu request.user %} {% endblock second_menu %}
 
 {% block central_content %}
-    <div class="row">
-        <div class="col-lg-5 col-12" style="height:95vh; overflow:scroll">
+    <div class="row m-0">
+        <div class="col-lg-5 col-12 left-div-cat">
             <div class="toolbar-search">
                 <input type="hidden" name="project_id" id="project_id" value="{{project.uuid}}" />
                 <input type="text" class="autosearch form-control form-control-dark w-100" name="s-name" id="s-name" 
@@ -31,7 +31,7 @@
                 <div id="items-list-">{% include "contents/categories-list.html" %}</div>
             </div>
         </div>
-        <div class="col-lg-7 col-12"><div id="div-preview"></div></div>
+        <div class="col-lg-7 col-12 right-div-cat"><div id="div-preview"></div></div>
     </div>
 
     <script>

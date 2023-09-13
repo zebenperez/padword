@@ -110,6 +110,17 @@ def guest_form(request):
     except Exception as e:
         return render(request, 'error_exception.html', {'exc':show_exc(e)})
 
+@group_required("admins")
+def guest_details(request, obj_id=""):
+    try:
+        date = datetime.datetime.now().replace(hour=12, minute=00)
+        obj = Guest.objects.create(UUID=new_ui_slug(Guest, "UUID"), check_in=date, check_out=date) if obj_id == "" else get_or_none(Guest, obj_id)
+        regime_list = [item.regime for item in obj.project.regimes.all()]
+        return render(request, "guest/guest-details.html", {'obj': obj, 'temp_range': range(16,26), 'regime_list': regime_list,})
+    except Exception as e:
+        return render(request, 'error_exception.html', {'exc':show_exc(e)})
+
+
 #@group_required("admins")
 #def guest_form_simple(request):
 #    try:
@@ -120,34 +131,46 @@ def guest_form(request):
 #        return render(request, 'error_exception.html', {'exc':show_exc(e)})
 
 @group_required("admins")
-def guest_remove(request):
-    project_uuid = request.GET["project_uuid"] if "project_uuid" in request.GET else None
-    obj = get_or_none(Guest, request.GET["obj_id"]) if "obj_id" in request.GET else None
+def guest_remove(request, obj_id):
+    obj = get_or_none(Guest, obj_id)
     if obj != None:
         GuestUser.delete_by_guest(obj.UUID)
         obj.delete_all()
+    return redirect(guests)
+
+    #project_uuid = request.GET["project_uuid"] if "project_uuid" in request.GET else None
+    #obj = get_or_none(Guest, request.GET["obj_id"]) if "obj_id" in request.GET else None
+    #if obj != None:
+    #    GuestUser.delete_by_guest(obj.UUID)
+    #    obj.delete_all()
         #obj.remove_all_key_codes()
         #obj.remove_all_key_cards()
         #obj.delete()
 
     #items = Guest.objects.all() if project_uuid == None else Guest.objects.filter(project_id=project_uuid)
-    items, total_count = get_guest_items(request)
-    return render(request, "guest/guest-list.html", {'items':items, 'project_uuid': project_uuid})
+    #items, total_count = get_guest_items(request)
+    #return render(request, "guest/guest-list.html", {'items':items, 'project_uuid': project_uuid})
 
 @group_required("admins")
-def guest_soft_remove(request):
-    project_uuid = request.GET["project_uuid"] if "project_uuid" in request.GET else None
-    obj = get_or_none(Guest, request.GET["obj_id"]) if "obj_id" in request.GET else None
+def guest_soft_remove(request, obj_id):
+    obj = get_or_none(Guest, obj_id) 
     if obj != None:
         GuestUser.delete_by_guest(obj.UUID)
         obj.delete_soft()
+    return redirect(guests)
+
+    #project_uuid = request.GET["project_uuid"] if "project_uuid" in request.GET else None
+    #obj = get_or_none(Guest, request.GET["obj_id"]) if "obj_id" in request.GET else None
+    #if obj != None:
+    #    GuestUser.delete_by_guest(obj.UUID)
+    #    obj.delete_soft()
         #obj.remove_all_key_codes()
         #obj.remove_all_key_cards()
         #obj.deleted = 1
         #obj.save()
 
-    items, total_count = get_guest_items(request)
-    return render(request, "guest/guest-list.html", {'items':items, 'project_uuid': project_uuid})
+    #items, total_count = get_guest_items(request)
+    #return render(request, "guest/guest-list.html", {'items':items, 'project_uuid': project_uuid})
 
 #@group_required("admins","projects")
 #def guest_pagination(request):
@@ -177,6 +200,31 @@ def guest_update_code(request):
         return render(request, "error_exception.html", {'exc':show_exc(e)})
 
 
+#@group_required("admins","projects")
+#def guest_save_date(request):
+#    try:
+#        err = ""
+#        guest = get_or_none(Guest, request.GET["obj_id"]) 
+#        if guest == None:
+#            return render(request, "error_exception.html", {'exc': _('Guest not found!')})
+#
+#        field = request.GET["field"]
+#        value = request.GET["value"]
+#        val = ""
+#        if "-" in value:
+#            val = datetime.datetime.strptime("{} {}".format(value, getattr(guest, field).strftime('%H:%M')), '%Y-%m-%d %H:%M')
+#        if ":" in value:
+#            val = datetime.datetime.strptime("{} {}".format(getattr(guest, field).strftime('%Y-%m-%d'), value), '%Y-%m-%d %H:%M')
+#        setattr(guest, field, val)
+#
+#        guest.save()
+#        guest.change_all_key_code_date()
+#        guest.change_all_key_card_date()
+#        #return HttpResponse("")
+#        return render(request, "guest/guest-details-tabs.html", {'obj': guest, 'temp_range': range(16,26)})
+#    except Exception as e:
+#        return render(request, "error_exception.html", {'exc':show_exc(e)})
+
 @group_required("admins","projects")
 def guest_save_date(request):
     try:
@@ -185,19 +233,21 @@ def guest_save_date(request):
         if guest == None:
             return render(request, "error_exception.html", {'exc': _('Guest not found!')})
 
-        field = request.GET["field"]
-        value = request.GET["value"]
-        val = ""
-        if "-" in value:
-            val = datetime.datetime.strptime("{} {}".format(value, getattr(guest, field).strftime('%H:%M')), '%Y-%m-%d %H:%M')
-        if ":" in value:
-            val = datetime.datetime.strptime("{} {}".format(getattr(guest, field).strftime('%Y-%m-%d'), value), '%Y-%m-%d %H:%M')
-        setattr(guest, field, val)
+        check_in = get_param(request.GET, "check_in")
+        check_in_time = get_param(request.GET, "check_in_time")
+        check_out = get_param(request.GET, "check_out")
+        check_out_time = get_param(request.GET, "check_out_time")
+        c_in = datetime.datetime.strptime("{} {}".format(check_in, check_in_time), '%Y-%m-%d %H:%M')
+        c_out = datetime.datetime.strptime("{} {}".format(check_out, check_out_time), '%Y-%m-%d %H:%M')
+        if c_out < c_in:
+            return render(request, "error_exception.html", {'exc': _('Checkout can not be less than checkin!')})
 
+        guest.check_in = c_in
+        guest.check_out = c_out
         guest.save()
         guest.change_all_key_code_date()
         guest.change_all_key_card_date()
-        return HttpResponse("")
+        return render(request, "guest/guest-details-tabs.html", {'obj': guest, 'temp_range': range(16,26)})
     except Exception as e:
         return render(request, "error_exception.html", {'exc':show_exc(e)})
 
@@ -246,87 +296,8 @@ def guest_set_regime(request):
         if value != "":
             regime = get_or_none(Regime, value)
             gr = GuestRegime.objects.create(regime=regime, guest=guest)
-        return HttpResponse(_("Saved!"))
-    except Exception as e:
-        return render(request, "error_exception.html", {'exc':show_exc(e)})
-
-@group_required("admins", "projects")
-def guest_band_add(request):
-    try:
-        guest = get_or_none(Guest, get_param(request.GET, "obj_id"))
-        Wristband.objects.create(guest=guest)
-        return render(request, "guest/keys/guest-keys.html", {"obj": guest})
-        #return render(request, "guest/bands/guest-bands.html", {'obj': guest,})
-    except Exception as e:
-        return render(request, "error_exception.html", {'exc':show_exc(e)})
-
-@group_required("admins", "projects")
-def guest_band_save(request):
-    try:
-        band = get_or_none(Wristband, get_param(request.GET, "obj_id"))
-        code = reverse_cardkey(get_param(request.GET, "value"))
-        b = Wristband.objects.filter(code=code).first()
-        if b != None:
-            msg = "There are another user ({} {} - {}) with this band!".format(b.guest.name, b.guest.surname, b.guest.room)
-            return render(request, "guest/keys/guest-keys.html", {"obj": band.guest, "msg": msg})
-
-        band.code = code
-        band.save()
-        if request.GET["band_lock"] == "true":
-            band.guest.add_all_key_card(reverse_cardkey(code))
-        return render(request, "guest/keys/guest-keys.html", {"obj": band.guest})
-        #return render(request, "guest/bands/guest-bands.html", {'obj': band.guest,})
-    except Exception as e:
-        return render(request, "error_exception.html", {'exc':show_exc(e)})
-
-@group_required("admins", "projects")
-def guest_band_remove(request):
-    try:
-        band = get_or_none(Wristband, get_param(request.GET, "obj_id"))
-        guest = band.guest
-        code = band.code
-        band.delete()
-        if request.GET["band_lock"] == "true":
-            guest.remove_all_key_cards(code)
-        return render(request, "guest/keys/guest-keys.html", {"obj": guest})
-        #return render(request, "guest/bands/guest-bands.html", {'obj': guest,})
-    except Exception as e:
-        return render(request, "error_exception.html", {'exc':show_exc(e)})
-
-@group_required("admins", "projects")
-def guest_bands_balance(request):
-    try:
-        guest = get_or_none(Guest, get_param(request.GET, "obj_id"))
-        return render(request, "guest/bands/bands.html", {"obj": guest})
-    except Exception as e:
-        return render(request, "error_exception.html", {'exc':show_exc(e)})
-
-@group_required("admins", "projects")
-def guest_band_balance_list(request):
-    try:
-        band = get_or_none(Wristband, get_param(request.GET, "obj_id"))
-        return render(request, "guest/bands/balance.html", {"band": band})
-    except Exception as e:
-        return render(request, "error_exception.html", {'exc':show_exc(e)})
-
-@group_required("admins", "projects")
-def guest_band_balance_form(request):
-    try:
-        band = get_or_none(Wristband, get_param(request.GET, "obj_id"))
-        balance = get_or_none(WristbandBalance, get_param(request.GET, "balance_id"))
-        if balance == None:
-            balance = WristbandBalance.objects.create(wristband=band)
-        return render(request, "guest/bands/balance-form.html", {"obj": balance})
-    except Exception as e:
-        return render(request, "error_exception.html", {'exc':show_exc(e)})
-
-@group_required("admins", "projects")
-def guest_band_balance_remove(request):
-    try:
-        balance = get_or_none(WristbandBalance, get_param(request.GET, "obj_id"))
-        band = balance.wristband
-        balance.delete()
-        return render(request, "guest/bands/balance.html", {"band": band})
+        return render(request, "guest/guest-details-tabs.html", {'obj': guest, 'temp_range': range(16,26)})
+        #return HttpResponse(_("Saved!"))
     except Exception as e:
         return render(request, "error_exception.html", {'exc':show_exc(e)})
 
@@ -421,6 +392,22 @@ def guest_form_by_project(request):
         return render(request, 'error_exception.html', {'exc':show_exc(e)})
 
 @group_required("projects")
+def guest_details_by_project(request, obj_id=""):
+    try:
+        project = get_or_none(Project, request.project_id)
+        if obj_id != "":
+            obj = get_or_none(Guest, obj_id)  
+        else: 
+            date = datetime.datetime.now().replace(hour=12, minute=00)
+            obj = Guest.objects.create(UUID = new_ui_slug(Guest, "UUID"), project_id = project.uuid, check_in = date, check_out = date)
+        regime_list = [item.regime for item in obj.project.regimes.all()]
+        context = {'obj': obj, 'project_uuid': project.uuid, 'temp_range': range(16,26), 'regime_list': regime_list,}
+        return render(request, "guest-by-project/guest-details-by-project.html", context)
+    except Exception as e:
+        print(e)
+        return render(request, 'error_exception.html', {'exc':show_exc(e)})
+
+@group_required("projects")
 def guest_remove_by_project(request):
     try:
         project = get_or_none(Project, request.project_id)
@@ -438,16 +425,18 @@ def guest_remove_by_project(request):
         return render(request, 'error_exception.html', {'exc':show_exc(e)})
 
 @group_required("projects")
-def guest_soft_remove_by_project(request):
+def guest_soft_remove_by_project(request, obj_id):
     try:
         project = get_or_none(Project, request.project_id)
-        obj = get_or_none(Guest, request.GET["obj_id"]) if "obj_id" in request.GET else None
+        obj = get_or_none(Guest, obj_id) 
+        #obj = get_or_none(Guest, request.GET["obj_id"]) if "obj_id" in request.GET else None
         if obj != None:
             GuestUser.delete_by_guest(obj.UUID)
             obj.delete_soft()
 
-        items, total_count = get_guest_items_by_project(request, project.uuid)
-        return render(request, "guest-by-project/guest-list.html", {'items':items, 'project_uuid': project.uuid})
+        return redirect(guests_by_project)
+        #items, total_count = get_guest_items_by_project(request, project.uuid)
+        #return render(request, "guest-by-project/guest-list.html", {'items':items, 'project_uuid': project.uuid})
     except Exception as e:
         return render(request, 'error_exception.html', {'exc':show_exc(e)})
 

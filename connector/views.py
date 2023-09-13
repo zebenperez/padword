@@ -13,9 +13,10 @@ from padword.commons import show_exc, get_or_none
 from padword.email_lib import send_email
 from padword.decorators import group_required
 from web.models import Project
-from .models import ProjectAvantioUser, ProjectAvaibookUser
+from .models import ProjectAvantioUser, ProjectAvaibookUser, ProjectWinhotelUser
 from .avantio_lib import get_booking_list, get_booking_notif, send_link
 from .avaibook_lib import get_accommodation_list, get_booking_list as av_get_booking_list, WEBHOOK_TOKEN
+from .winhotel_lib import get_booking_list as wh_get_booking_list
 
 import json, os
 
@@ -112,17 +113,30 @@ def avaibook_get_booking(request):
     f.write("\n---------------------------------------")
     f.write("\n{} - Recibida reserva de avantio".format(datetime.now().strftime("%Y-%m-%d %H:%M:%S")))
 
-    given_token = request.headers.get("Avaibook-Webhook-Token", "")
-    if not compare_digest(given_token, WEBHOOK_TOKEN):
-        f.write("\nToken no valido".format(datetime.now().strftime("%Y-%m-%d %H:%M:%S")))
-        return HttpResponseForbidden(
-            "Incorrect token in Avaibook-Webhook-Token header.",
-            content_type="text/plain",
-        )
+#    given_token = request.headers.get("Avaibook-Webhook-Token", "")
+#    if not compare_digest(given_token, WEBHOOK_TOKEN):
+#        f.write("\nToken no valido".format(datetime.now().strftime("%Y-%m-%d %H:%M:%S")))
+#        return HttpResponseForbidden(
+#            "Incorrect token in Avaibook-Webhook-Token header.",
+#            content_type="text/plain",
+#        )
 
     booking = json.loads(request.body)
     f.write("\n{}".format(booking))
     return HttpResponse("Message received okay.", content_type="text/plain")
+
+'''
+    Winhotel
+'''
+@group_required("admins", "projects")
+def winhotel_get_booking_list(request, project_uuid):
+    try:
+        pau = get_or_none(ProjectWinhotelUser, project_uuid, "project_uuid")
+        booking_list = wh_get_booking_list(pau)
+        return render(request, 'winhotel/booking-list.html', {'booking_list': booking_list})
+    except Exception as e:
+        print(e)
+        return render(request, 'error_exception.html', {'exc':show_exc(e)})
 
 '''
     Cron Logs

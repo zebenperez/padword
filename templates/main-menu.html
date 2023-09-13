@@ -27,6 +27,9 @@
         <li class="nav-item"><a class="nav-link {%if active == "keycard"%}active{%endif%}" href="{%url "keycards"%}">
             <i class="fas fa-credit-card"></i> {%trans "Key Cards"%}</a></li>
         <hr/>
+        <li class="nav-item"><a class="nav-link {%if active == "wristband"%}active{%endif%}" href="{%url "wristbands"%}">
+            <i class="fas fa-ring"></i> {%trans "Bands"%}</a></li>
+        <hr/>
 	    <li class="nav-item"><a class="nav-link {%if active == "searchkeycard"%}active{%endif%}" href="{%url "keycard-number"%}">
             <i class="fas fa-address-card"></i> {%trans "Search Key Cards"%} <span class="new">NEW</span></a> </a></li>
         <hr/>
@@ -65,6 +68,14 @@
             {% elif user_project|have_menu_promo:"orders" %}
 	            <li class="nav-item"><a class="nav-link pointer ark" data-url="{%url "show-module"%}" data-target-modal="common-modal"
                     data-code="orders"><i class="fas fa-book"></i> {%trans "Orders"%} <span class="new">NEW</span> </a></li>
+            {% endif %}
+
+            {% if user_project|have_menu:"orders_tpv" %}
+                <li class="nav-item"><a class="nav-link {%if active == "orders_tpv"%}active{%endif%}" href="{% url 'orders-by-project' %}">
+                    <i class="fas fa-book"></i>  {% trans "Orders TPV" %}</a> </li>
+            {% elif user_project|have_menu_promo:"orders" %}
+	            <li class="nav-item"><a class="nav-link pointer ark" data-url="{%url "show-module"%}" data-target-modal="common-modal"
+                    data-code="orders_tpv"><i class="fas fa-book"></i> {%trans "Orders TPV"%} <span class="new">NEW</span> </a></li>
             {% endif %}
 
             {% if user_project|have_menu:"notifications" %}

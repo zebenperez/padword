@@ -2,7 +2,7 @@
 
 
 <div class="row">
-    <div class="col-10">{% trans "Balance:" %} {{band.balance}} </div>
+    <div class="col-10 {%if band.balance < 0%}text-danger{%endif%}">{% trans "Balance:" %} {{band.balance|floatformat:2|default:""}} </div>
     <div class="col-2">
         <button class="btn btn-primary btn-sm ark" data-url="{% url "guest-band-balance-form" %}" data-target="balance-form-{{band.id}}" 
             data-obj_id="{{band.id}}"> <i class="fas fa-plus"></i>{% trans "Add" %}</button>
@@ -15,6 +15,7 @@
         <thead>
             <tr class="small">
                 <th> {% trans 'Date' %} </th>
+                <th> {% trans 'Description' %} </th>
                 <th> {% trans 'Amount' %} </th>
                 <th> </th>
             </tr>
@@ -23,6 +24,7 @@
             {% for balance in band.balances.all %}
                 <tr class="small guest-row" id="row_{{item.id}}"> 
                     <td> {{ balance.date }} </td>
+                    <td> {{ balance.desc|safe }} </td>
                     <td> {{ balance.amount }} </td>
                     <td class="text-end">
                         <a class="btn btn-sm ark" data-url="{% url "guest-band-balance-form" %}" data-target="balance-form-{{band.id}}" 

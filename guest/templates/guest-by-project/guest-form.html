@@ -59,7 +59,7 @@
 <div class="d-flex justify-content-end p-2">
 
     <button type="button" class="btn btn-success m-2 ark" title="{%trans "Share code"%}" data-url="{% url "lock-share-code-guest" %}" 
-        data-obj_id="{{obj.id}}" data-target-modal="share-modal">{% trans "Share" %} <i class="fas fa-share-alt"></i></button>
+        data-obj_id="{{obj.id}}" data-target-modal="share-modal">{% trans "Share" %}</button>
 
 	<button type="button" id="btn-save" class="btn btn-primary ark-validate m-2 hide" data-url="{%url "guest-search-by-project"%}" 
         data-validate="input" data-check_in="true" data-target="guest-list" data-guest_search_name="{{request.session.guest_search_name}}"> 
