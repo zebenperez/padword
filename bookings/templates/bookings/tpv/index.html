@@ -1,5 +1,4 @@
-{% load i18n bookings_tag common_tag padword_tags static%}
-{#{% get_css_project form.project.pk %}#}
+{% load i18n bookings_tag common_tag padword_tags tpv_tags static %}
 {%block extralinks%} <link rel="stylesheet" href="{% static 'css/tpv.css' %}" > {% endblock %}
         
 <div id="base">
@@ -15,7 +14,9 @@
         {% for item in tables %}
             <div class="col-lg-6 col-12">
                 <button class="menu-options ark" data-url="{%url "tpv-set-table"%}" data-target="base" data-obj_id="{{item.id}}">
-                    {{item.name}}</button>
+                    {{item.name}}
+                </button>
+                {% get_table_info item %}
             </div>
         {% endfor %}
     </div>

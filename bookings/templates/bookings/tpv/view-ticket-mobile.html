@@ -28,9 +28,10 @@
             <i class="fas fa-comments"></i></span></div>
         {% endcomment %}
 
-        <div class="row ticket-line" style="overflow-y: scroll;height: 500px;">
+        <div class="row ticket-line mt-2" style="overflow-y: scroll;height: 500px; align-items:start;">
             {% for item in items %}
-            <div class="row p-0 mb-1" style="border-bottom:1px solid #ccc">
+            <div class="row p-0 m-0" style="border-bottom:1px solid #ccc">
+                {% comment %}
                 <div class="col-3 p-0">
                     {% if item.item.image %}
                         <div class="image mobile" id="cover">
@@ -38,18 +39,20 @@
                         </div>
                     {% endif %}
                 </div>
-                <div class="col-9 row align-self-start m-0 p-0">
-                    <div class="col-10" tyle="border:1px solid green"> <div class="item-name text-left">{% padword_translate item.item.name %}</div> </div>
+                {% endcomment %}
+                    <div class="col-6" tyle="border:1px solid green"> <div class="item-name text-left">{% padword_translate item.item.name %}</div> </div>
+                                       
+                    <div class="col-2 text-left"> 
+                        {% if regime %} <div class="text-right text-warning">{{ item|get_item_price:regime.code }}€</div> {% endif %}aaaa
+                    </div>
+                    <div class="col-2" tyle="border:1px solid blue"> <div class="text-left">{{ item.item.price }}€</div> </div>
+
                     <div class="col-2" tyle="border:1px solid green">
-                        <a class="btn ark" title="{%trans 'Remove article from shopping-cart'%}" 
+                        <a class="btn btn-danger ark" title="{%trans 'Remove article from shopping-cart'%}" 
                         data-url="{%url "tpv-order-item-remove"%}" data-item_id="{{item.pk}}" data-target="ticket-summary">
-                        <i class="fa fa-window-close"></i></a>
+                        <i class="fas fa-trash"></i></a>
                     </div>
-                    <div class="col-12 text-left"> 
-                        <div class="item-regime">Todo incluido</div>
-                        {% if regime %} <div class="text-right text-warning">{{ item|get_item_price:regime.code }}€</div> {% endif %}
-                    </div>
-                    <div class="col-12" tyle="border:1px solid blue"> <div class="text-left">{{ item.item.price }}€</div> </div>
+
                     <div class="col-12 text-left" tyle="border:1px solid blue">
                         <a class="special ark" title="{%trans 'Add comment at this article'%}" data-url="{%url "tpv-order-item-comment"%}" 
                             data-item_id="{{item.pk}}" data-form_id="{{fi.pk}}" data-target="div-comment-{{item.id}}" 
@@ -62,7 +65,7 @@
                         <div class="small card-title text-left"><small><span id="comment-{{item.id}}">{{ item.comments }}</span> &nbsp;</small></div>
                     </div>
                 </div>
-            </div>
+
             {% endfor %}
 
         </div>

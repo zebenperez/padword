@@ -766,7 +766,8 @@ $(document).ready(()=>{
     });
 
 
-    async function scanNFC(id, url, guest_uuid, {signal} = {}) {
+    //async function scanNFC(id, url, guest_uuid, {signal} = {}) {
+    async function scanNFC(id, url, target, fi_id, {signal} = {}) {
         var container = $(`#${id}`);
         try {
             const ndef = new NDEFReader(signal);
@@ -786,7 +787,9 @@ $(document).ready(()=>{
                     $(`#${id}-wait`).hide();
                     $(`#${id}-readed`).show();
                     $(`#${id}-card-number`).html(val_arr[0]);
-                    ajaxGet(url, {'guest_uuid': guest_uuid, 'value': val_arr[0]}, `${id}-readed`, '');
+                    //ajaxGet(url, {'guest_uuid': guest_uuid, 'value': val_arr[0]}, `${id}-readed`, '');
+                    ajaxGet(url, {'obj_id': fi_id, 'value': val_arr[0]}, target, '');
+                    container.html(`Band readed: ${val_arr[0]}`);
                 }
             });
         } catch (e) {
@@ -799,9 +802,13 @@ $(document).ready(()=>{
     $("body").on("click", ".scan-nfc", function() {
         var id = $(this).data("scan-container");
         var url = $(this).data("scan-url");
-        var guest_uuid = $(this).data("guest-uuid");
+        var target = $(this).data("scan-target");
+        //var guest_uuid = $(this).data("guest-uuid");
+        var fi_id = $(this).data("obj_id");
+        $(`#${id}`).show();
         const ac = new AbortController();
-        scanNFC(id, url, guest_uuid, {signal: ac.signal});
+        //scanNFC(id, url, guest_uuid, {signal: ac.signal});
+        scanNFC(id, url, target, fi_id, {signal: ac.signal});
         ac.abort(); 
         setTimeout(() => {ac.abort(); $(`#${id}-wait`).hide();}, 20000);
     });

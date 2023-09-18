@@ -1,0 +1,8 @@
+{% load i18n %}
+
+
+{% if fi %}
+    {%trans "Order"%}: {{fi.pos.name}} - {{fi.details.client}} - {{fi.get_total}} €
+{% else %}
+    {%trans "No order"%}
+{% endif %}

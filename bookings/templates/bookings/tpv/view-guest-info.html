@@ -3,23 +3,29 @@
 {%if band_err %}<div class="alert alert-danger">{%trans "This band is not assigned to any guest!"%}</div>{%endif%}
 {% with guest=band.guest %}
     {#<div class="card article w-100 mb-3 box-new ark" data-url="{% url 'tpv-add-item' %}" data-target="ticket-summary" data-form_id="{{fi.pk}}" data-item_id="{{item.pk}}">#}
-    <div class="row ticket-line guest-info justify-content-center mt-2">
-        <div class="col-3 text-left">{% trans "Band" %}</div>
+    <div class="row ticket-line guest-info justify-content-center text-center mt-2 m-0">
+        <div class="col-3 text-center">{% trans "Band" %}</div>
         <div class="col-6 text-center">{% trans "Guest" %}</div>
-        <div class="col-3 text-right">{% trans "Room" %}</div>
+        <div class="col-3 text-center">{% trans "Room" %}</div>
     </div>
-    <div class="row ticket-line justify-content-center">
-        <div class="col-3 blue-info text-left">{{band.name}}</div>
-        <div class="col-6 blue-info text-center">{{guest.name}} {{guest.surname}}</div>
-        <div class="col-3 blue-info text-center">{{guest.room}}</div>
+    <div class="row ticket-line justify-content-center text-center m-0">
+        <div class="col-3 blue-info special-shadow">{{band.name}}</div>
+        <div class="col-6 blue-info special-shadow">{{guest.name}} {{guest.surname}}</div>
+        <div class="col-3 blue-info special-shadow">{{guest.room}}</div>
     </div>
-    <div class="row ticket-line guest-info justify-content-center mt-2">
-        <div class="col-6 text-left">{% trans "Regime" %}</div>
-        <div class="col-6 text-right">{% trans "Balance" %}</div>
+    <div class="row ticket-line guest-info justify-content-center mt-3 m-0">
+        <div class="col-4 text-center">{% trans "Regime" %}</div>
+        <div class="col-2 offset-1 text-center">{% trans "Kid" %}</div>
+        <div class="col-4 offset-1 text-center">{% trans "Balance" %}</div>
     </div>
-    <div class="row ticket-line justify-content-center">
-        <div class="col-6 blue-info text-left">{{guest.regime}}</div>
-        <div class="col-4 offset-2 balance-band text-right {%if band.balance < 0%}text-danger{%endif%}">
+    <div class="row ticket-line justify-content-center m-0">
+        <div class="col-4 blue-info text-center special-shadow">{{guest.regime.name}}</div>
+        {%if band.kid%}
+            <div class="col-2 offset-1 blue-info text-center alert-danger special-shadow">{%trans "Yes"%}</div>
+        {%else%}
+            <div class="col-2 offset-1 blue-info text-center special-shadow">{%if band%}{%trans "No"%}{%endif%}</div>
+        {%endif%}
+        <div class="col-4 offset-1 balance-band text-right {%if band.balance < 0%}text-danger{%endif%}">
             <strong>{{band.balance|floatformat:2}} {%if band%}€{%endif%}</strong></div>
     </div>
     {%comment%}

@@ -58,7 +58,7 @@
                 data-kid="false" {%if step > 3%} disabled {%endif%}> {%trans "No"%}</button>
             {%endcomment%}
             {% if step > 3 %}
-                {%if band.locks%} <span class="disabled">{% trans "Yes" %}{%else%}{% trans "No" %}</span> {%endif%}
+                {%if band.kid%} <span class="disabled">{% trans "Yes" %}{%else%}{% trans "No" %}</span> {%endif%}
             {% else %}
                 <button class="btn btn-default ark" data-url="{%url "guest-band-kid"%}" data-target="div-band-form" data-obj_id="{{band.id}}" 
                     data-kid="true"> {%trans "Yes"%}</button>

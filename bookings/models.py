@@ -32,18 +32,18 @@ class Status(models.Model):
 		verbose_name = _('Status')
 		verbose_name_plural = _('Status')
 
-class Table(models.Model):
-    uuid = models.CharField(max_length = 255, verbose_name= _('UUID'), default="")
-    name = models.CharField(max_length=200, verbose_name=_("Name"))
-    project_uuid = models.CharField(max_length=255, verbose_name=_("Project UUID"), default="", blank=True)
+#class Table(models.Model):
+#    uuid = models.CharField(max_length = 255, verbose_name= _('UUID'), default="")
+#    name = models.CharField(max_length=200, verbose_name=_("Name"))
+#    pos_uuid = models.CharField(max_length=255, verbose_name=_("POS UUID"), default="", blank=True)
 
-    def __str__(self):
-        return self.name
+#    def __str__(self):
+#        return self.name
 
-    class Meta:
-        verbose_name = _('Table')
-        verbose_name_plural = _('Tables')
-        ordering = ['name']
+#    class Meta:
+#        verbose_name = _('Table')
+#        verbose_name_plural = _('Tables')
+#        ordering = ['name']
 
 class AnswerType(models.Model):
 	field_type = models.CharField(max_length=20, verbose_name=_("Field type"), default="")
@@ -373,6 +373,10 @@ class FormInstance(models.Model):
         return Table.objects.filter(uuid = self.table_uuid).first()
 
     @property
+    def details(self):
+        return self.info.first()
+
+    @property
     def device(self):
         if self.form != None and self.form.project != None and self.guest != None:
             return Device.objects.filter(channel__project__uuid = self.form.project.uuid, room = self.guest.room).first()
@@ -451,6 +455,10 @@ class FormInstance(models.Model):
         fi_list = FormInstance.objects.filter(guest_uuid = guest.UUID, status_list__isnull = True).values_list('pk', flat=True)
         return ShoppingCart.objects.filter(form_instance_id__in = list(fi_list)).order_by('form_instance_id')
  
+    @staticmethod
+    def get_open_in_table(table):
+        return FormInstance.objects.filter(table_uuid = table.uuid, status_list__isnull = True).first()
+
     class Meta:
         verbose_name = _('1.- Form instance')
         verbose_name_plural = _('1.- Form instances')
@@ -564,6 +572,9 @@ class FormInstanceInfo(models.Model):
     table = models.CharField(max_length=255, verbose_name=_("Guest name"), default="")
     band = models.CharField(max_length=255, verbose_name=_("Guest name"), default="")
     client = models.CharField(max_length=255, verbose_name=_("Guest name"), default="")
+    client_mobile = models.CharField(max_length=255, verbose_name=_("Guest mobile"), default="")
+    client_email = models.CharField(max_length=255, verbose_name=_("Guest email"), default="")
+    client_room = models.CharField(max_length=255, verbose_name=_("Guest room"), default="")
     fi = models.ForeignKey(FormInstance, on_delete=models.CASCADE, verbose_name=_("Form Instance"), null=True, blank=True, related_name='info')
 
  

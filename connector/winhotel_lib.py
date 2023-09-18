@@ -232,10 +232,14 @@ class Winhotel:
     def _request_bookings(self):
         json = {"QueryCredentials": self._credentials(), "UserID": self.user_id}
         _bookings_params = {
-            "StartDateQueryParameter": {
+            "BookingStateQueryParameters": {
                 "QueryOperator": 0,
-                "Value": "2023-09-01"
+                "Value": "2"
             }
+            #"StartDateQueryParameter": {
+            #    "QueryOperator": 0,
+            #    "Value": "2023-09-01"
+            #}
         }
         json["QueryRequest"] = {"QueryHeader": self._request_header(), "BookingListQueryParameters": _bookings_params}
         return json
@@ -267,6 +271,9 @@ class Winhotel:
             _url_request = "{}{}".format(API_URL, BOOKINGS_URL)
             _json = self._request_bookings()
             _json_data = json.dumps(_json)
+            print(_json_data)
+            print("-------------------------")
+            print(self.__send_request__(_url_request, _json_data).json())
             return self.__send_request__(_url_request, _json_data).json()["Bookings"]
         except Exception as err:
             raise WinhotelAPIError(message=err)

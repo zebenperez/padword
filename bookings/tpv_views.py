@@ -6,12 +6,13 @@ from django.utils.translation import ugettext_lazy as _
 from padword.decorators import group_required
 from padword.commons import show_exc, get_or_none, get_param, get_float, reverse_cardkey
 from web.models import Project, Waiter
-from contents.models import Category, ShoppingCart, Item, PaymentType, PointOfSale
+from contents.models import Category, ShoppingCart, Item, PaymentType, PointOfSale, Table
 from guest.models import Guest, Wristband, WristbandBalance
 from web.lock_lib import ShLock
 
-from .common_lib import get_or_create_form_instance_tpv, get_or_create_form_instance_info_tpv, user_in_group
-from .models import Form, FormInstance, Status, Table
+from .common_lib import get_or_create_form_instance_tpv, get_or_create_form_instance_info_tpv, get_or_create_form_instance_info_client_tpv
+from .common_lib import user_in_group
+from .models import Form, FormInstance, Status
 from django.conf import settings
 
 import datetime
@@ -90,20 +91,22 @@ def tpv_index(request, project_uuid):
             point_of_sales = PointOfSale.objects.filter(project_uuid=project.uuid)
             return render(request, "bookings/tpv/index.html", {'point_of_sales': point_of_sales,})
         elif "table" not in request.session or request.session["table"] == "":
-            project = get_or_none(Project, project_uuid, "uuid")
-            tables = Table.objects.filter(project_uuid=project.uuid)
+            pos = get_or_none(PointOfSale, request.session["point_of_sale"])
+            tables = Table.objects.filter(point_of_sale=pos)
             return render(request, "bookings/tpv/index.html", {'tables': tables,})
         else:
             form = Form.objects.filter(form_type__code="tpv", form_type__project_uuid=project.uuid).first()
             pos = get_or_none(PointOfSale, request.session["point_of_sale"])
             table = get_or_none(Table, request.session["table"])
             fi = get_or_create_form_instance_tpv(form, pos.uuid, table.uuid, request.user.username)
-            fi_info = get_or_create_form_instance_info_tpv(fi, pos.name, table.name, request.user.username, "")
+            fi_info = get_or_create_form_instance_info_tpv(fi, pos.name, table.name)
             cat_list = [item.category for item in pos.categories.all()]
             item_favorites = []
             for cat in cat_list:
                 item_favorites += list(cat.get_items_favorites)
             item_commons = form.get_common_items()
+
+            band = Wristband.get_active_by_project(fi.form.project, fi_info.band)
 
             #template = request.GET["template"] if "template" in request.GET and request.GET["template"] != "" else "index"
             context = {
@@ -112,6 +115,7 @@ def tpv_index(request, project_uuid):
                 'fi': fi, 
                 'pos': pos, 
                 'table': table, 
+                'band': band, 
                 'cat_list': cat_list,
                 #'table_list': Table.objects.filter(project_uuid=project.uuid),
                 'item_favorites': item_favorites,
@@ -146,7 +150,7 @@ def tpv_set_table(request):
     try:
         table = get_or_none(Table, request.GET["obj_id"])
         request.session["table"] = table.id
-        return redirect(reverse("tpv-index", kwargs = {'project_uuid': table.project_uuid}))
+        return redirect(reverse("tpv-index", kwargs = {'project_uuid': table.point_of_sale.project_uuid}))
     except Exception as e:
         print(e)
         return render(request, "error_exception.html", {'exc':show_exc(e)})
@@ -187,6 +191,8 @@ def tpv_check_band(request):
         if band != None and band.guest != None:
             gr = band.guest.regimes.first()
             regime = gr.regime if gr != None else None
+            get_or_create_form_instance_info_client_tpv(fi, band.guest, band.code)
+
         band_err = True if band == None else False
         return render(request, "bookings/tpv/view-ticket.html", {'fi':fi, 'band': band, 'regime': regime, 'band_err': band_err})
         #return render(request, "bookings/tpv/view-guest-info.html", {'fi':fi, 'band': band, 'regime': regime})

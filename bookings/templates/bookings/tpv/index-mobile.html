@@ -25,8 +25,11 @@
         </div>
         <div class="header-bottom tpv-toggle"><input type="text" class="form-control tpv-search mobile" data-search-class="tpv-item" placeholder="{% trans "Search..." %}"/> </div>
         <div class="header-bottom tpv-toggle" id="title-div-scan">
+            {%comment%}
             <input type="text" id="div-scan" class="form-control ark_change scanband mobile" name="bans-scan" data-url="{% url "tpv-check-band" %}" 
                 data-target="ticket-summary" data-obj_id="{{fi.id}}" placeholder="Scan band"/>
+            {%endcomment%}
+            {% include "bookings/tpv/scan-nfc.html" %}
         </div>
     </div>
 

@@ -1,16 +1,20 @@
 {% load i18n padword_tags tz %}
 
 <td class="row p-1">
+    {%comment%}
     <div class="col-2">
         <span style="font-size:0.6em">#{% idx_page forloop.counter page 20 %}</span> 
         {% padword_translate item.form.get_category.parent.name %} <i class="fas fa-angle-double-right"></i>
         {% padword_translate item.form.get_category.name %}
     </div>
-    <div class="col-2">{{item.guest.name}} {{item.guest.surname}}<br/>{{item.guest.mobile}}<br/>{{item.guest.email}}</div>
-    <div class="col-1">{{ item.guest.room}}</div>
+    {%endcomment%}
+    <div class="col-2">{{item.details.client}} <br/>{{item.details.client_mobile}}<br/>{{item.details.client_email}}</div>
+    <div class="col-2">{{ item.details.pos}}</div>
+    <div class="col-1">{{ item.details.table}}</div>
+    <div class="col-1">{{ item.details.client_room}}</div>
     <div class="col-2">{{ item.date|timezone:"Atlantic/Canary"|date:'d/m/Y H:i:s'}}</div>
     <div class="col-1" id="status-{{item.pk}}">{% padword_translate item.get_status.status.name %} </div>
-    <div class="col-1">{% padword_translate item.payment_type.name %} </div>
+    <div class="col-2">{% padword_translate item.payment_type.name %} </div>
     <div class="col-1">{{ item.amount }} </div>
 
     <div class="col-12 col-2 d-flex pt-3 pt-md-1 justify-content-md-end justify-content-center" >

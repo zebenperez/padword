@@ -20,6 +20,9 @@
         {%include "guest/keys/guest-details-keys.html"%}</div></div>
 
     {# -------------------------- BANDS ------------------------#}
+    <div class="tab-pane container {%if current_tab == "bands"%}active{%endif%}" id="bands"><div id="div-bands">
+        {%include "guest/bands/guest-details-bands.html"%}</div></div>
+    {%comment%}
     {% if obj.have_valid_booking2 %}
         <div class="tab-pane container {%if current_tab == "bands"%}active{%endif%}" id="bands"><div id="div-bands">
             {%include "guest/bands/guest-details-bands.html"%}</div></div>
@@ -27,6 +30,7 @@
         <div class="tab-pane container {%if current_tab == "bands"%}active{%endif%}" id="bands"><div id="div-bands">
             {%include "guest/bands/guest-details-bands-info.html"%}</div></div>
     {% endif %}
+    {%endcomment%}
 
     {# -------------------------- EXTRAS ------------------------#}
     <div class="tab-pane container" id="extras"> <div id="extra-details"> {% include "guest/guest-form-extra.html" %} </div> </div>

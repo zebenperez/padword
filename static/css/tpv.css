@@ -65,9 +65,10 @@ select.tpv-articles
 {
 	background-color: #fff;
 	border: none;
+    border-radius: 0.25em !important;
 	color: #a1c517;
     height: 50px;
-    border:1px solid blue;
+    font-weight: 600;
 }
 
 /*****************************/
@@ -102,12 +103,17 @@ select.tpv-articles
 
 .ticket-line.guest-info
 {
-    text-decoration: underline;
+/*    text-decoration: underline;*/
 }
 
 .blue-info {
-    text-transform: uppercase; 
     color: #0d6efd;
+}
+
+.special-shadow {
+    border-radius: 0.3em;
+    box-shadow: 0px 6px 11px -5px rgba(0,0,0,0.41);
+    line-height: 2;
 }
 
 #ticket-summary .btn-dark,
@@ -135,9 +141,12 @@ select.tpv-articles
 	font-size: 0.8em;
 }
 .item-name {
+    /*
     font-size: 1rem;
     font-weight: 600;
     text-transform: uppercase !important;
+    */
+    
 }
 .item-regime 
 {
@@ -257,7 +266,6 @@ img.img-fill
 	max-width: -webkit-fill-available;
 	object-fit: fill;
 	max-height: 110px;
-    /*border:1px solid blue;*/
 }
 .row-01 h5.card-title 
 {
@@ -328,7 +336,13 @@ h5.card-title
 {
     background-color: #df6b07;
 	color: #ffffff !important;
+    font-weight: 600;
     height: 50px;
+
+    border-radius: 0.5em;
+    box-shadow: 0px 6px 11px -5px rgba(0,0,0,0.41);
+    line-height: 2;
+
 } 
 
 select.tpv-articles.mobile
@@ -350,6 +364,7 @@ select.tpv-articles.mobile
 {
     color: #ffffff !important;
     font-size: 0.95rem !important;
+    font-size: 0.68rem !important;
     font-weight: 600;
     padding-right: 0px;
     padding-left: 0px;
@@ -393,7 +408,7 @@ input#div-scan.form-control.ark_change.scanband::placeholder {
 
 .balance-band {
     background: #a1c517; 
-    border-radius: 5px;
+    border-radius: 0.3em;
     color: #fff;
     font-size: 1rem;
     line-height: 2;
