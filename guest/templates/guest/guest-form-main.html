@@ -121,11 +121,11 @@
     function checkDates(obj) {
         var checkIn = new Date($("#check_in").val()+" "+$("#check_in_time").val());
         var checkOut = new Date($("#check_out").val()+" "+$("#check_out_time").val());
+        $("#btn-date").data(obj.attr("id"), obj.val());
         if(checkOut < checkIn)
             $("#check_out__msg").html("{% trans "Checkout can not be less than checkin" %}");
         else {
             $("#check_out__msg").html("");
-            $("#btn-date").data(obj.attr("id"), obj.val());
             $("#btn-date").click();
         }
     }
