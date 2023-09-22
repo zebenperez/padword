@@ -258,6 +258,12 @@ def tpv_order_item_comment(request):
     except Exception as e:
         return render(request, "error_exception.html", {'exc':show_exc(e)})
 
+def add_balance_to_band(pos, fi, band):
+    url = "/bookings/booking-view/"
+    desc = "Ticket from {}: ".format(pos.name)
+    desc += "<a class='ark' data-url='{}' data-target-modal='common-modal' data-obj_id='{}'> #{}</a>".format(url, fi.id, fi.id)
+    WristbandBalance.objects.create(amount=(get_float(fi.amount)*-1), desc=desc, wristband=band)
+
 @group_required("waiters")
 def tpv_order_send(request):
     try:
@@ -270,17 +276,18 @@ def tpv_order_send(request):
         fi = get_or_none(FormInstance, fi_id)
         fi.set_status("01", request.user, "")
         fi.date = datetime.datetime.now()
+        fi.amount = amount if amount_user == "" else amount_user
         if pt_id != "":
             pt = get_or_none(PaymentType, pt_id)
             fi.payment_type = pt
-            fi.amount = amount if amount_user == "" else amount_user
             if pt.code == "03" and band_id != "":
                 pos = get_or_none(PointOfSale, request.session["point_of_sale"])
                 band = get_or_none(Wristband, band_id)
-                url = "/bookings/booking-view/"
-                desc = "Ticket from {}: ".format(pos.name)
-                desc += "<a class='ark' data-url='{}' data-target-modal='common-modal' data-obj_id='{}'> #{}</a>".format(url, fi.id, fi.id)
-                WristbandBalance.objects.create(amount=(get_float(fi.amount)*-1), desc=desc, wristband=band)
+                add_balance_to_band(pos, fi, band)
+                #url = "/bookings/booking-view/"
+                #desc = "Ticket from {}: ".format(pos.name)
+                #desc += "<a class='ark' data-url='{}' data-target-modal='common-modal' data-obj_id='{}'> #{}</a>".format(url, fi.id, fi.id)
+                #WristbandBalance.objects.create(amount=(get_float(fi.amount)*-1), desc=desc, wristband=band)
         fi.save()
         context = {'msg': fi.get_status.status.code, 'project_uuid': fi.form.project.uuid}
         return render(request, 'bookings/tpv/show-msg.html', context)
@@ -335,3 +342,29 @@ def tpv_close(request):
     return redirect(tpv_access, project_uuid)
 
 
+'''
+    WINHOTEL
+'''
+from django.db.models import Sum
+def get_drinks_total(fi):
+    total = ShoppingCart.objects.filter(form_instance_id=fi.pk, item__ext_id__lt=50000).aggregate(Sum('item__price'))["item__price__sum"]
+    return total if total != None else -1
+
+def get_food_total(fi):
+    total =  ShoppingCart.objects.filter(form_instance_id=fi.pk, item__ext_id__gte=50000).aggregate(Sum('item__price'))["item__price__sum"]
+    return total if total != None else -1
+
+def send_charges(fi, band):
+    pau = get_or_none(ProjectWinhotelUser, fi.form.project.uuid, "project_uuid")
+    booking_code = guest.ext_id
+    room_code = band.guest.room
+    contact_name = "{} {}".format(band.guest.name, band.guest.surname)
+#    contact_id = 3
+#    has_credit = "true"
+#    limit_credit = 5.0
+#    source = 
+#    source_document = 
+    date = fi.date.strftime("%Y-%m-%dT%H:%M:%S")
+    total_amount = fi.get_total()
+#    cash_code = 
+#

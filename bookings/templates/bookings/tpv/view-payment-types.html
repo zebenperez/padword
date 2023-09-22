@@ -49,6 +49,25 @@
             data-amount_user="{%if regime%}{{fi|get_total_by_regime:regime.code}}{%endif%}" disabled> {%trans "Send Order"%}</i>
         </button>
     </div>
+    <div class="col-6 text-center mb-3">
+        <button id="btn-cancel-order-{{fi.id}}" class="btn btn-warning w-100 " onclick="$('#div-return').show()">{%trans "Devolución"%}</button>
+    </div>
+</div>
+
+<div id="div-return" class="alert alert-warning hide">
+    {% trans "Va a realizar una devolución por un importe de: " %}
+    {% if regime %} -{{fi|get_total_by_regime:regime.code}} &euro; {% else %} -{{total|floatformat:2}} &euro; {% endif %}
+    <br/> <br/> 
+    <div class="row">
+        <div class="col-6">
+            <button id="btn-cancel-order-{{fi.id}}" class="btn btn-warning w-100 " onclick="$('#div-return').hide()">{%trans "Cancel"%}</button>
+        </div>
+        <div class="col-6">
+            <button id="btn-return-order-{{fi.id}}" class="btn btn-warning w-100 ark" data-bs-dismiss="modal" data-url="{% url "tpv-order-send" %}" 
+                data-target="base" data-obj_id="{{fi.id}}" data-payment_type="" data-amount="-{{total}}" data-band="{{band.id}}"
+                data-amount_user="{%if regime%}-{{fi|get_total_by_regime:regime.code}}{%endif%}"> {%trans "Confirm"%}</i>
+            </button>
+        </div>
     </div>
 </div>
 
@@ -60,6 +79,7 @@
         //$("#btn-cancel-order-{{fi.id}}").prop("disabled", "");
         $("#btn-send-order-{{fi.id}}").prop("disabled", "");
         $("#btn-send-order-{{fi.id}}").data("payment_type", $(this).data("pt"));
+        $("#btn-return-order-{{fi.id}}").data("payment_type", $(this).data("pt"));
 
         if ($(this).data("cash") == "01") { $("#cash-value").show(); }
         else { $("#cash-value").hide(); }

@@ -47,6 +47,12 @@
                     data-model-name="contents.item" data-obj-id="{{obj.id}}" data-url="{% url "autosave_field" %}" data-target="div-notification" 
                     data-bool="True" {%if obj.especial%}checked{%endif%}/> <span id="favorite__msg"></span>	{% trans "Especial" %}
             </div>
+            <div class="col-12">
+                {% trans "External ID" %} 
+                <input type="number" class="form-control autosave b-bottom mb-4" id="ext_id" name="ext_id" value="{{obj.ext_id}}" 
+                    title="{{obj.ext_id}}" data-model-name="contents.item" data-obj-id="{{obj.id}}" data-url="{% url "autosave_field" %}" 
+                    data-target="div-notification"/> <span id="ext_id__msg"></span>
+            </div>
 
             <div class="col-12">
                 {% trans "Description" %} 

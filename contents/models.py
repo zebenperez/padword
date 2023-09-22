@@ -257,6 +257,7 @@ class Item(models.Model):
     image = models.ImageField(upload_to=image_file, verbose_name=_("Image"), blank=True, null=True)
     favorite = models.BooleanField(default=False, verbose_name=_("Favorite"))
     especial = models.BooleanField(default=False, verbose_name=_("Especial"))
+    ext_id = models.IntegerField(verbose_name=_('External ID'), default=0, blank=True)
 
     def __str__(self):
         return (translate(None,self.name))

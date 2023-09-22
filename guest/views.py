@@ -269,7 +269,8 @@ def guest_save_room(request):
         else:
             err = guest.change_room(value)
             guest.change_sensibo_devices(value)
-        return render(request, "guest/keys/guest-keys.html", {'obj': guest, "err": err})
+        return render(request, "guest/guest-details-tabs.html", {'obj': guest, 'temp_range': range(16,26), 'err': err})
+        #return render(request, "guest/keys/guest-keys.html", {'obj': guest, "err": err})
     except Exception as e:
         return render(request, "error_exception.html", {'exc':show_exc(e)})
 

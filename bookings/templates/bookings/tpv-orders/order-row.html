@@ -1,34 +1,25 @@
 {% load i18n padword_tags tz %}
 
-<td class="row p-1">
-    {%comment%}
-    <div class="col-2">
-        <span style="font-size:0.6em">#{% idx_page forloop.counter page 20 %}</span> 
-        {% padword_translate item.form.get_category.parent.name %} <i class="fas fa-angle-double-right"></i>
-        {% padword_translate item.form.get_category.name %}
-    </div>
-    {%endcomment%}
-    <div class="col-2">{{item.details.client}} <br/>{{item.details.client_mobile}}<br/>{{item.details.client_email}}</div>
-    <div class="col-2">{{ item.details.pos}}</div>
-    <div class="col-1">{{ item.details.table}}</div>
-    <div class="col-1">{{ item.details.client_room}}</div>
-    <div class="col-2">{{ item.date|timezone:"Atlantic/Canary"|date:'d/m/Y H:i:s'}}</div>
-    <div class="col-1" id="status-{{item.pk}}">{% padword_translate item.get_status.status.name %} </div>
-    <div class="col-2">{% padword_translate item.payment_type.name %} </div>
-    <div class="col-1">{{ item.amount }} </div>
+<td>{{item.details.client}} <br/>{{item.details.client_mobile}}<br/>{{item.details.client_email}}</td>
+<td>{{ item.details.pos}}</td>
+<td>{{ item.details.table}}</td>
+<td>{{ item.details.client_room}}</td>
+<td>{{ item.date|timezone:"Atlantic/Canary"|date:'d/m/Y H:i:s'}}</td>
+<td id="status-{{item.pk}}">{% padword_translate item.get_status.status.name %} </td>
+<td>{% padword_translate item.payment_type.name %} </td>
+<td>{{ item.amount }} </td>
 
-    <div class="col-12 col-2 d-flex pt-3 pt-md-1 justify-content-md-end justify-content-center" >
-        {% if request.user|in_group:'admins' %}
-            <a class="me-1 btn btn-xs" title="{%trans "Booking ID"%}" onclick="alert('{{item.code}}');"><i class="fas fa-fingerprint"></i></a> 
-        {% endif %}
-        <a class="me-1 btn btn-xs ark" title="{%trans "Log"%}" data-url="{%url "booking-log" item.id%}" data-target-modal="common-modal" 
-            data-obj_id="{{item.id}}"><i class="fas fa-list"></i></a>                     
-        <a class="me-1 btn btn-xs ark" title="{%trans "View"%}" data-url="{% url "booking-view" %}" data-target-modal="common-modal" 
-            data-obj_id="{{item.id}}"> <i class="fas fa-eye"></i></a> 
-        {% if request.user|in_group:'admins' %}
-            <a class="btn btn-sm autoremove" data-model-name="bookings.forminstance" data-obj-id="{{item.id}}" 
-                data-url="{% url "autoremove_obj" %}" data-target="row_{{item.id}}" title="{%trans "Remove"%}" 
-                data-confirm="{% trans "Are you sure to remove this element?" %}"> <i class="fas fa-trash"></i></a>
-        {% endif %}
-    </div>
+<td>
+    {% if request.user|in_group:'admins' %}
+        <a class="me-1 btn btn-xs" title="{%trans "Booking ID"%}" onclick="alert('{{item.code}}');"><i class="fas fa-fingerprint"></i></a> 
+    {% endif %}
+    <a class="me-1 btn btn-xs ark" title="{%trans "Log"%}" data-url="{%url "booking-log" item.id%}" data-target-modal="common-modal" 
+        data-obj_id="{{item.id}}"><i class="fas fa-list"></i></a>                     
+    <a class="me-1 btn btn-xs ark" title="{%trans "View"%}" data-url="{% url "booking-view" %}" data-target-modal="common-modal" 
+        data-obj_id="{{item.id}}"> <i class="fas fa-eye"></i></a> 
+    {% if request.user|in_group:'admins' %}
+        <a class="btn btn-sm autoremove" data-model-name="bookings.forminstance" data-obj-id="{{item.id}}" 
+            data-url="{% url "autoremove_obj" %}" data-target="row_{{item.id}}" title="{%trans "Remove"%}" 
+            data-confirm="{% trans "Are you sure to remove this element?" %}"> <i class="fas fa-trash"></i></a>
+    {% endif %}
 </td>

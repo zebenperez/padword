@@ -6,7 +6,10 @@
     <div class="header-mobile sticky-top">
         <div class="row products-tpv-mobile w-100 text-center m-0">
             <div class="col-4 p-0 name">
-                <button class="btn ark" data-url="{% url "tpv-change-pos" %}" data-target="base" data-project_uuid="{{project_uuid}}">{{pos.name}}</button>
+                <button class="btn ark w-100" data-url="{% url "tpv-change-pos" %}" data-target="base" data-project_uuid="{{project_uuid}}">{{pos.name}}</button>
+                <button class="btn ark w-100" data-url="{% url "tpv-change-table" %}" data-target="base" data-project_uuid="{{project_uuid}}">
+                    {{table.name}}</button>
+
             </div>
             <div class="col-5 text-center">
                 <select name="" id="" class="tpv-articles mobile w-100 text-center tpv-search-change" data-search-class="tpv-category">
