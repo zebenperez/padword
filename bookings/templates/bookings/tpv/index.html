@@ -15,8 +15,9 @@
             <div class="col-lg-6 col-12">
                 <button class="menu-options ark" data-url="{%url "tpv-set-table"%}" data-target="base" data-obj_id="{{item.id}}">
                     {{item.name}}
+                    <br/>
+                    {% get_table_info item %}
                 </button>
-                {% get_table_info item %}
             </div>
         {% endfor %}
     </div>
