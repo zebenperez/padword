@@ -7,6 +7,7 @@
 <td>{{ item.date|timezone:"Atlantic/Canary"|date:'d/m/Y H:i:s'}}</td>
 <td id="status-{{item.pk}}">{% padword_translate item.get_status.status.name %} </td>
 <td>{% padword_translate item.payment_type.name %} </td>
+<td>{{ item.details.desc }} </td>
 <td>{{ item.amount }} </td>
 
 <td>

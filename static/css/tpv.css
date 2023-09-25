@@ -52,14 +52,15 @@ a.special.ark {
 
 .left-tpv .name button
 {
-    background-color: #df6b07;
+    /*background-color: #df6b07;*/
+    background-color: #35a8e0;
 	color: #ffffff !important;
     font-weight: 600;
     height: 50px;
     border-radius: 0.5em;
     box-shadow: 0px 6px 11px -5px rgba(0,0,0,0.41);
     line-height: 2;
-    border:1px solid red;
+/*    border:1px solid red;*/
 } 
 .left-tpv .name button:hover
 {
@@ -95,6 +96,8 @@ select.tpv-articles
 }
 
 .table-selector {
+    background: #fff !important;
+    color: #000 !important;
     border:1px solid #333; 
     border-radius: 0.25rem;
 }
@@ -339,7 +342,8 @@ h5.card-title
 }
 .products-tpv-mobile .name button
 {
-    background-color: #df6b07;
+    /*background-color: #df6b07;*/
+    background-color: #35a8e0;
 	color: #ffffff !important;
     font-size: 11px;
     font-weight: 600 !important;
@@ -357,6 +361,12 @@ select.tpv-articles.mobile
     height: 50px;
     font-size: 13px;
     font-weight: 600;
+}
+
+button.btn.ark-w-100.table-name {
+    background: #fff !important;
+    color: #000 !important;
+    border-radius: 0.25rem;
 }
 
 .access-ticket 

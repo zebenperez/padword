@@ -28,9 +28,9 @@
             <i class="fas fa-comments"></i></span></div>
         {% endcomment %}
 
-        <div class="row ticket-line mt-2" style="overflow-y: scroll;height: 500px; align-items:start;">
+        <div class="row ticket-line mt-2" style="overflow-y: scroll;height: 400px; align-items:start;">
             {% for item in items %}
-            <div class="row p-0 m-0" style="border-bottom:1px solid #ccc">
+            <div class="row p-0 m-0" style="border-bottom:1px solid #ccc;margin-top:0;">
                 {% comment %}
                 <div class="col-3 p-0">
                     {% if item.item.image %}
@@ -40,20 +40,20 @@
                     {% endif %}
                 </div>
                 {% endcomment %}
-                    <div class="col-6" tyle="border:1px solid green"> <div class="item-name text-left">{% padword_translate item.item.name %}</div> </div>
+                    <div class="col-6"> <div class="item-name text-left">{% padword_translate item.item.name %}</div> </div>
                                        
                     <div class="col-2 text-left"> 
                         {% if regime %} <div class="text-right text-warning">{{ item|get_item_price:regime.code }}€</div> {% endif %}aaaa
                     </div>
-                    <div class="col-2" tyle="border:1px solid blue"> <div class="text-left">{{ item.item.price }}€</div> </div>
+                    <div class="col-2"> <div class="text-left">{{ item.item.price }}€</div> </div>
 
-                    <div class="col-2" tyle="border:1px solid green">
+                    <div class="col-2">
                         <a class="btn btn-danger ark" title="{%trans 'Remove article from shopping-cart'%}" 
                         data-url="{%url "tpv-order-item-remove"%}" data-item_id="{{item.pk}}" data-target="ticket-summary">
                         <i class="fas fa-trash"></i></a>
                     </div>
 
-                    <div class="col-12 text-left" tyle="border:1px solid blue">
+                    <div class="col-12 text-left">
                         <a class="special ark" title="{%trans 'Add comment at this article'%}" data-url="{%url "tpv-order-item-comment"%}" 
                             data-item_id="{{item.pk}}" data-form_id="{{fi.pk}}" data-target="div-comment-{{item.id}}" 
                             data-template="shopping-form-mobile" data-show="div-comment-{{item.id}}"> {%trans 'Add comment'%}</a>

@@ -264,6 +264,15 @@ def add_balance_to_band(pos, fi, band):
     desc += "<a class='ark' data-url='{}' data-target-modal='common-modal' data-obj_id='{}'> #{}</a>".format(url, fi.id, fi.id)
     WristbandBalance.objects.create(amount=(get_float(fi.amount)*-1), desc=desc, wristband=band)
 
+def set_desc(fi, desc):
+    if desc != "":
+        try:
+            info = fi.details
+        except:
+            info = FormInstanceInfo.objects.create(fi = fi)
+        info.desc = desc
+        info.save()
+
 @group_required("waiters")
 def tpv_order_send(request):
     try:
@@ -272,6 +281,7 @@ def tpv_order_send(request):
         amount = get_param(request.GET, "amount", "")
         amount_user = get_param(request.GET, "amount_user", "")
         band_id = get_param(request.GET, "band", "")
+        desc = get_param(request.GET, "desc", "")
 
         fi = get_or_none(FormInstance, fi_id)
         fi.set_status("01", request.user, "")
@@ -284,11 +294,8 @@ def tpv_order_send(request):
                 pos = get_or_none(PointOfSale, request.session["point_of_sale"])
                 band = get_or_none(Wristband, band_id)
                 add_balance_to_band(pos, fi, band)
-                #url = "/bookings/booking-view/"
-                #desc = "Ticket from {}: ".format(pos.name)
-                #desc += "<a class='ark' data-url='{}' data-target-modal='common-modal' data-obj_id='{}'> #{}</a>".format(url, fi.id, fi.id)
-                #WristbandBalance.objects.create(amount=(get_float(fi.amount)*-1), desc=desc, wristband=band)
         fi.save()
+        set_desc(fi, desc)
         context = {'msg': fi.get_status.status.code, 'project_uuid': fi.form.project.uuid}
         return render(request, 'bookings/tpv/show-msg.html', context)
     except Exception as e:

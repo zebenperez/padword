@@ -575,6 +575,7 @@ class FormInstanceInfo(models.Model):
     client_mobile = models.CharField(max_length=255, verbose_name=_("Guest mobile"), default="")
     client_email = models.CharField(max_length=255, verbose_name=_("Guest email"), default="")
     client_room = models.CharField(max_length=255, verbose_name=_("Guest room"), default="")
+    desc = models.CharField(max_length=900, verbose_name=_("Description"), default="")
     fi = models.ForeignKey(FormInstance, on_delete=models.CASCADE, verbose_name=_("Form Instance"), null=True, blank=True, related_name='info')
 
  
