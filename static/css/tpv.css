@@ -289,6 +289,11 @@ h5.card-title
     line-height: 2 !important;
 	width: 100%;
 }
+/*
+h5.card-title.text-dark.text-center.title-new.especial {
+    background-color: #35a8e0;
+}
+*/
 .row-02, .row-03.allerg-new, .row-04.info-new
 {
 	display: none;
@@ -340,17 +345,19 @@ h5.card-title
     width: 100%;
     align-items: center;
 }
+.products-tpv-mobile {
+    box-shadow: 0px 6px 11px -5px rgba(0,0,0,0.41);
+}
+
 .products-tpv-mobile .name button
 {
-    /*background-color: #df6b07;*/
     background-color: #35a8e0;
 	color: #ffffff !important;
-    font-size: 11px;
+    font-size: 12px;
     font-weight: 600 !important;
     border-radius: 0em;
-    box-shadow: 0px 6px 11px -5px rgba(0,0,0,0.41);
-    border-top:1px solid #fff !important;
-
+    line-height: 2;
+    border-right: 1px solid #fff;
 } 
 
 select.tpv-articles.mobile
@@ -369,6 +376,11 @@ button.btn.ark-w-100.table-name {
     border-radius: 0.25rem;
 }
 
+i.fas.fa-power-off {
+	color: #000;
+	font-size: 1.2rem;
+}
+
 .access-ticket 
 {
 	background-color: #a1c517;
@@ -377,13 +389,10 @@ button.btn.ark-w-100.table-name {
 .access-ticket .btn.btn-header-pwa
 {
     color: #ffffff !important;
-    font-size: 0.95rem !important;
     font-size: 0.68rem !important;
     font-weight: 600;
-    padding-right: 0px;
-    padding-left: 0px;
     text-transform: uppercase !important;
-
+    line-height: 2.2;
 }
 .header-bottom
 {
@@ -391,16 +400,17 @@ button.btn.ark-w-100.table-name {
 /*    height: 60px;*/
 }
 
-input.form-control.tpv-search.mobile, input#div-scan.form-control.ark_change.scanband {
+input.form-control.tpv-search.mobile /*, input#div-scan.form-control.ark_change.scanband*/
+{
     border-color: #a0c516;
     border-radius: 5px !important;
     box-shadow: 0px 0px 0px 0px rgb(0 0 0 / 46%) !important;
-    position: fixed !important;
-    top: 80;
+/*    position: fixed !important;*/
+/*    top: 80;*/
     z-index: 1020;
     width: 96% !important;
     align-items: center;
-    margin-left: 2% !important;
+ /*   margin-left: 2% !important;*/
     font-size: 0.8rem !important;
 }
 input.form-control.tpv-search.mobile {
@@ -447,6 +457,11 @@ input#div-scan.form-control.ark_change.scanband::placeholder {
 {
     color: #35a8e0;
 }
+.products-tpv-mobile i.fas.fa-power-off {
+	color: #000 !important;
+	font-size: 1.2rem;
+}
+
 
 .main-tpv-mobile 
 {

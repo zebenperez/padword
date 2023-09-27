@@ -4,12 +4,51 @@
 
 <div id="base-tpv-mobile">
     <div class="header-mobile sticky-top">
+
+{% comment %} -- {% endcomment %}
+        <div class="row products-tpv-mobile w-100 text-center m-0" tyle="border:1px solid black">
+            <div class="col-5 p-0 name">
+                <button class="btn ark w-100" data-url="{% url "tpv-change-pos" %}" data-target="base" data-project_uuid="{{project_uuid}}">{{pos.name}}</button>
+            </div>
+            <div class="col-2 p-0 name">
+                <button class="btn ark w-100 table-name" data-url="{% url "tpv-change-table" %}" data-target="base" data-project_uuid="{{project_uuid}}">
+                    {{table.name}}</button>
+            </div>
+            <div class="col-4 p-0 access-ticket text-center">
+                <button class="btn btn-header-pwa" onclick="$('.tpv-toggle').toggle();" data-url="{% url "tpv-close" %}" data-target="base" 
+                    data-project_uuid="{{project_uuid}}"> 
+                    <span class="tpv-toggle"><i class="fas fa-tag"></i> Ticket</span>
+                    <span id="title-products-mobile" class="tpv-toggle"><i class="fas fa-shopping-basket"></i> {% trans 'Products' %}</span>
+                </button>
+            </div>
+            <div class="col-1 p-0">
+                <button class="btn btn-header-pwa ark" data-url="{% url "tpv-close" %}" data-target="base" data-project_uuid="{{project_uuid}}"> 
+                <i class="fas fa-power-off"></i></button>
+            </div>
+
+            <div class="row w-100 text-center m-0 p-0" tyle="border:1px solid blue">
+                <div class="col-5 text-center" tyle="border:1px solid blue">
+                        <select name="" id="" class="tpv-articles mobile w-100 text-center tpv-search-change" data-search-class="tpv-category">
+                        <option value="">Todos los artículos</option>
+                        {% for item in cat_list %}
+                        <option value="{{item.pk}}">{% padword_translate item.name %}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="col-7 text-center header-bottom tpv-toggle pt-2" tyle="border:1px solid blue">
+                    <input type="text" class="form-control tpv-search mobile" data-search-class="tpv-item" placeholder="{% trans "Search..." %}"/> 
+                </div>
+            </div>
+    </div>
+{% comment %} ---- {% endcomment %}
+
+        {% comment %}
+
         <div class="row products-tpv-mobile w-100 text-center m-0">
             <div class="col-4 p-0 name">
                 <button class="btn ark w-100" data-url="{% url "tpv-change-pos" %}" data-target="base" data-project_uuid="{{project_uuid}}">{{pos.name}}</button>
                 <button class="btn ark w-100 table-name" data-url="{% url "tpv-change-table" %}" data-target="base" data-project_uuid="{{project_uuid}}">
                     {{table.name}}</button>
-
             </div>
             <div class="col-5 text-center">
                 <select name="" id="" class="tpv-articles mobile w-100 text-center tpv-search-change" data-search-class="tpv-category">
@@ -26,7 +65,8 @@
                 </button>
             </div>
         </div>
-        <div class="header-bottom tpv-toggle"><input type="text" class="form-control tpv-search mobile" data-search-class="tpv-item" placeholder="{% trans "Search..." %}"/> </div>
+        {% endcomment %}
+
         <div class="header-bottom tpv-toggle" id="title-div-scan">
             {%comment%}
             <input type="text" id="div-scan" class="form-control ark_change scanband mobile" name="bans-scan" data-url="{% url "tpv-check-band" %}" 

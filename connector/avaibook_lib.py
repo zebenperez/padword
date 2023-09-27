@@ -166,8 +166,9 @@ def create_booking(pau, booking):
         guest.room = room
         guest.save()
 
-        if booking.created and len(guest.mobile) > 3:
-            lock_code = guest.mobile[-4:]
+        if booking.created:
+            #lock_code = guest.mobile[-4:]
+            lock_code = ''.join([random.choice(string.digits) for i in range(4)])
             err = guest.add_all_key_code(lock_code)
             av.send_pwa_link(guest.ext_id, lock_code, guest.pwa_link)
 
