@@ -15,7 +15,7 @@ from padword.decorators import group_required
 from web.models import Project
 from .models import ProjectAvantioUser, ProjectAvaibookUser, ProjectWinhotelUser
 from .avantio_lib import get_booking_list, get_booking_notif, send_link
-from .avaibook_lib import get_accommodation_list, get_booking_list as av_get_booking_list, WEBHOOK_TOKEN
+from .avaibook_lib import get_accommodation_list, create_booking_from_webhook, get_booking_list as av_get_booking_list, WEBHOOK_TOKEN
 from .winhotel_lib import get_booking_list as wh_get_booking_list
 
 import json, os
@@ -123,6 +123,14 @@ def avaibook_get_booking(request):
 
     booking = json.loads(request.body)
     f.write("\n{}".format(booking))
+
+    try:
+        pau = get_or_none(ProjectAvaibookUser, settings.AVAIBOOK_ID, "project_uuid")
+        create_booking_from_webhook(pau, booking)
+        f.write("\nBooking created!")
+    except Exception as e:
+        f.write("\nError: {}".format(e))
+
     return HttpResponse("Message received okay.", content_type="text/plain")
 
 '''

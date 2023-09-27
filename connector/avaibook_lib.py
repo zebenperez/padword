@@ -1,3 +1,8 @@
+from datetime import datetime
+from web.models import Room
+from guest.models import Guest
+from padword.commons import new_ui_slug
+
 import requests
 import hashlib
 import urllib
@@ -5,6 +10,7 @@ import urllib
 API_URL = "https://api.avaibook.biz/api/partner/"
 BOOKINGS_URL = "booking/bookings"
 ACCOMMODATIONS_URL = "accommodations"
+SEND_LINK_URL = "booking/checkin/register-access-data"
 WEBHOOK_TOKEN = "SHLBM!CRspnXdsjy4xWt15l6=ngX4Dv6ujUw/S5XCVkPIXrM9WRNawn0zMg4S5GO"
 
 def get_param(dic, key):
@@ -41,6 +47,25 @@ class Avaibook():
         except requests.exceptions.RequestException as err:
             raise AvaibookAPIError(menssage=err)
 
+    def __send_post_request__(self, _url_request, _json):
+        try:
+            #_headers = {'Content-Type': 'application/x-www-form-urlencoded', 'Token': '43bedb65e2fa3a57dd19650c7f67a1cb648644f8'}
+            _headers = {}
+            _headers['Accept'] = 'application/json'
+            _headers['Authorization'] = 'Basic {}'.format(self.uuid)
+            _headers['Token'] = '{}'.format(self.token)
+            _response = requests.post(_url_request, headers=_headers, json=_json)
+            _response.raise_for_status()
+            return _response
+        except requests.exceptions.HTTPError as errh:
+            raise AvaibookAPIError(menssage=errh)
+        except requests.exceptions.ConnectionError as errc:
+            raise AvaibookAPIError(menssage=errc)
+        except requests.exceptions.Timeout as errt:
+            raise AvaibookAPIError(menssage=errt)
+        except requests.exceptions.RequestException as err:
+            raise AvaibookAPIError(menssage=err)
+
     def get_bookings(self):
         try:
             _url_request = "{}{}".format(API_URL, BOOKINGS_URL)
@@ -52,6 +77,14 @@ class Avaibook():
         try:
             _url_request = "{}{}".format(API_URL, ACCOMMODATIONS_URL)
             return self.__send_request__(_url_request).json()["items"]
+        except Exception as err:
+            raise AvaibookAPIError(menssage=err)
+
+    def send_pwa_link(self, booking_id, code, link):
+        try:
+            _url_request = "{}{}".format(API_URL, SEND_LINK_URL)
+            json = {"booking_id": booking_id, "access_code": code, "access_link": link}
+            return self.__send_post_request__(_url_request, json)
         except Exception as err:
             raise AvaibookAPIError(menssage=err)
 
@@ -74,6 +107,7 @@ class AvaibookBooking():
         self.default_leader_phone = get_param(dic, "default_leader_phone")
         self.source = get_param(dic, "source")
         self.partner_name = get_param(dic, "partner_name")
+        self.created = False
 
 class AvaibookAccommodationLocation():
     def __init__(self, dic):
@@ -102,6 +136,44 @@ class AvaibookAccommodation():
 '''
     FUNCTIONS
 '''
+def get_date(date, time):
+    if time != None:
+        return datetime.strptime("{} {}".format(date, time), "%Y-%m-%d %H:%M:%S")
+    else:
+        return datetime.strptime("{} 13:00:00".format(date), "%Y-%m-%d %H:%M:%S")
+
+def room_exist(project_uuid, room):
+    count = Room.objects.filter(project_uuid=project_uuid, number=room).count()
+    return (count > 0)
+
+def create_booking(pau, booking):
+    checkin = get_date(booking.check_in_date, booking.check_in_time)
+    checkout = get_date(booking.check_out_date, booking.check_out_time)
+    room = booking.accommodation_id
+    room_ex = room_exist(pau.project_uuid, room)
+
+    if room_ex:
+        guest = Guest.objects.filter(ext_id=booking.id, project_id=pau.project_uuid, deleted=0).first()
+        if guest == None:
+            guest = Guest(UUID = new_ui_slug(Guest, "UUID"), ext_id=booking.id, project_id=pau.project_uuid)
+            booking.created = True
+        
+        guest.name = booking.default_leader_full_name
+        guest.mobile = booking.default_leader_phone
+        guest.email = booking.default_invite_email
+        guest.check_in = checkin
+        guest.check_out = checkout
+        guest.room = room
+        guest.save()
+
+        if booking.created and len(guest.mobile) > 3:
+            lock_code = guest.mobile[-4:]
+            err = guest.add_all_key_code(lock_code)
+            av.send_pwa_link(guest.ext_id, lock_code, guest.pwa_link)
+
+        return guest
+    return None
+
 def get_booking_list(pau):
     #TOKEN = "43bedb65e2fa3a57dd19650c7f67a1cb648644f8"
     #UUID = "MyFoRlQ5YmZFNHZqSDFRR2JGYnFZUE0zYk5rUSo2VXo6JGFyZ29uMmlkJHY9MTkkbT02NTUzNix0PTQscD0xJFFDbEdhVVVQdXY5UmUrZEV0eklyS0EkSjc4UTk2OER0M2dZdno2M1JCZFk4dENCNHZaRm0zZWljRlMyeXlmaUlJVQ"
@@ -114,7 +186,20 @@ def get_booking_list(pau):
     for item in result:
         node = AvaibookBooking(item)
         booking_list.append(node)
+        create_booking(pau, node)
     return booking_list
+
+def create_accommodation(pau, acc):
+    room = Room.objects.filter(project_uuid=pau.project_uuid, number=acc.id).first()
+    if room != None:
+        return room
+
+    room =  Room.objects.create(project_uuid=pau.project_uuid, number=acc.id)
+    room.alias = acc.name
+    room.uuid = new_ui_slug(Room)
+    #room.order = 
+    room.save()
+    #return room
 
 def get_accommodation_list(pau):
     av = Avaibook(pau.uuid, pau.token)
@@ -128,5 +213,18 @@ def get_accommodation_list(pau):
         loc = AvaibookAccommodationLocation(item["location"]) if "location" in item else {}
         node = AvaibookAccommodation(item, loc, unit_list)
         item_list.append(node)
+        create_accommodation(pau, node)
     return item_list
+
+def create_booking_from_webhook(pau, booking):
+    node = AvaibookBooking(booking)
+    guest = create_booking(pau, node)
+    #if guest != None:
+    #    send_link(pau, guest)
+
+def send_link(pau, guest):
+    resp = "---"
+    av = Avaibook(pau.uuid, pau.token)
+    resp = av.send_pwa_link(guest.ext_id, "", guest.pwa_link)
+    return resp
 
