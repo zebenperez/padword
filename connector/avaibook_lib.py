@@ -6,6 +6,9 @@ from padword.commons import new_ui_slug
 import requests
 import hashlib
 import urllib
+import json
+import random
+import string
 
 API_URL = "https://api.avaibook.biz/api/partner/"
 BOOKINGS_URL = "booking/bookings"
@@ -91,6 +94,7 @@ class Avaibook():
 class AvaibookBooking():
     def __init__(self, dic):
         self.id = get_param(dic, "id")
+        self.webhook_id = get_param(dic, "internal_booking_id")
         self.status = get_param(dic, "status")
         self.accommodation_id = get_param(dic, "accommodation_id")
         self.unit_id = get_param(dic, "unit_id")
@@ -146,16 +150,19 @@ def room_exist(project_uuid, room):
     count = Room.objects.filter(project_uuid=project_uuid, number=room).count()
     return (count > 0)
 
-def create_booking(pau, booking):
+def create_booking(pau, booking, av):
     checkin = get_date(booking.check_in_date, booking.check_in_time)
     checkout = get_date(booking.check_out_date, booking.check_out_time)
-    room = booking.accommodation_id
+    room = booking.unit_id
     room_ex = room_exist(pau.project_uuid, room)
 
     if room_ex:
-        guest = Guest.objects.filter(ext_id=booking.id, project_id=pau.project_uuid, deleted=0).first()
+        #b_id = booking.id if booking.id != "" else booking.webhook_id
+        b_id = booking.webhook_id if booking.webhook_id != "" else booking.id
+        guest = Guest.objects.filter(ext_id=b_id, project_id=pau.project_uuid, deleted=0).first()
+        #guest = Guest.objects.filter(ext_id=booking.id, project_id=pau.project_uuid, deleted=0).first()
         if guest == None:
-            guest = Guest(UUID = new_ui_slug(Guest, "UUID"), ext_id=booking.id, project_id=pau.project_uuid)
+            guest = Guest(UUID = new_ui_slug(Guest, "UUID"), ext_id=b_id, project_id=pau.project_uuid)
             booking.created = True
         
         guest.name = booking.default_leader_full_name
@@ -187,7 +194,7 @@ def get_booking_list(pau):
     for item in result:
         node = AvaibookBooking(item)
         booking_list.append(node)
-        create_booking(pau, node)
+        create_booking(pau, node, av)
     return booking_list
 
 def create_accommodation(pau, acc):
@@ -196,7 +203,7 @@ def create_accommodation(pau, acc):
         return room
 
     room =  Room.objects.create(project_uuid=pau.project_uuid, number=acc.id)
-    room.alias = acc.name
+    room.alias = acc.name["es"]
     room.uuid = new_ui_slug(Room)
     #room.order = 
     room.save()
@@ -211,15 +218,16 @@ def get_accommodation_list(pau):
         for u in item["units"]:
             unit = AvaibookAccommodationUnit(u)
             unit_list.append(unit)
+            create_accommodation(pau, unit)
         loc = AvaibookAccommodationLocation(item["location"]) if "location" in item else {}
         node = AvaibookAccommodation(item, loc, unit_list)
         item_list.append(node)
-        create_accommodation(pau, node)
     return item_list
 
 def create_booking_from_webhook(pau, booking):
+    av = Avaibook(pau.uuid, pau.token)
     node = AvaibookBooking(booking)
-    guest = create_booking(pau, node)
+    guest = create_booking(pau, node, av)
     #if guest != None:
     #    send_link(pau, guest)
 
