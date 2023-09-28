@@ -7,11 +7,11 @@
         <div class="text-right">
             {% if obj.regime or obj.project.regimes.count == 0 %}
                 <button class="btn btn-primary btn-sm ark" data-url="{%url "guest-band-add"%}" data-target="div-band-form" data-obj_id="{{obj.id}}" 
-                    data-show="div-band-form"> <i class="fas fa-plus"></i> {% trans "Add" %}</button>
+                    data-show="div-band-form"> <i class="fas fa-plus"></i> {% trans "Añadir Pulsera" %}</button>
             {% else %}
                 <small>{% trans "Debe seleccionar un régimen antes de asignar la pulsera" %}</small>
                 <button class="btn btn-primary btn-sm ark" data-url="{%url "guest-band-add"%}" data-target="div-band-form" data-obj_id="{{obj.id}}" 
-                    data-show="div-band-form" disabled> <i class="fas fa-plus"></i> {% trans "Add" %}</button>
+                    data-show="div-band-form" disabled> <i class="fas fa-plus"></i> {% trans "Añadir Pulsera" %}</button>
             {% endif %}
         </div>
         <div id="div-band-form" class="hide"></div>
