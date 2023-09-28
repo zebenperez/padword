@@ -118,6 +118,12 @@ select.tpv-articles
     color: #0d6efd;
 }
 
+.alert-danger {
+    background-color: red !important;
+    color: white !important;
+    font-weight: 600;
+}
+
 .special-shadow {
     border-radius: 0.3em;
     box-shadow: 0px 6px 11px -5px rgba(0,0,0,0.41);
@@ -272,8 +278,13 @@ div#cover.image
 img.img-fill 
 {
 	max-width: -webkit-fill-available;
-	object-fit: fill;
-	max-height: 110px;
+	/*object-fit: fill;*/
+/*	max-height: 110px;*/
+
+    object-fit: cover;
+    height: 110px !important;
+    width: 100% !important;
+
 }
 .row-01 h5.card-title 
 {
@@ -346,28 +357,32 @@ h5.card-title.text-dark.text-center.title-new.especial {
     align-items: center;
 }
 .products-tpv-mobile {
-    box-shadow: 0px 6px 11px -5px rgba(0,0,0,0.41);
+/*    box-shadow: 0px 6px 11px -5px rgba(0,0,0,0.41);*/
 }
 
 .products-tpv-mobile .name button
 {
     background-color: #35a8e0;
 	color: #ffffff !important;
-    font-size: 12px;
+    font-size: 11px;
     font-weight: 600 !important;
-    border-radius: 0em;
-    line-height: 2;
-    border-right: 1px solid #fff;
+    border-radius: 0px !important;
+    border: 1px solid #fff;
+    padding-left: 0px !important;
+    padding-right: 0px !important;
+    /*line-height: 2em;*/
+    line-height: 12px;
+    height: 50px;
 } 
 
 select.tpv-articles.mobile
 {
-	background-color: #fff;
 	border: none;
 	color: #a1c517;
     height: 50px;
     font-size: 13px;
     font-weight: 600;
+    border-radius: 0px !important;
 }
 
 button.btn.ark-w-100.table-name {
@@ -376,14 +391,29 @@ button.btn.ark-w-100.table-name {
     border-radius: 0.25rem;
 }
 
-i.fas.fa-power-off {
-	color: #000;
+/*****  mobile icons ******/
+
+i.fas.fa-cash-register,
+i.fas.fa-coffee,
+i.fas.fa-tag, 
+i.fas.fa-shopping-basket, 
+i.fas.fa-power-off 
+{
 	font-size: 1.2rem;
 }
+
+i.fas.fa-power-off {
+	color: #35a8e0;
+}
+
+/*****  mobile icons ******/
+
 
 .access-ticket 
 {
 	background-color: #a1c517;
+    border:1px solid #fff;
+    height: 50px;
 }
 
 .access-ticket .btn.btn-header-pwa
@@ -392,7 +422,7 @@ i.fas.fa-power-off {
     font-size: 0.68rem !important;
     font-weight: 600;
     text-transform: uppercase !important;
-    line-height: 2.2;
+    /*line-height: 2.2;*/
 }
 .header-bottom
 {
@@ -482,7 +512,7 @@ input#div-scan.form-control.ark_change.scanband::placeholder {
 .box-new.mobile 
 {
     background-color: #f5f5f5;
-	height: 100px !important;
+	/*height: 100px !important;*/
 }
 
 
@@ -504,9 +534,13 @@ input#div-scan.form-control.ark_change.scanband::placeholder {
 img.img-fill.mobile 
 {
 	max-width: -webkit-fill-available;
-	object-fit: fill;
-	max-height: 70px;
+	/*object-fit: fill;*/
+/*	max-height: 70px;*/
     /*border:1px solid red;*/
+
+	object-fit: cover !important;
+    height: 110px !important;
+    width: 100% !important;
 }
 
 /*****************************/

@@ -14,16 +14,16 @@
         <div class="col-3 blue-info special-shadow">{{guest.room}}</div>
     </div>
     <div class="row ticket-line guest-info justify-content-center mt-3 m-0">
-        <div class="col-4 text-center">{% trans "Regime" %}</div>
-        <div class="col-2 offset-1 text-center">{% trans "Kid" %}</div>
+        <div class="col-5 text-center">{% trans "Regime" %}</div>
+        <div class="col-1 offset-1 text-center p-0">{% trans "Kid" %}</div>
         <div class="col-4 offset-1 text-center">{% trans "Balance" %}</div>
     </div>
     <div class="row ticket-line justify-content-center m-0">
-        <div class="col-4 blue-info text-center special-shadow">{{guest.regime.name}}</div>
+        <div class="col-5 blue-info text-center special-shadow p-0">{{guest.regime.name}}</div>
         {%if band.kid%}
-            <div class="col-2 offset-1 blue-info text-center alert-danger special-shadow">{%trans "Yes"%}</div>
+            <div class="col-1 offset-1 blue-info text-center alert-danger special-shadow p-0">{%trans "Yes"%}</div>
         {%else%}
-            <div class="col-2 offset-1 blue-info text-center special-shadow">{%if band%}{%trans "No"%}{%endif%}</div>
+            <div class="col-1 offset-1 blue-info text-center special-shadow p-0">{%if band%}{%trans "No"%}{%endif%}</div>
         {%endif%}
         <div class="col-4 offset-1 balance-band text-right {%if band.balance < 0%}text-danger{%endif%}">
             <strong>{{band.balance|floatformat:2}} {%if band%}€{%endif%}</strong></div>

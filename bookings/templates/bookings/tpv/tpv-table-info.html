@@ -2,8 +2,12 @@
 
 <small>
 {% if fi and fi.get_total > 0%}
-    {%trans "Order"%}: {{fi.pos.name}} - {{fi.details.client}} - {{fi.get_total}} €
+    <span style="color: red; font-weight: normal;font-size: 0.8em;">
+        {%trans "Order"%}: {{fi.pos.name}} - {{fi.details.client}} - {{fi.get_total}} €
+    </span>
 {% else %}
-    {%trans "No order"%}
+    <span style="color: grey; font-weight: normal;font-size: 0.8em;">
+        {%trans "No order"%}
+    </span>
 {% endif %}
 </small>

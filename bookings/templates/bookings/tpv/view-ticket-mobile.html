@@ -28,9 +28,9 @@
             <i class="fas fa-comments"></i></span></div>
         {% endcomment %}
 
-        <div class="row ticket-line mt-2" style="overflow-y: scroll;height: 400px; align-items:start;">
+        <div class="row ticket-line mt-2 p-0" style="overflow-y: scroll; max-height: 450px;">
             {% for item in items %}
-            <div class="row p-0 m-0" style="border-bottom:1px solid #ccc;margin-top:0;">
+            <div class="row" style="border-bottom:1px solid #ccc;margin-top:0;">
                 {% comment %}
                 <div class="col-3 p-0">
                     {% if item.item.image %}
@@ -70,7 +70,7 @@
 
         </div>
 
-        <div class="row mt-3 justify-content-center w-100" style="position:fixed; bottom:0; background: white;">
+        <div class="row mt-3 justify-content-center w-100" style="position:fixed; bottom:0; background: white;-webkit-box-shadow: -1px -13px 7px -13px #D6D6D6; box-shadow: -1px -13px 7px -13px #D6D6D6;">
             <div class="col-12 text-center mb-3">{%include "bookings/tpv/view-payment-types-mobile.html"%}</div></div>
 
     {% endif %}
