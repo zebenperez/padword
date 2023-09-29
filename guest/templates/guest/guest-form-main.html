@@ -1,4 +1,4 @@
-{% load i18n %}
+{% load i18n padword_tags %}
 
 
 <div class="row justify-center">
@@ -113,7 +113,8 @@
 
     <button id="btn-date" class="btn btn-success ark hide" data-url="{% url "guest-save-date" %}" data-target="guest-tabs" data-obj_id="{{obj.id}}" 
         data-check_in="{{obj.check_in|date:"Y-m-d"}}" data-check_in_time="{{obj.check_in|date:"H:i"}}" 
-        data-check_out="{{obj.check_out|date:"Y-m-d"}}" data-check_out_time="{{obj.check_out|date:"H:i"}}"></button>  
+        data-check_out="{{obj.check_out|date:"Y-m-d"}}" data-check_out_time="{{obj.check_out|date:"H:i"}}" 
+        data-show_admin="{% if request.user|in_group:"admins" %}True{%else%}False{%endif%}"></button>  
 
 </div>
 
@@ -121,20 +122,20 @@
     function checkDates(obj) {
         var checkIn = new Date($("#check_in").val()+" "+$("#check_in_time").val());
         var checkOut = new Date($("#check_out").val()+" "+$("#check_out_time").val());
+        $("#btn-date").data(obj.attr("id"), obj.val());
         if(checkOut < checkIn)
             $("#check_out__msg").html("{% trans "Checkout can not be less than checkin" %}");
         else {
             $("#check_out__msg").html("");
-            $("#btn-date").data(obj.attr("id"), obj.val());
             $("#btn-date").click();
         }
     }
-    $(".date_field").focusin(function(){
+    /*$(".date_field").focusin(function(){
         $('#guest-tabs').hide()
-    });
+    });*/
     $(".date_field").focusout(function(){
         checkDates($(this)); 
-        $('#guest-tabs').show();
+        //$('#guest-tabs').show();
     });
 </script>
 

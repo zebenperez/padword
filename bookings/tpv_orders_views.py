@@ -6,7 +6,7 @@ from padword.commons import show_exc, get_or_none, get_param, get_float, get_boo
 from web.models import Project
 from contents.models import Category
 
-from .models import Form, FormInstance, Status
+from .models import Form, FormInstance, FormInstanceInfo, Status
 
 import datetime
 import logging
@@ -18,10 +18,10 @@ ITEMS_PER_PAGE=get_items_per_page()
 '''
     Project users
 '''
-def search(project_uuid, form, ini_date, end_date, name, status):
+def search(project_uuid, ini_date, end_date, name, status):
     form = Form.objects.filter(form_type__code="tpv", form_type__project_uuid=project_uuid).first()
 
-    kwargs = {'form_uuid': form}
+    kwargs = {'form_uuid': form.uuid}
     if ini_date != "":
         kwargs["date__gte"] = ini_date
     if end_date != "":
@@ -40,7 +40,7 @@ def get_orders_project_context(project):
     ini_date = today + datetime.timedelta(days=-3)
     end_date = today + datetime.timedelta(days=1)
             
-    items = search(project.uuid, "", ini_date, end_date.strftime("%Y-%m-%d"), "", "")
+    items = search(project.uuid, ini_date, end_date.strftime("%Y-%m-%d"), "", "")
 
     context["project_uuid"] = project.uuid
     context["project_name"] = project.name
@@ -55,13 +55,13 @@ def get_orders_project_context(project):
 def orders_search(request):
     try:
         project = get_or_none(Project, request.project_id)
-        form = get_param(request.GET, "s-form")
+        #form = get_param(request.GET, "s-form")
         ini_date = get_param(request.GET, "s-ini_date")
         end_date = get_param(request.GET, "s-end_date")
         name = get_param(request.GET, "s-name")
         status = get_param(request.GET, "s-status")
 
-        items = search(project.uuid, form, ini_date, end_date, name, status)
+        items = search(project.uuid, ini_date, end_date, name, status)
 
         context={'total_items': len(items), 'items': items[0:ITEMS_PER_PAGE], 'status': status, 'index': ITEMS_PER_PAGE}
         return render(request, "bookings/tpv-orders/order-list.html", context)
@@ -97,7 +97,7 @@ def orders_by_project(request):
         project = get_or_none(Project, request.project_id)
         context = get_orders_project_context(project)
         context['index'] = ITEMS_PER_PAGE
-        context['active'] = "orders" 
+        context['active'] = "orders_tpv" 
         return render (request, "bookings/tpv-orders/orders.html", context)
     except Exception as e:
         print (show_exc(e))

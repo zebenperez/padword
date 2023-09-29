@@ -232,31 +232,35 @@ class Winhotel:
     def _request_bookings(self):
         json = {"QueryCredentials": self._credentials(), "UserID": self.user_id}
         _bookings_params = {
-            "StartDateQueryParameter": {
+            "BookingStateQueryParameters": {
                 "QueryOperator": 0,
-                "Value": "2023-09-01"
+                "Value": "2"
             }
+            #"StartDateQueryParameter": {
+            #    "QueryOperator": 0,
+            #    "Value": "2023-09-01"
+            #}
         }
         json["QueryRequest"] = {"QueryHeader": self._request_header(), "BookingListQueryParameters": _bookings_params}
         return json
 
-    def _request_send_charge(self):
+    def _request_send_charge(self, dic):
         json = {"QueryCredentials": self._credentials(), "UserID": self.user_id}
         _send_charge_params = {
             "ExternalCharge": {
-                "BookingCode": "sample string 1",
+                "BookingCode": dic["BookingCode"],
                 "CreditContact": {
-                    "RoomCode": "sample string 1",
-                    "ContactName": "sample string 2",
-                    "ContactId": 3,
-                    "HasCredit": true,
-                    "LimitCredit": 5.0
+                    "RoomCode": dic["RoomCode"],
+                    "ContactName": dic["ContactName"],
+                    #"ContactId": dic["ContactId"],
+                    #"HasCredit": dic["HasCredit"],
+                    #"LimitCredit": dic["LimitCredit"]
                 },
-                "Source": "sample string 2",
-                "SourceDocument": "sample string 3",
-                "Date": "2023-09-01T09:38:11.4700067+02:00",
-                "TotalAmount": 5.0,
-                "CashCode": "sample string 6"
+                "Source": dic["Source"],
+                "SourceDocument": dic["SourceDocument"],
+                "Date": dic["Date"],
+                "TotalAmount": dic["TotalAmount"],
+                "CashCode": dic["CashCode"]
             }
         }
         json["QueryRequest"] = {"QueryHeader": self._request_header(), "InsertExternalChargeRequest": _send_charge_params}
@@ -267,14 +271,17 @@ class Winhotel:
             _url_request = "{}{}".format(API_URL, BOOKINGS_URL)
             _json = self._request_bookings()
             _json_data = json.dumps(_json)
+            #print(_json_data)
+            #print("-------------------------")
+            #print(self.__send_request__(_url_request, _json_data).json())
             return self.__send_request__(_url_request, _json_data).json()["Bookings"]
         except Exception as err:
             raise WinhotelAPIError(message=err)
 
-    def send_charge(self):
+    def send_charge(self, dic):
         try:
             _url_request = "{}{}".format(API_URL, SEND_CHARGE_URL)
-            _json = self._request_send_charge()
+            _json = self._request_send_charge(dic)
             _json_data = json.dumps(_json)
             return self.__send_request__(_url_request, _json_data).json()
         except Exception as err:
@@ -345,4 +352,23 @@ def get_booking_list(pau):
         create_booking(pau, node)
     return booking_list
 
+def send_charge(pau,booking_code,room_code,contact_name,contact_id,has_credit,limit_credit,source,source_document,date,total_amount,cash_code):
+    dic = {
+        "BookingCode": booking_code,
+        "CreditContact": {
+            "RoomCode": room_code,
+            "ContactName": contact_name,
+            #"ContactId": contact_id,
+            #"HasCredit": has_credit,
+            #"LimitCredit": limit_credit
+        },
+        "Source": source,
+        "SourceDocument": source_document,
+        "Date": date,
+        "TotalAmount": total_amount,
+        "CashCode": cash_code
+    }
+    w = Winhotel(pau.source_code, pau.target_code)
+    result = w.send_charge(dic)
 
+ 

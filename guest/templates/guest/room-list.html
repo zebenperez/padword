@@ -14,7 +14,7 @@
         </div>
 
         {% for item in items %}
-            <div class="row guest pt-1 pb-1 pointer ark" data-url="{% url "guest-save-room" %}" data-target="div-locks" data-obj_id="{{obj.id}}" 
+            <div class="row guest pt-1 pb-1 pointer ark" data-url="{% url "guest-save-room" %}" data-target="guest-tabs" data-obj_id="{{obj.id}}" 
                 data-value="{{item.number}}" data-hide="guest-room-list" onclick="$('#s-room').val('{{item.number}}').removeClass('text-danger')">
                 <div class="col-10"> {{item.number}} ({{ item.alias }})</div>
                 <div class="col-2 text-right"> <i class="far fa-check-circle"></i> </div>

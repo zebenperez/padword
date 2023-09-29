@@ -15,9 +15,10 @@
 		</div>
 		<div class="row">	
 			<div class="col-12 text-center mt-3 mb-3 pt-3">
-                <button class="me-1 btn btn-access ark" data-url="{% url "tpv-index" project_uuid %}" data-target="base">{%trans "Back"%}</button>
+                <button id="btn-back" class="me-1 btn btn-access ark" data-url="{% url "tpv-index" project_uuid %}" data-target="base">
+                    {%trans "Back"%}</button>
 	        </div>
 	    </div>
 	</div>
 </div>
-
+<script>setTimeout(()=>{$("#btn-back").click();}, 3000)</script>

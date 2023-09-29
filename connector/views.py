@@ -15,7 +15,7 @@ from padword.decorators import group_required
 from web.models import Project
 from .models import ProjectAvantioUser, ProjectAvaibookUser, ProjectWinhotelUser
 from .avantio_lib import get_booking_list, get_booking_notif, send_link
-from .avaibook_lib import get_accommodation_list, get_booking_list as av_get_booking_list, WEBHOOK_TOKEN
+from .avaibook_lib import get_accommodation_list, create_booking_from_webhook, get_booking_list as av_get_booking_list, WEBHOOK_TOKEN
 from .winhotel_lib import get_booking_list as wh_get_booking_list
 
 import json, os
@@ -113,16 +113,24 @@ def avaibook_get_booking(request):
     f.write("\n---------------------------------------")
     f.write("\n{} - Recibida reserva de avantio".format(datetime.now().strftime("%Y-%m-%d %H:%M:%S")))
 
-#    given_token = request.headers.get("Avaibook-Webhook-Token", "")
-#    if not compare_digest(given_token, WEBHOOK_TOKEN):
-#        f.write("\nToken no valido".format(datetime.now().strftime("%Y-%m-%d %H:%M:%S")))
-#        return HttpResponseForbidden(
-#            "Incorrect token in Avaibook-Webhook-Token header.",
-#            content_type="text/plain",
-#        )
+    given_token = request.headers.get("Avaibook-Webhook-Token", "")
+    if not compare_digest(given_token, WEBHOOK_TOKEN):
+        f.write("\nToken no valido".format(datetime.now().strftime("%Y-%m-%d %H:%M:%S")))
+        return HttpResponseForbidden(
+            "Incorrect token in Avaibook-Webhook-Token header.",
+            content_type="text/plain",
+        )
 
     booking = json.loads(request.body)
     f.write("\n{}".format(booking))
+
+    try:
+        pau = get_or_none(ProjectAvaibookUser, settings.AVAIBOOK_ID, "project_uuid")
+        create_booking_from_webhook(pau, booking)
+        f.write("\nBooking created!")
+    except Exception as e:
+        f.write("\nError: {}".format(e))
+
     return HttpResponse("Message received okay.", content_type="text/plain")
 
 '''

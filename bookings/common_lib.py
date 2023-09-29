@@ -51,14 +51,24 @@ def get_or_create_form_instance_tpv(form, pos_uuid, table_uuid, guest_name=""):
         return fi
     return None
 
-def get_or_create_form_instance_info_tpv(fi, pos, table, client, band):
+def get_or_create_form_instance_info_tpv(fi, pos, table):
     if fi.form.form_type.order:
         fi_info, created = FormInstanceInfo.objects.get_or_create(fi=fi)
         fi_info.pos=pos
         fi_info.table=table
-        fi_info.client=client
-        fi_info.band=band
         fi_info.save()
+        return fi_info
+    return None
+
+def get_or_create_form_instance_info_client_tpv(fi, client, band):
+    if fi.form.form_type.order:
+        fi_info, created = FormInstanceInfo.objects.get_or_create(fi=fi)
+        fi_info.client = "{} {}".format(client.name, client.surname)
+        fi_info.client_mobile = client.mobile
+        fi_info.client_email = client.email
+        fi_info.client_room = client.room
+        fi_info.band = band
+        fi_info.save() 
         return fi_info
     return None
 

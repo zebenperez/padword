@@ -22,6 +22,7 @@
     </div>		
 
     <div class="row justify-center">
+        <h5>{% trans "Categories" %}</h5>
         {% for cat in form.get_category.get_active_childrens %}
             <div class="col-2">
                 <button class="btn {%if cat in item.get_categories%}btn-primary-active{%else%}btn-outline-primary{%endif%} ark" 
@@ -30,5 +31,11 @@
             </div>
         {% endfor %}
     </div>
+
+    <div class="row justify-center">
+        <h5>{% trans "Tables" %}</h5>
+        <div id="div-table-{{item.id}}">{% include "web/projects/project-form-table-list.html" %}</div>
+    </div>
+
 {% endfor %}
 

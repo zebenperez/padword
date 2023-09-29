@@ -4,13 +4,13 @@
 <ul class="nav nav-tabs m-2 pl-2 pr-2 pt-2">
     <li class="nav-item"> <a class="nav-link {%if not current_tab%}active{%endif%}" data-bs-toggle="tab" href="#locks">{% trans "Locks" %}</a> </li>
     <li class="nav-item"> <a class="nav-link {%if current_tab == "bands"%}active{%endif%}" data-bs-toggle="tab" href="#bands">
-        {%trans "Bands"%}</a> </li>
+        {%trans "Pulseras"%}</a> </li>
     <li class="nav-item"> <a class="nav-link" data-bs-toggle="tab" href="#extras">{% trans "Extras" %}</a></li>
     {% if obj.project.sensibo_api_key != "" %}
         <li class="nav-item"> <a class="nav-link" data-bs-toggle="tab" href="#sensibo">{% trans "Air aconditioner" %}</a> </li>
     {% endif %}
-    {#{% if show_admin and show_admin == "True" %}#}
-    {% if not request.project %}
+    {#{% if not request.project %}#}
+    {% if show_admin and show_admin == "True" %}
         <li class="nav-item"> <a class="nav-link" data-bs-toggle="tab" href="#admins">{% trans "Administrator" %}</a> </li>
     {% endif %}
 </ul>
@@ -20,6 +20,9 @@
         {%include "guest/keys/guest-details-keys.html"%}</div></div>
 
     {# -------------------------- BANDS ------------------------#}
+    <div class="tab-pane container {%if current_tab == "bands"%}active{%endif%}" id="bands"><div id="div-bands">
+        {%include "guest/bands/guest-details-bands.html"%}</div></div>
+    {%comment%}
     {% if obj.have_valid_booking2 %}
         <div class="tab-pane container {%if current_tab == "bands"%}active{%endif%}" id="bands"><div id="div-bands">
             {%include "guest/bands/guest-details-bands.html"%}</div></div>
@@ -27,6 +30,7 @@
         <div class="tab-pane container {%if current_tab == "bands"%}active{%endif%}" id="bands"><div id="div-bands">
             {%include "guest/bands/guest-details-bands-info.html"%}</div></div>
     {% endif %}
+    {%endcomment%}
 
     {# -------------------------- EXTRAS ------------------------#}
     <div class="tab-pane container" id="extras"> <div id="extra-details"> {% include "guest/guest-form-extra.html" %} </div> </div>

@@ -10,8 +10,8 @@ from padword.decorators import group_required
 from guest.models import Regime, ProjectRegime
 from sensibo.models import ProjectSensiboUser
 from connector.models import ProjectAvantioUser, ProjectAvaibookUser, ProjectWinhotelUser
-from contents.models import Category, PointOfSale, PointOfSaleCategory
-from bookings.models import Form, Table
+from contents.models import Category, PointOfSale, PointOfSaleCategory, Table
+from bookings.models import Form
 from .models import *
 #from .lock_lib import ShLock
 
@@ -151,7 +151,7 @@ def project_form(request):
 
         regime_list = Regime.objects.all()
         point_of_sale_list = PointOfSale.objects.filter(project_uuid=obj.uuid)
-        table_list = Table.objects.filter(project_uuid=obj.uuid)
+        #table_list = Table.objects.filter(project_uuid=obj.uuid)
         form = Form.objects.filter(form_type__code="tpv", form_type__project_uuid=obj.uuid).first()
         context = {
             'obj': obj, 
@@ -165,7 +165,7 @@ def project_form(request):
             'project_regime_list': [item.regime for item in obj.regimes.all()],
             'regime_list': regime_list,
             'point_of_sale_list': point_of_sale_list,
-            'table_list': table_list,
+            #'table_list': table_list,
             'form': form
         }
         return render(request, "web/projects/project-form.html", context)
@@ -258,39 +258,39 @@ def project_pos_cat_toggle(request):
 def project_table_add(request):
     table_list = []
     try:
-        project = get_or_none(Project, request.GET["obj_id"])
-        Table.objects.create(project_uuid=project.uuid, uuid=new_ui_slug(Table))
-        table_list = Table.objects.filter(project_uuid=project.uuid)
+        pos = get_or_none(PointOfSale, request.GET["obj_id"])
+        Table.objects.create(point_of_sale=pos, uuid=new_ui_slug(Table))
+        table_list = Table.objects.filter(pos_uuid=pos.uuid)
     except Exception as e:
         print (show_exc(e))
-    return render(request, "web/projects/project-form-table-list.html", {'obj': project, 'table_list': table_list,})
+    return render(request, "web/projects/project-form-table-list.html", {'item': pos, 'table_list': table_list,})
 
 @group_required("admins")
 def project_table_remove(request):
     try:
         table = get_or_none(Table, request.GET["obj_id"])
-        project = get_or_none(Project, table.project_uuid, "uuid")
+        pos = table.point_of_sale
         table.delete()
-        table_list = Table.objects.filter(project_uuid=project.uuid)
+        table_list = Table.objects.filter(point_of_sale = pos)
     except Exception as e:
         print (show_exc(e))
-    return render(request, "web/projects/project-form-table-list.html", {'obj': project, 'table_list': table_list,})
+    return render(request, "web/projects/project-form-table-list.html", {'item': pos, 'table_list': table_list,})
 
 @group_required("admins")
 def project_table_range(request):
     try:
-        project = get_or_none(Project, request.POST["project_uuid"], "uuid")
+        pos = get_or_none(PointOfSale, request.POST["pos_id"])
         ini = get_int(request.POST["ini"])
         end = get_int(request.POST["end"]) + 1
 
         for i in range(ini, end):
             name = "{} {}".format(get_param(request.POST, "name"), i)
-            Table.objects.create(project_uuid=project.uuid, uuid=new_ui_slug(Table), name=name)
+            Table.objects.create(point_of_sale=pos, uuid=new_ui_slug(Table), name=name)
 
-        table_list = Table.objects.filter(project_uuid=project.uuid)
+        table_list = Table.objects.filter(point_of_sale = pos)
     except Exception as e:
         print (show_exc(e))
-    return render(request, "web/projects/project-form-table-list.html", {'obj': project, 'table_list': table_list,})
+    return render(request, "web/projects/project-form-table-list.html", {'item': pos, 'table_list': table_list,})
 
 @group_required("admins")
 def project_set_avantio_schedule(request):

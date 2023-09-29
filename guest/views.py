@@ -237,6 +237,8 @@ def guest_save_date(request):
         check_in_time = get_param(request.GET, "check_in_time")
         check_out = get_param(request.GET, "check_out")
         check_out_time = get_param(request.GET, "check_out_time")
+        show_admin = get_param(request.GET, "show_admin")
+
         c_in = datetime.datetime.strptime("{} {}".format(check_in, check_in_time), '%Y-%m-%d %H:%M')
         c_out = datetime.datetime.strptime("{} {}".format(check_out, check_out_time), '%Y-%m-%d %H:%M')
         if c_out < c_in:
@@ -247,7 +249,7 @@ def guest_save_date(request):
         guest.save()
         guest.change_all_key_code_date()
         guest.change_all_key_card_date()
-        return render(request, "guest/guest-details-tabs.html", {'obj': guest, 'temp_range': range(16,26)})
+        return render(request, "guest/guest-details-tabs.html", {'obj': guest, 'temp_range': range(16,26), 'show_admin': show_admin})
     except Exception as e:
         return render(request, "error_exception.html", {'exc':show_exc(e)})
 
@@ -269,7 +271,8 @@ def guest_save_room(request):
         else:
             err = guest.change_room(value)
             guest.change_sensibo_devices(value)
-        return render(request, "guest/keys/guest-keys.html", {'obj': guest, "err": err})
+        return render(request, "guest/guest-details-tabs.html", {'obj': guest, 'temp_range': range(16,26), 'err': err})
+        #return render(request, "guest/keys/guest-keys.html", {'obj': guest, "err": err})
     except Exception as e:
         return render(request, "error_exception.html", {'exc':show_exc(e)})
 

@@ -1,0 +1,21 @@
+{% load i18n %}
+
+{#<button class="btn btn-sm" onclick="$('#div-scan-band').show();"> Scan NFC</button>#}
+<button class="btn btn-sm scan-nfc" data-obj_id="{{fi.id}}" data-scan-container="div-scan-band" data-scan-url="{%url "tpv-check-band"%}" 
+    data-scan-target="ticket-summary"> 
+    Scan NFC</button>
+
+<div id="div-scan-band" class="hide">
+    <div id="div-scan-wait">
+        <img alt="Loading Screen Animation - Hourglass"
+            width="100%"
+            height=""
+            data-id="4275501"
+            data-animated-url="https://cdn.dribbble.com/users/416315/screenshots/4275501/media/81a14e385dee6f7ca9e90d578b72d2b8.gif"
+            skip_resize="true"
+            srcset="https://cdn.dribbble.com/users/416315/screenshots/4275501/media/81a14e385dee6f7ca9e90d578b72d2b8.gif 320w, https://cdn.dribbble.com/users/416315/screenshots/4275501/media/81a14e385dee6f7ca9e90d578b72d2b8.gif 400w"
+            sizes="(max-width: 919px) 100vw, max(768px, 98vh)" 
+            src="https://cdn.dribbble.com/users/416315/screenshots/4275501/media/81a14e385dee6f7ca9e90d578b72d2b8.gif">
+    </div>
+</div>
+
