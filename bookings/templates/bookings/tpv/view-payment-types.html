@@ -41,20 +41,27 @@
 <div class="row mt-4 justify-content-center">
     <div class="col-6 text-center mb-3">
         <button id="btn-cancel-order-{{fi.id}}" class="btn btn-success-tpv w-100 ark" data-url="{% url "tpv-order-remove" %}" 
-            data-target="base" data-obj_id="{{fi.id}}"> {% trans "Cancel Order" %}</button>
+            data-target="base" data-obj_id="{{fi.id}}"> 
+            <i class="fa fa-ban"></i><br />
+            {% trans "Cancel Order" %}
+        </button>
     </div>
     <div class="col-6 text-center mb-3">
         <button id="btn-send-order-{{fi.id}}" class="btn btn-success-tpv w-100 ark" data-bs-dismiss="modal" data-url="{% url "tpv-order-send" %}" 
             data-target="base" data-obj_id="{{fi.id}}" data-payment_type="" data-amount="{{total}}" data-band="{{band.id}}"
-            data-amount_user="{%if regime%}{{fi|get_total_by_regime:regime.code}}{%endif%}" disabled> {%trans "Send Order"%}</i>
+            data-amount_user="{%if regime%}{{fi|get_total_by_regime:regime.code}}{%endif%}" disabled> 
+            <i class="fa fa-share-square"></i><br />
+            {%trans "Send Order"%}
         </button>
     </div>
     <div class="col-6 text-center mb-3">
         <button id="btn-return-{{fi.id}}" class="btn btn-warning w-100 a-disabled" onclick="$('#div-return').show()">
+            <i class="fa fa-reply"></i><br />
             {%trans "Devolución"%} {#<br/> <small>{%trans "(Sólo disponible para el pago con pulseras)"%}</small>#}</button>
     </div>
     <div class="col-6 text-center mb-3">
         <button id="btn-free-{{fi.id}}" class="btn btn-primary w-100" onclick="$('#div-free').show()">
+            <i class="fas fa-hand-holding-heart"></i><br />
             {%trans "Invitación"%} </button>
     </div>
 
@@ -111,7 +118,7 @@
         if ($(this).data("cash") == "01") { $("#cash-value").show(); }
         else { $("#cash-value").hide(); }
 
-        if ($(this).data("cash") == "03") { $("#btn-return-{{fi.id}}").removeClass("a-disabled", ""); console.log("--1--");}
+        if ($(this).data("cash") == "03") { $("#btn-return-{{fi.id}}").removeClass("a-disabled", "");}
         else { $("#btn-return-{{fi.id}}").addClass("a-disabled"); }
     });
 

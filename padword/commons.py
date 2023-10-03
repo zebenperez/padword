@@ -163,6 +163,7 @@ def update_cron(hour, minute, function, project_uuid):
     #path = os.path.join(settings.BASE_DIR, "padword", "update_cron.sh")
     path = os.path.join(settings.BASE_DIR, "update_cron.sh")
     #print("{} {} {} {} {}".format(path, hour, minute, function, project_uuid))
+    print("{} {} {} {} {} {} {}".format(path, hour, minute, function, project_uuid, settings.BASE_DIR, settings.SYSPATH))
     print(subprocess.run(["{} {} {} {} {} {} {}".format(path, hour, minute, function, project_uuid, settings.BASE_DIR, settings.SYSPATH)], shell=True))
 
 

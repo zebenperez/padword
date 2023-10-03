@@ -106,7 +106,7 @@ def tpv_index(request, project_uuid):
                 item_favorites += list(cat.get_items_favorites)
             item_commons = form.get_common_items()
 
-            band = Wristband.get_active_by_project(fi.form.project, fi_info.band)
+            #band = Wristband.get_active_by_project(fi.form.project, fi_info.band)
 
             #template = request.GET["template"] if "template" in request.GET and request.GET["template"] != "" else "index"
             context = {
@@ -115,7 +115,7 @@ def tpv_index(request, project_uuid):
                 'fi': fi, 
                 'pos': pos, 
                 'table': table, 
-                'band': band, 
+                #'band': band, 
                 'cat_list': cat_list,
                 #'table_list': Table.objects.filter(project_uuid=project.uuid),
                 'item_favorites': item_favorites,
@@ -140,6 +140,7 @@ def tpv_set_pos(request):
 def tpv_change_pos(request):
     try:
         request.session["point_of_sale"] = ""
+        request.session["table"] = ""
         return redirect(reverse("tpv-index", kwargs = {'project_uuid': request.GET["project_uuid"]}))
     except Exception as e:
         print(e)
@@ -210,8 +211,11 @@ def tpv_add_item(request):
         obj = ShoppingCart(form_instance_id=int(form_id), item=item, comments='')
         obj.save()
 
+        mobile = get_param(request.GET, "mobile")
+        temp = "view-ticket-mobile.html" if mobile != "" else "view-ticket.html"
+
         instance = FormInstance.objects.get(pk=form_id)
-        return render(request, "bookings/tpv/view-ticket.html", {'fi':instance,})
+        return render(request, "bookings/tpv/{}".format(temp), {'fi':instance,})
         #items = instance.items_in_bookings(item).count()
         #return render(request, "bookings/tpv/show-instance-result.html", {'fi':instance,'item':item,'items':items})
     except Exception as e:
@@ -239,7 +243,10 @@ def tpv_order_item_remove(request):
         fi = get_or_none(FormInstance, obj.form_instance_id)
         obj.delete()
 
-        return render(request, "bookings/tpv/view-ticket.html", {'fi':fi,})
+        mobile = get_param(request.GET, "mobile")
+        temp = "view-ticket-mobile.html" if mobile != "" else "view-ticket.html"
+
+        return render(request, "bookings/tpv/{}".format(temp), {'fi':fi,})
     except Exception as e:
         print(e)
         return render(request, "error_exception.html", {'exc':show_exc(e)})

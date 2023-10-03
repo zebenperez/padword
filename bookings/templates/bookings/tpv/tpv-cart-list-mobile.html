@@ -2,7 +2,7 @@
 
 {% for cat in cat_list %}
 <div class="cart-item tpv-category accordion-item" data-tags="{{cat.pk}}">
-    <div class="col-12 accordion-header" id="heading-{{cat.pk}}"> 
+    <div class="col-12 accordion-header tpv-class" id="heading-mob-{{cat.pk}}"> 
         <button class="accordion-button collapsed section-title" type="button" data-bs-toggle="collapse" data-bs-target="#div-shopping-cart-{{cat.pk}}" aria-expanded="false" aria-controls="div-shopping-cart-{{cat.pk}}">
             {%padword_translate cat.name%}
         </button>

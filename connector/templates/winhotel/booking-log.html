@@ -1,0 +1,5 @@
+{% load i18n %}
+---- {%trans "Booking Id"%} - {%trans "Booking Code"%} - {%trans "Checkin Date"%} - {%trans "Checkout Date"%} 
+{% for item in booking_list %} 
+---- {%if item.created%}[CREATED]{%endif%} {{item.id}} - {{item.code}} - {{item.check_in_date}} - {{item.check_out_date}} {% endfor %}
+{% if error and error != "" %} {{error|safe}} {% endif %}

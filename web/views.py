@@ -324,6 +324,36 @@ def project_set_avantio_schedule(request):
         print (show_exc(e))
         return HttpResponse("Error!")
 
+@group_required("admins")
+def project_set_winhotel_schedule(request):
+    try:
+        pau = get_or_none(ProjectWinhotelUser, request.GET["obj_id"])
+        val = get_param(request.GET, "value")
+        field = get_param(request.GET, "field")
+        if pau != None:
+            if field == "hour":
+                pau.hour = val
+            elif field == "minute":
+                pau.minute = val
+            pau.save()
+
+            function = ""
+            if field == "hour": 
+                function = "winhotel_booking_schedule"
+                hour = "\*\|{}".format(pau.hour)
+                minute = "%"
+            elif field == "minute":
+                function = "winhotel_check_schedule"
+                hour = "%"
+                minute = "\*\|{}".format(pau.minute)
+            if function != "":
+                update_cron(hour, minute, function, pau.project_uuid)
+
+        return HttpResponse("Saved!")
+    except Exception as e:
+        print (show_exc(e))
+        return HttpResponse("Error!")
+
 
 '''
     Channels

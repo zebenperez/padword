@@ -1,13 +1,15 @@
 {% load i18n %}
 
-<small>
-{% if fi and fi.get_total > 0%}
-    <span style="color: red; font-weight: normal;font-size: 0.8em;">
-        {%trans "Order"%}: {{fi.pos.name}} - {{fi.details.client}} - {{fi.get_total}} €
-    </span>
-{% else %}
-    <span style="color: grey; font-weight: normal;font-size: 0.8em;">
-        {%trans "No order"%}
-    </span>
-{% endif %}
-</small>
+<div class="table-box p-2 text-left">
+    <small>
+    {% if fi and fi.get_total > 0%}
+        <span class="order-on">
+            {%trans "Order"%}: {{fi.pos.name}} <br /> {{fi.details.client}} <br /> {{fi.get_total}} €
+        </span>
+    {% else %}
+        <span class="order-off">
+            {%trans "No order"%}
+        </span>
+    {% endif %}
+    </small>
+</div>

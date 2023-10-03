@@ -34,6 +34,9 @@ class ProjectAvaibookUser(models.Model):
             return None
 
 class ProjectWinhotelUser(models.Model):
+    days = models.IntegerField(verbose_name=_('Days to import'), default=1)
+    hour = models.IntegerField(verbose_name=_('Hours to import'), default=0)
+    minute = models.IntegerField(verbose_name=_('Minutes to import notifications'), default=0)
     source_code = models.CharField(max_length=255, verbose_name=_('Source code'), default="")
     target_code = models.CharField(max_length=255, verbose_name=_('Target code'), default="")
     project_uuid = models.CharField(max_length=255, verbose_name=_('Project UUID'), default="")

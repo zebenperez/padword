@@ -140,7 +140,7 @@ def avaibook_get_booking(request):
 def winhotel_get_booking_list(request, project_uuid):
     try:
         pau = get_or_none(ProjectWinhotelUser, project_uuid, "project_uuid")
-        booking_list = wh_get_booking_list(pau)
+        booking_list, err = wh_get_booking_list(pau, "", "")
         return render(request, 'winhotel/booking-list.html', {'booking_list': booking_list})
     except Exception as e:
         print(e)

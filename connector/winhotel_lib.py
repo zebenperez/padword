@@ -229,7 +229,7 @@ class Winhotel:
             "MaxRowsResponse": 1
         }
 
-    def _request_bookings(self):
+    def _request_bookings(self, start_date, end_date):
         json = {"QueryCredentials": self._credentials(), "UserID": self.user_id}
         _bookings_params = {
             "BookingStateQueryParameters": {
@@ -240,7 +240,16 @@ class Winhotel:
             #    "QueryOperator": 0,
             #    "Value": "2023-09-01"
             #}
+            #"EndDateQueryParameter": {
+            #    "QueryOperator": 0,
+            #    "Value": "2023-09-28T15:31:56.9578083+02:00"
+            #},
         }
+        if start_date != "":
+            _bookings_params["StartDateQueryParameter"] = { "QueryOperator": 0, "Value": start_date}
+        if end_date != "":
+            _bookings_params["EndDateQueryParameter"] = { "QueryOperator": 0, "Value": end_date}
+
         json["QueryRequest"] = {"QueryHeader": self._request_header(), "BookingListQueryParameters": _bookings_params}
         return json
 
@@ -266,10 +275,10 @@ class Winhotel:
         json["QueryRequest"] = {"QueryHeader": self._request_header(), "InsertExternalChargeRequest": _send_charge_params}
         return json
 
-    def get_bookings(self):
+    def get_bookings(self, start_date, end_date):
         try:
             _url_request = "{}{}".format(API_URL, BOOKINGS_URL)
-            _json = self._request_bookings()
+            _json = self._request_bookings(start_date, end_date)
             _json_data = json.dumps(_json)
             #print(_json_data)
             #print("-------------------------")
@@ -341,16 +350,16 @@ def create_booking(pau, booking):
         #    av.send_pwa_link(guest.ext_id, guest.pwa_link)
 
 
-def get_booking_list(pau):
+def get_booking_list(pau, start_date, end_date):
     w = Winhotel(pau.source_code, pau.target_code)
-    result = w.get_bookings()
+    result = w.get_bookings(start_date, end_date)
     #print(result)
     booking_list = []
     for item in result:
         node = WinhotelBooking(item)
         booking_list.append(node)
         create_booking(pau, node)
-    return booking_list
+    return booking_list, ""
 
 def send_charge(pau,booking_code,room_code,contact_name,contact_id,has_credit,limit_credit,source,source_document,date,total_amount,cash_code):
     dic = {

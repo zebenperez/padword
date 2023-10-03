@@ -1,7 +1,7 @@
 {% load i18n bookings_tag common_tag padword_tags static%}
 
 {% for cat in cat_list %}
-    <div class="cart-item tpv-category" data-tags="{{cat.pk}}">
+    <div class="cart-item tpv-category tpv-class" data-tags="{{cat.pk}}" id="heading-{{cat.pk}}">
         <div class="col-12 section-title mb-2"> {%padword_translate cat.name%}</div>
         <div id="div-shopping-cart-{{cat.pk}}" class="div-shopping-cart-{{cat.pk}}">
 

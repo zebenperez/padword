@@ -5,7 +5,7 @@ from django.utils.translation import ugettext_lazy as _
 
 from contents.models import Category, Item, ShoppingCart, PaymentType, PointOfSale
 from web.models import Channel, Device, Project
-from guest.models import Guest
+from guest.models import Guest, Wristband
 
 from .email_lib import send_change_status_email
 from padword.commons import show_exc
@@ -397,6 +397,13 @@ class FormInstance(models.Model):
             print (show_exc(e))
             return 0
 
+    @property
+    def band(self):
+        info = self.info.first()
+        if info == None:
+            return None
+        return Wristband.get_active_by_project(self.form.project, info.band)
+
     def get_total_by_regime(self, regime):
         try:
             items = ShoppingCart.objects.filter(form_instance_id=self.pk)
@@ -568,9 +575,9 @@ class GuestUser(models.Model):
         gu_list = GuestUser.objects.filter(guest_uuid=guest_uuid).delete()
 
 class FormInstanceInfo(models.Model):
-    pos = models.CharField(max_length=255, verbose_name=_("Guest name"), default="")
-    table = models.CharField(max_length=255, verbose_name=_("Guest name"), default="")
-    band = models.CharField(max_length=255, verbose_name=_("Guest name"), default="")
+    pos = models.CharField(max_length=255, verbose_name=_("Point of service"), default="")
+    table = models.CharField(max_length=255, verbose_name=_("Table"), default="")
+    band = models.CharField(max_length=255, verbose_name=_("Band"), default="")
     client = models.CharField(max_length=255, verbose_name=_("Guest name"), default="")
     client_mobile = models.CharField(max_length=255, verbose_name=_("Guest mobile"), default="")
     client_email = models.CharField(max_length=255, verbose_name=_("Guest email"), default="")
