@@ -9,6 +9,7 @@ from web.models import Project, Waiter
 from contents.models import Category, ShoppingCart, Item, PaymentType, PointOfSale, Table
 from guest.models import Guest, Wristband, WristbandBalance
 from web.lock_lib import ShLock
+from connector.winhotel_lib import send_charge
 
 from .common_lib import get_or_create_form_instance_tpv, get_or_create_form_instance_info_tpv, get_or_create_form_instance_info_client_tpv
 from .common_lib import user_in_group
@@ -193,6 +194,7 @@ def tpv_check_band(request):
             gr = band.guest.regimes.first()
             regime = gr.regime if gr != None else None
             get_or_create_form_instance_info_client_tpv(fi, band.guest, band.code)
+            fi.update_items_low_price()
 
         band_err = True if band == None else False
         return render(request, "bookings/tpv/view-ticket.html", {'fi':fi, 'band': band, 'regime': regime, 'band_err': band_err})
@@ -206,10 +208,11 @@ def tpv_add_item(request):
     try:
         form_id = request.GET["form_id"]
         item_id = request.GET["item_id"]
+        fi = get_or_none(FormInstance, int(form_id))
         item = get_or_none(Item, int(item_id))
 
-        obj = ShoppingCart(form_instance_id=int(form_id), item=item, comments='')
-        obj.save()
+        obj = ShoppingCart.objects.create(form_instance_id=fi.id,item=item,category=item.category.name,name=item.name,price=item.price,comments='')
+        fi.update_item_low_price(obj)
 
         mobile = get_param(request.GET, "mobile")
         temp = "view-ticket-mobile.html" if mobile != "" else "view-ticket.html"
@@ -219,6 +222,7 @@ def tpv_add_item(request):
         #items = instance.items_in_bookings(item).count()
         #return render(request, "bookings/tpv/show-instance-result.html", {'fi':instance,'item':item,'items':items})
     except Exception as e:
+        print(e)
         return render(request, "error_exception.html", {'exc':show_exc(e)})
 
 @group_required("waiters")
@@ -373,12 +377,13 @@ def send_charges(fi, band):
     booking_code = guest.ext_id
     room_code = band.guest.room
     contact_name = "{} {}".format(band.guest.name, band.guest.surname)
-#    contact_id = 3
-#    has_credit = "true"
-#    limit_credit = 5.0
-#    source = 
-#    source_document = 
+    contact_id = 3
+    has_credit = "true"
+    limit_credit = 5.0
+    source = ""
+    source_document = ""
     date = fi.date.strftime("%Y-%m-%dT%H:%M:%S")
     total_amount = fi.get_total()
-#    cash_code = 
-#
+    cash_code = ""
+
+    send_charge(pau,booking_code,room_code,contact_name,contact_id,has_credit,limit_credit,source,source_document,date,total_amount,cash_code)

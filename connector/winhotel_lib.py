@@ -261,9 +261,9 @@ class Winhotel:
                 "CreditContact": {
                     "RoomCode": dic["RoomCode"],
                     "ContactName": dic["ContactName"],
-                    #"ContactId": dic["ContactId"],
-                    #"HasCredit": dic["HasCredit"],
-                    #"LimitCredit": dic["LimitCredit"]
+                    "ContactId": dic["ContactId"],
+                    "HasCredit": dic["HasCredit"],
+                    "LimitCredit": dic["LimitCredit"]
                 },
                 "Source": dic["Source"],
                 "SourceDocument": dic["SourceDocument"],
@@ -367,9 +367,9 @@ def send_charge(pau,booking_code,room_code,contact_name,contact_id,has_credit,li
         "CreditContact": {
             "RoomCode": room_code,
             "ContactName": contact_name,
-            #"ContactId": contact_id,
-            #"HasCredit": has_credit,
-            #"LimitCredit": limit_credit
+            "ContactId": contact_id,
+            "HasCredit": has_credit,
+            "LimitCredit": limit_credit
         },
         "Source": source,
         "SourceDocument": source_document,

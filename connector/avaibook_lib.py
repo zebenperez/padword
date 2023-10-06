@@ -111,6 +111,7 @@ class AvaibookBooking():
         self.default_leader_phone = get_param(dic, "default_leader_phone")
         self.source = get_param(dic, "source")
         self.partner_name = get_param(dic, "partner_name")
+        self.action = get_param(dic, "action")
         self.created = False
 
 class AvaibookAccommodationLocation():
@@ -157,29 +158,32 @@ def create_booking(pau, booking, av):
     room_ex = room_exist(pau.project_uuid, room)
 
     if room_ex:
-        #b_id = booking.id if booking.id != "" else booking.webhook_id
         b_id = booking.webhook_id if booking.webhook_id != "" else booking.id
         guest = Guest.objects.filter(ext_id=b_id, project_id=pau.project_uuid, deleted=0).first()
         #guest = Guest.objects.filter(ext_id=booking.id, project_id=pau.project_uuid, deleted=0).first()
-        if guest == None:
-            guest = Guest(UUID = new_ui_slug(Guest, "UUID"), ext_id=b_id, project_id=pau.project_uuid)
-            booking.created = True
-        
-        guest.name = booking.default_leader_full_name
-        guest.mobile = booking.default_leader_phone
-        guest.email = booking.default_invite_email
-        guest.check_in = checkin
-        guest.check_out = checkout
-        guest.room = room
-        guest.save()
+        if booking.action != "CANCELLATION":
+            if guest == None:
+                guest = Guest(UUID = new_ui_slug(Guest, "UUID"), ext_id=b_id, project_id=pau.project_uuid)
+                booking.created = True
+            
+            guest.name = booking.default_leader_full_name
+            guest.mobile = booking.default_leader_phone
+            guest.email = booking.default_invite_email
+            guest.check_in = checkin
+            guest.check_out = checkout
+            guest.room = room
+            guest.save()
 
-        if booking.created:
-            #lock_code = guest.mobile[-4:]
-            lock_code = ''.join([random.choice(string.digits) for i in range(4)])
-            err = guest.add_all_key_code(lock_code)
-            av.send_pwa_link(guest.ext_id, lock_code, guest.pwa_link)
+            if booking.created:
+                #lock_code = guest.mobile[-4:]
+                lock_code = ''.join([random.choice(string.digits) for i in range(4)])
+                err = guest.add_all_key_code(lock_code)
+                av.send_pwa_link(guest.ext_id, lock_code, guest.pwa_link)
 
-        return guest
+            return guest
+        else:
+            if guest != None:
+                guest.delete()
     return None
 
 def get_booking_list(pau):

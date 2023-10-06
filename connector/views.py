@@ -12,13 +12,14 @@ from secrets import compare_digest
 from padword.commons import show_exc, get_or_none
 from padword.email_lib import send_email
 from padword.decorators import group_required
+from contents.models import ItemInCat
 from web.models import Project
 from .models import ProjectAvantioUser, ProjectAvaibookUser, ProjectWinhotelUser
 from .avantio_lib import get_booking_list, get_booking_notif, send_link
 from .avaibook_lib import get_accommodation_list, create_booking_from_webhook, get_booking_list as av_get_booking_list, WEBHOOK_TOKEN
 from .winhotel_lib import get_booking_list as wh_get_booking_list
 
-import json, os
+import json, os, csv
 
 
 '''
@@ -145,6 +146,31 @@ def winhotel_get_booking_list(request, project_uuid):
     except Exception as e:
         print(e)
         return render(request, 'error_exception.html', {'exc':show_exc(e)})
+
+@group_required("admins", "projects")
+def winhotel_import_items(request, project_uuid):
+    updated = []
+    not_updated = []
+    if request.POST:
+        file = request.FILES['file']
+        decoded_file = file.read().decode('latin-1').splitlines()
+        for line in decoded_file:
+            update = False
+            dic_line = line.split(";")
+            #print("{} - {}".format(dic_line[3], dic_line[5]))
+            try:
+                ic_list = ItemInCat.objects.filter(category__project_uuid = project_uuid, item__ext_id = int(dic_line[3]))
+                for ic in ic_list:
+                    ic.item.price = float(dic_line[5].replace(",", "."))
+                    ic.item.save()
+                    update = True
+            except Exception as e:
+                print(e)
+            if update:
+                updated.append(dic_line)
+            else:
+                not_updated.append(dic_line)
+    return render(request, 'winhotel/items-import.html', {'project_uuid': project_uuid, 'updated': updated, 'not_updated': not_updated})
 
 '''
     Cron Logs

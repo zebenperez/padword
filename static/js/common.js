@@ -876,6 +876,18 @@ $(document).ready(()=>{
         }
     });
 
+    $("body").on("keyup", ".tpv-table-search", function() {
+        var value = $(this).val();
+        var search_class = $(this).data("search-class");
+        $("."+search_class).hide();
+        if(value == "")
+            $("."+search_class).show();
+        else
+            $("."+search_class).each(function(){
+                if($(this).data("name").toUpperCase().indexOf(value.toUpperCase()) != -1)
+                    $(this).show();
+            });
+    });
 
 });
 

@@ -3,7 +3,7 @@ from django.db.models import Count, Max
 from django.contrib.auth.models import User, Group
 from django.utils.translation import ugettext_lazy as _ 
 
-from contents.models import Category, Item, ShoppingCart, PaymentType, PointOfSale
+from contents.models import Category, Item, ShoppingCart, PaymentType, PointOfSale, Table
 from web.models import Channel, Device, Project
 from guest.models import Guest, Wristband
 
@@ -183,8 +183,13 @@ class Form(models.Model):
         item_list = list(ShoppingCart.objects.filter(form_instance_id__in=fi_list).values_list('item', flat=True).annotate(total=Count('item')).order_by('-total')[:2])
         return Item.objects.filter(id__in=item_list)
 
-    def to_tickets(self):
-        fi_list = FormInstance.objects.filter(form_uuid=self.uuid)
+    def to_tickets(self, start_date="", end_date=""):
+        if start_date != "" and end_date != "":
+            s_date = datetime.datetime.strptime(start_date, "%Y-%m-%d_%H:%M")
+            e_date = datetime.datetime.strptime(end_date, "%Y-%m-%d_%H:%M")
+            fi_list = FormInstance.objects.filter(form_uuid=self.uuid, date__range=(s_date, e_date))
+        else:
+            fi_list = FormInstance.objects.filter(form_uuid=self.uuid)
         resp = {"tickets": []}
         for fi in fi_list:
             pos_name = fi.pos.name if fi.pos != None else ""
@@ -201,14 +206,15 @@ class Form(models.Model):
                 'elementos': []
             }
             for item in fi.get_items:
-                category_name = item.item.category.name if item.item.category != None else ""
+                #category_name = item.item.category.name if item.item.category != None else ""
                 item_json = {
-                    'nombre_servicio': item.item.name,
+                    'nombre_servicio': item.name,
                     'id_servicio': item.id,
                     'cantidad': 1,
-                    'precio_servicio': item.item.price,
+                    'precio_servicio': item.price,
+                    'precio_servicio_reducido': item.low_price,
                     'subtotal': 0,
-                    'familia': category_name,
+                    'familia': item.category,
                     'id_articulo_pms': 0
                 }
                 fi_json["elementos"].append(item_json)
@@ -404,6 +410,15 @@ class FormInstance(models.Model):
             return None
         return Wristband.get_active_by_project(self.form.project, info.band)
 
+    @property
+    def get_status(self):
+        return self.status_list.all().first()
+
+    @property
+    def get_items(self):
+        items = ShoppingCart.objects.filter(form_instance_id=self.pk)
+        return (items)
+
     def get_total_by_regime(self, regime):
         try:
             items = ShoppingCart.objects.filter(form_instance_id=self.pk)
@@ -420,10 +435,6 @@ class FormInstance(models.Model):
             print (show_exc(e))
             return 0
 
-    @property
-    def get_status(self):
-        return self.status_list.all().first()
-
     def check_obligatory(self, q, index):
         answers = self.answerinstance_set.filter(question=q, index=index, field__obligatory=True)
         for a in answers:
@@ -432,8 +443,8 @@ class FormInstance(models.Model):
         return False
         
     def get_public_blocks(self):
-        print(self.form.uuid)
-        print(self.form.blocks.all())
+        #print(self.form.uuid)
+        #print(self.form.blocks.all())
         return self.form.blocks.filter(private=False)
 
     def set_status(self, status_code, user="", comment=""):
@@ -450,10 +461,22 @@ class FormInstance(models.Model):
         items = ShoppingCart.objects.filter(form_instance_id=self.pk, item=item)
         return (items)
 
-    @property
-    def get_items(self):
-        items = ShoppingCart.objects.filter(form_instance_id=self.pk)
-        return (items)
+    def update_item_low_price(self, item):
+        band = self.band
+        if band != None and band.guest != None:
+            gr = band.guest.regimes.first()
+            if gr != None and gr.regime != None:
+                item.low_price = item.item.get_price(gr.regime.code)
+                item.save()
+
+    def update_items_low_price(self):
+        band = self.band
+        if band != None and band.guest != None:
+            gr = band.guest.regimes.first()
+            if gr != None and gr.regime != None:
+                for item in self.get_items:
+                    item.low_price = item.item.get_price(gr.regime.code)
+                    item.save()
 
     @staticmethod
     def get_all_items(guest):

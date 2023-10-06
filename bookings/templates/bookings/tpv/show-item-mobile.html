@@ -5,7 +5,7 @@
     {%if cat_special and cat_special != ""%}data-cat="{{cat_special}}"{%else%}data-cat="{{item.category.id}}"{%endif%}>
 
     <div class="box-new mobile {%if item.especial%}ti_special{%endif%}" id="div-item-box-{{item.id}}"
-        onclick="$(this).addClass('item_selected');setTimeout(()=>{$('#div-item-box-{{item.id}}').removeClass('item_selected')}, 3000)">
+        onclick="$(this).addClass('item_selected');setTimeout(()=>{$('#div-item-box-{{item.id}}').removeClass('item_selected')}, 1000)">
     {% if item.image %}
         <div class="image" id="cover"> 
             <img src="{{item.image.url}}" class="img-fill mobile" alt="{% padword_translate item.name %}"> 
