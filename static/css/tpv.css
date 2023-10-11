@@ -367,7 +367,7 @@ img.img-fill
     
     height: 110px !important;
     width: 100% !important;
-    border: 1px solid red;
+/*    border: 1px solid red;*/
 
 }
 .row-01 h5.card-title 
@@ -664,7 +664,7 @@ h5.card-title
     border: 3px solid #35a8e0; 
     border-radius: 5px; 
     position: absolute; 
-    /*width:100%;*/
+    width:100%;
 }
 
 .item_selected {
@@ -683,7 +683,7 @@ img.img-fill.mobile
     height: 110px !important;
     width: 100% !important;
 */
-    border: 1px solid blue;
+/*    border: 1px solid blue;*/
 	/*object-fit: fill;*/
 	max-height: 70px;
 
