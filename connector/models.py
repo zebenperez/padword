@@ -24,6 +24,7 @@ class ProjectAvantioUser(models.Model):
 class ProjectAvaibookUser(models.Model):
     uuid = models.CharField(max_length=255, verbose_name=_('UUID'), default="")
     token = models.CharField(max_length=255, verbose_name=_('Token'), default="")
+    owner = models.CharField(max_length=255, verbose_name=_('Owner'), default="")
     project_uuid = models.CharField(max_length=255, verbose_name=_('Project UUID'), default="")
 
     @property

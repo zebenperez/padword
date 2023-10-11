@@ -127,7 +127,8 @@ def avaibook_get_booking(request):
     f.write("\n{}".format(booking))
 
     try:
-        pau = get_or_none(ProjectAvaibookUser, settings.AVAIBOOK_ID, "project_uuid")
+        #pau = get_or_none(ProjectAvaibookUser, settings.AVAIBOOK_ID, "project_uuid")
+        pau = get_or_none(ProjectAvaibookUser, booking["owner_id"], "owner")
         create_booking_from_webhook(pau, booking)
         f.write("\nBooking created!")
     except Exception as e:
