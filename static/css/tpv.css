@@ -351,7 +351,8 @@ input.form-control.tpv-search {
 }
 .box-new 
 {
-    background-color: #f5f5f5;
+/*    background-color: #f5f5f5;*/
+    background-color: #a1c517;
 	height: 140px !important;
 }
 div#cover.image
@@ -363,14 +364,20 @@ img.img-fill
 {
 	max-width: -webkit-fill-available;
     object-fit: cover;
+    
     height: 110px !important;
     width: 100% !important;
+    border: 1px solid red;
 
 }
 .row-01 h5.card-title 
 {
 	background: #a1c517;
 	font-size: 0.8rem;
+    display: grid !important;
+    align-items: center !important;
+    height: 45px;
+    line-height: 1.5em !important;
 }
 h5.card-title 
 {
@@ -612,16 +619,40 @@ input#div-scan.form-control.ark_change.scanband::placeholder {
     font-size: 1rem;
 }
 
-.box-new.mobile 
-{
-    background-color: #f5f5f5;
-	/*height: 100px !important;*/
-}
-
-
 /**********************/
 /* 5 articles in line */
 /**********************/
+
+.box-new.mobile 
+{
+/*    background-color: #f5f5f5;*/
+    background-color: #a1c517;
+	/*height: 100px !important;*/
+/*    border:1px solid red;*/
+    height: 140px !important;
+}
+
+.row-01 h5.card-title-mobile 
+{
+	background: #a1c517;
+    font-size: 0.75em;
+	color: #fff !important;
+
+
+    display: grid !important;
+    align-items: center !important;
+    height: 65px;
+}
+
+h5.card-title 
+{
+	color: #fff !important;
+	position: absolute;
+	bottom: -8px;
+    padding-top: 0px !important;
+    line-height: 2 !important;
+	width: 100%;
+}
 
 .col-2.mobile
 {   
@@ -633,13 +664,12 @@ input#div-scan.form-control.ark_change.scanband::placeholder {
     border: 3px solid #35a8e0; 
     border-radius: 5px; 
     position: absolute; 
-    width:100%;
+    /*width:100%;*/
 }
 
 .item_selected {
     border: 2px solid #35a8e0;
 }
-
 
 .accordion-body 
 {
@@ -649,12 +679,14 @@ input#div-scan.form-control.ark_change.scanband::placeholder {
 img.img-fill.mobile 
 {
 	max-width: -webkit-fill-available;
-	/*object-fit: fill;*/
-/*	max-height: 70px;*/
-
-	object-fit: cover !important;
+/*    object-fit: cover !important;
     height: 110px !important;
     width: 100% !important;
+*/
+    border: 1px solid blue;
+	/*object-fit: fill;*/
+	max-height: 70px;
+
 }
 
 /*****************************/
