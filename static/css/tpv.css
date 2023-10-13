@@ -198,7 +198,7 @@ select.tpv-articles
     text-transform: uppercase !important;
 }
 
-a.btn.btn-select-payment.w-100.mt-2.pay-opts 
+a.btn.btn-select-payment.w-100.pay-opts 
 {
 	border:1px solid #ccc;
 	font-size: 0.8em;
@@ -582,7 +582,8 @@ input#div-scan.form-control.ark_change.scanband::placeholder {
 
 .summary-price-tpv {
     align-items: center; 
-    line-height: 3;
+    line-height: 1.2;
+    font-size: 0.95rem;
 }
 
 /*****************************/
@@ -704,7 +705,6 @@ img.img-fill.mobile
     box-shadow: none !important;
     -webkit-box-shadow: 0px rgb(f f f / 0% ;
 }
-
 /*****************************/
 /* FOOTER mobile */
 

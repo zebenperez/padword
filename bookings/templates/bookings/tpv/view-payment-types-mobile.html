@@ -2,7 +2,7 @@
 
 
 <style> 
-    .selected {border: 1px solid #28a745; border-radius: 5px;padding-bottom:5px;} 
+    .selected {background: #a1c517; color: #fff !important; border-radius: 5px; padding:0;} 
     .a-disabled {pointer-events: none; cursor: default; color: grey;} 
     .img-width {width: 20px;}
 </style>
@@ -19,7 +19,7 @@
                     {% padword_translate item.payment_type.name %} 
                     </a>
                 {%endcomment%}
-                <a id="pay-type-mob-{{item.payment_type.code}}" class="btn btn-select-payment w-100 mt-2 pay-opts" 
+                <a id="pay-type-mob-{{item.payment_type.code}}" class="btn btn-select-payment w-100 pay-opts" 
                     data-id="{{item.id}}" 
                     data-pt="{{item.payment_type.id}}" 
                     data-cash='{{item.payment_type.code}}' 
