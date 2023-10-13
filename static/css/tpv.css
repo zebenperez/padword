@@ -198,7 +198,10 @@ select.tpv-articles
     text-transform: uppercase !important;
 }
 
-a.btn.btn-select-payment.w-100.pay-opts 
+/***********************/
+
+a.btn.btn-select-payment-web.pay-opts,
+a.btn.btn-select-payment.pay-opts 
 {
 	border:1px solid #ccc;
 	font-size: 0.8em;

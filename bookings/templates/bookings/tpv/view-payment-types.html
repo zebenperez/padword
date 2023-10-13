@@ -2,16 +2,15 @@
 
 
 <style> 
-    .selected {border: 1px solid #a1c517; border-radius: 5px;padding-bottom:5px;} 
-    .selected .btn {color:#fff; font-weight:600;}
-    .selected img {display:none;}
+    .selected {border: 3px solid #a1c517; border-radius: 5px;} 
+    .selected .btn {font-weight:600; border: none !important;}
     .a-disabled {pointer-events: none; cursor: default; color: grey;} 
     .img-width {width: 20px;}
 </style>
 
 <div class="row justify-content-center">
     {% for item in fi.form.get_category.payment_types.all %}
-        <div class="col-12 col-lg-4 justify-content-center mt-1 pt-box pay-method" id="pt-box-{{item.id}}">
+        <div class="col-12 col-lg-4 justify-content-center pt-box pay-method" id="pt-box-{{item.id}}">
             <div class="justify-content-center">
                 {%comment%}
                 <a class="btn btn-select-payment w-100 mt-2 pay-opts {%if item.payment_type.code == "03"%}scan-nfc{%endif%}"
@@ -21,7 +20,7 @@
                     {% padword_translate item.payment_type.name %} 
                     </a>
                 {%endcomment%}
-                <a id="pay-type-{{item.payment_type.code}}" class="btn btn-select-payment w-100 mt-2 pay-opts" 
+                <a id="pay-type-{{item.payment_type.code}}" class="btn btn-select-payment-web pay-opts" 
                     data-id="{{item.id}}" 
                     data-pt="{{item.payment_type.id}}" 
                     data-cash='{{item.payment_type.code}}' 
@@ -108,7 +107,7 @@
 
 
 <script>
-    $(".btn-select-payment").click(function(){
+    $(".btn-select-payment-web").click(function(){
         $(".pt-box").each(function(){$(this).removeClass("selected")});
         $("#pt-box-"+$(this).data("id")).addClass("selected");
 

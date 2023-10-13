@@ -1,10 +1,12 @@
 {% load i18n bookings_tag common_tag padword_tags static %}
 
 
-<style> 
-    .selected {background: #a1c517; color: #fff !important; border-radius: 5px; padding:0;} 
+<style>
+    .selected {border: 3px solid #a1c517; border-radius: 5px;} 
+    .selected .btn {font-weight:600; border: none !important;}
     .a-disabled {pointer-events: none; cursor: default; color: grey;} 
     .img-width {width: 20px;}
+
 </style>
 
 <div class="row justify-content-center">
@@ -19,7 +21,7 @@
                     {% padword_translate item.payment_type.name %} 
                     </a>
                 {%endcomment%}
-                <a id="pay-type-mob-{{item.payment_type.code}}" class="btn btn-select-payment w-100 pay-opts" 
+                <a id="pay-type-mob-{{item.payment_type.code}}" class="btn btn-select-payment pay-opts" 
                     data-id="{{item.id}}" 
                     data-pt="{{item.payment_type.id}}" 
                     data-cash='{{item.payment_type.code}}' 
