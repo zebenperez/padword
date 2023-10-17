@@ -229,12 +229,13 @@ class Winhotel:
             "MaxRowsResponse": 1
         }
 
-    def _request_bookings(self, start_date, end_date):
+    #def _request_bookings(self, start_date, end_date):
+    def _request_bookings(self, state):
         json = {"QueryCredentials": self._credentials(), "UserID": self.user_id}
         _bookings_params = {
             "BookingStateQueryParameters": {
                 "QueryOperator": 0,
-                "Value": "2"
+                "Value": state
             }
             #"StartDateQueryParameter": {
             #    "QueryOperator": 0,
@@ -245,10 +246,10 @@ class Winhotel:
             #    "Value": "2023-09-28T15:31:56.9578083+02:00"
             #},
         }
-        if start_date != "":
-            _bookings_params["StartDateQueryParameter"] = { "QueryOperator": 0, "Value": start_date}
-        if end_date != "":
-            _bookings_params["EndDateQueryParameter"] = { "QueryOperator": 0, "Value": end_date}
+        #if start_date != "":
+        #    _bookings_params["StartDateQueryParameter"] = { "QueryOperator": 0, "Value": start_date}
+        #if end_date != "":
+        #    _bookings_params["EndDateQueryParameter"] = { "QueryOperator": 0, "Value": end_date}
 
         json["QueryRequest"] = {"QueryHeader": self._request_header(), "BookingListQueryParameters": _bookings_params}
         return json
@@ -275,10 +276,12 @@ class Winhotel:
         json["QueryRequest"] = {"QueryHeader": self._request_header(), "InsertExternalChargeRequest": _send_charge_params}
         return json
 
-    def get_bookings(self, start_date, end_date):
+    #def get_bookings(self, start_date, end_date):
+    def get_bookings(self, state):
         try:
             _url_request = "{}{}".format(API_URL, BOOKINGS_URL)
-            _json = self._request_bookings(start_date, end_date)
+            #_json = self._request_bookings(start_date, end_date)
+            _json = self._request_bookings(state)
             _json_data = json.dumps(_json)
             #print(_json_data)
             #print("-------------------------")
@@ -349,16 +352,32 @@ def create_booking(pau, booking):
         #    err = guest.add_all_key_code(lock_code)
         #    av.send_pwa_link(guest.ext_id, guest.pwa_link)
 
+def delete_booking(pau, booking):
+    guest = Guest.objects.filter(ext_id=booking.code, project_id=pau.project_uuid, deleted=0).first()
+    if guest == None:
+        guest.delete()
 
-def get_booking_list(pau, start_date, end_date):
+#def get_booking_list(pau, start_date, end_date):
+def get_booking_list(pau, state):
     w = Winhotel(pau.source_code, pau.target_code)
-    result = w.get_bookings(start_date, end_date)
+    result = w.get_bookings(state)
+    #result = w.get_bookings(start_date, end_date)
     #print(result)
     booking_list = []
     for item in result:
         node = WinhotelBooking(item)
         booking_list.append(node)
         create_booking(pau, node)
+    return booking_list, ""
+
+def get_booking_cancelled(pau, state):
+    w = Winhotel(pau.source_code, pau.target_code)
+    result = w.get_bookings(state)
+    booking_list = []
+    for item in result:
+        node = WinhotelBooking(item)
+        booking_list.append(node)
+        delete_booking(pau, node)
     return booking_list, ""
 
 def send_charge(pau,booking_code,room_code,contact_name,contact_id,has_credit,limit_credit,source,source_document,date,total_amount,cash_code):
@@ -381,3 +400,26 @@ def send_charge(pau,booking_code,room_code,contact_name,contact_id,has_credit,li
     result = w.send_charge(dic)
 
  
+def import_item_prices(file, project_uuid):
+    updated = []
+    not_updated = []
+    decoded_file = file.read().decode('latin-1').splitlines()
+    for line in decoded_file:
+        update = False
+        dic_line = line.split(";")
+        #print("{} - {}".format(dic_line[3], dic_line[5]))
+        try:
+            ic_list = ItemInCat.objects.filter(category__project_uuid = project_uuid, item__ext_id = int(dic_line[3]))
+            for ic in ic_list:
+                ic.item.price = float(dic_line[5].replace(",", "."))
+                ic.item.save()
+                update = True
+        except Exception as e:
+            print(e)
+        if update:
+            updated.append(dic_line)
+        else:
+            not_updated.append(dic_line)
+    return updated, not_updated
+
+

@@ -335,6 +335,10 @@ def project_set_winhotel_schedule(request):
                 pau.hour = val
             elif field == "minute":
                 pau.minute = val
+            elif field == "hour_price":
+                pau.hour_price = val
+            elif field == "hour_cancel":
+                pau.hour_cancel = val
             pau.save()
 
             function = ""
@@ -346,6 +350,14 @@ def project_set_winhotel_schedule(request):
                 function = "winhotel_check_schedule"
                 hour = "%"
                 minute = "\*\|{}".format(pau.minute)
+            if field == "hour_price": 
+                function = "winhotel_price_schedule"
+                hour = "\*\|{}".format(pau.hour_price)
+                minute = "%"
+            if field == "hour_cancel": 
+                function = "winhotel_cancel_schedule"
+                hour = "\*\|{}".format(pau.hour_cancel)
+                minute = "%"
             if function != "":
                 update_cron(hour, minute, function, pau.project_uuid)
 

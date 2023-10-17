@@ -9,7 +9,7 @@
                 {% if cat.name != "" %}<h4> {% padword_translate cat.name %} <h4> {% endif %}
                 {% if cat.description != "" %}<h5> {% padword_translate cat.description %} <h5> {% endif %}
                 <button class="me-1 btn btn-access ark" data-url="{{next_url}}" data-target="div-main" data-project_uuid="{{project_uuid}}"
-                    onclick="javascript:openFullScreen();"> {%trans "Access"%}</button>
+                    data-mobile="{{mobile}}" onclick="javascript:openFullScreen();"> {%trans "Access"%}</button>
 	        </div>
 	    </div>
 	</div>

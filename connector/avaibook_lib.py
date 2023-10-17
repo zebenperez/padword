@@ -17,6 +17,7 @@ try:
 except:
     API_URL = "https://api.avaibook.biz/api/partner/"
     WEBHOOK_TOKEN = "SHLBM!CRspnXdsjy4xWt15l6=ngX4Dv6ujUw/S5XCVkPIXrM9WRNawn0zMg4S5GO"
+
 BOOKINGS_URL = "booking/bookings"
 ACCOMMODATIONS_URL = "accommodations"
 SEND_LINK_URL = "booking/checkin/register-access-data"

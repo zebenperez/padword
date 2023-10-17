@@ -32,15 +32,18 @@ def check_user(user):
         return False
     return True
 
-def tpv_access(request, project_uuid):
+def tpv_access(request, project_uuid, mobile=""):
     project = get_or_none(Project, project_uuid, "uuid")
 
     context = {'project_uuid': project.uuid}
     if check_user(request.user):
         next_url = reverse("tpv-index", kwargs = context)
+        if mobile != "":
+            request.session["mobile"] = "mobile"
     else:
         auth.logout(request)
         next_url = reverse("tpv-login-form")
+        context["mobile"] = mobile
 
     form = Form.objects.filter(form_type__code="tpv", form_type__project_uuid=project.uuid).first()
     context["next_url"] = next_url
@@ -48,6 +51,9 @@ def tpv_access(request, project_uuid):
     return render(request, 'bookings/tpv/tpv-welcome.html', context)
 
 def tpv_login_form(request):
+    mobile = get_param(request.GET, "mobile")
+    if mobile != "":
+        request.session["mobile"] = "mobile"
     return render(request, "bookings/tpv/tpv-form-login.html", {'project_uuid': request.GET["project_uuid"], 'error': ''})
 
 def tpv_login(request):
@@ -122,6 +128,9 @@ def tpv_index(request, project_uuid):
                 'item_favorites': item_favorites,
                 'item_commons': item_commons
             }
+
+            if "mobile" in request.session and request.session["mobile"] != "":
+                return render(request, "bookings/tpv/mobile/index.html", context)
             return render(request, "bookings/tpv/index.html", context)
     except Exception as e:
         print(e)
