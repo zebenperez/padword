@@ -1,27 +1,22 @@
 {% load i18n padword_tags %}
 
-{% comment %} -- PRODUCTS LIST -- {% endcomment %}
-
 <div id="base-tpv-mobile">
     <div class="header-mobile sticky-top">
 
         <div class="row products-tpv-mobile w-100 text-center m-0 p-0">
             <div class="col-3 p-0 name">
                 <button class="btn ark w-100" data-url="{% url "tpv-change-pos" %}" data-target="base" data-project_uuid="{{project_uuid}}">
-                    <i class="fas fa-cash-register"></i><br />
-                    {{pos.name}}
-                </button>
+                    <i class="fas fa-cash-register"></i><br /> {{pos.name}} </button>
             </div>
             <div class="col-3 p-0 name">
-                <button class="btn ark w-100 table-name" data-url="{% url "tpv-change-table" %}" data-target="base" data-project_uuid="{{project_uuid}}">
-                    <i class="fas fa-coffee"></i><br />
-                    {{table.name}}
-                </button>
+                <button class="btn ark w-100 table-name" data-url="{%url "tpv-change-table"%}" data-target="base" 
+                    data-project_uuid="{{project_uuid}}"> <i class="fas fa-coffee"></i><br /> {{table.name}} </button>
             </div>
             <div class="col-3 p-0 access-ticket text-center">
                 <button class="btn btn-header-pwa" onclick="$('.tpv-toggle').toggle();" data-url="{% url "tpv-close" %}" data-target="base" 
                     data-project_uuid="{{project_uuid}}"> 
-                    <span class="tpv-toggle p-0"><i class="fas fa-tag"></i><br />Ticket
+                    <span class="tpv-toggle p-0">
+                        <i class="fas fa-tag"></i><br />Ticket
                         <span id="items-counter" class="badge badge-primary" style="color:red"></span>
                     </span>
                     <span id="title-products-mobile" class="tpv-toggle p-0"><i class="fas fa-shopping-basket"></i><br />{% trans 'Products' %}</span>
@@ -29,11 +24,10 @@
             </div>
             <div class="col-3 power-off text-center">
                 <button class="btn btn-header-pwa ark" data-url="{% url "tpv-close" %}" data-target="base" data-project_uuid="{{project_uuid}}"> 
-                    <i class="fas fa-power-off mobile"></i><br />
-                    <span>{% trans 'Logout' %}</span>
-                </button>
+                    <i class="fas fa-power-off mobile"></i><br /> <span>{% trans 'Logout' %}</span> </button>
             </div>
         </div>
+        {%comment%}
         <div class="row w-100 text-center m-0 tpv-toggle">
             <div class="col-5 text-center">
                 <select name="" id="" class="tpv-articles mobile w-100 text-center tpv-search-change" data-search-class="tpv-category">
@@ -51,14 +45,16 @@
         <div class="header-bottom tpv-toggle" id="title-div-scan">
             {% include "bookings/tpv/scan-nfc.html" %}
         </div>
+        {%endcomment%}
     </div>
 
+    {%comment%}
     <div id="main" class="main-tpv-mobile">
         <div id="tpv-cart-mobile" class="tpv-toggle">
             {% if form and form != None %} {% include "bookings/tpv/tpv-cart-mobile.html" %} {% endif %}
         </div>
 
-        {% comment %} -- TICKET --  {% endcomment %}
+        {# -- TICKET -- #}
         <div id="ticket-tpv-mobile" class="ticket-tpv-mobile tpv-toggle">
             <div class="row w-100 m-0">
                 <div class="col-12">
@@ -66,48 +62,17 @@
                 </div>
             </div>
         </div>
-        {% comment %} -- TICKET --  {% endcomment %}
+        {# -- TICKET -- #}
     </div>
+    {%endcomment%}
 </div>
 {% include "common-modal.html" %}
 
+{%comment%}
 <script>
     $('#ticket-tpv-mobile').hide();
     $('#title-products-mobile').hide();
     $('#title-div-scan').hide();
 </script>
-
-
-            {%comment%}
-            <input type="text" id="div-scan" class="form-control ark_change scanband mobile" name="bans-scan" data-url="{% url "tpv-check-band" %}" 
-                data-target="ticket-summary" data-obj_id="{{fi.id}}" placeholder="Scan band"/>
-            {%endcomment%}
-
-{% comment %} ---- {% endcomment %}
-
-        {% comment %}
-
-        <div class="row products-tpv-mobile w-100 text-center m-0">
-            <div class="col-4 p-0 name">
-                <button class="btn ark w-100" data-url="{% url "tpv-change-pos" %}" data-target="base" data-project_uuid="{{project_uuid}}">{{pos.name}}</button>
-                <button class="btn ark w-100 table-name" data-url="{% url "tpv-change-table" %}" data-target="base" data-project_uuid="{{project_uuid}}">
-                    {{table.name}}</button>
-            </div>
-            <div class="col-5 text-center">
-                <select name="" id="" class="tpv-articles mobile w-100 text-center tpv-search-change" data-search-class="tpv-category">
-                    <option value="">Todos los artículos</option>
-                    {% for item in cat_list %}
-                    <option value="{{item.pk}}">{% padword_translate item.name %}</option>
-                    {% endfor %}
-                </select>
-            </div>
-            <div class="col-3 access-ticket text-center pt-3 pb-3">
-                <button class="btn btn-header-pwa " onclick="$('.tpv-toggle').toggle();" data-url="{% url "tpv-close" %}" data-target="base" data-project_uuid="{{project_uuid}}"> 
-                    <span class="tpv-toggle"><i class="fas fa-tag"></i> Ticket</span>
-                    <span id="title-products-mobile" class="tpv-toggle"><i class="fas fa-shopping-basket"></i> {% trans 'Products' %}</span>
-                </button>
-            </div>
-        </div>
-        {% endcomment %}
-
+{%endcomment%}
 

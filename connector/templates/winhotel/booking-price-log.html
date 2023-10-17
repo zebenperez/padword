@@ -1,0 +1,7 @@
+{% load i18n %}
+-- ACTUALIZADOS
+{% for item in updated %} 
+---- {{item}} {% endfor %}
+-- NO ACTUALIZADOS
+{% for item in not_updated %} 
+---- {{item}} {% endfor %}

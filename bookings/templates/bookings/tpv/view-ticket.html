@@ -7,7 +7,7 @@
         {% include "bookings/tpv/view-guest-info.html" %}</div></div>
 
         <div class="row summary-price-tpv btn-dark">
-            <div class="col-5 text-left">
+            <div class="col-5 text-left pt-1 pb-1">
                 <strong>
                     {% padword_translate fi.form.get_category.parent.name %} 
                     {% padword_translate fi.form.get_category.name %}&nbsp;({{items|length}} {% trans 'art.' %})</strong>
@@ -22,10 +22,10 @@
             </div>
         {% endif %}
 
-        <div class="row"> <span class="small alert">* {% trans 'You can add comments to the article with click on comment buttons' %} 
+        <div class="row"> <span class="small alert m-0">* {% trans 'You can add comments to the article with click on comment buttons' %} 
             <i class="fas fa-comments"></i></span></div>
 
-        <div class="row ticket-line justify-content-center">
+        <div class="row ticket-line justify-content-center space-art">
             {% for item in items %}
                 <div class="col-2">
                     {% if item.item.image %}

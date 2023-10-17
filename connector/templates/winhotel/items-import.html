@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% load i18n %}
+
+{% block central_content %}
+
+<form action="{% url 'winhotel-import-items' project_uuid %}" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <div class="row w-100 common-modal-head m-0 p-0">
+        <div class="col-4"><h2>{% trans 'Winhotel import file' %}</h2></div>
+        <div class="col-4"> <input type="file" class="form-control" name="file" /> </div>
+        <div class="col-4"> <input type="submit" class="form-control" /> </div>
+    </div>
+</form
+
+<div class="row m-0">
+    <div class="content">
+        <div id="item-list">
+            <h3>Artículos actualizados</h3>
+            {% for item in updated %}    
+                <div class="row">
+                    <div class="col-12">{{item}}</div>
+                </div>
+                <hr/>
+            {% endfor %}
+            <hr/>
+            <h3>Artículos NO actualizados</h3>
+            {% for item in not_updated %}    
+                <div class="row">
+                    <div class="col-12">{{item}}</div>
+                </div>
+                <hr/>
+            {% endfor %}
+
+        </div>
+    </div>
+</div>
+
+{% endblock central_content %}
+

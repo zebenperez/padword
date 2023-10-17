@@ -2,14 +2,15 @@
 
 
 <style> 
-    .selected {border: 1px solid #28a745; border-radius: 5px;padding-bottom:5px;} 
+    .selected {border: 3px solid #a1c517; border-radius: 5px;} 
+    .selected .btn {font-weight:600; border: none !important;}
     .a-disabled {pointer-events: none; cursor: default; color: grey;} 
     .img-width {width: 20px;}
 </style>
 
 <div class="row justify-content-center">
     {% for item in fi.form.get_category.payment_types.all %}
-        <div class="col-12 col-lg-4 justify-content-center mt-1 pt-box pay-method" id="pt-box-{{item.id}}">
+        <div class="col-12 col-lg-4 justify-content-center pt-box pay-method" id="pt-box-{{item.id}}">
             <div class="justify-content-center">
                 {%comment%}
                 <a class="btn btn-select-payment w-100 mt-2 pay-opts {%if item.payment_type.code == "03"%}scan-nfc{%endif%}"
@@ -19,7 +20,7 @@
                     {% padword_translate item.payment_type.name %} 
                     </a>
                 {%endcomment%}
-                <a id="pay-type-{{item.payment_type.code}}" class="btn btn-select-payment w-100 mt-2 pay-opts" 
+                <a id="pay-type-{{item.payment_type.code}}" class="btn btn-select-payment-web pay-opts" 
                     data-id="{{item.id}}" 
                     data-pt="{{item.payment_type.id}}" 
                     data-cash='{{item.payment_type.code}}' 
@@ -38,23 +39,30 @@
 
 {#{% include "bookings/tpv/view-payment-types-nfc.html" %}#}
 
-<div class="row mt-4 justify-content-center">
-    <div class="col-6 text-center mb-3">
+<div class="row footer-buttons mt-4 m-0 p-0 justify-content-center">
+    <div class="col-6 text-center p-0">
         <button id="btn-cancel-order-{{fi.id}}" class="btn btn-success-tpv w-100 ark" data-url="{% url "tpv-order-remove" %}" 
-            data-target="base" data-obj_id="{{fi.id}}"> {% trans "Cancel Order" %}</button>
-    </div>
-    <div class="col-6 text-center mb-3">
-        <button id="btn-send-order-{{fi.id}}" class="btn btn-success-tpv w-100 ark" data-bs-dismiss="modal" data-url="{% url "tpv-order-send" %}" 
-            data-target="base" data-obj_id="{{fi.id}}" data-payment_type="" data-amount="{{total}}" data-band="{{band.id}}"
-            data-amount_user="{%if regime%}{{fi|get_total_by_regime:regime.code}}{%endif%}" disabled> {%trans "Send Order"%}</i>
+            data-target="base" data-obj_id="{{fi.id}}"> 
+            <i class="fa fa-ban"></i><br />
+            {% trans "Cancel Order" %}
         </button>
     </div>
-    <div class="col-6 text-center mb-3">
+    <div class="col-6 text-center p-0">
+        <button id="btn-send-order-{{fi.id}}" class="btn btn-success-tpv w-100 ark" data-bs-dismiss="modal" data-url="{% url "tpv-order-send" %}" 
+            data-target="base" data-obj_id="{{fi.id}}" data-payment_type="" data-amount="{{total}}" data-band="{{band.id}}"
+            data-amount_user="{%if regime%}{{fi|get_total_by_regime:regime.code}}{%endif%}" disabled> 
+            <i class="fa fa-share-square"></i><br />
+            {%trans "Send Order"%}
+        </button>
+    </div>
+    <div class="col-6 text-center p-0">
         <button id="btn-return-{{fi.id}}" class="btn btn-warning w-100 a-disabled" onclick="$('#div-return').show()">
+            <i class="fa fa-reply"></i><br />
             {%trans "Devolución"%} {#<br/> <small>{%trans "(Sólo disponible para el pago con pulseras)"%}</small>#}</button>
     </div>
-    <div class="col-6 text-center mb-3">
+    <div class="col-6 text-center p-0">
         <button id="btn-free-{{fi.id}}" class="btn btn-primary w-100" onclick="$('#div-free').show()">
+            <i class="fas fa-hand-holding-heart"></i><br />
             {%trans "Invitación"%} </button>
     </div>
 
@@ -99,7 +107,7 @@
 
 
 <script>
-    $(".btn-select-payment").click(function(){
+    $(".btn-select-payment-web").click(function(){
         $(".pt-box").each(function(){$(this).removeClass("selected")});
         $("#pt-box-"+$(this).data("id")).addClass("selected");
 
@@ -111,7 +119,7 @@
         if ($(this).data("cash") == "01") { $("#cash-value").show(); }
         else { $("#cash-value").hide(); }
 
-        if ($(this).data("cash") == "03") { $("#btn-return-{{fi.id}}").removeClass("a-disabled", ""); console.log("--1--");}
+        if ($(this).data("cash") == "03") { $("#btn-return-{{fi.id}}").removeClass("a-disabled", "");}
         else { $("#btn-return-{{fi.id}}").addClass("a-disabled"); }
     });
 

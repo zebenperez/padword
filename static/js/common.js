@@ -831,15 +831,26 @@ $(document).ready(()=>{
     $("body").on("keyup", ".tpv-search", function() {
         var value = $(this).val();
         var search_class = $(this).data("search-class");
+        var search_cat = $(this).data("search-cat");
+        $("."+search_cat).hide();
+        $("div[id^=heading]").hide();
         if (value == "")
+        {
             $('.'+search_class).show();
+            $("."+search_cat).show();
+            $("div[id^=heading]").show();
+        }
         else
         {
             $("."+search_class).each(function(){
-                console.log($(this).attr('class'));
                 var tags = $(this).data("tags");
                 if (tags.toLowerCase().indexOf(value.toLowerCase()) >= 0)
+                {
                     $(this).show();
+                    var cat_id = $(this).data("cat");
+                    $("#heading-"+cat_id).show();
+                    $("#heading-mob-"+cat_id).show();
+                }
                 else
                     $(this).hide();
             });
@@ -865,6 +876,18 @@ $(document).ready(()=>{
         }
     });
 
+    $("body").on("keyup", ".tpv-table-search", function() {
+        var value = $(this).val();
+        var search_class = $(this).data("search-class");
+        $("."+search_class).hide();
+        if(value == "")
+            $("."+search_class).show();
+        else
+            $("."+search_class).each(function(){
+                if($(this).data("name").toUpperCase().indexOf(value.toUpperCase()) != -1)
+                    $(this).show();
+            });
+    });
 
 });
 

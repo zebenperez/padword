@@ -8,6 +8,15 @@ SYSPATH=$6
 #SYSPATH=/opt/envs/padword/bin
 FILENAME="$PATH/padword/cron_settings.py"
 
+#echo "---------"
+#echo $SYSPATH
+#echo $PATH
+#echo $PROJECT
+#echo $FUNCTION
+#echo $HOUR
+#echo $MIN
+#echo "---------"
+
 $SYSPATH/python $PATH/update_cron.py $MIN $HOUR $FUNCTION $PROJECT $PATH
 
 #/usr/bin/sed -i "s/\(.*('\).* \* \* \*'\(.*\)$FUNCTION\(.*\): '.*'}\(.*\)/\1$MIN $HOUR * * *'\2$FUNCTION\3: '$PROJECT'}\4/" $FILENAME

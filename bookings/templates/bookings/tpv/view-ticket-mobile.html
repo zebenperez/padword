@@ -48,8 +48,8 @@
                     <div class="col-2"> <div class="text-left">{{ item.item.price }}€</div> </div>
 
                     <div class="col-2">
-                        <a class="btn btn-danger ark" title="{%trans 'Remove article from shopping-cart'%}" 
-                        data-url="{%url "tpv-order-item-remove"%}" data-item_id="{{item.pk}}" data-target="ticket-summary">
+                        <a class="btn btn-danger btn-xs ark" title="{%trans 'Remove article from shopping-cart'%}" data-mobile="True"
+                            data-url="{%url "tpv-order-item-remove"%}" data-item_id="{{item.pk}}" data-target="ticket-summary-mobile">
                         <i class="fas fa-trash"></i></a>
                     </div>
 
@@ -70,8 +70,9 @@
 
         </div>
 
-        <div class="row mt-3 justify-content-center w-100" style="position:fixed; bottom:0; background: white;-webkit-box-shadow: -1px -13px 7px -13px #D6D6D6; box-shadow: -1px -13px 7px -13px #D6D6D6;">
-            <div class="col-12 text-center mb-3">{%include "bookings/tpv/view-payment-types-mobile.html"%}</div></div>
+        <div class="row justify-content-center w-100" style="position:fixed; bottom: 0px; background: white;-webkit-box-shadow: -1px -13px 7px -13px #D6D6D6; box-shadow: -1px -13px 7px -13px #D6D6D6;">
+            <div class="col-12 text-center p-0">{%include "bookings/tpv/view-payment-types-mobile.html"%}</div></div>
 
     {% endif %}
+    <script>$("#items-counter").html("{{fi.get_items|length}}");</script>
 {% endwith %}

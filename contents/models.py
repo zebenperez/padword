@@ -361,6 +361,11 @@ class ShoppingCart(models.Model):
     options = models.ManyToManyField(OptionItem, blank=True, verbose_name=_("Options"))
     comments = models.TextField(verbose_name = _("Comments"), default="")
 
+    category = models.CharField(verbose_name="Nombre", max_length=250, blank=True, null=True)
+    name = models.CharField(verbose_name="Nombre", max_length=250, blank=True, null=True)
+    price = models.FloatField(verbose_name='Price', default=0, null=True, blank=True)
+    low_price = models.FloatField(verbose_name='Price', default=-1, null=True, blank=True)
+
     class Meta:
         db_table = 'shopping_cart'
         verbose_name = _('Shopping Cart')

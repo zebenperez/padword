@@ -17,7 +17,7 @@
 
     {# ---------------- FAVORITES --------------------#}
     <div class="cart-item accordion-item">
-        <div class="col-12 accordion-header" id="heading-fav">
+        <div class="col-12 accordion-header" id="heading-mob-fav">
             <button class="section-title accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#div-shopping-cart-favorite" aria-expanded="true" aria-controls="div-shopping-cart-favorite">
                 {%trans "Favorite items"%}
             </button>
@@ -27,7 +27,7 @@
                 <div class="row d-flex justify-content-start">
                     {% for item in item_favorites %}
                     <div class="col-2 mobile justify-content-center">
-                        {%include "bookings/tpv/show-item-mobile.html" with show_footer=True%}</div>
+                        {%include "bookings/tpv/show-item-mobile.html" with show_footer=True cat_special="fav"%}</div>
                     {% endfor %}
                 </div>
             </div>
@@ -35,7 +35,7 @@
     </div>
     {# ---------------- COMMONS --------------------#}
     <div class="cart-item accordion-item">
-        <div class="col-12 accordion-header" id="heading-comm">
+        <div class="col-12 accordion-header" id="heading-mob-com">
             <button class="accordion-button collapsed section-title" type="button" data-bs-toggle="collapse" data-bs-target="#div-shopping-cart-common" aria-expanded="false" aria-controls="div-shopping-cart-common">
                 {%trans "Common items"%} 
             </button>
@@ -45,7 +45,7 @@
                 <div class="row d-flex justify-content-start m-0">
                     {% for item in item_commons %}
                     <div class="col-3 mobile justify-content-start">
-                        {%include "bookings/tpv/show-item-mobile.html" with show_footer=True%}</div>
+                        {%include "bookings/tpv/show-item-mobile.html" with show_footer=True cat_special="com"%}</div>
                     {% endfor %}
                 </div>
             </div>

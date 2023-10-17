@@ -1,7 +1,7 @@
 import sys
 
-minute = sys.argv[1]
-hour = sys.argv[2].replace("|", "/")
+minute = sys.argv[1].replace("|", "/").replace("%", "*")
+hour = sys.argv[2].replace("|", "/").replace("%", "*")
 function = sys.argv[3]
 project_uuid = sys.argv[4]
 path = sys.argv[5]

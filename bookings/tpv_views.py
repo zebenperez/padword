@@ -9,6 +9,7 @@ from web.models import Project, Waiter
 from contents.models import Category, ShoppingCart, Item, PaymentType, PointOfSale, Table
 from guest.models import Guest, Wristband, WristbandBalance
 from web.lock_lib import ShLock
+from connector.winhotel_lib import send_charge
 
 from .common_lib import get_or_create_form_instance_tpv, get_or_create_form_instance_info_tpv, get_or_create_form_instance_info_client_tpv
 from .common_lib import user_in_group
@@ -31,15 +32,18 @@ def check_user(user):
         return False
     return True
 
-def tpv_access(request, project_uuid):
+def tpv_access(request, project_uuid, mobile=""):
     project = get_or_none(Project, project_uuid, "uuid")
 
     context = {'project_uuid': project.uuid}
     if check_user(request.user):
         next_url = reverse("tpv-index", kwargs = context)
+        if mobile != "":
+            request.session["mobile"] = "mobile"
     else:
         auth.logout(request)
         next_url = reverse("tpv-login-form")
+        context["mobile"] = mobile
 
     form = Form.objects.filter(form_type__code="tpv", form_type__project_uuid=project.uuid).first()
     context["next_url"] = next_url
@@ -47,6 +51,9 @@ def tpv_access(request, project_uuid):
     return render(request, 'bookings/tpv/tpv-welcome.html', context)
 
 def tpv_login_form(request):
+    mobile = get_param(request.GET, "mobile")
+    if mobile != "":
+        request.session["mobile"] = "mobile"
     return render(request, "bookings/tpv/tpv-form-login.html", {'project_uuid': request.GET["project_uuid"], 'error': ''})
 
 def tpv_login(request):
@@ -106,7 +113,7 @@ def tpv_index(request, project_uuid):
                 item_favorites += list(cat.get_items_favorites)
             item_commons = form.get_common_items()
 
-            band = Wristband.get_active_by_project(fi.form.project, fi_info.band)
+            #band = Wristband.get_active_by_project(fi.form.project, fi_info.band)
 
             #template = request.GET["template"] if "template" in request.GET and request.GET["template"] != "" else "index"
             context = {
@@ -115,12 +122,15 @@ def tpv_index(request, project_uuid):
                 'fi': fi, 
                 'pos': pos, 
                 'table': table, 
-                'band': band, 
+                #'band': band, 
                 'cat_list': cat_list,
                 #'table_list': Table.objects.filter(project_uuid=project.uuid),
                 'item_favorites': item_favorites,
                 'item_commons': item_commons
             }
+
+            if "mobile" in request.session and request.session["mobile"] != "":
+                return render(request, "bookings/tpv/mobile/index.html", context)
             return render(request, "bookings/tpv/index.html", context)
     except Exception as e:
         print(e)
@@ -140,6 +150,7 @@ def tpv_set_pos(request):
 def tpv_change_pos(request):
     try:
         request.session["point_of_sale"] = ""
+        request.session["table"] = ""
         return redirect(reverse("tpv-index", kwargs = {'project_uuid': request.GET["project_uuid"]}))
     except Exception as e:
         print(e)
@@ -192,6 +203,7 @@ def tpv_check_band(request):
             gr = band.guest.regimes.first()
             regime = gr.regime if gr != None else None
             get_or_create_form_instance_info_client_tpv(fi, band.guest, band.code)
+            fi.update_items_low_price()
 
         band_err = True if band == None else False
         return render(request, "bookings/tpv/view-ticket.html", {'fi':fi, 'band': band, 'regime': regime, 'band_err': band_err})
@@ -205,16 +217,21 @@ def tpv_add_item(request):
     try:
         form_id = request.GET["form_id"]
         item_id = request.GET["item_id"]
+        fi = get_or_none(FormInstance, int(form_id))
         item = get_or_none(Item, int(item_id))
 
-        obj = ShoppingCart(form_instance_id=int(form_id), item=item, comments='')
-        obj.save()
+        obj = ShoppingCart.objects.create(form_instance_id=fi.id,item=item,category=item.category.name,name=item.name,price=item.price,comments='')
+        fi.update_item_low_price(obj)
+
+        mobile = get_param(request.GET, "mobile")
+        temp = "view-ticket-mobile.html" if mobile != "" else "view-ticket.html"
 
         instance = FormInstance.objects.get(pk=form_id)
-        return render(request, "bookings/tpv/view-ticket.html", {'fi':instance,})
+        return render(request, "bookings/tpv/{}".format(temp), {'fi':instance,})
         #items = instance.items_in_bookings(item).count()
         #return render(request, "bookings/tpv/show-instance-result.html", {'fi':instance,'item':item,'items':items})
     except Exception as e:
+        print(e)
         return render(request, "error_exception.html", {'exc':show_exc(e)})
 
 @group_required("waiters")
@@ -239,7 +256,10 @@ def tpv_order_item_remove(request):
         fi = get_or_none(FormInstance, obj.form_instance_id)
         obj.delete()
 
-        return render(request, "bookings/tpv/view-ticket.html", {'fi':fi,})
+        mobile = get_param(request.GET, "mobile")
+        temp = "view-ticket-mobile.html" if mobile != "" else "view-ticket.html"
+
+        return render(request, "bookings/tpv/{}".format(temp), {'fi':fi,})
     except Exception as e:
         print(e)
         return render(request, "error_exception.html", {'exc':show_exc(e)})
@@ -366,12 +386,13 @@ def send_charges(fi, band):
     booking_code = guest.ext_id
     room_code = band.guest.room
     contact_name = "{} {}".format(band.guest.name, band.guest.surname)
-#    contact_id = 3
-#    has_credit = "true"
-#    limit_credit = 5.0
-#    source = 
-#    source_document = 
+    contact_id = 3
+    has_credit = "true"
+    limit_credit = 5.0
+    source = ""
+    source_document = ""
     date = fi.date.strftime("%Y-%m-%dT%H:%M:%S")
     total_amount = fi.get_total()
-#    cash_code = 
-#
+    cash_code = ""
+
+    send_charge(pau,booking_code,room_code,contact_name,contact_id,has_credit,limit_credit,source,source_document,date,total_amount,cash_code)
