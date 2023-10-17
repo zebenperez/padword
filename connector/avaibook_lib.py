@@ -167,36 +167,39 @@ def create_booking(pau, booking, av):
         b_id = booking.webhook_id if booking.webhook_id != "" else booking.id
         guest = Guest.objects.filter(ext_id=b_id, project_id=pau.project_uuid, deleted=0).first()
         #guest = Guest.objects.filter(ext_id=booking.id, project_id=pau.project_uuid, deleted=0).first()
-        if booking.action != "CANCELLATION":
-            if guest == None:
-                guest = Guest(UUID = new_ui_slug(Guest, "UUID"), ext_id=b_id, project_id=pau.project_uuid)
-                booking.created = True
-            
-            guest.name = booking.default_leader_full_name
-            guest.mobile = booking.default_leader_phone
-            guest.email = booking.default_invite_email
-            guest.check_in = checkin
-            guest.check_out = checkout
-            guest.room = room
-            guest.save()
+        #if booking.action != "CANCELLATION":
+        if guest == None:
+            guest = Guest(UUID = new_ui_slug(Guest, "UUID"), ext_id=b_id, project_id=pau.project_uuid)
+            booking.created = True
+        
+        guest.name = booking.default_leader_full_name
+        guest.mobile = booking.default_leader_phone
+        guest.email = booking.default_invite_email
+        guest.check_in = checkin
+        guest.check_out = checkout
+        guest.room = room
+        guest.save()
 
-            if booking.created:
-                #lock_code = guest.mobile[-4:]
-                lock_code = ''.join([random.choice(string.digits) for i in range(4)])
-                err = guest.add_all_key_code(lock_code)
-                av.send_pwa_link(guest.ext_id, lock_code, guest.pwa_link)
+        if booking.created:
+            #lock_code = guest.mobile[-4:]
+            lock_code = ''.join([random.choice(string.digits) for i in range(4)])
+            err = guest.add_all_key_code(lock_code)
+            av.send_pwa_link(guest.ext_id, lock_code, guest.pwa_link)
 
-            return guest
-        else:
-            if guest != None:
-                guest.delete()
+        return guest
+        #else:
+        #    if guest != None:
+        #        guest.delete()
+    return None
+
+def delete_booking(pau, booking):
+    b_id = booking.webhook_id if booking.webhook_id != "" else booking.id
+    guest = Guest.objects.filter(ext_id=b_id, project_id=pau.project_uuid, deleted=0).first()
+    if guest != None:
+        guest.delete()
     return None
 
 def get_booking_list(pau):
-    #TOKEN = "43bedb65e2fa3a57dd19650c7f67a1cb648644f8"
-    #UUID = "MyFoRlQ5YmZFNHZqSDFRR2JGYnFZUE0zYk5rUSo2VXo6JGFyZ29uMmlkJHY9MTkkbT02NTUzNix0PTQscD0xJFFDbEdhVVVQdXY5UmUrZEV0eklyS0EkSjc4UTk2OER0M2dZdno2M1JCZFk4dENCNHZaRm0zZWljRlMyeXlmaUlJVQ"
-    #av = Avaibook(UUID, TOKEN)
-
     av = Avaibook(pau.uuid, pau.token)
     result = av.get_bookings()
     #print(result)
@@ -204,7 +207,11 @@ def get_booking_list(pau):
     for item in result:
         node = AvaibookBooking(item)
         booking_list.append(node)
-        create_booking(pau, node, av)
+        #create_booking(pau, node, av)
+        if node.status == "CONFIRMED":
+            guest = create_booking(pau, node, av)
+        elif node.status == "CANCELLED":
+            delete_booking(pau, node)
     return booking_list
 
 def create_accommodation(pau, acc):
@@ -234,10 +241,13 @@ def get_accommodation_list(pau):
         item_list.append(node)
     return item_list
 
-def create_booking_from_webhook(pau, booking):
+def manage_booking_from_webhook(pau, booking):
     av = Avaibook(pau.uuid, pau.token)
     node = AvaibookBooking(booking)
-    guest = create_booking(pau, node, av)
+    if node.status == "CONFIRMED":
+        guest = create_booking(pau, node, av)
+    elif node.status == "CANCELLED":
+        delete_booking(pau, node)
     #if guest != None:
     #    send_link(pau, guest)
 
