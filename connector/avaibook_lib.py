@@ -1,5 +1,5 @@
 from django.conf import settings
-from datetime import datetime
+from datetime import datetime, timedelta
 from web.models import Room
 from guest.models import Guest
 from padword.commons import new_ui_slug
@@ -162,8 +162,9 @@ def create_booking(pau, booking, av):
     checkout = get_date(booking.check_out_date, booking.check_out_time)
     room = booking.unit_id
     room_ex = room_exist(pau.project_uuid, room)
+    yesterday = datetime.today().replace(hour=23, minute=59, second=59) + timedelta(days=-1)
 
-    if room_ex:
+    if room_ex and checkout > yesterday:
         b_id = booking.webhook_id if booking.webhook_id != "" else booking.id
         guest = Guest.objects.filter(ext_id=b_id, project_id=pau.project_uuid, deleted=0).first()
         #guest = Guest.objects.filter(ext_id=booking.id, project_id=pau.project_uuid, deleted=0).first()
@@ -244,10 +245,10 @@ def get_accommodation_list(pau):
 def manage_booking_from_webhook(pau, booking):
     av = Avaibook(pau.uuid, pau.token)
     node = AvaibookBooking(booking)
-    if node.status == "CONFIRMED":
-        guest = create_booking(pau, node, av)
-    elif node.status == "CANCELLED":
+    if node.action == "CANCELLATION":
         delete_booking(pau, node)
+    else:
+        guest = create_booking(pau, node, av)
     #if guest != None:
     #    send_link(pau, guest)
 
