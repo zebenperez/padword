@@ -1,0 +1,20 @@
+{% load i18n padword_tags lock_tags %}
+
+<div class="card ark" data-url="{% url "box-form-by-project" %}" data-target-modal="common-modal" data-obj_id="{{item.id}}" 
+    data-project="{{item.project_uuid}}">
+    <div class="row lock-box">
+        <div class="col-12 alias text-center pt-1 pb-1">{% trans "Room" %}: <strong>{% padword_translate item.room_obj.alias %} 
+            ({{item.room}})</strong></div>
+        <div class="col-12 alias text-center pt-1 pb-1">{% trans "Lock" %}: <strong>{% padword_translate item.alias %}</strong></div>
+        <div class="col-12">
+            <div class="icons-2 d-flex justify-content-end mt-3">
+                {#<div class="w-25 text-center"><i class="fas fa-{{item.state|default:'lock'}}"></i></div>#}
+                {#<div class="w-50 text-center">Status</div>#}
+                <div class="w-50 text-center">{% get_wifi_icon item.gateway %} </div>
+                <div class="w-50 text-center"><i class="fa {{item.css_charge}} fa-rotate-270 pb-2 text-center"></i><br />
+                    <span class="bat-percentage">{{item.charge}}%</span>
+
+            </div>
+        </div>
+    </div>
+</div>

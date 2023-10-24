@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% load i18n padword_tags %}
+
+{% block second_menu %}{% get_second_menu request.user %} {% endblock second_menu %}
+
+{% block central_content %} 
+    <div id="locks-content"> 
+        <h4>{{project.name}}</h4>
+        <div class="row mt-3">
+            <div class="col-12">
+                <input type="text" class="autosearch form-control form-control-dark w-100" name="room_search" id="room_search" 
+                    placeholder="{% trans 'Room' %}" data-url="{% url "box-search-by-project" %}" data-target="lock-list" 
+                    data-related="room_search" value="{{request.session.room_search}}"/>
+            </div>
+        </div>
+
+        <div class="content mt-3">
+            <div class="toolbar-content">
+                <h2 class="b-right">{% trans 'Locks' %} (<span id="items-counter">{{items|length}}</span>)</h2>
+                {% include "common-modal.html" %}
+            </div>
+            <div id="lock-list">{% include "web/boxes-by-project/box-list.html" %}</div>
+        </div>
+
+        {#{% include "web/boxes-by-project/boxes-content.html" %}#}
+    </div> 
+{% endblock central_content %}

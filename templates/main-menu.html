@@ -137,7 +137,7 @@
             {%endcomment%}
 
             {% if user_project|have_menu:"box" %}
-                <li class="nav-item"><a class="nav-link {%if active == "box"%}active{%endif%}" href="{% url "projects" %}">
+                <li class="nav-item"><a class="nav-link {%if active == "box"%}active{%endif%}" href="{% url "boxes-by-project" %}">
                     <i class="fas fa-dice-d6"></i> {% trans "Safe Deposit Box" %} </a> </li>
             {% elif user_project|have_menu_promo:"box" %}
                 <li class="nav-item"><a class="nav-link pointer ark" data-url="{%url "show-module"%}" data-target-modal="common-modal" 

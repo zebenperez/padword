@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 from django.urls import path
 from . import views, auto_views, room_views, card_views, lock_views, lock_user_views, lock_group_views 
-from . import gateway_views, ekey_views
+from . import gateway_views, ekey_views, box_views
 
 urlpatterns = [ 
     #path('index/<slug:chk>/', views.index, name='web-index-new'),
@@ -95,6 +95,16 @@ urlpatterns = [
     path('locks-groups/remove/', lock_group_views.lock_group_remove, name='lock-group-remove'),
     path('locks-groups/remove-by-id/', lock_group_views.lock_group_remove_by_id, name='lock-group-remove-by-id'),
     path('locks-groups/add/', lock_group_views.lock_group_add, name='lock-group-add'),
+
+    #--------------------- Boxes --------------------
+    path('boxes/by-project/', box_views.boxes_by_project, name='boxes-by-project'),
+    path('boxes/card/by-project/', box_views.box_card_by_project, name='box-card-by-project'),
+    path('boxes/form/by-project/', box_views.box_form_by_project, name='box-form-by-project'),
+    path('boxes/search/by-project/', box_views.box_search_by_project, name='box-search-by-project'),
+    path('boxes/box-add-code/', box_views.box_add_code, name='box-add-code'),
+    #path('boxes/box-remove-code/', box_views.box_remove_code, name='box-remove-code'),
+    path('boxes/box-add-card/', box_views.box_add_card, name='box-add-card'),
+    #path('boxes/box-remove-card/', box_views.box_remove_card, name='box-remove-card'),
 
     #--------------------- Sensibo devices --------------------
     #path('sensibo-device-by-project/<int:project_id>/', sensibo_views.devices_by_project, name='sensibo-device-by-project'),

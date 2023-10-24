@@ -1,0 +1,59 @@
+{% load i18n padword_tags rooms_tags %}
+
+
+<h2 class="common-modal-head">
+    <div class="row">
+        <div class="col-11">{% trans 'Deposit box info' %}</div>
+	    <div class="col-1"><button type="button" class="btn" data-bs-dismiss="modal"><i class="fas fa-times"></i></button></div>
+    </div>
+</h2>
+
+<span id="div-notification"></span>
+
+<div class="row justify-center">
+    <div class="col-4"> {% trans "Room" %}: {%padword_translate obj.room_obj.alias%} </div>
+    <div class="col-4"> {% trans "Room number" %}: {{obj.room}} </div>
+    <div class="col-4"> {% trans "Lock" %}: {%padword_translate obj.alias%} </div>
+</div>
+
+<div id="lock-details">
+    <div class="row justify-center pt-0">
+        <ul class="nav nav-tabs">
+            <li class="nav-item"> <a class="nav-link active" data-bs-toggle="tab" href="#codes">{% trans "Passcodes" %}</a></li>
+            <li class="nav-item"> <a class="nav-link" data-bs-toggle="tab" href="#cards">{% trans "Cards" %}</a> </li>
+        </ul>
+
+        <div class="tab-content">
+            {# -------------------------- CODES ------------------------#}
+            <div class="tab-pane container active" id="codes"> 
+                <div id="add_code"> {% include "web/boxes-by-project/box-code-form.html" %} </div>
+                {%comment%}
+                <div class="row"><div class="col-12 text-end pt-2">
+                    <a class="btn btn-outline-warning w-100 toggle-btn" 
+                        data-target="add_code" data-text="{%trans "Add code"%}" data-text-alt="{%trans "Close"%}"> {%trans "Add code"%}</a>
+                </div></div>
+                <div id="add_code" style="display:none;"> {% include "web/boxes-by-project/box-code-form.html" %} </div>
+
+                <div id="code-details">{% include "web/boxes-by-project/box-codes.html" %}</div>
+                {%endcomment%}
+            </div>
+
+            {# -------------------------- CARDS ------------------------#}
+            <div class="tab-pane container fade" id="cards"> 
+                <div id="add_card"> {% include "web/boxes-by-project/box-card-form.html" %} </div>
+                {%comment%}
+                <div class="row"><div class="col-12 text-end pt-2">
+                    <a class="btn btn-outline-warning w-100 toggle-btn" data-target="add_card" data-text="{%trans "Add card"%}" 
+                        data-text-alt="{%trans "Close"%}" data-set-focus="card_code"> {%trans "Add card"%}</a>
+                </div></div>
+                <div id="add_card" style="display:none"> {% include "web/boxes-by-project/box-card-form.html" %} </div>
+
+                <div id="card-details">{% include "web/boxes-by-project/box-cards.html" %} </div>
+                {%endcomment%}
+                <script>
+                    $(document).ready(function(){$(window).keydown(function(event){if(event.keyCode == 13){event.preventDefault();return false;}});});
+                </script>
+            </div>  
+        </div>
+    </div>
+</div>
