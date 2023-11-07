@@ -11,13 +11,56 @@
 
 <span id="div-notification"></span>
 
-<div class="row justify-center">
-    <div class="col-3"> {% trans "Alias" %}: {%padword_translate obj.alias%} </div>
-    <div class="col-3"> {% trans "Number" %}: {{obj.number}} </div>
-    <div class="col-3"> {% trans "Project" %}: {{obj.project.name}} </div>
-    {#<div class="col-3"> {% trans "Group" %}: {{obj.lock_group.name}} </div>#}
-    <div class="col-3"> {% trans "Group" %}: {{obj|get_lock_group}} </div>
+<div class="row m-0 mt-2">
+    <div class="col-2 p-0">
+        <div class="info-box green m-1 p-2">
+            <span class="title">{% trans "Alias" %}</span><br />
+            <span class="text-right"><strong>{%padword_translate obj.alias%}</strong></span> 
+            <span class="icon"><i class="fas fa-bed"></i></span>
+        </div>
+    </div>
+    <div class="col-2 p-0">
+        <div class="info-box green m-1 p-2">
+            <span class="title">{% trans "Number" %}</span><br />
+            <span class="text-right"><strong>{{obj.number}}</strong></span>
+            <span class="icon"><i class="fas fa-bed"></i></span>
+        </div>
+    </div>
+    <div class="col-4 p-0">
+        <div class="info-box green m-1 p-2">
+            <span class="title">{% trans "Proyect" %}</span><br />
+            <span class="text-right"><strong>{{obj.project.name}}</strong></span>
+            <span class="icon"><i class="fas fa-hotel"></i></span>
+        </div>
+    </div>
+    <div class="col-4 p-0">
+        <div class="info-box green m-1 p-2">
+            <span class="title">{% trans "Group" %}</span><br />
+            <span class="text-right"><strong>{{obj|get_lock_group}}</strong></span>
+            <span class="icon"><i class="fas fa-key"></i></span>
+        </div>
+    </div>
+
 </div>
 
-<div class="row justify-center pt-0"> <div id="lock-list">{% include "web/rooms/lock-card.html" %}</div> </div>
+{%comment%}
+<div class="grid-container-room">
+    <div class="grid-item-room deposit-box text-center"><span><label class="label">{% trans "Alias" %}:</label></span><br /><span class="text-right">
+            <strong>{%padword_translate obj.alias%}</strong>
+        </span> </div>
+    <div class="grid-item-room deposit-box text-center"><span><label class="label">{% trans "Number" %}:</label></span><br /><span class="text-right">
+            <strong>{{obj.number}}</strong>
+        </span> </div>
+    <div class="grid-item-room deposit-box text-center"><span><label class="label">{% trans "Project" %}:</label></span><br /><span class="text-right">
+            <strong>{{obj.project.name}}</strong>
+        </span>
+    </div>
+    {#<div class="col-3"> {% trans "Group" %}: {{obj.lock_group.name}} </div>#}
+    <div class="grid-item-room deposit-box text-center"><span><label class="label">{% trans "Group" %}:</label></span><br /><span class="text-right">
+            <strong>{{obj|get_lock_group}}</strong>
+        </span> </div>
+</div>
+{%endcomment%}
+
+<div class="row justify-center pt-0 mt-3"> <div id="lock-list">{% include "web/rooms/lock-card.html" %}</div> </div>
 

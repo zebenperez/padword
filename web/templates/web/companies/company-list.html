@@ -20,8 +20,8 @@
                     <i class="fas fa-project-diagram"></i></a>
                 <a class="me-1 btn btn-xs" href="{% url 'channels-by-company' item.pk %}" title="{% trans 'Channels' %}">
                     <i class="fas fa-comments"></i></a>
-                <a class="me-1 btn btn-xs" href="{% url 'devices-by-company' item.pk %}" title="{% trans 'Devices' %}">
-                    <i class="fas fa-tablet-alt"></i></a>
+                {% comment %}<a class="me-1 btn btn-xs" href="{% url 'devices-by-company' item.pk %}" title="{% trans 'Devices' %}">
+                    <i class="fas fa-tablet-alt"></i></a>{% endcomment %}
                 <a class="me-1 btn btn-xs ark" data-url="{% url "company-form" %}" data-target-modal="common-modal" 
                     data-obj_id="{{item.id}}"><i class="fas fa-edit"></i></a>  
                 <a class="btn btn-sm autoremove" data-model-name="web.company" data-obj-id="{{item.id}}" data-url="{% url "autoremove_obj" %}" 

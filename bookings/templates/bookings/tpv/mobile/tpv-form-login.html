@@ -1,0 +1,43 @@
+{% load i18n %}
+
+{% if form.errors %} <p>{% trans "Your username and password didn't match. Please try again." %}</p> {% endif %}
+{% csrf_token %}
+
+<div class="row login">
+	<div class="col-8 offset-2 login-box justify-content-center mt-4">
+		<div class="panel-login">
+			<div class="toolbar-heading mt-4">{% trans "Log in" %} </div>
+            <div class="panel-body">
+                {% if error_msg %} <div class="alert alert-info">{{error_msg}}</div> {% endif %}
+			    <br/>
+			    <form class="form-horizontal p-4" method="post" action="{% url "tpv-mob-login" %}" id="form-tpv">
+				    {% csrf_token %}
+                    <input type="hidden" name="project_uuid" value="{{project_uuid}}"/>
+                    <input type="hidden" name="category_uuid" value="{{category_uuid}}"/>
+                    <input type="hidden" name="mobile" value="{{mobile}}"/>
+                    <div class="form-group mb-4">
+				        <div class="text-center"><label class="control-label text-left">{% trans "Username:" %} </label></div>
+				        <div class="form-group"> <input placeholder="" nautocomplete="off" class="form-control login text-center" type="text" 
+                            name="username" id="username"/></div>
+                    </div><br />
+                    <div class="form-group mb-4">
+				        <div class="text-center"><label class="control-label">{% trans "Password:" %} </label></div>
+        	            <div class="form-group"> <input placeholder="" nautocomplete="off" class="form-control login text-center" type="password" 
+                            name="password" id="password"/></div>
+                    </div><br />
+                    <div class="form-group">
+				        <div class="col-md-2 offset-md-5">
+				    	    <div class="form-inline"> <div class="form-group">
+                                <button class="btn btn-access btn-submit saveform" data-form="form-tpv" data-target="div-main"> 
+                                    {% trans "Access" %}</button> 
+						    </div> </div>
+	                    </div>
+			        </div>
+                    {% if error %}<div class="error mt-4">{{error}}</div>{% endif %}
+		        </form>
+		    </div>
+		</div>
+	</div>
+</div>
+<script> $('#sidebar').removeClass('expanded'); </script>
+{% include "autocomplete_off.html" %}

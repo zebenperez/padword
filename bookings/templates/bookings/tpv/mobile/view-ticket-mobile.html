@@ -1,0 +1,64 @@
+{% load i18n padword_tags bookings_tag %}
+
+
+{% with items=fi.get_items total=fi.get_total %}
+    {% if items|length > 0 %} 
+    <div class="row mt-1 justify-content-center"><div id="guest-info" class="col-12 text-center mb-1">
+        {% include "bookings/tpv/view-guest-info.html" %}</div></div>
+
+        <div class="row total">
+            <div class="col-7 btn-dark">
+                <h5 class="text-left p-2"><strong>
+                    {% padword_translate fi.form.get_category.parent.name %} 
+                    {% padword_translate fi.form.get_category.name %}&nbsp;({{items|length}} {% trans 'art.' %})</strong>
+                </h5>
+            </div>
+            <div class="col-5 btn-dark price p-2" id="div-total-shopping-cart">
+                <strong>{%trans 'Total price'%}: {{total|floatformat:2}} &euro;</strong></div>
+        </div>
+
+        {% if regime %}
+            <div class="row">
+                <div class="col-5 offset-7 btn-dark price p-2" id="div-total-shopping-cart">
+                    <strong class="text-warning">{%trans 'Total price user'%}: {{fi|get_total_by_regime:regime.code}} &euro;</strong></div>
+            </div>
+        {% endif %}
+    
+        <div class="row ticket-line mt-2 p-0" style="overflow-y: scroll; max-height: 450px;">
+            {% for item in items %}
+            <div class="row" style="border-bottom:1px solid #ccc;margin-top:0;">
+                <div class="col-6"> <div class="item-name text-left">{% padword_translate item.item.name %}</div> </div>
+
+                <div class="col-2 text-left">{%if regime%}<div class="text-right text-warning">
+                    {{item|get_item_price:regime.code}}€</div>{%endif%}</div>
+
+                <div class="col-2"> <div class="text-left">{{ item.item.price }}€</div> </div>
+
+                <div class="col-2">
+                    <a class="btn btn-danger btn-xs ark" title="{%trans 'Remove article from shopping-cart'%}" data-mobile="True"
+                        data-url="{%url "tpv-order-item-remove"%}" data-item_id="{{item.pk}}" data-target="ticket-summary-mobile">
+                        <i class="fas fa-trash"></i></a>
+                </div>
+
+                <div class="col-12 text-left">
+                    <a class="special ark" title="{%trans 'Add comment at this article'%}" data-url="{%url "tpv-order-item-comment"%}" 
+                        data-item_id="{{item.pk}}" data-form_id="{{fi.pk}}" data-target="div-comment-{{item.id}}" 
+                        data-mobile="True" data-show="div-comment-{{item.id}}"> {%trans 'Add comment'%}</a>
+                </div>
+
+                <div class="col-12 text-left"> <div id="div-comment-{{item.id}}"></div> </div>
+
+                <div class="col-12 comment mt-1">
+                    <div class="small card-title text-left"><small><span id="comment-{{item.id}}">{{ item.comments }}</span> &nbsp;</small></div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+        <div class="row justify-content-center w-100" 
+            style="position:fixed;bottom:0px;background:white;-webkit-box-shadow:-1px -13px 7px -13px #D6D6D6;box-shadow:-1px -13px 7px -13px #D6D6D6;">
+            <div class="col-12 text-center p-0">{%include "bookings/tpv/mobile/view-payment-types-mobile.html"%}</div>
+        </div>
+    {% endif %}
+    <script>$("#items-counter").html("{{fi.get_items|length}}");</script>
+{% endwith %}

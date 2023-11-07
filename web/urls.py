@@ -22,6 +22,8 @@ urlpatterns = [
     path('projects/pos-add/', views.project_pos_add, name='project-pos-add'),
     path('projects/pos-remove/', views.project_pos_remove, name='project-pos-remove'),
     path('projects/pos-cat-toggle/', views.project_pos_cat_toggle, name='project-pos-cat-toggle'),
+    path('projects/pos-add-image/', views.project_pos_add_image, name='project-pos-add-image'),
+    path('projects/pos-remove-image/', views.project_pos_remove_image, name='project-pos-remove-image'),
     path('projects/table-add/', views.project_table_add, name='project-table-add'),
     path('projects/table-remove/', views.project_table_remove, name='project-table-remove'),
     path('projects/table-range/', views.project_table_range, name='project-table-range'),
@@ -102,9 +104,6 @@ urlpatterns = [
     path('boxes/form/by-project/', box_views.box_form_by_project, name='box-form-by-project'),
     path('boxes/search/by-project/', box_views.box_search_by_project, name='box-search-by-project'),
     path('boxes/box-add-code/', box_views.box_add_code, name='box-add-code'),
-    #path('boxes/box-remove-code/', box_views.box_remove_code, name='box-remove-code'),
-    path('boxes/box-add-card/', box_views.box_add_card, name='box-add-card'),
-    #path('boxes/box-remove-card/', box_views.box_remove_card, name='box-remove-card'),
 
     #--------------------- Sensibo devices --------------------
     #path('sensibo-device-by-project/<int:project_id>/', sensibo_views.devices_by_project, name='sensibo-device-by-project'),

@@ -10,50 +10,80 @@
 
 <span id="div-notification"></span>
 
-<div class="row justify-center">
-    <div class="col-4"> {% trans "Room" %}: {%padword_translate obj.room_obj.alias%} </div>
-    <div class="col-4"> {% trans "Room number" %}: {{obj.room}} </div>
-    <div class="col-4"> {% trans "Lock" %}: {%padword_translate obj.alias%} </div>
-</div>
-
-<div id="lock-details">
-    <div class="row justify-center pt-0">
-        <ul class="nav nav-tabs">
-            <li class="nav-item"> <a class="nav-link active" data-bs-toggle="tab" href="#codes">{% trans "Passcodes" %}</a></li>
-            <li class="nav-item"> <a class="nav-link" data-bs-toggle="tab" href="#cards">{% trans "Cards" %}</a> </li>
-        </ul>
-
-        <div class="tab-content">
-            {# -------------------------- CODES ------------------------#}
-            <div class="tab-pane container active" id="codes"> 
-                <div id="add_code"> {% include "web/boxes-by-project/box-code-form.html" %} </div>
-                {%comment%}
-                <div class="row"><div class="col-12 text-end pt-2">
-                    <a class="btn btn-outline-warning w-100 toggle-btn" 
-                        data-target="add_code" data-text="{%trans "Add code"%}" data-text-alt="{%trans "Close"%}"> {%trans "Add code"%}</a>
-                </div></div>
-                <div id="add_code" style="display:none;"> {% include "web/boxes-by-project/box-code-form.html" %} </div>
-
-                <div id="code-details">{% include "web/boxes-by-project/box-codes.html" %}</div>
-                {%endcomment%}
-            </div>
-
-            {# -------------------------- CARDS ------------------------#}
-            <div class="tab-pane container fade" id="cards"> 
-                <div id="add_card"> {% include "web/boxes-by-project/box-card-form.html" %} </div>
-                {%comment%}
-                <div class="row"><div class="col-12 text-end pt-2">
-                    <a class="btn btn-outline-warning w-100 toggle-btn" data-target="add_card" data-text="{%trans "Add card"%}" 
-                        data-text-alt="{%trans "Close"%}" data-set-focus="card_code"> {%trans "Add card"%}</a>
-                </div></div>
-                <div id="add_card" style="display:none"> {% include "web/boxes-by-project/box-card-form.html" %} </div>
-
-                <div id="card-details">{% include "web/boxes-by-project/box-cards.html" %} </div>
-                {%endcomment%}
-                <script>
-                    $(document).ready(function(){$(window).keydown(function(event){if(event.keyCode == 13){event.preventDefault();return false;}});});
-                </script>
-            </div>  
+<div class="row m-0 mt-2">
+    <div class="col-6 p-0">
+        <div class="info-box m-1 p-2">
+            <span class="title">{% trans "Room" %}</span><br />
+            <span class="text-right"><strong>{%padword_translate obj.room_obj.alias%}</strong></span>
+            <span class="icon"><i class="fas fa-bed"></i></span>
+        </div>
+    </div>
+    <div class="col-3 p-0">
+        <div class="info-box m-1 p-2">
+            <span class="title">{% trans "Room number" %}</span><br />
+            <span class="text-right"><strong>{{obj.room}}</strong></span>
+            <span class="icon"><i class="fas fa-bed"></i></span>
+        </div>
+    </div>
+    <div class="col-3 p-0">
+        <div class="info-box m-1 p-2">
+            <span class="title">{% trans "Lock" %}</span><br />
+            <span class="text-right"><strong>{%padword_translate obj.alias%}</strong></span>
+            <span class="icon"><i class="fas fa-key"></i></span>
         </div>
     </div>
 </div>
+
+<div class="row m-0 mb-3 mt-3">
+    <div class="col-10 offset-1 card">
+        <div class="card-body " id="card-add-code">
+            <div id="div-form" class="special-form">
+                <form method="POST" action="{% url "box-add-code" %}" id="form-code" />
+                    {%csrf_token%}
+                    <input type="hidden" name="lock_id" value="{{obj.id}}"/>
+
+                    <div class="row">
+                        <div class="col-12 mt-1 text-center"><span>{%trans "Fill in the information below and press the save button"%}:</span></div>
+                        <div class="col-6 mt-3 pt-1 small"> 
+                            <input type="radio" class="set-hidden" name="radio_code" value="1" data-id="action" checked/> {% trans "Code" %} 
+                        </div>
+                        <div class="col-6 mt-3 pt-1 small"> 
+                            <input type="radio" class="set-hidden" name="radio_code" value="2" data-id="action"/> {% trans "Card" %} 
+                        </div>
+                        <div class="col-12 mt-3">
+                            <input type="text" class="form-control input-k set-hidden" id="code" name="code"
+                                placeholder="{%trans "Click and write"%} {%trans "Code or Card number"%}"/> 
+                        </div>
+                        <div class="col-12 mt-3">
+                            <input type="text" class="form-control input-k set-hidden" id="name" name="name"
+                                placeholder="{%trans "Click and write"%} {%trans "Name"%}"/> 
+                        </div>
+                        <div class="col-4 mt-3"><span class="xx-small">Fecha y hora de inicio</span>
+                            <input type="date" class="form-control check_per input-k set-hidden" id="ini_date" name="ini_date"
+                                value="{{ini_date|date:"Y-m-d"}}"/> 
+                        </div>
+                        <div class="col-2 mt-3"> 
+                            <input type="time" class="form-control input-k date_field mt-3" id="ini_time" name="ini_time" 
+                                value="{{ini_date|date:"H:M"}}" title="Este campo es obligatorio" required="">
+                        </div>
+                        <div class="col-4 mt-3"><span class="xx-small">Fecha y hora de finalización </span>
+                            <input type="date" class="form-control check_per input-k set-hidden" id="end_date" name="end_date"
+                                value="{{end_date|date:"Y-m-d"}}"/>
+                        </div>
+                        <div class="col-2 mt-3"> 
+                            <input type="time" class="form-control input-k date_field mt-3" id="end_time" name="end_time" 
+                                value="{{end_date|date:"H:M"}}" title="Este campo es obligatorio" required="">
+                        </div>
+                        <div class="col-12 mt-4 text-center">
+                            <button class="btn btn-primary mt-2 saveform w-100" data-form="form-code" data-target="div-form">
+                                <i class="fas fa-plus"></i> {% trans "Save" %}</button> 
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+

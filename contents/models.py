@@ -32,8 +32,13 @@ def upload_item_image(instance, filename):
     folder = "contents/items/images/%s" % (instance.id)
     return '/'.join(['%s' % (folder), datetime.datetime.now().strftime("%Y%m%d%H%M%S") + ascii_filename])
 
+def upload_pos_image(instance, filename):
+    ascii_filename = str(filename.encode('ascii', 'ignore'))
+    instance.filename = ascii_filename
+    folder = "contents/point_of_sales/images/%s" % (instance.id)
+    return '/'.join(['%s' % (folder), datetime.datetime.now().strftime("%Y%m%d%H%M%S") + ascii_filename])
 
-# Create your models here.
+
 class Category(models.Model):
     ALLOWCHOICES = (('yes','Yes'), ('no','No'), ('inherit', 'Inherit'),)
     ISACTIVECHOICES = ((0,'No'), (1,'Yes'),)
@@ -483,6 +488,7 @@ class CategoryUser(models.Model):
 class PointOfSale(models.Model):
     uuid = models.CharField(max_length = 255, verbose_name= _('UUID'), default="")
     name = models.CharField(verbose_name="Nombre", max_length=150, blank=True, null=True, default="")
+    image = models.ImageField(upload_to=upload_pos_image, verbose_name=_("Image"), blank=True, null=True)
     project_uuid = models.CharField(max_length=36, verbose_name='UUID Project', default="")
 
     @property

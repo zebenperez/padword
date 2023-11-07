@@ -3,9 +3,9 @@
 
 {% if msg and msg != "" %} <div class="alert alert-danger">{{msg}}</div> {% endif %}
 
-<div class="row">
+<div class="row m-0 p-0">
     {% for item in items %} 
-        <div id="card_{{item.id}}" class="col-3 load-card" data-obj_id="{{item.id}}"><i class="fas fa-spinner fa-spin"></i> loading...</div>
+        <div id="card_{{item.id}}" class="col-3 load-card safe-deposit-div" data-obj_id="{{item.id}}"><i class="fas fa-spinner fa-spin"></i> loading...</div>
     {% endfor %}
 </div>
 

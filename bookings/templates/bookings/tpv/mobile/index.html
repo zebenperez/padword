@@ -7,7 +7,7 @@
         {% if point_of_sales|length > 0 %}
             {% for item in point_of_sales %}
                 <div class="col-lg-3 col-6">
-                    <button class="menu-options ark" data-url="{%url "tpv-set-pos"%}" data-target="base" data-obj_id="{{item.id}}"
+                    <button class="menu-options ark" data-url="{%url "tpv-mob-set-pos"%}" data-target="base" data-obj_id="{{item.id}}"
                         >{{item.name}}</button>
                 </div>
             {% endfor %}
@@ -16,7 +16,7 @@
             <input class="form-control tpv-table-search" data-search-class="table-card" placeholder="{%trans "Seleccionar mesa a buscar..."%}"/>
             {% for item in tables %}
                 <div class="col-lg-3 col-12 table-card" data-name="{{item.name}}">
-                    <button class="menu-options tables ark" data-url="{%url "tpv-set-table"%}" data-target="base" data-obj_id="{{item.id}}">
+                    <button class="menu-options tables ark" data-url="{%url "tpv-mob-set-table"%}" data-target="base" data-obj_id="{{item.id}}">
                         <div class="row w-100 m-0">
                             <div class="col-9 text-left">{{item.name}}</div>
                             <div class="col-3 text-right"><i class='fas fa-concierge-bell'></i></div>
@@ -26,7 +26,7 @@
                 </div>
             {% endfor %}
         {# ------------------ ACCESO AL TPV ---------------------------#}
-        {% else %} {% include "bookings/tpv/index-mobile.html" %} {% endif %}
+        {% else %} {% include "bookings/tpv/mobile/index-mobile.html" %} {% endif %}
     </div>
 </div>
 

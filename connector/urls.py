@@ -19,6 +19,7 @@ urlpatterns = [
     #--------------------- CRON --------------------
     path('cron-log/', views.cron_log, name='cron-log'),
     path('avantio-log/', views.avantio_log, name='avantio-log'),
+    path('avaibook-log/', views.avaibook_log, name='avaibook-log'),
 
     #--------------------- TEST --------------------
     path('test-email/', views.test_email, name='test-email'),

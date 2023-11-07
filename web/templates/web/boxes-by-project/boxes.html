@@ -16,12 +16,10 @@
 
         <div class="content mt-3">
             <div class="toolbar-content">
-                <h2 class="b-right">{% trans 'Locks' %} (<span id="items-counter">{{items|length}}</span>)</h2>
+                <h2 class="b-right">{% trans 'Safe deposit boxes' %} (<span id="items-counter">{{items|length}}</span>)</h2>
                 {% include "common-modal.html" %}
             </div>
             <div id="lock-list">{% include "web/boxes-by-project/box-list.html" %}</div>
         </div>
-
-        {#{% include "web/boxes-by-project/boxes-content.html" %}#}
     </div> 
 {% endblock central_content %}

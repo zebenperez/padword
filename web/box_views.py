@@ -14,8 +14,8 @@ from datetime import datetime, timedelta
 
 def get_date(dic, key_date, key_time, offset=""):
     date = get_param(dic, key_date)
-    #time = get_param(dic, key_time)
-    time = key_time
+    time = get_param(dic, key_time)
+    #time = key_time
     default = datetime.now() + offset if offset != "" else datetime.now()
     return datetime.strptime("{} {}".format(date, time), "%Y-%m-%d %H:%M") if date != "" and time != "" else default
 
@@ -90,66 +90,20 @@ def box_search_by_project(request):
 def box_add_code(request):
     try:
         lock = get_or_none(Lock, request.POST["lock_id"])
-        code = get_param(request.POST, "code")
-        #ini_date = get_date(request.POST, "ini_date", "ini_time")
-        #end_date = get_date(request.POST, "end_date", "end_time", timedelta(days=7))
-        ini_date = get_date(request.POST, "ini_date", "00:00")
-        end_date = get_date(request.POST, "end_date", "23:59", timedelta(days=7))
-        name = ""
+        radio_code = get_param(request.POST, "radio_code")
+        code = reverse_cardkey(get_param(request.POST, "code")) if radio_code == "2" else get_param(request.POST, "code")
+        name = get_param(request.POST, "name")
+        ini_date = get_date(request.POST, "ini_date", "ini_time")
+        end_date = get_date(request.POST, "end_date", "end_time", timedelta(days=7))
 
-        errcode = lock.set_code(code, ini_date, end_date, name)
-        msg = errcode if "Error" in str(errcode) else _("Code saved!")
-        return render(request, "web/boxes-by-project/box-code-add.html", {"msg": msg})
-    except Exception as e:
-        print(e)
-        return render(request, "error_exception.html", {'exc':show_exc(e)})
-
-#@group_required("admins", "projects")
-#def box_remove_code(request):
-#    try:
-#        lock = get_or_none(Lock, request.GET["obj_id"])
-#        code_id = request.GET["code_id"]
-#
-#        errcode = lock.remove_code(code_id)
-#        msg = errcode if "Error" in str(errcode) else ""
-#        return render(request, "web/boxes-by-project/box-codes.html", {"obj": lock, "msg": msg})
-#    except Exception as e:
-#        return render(request, "error_exception.html", {'exc':show_exc(e)})
-
-@group_required("admins", "projects")
-def box_add_card(request):
-    try:
-        lock = get_or_none(Lock, request.POST["lock_id"])
-        code = reverse_cardkey(get_param(request.POST, "code"))
-        #name = get_param(request.POST, "name")
-        #ini_date = get_date(request.POST, "ini_date", "ini_time")
-        #end_date = get_date(request.POST, "end_date", "end_time", timedelta(days=7))
-        #permanent = get_param(request.POST, "permanent")
-        ini_date = get_date(request.POST, "ini_date", "00:00")
-        end_date = get_date(request.POST, "end_date", "23:59", timedelta(days=7))
-
-        msg = ""
-        if code != "":
-            errcode = lock.add_card(code, ini_date, end_date, "")
-            msg = errcode if "Error" in str(errcode) else "Card saved!"
-        else:
+        if code == "":
             msg = _("ERROR: Code must not to be empty!")
+        else:
+            errcode = lock.add_card(code, ini_date, end_date, name) if radio_code == "2" else lock.set_code(code, ini_date, end_date, name)
+            msg = errcode if "Error" in str(errcode) else _("Code saved!")
         return render(request, "web/boxes-by-project/box-code-add.html", {"msg": msg})
-        #return render(request, "web/boxes-by-project/box-cards.html", {"obj": lock, "msg": msg})
     except Exception as e:
         print(e)
         return render(request, "error_exception.html", {'exc':show_exc(e)})
-
-
-#@group_required("admins", "projects")
-#def box_remove_card(request):
-#    try:
-#        lock = get_or_none(Lock, request.GET["obj_id"])
-#        card_id = request.GET["card_id"]
-#
-#        errcode = lock.remove_card(card_id)
-#        return render(request, "web/boxes-by-project/box-cards.html", {"obj": lock})
-#    except Exception as e:
-#        return render(request, "error_exception.html", {'exc':show_exc(e)})
 
 

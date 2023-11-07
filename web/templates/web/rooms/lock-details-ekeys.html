@@ -23,7 +23,7 @@
                 <td> {{item.ekey_id}} </td> 
                 <td> {{item.ini_date|date:"d-m-Y h:i"}} </td> 
                 <td> {{item.end_date|date:"d-m-Y h:i"}} </td> 
-                <td> <a href="{% url "ekey-url" item.token %}" target="_blank">{% trans "Link" %}</a></td>
+                <td> <a href="{% url "ekey-url" item.token %}" target="_blank" title="{%trans "Visit link" %}"><i class='fas fa-link'></i></a></td>
                 <td class="text-end">
                     <a class="btn btn-outline-warning ark w-100" title="{%trans "Remove code"%}" data-url="{% url "room-lock-remove-ekey" %}"
                         data-obj_id="{{item.id}}" data-confirm="{%trans "Are you sure to remove this element?"%}" data-target="ekey-details">

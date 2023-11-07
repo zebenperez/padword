@@ -254,6 +254,33 @@ def project_pos_cat_toggle(request):
         print (show_exc(e))
     return HttpResponse("")
 
+@group_required("admins", "projects", "categories")
+def project_pos_add_image(request):
+    try:
+        obj_id = request.POST["obj_id"]
+        image = request.FILES["file"]
+
+        item = get_or_none(PointOfSale, obj_id)
+        if item != None:
+            item.image = image
+            item.save()
+        return render(request, "web/projects/pos-img.html", {"obj": item,})
+    except Exception as e:
+        print(e)
+        return render(request, 'error_exception.html', {'msg': str(e)})
+
+@group_required("admins", "projects", "categories")
+def project_pos_remove_image(request):
+    try:
+        obj_id = request.GET["obj_id"]
+        obj = get_or_none(PointOfSale, obj_id) 
+        obj.image.delete(save=True)
+
+        return render(request, "web/projects/pos-img.html", {"obj": obj,})
+    except Exception as e:
+        print(e)
+        return render(request, 'error_exception.html', {'msg': str(e)})
+
 @group_required("admins")
 def project_table_add(request):
     table_list = []

@@ -9,29 +9,29 @@
 
 <span id="div-notification"></span>
 
-<div class="row justify-center">
-    <div class="col-1">
+<div class="grid-container-room-adm">
+    <div class="grid-item-room-adm deposit-box text-center">
         <label class="label">{% trans "Orden" %}:</label>
         <input type="text" class="form-control autosave input" id="order" name="order" value="{{obj.order}}" title="{{obj.order}}" 
             data-model-name="web.room" data-obj-id="{{obj.id}}" data-url="{% url "autosave_field" %}" data-target="div-notification"/>
             <span id="order__msg"></span>
     </div>
-    <div class="col-3">
+    <div class="grid-item-room-adm deposit-box text-center">
         <label class="label">{% trans "Alias" %}:</label>
         <input type="text" class="form-control autosave input" id="alias" name="alias" value="{{obj.alias}}" title="{{obj.alias}}" 
             data-model-name="web.room" data-obj-id="{{obj.id}}" data-url="{% url "autosave_field" %}" 
             data-target="div-notification"/> <span id="alias__msg"></span>
     </div>
-    <div class="col-2">
+    <div class="grid-item-room-adm deposit-box text-center">
         <label class="label">{% trans "Number" %}:</label>
         <input type="text" class="form-control autosave input" id="number" name="number" value="{{obj.number}}" title="{{obj.number}}" 
             data-model-name="web.room" data-obj-id="{{obj.id}}" data-url="{% url "autosave_field" %}" data-target="div-notification"/>
             <span id="number__msg"></span>
     </div>
-    <div class="col-3">
+    <div class="grid-item-room-adm deposit-box text-center">
         <label class="label">{% trans "Project" %}:</label> <input type="text" class="form-control input" name="project" value="{{obj.project.name}}" readonly/>
     </div>
-    <div class="col-3">
+    <div class="grid-item-room-adm deposit-box text-center">
         <label class="label">{% trans "Group" %}:</label>
         <select class="form-control input b-bottom ark_change" id="lock_group_uuid" name="lock_group_uuid" 
             data-url="{% url "room-set-group" %}" data-target="div-notification" data-obj_id="{{obj.id}}"/>

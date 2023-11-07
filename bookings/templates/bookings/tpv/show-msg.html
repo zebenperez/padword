@@ -15,7 +15,8 @@
 		</div>
 		<div class="row">	
 			<div class="col-12 text-center mt-3 mb-3 pt-3">
-                <button id="btn-back" class="me-1 btn btn-access ark" data-url="{% url "tpv-index" project_uuid %}" data-target="base">
+                <button id="btn-back" class="me-1 btn btn-access ark" data-target="base"
+                    data-url="{%if mobile and mobile != ""%}{%url "tpv-mob-index" project_uuid%}{%else%}{%url "tpv-index" project_uuid%}{%endif%}">
                     {%trans "Back"%}</button>
 	        </div>
 	    </div>

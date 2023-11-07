@@ -137,6 +137,12 @@ def avaibook_get_booking(request):
 
     return HttpResponse("Message received okay.", content_type="text/plain")
 
+@group_required("admins")
+def avaibook_log(request):
+    f = open(os.path.join(settings.BASE_DIR, "avaibook.log"), "r", encoding='utf-8')
+    text = f.read()
+    return render(request, 'cron-log.html', {'text': text.replace("\n", "<br/>"),})
+
 '''
     Winhotel
 '''
