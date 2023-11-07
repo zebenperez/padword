@@ -199,9 +199,10 @@ class Winhotel:
  
     def __send_request__(self, _url_request, _json_datas):
         try:
+            #print(_json_datas.replace("__DEL__", ""))
             #_headers = {'Content-Type': 'application/x-www-form-urlencoded', 'Token': '43bedb65e2fa3a57dd19650c7f67a1cb648644f8'}
             _headers = {'content-type': 'application/json', 'Accept-Charset': 'UTF-8'}
-            _response = requests.post(_url_request, headers=_headers, data=_json_datas)
+            _response = requests.post(_url_request, headers=_headers, data=_json_datas.replace("__DEL__", ""))
             _response.raise_for_status()
             return _response
         except requests.exceptions.HTTPError as errh:
@@ -265,7 +266,7 @@ class Winhotel:
                 "QueryOperator": 1,
                 "Value": start_date
             },
-            "StartDateQueryParameter": {
+            "StartDateQueryParameter__DEL__": {
                 "QueryOperator": 4,
                 "Value": end_date
             }
@@ -386,6 +387,42 @@ def create_booking(pwu, booking):
         #    err = guest.add_all_key_code(lock_code)
         #    av.send_pwa_link(guest.ext_id, guest.pwa_link)
 
+def create_booking_new(pwu, booking, start_date, end_date):
+    checkin = datetime.strptime(booking.check_in_date.split('+')[0], "%Y-%m-%dT%H:%M:%S")
+    checkout = datetime.strptime(booking.check_out_date.split('+')[0], "%Y-%m-%dT%H:%M:%S")
+    #room = booking.allotment_code 
+    room = booking.room_code 
+    room_ex = room_exist(pwu.project_uuid, room)
+    if room_ex and checkin >= start_date and checkin <= end_date:
+        guest = Guest.objects.filter(ext_id=booking.code, project_id=pwu.project_uuid, deleted=0).first()
+        if guest == None:
+            guest = Guest(UUID = new_ui_slug(Guest, "UUID"), ext_id=booking.code, project_id=pwu.project_uuid)
+            booking.created = True
+
+        wguest = get_guest(booking)
+        if wguest != None:
+            guest.name = wguest.contact["name"]
+            guest.surname = wguest.contact["surname"]
+
+            phone = get_phone(wguest.contact)
+            if phone != None:
+                guest.mobile = phone["phone_number"]
+
+            email = get_email(wguest.contact)
+            if email != None:
+                guest.email = email
+            
+        guest.check_in = checkin
+        guest.check_out = checkout
+        guest.room = room
+        guest.save()
+
+        #if booking.created:
+        #    lock_code = get_code(pau, code)
+        #    err = guest.add_all_key_code(lock_code)
+        #    av.send_pwa_link(guest.ext_id, guest.pwa_link)
+
+
 def delete_booking(pwu, booking):
     guest = Guest.objects.filter(ext_id=booking.code, project_id=pwu.project_uuid, deleted=0).first()
     if guest == None:
@@ -416,7 +453,7 @@ def get_booking_new_list(pwu, state):
     for item in result:
         node = WinhotelBooking(item)
         booking_list.append(node)
-        create_booking(pwu, node)
+        create_booking_new(pwu, node, today, e_date)
     return booking_list, ""
 
 
