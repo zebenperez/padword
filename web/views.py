@@ -17,7 +17,7 @@ from .models import *
 
 
 from django.conf import settings
-import os
+import os, re
 import requests
 import time, datetime
 
@@ -765,7 +765,8 @@ def logs(request):
     f = open(os.path.join(settings.BASE_DIR, "logs.txt"), "r", encoding='utf-8')
     text = f.read()
     try:
-        log_list = os.listdir(settings.LOGPATH)
+        #log_list = os.listdir(settings.LOGPATH)
+        log_list = [f for f in os.listdir(settings.LOGPATH) if re.match(r'.*logs.*', f)]
     except:
         log_list = []
     return render(request, 'logs.html', {'text': text.replace("\n", "<br/>"), 'log_list': log_list})

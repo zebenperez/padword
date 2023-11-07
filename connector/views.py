@@ -20,7 +20,7 @@ from .avaibook_lib import get_accommodation_list, manage_booking_from_webhook, g
 from .winhotel_lib import get_booking_list as wh_get_booking_list, import_item_prices as wh_import_item_prices
 from .winhotel_lib import get_booking_new_list as wh_get_booking_new_list
 
-import json, os, csv
+import json, os, csv, re
 
 
 '''
@@ -83,7 +83,7 @@ def avantio_log(request):
     f = open(os.path.join(settings.BASE_DIR, "avantio.log"), "r", encoding='utf-8')
     text = f.read()
     try:
-        log_list = os.listdir(settings.LOGPATH)
+        log_list = [f for f in os.listdir(settings.LOGPATH) if re.match(r'.*avantio.*', f)]
     except:
         log_list = []
     return render(request, 'cron-log.html', {'text': text.replace("\n", "<br/>"), 'log_list': log_list})
@@ -146,7 +146,7 @@ def avaibook_log(request):
     f = open(os.path.join(settings.BASE_DIR, "avaibook.log"), "r", encoding='utf-8')
     text = f.read()
     try:
-        log_list = os.listdir(settings.LOGPATH)
+        log_list = [f for f in os.listdir(settings.LOGPATH) if re.match(r'.*avaibook.*', f)]
     except:
         log_list = []
     return render(request, 'cron-log.html', {'text': text.replace("\n", "<br/>"), 'log_list': log_list})
@@ -205,10 +205,10 @@ def cron_log(request):
     f = open(os.path.join(settings.BASE_DIR, "cron.log"), "r", encoding='utf-8')
     text = f.read()
     try:
-        log_list = os.listdir(settings.LOGPATH)
+        log_list = [f for f in os.listdir(settings.LOGPATH) if re.match(r'.*cron.*', f)]
     except:
         log_list = []
-    return render(request, 'cron-log.html', {'text': text.replace("\n", "<br/>"), 'log_list'})
+    return render(request, 'cron-log.html', {'text': text.replace("\n", "<br/>"), 'log_list': log_list})
 
 @group_required("admins")
 def test_email(request):
