@@ -16,8 +16,9 @@ from contents.models import ItemInCat
 from web.models import Project
 from .models import ProjectAvantioUser, ProjectAvaibookUser, ProjectWinhotelUser
 from .avantio_lib import get_booking_list, get_booking_notif, send_link
-from .avaibook_lib import get_accommodation_list, create_booking_from_webhook, get_booking_list as av_get_booking_list, WEBHOOK_TOKEN
+from .avaibook_lib import get_accommodation_list, manage_booking_from_webhook, get_booking_list as av_get_booking_list, WEBHOOK_TOKEN
 from .winhotel_lib import get_booking_list as wh_get_booking_list, import_item_prices as wh_import_item_prices
+from .winhotel_lib import get_booking_new_list as wh_get_booking_new_list
 
 import json, os, csv
 
@@ -129,12 +130,18 @@ def avaibook_get_booking(request):
     try:
         #pau = get_or_none(ProjectAvaibookUser, settings.AVAIBOOK_ID, "project_uuid")
         pau = get_or_none(ProjectAvaibookUser, booking["owner_id"], "owner")
-        create_booking_from_webhook(pau, booking)
+        manage_booking_from_webhook(pau, booking)
         f.write("\nBooking created!")
     except Exception as e:
         f.write("\nError: {}".format(e))
 
     return HttpResponse("Message received okay.", content_type="text/plain")
+
+@group_required("admins")
+def avaibook_log(request):
+    f = open(os.path.join(settings.BASE_DIR, "avaibook.log"), "r", encoding='utf-8')
+    text = f.read()
+    return render(request, 'cron-log.html', {'text': text.replace("\n", "<br/>"),})
 
 '''
     Winhotel
@@ -143,7 +150,8 @@ def avaibook_get_booking(request):
 def winhotel_get_booking_list(request, project_uuid):
     try:
         pau = get_or_none(ProjectWinhotelUser, project_uuid, "project_uuid")
-        booking_list, err = wh_get_booking_list(pau, "1")
+        #booking_list, err = wh_get_booking_list(pau, "1")
+        booking_list, err = wh_get_booking_new_list(pau, "1")
         return render(request, 'winhotel/booking-list.html', {'booking_list': booking_list})
     except Exception as e:
         print(e)

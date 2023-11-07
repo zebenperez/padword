@@ -4,7 +4,7 @@ from datetime import datetime, timedelta
 
 from connector.avantio_lib import get_booking_list, get_booking_notif, send_link
 from connector.winhotel_lib import get_booking_list as wh_get_booking_list, get_booking_cancelled as wh_get_booking_cancelled
-from connector.winhotel_lib import import_item_prices as wh_import_item_prices
+from connector.winhotel_lib import import_item_prices as wh_import_item_prices, get_booking_new_list as wh_get_booking_new_list
 from web.models import Project
 from connector.models import ProjectAvantioUser, ProjectWinhotelUser
 from padword.commons import get_or_none
@@ -54,7 +54,8 @@ def winhotel_booking_schedule(project_uuid):
         s_date = datetime.now()
         e_date = s_date + timedelta(days=pau.days)
         #booking_list, err = wh_get_booking_list(pau, s_date.strftime("%Y-%m-%d"), e_date.strftime("%Y-%m-%d"))
-        booking_list, err = wh_get_booking_list(pau, "1")
+        #booking_list, err = wh_get_booking_list(pau, "1")
+        booking_list, err = wh_get_booking_new_list(pau, "1")
         result += render_to_string('winhotel/booking-log.html', {'booking_list': booking_list, "error": err})
 
         #pau = ProjectWinhotelUser.objects.filter(project_uuid=project.uuid).first()

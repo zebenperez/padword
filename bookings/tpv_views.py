@@ -32,18 +32,15 @@ def check_user(user):
         return False
     return True
 
-def tpv_access(request, project_uuid, mobile=""):
+def tpv_access(request, project_uuid):
     project = get_or_none(Project, project_uuid, "uuid")
 
     context = {'project_uuid': project.uuid}
     if check_user(request.user):
         next_url = reverse("tpv-index", kwargs = context)
-        if mobile != "":
-            request.session["mobile"] = "mobile"
     else:
         auth.logout(request)
         next_url = reverse("tpv-login-form")
-        context["mobile"] = mobile
 
     form = Form.objects.filter(form_type__code="tpv", form_type__project_uuid=project.uuid).first()
     context["next_url"] = next_url
@@ -51,9 +48,6 @@ def tpv_access(request, project_uuid, mobile=""):
     return render(request, 'bookings/tpv/tpv-welcome.html', context)
 
 def tpv_login_form(request):
-    mobile = get_param(request.GET, "mobile")
-    if mobile != "":
-        request.session["mobile"] = "mobile"
     return render(request, "bookings/tpv/tpv-form-login.html", {'project_uuid': request.GET["project_uuid"], 'error': ''})
 
 def tpv_login(request):
@@ -129,8 +123,6 @@ def tpv_index(request, project_uuid):
                 'item_commons': item_commons
             }
 
-            if "mobile" in request.session and request.session["mobile"] != "":
-                return render(request, "bookings/tpv/mobile/index.html", context)
             return render(request, "bookings/tpv/index.html", context)
     except Exception as e:
         print(e)
@@ -241,8 +233,12 @@ def tpv_order_remove(request):
         fi = get_or_none(FormInstance, fi_id)
         form = fi.form
         fi.delete()
-            
-        return redirect(reverse("tpv-index", kwargs = {'project_uuid': form.project.uuid}))
+
+        mobile = get_param(request.GET, "mobile")
+        if mobile != "":
+            return redirect(reverse("tpv-mob-index", kwargs = {'project_uuid': form.project.uuid}))
+        else:
+            return redirect(reverse("tpv-index", kwargs = {'project_uuid': form.project.uuid}))
     except Exception as e:
         print(e)
         logger.error("[bookings-remove_fi] {}".format(str(e)))
@@ -269,11 +265,14 @@ def tpv_order_item_comment(request):
     try:
         item_id = request.GET["item_id"]
         form_id = request.GET["form_id"]
-        temp = get_param(request.GET, "template")
         obj = get_or_none(ShoppingCart, int(item_id))
-        template = "bookings/tpv/{}.html".format(temp) if temp != "" else "bookings/tpv/shopping-form.html"
+        #temp = get_param(request.GET, "template")
+        #template = "bookings/tpv/{}.html".format(temp) if temp != "" else "bookings/tpv/shopping-form.html"
+        mobile = get_param(request.GET, "mobile")
+        temp = "shopping-form-mobile.html" if mobile != "" else "shopping-form.html"
 
-        return render(request, template, {'obj':obj, 'form_id':form_id})
+        return render(request, "bookings/tpv/{}".format(temp), {'obj':obj, 'form_id':form_id})
+        #return render(request, template, {'obj':obj, 'form_id':form_id})
         #return render(request, "bookings/tpv/shopping-form.html", {'obj':obj, 'form_id':form_id})
     except Exception as e:
         return render(request, "error_exception.html", {'exc':show_exc(e)})
@@ -302,6 +301,7 @@ def tpv_order_send(request):
         amount_user = get_param(request.GET, "amount_user", "")
         band_id = get_param(request.GET, "band", "")
         desc = get_param(request.GET, "desc", "")
+        mobile = get_param(request.GET, "mobile", "")
 
         fi = get_or_none(FormInstance, fi_id)
         fi.set_status("01", request.user, "")
@@ -316,7 +316,7 @@ def tpv_order_send(request):
                 add_balance_to_band(pos, fi, band)
         fi.save()
         set_desc(fi, desc)
-        context = {'msg': fi.get_status.status.code, 'project_uuid': fi.form.project.uuid}
+        context = {'msg': fi.get_status.status.code, 'project_uuid': fi.form.project.uuid, "mobile": mobile}
         return render(request, 'bookings/tpv/show-msg.html', context)
     except Exception as e:
         print(e)

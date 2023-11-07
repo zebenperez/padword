@@ -1,6 +1,7 @@
 from django.urls import include, path, re_path
 from django.contrib import admin
-from bookings import views, form_views as fv, guest_views as gv, guest_sensibo_views as gsv, tpv_views as tpv, tpv_orders_views as tpv_orders
+from bookings import views, form_views as fv, guest_views as gv, guest_sensibo_views as gsv
+from bookings import tpv_views as tpv, tpv_orders_views as tpv_orders, tpv_mobile_views as tpv_mob
 
 urlpatterns = [ 
     #--------------------- Forms --------------------
@@ -163,9 +164,8 @@ urlpatterns = [
     path('shopping/show-key-menu/', gv.show_key_menu, name='show-key-menu'),
 
 
-    #------------- Bookings Guests --------------#
+    #------------- TPV --------------#
     path('tpv-access/<slug:project_uuid>/', tpv.tpv_access, name='tpv-access'),
-    path('tpv-access/<slug:project_uuid>/<slug:mobile>', tpv.tpv_access, name='tpv-access'),
     path('tpv-login/', tpv.tpv_login, name='tpv-login'),
     path('tpv-login-form/', tpv.tpv_login_form, name='tpv-login-form'),
     path('tpv-close/', tpv.tpv_close, name='tpv-close'),
@@ -193,6 +193,31 @@ urlpatterns = [
 
     path('tpv-orders-by-waiter/', tpv.orders_by_waiter, name='tpv-orders-by-waiter'),
     path('tpv-order-details/', tpv.order_details, name='tpv-order-details'),
+
+    #------------- TPV MOBILE --------------#
+    path('tpv-mob-access/<slug:project_uuid>/', tpv_mob.tpv_access, name='tpv-mob-access'),
+    path('tpv-mob-access/<slug:project_uuid>/<slug:mobile>', tpv_mob.tpv_access, name='tpv-mob-access'),
+    path('tpv-mob-login/', tpv_mob.tpv_login, name='tpv-mob-login'),
+    path('tpv-mob-login-form/', tpv_mob.tpv_login_form, name='tpv-mob-login-form'),
+    path('tpv-mob-close/', tpv_mob.tpv_close, name='tpv-mob-close'),
+
+    path('tpv-mob-index/<slug:project_uuid>/', tpv_mob.tpv_index, name='tpv-mob-index'),
+    path('tpv-mob-ticket/', tpv_mob.tpv_ticket, name='tpv-mob-ticket'),
+    path('tpv-mob-set-pos/', tpv_mob.tpv_set_pos, name='tpv-mob-set-pos'),
+    path('tpv-mob-change-pos/', tpv_mob.tpv_change_pos, name='tpv-mob-change-pos'),
+    path('tpv-mob-set-table/', tpv_mob.tpv_set_table, name='tpv-mob-set-table'),
+    path('tpv-mob-change-table/', tpv_mob.tpv_change_table, name='tpv-mob-change-table'),
+    path('tpv-mob-check-band/', tpv_mob.tpv_check_band, name='tpv-mob-check-band'),
+
+    #path('tpv-add-item/', tpv.tpv_add_item, name='tpv-add-item'),
+
+    #path('tpv-order-remove/', tpv.tpv_order_remove, name='tpv-order-remove'),
+    #path('tpv-order-item-remove/', tpv.tpv_order_item_remove, name='tpv-order-item-remove'),
+    #path('tpv-order-item-comment/', tpv.tpv_order_item_comment, name='tpv-order-item-comment'),
+    #path('tpv-order-send/', tpv.tpv_order_send, name='tpv-order-send'),
+
+    #path('tpv-orders-by-waiter/', tpv.orders_by_waiter, name='tpv-orders-by-waiter'),
+    #path('tpv-order-details/', tpv.order_details, name='tpv-order-details'),
 
     #------------- TPV Orders --------------#
     path('orders_by_project/', tpv_orders.orders_by_project, name='orders-by-project'),

@@ -96,7 +96,9 @@ table.table-hover.table-striped { font-size: 0.8rem; }
 /************************/
 
 .content {
-	background: white; border:1px solid #e0e0e0; }
+	background: white; border:1px solid #e0e0e0; 
+    border-radius: 5px;
+}
 
 .btn-submit, .btn-submit:hover {
 	background-color: #424242 !important;
@@ -114,6 +116,11 @@ span.new {
 }
 span.text {
     font-size: 0.8rem;
+}
+
+span.xx-small {
+    font-size: 0.7em !important;
+    color: #333 !important;
 }
 
 #div-logo, #div-qr {
@@ -140,6 +147,8 @@ select.mini {
     width: 100% !important;
     border-radius: 0.25rem;
 }
+
+.b-none { border: none;}
 
 /***************************/
 /***** Padword buttons *****/
@@ -259,6 +268,7 @@ a.btn.btn-primary.ark, a.btn.btn-secondary.ark { font-size:0.8rem !important; }
 .toolbar-search {
 	background-color: #fff;
 	border: 1px solid rgba(0, 0, 0, 0.0625);
+    border-radius: 0.25em;
 	width: 100%;
 }
 
@@ -412,6 +422,7 @@ span.status-info {
 	/*align-items: stretch;*/
 	align-items: center;
 	justify-content: space-between;
+     border-radius: 5px 5px 0 0 !important;
 }
 
 .toolbar-content h2 {
@@ -485,7 +496,7 @@ h2, h2.pathway.b-right {
 .text-center { text-align: center!important; }
 .form-control {
 	padding: 0rem 0.5em 0.1rem 0.5em;
-	font-size: 0.9em;
+	font-size: 0.8em;
 	color: #333;
 	border-color: #ced4da;
 	border-width: 0px 0px 1px 0px !important;
@@ -608,7 +619,8 @@ span.article-price {
 }
 
 .modal-dialog {
-    max-width: 80% !important;
+    /*max-width: 80% !important;*/
+    max-width: 70% !important;
     margin:auto;
 }
 
@@ -644,26 +656,29 @@ h2.common-modal-head {
 
 .modal-body h2 {
     font-size: 1rem !important;
-    padding: 1rem 0 1rem 1rem;
+    padding: 0.5rem 0 0.5rem 0.5rem;
 }
 
 .modal-body ul {
-    width: 94% !important;
+/*    width: 94% !important;*/
     margin: auto;
-    margin-bottom: 1rem;
+    /*margin-bottom: 1rem;*/
+    margin-bottom: 8px;
     padding:0;
 }
 
 .modal-body ul li {
     background: #fcfcfc;
-    border: 1px solid #f8f8f8;
+   /* border: 1px solid #f8f8f8;*/
     border-radius: 5px;
     font-size: 0.75rem;
     font-weight: normal;
     line-height: 2;
     list-style: none;
-    margin-bottom: 0.5rem;
-    padding-left: 1rem;
+    /*margin-bottom: 0.5rem;*/
+/*    padding-left: 1rem;*/
+    
+    margin-bottom: 0;
 }
 
 .status-name {
@@ -676,7 +691,7 @@ h2.common-modal-head {
 /*    border: 1px solid #ccc;*/
     border: none;
     border-radius: 5px;
-    margin: 1rem;
+    padding: 0.5rem 0 0.5rem 0.5rem;
 }
 .modal-body button.btn.btn-sm i.fas.fa-times {
     border: none !important;
@@ -687,7 +702,7 @@ h2.common-modal-head {
 }
 
 label.label {
-    font-size: 0.9rem;
+    font-size: 0.8rem;
     color: #777;
 	color: #5b7898 !important;
 }
@@ -959,7 +974,7 @@ a.dropdown-toggle { font-size: 1.6rem !important; }
 .general { width: 100%; }
 ul.left-menu { 
     margin:0; 
-    margin-top: 10px;
+/*    margin-top: 10px;*/
     padding:0; 
     width:100%; 
 }
@@ -1004,7 +1019,6 @@ ul.left-menu li.nav-item a.nav-link i:hover {
 
 .nav-tabs .nav-link {
     color: #486879 !important;
-    /*border-color: #e9ecef #e9ecef #fff;*/
     border-color: #486879 #486879 #fff;
     margin-right: 1px;
 }
@@ -1014,6 +1028,91 @@ ul.left-menu li.nav-item a.nav-link i:hover {
     border-right:1px solid #486879;
     border-bottom:1px solid #486879;
     margin-top: -8px !important;
+}
+/****************************************/
+/* modal style */
+
+/* ROOMS */
+
+.info-box.green {
+    background: #7fb927;
+    color: #fff;
+    font-size: 1.5rem;
+    letter-spacing: 0px;
+}
+.info-box.green span.title {
+    font-size: 0.8rem;
+    text-transform: uppercase;
+}
+.info-box.green .icon {
+    float: right;
+}
+.info-box.green .icon .fas.fa-bed, 
+.info-box.green .icon .fas.fa-hotel, 
+.info-box.green .icon .fas.fa-key
+{
+    font-size: 2rem !important; 
+    color: #cfe974;
+}
+
+/* DESPOSIT BOX */
+.deposit-box {
+    background: #efefef;
+}
+
+.info-box {
+    background: #0092d6;
+    color: #fff;
+    font-size: 2rem;
+    letter-spacing: 0px;
+}
+.info-box span.title {
+    font-size: 0.8rem;
+    text-transform: uppercase;
+}
+.info-box .icon {
+    float: right;
+}
+.info-box .icon .fas.fa-bed, .info-box .icon .fas.fa-key {
+    font-size: 2.5rem !important; 
+    color: #4db8ef;
+}
+
+.modal-form {
+    background-color: #fff;
+    background-clip: border-box;
+    border: 1px solid rgba(0,0,0,.125);
+    border-radius: 0.25rem;
+}
+.grid-container-room, .grid-container-room-adm {
+    display: grid;
+    padding: 10px;
+}
+.grid-container-room {
+    column-gap: 50px;
+    grid-template-columns: auto auto auto auto;
+}
+.grid-container-room-adm {
+    column-gap: 20px;
+    grid-template-columns: auto auto auto auto auto;
+}
+.grid-item-room, .grid-item-room-adm {
+  background: linear-gradient(180deg, rgba(244,244,245,1) 0%, rgba(244,244,245,1) 35%, rgba(255,255,255,1) 100%);
+  padding: 10px;
+  font-size: 16px;
+  text-align: center;
+}
+/****************************************/
+
+
+.tab-content.internal.boxes {
+    width: 94%;
+    margin:auto;
+    margin-top: -16px !important;
+}
+
+li.nav-item.boxes {
+    padding-left: 0;
 }
 
 /*****  WIZZARD *****/
@@ -1187,7 +1286,7 @@ i.fas.fa-check-square {
     height: 99vh;
     margin-left: 0.5%;
    	margin-right: 0.5%;
-    padding-top: 15px;
+    padding-top: 5px;
     overflow-y: scroll;
     padding-bottom: 3.5rem;
 }
@@ -1199,7 +1298,6 @@ i.fas.fa-check-square {
 .left-div-cat {
     height:95vh; 
     overflow:scroll;
-   /* border:1px solid red;*/
 }
 
 /**************************/
@@ -1423,6 +1521,27 @@ span.bg-ico-bar i.fas.fa-lock { padding-right: 0px !important; color:#5b7898; }
     color: #888888;
     padding: 4px 0 0 12px;
 }
+
+/************************************************************************************************/
+
+.inner.card {
+/*    background: #fff; */
+    background: #f1f1f1;
+    background: transparent;
+    color: white;
+    border-radius:0; 
+    height: 120px;
+}
+
+.safe-deposit-div {
+    background-image: url(/static/img/safe.png);
+    background-size: 100% 100%;
+    width: 140px;
+    height: 90px;
+    margin: 10px;
+    padding: 20px;
+}
+
 .div-locks-content {
     border:1px solid #ccc;
     border-radius:5px;
@@ -1430,72 +1549,58 @@ span.bg-ico-bar i.fas.fa-lock { padding-right: 0px !important; color:#5b7898; }
     width: 98%;
     margin:auto;
 }
-.locks-head {
-    /*
-    color: #888888;
-    font-weight: 600;
-    font-size: 0.85em;
-    letter-spacing: -1px;
-    text-transform: uppercase;
-    */
-
-/* PRUEBA DE VERDE */
+.locks-head, .safe-deposit-head {
     color: #888888;
     font-weight: 600;
     font-size: 0.85em;
     letter-spacing: -1px;
     padding-left: 20px;
-
-
 }
 
-
-.locks-group {
-/*    background: #e5eaee;*/
-/*    border:1px solid #aaaaaa;*/
-}
-.locks-group .card {
+.safe-deposit-group .card, .locks-group .card {
     border: none;
 }
+
 input#search.form-control.sp-search {
     border: 1px solid #ced4da !important;
 	border-radius: 1.5rem;
     color: #ced4da !important;
 }
+
 .card.card-container {
     width:100px; 
     height: 130px; 
 }
+
 .card-container.ark.current .lock-box {
     border: 2px solid #ff9200;
 	box-shadow: rgba(50, 50, 105, 0.15) 0px 2px 5px 0px, rgba(0, 0, 0, 0.05) 0px 1px 1px 0px;
     cursor: pointer;
 }
-.card-body.lock-box { padding: 5px !important; }
-.card-body.lock-box .alias { height: 20px;  }
-.card-body.lock-box .room { height: 20px;  }
+
+.card-body.safe-deposit-box, .card-body.lock-box {
+    padding: 5px !important; 
+}
+
+.card-body.safe-deposit-box .alias, .card-body.lock-box .alias { 
+    height: 20px;  
+}
+
+.card-body.safe-deposit-box .room, .card-body.lock-box .room { 
+    height: 20px;  
+}
+
 .icons-2 { border-top: 1px solid #dfdfdf; }
-/*
-.icons-2 i { color: #dfdfdf; }
-.icons-2 i.active {  color: #757575;}
-*/
-
-
-/* PRUEBA VERDE */
 .icons-2 i { color: #afbeb7; }
 .icons-2 i.active { color: #afbeb7; }
 
+.safe-deposit-box {
+    color: #afbeb7;
+    font-weight: 400;
+    font-size: 0.7rem;
+}
 
 .lock-box {
-    /*
-    background: #ffffff;
-    border:1px solid #aaaaaa;
-    border-radius: 0.25rem;
-    color: #676767;
-    font-weight: 600;
-    font-size: 0.7rem;
-*/
-/* PRUEBA DE VERDE */
     background: #f0fff8;
     border-top:1px solid #ffffff;
     border-left:3px solid #36a982;
@@ -1505,35 +1610,109 @@ input#search.form-control.sp-search {
     color: #afbeb7;
     font-weight: 400;
     font-size: 0.7rem;
-
 }
 
 i.fas.fa-times, i.fas.fa-times-circle { 
-/*    color: #e74f1c; */
     color: #9fa1a5;
     border: none !important;
 }
-i.fas.fa-door-open { color: white; }
-.lock-box:hover {
-/*
-    border:1px solid #5b7898;
-	box-shadow: rgba(50, 50, 105, 0.15) 0px 2px 5px 0px, rgba(0, 0, 0, 0.05) 0px 1px 1px 0px;
-    cursor: pointer;
-*/
 
-/* PRUEBA DE VERDE */
+i.fas.fa-door-open { color: white; }
+
+.safe-deposit-box:hover {
+    
+}
+
+.lock-box:hover {
     border-top:1px solid #36a982;
     border-left:3px solid #36a982;
     border-right:1px solid #36a982;
     border-bottom:1px solid #36a982;
-
 }
+
+.safe-deposit-box .alias, .safe-deposit-box .alias i {
+    font-size: 1rem;
+    font-weight: 600;
+    letter-spacing: 0px;
+}
+
 .lock-box .alias, .lock-box .alias i {
     color: #5b7898;
     font-size: 0.7rem;
     font-weight: 600;
     letter-spacing: 0px;
 }
+
+.bat-percentage { 
+    letter-spacing:0px; font-size:0.6rem; 
+}
+
+.div-assigned-lock {
+    display: grid; 
+    grid-template-columns: 33% 33% 33%; 
+    background: #e5eaee;
+}
+a.btn.btn-outline-warning {
+    font-size:0.75rem;
+    width: 100px !important;
+    padding: 4px 1px 4px 1px !important;
+}
+a.btn.btn-outline-warning.large { 
+    width: 130px !important; 
+}
+
+.btn-outline-warning {
+    color: #ff9200 !important;
+    background-color: #fff;
+    border-color: #ff9200 !important;
+}
+.btn-outline-warning:hover { 
+    color: #fff !important; 
+}
+
+.btn.btn-delete {
+    background-color: #ff3814;
+	border-radius: 1.5rem;
+    color: #fff !important;
+    font-size: 0.9em;
+    line-height: 1;
+    padding: 5px !important;
+}
+
+.row.safe-deposit-box {
+    margin: 2px 3px 0 0;
+}
+.row.safe-deposit-box:hover {
+    border-radius: 5px;
+}
+
+.row.lock-box {
+    margin: 10px;
+}
+
+.row.safe-deposit-box .name, .row.safe-deposit-box .alias {
+    color: #999;
+    font-size:0.7rem !important;
+    font-weight: 400;
+    padding: 0;
+}
+.row.safe-deposit-box .name span, .row.safe-deposit-box .alias span {
+    color: #37a6de;
+    font-weight: 600;
+    font-size:0.95rem !important;
+}
+
+.row.lock-box .name, .row.lock-box .alias {
+    background: #f0fff8;
+    color: #1e2d26;
+    font-size:0.8rem !important;
+    font-weight: 600;
+    text-transform: uppercase;
+    padding: 0;
+}
+
+/************************************************************************************************/
+
 
 i.fas.fa-wifi.lock-on { color: #07b00b; font-size: 1.7rem; }
 i.fas.fa-wifi.lock-off { color: red; font-size: 177rem; }
@@ -1552,52 +1731,8 @@ i.wifi-high { color: green; }
 i.wifi-medium { color: orange; }
 i.wifi-low { color: red; }
 i.wifi-empty { color: grey; }
-.bat-percentage { letter-spacing:0px; font-size:0.6rem; }
-.div-assigned-lock {
-    display: grid; 
-    grid-template-columns: 33% 33% 33%; 
-    background: #e5eaee;
-}
-a.btn.btn-outline-warning {
-    font-size:0.75rem;
-    width: 100px !important;
-    padding: 4px 1px 4px 1px !important;
-}
-a.btn.btn-outline-warning.large { width: 130px !important; }
-.btn-outline-warning {
-    color: #ff9200 !important;
-    background-color: #fff;
-    border-color: #ff9200 !important;
-}
-.btn-outline-warning:hover { color: #fff !important; }
-.btn.btn-delete {
-    background-color: #ff3814;
-	border-radius: 1.5rem;
-    color: #fff !important;
-    font-size: 0.9em;
-    line-height: 1;
-    padding: 5px !important;
-}
-.row.lock-box { margin: 10px; }
-.row.lock-box .name,
-.row.lock-box .alias {
-    /*
-    background: #3b88ff;
-    color: #fff;
-    font-size:0.8rem !important;
-    font-weight: 600;
-    text-transform: uppercase;
-    padding: 0;
-    */
 
-    /* PRUEBA DE VERDE */
-    background: #f0fff8;
-    color: #1e2d26;
-    font-size:0.8rem !important;
-    font-weight: 600;
-    text-transform: uppercase;
-    padding: 0;
-}
+
 .row.lock-box .alias-common {
     background: #777;
     color: #fff;
@@ -1627,7 +1762,7 @@ a.btn.btn-green {
     color: #5b7898 !important;
 }
 #lock-details .nav-link.active {
-    background: #5b7898 !important;
+    background: #ff7805 !important;
     color: white !important;
 }
 
