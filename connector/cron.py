@@ -89,15 +89,19 @@ def winhotel_price_schedule(project_uuid):
     not_updated = []
     project = get_or_none(Project, project_uuid, "uuid")
     project_name = project.name if project != None else "---"
-    result = "Importar precios Winhotel {} {}\n".format(project_name, datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
+    now = datetime.now()
+    result = "Importar precios Winhotel {} {}\n".format(project_name, now.strftime("%Y-%m-%d %H:%M:%S"))
     result += "-----------------------------------------------------"
     try:
-        pau = ProjectWinhotelUser.objects.filter(project_uuid=project.uuid).first()
         #url = "ftp://L0F98HH:P00IkMMhs!2@51.38.104.89/20231107_Products_07__TPV_HIGO.CSV"
-        url = "ftp://{}/20231107_{}".format(pau.ftp, pau.ftp_filename)
+        pau = ProjectWinhotelUser.objects.filter(project_uuid=project.uuid).first()
+        fname = "{}_{}".format(now.strftime("%Y%m%d"), pau.ftp_filename)
+
+        url = "ftp://{}/{}".format(pau.ftp, fname)
         subprocess.run(['wget', '-P', 'media', url])
-        filename = "{}_Products_07__TPV_HIGO.CSV".format(datetime.now().strftime("%Y%m%d"))
-        file = open(os.path.join(settings.BASE_DIR, "media", filename), 'rb')
+
+        file = open(os.path.join(settings.BASE_DIR, "media", fname), 'rb')
+
         updated, not_updated = wh_import_item_prices(file, project_uuid)
         result += render_to_string('winhotel/booking-price-log.html', {'updated': updated, "not_updated": not_updated})
     except Exception as e:

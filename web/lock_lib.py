@@ -50,6 +50,14 @@ class ShLock:
         except Exception as e:
             return e
 
+    def get_lock_wifi(self, lock_id):
+        try:
+            wifi = self.ttlock.lock_get_wifi(lock_id)
+            val = "{}|{};".format(str(wifi.get("networkName")), str(gateway.get("rssiGrade")))
+            return val[:-1] if len(val) > 0 else val
+        except Exception as e:
+            return e
+
     def open_lock_by_id(self, lock_id):
         try:
             return self.ttlock.unlock(int(lock_id))

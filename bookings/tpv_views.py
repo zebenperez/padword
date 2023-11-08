@@ -314,8 +314,15 @@ def tpv_order_send(request):
                 pos = get_or_none(PointOfSale, request.session["point_of_sale"])
                 band = get_or_none(Wristband, band_id)
                 add_balance_to_band(pos, fi, band)
+
+                if band != None:
+                    pwu = get_or_none(ProjectWinhotelUser, fi.form.project.uuid, "project_uuid")
+                    if pwu != None and pwu.source_code != "":
+                        send_charges(pwu, fi, band)
+
         fi.save()
         set_desc(fi, desc)
+
         context = {'msg': fi.get_status.status.code, 'project_uuid': fi.form.project.uuid, "mobile": mobile}
         return render(request, 'bookings/tpv/show-msg.html', context)
     except Exception as e:
@@ -381,8 +388,8 @@ def get_food_total(fi):
     total =  ShoppingCart.objects.filter(form_instance_id=fi.pk, item__ext_id__gte=50000).aggregate(Sum('item__price'))["item__price__sum"]
     return total if total != None else -1
 
-def send_charges(fi, band):
-    pau = get_or_none(ProjectWinhotelUser, fi.form.project.uuid, "project_uuid")
+def send_charges(pwu, fi, band):
+    #pau = get_or_none(ProjectWinhotelUser, fi.form.project.uuid, "project_uuid")
     booking_code = guest.ext_id
     room_code = band.guest.room
     contact_name = "{} {}".format(band.guest.name, band.guest.surname)
@@ -392,7 +399,11 @@ def send_charges(fi, band):
     source = ""
     source_document = ""
     date = fi.date.strftime("%Y-%m-%dT%H:%M:%S")
-    total_amount = fi.get_total()
+    #total_amount = fi.get_total()
+    total_amount_drink = get_drinks_total(fi)
+    total_amount_food = get_food_total(fi)
     cash_code = ""
 
-    send_charge(pau,booking_code,room_code,contact_name,contact_id,has_credit,limit_credit,source,source_document,date,total_amount,cash_code)
+    send_charge(pwu,booking_code,room_code,contact_name,contact_id,has_credit,limit_credit,source,source_document,date,total_amount_drink,cash_code)
+    send_charge(pwu,booking_code,room_code,contact_name,contact_id,has_credit,limit_credit,source,source_document,date,total_amount_food,cash_code)
+

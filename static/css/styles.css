@@ -436,10 +436,16 @@ span.status-info {
 /*    text-transform: uppercase;*/
 	white-space: nowrap;
 }
+/*
 .toolbar-content.guests {
     align-items: center;
     display:grid; 
     grid-template-columns: 25% 50% 25%;
+}
+*/
+
+.bg-guest-opt {
+    background: #e5e9ee; color: #143e53; border-bottom-style: dashed; border-width: 1px;
 }
 
 span.sub-h2 { 
@@ -1033,6 +1039,10 @@ ul.left-menu li.nav-item a.nav-link i:hover {
 /* modal style */
 
 /* ROOMS */
+
+.info-box.green.adm {
+    font-size: 1rem;
+}
 
 .info-box.green {
     background: #7fb927;
