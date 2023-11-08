@@ -648,3 +648,161 @@ class TicketViewSet(viewsets.ViewSet):
             logger.error("[{}]: \"{}\"".format(self.request.user, str(e)))
             return Response({"error": True, 'msg': 'Bad request!'})
 
+
+class DepositBoxViewSet(viewsets.ModelViewSet):
+    """
+    API endpoint that allows users to be viewed or edited.
+    """
+    queryset = Lock.objects.none()
+    serializer_class = LockSerializer
+    permission_classes = [IsAuthenticated,]
+
+    def serialize_depositbox(self, item):
+        if item != None:
+            return Response(LockSerializer(item, many=False).data)
+        return Response({"error": True})
+
+    def get_queryset(self):
+        try:
+            pu = ProjectUser.objects.get(username=self.request.user.username)
+            logger.info("[{}]: \"Deposit box list\"".format(self.request.user))
+            return Lock.objects.filter(project_uuid=pu.project_uuid)
+        except:
+            logger.error("[{}]: \"{}\"".format(self.request.user, str(e)))
+            return Lock.objects.none()
+
+    def create(self, request):
+        logger.error("[{}]: \"Create function is not offered in this path.\"".format(self.request.user))
+        response = {'message': 'Create function is not offered in this path.'}
+        return Response(response, status=status.HTTP_403_FORBIDDEN)
+
+    def retrieve(self, request, pk=None):
+        logger.error("[{}]: \"Retrieve function is not offered in this path.\"".format(self.request.user))
+        response = {'message': 'Retrieve function is not offered in this path.'}
+        return Response(response, status=status.HTTP_403_FORBIDDEN)
+
+    def destroy(self, request, pk=None):
+        logger.error("[{}]: \"Destroy function is not offered in this path.\"".format(self.request.user))
+        response = {'message': 'Destroy function is not offered in this path.'}
+        return Response(response, status=status.HTTP_403_FORBIDDEN)
+
+    def update(self, request, pk=None):
+        logger.error("[{}]: \"Update function is not offered in this path.\"".format(self.request.user))
+        response = {'message': 'Update function is not offered in this path.'}
+        return Response(response, status=status.HTTP_403_FORBIDDEN)
+
+    def partial_update(self, request, pk=None):
+        logger.error("[{}]: \"Partial update function is not offered in this path.\"".format(self.request.user))
+        response = {'message': 'Update function is not offered in this path.'}
+        return Response(response, status=status.HTTP_403_FORBIDDEN)
+
+    @action(detail=False, methods=['get'])
+    def get_passcodes(self, request):
+        try:
+            pu = ProjectUser.objects.get(username=self.request.user.username)
+            lock = Lock.objects.get(uuid = request.GET["uuid"], project_uuid = pu.project_uuid)
+            code_list = lock.get_all_passcodes()
+            c_list = []
+            for c in code_list:
+                dic = {"uuid":c["lockId"],"code_id":c["keyboardPwdId"],"startDate":c["startDate"],"endDate":c["endDate"],"type":c["keyboardPwdType"],"passcode":c["keyboardPwd"]}
+                c_list.append(dic)
+            logger.info("[{}]: \"Get passcode of deposit box {}\"".format(self.request.user, lock.uuid))
+            return Response(c_list, status=status.HTTP_200_OK)
+        except Exception as e:
+            logger.error("[{}]: \"{}\"".format(self.request.user, str(e)))
+            return Response({"error": 'true', 'msg': 'Bad request!'})
+
+    @action(detail=False, methods=['get'])
+    def get_passcode_by_ext_id(self, request):
+        try:
+            pu = ProjectUser.objects.get(username=self.request.user.username)
+            ext_id = request.GET["ext_id"]
+            lcei = LockCodeExtId.objects.filter(project_uuid=pu.project_uuid, ext_id=ext_id).first()
+            if lcei == None:
+                logger.error("[{}]: \"External code not found!\"".format(self.request.user))
+                return Response({"error": True, "msg": "External code not found!"})
+            lock = Lock.objects.get(uuid = lcei.lock_uuid, project_uuid = pu.project_uuid)
+            code_list = lock.get_all_passcodes()
+            c_list = []
+            for c in code_list:
+                if c["keyboardPwd"] == lcei.code:
+                    dic = {"uuid":c["lockId"],"code_id":c["keyboardPwdId"],"startDate":c["startDate"],"endDate":c["endDate"],"type":c["keyboardPwdType"],"passcode":c["keyboardPwd"],"ext_id":ext_id}
+                    c_list.append(dic)
+            logger.info("[{}]: \"Get passcode of deposit box {}\"".format(self.request.user, lock.uuid))
+            return Response(c_list, status=status.HTTP_200_OK)
+        except Exception as e:
+            logger.error("[{}]: \"{}\"".format(self.request.user, str(e)))
+            return Response({"error": 'true', 'msg': 'Bad request!'})
+
+
+    @action(detail=False, methods=['post'])
+    def add_passcode(self, request):
+        try:
+            pu = ProjectUser.objects.get(username=self.request.user.username)
+            lock_uuid = request.POST["uuid"]
+            code = request.POST["code"]
+            name = request.POST["name"] if "name" in request.POST else ""
+            start_date = datetime.strptime(request.POST.get('start_date', ""), "%Y-%m-%d %H:%M")
+            end_date = datetime.strptime(request.POST.get('end_date', ""), "%Y-%m-%d %H:%M")
+            start_date_gmt = pu.project.gmt_date(start_date)
+            end_date_gmt = pu.project.gmt_date(end_date)
+            lock = Lock.objects.get(uuid=lock_uuid, project_uuid=pu.project_uuid)
+            #err = lock.set_code(code, start_date, end_date, name)
+            err = lock.set_code(code, start_date_gmt, end_date_gmt, name)
+
+            if "ext_id" in request.POST:
+                ext_id = request.POST["ext_id"]
+                lcei, created = LockCodeExtId.objects.get_or_create(project_uuid=pu.project_uuid, lock_uuid=lock.uuid, code=code, ext_id=ext_id)
+
+            if "Error" in str(err):
+                logger.error("[{}]: \"{}\"".format(self.request.user, str(err)))
+                return Response({"error": True, "msg": str(err)})
+            else:
+                logger.info("[{}]: \"Added passcode to deposit box {}\"".format(self.request.user, lock_uuid))
+                return Response({"error": False, "code_id": err, "msg": "Code added successfully!"}, status=status.HTTP_200_OK)
+        except Exception as e:
+            logger.error("[{}]: \"{}\"".format(self.request.user, str(e)))
+            return Response({"error": True, 'msg': 'Bad request!'})
+
+    @action(detail=False, methods=['post'])
+    def change_passcode(self, request):
+        try:
+            pu = ProjectUser.objects.get(username=self.request.user.username)
+            lock_uuid = request.POST["uuid"]
+            code_id = request.POST["code_id"]
+            code = request.POST["code"]
+            start_date = datetime.strptime(request.POST.get('start_date', ""), "%Y-%m-%d %H:%M")
+            end_date = datetime.strptime(request.POST.get('end_date', ""), "%Y-%m-%d %H:%M")
+            start_date_gmt = pu.project.gmt_date(start_date)
+            end_date_gmt = pu.project.gmt_date(end_date)
+            lock = Lock.objects.get(uuid=lock_uuid, project_uuid=pu.project_uuid)
+            #err = lock.change_code(code_id, code, start_date, end_date)
+            err = lock.change_code(code_id, code, start_date_gmt, end_date_gmt)
+            if "Error" in str(err):
+                logger.error("[{}]: \"{}\"".format(self.request.user, str(err)))
+                return Response({"error": True, "msg": str(err)})
+            else:
+                logger.info("[{}]: \"Changed passcode to deposit box {}\"".format(self.request.user, lock_uuid))
+                return Response({"error": False, "msg": "Code changed successfully!"}, status=status.HTTP_200_OK)
+        except Exception as e:
+            logger.error("[{}]: \"{}\"".format(self.request.user, str(e)))
+            return Response({"error": True, 'msg': 'Bad request!'})
+
+    @action(detail=False, methods=['post'])
+    def remove_passcode(self, request):
+        try:
+            pu = ProjectUser.objects.get(username=self.request.user.username)
+            lock_uuid = request.POST["uuid"]
+            code_id = request.POST["code_id"]
+            lock = Lock.objects.get(uuid=lock_uuid, project_uuid=pu.project_uuid)
+            err = lock.remove_code(code_id)
+            if "Error" in str(err):
+                logger.error("[{}]: \"{}\"".format(self.request.user, str(err)))
+                return Response({"error": True, "msg": str(err)})
+            else:
+                logger.info("[{}]: \"Removed passcode to deposit box {}\"".format(self.request.user, lock_uuid))
+                return Response({"error": False, "msg": "Code removed successfully!"}, status=status.HTTP_200_OK)
+        except Exception as e:
+            logger.error("[{}]: \"{}\"".format(self.request.user, str(e)))
+            return Response({"error": True, 'msg': 'Bad request!'})
+

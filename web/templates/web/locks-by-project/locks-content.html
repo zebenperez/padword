@@ -20,10 +20,10 @@
     $(".toggle-main").click(function(){
         let id = '#'+$(this).data('toggle');
         $(id).toggle(); 
-        if ($(id).is(':visible'))
+        /*if ($(id).is(':visible'))
             $('input:checkbox').not($('#perm')).prop('checked', 'checked');
         else
-            $('input:checkbox').not(this).prop('checked', '');
+            $('input:checkbox').not(this).prop('checked', '');*/
         $('#action').val($(this).data("action"));
     }); 
 </script>

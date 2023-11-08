@@ -1042,13 +1042,15 @@ ul.left-menu li.nav-item a.nav-link i:hover {
 
 .info-box.green.adm {
     font-size: 1rem;
+    min-height: 100%;
 }
 
 .info-box.green {
     background: #7fb927;
     color: #fff;
-    font-size: 1.5rem;
+    font-size: 1.3rem;
     letter-spacing: 0px;
+    min-height: 100%;
 }
 .info-box.green span.title {
     font-size: 0.8rem;
@@ -1057,11 +1059,13 @@ ul.left-menu li.nav-item a.nav-link i:hover {
 .info-box.green .icon {
     float: right;
 }
+.info-box.green .icon .fa.fa-sort, 
+.info-box.green .icon .fas.fa-user, 
 .info-box.green .icon .fas.fa-bed, 
 .info-box.green .icon .fas.fa-hotel, 
 .info-box.green .icon .fas.fa-key
 {
-    font-size: 2rem !important; 
+    font-size: 1.8rem !important; 
     color: #cfe974;
 }
 
@@ -1075,6 +1079,7 @@ ul.left-menu li.nav-item a.nav-link i:hover {
     color: #fff;
     font-size: 2rem;
     letter-spacing: 0px;
+    min-height: 100%;
 }
 .info-box span.title {
     font-size: 0.8rem;
