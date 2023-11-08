@@ -10,7 +10,7 @@ from connector.models import ProjectAvantioUser, ProjectWinhotelUser
 from padword.commons import get_or_none
 from padword.email_lib import send_email
 
-import os
+import os, subprocess
 
 
 def avantio_booking_schedule(project_uuid):
@@ -92,6 +92,10 @@ def winhotel_price_schedule(project_uuid):
     result = "Importar precios Winhotel {} {}\n".format(project_name, datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
     result += "-----------------------------------------------------"
     try:
+        pau = ProjectWinhotelUser.objects.filter(project_uuid=project.uuid).first()
+        #url = "ftp://L0F98HH:P00IkMMhs!2@51.38.104.89/20231107_Products_07__TPV_HIGO.CSV"
+        url = "ftp://{}/20231107_{}".format(pau.ftp, pau.ftp_filename)
+        subprocess.run(['wget', '-P', 'media', url])
         filename = "{}_Products_07__TPV_HIGO.CSV".format(datetime.now().strftime("%Y%m%d"))
         file = open(os.path.join(settings.BASE_DIR, "media", filename), 'rb')
         updated, not_updated = wh_import_item_prices(file, project_uuid)

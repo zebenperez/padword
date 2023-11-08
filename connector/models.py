@@ -42,6 +42,8 @@ class ProjectWinhotelUser(models.Model):
     minute = models.IntegerField(verbose_name=_('Minutes to import notifications'), default=0)
     source_code = models.CharField(max_length=255, verbose_name=_('Source code'), default="")
     target_code = models.CharField(max_length=255, verbose_name=_('Target code'), default="")
+    ftp = models.CharField(max_length=900, verbose_name=_('FTP'), default="")
+    ftp_filename = models.CharField(max_length=255, verbose_name=_('FTP Filename'), default="")
     project_uuid = models.CharField(max_length=255, verbose_name=_('Project UUID'), default="")
 
     @property

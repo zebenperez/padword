@@ -11,30 +11,35 @@
     </div>
 
     <div class="content mt-4">
-        <div class="toolbar-content"> 
-            <h2 class="">{% trans 'Guests' %} (<span id="total-items">{{total_items}}</span>)</h2> 
-            {% if project.guest_delete < 9999 %}
-                <a class="btn btn-primary ark" data-url="{% url "guest-soft-remove-all-by-project" %}" data-target="guest-list">
-                    {%trans "Remove clients with checkout previous to" %} {{limit}}</a>
-            {% endif %}
-            {% if project.winhotel_user != None and project.winhotel_user.source_code != "" %}
-                <a class="btn btn-primary ark" data-url="{% url "winhotel-get-booking-list" project.uuid %}" data-target-modal="common-modal"> 
-                    {%trans "Import winhotel bookings"%}</a>  
-            {% endif %}
-            {% if project.avaibook_user != None and project.avaibook_user.uuid != "" %}
-                <a class="btn btn-primary ark" data-url="{% url "avaibook-get-booking-list" project.uuid %}" data-target-modal="common-modal"> 
-                    {%trans "Import avaibook bookings"%}</a>  
-                <a class="btn btn-primary ark" data-url="{% url "avaibook-get-accommodation-list" project.uuid %}" data-target-modal="common-modal"> 
-                    {%trans "Import avaibook accommodation"%}</a>  
-            {% endif %}
-            {% if project.avantio_user != None and project.avantio_user.username != "" %}
-                <a class="btn btn-primary ark" data-url="{% url "avantio-get-booking-list" project.uuid %}" data-target-modal="common-modal"> 
-                    {%trans "Import avantio bookings"%}</a>  
-                <a class="btn btn-primary ark" data-url="{% url "avantio-get-booking-notif" project.uuid %}" data-target-modal="common-modal"> 
-                    {%trans "Avantio notifications"%}</a>  
-            {% endif %}
+        <div class="row m-0 p-2">
             {#<a class="btn btn-primary ark" data-url="{%url "guest-form-by-project"%}" data-target-modal="common-modal">{%trans "New guest"%}</a>  #}
-            <a class="btn btn-primary" href="{% url "guest-details-by-project" %}"> {%trans "New guest"%}</a>  
+            <div class="col-10"><h2 class="">{% trans 'Guests' %} (<span id="total-items">{{total_items}}</span>)</h2></div>
+            <div class="col-2"><a class="btn btn-primary" href="{% url "guest-details-by-project" %}"> {%trans "New guest"%}</a></div>  
+        </div>
+
+        <div class="toolbar-content_"> 
+            <div class="w-100" style="border:1px solid red">
+                {% if project.guest_delete < 9999 %}
+                    <a class="btn btn-primary ark" data-url="{% url "guest-soft-remove-all-by-project" %}" data-target="guest-list">
+                        {%trans "Remove clients with checkout previous to" %} {{limit}}</a>
+                {% endif %}
+                {% if project.winhotel_user != None and project.winhotel_user.source_code != "" %}
+                    <a class="btn btn-primary ark" data-url="{% url "winhotel-get-booking-list" project.uuid %}" data-target-modal="common-modal"> 
+                        {%trans "Import winhotel bookings"%}</a>  
+                {% endif %}
+                {% if project.avaibook_user != None and project.avaibook_user.uuid != "" %}
+                    <a class="btn btn-primary ark" data-url="{% url "avaibook-get-booking-list" project.uuid %}" data-target-modal="common-modal"> 
+                        {%trans "Import avaibook bookings"%}</a>  
+                    <a class="btn btn-primary ark" data-url="{% url "avaibook-get-accommodation-list" project.uuid %}" data-target-modal="common-modal"> 
+                        {%trans "Import avaibook accommodation"%}</a>  
+                {% endif %}
+                {% if project.avantio_user != None and project.avantio_user.username != "" %}
+                    <a class="btn btn-primary ark" data-url="{% url "avantio-get-booking-list" project.uuid %}" data-target-modal="common-modal"> 
+                        {%trans "Import avantio bookings"%}</a>  
+                    <a class="btn btn-primary ark" data-url="{% url "avantio-get-booking-notif" project.uuid %}" data-target-modal="common-modal"> 
+                        {%trans "Avantio notifications"%}</a>  
+                {% endif %}
+            </div>
         </div>
         <div id="guest-list"> {% include "guest-by-project/guest-list.html" %} </div>
     </div>

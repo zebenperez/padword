@@ -202,7 +202,8 @@ class Winhotel:
             #print(_json_datas.replace("__DEL__", ""))
             #_headers = {'Content-Type': 'application/x-www-form-urlencoded', 'Token': '43bedb65e2fa3a57dd19650c7f67a1cb648644f8'}
             _headers = {'content-type': 'application/json', 'Accept-Charset': 'UTF-8'}
-            _response = requests.post(_url_request, headers=_headers, data=_json_datas.replace("__DEL__", ""))
+            #_response = requests.post(_url_request, headers=_headers, data=_json_datas.replace("__DEL__", ""))
+            _response = requests.post(_url_request, headers=_headers, data=_json_datas)
             _response.raise_for_status()
             return _response
         except requests.exceptions.HTTPError as errh:
@@ -266,10 +267,10 @@ class Winhotel:
                 "QueryOperator": 1,
                 "Value": start_date
             },
-            "StartDateQueryParameter__DEL__": {
-                "QueryOperator": 4,
-                "Value": end_date
-            }
+            #"StartDateQueryParameter__DEL__": {
+            #    "QueryOperator": 4,
+            #    "Value": end_date
+            #}
             #"EndDateQueryParameter": {
             #    "QueryOperator": 0,
             #    "Value": "2023-09-28T15:31:56.9578083+02:00"
