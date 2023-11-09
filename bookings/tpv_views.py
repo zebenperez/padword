@@ -215,11 +215,14 @@ def tpv_add_item(request):
         obj = ShoppingCart.objects.create(form_instance_id=fi.id,item=item,category=item.category.name,name=item.name,price=item.price,comments='')
         fi.update_item_low_price(obj)
 
-        mobile = get_param(request.GET, "mobile")
-        temp = "view-ticket-mobile.html" if mobile != "" else "view-ticket.html"
-
         instance = FormInstance.objects.get(pk=form_id)
-        return render(request, "bookings/tpv/{}".format(temp), {'fi':instance,})
+        return render(request, "bookings/tpv/view-ticket.html".format(temp), {'fi':instance,})
+
+        #mobile = get_param(request.GET, "mobile")
+        #temp = "view-ticket-mobile.html" if mobile != "" else "view-ticket.html"
+
+        #instance = FormInstance.objects.get(pk=form_id)
+        #return render(request, "bookings/tpv/{}".format(temp), {'fi':instance,})
         #items = instance.items_in_bookings(item).count()
         #return render(request, "bookings/tpv/show-instance-result.html", {'fi':instance,'item':item,'items':items})
     except Exception as e:
@@ -234,11 +237,12 @@ def tpv_order_remove(request):
         form = fi.form
         fi.delete()
 
-        mobile = get_param(request.GET, "mobile")
-        if mobile != "":
-            return redirect(reverse("tpv-mob-index", kwargs = {'project_uuid': form.project.uuid}))
-        else:
-            return redirect(reverse("tpv-index", kwargs = {'project_uuid': form.project.uuid}))
+        return redirect(reverse("tpv-index", kwargs = {'project_uuid': form.project.uuid}))
+        #mobile = get_param(request.GET, "mobile")
+        #if mobile != "":
+        #    return redirect(reverse("tpv-mob-index", kwargs = {'project_uuid': form.project.uuid}))
+        #else:
+        #    return redirect(reverse("tpv-index", kwargs = {'project_uuid': form.project.uuid}))
     except Exception as e:
         print(e)
         logger.error("[bookings-remove_fi] {}".format(str(e)))
@@ -252,10 +256,12 @@ def tpv_order_item_remove(request):
         fi = get_or_none(FormInstance, obj.form_instance_id)
         obj.delete()
 
-        mobile = get_param(request.GET, "mobile")
-        temp = "view-ticket-mobile.html" if mobile != "" else "view-ticket.html"
+        return render(request, "bookings/tpv/view-ticket.html".format(temp), {'fi':fi,})
 
-        return render(request, "bookings/tpv/{}".format(temp), {'fi':fi,})
+        #mobile = get_param(request.GET, "mobile")
+        #temp = "view-ticket-mobile.html" if mobile != "" else "view-ticket.html"
+
+        #return render(request, "bookings/tpv/{}".format(temp), {'fi':fi,})
     except Exception as e:
         print(e)
         return render(request, "error_exception.html", {'exc':show_exc(e)})
@@ -266,12 +272,13 @@ def tpv_order_item_comment(request):
         item_id = request.GET["item_id"]
         form_id = request.GET["form_id"]
         obj = get_or_none(ShoppingCart, int(item_id))
+        return render(request, "bookings/tpv/shopping-form.html", {'obj':obj, 'form_id':form_id})
         #temp = get_param(request.GET, "template")
         #template = "bookings/tpv/{}.html".format(temp) if temp != "" else "bookings/tpv/shopping-form.html"
-        mobile = get_param(request.GET, "mobile")
-        temp = "shopping-form-mobile.html" if mobile != "" else "shopping-form.html"
+        #mobile = get_param(request.GET, "mobile")
+        #temp = "shopping-form-mobile.html" if mobile != "" else "shopping-form.html"
 
-        return render(request, "bookings/tpv/{}".format(temp), {'obj':obj, 'form_id':form_id})
+        #return render(request, "bookings/tpv/{}".format(temp), {'obj':obj, 'form_id':form_id})
         #return render(request, template, {'obj':obj, 'form_id':form_id})
         #return render(request, "bookings/tpv/shopping-form.html", {'obj':obj, 'form_id':form_id})
     except Exception as e:
@@ -301,7 +308,7 @@ def tpv_order_send(request):
         amount_user = get_param(request.GET, "amount_user", "")
         band_id = get_param(request.GET, "band", "")
         desc = get_param(request.GET, "desc", "")
-        mobile = get_param(request.GET, "mobile", "")
+        #mobile = get_param(request.GET, "mobile", "")
 
         fi = get_or_none(FormInstance, fi_id)
         fi.set_status("01", request.user, "")
@@ -323,7 +330,8 @@ def tpv_order_send(request):
         fi.save()
         set_desc(fi, desc)
 
-        context = {'msg': fi.get_status.status.code, 'project_uuid': fi.form.project.uuid, "mobile": mobile}
+        #context = {'msg': fi.get_status.status.code, 'project_uuid': fi.form.project.uuid, "mobile": mobile}
+        context = {'msg': fi.get_status.status.code, 'project_uuid': fi.form.project.uuid}
         return render(request, 'bookings/tpv/show-msg.html', context)
     except Exception as e:
         print(e)
