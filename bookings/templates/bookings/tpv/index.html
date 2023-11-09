@@ -5,7 +5,7 @@
     {% if point_of_sales|length > 0 %}
         <div class="row d-flex justify-content-center m-0">
             {% for item in point_of_sales %}
-                <div class="col-lg-4 col-12">
+                <div class="col-lg-4 col-12 mt-3">
                     <button class="menu-options ark" data-url="{%url "tpv-set-pos"%}" data-target="base" data-obj_id="{{item.id}}"
                         {%if item.image%}style="background-image:url({{item.image.url}})"{%endif%}>
                         {{item.name}}</button>
@@ -16,7 +16,7 @@
         <div class="row d-flex justify-content-start m-0">
             <input class="form-control tpv-table-search" data-search-class="table-card" placeholder="{%trans "Seleccionar mesa a buscar..."%}"/>
             {% for item in tables %}
-                <div class="col-lg-3 col-12 table-card" data-name="{{item.name}}">
+                <div class="col-lg-3 col-12 table-card mt-3" data-name="{{item.name}}">
                     <button class="menu-options tables ark" data-url="{%url "tpv-set-table"%}" data-target="base" data-obj_id="{{item.id}}">
                          <div class="row w-100 m-0">
                             <div class="col-9 text-left">{{item.name}}</div>
