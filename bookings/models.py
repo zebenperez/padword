@@ -486,8 +486,8 @@ class FormInstance(models.Model):
         return ShoppingCart.objects.filter(form_instance_id__in = list(fi_list)).order_by('form_instance_id')
  
     @staticmethod
-    def get_open_in_table(table):
-        return FormInstance.objects.filter(table_uuid = table.uuid, status_list__isnull = True).first()
+    def get_open_in_table(pos, table):
+        return FormInstance.objects.filter(pos_uuid = pos.uuid, table_uuid = table.uuid, status_list__isnull = True).first()
 
     class Meta:
         verbose_name = _('1.- Form instance')

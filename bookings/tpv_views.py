@@ -94,7 +94,7 @@ def tpv_index(request, project_uuid):
         elif "table" not in request.session or request.session["table"] == "":
             pos = get_or_none(PointOfSale, request.session["point_of_sale"])
             tables = Table.objects.filter(point_of_sale=pos)
-            return render(request, "bookings/tpv/index.html", {'tables': tables,})
+            return render(request, "bookings/tpv/index.html", {'pos': pos, 'tables': tables})
         else:
             form = Form.objects.filter(form_type__code="tpv", form_type__project_uuid=project.uuid).first()
             pos = get_or_none(PointOfSale, request.session["point_of_sale"])

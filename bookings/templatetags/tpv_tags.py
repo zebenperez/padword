@@ -9,7 +9,7 @@ register=template.Library()
 	Inclusion tag
 '''
 @register.inclusion_tag('bookings/tpv/tpv-table-info.html')
-def get_table_info(table):
-    fi = FormInstance.get_open_in_table(table)
+def get_table_info(pos, table):
+    fi = FormInstance.get_open_in_table(pos, table)
     return {"fi": fi}
 
