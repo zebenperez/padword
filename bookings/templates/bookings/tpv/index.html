@@ -27,12 +27,15 @@
             {% endfor %}
         </div>
     {% else %}
+        {% include "bookings/tpv/index-main.html" %}
+    {%comment%}
         <div class="w-100 d-none d-sm-block">
             {% include "bookings/tpv/index-main.html" %}
         </div>
         <div class="w-100 d-block d-sm-none">
             {% include "bookings/tpv/index-mobile.html" %}
         </div>
+    {%endcomment%}
     {% endif %}
 </div>
 
