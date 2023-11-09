@@ -7,12 +7,15 @@
         {% include "bookings/tpv/view-guest-info.html" %}</div></div>
 
         <div class="row summary-price-tpv btn-dark">
-            <div class="col-5 text-left pt-1 pb-1">
+            <div class="col-12 text-left pt-1 pb-1">
                 <strong>
-                    {% padword_translate fi.form.get_category.parent.name %} 
-                    {% padword_translate fi.form.get_category.name %}&nbsp;({{items|length}} {% trans 'art.' %})</strong>
+                    {% padword_translate fi.form.get_category.parent.name %}
+                    {% padword_translate fi.form.get_category.name %}</strong>
             </div>
-            <div class="col-7 price-tpv text-right" id="div-total-shopping-cart">
+            <div class="col-4 price-tpv text-left"> 
+                <span class="small">({{items|length}} {% trans 'art.' %})</span>
+            </div>
+            <div class="col-8 price-tpv text-right" id="div-total-shopping-cart">
                 <strong>{%trans 'Total price'%}: {{total|floatformat:2}} &euro;</strong></div>
         </div>
         {% if regime %}

@@ -13,15 +13,14 @@
 #base button.menu-options 
 {
 	background-color: #ffffff;
+    background-size: cover;
 	border:1px solid #a1c517;
 	border-radius: 5px;
 	color: #a1c517;
 	font-size: 1.875em;
 	font-weight: 600;
 	text-transform: capitalize;
-	padding: 50px 0 50px 0 !important;
-	width: 98%;
-	margin: 1%;
+	padding: 100px;
 }
 
 .table-box {
