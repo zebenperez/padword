@@ -31,6 +31,7 @@
 	font-size: 1.5em !important;
 	padding: 0 !important;
 	border:1px solid #35a8e0;
+    width: 100%;
 } 
 #base button.menu-options.tables .row {
 	background-color: #35a8e0;
