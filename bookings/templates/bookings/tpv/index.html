@@ -5,9 +5,9 @@
     {% if point_of_sales|length > 0 %}
         <div class="row d-flex justify-content-center m-0">
             {% for item in point_of_sales %}
-                <div class="col-lg-5 col-12 mt-3 menu-options ark" data-url="{%url "tpv-set-pos"%}" data-target="base" data-obj_id="{{item.id}}"
-                        {%if item.image%}style="background-image:url({{item.image.url}})"{%endif%}>
-                        {{item.name}}
+                <div class="col-lg-5 col-12 mt-3 menu-options ark p-0" data-url="{%url "tpv-set-pos"%}" data-target="base" data-obj_id="{{item.id}}"
+                        {%if item.image%}style="background-image:url({{item.image.url}});"{%endif%}>
+                    <div class="point-name" style="width: 100%;background: white; opacity: 0.8;">{{item.name}}</div>
                 </div>
             {% endfor %}
         </div>
@@ -28,14 +28,12 @@
         </div>
     {% else %}
         {% include "bookings/tpv/index-main.html" %}
-    {%comment%}
         <div class="w-100 d-none d-sm-block">
             {% include "bookings/tpv/index-main.html" %}
         </div>
         <div class="w-100 d-block d-sm-none">
             {% include "bookings/tpv/index-mobile.html" %}
         </div>
-    {%endcomment%}
     {% endif %}
 </div>
 

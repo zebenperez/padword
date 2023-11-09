@@ -165,7 +165,7 @@ def wristbands_search(request):
     Wristbands by project
 '''
 @group_required("projects")
-def wristbands(request):
+def wristbands_by_project(request):
     try:
         return render (request, "wristbands-by-project/wristbands.html", {'active': 'searchkeycard'})
     except Exception as e:
@@ -173,7 +173,7 @@ def wristbands(request):
         return render(request, 'error_exception.html', {'exc':show_exc(e)})
 
 @group_required("projects")
-def wristbands_search(request):
+def wristbands_search_by_project(request):
     try:
         project = get_or_none(Project, request.project_id)
         value = reverse_cardkey(get_param(request.GET, "value"))

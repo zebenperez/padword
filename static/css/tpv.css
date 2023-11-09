@@ -19,9 +19,15 @@
 	color: #a1c517;
 	font-size: 1.875em;
 	font-weight: 600;
-	text-transform: capitalize;
-	padding: 100px;
+/*	padding: 100px;*/
     margin: 1%;
+    height: 300px;
+}
+
+#base .menu-options .point-name  ̣{
+    width: 100%;    
+    background: white !important; 
+    opacity: 0.8;
 }
 
 .table-box {
