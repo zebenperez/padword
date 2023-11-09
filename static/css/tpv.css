@@ -10,7 +10,7 @@
 	background-color: #fff;
 	height: 100%;
 }
-#base button.menu-options 
+#base .menu-options 
 {
 	background-color: #ffffff;
     background-size: cover;
@@ -21,6 +21,7 @@
 	font-weight: 600;
 	text-transform: capitalize;
 	padding: 100px;
+    margin: 1%;
 }
 
 .table-box {

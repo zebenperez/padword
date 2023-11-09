@@ -5,10 +5,9 @@
     {% if point_of_sales|length > 0 %}
         <div class="row d-flex justify-content-center m-0">
             {% for item in point_of_sales %}
-                <div class="col-lg-4 col-12 mt-3">
-                    <button class="menu-options ark" data-url="{%url "tpv-set-pos"%}" data-target="base" data-obj_id="{{item.id}}"
+                <div class="col-lg-5 col-12 mt-3 menu-options ark" data-url="{%url "tpv-set-pos"%}" data-target="base" data-obj_id="{{item.id}}"
                         {%if item.image%}style="background-image:url({{item.image.url}})"{%endif%}>
-                        {{item.name}}</button>
+                        {{item.name}}
                 </div>
             {% endfor %}
         </div>
