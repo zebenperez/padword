@@ -6,7 +6,7 @@
 {% block central_content %}
     <div class="row m-0">
         <div class="col-lg-5 col-12 left-div-cat">
-            <div class="toolbar-search">
+            <div class="toolbar-search p-2">
                 <input type="hidden" name="project_id" id="project_id" value="{{project.uuid}}" />
                 <input type="text" class="autosearch form-control form-control-dark w-100" name="s-name" id="s-name" 
                     placeholder="{% trans 'Name' %}" data-url="{% url "category-search" %}" 

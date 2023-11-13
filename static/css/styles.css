@@ -255,6 +255,13 @@ button.btn.btn-danger.btn-sm.ark {
 
 a.btn.btn-primary.ark, a.btn.btn-secondary.ark { font-size:0.8rem !important; }
 
+/***************************/
+
+
+/***************************/
+/***** Padword Search *****/
+/***************************/
+
 .toolbar-heading {
 	background-color: #f9f9f9;
 	border-top-left-radius: 0.25rem;
@@ -265,33 +272,44 @@ a.btn.btn-primary.ark, a.btn.btn-secondary.ark { font-size:0.8rem !important; }
 	width: 100%;
 }
 
+/*** general search ***/
 .toolbar-search {
 	background-color: #fff;
-	border: 1px solid rgba(0, 0, 0, 0.0625);
-    border-radius: 0.25em;
-	width: 100%;
-}
+    /*border: 1px solid rgba(0, 0, 0, 0.0625);*/
+    border: 1px solid #143e53;
+   /* border-radius: 0.25em;*/
+	width: 99%;
+    margin: auto;
 
+    border-radius: 1.5rem;
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
+}
 .toolbar-search input {
     height:2em;
     margin: 5px 0 0 0 ;
 }
-
 .toolbar-search a {
     height:2.5em;
     margin:6px;
 }
+
+/*** guests search ***/
 .toolbar-search.guests { 
     align-items: center;
     display:grid; 
     grid-template-columns: 3% 50% 47%;
 }
 
+/*** projects search ***/
 .toolbar-search.projects { 
     align-items: center;
     display:grid; 
     grid-template-columns: 1% 2% 97%; 
-}
+ }
+
+/*** companies search ***/
+/* Companies - Rooms - keycards - Notifications   */
+
 .toolbar-search.companies, 
 .toolbar-search.rooms, 
 .toolbar-search.keycards,
@@ -301,18 +319,29 @@ a.btn.btn-primary.ark, a.btn.btn-secondary.ark { font-size:0.8rem !important; }
     grid-template-columns: 3% 97%;
 }
 
+/*** search icons***/
+/* Projects - Companies - Rooms - Keycards - Notifications - Guests  */
+
 .toolbar-search.projects i.fas.fa-search,
 .toolbar-search.companies i.fas.fa-search, 
 .toolbar-search.rooms i.fas.fa-search, 
 .toolbar-search.keycards i.fas.fa-search, 
 .toolbar-search.notifications i.fas.fa-search, 
-.toolbar-search.guests i.fas.fa-search { font-size: 1rem;  color: #777; }
+.toolbar-search.guests i.fas.fa-search { 
+    font-size: 1rem;  
+    color: #143e53; 
+}
+
+
+/*** input search ***/
 
 input#s-name.autosearch.form-control.form-control-dark.w-100,
 input#guest_search_name,
 input#room_search_name,
 input#s-name.autosearch.form-control.form-control-dar.w-100,
-input#keycard_search_name { border: 0 !important; }
+input#keycard_search_name { 
+    border: 0 !important; 
+}
 
 .form-control:disabled, .form-control[readonly] {
     background-color: #f4f4f5 !important;
@@ -382,13 +411,13 @@ input.form-control.highly, .highly {
 }
 
 .right-k {
-    border:1px solid #e0e0e0; 
 	border-radius: 1.5rem;
     display: grid; 
     grid-template-columns: 50% 50%;
     justify-content: center; 
     align-items: center;
     height: 3.2em; 
+    text-align: right !important;
 }
 
 /*******************************/
@@ -433,16 +462,8 @@ span.status-info {
 	margin-bottom:0;
 	overflow: hidden;
 	text-overflow: ellipsis;
-/*    text-transform: uppercase;*/
 	white-space: nowrap;
 }
-/*
-.toolbar-content.guests {
-    align-items: center;
-    display:grid; 
-    grid-template-columns: 25% 50% 25%;
-}
-*/
 
 .bg-guest-opt {
     background: #e5e9ee; color: #143e53; border-bottom-style: dashed; border-width: 1px;
@@ -955,7 +976,7 @@ img.img-cart-line {
 	height:55px;
 	line-height: 1.5;
 	display: grid;
-	grid-template-columns: 5% 92% 3%; 
+	grid-template-columns: 5% 10% 80% 5%; 
 	grid-template-rows: auto;
     background: rgb(255,255,255);
     background: linear-gradient(270deg, rgba(255,255,255,1) 17%, rgba(20,62,83,1) 99%);
@@ -966,11 +987,13 @@ img.img-cart-line {
     align-items: center;
 }
 
-/*.text-white {color:#fff;}*/
-
-i.text-white {
-    color: #143e53 !important;
+.project-name {
+    color: #143e53;
+    font-size: 0.85rem;
+    letter-spacing: 0px;
 }
+
+i.text-white { color: #143e53 !important; }
 .header i { font-size: 17px; font-weight: light !important; }
 i.fas.fa-bars.menu { color: #dfdfdf !important;; }
 i.fas.fa-power-off { color: #143e53 !important; }

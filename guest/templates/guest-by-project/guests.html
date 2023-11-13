@@ -4,10 +4,13 @@
 {% block second_menu %}{% get_second_menu request.user %}{% endblock second_menu %}
 
 {% block central_content %}
-    <div class="toolbar-search">
+    <div class="toolbar-search guests p-2">
+        <div class="text-center"><i class="fas fa-search"></i></div>
+        <div>
         <input type="text" class="autosearch form-control form-control-dark w-100" name="guest_search_name" id="guest_search_name" 
             placeholder="{% trans 'Name, Surname, Email, Phone or Room' %}" data-url="{% url "guest-search-by-project" %}" data-target="guest-list" 
             data-related="guest_search_name" value="{{request.session.guest_search_name}}"/>
+        </div>
     </div>
 
     <div class="content mt-4">

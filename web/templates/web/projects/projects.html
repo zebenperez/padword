@@ -4,7 +4,7 @@
 {% block second_menu %}{#{% include 'web/second_menu.html' %}#}{% get_second_menu request.user %} {% endblock second_menu %}
 
 {% block central_content %}
-    <div class="toolbar-search projects">
+    <div class="toolbar-search projects p-2">
         <div><input type="hidden" name="company_id" id="company_id" value="{{company.id}}" /></div>
         <div><i class="fas fa-search"></i></div>
         <div>
