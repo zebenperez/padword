@@ -326,7 +326,7 @@ def tpv_order_send(request):
                 if band != None:
                     pwu = get_or_none(ProjectWinhotelUser, fi.form.project.uuid, "project_uuid")
                     if pwu != None and pwu.source_code != "":
-                        send_charges(pwu, fi, band)
+                        send_charges(pwu, fi, band, pos)
 
         fi.save()
         set_desc(fi, desc)
@@ -397,22 +397,25 @@ def get_food_total(fi):
     total =  ShoppingCart.objects.filter(form_instance_id=fi.pk, item__ext_id__gte=50000).aggregate(Sum('item__price'))["item__price__sum"]
     return total if total != None else -1
 
-def send_charges(pwu, fi, band):
+def send_charges(pwu, fi, band, pos):
     #pau = get_or_none(ProjectWinhotelUser, fi.form.project.uuid, "project_uuid")
     booking_code = band.guest.ext_id
     room_code = band.guest.room
     contact_name = "{} {}".format(band.guest.name, band.guest.surname)
-    contact_id = 3
+    contact_id = band.guest.ext_id
     has_credit = "true"
-    limit_credit = 5.0
-    source = ""
-    source_document = ""
+    limit_credit = 0
+    source = fi.id
+    #source_document
+    sd_drink = "{} BEBIDAS".format(pos.name)
+    sd_food = "{} COMIDAS".format(pos.name)
     date = fi.date.strftime("%Y-%m-%dT%H:%M:%S")
+    #total_amount
     #total_amount = fi.get_total()
-    total_amount_drink = get_drinks_total(fi)
-    total_amount_food = get_food_total(fi)
+    ta_drink = get_drinks_total(fi)
+    ta_food = get_food_total(fi)
     cash_code = ""
 
-    #send_charge(pwu,booking_code,room_code,contact_name,contact_id,has_credit,limit_credit,source,source_document,date,total_amount_drink,cash_code)
-    #send_charge(pwu,booking_code,room_code,contact_name,contact_id,has_credit,limit_credit,source,source_document,date,total_amount_food,cash_code)
+    send_charge(pwu,booking_code,room_code,contact_name,contact_id,has_credit,limit_credit,source,sd_drink,date,ta_drink,cash_code)
+    send_charge(pwu,booking_code,room_code,contact_name,contact_id,has_credit,limit_credit,source,sd_food,date,ta_food,cash_code)
 
