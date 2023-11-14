@@ -10,6 +10,7 @@ from contents.models import Category, ShoppingCart, Item, PaymentType, PointOfSa
 from guest.models import Guest, Wristband, WristbandBalance
 from web.lock_lib import ShLock
 from connector.winhotel_lib import send_charge
+from connector.models import ProjectWinhotelUser
 
 from .common_lib import get_or_create_form_instance_tpv, get_or_create_form_instance_info_tpv, get_or_create_form_instance_info_client_tpv
 from .common_lib import user_in_group
@@ -216,7 +217,7 @@ def tpv_add_item(request):
         fi.update_item_low_price(obj)
 
         instance = FormInstance.objects.get(pk=form_id)
-        return render(request, "bookings/tpv/view-ticket.html".format(temp), {'fi':instance,})
+        return render(request, "bookings/tpv/view-ticket.html", {'fi':instance,})
 
         #mobile = get_param(request.GET, "mobile")
         #temp = "view-ticket-mobile.html" if mobile != "" else "view-ticket.html"
@@ -256,7 +257,7 @@ def tpv_order_item_remove(request):
         fi = get_or_none(FormInstance, obj.form_instance_id)
         obj.delete()
 
-        return render(request, "bookings/tpv/view-ticket.html".format(temp), {'fi':fi,})
+        return render(request, "bookings/tpv/view-ticket.html", {'fi':fi,})
 
         #mobile = get_param(request.GET, "mobile")
         #temp = "view-ticket-mobile.html" if mobile != "" else "view-ticket.html"
@@ -398,7 +399,7 @@ def get_food_total(fi):
 
 def send_charges(pwu, fi, band):
     #pau = get_or_none(ProjectWinhotelUser, fi.form.project.uuid, "project_uuid")
-    booking_code = guest.ext_id
+    booking_code = band.guest.ext_id
     room_code = band.guest.room
     contact_name = "{} {}".format(band.guest.name, band.guest.surname)
     contact_id = 3
@@ -412,6 +413,6 @@ def send_charges(pwu, fi, band):
     total_amount_food = get_food_total(fi)
     cash_code = ""
 
-    send_charge(pwu,booking_code,room_code,contact_name,contact_id,has_credit,limit_credit,source,source_document,date,total_amount_drink,cash_code)
-    send_charge(pwu,booking_code,room_code,contact_name,contact_id,has_credit,limit_credit,source,source_document,date,total_amount_food,cash_code)
+    #send_charge(pwu,booking_code,room_code,contact_name,contact_id,has_credit,limit_credit,source,source_document,date,total_amount_drink,cash_code)
+    #send_charge(pwu,booking_code,room_code,contact_name,contact_id,has_credit,limit_credit,source,source_document,date,total_amount_food,cash_code)
 

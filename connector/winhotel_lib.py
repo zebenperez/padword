@@ -286,11 +286,11 @@ class Winhotel:
             "ExternalCharge": {
                 "BookingCode": dic["BookingCode"],
                 "CreditContact": {
-                    "RoomCode": dic["RoomCode"],
-                    "ContactName": dic["ContactName"],
-                    "ContactId": dic["ContactId"],
-                    "HasCredit": dic["HasCredit"],
-                    "LimitCredit": dic["LimitCredit"]
+                    "RoomCode": dic["CreditContact"]["RoomCode"],
+                    "ContactName": dic["CreditContact"]["ContactName"],
+                    "ContactId": dic["CreditContact"]["ContactId"],
+                    "HasCredit": dic["CreditContact"]["HasCredit"],
+                    "LimitCredit": dic["CreditContact"]["LimitCredit"]
                 },
                 "Source": dic["Source"],
                 "SourceDocument": dic["SourceDocument"],
