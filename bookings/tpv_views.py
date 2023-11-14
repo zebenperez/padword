@@ -407,8 +407,8 @@ def send_charges(pwu, fi, band, pos):
     limit_credit = 0
     source = fi.id
     #source_document
-    sd_drink = "{} BEBIDAS".format(pos.name)
-    sd_food = "{} COMIDAS".format(pos.name)
+    sd_drink = "Cargo Ticket Nº- {} del TPV {} (Bebidas)".format(fi.id, pos.name)
+    sd_food = "Cargo Ticket Nº- {} del TPV {} (Comidas)".format(fi.id, pos.name)
     date = fi.date.strftime("%Y-%m-%dT%H:%M:%S")
     #total_amount
     #total_amount = fi.get_total()

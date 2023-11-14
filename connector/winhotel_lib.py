@@ -357,15 +357,23 @@ def set_regime(booking, guest):
     try:
         reg_name = booking.occupations[0]["boar_type_real"]["name"]
         reg_code = booking.occupations[0]["boar_type_real"]["code"]
-        regime = Regime.objects.filter(name=reg_name).first()
-        if regime == None:
-            regime = Regime.objects.create(code=reg_code, name=reg_name)
-        gr = GuestRegime.objects.filter(regime=regime, guest=guest).first()        
-        if gr == None:
-            gr = GuestRegime.objects.create(regime=regime, guest=guest)        
-        pr = ProjectRegime.objects.filter(regime=regime, project=guest.project).first()        
-        if pr == None:
-            pr = ProjectRegime.objects.create(regime=regime, project=guest.project)        
+        regime = Regime.objects.filter(code=reg_code).first()
+        if regime != None:
+            gr = GuestRegime.objects.filter(regime=regime, guest=guest).first()        
+            if gr == None:
+                gr = GuestRegime.objects.create(regime=regime, guest=guest)        
+            pr = ProjectRegime.objects.filter(regime=regime, project=guest.project).first()        
+            if pr == None:
+                pr = ProjectRegime.objects.create(regime=regime, project=guest.project)        
+#        regime = Regime.objects.filter(name=reg_name).first()
+#        if regime == None:
+#            regime = Regime.objects.create(code=reg_code, name=reg_name)
+#        gr = GuestRegime.objects.filter(regime=regime, guest=guest).first()        
+#        if gr == None:
+#            gr = GuestRegime.objects.create(regime=regime, guest=guest)        
+#        pr = ProjectRegime.objects.filter(regime=regime, project=guest.project).first()        
+#        if pr == None:
+#            pr = ProjectRegime.objects.create(regime=regime, project=guest.project)        
     except Exception as e:
         print(e)
         return ""
