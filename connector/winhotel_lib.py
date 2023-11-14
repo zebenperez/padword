@@ -1,6 +1,6 @@
 from datetime import datetime, timedelta
 
-from guest.models import Guest
+from guest.models import Guest, Regime, GuestRegime, ProjectRegime
 from web.models import Room
 from padword.commons import new_ui_slug
 
@@ -353,6 +353,23 @@ def get_phone(contact):
 def get_email(contact):
     return contact["emails"][0] if len(contact["emails"]) > 0 else None
 
+def set_regime(booking, guest):
+    try:
+        reg_name = booking.occupations[0]["boar_type_real"]["name"]
+        reg_code = booking.occupations[0]["boar_type_real"]["code"]
+        regime = Regime.objects.filter(name=reg_name).first()
+        if regime == None:
+            regime = Regime.objects.create(code=reg_code, name=reg_name)
+        gr = GuestRegime.objects.filter(regime=regime, guest=guest).first()        
+        if gr == None:
+            gr = GuestRegime.objects.create(regime=regime, guest=guest)        
+        pr = ProjectRegime.objects.filter(regime=regime, project=guest.project).first()        
+        if pr == None:
+            pr = ProjectRegime.objects.create(regime=regime, project=guest.project)        
+    except Exception as e:
+        print(e)
+        return ""
+
 def create_booking(pwu, booking):
     checkin = datetime.strptime(booking.check_in_date.split('+')[0], "%Y-%m-%dT%H:%M:%S")
     checkout = datetime.strptime(booking.check_out_date.split('+')[0], "%Y-%m-%dT%H:%M:%S")
@@ -382,6 +399,7 @@ def create_booking(pwu, booking):
         guest.check_out = checkout
         guest.room = room
         guest.save()
+        set_regime(booking, guest)
 
         #if booking.created:
         #    lock_code = get_code(pau, code)
@@ -417,6 +435,7 @@ def create_booking_new(pwu, booking, start_date, end_date):
         guest.check_out = checkout
         guest.room = room
         guest.save()
+        set_regime(booking, guest)
 
         #if booking.created:
         #    lock_code = get_code(pau, code)
