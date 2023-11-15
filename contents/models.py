@@ -488,6 +488,8 @@ class CategoryUser(models.Model):
 class PointOfSale(models.Model):
     uuid = models.CharField(max_length = 255, verbose_name= _('UUID'), default="")
     name = models.CharField(verbose_name="Nombre", max_length=150, blank=True, null=True, default="")
+    code1 = models.CharField(verbose_name="Código 1", max_length=10, blank=True, null=True, default="")
+    code2 = models.CharField(verbose_name="Código 2", max_length=10, blank=True, null=True, default="")
     image = models.ImageField(upload_to=upload_pos_image, verbose_name=_("Image"), blank=True, null=True)
     project_uuid = models.CharField(max_length=36, verbose_name='UUID Project', default="")
 

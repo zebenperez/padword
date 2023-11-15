@@ -405,7 +405,10 @@ def send_charges(pwu, fi, band, pos):
     contact_id = band.guest.ext_id
     has_credit = "true"
     limit_credit = 0
-    source = fi.id
+    #source
+    #source = fi.id
+    s_drink = pos.code1
+    s_food = pos.code2
     #source_document
     sd_drink = "Cargo Ticket Nº- {} del TPV {} (Bebidas)".format(fi.id, pos.name)
     sd_food = "Cargo Ticket Nº- {} del TPV {} (Comidas)".format(fi.id, pos.name)
@@ -416,6 +419,8 @@ def send_charges(pwu, fi, band, pos):
     ta_food = get_food_total(fi)
     cash_code = ""
 
-    send_charge(pwu,booking_code,room_code,contact_name,contact_id,has_credit,limit_credit,source,sd_drink,date,ta_drink,cash_code)
-    send_charge(pwu,booking_code,room_code,contact_name,contact_id,has_credit,limit_credit,source,sd_food,date,ta_food,cash_code)
+    if ta_drink >= 0:
+        send_charge(pwu,booking_code,room_code,contact_name,contact_id,has_credit,limit_credit,s_drink,sd_drink,date,ta_drink,cash_code)
+    if ta_food >= 0:
+        send_charge(pwu,booking_code,room_code,contact_name,contact_id,has_credit,limit_credit,s_food,sd_food,date,ta_food,cash_code)
 

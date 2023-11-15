@@ -359,9 +359,10 @@ def set_regime(booking, guest):
         reg_code = booking.occupations[0]["boar_type_real"]["code"]
         regime = Regime.objects.filter(code=reg_code).first()
         if regime != None:
-            gr = GuestRegime.objects.filter(regime=regime, guest=guest).first()        
-            if gr == None:
-                gr = GuestRegime.objects.create(regime=regime, guest=guest)        
+            gr_list = GuestRegime.objects.filter(guest=guest)
+            gr_list.delete()
+            GuestRegime.objects.create(regime=regime, guest=guest)        
+
             pr = ProjectRegime.objects.filter(regime=regime, project=guest.project).first()        
             if pr == None:
                 pr = ProjectRegime.objects.create(regime=regime, project=guest.project)        
