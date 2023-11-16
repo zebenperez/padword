@@ -389,13 +389,35 @@ def tpv_close(request):
     WINHOTEL
 '''
 from django.db.models import Sum
-def get_drinks_total(fi):
-    total = ShoppingCart.objects.filter(form_instance_id=fi.pk, item__ext_id__lt=50000).aggregate(Sum('item__price'))["item__price__sum"]
-    return total if total != None else -1
+def get_drinks_total(fi, band):
+    #total = ShoppingCart.objects.filter(form_instance_id=fi.pk, item__ext_id__lt=50000).aggregate(Sum('item__price'))["item__price__sum"]
+    #return total if total != None else -1
 
-def get_food_total(fi):
-    total =  ShoppingCart.objects.filter(form_instance_id=fi.pk, item__ext_id__gte=50000).aggregate(Sum('item__price'))["item__price__sum"]
-    return total if total != None else -1
+    regime = band.guest.regime.code if band != None and band.guest != None and band.guest.regime != None else ""
+    if regime == "":
+        total = ShoppingCart.objects.filter(form_instance_id=fi.pk, item__ext_id__lt=50000).aggregate(Sum('item__price'))["item__price__sum"]
+        return total if total != None else -1
+
+    total = -1
+    item_list = ShoppingCart.objects.filter(form_instance_id=fi.pk, item__ext_id__lt=50000)
+    for item in item_list:
+        total += item.item.get_price(regime)
+    return total
+
+def get_food_total(fi, band):
+    #total =  ShoppingCart.objects.filter(form_instance_id=fi.pk, item__ext_id__gte=50000).aggregate(Sum('item__price'))["item__price__sum"]
+    #return total if total != None else -1
+
+    regime = band.guest.regime.code if band != None and band.guest != None and band.guest.regime != None else ""
+    if regime == "":
+        total = ShoppingCart.objects.filter(form_instance_id=fi.pk, item__ext_id__gte=50000).aggregate(Sum('item__price'))["item__price__sum"]
+        return total if total != None else -1
+
+    total = -1
+    item_list = ShoppingCart.objects.filter(form_instance_id=fi.pk, item__ext_id__gte=50000)
+    for item in item_list:
+        total += item.item.get_price(regime)
+    return total
 
 def send_charges(pwu, fi, band, pos):
     #pau = get_or_none(ProjectWinhotelUser, fi.form.project.uuid, "project_uuid")
@@ -415,8 +437,8 @@ def send_charges(pwu, fi, band, pos):
     date = fi.date.strftime("%Y-%m-%dT%H:%M:%S")
     #total_amount
     #total_amount = fi.get_total()
-    ta_drink = get_drinks_total(fi)
-    ta_food = get_food_total(fi)
+    ta_drink = get_drinks_total(fi, band)
+    ta_food = get_food_total(fi, band)
     cash_code = ""
 
     if ta_drink >= 0:
