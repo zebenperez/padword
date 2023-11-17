@@ -209,7 +209,7 @@ button.btn.btn-success-tpv
 	font-size: 1em;
 }
 .space-art {
-    height: 180px !important;
+    height: calc(var(--substract, 0) - 2px);
     overflow-y:scroll;
 }
 .ptypes {
