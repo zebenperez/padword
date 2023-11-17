@@ -315,7 +315,7 @@ def tpv_order_send(request):
         fi.set_status("01", request.user, "")
         fi.date = datetime.datetime.now()
         fi.amount = amount if amount_user == "" else amount_user
-        factor = -1 if amount < 0 else 1
+        factor = -1 if get_float(amount) < 0 else 1
         if pt_id != "":
             pt = get_or_none(PaymentType, pt_id)
             fi.payment_type = pt
