@@ -5,15 +5,14 @@
 
 {% block central_content %}
 
-    <div class="toolbar-search p-2">
-        <div class="row key-number">
-            <div class="col-md-1 pt-1"><i class="fas fa-search"></i></div>
-            <div class="row col-5 pt-2 pb-2">
-                <div class="col-4 left-cardnumber text-left">{% trans "Band number" %}:</div>
+    <div class="toolbar-search">
+        <div class="row key-number p-2">
+            <div class="row col-6 left-k pt-2 pb-2">
+                <div class="col-4 left-cardnumber">{% trans "Band number" %}:</div>
                 <div class="col-8">
                     <input type="text" class="form-control input-k w-100 ark_change" name="number" id="number"
-                        placeholder="{% trans 'Click here and then place the card on the reader' %}" data-url="{% url "wristbands-search" %}" 
-                        data-target="bands-result" onchange="setNumbers($(this))"/>
+                        placeholder="{% trans 'Click here and then place the card on the reader' %}" 
+                        data-url="{% url "wristbands-search-by-project" %}" data-target="bands-result" onchange="setNumbers($(this))"/>
                 </div>
             </div>
             <div class="col-5 offset-1 right-k p-2">

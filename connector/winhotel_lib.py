@@ -1,6 +1,6 @@
 from datetime import datetime, timedelta
 
-from guest.models import Guest
+from guest.models import Guest, Regime, GuestRegime, ProjectRegime
 from web.models import Room
 from padword.commons import new_ui_slug
 
@@ -202,7 +202,8 @@ class Winhotel:
             #print(_json_datas.replace("__DEL__", ""))
             #_headers = {'Content-Type': 'application/x-www-form-urlencoded', 'Token': '43bedb65e2fa3a57dd19650c7f67a1cb648644f8'}
             _headers = {'content-type': 'application/json', 'Accept-Charset': 'UTF-8'}
-            _response = requests.post(_url_request, headers=_headers, data=_json_datas.replace("__DEL__", ""))
+            #_response = requests.post(_url_request, headers=_headers, data=_json_datas.replace("__DEL__", ""))
+            _response = requests.post(_url_request, headers=_headers, data=_json_datas)
             _response.raise_for_status()
             return _response
         except requests.exceptions.HTTPError as errh:
@@ -266,10 +267,10 @@ class Winhotel:
                 "QueryOperator": 1,
                 "Value": start_date
             },
-            "StartDateQueryParameter__DEL__": {
-                "QueryOperator": 4,
-                "Value": end_date
-            }
+            #"StartDateQueryParameter__DEL__": {
+            #    "QueryOperator": 4,
+            #    "Value": end_date
+            #}
             #"EndDateQueryParameter": {
             #    "QueryOperator": 0,
             #    "Value": "2023-09-28T15:31:56.9578083+02:00"
@@ -285,11 +286,11 @@ class Winhotel:
             "ExternalCharge": {
                 "BookingCode": dic["BookingCode"],
                 "CreditContact": {
-                    "RoomCode": dic["RoomCode"],
-                    "ContactName": dic["ContactName"],
-                    "ContactId": dic["ContactId"],
-                    "HasCredit": dic["HasCredit"],
-                    "LimitCredit": dic["LimitCredit"]
+                    "RoomCode": dic["CreditContact"]["RoomCode"],
+                    "ContactName": dic["CreditContact"]["ContactName"],
+                    "ContactId": dic["CreditContact"]["ContactId"],
+                    "HasCredit": dic["CreditContact"]["HasCredit"],
+                    "LimitCredit": dic["CreditContact"]["LimitCredit"]
                 },
                 "Source": dic["Source"],
                 "SourceDocument": dic["SourceDocument"],
@@ -352,6 +353,32 @@ def get_phone(contact):
 def get_email(contact):
     return contact["emails"][0] if len(contact["emails"]) > 0 else None
 
+def set_regime(booking, guest):
+    try:
+        reg_name = booking.occupations[0]["boar_type_real"]["name"]
+        reg_code = booking.occupations[0]["boar_type_real"]["code"]
+        regime = Regime.objects.filter(code=reg_code).first()
+        if regime != None:
+            gr_list = GuestRegime.objects.filter(guest=guest)
+            gr_list.delete()
+            GuestRegime.objects.create(regime=regime, guest=guest)        
+
+            pr = ProjectRegime.objects.filter(regime=regime, project=guest.project).first()        
+            if pr == None:
+                pr = ProjectRegime.objects.create(regime=regime, project=guest.project)        
+#        regime = Regime.objects.filter(name=reg_name).first()
+#        if regime == None:
+#            regime = Regime.objects.create(code=reg_code, name=reg_name)
+#        gr = GuestRegime.objects.filter(regime=regime, guest=guest).first()        
+#        if gr == None:
+#            gr = GuestRegime.objects.create(regime=regime, guest=guest)        
+#        pr = ProjectRegime.objects.filter(regime=regime, project=guest.project).first()        
+#        if pr == None:
+#            pr = ProjectRegime.objects.create(regime=regime, project=guest.project)        
+    except Exception as e:
+        print(e)
+        return ""
+
 def create_booking(pwu, booking):
     checkin = datetime.strptime(booking.check_in_date.split('+')[0], "%Y-%m-%dT%H:%M:%S")
     checkout = datetime.strptime(booking.check_out_date.split('+')[0], "%Y-%m-%dT%H:%M:%S")
@@ -381,6 +408,7 @@ def create_booking(pwu, booking):
         guest.check_out = checkout
         guest.room = room
         guest.save()
+        set_regime(booking, guest)
 
         #if booking.created:
         #    lock_code = get_code(pau, code)
@@ -416,6 +444,7 @@ def create_booking_new(pwu, booking, start_date, end_date):
         guest.check_out = checkout
         guest.room = room
         guest.save()
+        set_regime(booking, guest)
 
         #if booking.created:
         #    lock_code = get_code(pau, code)

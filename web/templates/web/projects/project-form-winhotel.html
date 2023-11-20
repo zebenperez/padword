@@ -25,6 +25,21 @@
             </div>
         </div>
         <div class="row justify-center">
+            <div class="col-md-4 col-12">
+                <label class="label">{% trans "FTP" %}:</label>
+                <input type="text" class="form-control autosave input" id="ftp" name="ftp" value="{{user_winhotel.ftp}}" 
+                    title="{{user_winhotel.ftp}}" data-model-name="connector.projectwinhoteluser" data-obj-id="{{user_winhotel.id}}" 
+                    data-url="{% url "autosave_field" %}" data-target="div-notification"/> <span id="ftp__msg"></span>	
+            </div>
+            <div class="col-md-4 col-12">
+                <label class="label">{% trans "FTP Filename" %}:</label>
+                <input type="text" class="form-control autosave input" id="ftp_filename" name="ftp_filename" value="{{user_winhotel.ftp_filename}}" 
+                    title="{{user_winhotel.ftp_filename}}" data-model-name="connector.projectwinhoteluser" data-obj-id="{{user_winhotel.id}}" 
+                    data-url="{% url "autosave_field" %}" data-target="div-notification"/> <span id="ftp_filename__msg"></span>	
+            </div>
+        </div>
+
+        <div class="row justify-center">
             <div class="col-md-2 col-6">
                 <label class="label">{% trans "Days to import" %}:</label>
                 <input type="text" class="form-control autosave input" id="days" name="days" value="{{user_winhotel.days}}" 

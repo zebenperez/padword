@@ -100,7 +100,7 @@
 
     {% if regime_list|length > 0 %}
         <div class="col-4">
-            <label class="label">{% trans "Regime" %}:</label>
+            <label class="label">{% trans "Regime" %}: </label>
             <select class="form-control input b-bottom ark_change" id="regime" name="regime" data-url="{% url "guest-set-regime" %}" 
                 data-target="guest-tabs" data-obj_id="{{obj.id}}"/>
                 <option value="">-- {% trans "Select regime" %} --</option>

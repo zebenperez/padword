@@ -50,6 +50,8 @@ GET_ALL_LOCKS_URL = '{}/{}?clientId={}&accessToken={}&pageNo={}&pageSize={}&date
 GET_ALL_LOCKS_PREFIX_URL = 'lock/list'
 GET_LOCK_GATEWAY_URL = '{}/{}?clientId={}&accessToken={}&lockId={}&date={}'
 GET_LOCK_GATEWAY_PREFIX_URL = 'gateway/listByLock'
+GET_LOCK_WIFI_URL = '{}/{}?clientId={}&accessToken={}&lockId={}&date={}'
+GET_LOCK_WIFI_PREFIX_URL = 'wifiLock/detail'
 
 ADD_PASSCODE_URL = '{}/{}?clientId={}&accessToken={}&lockId={}&keyboardPwd={}&keyboardPwdName={}&startDate={}&endDate={}&addType=2&date={}'
 ADD_PASSCODE_PREFIX_URL = '/keyboardPwd/add'

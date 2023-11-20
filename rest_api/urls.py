@@ -10,6 +10,7 @@ router.register(r'locks', views.LockViewSet)
 router.register(r'rooms', views.RoomViewSet)
 router.register(r'air', views.SensiboViewSet, basename='air')
 router.register(r'tickets', views.TicketViewSet, basename='tickets')
+router.register(r'depositboxes', views.DepositBoxViewSet, basename='depositbox')
 
 # Wire up our API using automatic URL routing.
 # Additionally, we include login URLs for the browsable API.

@@ -12,7 +12,7 @@
 
     {#<input type="hidden" name="s-project_uuid" id="s-project_uuid" value="{{project_uuid}}"/>#}
 
-    <div class="toolbar-search">
+    <div class="toolbar-search p-2">
         <div class="row">
             {%comment%}
             <div class="col-md-3 col-6">
@@ -21,23 +21,24 @@
                     data-target="booking-list" data-related="{{related}}" />
             </div>
             {%endcomment%}
+            <div class="col-md-1 text-center pt-1"><i class="fas fa-search"></i></div>
             <div class="col-md-3 col-6">
-                <input type="text" class="autosearch form-control form-control-dark w-30" name="s-form" id="s-form" 
+                <input type="text" class="autosearch form-control form-control-dark w-30 input-k" name="s-form" id="s-form" 
                     placeholder="{% trans "Service name" %}" value="{% padword_translate form_name %}" data-url="{% url search_url %}" 
                     data-target="booking-list" data-related="{{related}}"/>
             </div>
             <div class="col-md-2 col-xs-12">
-                <input type="text" class="autosearch form-control form-control-dark w-30" name="s-name" id="s-name" 
+                <input type="text" class="autosearch form-control form-control-dark w-30 input-k" name="s-name" id="s-name" 
                     placeholder="{% trans "Guest Name, Surname, Email, Phone, Room" %}" data-url="{% url search_url %}" 
                     data-target="booking-list" data-related="{{related}}" />
             </div>
             <div class="col-md-2 col-6">
-                <input type="date" class="autosearch_change form-control form-control-dark w-30" name="s-ini_date" id="s-ini_date" 
+                <input type="date" class="autosearch_change form-control form-control-dark w-30 input-k" name="s-ini_date" id="s-ini_date" 
                     placeholder="{% trans "Initial date" %}" value="{{ini_date|date:'Y-m-d'}}" data-url="{% url search_url %}" 
                     data-target="booking-list" data-related="{{related}}" />
             </div>
             <div class="col-md-2 col-6">
-                <input type="date" class="autosearch_change form-control form-control-dark w-30" name="s-end_date" id="s-end_date" 
+                <input type="date" class="autosearch_change form-control form-control-dark w-30 input-k" name="s-end_date" id="s-end_date" 
                     placeholder="{% trans "End date" %}" value="{{end_date|date:'Y-m-d'}}" data-url="{% url search_url %}" 
                     data-target="booking-list" data-related="{{related}}" />
             </div>

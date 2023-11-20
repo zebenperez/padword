@@ -110,6 +110,14 @@
                     data-code="gateways"><i class="fas fa-signal"></i> {%trans "Gateways"%} <span class="new">NEW</span> </a></li>
             {% endif %}
 
+            {% if user_project|have_menu:"wristbands" %}
+                <li class="nav-item"><a class="nav-link {%if active == "wristbands"%}active{%endif%}" href="{% url 'wristbands-by-project' %}">
+                    <i class="fas fa-key"></i>  {% trans "Bands" %}</a> </li>
+            {% elif user_project|have_menu_promo:"wristbands" %}
+	            <li class="nav-item"><a class="nav-link pointer ark" data-url="{%url "show-module"%}" data-target-modal="common-modal"
+                    data-code="wristbands"><i class="fas fa-key"></i> {%trans "Bands"%} <span class="new">NEW</span> </a></li>
+            {% endif %}
+
             {% if user_project|have_menu:"sensibo" %}
                 <li class="nav-item"><a class="nav-link {%if active == "sensibo"%}active{%endif%}" href="{% url 'sensibo-device-by-project2' %}">
                     <i class="fas fa-wind"></i>  {% trans "Air conditioner" %}</a> </li>

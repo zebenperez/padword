@@ -3,13 +3,25 @@
 
 {% for item in point_of_sale_list %}
     <div class="row justify-center">
-        <div class="col-4">
+        <div class="col-2">
             <label class="label">{% trans "Name" %}:</label>
             <input type="text" class="form-control autosave input" id="name" name="name" value="{{item.name}}" 
                 title="{{item.name}}" data-model-name="contents.pointofsale" data-obj-id="{{item.id}}" 
                 data-url="{% url "autosave_field" %}" data-target="div-notification"/> <span id="name__msg"></span>	
         </div>
-        <div class="col-4">
+        <div class="col-2">
+            <label class="label">{% trans "Code 1 (drink)" %}:</label>
+            <input type="text" class="form-control autosave input" id="code1" name="code1" value="{{item.code1}}" 
+                title="{{item.code1}}" data-model-name="contents.pointofsale" data-obj-id="{{item.id}}" 
+                data-url="{% url "autosave_field" %}" data-target="div-notification"/> <span id="code1__msg"></span>	
+        </div>
+        <div class="col-2">
+            <label class="label">{% trans "Code 2 (food)" %}:</label>
+            <input type="text" class="form-control autosave input" id="code2" name="code2" value="{{item.code2}}" 
+                title="{{item.code2}}" data-model-name="contents.pointofsale" data-obj-id="{{item.id}}" 
+                data-url="{% url "autosave_field" %}" data-target="div-notification"/> <span id="code2__msg"></span>	
+        </div>
+        <div class="col-2">
             <label class="label">{% trans "UUID" %}:</label>
             <input type="text" class="form-control autosave input" id="uuid" name="uuid" value="{{item.uuid}}" 
                 title="{{item.uuid}}" data-model-name="contents.pointofsale" data-obj-id="{{item.id}}" 

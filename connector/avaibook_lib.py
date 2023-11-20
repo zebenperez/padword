@@ -37,14 +37,17 @@ class Avaibook():
         self.token = token
         self.uuid = uuid
     
-    def __send_request__(self, _url_request):
+    def __send_request__(self, _url_request, _params=""):
         try:
             #_headers = {'Content-Type': 'application/x-www-form-urlencoded', 'Token': '43bedb65e2fa3a57dd19650c7f67a1cb648644f8'}
             _headers = {}
             _headers['Accept'] = 'application/json'
             _headers['Authorization'] = 'Basic {}'.format(self.uuid)
             _headers['Token'] = '{}'.format(self.token)
-            _response = requests.get(_url_request, headers=_headers)
+            if _params != "":
+                _response = requests.get(_url_request, headers=_headers, params=_params)
+            else:
+                _response = requests.get(_url_request, headers=_headers)
             _response.raise_for_status()
             return _response
         except requests.exceptions.HTTPError as errh:
@@ -78,14 +81,30 @@ class Avaibook():
     def get_bookings(self):
         try:
             _url_request = "{}{}".format(API_URL, BOOKINGS_URL)
-            return self.__send_request__(_url_request).json()["items"]
+            params = {"page": 1, "limit": 100}
+            dic = self.__send_request__(_url_request, params).json()
+            items = dic["items"]
+            for i in range(2, dic["paginator"]["total_pages"]+1):
+                params = {"page": i, "limit": 100}
+                dic = self.__send_request__(_url_request, params).json()
+                items += dic["items"]
+            return items
+            #return self.__send_request__(_url_request, params).json()["items"]
         except Exception as err:
             raise AvaibookAPIError(menssage=err)
 
     def get_accommodations(self):
         try:
             _url_request = "{}{}".format(API_URL, ACCOMMODATIONS_URL)
-            return self.__send_request__(_url_request).json()["items"]
+            params = {"page": 1, "limit": 100}
+            dic = self.__send_request__(_url_request, params).json()
+            items = dic["items"]
+            for i in range(2, dic["paginator"]["total_pages"]+1):
+                params = {"page": i, "limit": 100}
+                dic = self.__send_request__(_url_request, params).json()
+                items += dic["items"]
+            return items
+            #return self.__send_request__(_url_request, params).json()["items"]
         except Exception as err:
             raise AvaibookAPIError(menssage=err)
 

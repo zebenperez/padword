@@ -292,6 +292,7 @@ def room_form_by_project(request):
         group_list = LockGroup.objects.filter(project_uuid = project.uuid)
         return render(request, "web/rooms-by-project/room-form.html", {'obj': obj, 'group_list': group_list})
     except Exception as e:
+        print(e)
         return render(request, 'error_exception.html', {'exc':show_exc(e)})
 
 

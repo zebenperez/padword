@@ -1,19 +1,26 @@
 {% load i18n padword_tags bookings_tag %}
 
 
-{% with items=fi.get_items total=fi.get_total %}
+{% with items=fi.get_items total=fi.get_total regime=fi.band.guest.regime %}
     {% if items|length > 0 %} 
-    <div class="row justify-content-center"><div id="guest-info" class="col-12 text-left mb-3">
-        {% include "bookings/tpv/view-guest-info.html" %}</div></div>
+    <div class="row justify-content-center">
+        <div id="guest-info" class="col-12 text-left mb-3">
+            {% include "bookings/tpv/view-guest-info.html" %}
+        </div>
+    </div>
 
         <div class="row summary-price-tpv btn-dark">
-            <div class="col-5 text-left pt-1 pb-1">
+            <div class="col-12 text-left pt-1 pb-1">
                 <strong>
-                    {% padword_translate fi.form.get_category.parent.name %} 
-                    {% padword_translate fi.form.get_category.name %}&nbsp;({{items|length}} {% trans 'art.' %})</strong>
+                    {% padword_translate fi.form.get_category.parent.name %}
+                    {% padword_translate fi.form.get_category.name %}</strong>
             </div>
-            <div class="col-7 price-tpv text-right" id="div-total-shopping-cart">
-                <strong>{%trans 'Total price'%}: {{total|floatformat:2}} &euro;</strong></div>
+            <div class="col-4 price-tpv text-left"> 
+                <span class="small">({{items|length}} {% trans 'art.' %})</span>
+            </div>
+            <div class="col-8 price-tpv text-right" id="div-total-shopping-cart">
+                <strong>{%trans 'Total price'%}: {{total|floatformat:2}} &euro;</strong>
+            </div>
         </div>
         {% if regime %}
             <div class="row">
@@ -22,10 +29,10 @@
             </div>
         {% endif %}
 
-        <div class="row"> <span class="small alert m-0">* {% trans 'You can add comments to the article with click on comment buttons' %} 
+        <div class="row" id="block-comments"> <span class="small alert m-0">* {% trans 'You can add comments to the article with click on comment buttons' %} 
             <i class="fas fa-comments"></i></span></div>
 
-        <div class="row ticket-line justify-content-center space-art">
+        <div class="row ticket-line justify-content-center space-art" id='block-scan-art'>
             {% for item in items %}
                 <div class="col-2">
                     {% if item.item.image %}
@@ -53,8 +60,15 @@
             {% endfor %}
         </div>
 
-        <div class="row mt-3 justify-content-center">
-            <div class="col-12 text-center mb-3">{%include "bookings/tpv/view-payment-types.html"%}</div></div>
+        <div class="row p-0 justify-content-center ptypes" id="ptypes">
+            <div class="col-12 text-center mb-3">{%include "bookings/tpv/view-payment-types.html"%}</div>
+        </div>
 
     {% endif %}
 {% endwith %}
+
+<script id="fit-ticket">
+    var ptype_aux =  $(window).height() - $('#block-comments').position().top - $('#block-comments').height() - $('#ptypes').height();
+    document.documentElement.style.setProperty('--substract', `${ptype_aux}px`);
+    $('#fit-ticket').remove();
+</script>

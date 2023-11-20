@@ -372,7 +372,7 @@ def project_set_winhotel_schedule(request):
             if field == "hour": 
                 function = "winhotel_booking_schedule"
                 hour = "\*\|{}".format(pau.hour)
-                minute = "%"
+                minute = "0"
             elif field == "minute":
                 function = "winhotel_check_schedule"
                 hour = "%"
@@ -380,11 +380,11 @@ def project_set_winhotel_schedule(request):
             if field == "hour_price": 
                 function = "winhotel_price_schedule"
                 hour = "\*\|{}".format(pau.hour_price)
-                minute = "%"
+                minute = "0"
             if field == "hour_cancel": 
                 function = "winhotel_cancel_schedule"
                 hour = "\*\|{}".format(pau.hour_cancel)
-                minute = "%"
+                minute = "0"
             if function != "":
                 update_cron(hour, minute, function, pau.project_uuid)
 

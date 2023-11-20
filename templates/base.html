@@ -48,6 +48,7 @@
                 <div class="header sticky-top bg-white">
                     <div class="text-center divbars-menu"><a href="#" class="menu-btn"><i class="fas fa-bars menu"></i></a></div>
                     <div><a href="/web/projects/"><img src="/static/img/Padword.png" width="120" height=""></a></div>
+                    <div class="project-name text-right">{% trans "Hola" %}, <strong>{{project.name}}</strong></div>
                     <div class="text-center"><a href="{% url 'auth_logout' %}" title="{% trans "Log out" %}"><i class="fas fa-power-off"></i></a></div>
                     {% comment %}
                     <div class="text-center pt-2">

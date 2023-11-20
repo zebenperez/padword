@@ -161,4 +161,26 @@ def wristbands_search(request):
     band_result = Wristband.objects.filter(code=value)
     return render (request, "wristbands/wristbands-search.html", {'band_list': band_result, 'band_code': value})
 
+'''
+    Wristbands by project
+'''
+@group_required("projects")
+def wristbands_by_project(request):
+    try:
+        return render (request, "wristbands-by-project/wristbands.html", {'active': 'searchkeycard'})
+    except Exception as e:
+        print(e)
+        return render(request, 'error_exception.html', {'exc':show_exc(e)})
+
+@group_required("projects")
+def wristbands_search_by_project(request):
+    try:
+        project = get_or_none(Project, request.project_id)
+        value = reverse_cardkey(get_param(request.GET, "value"))
+        band_result = Wristband.objects.filter(code=value, guest__project_id=project.uuid)
+        return render (request, "wristbands-by-project/wristbands-search.html", {'band_list': band_result, 'band_code': value})
+    except Exception as e:
+        print(e)
+        return render(request, 'error_exception.html', {'exc':show_exc(e)})
+
 

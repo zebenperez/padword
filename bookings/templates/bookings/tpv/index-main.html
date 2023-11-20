@@ -3,7 +3,8 @@
 <div id="base-tpv" class="fixed-layout w-100">
     <div class="row left-tpv w-100 text-center m-0">
         <div class="col-lg-3 col-3 name">
-            <button class="btn ark w-100" data-url="{% url "tpv-change-pos" %}" data-target="base" data-project_uuid="{{project_uuid}}">{{pos.name}}</button>
+            <button class="btn ark w-100" data-url="{% url "tpv-change-pos" %}" data-target="base" data-project_uuid="{{project_uuid}}">
+                {{pos.name}}</button>
         </div>
         <div class="col-lg-3 offset-lg-2 col-7 text-center">
             <select name="" id="" class="tpv-articles w-100 text-center tpv-search-change" data-search-class="tpv-category">
@@ -22,14 +23,14 @@
         <div class="row header-right w-100 m-0 mb-2">
             <div class="col-lg-3 text-start">Ticket</div>
             <div class="col-lg-6 col-2">
-                <button class="btn ark table-selector" data-url="{% url "tpv-change-table" %}" data-target="base" data-project_uuid="{{project_uuid}}">
+                <button class="btn ark table-selector" data-url="{%url "tpv-change-table"%}" data-target="base" data-project_uuid="{{project_uuid}}">
                     {{table.name}}</button>
             </div>
             <div class="col-lg-2 offset-lg-1 logo"><img src="/static/img/96x96-icono.png"></div>
         </div>
         <div class="row w-100 m-0">
            <div class="col-lg-12">
-                <div class="d-none d-lg-block">
+                <div class="d-none d-lg-block" id="block-scan">
                     <input type="text" id="div-scan" class="form-control ark_change" name="bans-scan"
                         data-url="{% url "tpv-check-band" %}" data-target="ticket-summary" data-obj_id="{{fi.id}}" placeholder="Scan band..."/>
                 </div>

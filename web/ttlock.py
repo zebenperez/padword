@@ -274,6 +274,20 @@ class TTLock():
         )
         return TTLock.__send_request__(_url_request).json()
 
+    def lock_get_wifi(self, lockId=None):
+        if not lockId:
+            raise TTlockAPIError()
+
+        _url_request = GET_LOCK_WIFI_URL.format(
+            API_URI,
+            GET_LOCK_WIFI_PREFIX_URL,
+            self.clientId,
+            self.accessToken,
+            lockId,
+            TTLock.__get_current_millis__(),
+        )
+        return TTLock.__send_request__(_url_request).json()
+
     def lock_add_passcode(self, lockId=None, code="", name="", startDate=0, endDate=0):
         if not lockId:
             raise TTlockAPIError()

@@ -3,7 +3,7 @@
 
 {% if msg and msg != "" %} <div class="alert alert-danger">{{msg}}</div> {% endif %}
 
-<div class="d-flex menu-actions-blue" style="border:1px solid black">
+<div class="d-flex menu-actions-blue">
     <div class="flex-grow-1 p-2"><span class="bg-ico-bar"><i class="fas fa-lock"></i></span>&nbsp; Vista general</div>
 </div>
 
@@ -35,6 +35,7 @@
                 <th> {% trans 'Status' %} <i class="fas fa-sort"></i> </th>
                 <th> {% trans 'Charge' %} <i class="fas fa-sort"></i> </th>
                 <th> {% trans 'Gateway' %} <i class="fas fa-sort"></i> </th>
+                <th> {% trans 'Wifi' %} <i class="fas fa-sort"></i> </th>
                 <th></th>
             </tr>
         </thead>

@@ -50,9 +50,10 @@ urlpatterns = [
     path('guests/band/balance/form/', wristband_views.guest_band_balance_form, name="guest-band-balance-form"),
     path('guests/band/balance/remove/', wristband_views.guest_band_balance_remove, name="guest-band-balance-remove"),
 
-
     path('wristbands/', wristband_views.wristbands, name='wristbands'),
     path('wristbands/search/', wristband_views.wristbands_search, name='wristbands-search'),
+    path('wristbands/project/', wristband_views.wristbands_by_project, name='wristbands-by-project'),
+    path('wristbands/project/search/', wristband_views.wristbands_search_by_project, name='wristbands-search-by-project'),
 
     #--------------------- DEVICES --------------------
     path('', views.index, name='device-index'),

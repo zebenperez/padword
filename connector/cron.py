@@ -10,7 +10,7 @@ from connector.models import ProjectAvantioUser, ProjectWinhotelUser
 from padword.commons import get_or_none
 from padword.email_lib import send_email
 
-import os
+import os, subprocess
 
 
 def avantio_booking_schedule(project_uuid):
@@ -89,11 +89,19 @@ def winhotel_price_schedule(project_uuid):
     not_updated = []
     project = get_or_none(Project, project_uuid, "uuid")
     project_name = project.name if project != None else "---"
-    result = "Importar precios Winhotel {} {}\n".format(project_name, datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
+    now = datetime.now()
+    result = "Importar precios Winhotel {} {}\n".format(project_name, now.strftime("%Y-%m-%d %H:%M:%S"))
     result += "-----------------------------------------------------"
     try:
-        filename = "{}_Products_07__TPV_HIGO.CSV".format(datetime.now().strftime("%Y%m%d"))
-        file = open(os.path.join(settings.BASE_DIR, "media", filename), 'rb')
+        #url = "ftp://L0F98HH:P00IkMMhs!2@51.38.104.89/20231107_Products_07__TPV_HIGO.CSV"
+        pau = ProjectWinhotelUser.objects.filter(project_uuid=project.uuid).first()
+        fname = "{}_{}".format(now.strftime("%Y%m%d"), pau.ftp_filename)
+
+        url = "ftp://{}/{}".format(pau.ftp, fname)
+        subprocess.run(['wget', '-P', 'media', url])
+
+        file = open(os.path.join(settings.BASE_DIR, "media", fname), 'rb')
+
         updated, not_updated = wh_import_item_prices(file, project_uuid)
         result += render_to_string('winhotel/booking-price-log.html', {'updated': updated, "not_updated": not_updated})
     except Exception as e:

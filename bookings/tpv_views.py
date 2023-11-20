@@ -10,6 +10,7 @@ from contents.models import Category, ShoppingCart, Item, PaymentType, PointOfSa
 from guest.models import Guest, Wristband, WristbandBalance
 from web.lock_lib import ShLock
 from connector.winhotel_lib import send_charge
+from connector.models import ProjectWinhotelUser
 
 from .common_lib import get_or_create_form_instance_tpv, get_or_create_form_instance_info_tpv, get_or_create_form_instance_info_client_tpv
 from .common_lib import user_in_group
@@ -94,7 +95,7 @@ def tpv_index(request, project_uuid):
         elif "table" not in request.session or request.session["table"] == "":
             pos = get_or_none(PointOfSale, request.session["point_of_sale"])
             tables = Table.objects.filter(point_of_sale=pos)
-            return render(request, "bookings/tpv/index.html", {'tables': tables,})
+            return render(request, "bookings/tpv/index.html", {'pos': pos, 'tables': tables})
         else:
             form = Form.objects.filter(form_type__code="tpv", form_type__project_uuid=project.uuid).first()
             pos = get_or_none(PointOfSale, request.session["point_of_sale"])
@@ -215,11 +216,14 @@ def tpv_add_item(request):
         obj = ShoppingCart.objects.create(form_instance_id=fi.id,item=item,category=item.category.name,name=item.name,price=item.price,comments='')
         fi.update_item_low_price(obj)
 
-        mobile = get_param(request.GET, "mobile")
-        temp = "view-ticket-mobile.html" if mobile != "" else "view-ticket.html"
-
         instance = FormInstance.objects.get(pk=form_id)
-        return render(request, "bookings/tpv/{}".format(temp), {'fi':instance,})
+        return render(request, "bookings/tpv/view-ticket.html", {'fi':instance,})
+
+        #mobile = get_param(request.GET, "mobile")
+        #temp = "view-ticket-mobile.html" if mobile != "" else "view-ticket.html"
+
+        #instance = FormInstance.objects.get(pk=form_id)
+        #return render(request, "bookings/tpv/{}".format(temp), {'fi':instance,})
         #items = instance.items_in_bookings(item).count()
         #return render(request, "bookings/tpv/show-instance-result.html", {'fi':instance,'item':item,'items':items})
     except Exception as e:
@@ -234,11 +238,12 @@ def tpv_order_remove(request):
         form = fi.form
         fi.delete()
 
-        mobile = get_param(request.GET, "mobile")
-        if mobile != "":
-            return redirect(reverse("tpv-mob-index", kwargs = {'project_uuid': form.project.uuid}))
-        else:
-            return redirect(reverse("tpv-index", kwargs = {'project_uuid': form.project.uuid}))
+        return redirect(reverse("tpv-index", kwargs = {'project_uuid': form.project.uuid}))
+        #mobile = get_param(request.GET, "mobile")
+        #if mobile != "":
+        #    return redirect(reverse("tpv-mob-index", kwargs = {'project_uuid': form.project.uuid}))
+        #else:
+        #    return redirect(reverse("tpv-index", kwargs = {'project_uuid': form.project.uuid}))
     except Exception as e:
         print(e)
         logger.error("[bookings-remove_fi] {}".format(str(e)))
@@ -252,10 +257,12 @@ def tpv_order_item_remove(request):
         fi = get_or_none(FormInstance, obj.form_instance_id)
         obj.delete()
 
-        mobile = get_param(request.GET, "mobile")
-        temp = "view-ticket-mobile.html" if mobile != "" else "view-ticket.html"
+        return render(request, "bookings/tpv/view-ticket.html", {'fi':fi,})
 
-        return render(request, "bookings/tpv/{}".format(temp), {'fi':fi,})
+        #mobile = get_param(request.GET, "mobile")
+        #temp = "view-ticket-mobile.html" if mobile != "" else "view-ticket.html"
+
+        #return render(request, "bookings/tpv/{}".format(temp), {'fi':fi,})
     except Exception as e:
         print(e)
         return render(request, "error_exception.html", {'exc':show_exc(e)})
@@ -266,12 +273,13 @@ def tpv_order_item_comment(request):
         item_id = request.GET["item_id"]
         form_id = request.GET["form_id"]
         obj = get_or_none(ShoppingCart, int(item_id))
+        return render(request, "bookings/tpv/shopping-form.html", {'obj':obj, 'form_id':form_id})
         #temp = get_param(request.GET, "template")
         #template = "bookings/tpv/{}.html".format(temp) if temp != "" else "bookings/tpv/shopping-form.html"
-        mobile = get_param(request.GET, "mobile")
-        temp = "shopping-form-mobile.html" if mobile != "" else "shopping-form.html"
+        #mobile = get_param(request.GET, "mobile")
+        #temp = "shopping-form-mobile.html" if mobile != "" else "shopping-form.html"
 
-        return render(request, "bookings/tpv/{}".format(temp), {'obj':obj, 'form_id':form_id})
+        #return render(request, "bookings/tpv/{}".format(temp), {'obj':obj, 'form_id':form_id})
         #return render(request, template, {'obj':obj, 'form_id':form_id})
         #return render(request, "bookings/tpv/shopping-form.html", {'obj':obj, 'form_id':form_id})
     except Exception as e:
@@ -301,12 +309,13 @@ def tpv_order_send(request):
         amount_user = get_param(request.GET, "amount_user", "")
         band_id = get_param(request.GET, "band", "")
         desc = get_param(request.GET, "desc", "")
-        mobile = get_param(request.GET, "mobile", "")
+        #mobile = get_param(request.GET, "mobile", "")
 
         fi = get_or_none(FormInstance, fi_id)
         fi.set_status("01", request.user, "")
         fi.date = datetime.datetime.now()
         fi.amount = amount if amount_user == "" else amount_user
+        factor = -1 if get_float(amount) < 0 else 1
         if pt_id != "":
             pt = get_or_none(PaymentType, pt_id)
             fi.payment_type = pt
@@ -314,9 +323,17 @@ def tpv_order_send(request):
                 pos = get_or_none(PointOfSale, request.session["point_of_sale"])
                 band = get_or_none(Wristband, band_id)
                 add_balance_to_band(pos, fi, band)
+
+                if band != None:
+                    pwu = get_or_none(ProjectWinhotelUser, fi.form.project.uuid, "project_uuid")
+                    if pwu != None and pwu.source_code != "":
+                        send_charges(pwu, fi, band, pos, factor)
+
         fi.save()
         set_desc(fi, desc)
-        context = {'msg': fi.get_status.status.code, 'project_uuid': fi.form.project.uuid, "mobile": mobile}
+
+        #context = {'msg': fi.get_status.status.code, 'project_uuid': fi.form.project.uuid, "mobile": mobile}
+        context = {'msg': fi.get_status.status.code, 'project_uuid': fi.form.project.uuid}
         return render(request, 'bookings/tpv/show-msg.html', context)
     except Exception as e:
         print(e)
@@ -373,26 +390,66 @@ def tpv_close(request):
     WINHOTEL
 '''
 from django.db.models import Sum
-def get_drinks_total(fi):
-    total = ShoppingCart.objects.filter(form_instance_id=fi.pk, item__ext_id__lt=50000).aggregate(Sum('item__price'))["item__price__sum"]
+def get_drinks_total(fi, band):
+    #total = ShoppingCart.objects.filter(form_instance_id=fi.pk, item__ext_id__lt=50000).aggregate(Sum('item__price'))["item__price__sum"]
+    #return total if total != None else -1
+
+    regime = band.guest.regime.code if band != None and band.guest != None and band.guest.regime != None else ""
+    if regime == "":
+        total = ShoppingCart.objects.filter(form_instance_id=fi.pk, item__ext_id__lt=50000).aggregate(Sum('price'))["price__sum"]
+    else:
+        total = ShoppingCart.objects.filter(form_instance_id=fi.pk, item__ext_id__lt=50000).aggregate(Sum('low_price'))["low_price__sum"]
     return total if total != None else -1
 
-def get_food_total(fi):
-    total =  ShoppingCart.objects.filter(form_instance_id=fi.pk, item__ext_id__gte=50000).aggregate(Sum('item__price'))["item__price__sum"]
+    #total = -1
+    #item_list = ShoppingCart.objects.filter(form_instance_id=fi.pk, item__ext_id__lt=50000)
+    #for item in item_list:
+    #    total += item.item.get_price(regime)
+    #return total
+
+def get_food_total(fi, band):
+    #total =  ShoppingCart.objects.filter(form_instance_id=fi.pk, item__ext_id__gte=50000).aggregate(Sum('item__price'))["item__price__sum"]
+    #return total if total != None else -1
+
+    regime = band.guest.regime.code if band != None and band.guest != None and band.guest.regime != None else ""
+    if regime == "":
+        total = ShoppingCart.objects.filter(form_instance_id=fi.pk, item__ext_id__gte=50000).aggregate(Sum('price'))["price__sum"]
+    else:
+        total = ShoppingCart.objects.filter(form_instance_id=fi.pk, item__ext_id__gte=50000).aggregate(Sum('low_price'))["low_price__sum"]
     return total if total != None else -1
 
-def send_charges(fi, band):
-    pau = get_or_none(ProjectWinhotelUser, fi.form.project.uuid, "project_uuid")
-    booking_code = guest.ext_id
+    #total = -1
+    #item_list = ShoppingCart.objects.filter(form_instance_id=fi.pk, item__ext_id__gte=50000)
+    #for item in item_list:
+    #    total += item.item.get_price(regime)
+    #return total
+
+def send_charges(pwu, fi, band, pos, factor):
+    #pau = get_or_none(ProjectWinhotelUser, fi.form.project.uuid, "project_uuid")
+    booking_code = band.guest.ext_id
     room_code = band.guest.room
     contact_name = "{} {}".format(band.guest.name, band.guest.surname)
-    contact_id = 3
+    contact_id = band.guest.ext_id
     has_credit = "true"
-    limit_credit = 5.0
-    source = ""
-    source_document = ""
+    limit_credit = 0
+    #source
+    #source = fi.id
+    s_drink = pos.code1
+    s_food = pos.code2
+    #source_document
+    sd_drink = "Cargo Ticket Nº- {} del TPV {} (Bebidas)".format(fi.id, pos.name)
+    sd_food = "Cargo Ticket Nº- {} del TPV {} (Comidas)".format(fi.id, pos.name)
     date = fi.date.strftime("%Y-%m-%dT%H:%M:%S")
-    total_amount = fi.get_total()
+    #total_amount
+    #total_amount = fi.get_total()
+    ta_drink = get_drinks_total(fi, band) * factor
+    ta_food = get_food_total(fi, band) * factor
     cash_code = ""
+    print(ta_drink)
+    print(ta_food)
 
-    send_charge(pau,booking_code,room_code,contact_name,contact_id,has_credit,limit_credit,source,source_document,date,total_amount,cash_code)
+    if ta_drink >= 0:
+        send_charge(pwu,booking_code,room_code,contact_name,contact_id,has_credit,limit_credit,s_drink,sd_drink,date,ta_drink,cash_code)
+    if ta_food >= 0:
+        send_charge(pwu,booking_code,room_code,contact_name,contact_id,has_credit,limit_credit,s_food,sd_food,date,ta_food,cash_code)
+
