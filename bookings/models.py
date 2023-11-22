@@ -425,7 +425,7 @@ class FormInstance(models.Model):
             total_price = 0
             for item in items:
                 try:
-                    price = item.item.get_price(regime)
+                    price = item.item.get_price(regime, self.band)
                     total_price += float(price)
                 except Exception as ex:
                     print(ex)

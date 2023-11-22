@@ -30,7 +30,7 @@
                 <div class="col-6"> <div class="item-name text-left">{% padword_translate item.item.name %}</div> </div>
 
                 <div class="col-2 text-left">{%if regime%}<div class="text-right text-warning">
-                    {{item|get_item_price:regime.code}}€</div>{%endif%}</div>
+                    {% get_item_price item fi.band regime.code %}€</div>{%endif%}</div>
 
                 <div class="col-2"> <div class="text-left">{{ item.item.price }}€</div> </div>
 

@@ -292,9 +292,22 @@ class Item(models.Model):
         except Exception as e:
             return Project(name='UNKNOWN')
 
-    def get_price(self, code):
+    def get_price(self, code, band=None):
+        #No Limit
+        if band != None and band.type != None and band.type.code == "03":
+            return 0
+
         ip = self.prices.filter(regime_code=code).first()
-        return ip.price if ip != None else 0
+
+        #Regime price not defined
+        if ip == None:
+            ip = ItemPrice.objects.create(item=self, regime_code=code, price=self.price)
+
+        #0 for regime items
+        if float(ip.price) > 0 and band != None and band.type != None and band.type.code == "02":
+            return 0
+
+        return ip.price
 
     @classmethod
     def by_category(cls, categories):

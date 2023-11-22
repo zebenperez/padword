@@ -29,34 +29,38 @@
             </div>
         {% endif %}
 
-        <div class="row" id="block-comments"> <span class="small alert m-0">* {% trans 'You can add comments to the article with click on comment buttons' %} 
+        <div class="row" id="block-comments"> 
+            <span class="small alert m-0">* {% trans 'You can add comments to the article with click on comment buttons' %} 
             <i class="fas fa-comments"></i></span></div>
 
-        <div class="row ticket-line justify-content-center space-art" id='block-scan-art'>
+        <div class="row ticket-line align-items-start justify-content-center space-art" id='block-state-art'>
             {% for item in items %}
-                <div class="col-2">
-                    {% if item.item.image %}
-                        <div class="image mobile" id="cover">
-                            <img src="{{item.item.image.url}}" class="card-img-top spec-img" alt="{% padword_translate item.item.name %}">
-                        </div>
-                    {% endif %}
-                </div>
-                <div class="col-4 p-0 text-left"><div class="text-left">{% padword_translate item.item.name %}</div> </div>
-                <div class="col-1 p-0 text-left"><div class="text-right">{{ item.item.price }}€</div> </div>
-                <div class="col-2 p-0 text-right"> 
-                    {% if regime %} <div class="text-right text-warning">{{ item|get_item_price:regime.code }}€</div> {% endif %}
-                </div>
-                <div class="col-3 p-0">
-                    <a class="btn btn-primary btn-sm ark" title="{%trans 'Add comment at this article'%}" data-url="{%url "tpv-order-item-comment"%}" 
-                        data-item_id="{{item.pk}}" data-form_id="{{fi.pk}}" data-target-modal="common-modal"><i class="fas fa-comments"></i></a>
+            <div class="row">
+                    <div class="col-2">
+                        {% if item.item.image %}
+                            <div class="image mobile" id="cover">
+                                <img src="{{item.item.image.url}}" class="card-img-top spec-img" alt="{% padword_translate item.item.name %}">
+                            </div>
+                        {% endif %}
+                    </div>
+                    <div class="col-4 p-0 text-left"><div class="text-left">{% padword_translate item.item.name %}</div> </div>
+                    <div class="col-1 p-0 text-left"><div class="text-right">{{ item.item.price }}€</div> </div>
+                    <div class="col-2 p-0 text-right"> 
+                        {#{% if regime %} <div class="text-right text-warning">{{ item|get_item_price:regime.code }}€</div> {% endif %}#}
+                        {% if regime %} <div class="text-right text-warning">{% get_item_price item fi.band regime.code %}€</div> {% endif %}
+                    </div>
+                    <div class="col-3 p-0">
+                        <a class="btn btn-primary btn-sm ark" title="{%trans 'Add comment at this article'%}" data-url="{%url "tpv-order-item-comment"%}" 
+                            data-item_id="{{item.pk}}" data-form_id="{{fi.pk}}" data-target-modal="common-modal"><i class="fas fa-comments"></i></a>
 
-                    <a class="btn btn-danger btn-sm ark" title="{%trans 'Remove article from shopping-cart'%}" 
-                        data-url="{%url "tpv-order-item-remove"%}" data-item_id="{{item.pk}}" data-target="ticket-summary">
-                        <i class="fas fa-trash"></i></a>
-                </div>
-                <div class="col-12 comment mt-1">
-                    <div class="small card-title text-left"><small>{{ item.comments }} &nbsp;</small></div>
-                </div>
+                        <a class="btn btn-danger btn-sm ark" title="{%trans 'Remove article from shopping-cart'%}" 
+                            data-url="{%url "tpv-order-item-remove"%}" data-item_id="{{item.pk}}" data-target="ticket-summary">
+                            <i class="fas fa-trash"></i></a>
+                    </div>
+                    <div class="col-12 comment mt-1">
+                        <div class="small card-title text-left"><small>{{ item.comments }} &nbsp;</small></div>
+                    </div>
+            </div>
             {% endfor %}
         </div>
 

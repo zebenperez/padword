@@ -127,5 +127,6 @@
         $("#btn-send-order-{{fi.id}}").data("amount", $("#cash-value").val());
     });
 
-    {% if not fi.band or fi.band.balance <= 0 %} $("#pay-type-03").addClass("a-disabled"); {% endif %}
+    {% if not fi|have_balance %} $("#pay-type-03").addClass("a-disabled"); {% endif %}
+    {#{% if not fi.band or fi.band.balance <= 0 %} $("#pay-type-03").addClass("a-disabled"); {% endif %}#}
 </script>

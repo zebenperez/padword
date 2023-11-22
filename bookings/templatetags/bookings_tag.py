@@ -20,9 +20,9 @@ def check_timetable(form):
 def get_cat_uuid(form, name):
     return form.get_category_uuid_by_code(name)
 
-@register.filter
-def get_item_price(item, code):
-    return item.item.get_price(code)
+#@register.filter
+#def get_item_price(item, code):
+#    return item.item.get_price(code)
 
 @register.filter
 def get_total_by_regime(fi, code):
@@ -36,12 +36,27 @@ def get_file_url(cat, order):
         cf = None
     return cf.file.url if cf != None and cf.file else ""
 
+@register.filter
+def have_balance(fi):
+    if fi.band == None:
+        return False
+    total_regime = -1
+    if fi.guest != None and fi.guest.regime != None:
+        total_regime = fi.get_total_by_regime(fi.guest.regime.code)
+    if (total_regime > -1 and fi.band.balance > total_regime) or (total_regime == -1 and fi.band.balance > fi.get_total):
+        return True
+    return False
+
 '''
 	Simple tag
 '''
 @register.simple_tag
 def get_total_items(username, project_uuid):
     return get_guest_total_items(username, project_uuid)
+
+@register.simple_tag
+def get_item_price(item, band, code):
+    return item.item.get_price(code, band)
 
 '''
 	Inclusion tag
