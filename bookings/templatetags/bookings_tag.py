@@ -40,9 +40,15 @@ def get_file_url(cat, order):
 def have_balance(fi):
     if fi.band == None:
         return False
+
+    #No Limit
+    if fi.band.type != None and fi.band.type.code == "03":
+        return True
+
     total_regime = -1
     if fi.band != None and fi.band.guest != None and fi.band.guest.regime != None:
         total_regime = fi.get_total_by_regime(fi.band.guest.regime.code)
+
     if (total_regime > -1 and fi.band.balance >= total_regime) or (total_regime == -1 and fi.band.balance >= fi.get_total):
         return True
     return False

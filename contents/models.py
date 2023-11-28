@@ -293,11 +293,6 @@ class Item(models.Model):
             return Project(name='UNKNOWN')
 
     def get_price(self, code, band=None):
-        #No Limit
-        #if band != None and band.type != None and band.type.code == "03":
-        #    return 0
-        print("--1--")
-
         ip = self.prices.filter(regime_code=code).first()
 
         #Regime price not defined
@@ -307,10 +302,6 @@ class Item(models.Model):
         #Crefit 0
         if code == "TI" and band != None and band.type != None and band.type.code == "02" and ip.price > 0:
             return None
-
-        #0 for regime items
-        #if float(ip.price) > 0 and band != None and band.type != None and band.type.code == "02":
-        #    return 0
 
         return ip.price
 
