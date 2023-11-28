@@ -38,7 +38,11 @@
                         data-target="div-band-form" data-obj_id="{{obj.id}}" data-band_id="{{band.id}}" {%if step > 2%} disabled {%endif%}>
                         <option value="">{% trans "Select type" %}</option>
                         {% for t in type_list %}
-                            <option value="{{t.id}}" {%if t == band.type%}selected{%endif%}>{{t.name}}</option>
+                            <option value="{{t.id}}" 
+                                {%if t == band.type%}selected{%endif%}
+                                {%if obj.regime.code != "TI" and t.code == "02"%}disabled{%endif%}>
+                                {{t.name}} {%if obj.regime.code != "TI" and t.code == "02"%} - {%trans "(Only for All Inclusive Regime)"%}{%endif%}
+                            </option>
                         {% endfor %}
                     </select>
                 </div>

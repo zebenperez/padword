@@ -47,7 +47,7 @@
                     <div class="col-1 p-0 text-left"><div class="text-right">{{ item.item.price }}€</div> </div>
                     <div class="col-2 p-0 text-right"> 
                         {#{% if regime %} <div class="text-right text-warning">{{ item|get_item_price:regime.code }}€</div> {% endif %}#}
-                        {% if regime %} <div class="text-right text-warning">{% get_item_price item fi.band regime.code %}€</div> {% endif %}
+                        {% if regime %} <div class="text-right text-warning">{% get_item_price item fi.band regime.code %}</div> {% endif %}
                     </div>
                     <div class="col-3 p-0">
                         <a class="btn btn-primary btn-sm ark" title="{%trans 'Add comment at this article'%}" data-url="{%url "tpv-order-item-comment"%}" 

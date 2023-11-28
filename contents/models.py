@@ -294,8 +294,8 @@ class Item(models.Model):
 
     def get_price(self, code, band=None):
         #No Limit
-        if band != None and band.type != None and band.type.code == "03":
-            return 0
+        #if band != None and band.type != None and band.type.code == "03":
+        #    return 0
 
         ip = self.prices.filter(regime_code=code).first()
 
@@ -303,9 +303,13 @@ class Item(models.Model):
         if ip == None:
             ip = ItemPrice.objects.create(item=self, regime_code=code, price=self.price)
 
+        #Crefit 0
+        if code == "TI" and band.type.code == "02" and ip.price > 0:
+            return None
+
         #0 for regime items
-        if float(ip.price) > 0 and band != None and band.type != None and band.type.code == "02":
-            return 0
+        #if float(ip.price) > 0 and band != None and band.type != None and band.type.code == "02":
+        #    return 0
 
         return ip.price
 

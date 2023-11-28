@@ -41,9 +41,9 @@ def have_balance(fi):
     if fi.band == None:
         return False
     total_regime = -1
-    if fi.guest != None and fi.guest.regime != None:
-        total_regime = fi.get_total_by_regime(fi.guest.regime.code)
-    if (total_regime > -1 and fi.band.balance > total_regime) or (total_regime == -1 and fi.band.balance > fi.get_total):
+    if fi.band != None and fi.band.guest != None and fi.band.guest.regime != None:
+        total_regime = fi.get_total_by_regime(fi.band.guest.regime.code)
+    if (total_regime > -1 and fi.band.balance >= total_regime) or (total_regime == -1 and fi.band.balance >= fi.get_total):
         return True
     return False
 
@@ -56,7 +56,8 @@ def get_total_items(username, project_uuid):
 
 @register.simple_tag
 def get_item_price(item, band, code):
-    return item.item.get_price(code, band)
+    price =  item.item.get_price(code, band)
+    return "{} €".format(item.item.get_price(code, band)) if price != None else "NOT INCLUDED!"
 
 '''
 	Inclusion tag

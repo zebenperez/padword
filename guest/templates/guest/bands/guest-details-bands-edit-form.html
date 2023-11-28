@@ -18,7 +18,13 @@
 	<div class="col-4 mb-2">
         <select class="form-control autosave text-right" id="type" name="type" data-model-name="guest.wristband" data-obj-id="{{obj.id}}" 
             data-url="{% url "autosave_field" %}" data-target="div-notification"> 
-            {% for t in type_list %} <option value="{{t.id}}" {%if t == obj.type%}selected{%endif%}>{{t.name}}</option>{% endfor %}
+            {% for t in type_list %} 
+                <option value="{{t.id}}"
+                    {%if t == obj.type%}selected{%endif%} 
+                    {%if obj.guest.regime.code != "TI" and t.code == "02"%}disabled{%endif%}>
+                    {{t.name}} {%if obj.guest.regime.code != "TI" and t.code == "02"%} - {%trans "(Only for All Inclusive Regime)"%}{%endif%}
+                </option>
+            {% endfor %}
         </select>
 	</div>
 	<div class="col-4 mb-2">
