@@ -1,7 +1,7 @@
 {% load i18n padword_tags bookings_tag %}
 
 
-{% with items=fi.get_items total=fi.get_total regime=fi.band.guest.regime %}
+{% with items=fi.get_items total=fi.get_total regime=fi.band.guest.regime band=fi.band%}
     {% if items|length > 0 %} 
     <div class="row justify-content-center">
         <div id="guest-info" class="col-12 text-left mb-3">

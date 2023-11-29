@@ -206,7 +206,8 @@ def tpv_check_band(request):
             band_err = _("This band is not asigned to any guest!")
 
         #band_err = True if band == None else False
-        return render(request, "bookings/tpv/view-ticket.html", {'fi':fi, 'band': band, 'regime': regime, 'band_err': band_err})
+        return render(request, "bookings/tpv/view-ticket.html", {'fi':fi, 'band_err': band_err})
+        #return render(request, "bookings/tpv/view-ticket.html", {'fi':fi, 'band': band, 'regime': regime, 'band_err': band_err})
         #return render(request, "bookings/tpv/view-guest-info.html", {'fi':fi, 'band': band, 'regime': regime})
     except Exception as e:
         print(e)
