@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-03-23 13:05+0000\n"
+"POT-Creation-Date: 2023-11-30 10:54+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,96 +17,136 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: models.py:63 templates/contents/category-form.html:54
+#: models.py:74 templates/contents/category-form.html:54
 msgid "Position"
 msgstr ""
 
-#: models.py:65
+#: models.py:76
 msgid "Show image"
 msgstr ""
 
-#: models.py:66 models.py:156 models.py:235 models.py:326 models.py:386
-#: templates/contents/category-form.html:15
+#: models.py:77 models.py:174 models.py:262 models.py:365 models.py:430
+#: models.py:502 templates/contents/category-form.html:15
 #: templates/contents/item-form.html:15
 msgid "Image"
 msgstr ""
 
-#: models.py:151 templates/contents/category-form.html:5
+#: models.py:169 models.py:520 templates/contents/category-form.html:5
 #: templates/contents/category-links.html:4
 msgid "Category"
 msgstr ""
 
-#: models.py:155 models.py:325
+#: models.py:173 models.py:182 models.py:364
 msgid "Order"
 msgstr ""
 
-#: models.py:160
+#: models.py:178
 msgid "Category Image"
 msgstr ""
 
-#: models.py:285 models.py:327 models.py:335
+#: models.py:183
+msgid "File"
+msgstr ""
+
+#: models.py:187
+msgid "Category File"
+msgstr ""
+
+#: models.py:263 templates/contents/item-form.html:42
+#: templates/contents/item-form.html:44
+msgid "Favorite"
+msgstr ""
+
+#: models.py:264 templates/contents/item-form.html:46
+#: templates/contents/item-form.html:48
+msgid "Especial"
+msgstr ""
+
+#: models.py:265 templates/contents/item-form.html:51
+msgid "External ID"
+msgstr ""
+
+#: models.py:324 models.py:366 models.py:374
 #: templates/contents/item-form.html:5
 msgid "Item"
 msgstr ""
 
-#: models.py:294
+#: models.py:333
 msgid "Items in Category"
 msgstr ""
 
-#: models.py:322
+#: models.py:361
 msgid "Options in item"
 msgstr ""
 
-#: models.py:330
+#: models.py:369
 msgid "Item Image"
 msgstr ""
 
-#: models.py:334
+#: models.py:373
 msgid "Form Instance"
 msgstr ""
 
-#: models.py:336
+#: models.py:375
 msgid "Options"
 msgstr ""
 
-#: models.py:337
+#: models.py:376
 msgid "Comments"
 msgstr ""
 
-#: models.py:341
+#: models.py:385
 msgid "Shopping Cart"
 msgstr ""
 
-#: models.py:384
+#: models.py:428
 msgid "Ini date"
 msgstr ""
 
-#: models.py:385
+#: models.py:429
 msgid "End date"
 msgstr ""
 
-#: models.py:402
+#: models.py:446
 msgid "Regime code"
 msgstr ""
 
-#: models.py:410
+#: models.py:454
 msgid "View category"
 msgstr ""
 
-#: models.py:411
+#: models.py:455
 msgid "Remove category"
 msgstr ""
 
-#: models.py:412
+#: models.py:456
 msgid "Category UUID"
 msgstr ""
 
-#: models.py:413
+#: models.py:457
 msgid "Username"
 msgstr ""
 
-#: models.py:416
+#: models.py:460
 msgid "Category user"
+msgstr ""
+
+#: models.py:498 models.py:524
+msgid "UUID"
+msgstr ""
+
+#: models.py:516 models.py:521 models.py:526
+msgid "Point of sale"
+msgstr ""
+
+#: models.py:517
+msgid "Points of sales"
+msgstr ""
+
+#: models.py:525 templates/contents/categories.html:12
+#: templates/contents/category-form.html:25
+#: templates/contents/item-form.html:20
+msgid "Name"
 msgstr ""
 
 #: templates/contents/cat-user/categories-list.html:6
@@ -143,19 +183,13 @@ msgstr ""
 #: templates/contents/cat-user/categories-list.html:15
 #: templates/contents/categories-list.html:19
 #: templates/contents/category-form.html:85
-#: templates/contents/item-form.html:77
+#: templates/contents/item-form.html:93
 msgid "Are you sure to remove this element?"
 msgstr ""
 
 #: templates/contents/cat-user/categories.html:15
 #: templates/contents/categories.html:23
 msgid "Categories"
-msgstr ""
-
-#: templates/contents/categories.html:12
-#: templates/contents/category-form.html:25
-#: templates/contents/item-form.html:20
-msgid "Name"
 msgstr ""
 
 #: templates/contents/categories.html:28
@@ -178,12 +212,28 @@ msgstr ""
 msgid "Go to the target project"
 msgstr ""
 
+#: templates/contents/category-files.html:6
+#: templates/contents/category-gallery.html:6
+#: templates/contents/category-img.html:5
+#: templates/contents/item-gallery.html:18 templates/contents/item-img.html:5
+#: templates/contents/promos.html:36
+msgid "Upload File"
+msgstr ""
+
+#: templates/contents/category-files.html:17
+#: templates/contents/category-gallery.html:16
+#: templates/contents/category-img.html:14
+#: templates/contents/item-gallery.html:8 templates/contents/item-img.html:13
+#: templates/contents/promos.html:45
+msgid "Are you sure to remove this file?"
+msgstr ""
+
 #: templates/contents/category-form.html:9
 msgid "Modify this category"
 msgstr ""
 
 #: templates/contents/category-form.html:30
-#: templates/contents/item-form.html:42
+#: templates/contents/item-form.html:58
 msgid "Description"
 msgstr ""
 
@@ -210,27 +260,13 @@ msgstr ""
 
 #: templates/contents/category-form.html:81
 #: templates/contents/category-form.html:83
-#: templates/contents/item-form.html:74
+#: templates/contents/item-form.html:90
 msgid "Save"
 msgstr ""
 
 #: templates/contents/category-form.html:85 templates/contents/extras.html:15
-#: templates/contents/item-form.html:78 templates/contents/promos.html:31
+#: templates/contents/item-form.html:94 templates/contents/promos.html:31
 msgid "Remove"
-msgstr ""
-
-#: templates/contents/category-gallery.html:8
-#: templates/contents/category-img.html:13
-#: templates/contents/item-gallery.html:8 templates/contents/item-img.html:13
-#: templates/contents/promos.html:45
-msgid "Are you sure to remove this file?"
-msgstr ""
-
-#: templates/contents/category-gallery.html:18
-#: templates/contents/category-img.html:5
-#: templates/contents/item-gallery.html:18 templates/contents/item-img.html:5
-#: templates/contents/promos.html:36
-msgid "Upload File"
 msgstr ""
 
 #: templates/contents/category-links.html:19
@@ -261,23 +297,23 @@ msgstr ""
 msgid "No"
 msgstr ""
 
-#: templates/contents/item-form.html:52
+#: templates/contents/item-form.html:68
 msgid "Prices"
 msgstr ""
 
-#: templates/contents/item-form.html:56
+#: templates/contents/item-form.html:72
 msgid "Allergens"
 msgstr ""
 
-#: templates/contents/item-form.html:59
+#: templates/contents/item-form.html:75
 msgid "Extras"
 msgstr ""
 
-#: templates/contents/item-form.html:62
+#: templates/contents/item-form.html:78
 msgid "Promos"
 msgstr ""
 
-#: templates/contents/item-form.html:65
+#: templates/contents/item-form.html:81
 msgid "Images"
 msgstr ""
 

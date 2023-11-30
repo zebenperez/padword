@@ -39,8 +39,10 @@
 
 {#{% include "bookings/tpv/view-payment-types-nfc.html" %}#}
 
-<div id="band-alert" class="hide"><div class="text-danger">
-    <br/>{%trans "You can not use band, please check balance or invalid items"%}</div></div>
+<div id="band-balance-alert" class="hide"><div class="text-danger">
+    <br/>{%trans "ADVISE: You have not balance, recharge your band!"%}</div></div>
+<div id="band-invalid-alert" class="hide"><div class="text-danger">
+    <br/>{%trans "ADVISE: You have invalid products, please remove!"%}</div></div>
 
 <div class="row footer-buttons mt-4 m-0 p-0 justify-content-center">
     <div class="col-6 text-center p-0">
@@ -130,6 +132,9 @@
         $("#btn-send-order-{{fi.id}}").data("amount", $("#cash-value").val());
     });
 
-    {% if not fi|have_balance %} $("#pay-type-03").addClass("a-disabled"); $("#band-alert").show(){% endif %}
-    {#{% if not fi.band or fi.band.balance <= 0 %} $("#pay-type-03").addClass("a-disabled"); {% endif %}#}
+    {% with balance=fi|have_balance%}
+        {% if balance <= 0 %} $("#pay-type-03").addClass("a-disabled"); {% endif %}
+        {% if balance == 0 and band %} $("#band-balance-alert").show(); {% endif %}
+        {% if balance == -1  and band %} $("#band-invalid-alert").show(); {% endif %}
+    {% endwith %}
 </script>

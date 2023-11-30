@@ -39,11 +39,13 @@ def get_file_url(cat, order):
 @register.filter
 def have_balance(fi):
     if fi.band == None:
-        return False
+        return 0
+        #return False
 
     #No Limit
     if fi.band.type != None and fi.band.type.code == "03":
-        return True
+        return 1
+        #return True
 
     total_regime = -1
     if fi.band != None and fi.band.guest != None and fi.band.guest.regime != None:
@@ -51,13 +53,16 @@ def have_balance(fi):
 
         #Invalid item
         if fi.get_invalid_item(regime):
-            return False
+            return -1
+            #return False
 
         total_regime = fi.get_total_by_regime(regime)
 
     if (total_regime > -1 and fi.band.balance >= total_regime) or (total_regime == -1 and fi.band.balance >= fi.get_total):
-        return True
-    return False
+        return 1
+        #return True
+    return 0
+    #return False
 
 '''
 	Simple tag
