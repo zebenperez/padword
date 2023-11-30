@@ -30,6 +30,9 @@
 
 <input type="text" class="form-control hide mt-2" id="cash-value" placeholder="{%trans "Amount to pay (10, 20, 50...)"%}" />
 
+<div id="band-alert" class="hide"><div class="text-danger">
+    <br/>{%trans "You can not use band, please check balance or invalid items"%}</div></div>
+
 <div class="row footer-buttons mt-2 m-0 p-0 justify-content-center text-center">
     <div class="col-3 mb-3 p-0">
         <button id="btn-cancel-order-mob-{{fi.id}}" class="btn btn-success-tpv w-100 ark" data-url="{% url "tpv-order-remove" %}" 
@@ -117,6 +120,6 @@
         $("#btn-send-order-mob-{{fi.id}}").data("amount", $("#cash-value").val());
     });
 
-    {% if not fi|have_balance %} $("#pay-type-03").addClass("a-disabled"); {% endif %}
+    {% if not fi|have_balance %} $("#pay-type-03").addClass("a-disabled"); $("#band-alert").show(){% endif %}
     {#{% if not fi.band or fi.band.balance <= 0 %} $("#pay-type-mob-03").addClass("a-disabled"); {% endif %}#}
 </script>

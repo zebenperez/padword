@@ -39,6 +39,9 @@
 
 {#{% include "bookings/tpv/view-payment-types-nfc.html" %}#}
 
+<div id="band-alert" class="hide"><div class="text-danger">
+    <br/>{%trans "You can not use band, please check balance or invalid items"%}</div></div>
+
 <div class="row footer-buttons mt-4 m-0 p-0 justify-content-center">
     <div class="col-6 text-center p-0">
         <button id="btn-cancel-order-{{fi.id}}" class="btn btn-success-tpv w-100 ark" data-url="{% url "tpv-order-remove" %}" 
@@ -67,6 +70,7 @@
     </div>
 
 </div>
+
 
 <div id="div-return" class="alert alert-warning hide">
     {% trans "Va a realizar una devolución por un importe de: " %}
@@ -105,7 +109,6 @@
     </div>
 </div>
 
-
 <script>
     $(".btn-select-payment-web").click(function(){
         $(".pt-box").each(function(){$(this).removeClass("selected")});
@@ -127,6 +130,6 @@
         $("#btn-send-order-{{fi.id}}").data("amount", $("#cash-value").val());
     });
 
-    {% if not fi|have_balance %} $("#pay-type-03").addClass("a-disabled"); {% endif %}
+    {% if not fi|have_balance %} $("#pay-type-03").addClass("a-disabled"); $("#band-alert").show(){% endif %}
     {#{% if not fi.band or fi.band.balance <= 0 %} $("#pay-type-03").addClass("a-disabled"); {% endif %}#}
 </script>

@@ -435,6 +435,14 @@ class FormInstance(models.Model):
             print (show_exc(e))
             return 0
 
+    def get_invalid_item(self, regime):
+        items = ShoppingCart.objects.filter(form_instance_id=self.pk)
+        for item in items:
+            price = item.item.get_price(regime, self.band)
+            if price == None:
+                return True
+        return False
+
     def check_obligatory(self, q, index):
         answers = self.answerinstance_set.filter(question=q, index=index, field__obligatory=True)
         for a in answers:

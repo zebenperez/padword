@@ -47,7 +47,13 @@ def have_balance(fi):
 
     total_regime = -1
     if fi.band != None and fi.band.guest != None and fi.band.guest.regime != None:
-        total_regime = fi.get_total_by_regime(fi.band.guest.regime.code)
+        regime = fi.band.guest.regime.code
+
+        #Invalid item
+        if fi.get_invalid_item(regime):
+            return False
+
+        total_regime = fi.get_total_by_regime(regime)
 
     if (total_regime > -1 and fi.band.balance >= total_regime) or (total_regime == -1 and fi.band.balance >= fi.get_total):
         return True
