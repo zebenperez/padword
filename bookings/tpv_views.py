@@ -323,7 +323,7 @@ def tpv_order_send(request):
         fi.set_status("01", request.user, "")
         fi.date = datetime.datetime.now()
         fi.amount = amount if amount_user == "" else amount_user
-        factor = -1 if get_float(amount) < 0 else 1
+        factor = -1 if get_float(amount.replace(",", ".")) < 0 else 1
         if pt_id != "":
             pt = get_or_none(PaymentType, pt_id)
             fi.payment_type = pt
@@ -407,7 +407,8 @@ def get_drinks_total(fi, band):
         total = ShoppingCart.objects.filter(form_instance_id=fi.pk, item__ext_id__lt=50000).aggregate(Sum('price'))["price__sum"]
     else:
         total = ShoppingCart.objects.filter(form_instance_id=fi.pk, item__ext_id__lt=50000).aggregate(Sum('low_price'))["low_price__sum"]
-    return total if total != None else -1
+    return total
+    #return total if total != None else -1
 
     #total = -1
     #item_list = ShoppingCart.objects.filter(form_instance_id=fi.pk, item__ext_id__lt=50000)
@@ -424,7 +425,8 @@ def get_food_total(fi, band):
         total = ShoppingCart.objects.filter(form_instance_id=fi.pk, item__ext_id__gte=50000).aggregate(Sum('price'))["price__sum"]
     else:
         total = ShoppingCart.objects.filter(form_instance_id=fi.pk, item__ext_id__gte=50000).aggregate(Sum('low_price'))["low_price__sum"]
-    return total if total != None else -1
+    return total
+    #return total if total != None else -1
 
     #total = -1
     #item_list = ShoppingCart.objects.filter(form_instance_id=fi.pk, item__ext_id__gte=50000)
@@ -450,14 +452,16 @@ def send_charges(pwu, fi, band, pos, factor):
     date = fi.date.strftime("%Y-%m-%dT%H:%M:%S")
     #total_amount
     #total_amount = fi.get_total()
-    ta_drink = get_drinks_total(fi, band) * factor
-    ta_food = get_food_total(fi, band) * factor
+    #ta_drink = get_drinks_total(fi, band) * factor
+    #ta_food = get_food_total(fi, band) * factor
+    ta_drink = get_drinks_total(fi, band)
+    ta_food = get_food_total(fi, band)
     cash_code = ""
-    print(ta_drink)
-    print(ta_food)
+    #print(ta_drink)
+    #print(ta_food)
 
-    if ta_drink >= 0:
-        send_charge(pwu,booking_code,room_code,contact_name,contact_id,has_credit,limit_credit,s_drink,sd_drink,date,ta_drink,cash_code)
-    if ta_food >= 0:
-        send_charge(pwu,booking_code,room_code,contact_name,contact_id,has_credit,limit_credit,s_food,sd_food,date,ta_food,cash_code)
+    if ta_drink != None:
+        send_charge(pwu,booking_code,room_code,contact_name,contact_id,has_credit,limit_credit,s_drink,sd_drink,date,ta_drink*factor,cash_code)
+    if ta_food != None:
+        send_charge(pwu,booking_code,room_code,contact_name,contact_id,has_credit,limit_credit,s_food,sd_food,date,ta_food*factor,cash_code)
 
