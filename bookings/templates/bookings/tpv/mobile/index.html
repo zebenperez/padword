@@ -7,8 +7,8 @@
         {% if point_of_sales|length > 0 %}
             {% for item in point_of_sales %}
                 <div class="col-lg-3 col-6">
-                    <button class="menu-options ark" data-url="{%url "tpv-mob-set-pos"%}" data-target="base" data-obj_id="{{item.id}}"
-                        >{{item.name}}</button>
+                    <button class="menu-options ark" data-url="{%url "tpv-mob-set-pos"%}" data-target="base" data-obj_id="{{item.id}}">
+                        {{item.name}}</button>
                 </div>
             {% endfor %}
         {# ------------------ SELECCION DE LA MESA ---------------------------#}
@@ -21,7 +21,7 @@
                             <div class="col-9 text-left">{{item.name}}</div>
                             <div class="col-3 text-right"><i class='fas fa-concierge-bell'></i></div>
                         </div>
-                        {% get_table_info item %}
+                        {% get_table_info pos item %}
                     </button>
                 </div>
             {% endfor %}

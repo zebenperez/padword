@@ -1,33 +1,16 @@
-{% load i18n bookings_tag common_tag padword_tags static %}
+{% load i18n tpv_tags bookings_tag padword_tags %}
 
 
-<style> 
-    .selected {border: 3px solid #a1c517; border-radius: 5px;} 
-    .selected .btn {font-weight:600; border: none !important;}
-    .a-disabled {pointer-events: none; cursor: default; color: grey;} 
-    .img-width {width: 20px;}
-</style>
+{% include "bookings/tpv/view-payment-types-styles.html" %}
 
+{# ------------------------------------------------ TIPOS DE PAGO ---------------------------------------------------------#}
 <div class="row justify-content-center">
     {% for item in fi.form.get_category.payment_types.all %}
         <div class="col-12 col-lg-4 justify-content-center pt-box pay-method" id="pt-box-{{item.id}}">
             <div class="justify-content-center">
-                {%comment%}
-                <a class="btn btn-select-payment w-100 mt-2 pay-opts {%if item.payment_type.code == "03"%}scan-nfc{%endif%}"
-                    data-id="{{item.id}}" data-pt="{{item.payment_type.id}}" data-cash='{{item.payment_type.code}}' 
-                    data-scan-container="div-scan" data-scan-url="{% url "band-scan" %}" data-guest-uuid="{{fi.guest_uuid}}">
-                    <img src="{{item.payment_type.icon.url}}" alt="{% padword_translate item.payment_type.name %}" style="width:20px">
-                    {% padword_translate item.payment_type.name %} 
-                    </a>
-                {%endcomment%}
                 <a id="pay-type-{{item.payment_type.code}}" class="btn btn-select-payment-web pay-opts" 
-                    data-id="{{item.id}}" 
-                    data-pt="{{item.payment_type.id}}" 
-                    data-cash='{{item.payment_type.code}}' 
-                    data-scan-url="{% url "band-scan" %}" 
-                    data-guest-uuid="{{fi.guest_uuid}}"
-                >
-                        <img src="{{item.payment_type.icon.url}}" alt="{% padword_translate item.payment_type.name %}" class="img-width">
+                    data-id="{{item.id}}" data-pt="{{item.payment_type.id}}" data-cash="{{item.payment_type.code}}">
+                    <img src="{{item.payment_type.icon.url}}" alt="{% padword_translate item.payment_type.name %}" class="img-width">
                         {% padword_translate item.payment_type.name %} 
                 </a>
             </div>
@@ -37,104 +20,89 @@
 
 <input type="text" class="form-control hide mt-2" id="cash-value" placeholder="{%trans "Amount to pay (10, 20, 50...)"%}" />
 
-{#{% include "bookings/tpv/view-payment-types-nfc.html" %}#}
+<br/><div id="band-alert" class="text-danger" class="hide"></div>
 
-<div id="band-balance-alert" class="hide"><div class="text-danger">
-    <br/>{%trans "ADVISE: You have not balance, recharge your band!"%}</div></div>
-<div id="band-invalid-alert" class="hide"><div class="text-danger">
-    <br/>{%trans "ADVISE: You have invalid products, please remove!"%}</div></div>
-
+{# ------------------------------------------------ ACCIONES --------------------------------------------------------------#}
 <div class="row footer-buttons mt-4 m-0 p-0 justify-content-center">
+    {# -------------------------------- CANCELAR ---------------------------- #}
     <div class="col-6 text-center p-0">
         <button id="btn-cancel-order-{{fi.id}}" class="btn btn-success-tpv w-100 ark" data-url="{% url "tpv-order-remove" %}" 
-            data-target="base" data-obj_id="{{fi.id}}"> 
-            <i class="fa fa-ban"></i><br />
-            {% trans "Cancel Order" %}
-        </button>
+            data-target="base" data-obj_id="{{fi.id}}"> <i class="fa fa-ban"></i><br /> {% trans "Cancel Order" %} </button>
     </div>
+    {# -------------------------------- ENVIAR ---------------------------- #}
     <div class="col-6 text-center p-0">
-        <button id="btn-send-order-{{fi.id}}" class="btn btn-success-tpv w-100 ark" data-bs-dismiss="modal" data-url="{% url "tpv-order-send" %}" 
+        <button id="btn-send-order-{{fi.id}}" class="btn btn-success-tpv w-100 a-disabled ark" data-url="{% url "tpv-order-send" %}" 
             data-target="base" data-obj_id="{{fi.id}}" data-payment_type="" data-amount="{{total}}" data-band="{{band.id}}"
-            data-amount_user="{%if regime%}{{fi|get_total_by_regime:regime.code}}{%endif%}" disabled> 
-            <i class="fa fa-share-square"></i><br />
-            {%trans "Send Order"%}
-        </button>
+            data-amount_user="{%if regime%}{{fi|get_total_by_regime:regime.code}}{%endif%}"> 
+            <i class="fa fa-share-square"></i><br /> {%trans "Send Order"%} </button>
     </div>
+    {# -------------------------------- DEVOLUCIÓN ---------------------------- #}
     <div class="col-6 text-center p-0">
         <button id="btn-return-{{fi.id}}" class="btn btn-warning w-100 a-disabled" onclick="$('#div-return').show()">
-            <i class="fa fa-reply"></i><br />
-            {%trans "Devolución"%} {#<br/> <small>{%trans "(Sólo disponible para el pago con pulseras)"%}</small>#}</button>
+            <i class="fa fa-reply"></i><br /> {%trans "Devolución"%} </button>
     </div>
+    {# -------------------------------- INVITACION ---------------------------- #}
     <div class="col-6 text-center p-0">
         <button id="btn-free-{{fi.id}}" class="btn btn-primary w-100" onclick="$('#div-free').show()">
-            <i class="fas fa-hand-holding-heart"></i><br />
-            {%trans "Invitación"%} </button>
-    </div>
-
-</div>
-
-
-<div id="div-return" class="alert alert-warning hide">
-    {% trans "Va a realizar una devolución por un importe de: " %}
-    {% if regime %} -{{fi|get_total_by_regime:regime.code}} &euro; {% else %} -{{total|floatformat:2}} &euro; {% endif %}
-    <br/> <br/> 
-    <div class="row">
-        <div class="col-6">
-            <button class="btn btn-warning w-100 " onclick="$('#div-return').hide()">{%trans "Cancel"%}</button>
-        </div>
-        <div class="col-6">
-            <button id="btn-return-order-{{fi.id}}" class="btn btn-warning w-100 ark" data-bs-dismiss="modal" data-url="{% url "tpv-order-send" %}" 
-                data-target="base" data-obj_id="{{fi.id}}" data-payment_type="" data-amount="-{{total}}" data-band="{{band.id}}"
-                data-amount_user="{%if regime%}-{{fi|get_total_by_regime:regime.code}}{%endif%}"> {%trans "Confirm"%}</i>
-            </button>
-        </div>
+            <i class="fas fa-hand-holding-heart"></i><br /> {%trans "Invitación"%} </button>
     </div>
 </div>
 
-<div id="div-free" class="alert alert-primary hide">
-    {% trans "Va a realizar una invitación por un importe de: " %}
-    {% if regime %} {{fi|get_total_by_regime:regime.code}} &euro; {% else %} {{total|floatformat:2}} &euro; {% endif %}
-    <br/> <br/> 
-    <input type="text" class="form-control" name="free_desc" placeholder="{%trans "Nombre de la persona realiza la invitación..."%}"
-        onchange="$('#btn-free-order-{{fi.id}}').data('desc', 'Invitado por:'+$(this).val());"/>
-    <br/> 
-    <div class="row">
-        <div class="col-6">
-            <button class="btn btn-primary w-100 " onclick="$('#div-free').hide()">{%trans "Cancel"%}</button>
-        </div>
-        <div class="col-6">
-            <button id="btn-free-order-{{fi.id}}" class="btn btn-primary w-100 ark" data-bs-dismiss="modal" data-url="{% url "tpv-order-send" %}" 
-                data-target="base" data-obj_id="{{fi.id}}" data-payment_type="" data-amount="0" data-band="{{band.id}}"
-                data-amount_user="" data-desc=""> {%trans "Confirm"%}</i>
-            </button>
-        </div>
-    </div>
-</div>
+{# ------------------------------------------------ VENTANAS AUX --------------------------------------------------------#}
+{% include "bookings/tpv/view-payment-types-aux.html" %}
 
+{# ------------------------------------------------ SCRIPTS --------------------------------------------------------#}
+{% include "bookings/tpv/view-payment-types-scripts.html" %}
+
+{%comment%}
 <script>
     $(".btn-select-payment-web").click(function(){
         $(".pt-box").each(function(){$(this).removeClass("selected")});
         $("#pt-box-"+$(this).data("id")).addClass("selected");
 
-        //$("#btn-cancel-order-{{fi.id}}").prop("disabled", "");
-        $("#btn-send-order-{{fi.id}}").prop("disabled", "");
+        $("#btn-send-order-{{fi.id}}").removeClass("a-disabled");
         $("#btn-send-order-{{fi.id}}").data("payment_type", $(this).data("pt"));
-        $("#btn-return-order-{{fi.id}}").data("payment_type", $(this).data("pt"));
 
         if ($(this).data("cash") == "01") { $("#cash-value").show(); }
         else { $("#cash-value").hide(); }
-
-        if ($(this).data("cash") == "03") { $("#btn-return-{{fi.id}}").removeClass("a-disabled", "");}
-        else { $("#btn-return-{{fi.id}}").addClass("a-disabled"); }
     });
 
     $("#cash-value").change(function(){
         $("#btn-send-order-{{fi.id}}").data("amount", $("#cash-value").val());
     });
 
-    {% with balance=fi|have_balance%}
-        {% if balance <= 0 %} $("#pay-type-03").addClass("a-disabled"); {% endif %}
-        {% if balance == 0 and band %} $("#band-balance-alert").show(); {% endif %}
-        {% if balance == -1  and band %} $("#band-invalid-alert").show(); {% endif %}
+    {% with val=fi|check_band %}
+        {# Not band #}
+        {% if val == 0 %} $("#pay-type-03").addClass("a-disabled"); {% endif %} 
+
+        {# Band locked #}
+        {% if val == 1 %}
+            $("#pay-type-03").addClass("a-disabled");
+            $("#band-alert").html("{% trans "ADVISE: This band is locked!" %}");
+        {% endif %} 
+
+        {# No limit #}
+        {% if val == 2 %}{% endif %} 
+
+        {# Item not valid #}
+        {% if val == 3 %}
+            $("#pay-type-03").addClass("a-disabled");
+            $("#band-alert").html("{% trans "ADVISE: You have invalid products, please remove!" %}");
+        {% endif %} 
+
+        {# Not enough credit #}
+        {% if val == 4 %}
+            $("#pay-type-03").addClass("a-disabled");
+            $("#band-alert").html("{% trans "ADVISE: You have not balance, recharge your band!" %}").show();
+            $("#btn-return-{{fi.id}}").removeClass("a-disabled");
+        {% endif %} 
+
+        {# Credit 0 #}
+        {% if val == 5 %}{% endif %} 
+
+        {# Have credit #}
+        {% if val == 6 %} $("#btn-return-{{fi.id}}").removeClass("a-disabled"); {% endif %} 
+
     {% endwith %}
 </script>
+{%endcomment%}

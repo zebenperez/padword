@@ -24,9 +24,6 @@ def get_cat_uuid(form, name):
 #def get_item_price(item, code):
 #    return item.item.get_price(code)
 
-@register.filter
-def get_total_by_regime(fi, code):
-    return "{:.2f}".format(fi.get_total_by_regime(code))
 
 @register.filter
 def get_file_url(cat, order):
@@ -35,46 +32,6 @@ def get_file_url(cat, order):
     except:
         cf = None
     return cf.file.url if cf != None and cf.file else ""
-
-@register.filter
-def have_balance(fi):
-    if fi.band == None:
-        return 0
-        #return False
-
-    #No Limit
-    if fi.band.type != None and fi.band.type.code == "03":
-        return 1
-        #return True
-
-    total_regime = -1
-    if fi.band != None and fi.band.guest != None and fi.band.guest.regime != None:
-        regime = fi.band.guest.regime.code
-
-        #Invalid item
-        if fi.get_invalid_item(regime):
-            return -1
-            #return False
-
-        total_regime = fi.get_total_by_regime(regime)
-
-    if (total_regime > -1 and fi.band.balance >= total_regime) or (total_regime == -1 and fi.band.balance >= fi.get_total):
-        return 1
-        #return True
-    return 0
-    #return False
-
-'''
-	Simple tag
-'''
-@register.simple_tag
-def get_total_items(username, project_uuid):
-    return get_guest_total_items(username, project_uuid)
-
-@register.simple_tag
-def get_item_price(item, band, code):
-    price =  item.item.get_price(code, band)
-    return "{} €".format(item.item.get_price(code, band)) if price != None else "NOT INCLUDED!"
 
 '''
 	Inclusion tag

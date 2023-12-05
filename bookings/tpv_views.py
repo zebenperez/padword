@@ -194,14 +194,14 @@ def tpv_check_band(request):
         regime = None
         band_err = ""
         if band != None and band.guest != None:
-            if band.type != None and band.type.code == "00":
-                band = None
-                band_err = _("This band is locked!")
-            else:
-                gr = band.guest.regimes.first()
-                regime = gr.regime if gr != None else None
-                get_or_create_form_instance_info_client_tpv(fi, band.guest, band.code)
-                fi.update_items_low_price()
+            #if band.type != None and band.type.code == "00":
+            #    band = None
+            #    band_err = _("This band is locked!")
+            #else:
+            gr = band.guest.regimes.first()
+            regime = gr.regime if gr != None else None
+            get_or_create_form_instance_info_client_tpv(fi, band.guest, band.code)
+            fi.update_items_low_price()
         else:
             band_err = _("This band is not asigned to any guest!")
 

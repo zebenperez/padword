@@ -299,7 +299,7 @@ class Item(models.Model):
         if ip == None:
             ip = ItemPrice.objects.create(item=self, regime_code=code, price=self.price)
 
-        #Crefit 0
+        #Credit 0
         if code == "TI" and band != None and band.type != None and band.type.code == "02" and ip.price > 0:
             return None
 
