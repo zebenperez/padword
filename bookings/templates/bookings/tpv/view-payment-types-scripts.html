@@ -17,6 +17,18 @@
     });
 
     {% with val=fi|check_band %}
+        {# Band locked #}
+        {% if val == 1 %} $("#band-alert").html("{% trans "ADVISE: This band is locked!" %}"); {% endif %} 
+
+        {# Item not valid #}
+        {% if val == 3 %} $("#band-alert").html("{% trans "ADVISE: You have invalid products, please remove!" %}"); {% endif %} 
+
+        {# Not enough credit #}
+        {% if val == 4 %} $("#band-alert").html("{% trans "ADVISE: You have not balance, recharge your band!" %}").show(); {% endif %} 
+    {% endwith %}
+
+    {%comment%}
+    {% with val=fi|check_band %}
         {# Not band #}
         {% if val == 0 %} $("#pay-type-03").addClass("a-disabled"); {% endif %} 
 
@@ -48,4 +60,5 @@
         {# Have credit #}
         {% if val == 6 %} $("#btn-return-{{fi.id}}").removeClass("a-disabled"); {% endif %} 
     {% endwith %}
+    {%endcomment%}
 </script>

@@ -1,0 +1,4 @@
+{% load i18n %}
+
+<button id="btn-cancel-order-{{fi.id}}" class="btn btn-success-tpv w-100 ark" data-url="{% url "tpv-order-remove" %}" 
+    data-target="base" data-obj_id="{{fi.id}}"> <i class="fa fa-ban"></i><br /> {% trans "Cancel Order" %} </button>
