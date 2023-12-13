@@ -5,21 +5,19 @@ from django.shortcuts import render, redirect
 from django.utils.translation import ugettext_lazy as _ 
 from django.views.decorators.csrf import csrf_exempt
 
-from padword.commons import show_exc, get_or_none, get_param, new_ui_slug, translate, set_session, update_cron, get_int
+from padword.commons import show_exc, get_or_none, get_param, new_ui_slug, translate, set_session, update_cron, get_int, translate2
 from padword.decorators import group_required
 from guest.models import Regime, ProjectRegime
 from sensibo.models import ProjectSensiboUser
 from connector.models import ProjectAvantioUser, ProjectAvaibookUser, ProjectWinhotelUser
 from contents.models import Category, PointOfSale, PointOfSaleCategory, Table
-from bookings.models import Form
+from bookings.models import Form, FormInstance
 from .models import *
 #from .lock_lib import ShLock
 
 
 from django.conf import settings
-import os, re
-import requests
-import time, datetime
+import os, re, requests, time, datetime, csv
 
 
 # Create your views here.
@@ -277,6 +275,42 @@ def project_pos_remove_image(request):
         obj.image.delete(save=True)
 
         return render(request, "web/projects/pos-img.html", {"obj": obj,})
+    except Exception as e:
+        print(e)
+        return render(request, 'error_exception.html', {'msg': str(e)})
+
+@group_required("admins", "projects", "categories")
+def project_pos_daily_summary(request, obj_id):
+    try:
+        obj = get_or_none(PointOfSale, obj_id) 
+        today = datetime.datetime.today()
+        today_str = today.strftime("%Y-%m-%d")
+
+        response = HttpResponse(
+            content_type='text/csv',
+            headers={'Content-Disposition': 'attachment; filename="{}_{}.csv"'.format(today_str, obj.name)},
+        )
+
+        writer = csv.writer(response)
+        writer.writerow(['_TPV', '_TPVNom', '_Rate', 'ProductUId', '_Description', 'Date', 'Tiket_UID', '_Price', '_Units', '_Discount', 'TotalPrice', '_Room', '_ClientId'])
+
+        #s_date = datetime.datetime.strptime("{} 00:00".format(today_str), "%Y-%m-%d %H:%M")
+        s_date = datetime.datetime.strptime("2023-11-01 00:00".format(today_str), "%Y-%m-%d %H:%M")
+        e_date = datetime.datetime.strptime("{} 23:59:59".format(today_str), "%Y-%m-%d %H:%M:%S")
+        fi_list = FormInstance.objects.filter(pos_uuid=obj.uuid, date__range=(s_date, e_date))
+        for fi in fi_list:
+            info = fi.info.first()
+            room = info.client_room if info != None else ""
+            client_id = info.client_id if info != None else ""
+            for item in fi.get_items:
+                code = obj.name[:4].upper()
+                name = obj.name
+                desc = translate2("es", item.name) 
+                date = fi.date.strftime("%Y%m%d%H%M")
+                discount = (item.low_price/item.price)*100 if item.low_price < item.price else 0
+                total_price = item.low_price if item.low_price < item.price else item.price
+                writer.writerow([code, name, "", item.id, desc, date, fi.id, item.price, 1, discount, total_price, room, client_id])
+        return response
     except Exception as e:
         print(e)
         return render(request, 'error_exception.html', {'msg': str(e)})

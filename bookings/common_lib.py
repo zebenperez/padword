@@ -64,6 +64,7 @@ def get_or_create_form_instance_info_client_tpv(fi, client, band):
     if fi.form.form_type.order:
         fi_info, created = FormInstanceInfo.objects.get_or_create(fi=fi)
         fi_info.client = "{} {}".format(client.name, client.surname)
+        fi_info.client_id = client.id
         fi_info.client_mobile = client.mobile
         fi_info.client_email = client.email
         fi_info.client_room = client.room

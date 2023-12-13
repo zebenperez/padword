@@ -610,6 +610,7 @@ class FormInstanceInfo(models.Model):
     table = models.CharField(max_length=255, verbose_name=_("Table"), default="")
     band = models.CharField(max_length=255, verbose_name=_("Band"), default="")
     client = models.CharField(max_length=255, verbose_name=_("Guest name"), default="")
+    client_id = models.CharField(max_length=255, verbose_name=_("Guest name"), default="")
     client_mobile = models.CharField(max_length=255, verbose_name=_("Guest mobile"), default="")
     client_email = models.CharField(max_length=255, verbose_name=_("Guest email"), default="")
     client_room = models.CharField(max_length=255, verbose_name=_("Guest room"), default="")

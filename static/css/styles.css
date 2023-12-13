@@ -307,13 +307,28 @@ a.btn.btn-primary.ark, a.btn.btn-secondary.ark { font-size:0.8rem !important; }
     grid-template-columns: 1% 2% 97%; 
  }
 
+/*** orders by project search ***/
+.toolbar-search.orders { 
+    align-items: center;
+    display:grid; 
+    grid-template-columns: 2% 30% 37% 15% 15%; 
+}
+
+/*** orders tpv by project search ***/
+.toolbar-search.orders-tpv { 
+    align-items: center;
+    display:grid; 
+    grid-template-columns: 2% 65% 15% 15%; 
+}
+
 /*** companies search ***/
 /* Companies - Rooms - keycards - Notifications   */
 
 .toolbar-search.companies, 
 .toolbar-search.rooms, 
 .toolbar-search.keycards,
-.toolbar-search.notifications {
+.toolbar-search.notifications,
+.toolbar-search.deposit-boxes {
     align-items: center;
     display:grid; 
     grid-template-columns: 3% 97%;
@@ -339,7 +354,8 @@ input#s-name.autosearch.form-control.form-control-dark.w-100,
 input#guest_search_name,
 input#room_search_name,
 input#s-name.autosearch.form-control.form-control-dar.w-100,
-input#keycard_search_name { 
+input#keycard_search_name,
+input#room_search { 
     border: 0 !important; 
 }
 
@@ -384,7 +400,8 @@ input#keycard_search_name {
 
 select.select-k, input.form-control.input-k {
     background: #ebebeb;
-	border-radius: 1.5rem;
+    background: #f6f6f6;
+	/*border-radius: 1.5rem;*/
     color: #6c7984 !important;
     height: 2em; 
     margin:0;
@@ -522,7 +539,7 @@ h2, h2.pathway.b-right {
 .text-left { text-align: left!important; }
 .text-center { text-align: center!important; }
 .form-control {
-	padding: 0rem 0.5em 0.1rem 0.5em;
+/*	padding: 0rem 0.5em 0.1rem 0.5em;*/
 	font-size: 0.8em;
 	color: #333;
 	border-color: #ced4da;

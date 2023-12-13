@@ -24,6 +24,7 @@ urlpatterns = [
     path('projects/pos-cat-toggle/', views.project_pos_cat_toggle, name='project-pos-cat-toggle'),
     path('projects/pos-add-image/', views.project_pos_add_image, name='project-pos-add-image'),
     path('projects/pos-remove-image/', views.project_pos_remove_image, name='project-pos-remove-image'),
+    path('projects/pos-daily-summary/<int:obj_id>/', views.project_pos_daily_summary, name='project-pos-daily-summary'),
     path('projects/table-add/', views.project_table_add, name='project-table-add'),
     path('projects/table-remove/', views.project_table_remove, name='project-table-remove'),
     path('projects/table-range/', views.project_table_range, name='project-table-range'),
