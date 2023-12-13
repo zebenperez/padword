@@ -1,8 +1,8 @@
 {% load i18n tpv_tags bookings_tag padword_tags %}
 
 {% with val=fi|check_band %}
-    {# Not band or band locked or item not valid or not credit #}
-    {% if val == 0 or val == 1  or val == 3  or val == 4 %}
+    {# Band locked or item not valid or not credit #}
+    {% if val == 1  or val == 3  or val == 4 %}
         <button id="btn-send-order-{{fi.id}}" class="btn btn-success-tpv w-100 a-disabled"> 
             <i class="fa fa-share-square"></i><br /> {%trans "Send Order"%} </button>
     {% else %}

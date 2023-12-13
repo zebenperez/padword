@@ -399,9 +399,7 @@ input#room_search {
 .row.key-number .form-control { border: none !important; }
 
 select.select-k, input.form-control.input-k {
-    background: #ebebeb;
     background: #f6f6f6;
-	/*border-radius: 1.5rem;*/
     color: #6c7984 !important;
     height: 2em; 
     margin:0;
@@ -539,7 +537,6 @@ h2, h2.pathway.b-right {
 .text-left { text-align: left!important; }
 .text-center { text-align: center!important; }
 .form-control {
-/*	padding: 0rem 0.5em 0.1rem 0.5em;*/
 	font-size: 0.8em;
 	color: #333;
 	border-color: #ced4da;
