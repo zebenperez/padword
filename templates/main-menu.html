@@ -78,6 +78,15 @@
                     data-code="orders_tpv"><i class="fas fa-book"></i> {%trans "Orders TPV"%} <span class="new">NEW</span> </a></li>
             {% endif %}
 
+            {% if user_project|have_menu:"orders_daily_tpv" %}
+                <li class="nav-item"><a class="nav-link {%if active == "orders_daily_tpv"%}active{%endif%}" 
+                    href="{% url 'orders-daily-by-project' %}">
+                    <i class="fas fa-book"></i>  {% trans "Orders Daily TPV" %}</a> </li>
+            {% elif user_project|have_menu_promo:"orders_daily_tpv" %}
+	            <li class="nav-item"><a class="nav-link pointer ark" data-url="{%url "show-module"%}" data-target-modal="common-modal"
+                    data-code="orders_daily_tpv"><i class="fas fa-book"></i> {%trans "Orders Daily TPV"%} <span class="new">NEW</span> </a></li>
+            {% endif %}
+
             {% if user_project|have_menu:"notifications" %}
                 <li class="nav-item"><a class="nav-link {%if active == "notifications"%}active{%endif%}" href="{% url 'guest-notifications' %}">
                     <i class="fas fa-envelope"></i> {%trans "Notifications"%}</a></li>

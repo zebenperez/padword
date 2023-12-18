@@ -509,6 +509,10 @@ class PointOfSale(models.Model):
         except Exception as e:
             return None
 
+    @property
+    def regular_name(self):
+        return self.name.replace(" ", "").lower()
+
     def get_categories(self):
         return [item.category for item in self.categories.all()]
 

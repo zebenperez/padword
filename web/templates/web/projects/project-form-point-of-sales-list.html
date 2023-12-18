@@ -33,7 +33,7 @@
         <div class="col-2">
             <button class="btn btn-sm ark" id="btn-pos-remove" data-url="{% url "project-pos-remove" %}" data-target="div-pos-list" 
                 data-obj_id="{{item.id}}"> <i class="fas fa-trash"></i></button>
-            <a class="btn btn-sm pointer" id="btn-pos-remove" href="{% url "project-pos-daily-summary" item.id %}" target="_blank" > 
+            <a class="btn btn-sm pointer" id="btn-pos-summary" href="{% url "project-pos-daily-summary" item.id %}" target="_blank" > 
                 <i class="fas fa-file-csv"></i></a>
         </div>
     </div>		

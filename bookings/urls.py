@@ -1,7 +1,7 @@
 from django.urls import include, path, re_path
 from django.contrib import admin
 from bookings import views, form_views as fv, guest_views as gv, guest_sensibo_views as gsv
-from bookings import tpv_views as tpv, tpv_orders_views as tpv_orders, tpv_mobile_views as tpv_mob
+from bookings import tpv_views as tpv, tpv_orders_views as tpv_orders, tpv_mobile_views as tpv_mob, tpv_orders_daily_views as tpv_orders_daily
 
 urlpatterns = [ 
     #--------------------- Forms --------------------
@@ -227,5 +227,12 @@ urlpatterns = [
 
     path('fix-uuid/', views.fix_uuid, name='booking-fix-uuid'),
     path('test/', views.test, name='booking-test'),
+
+    #------------- TPV Orders Daily --------------#
+    path('orders_daily/orders-daily/', tpv_orders_daily.orders_daily_by_project, name='orders-daily-by-project'),
+    path('orders_daily/search/', tpv_orders_daily.orders_daily_search, name='orders-daily-search'),
+    path('orders_daily/summary/', tpv_orders_daily.orders_daily_summary, name='orders-daily-summary'),
+    path('orders_daily/remove/', tpv_orders_daily.orders_daily_remove, name='orders-daily-remove'),
+
 ]
 
