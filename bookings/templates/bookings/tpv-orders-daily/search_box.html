@@ -42,10 +42,7 @@
 
     <script>
         $(".btn-pos").click(function(){
-                    console.log("--1--");
-                    console.log($(this).data("value"));
             $('#s-pos').val($(this).data("value"));
-                    console.log($('#s-pos').val());
             $('#s-pos').trigger('change');
             $('.btn-pos').removeClass('btn-primay').addClass('btn-light');
             $(this).addClass('btn-primay');

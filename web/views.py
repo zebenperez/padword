@@ -20,7 +20,6 @@ from django.conf import settings
 import os, re, requests, time, datetime, csv
 
 
-# Create your views here.
 
 @group_required("admins", "projects", "categories", "guests")
 def index(request, chk=None):
@@ -91,6 +90,11 @@ def get_or_create_user_winhotel(project_uuid):
 '''
     Projects
 '''
+@group_required("admins", "projects", "categories", "guests")
+def set_project(request, uuid=None):
+    request.session["project"] = uuid 
+    return redirect(index)
+
 @group_required("admins")
 def projects(request, company_id=None, project_id=None):
     try:

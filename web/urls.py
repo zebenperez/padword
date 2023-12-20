@@ -8,6 +8,7 @@ urlpatterns = [
     #path('index/<slug:chk>/', views.index, name='web-index-new'),
     path('index/', views.index, name='web-index-new'),
     path('', views.index, name='web-index'),
+    path('set-project/<slug:uuid>/', views.set_project, name='set-project'),
     #--------------------- Projects --------------------
     path('projects/company-<int:company_id>/', views.projects, name='projects-by-company'),
     path('projects/project-<slug:project_id>/', views.projects, name='projects-by-uuid'),

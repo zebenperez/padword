@@ -5,12 +5,15 @@
         <div class="col-6"> <strong>{% trans "Current point of sale" %}: {{pos.name}}</strong> </div>
         <div class="col-3"> <input type="date" class="form-control" id="date" name="date" value="date"/> </div>
         <div class="col-3">
-            <button class="btn btn-sm pointer ark" id="btn-pos-summary" data-url="{% url "orders-daily-summary" %}"
+            <button class="btn btn-sm pointer add-date ark" id="btn-pos-summary" data-url="{% url "orders-daily-summary" %}"
                 data-target="file-list" data-obj_id="{{pos.id}}" data-date="">
                 <i class="fas fa-file-csv"></i>{% trans "Generate file" %}</button>
+            <button class="btn btn-sm pointer add-date ark" id="btn-pos-summary" data-url="{% url "orders-z" %}"
+                data-target="file-list" data-obj_id="{{pos.id}}" data-date="">
+                <i class="fas fa-file-csv"></i>{% trans "Generate Z" %}</button>
         </div>
     </div>
-    <script> $("#date").change(function(){ $("#btn-pos-summary").data("date", $(this).val()); }); </script>
+    <script> $("#date").change(function(){ $(".add-date").data("date", $(this).val()); }); </script>
 {% endif %}
 
 <div class="toolbar-content"> <h2 class="b-right">{% trans 'Orders daily' %} </h2> </div>

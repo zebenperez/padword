@@ -233,6 +233,7 @@ urlpatterns = [
     path('orders_daily/search/', tpv_orders_daily.orders_daily_search, name='orders-daily-search'),
     path('orders_daily/summary/', tpv_orders_daily.orders_daily_summary, name='orders-daily-summary'),
     path('orders_daily/remove/', tpv_orders_daily.orders_daily_remove, name='orders-daily-remove'),
+    path('orders_daily/z/', tpv_orders_daily.orders_z, name='orders-z'),
 
 ]
 

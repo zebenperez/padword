@@ -17,9 +17,17 @@ def group_required(*group_names):
                     if cu != None:
                         request.category_user = cu
                         #request.category_id = cu.category.id
-                    pu = ProjectUser.objects.filter(username=request.user.username).first()
+
+                    pu = None
+                    if "project" in request.session and request.session["project"] != "":
+                        pu = ProjectUser.objects.filter(project_uuid=request.session["project"], username=request.user.username).first()
+                    if pu == None:
+                        pu = ProjectUser.objects.filter(username=request.user.username).first()
                     if pu != None and pu.project != None:
                         request.project_id = pu.project.id
+                        if "project" not in request.session or request.session["project"] == "":
+                            request.session["project"] = pu.project.uuid
+
                     waiter = Waiter.objects.filter(username=request.user.username).first()
                     if waiter != None:
                         request.waiter = waiter
