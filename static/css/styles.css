@@ -990,7 +990,7 @@ img.img-cart-line {
 	height:55px;
 	line-height: 1.5;
 	display: grid;
-	grid-template-columns: 5% 10% 80% 5%; 
+	grid-template-columns: 5% 10% 60% 20% 5%; 
 	grid-template-rows: auto;
     background: rgb(255,255,255);
     background: linear-gradient(270deg, rgba(255,255,255,1) 17%, rgba(20,62,83,1) 99%);
