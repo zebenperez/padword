@@ -21,16 +21,16 @@ def get_int(val):
         return 0
 
 class Status(models.Model):
-	code = models.CharField(max_length=20, verbose_name=_("Code"), default="")
-	name = models.CharField(max_length=200, verbose_name=_("Name"))
-	color = models.CharField(max_length=10, verbose_name=_("Color"), default="")
+    code = models.CharField(max_length=20, verbose_name=_("Code"), default="")
+    name = models.CharField(max_length=200, verbose_name=_("Name"))
+    color = models.CharField(max_length=10, verbose_name=_("Color"), default="")
 
-	def __str__(self):
-		return self.name
+    def __str__(self):
+        return self.name
 
-	class Meta:
-		verbose_name = _('Status')
-		verbose_name_plural = _('Status')
+    class Meta:
+        verbose_name = _('Status')
+        verbose_name_plural = _('Status')
 
 #class Table(models.Model):
 #    uuid = models.CharField(max_length = 255, verbose_name= _('UUID'), default="")
@@ -536,7 +536,7 @@ class FormInstanceStatus(models.Model):
     form_instance = models.ForeignKey(FormInstance, on_delete=models.CASCADE, verbose_name=_("Form instance"), blank=True, null=True, related_name="status_list")
 
     def __str__(self):
-        return self.status
+        return self.status.name if self.status != None else ""
 
     class Meta:
         verbose_name = _('Form Instance Status')

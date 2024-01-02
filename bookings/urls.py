@@ -244,6 +244,7 @@ urlpatterns = [
     path('tpv-cash/search/', tpv_cash.cash_search, name='cash-search'),
     path('tpv-cash/remove/', tpv_cash.cash_remove, name='cash-remove'),
     path('tpv-cash/z/', tpv_cash.cash_z, name='cash-z'),
+    path('tpv-cash/print-z/<int:obj_id>', tpv_cash.print_z, name='cash-z-print'),
  
 ]
 

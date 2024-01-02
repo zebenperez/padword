@@ -2,15 +2,19 @@
 
 {% if pos %}
     <div class="row">
-        <div class="col-6"> <strong>{% trans "Current point of sale" %}: {{pos.name}}</strong> </div>
-        <div class="col-3"> <input type="date" class="form-control" id="date" name="date" value="date"/> </div>
-        <div class="col-3">
+        <div class="col-4"> <strong>{% trans "Current point of sale" %}: {{pos.name}}</strong> </div>
+        <div class="col-3">{% trans "Select date:"%} <input type="date" class="form-control" id="date" name="date" value="date"/> </div>
+        <div class="col-3">{% trans "Initial cash:" %} <input type="text" class="form-control" id="ini_cash" name="ini_cash" value=""/> </div>
+        <div class="col-2">
             <button class="btn btn-sm pointer add-date ark" id="btn-pos-summary" data-url="{% url "cash-z" %}"
-                data-target="file-list" data-obj_id="{{pos.id}}" data-date="">
+                data-target="file-list" data-obj_id="{{pos.id}}" data-date="" data-ini_cash="">
                 <i class="fas fa-file-csv"></i>{% trans "Generate Z" %}</button>
         </div>
     </div>
-    <script> $("#date").change(function(){ $(".add-date").data("date", $(this).val()); }); </script>
+    <script> 
+        $("#date").change(function(){ $(".add-date").data("date", $(this).val()); }); 
+        $("#ini_cash").change(function(){ $(".add-date").data("ini_cash", $(this).val()); }); 
+    </script>
 {% endif %}
 
 <div class="toolbar-content"> <h2 class="b-right">{% trans 'Cash' %} </h2> </div>
@@ -20,7 +24,7 @@
             <tr class="small small">
                 <th> {% trans 'Date' %} </th>
                 <th> {% trans 'Initial Cash' %} </th>
-                <th> {% trans 'Final Cash' %} </th>
+                <th> {% trans 'Cash' %} </th>
                 <th> {% trans 'Band' %} </th>
                 <th> {% trans 'Card' %} </th>
                 <th> </th>
@@ -38,6 +42,7 @@
                         <a class="btn btn-sm ark" data-url="{% url "cash-remove" %}" data-target="file-list" data-obj_id="{{item.id}}" 
                             title="{%trans "Remove"%}" data-confirm="{% trans "Are you sure to remove this element?" %}"> 
                             <i class="fas fa-trash"></i></a>
+                        <a class="btn btn-sm" href="{% url "cash-z-print" item.id %}" target="_blank"> <i class="fas fa-print"></i></a>
                     </td>
                 </tr>
             {% endfor %}

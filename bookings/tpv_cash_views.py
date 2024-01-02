@@ -67,6 +67,7 @@ def cash_z(request):
         project = get_or_none(Project, request.project_id)
         pos = get_or_none(PointOfSale, request.GET["obj_id"]) 
         date_str = request.GET["date"]
+        ini_cash = get_float(request.GET["ini_cash"].replace(",", "."))
 
         s_date = datetime.datetime.strptime("{} 00:00".format(date_str), "%Y-%m-%d %H:%M")
         e_date = datetime.datetime.strptime("{} 23:59:59".format(date_str), "%Y-%m-%d %H:%M:%S")
@@ -78,21 +79,25 @@ def cash_z(request):
         return_total = 0
         free_total = 0
         for fi in fi_list:
-            amount = get_float(fi.amount.replace(",", "."))
-            if fi.payment_type.code == "01":
-                cash_total += amount
-            elif fi.payment_type.code == "02":
-                card_total += amount
-            elif fi.payment_type.code == "03":
-                band_total += amount
-            elif fi.payment_type.code == "04":
-                return_total += amount
-            elif fi.payment_type.code == "05":
-                free_total += amount
+            print(fi.get_status)
+            if fi.get_status == None:
+                fi.set_status("05", request.user, "Cancell in Z!")
+            elif fi.get_status.status != None and fi.get_status.status.code != "05":
+                amount = get_float(fi.amount.replace(",", "."))
+                if fi.payment_type.code == "01":
+                    cash_total += amount
+                elif fi.payment_type.code == "02":
+                    card_total += amount
+                elif fi.payment_type.code == "03":
+                    band_total += amount
+                elif fi.payment_type.code == "04":
+                    return_total += amount
+                elif fi.payment_type.code == "05":
+                    free_total += amount
 
         cash = Cash(project_uuid = project.uuid, pos_uuid = pos.uuid)
         cash.date = e_date
-        cash.ini_cash = 0 
+        cash.ini_cash = ini_cash
         cash.end_cash = cash_total
         cash.band = band_total
         cash.card = card_total
@@ -105,4 +110,11 @@ def cash_z(request):
         print(e)
         return render(request, 'error_exception.html', {'msg': str(e)})
 
+@group_required("projects")
+def print_z(request, obj_id):
+    try:
+        cash = get_or_none(Cash, obj_id)
+        return render(request, "bookings/tpv-cash/print-z.html", {'obj': cash,})
+    except Exception as e:
+        return HttpResponse("Error: {}".format(e))
 
