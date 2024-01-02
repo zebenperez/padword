@@ -618,3 +618,21 @@ class FormInstanceInfo(models.Model):
     fi = models.ForeignKey(FormInstance, on_delete=models.CASCADE, verbose_name=_("Form Instance"), null=True, blank=True, related_name='info')
 
  
+class Cash(models.Model):
+    date = models.DateTimeField(_('Creation date'), default=datetime.datetime.now, null=True)
+    ini_cash = models.FloatField(verbose_name='Initial amount', default=0, null=True, blank=True)
+    end_cash = models.FloatField(verbose_name='Final amount', default=0, null=True, blank=True)
+    band = models.FloatField(verbose_name='Band amount', default=0, null=True, blank=True)
+    card = models.FloatField(verbose_name='Card amount', default=0, null=True, blank=True)
+    username = models.CharField(max_length = 255, verbose_name= _('Username'), default='admin')
+    pos_uuid = models.CharField(max_length=255, verbose_name=_("Point of sale UUID"), default="")
+    project_uuid = models.CharField(max_length=255, verbose_name=_("Project UUID"), default="", blank=True)
+
+    @property
+    def pos(self):
+        return PointOfSale.objects.filter(uuid = self.pos_uuid).first()
+
+    @property
+    def project(self):
+        cat = Category.objects.filter(uuid = self.category).first()
+        return cat.project if cat != None else None

@@ -8,7 +8,7 @@ from padword.commons import show_exc, get_or_none, get_param, get_float, reverse
 from web.models import Project, Waiter
 from contents.models import Category, ShoppingCart, Item, PaymentType, PointOfSale, Table
 from guest.models import Guest, Wristband, WristbandBalance
-from web.lock_lib import ShLock
+#from web.lock_lib import ShLock
 from connector.winhotel_lib import send_charge
 from connector.models import ProjectWinhotelUser
 

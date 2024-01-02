@@ -198,6 +198,37 @@ def tpv_check_band(request):
         print(e)
         return render(request, "error_exception.html", {'exc':show_exc(e)})
 
+@group_required("waiters")
+def tpv_item_add(request):
+    try:
+        form_id = request.GET["form_id"]
+        item_id = request.GET["item_id"]
+        fi = get_or_none(FormInstance, int(form_id))
+        item = get_or_none(Item, int(item_id))
+
+        obj = ShoppingCart.objects.create(form_instance_id=fi.id,item=item,category=item.category.name,name=item.name,price=item.price,comments='')
+        fi.update_item_low_price(obj)
+
+        instance = FormInstance.objects.get(pk=form_id)
+        return render(request, "bookings/tpv/mobile/view-ticket-mobile.html", {'fi':instance,})
+    except Exception as e:
+        print(e)
+        return render(request, "error_exception.html", {'exc':show_exc(e)})
+
+
+@group_required("waiters")
+def tpv_item_remove(request):
+    try:
+        item_id = request.GET["item_id"]
+        obj = get_or_none(ShoppingCart, item_id)
+        fi = get_or_none(FormInstance, obj.form_instance_id)
+        obj.delete()
+
+        return render(request, "bookings/tpv/mobile/view-ticket-mobile.html", {'fi':fi,})
+    except Exception as e:
+        print(e)
+        return render(request, "error_exception.html", {'exc':show_exc(e)})
+
 #@group_required("waiters")
 #def tpv_add_item(request):
 #    try:

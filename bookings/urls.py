@@ -2,6 +2,7 @@ from django.urls import include, path, re_path
 from django.contrib import admin
 from bookings import views, form_views as fv, guest_views as gv, guest_sensibo_views as gsv
 from bookings import tpv_views as tpv, tpv_orders_views as tpv_orders, tpv_mobile_views as tpv_mob, tpv_orders_daily_views as tpv_orders_daily
+from bookings import tpv_cash_views as tpv_cash
 
 urlpatterns = [ 
     #--------------------- Forms --------------------
@@ -209,6 +210,9 @@ urlpatterns = [
     path('tpv-mob-change-table/', tpv_mob.tpv_change_table, name='tpv-mob-change-table'),
     path('tpv-mob-check-band/', tpv_mob.tpv_check_band, name='tpv-mob-check-band'),
 
+    path('tpv-mob-item-add/', tpv_mob.tpv_item_add, name='tpv-mob-item-add'),
+    path('tpv-mob-item-remove/', tpv_mob.tpv_item_remove, name='tpv-mob-item-remove'),
+
     #path('tpv-add-item/', tpv.tpv_add_item, name='tpv-add-item'),
 
     #path('tpv-order-remove/', tpv.tpv_order_remove, name='tpv-order-remove'),
@@ -233,7 +237,13 @@ urlpatterns = [
     path('orders_daily/search/', tpv_orders_daily.orders_daily_search, name='orders-daily-search'),
     path('orders_daily/summary/', tpv_orders_daily.orders_daily_summary, name='orders-daily-summary'),
     path('orders_daily/remove/', tpv_orders_daily.orders_daily_remove, name='orders-daily-remove'),
-    path('orders_daily/z/', tpv_orders_daily.orders_z, name='orders-z'),
+    #path('orders_daily/z/', tpv_orders_daily.orders_z, name='orders-z'),
 
+    #------------- TPV Cash --------------#
+    path('tpv-cash/index/', tpv_cash.cash_by_project, name='cash-by-project'),
+    path('tpv-cash/search/', tpv_cash.cash_search, name='cash-search'),
+    path('tpv-cash/remove/', tpv_cash.cash_remove, name='cash-remove'),
+    path('tpv-cash/z/', tpv_cash.cash_z, name='cash-z'),
+ 
 ]
 

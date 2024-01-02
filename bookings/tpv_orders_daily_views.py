@@ -100,29 +100,29 @@ def orders_daily_remove(request):
         print(e)
         return render(request, 'error_exception.html', {'msg': str(e)})
 
-@group_required("projects")
-def orders_z(request):
-    try:
-        obj = get_or_none(PointOfSale, request.GET["obj_id"]) 
-        date_str = request.GET["date"]
-
-        s_date = datetime.datetime.strptime("{} 00:00".format(date_str), "%Y-%m-%d %H:%M")
-        e_date = datetime.datetime.strptime("{} 23:59:59".format(date_str), "%Y-%m-%d %H:%M:%S")
-        fi_list = FormInstance.objects.filter(pos_uuid=obj.uuid, date__range=(s_date, e_date))
-        total = 0
-        dic = {}
-        pt_list = PaymentType.objects.all()
-        for pt in pt_list:
-            dic[translate2("es", pt.name)] = 0
-        for fi in fi_list:
-            #info = fi.info.first()
-            #total += get_float(fi.amount)
-            dic[translate2("es", fi.payment_type.name)] += get_float(fi.amount)
-            print(fi.payment_type.name)
-        print(dic)
-        return render(request, "bookings/tpv-orders-daily/index-z.html", {'pos': obj, 'dic': dic})
-    except Exception as e:
-        print(e)
-        return render(request, 'error_exception.html', {'msg': str(e)})
-
-
+#@group_required("projects")
+#def orders_z(request):
+#    try:
+#        obj = get_or_none(PointOfSale, request.GET["obj_id"]) 
+#        date_str = request.GET["date"]
+#
+#        s_date = datetime.datetime.strptime("{} 00:00".format(date_str), "%Y-%m-%d %H:%M")
+#        e_date = datetime.datetime.strptime("{} 23:59:59".format(date_str), "%Y-%m-%d %H:%M:%S")
+#        fi_list = FormInstance.objects.filter(pos_uuid=obj.uuid, date__range=(s_date, e_date))
+#        total = 0
+#        dic = {}
+#        pt_list = PaymentType.objects.all()
+#        for pt in pt_list:
+#            dic[translate2("es", pt.name)] = 0
+#        for fi in fi_list:
+#            #info = fi.info.first()
+#            #total += get_float(fi.amount)
+#            dic[translate2("es", fi.payment_type.name)] += get_float(fi.amount)
+#            print(fi.payment_type.name)
+#        print(dic)
+#        return render(request, "bookings/tpv-orders-daily/index-z.html", {'pos': obj, 'dic': dic})
+#    except Exception as e:
+#        print(e)
+#        return render(request, 'error_exception.html', {'msg': str(e)})
+#
+#
