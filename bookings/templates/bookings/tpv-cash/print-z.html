@@ -29,13 +29,21 @@
                 margin: 0;
                 width: 90mm;
             }
+            .title{
+                border: 1px solid #333;
+            }
         </style>
     </head>
 
     <body>
         <div id="main" style="border:1px solid blue; margin-left:30%">
             <div class="d-flex justify-content-end"> <a class="btn btn-default" onclick="window.print()"> &#128424; {% trans "Imprimir" %}</a> </div>
-            <h2 class="common-modal-head">{% trans 'Z Cash' %}</h2> <br/>
+
+            <h1>{{obj.project.name}}</h1><br/>
+            <div class="title">{% trans 'TPV' %} {{pos.name}}</div> <br/>
+            {% trans "Zeta Nº" %} <strong>{{obj.id}}</strong><br/>
+            {% trans "Date" %} <strong>{{obj.date|date:"d-m-Y H:i:s"}}</strong><br/>
+            {% trans "Usuario" %} <strong>{{obj.username}}</strong>
             <strong>{% trans "Initial cash" %}:</strong> {{obj.ini_cash}}<br/>
             <strong>{% trans "Cash" %}:</strong> {{obj.end_cash}}<br/>
             <strong>{% trans "Band" %}:</strong> {{obj.band}}<br/>
