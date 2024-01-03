@@ -634,5 +634,5 @@ class Cash(models.Model):
 
     @property
     def project(self):
-        cat = Category.objects.filter(uuid = self.category).first()
-        return cat.project if cat != None else None
+        return Project.objects.filter(uuid = self.project_uuid).first()
+
