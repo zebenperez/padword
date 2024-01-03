@@ -624,6 +624,8 @@ class Cash(models.Model):
     end_cash = models.FloatField(verbose_name='Final amount', default=0, null=True, blank=True)
     band = models.FloatField(verbose_name='Band amount', default=0, null=True, blank=True)
     card = models.FloatField(verbose_name='Card amount', default=0, null=True, blank=True)
+    free = models.FloatField(verbose_name='Card amount', default=0, null=True, blank=True)
+    back = models.FloatField(verbose_name='Card amount', default=0, null=True, blank=True)
     username = models.CharField(max_length = 255, verbose_name= _('Username'), default='admin')
     pos_uuid = models.CharField(max_length=255, verbose_name=_("Point of sale UUID"), default="")
     project_uuid = models.CharField(max_length=255, verbose_name=_("Project UUID"), default="", blank=True)

@@ -77,7 +77,7 @@ def cash_z(request):
         cash_total = 0
         band_total = 0
         card_total = 0
-        return_total = 0
+        back_total = 0
         free_total = 0
         for fi in fi_list:
             print(fi.get_status)
@@ -92,7 +92,7 @@ def cash_z(request):
                 elif fi.payment_type.code == "03":
                     band_total += amount
                 elif fi.payment_type.code == "04":
-                    return_total += amount
+                    back_total += amount
                 elif fi.payment_type.code == "05":
                     free_total += amount
 
@@ -102,6 +102,8 @@ def cash_z(request):
         cash.end_cash = cash_total
         cash.band = band_total
         cash.card = card_total
+        cash.back = back_total
+        cash.free = free_total
         cash.username = request.user.username
         cash.save()
 

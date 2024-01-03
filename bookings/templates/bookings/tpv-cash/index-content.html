@@ -27,6 +27,8 @@
                 <th> {% trans 'Cash' %} </th>
                 <th> {% trans 'Band' %} </th>
                 <th> {% trans 'Card' %} </th>
+                <th> {% trans 'Back' %} </th>
+                <th> {% trans 'Free' %} </th>
                 <th> </th>
             </tr>
         </thead>
@@ -38,6 +40,8 @@
                     <td>{{item.end_cash}}</td>
                     <td>{{item.band}}</td>
                     <td>{{item.card}}</td>
+                    <td>{{item.back}}</td>
+                    <td>{{item.free}}</td>
                     <td>
                         <a class="btn btn-sm ark" data-url="{% url "cash-remove" %}" data-target="file-list" data-obj_id="{{item.id}}" 
                             title="{%trans "Remove"%}" data-confirm="{% trans "Are you sure to remove this element?" %}"> 

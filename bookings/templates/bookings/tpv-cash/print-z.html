@@ -26,7 +26,6 @@
         
         <style>
             #main {
-                margin: 0;
                 width: 90mm;
             }
             .title{
@@ -38,26 +37,32 @@
         </style>
     </head>
 
-    <body>
-        <div id="main" style="border:1px solid blue; margin-left:30%">
+    <body style="padding-left:40%">
+        <div id="main" class ="text-center">
             <div class="d-flex justify-content-end"> <a class="btn btn-default" onclick="window.print()"> &#128424; {% trans "Imprimir" %}</a> </div>
 
             <br/>
             <h1>{{obj.project.name}}</h1><br/>
             <div class="title">{% trans 'TPV' %} {{obj.pos.name}}</div> <br/>
-            <table>
+            <table width="100%">
                 <tbody>
-                    <tr> <td width="50%">{% trans "Zeta Nº" %}</td><td class="text-end"> <strong>{{obj.id}}</strong></td> </tr>
-                    <tr> <td>{% trans "Date" %}</td><td class="text-end"> <strong>{{obj.date|date:"d-m-Y H:i:s"}}</strong></td> </tr>
-                    <tr> <td>{% trans "User" %}</td><td class="text-end"> <strong>{{obj.username}}</strong></td> </tr>
-                    <tr> <td>{% trans "Fondo" %}</td><td class="text-end"> <strong>{{obj.ini_cash}}</strong></td> </tr>
-                    <tr> <td>{% trans "Total cash" %}</td><td class="text-end"> <strong>{{obj.ini_cash|add:obj.end_cash}}</strong></td> </tr>
+                    <tr><td>{% trans "Zeta Nº" %}</td><td class="text-end"> <strong>{{obj.id}}</strong></td> </tr>
+                    <tr><td>{% trans "Date" %}</td><td class="text-end"> <strong>{{obj.date|date:"d-m-Y H:i:s"}}</strong></td> </tr>
+                    <tr><td>{% trans "User" %}</td><td class="text-end"> <strong>{{obj.username}}</strong></td> </tr>
+                    <tr><td>{% trans "Fondo" %}</td><td class="text-end"> <strong>{{obj.ini_cash|floatformat:2}}</strong></td> </tr>
+                    <tr><td>{%trans "Total cash"%}</td><td class="text-end"><strong>{{obj.ini_cash|add:obj.end_cash|floatformat:2}}</strong></td></tr>
                 </tbody>
             </table>
             <br/><hr/><br/>
-            <strong>{% trans "Cash" %}:</strong> {{obj.end_cash}}<br/>
-            <strong>{% trans "Band" %}:</strong> {{obj.band}}<br/>
-            <strong>{% trans "Card" %}:</strong> {{obj.card}}<br/>
+            <table width="100%">
+                <tbody>
+                    <tr><td>{% trans "Band" %}</td><td class="text-end"><strong>{{obj.band|floatformat:2}}</strong></td></tr>
+                    <tr><td>{% trans "Card" %}</td><td class="text-end"><strong>{{obj.card|floatformat:2}}</strong></td></tr>
+                    <tr><td>{% trans "Back" %}</td><td class="text-end"><strong>{{obj.back|floatformat:2}}</strong></td></tr>
+                    <tr><td>{% trans "Free" %}</td><td class="text-end"><strong>{{obj.free|floatformat:2}}</strong></td></tr>
+                </tbody>
+            </table>
+            <br/><hr/><br/>
         </div>
     </body>
 </html>
