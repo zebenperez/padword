@@ -686,3 +686,7 @@ img.img-fill.mobile
 }
 /*****************************/
 
+.mobile-actions {
+    font-size: 0.8em !important;
+    color: red;
+}

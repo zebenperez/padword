@@ -29,7 +29,7 @@
 {# ------------------------------------------------ ACCIONES --------------------------------------------------------------#}
 <div class="row footer-buttons mt-2 m-0 p-0 justify-content-center text-center">
     {# -------------------------------- CANCELAR ---------------------------- #}
-    <div class="col-3 mb-3 p-0">
+    <div class="col-3 mb-3 p-0 mobile-actions" style="border:1px solid red">
         {%comment%}
         <button id="btn-cancel-order-mob-{{fi.id}}" class="btn btn-success-tpv w-100 ark" data-url="{% url "tpv-order-remove" %}" 
             data-target="base" data-obj_id="{{fi.id}}" data-mobile="True"> <i class="fa fa-ban"></i><br /> {% trans "Cancel" %} </button>

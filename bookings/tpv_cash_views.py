@@ -68,10 +68,21 @@ def cash_z(request):
         project = get_or_none(Project, request.project_id)
         pos = get_or_none(PointOfSale, request.GET["obj_id"]) 
         date_str = request.GET["date"]
+        cash_type = request.GET["type"]
         ini_cash = get_float(request.GET["ini_cash"].replace(",", "."))
 
         s_date = datetime.datetime.strptime("{} 00:00".format(date_str), "%Y-%m-%d %H:%M")
-        e_date = datetime.datetime.strptime("{} 23:59:59".format(date_str), "%Y-%m-%d %H:%M:%S")
+        if cash_type == "z":
+            e_date = datetime.datetime.strptime("{} 23:59:59".format(date_str), "%Y-%m-%d %H:%M:%S")
+        else:
+            e_date = datetime.datetime.strptime("{} {}".format(date_str, datetime.datetime.now().strftime("%H:%M:%S")), "%Y-%m-%d %H:%M:%S")
+
+        items = search(project.uuid, pos)
+        cash = Cash.objects.filter(project_uuid = project.uuid, pos_uuid = pos.uuid, date = e_date).count()
+        if cash > 0:
+            msg = _('Zeta was created!');
+            return render(request, "bookings/tpv-cash/index-content.html", {'pos': pos, 'cash_list': items, 'msg': msg})
+
         fi_list = FormInstance.objects.filter(pos_uuid=pos.uuid, date__range=(s_date, e_date))
 
         cash_total = 0
@@ -80,7 +91,6 @@ def cash_z(request):
         back_total = 0
         free_total = 0
         for fi in fi_list:
-            print(fi.get_status)
             if fi.get_status == None:
                 fi.set_status("05", request.user, "Cancell in Z!")
             elif fi.get_status.status != None and fi.get_status.status.code != "05":
@@ -96,8 +106,7 @@ def cash_z(request):
                 elif fi.payment_type.code == "05":
                     free_total += amount
 
-        cash = Cash(project_uuid = project.uuid, pos_uuid = pos.uuid)
-        cash.date = e_date
+        cash = Cash(project_uuid = project.uuid, pos_uuid = pos.uuid, date = e_date)
         cash.ini_cash = ini_cash
         cash.end_cash = cash_total
         cash.band = band_total
@@ -107,7 +116,6 @@ def cash_z(request):
         cash.username = request.user.username
         cash.save()
 
-        items = search(project.uuid, pos)
         return render(request, "bookings/tpv-cash/index-content.html", {'pos': pos, 'cash_list': items})
     except Exception as e:
         print(e)
