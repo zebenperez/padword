@@ -201,13 +201,53 @@ a.btn.btn-select-payment.pay-opts
 	font-size: 0.8em;
 }
 
-button.btn.btn-success-tpv
-{
+button.btn.btn-success-tpv {
 	background-color: #a1c517;  
 	border:1px solid #ccc;
-	color: #fff;
+    color: #ffffff;
 	font-size: 1em;
 }
+.btn-mobile > button.btn.btn-success-tpv {
+	background-color: #a1c517;  
+	border:1px solid #ccc;
+	font-size: 0.65em;
+    color: #ffffff;
+    padding: 5px 0 5px 0;
+}
+
+button.btn.btn-warning-tpv {
+	background-color: #ffc107;  
+	border:1px solid #ccc;
+    color: #ffffff;
+	font-size: 1em;
+}
+.btn-mobile > button.btn.btn-warning-tpv {
+	background-color: #ffc107;  
+	border:1px solid #ccc;
+	font-size: 0.7em;
+	font-size: 0.65em;
+    color: #ffffff;
+    padding: 5px 0 5px 0;
+}
+button.btn.btn-primary-tpv {
+	background-color: #0d6efd;  
+	border:1px solid #ccc;
+    color: #ffffff;
+	font-size: 1em;
+}
+.btn-mobile > button.btn.btn-primary-tpv {
+	background-color: #0d6efd;  
+	border:1px solid #ccc;
+	font-size: 0.7em;
+	font-size: 0.65em;
+    color: #ffffff;
+    padding: 5px 0 5px 0;
+}
+
+
+
+
+/***********************/
 .space-art {
     max-height: calc(var(--substract, 0) - 2px);
     overflow-y:scroll;
@@ -498,8 +538,10 @@ i.fas.fa-power-off .mobile {
 /**** Red cirle with number of articles in ticket ****/
 
 .btn .badge {
-    position: relative;
-    top: -1px;
+    /*position: relative;
+    top: -1px;*/
+    position: absolute;
+    top: 5px;
     font-size: 0.9em;
     font-weight: 600;
     color: #fff !important;
@@ -618,7 +660,8 @@ input#div-scan.form-control.ark_change.scanband::placeholder {
 .row-01 h5.card-title-mobile 
 {
 	background: #a1c517;
-    font-size: 0.75em;
+    /*font-size: 0.75em;*/
+    font-size: 0.70em;
 	color: #fff !important;
     display: grid !important;
     align-items: center !important;
@@ -686,7 +729,4 @@ img.img-fill.mobile
 }
 /*****************************/
 
-.mobile-actions {
-    font-size: 0.8em !important;
-    color: red;
-}
+

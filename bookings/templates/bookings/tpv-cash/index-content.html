@@ -13,7 +13,6 @@
                 data-target="file-list" data-obj_id="{{pos.id}}" data-date="" data-ini_cash="" data-type="x">
                 <i class="fas fa-file-csv"></i>{% trans "Generate X" %}</button>
         </div>
-        </div>
     </div>
     <script> 
         $("#date").change(function(){ $(".add-date").data("date", $(this).val()); }); 
@@ -21,7 +20,7 @@
     </script>
 {% endif %}
 
-{% if msg and msg != ""%}<div class="alert alert-danger">{{msg}}</div>{% endif %}
+{#{% if msg and msg != ""%}<div class="alert alert-danger">{{msg}}</div>{% endif %}#}
 
 <div class="toolbar-content"> <h2 class="b-right">{% trans 'Cash' %} </h2> </div>
 <div class="d-flex p-2">

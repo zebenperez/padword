@@ -13,7 +13,8 @@ from connector.winhotel_lib import send_charge
 
 from .common_lib import get_or_create_form_instance_tpv, get_or_create_form_instance_info_tpv, get_or_create_form_instance_info_client_tpv
 from .common_lib import user_in_group
-from .models import Form, FormInstance, Status
+from .models import Form, FormInstance, Status, Cash
+from .tpv_lib import get_cash
 from django.conf import settings
 
 import datetime
@@ -96,8 +97,10 @@ def tpv_index(request, project_uuid):
             return render(request, "bookings/tpv/mobile/index.html", {'point_of_sales': point_of_sales,})
         elif "table" not in request.session or request.session["table"] == "":
             pos = get_or_none(PointOfSale, request.session["point_of_sale"])
+            date = datetime.datetime.strptime("{} 23:59:59".format(datetime.datetime.now().strftime("%Y-%m-%d")), "%Y-%m-%d %H:%M:%S")
+            cash, created = get_cash(pos, date, request.user.username)
             tables = Table.objects.filter(point_of_sale=pos)
-            return render(request, "bookings/tpv/mobile/index.html", {'pos': pos, 'tables': tables,})
+            return render(request, "bookings/tpv/mobile/index.html", {'pos': pos, 'tables': tables, 'cash': cash, 'created': created})
         else:
             form = Form.objects.filter(form_type__code="tpv", form_type__project_uuid=project.uuid).first()
             pos = get_or_none(PointOfSale, request.session["point_of_sale"])
@@ -166,6 +169,17 @@ def tpv_change_table(request):
     except Exception as e:
         print(e)
         return render(request, "error_exception.html", {'exc':show_exc(e)})
+
+#@group_required("waiters")
+#def tpv_set_cash(request):
+#    try:
+#        cash = get_or_none(Cash, request.GET["obj_id"])
+#        cash.ini_cash = request.GET["value"]
+#        cash.save()
+#        return redirect(reverse("tpv-mob-index", kwargs = {'project_uuid': cash.project_uuid}))
+#    except Exception as e:
+#        print(e)
+#        return render(request, "error_exception.html", {'exc':show_exc(e)})
 
 @group_required("waiters")
 def tpv_ticket(request):

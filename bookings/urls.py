@@ -177,6 +177,8 @@ urlpatterns = [
     path('tpv-change-pos/', tpv.tpv_change_pos, name='tpv-change-pos'),
     path('tpv-set-table/', tpv.tpv_set_table, name='tpv-set-table'),
     path('tpv-change-table/', tpv.tpv_change_table, name='tpv-change-table'),
+    path('tpv-set-cash/', tpv.tpv_set_cash, name='tpv-set-cash'),
+    path('tpv-cash-z/', tpv.cash_z, name='tpv-cash-z'),
     path('tpv-check-band/', tpv.tpv_check_band, name='tpv-check-band'),
 
     #path('tpv-shopping-cart/', tpv.tpv_shopping_cart, name='tpv-shopping-cart'),
@@ -208,6 +210,7 @@ urlpatterns = [
     path('tpv-mob-change-pos/', tpv_mob.tpv_change_pos, name='tpv-mob-change-pos'),
     path('tpv-mob-set-table/', tpv_mob.tpv_set_table, name='tpv-mob-set-table'),
     path('tpv-mob-change-table/', tpv_mob.tpv_change_table, name='tpv-mob-change-table'),
+    #path('tpv-mob-set-cash/', tpv_mob.tpv_set_cash, name='tpv-mob-set-cash'),
     path('tpv-mob-check-band/', tpv_mob.tpv_check_band, name='tpv-mob-check-band'),
 
     path('tpv-mob-item-add/', tpv_mob.tpv_item_add, name='tpv-mob-item-add'),

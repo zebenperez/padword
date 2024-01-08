@@ -1,0 +1,37 @@
+{% load i18n tpv_tags %}
+
+{% if created %}
+    <div class="row" style="margin-top:100px">
+        <div class="col-2 text-end">{% trans "Fondo de caja" %}:</div>
+        <div class="col-6"><input type="text" class="form-control" onchange="$('#btn-cash').data('value', $(this).val())"/></div>
+        <div class="col-2">
+            <button id="btn-cash" class="menu-options tables ark" data-url="{%url "tpv-set-cash"%}" data-target="base" 
+                data-obj_id="{{cash.id}}" data-value="" data-index="{{index}}">{% trans "Save" %} </button>
+        </div>
+    </div>
+{% else %}
+    <div class="row">
+        <div class="col-11">
+            <input class="form-control tpv-table-search" data-search-class="table-card" placeholder="{%trans "Seleccionar mesa a buscar..."%}"/>
+        </div>
+        <div class="col-1 pt-4" onclick="$('#cash-opts').fadeToggle()"> <a href="#" class="menu-btn"><i class="fas fa-bars menu"></i></a> </div>
+    </div>
+    <div id="cash-opts" class="hide">
+        <button class="btn btn-sm pointer add-date ark" id="btn-pos-summary" data-url="{% url "tpv-cash-z" %}" data-target="base" 
+            data-obj_id="{{cash.id}}" data-type="z" data-index="tpv-index"> <i class="fas fa-file-csv"></i>{% trans "Generate Z" %}</button>
+        <button class="btn btn-sm pointer add-date ark" id="btn-pos-summary" data-url="{% url "cash-z" %}" data-target="file-list" 
+            data-obj_id="{{cash.id}}" data-type="x" data-index="tpv-index"> <i class="fas fa-file-csv"></i>{% trans "Generate X" %}</button>
+    </div>
+    {% for item in tables %}
+        <div class="col-lg-3 col-12 table-card mt-3" data-name="{{item.name}}">
+            <button class="menu-options tables ark" 
+                data-url="{%url "tpv-set-table"%}" data-target="base" data-obj_id="{{item.id}}" data-index="{{index}}">
+                <div class="row w-100 m-0">
+                    <div class="col-9 text-left">{{item.name}}</div>
+                    <div class="col-3 text-right"><i class='fas fa-concierge-bell'></i></div>
+                </div>
+                {% get_table_info pos item %}
+            </button>
+        </div>
+    {% endfor %}
+{% endif %}

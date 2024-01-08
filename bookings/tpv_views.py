@@ -14,7 +14,8 @@ from connector.models import ProjectWinhotelUser
 
 from .common_lib import get_or_create_form_instance_tpv, get_or_create_form_instance_info_tpv, get_or_create_form_instance_info_client_tpv
 from .common_lib import user_in_group
-from .models import Form, FormInstance, Status
+from .tpv_lib import get_cash, update_zeta
+from .models import Form, FormInstance, Status, Cash
 from django.conf import settings
 
 import datetime
@@ -94,8 +95,10 @@ def tpv_index(request, project_uuid):
             return render(request, "bookings/tpv/index.html", {'point_of_sales': point_of_sales,})
         elif "table" not in request.session or request.session["table"] == "":
             pos = get_or_none(PointOfSale, request.session["point_of_sale"])
+            date = datetime.datetime.strptime("{} 23:59:59".format(datetime.datetime.now().strftime("%Y-%m-%d")), "%Y-%m-%d %H:%M:%S")
+            cash, created = get_cash(pos, date, request.user.username)
             tables = Table.objects.filter(point_of_sale=pos)
-            return render(request, "bookings/tpv/index.html", {'pos': pos, 'tables': tables})
+            return render(request, "bookings/tpv/index.html", {'pos': pos, 'tables': tables, 'cash': cash, 'created': created})
         else:
             form = Form.objects.filter(form_type__code="tpv", form_type__project_uuid=project.uuid).first()
             pos = get_or_none(PointOfSale, request.session["point_of_sale"])
@@ -154,7 +157,7 @@ def tpv_set_table(request):
     try:
         table = get_or_none(Table, request.GET["obj_id"])
         request.session["table"] = table.id
-        return redirect(reverse("tpv-index", kwargs = {'project_uuid': table.point_of_sale.project_uuid}))
+        return redirect(reverse(request.GET["index"], kwargs = {'project_uuid': table.point_of_sale.project_uuid}))
     except Exception as e:
         print(e)
         return render(request, "error_exception.html", {'exc':show_exc(e)})
@@ -164,6 +167,17 @@ def tpv_change_table(request):
     try:
         request.session["table"] = ""
         return redirect(reverse("tpv-index", kwargs = {'project_uuid': request.GET["project_uuid"]}))
+    except Exception as e:
+        print(e)
+        return render(request, "error_exception.html", {'exc':show_exc(e)})
+
+@group_required("waiters")
+def tpv_set_cash(request):
+    try:
+        cash = get_or_none(Cash, request.GET["obj_id"])
+        cash.ini_cash = request.GET["value"]
+        cash.save()
+        return redirect(reverse(request.GET["index"], kwargs = {'project_uuid': cash.project_uuid}))
     except Exception as e:
         print(e)
         return render(request, "error_exception.html", {'exc':show_exc(e)})
@@ -386,6 +400,12 @@ def order_details(request):
         print(e)
         logger.error("[bookings-fill_form] {}".format(str(e)))
         return render(request, 'error_exception.html', {'exc':show_exc(e)})
+
+@group_required("waiters")
+def cash_z(request):
+    cash = get_or_none(Cash, request.GET["obj_id"]) 
+    update_zeta(cash, request.user)
+    return redirect(reverse(request.GET["index"], kwargs = {'project_uuid': cash.project_uuid}))
 
 @group_required("waiters")
 def tpv_close(request):
