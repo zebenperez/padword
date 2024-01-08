@@ -4,7 +4,7 @@
 {% include "bookings/tpv/view-payment-types-styles.html" %}
 
 {# ------------------------------------------------ TIPOS DE PAGO ---------------------------------------------------------#}
-<div class="row justify-content-center">
+<div class="row justify-content-center pt-2">
     {% for item in fi.form.get_category.payment_types.all %}
         <div class="col-12 col-lg-4 justify-content-center pt-box pay-method" id="pt-box-{{item.id}}">
             <div class="justify-content-center">
@@ -27,7 +27,7 @@
 <br/><div id="band-alert" class="text-danger" class="hide"></div>
 
 {# ------------------------------------------------ ACCIONES --------------------------------------------------------------#}
-<div class="row footer-buttons mt-4 m-0 p-0 justify-content-center">
+<div class="row footer-buttons m-0 p-0 justify-content-center">
     {# -------------------------------- CANCELAR ---------------------------- #}
     <div class="col-6 text-center p-0">
         {%comment%}

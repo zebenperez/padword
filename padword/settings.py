@@ -204,6 +204,11 @@ LOGGING = {
             'level': DEBUG_LEVEL,
             'propagate': True,
         },
+        'bookings': {
+            'handlers': ['file', 'console'],
+            'level': DEBUG_LEVEL,
+            'propagate': True,
+        },
     },
 }
 

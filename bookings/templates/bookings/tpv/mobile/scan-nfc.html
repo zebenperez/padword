@@ -1,8 +1,8 @@
 {% load i18n %}
 
 {#<button class="btn btn-sm" onclick="$('#div-scan-band').show();"> Scan NFC</button>#}
-<button class="btn btn-sm scan-nfc" data-obj_id="{{fi.id}}" data-scan-container="div-scan-band" data-scan-url="{%url "tpv-check-band"%}" 
-    data-scan-target="ticket-summary"> 
+<button class="btn btn-sm scan-nfc" data-obj_id="{{fi.id}}" data-scan-container="div-scan-band" data-scan-url="{%url "tpv-mob-check-band"%}" 
+    data-scan-target="ticket-summary-mobile"> 
     Escanear pulsera (NFC)</button>
 
 <div id="div-scan-band" class="hide">

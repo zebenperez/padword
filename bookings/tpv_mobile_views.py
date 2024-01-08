@@ -198,18 +198,24 @@ def tpv_check_band(request):
     try:
         fi = get_or_none(FormInstance, request.GET["obj_id"])
         val = get_param(request.GET, "value", "")
-        band = Wristband.get_active_by_project(fi.form.project, reverse_cardkey(val))
+        #band = Wristband.get_active_by_project(fi.form.project, reverse_cardkey(val))
+        band = Wristband.get_active_by_project(fi.form.project, val)
         regime = None
+        band_err = ""
         if band != None and band.guest != None:
             gr = band.guest.regimes.first()
             regime = gr.regime if gr != None else None
             get_or_create_form_instance_info_client_tpv(fi, band.guest, band.code)
             fi.update_items_low_price()
+        else:
+            band_err = _("This band is not asigned to any guest!")
 
-        band_err = True if band == None else False
-        return render(request, "bookings/tpv/mobile/view-ticket.html", {'fi':fi, 'band': band, 'regime': regime, 'band_err': band_err})
+        #band_err = True if band == None else False
+        return render(request, "bookings/tpv/mobile/view-ticket-mobile.html", {'fi':fi, 'band_err': band_err})
+        #return render(request, "bookings/tpv/mobile/view-ticket-mobile.html", {'fi':fi, 'band': band, 'regime': regime, 'band_err': band_err})
     except Exception as e:
         print(e)
+        logger.error("[bookings-check_band] {}".format(str(e)))
         return render(request, "error_exception.html", {'exc':show_exc(e)})
 
 @group_required("waiters")

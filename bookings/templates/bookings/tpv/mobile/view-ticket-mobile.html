@@ -1,7 +1,7 @@
 {% load i18n padword_tags bookings_tag tpv_tags %}
 
 
-{% with items=fi.get_items total=fi.get_total %}
+{% with items=fi.get_items total=fi.get_total regime=fi.band.guest.regime band=fi.band%}
     {% if items|length > 0 %} 
     <div class="row mt-1 justify-content-center"><div id="guest-info" class="col-12 text-center mb-1">
         {% include "bookings/tpv/view-guest-info.html" %}</div></div>
