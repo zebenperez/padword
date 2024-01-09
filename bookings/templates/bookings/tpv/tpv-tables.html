@@ -1,12 +1,14 @@
 {% load i18n tpv_tags %}
 
 {% if cash.close %}
+    <div class="row" style="margin-top:100px"> <div class="col-12 text-end">{{pos.name}}</div> </div>
     <div class="row" style="margin-top:100px"><div class="col-12 text-center">
         {% trans "TPV Close!" %}
         <button class="btn ark w-100" data-url="{% url "tpv-change-pos" %}" data-target="base" data-project_uuid="{{pos.project_uuid}}">
             {% trans "Back" %}</button>
     </div></div>
 {% elif created or cash.ini_cash < 0 %}
+    <div class="row" style="margin-top:100px"> <div class="col-12 text-end">{{pos.name}}</div> </div>
     <div class="row" style="margin-top:100px">
         <div class="col-2 text-end">{% trans "Fondo de caja" %}:</div>
         <div class="col-6"><input type="text" class="form-control" onchange="$('#btn-cash').data('value', $(this).val())"/></div>
