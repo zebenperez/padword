@@ -245,6 +245,7 @@ urlpatterns = [
     #------------- TPV Cash --------------#
     path('tpv-cash/index/', tpv_cash.cash_by_project, name='cash-by-project'),
     path('tpv-cash/search/', tpv_cash.cash_search, name='cash-search'),
+    path('tpv-cash/new/', tpv_cash.cash_new, name='cash-new'),
     path('tpv-cash/remove/', tpv_cash.cash_remove, name='cash-remove'),
     path('tpv-cash/z/', tpv_cash.cash_z, name='cash-z'),
     path('tpv-cash/print-z/<int:obj_id>', tpv_cash.print_z, name='cash-z-print'),

@@ -1,23 +1,28 @@
-{% load i18n padword_tags %}
+{% load i18n padword_tags tpv_tags %}
 
-{% if pos %}
+{% if pos and not pos|have_cash %}
     <div class="row">
-        <div class="col-4"> <strong>{% trans "Current point of sale" %}: {{pos.name}}</strong> </div>
-        <div class="col-3">{% trans "Select date:"%} <input type="date" class="form-control" id="date" name="date" value="date"/> </div>
-        <div class="col-3">{% trans "Initial cash:" %} <input type="text" class="form-control" id="ini_cash" name="ini_cash" value=""/> </div>
+        <div class="col-10"> <strong>{% trans "Current point of sale" %}: {{pos.name}}</strong> </div>
         <div class="col-2">
-            <button class="btn btn-sm pointer add-date ark" id="btn-pos-summary" data-url="{% url "cash-z" %}"
-                data-target="file-list" data-obj_id="{{pos.id}}" data-date="" data-ini_cash="" data-type="z">
-                <i class="fas fa-file-csv"></i>{% trans "Generate Z" %}</button>
-            <button class="btn btn-sm pointer add-date ark" id="btn-pos-summary" data-url="{% url "cash-z" %}"
-                data-target="file-list" data-obj_id="{{pos.id}}" data-date="" data-ini_cash="" data-type="x">
-                <i class="fas fa-file-csv"></i>{% trans "Generate X" %}</button>
+            <button class="btn btn-sm pointer" onclick="$('#new-cash').toggle()"> <i class="fas fa-file-csv"></i>{% trans "New Cash" %}</button>
+        {%comment%}
+        <button class="btn btn-sm pointer add-date ark" id="btn-pos-summary" data-url="{% url "cash-z" %}"
+            data-target="file-list" data-obj_id="{{pos.id}}" data-date="" data-ini_cash="" data-type="x">
+            <i class="fas fa-file-csv"></i>{% trans "Generate X" %}</button>
+        {%endcomment%}
         </div>
     </div>
-    <script> 
-        $("#date").change(function(){ $(".add-date").data("date", $(this).val()); }); 
-        $("#ini_cash").change(function(){ $(".add-date").data("ini_cash", $(this).val()); }); 
-    </script>
+    <div class="row hide" id="new-cash">
+        <div class="col-4"> {% trans "Fondo:" %} </div>
+        <div class="col-4"> <input type="text" class="form-control" id="ini_cash" name="ini_cash" value=""/> </div>
+        <div class="col-2">
+            <button class="btn btn-sm pointer add-date ark" id="btn-pos-summary" data-url="{% url "cash-new" %}" data-target="file-list" 
+                data-obj_id="{{pos.id}}" data-ini_cash=""> <i class="fas fa-file-csv"></i>{% trans "Save" %}</button>
+        </div>
+    </div>
+    <script> $("#ini_cash").change(function(){ $(".add-date").data("ini_cash", $(this).val()); }); </script>
+{% elif pos %}
+    <div class="row"> <div class="col-10"> <strong>{% trans "Current point of sale" %}: {{pos.name}}</strong> </div></div>
 {% endif %}
 
 {#{% if msg and msg != ""%}<div class="alert alert-danger">{{msg}}</div>{% endif %}#}
@@ -28,6 +33,7 @@
         <thead>
             <tr class="small small">
                 <th> {% trans 'Type' %} </th>
+                <th> {% trans 'TPV' %} </th>
                 <th> {% trans 'Date' %} </th>
                 <th> {% trans 'Fondo' %} </th>
                 <th> {% trans 'Total Cash' %} </th>
@@ -35,6 +41,7 @@
                 <th> {% trans 'Card' %} </th>
                 <th> {% trans 'Devoluciones' %} </th>
                 <th> {% trans 'Invitaciones' %} </th>
+                <th> {% trans 'Close' %} </th>
                 <th> </th>
             </tr>
         </thead>
@@ -42,6 +49,7 @@
             {% for item in cash_list %}
                 <tr class="small" id="row_{{item.id}}"> 
                     <td>{%if item.date|date:"H:i:s" == "23:59:59" %} Zeta {%else%} Equis {%endif%}</td>
+                    <td>{{item.pos.name}}</td>
                     <td>{{item.date}}</td>
                     <td>{{item.ini_cash}}</td>
                     <td>{{item.end_cash}}</td>
@@ -49,7 +57,12 @@
                     <td>{{item.card}}</td>
                     <td>{{item.back}}</td>
                     <td>{{item.free}}</td>
+                    <td>{% if item.close %}<i class="fas fa-check"></i>{% else %}<i class="fas fa-times"></i>{% endif %}</td>
                     <td>
+                        {% if not item.close %}
+                            <a class="btn btn-sm ark" data-url="{% url "cash-z" %}" data-target="file-list" data-obj_id="{{item.id}}" 
+                                title="{%trans "Close"%}"> <i class="fas fa-door-closed"></i></a>
+                        {% endif %}
                         <a class="btn btn-sm ark" data-url="{% url "cash-remove" %}" data-target="file-list" data-obj_id="{{item.id}}" 
                             title="{%trans "Remove"%}" data-confirm="{% trans "Are you sure to remove this element?" %}"> 
                             <i class="fas fa-trash"></i></a>

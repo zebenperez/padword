@@ -1,6 +1,7 @@
 from django import template
 from django.utils.safestring import mark_safe
 from bookings.models import FormInstance
+from bookings.tpv_lib import cash_exists
 
 register=template.Library()
 
@@ -45,6 +46,10 @@ def check_band(fi):
         return 5
 
     return 6
+
+@register.filter
+def have_cash(pos):
+    return cash_exists(pos)
 
 '''
 	Simple tag
