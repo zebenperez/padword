@@ -405,6 +405,8 @@ def order_details(request):
 def cash_z(request):
     cash = get_or_none(Cash, request.GET["obj_id"]) 
     update_zeta(cash, request.user)
+    cash.close = True
+    cash.save()
     return redirect(reverse(request.GET["index"], kwargs = {'project_uuid': cash.project_uuid}))
 
 @group_required("waiters")

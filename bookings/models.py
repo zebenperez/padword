@@ -621,7 +621,7 @@ class FormInstanceInfo(models.Model):
 class Cash(models.Model):
     close = models.BooleanField(_('Close'), default=False)
     date = models.DateTimeField(_('Creation date'), default=datetime.datetime.now, null=True)
-    ini_cash = models.FloatField(verbose_name='Initial amount', default=0, null=True, blank=True)
+    ini_cash = models.FloatField(verbose_name='Initial amount', default=-1, null=True, blank=True)
     end_cash = models.FloatField(verbose_name='Final amount', default=0, null=True, blank=True)
     band = models.FloatField(verbose_name='Band amount', default=0, null=True, blank=True)
     card = models.FloatField(verbose_name='Card amount', default=0, null=True, blank=True)
