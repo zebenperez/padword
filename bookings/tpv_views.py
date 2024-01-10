@@ -14,7 +14,7 @@ from connector.models import ProjectWinhotelUser
 
 from .common_lib import get_or_create_form_instance_tpv, get_or_create_form_instance_info_tpv, get_or_create_form_instance_info_client_tpv
 from .common_lib import user_in_group
-from .tpv_lib import get_cash, update_zeta
+from .tpv_lib import get_cash, update_cash
 from .models import Form, FormInstance, Status, Cash
 from django.conf import settings
 
@@ -403,11 +403,30 @@ def order_details(request):
 
 @group_required("waiters")
 def cash_z(request):
-    cash = get_or_none(Cash, request.GET["obj_id"]) 
-    update_zeta(cash, request.user)
-    cash.close = True
-    cash.save()
-    return redirect(reverse(request.GET["index"], kwargs = {'project_uuid': cash.project_uuid}))
+    try:
+        cash = get_or_none(Cash, request.GET["obj_id"]) 
+        update_cash(cash, request.user)
+        cash.close = True
+        cash.save()
+        return redirect(reverse(request.GET["index"], kwargs = {'project_uuid': cash.project_uuid}))
+    except Exception as e:
+        print(e)
+        return render(request, 'error_exception.html', {'exc':show_exc(e)})
+
+@group_required("waiters")
+def cash_x(request):
+    try:
+        cash = get_or_none(Cash, request.GET["obj_id"]) 
+        cash_x = cash
+        cash_x.pk = None
+        cash_x.date = datetime.datetime.now()
+        cash_x.save()
+        update_cash(cash_x, request.user)
+        cash_x.close = True
+        cash_x.save()
+        return redirect(reverse(request.GET["index"], kwargs = {'project_uuid': cash.project_uuid}))
+    except Exception as e:
+        return render(request, 'error_exception.html', {'exc':show_exc(e)})
 
 @group_required("waiters")
 def tpv_close(request):

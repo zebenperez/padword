@@ -319,6 +319,12 @@ i.fa.fa-window-close
     font-weight: normal;
 }
 
+i.far.fa-arrow-alt-circle-left 
+{
+    color: #ffffff;
+	font-size: 1.2rem;
+}
+
 button.btn.btn-header-pwa.ark, a.btn.btn-header-pwa.ark 
 {
 	margin:0;
@@ -517,6 +523,7 @@ i.fas.fa-power-off .mobile {
 	color: #ffffff !important;
 }
 
+
 /*****  mobile icons ******/
 
 
@@ -549,7 +556,6 @@ i.fas.fa-power-off .mobile {
     background: #e41e3f;
     border-radius: 50px;
 }
-
 
 .power-off {
     height: 50px;

@@ -1,4 +1,5 @@
 from bookings.models import Cash, FormInstance
+from padword.commons import get_float
 
 import datetime 
 
@@ -61,7 +62,7 @@ def get_cash(pos, date, username=""):
 #    cash.save()
 #    return cash
 #
-def update_zeta(cash, user):
+def update_cash(cash, user):
     date = cash.date.strftime("%Y-%m-%d")
     s_date = datetime.datetime.strptime("{} 00:00:00".format(date), "%Y-%m-%d %H:%M:%S")
     e_date = datetime.datetime.strptime("{} 23:59:59".format(date), "%Y-%m-%d %H:%M:%S")

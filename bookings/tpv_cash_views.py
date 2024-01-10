@@ -9,7 +9,7 @@ from web.models import Project
 from contents.models import PointOfSale, PaymentType
 
 from .models import Form, FormInstance, FormInstanceInfo, Cash
-from .tpv_lib import get_cash, get_date_z, update_zeta
+from .tpv_lib import get_cash, get_date_z, update_cash
 
 import csv, datetime, logging, os, re
 logger = logging.getLogger(__name__)
@@ -86,7 +86,7 @@ def cash_z(request):
         project = get_or_none(Project, request.project_id)
         cash = get_or_none(Cash, request.GET["obj_id"]) 
         items = search(project.uuid, cash.pos)
-        cash = update_zeta(cash, request.user)
+        cash = update_cash(cash, request.user)
         cash.close = True
         cash.save()
         #cash = generate_cash(project, pos, request.user, date_str, cash_type, ini_cash)
