@@ -1,8 +1,8 @@
 {% load i18n padword_tags tpv_tags %}
 
 {% if pos and not pos|have_cash %}
-    <div class="row m-0" style="border:1px solid red; align-items: center;">
-        <div class="col-10"> <strong>{% trans "Current point of sale" %}: {{pos.name}}</strong> </div>
+    <div class="row m-0 p-3 alert alert-primary align-items-center">
+        <div class="col-10"> {% trans "Current point of sale" %}: <strong>{{pos.name}} </strong></div>
         <div class="col-2 text-right">
             <button class="btn btn-sm pointer" onclick="$('#new-cash').toggle()"> <i class="fas fa-file-csv"></i> {% trans "New Cash" %}</button>
         {%comment%}
@@ -12,17 +12,18 @@
         {%endcomment%}
         </div>
     </div>
-    <div class="row hide" id="new-cash">
-        <div class="col-4"> {% trans "Fondo:" %} </div>
-        <div class="col-4"> <input type="text" class="form-control" id="ini_cash" name="ini_cash" value=""/> </div>
-        <div class="col-2">
+
+    <div class="row mx-auto mt-2 p-1 alert alert-warning hide w-25" id="new-cash">
+        <div class="col text-center"> {% trans "Fondo:" %} </div>
+        <div class="col text-center"> <input type="text" class="form-control" id="ini_cash" name="ini_cash" value=""/> </div>
+        <div class="col text-center">
             <button class="btn btn-sm pointer add-date ark" id="btn-pos-summary" data-url="{% url "cash-new" %}" data-target="file-list" 
-                data-obj_id="{{pos.id}}" data-ini_cash=""> <i class="fas fa-file-csv"></i>{% trans "Save" %}</button>
+                data-obj_id="{{pos.id}}" data-ini_cash=""> <i class="fas fa-file-csv"></i> {% trans "Save" %}</button>
         </div>
     </div>
     <script> $("#ini_cash").change(function(){ $(".add-date").data("ini_cash", $(this).val()); }); </script>
 {% elif pos %}
-    <div class="row m-0" style="border:1px solid black"> <div class="col-10"> <strong>{% trans "Current point of sale" %}: {{pos.name}}</strong> </div></div>
+    <div class="row m-0 p-3 alert alert-primary align-items-center"><div class="col-10">{% trans "Current point of sale" %}: <strong>{{pos.name}}</strong> </div></div>
 {% endif %}
 
 {#{% if msg and msg != ""%}<div class="alert alert-danger">{{msg}}</div>{% endif %}#}

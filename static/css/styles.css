@@ -150,6 +150,21 @@ select.mini {
 
 .b-none { border: none;}
 
+.alert-primary.align-items-center {
+    align-items: center;
+    color: #143e53 !important;
+/*    font-size: small; */
+}
+.alert-warning.align-items-center {
+    align-items: center;
+}
+
+.fondo {
+    align-items: center;
+    display:grid; 
+    grid-template-columns: 5% 50% 5%;
+}
+
 /***************************/
 /***** Padword buttons *****/
 
@@ -1881,6 +1896,7 @@ h5.modal-title.share { color: rgba(0,0,0,.54); }
 /********************************/
 
 .hide { display: none; }
+
 .indragmode {
     transform: rotate(10deg);
     transform-origin: left top;

@@ -62,10 +62,18 @@ def get_cash(pos, date, username=""):
 #    cash.save()
 #    return cash
 #
-def update_cash(cash, user):
+def cancel_open_orders(cash, user):
+    fi_list = FormInstance.objects.filter(pos_uuid=cash.pos_uuid, status_list__isnull=True)
+    for fi in fi_list:
+        fi.set_status("05", user, "Cancell in Z!")
+
+def update_cash(cash, user, cancel_orders=False):
     date = cash.date.strftime("%Y-%m-%d")
     s_date = datetime.datetime.strptime("{} 00:00:00".format(date), "%Y-%m-%d %H:%M:%S")
     e_date = datetime.datetime.strptime("{} 23:59:59".format(date), "%Y-%m-%d %H:%M:%S")
+
+    if cancel_orders:
+        cancel_open_orders(cash, user)
 
     fi_list = FormInstance.objects.filter(pos_uuid=cash.pos_uuid, date__range=(s_date, e_date))
 
@@ -75,9 +83,9 @@ def update_cash(cash, user):
     back_total = 0
     free_total = 0
     for fi in fi_list:
-        if fi.get_status == None:
-            fi.set_status("05", user, "Cancell in Z!")
-        elif fi.get_status.status != None and fi.get_status.status.code != "05":
+        #if fi.get_status == None:
+        #    fi.set_status("05", user, "Cancell in Z!")
+        if fi.get_status.status != None and fi.get_status.status.code != "05":
             amount = get_float(fi.amount.replace(",", "."))
             if fi.payment_type.code == "01":
                 cash_total += amount

@@ -405,7 +405,7 @@ def order_details(request):
 def cash_z(request):
     try:
         cash = get_or_none(Cash, request.GET["obj_id"]) 
-        update_cash(cash, request.user)
+        update_cash(cash, request.user, True)
         cash.close = True
         cash.save()
         return redirect(reverse(request.GET["index"], kwargs = {'project_uuid': cash.project_uuid}))
