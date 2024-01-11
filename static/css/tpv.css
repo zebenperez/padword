@@ -12,6 +12,10 @@
 }
 #base .menu-options 
 {
+    margin: 1%;
+}
+#base .menu-options, .pos-options 
+{
 	background-color: #ffffff;
     background-size: cover;
 	border:1px solid #a1c517;
@@ -19,7 +23,6 @@
 	color: #a1c517;
 	font-size: 1.875em;
 	font-weight: 600;
-    margin: 1%;
     height: 300px;
 }
 
@@ -46,6 +49,17 @@
     color: white;
     align-items: center;
 }
+#base button.menu-options.tables.save {
+    background: #a1c517;
+    color: #fff;
+	font-size: 1.2em !important;
+	padding: 0 !important;
+    margin-top: 0px;
+	border:1px solid #a1c517;
+    width: 100%;
+    height: auto !important;
+    line-height: 1.8;
+} 
 
 .order-on {
     color: red; font-weight: normal;font-size: 0.8em;

@@ -8,13 +8,24 @@
             {% trans "Back" %}</button>
     </div></div>
 {% elif created or cash.ini_cash < 0 %}
-    <div class="row" style="margin-top:100px"> <div class="col-12 text-end">{{pos.name}}</div> </div>
-    <div class="row" style="margin-top:100px">
-        <div class="col-2 text-end">{% trans "Fondo de caja" %}:</div>
-        <div class="col-6"><input type="text" class="form-control" onchange="$('#btn-cash').data('value', $(this).val())"/></div>
-        <div class="col-2">
-            <button id="btn-cash" class="menu-options tables ark" data-url="{%url "tpv-set-cash"%}" data-target="base" 
-                data-obj_id="{{cash.id}}" data-value="" data-index="{{index}}">{% trans "Save" %} </button>
+
+
+    <div class="row m-0">
+            <div class="col-lg-6 offset-lg-3 col-12 mt-3 pos-options p-0"
+                {%if pos.image%}style="background-image:url({{pos.image.url}});"{%endif%}>
+            <div class="point-name" style="width: 100%;background: white; opacity: 0.8;">{{pos.name}}</div>
+        </div>
+    </div>
+    <div class="row m-0 mt-3">
+        <div class="col-12 text-center pb-3">{% trans "Fondo de caja" %}</div>
+    </div>
+    <div class="row m-0 mt-3">
+        <div class="col-lg-4 offset-lg-4 col-12"><input type="text" class="form-control" onchange="$('#btn-cash').data('value', $(this).val())" placeholder="Introduce la cantidad" /></div>
+    </div>
+    <div class="row m-0 mt-3">
+        <div class="col-lg-4 offset-lg-4 col-12">
+            <button id="btn-cash" class="menu-options tables save ark" data-url="{%url "tpv-set-cash"%}" data-target="base" 
+                data-obj_id="{{cash.id}}" data-value="" data-index="{{index}}"><i class="fa fa-save"></i> {% trans "Save" %} </button>
         </div>
     </div>
 {% else %}
