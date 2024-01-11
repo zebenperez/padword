@@ -1,5 +1,6 @@
 from datetime import datetime, timedelta
 
+from contents.models import ItemInCat
 from guest.models import Guest, Regime, GuestRegime, ProjectRegime
 from web.models import Room
 from padword.commons import new_ui_slug
