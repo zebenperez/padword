@@ -431,6 +431,30 @@ def project_set_winhotel_schedule(request):
         print (show_exc(e))
         return HttpResponse("Error!")
 
+@group_required("admins")
+def project_add_logo(request):
+    try:
+        project = get_or_none(Project, request.POST["obj_id"])
+        logo = request.FILES["file"]
+
+        if project != None:
+            project.logo = logo
+            project.save()
+        return render(request, "web/projects/project-img.html", {"obj": project,})
+    except Exception as e:
+        print(e)
+        return render(request, 'error_exception.html', {'msg': str(e)})
+
+@group_required("admins", "projects", "categories")
+def project_remove_logo(request):
+    try:
+        obj = get_or_none(Project, request.GET["obj_id"]) 
+        obj.logo.delete(save=True)
+        return render(request, "web/projects/project-img.html", {"obj": obj,})
+    except Exception as e:
+        print(e)
+        return render(request, 'error_exception.html', {'msg': str(e)})
+
 
 '''
     Channels

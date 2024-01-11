@@ -31,6 +31,8 @@ urlpatterns = [
     path('projects/table-range/', views.project_table_range, name='project-table-range'),
     path('projects/set-avantio-schedule/', views.project_set_avantio_schedule, name='project-set-avantio-schedule'),
     path('projects/set-winhotel-schedule/', views.project_set_winhotel_schedule, name='project-set-winhotel-schedule'),
+    path('projects/add-logo/', views.project_add_logo, name='project-add-logo'),
+    path('projects/remove-logo/', views.project_remove_logo, name='project-remove-logo'),
     #--------------------- Channels --------------------
     path('channels/project-<slug:project_id>/', views.channels, name='channels-by-project'),
     path('channels/company-<slug:company_id>/', views.channels, name='channels-by-company'),

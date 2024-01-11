@@ -42,9 +42,10 @@
             <div class="d-flex justify-content-end"> <a class="btn btn-default" onclick="window.print()"> &#128424; {% trans "Imprimir" %}</a> </div>
 
             <br/>
-            <h1>{{obj.project.name}}</h1><br/>
-            <div class="title">{% trans 'TPV' %} {{obj.pos.name}}</div> <br/>
-            <h2>{% trans 'Summary' %} </h2> <br/>
+            {% if obj.project.logo %}<img src="{{obj.project.logo.url}}" alt="Logo"/>{% endif %} <br/>
+            <h3>{{obj.project.name}}</h3>
+            <div class="title">{% trans 'TPV' %} {{obj.pos.name}}</div>
+            <h2>{% trans 'Summary' %} </h2>
             <table width="100%">
                 <tbody>
                     <tr><td>{% trans "Zeta Nº" %}</td><td class="text-end"> <strong>{{obj.id}}</strong></td> </tr>
@@ -55,7 +56,7 @@
                 </tbody>
             </table>
             <br/><hr/><br/>
-            <h2>{% trans 'Billed' %}</h2><br/>
+            <h2>{% trans 'Billed' %}</h2>
             <table width="100%">
                 <tbody>
                     <tr><td>{% trans "Cash" %}</td><td class="text-end"><strong>{{obj.end_cash|floatformat:2}}</strong></td></tr>

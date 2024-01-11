@@ -27,6 +27,12 @@ class Company(models.Model):
         verbose_name = _('Company')
         ordering = ['name']
 
+def upload_logo(instance, filename):
+    ascii_filename = str(filename.encode('ascii', 'ignore'))
+    instance.filename = ascii_filename
+    folder = "projects/logo/%s" % (instance.id)
+    return '/'.join(['%s' % (folder), datetime.datetime.now().strftime("%Y%m%d%H%M%S") + ascii_filename])
+
 class Project(models.Model):
     uuid = models.CharField(max_length=255, verbose_name='UUID', default="", unique=True)
     name = models.CharField(max_length=255, verbose_name='Name', default="")
@@ -42,6 +48,7 @@ class Project(models.Model):
     guest_delete = models.IntegerField(verbose_name='Delete guest after', default=90)
     created_at = models.DateTimeField(verbose_name='Created at', default=datetime.datetime.now)
 
+    logo = models.ImageField(upload_to=upload_logo, blank=True, verbose_name="Logo", help_text="Select file to upload")
     company = models.ForeignKey(Company, verbose_name = 'Company', on_delete=models.SET_NULL, null=True)
 
     class Meta:
