@@ -71,8 +71,9 @@ body.loading .overlay { display: block; }
 
 .table-striped th {
 	border-bottom:1px solid #dee2e6 !important;
-	color: rgba(0,0,0,.6);
-	font-size: 0.9rem;
+/*	color: rgba(0,0,0,.6);*/
+    color: #143e53;
+	font-size: 0.8rem;
 	margin-left:0;
 	margin-right:0;
 }

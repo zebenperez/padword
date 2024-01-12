@@ -1,6 +1,6 @@
 from datetime import datetime, timedelta
 
-from contents.models import ItemInCat
+from contents.models import ItemInCat, Category, Item
 from guest.models import Guest, Regime, GuestRegime, ProjectRegime
 from web.models import Room
 from padword.commons import new_ui_slug
@@ -517,6 +517,24 @@ def send_charge(pwu,booking_code,room_code,contact_name,contact_id,has_credit,li
     result = w.send_charge(dic)
 
  
+def create_items(project_uuid, dic_line):
+    update = False
+    category_list = Category.objects.filter(project_uuid=project_uuid, internal=dic_line[6])
+    now = datetime.now()
+    for cat in category_list:
+        uuid = new_ui_slug(Item)
+        price = float(dic_line[5].replace(",", "."))
+        item = Item.objects.create(uuid=uuid, is_active=1, price=price, name=dic_line[4], ext_id=dic_line[3], updated_at=now, created_at=now)
+        item.save()
+        new_position = 0
+        if ItemInCat.objects.filter(category=cat).exists():
+            new_position = ItemInCat.objects.filter(category = cat).order_by('position').last().position + 1
+        ic = ItemInCat(position=new_position, category=cat, item=item)
+        ic.save()
+        update = True
+    return update
+
+ 
 def import_item_prices(file, project_uuid):
     updated = []
     not_updated = []
@@ -527,6 +545,8 @@ def import_item_prices(file, project_uuid):
         #print("{} - {}".format(dic_line[3], dic_line[5]))
         try:
             ic_list = ItemInCat.objects.filter(category__project_uuid = project_uuid, item__ext_id = int(dic_line[3]))
+            if len(ic_list) == 0:
+                update = create_items(project_uuid, dic_line)
             for ic in ic_list:
                 ic.item.price = float(dic_line[5].replace(",", "."))
                 ic.item.save()
