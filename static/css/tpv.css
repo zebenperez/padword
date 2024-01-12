@@ -61,6 +61,10 @@
     line-height: 1.8;
 } 
 
+input.special::placeholder {
+    font-size: 0.8em !important;
+}
+
 .order-on {
     color: red; font-weight: normal;font-size: 0.8em;
 }
