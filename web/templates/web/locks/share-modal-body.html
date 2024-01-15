@@ -3,14 +3,30 @@
 <textarea id="text-to-share" class="form-control" rows="15">{% padword_translate text %}</textarea>
 <br/>
 <div class="modal-icons-share">
-    <div class="text-center"><a data-sharer="whatsapp" data-title='{% padword_translate text %}' data-url="" class="share-btn pointer">
+    {%comment%}
+    <div class="text-center"><a data-sharer="whatsapp" data-title='{% padword_translate text %}' data-url="" class="share-btn pointer"
+        {% if guest %}data-to="34{{guest.mobile}}"{% endif %}>
         <i class="fab fa-whatsapp"></i><br />{% trans "Share on whatsapp" %}</a></div>
+    {%endcomment%}
+    <div class="text-center"><a onclick="$('#div-whatsapp').toggle()"> <i class="fab fa-whatsapp"></i><br />{% trans "Share on whatsapp" %}</a></div>
     <div class="text-center"><a data-sharer="telegram" data-title='{% padword_translate text %}' data-url="https://system.padword.es" 
         class="share-btn pointer"> <i class="fab fa-telegram"></i><br />{% trans "Share on telegram" %}</a></div>
     <div class="text-center"><a data-sharer="email" data-title="{% trans "New code" %}" data-url="" data-subject='{% padword_translate text %}' 
         data-to="" class="share-btn pointer"><i class="far fa-envelope share"></i><br />{% trans "Send by email" %}</a></div>
     <div class="text-center"><a class="pointer copy-to-clipboard" data-src="text-to-share" data-answer="copy-answer">
         <i class="fas fa-copy"></i><br />{% trans "Copy to clicboard" %}</a> <span id="copy-answer"></span></div>
+</div>
+<div id="div-whatsapp" class="text-center hide">
+    <br/> <br/>
+    <small><strong>
+        {%trans "Compruebe que el número esté correcto, debe contener el código del país para poder ser enviardo. Ejemplo: 34666777888"%}
+    </strong></small>
+    <br/> <br/>
+    <div class="row"><div class="col-4 offset-4"> <input type="text" class="form-control text-center" value="34{{guest.mobile}}" 
+        onchange="$('#w-btn').data('to', $(this).val())" style="font-size:1.2em"/> </div> </div>
+    <br/>
+    <div class="text-center"><a data-sharer="whatsapp" data-title='{%padword_translate text%}' data-url="" id="w-btn" class="share-btn pointer" 
+        data-to="34{{guest.mobile}}"> <i class="fab fa-whatsapp"></i> {% trans "Send" %}</a></div>
 </div>
 
 <script>

@@ -1,7 +1,71 @@
 {% load i18n padword_tags %}
 
+{%comment%} -- nuevo -- {%endcomment%}
+
+    <div class="row justify-center m-0 p-0" tyle="border:1px solid black">
+    {% for item in point_of_sale_list %}
+            <div class="col-lg-6 col-12" style="border:1px solid grey">
+                <div class="row m-0">
+                    <div class="col-lg-6 col-12" tyle="border:1px solid blue">
+                        <label class="label">{% trans "Name" %}
+                            <button class="btn btn-sm ark" id="btn-pos-remove" data-url="{% url "project-pos-remove" %}" data-target="div-pos-list" 
+                                data-obj_id="{{item.id}}"> <i class="fas fa-trash"></i></button>
+                            <a class="btn btn-sm pointer" id="btn-pos-summary" href="{% url "project-pos-daily-summary" item.id %}" target="_blank" > 
+                            <i class="fas fa-file-csv"></i></a></label>
+                        <input type="text" class="form-control autosave input" id="name" name="name" value="{{item.name}}" 
+                            title="{{item.name}}" data-model-name="contents.pointofsale" data-obj-id="{{item.id}}" 
+                            data-url="{% url "autosave_field" %}" data-target="div-notification"/> <span id="name__msg"></span>	
+                    </div>
+                    <div class="col-6" tyle="border:1px solid blue">
+                        <label class="label">{% trans "Code 1 (drink)" %}</label>
+                        <input type="text" class="form-control autosave input" id="code1" name="code1" value="{{item.code1}}" 
+                            title="{{item.code1}}" data-model-name="contents.pointofsale" data-obj-id="{{item.id}}" 
+                            data-url="{% url "autosave_field" %}" data-target="div-notification"/> <span id="code1__msg"></span>	
+                    </div>
+                    <div class="col-6" tyle="border:1px solid blue">
+                        <label class="label">{% trans "Image" %}</label>
+                        <div id="div-image-{{item.id}}">{% include "web/projects/pos-img.html" with obj=item%}</div>
+                    </div>
+                    <div class="col-6" tyle="border:1px solid blue">
+                        <label class="label">{% trans "Code 2 (food)" %}</label>
+                        <input type="text" class="form-control autosave input" id="code2" name="code2" value="{{item.code2}}" 
+                            title="{{item.code2}}" data-model-name="contents.pointofsale" data-obj-id="{{item.id}}" 
+                            data-url="{% url "autosave_field" %}" data-target="div-notification"/> <span id="code2__msg"></span>	
+                        <label class="label">{% trans "UUID" %}</label>
+                        <input type="text" class="form-control autosave input" id="uuid" name="uuid" value="{{item.uuid}}" 
+                            title="{{item.uuid}}" data-model-name="contents.pointofsale" data-obj-id="{{item.id}}" 
+                            data-url="{% url "autosave_field" %}" data-target="div-notification"/> <span id="uuid__msg"></span>	
+                    </div>
+                </div>
+
+                <div class="col-12 mt-3">{% trans "Categories" %}</div>
+                <div class="div justify-center" style="display: grid; grid-template-columns: 33.33% 33.33% 33.33% ;">
+                    {% for cat in form.get_category.get_active_childrens %}
+                        <div class="mb-1">
+                            <button style="font-size: 0.8em; width: 95%;" class="btn {%if cat in item.get_categories%}btn-primary-active{%else%}btn-outline-primary{%endif%} ark" 
+                                data-url="{% url "project-pos-cat-toggle" %}" data-target="" data-obj_id="{{item.id}}" data-category_id="{{cat.id}}"
+                                onclick="$(this).toggleClass('btn-outline-primary btn-primary-active')">{% padword_translate cat.name %}</button>
+                        </div>
+                    {% endfor %}
+                </div>
+
+                <div class="col-12 mt-3">{% trans "Tables" %}</div>
+                <div class="row justify-center">
+                    <div id="div-table-{{item.id}}">{% include "web/projects/project-form-table-list.html" %}</div>
+                </div>
+
+            </div>
+    {% endfor %}
+    </div>
+    <br /><br /><br />
+
+{%comment%} -- nuevo -- {%endcomment%}
+
+
+{%comment%}
 
 {% for item in point_of_sale_list %}
+
     <div class="row justify-center">
         <div class="col-2">
             <label class="label">{% trans "Name" %}:</label>
@@ -56,3 +120,4 @@
 
 {% endfor %}
 
+{%endcomment%}
