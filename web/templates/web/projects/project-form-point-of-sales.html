@@ -10,8 +10,10 @@
         </div>
     </div>
     <div class="card-body hide" id="body-pos"> 
-        <button class="btn btn-primary ark" data-url="{% url "project-pos-add" %}" data-target="div-pos-list" data-obj_id="{{obj.id}}">
-           {% trans "Add" %}</button>
+        <div class="w-100 text-end">
+            <button class="btn btn-primary ark mb-2" data-url="{% url "project-pos-add" %}" data-target="div-pos-list" data-obj_id="{{obj.id}}">
+               {% trans "Add" %}</button>
+        </div>		
         <div id="div-pos-list">{% include "web/projects/project-form-point-of-sales-list.html" %}</div>
     </div>		
 </div>		

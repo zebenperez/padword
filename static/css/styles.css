@@ -101,6 +101,10 @@ table.table-hover.table-striped { font-size: 0.8rem; }
     border-radius: 5px;
 }
 
+button .small {
+    font-size: 0.875em !important;
+}
+
 .btn-submit, .btn-submit:hover {
 	background-color: #424242 !important;
 	color: #fff;
@@ -154,7 +158,6 @@ select.mini {
 .alert-primary.align-items-center {
     align-items: center;
     color: #143e53 !important;
-/*    font-size: small; */
 }
 .alert-warning.align-items-center {
     align-items: center;
@@ -349,6 +352,24 @@ a.btn.btn-primary.ark, a.btn.btn-secondary.ark { font-size:0.8rem !important; }
     display:grid; 
     grid-template-columns: 3% 97%;
 }
+/*** points of sale ***/
+
+.p-sale {
+    border:1px solid #ccc; 
+    height: 100%; 
+    border-radius: 5px;
+}
+
+.div.categ-section {
+    display: grid; 
+    grid-template-columns: 33.33% 33.33% 33.33%;
+}
+
+.div.categ-section button {
+    font-size: 0.8em; 
+    width: 95%;
+}
+
 
 /*** search icons***/
 /* Projects - Companies - Rooms - Keycards - Notifications - Guests  */

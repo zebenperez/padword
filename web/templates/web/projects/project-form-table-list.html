@@ -3,26 +3,26 @@
 <form method="POST" action="{% url "project-table-range" %}" id="form-range-{{item.id}}">
     {%csrf_token%}
     <input type="hidden" name="pos_id" value="{{item.id}}"/>
-    <div class="row">
-        <div class="col-4"> <input type="text" class="form-control input" id="name" name="name" placeholder="{% trans "Name" %}"/> </div>
-        <div class="col-2"> <input type="text" class="form-control input" id="ini" name="ini" placeholder="{% trans "Init value" %}"/> </div>
-        <div class="col-2"> <input type="text" class="form-control input" id="end" name="end" placeholder="{% trans "End value" %}"/> </div>
-        <div class="col-2">
-            <button class="btn btn-primary saveform" data-form="form-range-{{item.id}}" data-target="div-table-{{item.id}}">
+    <div class="row p-0">
+        <div class="col-12 p-1"> <input type="text" class="form-control input m-0" id="name" name="name" placeholder="{% trans "Name" %}"/> </div>
+        <div class="col-3 p-1"> <input type="text" class="form-control input" id="ini" name="ini" placeholder="{% trans "Init value" %}"/> </div>
+        <div class="col-3 p-1"> <input type="text" class="form-control input" id="end" name="end" placeholder="{% trans "End value" %}"/> </div>
+        <div class="col-3 p-1">
+            <button class="btn btn-primary saveform w-100" data-form="form-range-{{item.id}}" data-target="div-table-{{item.id}}">
                 {#onclick="$('#rname').val('');$('#ini').val('');$('#end').val('')">#}
-                <i class="fas fa-plus"></i> {% trans "Add range" %}</button>
+                <i class="fas fa-plus"></i><small> {% trans "Range" %}</small></button>
         </div>
-        <div class="col-2">
-            <button class="btn btn-primary ark" data-url="{% url "project-table-add" %}" data-target="div-table-{{item.id}}" 
-                data-obj_id="{{item.id}}"> <i class="fas fa-plus"></i> {% trans "Add" %}</button>
+        <div class="col-3 p-1">
+            <button class="btn btn-primary ark w-100" data-url="{% url "project-table-add" %}" data-target="div-table-{{item.id}}" 
+                data-obj_id="{{item.id}}"> <i class="fas fa-plus"></i><small> {% trans "Table" %}</small></button>
         </div>
     </div>
 </form>
 
-<div class="row justify-center">
+<div class="row justify-center p-0">
     {% for table in item.tables.all %}
         {%if table.name == ""%} <div class="col-12"> {%else%} <div class="col-3"> {%endif%}
-            <input type="text" class="form-control autosave input" id="name" name="name" value="{{table.name}}" placeholder="{% trans "Name" %}"
+            <input type="text" class="form-control autosave input mb-0" id="name" name="name" value="{{table.name}}" placeholder="{% trans "Name" %}"
                 title="{{table.name}}" data-model-name="contents.table" data-obj-id="{{table.id}}" 
                 data-url="{% url "autosave_field" %}" data-target="div-notification"/> <span id="name__msg"></span>	
 
