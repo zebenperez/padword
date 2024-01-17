@@ -429,6 +429,14 @@ def cash_x(request):
         return render(request, 'error_exception.html', {'exc':show_exc(e)})
 
 @group_required("waiters")
+def print_z(request):
+    try:
+        cash = get_or_none(Cash, request.GET["obj_id"])
+        return render(request, "bookings/tpv/print-z.html", {'obj': cash,})
+    except Exception as e:
+        return HttpResponse("Error: {}".format(e))
+
+@group_required("waiters")
 def tpv_close(request):
     auth.logout(request)
     project_uuid = request.GET["project_uuid"] if "project_uuid" in request.GET else ""

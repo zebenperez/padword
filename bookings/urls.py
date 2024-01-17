@@ -180,6 +180,7 @@ urlpatterns = [
     path('tpv-set-cash/', tpv.tpv_set_cash, name='tpv-set-cash'),
     path('tpv-cash-z/', tpv.cash_z, name='tpv-cash-z'),
     path('tpv-cash-x/', tpv.cash_x, name='tpv-cash-x'),
+    path('tpv-print-z/', tpv.print_z, name='tpv-print-z'),
     path('tpv-check-band/', tpv.tpv_check_band, name='tpv-check-band'),
 
     #path('tpv-shopping-cart/', tpv.tpv_shopping_cart, name='tpv-shopping-cart'),

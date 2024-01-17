@@ -1,0 +1,82 @@
+{% load i18n static padword_tags lock_tags %}
+
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description" content="">
+        <title>Padword by Shidix</title>
+
+        <!-- Bootstrap core CSS -->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" 
+            integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
+        <!-- Font awesome -->
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" 
+            integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+
+        <!-- JQuery -->
+        <script src="https://code.jquery.com/jquery-3.5.1.js" ></script>
+
+        <!-- Shidix -->
+        <link rel="stylesheet" href="{% static 'css/styles.css' %}" >
+
+        <!-- Favicons -->
+        <meta name="theme-color" content="#7952b3">
+        
+        <style>
+            #main {
+                width: 90mm;
+            }
+            .title{
+                border: 1px solid #333;
+                text-align: center;
+                font-size: 1.2em;
+                margin: 10px;
+            }
+        </style>
+    </head>
+
+    <body style="padding-left:40%">
+        <div id="main" class ="text-center">
+            <div class="d-flex justify-content-end"> 
+                <button class="btn ark w-100" data-url="{% url "tpv-change-pos" %}" data-target="base" data-project_uuid="{{obj.project_uuid}}">
+                    {% trans "Back" %}</button>
+                <a class="btn btn-default" onclick="window.print()"> &#128424; {% trans "Imprimir" %}</a> 
+            </div>
+
+            <br/>
+            {% if obj.project.logo %}<img src="{{obj.project.logo.url}}" alt="Logo"/>{% endif %} <br/>
+            <h3>{{obj.project.name}}</h3>
+            <div class="title">{% trans 'TPV' %} {{obj.pos.name}}</div>
+            <h2>{% trans 'Summary' %} </h2>
+            <table width="100%">
+                <tbody>
+                    <tr><td>{% trans "Zeta Nº" %}</td><td class="text-end"> <strong>{{obj.id}}</strong></td> </tr>
+                    <tr><td>{% trans "Date" %}</td><td class="text-end"> <strong>{{obj.date|date:"d-m-Y H:i:s"}}</strong></td> </tr>
+                    <tr><td>{% trans "User" %}</td><td class="text-end"> <strong>{{obj.username}}</strong></td> </tr>
+                    <tr><td>{% trans "Fondo" %}</td><td class="text-end"> <strong>{{obj.ini_cash|floatformat:2}}</strong></td> </tr>
+                    <tr><td>{%trans "Total cash"%}</td><td class="text-end"><strong>{{obj.ini_cash|add:obj.end_cash|floatformat:2}}</strong></td></tr>
+                </tbody>
+            </table>
+            <br/><hr/><br/>
+            <h2>{% trans 'Billed' %}</h2>
+            <table width="100%">
+                <tbody>
+                    <tr><td>{% trans "Cash" %}</td><td class="text-end"><strong>{{obj.end_cash|floatformat:2}}</strong></td></tr>
+                    <tr><td>{% trans "Band" %}</td><td class="text-end"><strong>{{obj.band|floatformat:2}}</strong></td></tr>
+                    <tr><td>{% trans "Card" %}</td><td class="text-end"><strong>{{obj.card|floatformat:2}}</strong></td></tr>
+                    <tr><td>{% trans "Devoluciones" %}</td><td class="text-end"><strong>{{obj.back|floatformat:2}}</strong></td></tr>
+                    <tr><td>{% trans "Invitaciones" %}</td><td class="text-end"><strong>{{obj.free|floatformat:2}}</strong></td></tr>
+                </tbody>
+            </table>
+            <br/><hr/><br/>
+            <table width="100%">
+                <tbody>
+                    <tr><td><h2>{% trans "Nº Tickets" %}</h2></td><td class="text-end"><strong>{{obj.date|date:"Ymd"}}</strong></td></tr>
+                </tbody>
+            </table>
+ 
+        </div>
+    </body>
+</html>
