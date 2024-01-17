@@ -10,7 +10,7 @@ from connector.models import ProjectAvantioUser, ProjectWinhotelUser
 from padword.commons import get_or_none
 from padword.email_lib import send_email
 
-import os, subprocess
+import os, subprocess, time
 
 
 def avantio_booking_schedule(project_uuid):
@@ -97,8 +97,11 @@ def winhotel_price_schedule(project_uuid):
         pau = ProjectWinhotelUser.objects.filter(project_uuid=project.uuid).first()
         fname = "{}_{}".format(now.strftime("%Y%m%d"), pau.ftp_filename)
 
-        url = "ftp://{}/{}".format(pau.ftp, fname)
-        subprocess.run(['wget', '-P', 'media', url])
+        url = "{}/{}".format(pau.ftp, fname)
+        path = os.path.join(settings.BASE_DIR, "media")
+        res = subprocess.run(['wget', '-P', path, url])
+        #res = subprocess.run(['wget', '-P', '/srv/dockers/padword/src/padword/media/', url], check=True)
+        time.sleep(5)
 
         file = open(os.path.join(settings.BASE_DIR, "media", fname), 'rb')
 
