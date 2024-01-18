@@ -52,13 +52,30 @@
 #base button.menu-options.tables.save {
     background: #a1c517;
     color: #fff;
+	border:1px solid #a1c517;
+} 
+#base button.menu-options.tables.back {
+    background: #6c757d;
+    color: #fff;
+	border:1px solid #6c757d;
+} 
+#base button.menu-options.tables.save,
+#base button.menu-options.tables.back {
 	font-size: 1.2em !important;
 	padding: 0 !important;
     margin-top: 0px;
-	border:1px solid #a1c517;
     width: 100%;
     height: auto !important;
     line-height: 1.8;
+}
+
+#base button.menu-options.tables.print {
+    background: #fff;
+    color: #a1c517;
+	font-size: 1.2em !important;
+    margin-top: 0px;
+    padding:15px !important;
+	border:1px solid #a1c517;
 } 
 
 input.special::placeholder {
