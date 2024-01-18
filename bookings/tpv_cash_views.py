@@ -22,14 +22,14 @@ def search(project_uuid, pos):
     kwargs = {'project_uuid': project_uuid}
     if pos != None:
         kwargs["pos_uuid"] = pos.uuid
-    return Cash.objects.filter(**kwargs)
+    return Cash.objects.filter(**kwargs).order_by('-date')
  
 @group_required("projects")
 def cash_by_project(request):
     try:
         project = get_or_none(Project, request.project_id)
         point_of_sales = PointOfSale.objects.filter(project_uuid=project.uuid)
-        cash_list = Cash.objects.filter(project_uuid=project.uuid)
+        cash_list = Cash.objects.filter(project_uuid=project.uuid).order_by('-date')
         return render (request, "bookings/tpv-cash/index.html", {"pos_list": point_of_sales, 'cash_list': cash_list})
     except Exception as e:
         print (show_exc(e))

@@ -42,7 +42,7 @@
             <div class="d-flex justify-content-end"> <a class="btn btn-default" onclick="window.print()"> &#128424; {% trans "Imprimir" %}</a> </div>
 
             <br/>
-            {% if obj.project.logo %}<img src="{{obj.project.logo.url}}" alt="Logo"/>{% endif %} <br/>
+            {% if obj.project.logo %}<img src="{{obj.project.logo.url}}" alt="Logo"/><br/>{% endif %} <br/>
             <h3>{{obj.project.name}}</h3>
             <div class="title">{% trans 'TPV' %} {{obj.pos.name}}</div>
             <h2>{% trans 'Summary' %} </h2>

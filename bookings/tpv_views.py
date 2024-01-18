@@ -424,7 +424,8 @@ def cash_x(request):
         update_cash(cash_x, request.user)
         cash_x.close = True
         cash_x.save()
-        return redirect(reverse(request.GET["index"], kwargs = {'project_uuid': cash.project_uuid}))
+        return render(request, 'bookings/tpv/tpv-tables-x.html', {'cash': cash})
+        #return redirect(reverse(request.GET["index"], kwargs = {'project_uuid': cash.project_uuid}))
     except Exception as e:
         return render(request, 'error_exception.html', {'exc':show_exc(e)})
 
