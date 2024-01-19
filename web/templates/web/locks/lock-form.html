@@ -13,18 +13,32 @@
     </div>
 </div>
 <div class="row justify-center">
-	<div class="col-sm-6 col-md-6 col-12">
+	<div class="col-sm-3 col-md-3 col-12">
 		<label class="label">{% trans "Alias" %}:</label>
         <input type="text" class="form-control autosave input mb-4" id="alias" name="alias" value="{% padword_translate obj.alias %}" 
             title="{{obj.alias}}" data-lang="{% current_lang %}" data-model-name="web.lock" data-obj-id="{{obj.id}}" 
             data-url="{% url "autosave_field" %}" data-target="div-notification"/> <span id="alias__msg"></span>
 	</div>
 
-	<div class="col-sm-6 col-md-6 col-12">
+	<div class="col-sm-3 col-md-3 col-12">
 		<label class="label">{% trans "Room" %}:</label>
         <input type="text" class="form-control autosave input mb-4" id="room" name="room" value="{{obj.room}}" title="{{obj.room}}" 
 			data-model-name="web.lock" data-obj-id="{{obj.id}}" data-url="{% url "autosave_field" %}" data-target="div-notification"/>
 			<span id="room__msg"></span>
+	</div>
+
+	<div class="col-sm-3 col-md-3 col-12">
+		<label class="label">{% trans "Deposit Box" %}:</label>
+        <input type="checkbox" class="autosave input mb-4" id="box" name="box" value="{{obj.box}}" 
+			data-model-name="web.lock" data-obj-id="{{obj.id}}" data-url="{% url "autosave_field" %}" data-target="div-notification" data-bool="True"
+            {%if obj.box%}checked{%endif%}/> <span id="box__msg"></span>
+	</div>
+
+	<div class="col-sm-3 col-md-3 col-12">
+		<label class="label">{% trans "Private" %}:</label>
+        <input type="checkbox" class="autosave input mb-4" id="private" name="private" value="{{obj.private}}" 
+			data-model-name="web.lock" data-obj-id="{{obj.id}}" data-url="{% url "autosave_field" %}" data-target="div-notification" data-bool="True"
+            {%if obj.private%}checked{%endif%}/> <span id="private__msg"></span>
 	</div>
 
 	<div class="col-sm-6 col-md-6 col-12">

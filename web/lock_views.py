@@ -45,6 +45,10 @@ def get_lock_items(request, project_uuid):
     if "lock_search_alias" in request.session and request.session["lock_search_alias"] != "":
         kwargs["alias__icontains"] = request.session["lock_search_alias"]
 
+    if "lock_search_group" in request.session and request.session["lock_search_group"] != "":
+        lg_list = LockGroup.objects.filter(project_uuid=project_uuid, name__icontains=request.session["lock_search_group"]).values_list('uuid', flat=True)
+        kwargs["group_uuid__in"] = lg_list
+
     lock_list = list(Lock.objects.filter(**kwargs))
 
     if "lock_search_passcode" in request.session and request.session["lock_search_passcode"] != "":
@@ -115,7 +119,8 @@ def lock_search(request):
         set_session(request, "lock_search_alias")
         set_session(request, "lock_search_passcode")
         set_session(request, "lock_search_cardcode")
-        print(request.session["lock_search_cardcode"])
+        set_session(request, "lock_search_group")
+        #print(request.session["lock_search_cardcode"])
 
         context = get_context(request, project)
         return render(request, "web/locks/lock-list.html", context)
@@ -388,6 +393,7 @@ def lock_search_by_project(request):
         set_session(request, "lock_search_alias")
         set_session(request, "lock_search_passcode")
         set_session(request, "lock_search_cardcode")
+        set_session(request, "lock_search_group")
         context = get_context(request, project)
         return render(request, "web/locks-by-project/lock-list.html", context)
     except Exception as e:

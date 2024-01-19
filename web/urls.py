@@ -15,6 +15,7 @@ urlpatterns = [
     path('projects/', views.projects, name='projects'),
     path('projects/search/', views.project_search, name='project-search'),
     path('projects/form/', views.project_form, name='project-form'),
+    path('projects/details/<int:obj_id>/', views.project_details, name='project-details'),
     path('projects/remove/', views.project_remove, name='project-remove'),
     path('projects/upload-json/', views.project_upload_json, name='project-upload-json'),
     path('projects/user-token/', views.project_user_token, name='project-user-token'),

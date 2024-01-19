@@ -44,17 +44,43 @@
     <body>
         <div id="main-layout-container">
             {% if request.user.is_authenticated %}
+
+            <div id="main" class="row w-100 m-0">
+                <div class="header sticky-top bg-white">
+                    <div class="col-lg-1 col-1 px-2 w-100"><a href="#" class="menu-btn"><i class="fas fa-bars menu"></i></a>
+                    </div>
+                    <div class="col-lg-2 col-2 text-center w-100"><a href="/web/projects/"><img src="/static/img/Padword.png" width="120" height=""></a>
+                    </div>
+                    <div class="col-lg-5 col-5 w-100 project-menu"> {% get_project_menu request.user %} 
+                    </div>
+                    <div class="col-lg-3 col-3 w-100 project-name text-end"> {% trans "Hola" %}, <strong>{{project.name}}</strong>
+                    </div>
+                    <div class="col-lg-1 col-1 w-100 text-center"><a href="{%url 'auth_logout'%}" title="{%trans "Log out"%}"><i class="fas fa-power-off"></i></a>
+                    </div>
+                </div>
+            </div>
+
+
+{% comment %}
             <div id="main" class="w-100">
                 <div class="header sticky-top bg-white">
                     <div class="text-center divbars-menu"><a href="#" class="menu-btn"><i class="fas fa-bars menu"></i></a></div>
                     <div><a href="/web/projects/"><img src="/static/img/Padword.png" width="120" height=""></a></div>
-                    <div class="" style=""> {% get_project_menu request.user %} </div>
+                    <div class="project-menu"> {% get_project_menu request.user %} </div>
                     <div class="project-name text-right"> {% trans "Hola" %}, <strong>{{project.name}}</strong> </div>
                     <div class="text-center"><a href="{%url 'auth_logout'%}" title="{%trans "Log out"%}"><i class="fas fa-power-off"></i></a></div>
-                    {% comment %}
+                </div>
+            </div>
+
+{% endcomment %}
+
+
+
+{% comment %}
                     <div class="text-center pt-2">
                         <div class="pt-2">
-                            <a data-bs-toggle="collapse" class="" href="#collapseNotifications" role="button" aria-expanded="false" aria-controls="collapseNotifications"><i class="far fa-bell"></i></a>	
+                            <a data-bs-toggle="collapse" class="" href="#collapseNotifications" role="button" aria-expanded="false" 
+                                aria-controls="collapseNotifications"><i class="far fa-bell"></i></a>	
                             <div class="collapse" id="collapseNotifications">
                                 <div class="user-dropdown card card-body">
                                     <ul>
@@ -89,11 +115,17 @@
                     {% endcomment %}
 
                     {% comment %}
-                    <div class="text-center pt-2"><div class="pt-2"><a href="{% url 'auth_logout' %}" title="{% trans "Log out" %}"><i class="fas fa-power-off"></i></a></div></div>
+                    <div class="text-center pt-2"><div class="pt-2"><a href="{% url 'auth_logout' %}" title="{% trans "Log out" %}">
+                        <i class="fas fa-power-off"></i></a></div></div>
                     {% endcomment %}
 
+                    {% comment %}
                 </div>
             </div>
+
+                    {% endcomment %}
+
+
             {% endif %}
             <main id="main-content">
                 <aside id="sidebar" class="bg-light closed">

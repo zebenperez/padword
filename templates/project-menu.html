@@ -1,10 +1,10 @@
 {% load i18n padword_tags %}
 
 {% if user.is_authenticated and pu_list|length > 1%}
-    <div class="row">
+    <div class="row m-0" tyle="border:1px solid blue">
         {% for pu in pu_list %}
-            <div class="col-2">
-                <a class="nav-link" href="{% url "set-project" pu.project.uuid %}"> <i class="fas fa-globe"></i> {{pu.project.name}} </a>
+            <div class="col-2 px-0" tyle="border:1px solid blue">
+                <a class="nav-link" href="{% url "set-project" pu.project.uuid %}"> <i class="fa fa-folder-open"></i> {{pu.project.name}} </a>
             </div>
         {% endfor %}
     </div>

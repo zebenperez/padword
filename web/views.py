@@ -175,6 +175,38 @@ def project_form(request):
         return render(request, 'error_exception.html', {'exc':show_exc(e)})
 
 @group_required("admins")
+def project_details(request, obj_id):
+    try:
+        obj = get_or_none(Project, obj_id) 
+
+        user_lock = get_or_create_user_lock(obj.uuid)
+        user_sensibo = get_or_create_user_sensibo(obj.uuid)
+        user_avantio = get_or_create_user_avantio(obj.uuid)
+        user_avaibook = get_or_create_user_avaibook(obj.uuid)
+        user_winhotel = get_or_create_user_winhotel(obj.uuid)
+
+        regime_list = Regime.objects.all()
+        point_of_sale_list = PointOfSale.objects.filter(project_uuid=obj.uuid)
+        form = Form.objects.filter(form_type__code="tpv", form_type__project_uuid=obj.uuid).first()
+        context = {
+            'obj': obj, 
+            'companies': Company.objects.all(), 
+            'user_lock': user_lock, 
+            'user_sensibo': user_sensibo, 
+            'user_avantio': user_avantio, 
+            'user_avaibook': user_avaibook, 
+            'user_winhotel': user_winhotel, 
+            'project_regime_list': [item.regime for item in obj.regimes.all()],
+            'regime_list': regime_list,
+            'point_of_sale_list': point_of_sale_list,
+            'form': form
+        }
+        return render(request, "web/projects/project-details.html", context)
+    except Exception as e:
+        return render(request, 'error_exception.html', {'exc':show_exc(e)})
+
+
+@group_required("admins")
 def project_remove(request):
     company_id = get_param(request.GET, "company_id", None)
     obj = get_or_none(Project, request.GET["obj_id"]) if "obj_id" in request.GET else None

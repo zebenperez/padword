@@ -24,12 +24,3 @@
 </div>
 {% endwith %}
 
-{% comment %}
-<div class="row" style="margin-top:100px"> <div class="col-12 text-end">{{cash.pos.name}}</div> </div>
-<div class="row" style="margin-top:100px"><div class="col-12 text-center">
-    {% trans "X was created!" %}
-    <a class="btn btn-sm ark" data-url="{% url "tpv-print-z" %}" data-target="base" data-obj_id="{{cash.id}}"> <i class="fas fa-print"></i></a>
-    <button class="btn ark w-100" data-url="{% url "tpv-change-table" %}" data-target="base" data-project_uuid="{{cash.project_uuid}}">
-        {% trans "Back" %}</button>
-</div></div>
-{% endcomment %}
