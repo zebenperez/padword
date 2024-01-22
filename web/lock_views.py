@@ -39,8 +39,11 @@ def update_locks(project):
     for lock in lock_list:
         remove_lock(lock)
 
-def get_lock_items(request, project_uuid):
+def get_lock_items(request, project_uuid, public=False):
     kwargs = {'project_uuid': project_uuid}
+
+    if public:
+        kwargs["private"] = False 
 
     if "lock_search_alias" in request.session and request.session["lock_search_alias"] != "":
         kwargs["alias__icontains"] = request.session["lock_search_alias"]
@@ -71,11 +74,11 @@ def get_lock_items(request, project_uuid):
 
     return lock_list 
 
-def get_context(request, project):
+def get_context(request, project, public=False):
     context = {}
     now = datetime.datetime.now()
     context["project"] = project
-    context["items"] = get_lock_items(request, project.uuid)
+    context["items"] = get_lock_items(request, project.uuid, public)
     context["lock_group_list"] = LockGroup.objects.filter(project_uuid=project.uuid)
     context["ini_date"] = now
     context["end_date"] = now + datetime.timedelta(days=7)
@@ -371,7 +374,7 @@ def lock_export_pdf(request, lock_id):
 def locks_by_project2(request):
     try:
         project = get_or_none(Project, request.project_id)
-        context = get_context(request, project)
+        context = get_context(request, project, True)
         context["project"] = project
         context["active"] = 'locks'
         return render(request, "web/locks-by-project/locks.html", context)
@@ -394,7 +397,7 @@ def lock_search_by_project(request):
         set_session(request, "lock_search_passcode")
         set_session(request, "lock_search_cardcode")
         set_session(request, "lock_search_group")
-        context = get_context(request, project)
+        context = get_context(request, project, True)
         return render(request, "web/locks-by-project/lock-list.html", context)
     except Exception as e:
         print(e)
@@ -477,7 +480,7 @@ def lock_set_action_by_project(request):
             except Exception as e:
                 msg += "<br/>{}".format(e)
                  
-        context = get_context(request, project)
+        context = get_context(request, project, True)
         context["msg"] = msg
         #return redirect(locks_by_project2)
         context["project"] = project

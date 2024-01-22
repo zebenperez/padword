@@ -1038,8 +1038,13 @@ img.img-cart-line {
     align-items: center;
 }
 
-.project-menu {
-   /* border: 1px solid red;*/
+.tab {
+    margin-bottom: -15px;
+    background-color: #ffffff;
+/*    border: 1px solid red;*/
+}
+.tab a {
+    color: #143e53;
 }
 
 .project-name {

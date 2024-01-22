@@ -76,11 +76,12 @@ def orders_daily_summary(request):
             for item in fi.get_items:
                 code = obj.name[:4].upper()
                 name = obj.name
-                desc = translate2("es", item.name) 
+                desc = translate2("es", item.name).replace('"', '')
                 date = fi.date.strftime("%Y%m%d%H%M")
                 discount = (item.low_price/item.price)*100 if item.low_price < item.price else 0
+                discount = "{:.2f}".format(discount)
                 total_price = item.low_price if item.low_price < item.price else item.price
-                writer.writerow([code, name, "", item.id, desc, date, fi.id, item.price, 1, discount, total_price, room, client_id])
+                writer.writerow([code, name, "", item.item.ext_id, desc, date, fi.id, item.price, 1, discount, total_price, room, client_id])
 
         file_list = [f for f in os.listdir(FILES_DIR) if re.match(r'.*{}*'.format(obj.regular_name), f)]
         return render(request, "bookings/tpv-orders-daily/index-content.html", {'pos': obj, 'file_list': file_list})
