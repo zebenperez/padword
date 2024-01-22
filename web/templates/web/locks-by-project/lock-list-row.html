@@ -10,6 +10,7 @@
 <td>{{ item.state }}</td>
 <td>{{ item.charge }} %</td>
 <td>{% get_wifi_icon item.gateway %}</td>
+<td>{% get_wifi_icon item.wifi %} {{item.wifi}}</td>
 <td class="text-end">
     <a class="me-1 btn btn-xs ark" title="{%trans "Update parameters"%}" data-url="{% url "lock-update-params-by-project" %}" 
         data-target="row_{{item.id}}" data-obj_id="{{item.id}}"><i class="fas fa-sync"></i></a>  
