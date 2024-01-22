@@ -66,13 +66,15 @@ def get_record_type(code):
     Inclusion Tags
 '''
 @register.inclusion_tag('web/locks/wifi-level.html')
-def get_wifi_icon(gateways):
+def get_wifi_icon(gateways, first=False):
     gateway_list = []
     try:
         g_list = gateways.split(";")
         for gateway in g_list:
             g = gateway.split("|")
             gateway_list.append({'name': g[0], 'level': int(g[1])})
+            if first:
+                break
     except: pass
     return {'gateway_list': gateway_list}
  
