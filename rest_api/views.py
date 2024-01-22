@@ -123,7 +123,7 @@ class GuestViewSet(viewsets.ModelViewSet):
                 guest.surname = request.POST["surname"]
             if "language" in request.POST:
                 guest.language = request.POST["language"]
-            if "mobile" in request.POST:
+            if "mobile" in request.POST and request.POST["mobile"] != guest.mobile:
                 if len(request.POST["mobile"]) < 9:
                     msg = "Mobile is required and must be at least 9 characters long!"
                     logger.error("[{}]: \"{}\"".format(self.request.user, msg))
@@ -135,10 +135,10 @@ class GuestViewSet(viewsets.ModelViewSet):
                 guest.email = request.POST["email"]
             if "ext_id" in request.POST:
                 guest.ext_id = request.POST["ext_id"]
-            if "check_in" in request.POST:
+            if "check_in" in request.POST and request.POST["check_in"] != datetime.strftime(guest.check_in, "%Y-%m-%d %H:%M"):
                 guest.check_in = datetime.strptime(request.POST["check_in"], "%Y-%m-%d %H:%M")
                 update_dates = True
-            if "check_out" in request.POST:
+            if "check_out" in request.POST and request.POST["check_out"] != datetime.strftime(guest.check_out, "%Y-%m-%d %H:%M"):
                 guest.check_out = datetime.strptime(request.POST["check_out"], "%Y-%m-%d %H:%M")
                 update_dates = True
             if "room" in request.POST and request.POST["room"] != guest.room:
@@ -146,14 +146,21 @@ class GuestViewSet(viewsets.ModelViewSet):
                 #guest.change_sensibo_devices(request.POST["room"])
             guest.save()
             guest_data = self.serializer_class(guest).data
+            codes_err = ""
             if update_dates:
-                guest_data["lock_code_err"] = guest.change_all_key_code_date()
                 guest_data["lock_card_err"] = guest.change_all_key_card_date()
+                if not update_codes:
+                    guest_data["lock_code_err"] = guest.change_all_key_code_date()
+                    codes_err = guest_data["lock_code_err"]
                 #guest.remove_all_key_cards()
             if update_codes:
                 guest_data["lock_code_err"] = guest.change_all_key_code(guest.mobile_to_code())
+                codes_err = guest_data["lock_code_err"]
  
-            logger.info("[{}]: \"Guest {} {} updated\"".format(self.request.user, guest.name, guest.surname))
+            log_str = "[{}]: \"Guest {} {} updated\"".format(self.request.user, guest.name, guest.surname)
+            log_str += " (dates modified=\"{}\" - mobile modified=\"{}\" - code err=\"{}\")".format(update_dates, update_codes, codes_err)
+            log_str += " <br/>(POST=\"{}\")".format(request.POST)
+            logger.info(log_str)
             return Response(guest_data, status=status.HTTP_200_OK)
             #return Response(self.serializer_class(guest).data, status=status.HTTP_200_OK)
         except Exception as e:

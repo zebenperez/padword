@@ -12,7 +12,7 @@ from web.models import Channel, Project, Room
 from web.models_lock import Lock
 from sensibo.models import SensiboDevice as AdminSensiboDevice
 
-import datetime, pytz
+import datetime, pytz, time
 
 
 class Guest(models.Model):
@@ -194,6 +194,7 @@ class Guest(models.Model):
 
     def change_all_key_code(self, code):
         self.remove_all_key_codes()
+        time.sleep(2)
         err = self.add_all_key_code(code)
         return err
 

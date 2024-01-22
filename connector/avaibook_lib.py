@@ -168,9 +168,9 @@ class AvaibookAccommodation():
 '''
 def get_date(date, time):
     if time != None:
-        return datetime.strptime("{} {}".format(date, time), "%Y-%m-%d %H:%M:%S")
+        return datetime.strptime("{} {}".format(date, time), "%Y-%m-%d %H:%M")
     else:
-        return datetime.strptime("{} 13:00:00".format(date), "%Y-%m-%d %H:%M:%S")
+        return datetime.strptime("{} 13:00:00".format(date), "%Y-%m-%d %H:%M")
 
 def room_exist(project_uuid, room):
     count = Room.objects.filter(project_uuid=project_uuid, number=room).count()

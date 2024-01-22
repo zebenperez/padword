@@ -285,7 +285,11 @@ def get_booking_notif(project_uuid):
         booking_list = av.get_booking_notifications()
         for booking in booking_list:
             b = av.get_booking(booking.booking_code, booking.localizator)
-            create_booking(pau, av, b, start_date, start_date_new, end_date_new)
+            #print("\n{}".format(b))
+            try:
+                create_booking(pau, av, b, start_date, start_date_new, end_date_new)
+            except Exception as e:
+                print("\nERROR: {}".format(e))
 
             #if b != None and b.client.name != "" and b.client.surname != "":
             #    checkin = get_date(b.start_date, b.start_time, start_date)
