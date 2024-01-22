@@ -5,13 +5,16 @@
 
 {% block central_content %} 
     <div id="locks-content"> 
-        <div class="row mt-3">
-            <div class="col-12">
-                <input type="text" class="autosearch form-control form-control-dark w-100" name="room_search" id="room_search" 
-                    placeholder="{% trans 'Room' %}" data-url="{% url "box-search-by-project" %}" data-target="lock-list" 
-                    data-related="room_search" value="{{request.session.room_search}}"/>
+           <div class="toolbar-search deposit-boxes p-2">
+                <div class="text-center">
+                    <i class="fas fa-search"></i>
+                </div>
+                <div class="text-center">
+                    <input type="text" class="autosearch form-control form-control-dark w-100" name="room_search" id="room_search" 
+                        placeholder="{% trans 'Room' %}" data-url="{% url "box-search-by-project" %}" data-target="lock-list" 
+                        data-related="room_search" value="{{request.session.room_search}}"/>
+                </div>
             </div>
-        </div>
 
         <div class="content mt-3">
             <div class="toolbar-content">

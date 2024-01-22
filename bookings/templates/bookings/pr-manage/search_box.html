@@ -12,50 +12,50 @@
 
     {#<input type="hidden" name="s-project_uuid" id="s-project_uuid" value="{{project_uuid}}"/>#}
 
-    <div class="toolbar-search p-2">
-        <div class="row">
-            {%comment%}
+    <div class="toolbar-search orders p-2">
+        {%comment%}
             <div class="col-md-3 col-6">
                 <input type="text" class="autosearch form-control form-control-dark w-30" name="s-project" id="s-project" 
                     placeholder="{% trans "Project name" %}" value="{{project_name}}" data-url="{% url "bookings-search" %}" 
                     data-target="booking-list" data-related="{{related}}" />
             </div>
             {%endcomment%}
-            <div class="col-md-1 text-center pt-1"><i class="fas fa-search"></i></div>
-            <div class="col-md-3 col-6">
-                <input type="text" class="autosearch form-control form-control-dark w-30 input-k" name="s-form" id="s-form" 
-                    placeholder="{% trans "Service name" %}" value="{% padword_translate form_name %}" data-url="{% url search_url %}" 
-                    data-target="booking-list" data-related="{{related}}"/>
-            </div>
-            <div class="col-md-2 col-xs-12">
-                <input type="text" class="autosearch form-control form-control-dark w-30 input-k" name="s-name" id="s-name" 
-                    placeholder="{% trans "Guest Name, Surname, Email, Phone, Room" %}" data-url="{% url search_url %}" 
-                    data-target="booking-list" data-related="{{related}}" />
-            </div>
-            <div class="col-md-2 col-6">
-                <input type="date" class="autosearch_change form-control form-control-dark w-30 input-k" name="s-ini_date" id="s-ini_date" 
-                    placeholder="{% trans "Initial date" %}" value="{{ini_date|date:'Y-m-d'}}" data-url="{% url search_url %}" 
-                    data-target="booking-list" data-related="{{related}}" />
-            </div>
-            <div class="col-md-2 col-6">
-                <input type="date" class="autosearch_change form-control form-control-dark w-30 input-k" name="s-end_date" id="s-end_date" 
-                    placeholder="{% trans "End date" %}" value="{{end_date|date:'Y-m-d'}}" data-url="{% url search_url %}" 
-                    data-target="booking-list" data-related="{{related}}" />
-            </div>
-        </div>
 
-        <div class="row mt-1">
-            <div class="col-12 d-flex justify-content-center">
-                <a id="btn-status-" class="btn btn-status btn-{% if status == '' or not status %}primary{%else%}light{%endif%} pointer me-1" 
-                    data-value=""> <small>{% trans 'All' %}</small></a>
-                {% for item in status_list %}
-                    <a id="btn-status-{{item.pk}}" data-value="{{item.id}}"
-                        class="btn text-nowrap btn-status btn-{% if status == item.pk %}primary{%else%}light{%endif%} pointer me-1">
-                        <small>{% padword_translate item.name %}</small></a>
-                {% endfor %}
-            </div>
+        <div class="text-center"><i class="fas fa-search"></i></div>
+        <div class="p-2">
+            <input type="text" class="autosearch form-control form-control-dark w-30 input-k" name="s-form" id="s-form" 
+                placeholder="{% trans "Service name" %}" value="{% padword_translate form_name %}" data-url="{% url search_url %}" 
+                data-target="booking-list" data-related="{{related}}"/>
+        </div>
+        <div class="p-2">
+            <input type="text" class="autosearch form-control form-control-dark w-30 input-k" name="s-name" id="s-name" 
+                placeholder="{% trans "Guest Name, Surname, Email, Phone, Room" %}" data-url="{% url search_url %}" 
+                data-target="booking-list" data-related="{{related}}" />
+        </div>
+        <div class="p-2">
+            <input type="date" class="autosearch_change form-control form-control-dark w-30 input-k" name="s-ini_date" id="s-ini_date" 
+                placeholder="{% trans "Initial date" %}" value="{{ini_date|date:'Y-m-d'}}" data-url="{% url search_url %}" 
+                data-target="booking-list" data-related="{{related}}" />
+        </div>
+        <div class="p-2">
+            <input type="date" class="autosearch_change form-control form-control-dark w-30 input-k" name="s-end_date" id="s-end_date" 
+                placeholder="{% trans "End date" %}" value="{{end_date|date:'Y-m-d'}}" data-url="{% url search_url %}" 
+                data-target="booking-list" data-related="{{related}}" />
         </div>
     </div>
+    <div class="row mt-1">
+        <div class="col-12 d-flex justify-content-center">
+            <a style="border:1px solid #ccc;" id="btn-status-" class="btn btn-status btn-{% if status == '' or not status %}primary{%else%}light{%endif%} pointer me-1" 
+                data-value=""><small>{% trans 'All' %}</small></a>
+            {% for item in status_list %}
+                <a style="border:1px solid #ccc; color: #000;font-size: .875em;" id="btn-status-{{item.pk}}" data-value="{{item.id}}"
+                    class="btn text-nowrap btn-status btn-{% if status == item.pk %}primary{%else%}light{%endif%} pointer me-1">
+                    <small>{% padword_translate item.name %}</small></a>
+            {% endfor %}
+        </div>
+    </div>
+
+
     <script>
         $(".btn-status").click(function(){
             $('#s-status').val($(this).data("value"));

@@ -788,8 +788,11 @@ $(document).ready(()=>{
                     $(`#${id}-readed`).show();
                     $(`#${id}-card-number`).html(val_arr[0]);
                     //ajaxGet(url, {'guest_uuid': guest_uuid, 'value': val_arr[0]}, `${id}-readed`, '');
+                    //$("#"+target).html("<i class='fas fa-spinner'></i>");
+                    $('#'+target).html("<i class='fas fa-spinner fa-spin'></i>");
                     ajaxGet(url, {'obj_id': fi_id, 'value': val_arr[0]}, target, '');
-                    container.html(`Band readed: ${val_arr[0]}`);
+                    //container.html(`Band readed: ${val_arr[0]}`);
+                    container.hide();
                 }
             });
         } catch (e) {

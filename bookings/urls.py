@@ -1,7 +1,8 @@
 from django.urls import include, path, re_path
 from django.contrib import admin
 from bookings import views, form_views as fv, guest_views as gv, guest_sensibo_views as gsv
-from bookings import tpv_views as tpv, tpv_orders_views as tpv_orders, tpv_mobile_views as tpv_mob
+from bookings import tpv_views as tpv, tpv_orders_views as tpv_orders, tpv_mobile_views as tpv_mob, tpv_orders_daily_views as tpv_orders_daily
+from bookings import tpv_cash_views as tpv_cash
 
 urlpatterns = [ 
     #--------------------- Forms --------------------
@@ -176,6 +177,10 @@ urlpatterns = [
     path('tpv-change-pos/', tpv.tpv_change_pos, name='tpv-change-pos'),
     path('tpv-set-table/', tpv.tpv_set_table, name='tpv-set-table'),
     path('tpv-change-table/', tpv.tpv_change_table, name='tpv-change-table'),
+    path('tpv-set-cash/', tpv.tpv_set_cash, name='tpv-set-cash'),
+    path('tpv-cash-z/', tpv.cash_z, name='tpv-cash-z'),
+    path('tpv-cash-x/', tpv.cash_x, name='tpv-cash-x'),
+    path('tpv-print-z/', tpv.print_z, name='tpv-print-z'),
     path('tpv-check-band/', tpv.tpv_check_band, name='tpv-check-band'),
 
     #path('tpv-shopping-cart/', tpv.tpv_shopping_cart, name='tpv-shopping-cart'),
@@ -207,7 +212,11 @@ urlpatterns = [
     path('tpv-mob-change-pos/', tpv_mob.tpv_change_pos, name='tpv-mob-change-pos'),
     path('tpv-mob-set-table/', tpv_mob.tpv_set_table, name='tpv-mob-set-table'),
     path('tpv-mob-change-table/', tpv_mob.tpv_change_table, name='tpv-mob-change-table'),
+    #path('tpv-mob-set-cash/', tpv_mob.tpv_set_cash, name='tpv-mob-set-cash'),
     path('tpv-mob-check-band/', tpv_mob.tpv_check_band, name='tpv-mob-check-band'),
+
+    path('tpv-mob-item-add/', tpv_mob.tpv_item_add, name='tpv-mob-item-add'),
+    path('tpv-mob-item-remove/', tpv_mob.tpv_item_remove, name='tpv-mob-item-remove'),
 
     #path('tpv-add-item/', tpv.tpv_add_item, name='tpv-add-item'),
 
@@ -227,5 +236,21 @@ urlpatterns = [
 
     path('fix-uuid/', views.fix_uuid, name='booking-fix-uuid'),
     path('test/', views.test, name='booking-test'),
+
+    #------------- TPV Orders Daily --------------#
+    path('orders_daily/orders-daily/', tpv_orders_daily.orders_daily_by_project, name='orders-daily-by-project'),
+    path('orders_daily/search/', tpv_orders_daily.orders_daily_search, name='orders-daily-search'),
+    path('orders_daily/summary/', tpv_orders_daily.orders_daily_summary, name='orders-daily-summary'),
+    path('orders_daily/remove/', tpv_orders_daily.orders_daily_remove, name='orders-daily-remove'),
+    #path('orders_daily/z/', tpv_orders_daily.orders_z, name='orders-z'),
+
+    #------------- TPV Cash --------------#
+    path('tpv-cash/index/', tpv_cash.cash_by_project, name='cash-by-project'),
+    path('tpv-cash/search/', tpv_cash.cash_search, name='cash-search'),
+    path('tpv-cash/new/', tpv_cash.cash_new, name='cash-new'),
+    path('tpv-cash/remove/', tpv_cash.cash_remove, name='cash-remove'),
+    path('tpv-cash/z/', tpv_cash.cash_z, name='cash-z'),
+    path('tpv-cash/print-z/<int:obj_id>', tpv_cash.print_z, name='cash-z-print'),
+ 
 ]
 

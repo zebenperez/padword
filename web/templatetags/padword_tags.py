@@ -347,6 +347,14 @@ def items_in_bookings(fi,item):
 '''
     Inclusion Tags
 '''
+@register.inclusion_tag('project-menu.html')
+def get_project_menu(user, active=""):
+    try:
+        pu_list = ProjectUser.objects.filter(username=user.username)
+        return {'user': user, 'pu_list': pu_list, "active": active}
+    except:
+        return {}
+
 @register.inclusion_tag('main-menu.html')
 def get_main_menu(user, active=""):
     try:

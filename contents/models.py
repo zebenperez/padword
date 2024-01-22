@@ -292,9 +292,18 @@ class Item(models.Model):
         except Exception as e:
             return Project(name='UNKNOWN')
 
-    def get_price(self, code):
+    def get_price(self, code, band=None):
         ip = self.prices.filter(regime_code=code).first()
-        return ip.price if ip != None else 0
+
+        #Regime price not defined
+        if ip == None:
+            ip = ItemPrice.objects.create(item=self, regime_code=code, price=self.price)
+
+        #Credit 0
+        if code == "TI" and band != None and band.type != None and band.type.code == "02" and ip.price > 0:
+            return None
+
+        return ip.price
 
     @classmethod
     def by_category(cls, categories):
@@ -490,6 +499,7 @@ class PointOfSale(models.Model):
     name = models.CharField(verbose_name="Nombre", max_length=150, blank=True, null=True, default="")
     code1 = models.CharField(verbose_name="Código 1", max_length=10, blank=True, null=True, default="")
     code2 = models.CharField(verbose_name="Código 2", max_length=10, blank=True, null=True, default="")
+    ext_code = models.CharField(verbose_name="Código externo", max_length=10, blank=True, null=True, default="")
     image = models.ImageField(upload_to=upload_pos_image, verbose_name=_("Image"), blank=True, null=True)
     project_uuid = models.CharField(max_length=36, verbose_name='UUID Project', default="")
 
@@ -499,6 +509,10 @@ class PointOfSale(models.Model):
             return Project.objects.get(uuid = self.project_uuid)
         except Exception as e:
             return None
+
+    @property
+    def regular_name(self):
+        return self.name.replace(" ", "").lower()
 
     def get_categories(self):
         return [item.category for item in self.categories.all()]

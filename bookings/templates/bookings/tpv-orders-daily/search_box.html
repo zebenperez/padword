@@ -1,0 +1,51 @@
+{% load i18n padword_tags %}
+
+
+{% with related="s-ini_date,s-end_date,s-name,s-pos" search_url="orders-daily-search" %}
+
+    <input type="hidden" name="s-pos" id="s-pos" value="{{pos}}" data-target="file-list" data-related="{{related}}" 
+        data-url="{% url search_url %}" class="autosearch_change"/>
+
+    {%comment%}
+    <div class="toolbar-search orders-tpv p-2">
+        <div class="text-center"><i class="fas fa-search"></i></div>
+        <div class="p-2">
+            <input type="text" class="autosearch form-control form-control-dark w-30 input-k" name="s-name" id="s-name" 
+                placeholder="{% trans "Guest Name, Surname, Email, Phone, Room" %}" data-url="{% url search_url %}" 
+                data-target="booking-list" data-related="{{related}}" />
+        </div>
+        <div class="p-2">
+            <input type="date" class="autosearch_change form-control form-control-dark w-30 input-k" name="s-ini_date" id="s-ini_date" 
+                placeholder="{% trans "Initial date" %}" value="{{ini_date|date:'Y-m-d'}}" data-url="{% url search_url %}" 
+                data-target="booking-list" data-related="{{related}}" />
+        </div>
+        <div class="p-2">
+            <input type="date" class="autosearch_change form-control form-control-dark w-30 input-k" name="s-end_date" id="s-end_date" 
+                placeholder="{% trans "End date" %}" value="{{end_date|date:'Y-m-d'}}" data-url="{% url search_url %}" 
+                data-target="booking-list" data-related="{{related}}" />
+        </div>
+
+    </div>
+    {%endcomment%}
+    <div class="row mt-1">
+        <div class="col-12 d-flex justify-content-center">
+            <a style="border:1px solid #ccc;" id="btn-pos-0" 
+                class="btn btn-pos btn-{% if pos == '' or not pos %}primary{%else%}light{%endif%} pointer me-1" 
+                data-value=""> <small>{% trans 'All' %}</small></a>
+            {% for item in pos_list %}
+                <a style="border:1px solid #ccc; color: #000;font-size: .875em;" id="btn-pos-{{item.pk}}" data-value="{{item.id}}"
+                    class="btn text-nowrap btn-pos btn-{% if pos == item.pk %}primary{%else%}light{%endif%} pointer me-1">
+                    <small>{% padword_translate item.name %}</small></a>
+            {% endfor %}
+        </div>
+    </div>
+
+    <script>
+        $(".btn-pos").click(function(){
+            $('#s-pos').val($(this).data("value"));
+            $('#s-pos').trigger('change');
+            $('.btn-pos').removeClass('btn-primay').addClass('btn-light');
+            $(this).addClass('btn-primay');
+        });
+    </script>
+{% endwith %}

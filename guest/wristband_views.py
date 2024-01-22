@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.utils.translation import ugettext_lazy as _ 
 
-from .models import Guest, Wristband, WristbandBalance
+from .models import Guest, Wristband, WristbandBalance, WristbandType
 from padword.commons import show_exc, get_or_none, get_param, reverse_cardkey, get_float
 from padword.decorators import group_required
 
@@ -9,6 +9,15 @@ from padword.decorators import group_required
 '''
     Bands in guest
 '''
+@group_required("admins", "projects")
+def guest_band_details(request):
+    try:
+        guest = get_or_none(Guest, get_param(request.GET, "obj_id"))
+        print(guest)
+        return render(request, "guest/bands/guest-details-bands.html", {"obj": guest})
+    except Exception as e:
+        return render(request, "error_exception.html", {'exc':show_exc(e)})
+
 @group_required("admins", "projects")
 def guest_band_add(request):
     try:
@@ -30,9 +39,10 @@ def guest_band_save(request):
             #msg = "There are another user ({} {} - {}) with this band!".format(b.guest.name, b.guest.surname, b.guest.room)
             err = "True"
             return render(request, "guest/bands/guest-details-bands-form.html", {"obj": guest, "band": b, "step": 0, "err": err})
-
+        
+        type_list = WristbandType.objects.all()
         band = Wristband.objects.create(guest=guest, code=code)
-        return render(request, "guest/bands/guest-details-bands-form.html", {"obj": guest, "band": band, "step": 1})
+        return render(request, "guest/bands/guest-details-bands-form.html", {"obj": guest, "band": band, "type_list": type_list, "step": 1})
     except Exception as e:
         return render(request, "error_exception.html", {'exc':show_exc(e)})
 
@@ -43,10 +53,22 @@ def guest_band_name(request):
         band = get_or_none(Wristband, get_param(request.GET, "band_id"))
         band.name = get_param(request.GET, "value")
         band.save()
-        return render(request, "guest/bands/guest-details-bands-form.html", {"obj": guest, "band": band, "step": 2})
+        type_list = WristbandType.objects.all()
+        return render(request, "guest/bands/guest-details-bands-form.html", {"obj": guest, "band": band, "type_list": type_list, "step": 2})
     except Exception as e:
         return render(request, "error_exception.html", {'exc':show_exc(e)})
 
+@group_required("admins", "projects")
+def guest_band_type(request):
+    try:
+        guest = get_or_none(Guest, get_param(request.GET, "obj_id"))
+        band = get_or_none(Wristband, get_param(request.GET, "band_id"))
+        band.type = get_or_none(WristbandType, get_param(request.GET, "value"))
+        band.save()
+        type_list = WristbandType.objects.all()
+        return render(request, "guest/bands/guest-details-bands-form.html", {"obj": guest, "band": band, "type_list": type_list, "step": 3})
+    except Exception as e:
+        return render(request, "error_exception.html", {'exc':show_exc(e)})
 
 @group_required("admins", "projects")
 def guest_band_locks(request):
@@ -56,7 +78,8 @@ def guest_band_locks(request):
             band.guest.add_all_key_card(band.code)
             band.locks = True
             band.save()
-        return render(request, "guest/bands/guest-details-bands-form.html", {"obj": band.guest, "band": band, "step": 3})
+        type_list = WristbandType.objects.all()
+        return render(request, "guest/bands/guest-details-bands-form.html", {"obj": band.guest, "band": band, "type_list": type_list, "step": 4})
     except Exception as e:
         return render(request, "error_exception.html", {'exc':show_exc(e)})
 
@@ -66,7 +89,8 @@ def guest_band_kid(request):
         band = get_or_none(Wristband, get_param(request.GET, "obj_id"))
         band.kid = True if "kid" in request.GET and request.GET["kid"] == "true" else False
         band.save()
-        return render(request, "guest/bands/guest-details-bands-form.html", {"obj": band.guest, "band": band, "step": 4})
+        type_list = WristbandType.objects.all()
+        return render(request, "guest/bands/guest-details-bands-form.html", {"obj": band.guest, "band": band, "type_list": type_list, "step": 5})
     except Exception as e:
         return render(request, "error_exception.html", {'exc':show_exc(e)})
 
@@ -79,6 +103,15 @@ def guest_band_balance_add(request):
             balance = WristbandBalance.objects.create(wristband=band, amount=amount, desc=_("Init charge"))
         return render(request, "guest/guest-details-tabs.html", {'obj': band.guest, 'current_tab': 'bands', 'temp_range': range(16,26)})
         #return render(request, "guest/bands/guest-details-bands-list.html", {"obj": band.guest})
+    except Exception as e:
+        return render(request, "error_exception.html", {'exc':show_exc(e)})
+
+@group_required("admins", "projects")
+def guest_band_edit(request):
+    try:
+        band = get_or_none(Wristband, get_param(request.GET, "obj_id"))
+        type_list = WristbandType.objects.all()
+        return render(request, "guest/bands/guest-details-bands-edit-form.html", {"obj": band, "type_list": type_list})
     except Exception as e:
         return render(request, "error_exception.html", {'exc':show_exc(e)})
 

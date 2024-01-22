@@ -20,13 +20,10 @@ def check_timetable(form):
 def get_cat_uuid(form, name):
     return form.get_category_uuid_by_code(name)
 
-@register.filter
-def get_item_price(item, code):
-    return item.item.get_price(code)
+#@register.filter
+#def get_item_price(item, code):
+#    return item.item.get_price(code)
 
-@register.filter
-def get_total_by_regime(fi, code):
-    return "{:.2f}".format(fi.get_total_by_regime(code))
 
 @register.filter
 def get_file_url(cat, order):
@@ -35,13 +32,6 @@ def get_file_url(cat, order):
     except:
         cf = None
     return cf.file.url if cf != None and cf.file else ""
-
-'''
-	Simple tag
-'''
-@register.simple_tag
-def get_total_items(username, project_uuid):
-    return get_guest_total_items(username, project_uuid)
 
 '''
 	Inclusion tag

@@ -8,13 +8,14 @@ from padword.commons import show_exc, get_or_none, get_param, get_float, reverse
 from web.models import Project, Waiter
 from contents.models import Category, ShoppingCart, Item, PaymentType, PointOfSale, Table
 from guest.models import Guest, Wristband, WristbandBalance
-from web.lock_lib import ShLock
+#from web.lock_lib import ShLock
 from connector.winhotel_lib import send_charge
 from connector.models import ProjectWinhotelUser
 
 from .common_lib import get_or_create_form_instance_tpv, get_or_create_form_instance_info_tpv, get_or_create_form_instance_info_client_tpv
 from .common_lib import user_in_group
-from .models import Form, FormInstance, Status
+from .tpv_lib import get_cash, update_cash, cash_daily_summary, cash_send_daily_summary
+from .models import Form, FormInstance, Status, Cash
 from django.conf import settings
 
 import datetime
@@ -94,8 +95,10 @@ def tpv_index(request, project_uuid):
             return render(request, "bookings/tpv/index.html", {'point_of_sales': point_of_sales,})
         elif "table" not in request.session or request.session["table"] == "":
             pos = get_or_none(PointOfSale, request.session["point_of_sale"])
+            date = datetime.datetime.strptime("{} 23:59:59".format(datetime.datetime.now().strftime("%Y-%m-%d")), "%Y-%m-%d %H:%M:%S")
+            cash, created = get_cash(pos, date, request.user.username)
             tables = Table.objects.filter(point_of_sale=pos)
-            return render(request, "bookings/tpv/index.html", {'pos': pos, 'tables': tables})
+            return render(request, "bookings/tpv/index.html", {'pos': pos, 'tables': tables, 'cash': cash, 'created': created})
         else:
             form = Form.objects.filter(form_type__code="tpv", form_type__project_uuid=project.uuid).first()
             pos = get_or_none(PointOfSale, request.session["point_of_sale"])
@@ -154,7 +157,7 @@ def tpv_set_table(request):
     try:
         table = get_or_none(Table, request.GET["obj_id"])
         request.session["table"] = table.id
-        return redirect(reverse("tpv-index", kwargs = {'project_uuid': table.point_of_sale.project_uuid}))
+        return redirect(reverse(request.GET["index"], kwargs = {'project_uuid': table.point_of_sale.project_uuid}))
     except Exception as e:
         print(e)
         return render(request, "error_exception.html", {'exc':show_exc(e)})
@@ -164,6 +167,17 @@ def tpv_change_table(request):
     try:
         request.session["table"] = ""
         return redirect(reverse("tpv-index", kwargs = {'project_uuid': request.GET["project_uuid"]}))
+    except Exception as e:
+        print(e)
+        return render(request, "error_exception.html", {'exc':show_exc(e)})
+
+@group_required("waiters")
+def tpv_set_cash(request):
+    try:
+        cash = get_or_none(Cash, request.GET["obj_id"])
+        cash.ini_cash = request.GET["value"]
+        cash.save()
+        return redirect(reverse(request.GET["index"], kwargs = {'project_uuid': cash.project_uuid}))
     except Exception as e:
         print(e)
         return render(request, "error_exception.html", {'exc':show_exc(e)})
@@ -192,14 +206,22 @@ def tpv_check_band(request):
         #band = Wristband.objects.filter(code = reverse_cardkey(val), guest__project_id=fi.form.project.uuid, guest__deleted=False).first()
         band = Wristband.get_active_by_project(fi.form.project, reverse_cardkey(val))
         regime = None
+        band_err = ""
         if band != None and band.guest != None:
+            #if band.type != None and band.type.code == "00":
+            #    band = None
+            #    band_err = _("This band is locked!")
+            #else:
             gr = band.guest.regimes.first()
             regime = gr.regime if gr != None else None
             get_or_create_form_instance_info_client_tpv(fi, band.guest, band.code)
             fi.update_items_low_price()
+        else:
+            band_err = _("This band is not asigned to any guest!")
 
-        band_err = True if band == None else False
-        return render(request, "bookings/tpv/view-ticket.html", {'fi':fi, 'band': band, 'regime': regime, 'band_err': band_err})
+        #band_err = True if band == None else False
+        return render(request, "bookings/tpv/view-ticket.html", {'fi':fi, 'band_err': band_err})
+        #return render(request, "bookings/tpv/view-ticket.html", {'fi':fi, 'band': band, 'regime': regime, 'band_err': band_err})
         #return render(request, "bookings/tpv/view-guest-info.html", {'fi':fi, 'band': band, 'regime': regime})
     except Exception as e:
         print(e)
@@ -315,7 +337,7 @@ def tpv_order_send(request):
         fi.set_status("01", request.user, "")
         fi.date = datetime.datetime.now()
         fi.amount = amount if amount_user == "" else amount_user
-        factor = -1 if get_float(amount) < 0 else 1
+        factor = -1 if get_float(amount.replace(",", ".")) < 0 else 1
         if pt_id != "":
             pt = get_or_none(PaymentType, pt_id)
             fi.payment_type = pt
@@ -380,6 +402,44 @@ def order_details(request):
         return render(request, 'error_exception.html', {'exc':show_exc(e)})
 
 @group_required("waiters")
+def cash_z(request):
+    try:
+        cash = get_or_none(Cash, request.GET["obj_id"]) 
+        update_cash(cash, request.user, True)
+        cash.close = True
+        cash.save()
+        cash_daily_summary(cash.pos, cash.date.strftime("%Y-%m-%d"))
+        cash_send_daily_summary(cash.project_uuid, cash.pos, cash.date.strftime("%Y-%m-%d"))
+        return redirect(reverse(request.GET["index"], kwargs = {'project_uuid': cash.project_uuid}))
+    except Exception as e:
+        print(e)
+        return render(request, 'error_exception.html', {'exc':show_exc(e)})
+
+@group_required("waiters")
+def cash_x(request):
+    try:
+        cash = get_or_none(Cash, request.GET["obj_id"]) 
+        cash_x = cash
+        cash_x.pk = None
+        cash_x.date = datetime.datetime.now()
+        cash_x.save()
+        update_cash(cash_x, request.user)
+        cash_x.close = True
+        cash_x.save()
+        return render(request, 'bookings/tpv/tpv-tables-x.html', {'cash': cash})
+        #return redirect(reverse(request.GET["index"], kwargs = {'project_uuid': cash.project_uuid}))
+    except Exception as e:
+        return render(request, 'error_exception.html', {'exc':show_exc(e)})
+
+@group_required("waiters")
+def print_z(request):
+    try:
+        cash = get_or_none(Cash, request.GET["obj_id"])
+        return render(request, "bookings/tpv/print-z.html", {'obj': cash,})
+    except Exception as e:
+        return HttpResponse("Error: {}".format(e))
+
+@group_required("waiters")
 def tpv_close(request):
     auth.logout(request)
     project_uuid = request.GET["project_uuid"] if "project_uuid" in request.GET else ""
@@ -399,7 +459,8 @@ def get_drinks_total(fi, band):
         total = ShoppingCart.objects.filter(form_instance_id=fi.pk, item__ext_id__lt=50000).aggregate(Sum('price'))["price__sum"]
     else:
         total = ShoppingCart.objects.filter(form_instance_id=fi.pk, item__ext_id__lt=50000).aggregate(Sum('low_price'))["low_price__sum"]
-    return total if total != None else -1
+    return total
+    #return total if total != None else -1
 
     #total = -1
     #item_list = ShoppingCart.objects.filter(form_instance_id=fi.pk, item__ext_id__lt=50000)
@@ -416,7 +477,8 @@ def get_food_total(fi, band):
         total = ShoppingCart.objects.filter(form_instance_id=fi.pk, item__ext_id__gte=50000).aggregate(Sum('price'))["price__sum"]
     else:
         total = ShoppingCart.objects.filter(form_instance_id=fi.pk, item__ext_id__gte=50000).aggregate(Sum('low_price'))["low_price__sum"]
-    return total if total != None else -1
+    return total
+    #return total if total != None else -1
 
     #total = -1
     #item_list = ShoppingCart.objects.filter(form_instance_id=fi.pk, item__ext_id__gte=50000)
@@ -442,14 +504,16 @@ def send_charges(pwu, fi, band, pos, factor):
     date = fi.date.strftime("%Y-%m-%dT%H:%M:%S")
     #total_amount
     #total_amount = fi.get_total()
-    ta_drink = get_drinks_total(fi, band) * factor
-    ta_food = get_food_total(fi, band) * factor
+    #ta_drink = get_drinks_total(fi, band) * factor
+    #ta_food = get_food_total(fi, band) * factor
+    ta_drink = get_drinks_total(fi, band)
+    ta_food = get_food_total(fi, band)
     cash_code = ""
-    print(ta_drink)
-    print(ta_food)
+    #print(ta_drink)
+    #print(ta_food)
 
-    if ta_drink >= 0:
-        send_charge(pwu,booking_code,room_code,contact_name,contact_id,has_credit,limit_credit,s_drink,sd_drink,date,ta_drink,cash_code)
-    if ta_food >= 0:
-        send_charge(pwu,booking_code,room_code,contact_name,contact_id,has_credit,limit_credit,s_food,sd_food,date,ta_food,cash_code)
+    if ta_drink != None:
+        send_charge(pwu,booking_code,room_code,contact_name,contact_id,has_credit,limit_credit,s_drink,sd_drink,date,ta_drink*factor,cash_code)
+    if ta_food != None:
+        send_charge(pwu,booking_code,room_code,contact_name,contact_id,has_credit,limit_credit,s_food,sd_food,date,ta_food*factor,cash_code)
 

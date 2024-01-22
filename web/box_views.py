@@ -20,7 +20,7 @@ def get_date(dic, key_date, key_time, offset=""):
     return datetime.strptime("{} {}".format(date, time), "%Y-%m-%d %H:%M") if date != "" and time != "" else default
 
 def get_lock_items(request, project_uuid):
-    kwargs = {'project_uuid': project_uuid}
+    kwargs = {'project_uuid': project_uuid, 'private': False, 'box': True}
 
     if "room_search" in request.session and request.session["room_search"] != "":
         value = request.session["room_search"]

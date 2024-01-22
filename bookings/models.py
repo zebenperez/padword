@@ -21,16 +21,16 @@ def get_int(val):
         return 0
 
 class Status(models.Model):
-	code = models.CharField(max_length=20, verbose_name=_("Code"), default="")
-	name = models.CharField(max_length=200, verbose_name=_("Name"))
-	color = models.CharField(max_length=10, verbose_name=_("Color"), default="")
+    code = models.CharField(max_length=20, verbose_name=_("Code"), default="")
+    name = models.CharField(max_length=200, verbose_name=_("Name"))
+    color = models.CharField(max_length=10, verbose_name=_("Color"), default="")
 
-	def __str__(self):
-		return self.name
+    def __str__(self):
+        return self.name
 
-	class Meta:
-		verbose_name = _('Status')
-		verbose_name_plural = _('Status')
+    class Meta:
+        verbose_name = _('Status')
+        verbose_name_plural = _('Status')
 
 #class Table(models.Model):
 #    uuid = models.CharField(max_length = 255, verbose_name= _('UUID'), default="")
@@ -425,15 +425,23 @@ class FormInstance(models.Model):
             total_price = 0
             for item in items:
                 try:
-                    price = item.item.get_price(regime)
+                    price = item.item.get_price(regime, self.band)
                     total_price += float(price)
                 except Exception as ex:
-                    print(ex)
+                    #print(ex)
                     total_price += 0
             return total_price
         except Exception as e:
             print (show_exc(e))
             return 0
+
+    def get_invalid_item(self, regime):
+        items = ShoppingCart.objects.filter(form_instance_id=self.pk)
+        for item in items:
+            price = item.item.get_price(regime, self.band)
+            if price == None:
+                return True
+        return False
 
     def check_obligatory(self, q, index):
         answers = self.answerinstance_set.filter(question=q, index=index, field__obligatory=True)
@@ -528,7 +536,7 @@ class FormInstanceStatus(models.Model):
     form_instance = models.ForeignKey(FormInstance, on_delete=models.CASCADE, verbose_name=_("Form instance"), blank=True, null=True, related_name="status_list")
 
     def __str__(self):
-        return self.status
+        return self.status.name if self.status != None else ""
 
     class Meta:
         verbose_name = _('Form Instance Status')
@@ -602,6 +610,7 @@ class FormInstanceInfo(models.Model):
     table = models.CharField(max_length=255, verbose_name=_("Table"), default="")
     band = models.CharField(max_length=255, verbose_name=_("Band"), default="")
     client = models.CharField(max_length=255, verbose_name=_("Guest name"), default="")
+    client_id = models.CharField(max_length=255, verbose_name=_("Guest name"), default="")
     client_mobile = models.CharField(max_length=255, verbose_name=_("Guest mobile"), default="")
     client_email = models.CharField(max_length=255, verbose_name=_("Guest email"), default="")
     client_room = models.CharField(max_length=255, verbose_name=_("Guest room"), default="")
@@ -609,3 +618,24 @@ class FormInstanceInfo(models.Model):
     fi = models.ForeignKey(FormInstance, on_delete=models.CASCADE, verbose_name=_("Form Instance"), null=True, blank=True, related_name='info')
 
  
+class Cash(models.Model):
+    close = models.BooleanField(_('Close'), default=False)
+    date = models.DateTimeField(_('Creation date'), default=datetime.datetime.now, null=True)
+    ini_cash = models.FloatField(verbose_name='Initial amount', default=-1, null=True, blank=True)
+    end_cash = models.FloatField(verbose_name='Final amount', default=0, null=True, blank=True)
+    band = models.FloatField(verbose_name='Band amount', default=0, null=True, blank=True)
+    card = models.FloatField(verbose_name='Card amount', default=0, null=True, blank=True)
+    free = models.FloatField(verbose_name='Card amount', default=0, null=True, blank=True)
+    back = models.FloatField(verbose_name='Card amount', default=0, null=True, blank=True)
+    username = models.CharField(max_length = 255, verbose_name= _('Username'), default='admin')
+    pos_uuid = models.CharField(max_length=255, verbose_name=_("Point of sale UUID"), default="")
+    project_uuid = models.CharField(max_length=255, verbose_name=_("Project UUID"), default="", blank=True)
+
+    @property
+    def pos(self):
+        return PointOfSale.objects.filter(uuid = self.pos_uuid).first()
+
+    @property
+    def project(self):
+        return Project.objects.filter(uuid = self.project_uuid).first()
+

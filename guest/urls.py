@@ -37,9 +37,12 @@ urlpatterns = [
     path('guests/set-regime/', views.guest_set_regime, name='guest-set-regime'),
 
     #--------------------- WRISTBANDS --------------------
+    path('guests/band/details', wristband_views.guest_band_details, name='guest-band-details'),
     path('guests/band/add', wristband_views.guest_band_add, name='guest-band-add'),
+    path('guests/band/edit', wristband_views.guest_band_edit, name='guest-band-edit'),
     path('guests/band/save', wristband_views.guest_band_save, name='guest-band-save'),
     path('guests/band/name', wristband_views.guest_band_name, name='guest-band-name'),
+    path('guests/band/type', wristband_views.guest_band_type, name='guest-band-type'),
     path('guests/band/balance/add/', wristband_views.guest_band_balance_add, name="guest-band-balance-add"),
     path('guests/band/kid/', wristband_views.guest_band_kid, name="guest-band-kid"),
     path('guests/band/locks/', wristband_views.guest_band_locks, name="guest-band-locks"),

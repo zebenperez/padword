@@ -12,6 +12,10 @@
 }
 #base .menu-options 
 {
+    margin: 1%;
+}
+#base .menu-options, .pos-options 
+{
 	background-color: #ffffff;
     background-size: cover;
 	border:1px solid #a1c517;
@@ -19,7 +23,6 @@
 	color: #a1c517;
 	font-size: 1.875em;
 	font-weight: 600;
-    margin: 1%;
     height: 300px;
 }
 
@@ -45,6 +48,38 @@
     border-bottom: 1px solid #ccc;
     color: white;
     align-items: center;
+}
+#base button.menu-options.tables.save {
+    background: #a1c517;
+    color: #fff;
+	border:1px solid #a1c517;
+} 
+#base button.menu-options.tables.back {
+    background: #6c757d;
+    color: #fff;
+	border:1px solid #6c757d;
+} 
+#base button.menu-options.tables.save,
+#base button.menu-options.tables.back {
+	font-size: 1.2em !important;
+	padding: 0 !important;
+    margin-top: 0px;
+    width: 100%;
+    height: auto !important;
+    line-height: 1.8;
+}
+
+#base button.menu-options.tables.print {
+    background: #fff;
+    color: #a1c517;
+	font-size: 1.2em !important;
+    margin-top: 0px;
+    padding:15px !important;
+	border:1px solid #a1c517;
+} 
+
+input.special::placeholder {
+    font-size: 0.8em !important;
 }
 
 .order-on {
@@ -169,7 +204,8 @@ select.tpv-articles
 .small.alert
 {
 	border-top: 1px solid #ccc;
-	font-size: 0.8em;
+	/*font-size: 0.8em;*/
+	font-size: 0.7em;
 	padding: 1em;
 	text-align: left;
 }
@@ -201,15 +237,55 @@ a.btn.btn-select-payment.pay-opts
 	font-size: 0.8em;
 }
 
-button.btn.btn-success-tpv
-{
+button.btn.btn-success-tpv {
 	background-color: #a1c517;  
 	border:1px solid #ccc;
-	color: #fff;
+    color: #ffffff;
 	font-size: 1em;
 }
+.btn-mobile > button.btn.btn-success-tpv {
+	background-color: #a1c517;  
+	border:1px solid #ccc;
+	font-size: 0.65em;
+    color: #ffffff;
+    padding: 5px 0 5px 0;
+}
+
+button.btn.btn-warning-tpv {
+	background-color: #ffc107;  
+	border:1px solid #ccc;
+    color: #ffffff;
+	font-size: 1em;
+}
+.btn-mobile > button.btn.btn-warning-tpv {
+	background-color: #ffc107;  
+	border:1px solid #ccc;
+	font-size: 0.7em;
+	font-size: 0.65em;
+    color: #ffffff;
+    padding: 5px 0 5px 0;
+}
+button.btn.btn-primary-tpv {
+	background-color: #0d6efd;  
+	border:1px solid #ccc;
+    color: #ffffff;
+	font-size: 1em;
+}
+.btn-mobile > button.btn.btn-primary-tpv {
+	background-color: #0d6efd;  
+	border:1px solid #ccc;
+	font-size: 0.7em;
+	font-size: 0.65em;
+    color: #ffffff;
+    padding: 5px 0 5px 0;
+}
+
+
+
+
+/***********************/
 .space-art {
-    height: calc(var(--substract, 0) - 2px);
+    max-height: calc(var(--substract, 0) - 2px);
     overflow-y:scroll;
 }
 .ptypes {
@@ -276,6 +352,12 @@ i.fa.fa-window-close
 {
     color: #999;
     font-weight: normal;
+}
+
+i.far.fa-arrow-alt-circle-left 
+{
+    color: #ffffff;
+	font-size: 1.2rem;
 }
 
 button.btn.btn-header-pwa.ark, a.btn.btn-header-pwa.ark 
@@ -476,6 +558,7 @@ i.fas.fa-power-off .mobile {
 	color: #ffffff !important;
 }
 
+
 /*****  mobile icons ******/
 
 
@@ -498,15 +581,16 @@ i.fas.fa-power-off .mobile {
 /**** Red cirle with number of articles in ticket ****/
 
 .btn .badge {
-    position: relative;
-    top: -1px;
+    /*position: relative;
+    top: -1px;*/
+    position: absolute;
+    top: 5px;
     font-size: 0.9em;
     font-weight: 600;
     color: #fff !important;
     background: #e41e3f;
     border-radius: 50px;
 }
-
 
 .power-off {
     height: 50px;
@@ -618,7 +702,8 @@ input#div-scan.form-control.ark_change.scanband::placeholder {
 .row-01 h5.card-title-mobile 
 {
 	background: #a1c517;
-    font-size: 0.75em;
+    /*font-size: 0.75em;*/
+    font-size: 0.70em;
 	color: #fff !important;
     display: grid !important;
     align-items: center !important;
@@ -685,4 +770,5 @@ img.img-fill.mobile
     -webkit-box-shadow: 0px rgb(f f f / 0% ;
 }
 /*****************************/
+
 

@@ -537,17 +537,27 @@ class SensiboDevice(models.Model):
         verbose_name = _("Sensibo device")
         verbose_name_plural = _("Sensibo devices")
 
+
+class WristbandType(models.Model):
+    code = models.CharField(max_length=50, verbose_name=_("Code"), default="", blank=True)
+    name = models.CharField(max_length=255, verbose_name=_("Name"), default="", blank=True)
+
+    class Meta:
+        verbose_name = _("Wristband type")
+        verbose_name_plural = _("Wristbands type")
+
 class Wristband(models.Model):
     kid = models.BooleanField(verbose_name=_("Kid"), default=False)
     locks = models.BooleanField(verbose_name=_("Locks"), default=False)
     code = models.CharField(max_length=255, verbose_name=_('Code'), default="")
     name = models.CharField(max_length=255, verbose_name=_('Name'), default="")
     guest = models.ForeignKey(Guest, verbose_name=_("Guest"), on_delete=models.CASCADE, blank=True, null=True, related_name="bands")
+    type = models.ForeignKey(WristbandType, verbose_name=_("Type"), on_delete=models.SET_NULL, blank=True, null=True)
 
     @property
     def balance(self):
         try:
-            return self.balances.aggregate(Sum('amount'))["amount__sum"]
+            return self.balances.aggregate(Sum('amount'))["amount__sum"] if self.balances.count() > 0 else 0
         except Exception as e:
             print(e)
             return -1
@@ -570,6 +580,7 @@ class WristbandBalance(models.Model):
     class Meta:
         verbose_name = _("Wristband balance")
         verbose_name_plural = _("Wristbands balance")
+
 
 '''
     Regime

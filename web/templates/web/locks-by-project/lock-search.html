@@ -19,6 +19,10 @@
                     <input type="text" class="form-control w-100 input-k" name="lock_search_cardcode" id="lock_search_cardcode" 
                         placeholder="{% trans 'Card Code' %}" value="{{request.session.lock_search_cardcode}}"/>
                 </div>
+                <div class="col-12 mt-2 p-0">
+                    <input type="text" class="form-control w-100 input-k" name="lock_search_group" id="lock_search_group" 
+                        placeholder="{% trans 'Lock Group' %}" value="{{request.session.lock_search_group}}"/>
+                </div>
                 <div class="col-12 mt-3 text-center">
                     <button class="btn btn-primary mt-2 saveform w-100" data-form="form-search" data-target="lock-list">
                         <i class="fas fa-plus"></i> {% trans "Search" %}</button> 

@@ -1,0 +1,44 @@
+{% load i18n padword_tags %}
+
+
+<div class="row w-100 common-modal-head m-0 p-0">
+    <div class="col-11"><h2>{% trans 'Edit band' %}</h2></div>
+    <div class="col-1 text-center"><button type="button" class="btn btn-sm" data-bs-dismiss="modal"><i class="fas fa-times"></i></button> </div>
+</div>
+
+
+<span id="div-notification"></span>
+
+<div class="row m0">
+	<div class="col-4 mb-2">
+        <input type="text" class="form-control autosave text-right" id="name" name="name" data-model-name="guest.wristband" data-obj-id="{{obj.id}}" 
+            data-url="{% url "autosave_field" %}" data-target="div-notification" value="{{obj.name}}"/>
+            <span class="" id="name__msg"></span>
+	</div>
+	<div class="col-4 mb-2">
+        <select class="form-control autosave text-right" id="type" name="type" data-model-name="guest.wristband" data-obj-id="{{obj.id}}" 
+            data-url="{% url "autosave_field" %}" data-target="div-notification"> 
+            {% for t in type_list %} 
+                <option value="{{t.id}}"
+                    {%if t == obj.type%}selected{%endif%} 
+                    {%if obj.guest.regime.code != "TI" and t.code == "02"%}disabled{%endif%}>
+                    {{t.name}} {%if obj.guest.regime.code != "TI" and t.code == "02"%} - {%trans "(Only for All Inclusive Regime)"%}{%endif%}
+                </option>
+            {% endfor %}
+        </select>
+	</div>
+	<div class="col-4 mb-2">
+        <input type="checkbox" class="autosave text-right" id="kid" name="kid" data-model-name="guest.wristband" data-obj-id="{{obj.id}}" 
+            data-url="{% url "autosave_field" %}" data-bool="True" data-target="div-notification" {% if obj.kid %}checked{% endif %}/> 
+            <span class="" id="kid__msg"></span> {% trans "Kids" %}
+	</div>
+
+<div class="d-flex justify-content-end p-2">
+	<button type="button" id="btn-save" class="btn btn-primary ark m-2" data-bs-dismiss="modal" data-url="{% url "guest-band-details" %}" 
+        data-obj_id="{{obj.guest.id}}" data-target="div-bands"> {%trans "Save"%}</button>
+    {%comment%}
+	<button type="button" class="btn btn-danger ark m-2" data-bs-dismiss="modal" data-url="{% url "guest-notification-remove" %}" 
+        data-target="notification-list" data-obj_id="{{obj.id}}" data-confirm="{% trans "Are you sure to remove this element?" %}">
+        {% trans "Remove" %}</button>
+    {%endcomment%}
+</div>

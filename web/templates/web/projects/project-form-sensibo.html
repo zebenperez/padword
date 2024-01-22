@@ -1,6 +1,16 @@
 {% load i18n padword_tags %}
 
 
+<div class="row justify-center">
+    <div class="col-12">
+        <label class="label">{% trans "PadAir Api Key" %}:</label>
+        <input type="text" class="form-control autosave input" id="api_key" name="api_key" value="{{user_sensibo.api_key}}" 
+            title="{{user_sensibo.api_key}}" data-model-name="sensibo.projectsensibouser" data-obj-id="{{user_sensibo.id}}" 
+            data-url="{% url "autosave_field" %}" data-target="div-notification"/> <span id="api_key__msg"></span>	
+    </div>
+</div>		
+
+{% comment %}
 <div class="card">
     <div class="card-header toggle-btn" data-target="body-sensibo" data-id-change="icon-extra"
         data-text='<i class="fas fa-plus"></i>' data-text-alt='<i class="fas fa-minus"></i>'>
@@ -20,4 +30,5 @@
         </div>		
     </div>		
 </div>		
+{% endcomment %}
 

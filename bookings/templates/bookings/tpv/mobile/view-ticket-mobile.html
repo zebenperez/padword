@@ -1,7 +1,7 @@
-{% load i18n padword_tags bookings_tag %}
+{% load i18n padword_tags bookings_tag tpv_tags %}
 
 
-{% with items=fi.get_items total=fi.get_total %}
+{% with items=fi.get_items total=fi.get_total regime=fi.band.guest.regime band=fi.band%}
     {% if items|length > 0 %} 
     <div class="row mt-1 justify-content-center"><div id="guest-info" class="col-12 text-center mb-1">
         {% include "bookings/tpv/view-guest-info.html" %}</div></div>
@@ -30,13 +30,13 @@
                 <div class="col-6"> <div class="item-name text-left">{% padword_translate item.item.name %}</div> </div>
 
                 <div class="col-2 text-left">{%if regime%}<div class="text-right text-warning">
-                    {{item|get_item_price:regime.code}}€</div>{%endif%}</div>
+                    {% get_item_price item fi.band regime.code %}€</div>{%endif%}</div>
 
                 <div class="col-2"> <div class="text-left">{{ item.item.price }}€</div> </div>
 
                 <div class="col-2">
                     <a class="btn btn-danger btn-xs ark" title="{%trans 'Remove article from shopping-cart'%}" data-mobile="True"
-                        data-url="{%url "tpv-order-item-remove"%}" data-item_id="{{item.pk}}" data-target="ticket-summary-mobile">
+                        data-url="{%url "tpv-mob-item-remove"%}" data-item_id="{{item.pk}}" data-target="ticket-summary-mobile">
                         <i class="fas fa-trash"></i></a>
                 </div>
 
