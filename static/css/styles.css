@@ -1047,6 +1047,22 @@ img.img-cart-line {
     color: #143e53;
 }
 
+.project-menu {
+    
+}
+
+.menu-proyect-tab {
+/*    border:1px solid red;*/
+    margin-bottom: -19px;
+    margin-left: -5px;
+    margin-right: 10px;
+    background-color: #ffffff;
+}
+
+.menu-proyect-tab a {
+    color: #143e53;
+}
+
 .project-name {
     color: #143e53;
     font-size: 0.85rem;

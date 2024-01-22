@@ -98,7 +98,7 @@ def winhotel_price_schedule(project_uuid):
         fname = "{}_{}".format(now.strftime("%Y%m%d"), pau.ftp_filename)
 
         url = "{}/{}".format(pau.ftp, fname)
-        path = os.path.join(settings.BASE_DIR, "media")
+        path = os.path.join(settings.BASE_DIR, "media", "winhotel")
         res = subprocess.run(['wget', '-P', path, url])
         #res = subprocess.run(['wget', '-P', '/srv/dockers/padword/src/padword/media/', url], check=True)
         time.sleep(5)

@@ -1,8 +1,13 @@
+from django.conf import settings
+
 from bookings.models import Cash, FormInstance
 from padword.commons import get_float
+from bookings.models import FormInstance
+from connector.models import ProjectWinhotelUser
 
-import datetime 
+import datetime, csv, os, ftplib
 
+FILES_DIR = os.path.join(settings.BASE_DIR, "media/tpv/orders-daily/")
 
 def get_date_z():
     return datetime.datetime.strptime("{} 23:59:59".format(datetime.datetime.now().strftime("%Y-%m-%d")), "%Y-%m-%d %H:%M:%S")
@@ -105,4 +110,49 @@ def update_cash(cash, user, cancel_orders=False):
     cash.free = free_total
     cash.save()
     return cash
+
+def cash_daily_summary(obj, date):
+    s_date = datetime.datetime.strptime("{} 00:00:00".format(date), "%Y-%m-%d %H:%M:%S")
+    e_date = datetime.datetime.strptime("{} 23:59:59".format(date), "%Y-%m-%d %H:%M:%S")
+
+    f = open("{}{}_{}.csv".format(FILES_DIR, e_date.strftime("%Y%m%d_%H%M"), obj.ext_code), "w", encoding='utf-8')
+
+    writer = csv.writer(f)
+    writer.writerow(['_TPV', '_TPVNom', '_Rate', 'ProductUId', '_Description', 'Date', 'Tiket_UID', '_Price', '_Units', '_Discount', 'TotalPrice', '_Room', '_ClientId'])
+
+    fi_list = FormInstance.objects.filter(pos_uuid=obj.uuid, date__range=(s_date, e_date))
+    for fi in fi_list:
+        info = fi.info.first()
+        room = info.client_room if info != None else ""
+        client_id = info.client_id if info != None else ""
+        for item in fi.get_items:
+            #code = obj.name[:4].upper()
+            name = obj.name
+            desc = translate2("es", item.name).replace('"', '')
+            date = fi.date.strftime("%Y%m%d%H%M")
+            discount = (item.low_price/item.price)*100 if item.low_price < item.price else 0
+            discount = "{:.2f}".format(discount)
+            total_price = item.low_price if item.low_price < item.price else item.price
+            writer.writerow([obj.ext_code, name, "", item.item.ext_id, desc, date, fi.id, item.price, 1, discount, total_price, room, client_id])
+    f.close()
+
+def cash_send_daily_summary(project_uuid, obj, date):
+    try:
+        e_date = datetime.datetime.strptime("{} 23:59:59".format(date), "%Y-%m-%d %H:%M:%S")
+        f_name = "{}_{}.csv".format(e_date.strftime("%Y%m%d_%H%M"), obj.ext_code)
+        f = open("{}{}".format(FILES_DIR, f_name), "rb")
+
+        pau = ProjectWinhotelUser.objects.filter(project_uuid=project_uuid).first()
+        ftp = pau.ftp.split("@")
+        ftp_server = ftp[1]
+        ftp_up = ftp[0].split(":")
+        ftp_user = ftp_up[1].replace("//", "")
+        ftp_pass = ftp_up[2]
+        session = ftplib.FTP(ftp_server, ftp_user, ftp_pass)
+        session.cwd('LIQUIDACIONES')
+        session.storbinary("STOR {}".format(f_name), f)
+        f.close()
+        session.quit()
+    except Exception as e:
+        print("ERROR: {}".format(e))
 

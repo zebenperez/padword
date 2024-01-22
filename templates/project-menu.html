@@ -3,7 +3,7 @@
 {% if user.is_authenticated and pu_list|length > 1%}
     <div class="row m-0 ps-4">
         {% for pu in pu_list %}
-            <div class="col-3 tab px-0">
+            <div class="col-3 menu-proyect-tab rounded-top px-0">
                 <a class="nav-link" href="{% url "set-project" pu.project.uuid %}"> <i class="fa fa-folder-open"></i> {{pu.project.name}} </a>
             </div>
         {% endfor %}

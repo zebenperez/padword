@@ -499,6 +499,7 @@ class PointOfSale(models.Model):
     name = models.CharField(verbose_name="Nombre", max_length=150, blank=True, null=True, default="")
     code1 = models.CharField(verbose_name="Código 1", max_length=10, blank=True, null=True, default="")
     code2 = models.CharField(verbose_name="Código 2", max_length=10, blank=True, null=True, default="")
+    ext_code = models.CharField(verbose_name="Código externo", max_length=10, blank=True, null=True, default="")
     image = models.ImageField(upload_to=upload_pos_image, verbose_name=_("Image"), blank=True, null=True)
     project_uuid = models.CharField(max_length=36, verbose_name='UUID Project', default="")
 

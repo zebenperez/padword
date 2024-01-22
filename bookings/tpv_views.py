@@ -14,7 +14,7 @@ from connector.models import ProjectWinhotelUser
 
 from .common_lib import get_or_create_form_instance_tpv, get_or_create_form_instance_info_tpv, get_or_create_form_instance_info_client_tpv
 from .common_lib import user_in_group
-from .tpv_lib import get_cash, update_cash
+from .tpv_lib import get_cash, update_cash, cash_daily_summary, cash_send_daily_summary
 from .models import Form, FormInstance, Status, Cash
 from django.conf import settings
 
@@ -408,6 +408,8 @@ def cash_z(request):
         update_cash(cash, request.user, True)
         cash.close = True
         cash.save()
+        cash_daily_summary(cash.pos, cash.date.strftime("%Y-%m-%d"))
+        cash_send_daily_summary(cash.project_uuid, cash.pos, cash.date.strftime("%Y-%m-%d"))
         return redirect(reverse(request.GET["index"], kwargs = {'project_uuid': cash.project_uuid}))
     except Exception as e:
         print(e)
