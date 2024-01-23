@@ -34,6 +34,14 @@ def get_file_url(cat, order):
     return cf.file.url if cf != None and cf.file else ""
 
 '''
+	Simple tag
+'''
+@register.simple_tag
+def get_total_items(username, project_uuid):
+    return get_guest_total_items(username, project_uuid)
+
+
+'''
 	Inclusion tag
 '''
 @register.inclusion_tag('bookings/field_value.html')
