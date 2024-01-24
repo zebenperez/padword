@@ -4,11 +4,13 @@
 {% block central_content %}
 	<div id="div-main" class="welcome-page">
 	    <div class="row">
-              <div class="welcome-inner col-12 justify-content-center menu">
+              <div class="welcome-inner fit col-12 justify-content-center menu">
+                <div class="welcome-opac">
                 <h3> {% trans "Welcome" %} </h3>
                 {% if cat.name != "" %}<h4> {% padword_translate cat.name %} <h4> {% endif %}
                 {% if cat.description != "" %}<h5> {% padword_translate cat.description %} <h5> {% endif %}
                 {% if project_uuid %}
+                </div>
                     <button class="me-1 btn btn-access ark" data-url="{{next_url}}" data-target="div-main" data-project_uuid="{{project_uuid}}"
                         data-lang="{{lang}}" data-category_uuid="{{cat.uuid}}" onclick="javascript:openFullScreen();"> 
                         {#data-lang="{{lang}}" data-category_uuid="{{cat.uuid}}" data-history="True"> #}

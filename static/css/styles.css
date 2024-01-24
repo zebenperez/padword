@@ -1654,8 +1654,8 @@ span.bg-ico-bar i.fas.fa-lock { padding-right: 0px !important; color:#5b7898; }
 .safe-deposit-div {
     background-image: url(/static/img/safe.png);
     background-size: 100% 100%;
-    width: 140px;
-    height: 90px;
+    width: 185px;
+    height: 130px;
     margin: 10px;
     padding: 20px;
 }
@@ -1817,7 +1817,9 @@ a.btn.btn-outline-warning.large {
 .row.safe-deposit-box .name span, .row.safe-deposit-box .alias span {
     color: #37a6de;
     font-weight: 600;
-    font-size:0.95rem !important;
+    /*font-size:0.95rem !important;*/
+    font-size:0.85rem !important;
+    line-height: 2;
 }
 
 .row.lock-box .name, .row.lock-box .alias {

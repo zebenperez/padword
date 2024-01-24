@@ -790,6 +790,18 @@ p.ql-align-right {
     margin-top: -150px !important;
 }
 
+.welcome-inner.fit {
+    top: 50% !important;
+}
+.welcome-opac {
+    background: #000;
+    opacity: 0.3;
+}
+.welcome-opac h3,
+.welcome-opac h4 {
+    font-weight: 600 !important;
+}
+
 .welcome-inner .error-msg {
     background: #fff;
     border-radius: 5px ;

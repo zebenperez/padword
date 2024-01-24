@@ -9,13 +9,18 @@
         {% endcomment %}
         <div class="col-12 alias text-center"><span>{% padword_translate item.alias %}</span></div>
         <div class="col-12 p-0 mt-1">
-            <div class="icons- d-flex justify-content-end pt-1">
+
+        {% comment %}
+            <div class="icons- d-flex justify-content-end pt-1" style="border:1px solid red">
+        {% endcomment %}
+           
+            <div class="row m-0">
                 {#<div class="w-25 text-center"><i class="fas fa-{{item.state|default:'lock'}}"></i></div>#}
                 {#<div class="w-50 text-center">Status</div>#}
-                <div class="w-100 text-center">{% get_wifi_icon item.gateway True %} </div>
-                <div class="w-100 text-center"><i class="fa {{item.css_charge}} fa-rotate-270 text-center"></i>
+                <div class="col-8 text-center">{% get_wifi_icon item.gateway True %} </div>
+                <div class="col-4 text-center"><i class="fa {{item.css_charge}} fa-rotate-270 text-center"></i>
                     <span class="bat-percentage">{{item.charge}}%</span>
-
+                </div>
             </div>
         </div>
     </div>
