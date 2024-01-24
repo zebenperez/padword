@@ -59,15 +59,25 @@ body.loading .overlay { display: block; }
 }
 
 .nav-link.active { 
+    /*background: #f9fafb !important; */
     background: #f9fafb !important; 
+    background: #496a7a !important; 
     color: #143e53; 
+	
+    color: #ffffff;
+    font-weight: 600;
+}
+.nav-link.active i {
+	color: #ffffff;
 }
 .second-menu .nav-link.active {
 	background:#e5e5e5 !important;
 	color: #212529;
 }
-
-.second-menu .nav-link:hover { background:#f6f6f6; }
+.second-menu .nav-link:hover { 
+    background: #496a7a !important; 
+	color: #ffffff;
+}
 
 .table-striped th {
 	border-bottom:1px solid #dee2e6 !important;
@@ -294,14 +304,12 @@ a.btn.btn-primary.ark, a.btn.btn-secondary.ark { font-size:0.8rem !important; }
 /*** general search ***/
 .toolbar-search {
 	background-color: #fff;
-    /*border: 1px solid rgba(0, 0, 0, 0.0625);*/
-    border: 1px solid #143e53;
-   /* border-radius: 0.25em;*/
-	width: 99%;
+    border: 1px solid #5f6c81;
+    border: 1px solid #dfdfdf;
+	/*width: 99%;*/
     margin: auto;
-
-    border-radius: 1.5rem;
-    box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
+    border-radius: 0.2rem;
+/*    box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;*/
 }
 .toolbar-search input {
     height:2em;
@@ -503,7 +511,7 @@ span.status-info {
 	/*align-items: stretch;*/
 	align-items: center;
 	justify-content: space-between;
-     border-radius: 5px 5px 0 0 !important;
+    border-radius: 0.2rem 0.2rem 0 0 ;
 }
 
 .toolbar-content h2 {
@@ -1092,9 +1100,17 @@ ul.left-menu li.nav-item a.nav-link i {
     font-size: 15px !important; 
     text-align:center; 
     width: 25px; 
+    background: #3b525e;
+    border-radius: 3px;
+    padding: 5px;
 }
 ul.left-menu li.nav-item a.nav-link i:hover { 
     color: #5b7898; 
+}
+ul.left-menu li.nav-item a.nav-link.active i {
+    background: #37a6de;
+    background: #a1c517 !important;
+
 }
 .left-menu li { 
     list-style:none; 
@@ -1107,10 +1123,10 @@ ul.left-menu li.nav-item a.nav-link i:hover {
     white-space: nowrap;
 }
 .left-menu li:hover { 
-    background-color: #f9fafb;
+    background-color: #496a7a !important;
 }
 .left-menu li a:hover { 
-    color: #143e53; 
+    color: #ffffff; 
 }
 
 .nav-tabs {
@@ -1384,6 +1400,7 @@ i.fas.fa-check-square {
     align-items: stretch;
     overflow-y: hidden;
     margin-top: 55px;
+    border-left: 1px solid #143e53;
 }
 
 #sidebar {
@@ -1654,8 +1671,8 @@ span.bg-ico-bar i.fas.fa-lock { padding-right: 0px !important; color:#5b7898; }
 .safe-deposit-div {
     background-image: url(/static/img/safe.png);
     background-size: 100% 100%;
-    width: 140px;
-    height: 90px;
+    width: 185px;
+    height: 130px;
     margin: 10px;
     padding: 20px;
 }
@@ -1817,7 +1834,8 @@ a.btn.btn-outline-warning.large {
 .row.safe-deposit-box .name span, .row.safe-deposit-box .alias span {
     color: #37a6de;
     font-weight: 600;
-    font-size:0.95rem !important;
+    /*font-size:0.95rem !important;*/
+    font-size:0.85rem !important;
 }
 
 .row.lock-box .name, .row.lock-box .alias {

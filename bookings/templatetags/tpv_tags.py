@@ -54,9 +54,9 @@ def have_cash(pos):
 '''
 	Simple tag
 '''
-@register.simple_tag
-def get_total_items(username, project_uuid):
-    return get_guest_total_items(username, project_uuid)
+#@register.simple_tag
+#def get_total_items(username, project_uuid):
+#    return get_guest_total_items(username, project_uuid)
 
 @register.simple_tag
 def get_item_price(item, band, code):

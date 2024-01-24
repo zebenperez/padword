@@ -23,7 +23,7 @@ msgstr "ERROR: El código no debe estar vacío"
 
 #: box_views.py:103
 msgid "Code saved!"
-msgstr ""
+msgstr "¡Salvar código!"
 
 #: lock_lib.py:244 templates/web/locks/record-type.html:4
 msgid "Unlock by app"

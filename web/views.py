@@ -175,7 +175,7 @@ def project_form(request):
         return render(request, 'error_exception.html', {'exc':show_exc(e)})
 
 @group_required("admins")
-def project_details(request, obj_id):
+def project_details(request, obj_id, current_tab=""):
     try:
         obj = get_or_none(Project, obj_id) 
 
@@ -199,6 +199,7 @@ def project_details(request, obj_id):
             'project_regime_list': [item.regime for item in obj.regimes.all()],
             'regime_list': regime_list,
             'point_of_sale_list': point_of_sale_list,
+            'current_tab': current_tab,
             'form': form
         }
         return render(request, "web/projects/project-details.html", context)

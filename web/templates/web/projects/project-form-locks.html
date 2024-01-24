@@ -29,8 +29,12 @@
 <div class="row justify-center m-0 p-0">
     <div class="col-12 d-flex justify-content-end">
         {% for lang in obj.get_languages %}
+            {%comment%}
             <a class="btn btn-{% is_current_lang lang 'primary' 'secondary'%} ark ms-2 me-2 pointer" data-url="{% url "project-form" %}" 
                 data-target-modal="common-modal" data-lang="{{lang}}" data-obj_id="{{obj.id}}">{{lang}}</a>
+            {%endcomment%}
+            <a class="btn btn-{% is_current_lang lang 'primary' 'secondary'%} ms-2 me-2 pointer" 
+                href="{% url "project-details" obj.id "locks" %}?lang={{lang}}"> {{lang}}</a>
         {%endfor%}
     </div>
 
