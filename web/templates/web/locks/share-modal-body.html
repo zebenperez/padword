@@ -45,7 +45,7 @@
     $("#w-btn").click(function(){
         var phone = $("#phone").val();
         var text = $("#text-to-share").val();
-        $(this).attr("href", "https://web.whatsapp.com/send/?phone="+phone+"&text="+text);
+        $(this).attr("href", "https://web.whatsapp.com/send/?phone="+phone+"&text="+text.replace(/\r?\n/g, '%0a'));
         $(this).click();
     });
 </script>
