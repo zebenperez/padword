@@ -79,9 +79,17 @@ body.loading .overlay { display: block; }
 	color: #ffffff;
 }
 
+/******* TABLES ********/
+
+tr.small.tablesorter-headerRow {
+    border:none;
+    background-color: #dcebf3;
+    color: #35a8df;
+    text-transform: uppercase;
+}
+
 .table-striped th {
-	border-bottom:1px solid #dee2e6 !important;
-/*	color: rgba(0,0,0,.6);*/
+	border-bottom: none !important;
     color: #143e53;
 	font-size: 0.8rem;
 	margin-left:0;
@@ -96,7 +104,7 @@ body.loading .overlay { display: block; }
 
 .table-striped td.row { margin:0 !important; }
 
-.table>:not(caption)>*>* { padding: 1rem 0.5rem 0.5rem 0.5rem; }
+.table>:not(caption)>*>* { padding: 1rem; }
 
 .table-striped>tbody>tr:hover { --bs-table-accent-bg: #ebeff0 !important; }
 
@@ -107,8 +115,10 @@ table.table-hover.table-striped { font-size: 0.8rem; }
 /************************/
 
 .content {
-	background: white; border:1px solid #e0e0e0; 
-    border-radius: 5px;
+	background: white;
+    /*border:1px solid #e0e0e0; */
+/*    border-radius: 5px;*/
+    margin: 1%;
 }
 
 button .small {
@@ -304,11 +314,10 @@ a.btn.btn-primary.ark, a.btn.btn-secondary.ark { font-size:0.8rem !important; }
 /*** general search ***/
 .toolbar-search {
 	background-color: #fff;
-    border: 1px solid #5f6c81;
-    border: 1px solid #dfdfdf;
+    border: 1px solid #fff;
 	/*width: 99%;*/
     margin: auto;
-    border-radius: 0.2rem;
+/*    border-radius: 0.2rem;*/
 /*    box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;*/
 }
 .toolbar-search input {
@@ -1108,8 +1117,8 @@ ul.left-menu li.nav-item a.nav-link i:hover {
     color: #5b7898; 
 }
 ul.left-menu li.nav-item a.nav-link.active i {
+    /*background: #a1c517 !important;*/
     background: #37a6de;
-    background: #a1c517 !important;
 
 }
 .left-menu li { 
@@ -1420,9 +1429,11 @@ i.fas.fa-check-square {
 #content-section {
     flex-basis: 99.5%;
     height: 99vh;
+/*
     margin-left: 0.5%;
    	margin-right: 0.5%;
-    padding-top: 5px;
+*/
+/*    padding-top: 5px;*/
     overflow-y: scroll;
     padding-bottom: 3.5rem;
 }

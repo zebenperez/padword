@@ -170,8 +170,9 @@ def winhotel_import_items(request, project_uuid):
     updated = []
     not_updated = []
     if request.POST:
+        pau = ProjectWinhotelUser.objects.filter(project_uuid=project_uuid).first()
         file = request.FILES['file']
-        updated, not_updated = wh_import_item_prices(file, project_uuid)
+        updated, not_updated = wh_import_item_prices(file, project_uuid, pau.update_all_prices)
     return render(request, 'winhotel/items-import.html', {'project_uuid': project_uuid, 'updated': updated, 'not_updated': not_updated})
 
 #    updated = []

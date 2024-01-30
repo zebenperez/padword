@@ -105,7 +105,7 @@ def winhotel_price_schedule(project_uuid):
 
         file = open(os.path.join(settings.BASE_DIR, "media", fname), 'rb')
 
-        updated, not_updated = wh_import_item_prices(file, project_uuid)
+        updated, not_updated = wh_import_item_prices(file, project_uuid, pau.update_all_prices)
         result += render_to_string('winhotel/booking-price-log.html', {'updated': updated, "not_updated": not_updated})
     except Exception as e:
         print("\n<br/>Error: {}".format(e))

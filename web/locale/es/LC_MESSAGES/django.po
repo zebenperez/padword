@@ -27,7 +27,7 @@ msgstr "¡Salvar código!"
 
 #: lock_lib.py:244 templates/web/locks/record-type.html:4
 msgid "Unlock by app"
-msgstr ""
+msgstr "Desbloquear por app"
 
 #: lock_lib.py:246 templates/web/locks/record-type.html:6
 msgid "Unlock by passcode"
@@ -35,15 +35,15 @@ msgstr "Contraseña TTLock"
 
 #: lock_lib.py:248 templates/web/locks/record-type.html:8
 msgid "Rise the lock"
-msgstr ""
+msgstr "Levantar la Cerradura"
 
 #: lock_lib.py:250 templates/web/locks/record-type.html:10
 msgid "Lower the lock"
-msgstr ""
+msgstr "Bajar la cerradura"
 
 #: lock_lib.py:252 templates/web/locks/record-type.html:12
 msgid "Unlock by IC card"
-msgstr ""
+msgstr "Desbloquear con tarjeta de identificación"
 
 #: lock_lib.py:254 templates/web/locks/record-type.html:14
 msgid "Unlock by fingerprint"
@@ -51,35 +51,35 @@ msgstr "Huella dactilar"
 
 #: lock_lib.py:256 templates/web/locks/record-type.html:16
 msgid "Unlock by wrist strap"
-msgstr ""
+msgstr "Desbloquear por pulsera"
 
 #: lock_lib.py:258 templates/web/locks/record-type.html:18
 msgid "Unlock by Mechanical key"
-msgstr ""
+msgstr "Desbloquear por llame mecánica"
 
 #: lock_lib.py:260 templates/web/locks/record-type.html:20
 msgid "Lock by app"
-msgstr ""
+msgstr "Bloquear por app"
 
 #: lock_lib.py:262 templates/web/locks/record-type.html:22
 msgid "Unlock by gateway"
-msgstr ""
+msgstr "Desbloquear por puerta"
 
 #: lock_lib.py:264 templates/web/locks/record-type.html:24
 msgid "Apply some force on the Lock"
-msgstr ""
+msgstr "Aplicar algo de fuerza en la cerradura"
 
 #: lock_lib.py:266 templates/web/locks/record-type.html:26
 msgid "Door sensor closed"
-msgstr ""
+msgstr "Sensor de la puerta cerrado"
 
 #: lock_lib.py:268 templates/web/locks/record-type.html:28
 msgid "Door sensor open"
-msgstr ""
+msgstr "Sensor de la puerta abierto"
 
 #: lock_lib.py:270 templates/web/locks/record-type.html:30
 msgid "Open from inside"
-msgstr ""
+msgstr "Abrir desde dentro"
 
 #: lock_lib.py:272 templates/web/locks/record-type.html:32
 msgid "Lock by fingerprint"
@@ -91,27 +91,27 @@ msgstr "Contraseña TTLock"
 
 #: lock_lib.py:276 templates/web/locks/record-type.html:36
 msgid "Lock by IC card"
-msgstr ""
+msgstr "Cerrar con Tarjeta"
 
 #: lock_lib.py:278 templates/web/locks/record-type.html:38
 msgid "Lock by Mechanical key"
-msgstr ""
+msgstr "Cerrar con llave mecánica"
 
 #: lock_lib.py:280 templates/web/locks/record-type.html:40
 msgid "Remote Control"
-msgstr ""
+msgstr "Control Remoto"
 
 #: lock_lib.py:282 templates/web/locks/record-type.html:42
 msgid "Received new local mail"
-msgstr ""
+msgstr "Recibí nuevo correo local"
 
 #: lock_lib.py:284 templates/web/locks/record-type.html:44
 msgid "Received new other cities mail"
-msgstr ""
+msgstr "Recibí correo nuevo de otras ciudades"
 
 #: lock_lib.py:286 templates/web/locks/record-type.html:46
 msgid "Tamper alert"
-msgstr ""
+msgstr "Alerta de manipulación"
 
 #: lock_lib.py:288 templates/web/locks/record-type.html:48
 msgid "Auto Lock"
@@ -129,11 +129,11 @@ msgstr "Token de la cerradura"
 msgid ""
 "System locked ( Caused by, for example: Using INVALID Passcode/Fingerprint/"
 "Card several times)"
-msgstr ""
+msgstr "Sistema bloqueado (Causa, por ejemplo: Usar un código de acceso/huella digital/tarjeta NO VALIDOS varias veces "
 
 #: lock_lib.py:296 templates/web/locks/record-type.html:56
 msgid "Unlock by hotel card"
-msgstr ""
+msgstr "Desbloquear con tarjeta del hotel"
 
 #: lock_lib.py:298 templates/web/locks/record-type.html:58
 msgid "Unlocked due to the high temperature"

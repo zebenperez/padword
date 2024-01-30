@@ -11,17 +11,23 @@
     </div>
     <div class="card-body hide" id="body-winhotel"> 
         <div class="row justify-center">
-            <div class="col-md-6 col-12">
+            <div class="col-md-5 col-12">
                 <label class="label">{% trans "Hotel Source Code" %}:</label>
                 <input type="text" class="form-control autosave input" id="source_code" name="source_code" value="{{user_winhotel.source_code}}" 
                     title="{{user_winhotel.source_code}}" data-model-name="connector.projectwinhoteluser" data-obj-id="{{user_winhotel.id}}" 
                     data-url="{% url "autosave_field" %}" data-target="div-notification"/> <span id="source_code__msg"></span>	
             </div>
-            <div class="col-md-6 col-12">
+            <div class="col-md-5 col-12">
                 <label class="label">{% trans "Hotel Target Code" %}:</label>
                 <input type="text" class="form-control autosave input" id="target_code" name="target_code" value="{{user_winhotel.target_code}}" 
                     title="{{user_winhotel.target_code}}" data-model-name="connector.projectwinhoteluser" data-obj-id="{{user_winhotel.id}}" 
                     data-url="{% url "autosave_field" %}" data-target="div-notification"/> <span id="target_code__msg"></span>	
+            </div>
+            <div class="col-md-2 col-12">
+                <label class="label">{% trans "Import all prices" %}:</label>
+                <input type="checkbox" class="autosave input" id="update_all_prices" name="update_all_prices" 
+                    data-model-name="connector.projectwinhoteluser" data-obj-id="{{user_winhotel.id}}" data-url="{% url "autosave_field" %}" 
+                    data-target="div-notification" {%if user_winhotel.update_all_prices%}checked{%endif%}/> <span id="update_all_prices__msg"></span>
             </div>
         </div>
         <div class="row justify-center">

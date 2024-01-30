@@ -535,7 +535,7 @@ def create_items(project_uuid, dic_line):
     return update
 
  
-def import_item_prices(file, project_uuid):
+def import_item_prices(file, project_uuid, update_all_prices=False):
     updated = []
     not_updated = []
     decoded_file = file.read().decode('latin-1').splitlines()
@@ -548,8 +548,13 @@ def import_item_prices(file, project_uuid):
             if len(ic_list) == 0:
                 update = create_items(project_uuid, dic_line)
             for ic in ic_list:
-                ic.item.price = float(dic_line[5].replace(",", "."))
+                price = float(dic_line[5].replace(",", "."))
+                ic.item.price = price
                 ic.item.save()
+                if update_all_prices:
+                    for ip in ic.item.prices.all():
+                        ip.price = price
+                        ip.save()
                 update = True
         except Exception as e:
             print(e)
