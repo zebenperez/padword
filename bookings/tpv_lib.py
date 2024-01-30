@@ -1,7 +1,7 @@
 from django.conf import settings
 
 from bookings.models import Cash, FormInstance
-from padword.commons import get_float
+from padword.commons import get_float, translate2
 from bookings.models import FormInstance
 from connector.models import ProjectWinhotelUser
 
