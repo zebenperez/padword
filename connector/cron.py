@@ -103,7 +103,7 @@ def winhotel_price_schedule(project_uuid):
         #res = subprocess.run(['wget', '-P', '/srv/dockers/padword/src/padword/media/', url], check=True)
         time.sleep(5)
 
-        file = open(os.path.join(settings.BASE_DIR, "media", fname), 'rb')
+        file = open(os.path.join(settings.BASE_DIR, "media", "winhotel", fname), 'rb')
 
         updated, not_updated = wh_import_item_prices(file, project_uuid, pau.update_all_prices)
         result += render_to_string('winhotel/booking-price-log.html', {'updated': updated, "not_updated": not_updated})
