@@ -82,7 +82,8 @@ def orders_page(request):
         ini = int(page)*ITEMS_PER_PAGE
         end = ini+ITEMS_PER_PAGE
 
-        items = pr_search(project.uuid, form, ini_date, end_date, name, status)
+        items = search(project.uuid, ini_date, end_date, name, status)
+        #items = search(project.uuid, form, ini_date, end_date, name, status)
 
         context={'total_items': len(items), 'items': items[ini:end], 'status': status, 'index': end}
         return render(request, "bookings/tpv-orders/order-page.html", context)
