@@ -341,7 +341,7 @@ def tpv_order_send(request):
         if pt_id != "":
             pt = get_or_none(PaymentType, pt_id)
             fi.payment_type = pt
-            if pt.code == "03" and band_id != "":
+            if pt != None and pt.code == "03" and band_id != "":
                 pos = get_or_none(PointOfSale, request.session["point_of_sale"])
                 band = get_or_none(Wristband, band_id)
                 add_balance_to_band(pos, fi, band)

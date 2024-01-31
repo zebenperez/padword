@@ -25,7 +25,7 @@
             </div>
             <div class="col-md-2 col-12">
                 <label class="label">{% trans "Import all prices" %}:</label>
-                <input type="checkbox" class="autosave input" id="update_all_prices" name="update_all_prices" 
+                <input type="checkbox" class="autosave input" id="update_all_prices" name="update_all_prices" data-bool="True"
                     data-model-name="connector.projectwinhoteluser" data-obj-id="{{user_winhotel.id}}" data-url="{% url "autosave_field" %}" 
                     data-target="div-notification" {%if user_winhotel.update_all_prices%}checked{%endif%}/> <span id="update_all_prices__msg"></span>
             </div>
