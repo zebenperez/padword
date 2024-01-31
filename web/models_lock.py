@@ -95,7 +95,6 @@ class Lock(models.Model):
         return obj.set_lock_code(self.uuid, code, code_name, start_date, end_date)
 
     def get_code(self, code_type, start_date, end_date):
-        print("--2--")
         obj = ShLock(self.project.lock_access_token)
         return obj.get_lock_code(self.uuid, code_type, start_date, end_date)
 
