@@ -306,7 +306,7 @@ class TTLock():
         )
         return TTLock.__send_request__(_url_request).json().get(KEYBOARD_PWD_ID)
 
-    def lock_get_passcode(self, lockId=None, code_type="3", startDate=0, endDate=0):
+    def lock_get_passcode(self, lockId=None, code_type="3", startDate=0, endDate=0, name=""):
         if not lockId:
             raise TTlockAPIError()
 
@@ -317,6 +317,7 @@ class TTLock():
             self.accessToken,
             lockId,
             code_type,
+            name,
             get_date(startDate),
             get_date(endDate),
             TTLock.__get_current_millis__(),

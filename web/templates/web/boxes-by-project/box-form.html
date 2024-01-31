@@ -45,13 +45,13 @@
                     <div class="row">
                         <div class="col-12 mt-1 text-center"><span>{%trans "Fill in the information below and press the save button"%}:</span></div>
                         <div class="col-4 mt-3 pt-1 small"> 
-                            <input type="radio" class="set-hidden" name="radio_code" value="1" data-id="action" checked/> {% trans "Code" %} 
+                            <input type="radio" class="set-hidden radio" name="radio_code" value="1" data-id="action" checked/> {% trans "Code" %} 
                         </div>
                         <div class="col-4 mt-3 pt-1 small"> 
-                            <input type="radio" class="set-hidden" name="radio_code" value="2" data-id="action"/> {% trans "Random Code" %} 
+                            <input type="radio" class="set-hidden radio" name="radio_code" value="2" data-id="action"/> {% trans "Random Code" %} 
                         </div>
                         <div class="col-4 mt-3 pt-1 small"> 
-                            <input type="radio" class="set-hidden" name="radio_code" value="3" data-id="action"/> {% trans "Card" %} 
+                            <input type="radio" class="set-hidden radio" name="radio_code" value="3" data-id="action"/> {% trans "Card" %} 
                         </div>
                         <div class="col-12 mt-3">
                             <input type="text" class="form-control input-k set-hidden" id="code" name="code"
@@ -87,6 +87,18 @@
         </div>
     </div>
 </div>
+<script>
+    $(".radio").click(function(){
+        var val = $(this).val();
+        if (val == 2)
+        {
+            $("#code").val("");
+            $("#code").prop("disabled", "disabled");
+        }
+        else
+            $("#code").prop("disabled", "");
+    });
+</script>
 
 
 

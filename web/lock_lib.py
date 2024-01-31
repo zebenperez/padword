@@ -88,9 +88,9 @@ class ShLock:
         except Exception as e:
             return e
 
-    def get_lock_code(self, lock_id, code_type, start_date, end_date):
+    def get_lock_code(self, lock_id, code_type, start_date, end_date, name=""):
         try:
-            return self.ttlock.lock_get_passcode(lock_id, code_type, start_date, end_date)
+            return self.ttlock.lock_get_passcode(lock_id, code_type, start_date, end_date, name)
         except Exception as e:
             print(e)
             return e

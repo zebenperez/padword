@@ -61,7 +61,7 @@ REMOVE_PASSCODE_URL = '{}/{}?clientId={}&accessToken={}&lockId={}&keyboardPwdId=
 REMOVE_PASSCODE_PREFIX_URL = '/keyboardPwd/delete'
 GET_ALL_PASSCODE_URL = '{}/{}?clientId={}&accessToken={}&lockId={}&pageNo={}&pageSize={}&date={}'
 GET_ALL_PASSCODE_PREFIX_URL = 'lock/listKeyboardPwd'
-RANDOM_PASSCODE_URL = '{}/{}?clientId={}&accessToken={}&lockId={}&keyboardPwdType={}&startDate={}&endDate={}&date={}'
+RANDOM_PASSCODE_URL = '{}/{}?clientId={}&accessToken={}&lockId={}&keyboardPwdType={}&keyboardPwdName={}&startDate={}&endDate={}&date={}'
 RANDOM_PASSCODE_PREFIX_URL = 'keyboardPwd/get'
 
 ADD_CARD_URL = '{}/{}?clientId={}&accessToken={}&lockId={}&cardNumber={}&cardName={}&startDate={}&endDate={}&addType=2&date={}'

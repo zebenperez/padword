@@ -94,9 +94,9 @@ class Lock(models.Model):
         code_name = name if name != "" else self.alias
         return obj.set_lock_code(self.uuid, code, code_name, start_date, end_date)
 
-    def get_code(self, code_type, start_date, end_date):
+    def get_code(self, code_type, start_date, end_date, name=""):
         obj = ShLock(self.project.lock_access_token)
-        return obj.get_lock_code(self.uuid, code_type, start_date, end_date)
+        return obj.get_lock_code(self.uuid, code_type, start_date, end_date, name)
 
     def change_code(self, code_id, new_code, start_date, end_date):
         obj = ShLock(self.project.lock_access_token)

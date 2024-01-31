@@ -104,7 +104,7 @@ def box_add_code(request):
             if radio_code == "1":
                 errcode = lock.set_code(code, ini_date, end_date, name)
             elif radio_code == "2":
-                errcode = lock.get_code("3", ini_date, end_date)
+                errcode = lock.get_code("3", ini_date, end_date, name)
             elif radio_code == "3":
                 errcode = lock.add_card(code, ini_date, end_date, name) 
             msg = errcode if "Error" in str(errcode) else _("Code saved!")
