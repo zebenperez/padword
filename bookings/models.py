@@ -183,11 +183,13 @@ class Form(models.Model):
         item_list = list(ShoppingCart.objects.filter(form_instance_id__in=fi_list).values_list('item', flat=True).annotate(total=Count('item')).order_by('-total')[:2])
         return Item.objects.filter(id__in=item_list)
 
-    def to_tickets(self, start_date="", end_date=""):
+    def to_tickets(self, start_id="", start_date="", end_date=""):
         if start_date != "" and end_date != "":
             s_date = datetime.datetime.strptime(start_date, "%Y-%m-%d_%H:%M")
             e_date = datetime.datetime.strptime(end_date, "%Y-%m-%d_%H:%M")
             fi_list = FormInstance.objects.filter(form_uuid=self.uuid, date__range=(s_date, e_date))
+        elif start_id != "":
+            fi_list = FormInstance.objects.filter(pk__gte=start_id, form_uuid=self.uuid).order_by("id")
         else:
             fi_list = FormInstance.objects.filter(form_uuid=self.uuid)
         resp = {"tickets": []}
