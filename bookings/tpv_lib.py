@@ -21,6 +21,12 @@ def get_cash(pos, date, username=""):
         cash.username = username
         cash.save()
     return cash, created
+#    created = False
+#    cash = Cash.objects.filter(project_uuid=pos.project.uuid, pos_uuid=pos.uuid, date=date).first()
+#    if cash == None:
+#        cash = Cash.objects.create(project_uuid=pos.project.uuid, pos_uuid=pos.uuid, date=date)
+#        created = True
+#    return cash, created
 
 #def generate_cash(project, pos, user, date_str, cash_type, ini_cash=0):
 #    s_date = datetime.datetime.strptime("{} 00:00".format(date_str), "%Y-%m-%d %H:%M")
