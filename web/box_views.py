@@ -108,7 +108,8 @@ def box_add_code(request):
             elif radio_code == "3":
                 errcode = lock.add_card(code, ini_date, end_date, name) 
             msg = errcode if "Error" in str(errcode) else _("Code saved!")
-            msg = "{} <br/> <small>({})</small>".format(msg, errcode)
+            if radio_code == "2":
+                msg = "{} <br/> <small>({})</small>".format(msg, errcode)
         return render(request, "web/boxes-by-project/box-code-add.html", {"msg": msg})
     except Exception as e:
         print(e)
