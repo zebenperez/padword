@@ -99,8 +99,17 @@ def box_add_code(request):
         if code == "":
             msg = _("ERROR: Code must not to be empty!")
         else:
-            errcode = lock.add_card(code, ini_date, end_date, name) if radio_code == "2" else lock.set_code(code, ini_date, end_date, name)
+            #errcode = lock.add_card(code, ini_date, end_date, name) if radio_code == "2" else lock.set_code(code, ini_date, end_date, name)
+            errcode = ""
+            if radio_code == "1":
+                errcode = lock.set_code(code, ini_date, end_date, name)
+            elif radio_code == "2":
+                print("--1--")
+                errcode = lock.get_code(3, ini_date, end_date)
+            elif radio_code == "3":
+                errcode = lock.add_card(code, ini_date, end_date, name) 
             msg = errcode if "Error" in str(errcode) else _("Code saved!")
+            msg = "{} <br/> <small>({})</small>".format(msg, errcode)
         return render(request, "web/boxes-by-project/box-code-add.html", {"msg": msg})
     except Exception as e:
         print(e)

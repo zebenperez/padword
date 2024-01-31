@@ -90,8 +90,11 @@ class ShLock:
 
     def get_lock_code(self, lock_id, code_type, start_date, end_date):
         try:
+            print(lock_id)
+            print(code_type)
             return self.ttlock.lock_get_passcode(lock_id, code_type, start_date, end_date)
         except Exception as e:
+            print(e)
             return e
 
     def change_lock_code(self, lock_id, code_id, new_code, start_date, end_date):
