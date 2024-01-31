@@ -321,7 +321,8 @@ class TTLock():
             get_date(endDate),
             TTLock.__get_current_millis__(),
         )
-        return TTLock.__send_request__(_url_request).json().get(KEYBOARD_PWD_ID)
+        #return TTLock.__send_request__(_url_request).json().get(KEYBOARD_PWD_ID)
+        return TTLock.__send_request__(_url_request).json().get(KEYBOARD_PWD)
 
 
     def lock_change_passcode(self, lockId=None, codeId="", newCode="", startDate=0, endDate=0):
