@@ -2,20 +2,17 @@
 
 
 {#{% with related="s-form,s-ini_date,s-end_date,s-name,s-status" search_url="orders-search" %}#}
-{% with related="s-ini_date,s-end_date,s-name,s-status" search_url="orders-search" %}
+{% with related="s-id,s-ini_date,s-end_date,s-name,s-status" search_url="orders-search" %}
 
     <input type="hidden" name="s-status" id="s-status" value="{{status}}" data-target="booking-list" data-related="{{related}}" 
         data-url="{% url search_url %}" class="autosearch_change"/>
 
     <div class="toolbar-search orders-tpv p-2">
         <div class="text-center"><i class="fas fa-search"></i></div>
-            {%comment%}
-            <div class="col-md-3 col-6">
-                <input type="text" class="autosearch form-control form-control-dark w-30" name="s-form" id="s-form" 
-                    placeholder="{% trans "Service name" %}" value="{% padword_translate form_name %}" data-url="{% url search_url %}" 
-                    data-target="booking-list" data-related="{{related}}"/>
+            <div class="p-2">
+                <input type="text" class="autosearch form-control form-control-dark w-30 input-k" name="s-id" id="s-id" placeholder="ID" 
+                    data-url="{% url search_url %}" data-target="booking-list" data-related="{{related}}"/>
             </div>
-            {%endcomment%}
             <div class="p-2">
                 <input type="text" class="autosearch form-control form-control-dark w-30 input-k" name="s-name" id="s-name" 
                     placeholder="{% trans "Guest Name, Surname, Email, Phone, Room" %}" data-url="{% url search_url %}" 

@@ -372,7 +372,8 @@ a.btn.btn-primary.ark, a.btn.btn-secondary.ark {
 .toolbar-search.orders-tpv { 
     align-items: center;
     display:grid; 
-    grid-template-columns: 2% 65% 15% 15%; 
+    /*grid-template-columns: 2% 65% 15% 15%; */
+    grid-template-columns: 2% 15% 53% 15% 15%; 
 }
 
 /*** companies search ***/

@@ -1,11 +1,12 @@
 {% load i18n padword_tags tz %}
 
-<td>{{item.details.client}} <br/>{{item.details.client_mobile}}<br/>{{item.details.client_email}}</td>
-<td>{{ item.guest_name}}</td>
-<td>{{ item.details.pos}}</td>
-<td>{{ item.details.table}}</td>
-<td>{{ item.details.client_room}}</td>
-<td>{{ item.date|timezone:"Atlantic/Canary"|date:'d/m/Y H:i:s'}}</td>
+<td>{{ item.id }}</td>
+<td>{{item.details.client }} <br/>{{item.details.client_mobile}}<br/>{{item.details.client_email}}</td>
+<td>{{ item.guest_name }}</td>
+<td>{{ item.details.pos }}</td>
+<td>{{ item.details.table }}</td>
+<td>{{ item.details.client_room }}</td>
+<td>{{ item.date|timezone:"Atlantic/Canary"|date:'d/m/Y H:i:s' }}</td>
 <td id="status-{{item.pk}}">{% padword_translate item.get_status.status.name %} </td>
 <td>{% padword_translate item.payment_type.name %} </td>
 <td>{{ item.details.desc }} </td>
