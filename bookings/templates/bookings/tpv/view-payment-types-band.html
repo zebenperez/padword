@@ -3,12 +3,12 @@
 {% with val=fi|check_band %}
     {# Not band or band locked or item not valid or not credit #}
     {% if val == 0 or val == 1  or val == 3  or val == 4 %}
-        <a id="pay-type-{{item.payment_type.code}}" class="btn btn-select-payment-web pay-opts a-disabled">
+        <a id="pay-type-{{item.payment_type.code}}" class="btn btn-select-payment pay-opts a-disabled">
             <img src="{{item.payment_type.icon.url}}" alt="{% padword_translate item.payment_type.name %}" class="img-width">
                 {% padword_translate item.payment_type.name %} 
         </a>
     {% else %}
-        <a id="pay-type-{{item.payment_type.code}}" class="btn btn-select-payment-web pay-opts" 
+        <a id="pay-type-{{item.payment_type.code}}" class="btn btn-select-payment pay-opts" 
             data-id="{{item.id}}" data-pt="{{item.payment_type.id}}" data-cash="{{item.payment_type.code}}">
             <img src="{{item.payment_type.icon.url}}" alt="{% padword_translate item.payment_type.name %}" class="img-width">
                 {% padword_translate item.payment_type.name %} 
