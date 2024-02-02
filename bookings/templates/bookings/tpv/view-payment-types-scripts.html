@@ -1,7 +1,7 @@
 {%load i18n tpv_tags %}
 
 <script>
-    $(".btn-select-payment-web").click(function(){
+    $(".btn-select-payment").click(function(){
         $(".pt-box").each(function(){$(this).removeClass("selected")});
         $("#pt-box-"+$(this).data("id")).addClass("selected");
 
