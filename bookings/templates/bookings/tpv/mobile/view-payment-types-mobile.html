@@ -12,9 +12,8 @@
             
                 {% if item.payment_type.code != "03" %}
                 
-                <a id="pay-type-{{item.payment_type.code}}" class="btn btn-select-payment pay-opts" 
-                
-                                                            data-id="{{item.id}}" data-pt="{{item.payment_type.id}}" data-cash='{{item.payment_type.code}}'>
+                    <a id="pay-type-{{item.payment_type.code}}" class="btn btn-select-payment pay-opts" 
+                        data-id="{{item.id}}" data-pt="{{item.payment_type.id}}" data-cash='{{item.payment_type.code}}'>
                         <img src="{{item.payment_type.icon.url}}" alt="{% padword_translate item.payment_type.name %}" class="img-width">
                             {% padword_translate item.payment_type.name %} 
                     </a>
@@ -39,7 +38,7 @@
         <button id="btn-cancel-order-mob-{{fi.id}}" class="btn btn-success-tpv w-100 ark" data-url="{% url "tpv-order-remove" %}" 
             data-target="base" data-obj_id="{{fi.id}}" data-mobile="True"> <i class="fa fa-ban"></i><br /> {% trans "Cancel" %} </button>
         {%endcomment%}
-        {% include "bookings/tpv/view-payment-types-cancel.html" %}
+        {% include "bookings/tpv/view-payment-types-cancel.html" with mobile="mobile"%}
     </div>
     {# -------------------------------- ENVIAR ---------------------------- #}
     <div class="col-3 mb-3 p-0 btn-mobile">
@@ -70,7 +69,7 @@
 </div>
 
 {# ------------------------------------------------ VENTANAS AUX --------------------------------------------------------#}
-{% include "bookings/tpv/view-payment-types-aux.html" %}
+{% include "bookings/tpv/view-payment-types-aux.html" with mobile="mobile"%}
 
 {# ------------------------------------------------ SCRIPTS --------------------------------------------------------#}
 {% include "bookings/tpv/view-payment-types-scripts.html" %}

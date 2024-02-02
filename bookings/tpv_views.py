@@ -260,12 +260,12 @@ def tpv_order_remove(request):
         form = fi.form
         fi.delete()
 
-        return redirect(reverse("tpv-index", kwargs = {'project_uuid': form.project.uuid}))
-        #mobile = get_param(request.GET, "mobile")
-        #if mobile != "":
-        #    return redirect(reverse("tpv-mob-index", kwargs = {'project_uuid': form.project.uuid}))
-        #else:
-        #    return redirect(reverse("tpv-index", kwargs = {'project_uuid': form.project.uuid}))
+        #return redirect(reverse("tpv-index", kwargs = {'project_uuid': form.project.uuid}))
+        mobile = get_param(request.GET, "mobile")
+        if mobile != "":
+            return redirect(reverse("tpv-mob-index", kwargs = {'project_uuid': form.project.uuid}))
+        else:
+            return redirect(reverse("tpv-index", kwargs = {'project_uuid': form.project.uuid}))
     except Exception as e:
         print(e)
         logger.error("[bookings-remove_fi] {}".format(str(e)))
@@ -331,7 +331,7 @@ def tpv_order_send(request):
         amount_user = get_param(request.GET, "amount_user", "")
         band_id = get_param(request.GET, "band", "")
         desc = get_param(request.GET, "desc", "")
-        #mobile = get_param(request.GET, "mobile", "")
+        mobile = get_param(request.GET, "mobile", "")
 
         fi = get_or_none(FormInstance, fi_id)
         fi.set_status("01", request.user, "")
@@ -341,12 +341,12 @@ def tpv_order_send(request):
         if pt_id != "":
             pt = get_or_none(PaymentType, pt_id)
             fi.payment_type = pt
-            if pt != None and pt.code == "03" and band_id != "":
+            if pt != None and (pt.code == "03" or pt.code == "04") and band_id != "":
                 pos = get_or_none(PointOfSale, request.session["point_of_sale"])
                 band = get_or_none(Wristband, band_id)
                 add_balance_to_band(pos, fi, band)
 
-                if band != None:
+                if band != None and pt.code == "03":
                     pwu = get_or_none(ProjectWinhotelUser, fi.form.project.uuid, "project_uuid")
                     if pwu != None and pwu.source_code != "":
                         send_charges(pwu, fi, band, pos, factor)
@@ -354,8 +354,8 @@ def tpv_order_send(request):
         fi.save()
         set_desc(fi, desc)
 
-        #context = {'msg': fi.get_status.status.code, 'project_uuid': fi.form.project.uuid, "mobile": mobile}
-        context = {'msg': fi.get_status.status.code, 'project_uuid': fi.form.project.uuid}
+        context = {'msg': fi.get_status.status.code, 'project_uuid': fi.form.project.uuid, "mobile": mobile}
+        #context = {'msg': fi.get_status.status.code, 'project_uuid': fi.form.project.uuid}
         return render(request, 'bookings/tpv/show-msg.html', context)
     except Exception as e:
         print(e)
