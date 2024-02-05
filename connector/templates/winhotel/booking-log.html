@@ -1,5 +1,5 @@
 {% load i18n %}
----- {%trans "Booking Id"%} - {%trans "Booking Code"%} - {%trans "Checkin Date"%} - {%trans "Checkout Date"%} 
+---- {%trans "Booking Id"%} - {%trans "Booking Code"%} - {%trans "Checkin Date"%} - {%trans "Checkout Date"%} - {%trans "Regime"%}
 {% for item in booking_list %} 
----- {%if item.created%}[CREATED]{%endif%} {{item.id}} - {{item.code}} - {{item.check_in_date}} - {{item.check_out_date}} {% endfor %}
+---- {%if item.created%}[CREATED]{%endif%} {{item.id}} - {{item.code}} - {{item.check_in_date}} - {{item.check_out_date}} - {{item.occupations.0.boar_type.name}}{% endfor %}
 {% if error and error != "" %} {{error|safe}} {% endif %}

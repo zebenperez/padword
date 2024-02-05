@@ -96,7 +96,7 @@ def update_cash(cash, user, cancel_orders=False):
     for fi in fi_list:
         #if fi.get_status == None:
         #    fi.set_status("05", user, "Cancell in Z!")
-        if fi.get_status.status != None and fi.get_status.status.code != "05":
+        if fi.get_status != None and fi.get_status.status != None and fi.get_status.status.code != "05" and fi.payment_type != None:
             amount = get_float(fi.amount.replace(",", "."))
             if fi.payment_type.code == "01":
                 cash_total += amount
