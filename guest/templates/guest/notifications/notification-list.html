@@ -9,7 +9,7 @@
                     {% if request.user|in_group:"admins" %}
                         <div class="col-1 d-flex justify-content-start lh-4"> {% trans 'Project' %} </div>
                     {% endif %}
-                    <div class="col-1 d-flex justify-content-start lh-4"> {% trans 'Date' %} </div>
+                    <div class="col-2 d-flex justify-content-start lh-4"> {% trans 'Date' %} </div>
                     <div class="col-2 d-flex justify-content-start"> {% trans 'Guests' %} </div>
                     <div class="col-3 d-flex justify-content-start"> {% trans 'Subject' %} </div>
                     <div class="col-3 d-flex justify-content-start"> {% trans 'Message' %} </div>

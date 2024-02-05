@@ -85,7 +85,7 @@
         {%trans "Send"%}</button> {% endif %}
 	<button type="button" id="btn-save" class="btn btn-primary ark m-2" data-bs-dismiss="modal" data-url="{% url "guest-notification-search" %}" 
         data-target="notification-list"> {%trans "Save"%}</button>
-	<button type="button" class="btn btn-danger ark m-2" data-bs-dismiss="modal" data-url="{% url "guest-notification-remove" %}" 
+	<button type="button" class="btn btn-primary ark m-2" data-bs-dismiss="modal" data-url="{% url "guest-notification-remove" %}" 
         data-target="notification-list" data-obj_id="{{obj.id}}" data-confirm="{% trans "Are you sure to remove this element?" %}">
         {% trans "Remove" %}</button>
 </div>

@@ -2,7 +2,7 @@
 
 <td class="row p-1">
     {% if request.user|in_group:"admins" %} <div class="col-1">{{ item.project.name }}</div> {% endif %}
-    <div class="col-1">{{ item.date|date:'Y-m-d H:i' }}</div>
+    <div class="col-2">{{ item.date|date:'Y-m-d H:i' }}</div>
     <div class="col-2 d-flex justify-content-start lh-4">
         {% if item.all_users %}
             {% trans "ALL" %}

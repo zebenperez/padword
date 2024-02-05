@@ -386,7 +386,8 @@ def create_booking(pwu, booking):
     #room = booking.allotment_code 
     room = booking.room_code 
     room_ex = room_exist(pwu.project_uuid, room)
-    if room_ex:
+    #if room_ex:
+    if room_ex and checkout >= datetime.now():
         guest = Guest.objects.filter(ext_id=booking.code, project_id=pwu.project_uuid, deleted=0).first()
         if guest == None:
             guest = Guest(UUID = new_ui_slug(Guest, "UUID"), ext_id=booking.code, project_id=pwu.project_uuid)

@@ -1650,7 +1650,9 @@ span.bg-ico-bar {
     padding: 5px;
 }
 
-span.bg-ico-bar i.fas.fa-lock { padding-right: 0px !important; color:#5b7898; }
+span.bg-ico-bar i.fas.fa-lock { padding-right: 0px !important; 
+ /*color:#5b7898; */
+}
 
 .menu-actions-blue { 
     /*background: #e5e9ee;*/
