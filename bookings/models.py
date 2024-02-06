@@ -205,6 +205,9 @@ class Form(models.Model):
                 'punto de venta': pos_name, 
                 'mesa': table_name,
                 'cliente': guest_name,
+                'idioma': "",
+                'estado': "",
+                'tipo de pago': "",
                 'elementos': []
             }
             for item in fi.get_items:
