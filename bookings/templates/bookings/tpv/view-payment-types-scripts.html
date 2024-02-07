@@ -25,6 +25,9 @@
 
         {# Not enough credit #}
         {% if val == 4 %} $("#band-alert").html("{% trans "ADVISE: You have not balance, recharge your band!" %}").show(); {% endif %} 
+
+        {# Lock send btn #}
+        {% if val == 1 or val == 3 or val == 4 %} $("#btn-send-order-{{fi.id}}").addClass("a-disabled"); {% endif %} 
     {% endwith %}
 
     {%comment%}

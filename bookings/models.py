@@ -8,7 +8,7 @@ from web.models import Channel, Device, Project
 from guest.models import Guest, Wristband
 
 from .email_lib import send_change_status_email
-from padword.commons import show_exc
+from padword.commons import show_exc, translate2
 
 import datetime
 import threading
@@ -183,7 +183,7 @@ class Form(models.Model):
         item_list = list(ShoppingCart.objects.filter(form_instance_id__in=fi_list).values_list('item', flat=True).annotate(total=Count('item')).order_by('-total')[:2])
         return Item.objects.filter(id__in=item_list)
 
-    def to_tickets(self, start_id="", start_date="", end_date=""):
+    def to_tickets(self, start_id="", start_date="", end_date="", status=""):
         if start_date != "" and end_date != "":
             s_date = datetime.datetime.strptime(start_date, "%Y-%m-%d_%H:%M")
             e_date = datetime.datetime.strptime(end_date, "%Y-%m-%d_%H:%M")
@@ -192,38 +192,43 @@ class Form(models.Model):
             fi_list = FormInstance.objects.filter(pk__gte=start_id, form_uuid=self.uuid).order_by("id")
         else:
             fi_list = FormInstance.objects.filter(form_uuid=self.uuid)
+        print(fi_list)
         resp = {"tickets": []}
         for fi in fi_list:
-            pos_name = fi.pos.name if fi.pos != None else ""
-            table_name = fi.table.name if fi.table != None else ""
-            guest_name = fi.guest.name if fi.guest != None else ""
-            fi_json = {
-                'id': fi.id, 
-                'fecha': fi.date.strftime("%d-%m-%Y"), 
-                'hora': fi.date.strftime("%H:%M:%S"), 
-                'total': fi.get_total, 
-                'punto de venta': pos_name, 
-                'mesa': table_name,
-                'cliente': guest_name,
-                'idioma': "",
-                'estado': "",
-                'tipo de pago': "",
-                'elementos': []
-            }
-            for item in fi.get_items:
-                #category_name = item.item.category.name if item.item.category != None else ""
-                item_json = {
-                    'nombre_servicio': item.name,
-                    'id_servicio': item.id,
-                    'cantidad': 1,
-                    'precio_servicio': item.price,
-                    'precio_servicio_reducido': item.low_price,
-                    'subtotal': 0,
-                    'familia': item.category,
-                    'id_articulo_pms': 0
+            st = translate2("es", fi.get_status.status.name) if fi.get_status != None else ""
+            if status == "" or status.lower() == st.lower():
+                pos_name = fi.pos.name if fi.pos != None else ""
+                table_name = fi.table.name if fi.table != None else ""
+                guest_name = fi.guest.name if fi.guest != None else ""
+                lang = fi.details.lang if fi.details != None else ""
+                payment_type = translate2("es", fi.payment_type.name) if fi.payment_type != None else ""
+                fi_json = {
+                    'id': fi.id, 
+                    'fecha': fi.date.strftime("%d-%m-%Y"), 
+                    'hora': fi.date.strftime("%H:%M:%S"), 
+                    'total': fi.get_total, 
+                    'punto de venta': pos_name, 
+                    'mesa': table_name,
+                    'cliente': guest_name,
+                    'idioma': lang,
+                    'estado': st,
+                    'tipo de pago': payment_type,
+                    'elementos': []
                 }
-                fi_json["elementos"].append(item_json)
-            resp["tickets"].append(fi_json)
+                for item in fi.get_items:
+                    #category_name = item.item.category.name if item.item.category != None else ""
+                    item_json = {
+                        'nombre_servicio': item.name,
+                        'id_servicio': item.id,
+                        'cantidad': 1,
+                        'precio_servicio': item.price,
+                        'precio_servicio_reducido': item.low_price,
+                        'subtotal': 0,
+                        'familia': item.category,
+                        'id_articulo_pms': 0
+                    }
+                    fi_json["elementos"].append(item_json)
+                resp["tickets"].append(fi_json)
         return resp
 
     @staticmethod
@@ -622,7 +627,14 @@ class FormInstanceInfo(models.Model):
     desc = models.CharField(max_length=900, verbose_name=_("Description"), default="")
     fi = models.ForeignKey(FormInstance, on_delete=models.CASCADE, verbose_name=_("Form Instance"), null=True, blank=True, related_name='info')
 
- 
+    @property
+    def lang(self):
+        try:
+            guest = Guest.objects.filter(id=int(self.client_id)).first()
+            return guest.language if guest != None else ""
+        except:
+            return ""
+
 class Cash(models.Model):
     close = models.BooleanField(_('Close'), default=False)
     date = models.DateTimeField(_('Creation date'), default=datetime.datetime.now, null=True)

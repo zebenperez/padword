@@ -235,6 +235,7 @@ a.btn.btn-select-payment.pay-opts
 {
 	border:1px solid #ccc;
 	font-size: 0.8em;
+    width: 100%;
 }
 
 button.btn.btn-success-tpv {
@@ -257,6 +258,7 @@ button.btn.btn-warning-tpv {
     color: #ffffff;
 	font-size: 1em;
 }
+.btn.btn-warning.return.w-100,
 .btn-mobile > button.btn.btn-warning-tpv {
 	background-color: #ffc107;  
 	border:1px solid #ccc;
@@ -647,6 +649,14 @@ input#div-scan.form-control.ark_change.scanband::placeholder {
     color: #fff;
     font-size: 1rem;
     line-height: 2;
+}
+
+.price {
+    padding-top: 5px !important;
+}
+
+.btn-dark-grey {
+    background-color: #555e6e;
 }
 
 .summary-price-tpv {

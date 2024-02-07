@@ -647,12 +647,13 @@ class TicketViewSet(viewsets.ViewSet):
             start_date = request.POST["start_date"] if "start_date" in request.POST else ""
             end_date = request.POST["end_date"] if "end_date" in request.POST else ""
             start_id = request.POST["start_id"] if "start_id" in request.POST else ""
+            status = request.POST["status"] if "status" in request.POST else "enviado"
             #if start_date != "":
             #    s_date = datetime.strptime(start_date, "%Y-%m-%d_%H:%M")
             #    e_date = datetime.strptime(end_date, "%Y-%m-%d_%H:%M") if end_date != "" else datetime.now()
             form = Form.objects.filter(form_type__code="tpv", form_type__project_uuid=pu.project.uuid).first()
             if form != None:
-                return Response(form.to_tickets(start_id, start_date, end_date))
+                return Response(form.to_tickets(start_id, start_date, end_date, status))
             return Response({"error": True, 'msg': 'This project do not have TPV configured!'})
         except Exception as e:
             logger.error("[{}]: \"{}\"".format(self.request.user, str(e)))

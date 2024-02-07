@@ -3,7 +3,7 @@
 {% with val=fi|check_band %}
     {# Not credit or have credit #}
     {% if val == 4 or val == 6 %}
-        <button id="btn-return-{{fi.id}}" class="btn btn-warning w-100" onclick="$('#div-return').show()">
+        <button id="btn-return-{{fi.id}}" class="btn btn-warning return w-100" onclick="$('#div-return').show()">
             <i class="fa fa-reply"></i><br /> {%trans "Devolución"%} </button>
     {% else %}
         <button id="btn-return-{{fi.id}}" class="btn btn-warning-tpv w-100 a-disabled"><i class="fa fa-reply"></i><br /> {%trans "Devolución"%}</button>
