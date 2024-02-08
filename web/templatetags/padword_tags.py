@@ -135,6 +135,11 @@ def have_menu(user_project, menu):
     pu = ProjectUser.objects.filter(username=up[0], project_uuid=up[1]).first()
     if pu == None:
         return False
+    # NEW
+    for m in pu.menus_mod.all():
+        if m.code == menu:
+            return True
+    # DEPRECATED
     for m in pu.menus.split(";"):
         if m == menu:
             return True

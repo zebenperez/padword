@@ -287,6 +287,16 @@ class Channel(models.Model):
         verbose_name = _('Channel')
         ordering = ['project__name', 'name']
 
+class Menu(models.Model):
+    code = models.CharField(max_length = 255, verbose_name= _('Code'), default='')
+    name = models.CharField(max_length = 255, verbose_name= _('Name'), default='')
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        verbose_name = _('Menu')
+
 def upload_image(instance, filename):
     ascii_filename = str(filename.encode('ascii', 'ignore'))
     instance.filename = ascii_filename
@@ -300,6 +310,7 @@ class ProjectUser(models.Model):
     menus = models.CharField(max_length = 1000, verbose_name= _('Menus'), default='orders;guests;notifications')
     menus_promo = models.CharField(max_length = 1000, verbose_name= _('Menus Promo'), default='', blank=True)
     image = models.ImageField(upload_to=upload_image, blank=True, verbose_name="Imagen de perfil", help_text="Select file to upload")
+    menus_mod = models.ManyToManyField(Menu, verbose_name=_("Menus"), blank=True, related_name="menus")
 
     class Meta:
         verbose_name = _('Project user')
@@ -882,4 +893,5 @@ class Module(models.Model):
 
     class Meta:
         verbose_name = _('Module')
+
 
