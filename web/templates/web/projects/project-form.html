@@ -24,7 +24,7 @@
 <div class="d-flex justify-content-end p-2">
     <button type="button" class="btn btn-primary ark m-2" data-bs-dismiss="modal" data-url="{% url "project-search" %}" 
         data-target="project-list" data-company_id="{{company_id}}">{% trans "Save" %}</button>
-	<button type="button" class="btn btn-danger ark m-2" data-bs-dismiss="modal" data-url="{% url "project-remove" %}" 
+	<button type="button" class="btn btn-primary ark m-2" data-bs-dismiss="modal" data-url="{% url "project-remove" %}" 
         data-target="project-list" data-obj_id="{{obj.id}}" data-company_id="{{company_id}}"
     	data-confirm="{% trans "Are you sure to remove this element?" %}">{% trans "Remove" %}</button>
 </div>
