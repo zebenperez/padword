@@ -43,7 +43,7 @@
     </div>
 {% else %}
     <div class="row m-0 p-0 w-100">
-        <div class="col-lg-10 col-9">
+        <div class="col-lg-9 col-7">
             <input class="form-control tpv-table-search" data-search-class="table-card" placeholder="{%trans "Seleccionar mesa a buscar..."%}"/>
         </div>
         <div class="col-lg-1 col-1 pt-3 text-center" onclick="$('#cash-opts').fadeToggle()"> 
@@ -52,6 +52,10 @@
         <div class="col-lg-1 col-2 p-2 text-center"> 
             <button class="btn btn-primary mobile ark w-100" data-url="{% url "tpv-change-pos" %}" data-target="base" 
                 data-project_uuid="{{pos.project_uuid}}"> <i class="far fa-arrow-alt-circle-left"></i></button>
+        </div>
+        <div class="col-lg-1 col-2 p-2 text-center"> 
+            <button class="btn btn-primary mobile ark" data-url="{% url "tpv-mob-close" %}" data-target="base" data-project_uuid="{{project_uuid}}"> 
+                <i class="fas fa-power-off mobile"></i> </button>
         </div>
     </div>
     <div id="cash-opts" class="hide mt-2">

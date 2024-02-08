@@ -3,6 +3,10 @@
 
 <div id="base">
     {% if point_of_sales|length > 0 %}
+        <div class="row"> <div class="col-12">
+            <button class="btn btn-primary mobile ark" data-url="{% url "tpv-mob-close" %}" data-target="base" data-project_uuid="{{project_uuid}}"> 
+                <i class="fas fa-power-off mobile"></i> </button>
+        </div> </div>
         <div class="row d-flex justify-content-center m-0">
             {% for item in point_of_sales %}
                 <div class="col-lg-5 col-12 mt-3 menu-options ark p-0" data-url="{%url "tpv-mob-set-pos"%}" data-target="base" 

@@ -114,6 +114,9 @@ class Project(models.Model):
         pu = ProjectUser.objects.filter(username=username, project_uuid=self.uuid).first()
         if pu == None or len(pu.menus) == 0:
             return ""
+        menu_mod = pu.menus_mod.first()
+        if menu_mod != None:
+            return menu_mod.code
         return pu.menus.split(";")[0]
 
     def gateway_list(self):
