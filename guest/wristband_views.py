@@ -187,7 +187,7 @@ def guest_band_balance_remove(request):
 '''
 @group_required("admins")
 def wristbands(request):
-    return render (request, "wristbands/wristbands.html", {'active': 'searchkeycard'})
+    return render (request, "wristbands/wristbands.html", {'active': 'searchbands'})
 
 @group_required("admins")
 def wristbands_search(request):
@@ -201,7 +201,7 @@ def wristbands_search(request):
 @group_required("projects")
 def wristbands_by_project(request):
     try:
-        return render (request, "wristbands-by-project/wristbands.html", {'active': 'searchkeycard'})
+        return render (request, "wristbands-by-project/wristbands.html", {'active': 'searchbands'})
     except Exception as e:
         print(e)
         return render(request, 'error_exception.html', {'exc':show_exc(e)})
