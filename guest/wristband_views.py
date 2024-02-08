@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.utils.translation import ugettext_lazy as _ 
 
 from .models import Guest, Wristband, WristbandBalance, WristbandType
+from web.models import Project
 from padword.commons import show_exc, get_or_none, get_param, reverse_cardkey, get_float
 from padword.decorators import group_required
 
