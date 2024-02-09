@@ -54,7 +54,9 @@
                 data-project_uuid="{{pos.project_uuid}}"> <i class="far fa-arrow-alt-circle-left"></i></button>
         </div>
         <div class="col-lg-1 col-2 p-2 text-center"> 
-            <button class="btn btn-primary mobile ark" data-url="{% url "tpv-mob-close" %}" data-target="base" data-project_uuid="{{project_uuid}}"> 
+            <button class="btn btn-primary mobile ark" 
+                {%if index == "tpv-index"%}data-url="{% url "tpv-close" %}"{%else%}data-url="{% url "tpv-mob-close" %}"{%endif%} 
+                data-target="base" data-project_uuid="{{pos.project_uuid}}"> 
                 <i class="fas fa-power-off mobile"></i> </button>
         </div>
     </div>
