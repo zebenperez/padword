@@ -1,9 +1,12 @@
 {% load i18n padword_tags bookings_tag tpv_tags %}
 
 
+{% if request.session.table == fi.table.id %}
 {% with items=fi.get_items total=fi.get_total regime=fi.band.guest.regime band=fi.band%}
     {% if items|length > 0 %} 
     <div class="row justify-content-center p-0"><div id="guest-info" class="col-12 text-center mb-1">
+        {#{{fi.id}} - {{request.session.table}}#}
+
         {% include "bookings/tpv/view-guest-info.html" %}</div></div>
 
         <div class="row total m-0">
@@ -27,16 +30,16 @@
     
         <div class="row ticket-line mt-2 p-0" style="overflow-y: scroll; max-height: 350px;">
             {% for item in items %}
-            <div class="row" style="border-bottom:1px solid #ccc;margin-top:0;">
+            <div class="row line-article py-1">
                 <div class="col-6"> <div class="item-name text-left">{% padword_translate item.item.name %}</div> </div>
 
-                <div class="col-2 text-left">{%if regime%}<div class="text-right text-warning">
+                <div class="col-3 text-left">{%if regime%}<div class="text-right text-warning">
                     {% get_item_price item fi.band regime.code %}</div>{%endif%}</div>
 
                 <div class="col-2"> <div class="text-left">{{ item.item.price }}€</div> </div>
 
-                <div class="col-2">
-                    <a class="btn btn-danger btn-xs ark" title="{%trans 'Remove article from shopping-cart'%}" data-mobile="True"
+                <div class="col-1 p-0 ">
+                    <a class="btn btn-outline-danger btn-xs ark" title="{%trans 'Remove article from shopping-cart'%}" data-mobile="True"
                         data-url="{%url "tpv-mob-item-remove"%}" data-item_id="{{item.pk}}" data-target="ticket-summary-mobile">
                         <i class="fas fa-trash"></i></a>
                 </div>
@@ -64,3 +67,4 @@
     {% endif %}
     <script>$("#items-counter").html("{{fi.get_items|length}}");</script>
 {% endwith %}
+{% endif %}

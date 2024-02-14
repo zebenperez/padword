@@ -13,7 +13,7 @@
         <div class="col-lg-3 col-12">
             <div class="col-12"><span><a href="{{item.file.url}}" alt="file" class="w-100">{% get_file_name item.file.name %}</a></span></div> <br/>
             <div class="col-12 actions file-remove text-center">
-                <button class="btn btn-danger ark pointer" id="btn-file-{{item.pk}}" title="Borrar fichero" 
+                <button class="btn btn-primary ark pointer" id="btn-file-{{item.pk}}" title="Borrar fichero" 
                     data-confirm="{%trans "Are you sure to remove this file?"%}" data-url="{% url "category-remove-file" %}" 
                     data-target="div-files" data-obj_id="{{item.id}}"> <i class="fas fa-trash"></i></button>
             </div>

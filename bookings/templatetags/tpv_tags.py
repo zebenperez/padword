@@ -69,6 +69,8 @@ def get_item_price(item, band, code):
 '''
 @register.inclusion_tag('bookings/tpv/tpv-table-info.html')
 def get_table_info(pos, table):
-    fi = FormInstance.get_open_in_table(pos, table)
-    return {"fi": fi}
+    fi_list = FormInstance.get_open_in_table(pos, table)
+    return {"fi_list": fi_list}
+    #fi = FormInstance.get_open_in_table(pos, table)
+    #return {"fi": fi}
 

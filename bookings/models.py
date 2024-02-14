@@ -505,7 +505,9 @@ class FormInstance(models.Model):
  
     @staticmethod
     def get_open_in_table(pos, table):
-        return FormInstance.objects.filter(pos_uuid = pos.uuid, table_uuid = table.uuid, status_list__isnull = True).first()
+        form = Form.objects.filter(form_type__code="tpv", form_type__project_uuid=pos.project_uuid).first()
+        return FormInstance.objects.filter(form_uuid=form.uuid, pos_uuid = pos.uuid, table_uuid = table.uuid, status_list__isnull = True)
+        #return FormInstance.objects.filter(pos_uuid = pos.uuid, table_uuid = table.uuid, status_list__isnull = True).first()
 
     class Meta:
         verbose_name = _('1.- Form instance')

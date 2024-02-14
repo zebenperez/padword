@@ -1,4 +1,5 @@
 from django.contrib import auth
+from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.urls import reverse
 from django.utils.translation import ugettext_lazy as _ 
@@ -255,17 +256,20 @@ def tpv_add_item(request):
 @group_required("waiters")
 def tpv_order_remove(request):
     try:
-        fi_id = request.GET["obj_id"]
-        fi = get_or_none(FormInstance, fi_id)
-        form = fi.form
-        fi.delete()
+        #fi_id = request.GET["obj_id"]
+        #fi = get_or_none(FormInstance, fi_id)
+        #form = fi.form
+        #fi.delete()
+        fi = get_or_none(FormInstance, request.GET["obj_id"])
+        fi.set_status("05", request.user, "")
+        request.session["table"] = ""
 
         #return redirect(reverse("tpv-index", kwargs = {'project_uuid': form.project.uuid}))
         mobile = get_param(request.GET, "mobile")
         if mobile != "":
-            return redirect(reverse("tpv-mob-index", kwargs = {'project_uuid': form.project.uuid}))
+            return redirect(reverse("tpv-mob-index", kwargs = {'project_uuid': fi.form.project.uuid}))
         else:
-            return redirect(reverse("tpv-index", kwargs = {'project_uuid': form.project.uuid}))
+            return redirect(reverse("tpv-index", kwargs = {'project_uuid': fi.form.project.uuid}))
     except Exception as e:
         print(e)
         logger.error("[bookings-remove_fi] {}".format(str(e)))
@@ -443,7 +447,8 @@ def print_z(request):
 def tpv_close(request):
     auth.logout(request)
     project_uuid = request.GET["project_uuid"] if "project_uuid" in request.GET else ""
-    return redirect(tpv_access, project_uuid)
+    #return redirect(tpv_access, project_uuid)
+    return redirect(reverse("tpv-access", kwargs = {'project_uuid': project_uuid}))
 
 
 '''

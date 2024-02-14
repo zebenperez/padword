@@ -123,8 +123,9 @@ def booking_view(request):
         items = ShoppingCart.objects.filter(form_instance_id=fi.pk)
         show_status = get_param(request.GET, "show_status", "True")
 
-        if (fi.get_status != None and fi.get_status.status != None and fi.get_status.status.code == "01") or (fi.get_status is None):
-            fi.set_status("02", request.user, "")
+        #if form.form_type.code != "tpv":
+        #if (fi.get_status != None and fi.get_status.status != None and fi.get_status.status.code == "01") or (fi.get_status is None):
+        #    fi.set_status("02", request.user, "")
 
         context = {'fi': fi, 'index': "0", 'items':items, 'status_list': Status.objects.all(), 'manage': True, 'show_status': show_status}
         return render(request, 'bookings/guest/view-booking.html', context)

@@ -158,6 +158,10 @@ def have_menu_promo(user_project, menu):
     return False
  
 @register.filter
+def have_key(url, key):
+    return key in url
+
+@register.filter
 def get_share_text(lock, code):
     plu = get_or_none(ProjectLockUser, lock.project.uuid, "project_uuid")
     return plu.text_to_share.replace("__CODE__", code)
@@ -361,7 +365,7 @@ def get_project_menu(user, active=""):
         return {}
 
 @register.inclusion_tag('main-menu.html')
-def get_main_menu(user, active=""):
+def get_main_menu(user, path, active=""):
     try:
         if user.groups.filter(name="guests").exists():
             return {'user': user, 'menu': "guests", "active": active}
@@ -373,7 +377,7 @@ def get_main_menu(user, active=""):
         if user.groups.filter(name="projects").exists():
             obj = ProjectUser.objects.filter(username=user.username).first()
             if obj != None: 
-                return {'user': user, 'menu': "projects", "project": obj.project, "active": active}
+                return {'user': user, 'menu': "projects", "project": obj.project, "path": path, "active": active}
         if user.groups.filter(name="admins").exists() or user.is_superuser:
             return {'user': user, 'menu': "admins", "active": active}
     except:

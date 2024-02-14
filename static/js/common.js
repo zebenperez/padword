@@ -766,6 +766,46 @@ $(document).ready(()=>{
     });
 
 
+    /*async function scanNFC(id, url, target, fi_id, {signal} = {}) {
+        var container = $(`#${id}`);
+        try {
+            const ndef = new NDEFReader();
+            ndef
+              .scan()
+              .then(() => {
+                console.log("Scan started successfully.");
+                ndef.onreadingerror = (event) => {
+                    container.html("Argh! Cannot read data from the NFC tag. Try another one?");
+                };
+                ndef.onreading = (event) => {
+                    const message = event.message;
+                            const decoder = new TextDecoder();
+                            for (const record of message.records) {
+                                //record = message.records[message.records.length-1];
+                                const val = decoder.decode(record.data);
+                                alert("--1--:"+val);
+                                val_arr = val.split(",");
+                                //container.html(`Su tarjeta es:    ${val_arr[0]}`);
+                                $(`#${id}-wait`).hide();
+                                $(`#${id}-readed`).show();
+                                $(`#${id}-card-number`).html(val_arr[0]);
+                                //ajaxGet(url, {'guest_uuid': guest_uuid, 'value': val_arr[0]}, `${id}-readed`, '');
+                                //$("#"+target).html("<i class='fas fa-spinner'></i>");
+                                $('#'+target).html("<i class='fas fa-spinner fa-spin'></i>");
+                                ajaxGet(url, {'obj_id': fi_id, 'value': val_arr[0]}, target, '');
+                                //container.html(`Band readed: ${val_arr[0]}`);
+                                container.hide();
+                            }
+
+                };
+              })
+              .catch((error) => {
+                console.log(`Error! Scan failed to start: ${error}.`);
+              });
+
+        return;
+    }*/
+
     //async function scanNFC(id, url, guest_uuid, {signal} = {}) {
     async function scanNFC(id, url, target, fi_id, {signal} = {}) {
         var container = $(`#${id}`);
@@ -781,7 +821,9 @@ $(document).ready(()=>{
             ndef.addEventListener("reading", ({ message, serialNumber }) => {
                 const decoder = new TextDecoder();
                 for (const record of message.records) {
+                    //record = message.records[message.records.length-1];
                     const val = decoder.decode(record.data);
+                    //alert("--1--:"+val);
                     val_arr = val.split(",");
                     //container.html(`Su tarjeta es:    ${val_arr[0]}`);
                     $(`#${id}-wait`).hide();
