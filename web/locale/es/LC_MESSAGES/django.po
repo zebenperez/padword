@@ -27,7 +27,7 @@ msgstr "¡Salvar código!"
 
 #: lock_lib.py:244 templates/web/locks/record-type.html:4
 msgid "Unlock by app"
-msgstr "Desbloquear por app"
+msgstr "Abrir con  app"
 
 #: lock_lib.py:246 templates/web/locks/record-type.html:6
 msgid "Unlock by passcode"
@@ -43,7 +43,7 @@ msgstr "Bajar la cerradura"
 
 #: lock_lib.py:252 templates/web/locks/record-type.html:12
 msgid "Unlock by IC card"
-msgstr "Desbloquear con tarjeta de identificación"
+msgstr "Tarjeta de identificación"
 
 #: lock_lib.py:254 templates/web/locks/record-type.html:14
 msgid "Unlock by fingerprint"
@@ -51,19 +51,19 @@ msgstr "Huella dactilar"
 
 #: lock_lib.py:256 templates/web/locks/record-type.html:16
 msgid "Unlock by wrist strap"
-msgstr "Desbloquear por pulsera"
+msgstr "Pulsera"
 
 #: lock_lib.py:258 templates/web/locks/record-type.html:18
 msgid "Unlock by Mechanical key"
-msgstr "Desbloquear por llame mecánica"
+msgstr "Llave mecánica"
 
 #: lock_lib.py:260 templates/web/locks/record-type.html:20
 msgid "Lock by app"
-msgstr "Bloquear por app"
+msgstr "Abrir con app"
 
 #: lock_lib.py:262 templates/web/locks/record-type.html:22
 msgid "Unlock by gateway"
-msgstr "Desbloquear por puerta"
+msgstr "Abrir con puerta"
 
 #: lock_lib.py:264 templates/web/locks/record-type.html:24
 msgid "Apply some force on the Lock"
@@ -119,7 +119,7 @@ msgstr "Bloquear"
 
 #: lock_lib.py:290 templates/web/locks/record-type.html:50
 msgid "Unlock by unlock key"
-msgstr ""
+msgstr "Llave de desbloqueo"
 
 #: lock_lib.py:292 templates/web/locks/record-type.html:52
 msgid "Lock by lock key"
@@ -133,61 +133,61 @@ msgstr "Sistema bloqueado (Causa, por ejemplo: Usar un código de acceso/huella 
 
 #: lock_lib.py:296 templates/web/locks/record-type.html:56
 msgid "Unlock by hotel card"
-msgstr "Desbloquear con tarjeta del hotel"
+msgstr "Tarjeta del hotel"
 
 #: lock_lib.py:298 templates/web/locks/record-type.html:58
 msgid "Unlocked due to the high temperature"
-msgstr ""
+msgstr "Temperaturas altas"
 
 #: lock_lib.py:300 templates/web/locks/record-type.html:60
 msgid "Dead lock with APP"
-msgstr ""
+msgstr "Bloqueo con APP"
 
 #: lock_lib.py:302 templates/web/locks/record-type.html:62
 msgid "Dead lock with passcode"
-msgstr ""
+msgstr "Bloqueo con passcode"
 
 #: lock_lib.py:304 templates/web/locks/record-type.html:64
 msgid "The car left (for parking lock)"
-msgstr ""
+msgstr "El coche salió (para cerradura de parking)"
 
 #: lock_lib.py:306 templates/web/locks/record-type.html:66
 msgid "Unlock with key fob"
-msgstr ""
+msgstr "Llavero"
 
 #: lock_lib.py:308 templates/web/locks/record-type.html:68
 msgid "Unlock with QR code success"
-msgstr ""
+msgstr "Cóodigo QR exitoso"
 
 #: lock_lib.py:310 templates/web/locks/record-type.html:70
 msgid "Unlock with QR code failed, it's expired"
-msgstr ""
+msgstr "Código QR fallido, ha inspirado"
 
 #: lock_lib.py:312 templates/web/locks/record-type.html:72
 msgid "Double locked"
-msgstr ""
+msgstr "Bloqueo doble"
 
 #: lock_lib.py:314 templates/web/locks/record-type.html:74
 msgid "Cancel double lock"
-msgstr ""
+msgstr "Cancelar doble bloqueo"
 
 #: lock_lib.py:316 templates/web/locks/record-type.html:76
 msgid "Lock with QR code success"
-msgstr ""
+msgstr "Bloqueo con código QR exitoso"
 
 #: lock_lib.py:318 templates/web/locks/record-type.html:78
 msgid "Lock with QR code failed, the lock is double locked"
-msgstr ""
+msgstr "El cierre con QR ha fallado, la cerradura se ha bloqueado"
 
 #: lock_lib.py:320 templates/web/locks/record-type.html:80
 msgid "Auto unlock at passage mode"
-msgstr ""
+msgstr "Apertura automática en modo de paso"
 
 #: lock_lib.py:322 templates/web/locks/record-type.html:82
 msgid "Unknown"
-msgstr ""
+msgstr "Desconocido"
 
-#: lock_views.py:329
+#lock_views.py:329
 msgid "Saved!"
 msgstr "Guardar"
 
@@ -347,7 +347,7 @@ msgstr "UUID del Proyecto"
 
 #: models.py:222 templates/web/projects/project-form-locks.html:47
 msgid "Text to share"
-msgstr ""
+msgstr "Texto para compartir"
 
 #: models.py:269 templates/web/channels/channel-form.html:57
 msgid "UI-UUID"
@@ -377,7 +377,7 @@ msgstr "Menús"
 #, fuzzy
 #| msgid "Menus"
 msgid "Menus Promo"
-msgstr "Menús"
+msgstr "Menús promocionales"
 
 #: models.py:298
 msgid "Project user"
@@ -460,7 +460,7 @@ msgstr "Bloquear UUID del grupo"
 
 #: models.py:855
 msgid "Waiter"
-msgstr ""
+msgstr "Camarero"
 
 #: models.py:872 models_lock.py:314
 #: templates/web/boxes-by-project/box-form.html:48
@@ -487,11 +487,11 @@ msgstr "Código"
 
 #: models.py:874
 msgid "Description"
-msgstr ""
+msgstr "Descripción"
 
 #: models.py:877
 msgid "Module"
-msgstr ""
+msgstr "Módulo"
 
 #: models_lock.py:13
 msgid "Last update"
@@ -511,7 +511,7 @@ msgstr "Caché del gateway"
 
 #: models_lock.py:20
 msgid "Wifi cache"
-msgstr ""
+msgstr "Caché del Wifi"
 
 #: models_lock.py:47
 msgid "unlock"
@@ -581,27 +581,27 @@ msgstr "No se ha encontrado el proyecto"
 
 #: templates/logs-menu.html:7 templates/logs.html:10
 msgid "Logs"
-msgstr ""
+msgstr "Logs"
 
 #: templates/logs-menu.html:10
 msgid "Schedule Logs"
-msgstr ""
+msgstr "Registro de Logs"
 
 #: templates/logs-menu.html:13
 msgid "Avantio Logs"
-msgstr ""
+msgstr "Avantio Logs"
 
 #: templates/logs-menu.html:16
 msgid "Avaibook Logs"
-msgstr ""
+msgstr "Avaibook Logs"
 
 #: templates/logs.html:18
 msgid "Current Logs"
-msgstr ""
+msgstr "Logs actuales"
 
 #: templates/web/boxes-by-project/box-form.html:6
 msgid "Deposit box info"
-msgstr ""
+msgstr "Información de la caja de depósito"
 
 #: templates/web/boxes-by-project/box-form.html:23
 #, fuzzy
@@ -613,7 +613,7 @@ msgstr "Número de tarjeta"
 #: templates/web/locks-by-project/lock-add-code.html:10
 #: templates/web/locks/lock-add-code.html:8
 msgid "Fill in the information below and press the save button"
-msgstr ""
+msgstr "Rellena la información de abajo y presiona guardar"
 
 #: templates/web/boxes-by-project/box-form.html:51
 #: templates/web/locks-by-project/lock-add-code.html:15
@@ -636,7 +636,7 @@ msgstr "Tarjetas"
 #: templates/web/locks/lock-add-code.html:21
 #: templates/web/locks/lock-remove-code.html:16
 msgid "Click and write"
-msgstr ""
+msgstr "Presiona y escribe"
 
 #: templates/web/boxes-by-project/box-form.html:55
 #: templates/web/locks-by-project/lock-add-code.html:19
@@ -668,7 +668,7 @@ msgstr "Guardar"
 
 #: templates/web/boxes-by-project/boxes.html:18
 msgid "Safe deposit boxes"
-msgstr ""
+msgstr "Guardar depósito"
 
 #: templates/web/boxes-by-project/deprecated/box-card-form.html:9
 #: templates/web/keycards-by-project/keycard-number.html:11
@@ -682,7 +682,7 @@ msgstr "Número de tarjeta"
 #: templates/web/projects/project-form-point-of-sales.html:14
 #: templates/web/projects/project-form-table-list.html:17
 msgid "Add"
-msgstr ""
+msgstr "Añadir"
 
 #: templates/web/boxes-by-project/deprecated/box-code-form.html:9
 #: templates/web/boxes-by-project/deprecated/box-code-form.html:10
@@ -902,7 +902,7 @@ msgstr "Nombre de la llave"
 #: templates/web/gateways-by-project/gateway-list.html:16
 #: templates/web/gateways/gateway-list.html:16
 msgid "Version"
-msgstr ""
+msgstr "Versión"
 
 #: templates/web/gateways-by-project/gateway-list.html:17
 #: templates/web/gateways/gateway-list.html:17
@@ -912,7 +912,7 @@ msgstr "Conectado"
 #: templates/web/gateways-by-project/gateway-list.html:18
 #: templates/web/gateways/gateway-list.html:18
 msgid "Is online"
-msgstr ""
+msgstr "Esta online"
 
 #: templates/web/gateways-by-project/gateways.html:10
 #: templates/web/gateways/gateways.html:21
@@ -986,7 +986,7 @@ msgstr "Eliminar código"
 #: templates/web/keycards-by-project/keycard-number.html:14
 #: templates/web/keycards/keycard-number.html:15
 msgid "Click here and then place the card on the reader"
-msgstr ""
+msgstr "Presiona y coloca la carta en el lector"
 
 #: templates/web/keycards-by-project/keycard-number.html:20
 #: templates/web/keycards/keycard-number.html:30
@@ -1033,7 +1033,7 @@ msgstr "Permanente"
 #: templates/web/locks-by-project/lock-all-cards.html:11
 #: templates/web/locks/lock-all-cards.html:16
 msgid "Search for card..."
-msgstr ""
+msgstr "Buscardo por tarjeta"
 
 #: templates/web/locks-by-project/lock-all-cards.html:16
 #: templates/web/locks-by-project/lock-all-cards.html:21
@@ -1044,7 +1044,7 @@ msgstr ""
 #: templates/web/locks/lock-all-passcodes.html:22
 #: templates/web/locks/lock-all-passcodes.html:27
 msgid "Search for name..."
-msgstr ""
+msgstr "Buscando por nombre"
 
 #: templates/web/locks-by-project/lock-all-cards.html:26
 #: templates/web/locks-by-project/lock-all-passcodes.html:26
@@ -1074,7 +1074,7 @@ msgstr "Eliminar tarjeta"
 #: templates/web/locks-by-project/lock-all-passcodes.html:11
 #: templates/web/locks/lock-all-passcodes.html:17
 msgid "Search for code..."
-msgstr ""
+msgstr "Busacar por código"
 
 #: templates/web/locks-by-project/lock-all-passcodes.html:40
 #: templates/web/locks/lock-all-passcodes.html:36
@@ -1097,17 +1097,17 @@ msgstr "Eliminar código"
 #: templates/web/locks-by-project/lock-all-records.html:5
 #: templates/web/locks/lock-all-records.html:4
 msgid "CSV Export"
-msgstr ""
+msgstr "Exportar CSV"
 
 #: templates/web/locks-by-project/lock-all-records.html:6
 #: templates/web/locks/lock-all-records.html:5
 msgid "PDF Export / Print"
-msgstr ""
+msgstr "Exportar PDF / Imprimir"
 
 #: templates/web/locks-by-project/lock-all-records.html:14
 #: templates/web/locks/lock-all-records.html:14
 msgid "Access history"
-msgstr ""
+msgstr "Historial de acceso"
 
 #: templates/web/locks-by-project/lock-all-records.html:20
 #: templates/web/locks/lock-all-records.html:19
@@ -1121,7 +1121,7 @@ msgstr "Tipo de red"
 #: templates/web/locks/lock-records-print.html:35
 #: templates/web/rooms/lock-details-records.html:9
 msgid "Success"
-msgstr ""
+msgstr "Éxito"
 
 #: templates/web/locks-by-project/lock-all-records.html:24
 #: templates/web/locks/lock-all-records.html:23
@@ -1135,7 +1135,7 @@ msgstr "Nombre TTLock"
 #: templates/web/locks/lock-records-print.html:39
 #: templates/web/rooms/lock-details-records.html:13
 msgid "Server date"
-msgstr ""
+msgstr "Dato del servidor"
 
 #: templates/web/locks-by-project/lock-list-row.html:14
 #: templates/web/locks/lock-list-row.html:15
@@ -1150,12 +1150,12 @@ msgstr "Códigos de acceso"
 #: templates/web/locks-by-project/lock-list-row.html:19
 #: templates/web/locks/lock-list-row.html:20
 msgid "Get all cards"
-msgstr ""
+msgstr "Todas las tarjetas"
 
 #: templates/web/locks-by-project/lock-list-row.html:21
 #: templates/web/locks/lock-list-row.html:22
 msgid "Get all registers"
-msgstr ""
+msgstr "Todos los registros"
 
 #: templates/web/locks-by-project/lock-list.html:61
 #: templates/web/locks/lock-list.html:33
@@ -1189,7 +1189,7 @@ msgstr "Eliminar tarjeta"
 #: templates/web/locks/lock-search.html:4
 #: templates/web/locks/lock-search.html:25
 msgid "Search"
-msgstr ""
+msgstr "Buscar"
 
 #: templates/web/locks-by-project/lock-search.html:20
 #: templates/web/locks/lock-search.html:20
@@ -1255,7 +1255,7 @@ msgstr "Contraseña TTLock"
 
 #: templates/web/locks/lock-add-group.html:10
 msgid "Select"
-msgstr ""
+msgstr "Seleccionar"
 
 #: templates/web/locks/lock-add-group.html:10
 msgid "Select group"
@@ -1279,19 +1279,19 @@ msgstr "Eliminar tarjeta"
 
 #: templates/web/locks/lock-list.html:38
 msgid "Wifi"
-msgstr ""
+msgstr "Wifi"
 
 #: templates/web/locks/lock-records-print.html:29
 msgid "Imprimir"
-msgstr ""
+msgstr "Imprimir"
 
 #: templates/web/locks/share-modal-body.html:7
 msgid "Share on whatsapp"
-msgstr ""
+msgstr "Compartir en whatsapp"
 
 #: templates/web/locks/share-modal-body.html:9
 msgid "Share on telegram"
-msgstr ""
+msgstr "Compartir en telegram"
 
 #: templates/web/locks/share-modal-body.html:10
 msgid "New code"
@@ -1299,15 +1299,15 @@ msgstr "Nuevo dispositivo"
 
 #: templates/web/locks/share-modal-body.html:11
 msgid "Send by email"
-msgstr ""
+msgstr "Enviar por email"
 
 #: templates/web/locks/share-modal-body.html:13
 msgid "Copy to clicboard"
-msgstr ""
+msgstr "Copiar en el tablero"
 
 #: templates/web/locks/share-modal.html:8
 msgid "Share"
-msgstr ""
+msgstr "Compartir"
 
 #: templates/web/projects/pos-img.html:5
 #, fuzzy
@@ -1323,11 +1323,11 @@ msgstr "¿Está seguro de eliminar este elemento?"
 
 #: templates/web/projects/project-form-avaibook.html:9
 msgid "Avaibook"
-msgstr ""
+msgstr "Disponible"
 
 #: templates/web/projects/project-form-avaibook.html:27
 msgid "Owner"
-msgstr ""
+msgstr "Propietario"
 
 #: templates/web/projects/project-form-avantio.html:9
 msgid "Avantio"
@@ -1335,32 +1335,32 @@ msgstr ""
 
 #: templates/web/projects/project-form-avantio.html:27
 msgid "Email"
-msgstr ""
+msgstr "Correo electrónico"
 
 #: templates/web/projects/project-form-avantio.html:33
 #: templates/web/projects/project-form-winhotel.html:44
 msgid "Days to import"
-msgstr ""
+msgstr "Días a importar"
 
 #: templates/web/projects/project-form-avantio.html:39
 msgid "Days to create"
-msgstr ""
+msgstr "Días a crear"
 
 #: templates/web/projects/project-form-avantio.html:45
 msgid "Hour to import"
-msgstr ""
+msgstr "Horas a importar"
 
 #: templates/web/projects/project-form-avantio.html:51
 msgid "Minutes to import"
-msgstr ""
+msgstr "Minutos a importar"
 
 #: templates/web/projects/project-form-avantio.html:57
 msgid "Hour to import notifications"
-msgstr ""
+msgstr "Horas para importar notificaciones"
 
 #: templates/web/projects/project-form-avantio.html:63
 msgid "Get code from mobile"
-msgstr ""
+msgstr "Conseguir código desde el móvil"
 
 #: templates/web/projects/project-form-locks.html:15
 msgid "TTLock Username"
@@ -1385,11 +1385,11 @@ msgstr "-- Seleccione una compañía"
 
 #: templates/web/projects/project-form-main.html:37
 msgid "Time zone"
-msgstr ""
+msgstr "Zona horaria"
 
 #: templates/web/projects/project-form-main.html:56
 msgid "Days after checkout to delete guest"
-msgstr ""
+msgstr "Días después de la salida para eliminar al huesped"
 
 #: templates/web/projects/project-form-main.html:63
 msgid "Prefix"
@@ -1405,15 +1405,15 @@ msgstr "Idiomas del proyecto"
 
 #: templates/web/projects/project-form-point-of-sales-list.html:13
 msgid "Code 1 (drink)"
-msgstr ""
+msgstr "Código 1 (bebida)"
 
 #: templates/web/projects/project-form-point-of-sales-list.html:19
 msgid "Code 2 (food)"
-msgstr ""
+msgstr "Código 2 (comida)"
 
 #: templates/web/projects/project-form-point-of-sales-list.html:31
 msgid "Image"
-msgstr ""
+msgstr "Imagen"
 
 #: templates/web/projects/project-form-point-of-sales-list.html:40
 #: templates/web/projects/project-list.html:40
@@ -1423,19 +1423,19 @@ msgstr "Categorías"
 #: templates/web/projects/project-form-point-of-sales-list.html:51
 #: templates/web/projects/project-form-tables.html:9
 msgid "Tables"
-msgstr ""
+msgstr "Tablas"
 
 #: templates/web/projects/project-form-point-of-sales.html:9
 msgid "Point of sales"
-msgstr ""
+msgstr "Puntos de ventas"
 
 #: templates/web/projects/project-form-regime.html:10
 msgid "Regimes"
-msgstr ""
+msgstr "Rímenes"
 
 #: templates/web/projects/project-form-sensibo.html:9
 msgid "Air conditioner"
-msgstr ""
+msgstr "Aire acondicionado"
 
 #: templates/web/projects/project-form-sensibo.html:15
 msgid "PadAir Api Key"
@@ -1443,7 +1443,7 @@ msgstr ""
 
 #: templates/web/projects/project-form-table-list.html:8
 msgid "Init value"
-msgstr ""
+msgstr "Valor inicial"
 
 #: templates/web/projects/project-form-table-list.html:9
 #, fuzzy
@@ -1453,43 +1453,43 @@ msgstr "Fecha de fin"
 
 #: templates/web/projects/project-form-table-list.html:13
 msgid "Add range"
-msgstr ""
+msgstr "Añadir rango"
 
 #: templates/web/projects/project-form-winhotel.html:9
 msgid "Winhotel"
-msgstr ""
+msgstr "Winhotel"
 
 #: templates/web/projects/project-form-winhotel.html:15
 msgid "Hotel Source Code"
-msgstr ""
+msgstr "Código fuente del hotel"
 
 #: templates/web/projects/project-form-winhotel.html:21
 msgid "Hotel Target Code"
-msgstr ""
+msgstr "Código de la tarjeta del hotel"
 
 #: templates/web/projects/project-form-winhotel.html:29
 msgid "FTP"
-msgstr ""
+msgstr "FTP"
 
 #: templates/web/projects/project-form-winhotel.html:35
 msgid "FTP Filename"
-msgstr ""
+msgstr "Nombre del archivo FTP"
 
 #: templates/web/projects/project-form-winhotel.html:50
 msgid "Hours to import"
-msgstr ""
+msgstr "Horas para importar"
 
 #: templates/web/projects/project-form-winhotel.html:56
 msgid "Minutes to check"
-msgstr ""
+msgstr "Minutos para chequear"
 
 #: templates/web/projects/project-form-winhotel.html:62
 msgid "Hours to import prices"
-msgstr ""
+msgstr "Horas para importar precios"
 
 #: templates/web/projects/project-form-winhotel.html:68
 msgid "Hours to cancel"
-msgstr ""
+msgstr "Horas para cancelar"
 
 #: templates/web/projects/project-form.html:4
 msgid "New proyect"
@@ -1563,7 +1563,7 @@ msgstr "Un solo uso"
 #: templates/web/rooms/lock-details-codes.html:33
 #: templates/web/rooms/lock-details-codes.html:34
 msgid "Share code"
-msgstr ""
+msgstr "Compartir código"
 
 #: templates/web/rooms/lock-details-ekey-form.html:12
 #: templates/web/rooms/lock-details-ekey-form.html:13
@@ -1584,7 +1584,7 @@ msgstr "Enlace"
 
 #: templates/web/rooms/lock-details-ekeys.html:26
 msgid "Visit link"
-msgstr ""
+msgstr "Enlace de visita"
 
 #: templates/web/rooms/lock-details-ekeys.html:30
 msgid "Remove eKey"
@@ -1600,7 +1600,7 @@ msgstr "Tarjetas"
 
 #: templates/web/rooms/lock-details.html:20
 msgid "Records"
-msgstr ""
+msgstr "Record"
 
 #: templates/web/rooms/lock-details.html:28
 #: templates/web/rooms/lock.details-codes.html:8

@@ -120,11 +120,11 @@ msgstr "UUID"
 
 #: models.py:529
 msgid "Start Time"
-msgstr ""
+msgstr "Comienzo"
 
 #: models.py:530 templates/guest/sensibo/guest-sensibo-form.html:15
 msgid "Mode"
-msgstr ""
+msgstr "Modo"
 
 #: models.py:531
 msgid "Temp"
@@ -132,7 +132,7 @@ msgstr ""
 
 #: models.py:532 templates/guest/sensibo/guest-sensibo-form.html:37
 msgid "Level"
-msgstr ""
+msgstr "Nivel"
 
 #: models.py:536
 msgid "Sensibo device"
@@ -157,7 +157,7 @@ msgstr "Cerraduras asignadas"
 #: models.py:549 templates/wristbands-by-project/wristbands-search.html:13
 #: templates/wristbands/wristbands-search.html:13
 msgid "Kid"
-msgstr ""
+msgstr "Niño"
 
 #: models.py:550 templates/guest-by-project/guest-form.html:35
 #: templates/guest/bands/guest-details-bands-list.html:8
@@ -168,15 +168,15 @@ msgstr "Cerraduras"
 #: models.py:554 templates/guest/bands/guest-details-bands-form.html:34
 #: templates/guest/bands/guest-details-bands-list.html:7
 msgid "Type"
-msgstr ""
+msgstr "Tipo"
 
 #: models.py:570 models.py:577
 msgid "Wristband"
-msgstr ""
+msgstr "Pulsera"
 
 #: models.py:571
 msgid "Wristbands"
-msgstr ""
+msgstr "Pulseras"
 
 #: models.py:574 templates/guest/bands/balance-form.html:15
 #: templates/guest/bands/balance.html:17
@@ -189,13 +189,13 @@ msgstr "Fecha"
 #: templates/guest/bands/balance.html:19
 #: templates/guest/bands/guest-details-bands-info.html:36
 msgid "Amount"
-msgstr ""
+msgstr "Cantidad"
 
 #: models.py:576 templates/guest/bands/balance-form.html:22
 #: templates/guest/bands/balance.html:18
 #: templates/guest/bands/guest-details-bands-info.html:36
 msgid "Description"
-msgstr ""
+msgstr "Descripción"
 
 #: models.py:580 templates/guest/bands/bands.html:4
 #, fuzzy
@@ -212,7 +212,7 @@ msgstr "Cerraduras asignadas"
 #: models.py:592 models.py:595 models.py:599
 #: templates/guest/guest-form-main.html:103
 msgid "Regime"
-msgstr ""
+msgstr "Régimen"
 
 #: models.py:596 templates/guest/notifications/notification-list.html:10
 #: templates/wristbands-by-project/wristbands-search.html:9
@@ -316,7 +316,7 @@ msgstr "Cambiar código"
 #: templates/guest-by-project/guest-form.html:62
 #: templates/guest/guest-details.html:21 templates/guest/guest-form.html:96
 msgid "Share"
-msgstr ""
+msgstr "Compartir"
 
 #: templates/guest-by-project/guest-details-by-project.html:25
 #: templates/guest-by-project/guest-form.html:71
@@ -343,7 +343,7 @@ msgstr "Extra"
 #: templates/guest/guest-details-tabs.html:10
 #: templates/guest/guest-form.html:66
 msgid "Air aconditioner"
-msgstr ""
+msgstr "Aire acondicionado"
 
 #: templates/guest-by-project/guest-list.html:11
 #: templates/guest/guest-list.html:9
@@ -358,7 +358,7 @@ msgstr "Salir"
 #: templates/guest-by-project/guest-list.html:14
 #: templates/guest/guest-form-main.html:30 templates/guest/guest-list.html:12
 msgid "External ID"
-msgstr ""
+msgstr "ID externa"
 
 #: templates/guest-by-project/guest-list.html:15
 #: templates/guest/guest-form-main.html:20
@@ -372,12 +372,12 @@ msgstr "Opciones"
 #: templates/guest-by-project/guest-list.html:25
 #: templates/guest/guest-list.html:23
 msgid "See more"
-msgstr ""
+msgstr "Ver más"
 
 #: templates/guest-by-project/guest-row.html:15
 #: templates/guest/guest-row.html:15
 msgid "Details"
-msgstr ""
+msgstr "Detalles"
 
 #: templates/guest-by-project/guests.html:11 templates/guest/guests.html:17
 msgid "Name, Surname, Email, Phone or Room"
@@ -390,23 +390,23 @@ msgstr "Huéspedes"
 
 #: templates/guest-by-project/guests.html:27
 msgid "Remove clients with checkout previous to"
-msgstr ""
+msgstr "Eliminar clientes con salidas anteriores"
 
 #: templates/guest-by-project/guests.html:33
 msgid "Import winhotel bookings"
-msgstr ""
+msgstr "Importar reservas de winhotel"
 
 #: templates/guest-by-project/guests.html:39
 msgid "Import avaibook bookings"
-msgstr ""
+msgstr "Importar reservas de avaibook"
 
 #: templates/guest-by-project/guests.html:43
 msgid "Import avaibook accommodation"
-msgstr ""
+msgstr "Importar instalaciones de avaibook"
 
 #: templates/guest-by-project/guests.html:49
 msgid "Import avantio bookings"
-msgstr ""
+msgstr "Importar reservas de avantio"
 
 #: templates/guest-by-project/guests.html:51
 #, fuzzy
@@ -417,7 +417,7 @@ msgstr "Notificación del huésped"
 #: templates/guest/bands/balance.html:5
 #: templates/guest/bands/guest-details-bands-info.html:27
 msgid "Balance:"
-msgstr ""
+msgstr "Balance"
 
 #: templates/guest/bands/balance.html:8
 msgid "Añadir Saldo"
@@ -425,30 +425,30 @@ msgstr ""
 
 #: templates/guest/bands/balance.html:31
 msgid "Edit"
-msgstr ""
+msgstr "Editar"
 
 #: templates/guest/bands/guest-details-bands-edit-form.html:5
 msgid "Edit band"
-msgstr ""
+msgstr "Editar pulsera"
 
 #: templates/guest/bands/guest-details-bands-edit-form.html:25
 #: templates/guest/bands/guest-details-bands-form.html:44
 msgid "(Only for All Inclusive Regime)"
-msgstr ""
+msgstr "(Sólo para régimen Todo Incluido"
 
 #: templates/guest/bands/guest-details-bands-edit-form.html:33
 #: templates/guest/bands/guest-details-bands-info.html:13
 #: templates/guest/bands/guest-details-bands-list.html:9
 msgid "Kids"
-msgstr ""
+msgstr "Niños"
 
 #: templates/guest/bands/guest-details-bands-form.html:5
 msgid "There are another user with this band:"
-msgstr ""
+msgstr "No hay otro usuario con esa pulsera"
 
 #: templates/guest/bands/guest-details-bands-form.html:13
 msgid "Scan band"
-msgstr ""
+msgstr "escanear pulsera"
 
 #: templates/guest/bands/guest-details-bands-form.html:15
 msgid "Acercar la tarjeta al lector"
@@ -466,7 +466,7 @@ msgstr "Seleccionar"
 
 #: templates/guest/bands/guest-details-bands-form.html:55
 msgid "Add band to locks?"
-msgstr ""
+msgstr "Añadir pulsera"
 
 #: templates/guest/bands/guest-details-bands-form.html:64
 #: templates/guest/bands/guest-details-bands-form.html:67
@@ -477,7 +477,7 @@ msgstr ""
 #: templates/wristbands-by-project/wristbands-search.html:31
 #: templates/wristbands/wristbands-search.html:31
 msgid "Yes"
-msgstr ""
+msgstr "Si"
 
 #: templates/guest/bands/guest-details-bands-form.html:64
 #: templates/guest/bands/guest-details-bands-form.html:69
@@ -489,7 +489,7 @@ msgstr ""
 #: templates/wristbands-by-project/wristbands-search.html:31
 #: templates/wristbands/wristbands-search.html:31
 msgid "No"
-msgstr ""
+msgstr "No"
 
 #: templates/guest/bands/guest-details-bands-form.html:75
 #, fuzzy
@@ -499,12 +499,12 @@ msgstr "Este campo es obligatorio"
 
 #: templates/guest/bands/guest-details-bands-form.html:95
 msgid "Add balance"
-msgstr ""
+msgstr "Añadir balance"
 
 #: templates/guest/bands/guest-details-bands-form.html:103
 #: templates/guest/keys/guest-bands.html:9
 msgid "Add"
-msgstr ""
+msgstr "Añadir"
 
 #: templates/guest/bands/guest-details-bands-info.html:4
 #: templates/guest/bands/guest-details-bands.html:4
@@ -516,7 +516,7 @@ msgstr "Cerraduras asignadas"
 #: templates/guest/bands/guest-details-bands-list.html:10
 #: templates/guest/bands/guest-details-bands-list.html:23
 msgid "Balance"
-msgstr ""
+msgstr "Balance"
 
 #: templates/guest/bands/guest-details-bands-list.html:5
 #, fuzzy
@@ -626,7 +626,7 @@ msgstr "Por favor, introduzca un número de teléfono válido"
 
 #: templates/guest/guest-form-main.html:44
 msgid "Generate random number"
-msgstr ""
+msgstr "Generar número aleatoriamente"
 
 #: templates/guest/guest-form-main.html:44
 msgid "Are you sure to modify the mobile phone?."
@@ -634,11 +634,11 @@ msgstr "¿Está seguro de eliminar este elemento?"
 
 #: templates/guest/guest-form-main.html:50
 msgid "Update code locks"
-msgstr ""
+msgstr "Actualizar código"
 
 #: templates/guest/guest-form-main.html:50
 msgid "Code will be updated with last four digits of mobile phone."
-msgstr ""
+msgstr "El código se actualizará con los cuatro últimos dígitos del móvil"
 
 #: templates/guest/guest-form-main.html:55
 msgid "Email"
@@ -674,7 +674,7 @@ msgstr "Seleccionar"
 
 #: templates/guest/guest-form-main.html:127
 msgid "Checkout can not be less than checkin"
-msgstr ""
+msgstr "La fecha de salida no puede ser menor que la de entrada"
 
 #: templates/guest/guest-form.html:81
 msgid "Admin"
@@ -694,11 +694,11 @@ msgstr "-- Seleccione habitación"
 
 #: templates/guest/guests.html:33
 msgid "Show all"
-msgstr ""
+msgstr "Mostrar todo"
 
 #: templates/guest/guests.html:35
 msgid "Show active"
-msgstr ""
+msgstr "Mostrar activo"
 
 #: templates/guest/guests.html:37
 #, fuzzy
@@ -795,48 +795,48 @@ msgstr "Cerraduras asignadas"
 
 #: templates/guest/sensibo/guest-sensibo-devices.html:4
 msgid "Air aconditioner assigned"
-msgstr ""
+msgstr "Aire acondicionado asignado"
 
 #: templates/guest/sensibo/guest-sensibo-form.html:8
 msgid "Time to start (previous checkin)"
-msgstr ""
+msgstr "Tiempo para empezar (entrada previa)"
 
 #: templates/guest/sensibo/guest-sensibo-form.html:18
 msgid "Cool"
-msgstr ""
+msgstr "Frio"
 
 #: templates/guest/sensibo/guest-sensibo-form.html:19
 msgid "Heat"
-msgstr ""
+msgstr "Caliente"
 
 #: templates/guest/sensibo/guest-sensibo-form.html:20
 msgid "Fan"
-msgstr ""
+msgstr "Ventilador"
 
 #: templates/guest/sensibo/guest-sensibo-form.html:21
 msgid "Dry"
-msgstr ""
+msgstr "Seco"
 
 #: templates/guest/sensibo/guest-sensibo-form.html:22
 #: templates/guest/sensibo/guest-sensibo-form.html:43
 msgid "Auto"
-msgstr ""
+msgstr "Automático"
 
 #: templates/guest/sensibo/guest-sensibo-form.html:27
 msgid "Temperature"
-msgstr ""
+msgstr "Temperatura"
 
 #: templates/guest/sensibo/guest-sensibo-form.html:40
 msgid "Low"
-msgstr ""
+msgstr "Bajo"
 
 #: templates/guest/sensibo/guest-sensibo-form.html:41
 msgid "Medium"
-msgstr ""
+msgstr "Medio"
 
 #: templates/guest/sensibo/guest-sensibo-form.html:42
 msgid "High"
-msgstr ""
+msgstr "Alto"
 
 #: templates/wristbands-by-project/wristbands-search.html:4
 #: templates/wristbands/wristbands-search.html:4
@@ -848,19 +848,19 @@ msgstr "Tarjeta Id"
 #: templates/wristbands-by-project/wristbands-search.html:11
 #: templates/wristbands/wristbands-search.html:11
 msgid "Start Date"
-msgstr ""
+msgstr "Feha de inicio"
 
 #: templates/wristbands-by-project/wristbands-search.html:12
 #: templates/wristbands/wristbands-search.html:12
 #, fuzzy
 #| msgid "Date"
 msgid "End Date"
-msgstr "Fecha"
+msgstr "Fecha fin"
 
 #: templates/wristbands-by-project/wristbands-search.html:42
 #: templates/wristbands/wristbands-search.html:42
 msgid "Remove from guest"
-msgstr ""
+msgstr "Eliminar"
 
 #: templates/wristbands-by-project/wristbands.html:11
 #: templates/wristbands/wristbands.html:12
@@ -872,7 +872,7 @@ msgstr "Números de tarjeta"
 #: templates/wristbands-by-project/wristbands.html:14
 #: templates/wristbands/wristbands.html:15
 msgid "Click here and then place the card on the reader"
-msgstr ""
+msgstr "Pinchar aquí y colocar la tarjeta en el lector"
 
 #: templates/wristbands-by-project/wristbands.html:19
 #: templates/wristbands/wristbands.html:20
@@ -887,7 +887,7 @@ msgstr "No se ha encontrado al huésped"
 
 #: views.py:245
 msgid "Checkout can not be less than checkin!"
-msgstr ""
+msgstr "La fecha de salida no puede ser menor que la fecha de entrada"
 
 #: views.py:474
 msgid "Project not found!"
@@ -903,7 +903,7 @@ msgstr "No se ha encontrado el objeto"
 
 #: wristband_views.py:103
 msgid "Init charge"
-msgstr ""
+msgstr "Carga inicial"
 
 #~ msgid "Saved!"
 #~ msgstr "Guardar"
