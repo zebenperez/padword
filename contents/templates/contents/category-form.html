@@ -81,6 +81,6 @@
     {%else%}
         <a class="btn btn-primary m-2" href="{% url "categories-by-project" obj.project_uuid %}">{% trans "Save" %}</a>
     {%endif%}
-    <button type="button" class="btn btn-danger ark m-2" data-bs-dismiss="modal" data-url="{% url "category-remove" obj.uuid %}" data-target="items-list-{{obj.parent.pk}}" data-confirm="{% trans "Are you sure to remove this element?" %}">{% trans "Remove" %}</button>
+    <button type="button" class="btn btn-primary ark m-2" data-bs-dismiss="modal" data-url="{% url "category-remove" obj.uuid %}" data-target="items-list-{{obj.parent.pk}}" data-confirm="{% trans "Are you sure to remove this element?" %}">{% trans "Remove" %}</button>
 </div>
 

@@ -131,7 +131,7 @@
             {% endif %}
             <main id="main-content">
                 <aside id="sidebar" class="bg-light closed">
-                    <div id="side_menu"> {% get_main_menu request.user active %} </div>
+                    <div id="side_menu"> {% get_main_menu request.user request.path active %} </div>
                     <div class="row contact text-center m-0">
                         <div class="col-12 cont-title mb-2 pb-1 small">{% trans "Contact" %} Padword</div>
                            <div class="col-lg-3 col-3"><a href="mailto:info@padword.es" title="inf@padword.es"><img src="/static/img/email.png" width="20px"></a></div>

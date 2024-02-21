@@ -1,4 +1,5 @@
 from django.contrib import auth
+from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.urls import reverse
 from django.utils.translation import ugettext_lazy as _ 
@@ -198,6 +199,11 @@ def tpv_check_band(request):
     try:
         fi = get_or_none(FormInstance, request.GET["obj_id"])
         val = get_param(request.GET, "value", "")
+
+        # No coincide la mesa actual con la del ticket
+        if fi.table.id != request.session["table"] or fi.get_status != None:
+            return HttpResponse("")
+
         #band = Wristband.get_active_by_project(fi.form.project, reverse_cardkey(val))
         band = Wristband.get_active_by_project(fi.form.project, val)
         regime = None
