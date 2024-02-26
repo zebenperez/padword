@@ -9,6 +9,7 @@
     <li class="nav-item"> <a class="nav-link" data-bs-toggle="tab" href="#sensibo">{% trans "Air conditioner" %}</a></li>
     <li class="nav-item"> <a class="nav-link" data-bs-toggle="tab" href="#integrations">{% trans "Integrations" %}</a></li>
     <li class="nav-item"> <a class="nav-link" data-bs-toggle="tab" href="#pos">{% trans "Point of sales" %}</a></li>
+    <li class="nav-item"> <a class="nav-link" data-bs-toggle="tab" href="#inv">{% trans "Invitations Accounts" %}</a></li>
 </ul>
 <div class="tab-content internal m-2 p-2">
     {# -------------------------- REGIME ------------------------#}
@@ -33,5 +34,9 @@
     {# -------------------------- POINT OF SALES ------------------------#}
     <div class="tab-pane container {%if current_tab == "pos"%}active{%endif%}" id="pos"> <div id="div-pos">
         {% include "web/projects/project-form-point-of-sales.html" %}</div> </div> 
+
+    {# -------------------------- INVITATIONS ACCOUNTS ------------------------#}
+    <div class="tab-pane container {%if current_tab == "inv"%}active{%endif%}" id="inv"> <div id="div-inv">
+        {% include "web/projects/project-form-invitation.html" %}</div> </div> 
 </div>
 

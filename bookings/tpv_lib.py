@@ -121,7 +121,7 @@ def cash_daily_summary(obj, date):
     s_date = datetime.datetime.strptime("{} 00:00:00".format(date), "%Y-%m-%d %H:%M:%S")
     e_date = datetime.datetime.strptime("{} 23:59:59".format(date), "%Y-%m-%d %H:%M:%S")
 
-    f = open("{}{}_{}.csv".format(FILES_DIR, e_date.strftime("%Y%m%d_%H%M"), obj.ext_code), "w", encoding='utf-8')
+    f = open("{}{}_{}07.csv".format(FILES_DIR, e_date.strftime("%Y%m%d_%H%M"), obj.ext_code), "w", encoding='utf-8')
 
     writer = csv.writer(f)
     writer.writerow(['_TPV', '_TPVNom', '_Rate', 'ProductUId', '_Description', 'Date', 'Tiket_UID', '_Price', '_Units', '_Discount', 'TotalPrice', '_Room', '_ClientId'])
@@ -136,9 +136,15 @@ def cash_daily_summary(obj, date):
             name = obj.name
             desc = translate2("es", item.name).replace('"', '')
             date = fi.date.strftime("%Y%m%d%H%M")
-            discount = (item.low_price/item.price)*100 if item.low_price < item.price else 0
+            if fi.payment_type != None and fi.payment_type.code == "05":
+                discount = 100
+                total_price = 0
+            else:
+                discount = 100-((item.low_price/item.price)*100) if item.low_price < item.price and item.low_price > -1 else 0
+                total_price = item.low_price if item.low_price < item.price and item.low_price > -1 else item.price
+                if fi.payment_type != None and fi.payment_type.code == "04":
+                    total_price = total_price * -1
             discount = "{:.2f}".format(discount)
-            total_price = item.low_price if item.low_price < item.price else item.price
             writer.writerow([obj.ext_code, name, "", item.item.ext_id, desc, date, fi.id, item.price, 1, discount, total_price, room, client_id])
     f.close()
 

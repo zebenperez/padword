@@ -791,11 +791,14 @@ p.ql-align-right {
 }
 
 .welcome-inner.fit {
-    top: 50% !important;
+    /*top: 50% !important;*/
+    top: 80% !important;
 }
 .welcome-opac {
     background: #000;
-    opacity: 0.3;
+    /*opacity: 0.3;*/
+    opacity: 0.7;
+    border-radius: 1rem;
 }
 .welcome-opac h3,
 .welcome-opac h4 {

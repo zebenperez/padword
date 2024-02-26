@@ -225,11 +225,11 @@ class Guest(models.Model):
                 key.delete()
         return msg
 
-    def add_all_key_card(self, code):
+    def add_all_key_card(self, code, name=""):
         for lock in self.get_locks():
             #errcode = lock.add_card(code, self.check_in, self.check_out)
             #errcode = lock.add_card(code, self.get_start_date(), self.check_out)
-            errcode = lock.add_card(code, self.check_in_gmt, self.check_out_gmt)
+            errcode = lock.add_card(code, self.check_in_gmt, self.check_out_gmt, name)
             if not "Error" in str(errcode):
                 KeyCard.objects.create(code=code, card_id=errcode, lock=lock, guest=self)
 
