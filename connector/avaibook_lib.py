@@ -170,7 +170,7 @@ def get_date(date, time):
     if time != None:
         return datetime.strptime("{} {}".format(date, time), "%Y-%m-%d %H:%M")
     else:
-        return datetime.strptime("{} 13:00:00".format(date), "%Y-%m-%d %H:%M")
+        return datetime.strptime("{} 13:00:00".format(date), "%Y-%m-%d %H:%M:%S")
 
 def room_exist(project_uuid, room):
     count = Room.objects.filter(project_uuid=project_uuid, number=room).count()
@@ -182,6 +182,7 @@ def create_booking(pau, booking, av):
     room = booking.unit_id
     room_ex = room_exist(pau.project_uuid, room)
     yesterday = datetime.today().replace(hour=23, minute=59, second=59) + timedelta(days=-1)
+    err = ""
 
     if room_ex and checkout > yesterday:
         b_id = booking.webhook_id if booking.webhook_id != "" else booking.id
@@ -206,11 +207,11 @@ def create_booking(pau, booking, av):
             err = guest.add_all_key_code(lock_code)
             av.send_pwa_link(guest.ext_id, lock_code, guest.pwa_link)
 
-        return guest
+        return guest, err
         #else:
         #    if guest != None:
         #        guest.delete()
-    return None
+    return None, err
 
 def delete_booking(pau, booking):
     b_id = booking.webhook_id if booking.webhook_id != "" else booking.id
@@ -229,7 +230,7 @@ def get_booking_list(pau):
         booking_list.append(node)
         #create_booking(pau, node, av)
         if node.status == "CONFIRMED":
-            guest = create_booking(pau, node, av)
+            guest, err = create_booking(pau, node, av)
         elif node.status == "CANCELLED":
             delete_booking(pau, node)
     return booking_list
@@ -264,10 +265,12 @@ def get_accommodation_list(pau):
 def manage_booking_from_webhook(pau, booking):
     av = Avaibook(pau.uuid, pau.token)
     node = AvaibookBooking(booking)
+    err = ""
     if node.action == "CANCELLATION":
         delete_booking(pau, node)
     else:
-        guest = create_booking(pau, node, av)
+        guest, err = create_booking(pau, node, av)
+    return err
     #if guest != None:
     #    send_link(pau, guest)
 

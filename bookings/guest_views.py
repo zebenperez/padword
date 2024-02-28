@@ -58,7 +58,7 @@ def check_user(user, guest):
         return False
     if guest.deleted != 0:
         return False
-    if not guest.have_valid_booking():
+    if not guest.have_valid_booking2():
         return False
     return True
 
