@@ -574,11 +574,7 @@ span.badge.bg-success {
 label.form-check-label {
     color:#7f6c5a;
     font-size: 1rem;
-    position: absolute;
-    left: 22%;
-    margin-top: -65px !important;
-    width: 25%;
-    float:none!important;
+    left: 25%;
 }
 .form-switch .form-check-input {
     width: 100%;

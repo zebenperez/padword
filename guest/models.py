@@ -6,7 +6,7 @@ from django.urls import reverse
 from django.conf import settings
 from django.contrib.auth.models import User
 
-from padword.commons import show_exc
+from padword.commons import show_exc, new_ui_slug
 #from web.models import Channel, Project, Lock, Room
 from web.models import Channel, Project, Room
 from web.models_lock import Lock
@@ -82,6 +82,10 @@ class Guest(models.Model):
             return self.regimes.first().regime
         except:
             return None
+
+    @property
+    def guest_type_obj(self):
+        return GuestType.objects.filter(uuid=self.guest_type).first()
 
     @property
     def pwa_link(self):
@@ -602,5 +606,16 @@ class ProjectRegime(models.Model):
 class GuestRegime(models.Model):
     regime = models.ForeignKey(Regime, on_delete=models.CASCADE, verbose_name=_("Regime"), related_name="guests")
     guest = models.ForeignKey(Guest, on_delete=models.CASCADE, verbose_name=_("Guest"), related_name="regimes")
+
+'''
+    Guest Type
+'''
+class GuestType(models.Model):
+    uuid = models.CharField(max_length = 255, verbose_name= _('UUID'), default=new_ui_slug)
+    name = models.CharField(max_length=255, verbose_name='Name', default="")
+    project_uuid = models.CharField(max_length = 255, verbose_name= _('Project UUID'), default='')
+
+    class Meta:
+        verbose_name = _('Tipo de huésped')
 
 
