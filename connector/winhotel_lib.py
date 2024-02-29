@@ -1,5 +1,6 @@
 from datetime import datetime, timedelta
 
+from bookings.models import Form, FormType
 from contents.models import ItemInCat, Category, Item
 from guest.models import Guest, Regime, GuestRegime, ProjectRegime
 from web.models import Room
@@ -518,10 +519,31 @@ def send_charge(pwu,booking_code,room_code,contact_name,contact_id,has_credit,li
     result = w.send_charge(dic)
 
  
+'''
+    Import
+'''
+def get_tpv_cat(project_uuid):
+    form = Form.objects.filter(form_type__code="tpv", form_type__project_uuid=project_uuid).first()
+    return form.get_category
+
 def create_items(project_uuid, dic_line):
     update = False
-    category_list = Category.objects.filter(project_uuid=project_uuid, internal=dic_line[6])
+    cat_id = dic_line[6].zfill(4)
     now = datetime.now()
+    category_list = list(Category.objects.filter(project_uuid=project_uuid, internal=cat_id))
+
+    #Si no existe la categoría se crea de tipo tpv_list
+    if len(category_list) == 0:
+        cat = get_tpv_cat(project_uuid)
+        uuid = new_ui_slug(Category)
+        name = json.dumps({"ES": "{}".format(dic_line[7])})
+        cat = Category.objects.create(uuid=uuid, project_uuid=project_uuid, is_active=1, updated_at=now, created_at=now, name=name, internal=cat_id, parent=cat)
+        category_list.append(cat)
+
+        ft = FormType.objects.filter(project_uuid=project_uuid, code="tpv_list").first()
+        form = Form.objects.create(uuid=new_ui_slug(Form), category=cat.uuid, form_type=ft)
+
+    #Se crea el item para todas las categorías con el código indicado
     for cat in category_list:
         uuid = new_ui_slug(Item)
         price = float(dic_line[5].replace(",", "."))
@@ -535,34 +557,84 @@ def create_items(project_uuid, dic_line):
         update = True
     return update
 
+def unactive_items(project_uuid, id_list):
+    cat = get_tpv_cat(project_uuid)
+    ic_list = ItemInCat.objects.filter(category__parent = cat).exclude(item__ext_id__in = id_list)
+    for ic in ic_list:
+        ic.item.is_active = 0
+        ic.item.save()
  
+def unactive_categories(project_uuid, cat_list):
+    cat = get_tpv_cat(project_uuid)
+    #Desactivamos las categorías que no están en el listado
+    category_list = Category.objects.filter(project_uuid=project_uuid, parent=cat, is_active=1).exclude(internal__in = cat_list)
+    for c in category_list:
+        c.is_active = 0
+        c.save()
+
+    #Desactivamos las categorías que tienen todos los items desactivados
+    category_list = Category.objects.filter(project_uuid=project_uuid, parent=cat, is_active=1)
+    for c in category_list:
+        if len(c.get_items_active) == 0:
+            c.is_active = 0
+            c.save()
+
 def import_item_prices(file, project_uuid, update_all_prices=False):
     updated = []
     not_updated = []
     decoded_file = file.read().decode('latin-1').splitlines()
+    id_list = []
+    cat_list = []
     for line in decoded_file:
         update = False
-        dic_line = line.split(";")
-        #print("{} - {}".format(dic_line[3], dic_line[5]))
         try:
-            ic_list = ItemInCat.objects.filter(category__project_uuid = project_uuid, item__ext_id = int(dic_line[3]))
+            dic_line = line.split(";")
+            ext_id = int(dic_line[3])
+            name = dic_line[4]
+            price = float(dic_line[5].replace(",", "."))
+            cat_id = dic_line[6].zfill(4)
+            #print("{} - {}".format(dic_line[3], dic_line[5]))
+
+            id_list.append(ext_id)
+            if cat_id not in cat_list:
+                cat_list.append(cat_id)
+
+            ic_list = ItemInCat.objects.filter(category__project_uuid = project_uuid, item__ext_id = ext_id)
             if len(ic_list) == 0:
                 update = create_items(project_uuid, dic_line)
+
             for ic in ic_list:
-                price = float(dic_line[5].replace(",", "."))
-                ic.item.price = price
-                ic.item.save()
+                #Actualizamos el nombre
+                if name != ic.item.name:
+                    ic.item.name = name
+                    ic.item.save()
+                    update = True
+                #Actualizamos el precio
+                if price != ic.item.price:
+                    ic.item.price = price
+                    ic.item.save()
+                    update = True
+                #Activamos el item si no lo está
+                if ic.item.is_active == 0:
+                    ic.item.is_active = 1
+                    ic.item.save()
+                    update = True
+                #Activamos la categoría si no lo está
+                if ic.category.is_active == 0:
+                    ic.category.is_active = 1
+                    ic.category.save()
                 if update_all_prices:
                     for ip in ic.item.prices.all():
                         ip.price = price
                         ip.save()
-                update = True
         except Exception as e:
             print(e)
         if update:
             updated.append(dic_line)
         else:
             not_updated.append(dic_line)
+    unactive_items(project_uuid, id_list)
+    unactive_categories(project_uuid, cat_list)
     return updated, not_updated
 
 

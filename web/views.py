@@ -187,6 +187,7 @@ def project_details(request, obj_id, current_tab=""):
 
         regime_list = Regime.objects.all()
         point_of_sale_list = PointOfSale.objects.filter(project_uuid=obj.uuid)
+        invitation_list = Invitation.objects.filter(project_uuid=obj.uuid)
         form = Form.objects.filter(form_type__code="tpv", form_type__project_uuid=obj.uuid).first()
         context = {
             'obj': obj, 
@@ -199,6 +200,7 @@ def project_details(request, obj_id, current_tab=""):
             'project_regime_list': [item.regime for item in obj.regimes.all()],
             'regime_list': regime_list,
             'point_of_sale_list': point_of_sale_list,
+            'invitation_list': invitation_list,
             'current_tab': current_tab,
             'form': form
         }
@@ -488,6 +490,26 @@ def project_remove_logo(request):
         print(e)
         return render(request, 'error_exception.html', {'msg': str(e)})
 
+@group_required("admins")
+def project_invitation_add(request):
+    try:
+        project = get_or_none(Project, request.GET["obj_id"])
+        Invitation.objects.create(project_uuid=project.uuid, uuid=new_ui_slug(Invitation))
+        invitation_list = Invitation.objects.filter(project_uuid=project.uuid)
+    except Exception as e:
+        print (show_exc(e))
+    return render(request, "web/projects/project-form-invitation-list.html", {'invitation_list':invitation_list,})
+
+@group_required("admins")
+def project_invitation_remove(request):
+    try:
+        inv = get_or_none(Invitation, request.GET["obj_id"])
+        project = get_or_none(Project, inv.project_uuid, "uuid")
+        inv.delete()
+        invitation_list = Invitation.objects.filter(project_uuid=project.uuid)
+    except Exception as e:
+        print (show_exc(e))
+    return render(request, "web/projects/project-form-invitation-list.html", {'invitation_list':invitation_list,})
 
 '''
     Channels

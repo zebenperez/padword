@@ -128,7 +128,14 @@ class ShLock:
 
     def get_lock_all_cards(self, lock_id):
         try:
-            return self.ttlock.lock_get_all_cards(lock_id)
+            card_list = []
+            for i in range(20):
+                current_list = self.ttlock.lock_get_all_cards(lock_id, (i+1))
+                if current_list == None:
+                    break
+                card_list += current_list
+            return card_list
+            #return self.ttlock.lock_get_all_cards(lock_id)
         except Exception as e:
             return e
 

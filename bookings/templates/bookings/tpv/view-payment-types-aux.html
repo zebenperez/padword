@@ -22,6 +22,13 @@
     <input type="text" class="form-control" name="free_desc" placeholder="{%trans "Nombre de la persona realiza la invitación..."%}"
         onchange="$('#btn-free-order-{{fi.id}}').data('desc', 'Invitado por:'+$(this).val());"/>
     <br/> 
+    <select class="form-control"  onchange="$('#btn-free-order-{{fi.id}}').data('desc', 'Invitado por:'+$(this).val());">
+        <option value="">{% trans "Seleccione una cuenta" %}</option>
+        {% for inv in fi.form.project.invitations %}
+            <option value="{{inv.name}}">{{inv.name}}</option>
+        {% endfor %}
+    </select>
+    <br/> 
     <div class="row">
         <div class="col-6">
             <button class="btn btn-primary w-100 " onclick="$('#div-free').hide()">{%trans "Cancel"%}</button>

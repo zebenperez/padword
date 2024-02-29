@@ -7,7 +7,6 @@
     {% else %}
         {% for fi in fi_list %}
             {% if fi and fi.get_total > 0%}
-            --{{fi.id}}<br/>
                 <span class="order-on"> {%trans "Order"%}: {{fi.pos.name}} <br/> {{fi.details.client}} <br/> {{fi.get_total|floatformat:2}} € </span>
             {% else %}
                 <span class="order-off"> {%trans "No order"%} </span>

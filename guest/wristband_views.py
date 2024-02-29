@@ -76,7 +76,7 @@ def guest_band_locks(request):
     try:
         band = get_or_none(Wristband, get_param(request.GET, "obj_id"))
         if "locks" in request.GET and request.GET["locks"] == "true":
-            band.guest.add_all_key_card(band.code)
+            band.guest.add_all_key_card(band.code, band.name)
             band.locks = True
             band.save()
         type_list = WristbandType.objects.all()

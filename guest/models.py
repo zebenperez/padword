@@ -101,8 +101,11 @@ class Guest(models.Model):
 
     def have_valid_booking(self):
         #date = timezone.now()
-        date = pytz.utc.localize(datetime.datetime.now() + datetime.timedelta(hours=1))
-        return (self.check_in <= date and self.check_out >= date) 
+        #date = pytz.utc.localize(datetime.datetime.now() + datetime.timedelta(hours=1))
+        #return (self.check_in <= date and self.check_out >= date) 
+        date = pytz.utc.localize(datetime.datetime.now())
+        local_date = self.project.local_date(date)
+        return (self.check_in <= local_date and self.check_out >= local_date) 
 
     def have_valid_booking2(self):
         date = pytz.utc.localize(datetime.datetime.now() + datetime.timedelta(hours=1))
@@ -225,11 +228,11 @@ class Guest(models.Model):
                 key.delete()
         return msg
 
-    def add_all_key_card(self, code):
+    def add_all_key_card(self, code, name=""):
         for lock in self.get_locks():
             #errcode = lock.add_card(code, self.check_in, self.check_out)
             #errcode = lock.add_card(code, self.get_start_date(), self.check_out)
-            errcode = lock.add_card(code, self.check_in_gmt, self.check_out_gmt)
+            errcode = lock.add_card(code, self.check_in_gmt, self.check_out_gmt, name)
             if not "Error" in str(errcode):
                 KeyCard.objects.create(code=code, card_id=errcode, lock=lock, guest=self)
 
