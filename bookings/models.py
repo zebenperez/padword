@@ -440,6 +440,8 @@ class FormInstance(models.Model):
                 except Exception as ex:
                     #print(ex)
                     total_price += 0
+            if self.band != None and self.band.guest != None and self.band.guest.guest_type_obj != None:
+                total_price = total_price - (total_price * (self.band.guest.guest_type_obj.discount / 100))
             return total_price
         except Exception as e:
             print (show_exc(e))
