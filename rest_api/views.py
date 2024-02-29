@@ -40,7 +40,7 @@ class GuestViewSet(viewsets.ModelViewSet):
         try:
             pu = ProjectUser.objects.get(username=self.request.user.username)
             logger.info("[{}]: \"Guest list\"".format(self.request.user))
-            return Guest.objects.filter(project_id=pu.project_uuid)
+            return Guest.objects.filter(project_id=pu.project_uuid, deleted=False)
         except Exception as e:
             logger.error("[{}]: \"{}\"".format(self.request.user, str(e)))
             return Guest.objects.none()
