@@ -192,7 +192,6 @@ class Form(models.Model):
             fi_list = FormInstance.objects.filter(pk__gte=start_id, form_uuid=self.uuid).order_by("id")
         else:
             fi_list = FormInstance.objects.filter(form_uuid=self.uuid)
-        print(fi_list)
         resp = {"tickets": []}
         for fi in fi_list:
             st = translate2("es", fi.get_status.status.name) if fi.get_status != None else ""
@@ -202,11 +201,12 @@ class Form(models.Model):
                 guest_name = fi.guest.name if fi.guest != None else ""
                 lang = fi.details.lang if fi.details != None else ""
                 payment_type = translate2("es", fi.payment_type.name) if fi.payment_type != None else ""
+                #total = fi.get_total * -1 if fi.payment_type != None and "04" in fi.payment_type.code else fi.get_total
                 fi_json = {
                     'id': fi.id, 
                     'fecha': fi.date.strftime("%d-%m-%Y"), 
                     'hora': fi.date.strftime("%H:%M:%S"), 
-                    'total': fi.get_total, 
+                    'total': fi.amount, 
                     'punto de venta': pos_name, 
                     'mesa': table_name,
                     'cliente': guest_name,
@@ -217,12 +217,13 @@ class Form(models.Model):
                 }
                 for item in fi.get_items:
                     #category_name = item.item.category.name if item.item.category != None else ""
+                    low_price = item.low_price if item.low_price > -1 else item.price
                     item_json = {
                         'nombre_servicio': item.name,
                         'id_servicio': item.id,
                         'cantidad': 1,
                         'precio_servicio': item.price,
-                        'precio_servicio_reducido': item.low_price,
+                        'precio_servicio_reducido': low_price,
                         'subtotal': 0,
                         'familia': item.category,
                         'id_articulo_pms': 0
@@ -646,8 +647,10 @@ class Cash(models.Model):
     end_cash = models.FloatField(verbose_name='Final amount', default=0, null=True, blank=True)
     band = models.FloatField(verbose_name='Band amount', default=0, null=True, blank=True)
     card = models.FloatField(verbose_name='Card amount', default=0, null=True, blank=True)
-    free = models.FloatField(verbose_name='Card amount', default=0, null=True, blank=True)
-    back = models.FloatField(verbose_name='Card amount', default=0, null=True, blank=True)
+    free = models.FloatField(verbose_name='Free amount', default=0, null=True, blank=True)
+    back = models.FloatField(verbose_name='Back amount', default=0, null=True, blank=True)
+    val1 = models.FloatField(verbose_name='Summary amount 1', default=0, null=True, blank=True)
+    val2 = models.FloatField(verbose_name='Summary amount 2', default=0, null=True, blank=True)
     username = models.CharField(max_length = 255, verbose_name= _('Username'), default='admin')
     pos_uuid = models.CharField(max_length=255, verbose_name=_("Point of sale UUID"), default="")
     project_uuid = models.CharField(max_length=255, verbose_name=_("Project UUID"), default="", blank=True)

@@ -8,6 +8,11 @@
         $("#btn-send-order-{{fi.id}}").removeClass("a-disabled");
         $("#btn-send-order-{{fi.id}}").data("payment_type", $(this).data("pt"));
 
+        var ptReturn = $("#btn-return-order-{{fi.id}}").data("payment_type")+""+$(this).data("pt");
+        $("#btn-return-order-{{fi.id}}").data("payment_type", ptReturn);
+        var ptFree = $("#btn-free-order-{{fi.id}}").data("payment_type")+""+$(this).data("pt");
+        $("#btn-free-order-{{fi.id}}").data("payment_type", ptFree);
+
         {%comment%}
         if ($(this).data("cash") == "01") { $("#cash-value").show(); }
         else { $("#cash-value").hide(); }

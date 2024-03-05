@@ -4,13 +4,14 @@
 
 <table class="table table-hover table-striped">
     <thead>
-        <tr> 
+        <tr class="small tablesorter-headerRow"> 
             <th>{%trans 'Code'%}</th> 
             <th>{%trans 'Name'%}</th> 
             <th>{%trans 'Start Date'%}</th> 
             <th>{%trans 'End Date'%}</th> 
             <th>{%trans 'Guest'%}</th> 
             <th>{%trans 'Type'%}</th> 
+            <th></th>
             <th></th>
         </tr>
     </thead>
@@ -29,10 +30,12 @@
                     <a class="btn btn-outline-warning toggle-btn w-100" data-target="tr-share-{{item.id}}" data-text="{%trans "Share code"%}" 
                         data-text-alt="{%trans "Close"%}">{%trans "Share code"%} </a>
                     {% endcomment %}
-                    <a class="btn btn-outline-warning ark large" title="{%trans "Share code"%}" data-url="{% url "lock-share-code" %}"
+                    <a class="btn btn-primary ark large" title="{%trans "Share code"%}" data-url="{% url "lock-share-code" %}"
                         data-obj_id="{{obj.id}}" data-code="{{item.keyboardPwd}}" data-target-modal="share-modal">{%trans "Share code"%} </a>
 
-                    <a class="btn btn-outline-warning ark large" title="{%trans "Remove code"%}" data-url="{% url "room-lock-remove-code" %}"
+                </td>
+                <td class="text-end">
+                    <a class="btn btn-primary ark large" title="{%trans "Remove code"%}" data-url="{% url "room-lock-remove-code" %}"
                         data-obj_id="{{obj.id}}" data-code_id="{{item.keyboardPwdId}}" 
                         data-confirm="{%trans "Are you sure to remove this element?"%}" data-target="code-details">{%trans "Remove code"%} </a>
                 </td>
