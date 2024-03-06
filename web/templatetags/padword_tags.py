@@ -46,6 +46,13 @@ def currency(json_str):
         return "UNSETTING"
 
 @register.filter
+def add_float(a, b):
+    try:
+        return a + b
+    except Exception as e:
+        return 0
+
+@register.filter
 def mult(a, b):
     try:
         return a * b
