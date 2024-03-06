@@ -135,7 +135,7 @@ def update_cash(cash, user, cancel_orders=False):
                 back_card_total += amount
             elif fi.payment_type.code == "0403":
                 back_band_total += amount
-            elif "05" in fi.payment_type.code:
+            elif fi.payment_type.code == "05":
                 free_total += amount
                 
             #if fi.payment_type.code == "01" or fi.payment_type.code == "02":
@@ -173,7 +173,7 @@ def cash_daily_summary(obj, date):
             name = obj.name
             desc = translate2("es", item.name).replace('"', '')
             date = fi.date.strftime("%Y%m%d%H%M")
-            if fi.payment_type != None and "05" in fi.payment_type.code:
+            if fi.payment_type != None and fi.payment_type.code == "05":
                 discount = 100
                 total_price = 0
             else:
