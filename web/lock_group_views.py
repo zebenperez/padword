@@ -41,8 +41,9 @@ def locks_groups_by_project(request, project_id):
 @group_required("admins")
 def lock_group_search(request):
     try:
+        project = get_or_none(Project, request.GET["project_id"])
         set_session(request, "lock_group_search_name")
-        context = get_context(request)
+        context = get_context(request, project)
         return render(request, "web/locks-groups/lock-group-list.html", context)
     except Exception as e:
         return render(request, 'error_exception.html', {'exc':show_exc(e)})
