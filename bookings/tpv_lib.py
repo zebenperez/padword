@@ -113,6 +113,8 @@ def update_cash(cash, user, cancel_orders=False):
     band_total = 0
     card_total = 0
     back_total = 0
+    back_card_total = 0
+    back_band_total = 0
     free_total = 0
     val1_total = 0
     val2_total = 0
@@ -127,8 +129,12 @@ def update_cash(cash, user, cancel_orders=False):
                 card_total += amount
             elif fi.payment_type.code == "03":
                 band_total += amount
-            elif "04" in fi.payment_type.code:
+            elif fi.payment_type.code == "0401":
                 back_total += amount
+            elif fi.payment_type.code == "0402":
+                back_card_total += amount
+            elif fi.payment_type.code == "0403":
+                back_band_total += amount
             elif "05" in fi.payment_type.code:
                 free_total += amount
                 
@@ -140,6 +146,8 @@ def update_cash(cash, user, cancel_orders=False):
     cash.band = band_total
     cash.card = card_total
     cash.back = back_total
+    cash.back_card = back_card_total
+    cash.back_band = back_band_total
     cash.free = free_total
     cash.val1 = val1_total
     cash.val2 = val2_total

@@ -11,15 +11,15 @@
 <td>{{ item.charge }} %</td>
 <td>{% get_wifi_icon item.gateway %}</td>
 <td>{% get_wifi_icon item.wifi %} {{item.wifi}}</td>
-<td class="text-end">
-    <a class="me-1 btn btn-xs ark" title="{%trans "Update parameters"%}" data-url="{% url "lock-update-params-by-project" %}" 
+<td class="text-end px-0">
+    <a class="btn btn-xs ark" title="{%trans "Update parameters"%}" data-url="{% url "lock-update-params-by-project" %}" 
         data-target="row_{{item.id}}" data-obj_id="{{item.id}}"><i class="fas fa-sync"></i></a>  
-    <a class="me-1 btn btn-xs ark" title="{%trans "Get all passcodes"%}" data-url="{% url "lock-get-all-passcodes-by-project" %}" 
+    <a class="btn btn-xs ark" title="{%trans "Get all passcodes"%}" data-url="{% url "lock-get-all-passcodes-by-project" %}" 
         data-target-modal="common-modal" data-obj_id="{{item.id}}"><img src="{% static "/img/ico-passcodes.png" %}"/>
     </a>  
-    <a class="me-1 btn btn-xs ark" title="{%trans "Get all cards"%}" data-url="{% url "lock-get-all-cards-by-project" %}" 
+    <a class="btn btn-xs ark" title="{%trans "Get all cards"%}" data-url="{% url "lock-get-all-cards-by-project" %}" 
         data-target-modal="common-modal" data-obj_id="{{item.id}}"><i class="fas fa-credit-card"></i></a>  
-    <a class="me-1 btn btn-xs ark" title="{%trans "Get all registers"%}" data-url="{% url "lock-get-all-records-by-project" %}" 
+    <a class="btn btn-xs ark" title="{%trans "Get all registers"%}" data-url="{% url "lock-get-all-records-by-project" %}" 
         data-target-modal="common-modal" data-obj_id="{{item.id}}"><i class="fas fa-bars"></i></a>  
 </td>
 

@@ -23,8 +23,8 @@
 <div class="tab-content internal">
     {# -------------------------- CODES ------------------------#}
     <div class="tab-pane container active" id="codes"> 
-        <div class="row">
-            <div class="col-2 offset-10 text-end pb-2"><a class="btn btn-primary w-100 toggle-btn" 
+        <div class="row m-0">
+            <div class="col-2 offset-10 pb-2"><a class="btn btn-primary w-100 toggle-btn" 
                 data-target="add_code" data-text="{%trans "Add code"%}" data-text-alt="{%trans "Close"%}"> {%trans "Add code"%}</a>
             </div></div>
         <div id="add_code" style="display:none;"> {% include "web/rooms/lock-details-codes-form.html" %} </div>
@@ -34,7 +34,7 @@
 
     {# -------------------------- CARDS ------------------------#}
     <div class="tab-pane container fade" id="cards"> 
-        <div class="row"><div class="col-2 offset-10 text-end pb-2">
+        <div class="row m-0"><div class="col-2 offset-10 text-end pb-2">
             <a class="btn btn-primary w-100 toggle-btn" data-target="add_card" data-text="{%trans "Add card"%}" 
                 data-text-alt="{%trans "Close"%}" data-set-focus="card_code"> {%trans "Add card"%}</a>
         </div></div>
@@ -54,7 +54,7 @@
 
     {# -------------------------- EKEYS ------------------------#}
     <div class="tab-pane container" id="ekeys"> 
-        <div class="row"><div class="col-2 offset-10 text-end pb-2">
+        <div class="row m-0"><div class="col-2 offset-10 text-end pb-2">
             <a class="btn btn-primary w-100 toggle-btn" 
                 data-target="add_ekey" data-text="{%trans "Add eKey"%}" data-text-alt="{%trans "Close"%}"> {%trans "Add eKey"%}</a>
         </div></div>

@@ -649,6 +649,8 @@ class Cash(models.Model):
     card = models.FloatField(verbose_name='Card amount', default=0, null=True, blank=True)
     free = models.FloatField(verbose_name='Free amount', default=0, null=True, blank=True)
     back = models.FloatField(verbose_name='Back amount', default=0, null=True, blank=True)
+    back_card = models.FloatField(verbose_name='Back amount', default=0, null=True, blank=True)
+    back_band = models.FloatField(verbose_name='Back amount', default=0, null=True, blank=True)
     val1 = models.FloatField(verbose_name='Summary amount 1', default=0, null=True, blank=True)
     val2 = models.FloatField(verbose_name='Summary amount 2', default=0, null=True, blank=True)
     username = models.CharField(max_length = 255, verbose_name= _('Username'), default='admin')

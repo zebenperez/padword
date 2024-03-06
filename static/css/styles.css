@@ -80,6 +80,10 @@ body.loading .overlay { display: block; }
 
 /******* TABLES ********/
 
+.tab-pane {
+    padding:0;
+}
+
 tr.small.tablesorter-headerRow {
     border:none;
     background-color: #dcebf3;
