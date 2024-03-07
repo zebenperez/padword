@@ -165,24 +165,25 @@ def cash_daily_summary(obj, date):
 
     fi_list = FormInstance.objects.filter(pos_uuid=obj.uuid, date__range=(s_date, e_date))
     for fi in fi_list:
-        info = fi.info.first()
-        room = info.client_room if info != None else ""
-        client_id = info.client_id if info != None else ""
-        for item in fi.get_items:
-            #code = obj.name[:4].upper()
-            name = obj.name
-            desc = translate2("es", item.name).replace('"', '')
-            date = fi.date.strftime("%Y%m%d%H%M")
-            if fi.payment_type != None and fi.payment_type.code == "05":
-                discount = 100
-                total_price = 0
-            else:
-                discount = 100-((item.low_price/item.price)*100) if item.low_price < item.price and item.low_price > -1 else 0
-                total_price = item.low_price if item.low_price < item.price and item.low_price > -1 else item.price
-                if fi.payment_type != None and "04" in fi.payment_type.code:
-                    total_price = total_price * -1
-            discount = "{:.2f}".format(discount)
-            writer.writerow([obj.ext_code, name, "", item.item.ext_id, desc, date, fi.id, item.price, 1, discount, total_price, room, client_id])
+        if fi.get_status != None and fi.get_status.status != None and fi.get_status.status.code != "05":
+            info = fi.info.first()
+            room = info.client_room if info != None else ""
+            client_id = info.client_id if info != None else ""
+            for item in fi.get_items:
+                #code = obj.name[:4].upper()
+                name = obj.name
+                desc = translate2("es", item.name).replace('"', '')
+                date = fi.date.strftime("%Y%m%d%H%M")
+                if fi.payment_type != None and fi.payment_type.code == "05":
+                    discount = 100
+                    total_price = 0
+                else:
+                    discount = 100-((item.low_price/item.price)*100) if item.low_price < item.price and item.low_price > -1 else 0
+                    total_price = item.low_price if item.low_price < item.price and item.low_price > -1 else item.price
+                    if fi.payment_type != None and "04" in fi.payment_type.code:
+                        total_price = total_price * -1
+                discount = "{:.2f}".format(discount)
+                writer.writerow([obj.ext_code, name, "", item.item.ext_id, desc, date, fi.id, item.price, 1, discount, total_price, room, client_id])
     f.close()
 
 def cash_send_daily_summary(project_uuid, obj, date):
