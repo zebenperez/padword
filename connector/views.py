@@ -134,7 +134,9 @@ def avaibook_get_booking(request):
     try:
         #pau = get_or_none(ProjectAvaibookUser, settings.AVAIBOOK_ID, "project_uuid")
         pau = get_or_none(ProjectAvaibookUser, booking["owner_id"], "owner")
-        manage_booking_from_webhook(pau, booking)
+        err = manage_booking_from_webhook(pau, booking)
+        if err != "":
+            f.write("\nError Lock: {}".format(err))
         f.write("\nBooking created!")
     except Exception as e:
         f.write("\nError: {}".format(e))

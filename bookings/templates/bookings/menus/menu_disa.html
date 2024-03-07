@@ -2,100 +2,54 @@
 
 {% get_current_language as LANGUAGE_CODE %}
 
+<style> .pdfobject-container { height: 500px; border: 1px solid #ccc; } </style>
 
-<div class="tablet-size">
+<div id="div-main-content" class="tablet-size">
+    {% with cat=form.get_category %}
+        <div class="row pt-3"> 
+            <div class="col-10 offset-1 up-bar text-center mt-3 pt-5 pb-5"><img src="/static/img/logo-disa.jpg" width="250"></div>
 
-{% with cat=form.get_category %}
-{#<input type="button" id="btnPreview" value="Preview PDF Document" onclick="LoadPdfFromUrl('{{cat|get_file_url:1}}')" />#}
-    <input type="button" id="btnPreview" value="Preview PDF Document" onclick="LoadPdfFromUrl('https://paddev.shidix.es/media/Cuentas_anuales_Grupo_DISA_2021.pdf')"/>
-    <input type="button" id="btnPreview" value="Close PDF" onclick="$('#pdf_container').html('');$('#pdf_container').css('height', '0px');$('#div-main-temp').show()"/>
-    <hr />
-    <div id="pdf_container"></div>
+            <div class="tabs-1 col-3 offset-3 mb-1 align-middle justify-content-center">
+                <div>
+                    {#<a class="menu-options" href="{{cat|get_file_url:1}}">Memoria<br ><span>Grupo DISA</span></a>#}
+                    <a class="menu-options" onclick="$('#div-pdf').show();$('#div-main-content').hide();">Memoria<br ><span>Grupo DISA</span></a>
+                </div>
+            </div> 
+            <div class="tabs-2 col-3 mb-1 align-middle justify-content-center">
+                <div>
+                    {#<a class="menu-options" href="{{cat|get_file_url:2}}">Memoria<br ><span>Fundación</span></a>#}
+                    <a class="menu-options" onclick="$('#div-pdf2').show();$('#div-main-content').hide();">Memoria<br ><span>Fundación</span></a>
+                </div>
+            </div> 
+        </div>
 
-    <div id="div-main-temp">
-    <div class="row pt-3"> 
-        <div class="col-10 offset-1 up-bar text-center mt-3 pt-5 pb-5"><img src="/static/img/logo-disa.jpg" width="250"></div>
-
-        <div class="tabs-1 col-3 offset-3 mb-1 align-middle justify-content-center">
-            <div><a class="menu-options" href="{{cat|get_file_url:1}}">Memoria<br ><span>Grupo DISA</span></a></div>
-        </div> 
-        <div class="tabs-2 col-3 mb-1 align-middle justify-content-center">
-            <div><a class="menu-options" href="{{cat|get_file_url:2}}">Memoria<br ><span>Fundación</span></a></div>
-        </div> 
-    </div>
-
-    <div class="row p-3 text-left mt-5"> 
-        <div class="tabs-3 col-3 offset-3 mb-1">
-            <a href="{{cat|get_file_url:3}}"><span class="dot"><i class="fa fa-check"></i></span> Cuentas Anuales Grupo</a><br /><br />
-            <a href="{{cat|get_file_url:4}}"><span class="dot"><i class="fa fa-check"></i></span> Cuentas Anuales Internacional</a>
-        </div> 
-        <div class="tabs-4 col-3 mb-1">
-            <a href="{{cat|get_file_url:5}}"><span class="dot"><i class="fa fa-check"></i></span> Cuentas Anuales Fundación</a>
-        </div> 
-        <div class="col-10 offset-1 down-bar text-center mt-5 pt-1"></div>
-    </div>
-    </div>
-
-    <script type="text/javascript">
-        var pdfjsLib = window['pdfjs-dist/build/pdf'];
-        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.6.347/pdf.worker.min.js';
-        var pdfDoc = null;
-        var scale = 1; //Set Scale for Zoom.
-        var resolution = IsMobile() ? 1.5 : 1; //Set Resolution as per Desktop and Mobile.
-        function LoadPdfFromUrl(url) {
-            //Read PDF from URL.
-            pdfjsLib.getDocument(url).promise.then(function (pdfDoc_) {
-                pdfDoc = pdfDoc_;
-
-                //Reference the Container DIV.
-                var pdf_container = document.getElementById("pdf_container");
-                pdf_container.style.display = "block";
-                pdf_container.style.height = IsMobile() ? "1200px" : "820px";
-
-                //Loop and render all pages.
-                for (var i = 1; i <= pdfDoc.numPages; i++) {
-                    RenderPage(pdf_container, i);
-                }
-            });
-            $('#div-main-temp').hide()
-        };
-        function RenderPage(pdf_container, num) {
-            pdfDoc.getPage(num).then(function (page) {
-                //Create Canvas element and append to the Container DIV.
-                var canvas = document.createElement('canvas');
-                canvas.id = 'pdf-' + num;
-                ctx = canvas.getContext('2d');
-                pdf_container.appendChild(canvas);
-
-                //Create and add empty DIV to add SPACE between pages.
-                var spacer = document.createElement("div");
-                spacer.style.height = "20px";
-                pdf_container.appendChild(spacer);
-
-                //Set the Canvas dimensions using ViewPort and Scale.
-                var viewport = page.getViewport({ scale: scale });
-                canvas.height = resolution * viewport.height;
-                canvas.width = resolution * viewport.width;
-
-                //Render the PDF page.
-                var renderContext = {
-                    canvasContext: ctx,
-                    viewport: viewport,
-                    transform: [resolution, 0, 0, resolution, 0, 0]
-                };
-
-                page.render(renderContext);
-            });
-        };
-
-        function IsMobile() {
-            var r = new RegExp("Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini");
-            return r.test(navigator.userAgent);
-        }
-    </script>
-
-{% endwith %}
+        <div class="row p-3 text-left mt-5"> 
+            <div class="tabs-3 col-3 offset-3 mb-1">
+                <a href="{{cat|get_file_url:3}}"><span class="dot"><i class="fa fa-check"></i></span> Cuentas Anuales Grupo</a><br /><br />
+                <a href="{{cat|get_file_url:4}}"><span class="dot"><i class="fa fa-check"></i></span> Cuentas Anuales Internacional</a>
+            </div> 
+            <div class="tabs-4 col-3 mb-1">
+                <a href="{{cat|get_file_url:5}}"><span class="dot"><i class="fa fa-check"></i></span> Cuentas Anuales Fundación</a>
+            </div> 
+            <div class="col-10 offset-1 down-bar text-center mt-5 pt-1"></div>
+        </div>
+        </div>
+    {% endwith %}
 </div>
+<div id="div-pdf" style="display:none">
+    <button class="btn" onclick="$('#div-pdf').hide();$('#div-main-content').show();">Cerrar</button>
+    <div id="my-pdf"></div>
+</div>
+<div id="div-pdf2" style="display:none">
+    <button class="btn" onclick="$('#div-pdf2').hide();$('#div-main-content').show();">Cerrar</button>
+    <div id="my-pdf2"></div>
+</div>
+
+<script>
+    PDFObject.embed("https://padword.shidix.es/media/contents/categories/files/1156/20230512121216bMemoria_Fundacion_DISA_2021.pdf", "#my-pdf");
+    PDFObject.embed("https://padword.shidix.es/media/contents/categories/files/1156/20230512121232bCuentas_anuales_Grupo_DISA_2021.pdf", "#my-pdf2");
+</script>
+
 
 {%comment%}
 <script id="realtime-script">

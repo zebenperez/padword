@@ -1,0 +1,9 @@
+{% load i18n padword_tags %}
+
+
+<div class="w-100 text-end">
+    <button class="btn btn-primary ark mb-2" data-url="{% url "project-guest-types-add" %}" data-target="div-gtype-list" data-obj_id="{{obj.id}}">
+       {% trans "Add" %}</button>
+</div>		
+<div id="div-gtype-list">{% include "web/projects/project-form-guest-types-list.html" %}</div>
+

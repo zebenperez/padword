@@ -7,7 +7,7 @@ from django.views.decorators.csrf import csrf_exempt
 
 from padword.commons import show_exc, get_or_none, get_param, new_ui_slug, translate, set_session, update_cron, get_int, translate2
 from padword.decorators import group_required
-from guest.models import Regime, ProjectRegime
+from guest.models import Regime, ProjectRegime, GuestType
 from sensibo.models import ProjectSensiboUser
 from connector.models import ProjectAvantioUser, ProjectAvaibookUser, ProjectWinhotelUser
 from contents.models import Category, PointOfSale, PointOfSaleCategory, Table
@@ -188,6 +188,7 @@ def project_details(request, obj_id, current_tab=""):
         regime_list = Regime.objects.all()
         point_of_sale_list = PointOfSale.objects.filter(project_uuid=obj.uuid)
         invitation_list = Invitation.objects.filter(project_uuid=obj.uuid)
+        guest_type_list = GuestType.objects.filter(project_uuid=obj.uuid)
         form = Form.objects.filter(form_type__code="tpv", form_type__project_uuid=obj.uuid).first()
         context = {
             'obj': obj, 
@@ -201,6 +202,7 @@ def project_details(request, obj_id, current_tab=""):
             'regime_list': regime_list,
             'point_of_sale_list': point_of_sale_list,
             'invitation_list': invitation_list,
+            'guest_type_list': guest_type_list,
             'current_tab': current_tab,
             'form': form
         }
@@ -510,6 +512,28 @@ def project_invitation_remove(request):
     except Exception as e:
         print (show_exc(e))
     return render(request, "web/projects/project-form-invitation-list.html", {'invitation_list':invitation_list,})
+
+@group_required("admins")
+def project_guest_types_add(request):
+    try:
+        project = get_or_none(Project, request.GET["obj_id"])
+        GuestType.objects.create(project_uuid=project.uuid, uuid=new_ui_slug(GuestType))
+        guest_type_list = GuestType.objects.filter(project_uuid=project.uuid)
+    except Exception as e:
+        print (show_exc(e))
+    return render(request, "web/projects/project-form-guest-types-list.html", {'guest_type_list':guest_type_list,})
+
+@group_required("admins")
+def project_guest_types_remove(request):
+    try:
+        gtype = get_or_none(GuestType, request.GET["obj_id"])
+        project = get_or_none(Project, inv.project_uuid, "uuid")
+        gtype.delete()
+        guest_type_list = GuestType.objects.filter(project_uuid=project.uuid)
+    except Exception as e:
+        print (show_exc(e))
+    return render(request, "web/projects/project-form-guest-types-list.html", {'guest_type_list':guest_type_list,})
+
 
 '''
     Channels

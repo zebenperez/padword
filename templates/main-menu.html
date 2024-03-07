@@ -30,12 +30,12 @@
         <hr/>
         {%endcomment%}
         <li class="nav-item"><a class="nav-link {%if active == "searchbands"%}active{%endif%}" href="{%url "wristbands"%}">
-            <i class="fas fa-key"></i> {%trans "Consultar Pulsera"%}</a></li>
+            <i class="fas fa-ring"></i> {%trans "Consultar Pulsera"%}</a></li>
         <hr/>
 	    <li class="nav-item"><a class="nav-link {%if active == "keycard"%}active{%endif%}" href="{%url "keycard-number"%}">
             <i class="fas fa-address-card"></i> {%trans "Consultar Tarjeta"%} <span class="new">NEW</span></a> </a></li>
         <hr/>
-        <li class="nav-item"><a class="nav-link " href="{% url "projects" %}"><i class="fas fa-dice-d6"></i> 
+        <li class="nav-item"><a class="nav-link " href="{% url "projects" %}"><i class="fab fa-buromobelexperte"></i> 
 	        {% trans "Safe Deposit Box" %} <span class="new">NEW</span></a> </li>
         <hr/>
         <li class="nav-item"><a class="nav-link" href="{% url "logs" %}"><i class="fas fa-clock"></i> {% trans "Logs" %} </a></li>
@@ -115,10 +115,14 @@
 
             {% if user_project|have_menu:"locks" %}
                 <li class="nav-item"><a class="nav-link {%if "locks" in path%}active{%endif%}" href="{% url 'locks-by-project2' %}">
+                    <i class="fas fa-door-closed"></i>  {% trans "Locks" %}</a> </li>
+{%comment%}
+                <li class="nav-item"><a class="nav-link {%if "locks" in path%}active{%endif%}" href="{% url 'locks-by-project2' %}">
                     <i class="fas fa-lock"></i>  {% trans "Locks" %}</a> </li>
+{%endcomment%}
             {% elif user_project|have_menu_promo:"locks" %}
 	            <li class="nav-item"><a class="nav-link pointer ark" data-url="{%url "show-module"%}" data-target-modal="common-modal"
-                    data-code="locks"><i class="fas fa-lock"></i> {%trans "Locks"%} <span class="new">NEW</span> </a></li>
+                    data-code="locks"><i class="fas fa-door-closed"></i> {%trans "Locks"%} <span class="new">NEW</span> </a></li>
             {% endif %}
 
             {% if user_project|have_menu:"gateways" %}
@@ -131,10 +135,14 @@
 
             {% if user_project|have_menu:"searchbands" %}
                 <li class="nav-item"><a class="nav-link {%if "wristbands" in path%}active{%endif%}" href="{% url 'wristbands-by-project' %}">
+                    <i class="fas fa-ring"></i>  {% trans "Consultar Pulsera" %}</a> </li>
+{%comment%}
+                <li class="nav-item"><a class="nav-link {%if "wristbands" in path%}active{%endif%}" href="{% url 'wristbands-by-project' %}">
                     <i class="fas fa-key"></i>  {% trans "Consultar Pulsera" %}</a> </li>
+{%endcomment%}
             {% elif user_project|have_menu_promo:"searchbands" %}
 	            <li class="nav-item"><a class="nav-link pointer ark" data-url="{%url "show-module"%}" data-target-modal="common-modal"
-                    data-code="searchbands"><i class="fas fa-key"></i> {%trans "Consultar Pulsera"%} <span class="new">NEW</span> </a></li>
+                    data-code="searchbands"><i class="fas fa-ring"></i> {%trans "Consultar Pulsera"%} <span class="new">NEW</span> </a></li>
             {% endif %}
 
             {% if user_project|have_menu:"sensibo" %}
@@ -165,10 +173,14 @@
 
             {% if user_project|have_menu:"box" %}
                 <li class="nav-item"><a class="nav-link {%if "boxes" in path%}active{%endif%}" href="{% url "boxes-by-project" %}">
+                    <i class="fab fa-buromobelexperte"></i> {% trans "Safe Deposit Box" %} </a> </li>
+{%comment%}
+                <li class="nav-item"><a class="nav-link {%if "boxes" in path%}active{%endif%}" href="{% url "boxes-by-project" %}">
                     <i class="fas fa-dice-d6"></i> {% trans "Safe Deposit Box" %} </a> </li>
+{%endcomment%}
             {% elif user_project|have_menu_promo:"box" %}
                 <li class="nav-item"><a class="nav-link pointer ark" data-url="{%url "show-module"%}" data-target-modal="common-modal" 
-                    data-code="box"> <i class="fas fa-dice-d6"></i> {% trans "Safe Deposit Box" %} <span class="new">NEW</span></a> </li>
+                    data-code="box"> <i class="fab fa-buromobelexperte"></i> {% trans "Safe Deposit Box" %} <span class="new">NEW</span></a> </li>
             {% endif %}
         {% endwith %}
     {% elif menu == "clients" %}

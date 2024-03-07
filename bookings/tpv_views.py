@@ -15,7 +15,7 @@ from connector.models import ProjectWinhotelUser
 
 from .common_lib import get_or_create_form_instance_tpv, get_or_create_form_instance_info_tpv, get_or_create_form_instance_info_client_tpv
 from .common_lib import user_in_group
-from .tpv_lib import get_cash, update_cash, cash_daily_summary, cash_send_daily_summary
+from .tpv_lib import get_cash, update_cash, cash_daily_summary, cash_send_daily_summary, get_food_total, get_drinks_total
 from .models import Form, FormInstance, Status, Cash
 from django.conf import settings
 
@@ -330,7 +330,7 @@ def set_desc(fi, desc):
 def tpv_order_send(request):
     try:
         fi_id = get_param(request.GET, "obj_id")
-        pt_id = get_param(request.GET, "payment_type", "")
+        pt_code = get_param(request.GET, "payment_type", "")
         amount = get_param(request.GET, "amount", "")
         amount_user = get_param(request.GET, "amount_user", "")
         band_id = get_param(request.GET, "band", "")
@@ -342,10 +342,10 @@ def tpv_order_send(request):
         fi.date = datetime.datetime.now()
         fi.amount = amount if amount_user == "" else amount_user
         factor = -1 if get_float(amount.replace(",", ".")) < 0 else 1
-        if pt_id != "":
-            pt = get_or_none(PaymentType, pt_id)
+        if pt_code != "":
+            pt = get_or_none(PaymentType, pt_code, "code")
             fi.payment_type = pt
-            if pt != None and (pt.code == "03" or pt.code == "04") and band_id != "":
+            if pt != None and (pt.code == "03" or pt.code == "0403") and band_id != "":
                 pos = get_or_none(PointOfSale, request.session["point_of_sale"])
                 band = get_or_none(Wristband, band_id)
                 add_balance_to_band(pos, fi, band)
@@ -414,6 +414,11 @@ def cash_z(request):
         cash.save()
         cash_daily_summary(cash.pos, cash.date.strftime("%Y-%m-%d"))
         cash_send_daily_summary(cash.project_uuid, cash.pos, cash.date.strftime("%Y-%m-%d"))
+        #send drink
+        #cash_send_charge(cash, "BEBIDAS")
+        #send food
+        #send cash
+        #send card
         return redirect(reverse(request.GET["index"], kwargs = {'project_uuid': cash.project_uuid}))
     except Exception as e:
         print(e)
@@ -454,42 +459,42 @@ def tpv_close(request):
 '''
     WINHOTEL
 '''
-from django.db.models import Sum
-def get_drinks_total(fi, band):
-    #total = ShoppingCart.objects.filter(form_instance_id=fi.pk, item__ext_id__lt=50000).aggregate(Sum('item__price'))["item__price__sum"]
-    #return total if total != None else -1
+#from django.db.models import Sum
+#def get_drinks_total(fi, band):
+#    #total = ShoppingCart.objects.filter(form_instance_id=fi.pk, item__ext_id__lt=50000).aggregate(Sum('item__price'))["item__price__sum"]
+#    #return total if total != None else -1
+#
+#    regime = band.guest.regime.code if band != None and band.guest != None and band.guest.regime != None else ""
+#    if regime == "":
+#        total = ShoppingCart.objects.filter(form_instance_id=fi.pk, item__ext_id__lt=50000).aggregate(Sum('price'))["price__sum"]
+#    else:
+#        total = ShoppingCart.objects.filter(form_instance_id=fi.pk, item__ext_id__lt=50000).aggregate(Sum('low_price'))["low_price__sum"]
+#    return total
+#    #return total if total != None else -1
+#
+#    #total = -1
+#    #item_list = ShoppingCart.objects.filter(form_instance_id=fi.pk, item__ext_id__lt=50000)
+#    #for item in item_list:
+#    #    total += item.item.get_price(regime)
+#    #return total
 
-    regime = band.guest.regime.code if band != None and band.guest != None and band.guest.regime != None else ""
-    if regime == "":
-        total = ShoppingCart.objects.filter(form_instance_id=fi.pk, item__ext_id__lt=50000).aggregate(Sum('price'))["price__sum"]
-    else:
-        total = ShoppingCart.objects.filter(form_instance_id=fi.pk, item__ext_id__lt=50000).aggregate(Sum('low_price'))["low_price__sum"]
-    return total
-    #return total if total != None else -1
-
-    #total = -1
-    #item_list = ShoppingCart.objects.filter(form_instance_id=fi.pk, item__ext_id__lt=50000)
-    #for item in item_list:
-    #    total += item.item.get_price(regime)
-    #return total
-
-def get_food_total(fi, band):
-    #total =  ShoppingCart.objects.filter(form_instance_id=fi.pk, item__ext_id__gte=50000).aggregate(Sum('item__price'))["item__price__sum"]
-    #return total if total != None else -1
-
-    regime = band.guest.regime.code if band != None and band.guest != None and band.guest.regime != None else ""
-    if regime == "":
-        total = ShoppingCart.objects.filter(form_instance_id=fi.pk, item__ext_id__gte=50000).aggregate(Sum('price'))["price__sum"]
-    else:
-        total = ShoppingCart.objects.filter(form_instance_id=fi.pk, item__ext_id__gte=50000).aggregate(Sum('low_price'))["low_price__sum"]
-    return total
-    #return total if total != None else -1
-
-    #total = -1
-    #item_list = ShoppingCart.objects.filter(form_instance_id=fi.pk, item__ext_id__gte=50000)
-    #for item in item_list:
-    #    total += item.item.get_price(regime)
-    #return total
+#def get_food_total(fi, band):
+#    #total =  ShoppingCart.objects.filter(form_instance_id=fi.pk, item__ext_id__gte=50000).aggregate(Sum('item__price'))["item__price__sum"]
+#    #return total if total != None else -1
+#
+#    regime = band.guest.regime.code if band != None and band.guest != None and band.guest.regime != None else ""
+#    if regime == "":
+#        total = ShoppingCart.objects.filter(form_instance_id=fi.pk, item__ext_id__gte=50000).aggregate(Sum('price'))["price__sum"]
+#    else:
+#        total = ShoppingCart.objects.filter(form_instance_id=fi.pk, item__ext_id__gte=50000).aggregate(Sum('low_price'))["low_price__sum"]
+#    return total
+#    #return total if total != None else -1
+#
+#    #total = -1
+#    #item_list = ShoppingCart.objects.filter(form_instance_id=fi.pk, item__ext_id__gte=50000)
+#    #for item in item_list:
+#    #    total += item.item.get_price(regime)
+#    #return total
 
 def send_charges(pwu, fi, band, pos, factor):
     #pau = get_or_none(ProjectWinhotelUser, fi.form.project.uuid, "project_uuid")

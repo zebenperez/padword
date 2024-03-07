@@ -80,11 +80,19 @@ body.loading .overlay { display: block; }
 
 /******* TABLES ********/
 
+.tab-pane {
+    padding:0;
+}
+
+.small.tablesorter-headerRow,
 tr.small.tablesorter-headerRow {
-    border:none;
-    background-color: #dcebf3;
-    color: #35a8df;
-    text-transform: uppercase;
+    border:none !important;
+    background-color: #dcebf3 !important;
+    color: #35a8df !important;
+    text-transform: uppercase !important;
+    font-weight: 600;
+    font-size: 0.8rem;
+    letter-spacing: 0;
 }
 
 .table-striped th {
@@ -120,8 +128,7 @@ table.table-hover.table-striped { font-size: 0.8rem; }
 i.fas.fa-qrcode, 
 i.fas.fa-desktop,
 i.fas.fa-calculator,
-i.fas.fa-sync-alt
-{    
+i.fas.fa-sync-alt {    
     color: #ffffff;
 }
 
@@ -202,6 +209,15 @@ select.mini {
 .text-end .fas,
 .text-end .far { 
     color: #143e53;
+}
+
+.log-content {
+    padding-left:30px;
+    max-height:600px;
+    overflow:scroll;
+    color: #143e53;
+    font-size: 0.8rem;
+    line-height: 1.7;
 }
 
 /***************************/

@@ -6,9 +6,13 @@
 	    <div class="row">
               <div class="welcome-inner fit col-12 justify-content-center menu">
                 <div class="welcome-opac">
-                <h3> {% trans "Welcome" %} </h3>
-                {% if cat.name != "" %}<h4> {% padword_translate cat.name %} <h4> {% endif %}
-                {% if cat.description != "" %}<h5> {% padword_translate cat.description %} <h5> {% endif %}
+                <h3> {% trans "Bienvenid@" %} </h3>
+                {% if guest and guest.name != "" %}
+                    <h4> {{guest.name}} {{guest.surname}}<h4> 
+                {% else %}
+                    {% if cat.name != "" %}<h4> {% padword_translate cat.name %} <h4> {% endif %}
+                    {% if cat.description != "" %}<h5> {% padword_translate cat.description %} <h5> {% endif %}
+                {% endif %}
                 {% if project_uuid %}
                 </div>
                     <button class="me-1 btn btn-access ark" data-url="{{next_url}}" data-target="div-main" data-project_uuid="{{project_uuid}}"

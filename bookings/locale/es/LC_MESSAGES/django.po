@@ -31,8 +31,7 @@ msgstr "Debe completar el nombre de usuario y la contraseña"
 
 #: guest_views.py:537
 msgid "Sorry, there was a problem with your booking, please try again!"
-msgstr ""
-"Lo sentimos, hay algún problema con su reserva, por favor, inténtelo de nuevo"
+msgstr"Lo sentimos, hay algún problema con su reserva, por favor, inténtelo de nuevo"
 
 #: guest_views.py:708
 msgid "- Order {} with current status {}\n"
@@ -134,7 +133,7 @@ msgstr "UUID del proyecto"
 
 #: models.py:100
 msgid "CSS"
-msgstr ""
+msgstr "CSS"
 
 #: models.py:106 models.py:141
 msgid "Form type"
@@ -331,7 +330,7 @@ msgstr "Formulario UUID"
 
 #: models.py:356
 msgid "Point of sale UUID"
-msgstr ""
+msgstr "Punto de venta UUID"
 
 #: models.py:357
 #, fuzzy
@@ -410,7 +409,7 @@ msgstr "Usuario de huésped"
 
 #: models.py:609
 msgid "Point of service"
-msgstr ""
+msgstr "Punto de servicio"
 
 #: models.py:610 templates/bookings/tpv-orders/order-list.html:12
 #, fuzzy
@@ -420,7 +419,7 @@ msgstr "Horario"
 
 #: models.py:611 templates/bookings/tpv/view-guest-info.html:23
 msgid "Band"
-msgstr ""
+msgstr "Marca"
 
 #: models.py:613
 #, fuzzy
@@ -587,8 +586,7 @@ msgstr "Guardar"
 #: templates/bookings/tpv/mobile/tpv-cart-mobile.html:5
 #: templates/bookings/tpv/tpv-cart.html:6
 msgid "Service not available in this moment, sorry for the inconvenience!"
-msgstr ""
-"El servicio no está disponible en este momento. Disculpe las molestias."
+msgstr "El servicio no está disponible en este momento. Disculpe las molestias."
 
 #: templates/bookings/ecom/shopping_cart.html:12
 #: templates/bookings/ecom/shopping_cart2.html:13
@@ -651,8 +649,7 @@ msgstr "Precio total"
 #: templates/bookings/ecom/view-shopping-cart-fi.html:13
 #: templates/bookings/tpv/view-ticket.html:33
 msgid "You can add comments to the article with click on comment buttons"
-msgstr ""
-"Puede añadir comentarios al artículo haciendo clic en los botones de "
+msgstr "Puede añadir comentarios al artículo haciendo clic en los botones de "
 "comentario"
 
 #: templates/bookings/ecom/view-shopping-cart-fi.html:34
@@ -772,8 +769,7 @@ msgstr "¡Su reserva se ha cancelado correctamente!"
 #: templates/bookings/tpv/mobile/tpv-form-login.html:3
 #: templates/bookings/tpv/tpv-form-login.html:3
 msgid "Your username and password didn't match. Please try again."
-msgstr ""
-"Su nombre de usuario y contraseña no coinciden. Por favor, inténtalo de "
+msgstr "Su nombre de usuario y contraseña no coinciden. Por favor, inténtalo de "
 "nuevo."
 
 #: templates/bookings/login/login_lagos.html:9
@@ -880,12 +876,12 @@ msgstr "Comentario para el siguiente estado"
 
 #: templates/bookings/menus/menu_brujas_qr.html:5
 msgid "Info"
-msgstr ""
+msgstr "Información"
 
 #: templates/bookings/menus/menu_brujas_qr_base.html:22
 #: templates/bookings/menus/menu_keys_base.html:23
 msgid "Cerrar ventana"
-msgstr ""
+msgstr "Cerrar ventana"
 
 #: templates/bookings/menus/menu_brujas_qr_base.html:26
 #: templates/bookings/menus/menu_keys_base.html:27
@@ -989,7 +985,7 @@ msgstr ""
 
 #: templates/bookings/tpv/mobile/index-mobile.html:22
 msgid "Products"
-msgstr ""
+msgstr "Productos"
 
 #: templates/bookings/tpv/mobile/index-mobile.html:27
 #, fuzzy
@@ -1000,12 +996,12 @@ msgstr "Logo"
 #: templates/bookings/tpv/mobile/index-mobile.html:41
 #: templates/bookings/tpv/tpv-cart.html:15
 msgid "Search..."
-msgstr ""
+msgstr "Búsqueda..."
 
 #: templates/bookings/tpv/mobile/tpv-cart-mobile.html:17
 #: templates/bookings/tpv/tpv-cart.html:19
 msgid "Favorite items"
-msgstr ""
+msgstr "Artículos favoritos"
 
 #: templates/bookings/tpv/mobile/tpv-cart-mobile.html:37
 #: templates/bookings/tpv/tpv-cart.html:32
@@ -1024,7 +1020,7 @@ msgstr "Nombre de usuario"
 #: templates/bookings/tpv/mobile/tpv-form-login.html:24
 #: templates/bookings/tpv/tpv-form-login.html:24
 msgid "Password:"
-msgstr ""
+msgstr "Contraseña:"
 
 #: templates/bookings/tpv/mobile/view-payment-types-mobile.html:34
 #: templates/bookings/tpv/view-payment-types.html:44
@@ -1033,7 +1029,7 @@ msgstr ""
 
 #: templates/bookings/tpv/mobile/view-payment-types-mobile.html:49
 msgid "Send"
-msgstr ""
+msgstr "Enviar"
 
 #: templates/bookings/tpv/mobile/view-payment-types-mobile.html:55
 #: templates/bookings/tpv/view-payment-types.html:65
@@ -1055,7 +1051,7 @@ msgstr ""
 #: templates/bookings/tpv/view-payment-types.html:87
 #: templates/bookings/tpv/view-payment-types.html:107
 msgid "Confirm"
-msgstr ""
+msgstr "Confirmar"
 
 #: templates/bookings/tpv/mobile/view-payment-types-mobile.html:82
 #: templates/bookings/tpv/view-payment-types.html:94
@@ -1076,7 +1072,7 @@ msgstr "Precio total"
 
 #: templates/bookings/tpv/mobile/view-ticket-mobile.html:46
 msgid "Add comment"
-msgstr ""
+msgstr "Añadir comentario"
 
 #: templates/bookings/tpv/orders-by-waiter.html:7
 #, fuzzy
@@ -1114,15 +1110,15 @@ msgstr "Tipo de pago"
 
 #: templates/bookings/tpv/view-guest-info.html:25
 msgid "Kid"
-msgstr ""
+msgstr "Niño"
 
 #: templates/bookings/tpv/view-guest-info.html:31
 msgid "Yes"
-msgstr ""
+msgstr "Si"
 
 #: templates/bookings/tpv/view-guest-info.html:33
 msgid "No"
-msgstr ""
+msgstr "No"
 
 #: templates/bookings/tpv/view-guest-info.html:38
 #, fuzzy
@@ -1212,7 +1208,7 @@ msgstr ""
 #: templates/forms/form-edit-category.html:10
 #: templates/forms/form-edit-category.html:11
 msgid "TPV MOVIL"
-msgstr ""
+msgstr "TPV móvil"
 
 #: templates/forms/form-edit-category.html:12
 msgid "Update"
@@ -1232,7 +1228,7 @@ msgstr "Imágenes"
 
 #: templates/forms/form-edit-content.html:23
 msgid "Files"
-msgstr ""
+msgstr "Archivos"
 
 #: templates/forms/form-edit.html:10
 msgid "Preview"
@@ -1348,7 +1344,7 @@ msgstr "Añadir horario"
 
 #: tpv_mobile_views.py:73 tpv_views.py:71
 msgid "Username or password incorrect!"
-msgstr ""
+msgstr "Nombre de usuario o contraseña incorrectos"
 
 #: tpv_mobile_views.py:78 tpv_views.py:76
 #, fuzzy
@@ -1358,11 +1354,11 @@ msgstr "Categoría no encontrada"
 
 #: tpv_views.py:199
 msgid "This band is locked!"
-msgstr ""
+msgstr "La pulsera está bloqueada"
 
 #: tpv_views.py:206
 msgid "This band is not asigned to any guest!"
-msgstr ""
+msgstr "Esta pulsera no está asignada a ningun huésped"
 
 #: views.py:40
 msgid "Project not found!"

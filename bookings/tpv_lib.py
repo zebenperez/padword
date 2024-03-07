@@ -1,4 +1,5 @@
 from django.conf import settings
+from django.db.models import Sum
 
 from bookings.models import Cash, FormInstance
 from padword.commons import get_float, translate2
@@ -12,6 +13,25 @@ FILES_DIR = os.path.join(settings.BASE_DIR, "media/tpv/orders-daily/")
 def get_date_z():
     return datetime.datetime.strptime("{} 23:59:59".format(datetime.datetime.now().strftime("%Y-%m-%d")), "%Y-%m-%d %H:%M:%S")
 
+def get_drinks_total(fi, band):
+    regime = band.guest.regime.code if band != None and band.guest != None and band.guest.regime != None else ""
+    if regime == "":
+        total = ShoppingCart.objects.filter(form_instance_id=fi.pk, item__ext_id__lt=50000).aggregate(Sum('price'))["price__sum"]
+    else:
+        total = ShoppingCart.objects.filter(form_instance_id=fi.pk, item__ext_id__lt=50000).aggregate(Sum('low_price'))["low_price__sum"]
+    return total
+ 
+def get_food_total(fi, band):
+    regime = band.guest.regime.code if band != None and band.guest != None and band.guest.regime != None else ""
+    if regime == "":
+        total = ShoppingCart.objects.filter(form_instance_id=fi.pk, item__ext_id__gte=50000).aggregate(Sum('price'))["price__sum"]
+    else:
+        total = ShoppingCart.objects.filter(form_instance_id=fi.pk, item__ext_id__gte=50000).aggregate(Sum('low_price'))["low_price__sum"]
+    return total
+
+'''
+    CASH
+'''
 def cash_exists(pos):
     return Cash.objects.filter(project_uuid=pos.project.uuid, pos_uuid=pos.uuid, date=get_date_z()).count() > 0
 
@@ -21,6 +41,7 @@ def get_cash(pos, date, username=""):
         cash.username = username
         cash.save()
     return cash, created
+
 #    created = False
 #    cash = Cash.objects.filter(project_uuid=pos.project.uuid, pos_uuid=pos.uuid, date=date).first()
 #    if cash == None:
@@ -92,7 +113,11 @@ def update_cash(cash, user, cancel_orders=False):
     band_total = 0
     card_total = 0
     back_total = 0
+    back_card_total = 0
+    back_band_total = 0
     free_total = 0
+    val1_total = 0
+    val2_total = 0
     for fi in fi_list:
         #if fi.get_status == None:
         #    fi.set_status("05", user, "Cancell in Z!")
@@ -104,16 +129,28 @@ def update_cash(cash, user, cancel_orders=False):
                 card_total += amount
             elif fi.payment_type.code == "03":
                 band_total += amount
-            elif fi.payment_type.code == "04":
+            elif fi.payment_type.code == "0401":
                 back_total += amount
+            elif fi.payment_type.code == "0402":
+                back_card_total += amount
+            elif fi.payment_type.code == "0403":
+                back_band_total += amount
             elif fi.payment_type.code == "05":
                 free_total += amount
+                
+            #if fi.payment_type.code == "01" or fi.payment_type.code == "02":
+            #    val1_total += get_drinks_total(fi, fi.band)
+            #    val2_total += get_food_total(fi, fi.band)
 
     cash.end_cash = cash_total
     cash.band = band_total
     cash.card = card_total
     cash.back = back_total
+    cash.back_card = back_card_total
+    cash.back_band = back_band_total
     cash.free = free_total
+    cash.val1 = val1_total
+    cash.val2 = val2_total
     cash.save()
     return cash
 
@@ -143,7 +180,8 @@ def cash_daily_summary(obj, date):
                 else:
                     discount = 100-((item.low_price/item.price)*100) if item.low_price < item.price and item.low_price > -1 else 0
                     total_price = item.low_price if item.low_price < item.price and item.low_price > -1 else item.price
-                    if fi.payment_type != None and fi.payment_type.code == "04":
+                    #if fi.payment_type != None and fi.payment_type.code == "04":
+                    if fi.payment_type != None and "04" in fi.payment_type.code:
                         total_price = total_price * -1
                 discount = "{:.2f}".format(discount)
                 writer.writerow([obj.ext_code, name, "", item.item.ext_id, desc, date, fi.id, item.price, 1, discount, total_price, room, client_id])
@@ -168,4 +206,25 @@ def cash_send_daily_summary(project_uuid, obj, date):
         session.quit()
     except Exception as e:
         print("ERROR: {}".format(e))
+
+#Bebidas
+#Comidas
+#Efectivo
+#Tarjetas
+def cash_send_charge(cash, source, total_amount, cash_code):
+    now = datetime.datetime.now()
+
+    booking_code = band.guest.ext_id
+    room_code = "ZTPV"
+    contact_name = cash.pos.name
+    contact_id = "???"
+    has_credit = "true"
+    limit_credit = 0
+    source = source
+    source_document = "LIQ ZETA {} {}".format(cash.pos.name, now.strftime("%Y-%m-%d"))
+    date = now.strftime("%Y-%m-%dT%H:%M:%S")
+    total_amount = total_amount
+    cash_code = cash_code
+
+    send_charge(pwu,booking_code,room_code,contact_name,contact_id,has_credit,limit_credit,source,source_document,date,total_amount,cash_code)
 

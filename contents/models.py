@@ -371,14 +371,18 @@ class ItemImage(models.Model):
 
 class ShoppingCart(models.Model):
     form_instance_id = models.IntegerField(verbose_name=_("Form Instance"), default=0)
-    item = models.ForeignKey(Item, on_delete=models.CASCADE, verbose_name=_("Item"), blank=True, null=True)
+    item = models.ForeignKey(Item, on_delete=models.SET_NULL, verbose_name=_("Item"), blank=True, null=True)
     options = models.ManyToManyField(OptionItem, blank=True, verbose_name=_("Options"))
     comments = models.TextField(verbose_name = _("Comments"), default="")
 
-    category = models.CharField(verbose_name="Nombre", max_length=250, blank=True, null=True)
+    category = models.CharField(verbose_name="Categoría", max_length=250, blank=True, null=True)
     name = models.CharField(verbose_name="Nombre", max_length=250, blank=True, null=True)
     price = models.FloatField(verbose_name='Price', default=0, null=True, blank=True)
     low_price = models.FloatField(verbose_name='Price', default=-1, null=True, blank=True)
+
+    @property
+    def get_low_price(self):
+        return "" if self.low_price == -1 else self.low_price
 
     class Meta:
         db_table = 'shopping_cart'

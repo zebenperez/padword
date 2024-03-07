@@ -32,7 +32,7 @@
 <div class="d-flex p-2">
     <table class="table table-striped table-hover m-1">
         <thead>
-            <tr class="small small">
+            <tr class="small tablesorter-headerRow">
                 <th> {% trans 'Type' %} </th>
                 <th> {% trans 'TPV' %} </th>
                 <th> {% trans 'Date' %} </th>
@@ -48,7 +48,7 @@
         </thead>
         <tbody id="table-list-bookings">
             {% for item in cash_list %}
-                <tr class="small" id="row_{{item.id}}"> 
+                <tr class="small tablesorter-headerRow" id="row_{{item.id}}"> 
                     <td>{%if item.date|date:"H:i:s" == "23:59:59" %} Zeta {%else%} Equis {%endif%}</td>
                     <td>{{item.pos.name}}</td>
                     <td>{{item.date}}</td>
@@ -59,7 +59,7 @@
                     <td>{{item.back}}</td>
                     <td>{{item.free}}</td>
                     <td>{% if item.close %}<i class="fas fa-check"></i>{% else %}<i class="fas fa-times"></i>{% endif %}</td>
-                    <td>
+                    <td class="text-end px-0">
                         {% if not item.close %}
                             <a class="btn btn-sm ark" data-url="{% url "cash-z" %}" data-target="file-list" data-obj_id="{{item.id}}" 
                                 title="{%trans "Close"%}"> <i class="fas fa-door-closed"></i></a>
@@ -67,7 +67,7 @@
                         <a class="btn btn-sm ark" data-url="{% url "cash-remove" %}" data-target="file-list" data-obj_id="{{item.id}}" 
                             title="{%trans "Remove"%}" data-confirm="{% trans "Are you sure to remove this element?" %}"> 
                             <i class="fas fa-trash"></i></a>
-                        <a class="btn btn-sm" href="{% url "cash-z-print" item.id %}" target="_blank"> <i class="fas fa-print"></i></a>
+                        <a class="btn btn-sm" href="{% url "cash-z-print" item.id %}" title="{%trans "Print"%}" target="_blank"> <i class="fas fa-print"></i></a>
                     </td>
                 </tr>
             {% endfor %}

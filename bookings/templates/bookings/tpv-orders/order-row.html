@@ -18,7 +18,7 @@
     {% endif %}
     <a class="me-1 btn btn-xs ark" title="{%trans "Log"%}" data-url="{%url "booking-log" item.id%}" data-target-modal="common-modal" 
         data-obj_id="{{item.id}}"><i class="fas fa-list"></i></a>                     
-    <a class="me-1 btn btn-xs ark" title="{%trans "View"%}" data-url="{% url "booking-view" %}" data-target-modal="common-modal" 
+    <a class="me-1 btn btn-xs ark" title="{%trans "View"%}" data-url="{% url "orders-view" %}" data-target-modal="common-modal" 
         data-obj_id="{{item.id}}" data-show_status="False"> <i class="fas fa-eye"></i></a> 
     {% if request.user|in_group:'admins' %}
         <a class="btn btn-sm autoremove" data-model-name="bookings.forminstance" data-obj-id="{{item.id}}" 

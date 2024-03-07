@@ -8,14 +8,14 @@
 
     <div class="content mt-4">
         <div class="toolbar-content"> <h2 class="pathway b-right"> {% trans 'Logs' %} </h2> </div>
-        <div style="padding-left:30px;max-height:200px;overflow:scroll">
+        <div style="padding-left:30px;max-height:200px;overflow:scroll;">
             <ul>
                 {% for item in log_list %}
                 <li><a href="{% url "download-log" %}?name={{item}}" target="_blank">{{item}}</a></li>
                 {% endfor %}
             </ul>
         </div>
-        <div class="toolbar-content"> <h2 class="pathway b-right"> {% trans 'Current Logs' %} </h2> </div>
-        <div style="padding-left:30px;max-height:600px;overflow:scroll">{{text|safe}}</div>
+        <div class="small tablesorter-headerRow p-3 mt-0">{% trans 'Current Logs' %}</div>
+        <div class="log-content">{{text|safe}}</div>
     </div>
 {% endblock central_content %}

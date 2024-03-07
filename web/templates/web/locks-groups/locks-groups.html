@@ -9,9 +9,10 @@
 
     <h4>{{project.name}}</h4>
     <div class="toolbar-search">
+        <input type="hidden" id="project_id" name="project_id" value="{{project.id}}"/>
         <input type="text" class="autosearch form-control form-control-dark w-100" name="lock_group_search_name" id="lock_group_search_name"
             placeholder="{% trans 'Name' %}" data-url="{% url "lock-group-search" %}" data-target="lock-group-list" 
-            data-related="lock_group_search_name" value="{{request.session.lock_group_search_name}}"/>
+            data-related="lock_group_search_name,project_id" value="{{request.session.lock_group_search_name}}"/>
     </div>
 
     <div class="content">

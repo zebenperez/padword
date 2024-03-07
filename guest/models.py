@@ -6,7 +6,7 @@ from django.urls import reverse
 from django.conf import settings
 from django.contrib.auth.models import User
 
-from padword.commons import show_exc
+from padword.commons import show_exc, new_ui_slug
 #from web.models import Channel, Project, Lock, Room
 from web.models import Channel, Project, Room
 from web.models_lock import Lock
@@ -84,6 +84,10 @@ class Guest(models.Model):
             return None
 
     @property
+    def guest_type_obj(self):
+        return GuestType.objects.filter(uuid=self.guest_type).first()
+
+    @property
     def pwa_link(self):
         try:
             return "{}{}".format(settings.MAIN_URL, reverse("guest-access-auto", kwargs = {'guest_uuid': self.UUID}))
@@ -101,8 +105,11 @@ class Guest(models.Model):
 
     def have_valid_booking(self):
         #date = timezone.now()
-        date = pytz.utc.localize(datetime.datetime.now() + datetime.timedelta(hours=1))
-        return (self.check_in <= date and self.check_out >= date) 
+        #date = pytz.utc.localize(datetime.datetime.now() + datetime.timedelta(hours=1))
+        #return (self.check_in <= date and self.check_out >= date) 
+        date = pytz.utc.localize(datetime.datetime.now())
+        local_date = self.project.local_date(date)
+        return (self.check_in <= local_date and self.check_out >= local_date) 
 
     def have_valid_booking2(self):
         date = pytz.utc.localize(datetime.datetime.now() + datetime.timedelta(hours=1))
@@ -564,7 +571,8 @@ class Wristband(models.Model):
 
     @staticmethod
     def get_active_by_project(project, code):
-        now = datetime.datetime.now()
+        #now = datetime.datetime.now()
+        now = timezone.now()
         return Wristband.objects.filter(code=code, guest__project_id=project.uuid, guest__deleted=False, guest__check_in__lte=now, guest__check_out__gte=now).first()
 
     class Meta:
@@ -599,5 +607,17 @@ class ProjectRegime(models.Model):
 class GuestRegime(models.Model):
     regime = models.ForeignKey(Regime, on_delete=models.CASCADE, verbose_name=_("Regime"), related_name="guests")
     guest = models.ForeignKey(Guest, on_delete=models.CASCADE, verbose_name=_("Guest"), related_name="regimes")
+
+'''
+    Guest Type
+'''
+class GuestType(models.Model):
+    uuid = models.CharField(max_length = 255, verbose_name= _('UUID'), default=new_ui_slug)
+    name = models.CharField(max_length=255, verbose_name='Name', default="")
+    discount = models.FloatField(verbose_name='Descuento', default=0.)
+    project_uuid = models.CharField(max_length = 255, verbose_name= _('Project UUID'), default='')
+
+    class Meta:
+        verbose_name = _('Tipo de huésped')
 
 

@@ -767,7 +767,7 @@ p.ql-align-right {
 .welcome-page h3 {
 	color: #fff;
 	text-transform: uppercase;
-	margin-top: 8px !important;
+	margin-top: 8px;
 }
 .welcome-page h4 {
 	color: #fff;
