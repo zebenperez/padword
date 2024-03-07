@@ -118,3 +118,12 @@ def orders_by_project(request):
         logger.error("[bookings-orders_by_project] {}".format(str(e)))
         return render(request, 'error_exception.html', {'exc':show_exc(e)})
 
+@group_required("projects")
+def order_view(request):
+    try:
+        fi = FormInstance.objects.get(pk = request.GET["obj_id"])
+        return render(request, 'bookings/tpv-orders/view-order.html', {'fi': fi, 'index': "0"})
+    except Exception as e:
+        logger.error("[bookings-order_view] {}".format(str(e)))
+        return render(request, 'error_exception.html', {'exc':show_exc(e)})
+

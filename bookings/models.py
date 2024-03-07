@@ -415,6 +415,21 @@ class FormInstance(models.Model):
             return 0
 
     @property
+    def get_total_low(self):
+        try:
+            items = ShoppingCart.objects.filter(form_instance_id=self.pk)
+            total_price = 0
+            for item in items:
+                try:
+                    total_price += float(item.low_price(',','.'))
+                except:
+                    total_price += 0
+            return total_price
+        except Exception as e:
+            print (show_exc(e))
+            return 0
+
+    @property
     def band(self):
         info = self.info.first()
         if info == None:
