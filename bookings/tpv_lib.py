@@ -190,6 +190,7 @@ def cash_daily_summary(obj, date):
                 else:
                     discount = 100-((item.low_price/item.price)*100) if item.low_price < item.price and item.low_price > -1 else 0
                     total_price = item.low_price if item.low_price < item.price and item.low_price > -1 else item.price
+                    #if fi.payment_type != None and fi.payment_type.code == "04":
                     if fi.payment_type != None and "04" in fi.payment_type.code:
                         total_price = total_price * -1
                 discount = "{:.2f}".format(discount)
@@ -199,7 +200,7 @@ def cash_daily_summary(obj, date):
 def cash_send_daily_summary(project_uuid, obj, date):
     try:
         e_date = datetime.datetime.strptime("{} 23:59:59".format(date), "%Y-%m-%d %H:%M:%S")
-        f_name = "{}_{}.csv".format(e_date.strftime("%Y%m%d_%H%M"), obj.ext_code)
+        f_name = "{}_{}07.csv".format(e_date.strftime("%Y%m%d_%H%M"), obj.ext_code)
         f = open("{}{}".format(FILES_DIR, f_name), "rb")
 
         pau = ProjectWinhotelUser.objects.filter(project_uuid=project_uuid).first()
