@@ -40,6 +40,11 @@
                             title="{{item.code2}}" data-model-name="contents.pointofsale" data-obj-id="{{item.id}}" 
                             data-url="{% url "autosave_field" %}" data-target="div-notification"/> <span id="code2__msg"></span>	
 
+                        <label class="label">{% trans "Code 3 (breakfast)" %}</label>
+                        <input type="text" class="form-control autosave input" id="code3" name="code3" value="{{item.code3}}" 
+                            title="{{item.code3}}" data-model-name="contents.pointofsale" data-obj-id="{{item.id}}" 
+                            data-url="{% url "autosave_field" %}" data-target="div-notification"/> <span id="code3__msg"></span>	
+
                        <label class="label">{% trans "UUID" %}</label>
                         <input type="text" class="form-control autosave input" id="uuid" name="uuid" value="{{item.uuid}}" 
                             title="{{item.uuid}}" data-model-name="contents.pointofsale" data-obj-id="{{item.id}}" 

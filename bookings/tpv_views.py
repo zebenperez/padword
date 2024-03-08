@@ -15,7 +15,7 @@ from connector.models import ProjectWinhotelUser
 
 from .common_lib import get_or_create_form_instance_tpv, get_or_create_form_instance_info_tpv, get_or_create_form_instance_info_client_tpv
 from .common_lib import user_in_group
-from .tpv_lib import get_cash, update_cash, cash_daily_summary, cash_send_daily_summary, get_food_total, get_drinks_total
+from .tpv_lib import get_cash, update_cash, cash_daily_summary, cash_send_daily_summary, get_food_total, get_drinks_total, get_breakfast_total
 from .models import Form, FormInstance, Status, Cash
 from django.conf import settings
 
@@ -508,9 +508,11 @@ def send_charges(pwu, fi, band, pos, factor):
     #source = fi.id
     s_drink = pos.code1
     s_food = pos.code2
+    s_break = pos.code3
     #source_document
     sd_drink = "Cargo Ticket Nº- {} del TPV {} (Bebidas)".format(fi.id, pos.name)
     sd_food = "Cargo Ticket Nº- {} del TPV {} (Comidas)".format(fi.id, pos.name)
+    sd_break = "Cargo Ticket Nº- {} del TPV {} (Desayunos)".format(fi.id, pos.name)
     date = fi.date.strftime("%Y-%m-%dT%H:%M:%S")
     #total_amount
     #total_amount = fi.get_total()
@@ -518,6 +520,7 @@ def send_charges(pwu, fi, band, pos, factor):
     #ta_food = get_food_total(fi, band) * factor
     ta_drink = get_drinks_total(fi, band)
     ta_food = get_food_total(fi, band)
+    ta_break = get_breakfast_total(fi, band)
     cash_code = ""
     #print(ta_drink)
     #print(ta_food)
@@ -526,4 +529,6 @@ def send_charges(pwu, fi, band, pos, factor):
         send_charge(pwu,booking_code,room_code,contact_name,contact_id,has_credit,limit_credit,s_drink,sd_drink,date,ta_drink*factor,cash_code)
     if ta_food != None:
         send_charge(pwu,booking_code,room_code,contact_name,contact_id,has_credit,limit_credit,s_food,sd_food,date,ta_food*factor,cash_code)
+    if ta_break != None:
+        send_charge(pwu,booking_code,room_code,contact_name,contact_id,has_credit,limit_credit,s_break,sd_break,date,ta_break*factor,cash_code)
 

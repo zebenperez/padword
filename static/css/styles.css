@@ -169,7 +169,7 @@ span.xx-small {
 }
 #div-logo img, #div-qr img {
     max-height: 120px;
-    margin: 10px 0 10px 0;
+    margin: 0 0 10px 0;
 }
 
 select.mini {
@@ -211,6 +211,8 @@ select.mini {
     color: #143e53;
 }
 
+/* LOG STYLE */
+
 .log-content {
     padding-left:30px;
     max-height:600px;
@@ -219,6 +221,20 @@ select.mini {
     font-size: 0.8rem;
     line-height: 1.7;
 }
+
+.menu-log-tab {
+    margin-left: 10px;
+    margin-bottom: -2px;
+    background-color: #dcebf3;
+}
+
+.menu-log-tab a {
+    color: #143e53;
+    font-size: 0.8rem;
+    letter-spacing: 0;
+}
+
+/* END LOG STYLE */
 
 /***************************/
 /***** Padword buttons *****/
@@ -1176,22 +1192,32 @@ ul.left-menu li.nav-item a.nav-link.active i {
 }
 
 .nav-tabs {
-    border-bottom: 1px solid #486879;
+    border-bottom: 1px solid #ccc;
+
+}
+.nav-tabs .nav-link {
+    background-color: #dcebf3;
 }
 
 .nav-tabs .nav-link:hover,
 .nav-tabs .nav-link.active {
+    /*background-color: #ff7805 !important; (ORANGE) */
+    background-color: #143e53 !important;
+  /*  border-color: #486879 #486879;*/
     color: #fff !important;
-    background-color: #ff7805 !important;
-    border-color: #486879 #486879 #fff;
-    font-weight: 600;
+    letter-spacing:0;
 }
 
 .nav-tabs .nav-link {
-    color: #486879 !important;
-    border-color: #486879 #486879 #fff;
+    color: #143e53 !important;
+/*    border-color: #486879 #486879 #fff;*/
+    margin-right: 3px;
+    letter-spacing:0;
+    font-size: 0.8rem;
+}
+.nav-tabs .nav-link.active {
+    color: #fff !important;
     font-weight: 600;
-    margin-right: 1px;
 }
 
 .tab-content.internal {

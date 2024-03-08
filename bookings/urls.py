@@ -233,6 +233,7 @@ urlpatterns = [
     path('orders/project/search/', tpv_orders.orders_search, name='orders-search'),
     path('orders/project/search/page/', tpv_orders.orders_page, name='orders-page'),
     path('orders/view/', tpv_orders.order_view, name='orders-view'),
+    path('orders/send-charges/', tpv_orders.order_send_charges, name='orders-send-charges'),
 
 
     path('fix-uuid/', views.fix_uuid, name='booking-fix-uuid'),

@@ -7,7 +7,11 @@ from padword.commons import show_exc, get_or_none, get_param, get_float, get_boo
 from web.models import Project
 from contents.models import Category
 from guest.models import Guest
+from connector.winhotel_lib import send_charge
+from connector.models import ProjectWinhotelUser
 
+
+from .tpv_lib import get_food_total, get_drinks_total, get_breakfast_total
 from .models import Form, FormInstance, FormInstanceInfo, Status
 
 import datetime
@@ -126,4 +130,47 @@ def order_view(request):
     except Exception as e:
         logger.error("[bookings-order_view] {}".format(str(e)))
         return render(request, 'error_exception.html', {'exc':show_exc(e)})
+
+@group_required("projects")
+def order_send_charges(request):
+    try:
+        fi = FormInstance.objects.get(pk = request.GET["obj_id"])
+        pwu = get_or_none(ProjectWinhotelUser, fi.form.project.uuid, "project_uuid")
+        factor = -1 if get_float(fi.amount.replace(",", ".")) < 0 else 1
+        send_charges(pwu, fi, fi.band, fi.pos, factor)
+        msg = "Ticket enviado correctamente"
+    except Exception as e:
+        msg = "Error: {}".format(e)
+        #logger.error("[bookings-order_view] {}".format(str(e)))
+        #return render(request, 'error_exception.html', {'exc':show_exc(e)})
+    return render(request, 'bookings/tpv-orders/send-charges.html', {'msg': msg,})
+
+def send_charges(pwu, fi, band, pos, factor):
+    booking_code = band.guest.ext_id
+    room_code = band.guest.room
+    contact_name = "{} {}".format(band.guest.name, band.guest.surname)
+    contact_id = band.guest.ext_id
+    has_credit = "true"
+    limit_credit = 0
+    #source
+    s_drink = pos.code1
+    s_food = pos.code2
+    s_break = pos.code3
+    #source_document
+    sd_drink = "Cargo Ticket Nº- {} del TPV {} (Bebidas)".format(fi.id, pos.name)
+    sd_food = "Cargo Ticket Nº- {} del TPV {} (Comidas)".format(fi.id, pos.name)
+    sd_break = "Cargo Ticket Nº- {} del TPV {} (Desayunos)".format(fi.id, pos.name)
+    date = fi.date.strftime("%Y-%m-%dT%H:%M:%S")
+    #total_amount
+    ta_drink = get_drinks_total(fi, band)
+    ta_food = get_food_total(fi, band)
+    ta_break = get_breakfast_total(fi, band)
+    cash_code = ""
+
+    if ta_drink != None:
+        send_charge(pwu,booking_code,room_code,contact_name,contact_id,has_credit,limit_credit,s_drink,sd_drink,date,ta_drink*factor,cash_code)
+    if ta_food != None:
+        send_charge(pwu,booking_code,room_code,contact_name,contact_id,has_credit,limit_credit,s_food,sd_food,date,ta_food*factor,cash_code)
+    if ta_break != None:
+        send_charge(pwu,booking_code,room_code,contact_name,contact_id,has_credit,limit_credit,s_break,sd_break,date,ta_break*factor,cash_code)
 

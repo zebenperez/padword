@@ -1,12 +1,17 @@
 {% load i18n padword_tags bookings_tag common_tag %}
 
-<div class="card">
-    <div class="card-header bg-secondary text-white">{% trans 'QR' %} <span id="div-notification" style="margin-left:20px"></span> </div>
-    <div class="card-body">
-        <div class="row justify-center">
-            {#<div class="col-12"> {% trans "Background image" %}: <div id="div-files">{% include "forms/form-document.html" %}</div></div>#}
-            <div class="col-6 grey text-center"> {% trans "Logo" %}: <div id="div-logo">{% include "forms/form-logo.html" %}</div> </div>
-            <div class="col-6 grey text-center"> {% trans "QR" %}: <div id="div-qr">{% include "forms/form-qr.html" %}</div> </div>
+
+<div class="row m-0">
+    <div class="col-6 text-center">
+        <div class="card"> 
+            <div class="card-header bg-secondary text-white"> {% trans "Logo" %}</div>
+            <div class="card-body"><div id="div-logo">{% include "forms/form-logo.html" %}</div></div>
+        </div>
+    </div>
+    <div class="col-6 text-center">
+        <div class="card"> 
+            <div class="card-header bg-secondary text-white"> {% trans "QR" %}</div>
+            <div class="card-body"><div id="div-qr">{% include "forms/form-qr.html" %}</div></div>
         </div>
     </div>
 </div>

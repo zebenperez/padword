@@ -22,11 +22,21 @@ def get_drinks_total(fi, band):
     return total
  
 def get_food_total(fi, band):
+    break_list = [56029, 56030, 56031, 56032]
     regime = band.guest.regime.code if band != None and band.guest != None and band.guest.regime != None else ""
     if regime == "":
-        total = ShoppingCart.objects.filter(form_instance_id=fi.pk, item__ext_id__gte=50000).aggregate(Sum('price'))["price__sum"]
+        total = ShoppingCart.objects.filter(form_instance_id=fi.pk, item__ext_id__gte=50000).exclude(item__ext_id__in=break_list).aggregate(Sum('price'))["price__sum"]
     else:
-        total = ShoppingCart.objects.filter(form_instance_id=fi.pk, item__ext_id__gte=50000).aggregate(Sum('low_price'))["low_price__sum"]
+        total = ShoppingCart.objects.filter(form_instance_id=fi.pk, item__ext_id__gte=50000).exclude(item__ext_id__in=break_list).aggregate(Sum('low_price'))["low_price__sum"]
+    return total
+
+def get_breakfast_total(fi, band):
+    break_list = [56029, 56030, 56031, 56032]
+    regime = band.guest.regime.code if band != None and band.guest != None and band.guest.regime != None else ""
+    if regime == "":
+        total = ShoppingCart.objects.filter(form_instance_id=fi.pk, item__ext_id__in=break_list).aggregate(Sum('price'))["price__sum"]
+    else:
+        total = ShoppingCart.objects.filter(form_instance_id=fi.pk, item__ext_id__in=break_list).aggregate(Sum('low_price'))["low_price__sum"]
     return total
 
 '''
