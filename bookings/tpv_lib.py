@@ -5,6 +5,7 @@ from bookings.models import Cash, FormInstance
 from padword.commons import get_float, translate2
 from bookings.models import FormInstance
 from connector.models import ProjectWinhotelUser
+from contents.models import ShoppingCart
 
 import datetime, csv, os, ftplib
 
