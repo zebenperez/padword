@@ -452,7 +452,8 @@ class FormInstance(models.Model):
             total_price = 0
             for item in items:
                 try:
-                    price = item.item.get_price(regime, self.band)
+                    #price = item.item.get_price(regime, self.band)
+                    price = item.get_price(regime, self.band)
                     total_price += float(price)
                 except Exception as ex:
                     #print(ex)
@@ -493,6 +494,9 @@ class FormInstance(models.Model):
             #send_change_status_email(self, status)
             #self.status = status
             #self.save()
+
+    def current_status(self, code):
+         return self.get_status != None and self.get_status.status != None and self.get_status.status.code == code
 
     def items_in_bookings(self, item):
         items = ShoppingCart.objects.filter(form_instance_id=self.pk, item=item)
