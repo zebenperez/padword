@@ -11,7 +11,7 @@ from connector.winhotel_lib import send_charge
 from connector.models import ProjectWinhotelUser
 
 
-from .tpv_lib import get_food_total, get_drinks_total, get_breakfast_total
+from .tpv_winhotel_lib import get_food_total, get_drinks_total, get_breakfast_total
 from .models import Form, FormInstance, FormInstanceInfo, Status
 
 import datetime

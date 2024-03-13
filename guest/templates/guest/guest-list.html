@@ -20,11 +20,10 @@
         <tbody id="table-list-guests"> {% include "guest/guest-page.html" %} </tbody>
         <tfoot>
             <tr>
-                <td colspan="5">
+                <td class="text-center" colspan="12">
                     <div id="div-see-more">
-                        <a class="small d-flex justify-content-center btn ark-append-page" id="btn-see-more" 
-                            data-url="{% url "guest-page" %}" data-target="table-list-guests" data-page="0">
-                            <small>{% trans "See more" %}</small></a> 
+                        <a class="btn btn-primary ark-append-page" id="btn-see-more" 
+                            data-url="{% url "guest-page" %}" data-target="table-list-guests" data-page="0">{% trans "See more" %}</a> 
                     </div>
                 </td>
             </tr>

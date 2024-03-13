@@ -406,7 +406,8 @@ class FormInstance(models.Model):
             total_price = 0
             for item in items:
                 try:
-                    total_price += float(item.item.price.replace(',','.'))
+                    #total_price += float(item.item.price.replace(',','.'))
+                    total_price += float(item.price.replace(',','.'))
                 except:
                     total_price += 0
             return total_price
@@ -506,13 +507,17 @@ class FormInstance(models.Model):
                 item.save()
 
     def update_items_low_price(self):
-        band = self.band
-        if band != None and band.guest != None:
-            gr = band.guest.regimes.first()
-            if gr != None and gr.regime != None:
-                for item in self.get_items:
-                    item.low_price = item.item.get_price(gr.regime.code)
-                    item.save()
+        for item in self.get_items:
+            self.update_item_low_price(item)
+
+#    def update_items_low_price(self):
+#        band = self.band
+#        if band != None and band.guest != None:
+#            gr = band.guest.regimes.first()
+#            if gr != None and gr.regime != None:
+#                for item in self.get_items:
+#                    item.low_price = item.item.get_price(gr.regime.code)
+#                    item.save()
 
     @staticmethod
     def get_all_items(guest):

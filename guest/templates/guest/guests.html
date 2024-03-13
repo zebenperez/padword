@@ -17,7 +17,7 @@
                     data-related="guest_search_name,guest_search_project" value="{{request.session.guest_search_name}}"/>
             </div>
             <div>
-                <select class="autosearch_change form-control form-control-dark w-100 select-k" name="guest_search_project" id="guest_search_project" 
+                <select class="autosearch_change form-control form-control-dark w-100 select-k guests" name="guest_search_project" id="guest_search_project" 
                     data-url="{% url "guest-search" %}" data-target="guest-list" data-related="guest_search_name,guest_search_project">
                     <option value="">{% trans "-- Select project ---" %}</option>
                     {% for proj in project_list %} <option value="{{proj.uuid}}">{{proj.name}}</option> {% endfor %}

@@ -17,12 +17,12 @@
 
     <div class="d-flex justify-content-end p-2">
 
-        <button type="button" class="btn btn-success m-2 ark" title="{%trans "Share code"%}" data-url="{% url "lock-share-code-guest" %}" 
+        <button type="button" class="btn btn-primary m-2 ark" title="{%trans "Share code"%}" data-url="{% url "lock-share-code-guest" %}" 
             data-obj_id="{{obj.id}}" data-target-modal="share-modal">{% trans "Share" %} </button>
 
         <a type="button" id="btn-save" class="btn btn-primary m-2" href="{% url "guests" %}"> {%trans "Save"%}</a>
 
-        <a type="button" id="btn-remove" class="btn btn-danger m-2" href="{% url "guest-remove" obj.id %}" 
+        <a type="button" id="btn-remove" class="btn btn-primary m-2" href="{% url "guest-remove" obj.id %}" 
             onclick="return confirm('{% trans "Are you sure to remove this element?" %}')"> {%trans "Remove"%}</a>
         {%comment%}
         <button type="button" class="btn btn-danger ark m-2" data-url="{% url "guest-remove" %}" data-target="guest-list" 

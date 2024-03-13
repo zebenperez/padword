@@ -316,9 +316,14 @@ span.badge.rounded-pill {
 }
 
 .btn.regime {
+    background: #fff;
     font-size: 0.9rem;
     text-transform: capitalize;
     padding: 0 5px 0 5px;
+}
+button.btn.regime.btn-outline-primary.w-100.ark:hover {
+    background-color: #a1c517 !important;
+    color: #fff !important;
 }
 
 /******************************************/
@@ -510,7 +515,9 @@ select.select-k, input.form-control.input-k {
     height: 2em; 
     margin:0;
 }
-
+select.select-k.guests {
+    height: 2.5em; 
+}
 .band-div {
     background: #f1f4f5;
 }
@@ -1192,8 +1199,7 @@ ul.left-menu li.nav-item a.nav-link.active i {
 }
 
 .nav-tabs {
-    border-bottom: 1px solid #ccc;
-
+    border-bottom: 1px solid #fff;
 }
 .nav-tabs .nav-link {
     background-color: #dcebf3;
@@ -1221,11 +1227,14 @@ ul.left-menu li.nav-item a.nav-link.active i {
 }
 
 .tab-content.internal {
-    border-left:1px solid #486879;
-    border-right:1px solid #486879;
-    border-bottom:1px solid #486879;
+    border-left:1px solid #dfdfdf;
+    border-right:1px solid #dfdfdf;
+    border-bottom:1px solid #dfdfdf;
+    border-radius: 0 0.5rem 0.5rem 0.5rem;
     margin-top: -8px !important;
-    padding-top: 20px !important;
+    padding: 20px !important;
+    background: #f3f5f7;
+
 }
 /****************************************/
 /* modal style */
