@@ -404,10 +404,13 @@ class FormInstance(models.Model):
         try:
             items = ShoppingCart.objects.filter(form_instance_id=self.pk)
             total_price = 0
+            print("--0--")
             for item in items:
                 try:
+                    print(item.name)
                     #total_price += float(item.item.price.replace(',','.'))
                     total_price += float(item.price.replace(',','.'))
+                    print(total_price)
                 except:
                     total_price += 0
             return total_price
@@ -429,6 +432,22 @@ class FormInstance(models.Model):
         except Exception as e:
             print (show_exc(e))
             return 0
+
+    @property
+    def get_total_total(self):
+        try:
+            items = ShoppingCart.objects.filter(form_instance_id=self.pk)
+            total_price = 0
+            for item in items:
+                try:
+                    total_price += float(item.total_price(',','.'))
+                except:
+                    total_price += 0
+            return total_price
+        except Exception as e:
+            print (show_exc(e))
+            return 0
+
 
     @property
     def band(self):
@@ -502,17 +521,47 @@ class FormInstance(models.Model):
         items = ShoppingCart.objects.filter(form_instance_id=self.pk, item=item)
         return (items)
 
-    def update_item_low_price(self, item):
+#    def update_item_low_price(self, item):
+#        band = self.band
+#        if band != None and band.guest != None:
+#            gr = band.guest.regimes.first()
+#            if gr != None and gr.regime != None:
+#                item.low_price = item.item.get_price(gr.regime.code)
+#                item.save()
+#
+#    def update_items_low_price(self):
+#        for item in self.get_items:
+#            self.update_item_low_price(item)
+
+    def get_low_price(self, item):
         band = self.band
         if band != None and band.guest != None:
             gr = band.guest.regimes.first()
             if gr != None and gr.regime != None:
-                item.low_price = item.item.get_price(gr.regime.code)
-                item.save()
+                return item.item.get_price(gr.regime.code)
+        return item.item.price
 
-    def update_items_low_price(self):
+    def update_item_prices(self, item):
+        discount = 0
+        low_price = item.item.price
+        total_price = item.item.price
+        if self.band != None and self.band.guest != None:
+            gr = band.guest.regimes.first()
+            if gr != None and gr.regime != None:
+                low_price = item.item.get_price(gr.regime.code)
+            if guest.guest_type != None:
+                discount = guest.guest_type.discount
+                total_price = low_price - (low_price * (discount/100)) if discount > 0 else low_price
+
+        item.price = item.item.price
+        item.low_price = low_price
+        item.discount = discount
+        item.total_price = total_price
+        item.save()
+
+    def update_items_prices(self):
         for item in self.get_items:
-            self.update_item_low_price(item)
+            self.update_item_prices(item)
 
 #    def update_items_low_price(self):
 #        band = self.band
