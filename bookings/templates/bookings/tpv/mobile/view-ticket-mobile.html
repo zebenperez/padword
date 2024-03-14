@@ -2,7 +2,8 @@
 
 
 {% if request.session.table == fi.table.id %}
-{% with items=fi.get_items total=fi.get_total regime=fi.band.guest.regime band=fi.band%}
+{#{% with items=fi.get_items total=fi.get_total regime=fi.band.guest.regime band=fi.band%}#}
+{% with items=fi.get_items subtotal=fi.get_total total=fi.get_total_total regime=fi.band.guest.regime band=fi.band%}
     {% if items|length > 0 %} 
     <div class="row justify-content-center p-0"><div id="guest-info" class="col-12 text-center mb-1">
         {#{{fi.id}} - {{request.session.table}}#}
@@ -18,25 +19,30 @@
                 </h6>
             </div>
             <div class="col-5 btn-dark price p-1" id="div-total-shopping-cart">
-                {%trans 'Total price'%}: <strong>{{total|floatformat:2}} &euro;</strong></div>
+                {%trans 'Total price'%}: <strong>{{subtotal|floatformat:2}} &euro;</strong></div>
         </div>
 
-        {% if regime %}
+        {#{% if regime %}#}
             <div class="row m-0">
                 <div class="col-12 btn-dark-grey price p-1" id="div-total-shopping-cart">
-                    <strong class="text-warning">{%trans 'Total price user'%}: {{fi|get_total_by_regime:regime.code}} &euro;</strong></div>
+                    {#<strong class="text-warning">{%trans 'Total price user'%}: {{fi|get_total_by_regime:regime.code}} &euro;</strong></div>#}
+                    <strong class="text-warning">{%trans 'Total price user'%}: {{total}} &euro;</strong></div>
             </div>
-        {% endif %}
+        {#{% endif %}#}
     
         <div class="row ticket-line mt-2 p-0" style="overflow-y: scroll; max-height: 350px;">
             {% for item in items %}
             <div class="row line-article py-1">
                 <div class="col-6"> <div class="item-name text-left">{% padword_translate item.item.name %}</div> </div>
 
+                {%comment%}
                 <div class="col-3 text-left">{%if regime%}<div class="text-right text-warning">
                     {% get_item_price item fi.band regime.code %}</div>{%endif%}</div>
+                {%endcomment%}
+                <div class="col-3 text-left"><div class="text-right text-warning"> {{ item.total_price }}</div></div>
 
-                <div class="col-2"> <div class="text-left">{{ item.item.price }}€</div> </div>
+                {#<div class="col-2"> <div class="text-left">{{ item.item.price }}€</div> </div>#}
+                <div class="col-2"> <div class="text-left">{{ item.price }}€</div> </div>
 
                 <div class="col-1 p-0 ">
                     <a class="btn btn-outline-danger btn-xs ark" title="{%trans 'Remove article from shopping-cart'%}" data-mobile="True"

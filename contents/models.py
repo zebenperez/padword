@@ -378,7 +378,9 @@ class ShoppingCart(models.Model):
     category = models.CharField(verbose_name="Categoría", max_length=250, blank=True, null=True)
     name = models.CharField(verbose_name="Nombre", max_length=250, blank=True, null=True)
     price = models.FloatField(verbose_name='Price', default=0, null=True, blank=True)
-    low_price = models.FloatField(verbose_name='Price', default=-1, null=True, blank=True)
+    low_price = models.FloatField(verbose_name='Low Price', default=-1, null=True, blank=True)
+    discount = models.FloatField(verbose_name='Discount', default=0, null=True, blank=True)
+    total_price = models.FloatField(verbose_name='Total Price', default=-1, null=True, blank=True)
 
     @property
     def get_low_price(self):

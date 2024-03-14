@@ -1,6 +1,7 @@
 from django.conf import settings
 from django.db.models import Sum
 
+from contents.models import ShoppingCart
 from bookings.models import Cash, FormInstance
 from padword.commons import get_float, translate2
 from bookings.models import FormInstance
