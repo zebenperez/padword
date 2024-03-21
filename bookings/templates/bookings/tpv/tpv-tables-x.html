@@ -18,8 +18,12 @@
 
 <div class="row m-0 mt-3">
     <div class="col-lg-4 offset-lg-4 col-12 text-center">
+        <button class="menu-options tables back ark w-100" data-url="{{back_url}}" data-target="base" 
+            data-project_uuid="{{cash.project_uuid}}"> {% trans "Back" %}</button>
+        {%comment%}
         <button class="menu-options tables back ark w-100" data-url="{% url "tpv-change-table" %}" data-target="base" 
             data-project_uuid="{{cash.project_uuid}}"> {% trans "Back" %}</button>
+        {%endcomment%}
     </div>
 </div>
 {% endwith %}

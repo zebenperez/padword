@@ -65,7 +65,8 @@
         <button class="btn btn-outline-secondary btn-sm pointer add-date ark" id="btn-pos-summary" data-url="{%url "tpv-cash-z"%}" data-target="base" 
             data-obj_id="{{cash.id}}" data-index="tpv-index"><i class="fas fa-file-csv"></i>&nbsp; {% trans "Generate Z" %}</button>
         <button class="btn btn-outline-secondary btn-sm pointer add-date ark" id="btn-pos-summary" data-url="{%url "tpv-cash-x"%}" data-target="base"
-            data-obj_id="{{cash.id}}" data-index="tpv-index"><i class="fas fa-file-csv"></i>&nbsp; {% trans "Generate X" %}</button>
+            data-obj_id="{{cash.id}}" data-back="{%if index == "tpv-index"%}{%url "tpv-change-table"%}{%else%}{%url "tpv-mob-change-table"%}{%endif%}"
+            ><i class="fas fa-file-csv"></i>&nbsp; {% trans "Generate X" %}</button>
     </div>
     {% for item in tables %}
         <div class="col-lg-3 col-12 table-card mt-2" data-name="{{item.name}}">
