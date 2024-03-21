@@ -14,8 +14,11 @@ FILES_DIR = os.path.join(settings.BASE_DIR, "media/tpv/orders-daily/")
 def get_date_z():
     return datetime.datetime.strptime("{} 23:59:59".format(datetime.datetime.now().strftime("%Y-%m-%d")), "%Y-%m-%d %H:%M:%S")
 
-def get_number_z(pos):
-    return get_int(Cash.objects.filter(pos_uuid=pos.uuid).aggregate(Max("number"))["number__max"]) + 1
+def get_number_z(pos_uuid):
+    return get_int(Cash.objects.filter(pos_uuid=pos_uuid, zeta=True).aggregate(Max("number"))["number__max"]) + 1
+
+def get_number_x(pos_uuid):
+    return get_int(Cash.objects.filter(pos_uuid=pos_uuid, zeta=False).aggregate(Max("number"))["number__max"]) + 1
 
 '''
     CASH
@@ -28,7 +31,7 @@ def get_cash_zeta(pos, username=""):
     cash, created = Cash.objects.get_or_create(project_uuid=pos.project.uuid, pos_uuid=pos.uuid, date=get_date_z())
     if created:
         cash.zeta = True
-        cash.number = get_number_z(pos)
+        cash.number = get_number_z(pos.uuid)
         cash.username = username
         cash.save()
     return cash, created
@@ -113,7 +116,7 @@ def update_cash(cash, user, cancel_orders=False):
         #if fi.get_status == None:
         #    fi.set_status("05", user, "Cancell in Z!")
         if fi.get_status != None and fi.get_status.status != None and fi.get_status.status.code != "05" and fi.payment_type != None:
-            amount = get_float(fi.amount.replace(",", "."))
+            amount = get_float(fi.amount)
             if fi.payment_type.code == "01":
                 cash_total += amount
             elif fi.payment_type.code == "02":

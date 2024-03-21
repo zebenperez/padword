@@ -213,12 +213,13 @@ def tpv_check_band(request):
             gr = band.guest.regimes.first()
             regime = gr.regime if gr != None else None
             get_or_create_form_instance_info_client_tpv(fi, band.guest, band.code)
-            fi.update_items_low_price()
+            #fi.update_items_low_price()
+            fi.update_items_prices()
         else:
             band_err = _("This band is not asigned to any guest!")
 
-        #band_err = True if band == None else False
         return render(request, "bookings/tpv/mobile/view-ticket-mobile.html", {'fi':fi, 'band_err': band_err})
+        #band_err = True if band == None else False
         #return render(request, "bookings/tpv/mobile/view-ticket-mobile.html", {'fi':fi, 'band': band, 'regime': regime, 'band_err': band_err})
     except Exception as e:
         print(e)
@@ -233,8 +234,11 @@ def tpv_item_add(request):
         fi = get_or_none(FormInstance, int(form_id))
         item = get_or_none(Item, int(item_id))
 
-        obj = ShoppingCart.objects.create(form_instance_id=fi.id,item=item,category=item.category.name,name=item.name,price=item.price,comments='')
-        fi.update_item_low_price(obj)
+        #obj = ShoppingCart.objects.create(form_instance_id=fi.id,item=item,category=item.category.name,name=item.name,price=item.price,comments='')
+        #fi.update_item_low_price(obj)
+
+        obj = ShoppingCart.objects.create(form_instance_id=fi.id,item=item,category=item.category.name,name=item.name,comments='')
+        fi.update_item_prices(obj)
 
         instance = FormInstance.objects.get(pk=form_id)
         return render(request, "bookings/tpv/mobile/view-ticket-mobile.html", {'fi':instance,})

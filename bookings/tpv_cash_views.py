@@ -113,4 +113,8 @@ def update_number(request):
             c.number = c.id
             c.save()
             print("{} {}".format(c.zeta, c.number))
+        elif c.number == 0:
+            c.zeta = False
+            c.number = c.id
+            c.save()
     return HttpResponse("--OK--")

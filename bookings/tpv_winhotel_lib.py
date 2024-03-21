@@ -68,11 +68,13 @@ def cash_daily_summary(obj, date):
                     discount = 100
                     total_price = 0
                 else:
-                    discount = 100-((item.low_price/item.price)*100) if item.low_price < item.price and item.low_price > -1 else 0
-                    total_price = item.low_price if item.low_price < item.price and item.low_price > -1 else item.price
+                    #discount = 100-((item.low_price/item.price)*100) if item.low_price < item.price and item.low_price > -1 else 0
+                    #total_price = item.low_price if item.low_price < item.price and item.low_price > -1 else item.price
+                    discount = 100-((item.total_price/item.price)*100) if item.total_price < item.price else 0
+                    total_price = item.total_price
                     #Devolución
                     if fi.payment_type != None and "04" in fi.payment_type.code:
-                        total_price = total_price * -1
+                        #total_price = total_price * -1
                         units = -1
                 discount = "{:.2f}".format(discount)
                 writer.writerow([obj.ext_code, name, "", item.item.ext_id, desc, date, fi.id, item.price, units, discount, total_price, room, client_id])
@@ -137,17 +139,19 @@ def cash_send_charges(cash):
         #if fi.get_status != None and fi.get_status.status != None and fi.get_status.status.code != "05":
         #Tickets no cancelados
         if not fi.current_status("05"):
+
             for item in fi.get_items:
-                item_price += item.low_price if item.low_price < item.price and item.low_price > -1 else item.price
+                #item_price = item.low_price if item.low_price < item.price and item.low_price > -1 else item.price
+                item_price = item.total_price
                 if item.item.ext_id in break_list:
                     total_break += item_price
                 elif item.item.ext_id < 50000:
                     total_drinks += item_price
                 elif item.item.ext_id >= 50000:
                     total_food += item_price
-                if fi.payment_type.code == "01":
+                if fi.payment_type != None and fi.payment_type.code == "01":
                     total_cash += item_price
-                if fi.payment_type.code == "02":
+                if fi.payment_type != None and fi.payment_type.code == "02":
                     total_card += item_price
 
     cash_send_charge(cash, "BEBIDAS", total_drinks, "")

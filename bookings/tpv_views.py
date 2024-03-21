@@ -15,7 +15,7 @@ from connector.models import ProjectWinhotelUser
 
 from .common_lib import get_or_create_form_instance_tpv, get_or_create_form_instance_info_tpv, get_or_create_form_instance_info_client_tpv
 from .common_lib import user_in_group
-from .tpv_lib import get_cash_zeta, update_cash  
+from .tpv_lib import get_cash_zeta, update_cash, get_number_x
 from .tpv_winhotel_lib import get_food_total, get_drinks_total, get_breakfast_total, cash_daily_summary, cash_send_daily_summary, cash_send_charges 
 from .models import Form, FormInstance, Status, Cash
 from django.conf import settings
@@ -432,7 +432,7 @@ def cash_z(request):
         if pwu != None:
             cash_daily_summary(cash.pos, cash.date.strftime("%Y-%m-%d"))
             cash_send_daily_summary(cash.project_uuid, cash.pos, cash.date.strftime("%Y-%m-%d"))
-            cash_send_charges(cash)
+            #cash_send_charges(cash)
 
         return redirect(reverse(request.GET["index"], kwargs = {'project_uuid': cash.project_uuid}))
     except Exception as e:
@@ -445,7 +445,8 @@ def cash_x(request):
         cash = get_or_none(Cash, request.GET["obj_id"]) 
         cash_x = cash
         cash_x.pk = None
-        cash_x.number = 0
+        cash_x.number = get_number_x(cash.pos_uuid)
+        cash_x.zeta = False
         cash_x.date = datetime.datetime.now()
         cash_x.save()
         update_cash(cash_x, request.user)
