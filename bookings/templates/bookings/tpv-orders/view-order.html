@@ -40,7 +40,17 @@
                             <p class="comments"><i class="far fa-comment-alt"></i>&nbsp; {{item.comments}}</p>
                         </div>
                         <div class="col-1 text-left">{{item.price}}</div>
-                        <div class="col-1 text-left">{%if item.total_price == -1%} {{item.low_price}} {%else%} {{item.total_price}} {%endif%} </div>
+                        <div class="col-1 text-left">
+                            {%if item.total_price == -1 %} 
+                                {%if item.low_price == -1 %} 
+                                    {{item.price}} 
+                                {%else%} 
+                                    {{item.low_price}} 
+                                {%endif%} 
+                            {%else%} 
+                                {{item.total_price}} 
+                            {%endif%} 
+                        </div>
                     </div>
                 {% endfor %}
             </div>
