@@ -11,7 +11,7 @@
 <td>{% padword_translate item.payment_type.name %} </td>
 <td>{{ item.details.desc }} </td>
 {#Compatibilidad tickets viejos higos beach#}
-{% if fi.form.project.uuid == "d7b3cb5d-a7eb-793f-6110-8f623c93c74a" and fi.id <= 2401 %}
+{% if item.form.project.uuid == "d7b3cb5d-a7eb-793f-6110-8f623c93c74a" and item.id <= 2401 %}
     <td>{{ item.get_total|floatformat:2 }}</td>
 {% else %}
     <td>{{ item.get_total_total|floatformat:2 }}</td>
