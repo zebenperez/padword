@@ -12,7 +12,13 @@
                     {{fi.get_total|stringformat:".2f"}} &euro; </span></div>
                 <div class="col-3 btn-sky pt-2 pb-2 text-right">
                     <span id="info-shopping"><span class="art-number">total &nbsp;&nbsp;&nbsp;</span> 
-                    {{fi.get_total_total|stringformat:".2f"}} &euro; </span></div>
+                        {#Compatibilidad tickets viejos higos beach#}
+                        {% if fi.form.project.uuid == "d7b3cb5d-a7eb-793f-6110-8f623c93c74a" and fi.id <= 2401 %}
+                            {{fi.get_total|stringformat:".2f"}} &euro; 
+                        {% else %}
+                            {{fi.get_total_total|stringformat:".2f"}} &euro; 
+                        {% endif %}
+                    </span></div>
 	        </div>
             <div class="row booking-data-navbar"> 
                 <div class="col-lg-3 col-12 btn-light pt-2 pb-2 text-left">
@@ -41,12 +47,9 @@
                         </div>
                         <div class="col-1 text-left">{{item.price}}</div>
                         <div class="col-1 text-left">
-                            {%if item.total_price == -1 %} 
-                                {%if item.low_price == -1 %} 
-                                    {{item.price}} 
-                                {%else%} 
-                                    {{item.low_price}} 
-                                {%endif%} 
+                            {#Compatibilidad tickets viejos higos beach#}
+                            {% if fi.form.project.uuid == "d7b3cb5d-a7eb-793f-6110-8f623c93c74a" and fi.id <= 2401 %}
+                                {{item.price}} 
                             {%else%} 
                                 {{item.total_price}} 
                             {%endif%} 

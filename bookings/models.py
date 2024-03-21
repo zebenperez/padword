@@ -446,7 +446,7 @@ class FormInstance(models.Model):
             total_price = 0
             for item in items:
                 #total_price += item.total_price if item.total_price != -1 else 0
-                total_price += item.total_price if item.total_price != -1 else item.price
+                total_price += item.total_price
                 #try:
                 #    total_price += float(item.total_price(',','.'))
                 #except:
