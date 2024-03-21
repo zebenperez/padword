@@ -7,12 +7,12 @@
         <div class="main-content-booking container-fluid">
             <div class="row"> 
                 <div class="col-6 btn-sky pt-2 pb-2 text-left">{% padword_translate fi.form.get_category.name %}</div> 
-                <div class="col-3 btn-sky pt-2 pb-2 text-right">
-                    <span id="info-shopping"><span class="art-number">descuento &nbsp;&nbsp;&nbsp;</span> 
-                    {{fi.get_total_low|stringformat:".2f"}} &euro; </span></div>
-                <div class="col-3 btn-sky pt-2 pb-2 text-right">
-                    <span id="info-shopping"><span class="art-number">general &nbsp;&nbsp;&nbsp;</span> 
+               <div class="col-3 btn-sky pt-2 pb-2 text-right">
+                    <span id="info-shopping"><span class="art-number">subtotal &nbsp;&nbsp;&nbsp;</span> 
                     {{fi.get_total|stringformat:".2f"}} &euro; </span></div>
+                <div class="col-3 btn-sky pt-2 pb-2 text-right">
+                    <span id="info-shopping"><span class="art-number">total &nbsp;&nbsp;&nbsp;</span> 
+                    {{fi.get_total_total|stringformat:".2f"}} &euro; </span></div>
 	        </div>
             <div class="row booking-data-navbar"> 
                 <div class="col-lg-3 col-12 btn-light pt-2 pb-2 text-left">
@@ -39,8 +39,8 @@
 			                <p class="name"><strong>{% padword_translate item.name %}</strong></p>
                             <p class="comments"><i class="far fa-comment-alt"></i>&nbsp; {{item.comments}}</p>
                         </div>
-                        <div class="col-1 text-left">{{item.get_low_price}}</div>
                         <div class="col-1 text-left">{{item.price}}</div>
+                        <div class="col-1 text-left">{{item.total_price}}</div>
                     </div>
                 {% endfor %}
             </div>

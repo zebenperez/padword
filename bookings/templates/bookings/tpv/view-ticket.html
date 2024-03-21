@@ -20,14 +20,14 @@
                 <span class="small">({{items|length}} {% trans 'art.' %})</span>
             </div>
             <div class="col-8 price-tpv text-right" id="div-total-shopping-cart">
-                <strong>{%trans 'Total price'%}: {{subtotal|floatformat:2}} &euro;</strong>
+                <strong>{%trans 'Subtotal'%}: {{subtotal|floatformat:2}} &euro;</strong>
             </div>
         </div>
         {#{% if regime %}#}
             <div class="row">
                 <div class="col-12 price p-2" id="div-total-shopping-cart">
                     {#<strong class="text-warning">{%trans 'Total price user'%}: {{fi|get_total_by_regime:regime.code}} &euro;</strong></div>#}
-                    <strong class="text-warning">{%trans 'Total price user'%}: {{total}} &euro;</strong></div>
+                    <strong class="text-warning">{%trans 'Total'%}: {{total|floatformat:2}} &euro;</strong></div>
             </div>
         {#{% endif %}#}
 

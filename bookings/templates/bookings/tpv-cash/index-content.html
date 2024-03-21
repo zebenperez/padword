@@ -35,6 +35,7 @@
             <tr class="small tablesorter-headerRow">
                 <th> {% trans 'Type' %} </th>
                 <th> {% trans 'TPV' %} </th>
+                <th> {% trans 'Num' %} </th>
                 <th> {% trans 'Date' %} </th>
                 <th> {% trans 'Fondo' %} </th>
                 <th> {% trans 'Total Cash' %} </th>
@@ -51,13 +52,14 @@
                 <tr class="small tablesorter-headerRow" id="row_{{item.id}}"> 
                     <td>{%if item.date|date:"H:i:s" == "23:59:59" %} Zeta {%else%} Equis {%endif%}</td>
                     <td>{{item.pos.name}}</td>
-                    <td>{{item.date}}</td>
+                    <td>{{item.number}}</td>
+                    <td>{{item.date|date:'d-m-Y'}}</td>
                     <td>{{item.ini_cash}}</td>
                     <td>{{item.end_cash}}</td>
-                    <td>{{item.band}}</td>
-                    <td>{{item.card}}</td>
-                    <td>{{item.back}}</td>
-                    <td>{{item.free}}</td>
+                    <td>{{item.band|floatformat:2}}</td>
+                    <td>{{item.card|floatformat:2}}</td>
+                    <td>{{item.back|floatformat:2}}</td>
+                    <td>{{item.free|floatformat:2}}</td>
                     <td>{% if item.close %}<i class="fas fa-check"></i>{% else %}<i class="fas fa-times"></i>{% endif %}</td>
                     <td class="text-end px-0">
                         {% if not item.close %}

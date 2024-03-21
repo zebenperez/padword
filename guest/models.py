@@ -20,7 +20,7 @@ class Guest(models.Model):
     UUID = models.CharField(max_length=255, verbose_name='UUID', default="")
     room = models.CharField(max_length=255, verbose_name='Room', default="")
     name = models.CharField(max_length=255, verbose_name='Name', default="")
-    surname = models.CharField(max_length=255, verbose_name='Surname', default="")
+    surname = models.CharField(max_length=255, verbose_name='Surname', default="", blank=True, null=True)
     referral = models.CharField(max_length=255, verbose_name='Referral', null=True)
     guest_type = models.CharField(max_length=255, verbose_name='Guest Type', default="guest")
     project_id = models.CharField(max_length=255, verbose_name='Project', default="")

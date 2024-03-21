@@ -3,8 +3,8 @@
 {% with val=fi|check_band %}
 
     <button id="btn-send-order-{{fi.id}}" class="btn btn-success-tpv w-100 a-disabled ark" data-url="{% url "tpv-order-send" %}" 
-        data-target="base" data-obj_id="{{fi.id}}" data-payment_type="" data-amount="{{subtotal}}" data-band="{{band.id}}"
-        data-amount_user="{{total}}" data-mobile="{{mobile}}">
+        data-target="base" data-obj_id="{{fi.id}}" data-payment_type="" data-subtotal="{{subtotal}}" data-band="{{band.id}}"
+        data-total="{{total}}" data-mobile="{{mobile}}">
         <i class="fa fa-share-square"></i><br /> {%trans "Send Order"%} </button>
     {% comment %}
     <button id="btn-send-order-{{fi.id}}" class="btn btn-success-tpv w-100 a-disabled ark" data-url="{% url "tpv-order-send" %}" 

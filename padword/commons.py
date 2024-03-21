@@ -73,7 +73,7 @@ def get_param(dic, param, default=""):
 
 def get_float(val):
     try:
-        return float(val)
+        return float(val.replace(",", "."))
     except:
         return 0.0
 
@@ -86,7 +86,7 @@ def get_bool(val):
 def get_int(val):
     try:
         return int(val)
-    except:
+    except Exception as e:
         return 0
 
 def translate(request, json_str):

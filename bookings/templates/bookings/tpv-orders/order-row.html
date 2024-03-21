@@ -10,7 +10,7 @@
 <td id="status-{{item.pk}}">{% padword_translate item.get_status.status.name %} </td>
 <td>{% padword_translate item.payment_type.name %} </td>
 <td>{{ item.details.desc }} </td>
-<td>{{ item.amount }} </td>
+<td>{{ item.get_total_total|floatformat:2 }}</td>
 
 <td>
     {% if request.user|in_group:'admins' %}

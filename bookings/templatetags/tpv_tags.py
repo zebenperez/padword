@@ -36,9 +36,11 @@ def check_band(fi):
         if fi.get_invalid_item(regime):
             return 3  
 
-        total_regime = fi.get_total_by_regime(regime)
+        #total_regime = fi.get_total_by_regime(regime)
 
-    if (total_regime > -1 and fi.band.balance < total_regime) or (total_regime == -1 and fi.band.balance < fi.get_total):
+    #if (total_regime > -1 and fi.band.balance < total_regime) or (total_regime == -1 and fi.band.balance < fi.get_total):
+    #    return 4
+    if (fi.band.balance < fi.get_total_total):
         return 4
 
     #Credit 0

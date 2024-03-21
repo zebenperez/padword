@@ -15,7 +15,7 @@ from connector.winhotel_lib import send_charge
 from .common_lib import get_or_create_form_instance_tpv, get_or_create_form_instance_info_tpv, get_or_create_form_instance_info_client_tpv
 from .common_lib import user_in_group
 from .models import Form, FormInstance, Status, Cash
-from .tpv_lib import get_cash
+from .tpv_lib import get_cash_zeta
 from django.conf import settings
 
 import datetime
@@ -98,8 +98,9 @@ def tpv_index(request, project_uuid):
             return render(request, "bookings/tpv/mobile/index.html", {'point_of_sales': point_of_sales,})
         elif "table" not in request.session or request.session["table"] == "":
             pos = get_or_none(PointOfSale, request.session["point_of_sale"])
-            date = datetime.datetime.strptime("{} 23:59:59".format(datetime.datetime.now().strftime("%Y-%m-%d")), "%Y-%m-%d %H:%M:%S")
-            cash, created = get_cash(pos, date, request.user.username)
+            #date = datetime.datetime.strptime("{} 23:59:59".format(datetime.datetime.now().strftime("%Y-%m-%d")), "%Y-%m-%d %H:%M:%S")
+            #cash, created = get_cash(pos, date, request.user.username)
+            cash, created = get_cash_zeta(pos, request.user.username)
             tables = Table.objects.filter(point_of_sale=pos)
             return render(request, "bookings/tpv/mobile/index.html", {'pos': pos, 'tables': tables, 'cash': cash, 'created': created})
         else:

@@ -7,9 +7,9 @@
     <div class="row">
         <div class="col-6"> <button class="btn btn-warning w-100 " onclick="$('#div-return').hide()">{%trans "Cancel"%}</button> </div>
         <div class="col-6">
-            <button id="btn-return-order-{{fi.id}}" class="btn btn-warning w-100 ark" data-bs-dismiss="modal" data-url="{% url "tpv-order-send" %}" 
-                data-target="base" data-obj_id="{{fi.id}}" data-payment_type="04" data-amount="-{{subtotal}}" data-band="{{band.id}}"
-                data-amount_user="-{{total}}" data-mobile="{{mobile}}"> {%trans "Confirm"%}</i>
+            <button id="btn-return-order-{{fi.id}}" class="btn btn-warning w-100 a-disabled ark" data-bs-dismiss="modal" 
+                data-url="{% url "tpv-order-send" %}" data-target="base" data-obj_id="{{fi.id}}" data-payment_type="04" 
+                data-subtotal="-{{subtotal}}" data-band="{{band.id}}" data-total="-{{total}}" data-mobile="{{mobile}}"> {%trans "Confirm"%}</i>
                 {#data-amount_user="{%if regime%}-{{fi|get_total_by_regime:regime.code}}{%endif%}" data-mobile="{{mobile}}"> {%trans "Confirm"%}</i>#}
             </button>
         </div>
@@ -36,8 +36,8 @@
         </div>
         <div class="col-6">
             <button id="btn-free-order-{{fi.id}}" class="btn btn-primary w-100 ark" data-bs-dismiss="modal" data-url="{% url "tpv-order-send" %}" 
-                data-target="base" data-obj_id="{{fi.id}}" data-payment_type="05" data-amount="0" data-band="{{band.id}}"
-                data-amount_user="" data-desc="" data-mobile="{{mobile}}"> {%trans "Confirm"%}</i>
+                data-target="base" data-obj_id="{{fi.id}}" data-payment_type="05" data-subtotal="0" data-band="{{band.id}}"
+                data-total="0" data-desc="" data-mobile="{{mobile}}"> {%trans "Confirm"%}</i>
             </button>
         </div>
     </div>

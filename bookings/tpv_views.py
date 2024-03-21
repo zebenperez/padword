@@ -15,7 +15,7 @@ from connector.models import ProjectWinhotelUser
 
 from .common_lib import get_or_create_form_instance_tpv, get_or_create_form_instance_info_tpv, get_or_create_form_instance_info_client_tpv
 from .common_lib import user_in_group
-from .tpv_lib import get_cash, update_cash  
+from .tpv_lib import get_cash_zeta, update_cash  
 from .tpv_winhotel_lib import get_food_total, get_drinks_total, get_breakfast_total, cash_daily_summary, cash_send_daily_summary, cash_send_charges 
 from .models import Form, FormInstance, Status, Cash
 from django.conf import settings
@@ -97,8 +97,9 @@ def tpv_index(request, project_uuid):
             return render(request, "bookings/tpv/index.html", {'point_of_sales': point_of_sales,})
         elif "table" not in request.session or request.session["table"] == "":
             pos = get_or_none(PointOfSale, request.session["point_of_sale"])
-            date = datetime.datetime.strptime("{} 23:59:59".format(datetime.datetime.now().strftime("%Y-%m-%d")), "%Y-%m-%d %H:%M:%S")
-            cash, created = get_cash(pos, date, request.user.username)
+            #date = datetime.datetime.strptime("{} 23:59:59".format(datetime.datetime.now().strftime("%Y-%m-%d")), "%Y-%m-%d %H:%M:%S")
+            #cash, created = get_cash(pos, date, request.user.username)
+            cash, created = get_cash_zeta(pos, request.user.username)
             tables = Table.objects.filter(point_of_sale=pos)
             return render(request, "bookings/tpv/index.html", {'pos': pos, 'tables': tables, 'cash': cash, 'created': created})
         else:
@@ -218,12 +219,12 @@ def tpv_check_band(request):
             regime = gr.regime if gr != None else None
             get_or_create_form_instance_info_client_tpv(fi, band.guest, band.code)
             #fi.update_items_low_price()
-            fi.update_items_prices(obj)
+            fi.update_items_prices()
         else:
             band_err = _("This band is not asigned to any guest!")
 
-        #band_err = True if band == None else False
         return render(request, "bookings/tpv/view-ticket.html", {'fi':fi, 'band_err': band_err})
+        #band_err = True if band == None else False
         #return render(request, "bookings/tpv/view-ticket.html", {'fi':fi, 'band': band, 'regime': regime, 'band_err': band_err})
         #return render(request, "bookings/tpv/view-guest-info.html", {'fi':fi, 'band': band, 'regime': regime})
     except Exception as e:
@@ -337,8 +338,8 @@ def tpv_order_send(request):
     try:
         fi_id = get_param(request.GET, "obj_id")
         pt_code = get_param(request.GET, "payment_type", "")
-        amount = get_param(request.GET, "amount", "")
-        amount_user = get_param(request.GET, "amount_user", "")
+        subtotal = get_param(request.GET, "subtotal", "")
+        total = get_param(request.GET, "total", "")
         band_id = get_param(request.GET, "band", "")
         desc = get_param(request.GET, "desc", "")
         mobile = get_param(request.GET, "mobile", "")
@@ -346,22 +347,30 @@ def tpv_order_send(request):
         fi = get_or_none(FormInstance, fi_id)
         fi.set_status("01", request.user, "")
         fi.date = datetime.datetime.now()
-        fi.amount = amount if amount_user == "" else amount_user
-        factor = -1 if get_float(amount.replace(",", ".")) < 0 else 1
-        if pt_code != "":
-            pt = get_or_none(PaymentType, pt_code, "code")
-            fi.payment_type = pt
-            if pt != None and (pt.code == "03" or pt.code == "0403") and band_id != "":
-                pos = get_or_none(PointOfSale, request.session["point_of_sale"])
-                band = get_or_none(Wristband, band_id)
-                add_balance_to_band(pos, fi, band)
+        fi.amount = total
 
-                if band != None and pt.code == "03":
-                    pwu = get_or_none(ProjectWinhotelUser, fi.form.project.uuid, "project_uuid")
-                    if pwu != None and pwu.source_code != "":
-                        send_charges(pwu, fi, band, pos, factor)
+        pt = get_or_none(PaymentType, pt_code, "code")
+        factor = 1
+        if "04" in pt.code:
+            factor = -1
+            fi.update_items_prices_return()
 
+        #fi.amount = amount if amount_user == "" else amount_user
+        #factor = -1 if get_float(amount.replace(",", ".")) < 0 else 1
+        #if pt_code != "":
+        fi.payment_type = pt
         fi.save()
+
+        if pt != None and (pt.code == "03" or pt.code == "0403") and band_id != "":
+            pos = get_or_none(PointOfSale, request.session["point_of_sale"])
+            band = get_or_none(Wristband, band_id)
+            add_balance_to_band(pos, fi, band)
+
+            if band != None and pt.code == "03":
+                pwu = get_or_none(ProjectWinhotelUser, fi.form.project.uuid, "project_uuid")
+                if pwu != None and pwu.source_code != "":
+                    send_charges(pwu, fi, band, pos, factor)
+
         set_desc(fi, desc)
 
         context = {'msg': fi.get_status.status.code, 'project_uuid': fi.form.project.uuid, "mobile": mobile}
@@ -436,6 +445,7 @@ def cash_x(request):
         cash = get_or_none(Cash, request.GET["obj_id"]) 
         cash_x = cash
         cash_x.pk = None
+        cash_x.number = 0
         cash_x.date = datetime.datetime.now()
         cash_x.save()
         update_cash(cash_x, request.user)

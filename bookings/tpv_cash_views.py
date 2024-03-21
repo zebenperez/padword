@@ -9,7 +9,7 @@ from web.models import Project
 from contents.models import PointOfSale, PaymentType
 
 from .models import Form, FormInstance, FormInstanceInfo, Cash
-from .tpv_lib import get_cash, get_date_z, update_cash
+from .tpv_lib import get_cash_zeta, get_date_z, update_cash
 
 import csv, datetime, logging, os, re
 logger = logging.getLogger(__name__)
@@ -57,7 +57,8 @@ def cash_new(request):
         ini_cash = get_float(request.GET["ini_cash"].replace(",", "."))
 
         items = search(project.uuid, pos)
-        cash, created = get_cash(pos, get_date_z(), request.user.username)
+        #cash, created = get_cash(pos, get_date_z(), request.user.username)
+        cash, created = get_cash_zeta(pos, request.user.username)
         cash.ini_cash = ini_cash
         cash.save()
         return render(request, "bookings/tpv-cash/index-content.html", {'pos': pos, 'cash_list': items})
@@ -103,3 +104,13 @@ def print_z(request, obj_id):
     except Exception as e:
         return HttpResponse("Error: {}".format(e))
 
+@group_required("admins")
+def update_number(request):
+    cash_list = Cash.objects.all()
+    for c in cash_list:
+        if c.date.strftime("%H:%M:%S") == "23:59:59" and c.number == 0:
+            c.zeta = True
+            c.number = c.id
+            c.save()
+            print("{} {}".format(c.zeta, c.number))
+    return HttpResponse("--OK--")

@@ -196,17 +196,22 @@ class Form(models.Model):
         for fi in fi_list:
             st = translate2("es", fi.get_status.status.name) if fi.get_status != None else ""
             if status == "" or status.lower() == st.lower():
-                pos_name = fi.pos.name if fi.pos != None else ""
-                table_name = fi.table.name if fi.table != None else ""
-                guest_name = fi.guest.name if fi.guest != None else ""
-                lang = fi.details.lang if fi.details != None else ""
-                payment_type = translate2("es", fi.payment_type.name) if fi.payment_type != None else ""
+                #pos_name = fi.pos.name if fi.pos != None else ""
+                #table_name = fi.table.name if fi.table != None else ""
+                #guest_name = fi.guest.name if fi.guest != None else ""
                 #total = fi.get_total * -1 if fi.payment_type != None and "04" in fi.payment_type.code else fi.get_total
+                details = fi.details
+                pos_name = details.pos if details != None else ""
+                table_name = details.table if details != None else ""
+                guest_name = details.client if details != None else ""
+                lang = details.lang if details != None else ""
+                payment_type = translate2("es", fi.payment_type.name) if fi.payment_type != None else ""
                 fi_json = {
                     'id': fi.id, 
                     'fecha': fi.date.strftime("%d-%m-%Y"), 
                     'hora': fi.date.strftime("%H:%M:%S"), 
-                    'total': fi.amount, 
+                    'subtotal': "{:.2f}".format(fi.get_total), 
+                    'total': "{:.2f}".format(fi.get_total_total), 
                     'punto de venta': pos_name, 
                     'mesa': table_name,
                     'cliente': guest_name,
@@ -217,13 +222,15 @@ class Form(models.Model):
                 }
                 for item in fi.get_items:
                     #category_name = item.item.category.name if item.item.category != None else ""
-                    low_price = item.low_price if item.low_price > -1 else item.price
+                    #low_price = item.low_price if item.low_price > -1 else item.price
                     item_json = {
                         'nombre_servicio': item.name,
                         'id_servicio': item.id,
                         'cantidad': 1,
                         'precio_servicio': item.price,
-                        'precio_servicio_reducido': low_price,
+                        'precio_servicio_reducido': item.total_price,
+                        #'precio_servicio': item.price,
+                        #'precio_servicio_reducido': low_price,
                         'subtotal': 0,
                         'familia': item.category,
                         'id_articulo_pms': 0
@@ -404,15 +411,12 @@ class FormInstance(models.Model):
         try:
             items = ShoppingCart.objects.filter(form_instance_id=self.pk)
             total_price = 0
-            print("--0--")
             for item in items:
-                try:
-                    print(item.name)
+                total_price += item.price
+                #try:
                     #total_price += float(item.item.price.replace(',','.'))
-                    total_price += float(item.price.replace(',','.'))
-                    print(total_price)
-                except:
-                    total_price += 0
+                #except Exception as e:
+                #    total_price += 0
             return total_price
         except Exception as e:
             print (show_exc(e))
@@ -424,10 +428,12 @@ class FormInstance(models.Model):
             items = ShoppingCart.objects.filter(form_instance_id=self.pk)
             total_price = 0
             for item in items:
-                try:
-                    total_price += float(item.low_price(',','.'))
-                except:
-                    total_price += 0
+                #total_price += item.low_price if item.low_price > -1 else 0
+                total_price += item.low_price
+                #try:
+                #    total_price += item.low_price
+                #except:
+                #    total_price += 0
             return total_price
         except Exception as e:
             print (show_exc(e))
@@ -439,10 +445,12 @@ class FormInstance(models.Model):
             items = ShoppingCart.objects.filter(form_instance_id=self.pk)
             total_price = 0
             for item in items:
-                try:
-                    total_price += float(item.total_price(',','.'))
-                except:
-                    total_price += 0
+                #total_price += item.total_price if item.total_price != -1 else 0
+                total_price += item.total_price
+                #try:
+                #    total_price += float(item.total_price(',','.'))
+                #except:
+                #    total_price += 0
             return total_price
         except Exception as e:
             print (show_exc(e))
@@ -546,11 +554,13 @@ class FormInstance(models.Model):
         low_price = item.item.price
         total_price = item.item.price
         if self.band != None and self.band.guest != None:
-            gr = band.guest.regimes.first()
+            guest = self.band.guest
+            gr = guest.regimes.first()
             if gr != None and gr.regime != None:
                 low_price = item.item.get_price(gr.regime.code)
-            if guest.guest_type != None:
-                discount = guest.guest_type.discount
+                total_price = low_price
+            if guest.guest_type_obj != None:
+                discount = guest.guest_type_obj.discount
                 total_price = low_price - (low_price * (discount/100)) if discount > 0 else low_price
 
         item.price = item.item.price
@@ -562,6 +572,14 @@ class FormInstance(models.Model):
     def update_items_prices(self):
         for item in self.get_items:
             self.update_item_prices(item)
+
+    def update_items_prices_return(self):
+        for item in self.get_items:
+            item.price = item.price * -1
+            item.low_price = item.low_price * -1
+            item.total_price = item.total_price * -1
+            item.save()
+
 
 #    def update_items_low_price(self):
 #        band = self.band
@@ -715,7 +733,9 @@ class FormInstanceInfo(models.Model):
 
 class Cash(models.Model):
     close = models.BooleanField(_('Close'), default=False)
+    zeta = models.BooleanField(_('Zeta'), default=False)
     date = models.DateTimeField(_('Creation date'), default=datetime.datetime.now, null=True)
+    number = models.IntegerField(verbose_name='Numero', default=0, null=True, blank=True)
     ini_cash = models.FloatField(verbose_name='Initial amount', default=-1, null=True, blank=True)
     end_cash = models.FloatField(verbose_name='Final amount', default=0, null=True, blank=True)
     band = models.FloatField(verbose_name='Band amount', default=0, null=True, blank=True)

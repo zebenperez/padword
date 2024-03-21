@@ -1,8 +1,8 @@
 from django.conf import settings
-from django.db.models import Sum
+from django.db.models import Sum, Max
 
 from bookings.models import Cash, FormInstance
-from padword.commons import get_float, translate2
+from padword.commons import get_int, get_float, translate2
 from bookings.models import FormInstance
 from connector.models import ProjectWinhotelUser
 from contents.models import ShoppingCart
@@ -14,41 +14,21 @@ FILES_DIR = os.path.join(settings.BASE_DIR, "media/tpv/orders-daily/")
 def get_date_z():
     return datetime.datetime.strptime("{} 23:59:59".format(datetime.datetime.now().strftime("%Y-%m-%d")), "%Y-%m-%d %H:%M:%S")
 
-#def get_drinks_total(fi, band):
-#    regime = band.guest.regime.code if band != None and band.guest != None and band.guest.regime != None else ""
-#    if regime == "":
-#        total = ShoppingCart.objects.filter(form_instance_id=fi.pk, item__ext_id__lt=50000).aggregate(Sum('price'))["price__sum"]
-#    else:
-#        total = ShoppingCart.objects.filter(form_instance_id=fi.pk, item__ext_id__lt=50000).aggregate(Sum('low_price'))["low_price__sum"]
-#    return total
-# 
-#def get_food_total(fi, band):
-#    break_list = [56029, 56030, 56031, 56032]
-#    regime = band.guest.regime.code if band != None and band.guest != None and band.guest.regime != None else ""
-#    if regime == "":
-#        total = ShoppingCart.objects.filter(form_instance_id=fi.pk, item__ext_id__gte=50000).exclude(item__ext_id__in=break_list).aggregate(Sum('price'))["price__sum"]
-#    else:
-#        total = ShoppingCart.objects.filter(form_instance_id=fi.pk, item__ext_id__gte=50000).exclude(item__ext_id__in=break_list).aggregate(Sum('low_price'))["low_price__sum"]
-#    return total
-#
-#def get_breakfast_total(fi, band):
-#    break_list = [56029, 56030, 56031, 56032]
-#    regime = band.guest.regime.code if band != None and band.guest != None and band.guest.regime != None else ""
-#    if regime == "":
-#        total = ShoppingCart.objects.filter(form_instance_id=fi.pk, item__ext_id__in=break_list).aggregate(Sum('price'))["price__sum"]
-#    else:
-#        total = ShoppingCart.objects.filter(form_instance_id=fi.pk, item__ext_id__in=break_list).aggregate(Sum('low_price'))["low_price__sum"]
-#    return total
-#
+def get_number_z(pos):
+    return get_int(Cash.objects.filter(pos_uuid=pos.uuid).aggregate(Max("number"))["number__max"]) + 1
+
 '''
     CASH
 '''
 def cash_exists(pos):
     return Cash.objects.filter(project_uuid=pos.project.uuid, pos_uuid=pos.uuid, date=get_date_z()).count() > 0
 
-def get_cash(pos, date, username=""):
-    cash, created = Cash.objects.get_or_create(project_uuid=pos.project.uuid, pos_uuid=pos.uuid, date=date)
+#def get_cash(pos, date, username=""):
+def get_cash_zeta(pos, username=""):
+    cash, created = Cash.objects.get_or_create(project_uuid=pos.project.uuid, pos_uuid=pos.uuid, date=get_date_z())
     if created:
+        cash.zeta = True
+        cash.number = get_number_z(pos)
         cash.username = username
         cash.save()
     return cash, created
