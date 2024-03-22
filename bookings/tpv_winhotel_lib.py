@@ -32,7 +32,7 @@ def get_food_total(fi, band):
 
 def get_breakfast_total(fi, band):
     break_list = [56029, 56030, 56031, 56032]
-    return total = ShoppingCart.objects.filter(form_instance_id=fi.pk, item__ext_id__in=break_list).aggregate(Sum('total_price'))["total_price__sum"]
+    return ShoppingCart.objects.filter(form_instance_id=fi.pk, item__ext_id__in=break_list).aggregate(Sum('total_price'))["total_price__sum"]
     #regime = band.guest.regime.code if band != None and band.guest != None and band.guest.regime != None else ""
     #if regime == "":
     #    total = ShoppingCart.objects.filter(form_instance_id=fi.pk, item__ext_id__in=break_list).aggregate(Sum('price'))["price__sum"]
