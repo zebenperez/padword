@@ -239,6 +239,49 @@ class Form(models.Model):
                 resp["tickets"].append(fi_json)
         return resp
 
+    def to_tickets_pos(self, pos, index=""):
+        kwargs = {'pos_uuid': pos, 'form_uuid': self.uuid}
+        if index != "":
+            kwargs['index__gte'] = index
+        fi_list = FormInstance.objects.filter(**kwargs)
+        resp = {"tickets": []}
+        for fi in fi_list:
+            details = fi.details
+            pos_name = details.pos if details != None else ""
+            table_name = details.table if details != None else ""
+            guest_name = details.client if details != None else ""
+            lang = details.lang if details != None else ""
+            st = translate2("es", fi.get_status.status.name) if fi.get_status != None else ""
+            payment_type = translate2("es", fi.payment_type.name) if fi.payment_type != None else ""
+            fi_json = {
+                'id': fi.id, 
+                'fecha': fi.date.strftime("%d-%m-%Y"), 
+                'hora': fi.date.strftime("%H:%M:%S"), 
+                'subtotal': "{:.2f}".format(fi.get_total), 
+                'total': "{:.2f}".format(fi.get_total_total), 
+                'punto de venta': pos_name, 
+                'mesa': table_name,
+                'cliente': guest_name,
+                'idioma': lang,
+                'estado': st,
+                'tipo de pago': payment_type,
+                'elementos': []
+            }
+            for item in fi.get_items:
+                item_json = {
+                    'nombre_servicio': item.name,
+                    'id_servicio': item.id,
+                    'cantidad': 1,
+                    'precio_servicio': item.price,
+                    'precio_servicio_reducido': item.total_price,
+                    'subtotal': 0,
+                    'familia': item.category,
+                    'id_articulo_pms': 0
+                }
+                fi_json["elementos"].append(item_json)
+            resp["tickets"].append(fi_json)
+        return resp
+
     @staticmethod
     def get_main(project):
         ft = FormType.objects.filter(project_uuid = project.uuid, main = True).first()
@@ -367,6 +410,7 @@ class FormTimetable(models.Model):
 
 class FormInstance(models.Model):
     code = models.CharField(verbose_name=_("Code"), max_length=20, default="")
+    index = models.IntegerField(verbose_name=_("Enviados"), default=0, null=True, blank=True)
     date = models.DateTimeField(_('Creation date'), default=datetime.datetime.now, null=True)
     guest_uuid = models.CharField(max_length=255, verbose_name=_("Guest UUID"), default="")
     guest_name = models.CharField(max_length=255, verbose_name=_("Guest name"), default="")
@@ -580,6 +624,9 @@ class FormInstance(models.Model):
             item.total_price = item.total_price * -1
             item.save()
 
+    def update_index(self):
+        self.index = get_int(FormInstance.objects.filter(form_uuid=self.form_uuid, pos_uuid=self.pos_uuid).aggregate(Max('index'))["index__max"])+1
+        self.save()
 
 #    def update_items_low_price(self):
 #        band = self.band

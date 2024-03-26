@@ -14,6 +14,7 @@ from web.models import ProjectUser, Room
 from web.models_lock import Lock, LockCodeExtId
 from web.lock_lib import get_record_type
 from sensibo.models import ProjectSensiboUser
+from contents.models import PointOfSale
 from padword.commons import new_ui_slug, reverse_cardkey, timestamp_to_date
 
 from datetime import datetime
@@ -655,6 +656,27 @@ class TicketViewSet(viewsets.ViewSet):
             if form != None:
                 return Response(form.to_tickets(start_id, start_date, end_date, status))
             return Response({"error": True, 'msg': 'This project do not have TPV configured!'})
+        except Exception as e:
+            logger.error("[{}]: \"{}\"".format(self.request.user, str(e)))
+            return Response({"error": True, 'msg': 'Bad request!'})
+
+    @action(detail=False, methods=['POST'])
+    def get_tickets_tpv(self, request):
+        try:
+            if "tpv" not in request.POST:
+                return Response({"error": True, 'msg': 'TPV not found in request!'})
+
+            pu = ProjectUser.objects.get(username=self.request.user.username)
+            pos = PointOfSale.objects.filter(project_uuid=pu.project.uuid, ext_code=request.POST["tpv"]).first()
+            if pos == None:
+                return Response({"error": True, 'msg': 'TPV not found!'})
+
+            start_index = request.POST["start_index"] if "start_index" in request.POST else ""
+            form = Form.objects.filter(form_type__code="tpv", form_type__project_uuid=pu.project.uuid).first()
+            if form == None:
+                return Response({"error": True, 'msg': 'This project do not have TPV configured!'})
+
+            return Response(form.to_tickets_pos(pos.uuid, start_index))
         except Exception as e:
             logger.error("[{}]: \"{}\"".format(self.request.user, str(e)))
             return Response({"error": True, 'msg': 'Bad request!'})

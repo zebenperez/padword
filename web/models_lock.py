@@ -70,6 +70,7 @@ class Lock(models.Model):
         return self.wifi_cache
 
     def update_params(self):
+        print("--1--")
         obj = ShLock(self.project.lock_access_token)
 
         state_cache = obj.get_lock_state(self.uuid)

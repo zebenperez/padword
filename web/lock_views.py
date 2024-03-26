@@ -29,8 +29,9 @@ def update_locks(project):
     for item in sh_lock.get_lock_all():
         uuid=item["lockId"]
         lock, created = Lock.objects.get_or_create(uuid=uuid, project_uuid=project.uuid)
-        lock.last_update = pytz.utc.localize(datetime.datetime.now())
         lock.alias = item["lockAlias"]
+        if created:
+            lock.last_update = pytz.utc.localize(datetime.datetime.now())
         lock.save()
         if uuid not in current_locks:
             current_locks.append(uuid)
