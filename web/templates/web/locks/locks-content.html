@@ -12,6 +12,7 @@
 <div class="content mt-3">
     <div class="toolbar-content">
         <h2 class="b-right">{% trans 'Locks' %} (<span id="items-counter">{{items|length}}</span>)</h2>
+        <span class="b-right"><small>{% trans 'Last update:' %} {{items.0.last_update|date:"d-m-Y H:i"}}</small></span>
         {#<a class="btn btn-primary ark" data-url="{% url "company-form" %}" data-target-modal="common-modal">{% trans "New company" %}</a>  #}
         {% include "common-modal.html" %}
     </div>

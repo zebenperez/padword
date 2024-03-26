@@ -10,7 +10,7 @@ from .models_lock import *
 from .lock_lib import ShLock, get_record_type
 from guest.models import KeyCode, KeyCard, Guest
 
-import csv, requests
+import csv, requests, threading
 import time, datetime, pytz
 
 
@@ -491,7 +491,19 @@ def lock_set_action_by_project(request):
         print(e)
         return render(request, 'error_exception.html', {'exc':show_exc(e)})
 
+#@group_required("projects")
+def locks_update_info_back():
+    lock_list = Lock.objects.all()
+    for lock in lock_list:
+        lock.update_params()
 
+def locks_update_info(request, code):
+    #lock_list = Lock.objects.filter(project_uuid = request.GET["uuid"])
+    #lock_list = Lock.objects.filter(project_uuid = uuid)
+    if code == "i2mrkme-fiWQFEF23qd4F4f-cwe3323r-fWQWEf":
+        t = threading.Thread(target=locks_update_info_back, args=[], daemon=True)
+        t.start()
+    return HttpResponse("--OK--")
 
 #@group_required("admins")
 #def lock_get_cards(request):

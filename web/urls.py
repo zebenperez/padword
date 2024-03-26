@@ -90,6 +90,8 @@ urlpatterns = [
     path('locks/get-all-cards/by-project/', lock_views.lock_get_all_cards_by_project, name='lock-get-all-cards-by-project'),
     path('locks/get-all-records/by-project/', lock_views.lock_get_all_records_by_project, name='lock-get-all-records-by-project'),
     path('locks/set-action/by-project/', lock_views.lock_set_action_by_project, name='lock-set-action-by-project'),
+    path('locks/update-info/<slug:uuid>/', lock_views.locks_update_info, name='locks-update-info'),
+
     #--------------------- LocksUsers --------------------
     path('locks-users/', lock_user_views.locks_users, name='locks-users'),
     path('locks-users/search/', lock_user_views.lock_user_search, name='lock-user-search'),

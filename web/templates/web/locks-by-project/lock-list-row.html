@@ -7,10 +7,16 @@
 <td>{{ item.project.name }}</td>
 <td>{{ item.group.name }}</td>
 <td>{{ item.room }}</td>
+<td>{{ item.state_cache }}</td>
+<td>{{ item.charge_cache }} %</td>
+<td>{% get_wifi_icon item.gateway_cache %}</td>
+<td>{% get_wifi_icon item.wifi_cache %} {{item.wifi_cache}}</td>
+{%comment%}
 <td>{{ item.state }}</td>
 <td>{{ item.charge }} %</td>
 <td>{% get_wifi_icon item.gateway %}</td>
 <td>{% get_wifi_icon item.wifi %} {{item.wifi}}</td>
+{%endcomment%}
 <td class="text-end px-0">
     <a class="btn btn-xs ark" title="{%trans "Update parameters"%}" data-url="{% url "lock-update-params-by-project" %}" 
         data-target="row_{{item.id}}" data-obj_id="{{item.id}}"><i class="fas fa-sync"></i></a>  
