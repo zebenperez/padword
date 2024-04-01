@@ -412,6 +412,7 @@ class FormInstance(models.Model):
     code = models.CharField(verbose_name=_("Code"), max_length=20, default="")
     index = models.IntegerField(verbose_name=_("Enviados"), default=0, null=True, blank=True)
     date = models.DateTimeField(_('Creation date'), default=datetime.datetime.now, null=True)
+    send_date = models.DateTimeField(_('Send date'), default=datetime.date.min, null=True)
     guest_uuid = models.CharField(max_length=255, verbose_name=_("Guest UUID"), default="")
     guest_name = models.CharField(max_length=255, verbose_name=_("Guest name"), default="")
     form_uuid = models.CharField(max_length=255, verbose_name=_("Form UUID"), default="")

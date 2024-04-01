@@ -360,7 +360,7 @@ def tpv_order_send(request):
         #if pt_code != "":
         fi.payment_type = pt
         fi.save()
-        #fi.update_index()
+        fi.update_index()
 
         if pt != None and (pt.code == "03" or pt.code == "0403") and band_id != "":
             pos = get_or_none(PointOfSale, request.session["point_of_sale"])

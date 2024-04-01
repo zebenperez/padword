@@ -300,7 +300,7 @@ def lock_share_code(request):
 
         plu = get_or_none(ProjectLockUser, lock.project.uuid, "project_uuid")
         alias = lock.room_obj.alias if lock.room_obj != None else ""
-        text = plu.text_to_share.replace("__CODE__",code).replace("__ROOM__",lock.room).replace("__ALIAS__",alias).replace("__PHONE__","")
+        text = plu.text_to_share.replace("__CODE__",code).replace("__ROOM__",lock.room).replace("__ALIAS__",alias).replace("__PHONE__","").replace("__NAME__","").replace("__SURNAME__","")
         return render(request, "web/locks/share-modal-body.html", {"text": text})
     except Exception as e:
         return render(request, "error_exception.html", {'exc':show_exc(e)})
@@ -314,7 +314,7 @@ def lock_share_code_guest(request):
 
         plu = get_or_none(ProjectLockUser, guest.project.uuid, "project_uuid")
         alias = guest.room_obj.alias if guest.room_obj != None else ""
-        text = plu.text_to_share.replace("__CODE__",code).replace("__ROOM__",guest.room).replace("__ALIAS__",alias).replace("__PHONE__",guest.mobile)
+        text = plu.text_to_share.replace("__CODE__",code).replace("__ROOM__",guest.room).replace("__ALIAS__",alias).replace("__PHONE__",guest.mobile).replace("__NAME__",guest.name).replace("__SURNAME__",guest.surname)
         pwa_url = request.build_absolute_uri(reverse("guest-access-auto", kwargs = {'guest_uuid': guest.UUID}))
         text = text.replace("__URLPWA__", pwa_url)
         return render(request, "web/locks/share-modal-body.html", {"guest": guest, "text": text})
