@@ -120,14 +120,39 @@ def room_multiple_save(request):
         
         j = 0
         for i in range(number, end_number):
-            print(i)
             obj = Room.objects.create(uuid = new_ui_slug(Room), project_uuid=project.uuid)
             obj.order = order + j
-            obj.alias = alias
+            obj.alias = "{} {}".format(alias, i)
             obj.number = i
             #obj.group = 
             obj.save()
             j += 1
+        return redirect("rooms")
+    except Exception as e:
+        return render(request, 'error_exception.html', {'exc':show_exc(e)})
+
+@group_required("admins")
+def room_import_csv(request):
+    try:
+        project = get_or_none(Project, get_param(request.GET, "obj_id"), "uuid")
+        return render(request, "web/rooms/room-import-csv.html", {'project': project})
+    except Exception as e:
+        return render(request, 'error_exception.html', {'exc':show_exc(e)})
+
+@group_required("admins")
+def room_import(request):
+    try:
+        project = get_or_none(Project, get_param(request.POST, "project_uuid"), "uuid")
+        f = request.FILES["file"]
+        
+        lines = f.read().decode('latin-1').splitlines()
+        for line in lines:
+            l = line.split(";")
+            obj = Room.objects.create(uuid = new_ui_slug(Room), project_uuid=project.uuid)
+            obj.order = get_int(l[0])
+            obj.alias = l[1]
+            obj.number = get_int(l[2])
+            obj.save()
         return redirect("rooms")
     except Exception as e:
         return render(request, 'error_exception.html', {'exc':show_exc(e)})
