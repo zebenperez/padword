@@ -99,6 +99,40 @@ def room_set_group(request):
         print(e)
         return HttpResponse("Error, {}".format(str(e)))
 
+@group_required("admins")
+def room_multiple(request):
+    try:
+        project = get_or_none(Project, get_param(request.GET, "project"), "uuid")
+        group_list = LockGroup.objects.filter(project_uuid = project.uuid)
+        return render(request, "web/rooms/room-multiple.html", {'project': project, 'group_list': group_list})
+    except Exception as e:
+        return render(request, 'error_exception.html', {'exc':show_exc(e)})
+
+@group_required("admins")
+def room_multiple_save(request):
+    try:
+        project = get_or_none(Project, get_param(request.POST, "project_uuid"), "uuid")
+        order = get_int(request.POST["order"])
+        alias = request.POST["alias"]
+        number = get_int(request.POST["number"])
+        end_number = get_int(request.POST["end_number"])
+        #group = request.POST["lock_group_uuid"]
+        
+        j = 0
+        for i in range(number, end_number):
+            print(i)
+            obj = Room.objects.create(uuid = new_ui_slug(Room), project_uuid=project.uuid)
+            obj.order = order + j
+            obj.alias = alias
+            obj.number = i
+            #obj.group = 
+            obj.save()
+            j += 1
+        return redirect("rooms")
+    except Exception as e:
+        return render(request, 'error_exception.html', {'exc':show_exc(e)})
+
+
 #@group_required("admins")
 #def room_floors(request):
 #    project_uuid = request.GET["project"]

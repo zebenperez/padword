@@ -2,31 +2,40 @@
 
 <textarea id="text-to-share" class="form-control" rows="15">{% padword_translate text %}</textarea>
 <br/>
-<div class="modal-icons-share">
+<div class="row modal-icons-share m-0">
     {%comment%}
     <div class="text-center"><a data-sharer="whatsapp" data-title='{% padword_translate text %}' data-url="" class="share-btn pointer"
         {% if guest %}data-to="34{{guest.mobile}}"{% endif %}>
         <i class="fab fa-whatsapp"></i><br />{% trans "Share on whatsapp" %}</a></div>
     {%endcomment%}
-    <div class="text-center"><a onclick="$('#div-whatsapp').toggle()"> <i class="fab fa-whatsapp"></i><br />{% trans "Share on whatsapp" %}</a></div>
-    <div class="text-center"><a data-sharer="telegram" data-title='{% padword_translate text %}' data-url="https://system.padword.es" 
-        class="share-btn pointer"> <i class="fab fa-telegram"></i><br />{% trans "Share on telegram" %}</a></div>
-    <div class="text-center"><a data-sharer="email" data-title="{% trans "New code" %}" data-url="" data-subject='{% padword_translate text %}' 
-        data-to="" class="share-btn pointer"><i class="far fa-envelope share"></i><br />{% trans "Send by email" %}</a></div>
-    <div class="text-center"><a class="pointer copy-to-clipboard" data-src="text-to-share" data-answer="copy-answer">
-        <i class="fas fa-copy"></i><br />{% trans "Copy to clicboard" %}</a> <span id="copy-answer"></span></div>
+
+    <div class="col-lg-3 col-6 p-2">
+        <button class="btn-share w-100" type="button" onclick="$('#div-whatsapp').toggle()"><i class="fab fa-whatsapp"></i><br />
+            {% trans "Share on whatsapp" %}</button></div>
+    <div class="col-lg-3 col-6 p-2">
+        <button class="btn-share w-100" type="button" data-sharer="telegram" data-title='{% padword_translate text %}' 
+            data-url="https://system.padword.es" class="share-btn pointer"> <i class="fab fa-telegram"></i><br />{% trans "Share on telegram" %}</button></div>
+    <div class="col-lg-3 col-6 p-2">
+        <button class="btn-share w-100" type="button" data-sharer="email" data-title="{% trans "New code" %}" 
+            data-url="" data-subject='{% padword_translate text %}' data-to="" class="share-btn pointer"><i class="far fa-envelope share"></i><br />
+            {% trans "Send by email" %}</button></div>
+    <div class="col-lg-3 col-6 p-2">
+        <button class="btn-share w-100" type="button" class="pointer copy-to-clipboard" data-src="text-to-share" data-answer="copy-answer">
+        <i class="fas fa-copy"></i><br />{% trans "Copy to clicboard" %}</a> <span id="copy-answer"></button></div>
 </div>
+
 <div id="div-whatsapp" class="text-center hide">
-    <br/> <br/>
-    <small><strong>
-        {%trans "Compruebe que el número esté correcto, debe contener el código del país para poder ser enviardo. Ejemplo: 34666777888"%}
-    </strong></small>
-    <br/> <br/>
-    <div class="row"><div class="col-4 offset-4"> <input type="text" id="phone" name="phone" class="form-control text-center" 
-        value="34{{guest.mobile}}" style="font-size:1.2em"/> </div> </div>
-    <br/>
-    <div class="text-center"><a id="w-btn" class="share-btn pointer btn" target="_blank"> 
-        <i class="fab fa-whatsapp"></i> {% trans "Send" %}</button></div>
+    <div class="alert alert-warning mt-3" role="alert">
+        <small><strong>{%trans "Compruebe que el número esté correcto, debe contener el código del país para poder ser enviado. Ejemplo: 34666777888"%}</small></strong>
+    </div>
+    <div class="row">
+        <div class="col-4 offset-4">
+            <input type="text" id="phone" name="phone" class="form-control text-center" 
+            value="34{{guest.mobile}}" style="font-size:1.2em"/> </div>
+        <div class="col-2 offset-5 text-center p-2 mt-3">
+            <button type="button" id="w-btn" class="btn-share w-100" target="_blank"> 
+            <i class="fab fa-whatsapp"></i><br /><strong> {% trans "Send" %}</strong></button></div> 
+    </div>
 </div>
 
 <script>

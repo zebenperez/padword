@@ -791,7 +791,8 @@ span.article-price {
     margin:auto;
 }
 
-#common-modal-body {
+#common-modal-body,
+.modal-content.share {
     border: 3px solid #128ad3;
     border-radius: 5px;
 	color: 666666;
@@ -2036,7 +2037,11 @@ span.actual { color: #000; }
 /********* Share icons style ********************/
 
 h5.modal-title.share { color: rgba(0,0,0,.54); }
+
+/*
 .modal-icons-share { display: grid; grid-template-columns: 25% 25% 25% 25%; }
+*/
+
 .modal-icons-share div {
     padding: 10px 0 10px 0;
     border: 1px solid transparent;
@@ -2046,14 +2051,36 @@ h5.modal-title.share { color: rgba(0,0,0,.54); }
     font-size: 0.8rem;
     text-decoration: none;
 }
-.fa-whatsapp { color: #0cc243; }
-.fa-telegram { color: #3390ec; }
-.fa-envelope.share { color: #e44134; }
-.fa-whatsapp, .fab.fa-telegram, .fa-envelope.share, fas.fa-copy { font-size: 1.5rem; }
+/*.fa-whatsapp { color: #0cc243; }*/
+.fa-whatsapp { color: #ffffff; }
+
+/*.fa-telegram { color: #3390ec; }*/
+.fa-telegram { color: #ffffff; }
+
+/*.fa-envelope.share { color: #e44134; }*/
+.fa-envelope.share { color: #ffffff; }
+
+.fa-whatsapp, .fab.fa-telegram, .fa-envelope.share, .fas.fa-copy { font-size: 1.5rem; }
+.modal-icons-share a {
+    border: 1px solid #d0d0d0;
+}
 .modal-icons-share div:hover {
+/*
     background:#f8f8f8;
     border: 1px solid #d0d0d0;
     border-radius: 10px;
+    */
+}
+
+.btn-share {
+    border: 1px solid #0092d6;
+    background: #0092d6;
+    border-radius: 10px;
+    color: #ffffff;
+    font-size: 0.8rem;
+}
+.btn-share:hover {
+    background: #128ad3;
 }
 
 /********************************/

@@ -1,0 +1,70 @@
+{% load i18n %}
+
+
+<h2 class="common-modal-head">
+    <div class="row">
+        <div class="col-11"><h2>{% trans 'Create rooms' %}</h2></div>
+        <div class="col-1"><button type="button" class="btn btn-sm ark" data-bs-dismiss="modal" data-url="{% url "room-status-list" %}" 
+        data-target="room-list"><i class="fas fa-times"></i></button></div>
+    </div>
+</h2>
+
+<span id="div-notification"></span>
+
+<form method="POST" action="{% url "room-multiple-save" %}" id="form-rooms">
+    {%csrf_token%}
+    <input type="hidden" name="project_uuid" value="{{project.uuid}}"/>
+
+    <div class="row m-0 mt-2">
+        <div class="col-2 p-0">
+            <div class="info-box green adm m-1 p-2">
+                <span class="title">{% trans "Initial order" %}</span><span class="icon"><i class="fa fa-sort"></i></span><br /><br />
+                <span class="text-right"><input type="text" class="form-control input" id="order" name="order" value="1"/></span>
+            </div>
+        </div>
+        <div class="col-2 p-0">
+            <div class="info-box green adm m-1 p-2">
+                <span class="title">{% trans "Common Alias" %}</span><span class="icon"><i class="fas fa-user"></i></span><br /><br />
+                <span class="text-right">
+                    <input type="text" class="form-control input" id="alias" name="alias" value=""/></span>
+            </div>
+        </div>
+        <div class="col-2 p-0">
+            <div class="info-box green adm m-1 p-2">
+                <span class="title">{% trans "Initial Number" %}</span><span class="icon"><i class="fas fa-bed"></i></span><br /><br />
+                <span class="text-right"><input type="text" class="form-control input" id="number" name="number" value=""/></span>
+            </div>
+        </div>
+        <div class="col-2 p-0">
+            <div class="info-box green adm m-1 p-2">
+                <span class="title">{% trans "End Number" %}</span><span class="icon"><i class="fas fa-bed"></i></span><br /><br />
+                <span class="text-right"><input type="text" class="form-control input" id="end_number" name="end_number" value=""/></span>
+            </div>
+        </div>
+        <div class="col-4 p-0">
+            <div class="info-box green adm m-1 p-2">
+                <span class="title">{% trans "Project" %}</span><span class="icon"><i class="fas fa-hotel"></i></span><br /><br />
+                <span class="text-right"><input type="text" class="form-control input" name="project" value="{{project.name}}" readonly/></span>
+            </div>
+        </div>
+        {%comment%}
+        <div class="col-2 p-0">
+            <div class="info-box green adm m-1 p-2">
+                <span class="title">{% trans "Group" %}</span><span class="icon"><i class="fas fa-key"></i></span><br /><br />
+                <span class="text-right">
+                    <select class="form-control input b-bottom" id="lock_group_uuid" name="lock_group_uuid"/>
+                        <option value="">{% trans "-- Select a group --" %}</option>
+                        {% for group in group_list %} <option value="{{group.uuid}}">{{group.name}}</option> {% endfor %}
+                    </select></span>
+            </div>
+        </div>
+        {%endcomment%}
+    </div>
+    <br/>
+    <div class="row">
+        <div class="col-11 text-end">
+            <input type="submit" class="btn btn-sm save" data-bs-dismiss="modal" value="{%trans "Save"%}"/>
+            <button type="button" class="btn btn-sm cancel" data-bs-dismiss="modal">{% trans "Cancel" %}</button>
+        </div>
+    </div>
+</form>

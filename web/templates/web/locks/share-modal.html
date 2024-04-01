@@ -3,14 +3,17 @@
 <!-- Modal -->
 <div class="modal" id="share-modal" tabindex="-1" role="dialog" aria-labelledby="shareModalLabel" aria-hidden="true">
 	<div class="modal-dialog  modal-dialog-centered" role="document">
-		<div class="modal-content">
-			<div class="modal-header">
-                <h5 class="modal-title share" id="exampleModalLabel">{% trans "Share" %} <i class="fas fa-share-alt"></i></h5>
-                {#<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>#}
-                <button type="button" class="btn-close" aria-label="Close" onclick="$('#share-modal').modal('toggle');"></button>
+		<div class="modal-content share">
+			<div class="modal-header border-0 p-0">
+				<h2 class="row w-100 m-0 common-modal-head" id="exampleModalLabel">
+					<div class="col-11">{% trans "Share" %} <i class="fas fa-share-alt"></i></div>
+					<div class="col-1 text-end">
+						<button type="button" class="btn" aria-label="Close" onclick="$('#share-modal').modal('toggle');">
+						<i class="fas fa-times"></i></button>
+					</div>
+				</h2>
 			</div>
-			<div class="modal-body" id="share-modal-body">	
-			</div>
+			<div class="modal-body" id="share-modal-body"></div>
 		</div>
 	</div>
 </div>
