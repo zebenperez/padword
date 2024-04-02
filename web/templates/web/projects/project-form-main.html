@@ -58,7 +58,17 @@
                         data-target="div-notification"/> <span id="time_zone__msg"></span>
                     {% endcomment %}
                 </div>
-                <div class="col-4">
+                <div class="col-6">
+                    <label class="label">{% trans "Time zone name" %}:</label>
+                    <input type="input" class="form-control autosave input mb-4" id="time_zone_name" name="time_zone_name" 
+                        value="{{obj.time_zone_name}}" title={% trans 'Time zone name' %}"" data-model-name="web.project" 
+                        data-obj-id="{{obj.id}}" data-url="{% url "autosave_field" %}" data-target="div-notification"/>
+                        <span id="time_zone_name__msg"></span>	
+                </div>
+            </div>
+            {# -------------------- ROW 3 -----------------------#}
+            <div class="row">
+                <div class="col-3">
                     {#<label class="label">{% trans "Used Languages (code separated by colons)" %}:</label>#}
                     <label class="label">{% trans "Languages" %}:</label>
                     <input type="input" class="form-control autosave input mb-4" id="used_languates" name="used_languages" 
@@ -72,10 +82,7 @@
                         title="{{obj.prefix}}" data-model-name="web.project" data-obj-id="{{obj.id}}" data-url="{% url "autosave_field" %}" 
                         data-target="div-notification"/> <span id="prefix__msg"></span>
                 </div>
-            </div>
-            {# -------------------- ROW 3 -----------------------#}
-            <div class="row">
-                <div class="col-6">
+                <div class="col-3">
                     <label class="label">{% trans "Days after checkout to delete guest" %}:</label>
                     <input type="text" class="form-control autosave input mb-4" id="guest_delete" name="guest_delete" value="{{obj.guest_delete}}" 
                         title="{{obj.guest_delete}}" data-model-name="web.project" data-obj-id="{{obj.id}}" data-url="{% url "autosave_field" %}" 
@@ -90,7 +97,7 @@
                         data-target="div-notification"/> <span id="created_at__msg"></span>	
                 </div>
                 {% endcomment %}
-                <div class="col-6">
+                <div class="col-4">
                     <label class="label">{% trans "UUID" %}:</label>
                     <input type="text" class="form-control autosave input mb-4" id="uuid" name="uuid" value="{{obj.uuid}}" title="{{obj.uuid}}" 
                         data-model-name="web.project" data-obj-id="{{obj.id}}" data-url="{% url "autosave_field" %}" data-target="div-notification" 

@@ -1,5 +1,6 @@
 from django.apps import apps
 from django.conf import settings
+from dateutil import tz
 import sys
 import datetime
 import time
@@ -9,6 +10,7 @@ import random
 import unicodedata
 import os
 import subprocess
+import pytz
 
 import logging
 logger = logging.getLogger(__name__)
@@ -154,6 +156,16 @@ def get_random_str(n):
 
 def timestamp_to_date(value):
     return datetime.datetime.fromtimestamp(value/1000.0).strftime("%Y-%m-%d %H:%M:%S")
+
+def date_to_utc(date, timezone):
+    #local = pytz.timezone("Atlantic/Canary")
+    local = pytz.timezone(timezone)
+    local_dt = local.localize(date, is_dst=None)
+    date_utc = local_dt.astimezone(pytz.utc)
+    return date_utc
+
+def date_to_local(date, timezone):
+    return date.astimezone(tz.gettz(timezone))
 
 '''
     External scripts

@@ -50,7 +50,6 @@ def device_switch(request):
 @group_required("guests")
 def device_set_state(request):
     try:
-        print("--1--")
         project = get_or_none(Project, request.GET["obj_id"])
         name = get_param(request.GET, "name")
         uid = get_param(request.GET, "uid")

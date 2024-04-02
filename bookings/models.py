@@ -8,10 +8,9 @@ from web.models import Channel, Device, Project
 from guest.models import Guest, Wristband
 
 from .email_lib import send_change_status_email
-from padword.commons import show_exc, translate2
+from padword.commons import show_exc, translate2, date_to_utc, date_to_local
 
-import datetime
-import threading
+import datetime, threading
 
 
 def get_int(val):
@@ -185,8 +184,8 @@ class Form(models.Model):
 
     def to_tickets(self, start_id="", start_date="", end_date="", status=""):
         if start_date != "" and end_date != "":
-            s_date = datetime.datetime.strptime(start_date, "%Y-%m-%d_%H:%M")
-            e_date = datetime.datetime.strptime(end_date, "%Y-%m-%d_%H:%M")
+            s_date = date_to_utc(datetime.datetime.strptime(start_date, "%Y-%m-%d_%H:%M:%S"), self.project.time_zone_name)
+            e_date = date_to_utc(datetime.datetime.strptime(end_date, "%Y-%m-%d_%H:%M:%S"), self.project.time_zone_name)
             fi_list = FormInstance.objects.filter(form_uuid=self.uuid, date__range=(s_date, e_date))
         elif start_id != "":
             fi_list = FormInstance.objects.filter(pk__gte=start_id, form_uuid=self.uuid).order_by("id")
@@ -206,10 +205,13 @@ class Form(models.Model):
                 guest_name = details.client if details != None else ""
                 lang = details.lang if details != None else ""
                 payment_type = translate2("es", fi.payment_type.name) if fi.payment_type != None else ""
+                date = date_to_local(fi.date, self.project.time_zone_name)
                 fi_json = {
                     'id': fi.id, 
-                    'fecha': fi.date.strftime("%d-%m-%Y"), 
-                    'hora': fi.date.strftime("%H:%M:%S"), 
+                    #'fecha': fi.date.strftime("%d-%m-%Y"), 
+                    #'hora': fi.date.strftime("%H:%M:%S"), 
+                    'fecha': date.strftime("%d-%m-%Y"), 
+                    'hora': date.strftime("%H:%M:%S"), 
                     'subtotal': "{:.2f}".format(fi.get_total), 
                     'total': "{:.2f}".format(fi.get_total_total), 
                     'punto de venta': pos_name, 

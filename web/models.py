@@ -43,6 +43,7 @@ class Project(models.Model):
     default_language = models.CharField(max_length=255, verbose_name='Idioma por defecto', default="ES", blank=True)
     currency = models.CharField(max_length=255, verbose_name='Moneda', default="EUR", blank=True)
     time_zone = models.CharField(max_length=50, verbose_name='Time zone', default="+00:00")
+    time_zone_name = models.CharField(max_length=50, verbose_name='Time zone name', default="")
     radius = models.IntegerField(verbose_name='Radio (Km)', default=100)
     active = models.IntegerField(verbose_name='Active', default=1)
     guest_delete = models.IntegerField(verbose_name='Delete guest after', default=90)
