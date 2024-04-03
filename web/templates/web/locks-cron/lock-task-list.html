@@ -1,0 +1,32 @@
+{% load i18n padword_tags lock_tags %}
+
+
+{% if msg and msg != "" %} <div class="alert alert-danger">{{msg}}</div> {% endif %}
+
+<table class="table table-striped table-hover mt-3" id="main-task-table">
+    <thead>
+        <tr class="small small">
+            <th> {% trans 'Task' %} <i class="fas fa-sort"></i> </th>
+            <th> {% trans 'Locks' %} <i class="fas fa-sort"></i> </th>
+            <th> {% trans 'Params' %} <i class="fas fa-sort"></i> </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for task in tasks %}
+            <tr class="small" id="task_{{item.id}}">
+                <td> {{task.task}} </td>
+                <td> {{task.lock_list}} </td>
+                <td> {{task.params}} </td>
+                <td>
+                    <a class="btn btn-sm autoremove" title="{%trans "Remove task"%}" data-model-name="web.lockcron" data-obj-id="{{task.id}}" 
+                        data-url="{% url "autoremove_obj" %}" data-target="task_{{item.id}}" 
+                        data-confirm="{%trans "Are you sure to remove this element?"%}"> <i class="fas fa-trash"></i></a>
+                </td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<script> $("#main-task-table").tablesorter(); </script>
+

@@ -1,0 +1,36 @@
+{% load i18n padword_tags %}
+
+<div class="card">
+    <div class="card-header text-center pointer" onclick="$('#card-body-search').toggle()"> {% trans "Search" %}</div>
+    <div class="card-body hide" id="card-body-search">
+        <div class="row m-0">
+            <form class="form" method="GET" action="{% url "lock-cron-search" %}" id="form-search">
+                {%csrf_token%}
+                <input type="hidden" id="project_uuid" name="project_uuid" value="{{project.uuid}}"/>
+                <div class="col-12 mt-2 p-0">
+                    <input type="text" class="form-control w-100 input-k reset" name="lock_search_alias" id="lock_search_alias" 
+                        placeholder="{%trans 'Alias'%}" value="{{request.session.lock_search_alias}}"/>
+                </div>
+                <div class="col-12 mt-2 p-0">
+                    <input type="text" class="form-control w-100 input-k reset" name="lock_search_passcode" id="lock_search_passcode" 
+                        placeholder="{%trans 'Code'%}" value="{{request.session.lock_search_passcode}}"/>
+                </div>
+                <div class="col-12 mt-2 p-0">
+                    <input type="text" class="form-control w-100 input-k reset" name="lock_search_cardcode" id="lock_search_cardcode" 
+                        placeholder="{%trans 'Card Code'%}" value="{{request.session.lock_search_cardcode}}"/>
+                </div>
+                <div class="col-12 mt-2 p-0">
+                    <input type="text" class="form-control w-100 input-k reset" name="lock_search_group" id="lock_search_group" 
+                        placeholder="{%trans 'Lock Group'%}" value="{{request.session.lock_search_group}}"/>
+                </div>
+
+                <div class="col-12 mt-3 text-center">
+                    <button class="btn btn-primary mt-2 saveform w-100" data-form="form-search" data-target="lock-list">
+                        <i class="fas fa-plus"></i> {% trans "Search" %}</button> 
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+

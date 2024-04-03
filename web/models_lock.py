@@ -325,3 +325,16 @@ class LockCodeExtId(models.Model):
         except:
             return None
 
+class LockCron(models.Model):
+    task = models.CharField(max_length = 100, verbose_name=_('Task'), default="")
+    lock_list = models.TextField(verbose_name= _('Lock list'), default='')
+    params = models.TextField(verbose_name= _('Params'), default='')
+    project_uuid = models.CharField(max_length = 255, verbose_name= _('Project UUID'), default='')
+
+    @property
+    def lock(self):
+        try:
+            return Lock.objects.get(uuid=self.lock_uuid)
+        except:
+            return None
+

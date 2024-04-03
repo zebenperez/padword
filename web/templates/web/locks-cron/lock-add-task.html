@@ -1,0 +1,44 @@
+{% load i18n padword_tags %}
+
+<div class="card">
+    <div class="card-header toggle-main text-center pointer" data-toggle="card-add-code" data-action="2"> {% trans "Add Task" %} </div>
+    <div class="card-body hide" id="card-add-code">
+        <div id="div-form" class="special-form">
+            <div class="row">
+                <div class="col-12 mt-1"><span>{%trans "Fill in the information below and press the save button"%}:</span></div>
+                <div class="col-6 mt-3 pt-1 small"> 
+                    <input type="radio" class="set-hidden" name="radio_code" value="2" data-id="action" checked/> {% trans "Code" %} 
+                </div>
+                <div class="col-6 mt-3 pt-1 small"> 
+                    <input type="radio" class="set-hidden" name="radio_code" value="3" data-id="action"/> {% trans "Card" %} 
+                </div>
+                <div class="col-12 mt-3">
+                    <input type="text" class="form-control input-k set-hidden" data-id="code" 
+                        placeholder="{%trans "Click and write"%} {%trans "Code or Card number"%}"/> 
+                </div>
+                <div class="col-12 mt-3">
+                    <input type="text" class="form-control input-k set-hidden" data-id="name"  
+                        placeholder="{%trans "Click and write"%} {%trans "Name"%}"/> 
+                </div>
+                <div class="col-12 mt-3"> 
+                    <input type="date" class="form-control check_per input-k set-hidden" data-id="ini_date"  
+                        value="{{ini_date|date:"Y-m-d"}}"/> 
+                </div>
+                <div class="col-12 mt-3"> 
+                    <input type="date" class="form-control check_per input-k set-hidden" data-id="end_date"
+                        value="{{end_date|date:"Y-m-d"}}"/> 
+                </div>
+                <div class="col-11 mt-3 pt-1 small"> 
+                    <input type="checkbox" class="check_per toggle-tags set-hidden" data-id="permanent" id="perm" value=""
+                        data-class-name="check_per"/> {% trans "Permanent" %} 
+                </div>
+                <div class="col-12 mt-3 text-center">
+                    <button class="btn btn-primary mt-2 saveform w-100" data-form="form-actions" data-target="locks-content">
+                        <i class="fas fa-plus"></i> {% trans "Save" %}</button> 
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+

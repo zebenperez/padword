@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 from django.urls import path
 from . import views, auto_views, room_views, card_views, lock_views, lock_user_views, lock_group_views 
-from . import gateway_views, ekey_views, box_views
+from . import gateway_views, ekey_views, box_views, lock_cron_views
 
 urlpatterns = [ 
     #path('index/<slug:chk>/', views.index, name='web-index-new'),
@@ -109,6 +109,21 @@ urlpatterns = [
     path('locks-groups/remove/', lock_group_views.lock_group_remove, name='lock-group-remove'),
     path('locks-groups/remove-by-id/', lock_group_views.lock_group_remove_by_id, name='lock-group-remove-by-id'),
     path('locks-groups/add/', lock_group_views.lock_group_add, name='lock-group-add'),
+
+    #--------------------- Locks Cron --------------------
+    path('locks-cron/<int:project_id>/', lock_cron_views.locks_cron, name='locks-cron'),
+    path('locks-cron/row/', lock_cron_views.lock_row, name='lock-cron-row'),
+    path('locks-cron/search/', lock_cron_views.lock_search, name='lock-cron-search'),
+    path('locks-cron/set-action/', lock_cron_views.lock_set_action, name='lock-cron-set-action'),
+    #path('locks/form/', lock_views.lock_form, name='lock-form'),
+    #path('locks/remove/', lock_views.lock_remove, name='lock-remove'),
+    #path('locks/get-all-passcodes/', lock_views.lock_get_all_passcodes, name='lock-get-all-passcodes'),
+    #path('locks/remove/code/', lock_views.lock_remove_code, name='lock-remove-code'),
+    #path('locks/remove-all-passcodes/', lock_views.lock_remove_all_passcodes, name='lock-remove-all-passcodes'),
+    #path('locks/get-all-cards/', lock_views.lock_get_all_cards, name='lock-get-all-cards'),
+    #path('locks/remove/card/', lock_views.lock_remove_card, name='lock-remove-card'),
+    #path('locks/remove-all-cards/', lock_views.lock_remove_all_cards, name='lock-remove-all-cards'),
+    #path('locks/get-all-records/', lock_views.lock_get_all_records, name='lock-get-all-records'),
 
     #--------------------- Boxes --------------------
     path('boxes/by-project/', box_views.boxes_by_project, name='boxes-by-project'),

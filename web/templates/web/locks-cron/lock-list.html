@@ -1,0 +1,60 @@
+{% load i18n padword_tags lock_tags %}
+
+
+{% if msg and msg != "" %} <div class="alert alert-danger">{{msg}}</div> {% endif %}
+
+<form class="form" method="POST" action="{% url "lock-cron-set-action" %}" id="form-actions">
+    {%csrf_token%}
+    <input type="hidden" id="action" name="action" value=""/>
+    <input type="hidden" id="project_uuid" name="project_uuid" value="{{project.uuid}}"/>
+
+    <input type="hidden" id="lock_group" name="lock_group" value=""/>
+
+    <input type="hidden" id="code" name="code" value=""/>
+    <input type="hidden" id="name" name="name" value=""/>
+    <input type="hidden" id="ini_date" name="ini_date" value=""/>
+    <input type="hidden" id="end_date" name="end_date" value=""/>
+    <input type="hidden" id="permanent" name="permanent"/>
+
+    <input type="hidden" id="code_remove" name="code_remove" value=""/>
+
+    <table class="table table-striped table-hover mt-3" id="main-table">
+        <thead>
+            <tr class="small small">
+                <th><input type="checkbox" name="ch_0" id="check-all"/></th>
+                <th> {% trans 'UUID' %} <i class="fas fa-sort"></i> </th>
+                <th> {% trans 'Lock Alias' %} <i class="fas fa-sort"></i> </th>
+                <th> {% trans 'Project' %} <i class="fas fa-sort"></i> </th>
+                {#<th> {% trans 'Floor' %} </th>#}
+                <th> {% trans 'Group' %} <i class="fas fa-sort"></i> </th>
+                <th> {% trans 'Room' %} <i class="fas fa-sort"></i> </th>
+                <th> {% trans 'Status' %} <i class="fas fa-sort"></i> </th>
+                <th> {% trans 'Charge' %} <i class="fas fa-sort"></i> </th>
+                <th> {% trans 'Gateway' %} <i class="fas fa-sort"></i> </th>
+                <th> {% trans 'Wifi' %} <i class="fas fa-sort"></i> </th>
+                <th> {% trans 'Deposit box' %} <i class="fas fa-sort"></i> </th>
+                <th> {% trans 'Private' %} <i class="fas fa-sort"></i> </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in items %}
+            <tr class="small load-row" id="row_{{item.id}}" data-obj_id="{{item.id}}">
+                <td colspan="10"><i class="fas fa-spinner fa-spin"></i> loading...</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</form>
+
+<script>
+    $("#main-table").tablesorter();
+    $('#items-counter').html('{{items|length}}');
+    $('#check-all').click(function(){ $('input:checkbox').not(this).prop('checked', this.checked); });
+    $(document).ready(function(){$(window).keydown(function(event){if(event.keyCode == 13){event.preventDefault();return false;}});});
+    $(".load-row").each(function(){
+        var id = $(this).data("obj_id");
+        ajaxGet("{% url "lock-cron-row" %}", {"obj_id": id}, "row_"+id, "");
+    });
+</script>
+
