@@ -338,3 +338,6 @@ class LockCron(models.Model):
         except:
             return None
 
+    @property
+    def lock_list_html(self):
+        return self.lock_list.split(";")

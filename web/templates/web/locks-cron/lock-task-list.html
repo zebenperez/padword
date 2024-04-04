@@ -15,9 +15,9 @@
     <tbody>
         {% for task in tasks %}
             <tr class="small" id="task_{{item.id}}">
-                <td> {{task.task}} </td>
-                <td> {{task.lock_list}} </td>
-                <td> {{task.params}} </td>
+                <td width="10%"> {{task.task}} </td>
+                <td width="45%"> {{task.lock_list_html}} </td>
+                <td width="40%"> {{task.params}} </td>
                 <td>
                     <a class="btn btn-sm autoremove" title="{%trans "Remove task"%}" data-model-name="web.lockcron" data-obj-id="{{task.id}}" 
                         data-url="{% url "autoremove_obj" %}" data-target="task_{{item.id}}" 
