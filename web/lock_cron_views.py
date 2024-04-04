@@ -181,3 +181,17 @@ def lock_set_action(request):
         print(e)
         return render(request, 'error_exception.html', {'exc':show_exc(e)})
 
+@group_required("admins")
+def lock_set_task(request):
+    try:
+        errcode = ""
+        task = get_or_none(LockCron, request.GET["obj_id"])
+        if task.code == "ADD CARD":
+            lock_list = task.lock_list.split(";")
+            params = task.params.split(";")
+            for lock in lock_list:
+                errcode += lock.add_card(params[0], params[2], params[3], param[1])
+        return render (request, "web/locks-cron/set-task.html", {'msg': errcode})
+    except Exception as e:
+        print(e)
+        return render(request, 'error_exception.html', {'exc':show_exc(e)})
