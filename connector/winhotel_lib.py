@@ -282,6 +282,23 @@ class Winhotel:
         json["QueryRequest"] = {"QueryHeader": self._request_header(), "BookingListQueryParameters": _bookings_params}
         return json
 
+    def _request_bookings_day(self, state, date):
+        json = {"QueryCredentials": self._credentials(), "UserID": self.user_id}
+        _bookings_params = {
+            "StartDateQueryParameter": {
+                "QueryOperator": 0,
+                "Value": date
+            },
+            "BookingStateQueryParameters": {
+                "QueryOperator": 0,
+                "Value": state
+            },
+        }
+
+        json["QueryRequest"] = {"QueryHeader": self._request_header(), "BookingListQueryParameters": _bookings_params}
+        return json
+
+
     def _request_send_charge(self, dic):
         json = {"QueryCredentials": self._credentials(), "UserID": self.user_id}
         _send_charge_params = {
@@ -326,6 +343,16 @@ class Winhotel:
             return self.__send_request__(_url_request, _json_data).json()["Bookings"]
         except Exception as err:
             raise WinhotelAPIError(message=err)
+
+    def get_bookings_day(self, state, date):
+        try:
+            _url_request = "{}{}".format(API_URL, BOOKINGS_URL)
+            _json = self._request_bookings_day(state, date)
+            _json_data = json.dumps(_json)
+            return self.__send_request__(_url_request, _json_data).json()["Bookings"]
+        except Exception as err:
+            raise WinhotelAPIError(message=err)
+
 
     def send_charge(self, dic):
         try:
@@ -454,6 +481,35 @@ def create_booking_new(pwu, booking, start_date, end_date):
         #    err = guest.add_all_key_code(lock_code)
         #    av.send_pwa_link(guest.ext_id, guest.pwa_link)
 
+def create_booking_day(pwu, booking):
+    checkin = datetime.strptime(booking.check_in_date.split('+')[0], "%Y-%m-%dT%H:%M:%S")
+    checkout = datetime.strptime(booking.check_out_date.split('+')[0], "%Y-%m-%dT%H:%M:%S")
+    room = booking.room_code 
+    room_ex = room_exist(pwu.project_uuid, room)
+    if room_ex:
+        guest = Guest.objects.filter(ext_id=booking.code, project_id=pwu.project_uuid, deleted=0).first()
+        if guest == None:
+            guest = Guest(UUID = new_ui_slug(Guest, "UUID"), ext_id=booking.code, project_id=pwu.project_uuid)
+            booking.created = True
+
+        wguest = get_guest(booking)
+        if wguest != None:
+            guest.name = wguest.contact["name"]
+            guest.surname = wguest.contact["surname"]
+
+            phone = get_phone(wguest.contact)
+            if phone != None:
+                guest.mobile = phone["phone_number"]
+
+            email = get_email(wguest.contact)
+            if email != None:
+                guest.email = email
+            
+        guest.check_in = checkin
+        guest.check_out = checkout
+        guest.room = room
+        guest.save()
+        set_regime(booking, guest)
 
 def delete_booking(pwu, booking):
     guest = Guest.objects.filter(ext_id=booking.code, project_id=pwu.project_uuid, deleted=0).first()
@@ -488,6 +544,15 @@ def get_booking_new_list(pwu, state):
         create_booking_new(pwu, node, today, e_date)
     return booking_list, ""
 
+def get_booking_day_list(pwu, state, source, target, date):
+    w = Winhotel(source, target)
+    result = w.get_bookings_day(state, date)
+    booking_list = []
+    for item in result:
+        node = WinhotelBooking(item)
+        booking_list.append(node)
+        create_booking_day(pwu, node)
+    return booking_list, ""
 
 def get_booking_cancelled(pwu, state):
     w = Winhotel(pwu.source_code, pwu.target_code)

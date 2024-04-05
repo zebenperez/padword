@@ -78,6 +78,30 @@
             </div>
         </div>		
 
+        <hr/>
+        <form method="POST" action="{% url "winhotel-get-day-booking-list" %}" id="form-get" />
+            {%csrf_token%}
+            <input type="hidden" name="obj_id" value="{{user_winhotel.id}}"/>
+            <div class="row mt-3" style="--bs-gutter-x: 0rem;">
+                <div class="col-3">
+                    <label class="label">{% trans "Hotel Source Code" %}:</label>
+                    <input type="text" class="form-control input" id="source" name="source" />
+                </div>
+                <div class="col-3">
+                    <label class="label">{% trans "Hotel Target Code" %}:</label>
+                    <input type="text" class="form-control input" id="target" name="target" />
+                </div>
+                <div class="col-3">
+                    <label class="label">{% trans "Date" %}:</label>
+                    <input type="date" class="form-control text-center input" id="date" name="date" value=""/>
+                </div>
+                <div class="col-3 text-end text-middle">
+                    <a class="btn saveform" data-form="form-get" data-target="get-details"> {% trans "Get Bookings" %}</a>
+                </div>
+            </div>
+        </form>
+        <button class="btn" onclick="$('#get-details').toggle()"> Ver/Ocultar resultados</button> 
+        <div id="get-details"></div>
     </div>		
 </div>		
 
