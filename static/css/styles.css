@@ -1122,7 +1122,6 @@ img.img-cart-line {
 }
 
 .project-menu {
-    
 }
 
 .menu-proyect-tab {
@@ -1133,12 +1132,12 @@ img.img-cart-line {
 }
 
 .menu-proyect-tab a {
-    color: #999;
+    color: #c5c5c5;
     font-size: 0.8rem;
     letter-spacing: 0;
 }
 .menu-proyect-tab .active-tab {
-    background-color: #f3f5f7;
+    background-color: #eff1f3;
     color: #37a6de;
     font-size: 0.8rem;
     font-weight:600;
@@ -1512,15 +1511,9 @@ i.fas.fa-check-square {
 #content-section {
     flex-basis: 99.5%;
     height: 99vh;
-/*
-    margin-left: 0.5%;
-   	margin-right: 0.5%;
-*/
-/*    padding-top: 5px;*/
     overflow-y: scroll;
     padding-bottom: 3.5rem;
-
-    background: #f3f5f7;
+    background: #eff1f3;
 }
 .botton-div { background: #143e53; }
 

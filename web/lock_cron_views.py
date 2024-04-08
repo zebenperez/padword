@@ -197,3 +197,17 @@ def lock_set_task(request):
     except Exception as e:
         print(e)
         return render(request, 'error_exception.html', {'exc':show_exc(e)})
+
+'''
+    Locks by project
+'''
+@group_required("projects")
+def locks_tasks_by_project(request):
+    try:
+        project = get_or_none(Project, request.project_id)
+        context = {"project": project, "tasks": LockCron.objects.filter(project_uuid=project.uuid)}
+        return render(request, "web/locks-cron-by-project/tasks.html", context)
+    except Exception as e:
+        return render(request, "error_exception.html", {'exc':show_exc(e)})
+
+

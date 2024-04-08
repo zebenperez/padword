@@ -126,6 +126,8 @@ urlpatterns = [
     #path('locks/remove-all-cards/', lock_views.lock_remove_all_cards, name='lock-remove-all-cards'),
     #path('locks/get-all-records/', lock_views.lock_get_all_records, name='lock-get-all-records'),
 
+    path('locks-cron/tasks-by-project/', lock_cron_views.locks_tasks_by_project, name='locks-tasks-by-project'),
+
     #--------------------- Boxes --------------------
     path('boxes/by-project/', box_views.boxes_by_project, name='boxes-by-project'),
     path('boxes/card/by-project/', box_views.box_card_by_project, name='box-card-by-project'),
