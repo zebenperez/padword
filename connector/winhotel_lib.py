@@ -201,10 +201,7 @@ class Winhotel:
  
     def __send_request__(self, _url_request, _json_datas):
         try:
-            #print(_json_datas.replace("__DEL__", ""))
-            #_headers = {'Content-Type': 'application/x-www-form-urlencoded', 'Token': '43bedb65e2fa3a57dd19650c7f67a1cb648644f8'}
             _headers = {'content-type': 'application/json', 'Accept-Charset': 'UTF-8'}
-            #_response = requests.post(_url_request, headers=_headers, data=_json_datas.replace("__DEL__", ""))
             _response = requests.post(_url_request, headers=_headers, data=_json_datas)
             _response.raise_for_status()
             return _response
@@ -233,7 +230,6 @@ class Winhotel:
             "MaxRowsResponse": 1
         }
 
-    #def _request_bookings(self, start_date, end_date):
     def _request_bookings(self, state):
         json = {"QueryCredentials": self._credentials(), "UserID": self.user_id}
         _bookings_params = {
@@ -241,44 +237,22 @@ class Winhotel:
                 "QueryOperator": 0,
                 "Value": state
             }
-            #"StartDateQueryParameter": {
-            #    "QueryOperator": 0,
-            #    "Value": "2023-09-01"
-            #}
-            #"EndDateQueryParameter": {
-            #    "QueryOperator": 0,
-            #    "Value": "2023-09-28T15:31:56.9578083+02:00"
-            #},
         }
-        #if start_date != "":
-        #    _bookings_params["StartDateQueryParameter"] = { "QueryOperator": 0, "Value": start_date}
-        #if end_date != "":
-        #    _bookings_params["EndDateQueryParameter"] = { "QueryOperator": 0, "Value": end_date}
-
         json["QueryRequest"] = {"QueryHeader": self._request_header(), "BookingListQueryParameters": _bookings_params}
         return json
 
-    def _request_bookings_new(self, state, start_date, end_date):
+    def _request_bookings_new(self, state, start_date, end_date, date_operator=1):
         json = {"QueryCredentials": self._credentials(), "UserID": self.user_id}
         _bookings_params = {
+            "StartDateQueryParameter": {
+                "QueryOperator": date_operator,
+                "Value": start_date
+            },
             "BookingStateQueryParameters": {
                 "QueryOperator": 0,
                 "Value": state
             },
-            "StartDateQueryParameter": {
-                "QueryOperator": 1,
-                "Value": start_date
-            },
-            #"StartDateQueryParameter__DEL__": {
-            #    "QueryOperator": 4,
-            #    "Value": end_date
-            #}
-            #"EndDateQueryParameter": {
-            #    "QueryOperator": 0,
-            #    "Value": "2023-09-28T15:31:56.9578083+02:00"
-            #},
         }
-
         json["QueryRequest"] = {"QueryHeader": self._request_header(), "BookingListQueryParameters": _bookings_params}
         return json
 
@@ -294,7 +268,6 @@ class Winhotel:
                 "Value": state
             },
         }
-
         json["QueryRequest"] = {"QueryHeader": self._request_header(), "BookingListQueryParameters": _bookings_params}
         return json
 
@@ -321,24 +294,19 @@ class Winhotel:
         json["QueryRequest"] = {"QueryHeader": self._request_header(), "InsertExternalChargeRequest": _send_charge_params}
         return json
 
-    #def get_bookings(self, start_date, end_date):
     def get_bookings(self, state):
         try:
             _url_request = "{}{}".format(API_URL, BOOKINGS_URL)
-            #_json = self._request_bookings(start_date, end_date)
             _json = self._request_bookings(state)
             _json_data = json.dumps(_json)
-            #print(_json_data)
-            #print("-------------------------")
-            #print(self.__send_request__(_url_request, _json_data).json())
             return self.__send_request__(_url_request, _json_data).json()["Bookings"]
         except Exception as err:
             raise WinhotelAPIError(message=err)
 
-    def get_bookings_new(self, state, start_date, end_date):
+    def get_bookings_new(self, state, start_date, end_date, date_operator=1):
         try:
             _url_request = "{}{}".format(API_URL, BOOKINGS_URL)
-            _json = self._request_bookings_new(state, start_date, end_date)
+            _json = self._request_bookings_new(state, start_date, end_date, date_operator)
             _json_data = json.dumps(_json)
             return self.__send_request__(_url_request, _json_data).json()["Bookings"]
         except Exception as err:
@@ -395,15 +363,6 @@ def set_regime(booking, guest):
             pr = ProjectRegime.objects.filter(regime=regime, project=guest.project).first()        
             if pr == None:
                 pr = ProjectRegime.objects.create(regime=regime, project=guest.project)        
-#        regime = Regime.objects.filter(name=reg_name).first()
-#        if regime == None:
-#            regime = Regime.objects.create(code=reg_code, name=reg_name)
-#        gr = GuestRegime.objects.filter(regime=regime, guest=guest).first()        
-#        if gr == None:
-#            gr = GuestRegime.objects.create(regime=regime, guest=guest)        
-#        pr = ProjectRegime.objects.filter(regime=regime, project=guest.project).first()        
-#        if pr == None:
-#            pr = ProjectRegime.objects.create(regime=regime, project=guest.project)        
     except Exception as e:
         print(e)
         return ""
@@ -411,10 +370,8 @@ def set_regime(booking, guest):
 def create_booking(pwu, booking):
     checkin = datetime.strptime(booking.check_in_date.split('+')[0], "%Y-%m-%dT%H:%M:%S")
     checkout = datetime.strptime(booking.check_out_date.split('+')[0], "%Y-%m-%dT%H:%M:%S")
-    #room = booking.allotment_code 
     room = booking.room_code 
     room_ex = room_exist(pwu.project_uuid, room)
-    #if room_ex:
     if room_ex and checkout >= datetime.now():
         guest = Guest.objects.filter(ext_id=booking.code, project_id=pwu.project_uuid, deleted=0).first()
         if guest == None:
@@ -440,15 +397,9 @@ def create_booking(pwu, booking):
         guest.save()
         set_regime(booking, guest)
 
-        #if booking.created:
-        #    lock_code = get_code(pau, code)
-        #    err = guest.add_all_key_code(lock_code)
-        #    av.send_pwa_link(guest.ext_id, guest.pwa_link)
-
 def create_booking_new(pwu, booking, start_date, end_date):
     checkin = datetime.strptime(booking.check_in_date.split('+')[0], "%Y-%m-%dT%H:%M:%S")
     checkout = datetime.strptime(booking.check_out_date.split('+')[0], "%Y-%m-%dT%H:%M:%S")
-    #room = booking.allotment_code 
     room = booking.room_code 
     room_ex = room_exist(pwu.project_uuid, room)
     if room_ex and checkin >= start_date and checkin <= end_date:
@@ -536,7 +487,7 @@ def get_booking_new_list(pwu, state):
     end_date = e_date.strftime("%Y-%m-%d") 
 
     w = Winhotel(pwu.source_code, pwu.target_code)
-    result = w.get_bookings_new(state, start_date, end_date)
+    result = w.get_bookings_new(state, start_date, end_date, pwu.import_operator)
     booking_list = []
     for item in result:
         node = WinhotelBooking(item)
