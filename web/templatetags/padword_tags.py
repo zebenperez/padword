@@ -363,11 +363,11 @@ def items_in_bookings(fi,item):
 '''
     Inclusion Tags
 '''
-@register.inclusion_tag('project-menu.html')
-def get_project_menu(user, active=""):
+@register.inclusion_tag('project-menu.html', takes_context=True)
+def get_project_menu(context, user, active=""):
     try:
         pu_list = ProjectUser.objects.filter(username=user.username)
-        return {'user': user, 'pu_list': pu_list, "active": active}
+        return {'user': user, 'pu_list': pu_list, "active": active, "project": context["request"].session["project"]}
     except:
         return {}
 

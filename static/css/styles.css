@@ -1097,7 +1097,7 @@ img.img-cart-line {
 /************************************************/
 
 .header.sticky-top.bg-white {
-	border-bottom: 1px solid rgba(0, 0, 0, 0.0625);
+/*	border-bottom: 1px solid rgba(0, 0, 0, 0.0625);*/
 	height:55px;
 	line-height: 1.5;
 	display: grid;
@@ -1133,9 +1133,18 @@ img.img-cart-line {
 }
 
 .menu-proyect-tab a {
-    color: #143e53;
+    color: #999;
     font-size: 0.8rem;
     letter-spacing: 0;
+}
+.menu-proyect-tab .active-tab {
+    background-color: #f3f5f7;
+    color: #37a6de;
+    font-size: 0.8rem;
+    font-weight:600;
+    letter-spacing: 0;
+    border-top-left-radius: 0.25rem!important;
+    border-top-right-radius: 0.25rem!important;
 }
 
 .project-name {
