@@ -18,7 +18,8 @@ from .models import ProjectAvantioUser, ProjectAvaibookUser, ProjectWinhotelUser
 from .avantio_lib import get_booking_list, get_booking_notif, send_link
 from .avaibook_lib import get_accommodation_list, manage_booking_from_webhook, get_booking_list as av_get_booking_list, WEBHOOK_TOKEN
 from .winhotel_lib import get_booking_list as wh_get_booking_list, import_item_prices as wh_import_item_prices
-from .winhotel_lib import get_booking_new_list as wh_get_booking_new_list
+from .winhotel_lib import get_booking_new_list as wh_get_booking_new_list, get_booking_day_list as wh_get_booking_day_list
+
 
 import json, os, csv, re
 
@@ -166,6 +167,20 @@ def winhotel_get_booking_list(request, project_uuid):
     except Exception as e:
         print(e)
         return render(request, 'error_exception.html', {'exc':show_exc(e)})
+
+@group_required("admins", "projects")
+def winhotel_get_day_booking_list(request):
+    try:
+        pwu = get_or_none(ProjectWinhotelUser, request.POST["obj_id"])
+        source = request.POST["source"]
+        target = request.POST["target"]
+        date = request.POST["date"]
+        booking_list, err = wh_get_booking_day_list(pwu, "1", source, target, date)
+        return render(request, 'winhotel/booking-list.html', {'booking_list': booking_list})
+    except Exception as e:
+        print(e)
+        return render(request, 'error_exception.html', {'exc':show_exc(e)})
+
 
 @group_required("admins", "projects")
 def winhotel_import_items(request, project_uuid):

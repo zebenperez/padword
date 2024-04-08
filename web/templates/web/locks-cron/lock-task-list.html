@@ -15,10 +15,14 @@
     <tbody>
         {% for task in tasks %}
             <tr class="small" id="task_{{item.id}}">
-                <td> {{task.task}} </td>
-                <td> {{task.lock_list}} </td>
-                <td> {{task.params}} </td>
+                <td width="10%"> {{task.task}} </td>
+                <td width="40%"> {{task.lock_list_html}} </td>
+                <td width="40%"> {{task.params}} </td>
                 <td>
+                    {%comment%}
+                    <a class="btn btn-sm ark" data-url="{% url "lock-cron-set-task" %}" data-target-modal="common-modal" data-obj_id="{{task.id}}" 
+                        data-confirm="{% trans "Are you sure to run this task?" %}"> <i class="fas fa-chevron-right"></i></a>
+                    {%endcomment%}
                     <a class="btn btn-sm autoremove" title="{%trans "Remove task"%}" data-model-name="web.lockcron" data-obj-id="{{task.id}}" 
                         data-url="{% url "autoremove_obj" %}" data-target="task_{{item.id}}" 
                         data-confirm="{%trans "Are you sure to remove this element?"%}"> <i class="fas fa-trash"></i></a>

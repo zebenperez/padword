@@ -14,27 +14,31 @@
             {% trans "Share on whatsapp" %}</button></div>
     <div class="col-lg-3 col-6 p-2">
         <button class="btn-share w-100" type="button" data-sharer="telegram" data-title='{% padword_translate text %}' 
-            data-url="https://system.padword.es" class="share-btn pointer"> <i class="fab fa-telegram"></i><br />{% trans "Share on telegram" %}</button></div>
+            data-url="https://system.padword.es" class="share-btn pointer"> <i class="fab fa-telegram"></i><br />
+            {% trans "Share on telegram" %}</button></div>
     <div class="col-lg-3 col-6 p-2">
         <button class="btn-share w-100" type="button" data-sharer="email" data-title="{% trans "New code" %}" 
             data-url="" data-subject='{% padword_translate text %}' data-to="" class="share-btn pointer"><i class="far fa-envelope share"></i><br />
             {% trans "Send by email" %}</button></div>
     <div class="col-lg-3 col-6 p-2">
-        <button class="btn-share w-100" type="button" class="pointer copy-to-clipboard" data-src="text-to-share" data-answer="copy-answer">
+        <button class="btn-share w-100" type="button" id="copy-to-clipboard" class="pointer" data-src="text-to-share" data-answer="copy-answer">
         <i class="fas fa-copy"></i><br />{% trans "Copy to clicboard" %}</a> <span id="copy-answer"></button></div>
 </div>
 
 <div id="div-whatsapp" class="text-center hide">
     <div class="alert alert-warning mt-3" role="alert">
-        <small><strong>{%trans "Compruebe que el número esté correcto, debe contener el código del país para poder ser enviado. Ejemplo: 34666777888"%}</small></strong>
+        <small><strong>
+            {%trans "Compruebe que el número esté correcto, debe contener el código del país para poder ser enviado. Ejemplo: 34666777888"%}
+        </small></strong>
     </div>
     <div class="row">
         <div class="col-4 offset-4">
-            <input type="text" id="phone" name="phone" class="form-control text-center" 
-            value="34{{guest.mobile}}" style="font-size:1.2em"/> </div>
+            <input type="text" id="phone" name="phone" class="form-control text-center" value="34{{guest.mobile}}" style="font-size:1.2em"/>
+        </div>
         <div class="col-2 offset-5 text-center p-2 mt-3">
-            <button type="button" id="w-btn" class="btn-share w-100" target="_blank"> 
-            <i class="fab fa-whatsapp"></i><br /><strong> {% trans "Send" %}</strong></button></div> 
+            {#<button type="button" id="w-btn" class="btn-share w-100" target="_blank"> #}
+            <button type="button" id="w-btn" class="btn-share w-100"> 
+                    <i class="fab fa-whatsapp"></i><br /><strong> {% trans "Send" %}</strong></button></div> 
     </div>
 </div>
 
@@ -54,7 +58,20 @@
     $("#w-btn").click(function(){
         var phone = $("#phone").val();
         var text = $("#text-to-share").val();
-        $(this).attr("href", "https://web.whatsapp.com/send/?phone="+phone+"&text="+text.replace(/\r?\n/g, '%0a'));
-        $(this).click();
+        var url = "https://web.whatsapp.com/send/?phone="+phone+"&text="+text.replace(/\r?\n/g, '%0a');
+        window.open(url, '_blank');
+        {#$("#w-btn-send").attr("href", "https://web.whatsapp.com/send/?phone="+phone+"&text="+text.replace(/\r?\n/g, '%0a'));#}
+        {#$("#w-btn-send").click();#}
+    });
+ 
+    $("#copy-to-clipboard").click(function(){
+        var answer = $("#"+$(this).data("answer"));
+        $("#"+$(this).data("src")).select();
+
+        try {
+            var ok = document.execCommand('copy');
+            if (ok) answer.html('Copied!');
+            else    answer.html('Unable to copy!');
+        } catch (err) { answer.html('Unsupported Browser!'); }
     });
 </script>

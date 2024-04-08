@@ -115,6 +115,7 @@ urlpatterns = [
     path('locks-cron/row/', lock_cron_views.lock_row, name='lock-cron-row'),
     path('locks-cron/search/', lock_cron_views.lock_search, name='lock-cron-search'),
     path('locks-cron/set-action/', lock_cron_views.lock_set_action, name='lock-cron-set-action'),
+    path('locks-cron/set-task/', lock_cron_views.lock_set_task, name='lock-cron-set-task'),
     #path('locks/form/', lock_views.lock_form, name='lock-form'),
     #path('locks/remove/', lock_views.lock_remove, name='lock-remove'),
     #path('locks/get-all-passcodes/', lock_views.lock_get_all_passcodes, name='lock-get-all-passcodes'),

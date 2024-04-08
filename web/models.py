@@ -3,7 +3,7 @@ from django.contrib.auth.models import User, Group
 from django.conf import settings
 from django.utils.translation import ugettext as _
 
-from padword.commons import show_exc, get_int, new_ui_slug
+from padword.commons import show_exc, get_int, new_ui_slug, date_to_utc, date_to_local
 from .lock_lib import ShLock
 from sensibo.sensibo_lib import ShSensibo
 from sensibo.models import ProjectSensiboUser
@@ -197,31 +197,31 @@ class Project(models.Model):
 
     def gmt_date(self, date):
         try:
-            time_zone = self.time_zone.split(":")
-            plus = True if "+" in time_zone[0] else False
-            hour = int(time_zone[0]) * -1 if plus else int(time_zone[0])
-            minutes = int(time_zone[1]) * -0.6 if plus else int(time_zone[1]) * 0.6
+            if self.time_zone_name != "":
+                gmt_date = date_to_utc(date, self.time_zone_name)
+            else:
+                time_zone = self.time_zone.split(":")
+                plus = True if "+" in time_zone[0] else False
+                hour = int(time_zone[0]) * -1 if plus else int(time_zone[0])
+                minutes = int(time_zone[1]) * -0.6 if plus else int(time_zone[1]) * 0.6
 
-            gmt_date = date + datetime.timedelta(hours=hour) + datetime.timedelta(minutes=minutes)
-
-            #check daylight saving time
-            #timeZone = pytz.timezone("Atlantic/Canary")
-            #aware_dt = timeZone.localize(date)
-            #if aware_dt.dst() != datetime.timedelta(0,0):
-            #    gmt_date += datetime.timedelta(hours=-1)
-
+                gmt_date = date + datetime.timedelta(hours=hour) + datetime.timedelta(minutes=minutes)
             return gmt_date
         except Exception as e:
+            print(e)
             return date
 
     def local_date(self, date):
         try:
-            time_zone = self.time_zone.split(":")
-            plus = True if "+" in time_zone[0] else False
-            hour = int(time_zone[0]) if plus else int(time_zone[0]) * -1
-            minutes = int(time_zone[1]) * 0.6 if plus else int(time_zone[1]) * -0.6
+            if self.time_zone_name != "":
+                local_date = date_to_local(date, self.time_zone_name)
+            else:
+                time_zone = self.time_zone.split(":")
+                plus = True if "+" in time_zone[0] else False
+                hour = int(time_zone[0]) if plus else int(time_zone[0]) * -1
+                minutes = int(time_zone[1]) * 0.6 if plus else int(time_zone[1]) * -0.6
 
-            local_date = date + datetime.timedelta(hours=hour) + datetime.timedelta(minutes=minutes)
+                local_date = date + datetime.timedelta(hours=hour) + datetime.timedelta(minutes=minutes)
             return local_date
         except Exception as e:
             return date

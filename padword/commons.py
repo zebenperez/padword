@@ -160,7 +160,11 @@ def timestamp_to_date(value):
 def date_to_utc(date, timezone):
     #local = pytz.timezone("Atlantic/Canary")
     local = pytz.timezone(timezone)
-    local_dt = local.localize(date, is_dst=None)
+    try:
+        local_dt = local.localize(date, is_dst=None)
+    except:
+        new_date = datetime.datetime(date.year, date.month, date.day, date.hour, date.minute)
+        local_dt = local.localize(new_date, is_dst=None)
     date_utc = local_dt.astimezone(pytz.utc)
     return date_utc
 

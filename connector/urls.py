@@ -14,6 +14,7 @@ urlpatterns = [
 
     #--------------------- WINHOTEL --------------------
     path('winhotel/get-booking-list/<slug:project_uuid>/', views.winhotel_get_booking_list, name='winhotel-get-booking-list'),
+    path('winhotel/get-day-booking-list/', views.winhotel_get_day_booking_list, name='winhotel-get-day-booking-list'),
     path('winhotel/import-items/<slug:project_uuid>/', views.winhotel_import_items, name='winhotel-import-items'),
 
     #--------------------- CRON --------------------
