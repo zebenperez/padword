@@ -3,7 +3,7 @@
 <div class="d-flex menu-actions-blue">
     <div class="flex-grow-1 p-2 mt-1"><span class="bg-ico-bar"><i class="fas fa-home hotel"></i></span>&nbsp; Floors in {{project.name}}</div>
     <div class="action p-2">
-        <a class="btn btn-primary ark" data-url="{% url "room-import-csv" %}" data-target-modal="common-modal" data-obj_id="{{project.uuid}}">
+        <a class="btn btn-xs ark" data-url="{% url "room-import-csv" %}" data-target-modal="common-modal" data-obj_id="{{project.uuid}}"><i class="fas fa-download"></i>
             {%trans "Import rooms"%}</a>
         <a class="btn btn-xs ark" data-url="{% url "room-multiple" %}" data-project="{{project.uuid}}" data-target-modal="common-modal" 
             title="{% trans 'Add multiple rooms' %}"><i class="fas fa-bed"></i> {% trans 'Add multiple rooms' %}</a>  
