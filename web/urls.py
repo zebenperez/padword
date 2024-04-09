@@ -127,6 +127,10 @@ urlpatterns = [
     #path('locks/get-all-records/', lock_views.lock_get_all_records, name='lock-get-all-records'),
 
     path('locks-cron/tasks-by-project/', lock_cron_views.locks_tasks_by_project, name='locks-tasks-by-project'),
+    path('locks-cron/tasks-add/', lock_cron_views.locks_tasks_add, name='locks-task-add'),
+    path('locks-cron/tasks-type/', lock_cron_views.locks_tasks_type, name='locks-task-type'),
+    path('locks-cron/tasks-params/', lock_cron_views.locks_tasks_params, name='locks-task-params'),
+    path('locks-cron/tasks-locks/', lock_cron_views.locks_tasks_locks, name='locks-task-locks'),
 
     #--------------------- Boxes --------------------
     path('boxes/by-project/', box_views.boxes_by_project, name='boxes-by-project'),

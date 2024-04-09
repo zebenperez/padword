@@ -210,4 +210,71 @@ def locks_tasks_by_project(request):
     except Exception as e:
         return render(request, "error_exception.html", {'exc':show_exc(e)})
 
+@group_required("projects")
+def locks_tasks_add(request):
+    try:
+        project = get_or_none(Project, request.project_id)
+        task = LockCron.objects.create(project_uuid=project.uuid)
+        return render(request, "web/locks-cron-by-project/task-add-type.html", {"task": task})
+    except Exception as e:
+        print(e)
+        return render(request, "error_exception.html", {'exc':show_exc(e)})
+
+@group_required("projects")
+def locks_tasks_type(request):
+    try:
+        project = get_or_none(Project, request.project_id)
+        task = get_or_none(LockCron, request.GET["obj_id"])
+        t = get_param(request.GET, "type")
+        task.task = "ADD CARD" if t == "card" else "ADD CODE"
+        task.save()
+        return render(request, "web/locks-cron-by-project/task-add-params.html", {"task": task, "type": t})
+    except Exception as e:
+        print(e)
+        return render(request, "error_exception.html", {'exc':show_exc(e)})
+
+@group_required("projects")
+def locks_tasks_params(request):
+    try:
+        project = get_or_none(Project, request.project_id)
+        task = get_or_none(LockCron, get_param(request.POST, "obj_id"))
+        t = get_param(request.POST, "type")
+
+        code = reverse_cardkey(get_param(request.POST, "code")) if t == "card" else get_param(request.POST, "code")
+        name = get_param(request.POST, "name")
+        ini_date = get_param(request.POST, "ini_date", datetime.datetime.now())
+        ini_date = datetime.datetime.strptime(ini_date, "%Y-%m-%d") if isinstance(ini_date, str) else ini_date
+        end_date = get_param(request.POST, "end_date", datetime.datetime.now() + datetime.timedelta(days=7))
+        end_date = datetime.datetime.strptime(end_date, "%Y-%m-%d") if isinstance(end_date, str) else end_date
+        permanent = get_param(request.POST, "permanent")
+
+        if permanent != "":
+            end_date = datetime.datetime(2099, 12, 31)
+
+        task.params = "{};{};{};{}".format(code, name, ini_date, end_date)
+        task.save()
+        items = get_lock_items(request, project.uuid, False)
+        return render(request, "web/locks-cron-by-project/task-add-locks.html", {"task": task, "items": items})
+    except Exception as e:
+        print(e)
+        return render(request, "error_exception.html", {'exc':show_exc(e)})
+
+@group_required("projects")
+def locks_tasks_locks(request):
+    try:
+        project = get_or_none(Project, request.project_id)
+        task = get_or_none(LockCron, get_param(request.POST, "obj_id"))
+
+        lock_list = ""
+        for key in request.POST.keys():
+            if "ch_" in key and key.split("_")[1] != "0":
+                lock_list = "{}{};".format(lock_list, key.split("_")[1])
+
+        task.lock_list = lock_list
+        task.save()
+        return render(request, "web/locks-cron-by-project/task-add-end.html", {"task": task})
+    except Exception as e:
+        print(e)
+        return render(request, "error_exception.html", {'exc':show_exc(e)})
+
 
