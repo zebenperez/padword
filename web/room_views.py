@@ -28,7 +28,10 @@ def get_projects(request):
 @group_required("admins")
 def rooms (request):
     #list_rooms = get_room_items(request)
-    return render (request, "web/rooms/rooms.html", {'list_projects': get_projects(request), 'active': 'rooms'})
+    #list_projects = get_projects(request)
+    #if len(list_projects) > 0:
+    #    set_session(request, "room_search_name", list_projects[0].name)
+    return render (request, "web/rooms/rooms.html", {'list_projects': [], 'active': 'rooms'})
 
 @group_required("admins")
 def room_list (request):

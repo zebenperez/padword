@@ -1,6 +1,10 @@
 {% load i18n padword_tags %}
 
 
+<div class="row">
+    <div class="col-12 text-end"><a class="btn btn-sm" href="{#{% url "locks-by-project-cron" project.id %}#}">{%trans "Cron"%}</a></div>
+</div>
+
 <div class="row mt-3">
     <div class="col-lg-4 col-12 ">{% include "web/locks-by-project/lock-search.html" %}</div>
     <div class="col-lg-4 col-12 ">{% include "web/locks-by-project/lock-add-code.html" %}</div>
