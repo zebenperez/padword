@@ -6,6 +6,7 @@ from connector.avantio_lib import get_booking_list, get_booking_notif, send_link
 from connector.winhotel_lib import get_booking_list as wh_get_booking_list, get_booking_cancelled as wh_get_booking_cancelled
 from connector.winhotel_lib import import_item_prices as wh_import_item_prices, get_booking_new_list as wh_get_booking_new_list
 from web.models import Project
+from web.models_lock import Lock, LockCron
 from connector.models import ProjectAvantioUser, ProjectWinhotelUser
 from padword.commons import get_or_none
 from padword.email_lib import send_email
@@ -137,3 +138,27 @@ def winhotel_cancel_schedule(project_uuid):
 #    except Exception as e:
 #        print("\n<br/>Error: {}".format(e))
 #    print(result)
+
+
+def locks_tasks_schedule(project_uuid):
+    project = get_or_none(Project, project_uuid, "uuid")
+    project_name = project.name if project != None else "---"
+    result = "Ejecución de tareas {} {}\n".format(project_name, datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
+    result += "-----------------------------------------------------\n"
+    try:
+        task_list = LockCron.objects.filter(project_uuid=project.uuid)
+        for task in task_list:
+            result += "- TAREA [{}] {}: \n".format(task.id, task.task)
+            if task.task == "ADD CARD":
+                lock_list = task.lock_list.split(";")
+                params = task.params.split(";")
+                for lock in lock_list:
+                    l = get_or_none(Lock, lock)
+                    if l != None:
+                        err = l.add_card(params[0], params[2], params[3], params[1])
+                        result += "--- CERRADURA [{}]: {}\n".format(l.id, err)
+    except Exception as e:
+        print("\n<br/>Error: {}".format(e))
+    print(result)
+
+

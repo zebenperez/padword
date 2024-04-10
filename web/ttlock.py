@@ -8,7 +8,7 @@ def get_date(date):
     try:
         return int(round((date.timestamp() * 1000))) if date != 0 else 0
     except Exception as e:
-        print(e)
+        #print(e)
         return 0
 
 class TTlockAPIError(Exception):
