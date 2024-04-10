@@ -26,6 +26,17 @@
 
 <span id="span-token">{% include "web/projects/project-token.html" %}</span>
 
+<div class="row justify-center"> <div class="col-12"> <label class="label">{% trans "Time to execute tasks" %}:</label> </div> </div>		
+<div class="row justify-center">
+    <div class="col-2">
+        <input type="time" class="form-control input" id="time" name="time" value="" onchange="$('#btn-time').data('time', $(this).val())"/>
+    </div>
+    <div class="col-1">
+        <a id="btn-time" class="btn btn-sm ark" data-url="{% url "project-set-lock-schedule" %}" data-target="" data-time="" 
+            data-project_uuid="{{obj.uuid}}"> <i class="fas fa-chevron-right"></i></a>
+    </div>
+</div>		
+
 <div class="row justify-center m-0 p-0">
     <div class="col-12 d-flex justify-content-end">
         {% for lang in obj.get_languages %}

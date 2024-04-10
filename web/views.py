@@ -469,6 +469,21 @@ def project_set_winhotel_schedule(request):
         return HttpResponse("Error!")
 
 @group_required("admins")
+def project_set_lock_schedule(request):
+    try:
+        project_uuid = get_param(request.GET, "project_uuid")
+        time = get_param(request.GET, "time")
+        function = "locks_tasks_schedule"
+        hour = time.split(":")[0]
+        minute = time.split(":")[1]
+        update_cron(hour, minute, function, project_uuid)
+        return HttpResponse("Saved!")
+    except Exception as e:
+        print (show_exc(e))
+        return HttpResponse("Error!")
+
+
+@group_required("admins")
 def project_add_logo(request):
     try:
         project = get_or_none(Project, request.POST["obj_id"])
