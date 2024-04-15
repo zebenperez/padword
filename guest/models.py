@@ -70,11 +70,11 @@ class Guest(models.Model):
 
     @property
     def check_in_gmt(self):
-        return self.project.gmt_date(self.check_in)
+        return self.project.gmt_date(self.check_in, self.room_obj)
 
     @property
     def check_out_gmt(self):
-        return self.project.gmt_date(self.check_out)
+        return self.project.gmt_date(self.check_out, self.room_obj)
 
     @property
     def regime(self):

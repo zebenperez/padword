@@ -30,12 +30,14 @@
     <div class="col-2 p-0">
         <div class="info-box green adm m-1 p-2">
             <span class="title">{% trans "Number" %}</span><span class="icon"><i class="fas fa-bed"></i></span><br /><br />
-            <span class="text-right"><input type="text" class="form-control autosave input" id="number" name="number" value="{{obj.number}}" title="{{obj.number}}" 
-                  data-model-name="web.room" data-obj-id="{{obj.id}}" data-url="{% url "autosave_field" %}" data-target="div-notification"/></span>
+            <span class="text-right">
+                <input type="text" class="form-control autosave input" id="number" name="number" value="{{obj.number}}" title="{{obj.number}}" 
+                  data-model-name="web.room" data-obj-id="{{obj.id}}" data-url="{% url "autosave_field" %}" data-target="div-notification"/>
+            </span>
             <span id="number__msg"></span>
         </div>
     </div>
-    <div class="col-4 p-0">
+    <div class="col-2 p-0">
         <div class="info-box green adm m-1 p-2">
             <span class="title">{% trans "Project" %}</span><span class="icon"><i class="fas fa-hotel"></i></span><br /><br />
             <span class="text-right"><input type="text" class="form-control input" name="project" value="{{obj.project.name}}" readonly/></span>
@@ -61,6 +63,16 @@
                 {% endfor %}
             </select>
             {%endcomment%}
+        </div>
+    </div>
+    <div class="col-2 p-0">
+        <div class="info-box green adm m-1 p-2">
+            <span class="title">{% trans "Timezone" %}</span><span class="icon"><i class="fas fa-globe"></i></span><br /><br />
+            <span class="text-right">
+                <input type="text" class="form-control autosave input" id="time_zone_name" name="time_zone_name" value="{{obj.time_zone_name}}" 
+                    title="{{obj.time_zone_name}}" data-model-name="web.room" data-obj-id="{{obj.id}}" data-url="{% url "autosave_field" %}" 
+                    data-target="div-notification"/>
+            </span>
         </div>
     </div>
 </div>

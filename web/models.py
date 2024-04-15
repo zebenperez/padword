@@ -195,9 +195,11 @@ class Project(models.Model):
         obj = ShSensibo(self.sensibo_api_key)
         return obj.change_ac_state_param(device_uid, ac_state, param_name, param_value)
 
-    def gmt_date(self, date):
+    def gmt_date(self, date, room=None):
         try:
-            if self.time_zone_name != "":
+            if room != None and room.time_zone_name != "":
+                gmt_date = date_to_utc(date, room.time_zone_name)
+            elif self.time_zone_name != "":
                 gmt_date = date_to_utc(date, self.time_zone_name)
             else:
                 time_zone = self.time_zone.split(":")
@@ -211,9 +213,11 @@ class Project(models.Model):
             print(e)
             return date
 
-    def local_date(self, date):
+    def local_date(self, date, room=None):
         try:
-            if self.time_zone_name != "":
+            if room != None and room.time_zone_name != "":
+                local_date = date_to_local(date, room.time_zone_name)
+            elif self.time_zone_name != "":
                 local_date = date_to_local(date, self.time_zone_name)
             else:
                 time_zone = self.time_zone.split(":")
@@ -492,6 +496,7 @@ class Room(models.Model):
     number = models.CharField(max_length=255, verbose_name=_('Number'), default="")
     project_uuid = models.CharField(max_length=255, verbose_name=_('Project UUID'), default="")
     lock_group_uuid = models.CharField(max_length=255, verbose_name=_('Lock Group UUID'), default="")
+    time_zone_name = models.CharField(max_length=50, verbose_name='Time zone name', default="")
     #parent = models.ForeignKey('self', verbose_name = 'Parent', on_delete=models.SET_NULL, null=True)
 
     #def childrens(self):
