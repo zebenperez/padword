@@ -70,20 +70,36 @@ class Lock(models.Model):
         return self.wifi_cache
 
     def update_params(self):
+        #t1 = datetime.datetime.now()
         obj = ShLock(self.project.lock_access_token)
+        #t2 = datetime.datetime.now()
 
-        state_cache = obj.get_lock_state(self.uuid)
+        #state_cache = obj.get_lock_state(self.uuid)
+        #t3 = datetime.datetime.now()
         charge_cache = obj.get_lock_charge(self.uuid)
+        #t4 = datetime.datetime.now()
         gateway_cache = obj.get_lock_gateway(self.uuid)
+        #t5 = datetime.datetime.now()
         wifi_cache = obj.get_lock_wifi(self.uuid)
+        #t6 = datetime.datetime.now()
 
-        self.state_cache = state_cache if "Error" not in str(state_cache) else ""
+        #self.state_cache = state_cache if "Error" not in str(state_cache) else ""
+        self.state_cache = ""
         self.charge_cache = charge_cache if "Error" not in str(charge_cache) else ""
         #self.gateway_cache = _("Connected") if len(gateway_cache["list"]) > 0 else _("Not connected")
         self.gateway_cache = gateway_cache
         self.wifi_cache = wifi_cache if "Error" not in str(wifi_cache) else ""
         self.last_update = pytz.utc.localize(datetime.datetime.now())
         self.save()
+        #t7 = datetime.datetime.now()
+        #print("START: {}".format(t1))
+        #print("T2: {}".format(t2-t1))
+        #print("STATE: {}".format(t3-t2))
+        #print("CHARGE: {} {}".format(charge_cache, t4-t3))
+        #print("GATEWAY:{} {}".format(gateway_cache, t5-t4))
+        #print("WIFI:{} {}".format(wifi_cache, t6-t5))
+        #print("END: {}".format(t7-t6))
+        #print("TOTAL: {}".format(t7-t1))
 
     def open_lock(self):
         sh_lock = ShLock(self.project.lock_access_token)

@@ -7,15 +7,15 @@
 <td>{{ item.project.name }}</td>
 <td>{{ item.group.name }}</td>
 <td>{{ item.room }}</td>
-<td>{{ item.state_cache }}</td>
+{#<td>{{ item.state_cache }}</td>#}
 <td>{{ item.charge_cache }} %</td>
-<td>{% get_wifi_icon item.gateway_cache %}</td>
-<td>{% get_wifi_icon item.wifi_cache %} {{item.wifi_cache}}</td>
+<td>{% get_gateway_icon item.gateway_cache %}</td>
+<td>{% get_wifi_icon item.wifi_cache %} {#{{item.wifi_cache}}#}</td>
 {%comment%}
 <td>{{ item.state }}</td>
 <td>{{ item.charge }} %</td>
 <td>{% get_wifi_icon item.gateway %}</td>
-<td>{% get_wifi_icon item.wifi %} {{item.wifi}}</td>
+<td>{% get_wifi_icon item.wifi %} {{item.wifi}} {{item.wifi_cache}}</td>
 {%endcomment%}
 <td>{%if item.box%}<i class="fas fa-check"></i>{%else%}<i class="fas fa-times"></i>{%endif%}</td>
 <td>{%if item.private%}<i class="fas fa-check"></i>{%else%}<i class="fas fa-times"></i>{%endif%}</td>

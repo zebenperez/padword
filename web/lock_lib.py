@@ -53,7 +53,7 @@ class ShLock:
     def get_lock_wifi(self, lock_id):
         try:
             wifi = self.ttlock.lock_get_wifi(lock_id)
-            val = "{}|{};".format(str(wifi.get("networkName")), str(wifi.get("rssiGrade")))
+            val = "{}|{}|{};".format(str(wifi.get("networkName")), str(wifi.get("rssiGrade")), str(wifi.get("isOnline")))
             return val[:-1] if len(val) > 0 else val
         except Exception as e:
             return e

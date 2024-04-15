@@ -32,7 +32,7 @@
                 {#<th> {% trans 'Floor' %} </th>#}
                 <th> {% trans 'Group' %} <i class="fas fa-sort"></i> </th>
                 <th> {% trans 'Room' %} <i class="fas fa-sort"></i> </th>
-                <th> {% trans 'Status' %} <i class="fas fa-sort"></i> </th>
+                {#<th> {% trans 'Status' %} <i class="fas fa-sort"></i> </th>#}
                 <th> {% trans 'Charge' %} <i class="fas fa-sort"></i> </th>
                 <th> {% trans 'Gateway' %} <i class="fas fa-sort"></i> </th>
                 <th> {% trans 'Wifi' %} <i class="fas fa-sort"></i> </th>
@@ -44,8 +44,8 @@
         <tbody>
             {% for item in items %}
             <tr class="small load-row" id="row_{{item.id}}" data-obj_id="{{item.id}}">
-                {#{% include "web/locks/lock-list-row.html" %}#}
-                <td colspan="10"><i class="fas fa-spinner fa-spin"></i> loading...</td>
+                {% include "web/locks/lock-list-row.html" %}
+                {#<td colspan="10"><i class="fas fa-spinner fa-spin"></i> loading...</td>#}
             </tr>
             {% endfor %}
         </tbody>
@@ -57,9 +57,11 @@
     $('#items-counter').html('{{items|length}}');
     $('#check-all').click(function(){ $('input:checkbox').not(this).prop('checked', this.checked); });
     $(document).ready(function(){$(window).keydown(function(event){if(event.keyCode == 13){event.preventDefault();return false;}});});
+    {%comment%}
     $(".load-row").each(function(){
         var id = $(this).data("obj_id");
         ajaxGet("{% url "lock-row" %}", {"obj_id": id}, "row_"+id, "");
     });
+    {%endcomment%}
 </script>
 

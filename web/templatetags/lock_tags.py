@@ -65,8 +65,8 @@ def get_record_type(code):
 '''
     Inclusion Tags
 '''
-@register.inclusion_tag('web/locks/wifi-level.html')
-def get_wifi_icon(gateways, first=False):
+@register.inclusion_tag('web/locks/gateway-level.html')
+def get_gateway_icon(gateways, first=False):
     gateway_list = []
     try:
         g_list = gateways.split(";")
@@ -77,6 +77,19 @@ def get_wifi_icon(gateways, first=False):
                 break
     except: pass
     return {'gateway_list': gateway_list}
+ 
+@register.inclusion_tag('web/locks/wifi-level.html')
+def get_wifi_icon(wifis, first=False):
+    wifi_list = []
+    try:
+        w_list = wifis.split(";")
+        for wifi in w_list:
+            w = wifi.split("|")
+            wifi_list.append({'name': w[0], 'level': int(w[1]), 'online': int(w[2])})
+            if first:
+                break
+    except: pass
+    return {'wifi_list': wifi_list}
  
 @register.inclusion_tag('web/gateways/lock-list.html')
 def get_locks_by_gateway(project, gateway_id):

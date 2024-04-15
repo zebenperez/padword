@@ -1,0 +1,16 @@
+{% load i18n static %}
+
+
+{% for gateway in gateway_list %}
+    {% if gateway.level > -75 %}
+        <img src="{% static "img/w-100.jpg" %}"/>
+    {% elif gateway.level <= -75 and gateway.level >= -85 %}
+        <img src="{% static "img/w-75.jpg" %}"/>
+    {% elif gateway.level < -85 %}
+        <img src="{% static "img/w-50.jpg" %}"/>
+    {% else %}
+        <img src="{% static "img/w-0.jpg" %}"/>
+    {% endif %}
+    {{gateway.name}}<br/>
+{% endfor %}
+

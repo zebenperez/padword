@@ -194,9 +194,14 @@ class Guest(models.Model):
     def add_all_key_code(self, code=""):
         err = ""
         for lock in self.get_locks():
+            #t2 = datetime.datetime.now()
             error = self.add_key_code(lock, code)
+            #t3 = datetime.datetime.now()
             if error != "":
                 err = "{}<br/>{}: {}".format(err, lock.alias, error) if err != "" else "{}: {}".format(lock.alias, error)
+            #t4 = datetime.datetime.now()
+            #print("ADD: {}".format(t3-t2))
+            #print("ERR: {}".format(t4-t3))
         return err
 
     def change_all_key_code(self, code):
@@ -270,20 +275,29 @@ class Guest(models.Model):
         return msg
 
     def change_room(self, new_room=""):
+        #t1 = datetime.datetime.now()
         current_code = self.keycodes.first()
         card_list = list(self.keycards.all().values_list('code', flat=True).distinct())
         self.remove_all_key_codes()
         self.remove_all_key_cards()
         self.room = new_room
         self.save()
+        #t2 = datetime.datetime.now()
         err = ""
         if current_code != None:
             err += self.add_all_key_code(current_code.code)
         else:
             err += self.add_all_key_code()
+        #t3 = datetime.datetime.now()
 
         for code in card_list:
             self.add_all_key_card(code)
+        #t4 = datetime.datetime.now()
+        #print("START: {}".format(t1))
+        #print("REMOVE: {}".format(t2-t1))
+        #print("CODES: {}".format(t3-t2))
+        #print("CARDS: {}".format(t4-t3))
+        #print("TOTAL: {}".format(t4-t1))
         return err
 
     def can_open_lock(self, lock):
