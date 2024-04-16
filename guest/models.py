@@ -104,18 +104,20 @@ class Guest(models.Model):
         return ""
 
     def have_valid_booking(self):
+        date = pytz.utc.localize(datetime.datetime.now())
+        return (self.check_in_gmt <= date and self.check_out_gmt >= date) 
         #date = timezone.now()
         #date = pytz.utc.localize(datetime.datetime.now() + datetime.timedelta(hours=1))
         #return (self.check_in <= date and self.check_out >= date) 
-        date = pytz.utc.localize(datetime.datetime.now())
-        local_date = self.project.local_date(date)
-        return (self.check_in <= local_date and self.check_out >= local_date) 
+        #date = pytz.utc.localize(datetime.datetime.now())
+        #local_date = self.project.local_date(date)
+        #return (self.check_in <= local_date and self.check_out >= local_date) 
 
-    def have_valid_booking2(self):
-        date = pytz.utc.localize(datetime.datetime.now() + datetime.timedelta(hours=1))
-        check_in = self.check_in.replace(tzinfo=pytz.utc)
-        check_out = self.check_out.replace(tzinfo=pytz.utc)
-        return (check_in <= date and check_out >= date) 
+    #def have_valid_booking2(self):
+    #    date = pytz.utc.localize(datetime.datetime.now() + datetime.timedelta(hours=1))
+    #    check_in = self.check_in.replace(tzinfo=pytz.utc)
+    #    check_out = self.check_out.replace(tzinfo=pytz.utc)
+    #    return (check_in <= date and check_out >= date) 
 
     def check_all_notifications(self):
         guest_notifications = [item.notification.id for item in self.notifications.all()]
