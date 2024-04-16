@@ -130,52 +130,13 @@ def lock_set_action(request):
         for key in request.POST.keys():
             if "ch_" in key and key.split("_")[1] != "0":
                 lock_list = "{}{};".format(lock_list, key.split("_")[1])
-        if action == "3":
+        if action == "3" or action == "2":
+            task_code = "ADD CARD" if action == "3" else "ADD CODE"
             if permanent != "":
                 end_date = datetime.datetime(2099, 12, 31)
             params = "{};{};{};{}".format(code, name, ini_date_gmt, end_date_gmt)
-            #params = "{};{};{};{}".format(code, name, ini_date, end_date)
-            task = LockCron.objects.create(task="ADD CARD", lock_list=lock_list, params=params, project_uuid=project.uuid)
+            task = LockCron.objects.create(task=task_code, lock_list=lock_list, params=params, project_uuid=project.uuid)
 
-
-#        for key in request.POST.keys():
-#            try:
-#                if "ch_" in key:
-#                    lock = get_or_none(Lock, key.split("_")[1])
-#                    if lock != None:
-#                        if action == "1":
-#                            print("Action 1")
-#                            #lock.group_uuid = lock_group_uuid
-#                            #lock.save()
-#                            #lock.set_group()
-#                        if action == "2":
-#                            print("Action 2")
-#                            #if permanent == "":
-#                            #    errcode = lock.set_code(code, ini_date, end_date, name)
-#                            #elif permanent != "":
-#                            #    errcode = lock.set_code(code, ini_date, datetime.datetime(2099, 12, 31), name)
-#                        if action == "3":
-#                            print("Action 3")
-#                            #if permanent == "":
-#                            #    errcode = lock.add_card(code, ini_date, end_date, name)
-#                            #elif permanent != "":
-#                            #    errcode = lock.add_card(code, ini_date, datetime.datetime(2099, 12, 31), name)
-#                        if action == "4":
-#                            print("Action 4")
-#                            #item_list = lock.get_all_passcodes()
-#                            #for item in item_list:
-#                            #    if item["keyboardPwd"] == code_remove:
-#                            #        errcode = lock.remove_code(item["keyboardPwdId"])
-#                        if action == "5":
-#                            print("Action 5")
-#                            #item_list = lock.get_all_cards()
-#                            #for item in item_list:
-#                            #    if str(item["cardNumber"]) == str(reverse_cardkey(code_remove)): 
-#                            #        errcode = lock.remove_card(item["cardId"])
-#                        msg = errcode if "Error" in str(errcode) else ""
-#            except Exception as e:
-#                msg += "<br/>{}".format(e)
-#                     
         context = get_context(request, project)
         context["msg"] = msg
         context["project"] = project
