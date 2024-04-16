@@ -95,6 +95,8 @@ def box_add_code(request):
         name = get_param(request.POST, "name")
         ini_date = get_date(request.POST, "ini_date", "ini_time")
         end_date = get_date(request.POST, "end_date", "end_time", timedelta(days=7))
+        ini_date_gmt = lock.project.gmt_date(ini_date)
+        end_date_gmt = lock.project.gmt_date(end_date)
 
         if code == "":
             msg = _("ERROR: Code must not to be empty!")
@@ -102,11 +104,14 @@ def box_add_code(request):
             #errcode = lock.add_card(code, ini_date, end_date, name) if radio_code == "2" else lock.set_code(code, ini_date, end_date, name)
             errcode = ""
             if radio_code == "1":
-                errcode = lock.set_code(code, ini_date, end_date, name)
+                errcode = lock.set_code(code, ini_date_gmt, end_date_gmt, name)
+                #errcode = lock.set_code(code, ini_date, end_date, name)
             elif radio_code == "2":
-                errcode = lock.get_code("3", ini_date, end_date, name)
+                errcode = lock.get_code("3", ini_date_gmt, end_date_gmt, name)
+                #errcode = lock.get_code("3", ini_date, end_date, name)
             elif radio_code == "3":
-                errcode = lock.add_card(code, ini_date, end_date, name) 
+                errcode = lock.add_card(code, ini_date_gmt, end_date_gmt, name) 
+                #errcode = lock.add_card(code, ini_date, end_date, name) 
             msg = errcode if "Error" in str(errcode) else _("Code saved!")
             if radio_code == "2":
                 msg = "{} <br/> <small>({})</small>".format(msg, errcode)

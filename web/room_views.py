@@ -213,14 +213,18 @@ def room_lock_add_card(request):
         name = get_param(request.POST, "name")
         ini_date = get_date(request.POST, "ini_date", "ini_time")
         end_date = get_date(request.POST, "end_date", "end_time", timedelta(days=7))
+        ini_date_gmt = lock.project.gmt_date(ini_date)
+        end_date_gmt = lock.project.gmt_date(end_date)
         permanent = get_param(request.POST, "permanent")
 
         msg = ""
         if code != "":
             if permanent == "":
-                errcode = lock.add_card(code, ini_date, end_date, name)
+                errcode = lock.add_card(code, ini_date_gmt, end_date_gmt, name)
+                #errcode = lock.add_card(code, ini_date, end_date, name)
             elif permanent != "":
-                errcode = lock.add_card(code, ini_date, datetime(2099, 12, 31), name)
+                errcode = lock.add_card(code, ini_date_gmt, datetime(2099, 12, 31), name)
+                #errcode = lock.add_card(code, ini_date, datetime(2099, 12, 31), name)
             msg = errcode if "Error" in str(errcode) else ""
         else:
             msg = _("ERROR: Code must not to be empty!")
@@ -247,19 +251,25 @@ def room_lock_add_code(request):
         name = get_param(request.POST, "name")
         ini_date = get_date(request.POST, "ini_date", "ini_time")
         end_date = get_date(request.POST, "end_date", "end_time", timedelta(days=7))
+        ini_date_gmt = lock.project.gmt_date(ini_date)
+        end_date_gmt = lock.project.gmt_date(end_date)
         permanent = get_param(request.POST, "permanent")
         one = get_param(request.POST, "one")
 
         msg = ""
         errcode = ""
         if permanent == "" and one == "" and code != "":
-            errcode = lock.set_code(code, ini_date, end_date, name)
+            errcode = lock.set_code(code, ini_date_gmt, end_date_gmt, name)
+            #errcode = lock.set_code(code, ini_date, end_date, name)
         elif permanent != "" and code != "":
-            errcode = lock.set_code(code, ini_date, datetime(2099, 12, 31), name)
+            errcode = lock.set_code(code, ini_date_gmt, datetime(2099, 12, 31), name)
+            #errcode = lock.set_code(code, ini_date, datetime(2099, 12, 31), name)
         elif permanent != "" and code == "":
-            errcode = lock.get_code(2, ini_date, datetime(2099, 12, 31))
+            errcode = lock.get_code(2, ini_date_gmt, datetime(2099, 12, 31))
+            #errcode = lock.get_code(2, ini_date, datetime(2099, 12, 31))
         elif one != "":
-            errcode = lock.get_code(1, ini_date, end_date)
+            errcode = lock.get_code(1, ini_date_gmt, end_date_gmt)
+            #errcode = lock.get_code(1, ini_date, end_date)
         msg = errcode if "Error" in str(errcode) else ""
         return render(request, "web/rooms/lock-details-codes.html", {"obj": lock, "msg": msg})
     except Exception as e:
@@ -286,18 +296,23 @@ def room_lock_add_ekey(request):
         key_name = get_param(request.POST, "key_name")
         ini_date = get_date(request.POST, "ini_date", "ini_time")
         end_date = get_date(request.POST, "end_date", "end_time", timedelta(days=7))
+        ini_date_gmt = lock.project.gmt_date(ini_date)
+        end_date_gmt = lock.project.gmt_date(end_date)
         permanent = get_param(request.POST, "permanent")
 
         msg = ""
         if username != "" and key_name != "":
             if permanent == "":
-                errcode = lock.add_ekey(username, key_name, ini_date, end_date)
+                errcode = lock.add_ekey(username, key_name, ini_date_gmt, end_date_gmt)
+                #errcode = lock.add_ekey(username, key_name, ini_date, end_date)
             elif permanent != "":
-                errcode = lock.add_ekey(username, key_name, ini_date, datetime(2099, 12, 31))
+                errcode = lock.add_ekey(username, key_name, ini_date_gmt, datetime(2099, 12, 31))
+                #errcode = lock.add_ekey(username, key_name, ini_date, datetime(2099, 12, 31))
             if "Error" in str(errcode):
                 msg = errcode  
             else:
-                lockEkey = LockEkey.objects.create(token=get_random_str(8), username=username, key_name=key_name, ini_date=ini_date, end_date=end_date, lock_uuid=lock.uuid, ekey_id = str(errcode))
+                lockEkey = LockEkey.objects.create(token=get_random_str(8), username=username, key_name=key_name, ini_date=ini_date_gmt, end_date=end_date_gmt, lock_uuid=lock.uuid, ekey_id = str(errcode))
+                #lockEkey = LockEkey.objects.create(token=get_random_str(8), username=username, key_name=key_name, ini_date=ini_date, end_date=end_date, lock_uuid=lock.uuid, ekey_id = str(errcode))
         else:
             msg = _("ERROR: Code must not to be empty!")
         return render(request, "web/rooms/lock-details-ekeys.html", {"obj": lock, "msg": msg})

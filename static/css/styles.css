@@ -711,7 +711,8 @@ input.form-control.login {
 
 /* quita bordes y sombra al div de la acciones */
 .row.mb-4.d-flex.justify-content-center.change-status-box { 
-    box-shadow: none; border: none; 
+    box-shadow: none; 
+    border: none; 
 }
 
 /* comenta el id "mask" */
@@ -2131,10 +2132,9 @@ th.row.div-cards { padding:0px !important; }
 }
 
 /********* Card style ********************/
-.card {
-/*    border-radius: 0.9em !important;*/
-}
-.card-header, .card-header.bg-secondary.text-white {
+.card-header, 
+
+.card-header.bg-secondary.text-white {
     background: rgb(244,244,245);
     background: linear-gradient(180deg, rgba(244,244,245,1) 0%, rgba(244,244,245,1) 35%, rgba(255,255,255,1) 100%);
     border:none;
@@ -2148,6 +2148,7 @@ th.row.div-cards { padding:0px !important; }
     justify-content: center;
     align-items: center;
 }
+
 .card-header.drag { background: #fff; font-size: 0.85rem !important; padding: 5px; }
 .card-body.drag { padding: 0px !important; }
 .card-body.drag div.info, .card-body.drag div.room, .card-body.drag div.date, .card-body.drag div.payment{

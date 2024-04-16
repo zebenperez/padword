@@ -240,6 +240,8 @@ def lock_set_action(request):
         ini_date = datetime.datetime.strptime(ini_date, "%Y-%m-%d") if isinstance(ini_date, str) else ini_date
         end_date = get_param(request.POST, "end_date", datetime.datetime.now() + datetime.timedelta(days=7))
         end_date = datetime.datetime.strptime(end_date, "%Y-%m-%d") if isinstance(end_date, str) else end_date
+        ini_date_gmt = project.gmt_date(ini_date)
+        end_date_gmt = project.gmt_date(end_date)
         permanent = get_param(request.POST, "permanent")
 
         lock_group_uuid = get_param(request.POST, "lock_group")
@@ -258,17 +260,21 @@ def lock_set_action(request):
                         if action == "2":
                             #if permanent == "" and one == "":
                             if permanent == "":
-                                errcode = lock.set_code(code, ini_date, end_date, name)
+                                errcode = lock.set_code(code, ini_date_gmt, end_date_gmt, name)
+                                #errcode = lock.set_code(code, ini_date, end_date, name)
                             elif permanent != "":
-                                errcode = lock.set_code(code, ini_date, datetime.datetime(2099, 12, 31), name)
+                                errcode = lock.set_code(code, ini_date_gmt, datetime.datetime(2099, 12, 31), name)
+                                #errcode = lock.set_code(code, ini_date, datetime.datetime(2099, 12, 31), name)
                             print(errcode)
                             #elif one != "":
                             #    errcode = lock.get_code(1, ini_date, end_date)
                         if action == "3":
                             if permanent == "":
-                                errcode = lock.add_card(code, ini_date, end_date, name)
+                                errcode = lock.add_card(code, ini_date_gmt, end_date_gmt, name)
+                                #errcode = lock.add_card(code, ini_date, end_date, name)
                             elif permanent != "":
-                                errcode = lock.add_card(code, ini_date, datetime.datetime(2099, 12, 31), name)
+                                errcode = lock.add_card(code, ini_date_gmt, datetime.datetime(2099, 12, 31), name)
+                                #errcode = lock.add_card(code, ini_date, datetime.datetime(2099, 12, 31), name)
                         if action == "4":
                             item_list = lock.get_all_passcodes()
                             for item in item_list:
@@ -448,6 +454,8 @@ def lock_set_action_by_project(request):
         ini_date = datetime.datetime.strptime(ini_date, "%Y-%m-%d") if isinstance(ini_date, str) else ini_date
         end_date = get_param(request.POST, "end_date", datetime.datetime.now() + datetime.timedelta(days=7))
         end_date = datetime.datetime.strptime(end_date, "%Y-%m-%d") if isinstance(end_date, str) else end_date
+        ini_date_gmt = project.gmt_date(ini_date)
+        end_date_gmt = project.gmt_date(end_date)
         permanent = get_param(request.POST, "permanent")
 
         code_remove = get_param(request.POST, "code_remove")
@@ -459,14 +467,18 @@ def lock_set_action_by_project(request):
                     if lock != None:
                         if action == "2":
                             if permanent == "":
-                                errcode = lock.set_code(code, ini_date, end_date, name)
+                                errcode = lock.set_code(code, ini_date_gmt, end_date_gmt, name)
+                                #errcode = lock.set_code(code, ini_date, end_date, name)
                             elif permanent != "":
-                                errcode = lock.set_code(code, ini_date, datetime.datetime(2099, 12, 31), name)
+                                errcode = lock.set_code(code, ini_date_gmt, datetime.datetime(2099, 12, 31), name)
+                                #errcode = lock.set_code(code, ini_date, datetime.datetime(2099, 12, 31), name)
                         if action == "3":
                             if permanent == "":
-                                errcode = lock.add_card(code, ini_date, end_date, name)
+                                errcode = lock.add_card(code, ini_date_gmt, end_date_gmt, name)
+                                #errcode = lock.add_card(code, ini_date, end_date, name)
                             elif permanent != "":
-                                errcode = lock.add_card(code, ini_date, datetime.datetime(2099, 12, 31), name)
+                                errcode = lock.add_card(code, ini_date_gmt, datetime.datetime(2099, 12, 31), name)
+                                #errcode = lock.add_card(code, ini_date, datetime.datetime(2099, 12, 31), name)
                         if action == "4":
                             item_list = lock.get_all_passcodes()
                             for item in item_list:

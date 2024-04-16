@@ -118,6 +118,8 @@ def lock_set_action(request):
         ini_date = datetime.datetime.strptime(ini_date, "%Y-%m-%d") if isinstance(ini_date, str) else ini_date
         end_date = get_param(request.POST, "end_date", datetime.datetime.now() + datetime.timedelta(days=7))
         end_date = datetime.datetime.strptime(end_date, "%Y-%m-%d") if isinstance(end_date, str) else end_date
+        ini_date_gmt = project.gmt_date(ini_date)
+        end_date_gmt = project.gmt_date(end_date)
         permanent = get_param(request.POST, "permanent")
 
         lock_group_uuid = get_param(request.POST, "lock_group")
@@ -131,7 +133,8 @@ def lock_set_action(request):
         if action == "3":
             if permanent != "":
                 end_date = datetime.datetime(2099, 12, 31)
-            params = "{};{};{};{}".format(code, name, ini_date, end_date)
+            params = "{};{};{};{}".format(code, name, ini_date_gmt, end_date_gmt)
+            #params = "{};{};{};{}".format(code, name, ini_date, end_date)
             task = LockCron.objects.create(task="ADD CARD", lock_list=lock_list, params=params, project_uuid=project.uuid)
 
 
@@ -246,12 +249,15 @@ def locks_tasks_params(request):
         ini_date = datetime.datetime.strptime(ini_date, "%Y-%m-%d") if isinstance(ini_date, str) else ini_date
         end_date = get_param(request.POST, "end_date", datetime.datetime.now() + datetime.timedelta(days=7))
         end_date = datetime.datetime.strptime(end_date, "%Y-%m-%d") if isinstance(end_date, str) else end_date
+        ini_date_gmt = project.gmt_date(ini_date)
+        end_date_gmt = project.gmt_date(end_date)
         permanent = get_param(request.POST, "permanent")
 
         if permanent != "":
             end_date = datetime.datetime(2099, 12, 31)
 
-        task.params = "{};{};{};{}".format(code, name, ini_date, end_date)
+        task.params = "{};{};{};{}".format(code, name, ini_date_gmt, end_date_gmt)
+        #task.params = "{};{};{};{}".format(code, name, ini_date, end_date)
         task.save()
         items = get_lock_items(request, project.uuid, False)
         return render(request, "web/locks-cron-by-project/task-add-locks.html", {"task": task, "items": items})
