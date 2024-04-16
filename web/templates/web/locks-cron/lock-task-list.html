@@ -9,6 +9,7 @@
             <th> {% trans 'Task' %} <i class="fas fa-sort"></i> </th>
             <th> {% trans 'Locks' %} <i class="fas fa-sort"></i> </th>
             <th> {% trans 'Params' %} <i class="fas fa-sort"></i> </th>
+            <th> {% trans 'Done' %} <i class="fas fa-sort"></i> </th>
             <th></th>
         </tr>
     </thead>
@@ -16,8 +17,9 @@
         {% for task in tasks %}
             <tr class="small" id="task_{{item.id}}">
                 <td width="10%"> {{task.task}} </td>
-                <td width="40%"> {{task.lock_list_html}} </td>
-                <td width="40%"> {{task.params}} </td>
+                <td width="35%"> {{task.lock_list_html}} </td>
+                <td width="35%"> {{task.params}} </td>
+                <td width="10%"> {% if task.done %}<i class="fas fa-check"></i>{% else %}<i class="fas fa-times"></i>{% endif %} </td>
                 <td>
                     {%comment%}
                     <a class="btn btn-sm ark" data-url="{% url "lock-cron-set-task" %}" data-target-modal="common-modal" data-obj_id="{{task.id}}" 

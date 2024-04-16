@@ -146,7 +146,7 @@ def locks_tasks_schedule(project_uuid):
     result = "Ejecución de tareas {} {}\n".format(project_name, datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
     result += "-----------------------------------------------------\n"
     try:
-        task_list = LockCron.objects.filter(project_uuid=project.uuid)
+        task_list = LockCron.objects.filter(project_uuid=project.uuid, done=False)
         for task in task_list:
             result += "- TAREA [{}] {}: \n".format(task.id, task.task)
             if task.task == "ADD CARD":
@@ -157,6 +157,8 @@ def locks_tasks_schedule(project_uuid):
                     if l != None:
                         err = l.add_card(params[0], params[2], params[3], params[1])
                         result += "--- CERRADURA [{}]: {}\n".format(l.id, err)
+            task.done = True
+            task.save()
     except Exception as e:
         print("\n<br/>Error: {}".format(e))
     print(result)

@@ -342,6 +342,7 @@ class LockCodeExtId(models.Model):
             return None
 
 class LockCron(models.Model):
+    done = models.BooleanField(verbose_name=_('Done'), default=False)
     task = models.CharField(max_length = 100, verbose_name=_('Task'), default="")
     lock_list = models.TextField(verbose_name= _('Lock list'), default='')
     params = models.TextField(verbose_name= _('Params'), default='')
