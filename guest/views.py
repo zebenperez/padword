@@ -763,8 +763,9 @@ def key_add_card(request):
     try:
         guest = get_or_none(Guest, request.GET["guest_id"])
         code = reverse_cardkey(request.GET["value"])
+        name = "{} {}".format(guest.name, guest.surname)
 
-        guest.add_all_key_card(code)
+        guest.add_all_key_card(code, name)
         return render(request, "guest/keys/guest-keys.html", {"obj": guest})
     except Exception as e:
         return render(request, "error_exception.html", {'exc':show_exc(e)})

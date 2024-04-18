@@ -55,6 +55,13 @@ def get_reverse(code):
 def get_room_locks(room):
     return Lock.objects.filter(project_uuid = room.project_uuid, room = room.number).order_by('pk') if room.number != "" else []
 
+@register.filter
+def lock_date_to_local(value, lock):
+    try:
+        return lock.project.local_date(datetime.fromtimestamp(value/1000.0), lock.room_obj).strftime("%Y-%m-%d %H:%M:%S")
+    except:
+        return ""
+
 '''
     Simple Tags
 '''
