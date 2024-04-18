@@ -5,16 +5,16 @@
 
 {% block central_content %}
     <div id="locks-content">
-        <div class="content mt-3">
-            <div class="row"><div class="col-12 text-end">
-                <a class="btn btm-sm ark" data-url="{% url "locks-task-add" %}" data-target="task-type" data-obj_id="">{%trans "Add Task"%}</a>
+        <div class="content bg-transparent mt-2">
+            <div class="row m-0 p-2"><div class="col-12 text-end">
+                <a class="btn btn-orange ark" data-url="{% url "locks-task-add" %}" data-target="task-type" data-obj_id=""><i class="fas fa-plus"></i> {%trans "Add Task"%}</a>
             </div></div>
         </div>
         <div class="content mt-3"> 
-            <div id="task-type" class="task-add"></div> <br/>
-            <div id="task-params" class="task-add"></div> <br/>
-            <div id="task-locks" class="task-add"></div> <br/>
-            <div id="task-end" class="task-add"></div> <br/>
+            <div id="task-type" class="task-add"></div>
+            <div id="task-params" class="task-add"></div>
+            <div id="task-locks" class="task-add"></div>
+            <div id="task-end" class="task-add"></div>
         </div>
         <div class="content mt-3"> {% include "web/locks-cron-by-project/task-list.html" %} </div>
     </div>

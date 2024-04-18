@@ -1,9 +1,9 @@
 {% load i18n padword_tags %}
 
 
-<div class="row">
-    <div class="col-10"><h4>{{project.name}}</h4></div>
-    <div class="col-2"><a class="btn btn-sm" href="{% url "locks-cron" project.id %}">{%trans "Tareas programadas"%}</a></div>
+<div class="row m-0">
+    <div class="col-10 mt-3"><h4>{{project.name}}</h4></div>
+    <div class="col-2 mt-3"><a class="btn btn-orange" href="{% url "locks-cron" project.id %}"><i class='fas fa-tasks'></i>{%trans "Tareas programadas"%}</a></div>
 </div>
 
 <div class="row mt-3">

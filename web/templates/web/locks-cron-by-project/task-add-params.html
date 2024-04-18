@@ -1,27 +1,31 @@
 {% load i18n %}
 
-<h4>{% trans "PASO 2 - Añada los parámetros" %}</h4>
+<div class="row step2 m-0 p-2">
+    <div class="col-2 step2-img">{% trans "PASO 2"  %} </div>
+    <div class="col-10 step2-text">{% trans "Añada los parámetros" %}</div>
+</div>
+
 
 <form method="POST" action="{% url "locks-task-params" %}" id="form-task-params">
     {%csrf_token%}
     <input type="hidden" name="obj_id" value="{{task.id}}"/>
     <input type="hidden" name="type" value="{{type}}"/>
 
-    <div class="row">
+    <div class="row m-0">
         <div class="col-4"> <label class="label">{% trans "Escriba el código o acerque la tarjeta al lector para realizar la lectura" %}</label></div>
-        <div class="col-4"> <label class="label">{% trans "Escriba un nombre" %}</label> </div>
-        <div class="col-4"> <label class="label">{% trans "Seleccione periodo de validez" %}</label> </div>
+        <div class="col-3"> <label class="label">{% trans "Escriba un nombre" %}</label> </div>
+        <div class="col-5"> <label class="label">{% trans "Seleccione periodo de validez" %}</label> </div>
     <div class="row">
         <div class="col-4"> <input type="text" class="form-control" id="code" name="code" /> </div>
-        <div class="col-4"> <input type="text" class="form-control" id="name" name="name" /> </div>
-        <div class="col-4">
-            <input type="checkbox" class="check_per toggle-tags" data-id="permanent" id="perm" value="" data-class-name="check_per"/>
-                {%trans "Permanent"%} 
-            <input type="date" class="form-control check_per" data-id="ini_date" value="{{ini_date|date:"Y-m-d"}}"/> 
-            <input type="date" class="form-control check_per" data-id="end_date" value="{{end_date|date:"Y-m-d"}}"/> 
+        <div class="col-3"> <input type="text" class="form-control" id="name" name="name" /> </div>
+        <div class="col-5" style="display: grid;grid-template-columns: 33% 33% 33%;align-items: center;">
+            <div><input type="checkbox" class="check_per toggle-tags" data-id="permanent" id="perm" value="" data-class-name="check_per"/>
+                <small>{%trans "Permanent"%}</small></div>
+            <div><input type="date" class="form-control check_per" data-id="ini_date" value="{{ini_date|date:"Y-m-d"}}"/>  </div>
+            <div> <input type="date" class="form-control check_per" data-id="end_date" value="{{end_date|date:"Y-m-d"}}"/>  </div>
         </div>
     </div>
 
-    <div class="col-12 text-center">
+    <div class="col-12 text-center mt-3 pb-3">
         <a class="pointer btn btn-primary saveform" data-form="form-task-params" data-target="task-locks">{%trans "Siguiente paso"%}</a></div>
 </form>
