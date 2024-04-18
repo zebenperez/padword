@@ -237,6 +237,7 @@ class ProjectLockUser(models.Model):
     refresh_token = models.CharField(max_length=255, verbose_name=_('Lock Refresh Token'), default="")
     uid = models.CharField(max_length=10, verbose_name=_('UID'), default="")
     expire = models.CharField(max_length=100, verbose_name=_('Expire'), default="")
+    time_schedule_tasks = models.CharField(max_length=10, verbose_name=_('Time to schedule tasks'), default="")
     project_uuid = models.CharField(max_length=255, verbose_name=_('Project UUID'), default="")
     text_to_share = models.TextField(verbose_name=_('Text to share'), default="")
 

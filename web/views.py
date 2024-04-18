@@ -471,8 +471,13 @@ def project_set_winhotel_schedule(request):
 @group_required("admins")
 def project_set_lock_schedule(request):
     try:
+        user_lock = get_or_none(ProjectLockUser, get_param(request.GET, "obj_id"))
         project_uuid = get_param(request.GET, "project_uuid")
         time = get_param(request.GET, "time")
+
+        user_lock.time_schedule_tasks = time
+        user_lock.save()
+
         function = "locks_tasks_schedule"
         hour = time.split(":")[0]
         minute = time.split(":")[1]

@@ -357,4 +357,13 @@ class LockCron(models.Model):
 
     @property
     def lock_list_html(self):
-        return self.lock_list.split(";")
+        lock_list = self.lock_list.split(";")
+        result = ""
+        for l in lock_list:
+            try:
+                lock = Lock.objects.get(id=l)
+                result = "{}{},".format(result, lock.alias)
+            except:
+                pass
+        return result[:-1]
+        #return self.lock_list.split(";")

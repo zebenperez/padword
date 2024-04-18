@@ -29,11 +29,12 @@
 <div class="row justify-center"> <div class="col-12"> <label class="label">{% trans "Time to execute tasks" %}:</label> </div> </div>		
 <div class="row justify-center">
     <div class="col-2">
-        <input type="time" class="form-control input" id="time" name="time" value="" onchange="$('#btn-time').data('time', $(this).val())"/>
+        <input type="time" class="form-control input" id="time" name="time" value="{{user_lock.time_schedule_tasks}}" 
+            onchange="$('#btn-time').data('time', $(this).val())"/>
     </div>
     <div class="col-1">
-        <a id="btn-time" class="btn btn-sm ark" data-url="{% url "project-set-lock-schedule" %}" data-target="" data-time="" 
-            data-project_uuid="{{obj.uuid}}"> <i class="fas fa-chevron-right"></i></a>
+        <a id="btn-time" class="btn btn-sm ark" data-url="{%url "project-set-lock-schedule"%}"
+            data-target="" data-time="" data-obj_id="{{user_lock.id}}" data-project_uuid="{{obj.uuid}}"> <i class="fas fa-chevron-right"></i></a>
     </div>
 </div>		
 
