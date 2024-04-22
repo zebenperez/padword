@@ -1,8 +1,8 @@
 {% load i18n padword_tags lock_tags %}
 
 <div class="row step3 m-0 p-2">
-    <div class="col-2 step3-img">{% trans "PASO 3"  %} </div>
-    <div class="col-10 step3-text">{% trans "Seleccione la cerradura donde quiere realizar la tarea" %}</div>
+    <div class="col-2 offset-3 step3-img">{% trans "PASO 3"  %} </div>
+    <div class="col-7 step3-text">{% trans "Seleccione la cerradura donde quiere realizar la tarea" %}</div>
 </div>
 
 <form method="POST" action="{% url "locks-task-locks" %}" id="form-task-locks">

@@ -117,7 +117,8 @@ def guest_details(request, obj_id=""):
         obj = Guest.objects.create(UUID=new_ui_slug(Guest, "UUID"), check_in=date, check_out=date) if obj_id == "" else get_or_none(Guest, obj_id)
         regime_list = [item.regime for item in obj.project.regimes.all()]
         guest_type_list = GuestType.objects.filter(project_uuid = obj.project_id)
-        context = {'obj': obj, 'temp_range': range(16,26), 'regime_list': regime_list, 'guest_type_list': guest_type_list}
+        card = obj.cards.first() if obj.cards.count() > 0 else GuestCard.objects.create(guest=obj)
+        context = {'obj': obj, 'temp_range': range(16,26), 'regime_list': regime_list, 'guest_type_list': guest_type_list, 'card': card}
         return render(request, "guest/guest-details.html", context)
     except Exception as e:
         return render(request, 'error_exception.html', {'exc':show_exc(e)})
@@ -407,7 +408,8 @@ def guest_details_by_project(request, obj_id=""):
             obj = Guest.objects.create(UUID = new_ui_slug(Guest, "UUID"), project_id = project.uuid, check_in = date, check_out = date)
         regime_list = [item.regime for item in obj.project.regimes.all()]
         guest_type_list = GuestType.objects.filter(project_uuid = obj.project_id)
-        context = {'obj':obj, 'project_uuid':project.uuid, 'temp_range':range(16,26), 'regime_list':regime_list, 'guest_type_list':guest_type_list}
+        card = obj.cards.first() if obj.cards.count() > 0 else GuestCard.objects.create(guest=obj)
+        context = {'obj':obj, 'project_uuid':project.uuid, 'temp_range':range(16,26), 'regime_list':regime_list, 'guest_type_list':guest_type_list, 'card':card}
         return render(request, "guest-by-project/guest-details-by-project.html", context)
     except Exception as e:
         print(e)

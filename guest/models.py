@@ -636,4 +636,16 @@ class GuestType(models.Model):
     class Meta:
         verbose_name = _('Tipo de huésped')
 
+'''
+    Guest Card
+'''
+class GuestCard(models.Model):
+    number = models.CharField(max_length=255, verbose_name='Name', default="")
+    date = models.CharField(max_length=10, verbose_name='Date', default="")
+    code = models.CharField(max_length=10, verbose_name='Code', default="")
+    guest = models.ForeignKey(Guest, on_delete=models.CASCADE, verbose_name=_("Guest"), related_name="cards")
+
+    class Meta:
+        verbose_name = _('Card guest')
+
 
