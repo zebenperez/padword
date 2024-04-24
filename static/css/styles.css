@@ -1529,7 +1529,8 @@ i.fas.fa-check-square {
 
 #content-section {
     flex-basis: 99.5%;
-    height: 99vh;
+    /*height: 99vh;*/
+    max-height: 99vh;
     overflow-y: scroll;
     padding-bottom: 3.5rem;
     background: #eff1f3;
@@ -1634,6 +1635,43 @@ textarea.form-control { border:1px solid #ced4da !important; }
     color: red;
     font-size:0.8em;
 }
+
+/*** Popup Error ***/
+
+.friendly-msg {
+    background-color: #fff;
+    letter-spacing: 0;
+}
+
+.friendly-msg h1 {
+    color:#143e53;
+}
+.friendly-msg .text {
+    margin: 50px 0 50px 0;
+}
+
+
+.btn.btn-see-you {
+    font-size: 16px;
+    font-weight: 600;
+    fill: #30acda;
+    color: #30acda;
+    background-color: #FFFFFF;
+    border-style: solid;
+    border-width: 1px 1px 1px 1px;
+    border-color: #30acda;
+    border-radius: 30px 30px 30px 30px;
+    padding: 15px 35px 15px 35px;
+}
+.btn.btn-see-you:hover {
+    background-color: #30acda;
+    text-align: center;
+    transition: all .3s;
+    color: #ffffff;
+}
+
+/*** Popup Error ***/
+
 
 #desc-editor { min-height: 500px; }
 
@@ -1815,14 +1853,14 @@ span.bg-ico-bar i.fas.fa-lock { padding-right: 0px !important;
 .step1-img {
     background-image: url(/static/img/bg-step1.png) !important;
     background-repeat: no-repeat;
-    background-position: left;
+    background-position: right;
     background-size: auto;
     height: 60px;
     color: white;
     font-weight:600;
     display: flex;
     align-items: center;
-    padding-left: 40px;
+    padding-left: 85px;
 }
 .step1-text {
     font-weight:600;
@@ -1837,14 +1875,14 @@ span.bg-ico-bar i.fas.fa-lock { padding-right: 0px !important;
 .step2-img {
     background-image: url(/static/img/bg-step2.png) !important;
     background-repeat: no-repeat;
-    background-position: left;
+    background-position: right;
     background-size: auto;
     height: 60px;
     color: white;
     font-weight:600;
     display: flex;
     align-items: center;
-    padding-left: 40px;
+    padding-left: 85px;
 }
 .step2-text {
     font-weight:600;
@@ -1860,14 +1898,14 @@ span.bg-ico-bar i.fas.fa-lock { padding-right: 0px !important;
 .step3-img {
     background-image: url(/static/img/bg-step3.png) !important;
     background-repeat: no-repeat;
-    background-position: left;
+    background-position: right;
     background-size: auto;
     height: 60px;
     color: white;
     font-weight:600;
     display: flex;
     align-items: center;
-    padding-left: 40px;
+    padding-left: 85px;
 }
 .step3-text {
     font-weight:600;
@@ -1883,14 +1921,14 @@ span.bg-ico-bar i.fas.fa-lock { padding-right: 0px !important;
 .step4-img {
     background-image: url(/static/img/bg-step4.png) !important;
     background-repeat: no-repeat;
-    background-position: left;
+    background-position: right;
     background-size: auto;
     height: 60px;
     color: white;
     font-weight:600;
     display: flex;
     align-items: center;
-    padding-left: 40px;
+    padding-left: 85px;
 }
 .step4-text {
     font-weight:600;

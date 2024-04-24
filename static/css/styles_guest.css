@@ -845,13 +845,54 @@ p.ql-align-right {
 }
 
 .popup-messages {
-	border:1px solid #ccc;  border-radius: 15px; background-color: #fff; opacity: 0.9;position:fixed; top:20%;
+	border:1px solid #ccc;  
+    border-radius: 15px; 
+    background-color: #fff; 
+    opacity: 0.9;
+    position:fixed; 
+    top:20%;
 }
 
 
 .close-right {
 	text-align: right;
 }
+
+
+/*** Popup Error ***/
+
+.friendly-msg {
+    background-color: #fff;
+    letter-spacing: 0;
+}
+
+.friendly-msg h1 {
+    color:#143e53;
+}
+.friendly-msg .text {
+    margin: 50px 0 50px 0;
+}
+
+.btn.btn-see-you {
+    font-size: 16px;
+    font-weight: 600;
+    fill: #30acda;
+    color: #30acda;
+    background-color: #FFFFFF;
+    border-style: solid;
+    border-width: 1px 1px 1px 1px;
+    border-color: #30acda;
+    border-radius: 30px 30px 30px 30px;
+    padding: 15px 25px 15px 25px;
+}
+.btn.btn-see-you:hover {
+    background-color: #30acda;
+    text-align: center;
+    transition: all .3s;
+    color: #ffffff;
+}
+
+/*** Popup Error ***/
 
 
 /*****************************/
@@ -1190,7 +1231,6 @@ img.object-fit_cover.img-new {
 /*********** end CHAT BOX ************/
 
 .modal-content {
-    border: 3px solid #FF8C81 !important;
     border-radius: 0.5rem;
 }
 
