@@ -10,6 +10,7 @@ import requests
 import hashlib
 import urllib
 import json
+import random
 
 API_URL = "http://queryapi2.winhotelweb.com/"
 BOOKINGS_URL = "query/PublicQuery/BookingListQuery"
@@ -427,7 +428,8 @@ def create_booking_new(pwu, booking, start_date, end_date):
         guest.save()
         set_regime(booking, guest)
 
-        #if booking.created:
+        if booking.created:
+            err = guest.add_all_key_code(random.randint(1000, 9999))
         #    lock_code = get_code(pau, code)
         #    err = guest.add_all_key_code(lock_code)
         #    av.send_pwa_link(guest.ext_id, guest.pwa_link)
