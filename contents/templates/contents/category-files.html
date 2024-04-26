@@ -11,7 +11,7 @@
 
     {% for item in obj.files.all %}
         <div class="col-lg-3 col-12">
-            <div class="col-12"><span><a href="{{item.file.url}}" alt="file" class="w-100">{% get_file_name item.file.name %}</a></span></div> <br/>
+            <div class="col-12"><span><a href="{{item.file.url}}" alt="file" class="w-100">{%get_file_name item.file.name 0%}</a></span></div> <br/>
             <div class="col-12 actions file-remove text-center">
                 <button class="btn btn-primary ark pointer" id="btn-file-{{item.pk}}" title="Borrar fichero" 
                     data-confirm="{%trans "Are you sure to remove this file?"%}" data-url="{% url "category-remove-file" %}" 
