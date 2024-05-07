@@ -26,10 +26,9 @@ def get_lock_items(request, project_uuid):
         #value = request.session["room_search"]
         #room_list = Room.objects.filter(Q(number__icontains = value) | Q(alias__icontains = value)).values_list('number', flat=True)
         #kwargs["room__in"] = room_list
-        kwargs["alias"] = request.session["room_search"] 
+        kwargs["alias__icontains"] = request.session["room_search"] 
 
     lock_list = list(Lock.objects.filter(**kwargs))
-
     return lock_list 
 
 def get_context(request, project):
