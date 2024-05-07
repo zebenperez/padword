@@ -2,6 +2,6 @@
 
 <div class="content">
     <div class="toolbar-content"> <h2 class="b-right">{% trans 'Rooms' %} </h2> {% include "common-modal.html" %} </div>
-    <div id="room-list-{{project.uuid}}" class="mb-2">{% room_group_list_by_project project %}</div>
+    <div id="room-list-{{project.uuid}}" class="mb-2">{% room_group_list_by_project project request.session.room_search_name %} </div>
 </div>
 

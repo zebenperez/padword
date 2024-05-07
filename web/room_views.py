@@ -25,6 +25,13 @@ def get_projects(request):
     #return list_rooms
     return projects
 
+def search_rooms(request):
+    search_value = request.session["room_search_name"] if "room_search_name" in request.session else ""
+    kwargs = {}
+    if search_value != "":
+        kwargs["name__icontains"] = search_value
+    return Room.objects.filter(**kwargs)
+
 @group_required("admins")
 def rooms (request):
     #list_rooms = get_room_items(request)
@@ -359,6 +366,16 @@ def room_list_by_project(request):
         project = get_or_none(Project, request.project_id)
         return render(request, "web/rooms-by-project/rooms-list.html", {'project': project})
     except Exception as e:
+        return render(request, "error_exception.html", {'exc':show_exc(e)})
+
+@group_required("admins", "projects")
+def rooms_search_by_project (request):
+    try:
+        project = get_or_none(Project, request.project_id)
+        set_session(request, "room_search_name")
+        return render (request, "web/rooms-by-project/rooms-list.html", {'project': project})
+    except Exception as e:
+        print(e)
         return render(request, "error_exception.html", {'exc':show_exc(e)})
 
 @group_required("admins", "projects")

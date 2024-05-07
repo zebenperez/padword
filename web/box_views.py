@@ -23,9 +23,10 @@ def get_lock_items(request, project_uuid):
     kwargs = {'project_uuid': project_uuid, 'private': False, 'box': True}
 
     if "room_search" in request.session and request.session["room_search"] != "":
-        value = request.session["room_search"]
-        room_list = Room.objects.filter(Q(number__icontains = value) | Q(alias__icontains = value)).values_list('number', flat=True)
-        kwargs["room__in"] = room_list
+        #value = request.session["room_search"]
+        #room_list = Room.objects.filter(Q(number__icontains = value) | Q(alias__icontains = value)).values_list('number', flat=True)
+        #kwargs["room__in"] = room_list
+        kwargs["alias"] = request.session["room_search"] 
 
     lock_list = list(Lock.objects.filter(**kwargs))
 

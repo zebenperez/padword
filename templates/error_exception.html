@@ -4,16 +4,29 @@
 {% block central_content %}
 {% if request.user|in_group:'admins' or request.user.is_superuser%}
     <div id="msg-error-exc">
-        <div class="col-xs-12 alert alert-danger">{% trans "Sorry!!!!. We have a problem. Try in a few minutes" %}.{%if err_msg%} {{err_msg}} {%endif%}</div>
-        <span class="separator">&nbsp;</span>
-        <div class="card">
-            <div class="card-header bg-danger text-white">
-                <div class="row">
-                    <div class="col-md-11">{% trans 'Problem Description' %}</div>
-                    <div class="col-md-1 text-right"><a class="btn btn-sm btn-dark text-white" onclick="$('#msg-error-exc').empty();"><i class="fas fa-times text-white"></i></a></div>
-                </div>
+        <div class="row friendly-msg">
+            <div class="col-lg-3 col-12 p-3"><img src="/static/img/img-error.png" width="" height=""></div>
+            <div class="col-lg-9 text-center mb-3">
+                <h1>{% trans "¡Parece que se resiste!" %}</h1>
+                <div class="text">{% trans "¡No te preocupes, tenemos la clave para solucionarlo!" %}</div>
+
+                {%if err_msg%} {{err_msg}} {%endif%}
+
+                    <div class="alert alert-warning">
+                        <div class="row">
+                            <div class="col-md-11">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" 
+                                    class="bi bi-exclamation-triangle-fill flex-shrink-0 me-2" viewBox="0 0 16 16" role="img" aria-label="Warning:">
+                                    <path d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
+                                </svg>
+                                {% trans 'Echa un vistazo a esta información, quizás te ayude:' %}</div>
+                            {% comment %}
+                            <div class="col-md-1 text-right"><a class="btn btn-sm btn-dark text-white" onclick="$('#msg-error-exc').empty();"><i class="fas fa-times text-white"></i></a></div>
+                            {% endcomment %}
+                        </div>
+                    </div>
+                    <div class="m-0">{{exc}}</div>
             </div>
-            <div class="card-body">{{exc}}</div>
         </div>
     </div>
 {% else %}

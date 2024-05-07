@@ -560,9 +560,11 @@ span.badge.bg-success {
 
 label.form-check-label {
     color:#7f6c5a;
-    position:absolute;
-    left:22%;
-    top:35%;
+/*    position:absolute;*/
+/*    left:22%;*/
+/*    top:35%;*/
+    width: 100%;
+    margin-top: -70px;
 
 }
 .form-switch .form-check-input {
