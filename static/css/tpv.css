@@ -67,6 +67,12 @@ span.letter-cash.green {
     transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
 }
 
+.btn-outline-green {
+    color: #a1c517;
+    border-color: #a1c517;
+}
+
+
 /*
 .btn-1 { background: #0d6efd; }
 .btn-2 { background: #225299; }

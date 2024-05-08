@@ -14,7 +14,7 @@ from padword.commons import show_exc, get_or_none, get_param, get_float, get_boo
 from web.models import Device, Project, ProjectUser
 from web.models_lock import Lock
 from contents.models import Category, ShoppingCart, Item, PaymentType
-from guest.models import Guest, GuestNotification, Wristband
+from guest.models import Guest, GuestNotification, Wristband, GuestLockLog
 from web.lock_lib import ShLock
 
 from .common_lib import get_or_create_form_instance, get_max_index, get_or_create_answer_instance, user_in_group, get_guest, get_login_template
@@ -761,6 +761,7 @@ def open_lock(request):
     msg = False
     if guest != None and guest.can_open_lock(lock):
         msg = lock.open_lock() 
+        GuestLockLog.objects.create(lock_uuid=lock.uuid, guest_uuid=guest.UUID)
     msg = _("The lock could not be opened, sorry for the inconvenience.") if msg != True else ""
     return HttpResponse(msg)
 
