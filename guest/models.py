@@ -648,4 +648,34 @@ class GuestCard(models.Model):
     class Meta:
         verbose_name = _('Card guest')
 
+class GuestLockLog(models.Model):
+    date = models.DateTimeField(verbose_name=_('Date'), default=datetime.datetime.now, null=True)
+    lock_uuid = models.CharField(max_length = 255, verbose_name= _('lock UUID'), default='')
+    guest_uuid = models.CharField(max_length = 255, verbose_name= _('Project UUID'), default='')
+
+    @property
+    def lock(self):
+        try:
+            return Lock.objects.get(uuid=self.lock_uuid)
+        except:
+            return None
+
+    @property
+    def guest(self):
+        try:
+            return Guest.objects.get(UUID=self.guest_uuid)
+        except:
+            return None
+
+    @staticmethod
+    def get_guest_name(lock_uuid, date):
+        ini_date = date.replace(second=0)
+        end_date = date.replace(second=59)
+        lgl = LockGuestLog.objects.filter(lock_uuid=lock_uuid, date__range=[ini_date, end_date]).first()
+        if lgl != None:
+            guest = self.guest
+            if guest != None:
+                return guest.name 
+        return ""
+
 

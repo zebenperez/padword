@@ -62,6 +62,11 @@ def lock_date_to_local(value, lock):
     except:
         return ""
 
+@register.filter
+def lock_record_username(lock, username):
+    return username
+
+
 '''
     Simple Tags
 '''
