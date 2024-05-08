@@ -52,8 +52,19 @@ span.letter-cash {
     font-weight:600;
     padding: 5 12;
 }
-span.letter-cash.primary {
-    background: #0d6efd;
+span.letter-cash.green {
+    background-color: #8ead15;
+}
+
+.btn-outline-green {
+    color: #a1c517;
+    border-color: #a1c517;
+}
+
+.btn-outline-green:hover {
+    background-color: #a1c517;
+    color: white;
+    transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
 }
 
 /*
