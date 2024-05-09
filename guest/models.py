@@ -671,9 +671,9 @@ class GuestLockLog(models.Model):
     def get_guest_name(lock_uuid, date):
         ini_date = date.replace(second=0)
         end_date = date.replace(second=59)
-        lgl = LockGuestLog.objects.filter(lock_uuid=lock_uuid, date__range=[ini_date, end_date]).first()
-        if lgl != None:
-            guest = self.guest
+        gll = GuestLockLog.objects.filter(lock_uuid=lock_uuid, date__range=[ini_date, end_date]).first()
+        if gll != None:
+            guest = gll.guest
             if guest != None:
                 return guest.name 
         return ""

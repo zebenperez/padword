@@ -83,7 +83,7 @@ def box_search_by_project(request):
     try:
         project = get_or_none(Project, request.project_id)
         set_session(request, "room_search")
-        order = request.GET["order"]
+        order = request.GET["order"] if "order" in request.GET else "up"
         context = get_context(request, project, order)
         return render(request, "web/boxes-by-project/box-list.html", context)
     except Exception as e:

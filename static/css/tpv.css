@@ -45,25 +45,26 @@ span.point-name {
 }
 
 span.letter-cash {
-    background: orange;
+    background: #dc3545; 
+    background: #b71423; 
     border-radius: 50%;
     color: white;
     font-size: 1.3rem;
     font-weight:600;
     padding: 5 12;
 }
-span.letter-cash.green {
-    background-color: #8ead15;
+span.letter-cash.yellow {
+    background-color: #ffff00;
+    color: #000;
 }
 
-.btn-outline-green {
-    color: #a1c517;
-    border-color: #a1c517;
+.btn-outline-yellow {
+    color: #000;
+    border-color: #e5e528;
 }
 
-.btn-outline-green:hover {
-    background-color: #a1c517;
-    color: white;
+.btn-outline-yellow:hover {
+    background-color: #e5e528;
     transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
 }
 

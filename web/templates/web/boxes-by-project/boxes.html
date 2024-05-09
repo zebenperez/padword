@@ -10,17 +10,16 @@
             <div class="col-8">
                 <input type="text" class="autosearch form-control form-control-dark w-100" name="room_search" id="room_search" 
                     placeholder="{% trans 'Room' %}" data-url="{% url "box-search-by-project" %}" data-target="lock-list" 
-                    data-related="room_search" value="{{request.session.room_search}}"/>
+                    data-related="room_search" value="{{request.session.room_search}}" 
+                    onchange="$('#room_search_up').data('room_search', $(this).val());$('#room_search_down').data('room_search', $(this).val())"/>
             </div>
             <div class="col-1">
                 <button class="ark w-100 btn btn-xs" name="room_search_up" id="room_search_up" data-url="{% url "box-search-by-project" %}"
-                    data-target="lock-list" data-order="up" data-room_search="{{request.session.room_search}}">
-                    <i class="fas fa-arrow-up"></i></button>
+                    data-target="lock-list" data-order="up" data-room_search=""> <i class="fas fa-arrow-up"></i></button>
             </div>
             <div class="col-1">
                 <button class="ark w-100 btn btn-xs" name="room_search_down" id="room_search_down" data-url="{% url "box-search-by-project" %}"
-                    data-target="lock-list" data-order="down" data-room_search="{{request.session.room_search}}"> 
-                    <i class="fas fa-arrow-down"></i></button>
+                    data-target="lock-list" data-order="down" data-room_search=""> <i class="fas fa-arrow-down"></i></button>
             </div>
         </div>
 

@@ -7,7 +7,7 @@ from datetime import datetime
 from padword.commons import reverse_cardkey
 from web.models_lock import Lock
 from web.lock_lib import get_record_type as grt
-from guest.models import KeyCode, KeyCard
+from guest.models import KeyCode, KeyCard, GuestLockLog
 
 register = template.Library()
 
@@ -62,17 +62,19 @@ def lock_date_to_local(value, lock):
     except:
         return ""
 
-@register.filter
-def lock_record_username(lock, username):
-    return username
-
-
 '''
     Simple Tags
 '''
 @register.simple_tag
 def get_record_type(code):
     return grt(code)
+
+@register.simple_tag
+def lock_record_username(lock, date, recordType, username):
+    if "gateway" not in grt(recordType):
+        return username
+    gll = GuestLockLog.get_guest_name(lock.uuid, datetime.fromtimestamp(date/1000.0))
+    return username if gll == "" else gll
 
 '''
     Inclusion Tags
