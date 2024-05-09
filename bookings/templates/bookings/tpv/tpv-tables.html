@@ -41,6 +41,12 @@
                 data-obj_id="{{cash.id}}" data-value="" data-index="{{index}}"><i class="fa fa-save"></i> {% trans "Save" %} </button>
         </div>
     </div>
+    <div class="row m-0 mt-3">
+        <div class="col-lg-4 offset-lg-4 col-12 text-center">
+            <button class="menu-options tables back ark w-100" data-url="{% url "tpv-change-pos" %}" data-target="base" 
+                data-project_uuid="{{pos.project_uuid}}"> {% trans "Back" %}</button>
+        </div>
+    </div>
 {% else %}
     <div class="row tablesBar m-0 p-0 mb-2 w-100">
         <div class="col-lg-4 col-5 text-left"><span class="point-name">{{pos.name}}</span></div>
