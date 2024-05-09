@@ -19,7 +19,7 @@ def get_date(dic, key_date, key_time, offset=""):
     default = datetime.now() + offset if offset != "" else datetime.now()
     return datetime.strptime("{} {}".format(date, time), "%Y-%m-%d %H:%M") if date != "" and time != "" else default
 
-def get_lock_items(request, project_uuid):
+def get_lock_items(request, project_uuid, order="up"):
     kwargs = {'project_uuid': project_uuid, 'private': False, 'box': True}
 
     if "room_search" in request.session and request.session["room_search"] != "":
@@ -28,14 +28,17 @@ def get_lock_items(request, project_uuid):
         #kwargs["room__in"] = room_list
         kwargs["alias__icontains"] = request.session["room_search"] 
 
-    lock_list = list(Lock.objects.filter(**kwargs))
+    if order == "down":
+        lock_list = list(Lock.objects.filter(**kwargs).order_by('-alias'))
+    else:
+        lock_list = list(Lock.objects.filter(**kwargs).order_by('alias'))
     return lock_list 
 
-def get_context(request, project):
+def get_context(request, project, order="up"):
     context = {}
     now = datetime.now()
     context["project"] = project
-    context["items"] = get_lock_items(request, project.uuid)
+    context["items"] = get_lock_items(request, project.uuid, order)
     context["lock_group_list"] = LockGroup.objects.filter(project_uuid=project.uuid)
     context["ini_date"] = now
     context["end_date"] = now + timedelta(days=7)
@@ -80,7 +83,8 @@ def box_search_by_project(request):
     try:
         project = get_or_none(Project, request.project_id)
         set_session(request, "room_search")
-        context = get_context(request, project)
+        order = request.GET["order"]
+        context = get_context(request, project, order)
         return render(request, "web/boxes-by-project/box-list.html", context)
     except Exception as e:
         print(e)

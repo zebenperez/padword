@@ -17,7 +17,7 @@ import requests
 
 
 def get_projects(request):
-    search_value = request.session["room_search_name"] if "room_search_name" in request.session else ""
+    search_value = request.session["project_search_name"] if "project_search_name" in request.session else ""
     list_rooms = []
     projects = Project.objects.filter(name__icontains=search_value) if search_value != "" else Project.objects.all()
     #for project in projects:
@@ -46,6 +46,7 @@ def room_list (request):
 
 @group_required("admins")
 def rooms_search (request):
+    set_session(request, "project_search_name")
     set_session(request, "room_search_name")
     #list_rooms = get_room_items(request)
     #return render (request, "web/rooms/rooms-list.html", {'list_rooms':list_rooms})

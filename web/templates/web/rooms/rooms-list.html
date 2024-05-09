@@ -13,7 +13,7 @@
     {%endfor%}
     {%endcomment%}
     {% for project in list_projects %}
-        <div id="room-list-{{project.uuid}}" class="mb-2">{% room_group_list project %}</div>
+        <div id="room-list-{{project.uuid}}" class="mb-2">{% room_group_list project request.session.room_search_name %}</div>
     {%endfor%}
 </div>
 
