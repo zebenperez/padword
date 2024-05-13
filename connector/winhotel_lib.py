@@ -464,6 +464,9 @@ def create_booking_day(pwu, booking):
         guest.save()
         set_regime(booking, guest)
 
+        if booking.created:
+            err = guest.add_all_key_code(random.randint(1000, 9999))
+
 def delete_booking(pwu, booking):
     guest = Guest.objects.filter(ext_id=booking.code, project_id=pwu.project_uuid, deleted=0).first()
     if guest == None:

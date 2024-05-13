@@ -480,10 +480,8 @@ a.btn.btn-primary.ark, a.btn.btn-secondary.ark {
 
 input#s-name.autosearch.form-control.form-control-dark.w-100,
 input#guest_search_name,
-input#room_search_name,
 input#s-name.autosearch.form-control.form-control-dar.w-100,
-input#keycard_search_name,
-input#room_search { 
+input#keycard_search_name { 
     border: 0 !important; 
     letter-spacing: 0;
 }

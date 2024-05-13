@@ -5,16 +5,22 @@
 
 	<div class="col-4 mb-4">
         <label class="label">{% trans "Name" %}*:</label>
-        <input type="text" class="form-control autosave input mb-1" id="name" name="name" value="{{obj.name}}" 
-            title="{% trans "This field is required" %}" data-model-name="guest.guest" data-obj-id="{{obj.id}}" data-url="{% url "autosave_field" %}" 
-            data-target="div-notification" required/> <span class="msg_error" id="name__msg"></span>
+	    <div class="change-mobile">
+            <div><input type="text" class="form-control autosave input mb-1" id="name" name="name" value="{{obj.name}}" 
+                title="{%trans "This field is required"%}" data-model-name="guest.guest" data-obj-id="{{obj.id}}" data-url="{%url "autosave_field"%}" 
+                data-target="div-notification" required/> <span class="msg_error" id="name__msg"></span></div>
+            <div><button class="btn mt-1" id="btn-auto-name"><i class="fas fa-sync"></i></button></div>
+        </div>
 	</div>
 
 	<div class="col-4 mb-4">
 	    <label class="label">{% trans "Surname" %}*:</label>
-		<input type="text" class="form-control autosave input mb-1" id="surname" name="surname" value="{{obj.surname}}" 
-            title="{% trans "This field is required" %}" data-model-name="guest.guest" data-obj-id="{{obj.id}}" data-url="{% url "autosave_field" %}" 
-            data-target="div-notification" required/> <span class="msg_error" id="surname__msg"></span>
+	    <div class="change-mobile">
+		    <div><input type="text" class="form-control autosave input mb-1" id="surname" name="surname" value="{{obj.surname}}" 
+                title="{%trans "This field is required"%}" data-model-name="guest.guest" data-obj-id="{{obj.id}}" data-url="{%url "autosave_field"%}" 
+                data-target="div-notification" required/> <span class="msg_error" id="surname__msg"></span></div>
+            <div><button class="btn mt-1" id="btn-auto-surname"><i class="fas fa-sync"></i></button></div>
+        </div>
 	</div>
 
 	<div class="col-2">
@@ -151,5 +157,20 @@
         checkDates($(this)); 
         //$('#guest-tabs').show();
     });
+
+    $("#btn-auto-name").click(function(){
+        if (confirm("Are you sure to modify the name?")){
+            $("#name").val("Guest {{obj.room}}");
+            $("#name").change();
+        }
+    });
+
+    $("#btn-auto-surname").click(function(){
+        if (confirm("Are you sure to modify the surname?")){
+            $("#surname").val("{{obj.id}}");
+            $("#surname").change();
+        }
+    });
+
 </script>
 

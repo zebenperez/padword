@@ -2,15 +2,19 @@
 
 
 <td> {{ item.room|default_if_none:'000' }} ({{item.room_obj.alias}})</td>
-<td> <span class="badge rounded-pill bg-success"> {{ item.check_in|date:'Y-m-d'}}</td>
-<td> <span class="badge rounded-pill bg-danger">{{ item.check_out|date:'Y-m-d'}}</span></td>
+<td> <span class="badge rounded-pill bg-success"> {{ item.check_in|date:'Y-m-d H:i'}}</td>
+<td> <span class="badge rounded-pill bg-danger">{{ item.check_out|date:'Y-m-d H:i'}}</span></td>
 <td> {{item.name}} 
     {{item.surname}} {%if request.user|in_group:'admins' or request.user.is_staff%}<br><small>{{item.project.name}}</small>{%endif%}</td>
-<td>{{ item.ext_id }}</td>
-<td class="text-end"> {{item.language}} &nbsp;
+<td> {{ item.ext_id }}</td>
+<td> {{ item.language }}</td>
+<td class="text-end">
+    {%comment%}
     <a class="btn ark" href="#" data-url="{% url "show-chat" %}" data-target="div-chat" data-guest="{{item.id}}" data-guest_msg="False"
         title="{% trans "Chat" %}"> <i class="fas fa-comments"></i></a>
+
     <a class="btn" href="#" onclick='alert("{{item.uuid}}"); return False'><i class="fas fa-fingerprint"></i></a>
+    {%endcomment%}
 
     <a class="btn btn-sm" href="{% url "guest-details-by-project" item.id %}" title="{% trans "Details" %}"> <i class="fas fa-user"></i></a>  
 
