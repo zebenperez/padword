@@ -783,4 +783,28 @@ def key_remove_card(request):
     except Exception as e:
         return render(request, "error_exception.html", {'exc':show_exc(e)})
 
+@group_required("admins", "projects")
+def key_card_all(request):
+    try:
+        guest = get_or_none(Guest, request.GET["obj_id"])
+        return render(request, "guest/keys/guest-keys-all.html", {"obj": guest})
+    except Exception as e:
+        print(e)
+        return render(request, "error_exception.html", {'exc':show_exc(e)})
+
+
+@group_required("admins", "projects")
+def key_add_card_all(request):
+    try:
+        guest = get_or_none(Guest, request.GET["obj_id"])
+        code = reverse_cardkey(request.GET["value"])
+        name = "{} {}".format(guest.name, guest.surname)
+
+        err = guest.add_all_key_card(code, name)
+        msg =_("Card added successfully") if err == "" else "Error: {}".format(err)
+        return HttpResponse(msg);
+        #return render(request, "guest/keys/guest-keys-all.html", {"obj": guest, 'msg': True})
+    except Exception as e:
+        return render(request, "error_exception.html", {'exc':show_exc(e)})
+
 

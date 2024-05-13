@@ -17,6 +17,11 @@
     {%endcomment%}
     <a class="btn" href="#" title="Code: {{item.keycodes.first.code}}"><i class="fas fa-eye"></i></a>
 
+    {% if item.get_locks|length > 0 %}
+        <a class="btn btn-sm ark" title="{%trans "Add Card"%}" data-url="{% url "guest-key-card-all" %}" data-obj_id="{{item.id}}" 
+            data-target-modal="common-modal"><i class="fas fa-credit-card"></i></a>
+    {% endif %}
+
     <a class="btn btn-sm" href="{% url "guest-details-by-project" item.id %}" title="{% trans "Details" %}"> <i class="fas fa-user"></i></a>  
 
     <a class="btn btn-sm" href="{% url "guest-soft-remove-by-project" item.id %}" title="{% trans "Remove" %}"
