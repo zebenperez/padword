@@ -15,6 +15,7 @@
 
     <a class="btn" href="#" onclick='alert("{{item.uuid}}"); return False'><i class="fas fa-fingerprint"></i></a>
     {%endcomment%}
+    <a class="btn" href="#" title="Code: {{item.keycodes.first.code}}"><i class="fas fa-eye"></i></a>
 
     <a class="btn btn-sm" href="{% url "guest-details-by-project" item.id %}" title="{% trans "Details" %}"> <i class="fas fa-user"></i></a>  
 
