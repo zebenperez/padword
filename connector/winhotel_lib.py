@@ -10,6 +10,7 @@ import requests
 import hashlib
 import urllib
 import json
+import random
 
 API_URL = "http://queryapi2.winhotelweb.com/"
 BOOKINGS_URL = "query/PublicQuery/BookingListQuery"
@@ -398,6 +399,7 @@ def create_booking(pwu, booking):
         set_regime(booking, guest)
 
 def create_booking_new(pwu, booking, start_date, end_date):
+    print("--1--")
     checkin = datetime.strptime(booking.check_in_date.split('+')[0], "%Y-%m-%dT%H:%M:%S")
     checkout = datetime.strptime(booking.check_out_date.split('+')[0], "%Y-%m-%dT%H:%M:%S")
     room = booking.room_code 
@@ -427,7 +429,8 @@ def create_booking_new(pwu, booking, start_date, end_date):
         guest.save()
         set_regime(booking, guest)
 
-        #if booking.created:
+        if booking.created:
+            err = guest.add_all_key_code(random.randint(1000, 9999))
         #    lock_code = get_code(pau, code)
         #    err = guest.add_all_key_code(lock_code)
         #    av.send_pwa_link(guest.ext_id, guest.pwa_link)
@@ -461,6 +464,9 @@ def create_booking_day(pwu, booking):
         guest.room = room
         guest.save()
         set_regime(booking, guest)
+
+        if booking.created:
+            err = guest.add_all_key_code(random.randint(1000, 9999))
 
 def delete_booking(pwu, booking):
     guest = Guest.objects.filter(ext_id=booking.code, project_id=pwu.project_uuid, deleted=0).first()

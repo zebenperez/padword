@@ -515,10 +515,6 @@ h5.card-title.text-dark.text-center.title-new {
 .overlay:hover {
     background-color: #a5c3d0 !important;
 }
-.overlay span {
-    border: 2px solid #fff !important;
-    color: #fff !important;
-}
 .card-title.text-dark.text-center {
     color: #878787 !important;
 }
@@ -560,9 +556,11 @@ span.badge.bg-success {
 
 label.form-check-label {
     color:#7f6c5a;
-    position:absolute;
-    left:22%;
-    top:35%;
+/*    position:absolute;*/
+/*    left:22%;*/
+/*    top:35%;*/
+    width: 100%;
+    margin-top: -70px;
 
 }
 .form-switch .form-check-input {
