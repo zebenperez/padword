@@ -1,6 +1,27 @@
 {% load i18n padword_tags %}
 
 
+<style>
+#btn-code {
+  position: relative;
+  display: inline-block;
+  /*margin-top: 20px;*/
+}
+
+#btn-code[data-title]:hover:after{
+    content: attr(data-title);
+    position: absolute;
+    top: 120%;
+    left: 0;
+    padding: 10px;
+    border-radius: 5px;
+    font-size: 1.2em;
+    color: white;
+    background: black;
+    opacity: 0.7;
+}
+</style>
+
 <td> {{ item.room|default_if_none:'000' }} ({{item.room_obj.alias}})</td>
 <td> <span class="badge rounded-pill bg-success"> {{ item.check_in|date:'Y-m-d H:i'}}</td>
 <td> <span class="badge rounded-pill bg-danger">{{ item.check_out|date:'Y-m-d H:i'}}</span></td>
@@ -15,9 +36,11 @@
 
     <a class="btn" href="#" onclick='alert("{{item.uuid}}"); return False'><i class="fas fa-fingerprint"></i></a>
     {%endcomment%}
-    <a class="btn" href="#" title="Code: {{item.keycodes.first.code}}"><i class="fas fa-eye"></i></a>
+
 
     {% if item.get_locks|length > 0 %}
+        <a id="btn-code" class="btn" data-title="Code: {{item.keycodes.first.code}}"><i class="fas fa-eye"></i></a>
+
         <a class="btn btn-sm ark" title="{%trans "Add Card"%}" data-url="{% url "guest-key-card-all" %}" data-obj_id="{{item.id}}" 
             data-target-modal="common-modal"><i class="fas fa-credit-card"></i></a>
     {% endif %}
@@ -30,3 +53,4 @@
     <a class="btn btn-sm ark" title="{%trans "Share code"%}" data-url="{% url "lock-share-code-guest" %}" data-obj_id="{{item.id}}" 
         data-target-modal="share-modal"><i class="fas fa-share-alt"></i></a>
 </td>
+
