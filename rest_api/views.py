@@ -7,7 +7,7 @@ from django.urls import reverse
 
 from .models_serializers import GuestSerializer, LockSerializer, RoomSerializer
 
-from guest.models import Guest
+from guest.models import Guest, Wristband
 from bookings.models import GuestUser, Form
 #from web.models import ProjectUser, Lock, Room
 from web.models import ProjectUser, Room
@@ -247,6 +247,25 @@ class GuestViewSet(viewsets.ModelViewSet):
                 return Response({"error": True, 'msg': 'Guest not found!'})
             logger.info("[{}]: \"Get locks of guest {} {}\"".format(self.request.user, guest.name, guest.surname))
             return Response(guest.get_locks_json(), status=status.HTTP_200_OK)
+        except Exception as e:
+            logger.error("[{}]: \"{}\"".format(self.request.user, str(e)))
+            return Response({"error": 'true', 'msg': 'Bad request!'})
+
+    @action(detail=False, methods=['post'])
+    def add_credit(self, request):
+        try:
+            code = reverse_cardkey(request.POST["card"])
+            band = Wristband.objects.filter(code=code).first()
+            if band == None:
+                logger.error("[{}]: \"Band not found!\"".format(self.request.user))
+                return Response({"error": True, 'msg': 'Band not found!'})
+            guest = band.guest
+            if not guest.have_valid_booking():
+                logger.error("[{}]: \"Guest do not have a valid booking!\"".format(self.request.user))
+                return Response({"error": True, 'msg': 'Guest do not have a valid booking!'})
+            guest_name = "{} {}".format(guest.name, guest.surname)
+            logger.info("[{}]: \"Added credit to card {} of guest {}\"".format(self.request.user, code, guest_name))
+            return Response({"error": False, "msg": "Credit added successfully to guest: {}!".format(guest_name)}, status=status.HTTP_200_OK)
         except Exception as e:
             logger.error("[{}]: \"{}\"".format(self.request.user, str(e)))
             return Response({"error": 'true', 'msg': 'Bad request!'})
