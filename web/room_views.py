@@ -162,7 +162,8 @@ def room_import(request):
             obj = Room.objects.create(uuid = new_ui_slug(Room), project_uuid=project.uuid)
             obj.order = get_int(l[0])
             obj.alias = l[1]
-            obj.number = get_int(l[2])
+            #obj.number = get_int(l[2])
+            obj.number = l[2]
             obj.save()
         return redirect("rooms")
     except Exception as e:
