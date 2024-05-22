@@ -17,6 +17,7 @@ urlpatterns = [
     #path('guests/page/', views.guest_pagination, name='guest-page'),
     path('guests/details/<int:obj_id>/', views.guest_details, name='guest-details'),
     path('guests/details/', views.guest_details, name='guest-details'),
+    path('guests/stripe-update/', views.guest_stripe_update, name='guest-stripe-update'),
 
     path('guests/project/', views.guests_by_project, name='guests-by-project'),
     path('guests/project/search', views.guest_search_by_project, name='guest-search-by-project'),

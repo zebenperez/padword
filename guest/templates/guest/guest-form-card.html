@@ -21,4 +21,19 @@
 	</div>
 </div>
 
+<div class="row justify-center p-0" tyle="border:2px solid blue !important">
+	<div class="col-5">
+		<label class="label">{% trans "Stripe ID" %}:</label>
+        <input type="text" class="form-control input mb-4" id="stripe_id" name="stripe_id" value="{{stripe.stripe_id}}" disabled/> 
+	</div>
+	<div class="col-5">
+		<label class="label">{% trans "Payment Method" %}:</label>
+        <input type="text" class="form-control input mb-4" id="payment_method" name="payment_method" value="{{stripe.payment_method}}" disabled/>
+	</div>
+	<div class="col-2">
+		<button class="btn btn-primary ark" id="btn-stripe" data-url="{% url "guest-stripe-update" %}" data-target="div-card" 
+            data-obj_id="{{stripe.id}}"> {% trans "Get Stripe Datas" %} </button>
+	</div>
+</div>
+
 

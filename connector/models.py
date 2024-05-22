@@ -55,4 +55,15 @@ class ProjectWinhotelUser(models.Model):
         except:
             return None
 
+class ProjectStripeUser(models.Model):
+    api_key = models.CharField(max_length=255, verbose_name=_('Api Key'), default="")
+    project_uuid = models.CharField(max_length=255, verbose_name=_('Project UUID'), default="")
+
+    @property
+    def project(self):
+        try:
+            return Project.objects.get(uuid=self.project_uuid)
+        except:
+            return None
+
 

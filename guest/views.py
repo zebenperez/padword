@@ -11,6 +11,7 @@ from web.lock_lib import ShLock
 from padword.commons import show_exc, get_or_none, get_float, new_ui_slug, translate, user_in_group, get_param, reverse_cardkey, set_session
 from padword.decorators import group_required
 from bookings.models import GuestUser
+from connector.models import ProjectStripeUser
 import web.models as webmod 
 
 ITEMS_PER_PAGE=20
@@ -117,8 +118,9 @@ def guest_details(request, obj_id=""):
         obj = Guest.objects.create(UUID=new_ui_slug(Guest, "UUID"), check_in=date, check_out=date) if obj_id == "" else get_or_none(Guest, obj_id)
         regime_list = [item.regime for item in obj.project.regimes.all()]
         guest_type_list = GuestType.objects.filter(project_uuid = obj.project_id)
-        card = obj.cards.first() if obj.cards.count() > 0 else GuestCard.objects.create(guest=obj)
-        context = {'obj': obj, 'temp_range': range(16,26), 'regime_list': regime_list, 'guest_type_list': guest_type_list, 'card': card}
+        #card = obj.cards.first() if obj.cards.count() > 0 else GuestCard.objects.create(guest=obj)
+        #stripe = obj.stripes.first() if obj.stripes.count() > 0 else GuestStripe.objects.create(guest=obj)
+        context = {'obj':obj, 'temp_range':range(16,26), 'regime_list':regime_list, 'guest_type_list':guest_type_list, 'card':obj.card, 'stripe':obj.stripe}
         return render(request, "guest/guest-details.html", context)
     except Exception as e:
         return render(request, 'error_exception.html', {'exc':show_exc(e)})
@@ -307,6 +309,20 @@ def guest_set_regime(request):
     except Exception as e:
         return render(request, "error_exception.html", {'exc':show_exc(e)})
 
+@group_required("admins", "projects")
+def guest_stripe_update(request):
+    try:
+        print("--1--")
+        gs = get_or_none(GuestStripe, get_param(request.GET, "obj_id"))
+        psu = ProjectStripeUser.objects.filter(project_uuid=gs.guest.project_id).first()
+        if psu != None:
+            print(psu.api_key)
+        return render(request, "guest/guest-form-card.html", {'obj': gs.guest, 'card': gs.guest.card, 'stripe': gs})
+        #return HttpResponse(_("Saved!"))
+    except Exception as e:
+        return render(request, "error_exception.html", {'exc':show_exc(e)})
+
+
 '''
     Guests by projects
 '''
@@ -408,8 +424,9 @@ def guest_details_by_project(request, obj_id=""):
             obj = Guest.objects.create(UUID = new_ui_slug(Guest, "UUID"), project_id = project.uuid, check_in = date, check_out = date)
         regime_list = [item.regime for item in obj.project.regimes.all()]
         guest_type_list = GuestType.objects.filter(project_uuid = obj.project_id)
-        card = obj.cards.first() if obj.cards.count() > 0 else GuestCard.objects.create(guest=obj)
-        context = {'obj':obj, 'project_uuid':project.uuid, 'temp_range':range(16,26), 'regime_list':regime_list, 'guest_type_list':guest_type_list, 'card':card}
+        #card = obj.cards.first() if obj.cards.count() > 0 else GuestCard.objects.create(guest=obj)
+        #stripe = obj.stripes.first() if obj.stripes.count() > 0 else GuestStripe.objects.create(guest=obj)
+        context = {'obj':obj, 'project_uuid':project.uuid, 'temp_range':range(16,26), 'regime_list':regime_list, 'guest_type_list':guest_type_list, 'card':obj.card, 'stripe':obj.stripe}
         return render(request, "guest-by-project/guest-details-by-project.html", context)
     except Exception as e:
         print(e)

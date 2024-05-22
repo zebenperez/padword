@@ -238,6 +238,7 @@ urlpatterns = [
 
     path('fix-uuid/', views.fix_uuid, name='booking-fix-uuid'),
     path('test/', views.test, name='booking-test'),
+    path('test-stripe/', views.test_stripe, name='booking-test-stripe'),
 
     #------------- TPV Orders Daily --------------#
     path('orders_daily/orders-daily/', tpv_orders_daily.orders_daily_by_project, name='orders-daily-by-project'),

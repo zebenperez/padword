@@ -9,7 +9,7 @@ from padword.commons import show_exc, get_or_none, get_param, new_ui_slug, trans
 from padword.decorators import group_required
 from guest.models import Regime, ProjectRegime, GuestType
 from sensibo.models import ProjectSensiboUser
-from connector.models import ProjectAvantioUser, ProjectAvaibookUser, ProjectWinhotelUser
+from connector.models import ProjectAvantioUser, ProjectAvaibookUser, ProjectWinhotelUser, ProjectStripeUser
 from contents.models import Category, PointOfSale, PointOfSaleCategory, Table
 from bookings.models import Form, FormInstance
 from .models import *
@@ -30,7 +30,8 @@ def index(request, chk=None):
         if not hasattr(request, "category_user"):
             return render(request, 'error_exception.html', {'exc': _('Category not found!')})
         #return redirect('bookings-by-category', request.category_id)
-        return redirect('bookings-by-category')
+        #return redirect('bookings-by-category')
+        return redirect('categories-by-categories')
 
     if request.user.groups.filter(name='projects').exists():
         if not hasattr(request, "project_id"):
@@ -85,6 +86,10 @@ def get_or_create_user_avaibook(project_uuid):
 
 def get_or_create_user_winhotel(project_uuid):
     obj, created = ProjectWinhotelUser.objects.get_or_create(project_uuid = project_uuid)
+    return obj 
+
+def get_or_create_user_stripe(project_uuid):
+    obj, created = ProjectStripeUser.objects.get_or_create(project_uuid = project_uuid)
     return obj 
 
 '''
@@ -150,6 +155,7 @@ def project_form(request):
         user_avantio = get_or_create_user_avantio(obj.uuid)
         user_avaibook = get_or_create_user_avaibook(obj.uuid)
         user_winhotel = get_or_create_user_winhotel(obj.uuid)
+        user_stripe = get_or_create_user_stripe(obj.uuid)
 
         regime_list = Regime.objects.all()
         point_of_sale_list = PointOfSale.objects.filter(project_uuid=obj.uuid)
@@ -164,6 +170,7 @@ def project_form(request):
             'user_avantio': user_avantio, 
             'user_avaibook': user_avaibook, 
             'user_winhotel': user_winhotel, 
+            'user_stripe': user_stripe, 
             'project_regime_list': [item.regime for item in obj.regimes.all()],
             'regime_list': regime_list,
             'point_of_sale_list': point_of_sale_list,
@@ -184,6 +191,7 @@ def project_details(request, obj_id, current_tab=""):
         user_avantio = get_or_create_user_avantio(obj.uuid)
         user_avaibook = get_or_create_user_avaibook(obj.uuid)
         user_winhotel = get_or_create_user_winhotel(obj.uuid)
+        user_stripe = get_or_create_user_stripe(obj.uuid)
 
         regime_list = Regime.objects.all()
         point_of_sale_list = PointOfSale.objects.filter(project_uuid=obj.uuid)
@@ -198,6 +206,7 @@ def project_details(request, obj_id, current_tab=""):
             'user_avantio': user_avantio, 
             'user_avaibook': user_avaibook, 
             'user_winhotel': user_winhotel, 
+            'user_stripe': user_stripe, 
             'project_regime_list': [item.regime for item in obj.regimes.all()],
             'regime_list': regime_list,
             'point_of_sale_list': point_of_sale_list,
@@ -923,14 +932,25 @@ def show_module(request):
 '''
 @group_required("admins")
 def logs(request):
-    f = open(os.path.join(settings.BASE_DIR, "logs.txt"), "r", encoding='utf-8')
-    text = f.read()
+    current_log = os.path.join(settings.BASE_DIR, "logs.txt")
+    f = open(current_log, "r", encoding='utf-8')
+    size = os.path.getsize(current_log)
+    text = ""
+    if size < 1000:
+        text = f.read()
+    else:
+        i = 0
+        for line in f.readlines():
+            if i > 1000:
+                break
+            text += line 
+            i += 1
     try:
         #log_list = os.listdir(settings.LOGPATH)
         log_list = [f for f in os.listdir(settings.LOGPATH) if re.match(r'.*logs.*', f)]
     except:
         log_list = []
-    return render(request, 'logs.html', {'text': text.replace("\n", "<br/>"), 'log_list': log_list})
+    return render(request, 'logs.html', {'text': text.replace("\n", "<br/>"), 'log_list': log_list, 'current_log': current_log})
 
 from django.http import FileResponse
 

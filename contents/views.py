@@ -239,7 +239,7 @@ def category_remove_image(request):
         #logger.error("[remove_file]" + str(e))
         return render(request, 'error_exception.html', {'msg': str(e)})
 
-@group_required("admins", "projects")
+@group_required("admins", "projects", "categories")
 def category_add_image_gallery(request):
     try:
         obj_id = request.POST["obj_id"]
@@ -254,7 +254,7 @@ def category_add_image_gallery(request):
         #logger.error("[bookings-form_add_image]" + str(e))
         return render(request, 'error_exception.html', {'msg': str(e)})
 
-@group_required("admins", "projects")
+@group_required("admins", "projects", "categories")
 def category_remove_image_gallery(request):
     try:
         obj_id = request.GET["obj_id"]
@@ -268,7 +268,7 @@ def category_remove_image_gallery(request):
         #logger.error("[remove_file]" + str(e))
         return render(request, 'error_exception.html', {'msg': str(e)})
 
-@group_required("admins", "projects")
+@group_required("admins", "projects", "categories")
 def category_add_file(request):
     try:
         obj_id = request.POST["obj_id"]
@@ -283,7 +283,7 @@ def category_add_file(request):
         #logger.error("[bookings-form_add_image]" + str(e))
         return render(request, 'error_exception.html', {'msg': str(e)})
 
-@group_required("admins", "projects")
+@group_required("admins", "projects", "categories")
 def category_remove_file(request):
     try:
         obj_id = request.GET["obj_id"]

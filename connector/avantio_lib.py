@@ -11,8 +11,11 @@ from guest.models import Guest
 from web.models import Room
 from padword.commons import get_or_none, new_ui_slug
 
-WSDL = 'http://ws.avantio.com/soap/vrmsInputServices.php?wsdl'
+import random
+import string
 
+
+WSDL = 'http://ws.avantio.com/soap/vrmsInputServices.php?wsdl'
 
 class AvantioBookingClient:
     def __init__(self, name, surname, dni, address, locality, postcode, city, country, country_code, phone, phone2, email):
@@ -184,8 +187,18 @@ class ShAvantio:
 '''
     FUNCTIONS
 '''
-def get_code(pau, code):
-    return "" if pau.code_mobile else code[-4:] 
+def get_code(pau, code, mobile=""):
+    try:
+        if pau.code_mobile:
+            if mobile == "":
+                return ''.join([random.choice(string.digits) for i in range(4)])
+            else:
+                return mobile.rstrip()[-4:]
+        else:
+            return code[-4:] 
+    except:
+        return ""
+    #return "" if pau.code_mobile else code[-4:] 
 
 def get_date(date, time, default):
     if date != "" and time != "":
@@ -234,7 +247,7 @@ def create_booking(pau, av, booking, start_date, s_date, e_date):
         guest.save()
 
         if booking.created:
-            lock_code = get_code(pau, code)
+            lock_code = get_code(pau, code, guest.mobile)
             err = guest.add_all_key_code(lock_code)
             av.send_pwa_link(guest.ext_id, guest.pwa_link)
 

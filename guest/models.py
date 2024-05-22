@@ -94,6 +94,14 @@ class Guest(models.Model):
         except:
             return reverse("guest-access-auto", kwargs = {'guest_uuid': self.UUID})
 
+    @property
+    def card(self):
+        return self.cards.first() if self.cards.count() > 0 else GuestCard.objects.create(guest=self)
+
+    @property
+    def stripe(self):
+        return self.stripes.first() if self.stripes.count() > 0 else GuestStripe.objects.create(guest=self)
+
     def get_code(self):
         if self.email != None and self.email != "" and "@" in self.email:
             return self.email
@@ -644,6 +652,14 @@ class GuestCard(models.Model):
     date = models.CharField(max_length=10, verbose_name='Date', default="")
     code = models.CharField(max_length=10, verbose_name='Code', default="")
     guest = models.ForeignKey(Guest, on_delete=models.CASCADE, verbose_name=_("Guest"), related_name="cards")
+
+    class Meta:
+        verbose_name = _('Card guest')
+
+class GuestStripe(models.Model):
+    stripe_id = models.CharField(max_length=100, verbose_name='Stripe Id', default="")
+    payment_method = models.CharField(max_length=100, verbose_name='Stripe Payment Method', default="")
+    guest = models.ForeignKey(Guest, on_delete=models.CASCADE, verbose_name=_("Guest"), related_name="stripes")
 
     class Meta:
         verbose_name = _('Card guest')
