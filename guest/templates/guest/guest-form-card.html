@@ -30,13 +30,15 @@
 		<label class="label">{% trans "Payment Method" %}:</label>
         <input type="text" class="form-control input mb-4" id="payment_method" name="payment_method" value="{{stripe.payment_method}}" disabled/>
 	</div>
-	<div class="col-1">
+	<div class="col-2">
 		<a class="btn btn-primary" href="{% url "stripe-alta-client" obj.UUID %}"> {% trans 'Alta Stipe Data' %} </a>
 	</div>
-	<div class="col-1">
+    {%comment%}
+	<div class="col-2">
 		<button class="btn btn-primary ark" id="btn-stripe" data-url="{% url "guest-stripe-update" %}" data-target="div-card" 
             data-obj_id="{{stripe.id}}"> {% trans "Get Stripe Datas" %} </button>
 	</div>
+    {%endcomment%}
 </div>
 
 

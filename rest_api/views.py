@@ -15,7 +15,9 @@ from web.models_lock import Lock, LockCodeExtId
 from web.lock_lib import get_record_type
 from sensibo.models import ProjectSensiboUser
 from contents.models import PointOfSale
+from connector.models import ProjectStripeUser
 from padword.commons import new_ui_slug, reverse_cardkey, timestamp_to_date
+from connector.libstripe import create_stripe_payment_intent
 
 from datetime import datetime
 
@@ -266,7 +268,19 @@ class GuestViewSet(viewsets.ModelViewSet):
             if not guest.have_valid_booking():
                 logger.error("[{}]: \"Guest do not have a valid booking!\"".format(self.request.user))
                 return Response({"error": True, 'msg': 'Guest do not have a valid booking!'})
+            psu = ProjectStripeUser.objects.filter(project_uuid=guest.project_id).first()
+            if psu is None:
+                logger.error("[{}]: \"Api Key not found!\"".format(self.request.user))
+                return Response({"error": True, 'msg': 'Api Key not found!'})
+
             guest_name = "{} {}".format(guest.name, guest.surname)
+            guest_stripe = guest.stripe
+
+            obj_id = create_stripe_payment_intent(psu.api_key, guest_stripe.stripe_id, guest_stripe.payment_method, int(amount), "123", "eur")
+            if obj_id == "":
+                logger.error("[{}]: \"Payment error!\"".format(self.request.user))
+                return Response({"error": True, 'msg': 'Payment error!'})
+
             logger.info("[{}]: \"Added credit to card {} of guest {}\"".format(self.request.user, code, guest_name))
             return Response({"error": False, "msg": "Credit added successfully to guest: {}!".format(guest_name)}, status=status.HTTP_200_OK)
         except Exception as e:
