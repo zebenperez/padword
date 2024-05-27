@@ -231,6 +231,9 @@ class GuestViewSet(viewsets.ModelViewSet):
             if guest == None:
                 logger.error("[{}]: \"Guest not found! - ext_id: {}\"".format(self.request.user, guest_ext_id))
                 return Response({"error": True, 'msg': 'Guest not found!'})
+            if guest.deleted:
+                logger.error("[{}]: \"Guest deleted! - ext_id: {}\"".format(self.request.user, guest_ext_id))
+                return Response({"error": True, 'msg': 'This guest is removed!'})
             logger.info("[{}]: \"Get guest {} {} by ext_id {}\"".format(self.request.user, guest.name, guest.surname, guest_ext_id))
             return Response(self.serializer_class(guest).data, status=status.HTTP_200_OK)
         except Exception as e:

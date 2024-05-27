@@ -9,6 +9,15 @@ urlpatterns = [
     path('index/', views.index, name='web-index-new'),
     path('', views.index, name='web-index'),
     path('set-project/<slug:uuid>/', views.set_project, name='set-project'),
+    path('stripe/test-payment/<int:test_type>', views.stripe_test_payment, name='stripe-test-payment'),
+    path('stripe/test-payment/<str:test_type>', views.stripe_test_payment, name='stripe-test-payment'),
+
+    path('stripe/test-payment/', views.stripe_test_payment, name='stripe-test-payment'),
+    path('stripe/alta-client/<str:uuid_guest>', views.stripe_alta_client, name='stripe-alta-client'),
+    path('stripe/store-payment/<str:session_id>', views.stripe_store_payment, name='stripe-store-payment'),
+    path('stripe/error-payment/<str:session_id>', views.stripe_error_payment, name='stripe-error-payment'),
+    path('stripe/do-payment/', views.stripe_payment, name='stripe-payment'),
+
     #--------------------- Projects --------------------
     path('projects/company-<int:company_id>/', views.projects, name='projects-by-company'),
     path('projects/project-<slug:project_id>/', views.projects, name='projects-by-uuid'),
