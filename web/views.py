@@ -2,14 +2,15 @@ from django.contrib.auth.decorators import login_required
 from django.core import serializers
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, redirect
+from django.urls import reverse
 from django.utils.translation import ugettext_lazy as _ 
 from django.views.decorators.csrf import csrf_exempt
 
-from padword.commons import show_exc, get_or_none, get_param, new_ui_slug, translate, set_session, update_cron, get_int, translate2
+from padword.commons import show_exc, get_or_none, get_param, new_ui_slug, translate, set_session, update_cron, get_int, translate2, get_random_str
 from padword.decorators import group_required
-from guest.models import Regime, ProjectRegime, GuestType
+from guest.models import Regime, ProjectRegime, GuestType, Wristband, Guest, GuestStripe
 from sensibo.models import ProjectSensiboUser
-from connector.models import ProjectAvantioUser, ProjectAvaibookUser, ProjectWinhotelUser
+from connector.models import ProjectAvantioUser, ProjectAvaibookUser, ProjectWinhotelUser, ProjectStripeUser
 from contents.models import Category, PointOfSale, PointOfSaleCategory, Table
 from bookings.models import Form, FormInstance
 from .models import *
@@ -30,7 +31,8 @@ def index(request, chk=None):
         if not hasattr(request, "category_user"):
             return render(request, 'error_exception.html', {'exc': _('Category not found!')})
         #return redirect('bookings-by-category', request.category_id)
-        return redirect('bookings-by-category')
+        #return redirect('bookings-by-category')
+        return redirect('categories-by-categories')
 
     if request.user.groups.filter(name='projects').exists():
         if not hasattr(request, "project_id"):
@@ -85,6 +87,10 @@ def get_or_create_user_avaibook(project_uuid):
 
 def get_or_create_user_winhotel(project_uuid):
     obj, created = ProjectWinhotelUser.objects.get_or_create(project_uuid = project_uuid)
+    return obj 
+
+def get_or_create_user_stripe(project_uuid):
+    obj, created = ProjectStripeUser.objects.get_or_create(project_uuid = project_uuid)
     return obj 
 
 '''
@@ -150,6 +156,7 @@ def project_form(request):
         user_avantio = get_or_create_user_avantio(obj.uuid)
         user_avaibook = get_or_create_user_avaibook(obj.uuid)
         user_winhotel = get_or_create_user_winhotel(obj.uuid)
+        user_stripe = get_or_create_user_stripe(obj.uuid)
 
         regime_list = Regime.objects.all()
         point_of_sale_list = PointOfSale.objects.filter(project_uuid=obj.uuid)
@@ -164,6 +171,7 @@ def project_form(request):
             'user_avantio': user_avantio, 
             'user_avaibook': user_avaibook, 
             'user_winhotel': user_winhotel, 
+            'user_stripe': user_stripe, 
             'project_regime_list': [item.regime for item in obj.regimes.all()],
             'regime_list': regime_list,
             'point_of_sale_list': point_of_sale_list,
@@ -184,6 +192,7 @@ def project_details(request, obj_id, current_tab=""):
         user_avantio = get_or_create_user_avantio(obj.uuid)
         user_avaibook = get_or_create_user_avaibook(obj.uuid)
         user_winhotel = get_or_create_user_winhotel(obj.uuid)
+        user_stripe = get_or_create_user_stripe(obj.uuid)
 
         regime_list = Regime.objects.all()
         point_of_sale_list = PointOfSale.objects.filter(project_uuid=obj.uuid)
@@ -198,6 +207,7 @@ def project_details(request, obj_id, current_tab=""):
             'user_avantio': user_avantio, 
             'user_avaibook': user_avaibook, 
             'user_winhotel': user_winhotel, 
+            'user_stripe': user_stripe, 
             'project_regime_list': [item.regime for item in obj.regimes.all()],
             'regime_list': regime_list,
             'point_of_sale_list': point_of_sale_list,
@@ -923,14 +933,25 @@ def show_module(request):
 '''
 @group_required("admins")
 def logs(request):
-    f = open(os.path.join(settings.BASE_DIR, "logs.txt"), "r", encoding='utf-8')
-    text = f.read()
+    current_log = os.path.join(settings.BASE_DIR, "logs.txt")
+    f = open(current_log, "r", encoding='utf-8')
+    size = os.path.getsize(current_log)
+    text = ""
+    if size < 1000:
+        text = f.read()
+    else:
+        i = 0
+        for line in f.readlines():
+            if i > 1000:
+                break
+            text += line 
+            i += 1
     try:
         #log_list = os.listdir(settings.LOGPATH)
         log_list = [f for f in os.listdir(settings.LOGPATH) if re.match(r'.*logs.*', f)]
     except:
         log_list = []
-    return render(request, 'logs.html', {'text': text.replace("\n", "<br/>"), 'log_list': log_list})
+    return render(request, 'logs.html', {'text': text.replace("\n", "<br/>"), 'log_list': log_list, 'current_log': current_log})
 
 from django.http import FileResponse
 
@@ -1075,3 +1096,186 @@ def download_log(request):
 #    return render (request, "web/ekeys.html", {'page': page.text.replace('src="js/', 'src="https://app.millaveonline.com/js/')})
 #
 
+from .libstripe import *
+@group_required("admins")
+def stripe_alta_client(reqeuest, uuid_guest):
+    # test_client_uuid = a57efd6c-02e3-0d16-50fe-8c45d760bb8f
+    try:
+        guest = Guest.objects.get(UUID=uuid_guest)
+    except Exception as e:
+        print (show_exc(e))
+        guest = None
+    if guest is None:
+        return HttpResponse("Guest not found!")
+    else:
+        email = guest.UUID + "@padword.es"  # Email ficticio, para identificar al cliente
+        name = f'{guest.name} {guest.surname}'
+
+        API_KEY = "sk_test_51PAwwh14EEiK5wo0fArBnn5kkPbri8PkDCTyiqcC2jknwqwYqjjSwHP8NQQmtVESzuIJ95TPukiN5m509SptMRAN00mmKFNDkW"
+        customer_data = {
+            "email": email,
+            "name": name,
+        }
+        obj_id = create_stripe_customer(API_KEY, customer_data)
+        session = stripe.checkout.Session.create(
+            customer = obj_id,
+            line_items=[{
+                'price_data': {
+                    'currency': 'eur',
+                    'product_data': {
+                        'name': 'Precarga',
+                    },
+                    'unit_amount': 100,
+                },
+                'quantity': 1,
+            }],
+            mode='payment', 
+            payment_method_options = {'card': {'setup_future_usage': 'off_session'}},
+            success_url='https://padword.shidix.es/web/stripe/store-payment/{CHECKOUT_SESSION_ID}',
+            cancel_url=f'https://padword.shidix.es/guest/guests/details/{guest.pk}/',
+        )
+        return redirect(session.url, code=303)
+
+@group_required("admins")
+def stripe_store_payment(request, session_id):
+    try:
+        API_KEY = "sk_test_51PAwwh14EEiK5wo0fArBnn5kkPbri8PkDCTyiqcC2jknwqwYqjjSwHP8NQQmtVESzuIJ95TPukiN5m509SptMRAN00mmKFNDkW"
+        session = stripe.checkout.Session.retrieve(session_id)
+        payment_intent = stripe.PaymentIntent.retrieve(session.payment_intent)
+        customer = stripe.Customer.retrieve(session.customer)
+        email = customer.email
+        guest = Guest.objects.get(UUID=email.split("@")[0])
+        if payment_intent.status == "succeeded":
+            try:
+                guest_stripe = GuestStripe.objects.get(guest=guest)
+            except:
+                guest_stripe = GuestStripe(guest=guest)
+            guest_stripe.stripe_id = session.customer
+            guest_stripe.payment_method = payment_intent.payment_method
+            guest_stripe.save()
+
+
+            return redirect(reverse('guest-details', kwargs={'obj_id': guest.pk}))
+        else:
+            return HttpResponse("Payment KO")
+    except Exception as e:
+        print (show_exc(e))
+        return HttpResponse("Error")
+
+@csrf_exempt
+def stripe_payment(request):
+    # wristband code = 4038674227
+    try:
+        if request.method == "POST":
+            key_value = request.POST["key_value"]
+            if key_value != "cH4Va?9qZSM_cFM!Kdo-hhmvENfqluOMbjxH-lDCMjhleaqCrCB?my8jMYl-?u!!JevHI2InZF!PFHXzZht_1Qkkxagaj?UPYuAvk3pEp-7LoDLPmUV9xRefYSedY!ba":
+                return HttpResponse("Error")
+            wristband_code = request.POST["wb_code"]
+            amount = request.POST["amount"]
+            wristband = Wristband.objects.get(code=wristband_code)
+            guest = wristband.guest
+            guest_stripe = GuestStripe.objects.get(guest=guest)
+            API_KEY = "sk_test_51PAwwh14EEiK5wo0fArBnn5kkPbri8PkDCTyiqcC2jknwqwYqjjSwHP8NQQmtVESzuIJ95TPukiN5m509SptMRAN00mmKFNDkW"
+            obj_id = create_stripe_payment_intent(API_KEY, guest_stripe.stripe_id, guest_stripe.payment_method, int(amount), "123", "eur")
+            if obj_id != "":
+                return HttpResponse("OK")
+            else:
+                return HttpResponse("Error")
+        else:
+            return HttpResponse("Error")
+    except Exception as e:
+        print (show_exc(e))
+        return HttpResponse("Error")
+
+
+@group_required("admins")
+def stripe_error_payment(request):
+    return HttpResponse("Error")
+
+
+
+@group_required("admins")
+def stripe_test_payment(request, test_type=-1):
+    #import stripe
+
+    API_KEY = "sk_test_51PAwwh14EEiK5wo0fArBnn5kkPbri8PkDCTyiqcC2jknwqwYqjjSwHP8NQQmtVESzuIJ95TPukiN5m509SptMRAN00mmKFNDkW"
+    payment_method_data = {
+            # "type": "card",
+            "card": {
+                "number": "4242424242424242",
+                "exp_month": 12,
+                "exp_year": 2029,
+                "cvc": "123",
+            }
+        }
+
+    if type(test_type) == str:
+        print (test_type)
+        session = stripe.checkout.Session.retrieve(test_type)
+        return HttpResponse(f'{session}<hr>')
+
+    elif test_type == -1:
+        print (test_type)
+        return HttpResponse("OK")
+    elif test_type == 0:
+        import random
+        obj_id = create_stripe_payment_intent(API_KEY, "cus_Q9LsDjy8eXJZX6", "pm_1PJ3GL14EEiK5wo03ZnybHBz", int(random.randint(1,100000)), "123", "eur")
+
+    elif test_type == 1:
+
+        customer_data = {
+            "email": "none@shidix.com",
+            "name": "Shidix",
+            "description": "Shidix Customer",
+            "phone": "123456789",
+            "address": {
+                "city": "Finca España",
+                "country": "ES",
+                "line1": "Avenida Las Palmeras",
+                "line2": "19",
+                "postal_code": "38230",
+                "state": "Santa Cruz de Tenerife"
+            }
+        }
+        obj_id = create_stripe_customer(API_KEY, customer_data)
+    elif test_type == 2:
+        customer_data = {
+            "email": "none@shidix.com",
+            "name": "Shidix",
+        }
+        obj_id = create_stripe_customer(API_KEY, customer_data)
+        intents = stripe.PaymentIntent.list(customer=obj_id, limit=1)
+        for intent in intents:
+            break
+        import random
+        obj_id = create_stripe_payment_intent(API_KEY, obj_id, intent.payment_method, random.randint(1,100000), "123", "eur")
+
+
+    elif test_type == 4:
+        stripe.api_key = API_KEY
+        customer_data = {
+            "email": "none@shidix.com",
+            "name": "Shidix",
+        }
+        obj_id = create_stripe_customer(API_KEY, customer_data)
+
+        session = stripe.checkout.Session.create(
+            customer = obj_id,
+            line_items=[{
+                'price_data': {
+                    'currency': 'eur',
+                    'product_data': {
+                        'name': 'Precarga',
+                    },
+                    'unit_amount': 100,
+                },
+                'quantity': 1,
+            }],
+            mode='payment', 
+            payment_method_options = {'card': {'setup_future_usage': 'off_session'}},
+            success_url='https://padword.shidix.es/web/stripe/test-payment/{CHECKOUT_SESSION_ID}',
+            cancel_url='https://padword.shidix.es/web/stripe/test-payment/',
+        )
+        return redirect(session.url, code=303)
+
+    return HttpResponse(f'{obj_id}<hr>')

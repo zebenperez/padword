@@ -617,4 +617,3 @@ def fix_uuid(request):
 @login_required
 def test(request):
     return HttpResponse("OK")
-

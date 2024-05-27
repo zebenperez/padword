@@ -27,7 +27,8 @@ def avantio_booking_schedule(project_uuid):
         pau = ProjectAvantioUser.objects.filter(project_uuid=project.uuid).first()
         if pau != None and pau.email != "":
             subject = "Importación {} {}".format(project_name, datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
-            send_email(subject, result, "no-reply@padword.es", [pau.email])
+            send_email(subject, result, settings.EMAIL_FROM_DEFAULT, [pau.email])
+            #send_email(subject, result, "no-reply@padword.es", [pau.email])
     except Exception as e:
         print("\n<br/>Error: {}".format(e))
     print(result)
