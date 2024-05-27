@@ -7,6 +7,7 @@
 
     {% if msg and msg != "" %} <div class="alert alert-danger">{{msg}}</div> {% endif %}
 
+    {%comment%}
     <div class="toolbar-search rooms p-2">
         <div class="text-center"><i class="fas fa-search"></i></div>
         <div class="row">
@@ -22,7 +23,8 @@
             </div>
         </div>
     </div>
+    {%endcomment%}
 
-    <div class="mt-4" id="room-list">{% include "web/rooms/rooms-list.html" %}</div>
+    <div class="mt-1" id="room-list">{% include "web/rooms/rooms-list.html" %}</div>
 
 {% endblock central_content %}

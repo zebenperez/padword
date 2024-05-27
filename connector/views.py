@@ -118,7 +118,7 @@ def avaibook_get_accommodation_list(request, project_uuid):
 def avaibook_get_booking(request):
     f = open(os.path.join(settings.BASE_DIR, "avaibook.log"), "a", encoding='utf-8')
     f.write("\n---------------------------------------")
-    f.write("\n{} - Recibida reserva de avantio".format(datetime.now().strftime("%Y-%m-%d %H:%M:%S")))
+    f.write("\n{} - Recibida reserva de avaibook".format(datetime.now().strftime("%Y-%m-%d %H:%M:%S")))
     f.write("\n{}".format(request.headers))
 
     given_token = request.headers.get("Avaibook-Webhook-Token", "")

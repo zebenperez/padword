@@ -121,6 +121,10 @@ table.table-hover.table-striped { font-size: 0.8rem; }
 /*		UTILITIES		*/
 /************************/
 
+.align-items-center {
+    align-items: center;
+}
+
 .ql-container.ql-snow {
     border: 0px !important;
 }
@@ -407,6 +411,10 @@ a.btn.btn-primary.ark, a.btn.btn-secondary.ark {
     align-items: center;
     display:grid; 
     grid-template-columns: 3% 50% 47%;
+}
+
+input.input-blue {
+    border: 1px solid #30acda;
 }
 
 /*** projects search ***/
