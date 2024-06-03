@@ -399,7 +399,6 @@ def create_booking(pwu, booking):
         set_regime(booking, guest)
 
 def create_booking_new(pwu, booking, start_date, end_date):
-    print("--1--")
     checkin = datetime.strptime(booking.check_in_date.split('+')[0], "%Y-%m-%dT%H:%M:%S")
     checkout = datetime.strptime(booking.check_out_date.split('+')[0], "%Y-%m-%dT%H:%M:%S")
     room = booking.room_code 
