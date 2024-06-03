@@ -367,3 +367,5 @@ class LockCron(models.Model):
                 pass
         return result[:-1]
         #return self.lock_list.split(";")
+
+

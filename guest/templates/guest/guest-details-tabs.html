@@ -13,7 +13,9 @@
     {% if show_admin and show_admin == "True" %}
         <li class="nav-item"> <a class="nav-link" data-bs-toggle="tab" href="#admins">{% trans "Administrator" %}</a> </li>
     {% endif %}
+    <li class="nav-item"> <a class="nav-link" data-bs-toggle="tab" href="#card">{% trans "Credit Card" %}</a></li>
 </ul>
+
 <div class="tab-content internal m-2 p-2">
     {# -------------------------- LOCKS ------------------------#}
     <div class="tab-pane container {%if not current_tab%}active{%endif%}" id="locks"><div id="div-locks">
@@ -46,5 +48,8 @@
         {# -------------------------- RECORDS ------------------------#}
         <div class="tab-pane container" id="admins"> <div id="body-admin"> {% include "guest/guest-form-admin.html" %} </div> </div>
     {% endif %}
+
+    {# -------------------------- CARD ------------------------#}
+    <div class="tab-pane container" id="card"> <div id="div-card"> {% include "guest/guest-form-card.html" %} </div> </div>
 </div>
 

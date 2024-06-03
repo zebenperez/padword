@@ -21,7 +21,7 @@ p { margin:0 !important; }
     left: 0;
     z-index: 9999;
     cursor: progress;
-    background: url('https://usagif.com/wp-content/uploads/loading-12.gif') 50% 50% no-repeat ;
+    background: url('https://usagif.com/wp-content/uploads/loading-12.gif') 50% 50% no-repeat;
     background-size: 50px 50px;
 }
 
@@ -242,6 +242,24 @@ select.mini {
 .btn {
     padding: 0.275rem 0.45rem;
 }
+
+.btn-orange {
+    border:1px solid #eb6d05; 
+    background: #e79755;
+    color: #fff;
+    font-size: 0.8rem;
+    letter-spacing:0;
+}
+.btn-orange:hover {
+    background: #eb6d05;
+    color: #fff;
+}
+
+.btn-orange .fas {
+    color: #fff;
+    font-size: 0.8rem;
+}
+
 /*
 .btn-danger {
     background-color: #e8421b !important;
@@ -462,10 +480,8 @@ a.btn.btn-primary.ark, a.btn.btn-secondary.ark {
 
 input#s-name.autosearch.form-control.form-control-dark.w-100,
 input#guest_search_name,
-input#room_search_name,
 input#s-name.autosearch.form-control.form-control-dar.w-100,
-input#keycard_search_name,
-input#room_search { 
+input#keycard_search_name { 
     border: 0 !important; 
     letter-spacing: 0;
 }
@@ -1511,7 +1527,8 @@ i.fas.fa-check-square {
 
 #content-section {
     flex-basis: 99.5%;
-    height: 99vh;
+    /*height: 99vh;*/
+    max-height: 99vh;
     overflow-y: scroll;
     padding-bottom: 3.5rem;
     background: #eff1f3;
@@ -1616,6 +1633,43 @@ textarea.form-control { border:1px solid #ced4da !important; }
     color: red;
     font-size:0.8em;
 }
+
+/*** Popup Error ***/
+
+.friendly-msg {
+    background-color: #fff;
+    letter-spacing: 0;
+}
+
+.friendly-msg h1 {
+    color:#143e53;
+}
+.friendly-msg .text {
+    margin: 50px 0 50px 0;
+}
+
+
+.btn.btn-see-you {
+    font-size: 16px;
+    font-weight: 600;
+    fill: #30acda;
+    color: #30acda;
+    background-color: #FFFFFF;
+    border-style: solid;
+    border-width: 1px 1px 1px 1px;
+    border-color: #30acda;
+    border-radius: 30px 30px 30px 30px;
+    padding: 15px 35px 15px 35px;
+}
+.btn.btn-see-you:hover {
+    background-color: #30acda;
+    text-align: center;
+    transition: all .3s;
+    color: #ffffff;
+}
+
+/*** Popup Error ***/
+
 
 #desc-editor { min-height: 500px; }
 
@@ -1792,6 +1846,99 @@ span.bg-ico-bar i.fas.fa-lock { padding-right: 0px !important;
 .safe-deposit-group .card, .locks-group .card {
     border: none;
 }
+
+/* LOCKS: STEPS STYLE*/
+.step1-img {
+    background-image: url(/static/img/bg-step1.png) !important;
+    background-repeat: no-repeat;
+    background-position: right;
+    background-size: auto;
+    height: 60px;
+    color: white;
+    font-weight:600;
+    display: flex;
+    align-items: center;
+    padding-left: 85px;
+}
+.step1-text {
+    font-weight:600;
+    color: #225798;
+    display: flex;
+    align-items: center;
+}
+.row.step2 {
+    border-top: 10px solid #eff1f3;
+}
+
+.step2-img {
+    background-image: url(/static/img/bg-step2.png) !important;
+    background-repeat: no-repeat;
+    background-position: right;
+    background-size: auto;
+    height: 60px;
+    color: white;
+    font-weight:600;
+    display: flex;
+    align-items: center;
+    padding-left: 85px;
+}
+.step2-text {
+    font-weight:600;
+    color: #3278ca;
+    display: flex;
+    align-items: center;
+
+}
+.row.step3 {
+    border-top: 10px solid #eff1f3;
+}
+
+.step3-img {
+    background-image: url(/static/img/bg-step3.png) !important;
+    background-repeat: no-repeat;
+    background-position: right;
+    background-size: auto;
+    height: 60px;
+    color: white;
+    font-weight:600;
+    display: flex;
+    align-items: center;
+    padding-left: 85px;
+}
+.step3-text {
+    font-weight:600;
+    color: #75b2ff;
+    display: flex;
+    align-items: center;
+
+}
+.row.step4 {
+    border-top: 10px solid #eff1f3;
+}
+
+.step4-img {
+    background-image: url(/static/img/bg-step4.png) !important;
+    background-repeat: no-repeat;
+    background-position: right;
+    background-size: auto;
+    height: 60px;
+    color: white;
+    font-weight:600;
+    display: flex;
+    align-items: center;
+    padding-left: 85px;
+}
+.step4-text {
+    font-weight:600;
+    color: #75b2ff;
+    display: flex;
+    align-items: center;
+
+}
+
+
+
+
 
 input#search.form-control.sp-search {
     border: 1px solid #ced4da !important;

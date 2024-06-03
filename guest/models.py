@@ -94,6 +94,14 @@ class Guest(models.Model):
         except:
             return reverse("guest-access-auto", kwargs = {'guest_uuid': self.UUID})
 
+    @property
+    def card(self):
+        return self.cards.first() if self.cards.count() > 0 else GuestCard.objects.create(guest=self)
+
+    @property
+    def stripe(self):
+        return self.stripes.first() if self.stripes.count() > 0 else GuestStripe.objects.create(guest=self)
+
     def get_code(self):
         if self.email != None and self.email != "" and "@" in self.email:
             return self.email
@@ -635,5 +643,55 @@ class GuestType(models.Model):
 
     class Meta:
         verbose_name = _('Tipo de huésped')
+
+'''
+    Guest Card
+'''
+class GuestCard(models.Model):
+    number = models.CharField(max_length=255, verbose_name='Name', default="")
+    date = models.CharField(max_length=10, verbose_name='Date', default="")
+    code = models.CharField(max_length=10, verbose_name='Code', default="")
+    guest = models.ForeignKey(Guest, on_delete=models.CASCADE, verbose_name=_("Guest"), related_name="cards")
+
+    class Meta:
+        verbose_name = _('Card guest')
+
+class GuestStripe(models.Model):
+    stripe_id = models.CharField(max_length=100, verbose_name='Stripe Id', default="")
+    payment_method = models.CharField(max_length=100, verbose_name='Stripe Payment Method', default="")
+    guest = models.ForeignKey(Guest, on_delete=models.CASCADE, verbose_name=_("Guest"), related_name="stripes")
+
+    class Meta:
+        verbose_name = _('Card guest')
+
+class GuestLockLog(models.Model):
+    date = models.DateTimeField(verbose_name=_('Date'), default=datetime.datetime.now, null=True)
+    lock_uuid = models.CharField(max_length = 255, verbose_name= _('lock UUID'), default='')
+    guest_uuid = models.CharField(max_length = 255, verbose_name= _('Project UUID'), default='')
+
+    @property
+    def lock(self):
+        try:
+            return Lock.objects.get(uuid=self.lock_uuid)
+        except:
+            return None
+
+    @property
+    def guest(self):
+        try:
+            return Guest.objects.get(UUID=self.guest_uuid)
+        except:
+            return None
+
+    @staticmethod
+    def get_guest_name(lock_uuid, date):
+        ini_date = date.replace(second=0)
+        end_date = date.replace(second=59)
+        gll = GuestLockLog.objects.filter(lock_uuid=lock_uuid, date__range=[ini_date, end_date]).first()
+        if gll != None:
+            guest = gll.guest
+            if guest != None:
+                return guest.name 
+        return ""
 
 

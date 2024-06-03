@@ -106,7 +106,7 @@
 <div class="d-flex justify-content-end p-2">
 	<button type="button" class="btn btn-primary ark m-2" data-bs-dismiss="modal" data-url="{% url "device-search" %}" data-target="device-list"
          data-channel_id="{{channel_id}}" data-project_id="{{project_id}}" data-company_id="{{company_id}}">{% trans "Save" %}</button>
-	<button type="button" class="btn btn-danger ark m-2" data-bs-dismiss="modal"
+	<button type="button" class="btn btn-primary ark m-2" data-bs-dismiss="modal"
    		data-url="{% url "device-remove" %}" data-target="device-list" data-obj_id="{{obj.id}}" data-channel_id="{{channel_id}}" 
         data-project_id="{{project_id}}" data-company_id="{{company_id}}" data-confirm="{% trans "Are you sure to remove this element?" %}">
         {% trans "Remove" %}</button>

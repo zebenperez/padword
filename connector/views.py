@@ -44,7 +44,8 @@ def avantio_get_booking_list(request, project_uuid):
             result += "-----------------------------------------------------"
             result += render_to_string('avantio/booking-log.html', {'booking_list': booking_list, "error": err})
             subject = "Importación {} {}".format(project.name, datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
-            send_email(subject, result, "no-reply@padword.es", [pau.email])
+            send_email(subject, result, settings.EMAIL_FROM_DEFAULT, [pau.email])
+            #send_email(subject, result, "no-reply@padword.es", [pau.email])
             avantio_write_log(result)
 
         return render(request, 'avantio/booking-list.html', {'booking_list': booking_list, "error": err})
@@ -230,5 +231,5 @@ def cron_log(request):
 
 @group_required("admins")
 def test_email(request):
-    send_email("test", "test", "no-reply@padword.es", ["zebenperez@gmail.com"])
+    send_email("test", "test", settings.EMAIL_FROM_DEFAULT, ["zebenperez@gmail.com", "soporte@padword.es"])
     return HttpResponse("Ok")

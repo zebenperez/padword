@@ -17,13 +17,20 @@ import requests
 
 
 def get_projects(request):
-    search_value = request.session["room_search_name"] if "room_search_name" in request.session else ""
+    search_value = request.session["project_search_name"] if "project_search_name" in request.session else ""
     list_rooms = []
     projects = Project.objects.filter(name__icontains=search_value) if search_value != "" else Project.objects.all()
     #for project in projects:
     #    list_rooms.append([project, Room.objects.filter(parent__isnull = True, project_uuid = project.uuid)])
     #return list_rooms
     return projects
+
+def search_rooms(request):
+    search_value = request.session["room_search_name"] if "room_search_name" in request.session else ""
+    kwargs = {}
+    if search_value != "":
+        kwargs["name__icontains"] = search_value
+    return Room.objects.filter(**kwargs)
 
 @group_required("admins")
 def rooms (request):
@@ -39,6 +46,7 @@ def room_list (request):
 
 @group_required("admins")
 def rooms_search (request):
+    set_session(request, "project_search_name")
     set_session(request, "room_search_name")
     #list_rooms = get_room_items(request)
     #return render (request, "web/rooms/rooms-list.html", {'list_rooms':list_rooms})
@@ -154,7 +162,8 @@ def room_import(request):
             obj = Room.objects.create(uuid = new_ui_slug(Room), project_uuid=project.uuid)
             obj.order = get_int(l[0])
             obj.alias = l[1]
-            obj.number = get_int(l[2])
+            #obj.number = get_int(l[2])
+            obj.number = l[2]
             obj.save()
         return redirect("rooms")
     except Exception as e:
@@ -359,6 +368,16 @@ def room_list_by_project(request):
         project = get_or_none(Project, request.project_id)
         return render(request, "web/rooms-by-project/rooms-list.html", {'project': project})
     except Exception as e:
+        return render(request, "error_exception.html", {'exc':show_exc(e)})
+
+@group_required("admins", "projects")
+def rooms_search_by_project (request):
+    try:
+        project = get_or_none(Project, request.project_id)
+        set_session(request, "room_search_name")
+        return render (request, "web/rooms-by-project/rooms-list.html", {'project': project})
+    except Exception as e:
+        print(e)
         return render(request, "error_exception.html", {'exc':show_exc(e)})
 
 @group_required("admins", "projects")

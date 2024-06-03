@@ -23,7 +23,7 @@
         <input type="checkbox" class="autosave" id="public" name="public" 
             data-model-name="guest.notification" data-obj-id="{{obj.id}}" data-url="{% url "autosave_field" %}" data-bool="True" 
             data-target="div-notification" {% if obj.public %}checked{% endif %}/> <span class="public_error" id="public__msg"></span>
-            {% trans "Published" %}
+            <label class="label">{% trans "Published" %}</label>
 	</div>
     {% elif not obj.public %}
         <input type="checkbox" class="autosave" id="public" name="public" data-model-name="guest.notification" data-obj-id="{{obj.id}}" 
@@ -45,7 +45,7 @@
         <input type="checkbox" class="autosave text-right" id="all_users" name="all_users" 
             data-model-name="guest.notification" data-obj-id="{{obj.id}}" data-url="{% url "autosave_field" %}" data-bool="True" 
             data-target="div-notification" {% if obj.all_users %}checked{% endif %}/> <span class="all_users_error" id="all_users__msg"></span>
-            {% trans "All users" %}
+            <label class="label">{% trans "All users" %}</label>
 	</div>
 
     <div class="col-12 mb-2 notif-guest-list {% if obj.all_users %}back-grey{% endif %}" id="guest-box">

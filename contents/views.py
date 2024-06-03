@@ -78,7 +78,8 @@ def category_form(request):
         else:
             parents_options = Category.objects.none()
         parents_options = parents_options.union(Category.objects.filter(project_uuid = obj.project_uuid, parent = obj.parent))
-        return render(request, "contents/category-form.html", {'obj': obj, 'company_id': project.company.uuid, 'new_item':new_item, 'parents_options':parents_options })
+        return render(request, "contents/category-form.html", {'obj': obj, 'new_item':new_item, 'parents_options':parents_options })
+        #return render(request, "contents/category-form.html", {'obj': obj, 'company_id': project.company.uuid, 'new_item':new_item, 'parents_options':parents_options })
     except Exception as e:
         return render(request, "error_exception.html", {'exc': show_exc(e)})
 
@@ -238,7 +239,7 @@ def category_remove_image(request):
         #logger.error("[remove_file]" + str(e))
         return render(request, 'error_exception.html', {'msg': str(e)})
 
-@group_required("admins", "projects")
+@group_required("admins", "projects", "categories")
 def category_add_image_gallery(request):
     try:
         obj_id = request.POST["obj_id"]
@@ -253,7 +254,7 @@ def category_add_image_gallery(request):
         #logger.error("[bookings-form_add_image]" + str(e))
         return render(request, 'error_exception.html', {'msg': str(e)})
 
-@group_required("admins", "projects")
+@group_required("admins", "projects", "categories")
 def category_remove_image_gallery(request):
     try:
         obj_id = request.GET["obj_id"]
@@ -267,7 +268,7 @@ def category_remove_image_gallery(request):
         #logger.error("[remove_file]" + str(e))
         return render(request, 'error_exception.html', {'msg': str(e)})
 
-@group_required("admins", "projects")
+@group_required("admins", "projects", "categories")
 def category_add_file(request):
     try:
         obj_id = request.POST["obj_id"]
@@ -282,7 +283,7 @@ def category_add_file(request):
         #logger.error("[bookings-form_add_image]" + str(e))
         return render(request, 'error_exception.html', {'msg': str(e)})
 
-@group_required("admins", "projects")
+@group_required("admins", "projects", "categories")
 def category_remove_file(request):
     try:
         obj_id = request.GET["obj_id"]

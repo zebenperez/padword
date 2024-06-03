@@ -1,17 +1,13 @@
 {% load i18n %}
-
-
-<div class="row">
-    <div class="col-lg-6 offset-lg-3 col-10 offset-1 error-content">
-        <h1 class="d-flex justify-content-center mt-4">Oops!</h1>
-        <hr>
-        <p class="d-flex justify-content-center">Lo sentimos, ha habido un error. Ya estamos trabajando en la soluci&oacute;n.</p>
-        <p class="d-flex justify-content-center"> Vuelve a intentarlo en unos minutos.</p>
-        <hr>
-        <p class="d-flex justify-content-center">Sorry, we have a problem. We are working on it.</p>
-        <p class="d-flex justify-content-center">Please, try in a few minutes.</p>
-        <br>
-        <div class="d-flex justify-content-center"><a class="btn btn-marine w-100" onclick="window.open('/bookings/close/','_self');" >{% trans 'Close' %}</a></div>
+<div class="row friendly-msg m-3">
+    <div class="col-lg-5 col-12 p-3"><img src="/static/img/img-error.png" width="" height=""></div>
+    <div class="col-lg-7 text-center p-3 mb-3">
+        <h1>{% trans "¡Parece que se resiste!" %}</h1>
+        <div class="text">
+            {% trans "¡No te preocupes, tenemos la clave para solucionarlo!" %}<br/>
+            {% trans "Vuelve a intentarlo en unos minutos." %}
+        </div>
+        <div class="p-3 pb-3"><a class="btn btn-see-you" onclick="window.open('/bookings/close/','_self');" >{% trans 'Cierro pero vuelvo en breve' %}</a></div>
         <br>
     </div>
 </div>

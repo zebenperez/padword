@@ -50,8 +50,12 @@
             <tr id="tr-{{item.cardId}}" {%if item.cardNumber == request.session.lock_search_cardcode|get_reverse%}class="text-success"{%endif%}>
                 <td class="search-code" data-id="{{item.cardId}}"> {{item.cardNumber}} ({{item.cardId}})</td> 
                 <td class="search-name" data-id="{{item.cardId}}"> {{item.cardName}}</td> 
+                <td> {{item.startDate|lock_date_to_local:obj}} (Local) <br/>{{item.startDate|str_to_date}} (GMT) </td> 
+                <td> {{item.endDate|lock_date_to_local:obj}} (Local) <br/>{{item.endDate|str_to_date}} (GMT) </td> 
+                {%comment%}
                 <td> {{item.startDate|str_to_date}} (Local) <br/>{{item.startDate|str_to_date}} (GMT) </td> 
                 <td> {{item.endDate|str_to_date}} (Local) <br/>{{item.endDate|str_to_date}} (GMT) </td> 
+                {%endcomment%}
                 <td class="search-guest" data-id="{{item.cardId}}"> {{obj|get_card_guest:item.cardNumber}} </td> 
                 <td> {{item.endDate|get_card_type}} </td> 
                 <td class="text-end">

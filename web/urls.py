@@ -9,6 +9,15 @@ urlpatterns = [
     path('index/', views.index, name='web-index-new'),
     path('', views.index, name='web-index'),
     path('set-project/<slug:uuid>/', views.set_project, name='set-project'),
+
+    #path('stripe/test-payment/<int:test_type>', views.stripe_test_payment, name='stripe-test-payment'),
+    #path('stripe/test-payment/<str:test_type>', views.stripe_test_payment, name='stripe-test-payment'),
+    #path('stripe/test-payment/', views.stripe_test_payment, name='stripe-test-payment'),
+    #path('stripe/alta-client/<str:uuid_guest>', views.stripe_alta_client, name='stripe-alta-client'),
+    #path('stripe/store-payment/<str:session_id>', views.stripe_store_payment, name='stripe-store-payment'),
+    #path('stripe/error-payment/<str:session_id>', views.stripe_error_payment, name='stripe-error-payment'),
+    #path('stripe/do-payment/', views.stripe_payment, name='stripe-payment'),
+
     #--------------------- Projects --------------------
     path('projects/company-<int:company_id>/', views.projects, name='projects-by-company'),
     path('projects/project-<slug:project_id>/', views.projects, name='projects-by-uuid'),
@@ -176,6 +185,7 @@ urlpatterns = [
     path('rooms/by-project/', room_views.rooms_by_project, name='rooms-by-project'),
     path('rooms/list/by-project/', room_views.room_list_by_project, name='room-list-by-project'),
     path('rooms/form/by-project/', room_views.room_form_by_project, name='room-form-by-project'),
+    path('rooms/search/by-project/', room_views.rooms_search_by_project, name='rooms-search-by-project'),
 
     #--------------------- KeyCard --------------------
     path('keycards/', card_views.keycards, name='keycards'),

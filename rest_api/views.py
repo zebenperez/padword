@@ -7,7 +7,7 @@ from django.urls import reverse
 
 from .models_serializers import GuestSerializer, LockSerializer, RoomSerializer
 
-from guest.models import Guest
+from guest.models import Guest, Wristband
 from bookings.models import GuestUser, Form
 #from web.models import ProjectUser, Lock, Room
 from web.models import ProjectUser, Room
@@ -15,7 +15,9 @@ from web.models_lock import Lock, LockCodeExtId
 from web.lock_lib import get_record_type
 from sensibo.models import ProjectSensiboUser
 from contents.models import PointOfSale
-from padword.commons import new_ui_slug, reverse_cardkey, timestamp_to_date
+from connector.models import ProjectStripeUser
+from padword.commons import new_ui_slug, reverse_cardkey, timestamp_to_date, get_float, get_int
+from connector.libstripe import ShStripe
 
 from datetime import datetime
 
@@ -231,6 +233,9 @@ class GuestViewSet(viewsets.ModelViewSet):
             if guest == None:
                 logger.error("[{}]: \"Guest not found! - ext_id: {}\"".format(self.request.user, guest_ext_id))
                 return Response({"error": True, 'msg': 'Guest not found!'})
+            if guest.deleted:
+                logger.error("[{}]: \"Guest deleted! - ext_id: {}\"".format(self.request.user, guest_ext_id))
+                return Response({"error": True, 'msg': 'This guest is removed!'})
             logger.info("[{}]: \"Get guest {} {} by ext_id {}\"".format(self.request.user, guest.name, guest.surname, guest_ext_id))
             return Response(self.serializer_class(guest).data, status=status.HTTP_200_OK)
         except Exception as e:
@@ -247,6 +252,42 @@ class GuestViewSet(viewsets.ModelViewSet):
                 return Response({"error": True, 'msg': 'Guest not found!'})
             logger.info("[{}]: \"Get locks of guest {} {}\"".format(self.request.user, guest.name, guest.surname))
             return Response(guest.get_locks_json(), status=status.HTTP_200_OK)
+        except Exception as e:
+            logger.error("[{}]: \"{}\"".format(self.request.user, str(e)))
+            return Response({"error": 'true', 'msg': 'Bad request!'})
+
+    @action(detail=False, methods=['post'])
+    def add_credit(self, request):
+        try:
+            amount = get_float(request.POST["amount"])
+            amount = get_int(round(amount, 2) * 100)
+            code = reverse_cardkey(request.POST["card"])
+
+            band = Wristband.objects.filter(code=code).first()
+            if band == None:
+                logger.error("[{}]: \"Band not found!\"".format(self.request.user))
+                return Response({"error": True, 'msg': 'Band not found!'})
+            guest = band.guest
+            if not guest.have_valid_booking():
+                logger.error("[{}]: \"Guest do not have a valid booking!\"".format(self.request.user))
+                return Response({"error": True, 'msg': 'Guest do not have a valid booking!'})
+            psu = ProjectStripeUser.objects.filter(project_uuid=guest.project_id).first()
+            if psu is None:
+                logger.error("[{}]: \"Api Key not found!\"".format(self.request.user))
+                return Response({"error": True, 'msg': 'Api Key not found!'})
+
+            guest_name = "{} {}".format(guest.name, guest.surname)
+            gs = guest.stripe
+            gc = guest.card
+
+            st = ShStripe(psu.api_key)
+            obj_id = st.create_stripe_payment_intent(gs.stripe_id, gs.payment_method, amount, gc.code, "eur")
+            if obj_id == "" or obj_id == None:
+                logger.error("[{}]: \"Payment error!\"".format(self.request.user))
+                return Response({"error": True, 'msg': 'Payment error!'})
+
+            logger.info("[{}]: \"Added credit to card {} of guest {}\"".format(self.request.user, code, guest_name))
+            return Response({"error": False, "msg": "Credit added successfully to guest: {}!".format(guest_name)}, status=status.HTTP_200_OK)
         except Exception as e:
             logger.error("[{}]: \"{}\"".format(self.request.user, str(e)))
             return Response({"error": 'true', 'msg': 'Bad request!'})

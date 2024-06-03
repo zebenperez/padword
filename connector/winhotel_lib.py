@@ -234,10 +234,10 @@ class Winhotel:
     def _request_bookings(self, state):
         json = {"QueryCredentials": self._credentials(), "UserID": self.user_id}
         _bookings_params = {
-            "BookingStateQueryParameters": {
+            "BookingStateQueryParameters": [{
                 "QueryOperator": 0,
                 "Value": state
-            }
+            }]
         }
         json["QueryRequest"] = {"QueryHeader": self._request_header(), "BookingListQueryParameters": _bookings_params}
         return json
@@ -249,10 +249,10 @@ class Winhotel:
                 "QueryOperator": date_operator,
                 "Value": start_date
             },
-            "BookingStateQueryParameters": {
+            "BookingStateQueryParameters": [{
                 "QueryOperator": 0,
                 "Value": state
-            },
+            }],
         }
         json["QueryRequest"] = {"QueryHeader": self._request_header(), "BookingListQueryParameters": _bookings_params}
         return json
@@ -264,10 +264,10 @@ class Winhotel:
                 "QueryOperator": 0,
                 "Value": date
             },
-            "BookingStateQueryParameters": {
+            "BookingStateQueryParameters": [{
                 "QueryOperator": 0,
                 "Value": state
-            },
+            }],
         }
         json["QueryRequest"] = {"QueryHeader": self._request_header(), "BookingListQueryParameters": _bookings_params}
         return json

@@ -1,7 +1,7 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 from django.urls import path
-from . import views, wristband_views
+from . import views, wristband_views, stripe_views
 
 urlpatterns = [ 
 
@@ -17,6 +17,7 @@ urlpatterns = [
     #path('guests/page/', views.guest_pagination, name='guest-page'),
     path('guests/details/<int:obj_id>/', views.guest_details, name='guest-details'),
     path('guests/details/', views.guest_details, name='guest-details'),
+    path('guests/stripe-update/', views.guest_stripe_update, name='guest-stripe-update'),
 
     path('guests/project/', views.guests_by_project, name='guests-by-project'),
     path('guests/project/search', views.guest_search_by_project, name='guest-search-by-project'),
@@ -91,8 +92,17 @@ urlpatterns = [
 
     path('guests/key-add-card/', views.key_add_card, name="guest-key-add-card"),
     path('guests/key-remove-card/', views.key_remove_card, name="guest-key-remove-card"),
+
+    path('guests/key-card-all/', views.key_card_all, name="guest-key-card-all"),
+    path('guests/key-add-card-all/', views.key_add_card_all, name="guest-key-add-card-all"),
     #path('guests/keys/', views.keys, name="guest-keys"),
     #path('guests/key/assign/', views.key_assign, name="guest-assign-key"),
     #path('guests/key/remove/', views.key_remove, name="guest-remove-key"),
+
+    #--------------------- STRIPE --------------------
+    path('stripe/alta-client/<str:uuid_guest>', stripe_views.stripe_alta_client, name='stripe-alta-client'),
+    path('stripe/store-payment/<str:session_id>', stripe_views.stripe_store_payment, name='stripe-store-payment'),
+    path('stripe/error-payment/<str:session_id>', stripe_views.stripe_error_payment, name='stripe-error-payment'),
+    #path('stripe/do-payment/', stripe_views.stripe_payment, name='stripe-payment'),
 ]
 

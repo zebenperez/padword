@@ -5,16 +5,22 @@
 
 	<div class="col-4 mb-4">
         <label class="label">{% trans "Name" %}*:</label>
-        <input type="text" class="form-control autosave input mb-1" id="name" name="name" value="{{obj.name}}" 
-            title="{% trans "This field is required" %}" data-model-name="guest.guest" data-obj-id="{{obj.id}}" data-url="{% url "autosave_field" %}" 
-            data-target="div-notification" required/> <span class="msg_error" id="name__msg"></span>
+	    <div class="change-mobile">
+            <div><input type="text" class="form-control autosave input mb-1" id="name" name="name" value="{{obj.name}}" 
+                title="{%trans "This field is required"%}" data-model-name="guest.guest" data-obj-id="{{obj.id}}" data-url="{%url "autosave_field"%}" 
+                data-target="div-notification" required/> <span class="msg_error" id="name__msg"></span></div>
+            <div><button class="btn mt-1" onclick="setGuestFields('{{obj.id}}', '{{obj.room}}')"> <i class="fas fa-sync"></i></button></div>
+        </div>
 	</div>
 
 	<div class="col-4 mb-4">
 	    <label class="label">{% trans "Surname" %}*:</label>
-		<input type="text" class="form-control autosave input mb-1" id="surname" name="surname" value="{{obj.surname}}" 
-            title="{% trans "This field is required" %}" data-model-name="guest.guest" data-obj-id="{{obj.id}}" data-url="{% url "autosave_field" %}" 
-            data-target="div-notification" required/> <span class="msg_error" id="surname__msg"></span>
+	    <div class="change-mobile">
+		    <div><input type="text" class="form-control autosave input mb-1" id="surname" name="surname" value="{{obj.surname}}" 
+                title="{%trans "This field is required"%}" data-model-name="guest.guest" data-obj-id="{{obj.id}}" data-url="{%url "autosave_field"%}" 
+                data-target="div-notification" required/> <span class="msg_error" id="surname__msg"></span></div>
+            <div><button class="btn mt-1" onclick="setGuestSurname('{{obj.id}}')"><i class="fas fa-sync"></i></button></div>
+        </div>
 	</div>
 
 	<div class="col-2">
@@ -132,24 +138,5 @@
 
 </div>
 
-<script>
-    function checkDates(obj) {
-        var checkIn = new Date($("#check_in").val()+" "+$("#check_in_time").val());
-        var checkOut = new Date($("#check_out").val()+" "+$("#check_out_time").val());
-        $("#btn-date").data(obj.attr("id"), obj.val());
-        if(checkOut < checkIn)
-            $("#check_out__msg").html("{% trans "Checkout can not be less than checkin" %}");
-        else {
-            $("#check_out__msg").html("");
-            $("#btn-date").click();
-        }
-    }
-    /*$(".date_field").focusin(function(){
-        $('#guest-tabs').hide()
-    });*/
-    $(".date_field").focusout(function(){
-        checkDates($(this)); 
-        //$('#guest-tabs').show();
-    });
-</script>
+<script> $(".date_field").focusout(function(){ checkGuestDates($(this), "{% trans "Checkout can not be less than checkin" %}"); }); </script>
 

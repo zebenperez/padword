@@ -52,8 +52,8 @@ def getmaxrange(dict, key):
 	return "0"
 
 @register.simple_tag()
-def get_file_name(name):
+def get_file_name(name, long=15):
     name_list = name.split("/")
-    return name_list[len(name_list)-1][15:] if len(name) > 15 else ""
+    return name_list[len(name_list)-1][long:] if len(name) > long else ""
 
 

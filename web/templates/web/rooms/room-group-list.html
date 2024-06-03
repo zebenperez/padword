@@ -16,12 +16,12 @@
     <div class="div-rooms-content">
         <div class="locks-head">{{ group.name }} </div>
         <div class="locks-group d-flex flex-wrap pl-2">
-            {% room_list project group %}
+            {% room_list project search_name group %} [{{search_name}}]
         </div>
     </div>
 {% endfor %}
 
 <div class="locks-group d-flex flex-wrap p-2">
-    {% room_list project %}
+    {% room_list project search_name %}
 </div>
 

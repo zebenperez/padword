@@ -1,13 +1,13 @@
 {% load i18n tpv_tags %}
 
 {% if cash.close %}
+    <div class="row m-0 mt-3"> <div class="alert-closed col-lg-4 offset-lg-4 col-12 text-center"> {% trans "¡TPV Cerrado!" %} </div> </div>
+
     <div class="row m-0">
         <div class="col-lg-6 offset-lg-3 col-12 mt-3 pos-options p-0" {%if pos.image%}style="background-image:url({{pos.image.url}});"{%endif%}>
             <div class="point-name" style="width: 100%;background: white; opacity: 0.8;">{{pos.name}}</div>
         </div>
     </div>
-    
-    <div class="row m-0 mt-3"> <div class="col-lg-4 offset-lg-4 col-12 text-center"> {% trans "TPV Close!" %} </div> </div>
     
     <div class="row m-0 mt-3">
         <div class="col-lg-4 offset-lg-4 col-12 text-center">
@@ -41,10 +41,16 @@
                 data-obj_id="{{cash.id}}" data-value="" data-index="{{index}}"><i class="fa fa-save"></i> {% trans "Save" %} </button>
         </div>
     </div>
+    <div class="row m-0 mt-3">
+        <div class="col-lg-4 offset-lg-4 col-12 text-center">
+            <button class="menu-options tables back ark w-100" data-url="{% url "tpv-change-pos" %}" data-target="base" 
+                data-project_uuid="{{pos.project_uuid}}"> {% trans "Back" %}</button>
+        </div>
+    </div>
 {% else %}
     <div class="row tablesBar m-0 p-0 mb-2 w-100">
-        <div class="col-lg-4 col-6 text-left"><span class="point-name">{{pos.name}}</span></div>
-        <div class="col-lg-3 col-6">
+        <div class="col-lg-4 col-5 text-left"><span class="point-name">{{pos.name}}</span></div>
+        <div class="col-lg-3 col-7">
             <input class="form-control tpv-table-search" data-search-class="table-card" placeholder="{%trans "Seleccionar mesa a buscar..."%}"/>
         </div>
         <div class="col-lg-2 col-4 btn-1 text-center" onclick="$('#cash-opts').fadeToggle()"> 
@@ -62,11 +68,15 @@
         </div>
     </div>
     <div id="cash-opts" class="hide mt-2">
-        <button class="btn btn-outline-secondary btn-sm pointer add-date ark" id="btn-pos-summary" data-url="{%url "tpv-cash-z"%}" data-target="base" 
-            data-obj_id="{{cash.id}}" data-index="tpv-index"><i class="fas fa-file-csv"></i>&nbsp; {% trans "Generate Z" %}</button>
-        <button class="btn btn-outline-secondary btn-sm pointer add-date ark" id="btn-pos-summary" data-url="{%url "tpv-cash-x"%}" data-target="base"
-            data-obj_id="{{cash.id}}" data-back="{%if index == "tpv-index"%}{%url "tpv-change-table"%}{%else%}{%url "tpv-mob-change-table"%}{%endif%}"
-            ><i class="fas fa-file-csv"></i>&nbsp; {% trans "Generate X" %}</button>
+        <div class="row">
+            <div class="col-lg-5 col-6">
+                <button class="btn btn-outline-danger btn-sm pointer add-date ark w-100 p-2" id="btn-pos-summary" data-url="{%url "tpv-cash-z"%}" data-target="base"                    data-obj_id="{{cash.id}}" data-index="tpv-index">{% trans "Generar" %} <span class="letter-cash">{% trans "Z" %}</button></span>
+            </div>
+            <div class="col-lg-5 offset-lg-2 col-6"> 
+                <button class="btn btn-outline-green btn-sm pointer add-date ark w-100 p-2" id="btn-pos-summary" data-url="{%url "tpv-cash-x"%}" data-target="base"                    data-obj_id="{{cash.id}}" data-back="{%if index == "tpv-index"%}{%url "tpv-change-table"%}{%else%}{%url "tpv-mob-change-table"%}{%endif%}">
+                 {% trans "Generar" %} <span class="letter-cash green">{% trans "X" %}</span></button>
+            </div>
+        </div>
     </div>
     {% for item in tables %}
         <div class="col-lg-3 col-12 table-card mt-2" data-name="{{item.name}}">

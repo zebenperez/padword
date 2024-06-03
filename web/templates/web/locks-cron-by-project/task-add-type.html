@@ -1,9 +1,12 @@
 {% load i18n %}
 
-<h4>{% trans "PASO 1 - ¿Qué quieres hacer?" %}</h4>
-<div class="row">
-    <div class="col-6"><a class="btn btn-primary ark" data-url="{% url "locks-task-type" %}" data-target="task-params" data-obj_id="{{task.id}}" 
+<div class="row m-0 p-2">
+    <div class="col-2 offset-3 step1-img">{% trans "PASO 1"  %} </div>
+    <div class="col-7 step1-text">{% trans "¿Qué quieres hacer?" %}</div>
+
+    <div class="col-2 offset-4 pt-3 pb-3 text-center">
+        <a class="btn btn-primary ark" data-url="{% url "locks-task-type" %}" data-target="task-params" data-obj_id="{{task.id}}" 
         data-type="code">{% trans "Add code" %}</a></div> 
-    <div class="col-6"><a class="btn btn-primary ark" data-url="{% url "locks-task-type" %}" data-target="task-params" data-obj_id="{{task.id}}" 
+    <div class="col-2 pt-3 pb-3 text-center"><a class="btn btn-primary ark" data-url="{% url "locks-task-type" %}" data-target="task-params" data-obj_id="{{task.id}}" 
         data-type="card">{% trans "Add card" %}</a></div> 
 </div>

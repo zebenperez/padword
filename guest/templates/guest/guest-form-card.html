@@ -1,0 +1,44 @@
+{% load i18n %}
+
+<div class="row justify-center p-0" tyle="border:2px solid blue !important">
+	<div class="col-6">
+		<label class="label">{% trans "Card Number" %}:</label>
+		<input type="text" class="form-control autosave input mb-4" id="number" name="number" value="" 
+            data-model-name="guest.guestcard" data-obj-id="{{card.id}}" data-url="{% url "autosave_field" %}" 
+            data-target="div-notification"/> <span class="msg_error" id="number__msg"></span>
+	</div>
+	<div class="col-3">
+		<label class="label">{% trans "Expire Date" %}:</label>
+		<input type="text" class="form-control autosave input mb-4" id="date" name="date" value=""  placeholder="mm/yyyy"
+            data-model-name="guest.guestcard" data-obj-id="{{card.id}}" data-url="{% url "autosave_field" %}" 
+            data-target="div-notification"/> <span class="msg_error" id="date__msg"></span>
+	</div>
+	<div class="col-3">
+		<label class="label">{% trans "CVC" %}:</label>
+		<input type="text" class="form-control autosave input mb-4" id="code" name="code" value="" 
+            data-model-name="guest.guestcard" data-obj-id="{{card.id}}" data-url="{% url "autosave_field" %}" 
+            data-target="div-notification"/> <span class="msg_error" id="date__msg"></span>
+	</div>
+</div>
+
+<div class="row justify-center p-0" tyle="border:2px solid blue !important">
+	<div class="col-5">
+		<label class="label">{% trans "Stripe ID" %}:</label>
+        <input type="text" class="form-control input mb-4" id="stripe_id" name="stripe_id" value="{{stripe.stripe_id}}" disabled/> 
+	</div>
+	<div class="col-5">
+		<label class="label">{% trans "Payment Method" %}:</label>
+        <input type="text" class="form-control input mb-4" id="payment_method" name="payment_method" value="{{stripe.payment_method}}" disabled/>
+	</div>
+	<div class="col-2">
+		<a class="btn btn-primary" href="{% url "stripe-alta-client" obj.UUID %}"> {% trans 'Alta Stipe Data' %} </a>
+	</div>
+    {%comment%}
+	<div class="col-2">
+		<button class="btn btn-primary ark" id="btn-stripe" data-url="{% url "guest-stripe-update" %}" data-target="div-card" 
+            data-obj_id="{{stripe.id}}"> {% trans "Get Stripe Datas" %} </button>
+	</div>
+    {%endcomment%}
+</div>
+
+
