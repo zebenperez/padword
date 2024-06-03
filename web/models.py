@@ -506,12 +506,14 @@ class Room(models.Model):
     @property
     def is_busy(self):
         from guest.models import Guest
-        return Guest.objects.filter(project_id = self.project_uuid, room = self.number, check_in__lte = datetime.date.today(), check_out__gte = datetime.date.today()).exists()
+        today = datetime.date.today()
+        return Guest.objects.filter(project_id=self.project_uuid, room=self.number, check_in__lte=today, check_out__gte=today, deleted=0).exists()
 
     @property
     def current_guest(self):
         from guest.models import Guest
-        return Guest.objects.filter(project_id = self.project_uuid, room = self.number, check_in__lte = datetime.date.today(), check_out__gte = datetime.date.today()).order_by('pk').last()
+        today = datetime.date.today()
+        return Guest.objects.filter(project_id=self.project_uuid, room=self.number, check_in__lte=today, check_out__gte=today).order_by('pk').last()
 
     @property
     def state(self):

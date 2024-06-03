@@ -109,7 +109,14 @@ class ShLock:
 
     def get_lock_all_passcodes(self, lock_id):
         try:
-            return self.ttlock.lock_get_all_passcodes(lock_id)
+            code_list = []
+            for i in range(20):
+                current_list = self.ttlock.lock_get_all_passcodes(lock_id, (i+1))
+                if current_list == None:
+                    break
+                code_list += current_list
+            return code_list
+            #return self.ttlock.lock_get_all_passcodes(lock_id)
         except Exception as e:
             return e
 

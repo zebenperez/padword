@@ -28,6 +28,7 @@ def room_list(project, search_name="", group=None):
         kwargs['lock_group_uuid'] = group.uuid
     if search_name != "":
         kwargs['alias__icontains'] = search_name
+        kwargs['lock_group_uuid'] = ""
     return {'room_list': Room.objects.filter(**kwargs), 'search_name': search_name}
     #if group != None:
     #    return {'room_list': Room.objects.filter(project_uuid=project.uuid, lock_group_uuid=group.uuid)}
