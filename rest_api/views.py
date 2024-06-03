@@ -16,8 +16,8 @@ from web.lock_lib import get_record_type
 from sensibo.models import ProjectSensiboUser
 from contents.models import PointOfSale
 from connector.models import ProjectStripeUser
-from padword.commons import new_ui_slug, reverse_cardkey, timestamp_to_date
-from connector.libstripe import create_stripe_payment_intent
+from padword.commons import new_ui_slug, reverse_cardkey, timestamp_to_date, get_float, get_int
+from connector.libstripe import ShStripe
 
 from datetime import datetime
 
@@ -259,7 +259,10 @@ class GuestViewSet(viewsets.ModelViewSet):
     @action(detail=False, methods=['post'])
     def add_credit(self, request):
         try:
+            amount = get_float(request.POST["amount"])
+            amount = get_int(round(amount, 2) * 100)
             code = reverse_cardkey(request.POST["card"])
+
             band = Wristband.objects.filter(code=code).first()
             if band == None:
                 logger.error("[{}]: \"Band not found!\"".format(self.request.user))
@@ -274,10 +277,12 @@ class GuestViewSet(viewsets.ModelViewSet):
                 return Response({"error": True, 'msg': 'Api Key not found!'})
 
             guest_name = "{} {}".format(guest.name, guest.surname)
-            guest_stripe = guest.stripe
+            gs = guest.stripe
+            gc = guest.card
 
-            obj_id = create_stripe_payment_intent(psu.api_key, guest_stripe.stripe_id, guest_stripe.payment_method, int(amount), "123", "eur")
-            if obj_id == "":
+            st = ShStripe(psu.api_key)
+            obj_id = st.create_stripe_payment_intent(gs.stripe_id, gs.payment_method, amount, gc.code, "eur")
+            if obj_id == "" or obj_id == None:
                 logger.error("[{}]: \"Payment error!\"".format(self.request.user))
                 return Response({"error": True, 'msg': 'Payment error!'})
 
