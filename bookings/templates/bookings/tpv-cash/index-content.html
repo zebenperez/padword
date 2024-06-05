@@ -37,6 +37,7 @@
                 <th> {% trans 'TPV' %} </th>
                 <th> {% trans 'Num' %} </th>
                 <th> {% trans 'Date' %} </th>
+                <th> {% trans 'Close Date' %} </th>
                 <th> {% trans 'Fondo' %} </th>
                 <th> {% trans 'Total Cash' %} </th>
                 <th> {% trans 'Band' %} </th>
@@ -54,6 +55,7 @@
                     <td>{{item.pos.name}}</td>
                     <td>{{item.number}}</td>
                     <td>{{item.date|date:'d-m-Y'}}</td>
+                    <td>{{item.close_date|date:'d-m-Y'}}</td>
                     <td>{{item.ini_cash}}</td>
                     <td>{{item.end_cash}}</td>
                     <td>{{item.band|floatformat:2}}</td>

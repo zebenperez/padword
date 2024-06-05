@@ -119,3 +119,11 @@ def update_number(request):
             c.number = c.id
             c.save()
     return HttpResponse("--OK--")
+
+@group_required("admins")
+def update_close_date(request):
+    cash_list = Cash.objects.all()
+    for c in cash_list:
+        c.close_date = c.date
+        c.save()
+    return HttpResponse("--OK--")

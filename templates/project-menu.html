@@ -5,7 +5,7 @@
         {% for pu in pu_list %}
             <div class="col-lg-3 col-5 menu-proyect-tab rounded px-0">
                 <a class="nav-link {%if project == pu.project.uuid%}active-tab{%endif%}" href="{% url "set-project" pu.project.uuid %}"> 
-                    <i class="fa fa-folder-open"></i> {{pu.project.name}} </a>
+                    <i class="fa fa-folder-open d-none d-lg-block"></i> {{pu.project.name}} </a>
             </div>
         {% endfor %}
     </div>
