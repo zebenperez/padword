@@ -785,6 +785,7 @@ class Cash(models.Model):
     close = models.BooleanField(_('Close'), default=False)
     zeta = models.BooleanField(_('Zeta'), default=False)
     date = models.DateTimeField(_('Creation date'), default=datetime.datetime.now, null=True)
+    close_date = models.DateTimeField(_('Creation date'), default=datetime.datetime.now, null=True)
     number = models.IntegerField(verbose_name='Numero', default=0, null=True, blank=True)
     ini_cash = models.FloatField(verbose_name='Initial amount', default=-1, null=True, blank=True)
     end_cash = models.FloatField(verbose_name='Final amount', default=0, null=True, blank=True)

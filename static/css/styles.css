@@ -1163,25 +1163,28 @@ img.img-cart-line {
 }
 
 .menu-proyect-tab {
-    margin-bottom: -19px;
+ /*   margin-bottom: -19px;*/
     margin-left: -5px;
     margin-right: 10px;
-    background-color: #ffffff;
+    /*background-color: #ffffff;*/
+    border:1px solid white;
 }
 
 .menu-proyect-tab a {
     color: #c5c5c5;
+    color: #fff;
     font-size: 0.8rem;
     letter-spacing: 0;
 }
 .menu-proyect-tab .active-tab {
-    background-color: #eff1f3;
-    color: #37a6de;
+    background-color: #35a8df;
+    color: #fff;
     font-size: 0.8rem;
     font-weight:600;
     letter-spacing: 0;
-    border-top-left-radius: 0.25rem!important;
-    border-top-right-radius: 0.25rem!important;
+    /*border-top-left-radius: 0.25rem!important;
+    border-top-right-radius: 0.25rem!important;*/
+    border-radius: 0.25rem!important;
 }
 
 .project-name {

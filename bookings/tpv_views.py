@@ -426,6 +426,7 @@ def cash_z(request):
     try:
         cash = get_or_none(Cash, request.GET["obj_id"]) 
         update_cash(cash, request.user, True)
+        cash.close_date = datetime.datetime.now()
         cash.close = True
         cash.save()
         
@@ -452,6 +453,7 @@ def cash_x(request):
         cash_x.save()
         update_cash(cash_x, request.user)
         cash_x.close = True
+        cash_x.close_date = datetime.datetime.now()
         cash_x.save()
         return render(request, 'bookings/tpv/tpv-tables-x.html', {'cash': cash, 'back_url': request.GET["back"]})
         #return redirect(reverse(request.GET["index"], kwargs = {'project_uuid': cash.project_uuid}))
