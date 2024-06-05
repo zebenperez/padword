@@ -26,7 +26,10 @@
 
 <span id="span-token">{% include "web/projects/project-token.html" %}</span>
 
-<div class="row justify-center"> <div class="col-12"> <label class="label">{% trans "Time to execute tasks" %}:</label> </div> </div>		
+<div class="row justify-center"> 
+    <div class="col-6"> <label class="label">{% trans "Time to execute tasks" %}:</label> </div> 
+    <div class="col-6"> <label class="label">{% trans "Report email" %}:</label> </div> 
+</div>		
 <div class="row justify-center">
     <div class="col-2">
         <input type="time" class="form-control input" id="time" name="time" value="{{user_lock.time_schedule_tasks}}" 
@@ -36,6 +39,12 @@
         <a id="btn-time" class="btn btn-sm ark" data-url="{%url "project-set-lock-schedule"%}"
             data-target="" data-time="" data-obj_id="{{user_lock.id}}" data-project_uuid="{{obj.uuid}}"> <i class="fas fa-chevron-right"></i></a>
     </div>
+    <div class="col-6 offset-3">
+        <input type="text" class="form-control autosave input" id="report_email" name="report_email" value="{{user_lock.report_email}}" 
+            title="{{user_lock.report_email}}" data-model-name="web.projectlockuser" data-obj-id="{{user_lock.id}}" 
+            data-url="{% url "autosave_field" %}" data-target="div-notification"/> <span id="report_email__msg"></span>	
+    </div>
+
 </div>		
 
 <div class="row justify-center m-0 p-0">

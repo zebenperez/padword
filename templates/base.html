@@ -48,19 +48,31 @@
         <div id="main-layout-container">
             {% if request.user.is_authenticated %}
 
-            <div id="main" class="row w-100 m-0">
-                <div class="header sticky-top bg-white">
-                    <div class="col-lg-1 col-1 px-2 w-100"><a href="#" class="menu-btn"><i class="fas fa-bars menu"></i></a>
+            <div id="main" class="row m-0">
+                <div class="row header sticky-top m-0 p-0 w-100" tyle="border: 1px solid blue;">
+                    <div class="col-lg-1 col-1" tyle="border: 1px solid red;"><a href="#" class="menu-btn"><i class="fas fa-bars menu"></i></a></div>
+                    <div class="col-lg-1 col-1 text-center d-none d-lg-block" style="margin-left: -50px;"><a href="/web/projects/"><img src="/static/img/Padword.png" width="120" height=""></a></div>
+                    <div class="col-lg-2 col-2 text-center d-lg-none p-0" tyle="border: 1px solid red;"><a href="/web/projects/"><img src="/static/img/padword-symbol.png" width="30" height=""></a></div>
+                    <div class="col-lg-6 offset-lg-1 col-5 project-menu text-center" tyle="border: 1px solid red;"> {% get_project_menu request.user %}</div>
+
+                    <div class="col-lg-2 col-3 project-name text-end d-none d-lg-block" tyle="border: 1px solid red;"> {% trans "Hola" %}, <strong>{{project.name}}</strong></div>
+                    <div class="col-lg-1 col-4 project-name text-center" tyle="border: 1px solid red;">
+                        <div class="col-12 d-lg-none project-name text-end"><strong>{{project.name}}</strong></div>
+                        <a href="{%url 'auth_logout'%}" title="{%trans "Log out"%}"><i class="fas fa-power-off"></i></a><br />
                     </div>
-                    <div class="col-lg-2 col-1 text-center w-100"><a href="/web/projects/"><img src="/static/img/Padword.png" width="120" height=""></a>
-                    </div>
-                    <div class="col-lg-5 col-5 w-100 project-menu text-center"> {% get_project_menu request.user %} 
-                    </div>
-                    <div class="col-lg-3 col-3 w-100 project-name text-end"> {% trans "Hola" %}, <strong>{{project.name}}</strong>
-                    </div>
-                    <div class="col-lg-1 col-1 w-100 text-center"><a href="{%url 'auth_logout'%}" title="{%trans "Log out"%}"><i class="fas fa-power-off"></i></a>
-                    </div>
+
                 </div>
+
+                {% comment %}
+                <div class="header sticky-top bg-white" tyle="border: 1px solid blue">
+                    <div class="col-lg-1 col-1 px-2 w-100"><a href="#" class="menu-btn"><i class="fas fa-bars menu"></i></a></div>
+                    <div class="col-lg-2 col-1 text-center w-100"><a href="/web/projects/"><img src="/static/img/Padword.png" width="120" height=""></a></div>
+                    <div class="col-lg-5 col-5 w-100 project-menu text-center"> {% get_project_menu request.user %}</div>
+                    <div class="col-lg-3 col-3 w-100 project-name text-end"> {% trans "Hola" %}, <strong>{{project.name}}</strong></div>
+                    <div class="col-lg-1 col-1 w-100 text-center"><a href="{%url 'auth_logout'%}" title="{%trans "Log out"%}"><i class="fas fa-power-off"></i></a></div>
+                </div>
+                {% endcomment %}
+
             </div>
 
 

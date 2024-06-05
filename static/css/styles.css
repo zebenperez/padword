@@ -1120,9 +1120,10 @@ img.img-cart-line {
 /************************************************/
 		/* NEW STYLE */
 /************************************************/
+/*
+ OLD (width grid-template-columns)
 
 .header.sticky-top.bg-white {
-/*	border-bottom: 1px solid rgba(0, 0, 0, 0.0625);*/
 	height:55px;
 	line-height: 1.5;
 	display: grid;
@@ -1136,11 +1137,23 @@ img.img-cart-line {
     width: 100%;
     align-items: center;
 }
+*/
+
+.header.sticky-top {
+    height:55px;
+	line-height: 1.5;
+    background: rgb(255,255,255);
+    background: linear-gradient(270deg, rgba(255,255,255,1) 17%, rgba(20,62,83,1) 99%);
+    position: fixed !important;
+    top: 0;
+    z-index: 1020;
+    width: 100%;
+    align-items: center;
+}
 
 .tab {
     margin-bottom: -15px;
     background-color: #ffffff;
-/*    border: 1px solid red;*/
 }
 .tab a {
     color: #143e53;
