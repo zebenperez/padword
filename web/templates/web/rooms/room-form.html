@@ -15,16 +15,19 @@
     <div class="col-2 p-0">
         <div class="info-box green adm m-1 p-2">
             <span class="title">{% trans "Orden" %}</span><span class="icon"><i class="fa fa-sort"></i></span><br /><br />
-            <span class="text-right"><input type="text" class="form-control input autosave" id="order" name="order" value="{{obj.order}}" title="{{obj.order}}"                           data-model-name="web.room" data-obj-id="{{obj.id}}" data-url="{% url "autosave_field" %}" data-target="div-notification"/></span>
-            <span id="order__msg"></span>
+            <span class="text-right">
+                <input type="text" class="form-control input autosave" id="order" name="order" value="{{obj.order}}" title="{{obj.order}}" 
+                    data-model-name="web.room" data-obj-id="{{obj.id}}" data-url="{% url "autosave_field" %}" data-target="div-notification"/>
+            </span> <span id="order__msg"></span>
         </div>
     </div>
     <div class="col-2 p-0">
         <div class="info-box green adm m-1 p-2">
             <span class="title">{% trans "Alias" %}</span><span class="icon"><i class="fas fa-user"></i></span><br /><br />
-            <span class="text-right"><input type="text" class="form-control autosave input" id="alias" name="alias" value="{{obj.alias}}" title="{{obj.alias}}" 
-                data-model-name="web.room" data-obj-id="{{obj.id}}" data-url="{% url "autosave_field" %}" data-target="div-notification"/></span>
-            <span id="alias__msg"></span>
+            <span class="text-right">
+                <input type="text" class="form-control autosave input" id="alias" name="alias" value="{{obj.alias}}" title="{{obj.alias}}" 
+                    data-model-name="web.room" data-obj-id="{{obj.id}}" data-url="{% url "autosave_field" %}" data-target="div-notification"/>
+            </span> <span id="alias__msg"></span>
         </div>
     </div>
     <div class="col-2 p-0">
@@ -32,7 +35,7 @@
             <span class="title">{% trans "Number" %}</span><span class="icon"><i class="fas fa-bed"></i></span><br /><br />
             <span class="text-right">
                 <input type="text" class="form-control autosave input" id="number" name="number" value="{{obj.number}}" title="{{obj.number}}" 
-                  data-model-name="web.room" data-obj-id="{{obj.id}}" data-url="{% url "autosave_field" %}" data-target="div-notification"/>
+                    data-model-name="web.room" data-obj-id="{{obj.id}}" data-url="{% url "autosave_field" %}" data-target="div-notification"/>
             </span>
             <span id="number__msg"></span>
         </div>
@@ -53,7 +56,8 @@
                     {% for group in group_list %}
                         <option value="{{group.uuid}}" {%if obj.lock_group_uuid == group.uuid %}selected{%endif%}>{{group.name}}</option>
                     {% endfor %}
-                </select></span>
+                </select>
+            </span>
             {%comment%}
             <select class="form-control input autosave b-bottom" id="lock_group_uuid" name="lock_group_uuid" value="{{obj.lock_group_uuid}}" 
                 data-model-name="web.room" data-obj-id="{{obj.id}}" data-url="{% url "autosave_field" %}" data-target="div-notification"/>

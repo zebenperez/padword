@@ -21,7 +21,8 @@
                         <img width="100%" src="{% if item.image %} {{item.image.url}} {%else%} {% static 'img/none.png' %}{%endif%}" 
                             class="object-fit_cover" alt="{% padword_translate item.name %}"> 
                     </div>
-                    <div class="overlay"><strong><span>{% padword_translate item.name %}</span></strong></div>
+                    <div class="aaa"><strong><span>{% padword_translate item.name %}</span></strong></div>
+                    <div class="overlay"></div>
                 </div> {%if item.url != ""%}</a>{%endif%}
             </div>
         {% endfor %}

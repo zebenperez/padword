@@ -1096,7 +1096,7 @@ def download_log(request):
 #    return render (request, "web/ekeys.html", {'page': page.text.replace('src="js/', 'src="https://app.millaveonline.com/js/')})
 #
 
-from .libstripe import *
+#from .libstripe import *
 #@group_required("admins")
 #def stripe_alta_client(reqeuest, uuid_guest):
 #    # test_client_uuid = a57efd6c-02e3-0d16-50fe-8c45d760bb8f

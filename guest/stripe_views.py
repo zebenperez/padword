@@ -1,5 +1,6 @@
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, redirect
+from django.urls import reverse
 
 from padword.decorators import group_required
 from padword.commons import show_exc, get_or_none, get_param, new_ui_slug, translate, set_session, update_cron, get_int, translate2, get_random_str
@@ -12,17 +13,17 @@ from .models import Guest, GuestStripe
 def stripe_alta_client(reqeuest, uuid_guest):
     guest = get_or_none(Guest, uuid_guest, "UUID")
     if guest is None:
-        return HttpResponse("Guest not found!")
+        return render(request, 'error_exception.html', {'exc': 'Guest not found!'})
 
     email = guest.UUID + "@padword.es"  # Email ficticio, para identificar al cliente
     name = f'{guest.name} {guest.surname}'
 
     psu = ProjectStripeUser.objects.filter(project_uuid=guest.project_id).first()
     if psu is None:
-        return HttpResponse("Api Key not found!")
+        return render(request, 'error_exception.html', {'exc': 'Api Key not found!'})
 
-    stripe = ShStripe(psu.api_key)
-    session = stripe.alta_client(email, name)
+    st = ShStripe(psu.api_key)
+    session = st.alta_client(email, name)
     return redirect(session.url, code=303)
 
 #        API_KEY = "sk_test_51PAwwh14EEiK5wo0fArBnn5kkPbri8PkDCTyiqcC2jknwqwYqjjSwHP8NQQmtVESzuIJ95TPukiN5m509SptMRAN00mmKFNDkW"
@@ -73,7 +74,7 @@ def stripe_store_payment(request, session_id):
             return HttpResponse("Payment KO")
     except Exception as e:
         print (show_exc(e))
-        return HttpResponse("Error")
+        return render(request, 'error_exception.html', {'exc':show_exc(e)})
 
 @group_required("admins")
 def stripe_error_payment(request):
@@ -109,6 +110,7 @@ def stripe_test_payment(request, test_type=-1):
     #import stripe
 
     API_KEY = "sk_test_51PAwwh14EEiK5wo0fArBnn5kkPbri8PkDCTyiqcC2jknwqwYqjjSwHP8NQQmtVESzuIJ95TPukiN5m509SptMRAN00mmKFNDkW"
+    st = ShStripe(API_KEY)
     payment_method_data = {
             # "type": "card",
             "card": {
@@ -129,7 +131,9 @@ def stripe_test_payment(request, test_type=-1):
         return HttpResponse("OK")
     elif test_type == 0:
         import random
-        obj_id = create_stripe_payment_intent(API_KEY, "cus_Q9LsDjy8eXJZX6", "pm_1PJ3GL14EEiK5wo03ZnybHBz", int(random.randint(1,100000)), "123", "eur")
+        st = ShStripe(API_KEY) 
+        obj_id = st.create_stripe_payment_intent("cus_Q9LsDjy8eXJZX6", "pm_1PJ3GL14EEiK5wo03ZnybHBz", int(random.randint(1,100000)), "123", "eur")
+        #obj_id = create_stripe_payment_intent(API_KEY, "cus_Q9LsDjy8eXJZX6", "pm_1PJ3GL14EEiK5wo03ZnybHBz", int(random.randint(1,100000)), "123", "eur")
 
     elif test_type == 1:
 
@@ -147,13 +151,15 @@ def stripe_test_payment(request, test_type=-1):
                 "state": "Santa Cruz de Tenerife"
             }
         }
-        obj_id = create_stripe_customer(API_KEY, customer_data)
+        obj_id = st.create_stripe_customer(customer_data)
+        #obj_id = create_stripe_customer(API_KEY, customer_data)
     elif test_type == 2:
         customer_data = {
             "email": "none@shidix.com",
             "name": "Shidix",
         }
-        obj_id = create_stripe_customer(API_KEY, customer_data)
+        obj_id = st.create_stripe_customer(customer_data)
+        #obj_id = create_stripe_customer(API_KEY, customer_data)
         intents = stripe.PaymentIntent.list(customer=obj_id, limit=1)
         for intent in intents:
             break
@@ -166,7 +172,8 @@ def stripe_test_payment(request, test_type=-1):
             "email": "none@shidix.com",
             "name": "Shidix",
         }
-        obj_id = create_stripe_customer(API_KEY, customer_data)
+        obj_id = st.create_stripe_customer(customer_data)
+        #obj_id = create_stripe_customer(API_KEY, customer_data)
 
         session = stripe.checkout.Session.create(
             customer = obj_id,

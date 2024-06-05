@@ -16,7 +16,7 @@
     <div class="div-rooms-content">
         <div class="locks-head">{{ group.name }} </div>
         <div class="locks-group d-flex flex-wrap pl-2">
-            {% room_list project search_name group %} [{{search_name}}]
+            {% room_list project search_name group %} {#[{{search_name}}]#}
         </div>
     </div>
 {% endfor %}
