@@ -1,10 +1,20 @@
+from django.http import HttpResponse
+from django.contrib import auth
 from django.shortcuts import render, redirect
+from django.urls import reverse
 from django.utils.translation import ugettext_lazy as _ 
 
 from .models import Guest, Wristband, WristbandBalance, WristbandType
-from web.models import Project
+from web.models import Project, Waiter
 from padword.commons import show_exc, get_or_none, get_param, reverse_cardkey, get_float
 from padword.decorators import group_required
+from bookings.models import Form
+from bookings.common_lib import user_in_group
+from connector.models import ProjectStripeUser
+from connector.libstripe import ShStripe
+
+import logging
+logger = logging.getLogger(__name__)
 
 
 '''
@@ -216,5 +226,118 @@ def wristbands_search_by_project(request):
     except Exception as e:
         print(e)
         return render(request, 'error_exception.html', {'exc':show_exc(e)})
+
+'''
+    Wristbands Direct Pay
+'''
+def check_user(user):
+    if not user.is_authenticated:
+        return False
+    if not user_in_group(user, "waiters"):
+        return False
+    return True
+
+def pay_access(request, project_uuid):
+    project = get_or_none(Project, project_uuid, "uuid")
+
+    context = {'project_uuid': project.uuid}
+    if check_user(request.user):
+        next_url = reverse("wristband-pay-index", kwargs = context)
+    else:
+        auth.logout(request)
+        next_url = reverse("wristband-pay-login-form")
+
+    form = Form.objects.filter(form_type__code="wb-pay", form_type__project_uuid=project.uuid).first()
+    context["next_url"] = next_url
+    context["cat"] = form.get_category
+    return render(request, 'wristbands/pay-welcome.html', context)
+
+def pay_login_form(request):
+    return render(request, "wristbands/pay-form-login.html", {'project_uuid': request.GET["project_uuid"], 'error': ''})
+
+def pay_login(request):
+    '''
+        Guest access by form
+    '''
+    try:
+        project_uuid = request.POST["project_uuid"]
+        username = request.POST["username"]
+        password = request.POST["password"]
+
+        if username == "" or password == "":
+            err = _('You must to complete username and password!')
+            return render(request, "wristbands/pay-form-login.html", {'project_uuid': project_uuid, 'error': err})
+
+        project = get_or_none(Project, project_uuid, "uuid")
+
+        user = auth.authenticate(request, username=username, password=password)
+        if user is None:
+            err = _('Username or password incorrect!')
+            return render(request, "wristbands/pay-form-login.html", {'project_uuid': project_uuid, 'error': err})
+
+        waiter = Waiter.objects.filter(username = username, project_uuid = project.uuid).first()
+        if waiter == None:
+            err = _('Waiter not found!')
+            return render(request, "wristbands/pay-form-login.html", {'project_uuid': project_uuid, 'error': err})
+
+        auth.login(request, user)
+
+        return redirect(reverse("wristband-pay-index", kwargs = {'project_uuid': project_uuid}))
+    except Exception as e:
+        logger.error("[pay-login] {}".format(str(e)))
+        return render(request, 'error_exception.html', {'exc':show_exc(e)})
+
+@group_required("waiters")
+def pay_index(request, project_uuid):
+    try:
+        project = get_or_none(Project, project_uuid, "uuid")
+
+        return render(request, "wristbands/pay-index.html", {'project': project})
+    except Exception as e:
+        print(e)
+        return render(request, "error_exception.html", {'exc':show_exc(e)})
+
+@group_required("waiters")
+def pay_send(request):
+    try:
+        project_id = get_param(request.GET, "obj_id")
+        project = get_or_none(Project, project_id)
+        code = reverse_cardkey(get_param(request.GET, "band"))
+        amount = get_float(get_param(request.GET, "amount"))
+            
+        band = Wristband.objects.filter(code=code).first()
+        if band == None:
+            return HttpResponse(_('Pulsera no encontrada!'))
+            
+        guest = band.guest
+        if not guest.have_valid_booking():
+            return HttpResponse(_('El huésped no tiene una reserva válida!'))
+
+        if guest.project_id != project.id:
+            return HttpResponse(_('La pulsera no es válida!'))
+
+        psu = ProjectStripeUser.objects.filter(project_uuid=guest.project_id).first()
+        if psu is None:
+            return HttpResponse(_('No se ha encontrado la Api Key!'))
+
+        guest_name = "{} {}".format(guest.name, guest.surname)
+        gs = guest.stripe
+        gc = guest.card
+
+        st = ShStripe(psu.api_key)
+        obj_id = st.create_stripe_payment_intent(gs.stripe_id, gs.payment_method, amount, gc.code, "eur")
+        if obj_id == "" or obj_id == None:
+            return HttpResponse(_('Error procesando el pago!'))
+
+        return HttpResponse(_('El pago se ha añadido correctamente al huésped: {}!'.format(guest_name)))
+    except Exception as e:
+        print(e)
+        return render(request, "error_exception.html", {'exc':show_exc(e)})
+
+@group_required("waiters")
+def pay_close(request):
+    auth.logout(request)
+    project_uuid = request.GET["project_uuid"] if "project_uuid" in request.GET else ""
+    return redirect(reverse("wristband-pay-access", kwargs = {'project_uuid': project_uuid}))
 
 

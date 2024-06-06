@@ -104,5 +104,14 @@ urlpatterns = [
     path('stripe/store-payment/<str:session_id>', stripe_views.stripe_store_payment, name='stripe-store-payment'),
     path('stripe/error-payment/<str:session_id>', stripe_views.stripe_error_payment, name='stripe-error-payment'),
     #path('stripe/do-payment/', stripe_views.stripe_payment, name='stripe-payment'),
+
+    #-------------------- WRISTBANDS PAY --------------#
+    path('wristbands/pay-access/<slug:project_uuid>/', wristband_views.pay_access, name='wristband-pay-access'),
+    path('wristbands/pay-login/', wristband_views.pay_login, name='wristband-pay-login'),
+    path('wristbands/pay-login-form/', wristband_views.pay_login_form, name='wristband-pay-login-form'),
+    path('wristbands/pay-close/', wristband_views.pay_close, name='wristband-pay-close'),
+    path('wristbands/pay-send/', wristband_views.pay_send, name='wristband-pay-send'),
+    path('wristbands/pay-index/<slug:project_uuid>/', wristband_views.pay_index, name='wristband-pay-index'),
+ 
 ]
 
