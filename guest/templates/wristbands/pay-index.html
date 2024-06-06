@@ -1,0 +1,42 @@
+{% load i18n bookings_tag common_tag padword_tags tpv_tags static %}
+{%block extralinks%} <link rel="stylesheet" href="{% static 'css/tpv.css' %}?v=1234" > {% endblock %}
+        
+<div id="base">
+    <div id="base-tpv-mobile">
+        <div class="row left-tpv w-100 text-center m-0">
+            <div class="col-lg-3 col-3 name">
+                <img src="{%if project.logo%}{{project.logo.url}}{%endif%}" alt="logo" width="15%"/>
+            </div>
+            <div class="col-lg-3 offset-lg-2 col-7 text-center">
+                <h1>{% trans "COBRAR" %}</h1>
+            </div>
+            <div class="col-lg-1 offset-lg-3 col-2 text-center">
+                <button class="btn btn-header-pwa ark" data-url="{% url "wristband-pay-close" %}" data-target="base" 
+                    data-project_uuid="{{project_uuid}}"> <i class="fas fa-power-off"></i></button>
+            </div>
+        </div>
+        <div id="main" class="main-tpv-mobile" style="padding:50px">
+            <h1>Importe</h1>
+            <input type="text" class="form-control text-center" id="amount" name="amount" />
+            <br/> <br/>
+            <h1>Tarjeta</h1>
+            <input type="text" class="form-control text-center" id="band" name="band" />
+            <br/> <br/>
+            <div id="div-result" style="border:1px solid #333; height:100px;"></div>
+            <button id="btn-send" class="ark" style="display:none" data-url="{% url "wristband-pay-send" %}" data-target="div-result" 
+                data-obj_id="{{project.id}}" data-band="" data-amount=""></button>
+        </div>
+    </div>
+</div>
+<script>
+    $("#amount").change(function(){ $("#btn-send").data("amount", $(this).val()); });
+    $("#band").change(function(){ 
+        if($("#amount").val() == "")
+            alert("{% trans "Debe indicar un importe!" %}");
+        else {
+            $("#btn-send").data("band", $(this).val()); 
+            $("#btn-send").click();
+        }
+    });
+</script>
+
