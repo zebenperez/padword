@@ -6,7 +6,7 @@ from django.utils.translation import ugettext_lazy as _
 
 from .models import Guest, Wristband, WristbandBalance, WristbandType
 from web.models import Project, Waiter
-from padword.commons import show_exc, get_or_none, get_param, reverse_cardkey, get_float
+from padword.commons import show_exc, get_or_none, get_param, reverse_cardkey, get_float, get_int
 from padword.decorators import group_required
 from bookings.models import Form
 from bookings.common_lib import user_in_group
@@ -300,10 +300,11 @@ def pay_index(request, project_uuid):
 @group_required("waiters")
 def pay_send(request):
     try:
-        project_id = get_param(request.GET, "obj_id")
-        project = get_or_none(Project, project_id)
+        project_uuid = get_param(request.GET, "obj_id")
+        #project = get_or_none(Project, project_id, "uuid")
         code = reverse_cardkey(get_param(request.GET, "band"))
         amount = get_float(get_param(request.GET, "amount"))
+        amount = get_int(round(amount, 2) * 100)
             
         band = Wristband.objects.filter(code=code).first()
         if band == None:
@@ -313,7 +314,7 @@ def pay_send(request):
         if not guest.have_valid_booking():
             return HttpResponse(_('El huésped no tiene una reserva válida!'))
 
-        if guest.project_id != project.id:
+        if guest.project_id != project_uuid:
             return HttpResponse(_('La pulsera no es válida!'))
 
         psu = ProjectStripeUser.objects.filter(project_uuid=guest.project_id).first()
