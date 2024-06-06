@@ -49,8 +49,8 @@
             {% if request.user.is_authenticated %}
 
             <div id="main" class="row m-0">
-                <div class="row header sticky-top m-0 p-0 w-100" tyle="border: 1px solid blue;">
-                    <div class="col-lg-1 col-1" tyle="border: 1px solid red;"><a href="#" class="menu-btn"><i class="fas fa-bars menu"></i></a></div>
+                <div class="row header sticky-top m-0 p-0 w-100">
+                    <div class="col-lg-1 col-1"><a href="#" class="menu-btn"><i class="fas fa-bars menu"></i></a></div>
                     <div class="col-lg-1 col-1 text-center d-none d-lg-block" style="margin-left: -50px;"><a href="/web/projects/"><img src="/static/img/Padword.png" width="120" height=""></a></div>
                     <div class="col-lg-2 col-2 text-center d-lg-none p-0" tyle="border: 1px solid red;"><a href="/web/projects/"><img src="/static/img/padword-symbol.png" width="30" height=""></a></div>
                     <div class="col-lg-6 offset-lg-1 col-5 project-menu text-center" tyle="border: 1px solid red;"> {% get_project_menu request.user %}</div>
