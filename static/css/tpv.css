@@ -882,3 +882,13 @@ img.img-fill.mobile
     -webkit-box-shadow: 0px rgb(f f f / 0% ;
 }
 
+/**** wristbands pay access  ****/
+
+.pay-access {
+    height: 100px;
+}
+
+.pay-access img {
+    height: 80px;
+    border:1px solid red !important;
+}
