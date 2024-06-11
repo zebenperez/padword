@@ -103,7 +103,8 @@ def room_set_group(request):
             obj.lock_group_uuid = val
             obj.save()
             lock_list = Lock.get_locks_by_room(obj)
-            obj.set_locks_group(val, lock_list)
+            value = val if val != "" else "0" #'0' es sin grupo para TTLOCK
+            obj.set_locks_group(value, lock_list)
             return HttpResponse("")
         return HttpResponse(_("Error, room not found!"))
     except Exception as e:

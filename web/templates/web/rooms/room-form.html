@@ -52,7 +52,8 @@
             <span class="text-right">
                 <select class="form-control input b-bottom ark_change" id="lock_group_uuid" name="lock_group_uuid" 
                     data-url="{% url "room-set-group" %}" data-target="div-notification" data-obj_id="{{obj.id}}"/>
-                    <option value="" {%if obj.lock_group_uuid != ""%}disabled{%endif%}>{% trans "-- Select a group" %}</option>
+                    {#<option value="" {%if obj.lock_group_uuid != ""%}disabled{%endif%}>{% trans "-- Select a group" %}</option>#}
+                    <option value="">{% trans "-- Select a group" %}</option>
                     {% for group in group_list %}
                         <option value="{{group.uuid}}" {%if obj.lock_group_uuid == group.uuid %}selected{%endif%}>{{group.name}}</option>
                     {% endfor %}
