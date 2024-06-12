@@ -308,18 +308,21 @@ def pay_send(request):
             
         band = Wristband.objects.filter(code=code).first()
         if band == None:
-            return HttpResponse(_('Pulsera no encontrada!'))
+            return HttpResponse(_('Error: Pulsera no encontrada!'))
             
         guest = band.guest
         if not guest.have_valid_booking():
-            return HttpResponse(_('El huésped no tiene una reserva válida!'))
+            return render(request, "wristbands/pay-result.html", {'error':True, 'msg': _('Error: El huésped no tiene una reserva válida!')})
+            #return HttpResponse(_('Error: El huésped no tiene una reserva válida!'))
 
         if guest.project_id != project_uuid:
-            return HttpResponse(_('La pulsera no es válida!'))
+            return render(request, "wristbands/pay-result.html", {'error':True, 'msg': _('Error: La pulsera no es válida!')})
+            #return HttpResponse(_('Error: La pulsera no es válida!'))
 
         psu = ProjectStripeUser.objects.filter(project_uuid=guest.project_id).first()
         if psu is None:
-            return HttpResponse(_('No se ha encontrado la Api Key!'))
+            return render(request, "wristbands/pay-result.html", {'error':True, 'msg': _('No se ha encontrado la Api Key!')})
+            #return HttpResponse(_('No se ha encontrado la Api Key!'))
 
         guest_name = "{} {}".format(guest.name, guest.surname)
         gs = guest.stripe
@@ -328,9 +331,11 @@ def pay_send(request):
         st = ShStripe(psu.api_key)
         obj_id = st.create_stripe_payment_intent(gs.stripe_id, gs.payment_method, amount, gc.code, "eur")
         if obj_id == "" or obj_id == None:
-            return HttpResponse(_('Error procesando el pago!'))
+            return render(request, "wristbands/pay-result.html", {'error':True, 'msg': _('Error procesando el pago!')})
+            #return HttpResponse(_('Error procesando el pago!'))
 
-        return HttpResponse(_('El pago se ha añadido correctamente al huésped: {}!'.format(guest_name)))
+        return render(request, "wristbands/pay-result.html", {'error':True, 'msg': _('El pago se ha añadido correctamente al huésped: {}!'.format(guest_name))})
+        #return HttpResponse(_('El pago se ha añadido correctamente al huésped: {}!'.format(guest_name)))
     except Exception as e:
         print(e)
         return render(request, "error_exception.html", {'exc':show_exc(e)})

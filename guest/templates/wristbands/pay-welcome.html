@@ -1,5 +1,7 @@
 {% extends "base_guest.html" %}
-{% load i18n padword_tags %}
+{% load i18n static padword_tags %}
+
+{%block extralinks%} <link rel="stylesheet" href="{% static 'css/wristbands-pay.css' %}?v=1234" > {% endblock %}
 
 {% block central_content %}
     <div id="div-main" class="welcome-page" style="background-image: url('{%if cat.image%}{{cat.image.url}}{%endif%}')">
