@@ -306,9 +306,14 @@ def pay_send(request):
         amount = get_float(get_param(request.GET, "amount"))
         amount = get_int(round(amount, 2) * 100)
             
+        if amount == 0:
+            return render(request, "wristbands/pay-result.html", {'error':True, 'msg': _('Error: No ha introducido un importe!')})
+            #return HttpResponse(_('Error: No ha introducido un importe!'))
+
         band = Wristband.objects.filter(code=code).first()
         if band == None:
-            return HttpResponse(_('Error: Pulsera no encontrada!'))
+            return render(request, "wristbands/pay-result.html", {'error':True, 'msg': _('Error: Pulsera no encontrada!')})
+            #return HttpResponse(_('Error: Pulsera no encontrada!'))
             
         guest = band.guest
         if not guest.have_valid_booking():
