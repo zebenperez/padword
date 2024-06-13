@@ -301,29 +301,31 @@ def pay_index(request, project_uuid):
 def pay_send(request):
     try:
         project_uuid = get_param(request.GET, "obj_id")
-        #project = get_or_none(Project, project_id, "uuid")
-        code = reverse_cardkey(get_param(request.GET, "band"))
+        project = get_or_none(Project, project_uuid, "uuid")
+        code = get_param(request.GET, "value")
         amount = get_float(get_param(request.GET, "amount"))
         amount = get_int(round(amount, 2) * 100)
+
+        if "lg" in request.GET:
+            code = reverse_cardkey(code)
             
         if amount == 0:
             return render(request, "wristbands/pay-result.html", {'error':True, 'msg': _('Error: No ha introducido un importe!')})
             #return HttpResponse(_('Error: No ha introducido un importe!'))
 
-        band = Wristband.objects.filter(code=code).first()
+        band = Wristband.get_active_by_project(project, code)
         if band == None:
             return render(request, "wristbands/pay-result.html", {'error':True, 'msg': _('Error: Pulsera no encontrada!')})
             #return HttpResponse(_('Error: Pulsera no encontrada!'))
             
+        #guest = band.guest
+        #if not guest.have_valid_booking():
+        #    return render(request, "wristbands/pay-result.html", {'error':True, 'msg': _('Error: El huésped no tiene una reserva válida!')})
+
+        #if guest.project_id != project_uuid:
+        #    return render(request, "wristbands/pay-result.html", {'error':True, 'msg': _('Error: La pulsera no es válida!')})
+
         guest = band.guest
-        if not guest.have_valid_booking():
-            return render(request, "wristbands/pay-result.html", {'error':True, 'msg': _('Error: El huésped no tiene una reserva válida!')})
-            #return HttpResponse(_('Error: El huésped no tiene una reserva válida!'))
-
-        if guest.project_id != project_uuid:
-            return render(request, "wristbands/pay-result.html", {'error':True, 'msg': _('Error: La pulsera no es válida!')})
-            #return HttpResponse(_('Error: La pulsera no es válida!'))
-
         psu = ProjectStripeUser.objects.filter(project_uuid=guest.project_id).first()
         if psu is None:
             return render(request, "wristbands/pay-result.html", {'error':True, 'msg': _('No se ha encontrado la Api Key!')})
