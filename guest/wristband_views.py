@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.http import HttpResponse
 from django.contrib import auth
 from django.shortcuts import render, redirect
@@ -12,6 +13,9 @@ from bookings.models import Form
 from bookings.common_lib import user_in_group
 from connector.models import ProjectStripeUser
 from connector.libstripe import ShStripe
+from padword.email_lib import send_email
+
+from datetime import datetime
 
 import logging
 logger = logging.getLogger(__name__)
@@ -342,8 +346,14 @@ def pay_send(request):
             #return HttpResponse(_('Error procesando el pago!'))
 
         add_balance_to_band(guest_name, amount, band)
-        return render(request, "wristbands/pay-result.html", {'error':True, 'msg': _('El pago se ha añadido correctamente al huésped: {}!'.format(guest_name))})
-        #return HttpResponse(_('El pago se ha añadido correctamente al huésped: {}!'.format(guest_name)))
+
+        try:
+            pay_send_email(amount, guest.email)
+        except Exception as e:
+            print(e)
+
+        msg = _('El pago se ha añadido correctamente al huésped: {}!'.format(guest_name))
+        return render(request, "wristbands/pay-result.html", {'error':True, 'msg': msg})
     except Exception as e:
         print(e)
         return render(request, "error_exception.html", {'exc':show_exc(e)})
@@ -358,6 +368,11 @@ def add_balance_to_band(guest_name, amount, band):
     desc = _("Pago directo con tarjeta del huésped {} por un importe de {} euros".format(guest_name, amount))
     #desc += "<a class='ark' data-url='{}' data-target-modal='common-modal' data-obj_id='{}'> #{}</a>".format(url, fi.id, fi.id)
     #WristbandBalance.objects.create(amount=(get_float(fi.amount)*-1), desc=desc, wristband=band)
+
+def pay_send_email(amount, email):
+    subject = "Pago con tarjeta {}".format(datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
+    body = "Ha realizado un pago con tarjeta por un importe de {} euros".format(amount) 
+    send_email(subject, body, settings.EMAIL_FROM_DEFAULT, [email])
 
 
 
