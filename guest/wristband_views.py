@@ -339,6 +339,7 @@ def pay_send(request):
             return render(request, "wristbands/pay-result.html", {'error':True, 'msg': _('Error procesando el pago!')})
             #return HttpResponse(_('Error procesando el pago!'))
 
+        add_balance_to_band(guest_name, amount, band)
         return render(request, "wristbands/pay-result.html", {'error':True, 'msg': _('El pago se ha añadido correctamente al huésped: {}!'.format(guest_name))})
         #return HttpResponse(_('El pago se ha añadido correctamente al huésped: {}!'.format(guest_name)))
     except Exception as e:
@@ -350,5 +351,11 @@ def pay_close(request):
     auth.logout(request)
     project_uuid = request.GET["project_uuid"] if "project_uuid" in request.GET else ""
     return redirect(reverse("wristband-pay-access", kwargs = {'project_uuid': project_uuid}))
+
+def add_balance_to_band(guest_name, amount, band):
+    desc = _("Pago directo con tarjeta del huésped {} por un importe de {} euros".format(guest_name, amount))
+    #desc += "<a class='ark' data-url='{}' data-target-modal='common-modal' data-obj_id='{}'> #{}</a>".format(url, fi.id, fi.id)
+    #WristbandBalance.objects.create(amount=(get_float(fi.amount)*-1), desc=desc, wristband=band)
+
 
 

@@ -5,8 +5,8 @@
         <div class="col-lg-1 col-2"><h2 class="m-0">{% trans 'Rooms' %} </h2> {% include "common-modal.html" %}</div>
         <div class="col-lg-11 col-10">
             <input type="text" class="autosearch form-control form-control-dark w-100 input-blue" name="room_search_name" id="room_search_name" 
-                placeholder="{% trans 'Buscar por nombre' %}" data-url="{%url "rooms-search-by-project"%}" data-target="room-list" data-related="room_search_name"
-                value="{{request.session.room_search_name}}"/>
+                placeholder="{% trans 'Buscar por nombre' %}" data-url="{%url "rooms-search-by-project"%}" data-target="room-list" 
+                data-related="room_search_name" value="{{request.session.room_search_name}}"/>
         </div>
     </div>
 

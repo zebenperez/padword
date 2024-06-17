@@ -43,8 +43,9 @@ def room_group_list_by_project(project, search_name):
 @register.inclusion_tag('web/rooms-by-project/rooms-by-group.html')
 def room_list_by_project(project, search_name="", group=None):
     kwargs = {'project_uuid': project.uuid}
-    if group != None:
-        kwargs['lock_group_uuid'] = group.uuid
+    #if group != None:
+    #    kwargs['lock_group_uuid'] = group.uuid
+    kwargs['lock_group_uuid'] = group.uuid if group != None else ""
     if search_name != "":
         kwargs['alias__icontains'] = search_name
     return {'room_list': Room.objects.filter(**kwargs), 'search_name': search_name}
