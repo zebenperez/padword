@@ -1,6 +1,6 @@
 {% load i18n %}
 
-<button id="btn-scan" class="btn btn-lg btn-success scan-nfc-pay" data-obj_id="{{project.id}}" data-amount="" data-scan-container="div-scan-band" 
+<button id="btn-scan" class="btn btn-lg btn-success scan-nfc-pay" data-obj_id="{{project.uuid}}" data-amount="" data-scan-container="div-scan-band" 
     data-scan-url="{%url "wristband-pay-send"%}" data-scan-target="div-result"> Escanear pulsera (NFC)</button>
 
 <div id="div-scan-band" class="hide">

@@ -23,7 +23,7 @@
                 <input type="text" class="form-control text-center" id="band" name="band" style="padding:20px;border-radius:15px;font-size:1.8rem;"/>
                 <br/> <br/>
                 <button id="btn-send" class="ark" style="display:none" data-url="{% url "wristband-pay-send" %}" data-target="div-result" 
-                    data-obj_id="{{project.uuid}}" data-band="" data-amount=""></button>
+                    data-obj_id="{{project.uuid}}" data-value="" data-amount="" data-lg="True"></button>
             </div>
             <div class="d-lg-none"> {% include "wristbands/scan-nfc.html" %} </div>
             <div id="div-result" class="fixed-bottom my-3 mx-3"></div>
@@ -36,7 +36,7 @@
         if($("#amount").val() == "")
             alert("{% trans "Debe indicar un importe!" %}");
         else {
-            $("#btn-send").data("band", $(this).val()); 
+            $("#btn-send").data("value", $(this).val()); 
             $("#btn-send").click();
         }
     });
