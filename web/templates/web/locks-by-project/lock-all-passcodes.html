@@ -56,8 +56,12 @@
             <tr id="tr-{{item.keyboardPwdId}}">
                 <td class="search-code" data-id="{{item.keyboardPwdId}}"> {{item.keyboardPwd}} </td> 
                 <td class="search-name" data-id="{{item.keyboardPwdId}}"> {{item.keyboardPwdName}} </td> 
+                <td> {{item.startDate|lock_date_to_local:obj}} (Local) <br/>{{item.startDate|str_to_date}} (GMT) </td> 
+                <td> {{item.endDate|lock_date_to_local:obj}} (Local) <br/>{{item.endDate|str_to_date}} (GMT) </td> 
+                {%comment%}
                 <td> {{item.startDate|str_to_date}} (Local) <br/>{{item.startDate|str_to_date}} (GMT) </td> 
                 <td> {{item.endDate|str_to_date}} (Local) <br/>{{item.endDate|str_to_date}} (GMT) </td> 
+                {%endcomment%}
                 <td class="search-guest" data-id="{{item.keyboardPwdId}}"> {{obj|get_code_guest:item.keyboardPwd}} </td> 
                 <td> {{item.keyboardPwdType|get_code_type:item.endDate}} </td> 
                 <td class="text-end">
