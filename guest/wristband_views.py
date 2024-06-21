@@ -5,7 +5,7 @@ from django.shortcuts import render, redirect
 from django.urls import reverse
 from django.utils.translation import ugettext_lazy as _ 
 
-from .models import Guest, Wristband, WristbandBalance, WristbandType
+from .models import Guest, Wristband, WristbandBalance, WristbandType, WristbandLog
 from web.models import Project, Waiter
 from padword.commons import show_exc, get_or_none, get_param, reverse_cardkey, get_float, get_int
 from padword.decorators import group_required
@@ -345,7 +345,7 @@ def pay_send(request):
             return render(request, "wristbands/pay-result.html", {'error':True, 'msg': _('Error procesando el pago!')})
             #return HttpResponse(_('Error procesando el pago!'))
 
-        add_balance_to_band(guest_name, amount, band)
+        add_log_to_band(guest_name, amount, band)
 
         try:
             pay_send_email(amount, guest.email)
@@ -364,10 +364,9 @@ def pay_close(request):
     project_uuid = request.GET["project_uuid"] if "project_uuid" in request.GET else ""
     return redirect(reverse("wristband-pay-access", kwargs = {'project_uuid': project_uuid}))
 
-def add_balance_to_band(guest_name, amount, band):
+def add_log_to_band(guest_name, amount, band):
     desc = _("Pago directo con tarjeta del huésped {} por un importe de {} euros".format(guest_name, amount))
-    #desc += "<a class='ark' data-url='{}' data-target-modal='common-modal' data-obj_id='{}'> #{}</a>".format(url, fi.id, fi.id)
-    #WristbandBalance.objects.create(amount=(get_float(fi.amount)*-1), desc=desc, wristband=band)
+    WristbandLog.objects.create(desc=desc, wristband=band)
 
 def pay_send_email(amount, email):
     subject = "Pago con tarjeta {}".format(datetime.now().strftime("%Y-%m-%d %H:%M:%S"))

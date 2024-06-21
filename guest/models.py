@@ -613,6 +613,15 @@ class WristbandBalance(models.Model):
         verbose_name = _("Wristband balance")
         verbose_name_plural = _("Wristbands balance")
 
+class WristbandLog(models.Model):
+    date = models.DateTimeField(verbose_name=_('Date'), default=datetime.datetime.now)
+    desc = models.TextField(verbose_name=_("Description"), default="", blank=True)
+    wristband = models.ForeignKey(Wristband, verbose_name=_("Wristband"), on_delete=models.CASCADE, blank=True, null=True, related_name="logs")
+
+    class Meta:
+        verbose_name = _("Wristband log")
+        verbose_name_plural = _("Wristbands log")
+
 
 '''
     Regime

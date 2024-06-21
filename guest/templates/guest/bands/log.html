@@ -1,0 +1,13 @@
+{% load i18n padword_tags %}
+
+<div class="d-flex">
+    <table class="table table-striped table-hover" id="main-table">
+        <thead> <tr class="small"> <th> {% trans 'Date' %} </th> <th> {% trans 'Description' %} </th> </tr> </thead>
+        <tbody id="table-list-guests"> 
+            {% for log in band.logs.all %}
+                <tr class="small guest-row" id="row_{{item.id}}"> <td> {{ log.date }} </td> <td> {{ log.desc|safe }} </td> </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
