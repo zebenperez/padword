@@ -309,7 +309,7 @@ class ProjectUser(models.Model):
     #channels = models.ManyToManyField(Channel, verbose_name=_("Channels"), blank=True)
     project_uuid = models.CharField(max_length = 255, verbose_name= _('Project UUID'), default='')
     username = models.CharField(max_length = 255, verbose_name= _('Username'), default='')
-    menus = models.CharField(max_length = 1000, verbose_name= _('Menus'), default='orders;guests;notifications')
+    menus = models.CharField(max_length = 1000, verbose_name= _('Menus'), default='orders;guests;notifications', blank=True)
     menus_promo = models.CharField(max_length = 1000, verbose_name= _('Menus Promo'), default='', blank=True)
     image = models.ImageField(upload_to=upload_image, blank=True, verbose_name="Imagen de perfil", help_text="Select file to upload")
     menus_mod = models.ManyToManyField(Menu, verbose_name=_("Menus"), blank=True, related_name="menus")
