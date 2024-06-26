@@ -410,7 +410,8 @@ a.btn.btn-primary.ark, a.btn.btn-secondary.ark {
 .toolbar-search.guests { 
     align-items: center;
     display:grid; 
-    grid-template-columns: 3% 50% 47%;
+    /*grid-template-columns: 3% 50% 47%;*/
+    grid-template-columns: 3% 30% 20% 10% 10% 27%;
 }
 
 input.input-blue {

@@ -31,37 +31,74 @@ def index(request):
 '''
     Guests
 '''
-def get_guest_items(request, ini=0, end=ITEMS_PER_PAGE):
-    filters_to_search = ["name__icontains", "room", "surname__icontains", "email__icontains", "mobile__icontains"]
-    search_value = request.session["guest_search_name"] if "guest_search_name" in request.session else ""
-    project_uuid = request.session["guest_search_project"] if "guest_search_project" in request.session else ""
-    #project_uuid = request.session["project_uuid"] if "project_uuid" in request.session else ""
+#def get_guest_items(request, ini=0, end=ITEMS_PER_PAGE):
+#    filters_to_search = ["name__icontains", "room", "surname__icontains", "email__icontains", "mobile__icontains"]
+#    search_value = request.session["guest_search_name"] if "guest_search_name" in request.session else ""
+#    project_uuid = request.session["guest_search_project"] if "guest_search_project" in request.session else ""
+#    #project_uuid = request.session["project_uuid"] if "project_uuid" in request.session else ""
+#
+#    full_query = Q()
+#    if search_value != "":
+#        for myfilter in filters_to_search:
+#            full_query |= Q(**{myfilter: search_value})
+#        #projects_uuid = [item.uuid for item in webmod.Project.objects.filter(name__icontains = search_value)]
+#        #full_query |= Q(**{'project_id__in': projects_uuid})
+#        rooms_number = [item.number for item in webmod.Room.objects.filter(alias__icontains = search_value)]
+#        full_query |= Q(**{'room__in': rooms_number})
+#    if project_uuid != "":
+#        full_query &= Q(**{'project_id': project_uuid})
+#
+#    items = Guest.objects.filter(full_query) if len(full_query) > 0 else Guest.objects.all()
+#    #items = Guest.objects.filter(deleted=0).filter(full_query) if len(full_query) > 0 else Guest.objects.filter(deleted=0)
+#    return items[ini:end], items.count()
+#    #return Guest.objects.filter(full_query) if len(full_query) > 0 else Guest.objects.all()
+
+def get_guest_items(request):
+    filters_to_search = ["name__icontains", "surname__icontains", "email__icontains", "mobile__icontains"]
+    search_value = request.session["gs_name"] if "gs_name" in request.session else ""
+    room_value = request.session["gs_room"] if "gs_room" in request.session else ""
+    ini_date = request.session["gs_ini_date"] if "gs_ini_date" in request.session else ""
+    end_date = request.session["gs_end_date"] if "gs_end_date" in request.session else ""
+    project_uuid = request.session["gs_project"] if "gs_project" in request.session else ""
 
     full_query = Q()
     if search_value != "":
         for myfilter in filters_to_search:
             full_query |= Q(**{myfilter: search_value})
-        #projects_uuid = [item.uuid for item in webmod.Project.objects.filter(name__icontains = search_value)]
-        #full_query |= Q(**{'project_id__in': projects_uuid})
+    if room_value != "":
         rooms_number = [item.number for item in webmod.Room.objects.filter(alias__icontains = search_value)]
-        full_query |= Q(**{'room__in': rooms_number})
+        full_query &= Q(**{'room__in': rooms_number})
+    if ini_date != "":
+        full_query &= Q(**{'check_in__gte': ini_date})
+    if end_date != "":
+        full_query &= Q(**{'check_in__lte': end_date})
     if project_uuid != "":
         full_query &= Q(**{'project_id': project_uuid})
 
     items = Guest.objects.filter(full_query) if len(full_query) > 0 else Guest.objects.all()
-    #items = Guest.objects.filter(deleted=0).filter(full_query) if len(full_query) > 0 else Guest.objects.filter(deleted=0)
-    return items[ini:end], items.count()
-    #return Guest.objects.filter(full_query) if len(full_query) > 0 else Guest.objects.all()
+    return items, items.count()
 
 @group_required("admins")
 def guests(request):
     try:
         request.session["project_uuid"] = ""
+        ini_date = datetime.datetime.now()
+        end_date = ini_date + datetime.timedelta(days=7)
+        request.session["gs_ini_date"] = ini_date.strftime('%Y-%m-%d')
+        request.session["gs_end_date"] = end_date.strftime('%Y-%m-%d')
         items, total_count = get_guest_items(request)
         #total_count = items.count()
 
         project_list = Project.objects.filter(active=1).order_by('name')
-        context = {'total_items': total_count, 'items': items, 'index': ITEMS_PER_PAGE, 'project_list': project_list, 'active': 'guests'}
+        context = {
+            'total_items': total_count, 
+            'items': items, 
+            'index': ITEMS_PER_PAGE, 
+            'project_list': project_list, 
+            'ini_date': ini_date, 
+            'end_date': end_date, 
+            'active': 'guests'
+        }
         #context = {'total_items': total_count, 'items': items[0:ITEMS_PER_PAGE], 'page': 0}
         return render (request, "guest/guests.html", context)
     except Exception as e:
@@ -71,8 +108,11 @@ def guests(request):
 @group_required("admins")
 def guest_search(request):
     try:
-        set_session(request, "guest_search_name")
-        set_session(request, "guest_search_project")
+        set_session(request, "gs_name")
+        set_session(request, "gs_room")
+        set_session(request, "gs_ini_date")
+        set_session(request, "gs_end_date")
+        set_session(request, "gs_project")
         items, total_count = get_guest_items(request)
 
         context = {'total_items': total_count, 'items': items, 'index': ITEMS_PER_PAGE}
