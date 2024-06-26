@@ -248,12 +248,14 @@ class Guest(models.Model):
         return msg
 
     def add_all_key_card(self, code, name=""):
+        errcode = ""
         for lock in self.get_locks():
             #errcode = lock.add_card(code, self.check_in, self.check_out)
             #errcode = lock.add_card(code, self.get_start_date(), self.check_out)
             errcode = lock.add_card(code, self.check_in_gmt, self.check_out_gmt, name)
             if not "Error" in str(errcode):
                 KeyCard.objects.create(code=code, card_id=errcode, lock=lock, guest=self)
+        return errcode
 
     def change_all_key_card_date(self):
         err = ""

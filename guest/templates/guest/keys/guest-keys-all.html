@@ -8,7 +8,7 @@
     <div class="col-1 text-center"><button type="button" class="btn btn-sm" data-bs-dismiss="modal"><i class="fas fa-times"></i></button> </div>
 </div>
 
-<div id="div-return" class="hide"><div class="row"><div id="div-notification" class="col-10 offset-1 alert alert-info"></div></div></div>
+<div id="div-return" class="hide"></div>
 
 <div id="div-main">
     <div class="row justify-center notification-popup">
@@ -20,7 +20,7 @@
 
     <div class="d-flex justify-content-end p-2">
         <button type="button" id="btn-save" class="btn btn-primary ark m-2" data-url="{% url "guest-key-add-card-all" %}" 
-            data-target="div-notification" data-obj_id="{{obj.id}}" data-value="" 
+            data-target="div-return" data-obj_id="{{obj.id}}" data-value="" 
             onclick="$('#div-main').hide(); $('#div-return').show()"> {%trans "Add"%} </button>
         <button type="button" class="btn btn-primary m-2" data-bs-dismiss="modal"> {% trans "Cancel" %}</button>
     </div>
