@@ -9,39 +9,7 @@
         data-append="append" data-url="{% url 'guest-page' %}" class="autosearch_change"/>
     {%endcomment%}
 
-    <div class="toolbar-search guests p-2">
-        {#<input type="hidden" name="project_uuid" id="project_uuid" value="{{project_uuid}}"/>#}
-        {% with search_related="gs_name,gs_room,gs_project,gs_ini_date,gs_end_date" %}
-        <div class="text-center"><i class="fas fa-search"></i></div>
-        <div>
-            <input type="text" class="autosearch form-control form-control-dark" name="gs_name" id="gs_name" 
-                placeholder="{% trans 'Name, Surname, Email or Phone' %}" data-url="{% url "guest-search" %}" data-target="guest-list" 
-                data-related="{{search_related}}" value="{{request.session.gs_name}}"/>
-        </div>
-        <div class="m-1">
-            <input type="text" class="autosearch form-control form-control-dark" name="gs_room" id="gs_room" 
-                placeholder="{% trans 'Room' %}" data-url="{% url "guest-search" %}" data-target="guest-list" 
-                data-related="{{search_related}}" value="{{request.session.gs_name}}"/>
-        </div>
-        <div>
-            <input type="date" class="autosearch form-control form-control-dark" name="gs_ini_date" id="gs_ini_date" 
-                value="{{ini_date|date:'Y-m-d'}}" data-url="{% url "guest-search" %}" data-target="guest-list" 
-                data-related="{{search_related}}" value="{{request.session.gs_ini_date}}"/>
-        </div>
-        <div class="m-1">
-            <input type="date" class="autosearch form-control form-control-dark" name="gs_end_date" id="gs_end_date" 
-                value="{{end_date|date:'Y-m-d'}}" data-url="{% url "guest-search" %}" data-target="guest-list" 
-                data-related="{{search_related}}" value="{{request.session.gs_end_date}}"/>
-        </div>
-        <div>
-            <select class="autosearch_change form-control form-control-dark w-100 select-k guests" name="gs_project" id="gs_project" 
-                data-url="{% url "guest-search" %}" data-target="guest-list" data-related="{{search_related}}">
-                <option value="">{% trans "-- Select project ---" %}</option>
-                {% for proj in project_list %} <option value="{{proj.uuid}}">{{proj.name}}</option> {% endfor %}
-            </select>
-        </div>
-        {% endwith %}
-    </div>
+    {% include "guest/guests-search.html" %}
 
     <div class="content mt-4">
         <div class="toolbar-content guest"> 

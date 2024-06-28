@@ -121,6 +121,15 @@ table.table-hover.table-striped { font-size: 0.8rem; }
 /*		UTILITIES		*/
 /************************/
 
+
+.rounded-pill-btn {
+    border-radius: 50rem;
+    border: 2px solid #666;
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
 .align-items-center {
     align-items: center;
 }

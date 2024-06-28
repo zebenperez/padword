@@ -57,8 +57,12 @@ def get_guest_items(request):
     filters_to_search = ["name__icontains", "surname__icontains", "email__icontains", "mobile__icontains"]
     search_value = request.session["gs_name"] if "gs_name" in request.session else ""
     room_value = request.session["gs_room"] if "gs_room" in request.session else ""
+    lang_value = request.session["gs_lang"] if "gs_lang" in request.session else ""
+    ext_id_value = request.session["gs_ext_id"] if "gs_ext_id" in request.session else ""
     ini_date = request.session["gs_ini_date"] if "gs_ini_date" in request.session else ""
     end_date = request.session["gs_end_date"] if "gs_end_date" in request.session else ""
+    ini_date_end = request.session["gs_ini_date_end"] if "gs_ini_date_end" in request.session else ""
+    end_date_end = request.session["gs_end_date_end"] if "gs_end_date_end" in request.session else ""
     project_uuid = request.session["gs_project"] if "gs_project" in request.session else ""
 
     full_query = Q()
@@ -66,12 +70,20 @@ def get_guest_items(request):
         for myfilter in filters_to_search:
             full_query |= Q(**{myfilter: search_value})
     if room_value != "":
-        rooms_number = [item.number for item in webmod.Room.objects.filter(alias__icontains = search_value)]
+        rooms_number = [item.number for item in webmod.Room.objects.filter(alias__icontains = room_value)]
         full_query &= Q(**{'room__in': rooms_number})
+    if lang_value != "":
+        full_query &= Q(**{'language__in': lang_value})
+    if ext_id_value != "":
+        full_query &= Q(**{'ext_id': ext_id_value})
     if ini_date != "":
         full_query &= Q(**{'check_in__gte': ini_date})
     if end_date != "":
         full_query &= Q(**{'check_in__lte': end_date})
+    if ini_date_end != "":
+        full_query &= Q(**{'check_out__gte': ini_date_end})
+    if end_date_end != "":
+        full_query &= Q(**{'check_out__lte': end_date_end})
     if project_uuid != "":
         full_query &= Q(**{'project_id': project_uuid})
 
@@ -87,6 +99,7 @@ def guests(request):
         request.session["gs_ini_date"] = ini_date.strftime('%Y-%m-%d')
         request.session["gs_end_date"] = end_date.strftime('%Y-%m-%d')
         items, total_count = get_guest_items(request)
+        print(request.session["gs_ini_date"])
         #total_count = items.count()
 
         project_list = Project.objects.filter(active=1).order_by('name')
@@ -95,8 +108,6 @@ def guests(request):
             'items': items, 
             'index': ITEMS_PER_PAGE, 
             'project_list': project_list, 
-            'ini_date': ini_date, 
-            'end_date': end_date, 
             'active': 'guests'
         }
         #context = {'total_items': total_count, 'items': items[0:ITEMS_PER_PAGE], 'page': 0}
@@ -110,8 +121,12 @@ def guest_search(request):
     try:
         set_session(request, "gs_name")
         set_session(request, "gs_room")
+        set_session(request, "gs_lang")
+        set_session(request, "gs_ext_id")
         set_session(request, "gs_ini_date")
         set_session(request, "gs_end_date")
+        set_session(request, "gs_ini_date_end")
+        set_session(request, "gs_end_date_end")
         set_session(request, "gs_project")
         items, total_count = get_guest_items(request)
 
