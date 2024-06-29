@@ -31,7 +31,7 @@
         <input type="text" class="form-control input mb-4" id="payment_method" name="payment_method" value="{{stripe.payment_method}}" disabled/>
 	</div>
 	<div class="col-2">
-		<a class="btn btn-primary" href="{% url "stripe-alta-client" obj.UUID %}"> {% trans 'Alta Stipe Data' %} </a>
+		<a class="btn btn-primary" href="{% url "stripe-alta-client" obj.UUID %}" target="_blank"> {% trans 'Alta Stripe Data' %} </a>
 	</div>
     {%comment%}
 	<div class="col-2">
