@@ -319,8 +319,9 @@ def pay_send(request):
 
         band = Wristband.get_active_by_project(project, code)
         if band == None:
-            return render(request, "wristbands/pay-result.html", {'error':True, 'msg': _('Error: Pulsera no encontrada!')})
-            #return HttpResponse(_('Error: Pulsera no encontrada!'))
+            msg = _("Error!, Por favor revise que:<br/>- La pulsera está dada de alta<br/>- Las fechas de uso son correctas")
+            return render(request, "wristbands/pay-result.html", {'error':True, 'msg': msg})
+            #return render(request, "wristbands/pay-result.html", {'error':True, 'msg': _('Error: Pulsera no encontrada!')})
             
         #guest = band.guest
         #if not guest.have_valid_booking():
