@@ -69,7 +69,7 @@ def stripe_store_payment(request, session_id):
             guest_stripe.payment_method = payment_intent.payment_method
             guest_stripe.save()
 
-            return redirect(reverse('guest-details', kwargs={'obj_id': guest.pk}))
+            return redirect(reverse('guest-details-by-project', kwargs={'obj_id': guest.pk}))
         else:
             return HttpResponse("Payment KO")
     except Exception as e:

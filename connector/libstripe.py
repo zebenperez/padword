@@ -108,11 +108,11 @@ class ShStripe:
             return None
 
     #def create_stripe_payment_intent(api_key, customer_id, payment_method_id, amount, cvc, currency="eur", return_url="https://padword.shidix.es/"):
-    def create_stripe_payment_intent(self, customer_id, payment_method_id, amount, cvc, currency="eur"):
+    def create_stripe_payment_intent(self, customer_id, payment_method_id, amount, cvc="", currency="eur"):
         stripe.api_key = self.api_key
 
         try:
-            cvc_token = stripe.Token.create(cvc_update={"cvc": cvc})
+            #cvc_token = stripe.Token.create(cvc_update={"cvc": cvc})
             payment_intent = stripe.PaymentIntent.create(
                 amount=amount,
                 currency=currency,
