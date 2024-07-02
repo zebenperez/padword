@@ -342,6 +342,8 @@ def pay_send(request):
 
         st = ShStripe(psu.api_key)
         obj_id = st.create_stripe_payment_intent(gs.stripe_id, gs.payment_method, amount, gc.code, "eur")
+        print("--A--")
+        print(obj_id)
         if obj_id == "" or obj_id == None:
             return render(request, "wristbands/pay-result.html", {'error':True, 'msg': _('Error procesando el pago!')})
             #return HttpResponse(_('Error procesando el pago!'))

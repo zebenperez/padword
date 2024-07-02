@@ -123,6 +123,12 @@ class ShStripe:
                 return_url=self.return_url,
                 confirm=True
             )
+            if payment_intent.next_action != None:
+                confirm_intent = stripe.PaymentIntent.confirm(
+                   payment_intent.id, 
+                    payment_method=payment_method_id,
+                    return_url=self.return_url,
+                )
             return payment_intent.id
         except stripe.error.StripeError as e:
             print(f"Error creating Stripe payment intent: {e}")
