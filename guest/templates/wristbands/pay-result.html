@@ -2,5 +2,9 @@
 
 <div id="div-result-content" class="alert {%if error == True%}alert-danger{%else%}alert-success{%endif%}">{{msg|safe}}</div>
 <script>
+    {% if next_action and next_action != "" %}
+        //window.location.href="{{next_action}}";
+        window.open('{{next_action}}', '_blank').focus();
+    {% endif %}
     setTimeout(()=>{$("#amount").val("");$("#band").val("");$("#div-result").html("");$("#btn-send").data("amount", "");$("#btn-scan").data("amount", "")}, 5000);
 </script>

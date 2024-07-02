@@ -110,6 +110,7 @@ urlpatterns = [
     path('wristbands/pay-login/', wristband_views.pay_login, name='wristband-pay-login'),
     path('wristbands/pay-login-form/', wristband_views.pay_login_form, name='wristband-pay-login-form'),
     path('wristbands/pay-close/', wristband_views.pay_close, name='wristband-pay-close'),
+    path('wristbands/pay-confirm/<slug:payment_intent>/<slug:payment_intent_client_secret>/<slug:source_type>', wristband_views.pay_confirm, name='wristband-pay-confirm'),
     path('wristbands/pay-send/', wristband_views.pay_send, name='wristband-pay-send'),
     path('wristbands/pay-index/<slug:project_uuid>/', wristband_views.pay_index, name='wristband-pay-index'),
  

@@ -341,9 +341,7 @@ def pay_send(request):
         gc = guest.card
 
         st = ShStripe(psu.api_key)
-        obj_id = st.create_stripe_payment_intent(gs.stripe_id, gs.payment_method, amount, gc.code, "eur")
-        print("--A--")
-        print(obj_id)
+        obj_id, next_action = st.create_stripe_payment_intent(gs.stripe_id, gs.payment_method, amount, "eur")
         if obj_id == "" or obj_id == None:
             return render(request, "wristbands/pay-result.html", {'error':True, 'msg': _('Error procesando el pago!')})
             #return HttpResponse(_('Error procesando el pago!'))
@@ -356,16 +354,24 @@ def pay_send(request):
             print(e)
 
         msg = _('El pago se ha añadido correctamente al huésped: {}!'.format(guest_name))
-        return render(request, "wristbands/pay-result.html", {'error':True, 'msg': msg})
+        print("--A--")
+        print(next_action)
+        return render(request, "wristbands/pay-result.html", {'error':False, 'msg': msg, 'next_action': next_action})
     except Exception as e:
         print(e)
-        return render(request, "error_exception.html", {'exc':show_exc(e)})
+        return render(request, "wristbands/pay-result.html", {'error':True, 'msg': e})
+        #return render(request, "error_exception.html", {'exc':show_exc(e)})
 
 @group_required("waiters")
 def pay_close(request):
     auth.logout(request)
     project_uuid = request.GET["project_uuid"] if "project_uuid" in request.GET else ""
     return redirect(reverse("wristband-pay-access", kwargs = {'project_uuid': project_uuid}))
+
+@group_required("waiters")
+def pay_confirm(request, payment_intent, payment_intent_client_secret, source_type):
+    #project_uuid = request.GET["project_uuid"] if "project_uuid" in request.GET else ""
+    return render(request, "wristbands/pay-confirm.html", {})
 
 def add_log_to_band(guest_name, amount, band):
     desc = _("Pago directo con tarjeta del huésped {} por un importe de {} euros".format(guest_name, amount))
