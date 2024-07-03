@@ -5,7 +5,7 @@
         {% trans "Filters" %} <i class="fas fa-search"></i></div>
 </div>
 
-<div id="toolbar-search" class="toolbar-search- guests p-2 hide" style="display:none">
+<div id="toolbar-search" class="toolbar-search- guests p-2">
     <form class="form" method="GET" action="{% url "guest-search" %}" id="form-search">
         {%csrf_token%}
         <div class="row m-0">
@@ -41,9 +41,11 @@
                 <div class="input-rounded-pill bg-white" style="display:flex; align-items: center;">
                     <div class="mx-2"> <i class="fas fa-search"></i></div>
                     <div><select class="form-control form-control-dark pill w-100 select-k guests" name="gs_project" id="gs_project">
-                            <option value="">{% trans "-- Select project ---" %}</option></div>
-                        {% for proj in project_list %} <option value="{{proj.uuid}}">{{proj.name}}</option> {% endfor %}
-                    </select>
+                        <option value="">{% trans "-- Select project ---" %}</option>
+                        {% for proj in project_list %} 
+                            <option value="{{proj.uuid}}" {%if proj.uuid == request.session.gs_project%}selected{%endif%}>{{proj.name}}</option> 
+                        {% endfor %}
+                    </select></div>
                 </div>
             </div>
         </div>

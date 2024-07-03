@@ -94,12 +94,13 @@ def get_guest_items(request):
 def guests(request):
     try:
         request.session["project_uuid"] = ""
-        ini_date = datetime.datetime.now()
-        end_date = ini_date + datetime.timedelta(days=7)
-        request.session["gs_ini_date"] = ini_date.strftime('%Y-%m-%d')
-        request.session["gs_end_date"] = end_date.strftime('%Y-%m-%d')
+        if "gs_ini_date" not in request.session:
+            request.session["gs_ini_date"] = datetime.datetime.now().strftime('%Y-%m-%d')
+        if "gs_end_date" not in request.session:
+            end_date = datetime.datetime.now() + datetime.timedelta(days=7)
+            request.session["gs_end_date"] = end_date.strftime('%Y-%m-%d')
+           
         items, total_count = get_guest_items(request)
-        print(request.session["gs_ini_date"])
         #total_count = items.count()
 
         project_list = Project.objects.filter(active=1).order_by('name')
@@ -191,12 +192,18 @@ def guest_details(request, obj_id=""):
 #        return render(request, 'error_exception.html', {'exc':show_exc(e)})
 
 @group_required("admins")
-def guest_remove(request, obj_id):
-    obj = get_or_none(Guest, obj_id)
+#def guest_remove(request, obj_id):
+def guest_remove(request):
+    obj = get_or_none(Guest, request.GET["obj_id"]) if "obj_id" in request.GET else None
+    project_uuid = obj.project_id
     if obj != None:
         GuestUser.delete_by_guest(obj.UUID)
         obj.delete_all()
-    return redirect(guests)
+    items, total_count = get_guest_items(request)
+    context = {'total_items': total_count, 'items': items, 'index': ITEMS_PER_PAGE, 'project_uuid': project_uuid}
+    return render(request, "guest/guest-list.html", context)
+
+    #return redirect(guests)
 
     #project_uuid = request.GET["project_uuid"] if "project_uuid" in request.GET else None
     #obj = get_or_none(Guest, request.GET["obj_id"]) if "obj_id" in request.GET else None
