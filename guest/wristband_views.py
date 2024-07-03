@@ -354,8 +354,6 @@ def pay_send(request):
             print(e)
 
         msg = _('El pago se ha añadido correctamente al huésped: {}!'.format(guest_name))
-        print("--A--")
-        print(next_action)
         return render(request, "wristbands/pay-result.html", {'error':False, 'msg': msg, 'next_action': next_action})
     except Exception as e:
         print(e)
@@ -369,7 +367,7 @@ def pay_close(request):
     return redirect(reverse("wristband-pay-access", kwargs = {'project_uuid': project_uuid}))
 
 @group_required("waiters")
-def pay_confirm(request, payment_intent, payment_intent_client_secret, source_type):
+def pay_confirm(request):
     #project_uuid = request.GET["project_uuid"] if "project_uuid" in request.GET else ""
     return render(request, "wristbands/pay-confirm.html", {})
 
