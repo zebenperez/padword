@@ -85,6 +85,7 @@ class FormInstanceAdmin(admin.ModelAdmin):
 
 class FormTypeAdmin(admin.ModelAdmin):
 	list_display = ('code', 'name', 'template_base', 'template', 'template_login', 'order', 'main', 'project_uuid')
+	search_fields = ['code', 'template']
 
 class FormTypeTemplateAdmin(admin.ModelAdmin):
 	list_display = ('name', 'template_base', 'template', 'template_login')
