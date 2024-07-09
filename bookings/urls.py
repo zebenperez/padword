@@ -32,6 +32,10 @@ urlpatterns = [
     path('forms/new_timetable', fv.new_timetable, name="form-new-timetable"),
     path('forms/remove_timetable', fv.remove_timetable, name="form-remove-timetable"),
 
+    path('forms_type_templates/show', fv.show_templates, name="form-type-template-show"),
+    path('forms_type_templates/select', fv.select_template, name="form-type-template-select"),
+    path('forms_type_templates/set', fv.set_template, name="form-type-template-set"),
+
     path('channel/add/', fv.channel_add, name='channel-add'),
     path('channel/remove/', fv.channel_remove, name='channel-remove'),
 

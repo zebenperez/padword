@@ -809,3 +809,32 @@ class Cash(models.Model):
     def project(self):
         return Project.objects.filter(uuid = self.project_uuid).first()
 
+def upload_form_type_template_css(instance, filename):
+    ascii_filename = str(filename.encode('ascii', 'ignore'))
+    instance.filename = ascii_filename
+    folder = "form_types_template/css/"
+    return '/'.join(['%s' % (folder), ascii_filename])
+
+def upload_form_type_template_img(instance, filename):
+    ascii_filename = str(filename.encode('ascii', 'ignore'))
+    instance.filename = ascii_filename
+    folder = "form_types_template/img/"
+    return '/'.join(['%s' % (folder), ascii_filename])
+
+class FormTypeTemplate(models.Model):
+    name = models.CharField(max_length=200, verbose_name=_("Name"))
+    template = models.CharField(max_length=200, verbose_name=_("Template"), default="", blank=True)
+    template_base = models.CharField(max_length=200, verbose_name=_("Template Base"), default="", blank=True)
+    template_login = models.CharField(max_length=200, verbose_name=_("Template Login"), default="", blank=True)
+    css = models.FileField(upload_to=upload_form_type_template_css, blank=True, verbose_name=_("CSS"), help_text="Select file to upload")
+    img = models.ImageField(upload_to=upload_form_type_template_img, blank=True, verbose_name="Imagen", help_text="Select file to upload")
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        verbose_name = _('Form type template')
+        verbose_name_plural = _('Forms type template')
+        ordering = ['name']
+
+

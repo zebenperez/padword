@@ -87,6 +87,9 @@ class FormTypeAdmin(admin.ModelAdmin):
 	list_display = ('code', 'name', 'template_base', 'template', 'template_login', 'order', 'main', 'project_uuid')
 	search_fields = ['code', 'template']
 
+class FormTypeTemplateAdmin(admin.ModelAdmin):
+	list_display = ('name', 'template_base', 'template', 'template_login')
+
 class QuestionAdmin(admin.ModelAdmin):
 	list_display = ('block', 'code', 'text', 'order')
 	inlines = [FieldInline, ]
@@ -105,6 +108,7 @@ admin.site.register(Block, BlockAdmin)
 admin.site.register(Form, FormAdmin)
 admin.site.register(FormInstance, FormInstanceAdmin)
 admin.site.register(FormType, FormTypeAdmin)
+admin.site.register(FormTypeTemplate, FormTypeTemplateAdmin)
 admin.site.register(GuestUser, GuestUserAdmin)
 admin.site.register(Question, QuestionAdmin)
 admin.site.register(QuestionType)
