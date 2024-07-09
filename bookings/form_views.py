@@ -4,12 +4,13 @@ from django.urls import reverse
 from django.utils.translation import ugettext_lazy as _ 
 
 from padword.decorators import group_required
-from padword.commons import show_exc, get_or_none, get_param, get_float, get_bool, new_ui_slug
+from padword.commons import show_exc, get_or_none, get_param, get_float, get_bool, new_ui_slug, get_random_str
 from web.models import Channel, Company, Device, Project, ProjectUser
 from contents.models import Category
 
 from .common_lib import generate_qr
 from .models import AnswerType, Field, Form, FormChannel, FormEmail, FormInstance, FormTimetable, FormType, Question, QuestionType, Block, Status
+from .models import FormTypeTemplate
 
 import logging
 logger = logging.getLogger(__name__)
@@ -319,6 +320,59 @@ def remove_timetable(request):
         form = obj.form
         obj.delete()
         return render(request, "forms/timetable.html", {"obj": form})
+    except Exception as e:
+        return render(request, "error_exception.html", {'exc': show_exc(e)})
+
+
+'''
+    Forms Templates
+'''
+@group_required("admins")
+def show_templates(request):
+    try:
+        obj = get_or_none(Form, request.GET["obj_id"])
+        return render(request, "forms-templates/show-templates.html", {"obj": obj, "template_list": FormTypeTemplate.objects.all()})
+    except Exception as e:
+        return render(request, "error_exception.html", {'exc': show_exc(e)})
+
+@group_required("admins")
+def select_template(request):
+    try:
+        obj = get_or_none(Form, request.GET["obj_id"])
+        template = get_or_none(FormTypeTemplate, request.GET["value"])
+        return render(request, "forms-templates/selected-template.html", {"obj": obj, "template": template})
+    except Exception as e:
+        return render(request, "error_exception.html", {'exc': show_exc(e)})
+
+
+@group_required("admins")
+def set_template(request):
+    try:
+        obj = get_or_none(Form, request.GET["obj_id"])
+        template = get_or_none(FormTypeTemplate, request.GET["template"])
+        project = obj.project
+        code = "pwa_{}".format(get_random_str(4))
+        name = project.name
+        css = ContentFile(template.css.read())
+        css.name = template.css.name
+        print(code)
+        print(name)
+        print(template.template)
+        print(template.template_base)
+        print(template.template_login)
+        print(project.uuid)
+
+        ft = FormType(main=True, code=code, name=name, project_uuid=project.uuid, css=css)
+        ft.template = template.template 
+        ft.template_base = template.template_base
+        ft.template_login = template.template_login
+        ft.save()
+
+        obj.form_type = ft
+        obj.save()
+
+        context = get_edit_context(obj)
+        return render(request, "forms/form-edit-category.html", context)
     except Exception as e:
         return render(request, "error_exception.html", {'exc': show_exc(e)})
 
