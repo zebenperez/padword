@@ -1,4 +1,5 @@
 from django.core.files.base import ContentFile
+from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.urls import reverse
 from django.utils.translation import ugettext_lazy as _ 
@@ -355,13 +356,13 @@ def set_template(request):
         name = project.name
         css = ContentFile(template.css.read())
         css.name = template.css.name
-        print(code)
-        print(name)
-        print(template.template)
-        print(template.template_base)
-        print(template.template_login)
-        print(project.uuid)
-
+#        print(code)
+#        print(name)
+#        print(template.template)
+#        print(template.template_base)
+#        print(template.template_login)
+#        print(project.uuid)
+#
         ft = FormType(main=True, code=code, name=name, project_uuid=project.uuid, css=css)
         ft.template = template.template 
         ft.template_base = template.template_base
@@ -375,5 +376,27 @@ def set_template(request):
         return render(request, "forms/form-edit-category.html", context)
     except Exception as e:
         return render(request, "error_exception.html", {'exc': show_exc(e)})
+
+@group_required("admins")
+def show_css(request):
+    try:
+        obj = get_or_none(FormType, request.GET["obj_id"])
+        f = obj.css.open('r')
+        css = f.read()
+        return render(request, "forms-templates/edit-css.html", {"obj": obj, 'css': css})
+    except Exception as e:
+        return render(request, "error_exception.html", {'exc': show_exc(e)})
+
+@group_required("admins")
+def save_css(request):
+    try:
+        obj = get_or_none(FormType, request.POST["obj_id"])
+        css = request.POST["css"]
+        f = obj.css.open('w')
+        f.write(css)
+        return HttpResponse("Saved!")
+    except Exception as e:
+        return HttpResponse("Error! {}".format(e))
+        #return render(request, "error_exception.html", {'exc': show_exc(e)})
 
 

@@ -35,6 +35,8 @@ urlpatterns = [
     path('forms_type_templates/show', fv.show_templates, name="form-type-template-show"),
     path('forms_type_templates/select', fv.select_template, name="form-type-template-select"),
     path('forms_type_templates/set', fv.set_template, name="form-type-template-set"),
+    path('forms_type/show-css', fv.show_css, name="form-type-show-css"),
+    path('forms_type/save-css', fv.save_css, name="form-type-save-css"),
 
     path('channel/add/', fv.channel_add, name='channel-add'),
     path('channel/remove/', fv.channel_remove, name='channel-remove'),

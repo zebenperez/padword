@@ -422,7 +422,8 @@ def guests_by_project(request):
         project = get_or_none(Project, request.project_id)
         #items = Guest.objects.filter(project_id = project.uuid)
         #delete_expired(project)
-        request.session["project_uuid"] = project.uuid
+        request.session["gs_project"] = project.uuid
+        #request.session["project_uuid"] = project.uuid
         if "gs_ini_date" not in request.session:
             request.session["gs_ini_date"] = datetime.datetime.now().strftime('%Y-%m-%d')
         if "gs_end_date" not in request.session:
@@ -445,7 +446,8 @@ def guests_by_project(request):
 def guest_search_by_project(request):
     try:
         project = get_or_none(Project, request.project_id)
-        request.session["project_uuid"] = project.uuid
+        request.session["gs_project"] = project.uuid
+        #request.session["project_uuid"] = project.uuid
         #set_session(request, "guest_search_name")
         #items, total_count = get_guest_items_by_project(request, project.uuid)
         set_session(request, "gs_name")

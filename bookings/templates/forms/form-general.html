@@ -86,6 +86,10 @@
                                 {% endif %}
                             {% endfor %}
                         </select> <span id="form_type__msg"></span>
+                        {% if obj.form_type.main and obj.form_type.css %}
+                            <button class="btn btn-xs ark" data-url="{% url "form-type-show-css" %}" data-target-modal="common-modal" 
+                                data-obj_id="{{obj.form_type.id}}"><i class="fas fa-file-alt"></i></a>
+                        {% endif %}
                     </div>
 
                     <div class="col-10 grey">
