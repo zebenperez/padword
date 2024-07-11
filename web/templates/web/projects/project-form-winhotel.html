@@ -11,21 +11,31 @@
     </div>
     <div class="card-body hide" id="body-winhotel"> 
         <div class="row justify-center">
+            <div class="col-3 offset-9">
+                <div class="form-check form-switch">
+                    <input class="form-check-input toggle-tags-enable" type="checkbox" id="activeCron" data-class-name="wh-cron" 
+                        {% if user_winhotel.hour != -1 %} checked {% endif %} onclick="toggleWhCron();">
+                    <label class="form-check-label" for="activeCron">Activar planificador</label>
+                </div>
+            </div>
+            <br/> <br/>
             <div class="col-md-5 col-12">
                 <label class="label">{% trans "Hotel Source Code" %}:</label>
-                <input type="text" class="form-control autosave input" id="source_code" name="source_code" value="{{user_winhotel.source_code}}" 
-                    title="{{user_winhotel.source_code}}" data-model-name="connector.projectwinhoteluser" data-obj-id="{{user_winhotel.id}}" 
-                    data-url="{% url "autosave_field" %}" data-target="div-notification"/> <span id="source_code__msg"></span>	
+                <input type="text" class="form-control autosave input wh-cron" id="source_code" name="source_code" 
+                    value="{{user_winhotel.source_code}}" title="{{user_winhotel.source_code}}" data-model-name="connector.projectwinhoteluser" 
+                    data-obj-id="{{user_winhotel.id}}" data-url="{% url "autosave_field" %}" data-target="div-notification"/> 
+                    <span id="source_code__msg"></span>	
             </div>
             <div class="col-md-5 col-12">
                 <label class="label">{% trans "Hotel Target Code" %}:</label>
-                <input type="text" class="form-control autosave input" id="target_code" name="target_code" value="{{user_winhotel.target_code}}" 
-                    title="{{user_winhotel.target_code}}" data-model-name="connector.projectwinhoteluser" data-obj-id="{{user_winhotel.id}}" 
-                    data-url="{% url "autosave_field" %}" data-target="div-notification"/> <span id="target_code__msg"></span>	
+                <input type="text" class="form-control autosave input wh-cron" id="target_code" name="target_code" 
+                    value="{{user_winhotel.target_code}}" title="{{user_winhotel.target_code}}" data-model-name="connector.projectwinhoteluser" 
+                    data-obj-id="{{user_winhotel.id}}" data-url="{% url "autosave_field" %}" data-target="div-notification"/> 
+                    <span id="target_code__msg"></span>	
             </div>
             <div class="col-md-2 col-12">
                 <label class="label">{% trans "Import all prices" %}:</label>
-                <input type="checkbox" class="autosave input" id="update_all_prices" name="update_all_prices" data-bool="True"
+                <input type="checkbox" class="autosave input" id="update_all_prices wh-cron" name="update_all_prices" data-bool="True"
                     data-model-name="connector.projectwinhoteluser" data-obj-id="{{user_winhotel.id}}" data-url="{% url "autosave_field" %}" 
                     data-target="div-notification" {%if user_winhotel.update_all_prices%}checked{%endif%}/> <span id="update_all_prices__msg"></span>
             </div>
@@ -33,52 +43,53 @@
         <div class="row justify-center">
             <div class="col-md-6 col-12">
                 <label class="label">{% trans "FTP" %}:</label>
-                <input type="text" class="form-control autosave input" id="ftp" name="ftp" value="{{user_winhotel.ftp}}" 
+                <input type="text" class="form-control autosave input wh-cron" id="ftp" name="ftp" value="{{user_winhotel.ftp}}" 
                     title="{{user_winhotel.ftp}}" data-model-name="connector.projectwinhoteluser" data-obj-id="{{user_winhotel.id}}" 
                     data-url="{% url "autosave_field" %}" data-target="div-notification"/> <span id="ftp__msg"></span>	
             </div>
             <div class="col-md-6 col-12">
                 <label class="label">{% trans "FTP Filename" %}:</label>
-                <input type="text" class="form-control autosave input" id="ftp_filename" name="ftp_filename" value="{{user_winhotel.ftp_filename}}" 
-                    title="{{user_winhotel.ftp_filename}}" data-model-name="connector.projectwinhoteluser" data-obj-id="{{user_winhotel.id}}" 
-                    data-url="{% url "autosave_field" %}" data-target="div-notification"/> <span id="ftp_filename__msg"></span>	
+                <input type="text" class="form-control autosave input wh-cron" id="ftp_filename" name="ftp_filename" 
+                    value="{{user_winhotel.ftp_filename}}" title="{{user_winhotel.ftp_filename}}" data-model-name="connector.projectwinhoteluser" 
+                    data-obj-id="{{user_winhotel.id}}" data-url="{% url "autosave_field" %}" data-target="div-notification"/> 
+                    <span id="ftp_filename__msg"></span>	
             </div>
         </div>
 
         <div class="row justify-center">
             <div class="col-md-2 col-6">
                 <label class="label">{% trans "Days to import" %}:</label>
-                <input type="text" class="form-control autosave input text-center" id="days" name="days" value="{{user_winhotel.days}}" 
+                <input type="text" class="form-control autosave input text-center wh-cron" id="days" name="days" value="{{user_winhotel.days}}" 
                     title="{{user_winhotel.days}}" data-model-name="connector.projectwinhoteluser" data-obj-id="{{user_winhotel.id}}" 
                     data-url="{% url "autosave_field" %}" data-target="div-notification"/> <span id="days__msg"></span>	
             </div>
             <div class="col-md-2 col-6">
                 <label class="label">{% trans "Hours to import" %}:</label>
-                <input type="text" class="form-control input ark_change text-center" id="hour" name="hour" value="{{user_winhotel.hour}}" 
-                    title="{{user_winhotel.hour}}" data-url="{% url "project-set-winhotel-schedule" %}" data-target="div-notification" 
-                    data-obj_id="{{user_winhotel.id}}" data-field="hour"/> <span id="hour__msg"></span>	
+                <input type="text" class="form-control input ark_change text-center wh-cron wh-hour" id="hour" name="hour" 
+                    value="{{user_winhotel.hour}}" title="{{user_winhotel.hour}}" data-url="{% url "project-set-winhotel-schedule" %}" 
+                    data-target="div-notification" data-obj_id="{{user_winhotel.id}}" data-field="hour"/> <span id="hour__msg"></span>	
             </div>
             <div class="col-md-2 col-6">
                 <label class="label">{% trans "Minutes to check" %}:</label>
-                <input type="text" class="form-control input ark_change text-center" id="minute" name="minute" value="{{user_winhotel.minute}}" 
-                    title="{{user_winhotel.minute}}" data-url="{% url "project-set-winhotel-schedule" %}" data-target="div-notification" 
-                    data-obj_id="{{user_winhotel.id}}" data-field="minute"/> <span id="minute__msg"></span>	
+                <input type="text" class="form-control input ark_change text-center wh-cron" id="minute" name="minute" 
+                    value="{{user_winhotel.minute}}" title="{{user_winhotel.minute}}" data-url="{% url "project-set-winhotel-schedule" %}" 
+                    data-target="div-notification" data-obj_id="{{user_winhotel.id}}" data-field="minute"/> <span id="minute__msg"></span>	
             </div>
             <div class="col-md-2 col-6">
                 <label class="label">{% trans "Hours to import prices" %}:</label>
-                <input type="text" class="form-control input ark_change text-center" id="hour_price" name="hour_price" 
+                <input type="text" class="form-control input ark_change text-center wh-cron" id="hour_price" name="hour_price" 
                     value="{{user_winhotel.hour_price}}" title="{{user_winhotel.hour_price}}" data-url="{% url "project-set-winhotel-schedule" %}" 
                     data-target="div-notification" data-obj_id="{{user_winhotel.id}}" data-field="hour_price"/> <span id="hour_price__msg"></span>	
             </div>
             <div class="col-md-2 col-6">
                 <label class="label">{% trans "Hours to cancel" %}:</label>
-                <input type="text" class="form-control input ark_change text-center" id="hour_cancel" name="hour_cancel" 
+                <input type="text" class="form-control input ark_change text-center wh-cron" id="hour_cancel" name="hour_cancel" 
                     value="{{user_winhotel.hour_cancel}}" title="{{user_winhotel.hour_cancel}}" data-url="{% url "project-set-winhotel-schedule" %}" 
                     data-target="div-notification" data-obj_id="{{user_winhotel.id}}" data-field="hour_cancel"/> <span id="hour_cancel__msg"></span>
             </div>
             <div class="col-md-2 col-6">
                 <label class="label">{% trans "Operator" %}:</label>
-                <input type="text" class="form-control autosave input text-center" id="import_operator" name="import_operator" 
+                <input type="text" class="form-control autosave input text-center wh-cron" id="import_operator" name="import_operator" 
                     value="{{user_winhotel.import_operator}}" title="{{user_winhotel.import_operator}}" 
                     data-model-name="connector.projectwinhoteluser" data-obj-id="{{user_winhotel.id}}" data-url="{% url "autosave_field" %}" 
                     data-target="div-notification"/> <span id="import_operator__msg"></span>	
@@ -111,4 +122,16 @@
         <div id="get-details"></div>
     </div>		
 </div>		
+<script>
+    {% if user_winhotel.hour == -1 %} $(".wh-cron").prop("disabled", "disabled"); {% endif %}
 
+    function toggleWhCron() {
+        if (!$("#activeCron").is(":checked")) {
+            $(".wh-hour").val("-1"); 
+            $(".wh-hour").change();
+        } else {
+            $(".wh-hour").val("1"); 
+            $(".wh-hour").change();    
+        }
+    }
+</script>
