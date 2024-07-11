@@ -19,6 +19,7 @@ from .avantio_lib import get_booking_list, get_booking_notif, send_link
 from .avaibook_lib import get_accommodation_list, manage_booking_from_webhook, get_booking_list as av_get_booking_list, WEBHOOK_TOKEN
 from .winhotel_lib import get_booking_list as wh_get_booking_list, import_item_prices as wh_import_item_prices
 from .winhotel_lib import get_booking_new_list as wh_get_booking_new_list, get_booking_day_list as wh_get_booking_day_list
+from .winhotel_lib import get_booking_range_list as wh_get_booking_range_list
 
 
 import json, os, csv, re
@@ -163,7 +164,8 @@ def winhotel_get_booking_list(request, project_uuid):
     try:
         pau = get_or_none(ProjectWinhotelUser, project_uuid, "project_uuid")
         #booking_list, err = wh_get_booking_list(pau, "1")
-        booking_list, err = wh_get_booking_new_list(pau, "1")
+        #booking_list, err = wh_get_booking_new_list(pau, "1")
+        booking_list, err = wh_get_booking_range_list(pau, "1")
         return render(request, 'winhotel/booking-list.html', {'booking_list': booking_list})
     except Exception as e:
         print(e)
