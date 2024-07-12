@@ -728,17 +728,6 @@ $(document).ready(()=>{
             $("."+class_name).prop("disabled", false);
     });
 
-    $("body").on("click", ".toggle-tags-enable", function(e){
-        var class_name = $(this).data("class-name");
-        if (!$(this).is(":checked"))
-        {
-            $("."+class_name).prop("disabled", true);
-            $(this).prop("disabled", false);
-        }
-        else
-            $("."+class_name).prop("disabled", false);
-    });
-
     $("body").on("click", ".copy-to-clipboard", function(e){
         var answer = $("#"+$(this).data("answer"));
         $("#"+$(this).data("src")).select();
