@@ -372,7 +372,11 @@ def pay_confirm(request):
     return render(request, "wristbands/pay-confirm.html", {})
 
 def add_log_to_band(guest_name, amount, band):
-    desc = _("Pago directo con tarjeta del huésped {} por un importe de {} euros".format(guest_name, amount))
+    try:
+        str_amount = "{}".format(float(amount)/100)
+    except:
+        str_amount = "---"
+    desc = _("Pago directo con tarjeta del huésped {} por un importe de {} euros".format(guest_name, str_amount))
     WristbandLog.objects.create(desc=desc, wristband=band)
 
 def pay_send_email(amount, email):
