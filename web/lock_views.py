@@ -402,10 +402,14 @@ def lock_row_by_project(request):
 def lock_search_by_project(request):
     try:
         project = get_or_none(Project, request.project_id)
-        set_session(request, "lock_search_alias")
-        set_session(request, "lock_search_passcode")
-        set_session(request, "lock_search_cardcode")
-        set_session(request, "lock_search_group")
+        lock_list = get_param(request.GET, "list")
+
+        if lock_list == "":
+            set_session(request, "lock_search_alias")
+            set_session(request, "lock_search_passcode")
+            set_session(request, "lock_search_cardcode")
+            set_session(request, "lock_search_group")
+
         context = get_context(request, project, True)
         return render(request, "web/locks-by-project/lock-list.html", context)
     except Exception as e:
