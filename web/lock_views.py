@@ -119,12 +119,14 @@ def lock_search(request):
         #set_session(request, "lock_search_project")
         project_uuid = get_param(request.GET, "project_uuid")
         project = get_or_none(Project, project_uuid, "uuid")
+        lock_list = get_param(request.GET, "list")
 
-        set_session(request, "lock_search_alias")
-        set_session(request, "lock_search_passcode")
-        set_session(request, "lock_search_cardcode")
-        set_session(request, "lock_search_group")
-        #print(request.session["lock_search_cardcode"])
+        if lock_list == "":
+            set_session(request, "lock_search_alias")
+            set_session(request, "lock_search_passcode")
+            set_session(request, "lock_search_cardcode")
+            set_session(request, "lock_search_group")
+            #print(request.session["lock_search_cardcode"])
 
         context = get_context(request, project)
         return render(request, "web/locks/lock-list.html", context)

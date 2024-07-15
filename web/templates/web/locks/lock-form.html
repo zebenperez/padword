@@ -88,7 +88,7 @@
 {%endcomment%}
 
 <div class="d-flex justify-content-end p-2">
-	<button type="button" class="btn btn-primary ark m-2" data-bs-dismiss="modal"
+	<button type="button" class="btn btn-primary ark m-2" data-bs-dismiss="modal" data-list="True"
         data-url="{% url "lock-search" %}" data-target="lock-list" data-project_uuid="{{obj.project_uuid}}">{% trans "Save" %}</button>
 	<button type="button" class="btn btn-danger ark m-2" data-bs-dismiss="modal"
     	data-url="{% url "lock-remove" %}" data-target="lock-list" data-obj_id="{{obj.id}}" 
