@@ -373,7 +373,7 @@ def pay_confirm(request):
 
 def add_log_to_band(guest_name, amount, band):
     try:
-        str_amount = "{}".format(float(amount)/100)
+        str_amount = "{:.2f}".format(float(amount)/100)
     except:
         str_amount = "---"
     desc = _("Pago directo con tarjeta del huésped {} por un importe de {} euros".format(guest_name, str_amount))

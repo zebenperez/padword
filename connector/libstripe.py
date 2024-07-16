@@ -87,7 +87,7 @@ class ShStripe:
                 'quantity': 1,
             }],
             mode='payment', 
-            payment_method_options = {'card': {'setup_future_usage': 'off_session'}},
+            payment_method_options = {'card': {'setup_future_usage': 'off_session', 'request_three_d_secure': 'automatic'}},
             success_url = self.success_url,
             cancel_url = self.cancel_url,
         )
@@ -125,6 +125,8 @@ class ShStripe:
                 return_url=self.return_pay_url,
                 confirm=True
             )
+            print("--A--")
+            print(payment_intent)
             if payment_intent.next_action != None:
                 if payment_intent.next_action.redirect_to_url != None:
                     next_action = payment_intent.next_action.redirect_to_url.url

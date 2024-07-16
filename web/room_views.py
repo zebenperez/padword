@@ -127,7 +127,7 @@ def room_multiple_save(request):
         order = get_int(request.POST["order"])
         alias = request.POST["alias"]
         number = get_int(request.POST["number"])
-        end_number = get_int(request.POST["end_number"])
+        end_number = get_int(request.POST["end_number"]) + 1
         #group = request.POST["lock_group_uuid"]
         
         j = 0
