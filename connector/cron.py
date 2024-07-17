@@ -167,7 +167,7 @@ def locks_tasks_schedule(project_uuid):
 
         plu = ProjectLockUser.objects.filter(project_uuid=project.uuid).first()
         #print("--- TEST: {}".format(plu.report_email))
-        if plu != None and plu.report_email != "":
+        if plu != None and plu.report_email != "" and len(task_list) > 0:
             subject = "Informe de tarea {} {}".format(project_name, datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
             send_email(subject, result, settings.EMAIL_FROM_DEFAULT, [plu.report_email])
     except Exception as e:

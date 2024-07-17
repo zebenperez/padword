@@ -26,4 +26,21 @@ $(document).ready(()=>{
             $(head).addClass("bg-success");
         }
     });
+    $("body").on("change", ".toggleCronLock", function(e){
+        var field = $(this).data("field");
+        var fieldTime = $(this).data("field-time");
+        var className = "."+$(this).data("class-name");
+        if (!$(this).is(":checked")) {
+            $("#"+fieldTime).val("00:00"); 
+            $("#"+field).data("time", "-1"); 
+            $("#"+field).click();
+            $(className).prop("disabled", "disabled");
+        } else {
+            $("#"+fieldTime).val("12:00"); 
+            $("#"+field).val("12:00"); 
+            $("#"+field).click();    
+            $(className).prop("disabled", "");
+        }
+    });
+
 });

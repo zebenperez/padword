@@ -31,8 +31,15 @@
     <div class="col-6"> <label class="label">{% trans "Report email" %}:</label> </div> 
 </div>		
 <div class="row justify-center">
+    <div class="col-3 offset-9">
+        <div class="form-check form-switch">
+            <input class="form-check-input toggleCronLock" type="checkbox" id="activeCron" data-class-name="lock-cron" 
+                data-field="btn-time" data-field-time="time" {% if user_lock.time_schedule_tasks != -1 %} checked {% endif %}>
+            <label class="form-check-label" for="activeCron">Activar planificador</label>
+        </div>
+    </div>
     <div class="col-2">
-        <input type="time" class="form-control input" id="time" name="time" value="{{user_lock.time_schedule_tasks}}" 
+        <input type="time" class="form-control input lock-cron" id="time" name="time" value="{{user_lock.time_schedule_tasks}}" 
             onchange="$('#btn-time').data('time', $(this).val())"/>
     </div>
     <div class="col-1">
@@ -40,7 +47,7 @@
             data-target="" data-time="" data-obj_id="{{user_lock.id}}" data-project_uuid="{{obj.uuid}}"> <i class="fas fa-chevron-right"></i></a>
     </div>
     <div class="col-6 offset-3">
-        <input type="text" class="form-control autosave input" id="report_email" name="report_email" value="{{user_lock.report_email}}" 
+        <input type="text" class="form-control autosave input lock-cron" id="report_email" name="report_email" value="{{user_lock.report_email}}" 
             title="{{user_lock.report_email}}" data-model-name="web.projectlockuser" data-obj-id="{{user_lock.id}}" 
             data-url="{% url "autosave_field" %}" data-target="div-notification"/> <span id="report_email__msg"></span>	
     </div>
