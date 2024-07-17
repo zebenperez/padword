@@ -543,6 +543,7 @@ $(document).ready(()=>{
         {
             $(msg_id).html(obj.attr("title"));
             obj.removeClass("valid").addClass("invalid");
+            return false;
         }
 
         model_name = obj.data("model-name");
