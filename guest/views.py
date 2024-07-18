@@ -905,7 +905,7 @@ def key_add_card_all(request):
         name = "{} {}".format(guest.name, guest.surname)
 
         err = guest.add_all_key_card(code, name)
-        msg =_("Card added successfully") if err == "" else "Card not added! {}".format(err)
+        msg =_("Card added successfully") if err == "" or "Error" not in err else "Card not added! {}".format(err)
         return render(request, "guest/keys/guest-keys-all-msg.html", {"msg": msg})
         #return HttpResponse(msg);
         #return render(request, "guest/keys/guest-keys-all.html", {"obj": guest, 'msg': True})
