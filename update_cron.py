@@ -15,7 +15,7 @@ replace = False
 for line in f.readlines():
     if project_uuid in line and function in line:
         new_line = "\t('%s %s * * *', 'connector.cron.%s', [], {'project_uuid': '%s'},'>> %s'),\n" % (minute, hour, function, project_uuid, log)
-        if minute != "-1" and "-1" not in hour:
+        if "-1" not in minute and "-1" not in hour:
             new_file_text += new_line
         replace = True
     else:

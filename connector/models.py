@@ -37,7 +37,7 @@ class ProjectAvaibookUser(models.Model):
 class ProjectWinhotelUser(models.Model):
     update_all_prices = models.BooleanField(verbose_name=_('Update all prices'), default=False)
     days = models.IntegerField(verbose_name=_('Days to import'), default=1)
-    hour = models.IntegerField(verbose_name=_('Hours to import'), default=0)
+    hour = models.IntegerField(verbose_name=_('Hours to import'), default=-1)
     hour_price = models.IntegerField(verbose_name=_('Hours to import prices'), default=0)
     hour_cancel = models.IntegerField(verbose_name=_('Hours to cancel'), default=0)
     minute = models.IntegerField(verbose_name=_('Minutes to import notifications'), default=0)

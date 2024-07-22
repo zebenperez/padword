@@ -454,6 +454,25 @@ input.input-blue {
     border: 1px solid #30acda;
 }
 
+#btn-code {
+  position: relative;
+  display: inline-block;
+  /*margin-top: 20px;*/
+}
+
+#btn-code[data-title]:hover:after{
+    content: attr(data-title);
+    position: absolute;
+    top: 120%;
+    left: 0;
+    padding: 10px;
+    border-radius: 5px;
+    font-size: 1.2em;
+    color: white;
+    background: black;
+    opacity: 0.7;
+}
+
 /*** projects search ***/
 .toolbar-search.projects { 
     align-items: center;

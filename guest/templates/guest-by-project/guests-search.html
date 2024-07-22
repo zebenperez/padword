@@ -1,0 +1,66 @@
+{% load i18n padword_tags %}
+
+<div class="row m-0 p-2">
+    <div class="col-2 rounded-pill-btn text-center pointer p-1" onclick="$('#toolbar-search').slideToggle()">
+        {% trans "Filters" %} <i class="fas fa-search"></i></div>
+</div>
+
+<div id="toolbar-search" class="toolbar-search- guests p-2">
+    <form class="form" method="GET" action="{% url "guest-search-by-project" %}" id="form-search">
+        {%csrf_token%}
+        <div class="row m-0">
+            <div class="col-3 p-1"> 
+                <div class="input-rounded-pill bg-white" style="display:flex; align-items: center;">
+                  <div class="mx-2"> <i class="fas fa-search"></i></div>
+                  <div><input type="text" class="form-control form-control-dark pill" name="gs_name" id="gs_name" 
+                        placeholder="{% trans 'Name, Surname, Email or Phone' %}"  value="{{request.session.gs_name}}"/></div>
+                </div>
+            </div>
+            <div class="col-3 p-1">
+                <div class="input-rounded-pill bg-white" style="display:flex; align-items: center;">
+                    <div class="mx-2"> <i class="fas fa-search"></i></div>
+                    <div><input type="text" class="form-control form-control-dark pill" name="gs_room" id="gs_room" placeholder="{% trans 'Room' %}" 
+                        value="{{request.session.gs_room}}"/></div>
+                </div>
+            </div>
+            <div class="col-3 p-1">
+                <div class="input-rounded-pill bg-white" style="display:flex; align-items: center;">
+                    <div class="mx-2"> <i class="fas fa-search"></i></div>
+                    <div><input type="text" class="form-control form-control-dark pill" name="gs_lang" id="gs_lang" placeholder="{%trans 'Language'%}"
+                        value="{{request.session.gs_lang}}"/></div>
+                </div>
+            </div>
+            <div class="col-3 p-1">
+                <div class="input-rounded-pill bg-white" style="display:flex; align-items: center;">
+                    <div class="mx-2"> <i class="fas fa-search"></i></div>
+                    <div><input type="text" class="form-control form-control-dark pill" name="gs_ext_id" id="gs_ext_id" 
+                        placeholder="{% trans 'ID External' %}" value="{{request.session.gs_ext_id}}"/></div>
+                </div>
+            </div>
+        </div>
+        <div class="row mt-1">
+            <div class="col-5"><span class="small-title">Fecha de Entrada</span>
+                <div class="" style="display:flex; align-items: center;">
+                    <div class="w-50"><input type="date" class="form-control form-control-dark" name="gs_ini_date" id="gs_ini_date" 
+                        value="{{request.session.gs_ini_date}}"/></div>
+                    <div class="w-50"><input type="date" class="form-control form-control-dark" name="gs_end_date" id="gs_end_date" 
+                        value="{{request.session.gs_end_date}}"/></div>
+                </div>
+            </div>
+            <div class="col-5 offset-1"><span class="small-title">Fecha de Salida</span>
+                <div class="" style="display:flex; align-items: center;">
+                    <div class="w-50"><input type="date" class="form-control form-control-dark" name="gs_ini_date_end" id="gs_ini_date_end" 
+                        value="{{request.session.gs_ini_date_end}}"/></div>
+                    <div class="w-50"><input type="date" class="form-control form-control-dark" name="gs_end_date_end" id="gs_end_date_end" 
+                        value="{{request.session.gs_end_date_end}}"/></div>
+                </div>
+            </div>
+        </div>
+        <div class="row"><div class="col-6 offset-3">
+            <button class="btn btn-primary mt-2 saveform w-100" data-form="form-search" data-target="guest-list">
+                <i class="fas fa-plus"></i> {% trans "Search" %}</button> 
+        </div></div>
+    </form>
+</div>
+
+

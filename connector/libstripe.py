@@ -125,6 +125,8 @@ class ShStripe:
                 return_url=self.return_pay_url,
                 confirm=True
             )
+            print("--A--")
+            print(payment_intent)
             if payment_intent.next_action != None:
                 if payment_intent.next_action.redirect_to_url != None:
                     next_action = payment_intent.next_action.redirect_to_url.url

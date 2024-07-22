@@ -1,0 +1,18 @@
+{% load i18n static padword_tags %}
+
+<div class="row w-100 common-modal-head m-0 p-0">
+    <div class="col-11"><h2>{% trans 'New guest' %}</h2></div>
+    <div class="col-1"><button type="button" class="btn btn-sm" data-bs-dismiss="modal"><i class="fas fa-times"></i></button> </div>
+</div>
+
+<div class="row"><div class="col-12"> <div class="content"> 
+    <select id="form_type_templates" name="form_type_templates" class="form-control ark_change" 
+        data-url="{% url "form-type-template-select" %}" data-target="div-template-selected" data-obj_id="{{obj.id}}">
+        <option value="">--{% trans "Select option" %}--</option>
+        {% for item in template_list %}
+            <option value="{{item.pk}}">{{item.name}}</option>
+        {% endfor %}
+    </select>
+    <div id="div-template-selected"></div>
+</div> </div> </div>
+

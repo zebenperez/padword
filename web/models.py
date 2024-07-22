@@ -117,12 +117,15 @@ class Project(models.Model):
 
     def get_first_menu(self, username):
         pu = ProjectUser.objects.filter(username=username, project_uuid=self.uuid).first()
-        if pu == None or len(pu.menus) == 0:
+        #if pu == None or len(pu.menus) == 0:
+        if pu == None:
             return ""
         menu_mod = pu.menus_mod.first()
         if menu_mod != None:
             return menu_mod.code
-        return pu.menus.split(";")[0]
+        if len(pu.menus) > 0:
+            return pu.menus.split(";")[0]
+        return ""
 
     def gateway_list(self):
         obj = ShLock(self.lock_access_token)
