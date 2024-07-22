@@ -17,8 +17,12 @@
     <a class="btn btn-sm" href="{% url "guest-soft-remove" item.id %}" title="{% trans " Soft Remove" %}"
         onclick="return confirm('{% trans "Are you sure to remove this element?" %}')"> <i class="fas fa-trash-alt"></i></a>  
 
+    <a class="btn btn-sm ark" title="{%trans "Remove"%}" data-url="{% url "guest-remove" %}" data-obj_id="{{item.id}}" 
+        data-target="guest-list" data-confirm="{% trans "Are you sure to remove this element?" %}"><i class="fas fa-trash"></i></a>
+    {%comment%}
     <a class="btn btn-sm" href="{% url "guest-remove" item.id %}" title="{% trans "Remove" %}"
         onclick="return confirm('{% trans "Are you sure to remove this element?" %}')"> <i class="fas fa-trash"></i></a>  
+    {%endcomment%}
 
     <a class="btn btn-sm ark" title="{%trans "Share code"%}" data-url="{% url "lock-share-code-guest" %}" data-obj_id="{{item.id}}" 
         data-target-modal="share-modal"><i class="fas fa-share-alt"></i></a>

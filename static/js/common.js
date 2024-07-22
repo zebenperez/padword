@@ -543,6 +543,7 @@ $(document).ready(()=>{
         {
             $(msg_id).html(obj.attr("title"));
             obj.removeClass("valid").addClass("invalid");
+            return false;
         }
 
         model_name = obj.data("model-name");
@@ -838,6 +839,7 @@ $(document).ready(()=>{
                 }
             });
         } catch (e) {
+            //alert(e);
             if(e.name !== 'AbortError') throw e;
             container.html("Argh! " + error);
         }
@@ -853,10 +855,58 @@ $(document).ready(()=>{
         $(`#${id}`).show();
         const ac = new AbortController();
         //scanNFC(id, url, guest_uuid, {signal: ac.signal});
+        //alert(url);
+        //alert(target);
         scanNFC(id, url, target, fi_id, {signal: ac.signal});
         ac.abort(); 
         setTimeout(() => {ac.abort(); $(`#${id}-wait`).hide();}, 20000);
     });
+
+    async function scanNFCPay(id, url, target, obj_id, amount, {signal} = {}) {
+        var container = $(`#${id}`);
+        try {
+            const ndef = new NDEFReader(signal);
+            await ndef.scan();
+
+            ndef.addEventListener("readingerror", () => {
+                container.html("Argh! Cannot read data from the NFC tag. Try another one?");
+            });
+
+            ndef.addEventListener("reading", ({ message, serialNumber }) => {
+                const decoder = new TextDecoder();
+                for (const record of message.records) {
+                    const val = decoder.decode(record.data);
+                    //alert("--1--:"+val);
+                    val_arr = val.split(",");
+                    $(`#${id}-wait`).hide();
+                    $(`#${id}-readed`).show();
+                    $(`#${id}-card-number`).html(val_arr[0]);
+                    $('#'+target).html("<i class='fas fa-spinner fa-spin'></i>");
+                    ajaxGet(url, {'obj_id': obj_id, 'value': val_arr[0], 'amount': amount}, target, '');
+                    container.hide();
+                }
+            });
+        } catch (e) {
+            //alert(e);
+            if(e.name !== 'AbortError') throw e;
+            container.html("Argh! " + error);
+        }
+        return;
+    }
+
+    $("body").on("click", ".scan-nfc-pay", function() {
+        var id = $(this).data("scan-container");
+        var url = $(this).data("scan-url");
+        var target = $(this).data("scan-target");
+        var obj_id = $(this).data("obj_id");
+        var amount = $(this).data("amount");
+        $(`#${id}`).show();
+        const ac = new AbortController();
+        scanNFCPay(id, url, target, obj_id, amount, {signal: ac.signal});
+        ac.abort(); 
+        setTimeout(() => {ac.abort(); $(`#${id}-wait`).hide();}, 20000);
+    });
+
 
     $("body").on("keyup", ".sp-search", function() {
         var value = $(this).val();

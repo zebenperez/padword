@@ -489,9 +489,10 @@ def project_set_lock_schedule(request):
         user_lock.save()
 
         function = "locks_tasks_schedule"
-        hour = time.split(":")[0]
-        minute = time.split(":")[1]
-        update_cron(hour, minute, function, project_uuid)
+        
+        hour = time.split(":")[0] if time != "-1" else time
+        minute = time.split(":")[1] if time != "-1" else time
+        update_cron(hour.lstrip("0"), minute.lstrip("0"), function, project_uuid)
         return HttpResponse("Saved!")
     except Exception as e:
         print (show_exc(e))

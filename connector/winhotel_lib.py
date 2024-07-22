@@ -272,6 +272,20 @@ class Winhotel:
         json["QueryRequest"] = {"QueryHeader": self._request_header(), "BookingListQueryParameters": _bookings_params}
         return json
 
+    def _request_bookings_range(self, state, ini_date, end_date):
+        json = {"QueryCredentials": self._credentials(), "UserID": self.user_id}
+        _bookings_params = {
+            "StartDateFromToQueryParameter": {
+                "From": ini_date,
+                "To": end_date
+            },
+            "BookingStateQueryParameters": [{
+                "QueryOperator": 0,
+                "Value": state
+            }],
+        }
+        json["QueryRequest"] = {"QueryHeader": self._request_header(), "BookingListQueryParameters": _bookings_params}
+        return json
 
     def _request_send_charge(self, dic):
         json = {"QueryCredentials": self._credentials(), "UserID": self.user_id}
@@ -322,6 +336,14 @@ class Winhotel:
         except Exception as err:
             raise WinhotelAPIError(message=err)
 
+    def get_bookings_range(self, state, ini_date, end_date):
+        try:
+            _url_request = "{}{}".format(API_URL, BOOKINGS_URL)
+            _json = self._request_bookings_range(state, ini_date, end_date)
+            _json_data = json.dumps(_json)
+            return self.__send_request__(_url_request, _json_data).json()["Bookings"]
+        except Exception as err:
+            raise WinhotelAPIError(message=err)
 
     def send_charge(self, dic):
         try:
@@ -508,6 +530,21 @@ def get_booking_day_list(pwu, state, source, target, date):
         node = WinhotelBooking(item)
         booking_list.append(node)
         create_booking_day(pwu, node)
+    return booking_list, ""
+
+def get_booking_range_list(pwu, state):
+    today = datetime.today()
+    e_date = today + timedelta(pwu.days)
+    start_date = today.strftime("%Y-%m-%d")
+    end_date = e_date.strftime("%Y-%m-%d") 
+
+    w = Winhotel(pwu.source_code, pwu.target_code)
+    result = w.get_bookings_range(state, start_date, end_date)
+    booking_list = []
+    for item in result:
+        node = WinhotelBooking(item)
+        booking_list.append(node)
+        create_booking_new(pwu, node, today, e_date)
     return booking_list, ""
 
 def get_booking_cancelled(pwu, state):

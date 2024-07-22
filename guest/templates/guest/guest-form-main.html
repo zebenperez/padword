@@ -9,7 +9,7 @@
             <div><input type="text" class="form-control autosave input mb-1" id="name" name="name" value="{{obj.name}}" 
                 title="{%trans "This field is required"%}" data-model-name="guest.guest" data-obj-id="{{obj.id}}" data-url="{%url "autosave_field"%}" 
                 data-target="div-notification" required/> <span class="msg_error" id="name__msg"></span></div>
-            <div><button class="btn mt-1" onclick="setGuestFields('{{obj.id}}', '{{obj.room}}')"> <i class="fas fa-sync"></i></button></div>
+            <div><button class="btn mt-1" onclick="setGuestFields('{{obj.id}}')"> <i class="fas fa-sync"></i></button></div>
         </div>
 	</div>
 

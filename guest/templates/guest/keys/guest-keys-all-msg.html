@@ -1,0 +1,4 @@
+{% load i18n padword_tags %}
+
+<div class="row"> 
+    <div id="div-notification" class="col-10 offset-1 alert {%if "Error" in msg%}alert-danger{%else%}alert-info{%endif%}"> {{msg}}</div> </div>

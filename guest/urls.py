@@ -12,7 +12,8 @@ urlpatterns = [
     path('guests/page/', views.guest_page, name='guest-page'),
     path('guests/form/', views.guest_form, name='guest-form'),
     #path('guests/form-simple/', views.guest_form_simple, name='guest-form-simple'),
-    path('guests/remove/<int:obj_id>/', views.guest_remove, name='guest-remove'),
+    #path('guests/remove/<int:obj_id>/', views.guest_remove, name='guest-remove'),
+    path('guests/remove/', views.guest_remove, name='guest-remove'),
     path('guests/soft-remove/<int:obj_id>/', views.guest_soft_remove, name='guest-soft-remove'),
     #path('guests/page/', views.guest_pagination, name='guest-page'),
     path('guests/details/<int:obj_id>/', views.guest_details, name='guest-details'),
@@ -104,5 +105,16 @@ urlpatterns = [
     path('stripe/store-payment/<str:session_id>', stripe_views.stripe_store_payment, name='stripe-store-payment'),
     path('stripe/error-payment/<str:session_id>', stripe_views.stripe_error_payment, name='stripe-error-payment'),
     #path('stripe/do-payment/', stripe_views.stripe_payment, name='stripe-payment'),
+
+    #-------------------- WRISTBANDS PAY --------------#
+    path('wristbands/pay-access/<slug:project_uuid>/', wristband_views.pay_access, name='wristband-pay-access'),
+    path('wristbands/pay-login/', wristband_views.pay_login, name='wristband-pay-login'),
+    path('wristbands/pay-login-form/', wristband_views.pay_login_form, name='wristband-pay-login-form'),
+    path('wristbands/pay-close/', wristband_views.pay_close, name='wristband-pay-close'),
+    path('wristbands/pay-confirm/', wristband_views.pay_confirm, name='wristband-pay-confirm'),
+    #path('wristbands/pay-confirm/<slug:payment_intent>/<slug:payment_intent_client_secret>/<slug:source_type>', wristband_views.pay_confirm, name='wristband-pay-confirm'),
+    path('wristbands/pay-send/', wristband_views.pay_send, name='wristband-pay-send'),
+    path('wristbands/pay-index/<slug:project_uuid>/', wristband_views.pay_index, name='wristband-pay-index'),
+ 
 ]
 

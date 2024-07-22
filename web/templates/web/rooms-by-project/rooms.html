@@ -6,6 +6,7 @@
 {% block central_content %}
     {% if msg and msg != "" %} <div class="alert alert-danger">{{msg}}</div> {% endif %}
 
+    {% comment %}
     <div class="toolbar-search rooms p-2">
         <div class="text-center"><i class="fas fa-search"></i></div>
         <div>
@@ -14,6 +15,7 @@
                 value="{{request.session.room_search_name}}"/>
         </div>
     </div>
+    {% endcomment %}
 
     <div id="room-list">{% include "web/rooms-by-project/rooms-list.html" %}</div>
 {% endblock central_content %}

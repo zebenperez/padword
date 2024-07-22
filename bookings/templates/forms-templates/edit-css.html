@@ -1,0 +1,18 @@
+{% load i18n static padword_tags %}
+
+<div class="row w-100 common-modal-head m-0 p-0">
+    <div class="col-11"><h2>{% trans 'New guest' %}</h2></div>
+    <div class="col-1"><button type="button" class="btn btn-sm" data-bs-dismiss="modal"><i class="fas fa-times"></i></button> </div>
+</div>
+
+<form method="POST" action="{% url "form-type-save-css" %}" id="css-form"/>
+    {% csrf_token %}
+    <input type="hidden" id="obj_id" name="obj_id" value="{{obj.id}}" />
+    <div class="row"><div class="col-12"> <div class="content"> 
+        <textarea id="css" name="css" class="form-control" style="min-height:600px">{{css}}</textarea>
+        <div id="div-notif"></div>
+    </div> </div> </div>
+    <div class="row"> <div class="col-12 text-center">
+        <input type="submit" class="btn btn-primary saveform" data-form="css-form" data-target="div-notif" value="{% trans "Save" %}" />
+    </div> </div>
+</form>

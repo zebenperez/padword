@@ -121,6 +121,46 @@ table.table-hover.table-striped { font-size: 0.8rem; }
 /*		UTILITIES		*/
 /************************/
 
+
+.rounded-pill-btn {
+    border-radius: 50rem;
+    border: 2px solid #666;
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+.input-rounded-pill {
+    border-radius: 50rem;
+    border: 1px solid #666;
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+span.small-title {
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing:0;
+}
+
+input.form-control.form-control-dark.pill,
+select.form-control.form-control-dark.pill {
+/*    border:1px solid red;*/
+    border: none;
+    background: transparent;
+}
+
+
+
+
+
+
+
+
+.align-items-center {
+    align-items: center;
+}
+
 .ql-container.ql-snow {
     border: 0px !important;
 }
@@ -406,7 +446,31 @@ a.btn.btn-primary.ark, a.btn.btn-secondary.ark {
 .toolbar-search.guests { 
     align-items: center;
     display:grid; 
-    grid-template-columns: 3% 50% 47%;
+    /*grid-template-columns: 3% 50% 47%;*/
+    grid-template-columns: 3% 30% 20% 10% 10% 27%;
+}
+
+input.input-blue {
+    border: 1px solid #30acda;
+}
+
+#btn-code {
+  position: relative;
+  display: inline-block;
+  /*margin-top: 20px;*/
+}
+
+#btn-code[data-title]:hover:after{
+    content: attr(data-title);
+    position: absolute;
+    top: 120%;
+    left: 0;
+    padding: 10px;
+    border-radius: 5px;
+    font-size: 1.2em;
+    color: white;
+    background: black;
+    opacity: 0.7;
 }
 
 /*** projects search ***/
@@ -1112,9 +1176,10 @@ img.img-cart-line {
 /************************************************/
 		/* NEW STYLE */
 /************************************************/
+/*
+ OLD (width grid-template-columns)
 
 .header.sticky-top.bg-white {
-/*	border-bottom: 1px solid rgba(0, 0, 0, 0.0625);*/
 	height:55px;
 	line-height: 1.5;
 	display: grid;
@@ -1128,11 +1193,23 @@ img.img-cart-line {
     width: 100%;
     align-items: center;
 }
+*/
+
+.header.sticky-top {
+    height:55px;
+	line-height: 1.5;
+    background: rgb(255,255,255);
+    background: linear-gradient(270deg, rgba(255,255,255,1) 17%, rgba(20,62,83,1) 99%);
+    position: fixed !important;
+    top: 0;
+    z-index: 1020;
+    width: 100%;
+    align-items: center;
+}
 
 .tab {
     margin-bottom: -15px;
     background-color: #ffffff;
-/*    border: 1px solid red;*/
 }
 .tab a {
     color: #143e53;
@@ -1142,25 +1219,28 @@ img.img-cart-line {
 }
 
 .menu-proyect-tab {
-    margin-bottom: -19px;
+ /*   margin-bottom: -19px;*/
     margin-left: -5px;
     margin-right: 10px;
-    background-color: #ffffff;
+    /*background-color: #ffffff;*/
+    border:1px solid white;
 }
 
 .menu-proyect-tab a {
     color: #c5c5c5;
+    color: #fff;
     font-size: 0.8rem;
     letter-spacing: 0;
 }
 .menu-proyect-tab .active-tab {
-    background-color: #eff1f3;
-    color: #37a6de;
+    background-color: #35a8df;
+    color: #fff;
     font-size: 0.8rem;
     font-weight:600;
     letter-spacing: 0;
-    border-top-left-radius: 0.25rem!important;
-    border-top-right-radius: 0.25rem!important;
+    /*border-top-left-radius: 0.25rem!important;
+    border-top-right-radius: 0.25rem!important;*/
+    border-radius: 0.25rem!important;
 }
 
 .project-name {

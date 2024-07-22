@@ -1,27 +1,5 @@
 {% load i18n padword_tags %}
 
-
-<style>
-#btn-code {
-  position: relative;
-  display: inline-block;
-  /*margin-top: 20px;*/
-}
-
-#btn-code[data-title]:hover:after{
-    content: attr(data-title);
-    position: absolute;
-    top: 120%;
-    left: 0;
-    padding: 10px;
-    border-radius: 5px;
-    font-size: 1.2em;
-    color: white;
-    background: black;
-    opacity: 0.7;
-}
-</style>
-
 <td> {{ item.room|default_if_none:'000' }} ({{item.room_obj.alias}})</td>
 <td> <span class="badge rounded-pill bg-success"> {{ item.check_in|date:'Y-m-d H:i'}}</td>
 <td> <span class="badge rounded-pill bg-danger">{{ item.check_out|date:'Y-m-d H:i'}}</span></td>

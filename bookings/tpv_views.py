@@ -94,7 +94,7 @@ def tpv_index(request, project_uuid):
         if "point_of_sale" not in request.session or request.session["point_of_sale"] == "":
             project = get_or_none(Project, project_uuid, "uuid")
             point_of_sales = PointOfSale.objects.filter(project_uuid=project.uuid)
-            return render(request, "bookings/tpv/index.html", {'point_of_sales': point_of_sales,})
+            return render(request, "bookings/tpv/index.html", {'point_of_sales': point_of_sales, 'project_uuid':project.uuid})
         elif "table" not in request.session or request.session["table"] == "":
             pos = get_or_none(PointOfSale, request.session["point_of_sale"])
             #date = datetime.datetime.strptime("{} 23:59:59".format(datetime.datetime.now().strftime("%Y-%m-%d")), "%Y-%m-%d %H:%M:%S")
@@ -426,6 +426,7 @@ def cash_z(request):
     try:
         cash = get_or_none(Cash, request.GET["obj_id"]) 
         update_cash(cash, request.user, True)
+        cash.close_date = datetime.datetime.now()
         cash.close = True
         cash.save()
         
@@ -452,6 +453,7 @@ def cash_x(request):
         cash_x.save()
         update_cash(cash_x, request.user)
         cash_x.close = True
+        cash_x.close_date = datetime.datetime.now()
         cash_x.save()
         return render(request, 'bookings/tpv/tpv-tables-x.html', {'cash': cash, 'back_url': request.GET["back"]})
         #return redirect(reverse(request.GET["index"], kwargs = {'project_uuid': cash.project_uuid}))

@@ -1,9 +1,9 @@
 {% load i18n padword_tags %}
 
 {% if user.is_authenticated and pu_list|length > 1%}
-    <div class="row m-0 ps-4">
+    <div class="row m-0">
         {% for pu in pu_list %}
-            <div class="col-3 menu-proyect-tab rounded-top px-0">
+            <div class="col-lg-3 col-5 menu-proyect-tab rounded px-0">
                 <a class="nav-link {%if project == pu.project.uuid%}active-tab{%endif%}" href="{% url "set-project" pu.project.uuid %}"> 
                     <i class="fa fa-folder-open"></i> {{pu.project.name}} </a>
             </div>

@@ -89,6 +89,7 @@ def cash_z(request):
         items = search(project.uuid, cash.pos)
         cash = update_cash(cash, request.user)
         cash.close = True
+        cash.close_date = datetime.datetime.now()
         cash.save()
         #cash = generate_cash(project, pos, request.user, date_str, cash_type, ini_cash)
         return render(request, "bookings/tpv-cash/index-content.html", {'pos': cash.pos, 'cash_list': items})
@@ -117,4 +118,12 @@ def update_number(request):
             c.zeta = False
             c.number = c.id
             c.save()
+    return HttpResponse("--OK--")
+
+@group_required("admins")
+def update_close_date(request):
+    cash_list = Cash.objects.all()
+    for c in cash_list:
+        c.close_date = c.date
+        c.save()
     return HttpResponse("--OK--")

@@ -9,7 +9,7 @@ from connector.libstripe import *
 from connector.models import ProjectStripeUser
 from .models import Guest, GuestStripe
 
-@group_required("admins")
+@group_required("admins","projects")
 def stripe_alta_client(reqeuest, uuid_guest):
     guest = get_or_none(Guest, uuid_guest, "UUID")
     if guest is None:
@@ -51,7 +51,7 @@ def stripe_alta_client(reqeuest, uuid_guest):
 #        )
 #        return redirect(session.url, code=303)
 
-@group_required("admins")
+@group_required("admins","projects")
 def stripe_store_payment(request, session_id):
     try:
         #API_KEY = "sk_test_51PAwwh14EEiK5wo0fArBnn5kkPbri8PkDCTyiqcC2jknwqwYqjjSwHP8NQQmtVESzuIJ95TPukiN5m509SptMRAN00mmKFNDkW"
@@ -69,14 +69,14 @@ def stripe_store_payment(request, session_id):
             guest_stripe.payment_method = payment_intent.payment_method
             guest_stripe.save()
 
-            return redirect(reverse('guest-details', kwargs={'obj_id': guest.pk}))
+            return redirect(reverse('guest-details-by-project', kwargs={'obj_id': guest.pk}))
         else:
             return HttpResponse("Payment KO")
     except Exception as e:
         print (show_exc(e))
         return render(request, 'error_exception.html', {'exc':show_exc(e)})
 
-@group_required("admins")
+@group_required("admins","projects")
 def stripe_error_payment(request):
     return HttpResponse("Error")
 
@@ -105,7 +105,7 @@ def stripe_error_payment(request):
 #        print (show_exc(e))
 #        return HttpResponse("Error")
 
-@group_required("admins")
+@group_required("admins","projects")
 def stripe_test_payment(request, test_type=-1):
     #import stripe
 

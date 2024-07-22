@@ -10,16 +10,22 @@ function checkGuestDates(obj, msg) {
     }
 }
 
-function setGuestFields(id, room){
+function setGuestFields(id){
     if (confirm("Are you sure to modify the name, surname and phone?")){
+        var room = $("#s-room").val();
         $("#name").val("Guest "+room);
         $("#name").change();
-        $("#surname").val(id);
-        $("#surname").change();
-        var str = "";
-        for (var i=0; i < 6; i++)
-            str += Math.floor(Math.random() * 6);
-        $("#mobile").val(str).change();
+        setTimeout(function(){
+            $("#surname").val(id);
+            $("#surname").change();
+        }, 500);
+        setTimeout(function(){
+            var str = "";
+            for (var i=0; i < 6; i++)
+                str += Math.floor(Math.random() * 6);
+            $("#mobile").val(str);
+            $("#mobile").change();
+        }, 1000);
     }
 }
 

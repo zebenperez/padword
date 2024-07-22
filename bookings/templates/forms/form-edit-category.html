@@ -11,7 +11,16 @@
         <a class="btn btn-sm save" title="{%trans 'TPV MOVIL'%}" href="{% url "tpv-mob-access" obj.project.uuid %}" target="_blank">
             <i class="fas fa-calculator"></i> {%trans "TPV MOVIL"%}</a>  
     {% endif %}
+    {% if obj.form_type.code == "wb-pay" %}
+        <a class="btn btn-sm save" title="{%trans 'Band Pay'%}" href="{% url "wristband-pay-access" obj.project.uuid %}" target="_blank">
+            <i class="fas fa-calculator"></i> {%trans "Band Pay"%}</a>  
+    {% endif %}
     <a class="btn btn-sm save" title="{% trans 'Update' %}" onclick="location.reload();"><i class="fas fa-sync-alt"></i> {% trans "update" %}</a>  
+
+    {% if not obj.form_type and request.user|in_group:"admins" %}
+        <a class="btn btn-sm btn-danger ark" data-url="{% url "form-type-template-show" %}" data-target-modal="common-modal" 
+            data-obj_id="{{obj.id}}" style="background:#dc3545 !important"><i class="fas fa-wrench"></i> {% trans "Create PWA" %}</a>
+    {% endif %}
 
     {%comment%}
     {% if obj.project.prefix == "fitur22" %}

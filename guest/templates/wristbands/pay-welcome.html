@@ -1,0 +1,19 @@
+{% extends "base_guest.html" %}
+{% load i18n static padword_tags %}
+
+{%block extralinks%} <link rel="stylesheet" href="{% static 'css/wristbands-pay.css' %}?v=1234" > {% endblock %}
+
+{% block central_content %}
+    <div id="div-main" class="welcome-page" style="background-image: url('{%if cat.image%}{{cat.image.url}}{%endif%}')">
+	    <div class="row">
+            <div class="welcome-inner col-12 justify-content-center menu">
+                <h3> {% trans "Welcome" %} </h3>
+                {% if cat.name != "" %}<h4> {% padword_translate cat.name %} <h4> {% endif %}
+                {% if cat.description != "" %}<h5> {% padword_translate cat.description %} <h5> {% endif %}
+                <button class="me-1 btn btn-access ark" data-url="{{next_url}}" data-target="div-main" data-project_uuid="{{project_uuid}}"
+                    data-mobile="{{mobile}}" {#onclick="javascript:openFullScreen();"#}> {%trans "Access"%}</button>
+	        </div>
+	    </div>
+	</div>
+    <script> $('#sidebar').removeClass('expanded'); </script>
+{% endblock %}

@@ -32,6 +32,12 @@ urlpatterns = [
     path('forms/new_timetable', fv.new_timetable, name="form-new-timetable"),
     path('forms/remove_timetable', fv.remove_timetable, name="form-remove-timetable"),
 
+    path('forms_type_templates/show', fv.show_templates, name="form-type-template-show"),
+    path('forms_type_templates/select', fv.select_template, name="form-type-template-select"),
+    path('forms_type_templates/set', fv.set_template, name="form-type-template-set"),
+    path('forms_type/show-css', fv.show_css, name="form-type-show-css"),
+    path('forms_type/save-css', fv.save_css, name="form-type-save-css"),
+
     path('channel/add/', fv.channel_add, name='channel-add'),
     path('channel/remove/', fv.channel_remove, name='channel-remove'),
 
@@ -254,6 +260,7 @@ urlpatterns = [
     path('tpv-cash/z/', tpv_cash.cash_z, name='cash-z'),
     path('tpv-cash/print-z/<int:obj_id>', tpv_cash.print_z, name='cash-z-print'),
     path('tpv-cash/update-number/', tpv_cash.update_number, name='cash-update-number'),
+    path('tpv-cash/update-close-date/', tpv_cash.update_close_date, name='cash-update-close-date'),
  
 ]
 

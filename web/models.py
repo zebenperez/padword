@@ -117,12 +117,15 @@ class Project(models.Model):
 
     def get_first_menu(self, username):
         pu = ProjectUser.objects.filter(username=username, project_uuid=self.uuid).first()
-        if pu == None or len(pu.menus) == 0:
+        #if pu == None or len(pu.menus) == 0:
+        if pu == None:
             return ""
         menu_mod = pu.menus_mod.first()
         if menu_mod != None:
             return menu_mod.code
-        return pu.menus.split(";")[0]
+        if len(pu.menus) > 0:
+            return pu.menus.split(";")[0]
+        return ""
 
     def gateway_list(self):
         obj = ShLock(self.lock_access_token)
@@ -238,6 +241,7 @@ class ProjectLockUser(models.Model):
     uid = models.CharField(max_length=10, verbose_name=_('UID'), default="")
     expire = models.CharField(max_length=100, verbose_name=_('Expire'), default="")
     time_schedule_tasks = models.CharField(max_length=10, verbose_name=_('Time to schedule tasks'), default="")
+    report_email = models.CharField(max_length=255, verbose_name=_('Report email'), default="")
     project_uuid = models.CharField(max_length=255, verbose_name=_('Project UUID'), default="")
     text_to_share = models.TextField(verbose_name=_('Text to share'), default="")
 
@@ -308,7 +312,7 @@ class ProjectUser(models.Model):
     #channels = models.ManyToManyField(Channel, verbose_name=_("Channels"), blank=True)
     project_uuid = models.CharField(max_length = 255, verbose_name= _('Project UUID'), default='')
     username = models.CharField(max_length = 255, verbose_name= _('Username'), default='')
-    menus = models.CharField(max_length = 1000, verbose_name= _('Menus'), default='orders;guests;notifications')
+    menus = models.CharField(max_length = 1000, verbose_name= _('Menus'), default='orders;guests;notifications', blank=True)
     menus_promo = models.CharField(max_length = 1000, verbose_name= _('Menus Promo'), default='', blank=True)
     image = models.ImageField(upload_to=upload_image, blank=True, verbose_name="Imagen de perfil", help_text="Select file to upload")
     menus_mod = models.ManyToManyField(Menu, verbose_name=_("Menus"), blank=True, related_name="menus")

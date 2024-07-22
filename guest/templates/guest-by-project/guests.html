@@ -4,6 +4,7 @@
 {% block second_menu %}{% get_second_menu request.user %}{% endblock second_menu %}
 
 {% block central_content %}
+    {%comment%}
     <div class="toolbar-search guests p-2">
         <div class="text-center"><i class="fas fa-search"></i></div>
         <div>
@@ -12,6 +13,8 @@
             data-related="guest_search_name" value="{{request.session.guest_search_name}}"/>
         </div>
     </div>
+    {%endcomment%}
+    {% include "guest-by-project/guests-search.html" %}
 
     <div class="content mt-4">
         <div class="row m-0 p-2">
@@ -39,7 +42,7 @@
                         {%trans "Import avaibook bookings"%}</a>  
             </div>
             <div class="col-2">
-                    <a class="btn btn-primary ark" data-url="{% url "avaibook-get-accommodation-list" project.uuid %}" data-target-modal="common-modal"> 
+                <a class="btn btn-primary ark" data-url="{% url "avaibook-get-accommodation-list" project.uuid %}" data-target-modal="common-modal"> 
                         {%trans "Import avaibook accommodation"%}</a>  
                 {% endif %}
             </div>

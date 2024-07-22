@@ -31,37 +31,88 @@ def index(request):
 '''
     Guests
 '''
-def get_guest_items(request, ini=0, end=ITEMS_PER_PAGE):
-    filters_to_search = ["name__icontains", "room", "surname__icontains", "email__icontains", "mobile__icontains"]
-    search_value = request.session["guest_search_name"] if "guest_search_name" in request.session else ""
-    project_uuid = request.session["guest_search_project"] if "guest_search_project" in request.session else ""
-    #project_uuid = request.session["project_uuid"] if "project_uuid" in request.session else ""
+#def get_guest_items(request, ini=0, end=ITEMS_PER_PAGE):
+#    filters_to_search = ["name__icontains", "room", "surname__icontains", "email__icontains", "mobile__icontains"]
+#    search_value = request.session["guest_search_name"] if "guest_search_name" in request.session else ""
+#    project_uuid = request.session["guest_search_project"] if "guest_search_project" in request.session else ""
+#    #project_uuid = request.session["project_uuid"] if "project_uuid" in request.session else ""
+#
+#    full_query = Q()
+#    if search_value != "":
+#        for myfilter in filters_to_search:
+#            full_query |= Q(**{myfilter: search_value})
+#        #projects_uuid = [item.uuid for item in webmod.Project.objects.filter(name__icontains = search_value)]
+#        #full_query |= Q(**{'project_id__in': projects_uuid})
+#        rooms_number = [item.number for item in webmod.Room.objects.filter(alias__icontains = search_value)]
+#        full_query |= Q(**{'room__in': rooms_number})
+#    if project_uuid != "":
+#        full_query &= Q(**{'project_id': project_uuid})
+#
+#    items = Guest.objects.filter(full_query) if len(full_query) > 0 else Guest.objects.all()
+#    #items = Guest.objects.filter(deleted=0).filter(full_query) if len(full_query) > 0 else Guest.objects.filter(deleted=0)
+#    return items[ini:end], items.count()
+#    #return Guest.objects.filter(full_query) if len(full_query) > 0 else Guest.objects.all()
+
+def get_guest_items(request, deleted=""):
+    filters_to_search = ["name__icontains", "surname__icontains", "email__icontains", "mobile__icontains"]
+    search_value = request.session["gs_name"] if "gs_name" in request.session else ""
+    room_value = request.session["gs_room"] if "gs_room" in request.session else ""
+    lang_value = request.session["gs_lang"] if "gs_lang" in request.session else ""
+    ext_id_value = request.session["gs_ext_id"] if "gs_ext_id" in request.session else ""
+    ini_date = request.session["gs_ini_date"] if "gs_ini_date" in request.session else ""
+    end_date = request.session["gs_end_date"] if "gs_end_date" in request.session else ""
+    ini_date_end = request.session["gs_ini_date_end"] if "gs_ini_date_end" in request.session else ""
+    end_date_end = request.session["gs_end_date_end"] if "gs_end_date_end" in request.session else ""
+    project_uuid = request.session["gs_project"] if "gs_project" in request.session else ""
 
     full_query = Q()
     if search_value != "":
         for myfilter in filters_to_search:
             full_query |= Q(**{myfilter: search_value})
-        #projects_uuid = [item.uuid for item in webmod.Project.objects.filter(name__icontains = search_value)]
-        #full_query |= Q(**{'project_id__in': projects_uuid})
-        rooms_number = [item.number for item in webmod.Room.objects.filter(alias__icontains = search_value)]
-        full_query |= Q(**{'room__in': rooms_number})
+    if room_value != "":
+        rooms_number = [item.number for item in webmod.Room.objects.filter(alias__icontains = room_value)]
+        full_query &= Q(**{'room__in': rooms_number})
+    if lang_value != "":
+        full_query &= Q(**{'language__in': lang_value})
+    if ext_id_value != "":
+        full_query &= Q(**{'ext_id': ext_id_value})
+    if ini_date != "":
+        full_query &= Q(**{'check_in__gte': ini_date})
+    if end_date != "":
+        full_query &= Q(**{'check_in__lte': end_date})
+    if ini_date_end != "":
+        full_query &= Q(**{'check_out__gte': ini_date_end})
+    if end_date_end != "":
+        full_query &= Q(**{'check_out__lte': end_date_end})
     if project_uuid != "":
         full_query &= Q(**{'project_id': project_uuid})
+    if deleted != "":
+        full_query &= Q(**{'deleted': deleted})
 
     items = Guest.objects.filter(full_query) if len(full_query) > 0 else Guest.objects.all()
-    #items = Guest.objects.filter(deleted=0).filter(full_query) if len(full_query) > 0 else Guest.objects.filter(deleted=0)
-    return items[ini:end], items.count()
-    #return Guest.objects.filter(full_query) if len(full_query) > 0 else Guest.objects.all()
+    return items, items.count()
 
 @group_required("admins")
 def guests(request):
     try:
         request.session["project_uuid"] = ""
+        if "gs_ini_date" not in request.session:
+            request.session["gs_ini_date"] = datetime.datetime.now().strftime('%Y-%m-%d')
+        if "gs_end_date" not in request.session:
+            end_date = datetime.datetime.now() + datetime.timedelta(days=7)
+            request.session["gs_end_date"] = end_date.strftime('%Y-%m-%d')
+           
         items, total_count = get_guest_items(request)
         #total_count = items.count()
 
         project_list = Project.objects.filter(active=1).order_by('name')
-        context = {'total_items': total_count, 'items': items, 'index': ITEMS_PER_PAGE, 'project_list': project_list, 'active': 'guests'}
+        context = {
+            'total_items': total_count, 
+            'items': items, 
+            'index': ITEMS_PER_PAGE, 
+            'project_list': project_list, 
+            'active': 'guests'
+        }
         #context = {'total_items': total_count, 'items': items[0:ITEMS_PER_PAGE], 'page': 0}
         return render (request, "guest/guests.html", context)
     except Exception as e:
@@ -71,8 +122,15 @@ def guests(request):
 @group_required("admins")
 def guest_search(request):
     try:
-        set_session(request, "guest_search_name")
-        set_session(request, "guest_search_project")
+        set_session(request, "gs_name")
+        set_session(request, "gs_room")
+        set_session(request, "gs_lang")
+        set_session(request, "gs_ext_id")
+        set_session(request, "gs_ini_date")
+        set_session(request, "gs_end_date")
+        set_session(request, "gs_ini_date_end")
+        set_session(request, "gs_end_date_end")
+        set_session(request, "gs_project")
         items, total_count = get_guest_items(request)
 
         context = {'total_items': total_count, 'items': items, 'index': ITEMS_PER_PAGE}
@@ -82,6 +140,7 @@ def guest_search(request):
     except Exception as e:
         return render(request, 'error_exception.html', {'exc':show_exc(e)})
 
+#DEPRECATED
 @group_required("admins")
 def guest_page(request):
     try:
@@ -136,12 +195,18 @@ def guest_details(request, obj_id=""):
 #        return render(request, 'error_exception.html', {'exc':show_exc(e)})
 
 @group_required("admins")
-def guest_remove(request, obj_id):
-    obj = get_or_none(Guest, obj_id)
+#def guest_remove(request, obj_id):
+def guest_remove(request):
+    obj = get_or_none(Guest, request.GET["obj_id"]) if "obj_id" in request.GET else None
+    project_uuid = obj.project_id
     if obj != None:
         GuestUser.delete_by_guest(obj.UUID)
         obj.delete_all()
-    return redirect(guests)
+    items, total_count = get_guest_items(request)
+    context = {'total_items': total_count, 'items': items, 'index': ITEMS_PER_PAGE, 'project_uuid': project_uuid}
+    return render(request, "guest/guest-list.html", context)
+
+    #return redirect(guests)
 
     #project_uuid = request.GET["project_uuid"] if "project_uuid" in request.GET else None
     #obj = get_or_none(Guest, request.GET["obj_id"]) if "obj_id" in request.GET else None
@@ -335,21 +400,21 @@ def delete_expired(project):
         #guest.deleted = 1
         #guest.save()
 
-def get_guest_items_by_project(request, project_uuid, ini=0, end=ITEMS_PER_PAGE):
-    filters_to_search = ["name__icontains", "room", "surname__icontains", "email__icontains", "mobile__icontains"]
-    search_value = request.session["guest_search_name"] if "guest_search_name" in request.session else ""
-
-    full_query = Q()
-    if search_value != "":
-        for myfilter in filters_to_search:
-            full_query |= Q(**{myfilter: search_value})
-        rooms_number = [item.number for item in webmod.Room.objects.filter(alias__icontains = search_value)]
-        full_query |= Q(**{'room__in': rooms_number})
-
-    #items = Guest.objects.filter(project_id=project_uuid).filter(full_query)
-    items = Guest.objects.filter(project_id=project_uuid, deleted=0).filter(full_query)
-    return items[ini:end], items.count()
-    #return Guest.objects.filter(project_id=project_uuid).filter(full_query)
+#def get_guest_items_by_project(request, project_uuid, ini=0, end=ITEMS_PER_PAGE):
+#    filters_to_search = ["name__icontains", "room", "surname__icontains", "email__icontains", "mobile__icontains"]
+#    search_value = request.session["guest_search_name"] if "guest_search_name" in request.session else ""
+#
+#    full_query = Q()
+#    if search_value != "":
+#        for myfilter in filters_to_search:
+#            full_query |= Q(**{myfilter: search_value})
+#        rooms_number = [item.number for item in webmod.Room.objects.filter(alias__icontains = search_value)]
+#        full_query |= Q(**{'room__in': rooms_number})
+#
+#    #items = Guest.objects.filter(project_id=project_uuid).filter(full_query)
+#    items = Guest.objects.filter(project_id=project_uuid, deleted=0).filter(full_query)
+#    return items[ini:end], items.count()
+#    #return Guest.objects.filter(project_id=project_uuid).filter(full_query)
 
 @group_required("projects")
 def guests_by_project(request):
@@ -357,7 +422,16 @@ def guests_by_project(request):
         project = get_or_none(Project, request.project_id)
         #items = Guest.objects.filter(project_id = project.uuid)
         #delete_expired(project)
-        items, total_count = get_guest_items_by_project(request, project.uuid)
+        request.session["gs_project"] = project.uuid
+        #request.session["project_uuid"] = project.uuid
+        if "gs_ini_date" not in request.session:
+            request.session["gs_ini_date"] = datetime.datetime.now().strftime('%Y-%m-%d')
+        if "gs_end_date" not in request.session:
+            end_date = datetime.datetime.now() + datetime.timedelta(days=7)
+            request.session["gs_end_date"] = end_date.strftime('%Y-%m-%d')
+ 
+        #items, total_count = get_guest_items_by_project(request, project.uuid)
+        items, total_count = get_guest_items(request, 0)
         limit = datetime.datetime.now() - datetime.timedelta(days=project.guest_delete)
 
         context = {'total_items': total_count, 'items': items, 'index': ITEMS_PER_PAGE, 'project': project, 'limit': limit, 'active': 'guests'}
@@ -372,9 +446,19 @@ def guests_by_project(request):
 def guest_search_by_project(request):
     try:
         project = get_or_none(Project, request.project_id)
-        set_session(request, "guest_search_name")
-        #items = get_guest_items_by_project(request, project.uuid)
-        items, total_count = get_guest_items_by_project(request, project.uuid)
+        request.session["gs_project"] = project.uuid
+        #request.session["project_uuid"] = project.uuid
+        #set_session(request, "guest_search_name")
+        #items, total_count = get_guest_items_by_project(request, project.uuid)
+        set_session(request, "gs_name")
+        set_session(request, "gs_room")
+        set_session(request, "gs_lang")
+        set_session(request, "gs_ext_id")
+        set_session(request, "gs_ini_date")
+        set_session(request, "gs_end_date")
+        set_session(request, "gs_ini_date_end")
+        set_session(request, "gs_end_date_end")
+        items, total_count = get_guest_items(request, 0)
 
         context = {'total_items': total_count, 'items': items, 'index': ITEMS_PER_PAGE}
         #context = {'total_items': items.count(), 'items': items[0:ITEMS_PER_PAGE], 'page': 0, 'project_uuid': project.uuid}
@@ -387,10 +471,11 @@ def guest_page_by_project(request):
     try:
         project = get_or_none(Project, request.project_id)
         #set_session(request, "guest_search_name")
-        page = get_param(request.GET, "page", 0)
-        ini = int(page)*ITEMS_PER_PAGE
-        end = ini+ITEMS_PER_PAGE
-        items, total_count = get_guest_items_by_project(request, project.uuid, ini, end)
+        #page = get_param(request.GET, "page", 0)
+        #ini = int(page)*ITEMS_PER_PAGE
+        #end = ini+ITEMS_PER_PAGE
+        #items, total_count = get_guest_items_by_project(request, project.uuid, ini, end)
+        items, total_count = get_guest_items(request, 0)
 
         context = {'total_items': total_count, 'items': items, 'index': end}
         context["project_uuid"] = get_param(request.GET, "project_uuid")
@@ -444,7 +529,8 @@ def guest_remove_by_project(request):
             #obj.remove_all_key_cards()
             #obj.delete()
 
-        items = get_guest_items_by_project(request, project.uuid)
+        #items = get_guest_items_by_project(request, project.uuid)
+        items = get_guest_items(request, 0)
         return render(request, "guest-by-project/guest-list.html", {'items':items, 'project_uuid': project.uuid})
     except Exception as e:
         return render(request, 'error_exception.html', {'exc':show_exc(e)})
@@ -479,7 +565,8 @@ def guest_soft_remove_all_by_project(request):
             msg += "<br/>-- Guest deleted."
             msg += "<br/>-----------------------"
 
-        items, total_count = get_guest_items_by_project(request, project.uuid)
+        #items, total_count = get_guest_items_by_project(request, project.uuid)
+        items = get_guest_items(request, 0)
         return render(request, "guest-by-project/guest-list.html", {'items':items, 'project_uuid': project.uuid, 'msg': msg})
     except Exception as e:
         return render(request, 'error_exception.html', {'exc':show_exc(e)})
@@ -818,8 +905,9 @@ def key_add_card_all(request):
         name = "{} {}".format(guest.name, guest.surname)
 
         err = guest.add_all_key_card(code, name)
-        msg =_("Card added successfully") if err == "" else "Error: {}".format(err)
-        return HttpResponse(msg);
+        msg =_("Card added successfully") if err == "" or "Error" not in err else "Card not added! {}".format(err)
+        return render(request, "guest/keys/guest-keys-all-msg.html", {"msg": msg})
+        #return HttpResponse(msg);
         #return render(request, "guest/keys/guest-keys-all.html", {"obj": guest, 'msg': True})
     except Exception as e:
         return render(request, "error_exception.html", {'exc':show_exc(e)})
