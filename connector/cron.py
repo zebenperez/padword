@@ -57,7 +57,8 @@ def winhotel_booking_schedule(project_uuid):
         e_date = s_date + timedelta(days=pau.days)
         #booking_list, err = wh_get_booking_list(pau, s_date.strftime("%Y-%m-%d"), e_date.strftime("%Y-%m-%d"))
         #booking_list, err = wh_get_booking_list(pau, "1")
-        booking_list, err = wh_get_booking_new_list(pau, "1")
+        #booking_list, err = wh_get_booking_new_list(pau, "1")
+        booking_list, err = wh_get_booking_range_list(pau, "1")
         result += render_to_string('winhotel/booking-log.html', {'booking_list': booking_list, "error": err})
 
         #pau = ProjectWinhotelUser.objects.filter(project_uuid=project.uuid).first()
