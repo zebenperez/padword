@@ -565,10 +565,12 @@ def guest_soft_remove_all_by_project(request):
             msg += "<br/>-- Guest deleted."
             msg += "<br/>-----------------------"
 
+        return redirect(guests_by_project)
         #items, total_count = get_guest_items_by_project(request, project.uuid)
-        items = get_guest_items(request, 0)
-        return render(request, "guest-by-project/guest-list.html", {'items':items, 'project_uuid': project.uuid, 'msg': msg})
+        #items = get_guest_items(request, 0)
+        #return render(request, "guest-by-project/guest-list.html", {'items':items, 'project_uuid': project.uuid, 'msg': msg})
     except Exception as e:
+        print(e)
         return render(request, 'error_exception.html', {'exc':show_exc(e)})
 
 
