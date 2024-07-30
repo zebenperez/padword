@@ -59,7 +59,8 @@ def redirect_project_user(request):
     elif menu == "rooms":
         return redirect('rooms-by-project')
     elif menu == "locks":
-        return redirect('locks-by-project2', request.project_id)
+        return redirect('locks-by-project2')
+        #return redirect('locks-by-project2', request.project_id)
     else:
         return render(request, 'error_exception.html', {'exc': _('Menu not found!')})
 
