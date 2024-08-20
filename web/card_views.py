@@ -130,9 +130,10 @@ def keycard_number_guest_remove(request):
     value = request.GET["value"]
     card_id = request.GET["card_id"]
     lock_id = request.GET["lock"]
+    card = get_param(request.GET, "card")
 
     lock = get_or_none(Lock, lock_id)
-    lock.remove_card(card_id)
+    lock.remove_card(card_id, card)
     card_result = number_search(value)
     return render (request, "web/keycards/keycard-number-search.html", {'card_list': card_result})
 
@@ -187,9 +188,10 @@ def keycard_number_guest_remove_by_project(request):
     value = request.GET["value"]
     card_id = request.GET["card_id"]
     lock_id = request.GET["lock"]
+    card = get_param(request.GET, "card")
 
     lock = get_or_none(Lock, lock_id)
-    lock.remove_card(card_id)
+    lock.remove_card(card_id, card)
     card_result = number_search_by_project(value, project)
     return render(request, "web/keycards-by-project/keycard-number-search.html", {'card_list': card_result})
 

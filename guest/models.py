@@ -236,7 +236,7 @@ class Guest(models.Model):
 
     def remove_all_key_codes(self):
         for key in self.keycodes.all():
-            errcode = key.lock.remove_code(key.code_id)
+            errcode = key.lock.remove_code(key.code_id, key.code)
             if errcode == 0:
                 key.delete()
 
@@ -244,7 +244,7 @@ class Guest(models.Model):
         msg = ""
         for key in self.keycodes.all():
             msg += "<br/> -> Remove code {} from key {}".format(key.code, key.lock.alias)
-            errcode = key.lock.remove_code(key.code_id)
+            errcode = key.lock.remove_code(key.code_id, key.code)
             msg += "<br/> --> {}".format(errcode)
             if errcode == 0:
                 key.delete()
@@ -274,7 +274,7 @@ class Guest(models.Model):
     def remove_all_key_cards(self, code=""):
         key_list = self.keycards.filter(code=code) if code != "" else self.keycards.all()
         for key in key_list:
-            errcode = key.lock.remove_card(key.card_id)
+            errcode = key.lock.remove_card(key.card_id, key.code)
             if errcode == 0:
                 key.delete()
 
@@ -283,7 +283,7 @@ class Guest(models.Model):
         msg = ""
         for key in key_list:
             msg += "<br/> -> Remove card code {} from key {}".format(key.code, key.lock.alias)
-            errcode = key.lock.remove_card(key.card_id)
+            errcode = key.lock.remove_card(key.card_id, key.code)
             msg += "<br/> --> {}".format(errcode)
             if errcode == 0:
                 key.delete()

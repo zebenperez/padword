@@ -915,4 +915,33 @@ def key_add_card_all(request):
         print(e)
         return render(request, "error_exception.html", {'exc':show_exc(e)})
 
+'''
+    Añadir tarjeta sin login
+'''
+def key_card_all_ext(request, project_uuid, ext_id):
+    try:
+        guest = Guest.objects.filter(ext_id=ext_id, project_id=project_uuid).first()
+        if guest == None:
+            return render(request, "error_exception.html", {'exc': 'Guest not found!'})
+        return render(request, "guest/keys/guest-keys-all.html", {"obj": guest})
+    except Exception as e:
+        print(e)
+        return render(request, "error_exception.html", {'exc':show_exc(e)})
+
+
+def key_add_card_all_ext(request, token):
+    try:
+        guest = get_or_none(Guest, request.GET["obj_id"])
+        code = reverse_cardkey(request.GET["value"])
+        name = "{} {}".format(guest.name, guest.surname)
+
+        err = guest.add_all_key_card(code, name)
+        msg =_("Tarjeta añadida correctamente!") if str(err) == "" or "Error" not in str(err) else "No se ha podido añadir la tarjeta! {}".format(err)
+        return render(request, "guest/keys/guest-keys-all-msg.html", {"msg": msg})
+        #return HttpResponse(msg);
+        #return render(request, "guest/keys/guest-keys-all.html", {"obj": guest, 'msg': True})
+    except Exception as e:
+        print(e)
+        return render(request, "error_exception.html", {'exc':show_exc(e)})
+
 

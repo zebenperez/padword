@@ -247,10 +247,12 @@ def room_lock_remove_card(request):
     try:
         lock = get_or_none(Lock, request.GET["obj_id"])
         card_id = request.GET["card_id"]
+        card = get_param(request.GET, "card")
 
-        errcode = lock.remove_card(card_id)
+        errcode = lock.remove_card(card_id, card)
         return render(request, "web/rooms/lock-details-cards.html", {"obj": lock})
     except Exception as e:
+        print(e)
         return render(request, "error_exception.html", {'exc':show_exc(e)})
 
 @group_required("admins", "projects")
@@ -290,8 +292,9 @@ def room_lock_remove_code(request):
     try:
         lock = get_or_none(Lock, request.GET["obj_id"])
         code_id = request.GET["code_id"]
+        code = get_param(request.GET, "code")
 
-        errcode = lock.remove_code(code_id)
+        errcode = lock.remove_code(code_id, code)
         msg = errcode if "Error" in str(errcode) else ""
         return render(request, "web/rooms/lock-details-codes.html", {"obj": lock, "msg": msg})
     except Exception as e:

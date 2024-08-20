@@ -20,6 +20,8 @@ class Lock(models.Model):
     state_cache = models.CharField(max_length=100, verbose_name=_('State cache'), default="")
     gateway_cache = models.CharField(max_length=900, verbose_name=_('Gateway cache'), default="")
     wifi_cache = models.CharField(max_length=900, verbose_name=_('Wifi cache'), default="")
+    code_cache = models.CharField(max_length=900, verbose_name=_('Code cache'), default="")
+    card_cache = models.CharField(max_length=900, verbose_name=_('Card cache'), default="")
     project_uuid = models.CharField(max_length=255, verbose_name=_('Project UUID'), default="")
     group_uuid = models.CharField(max_length=255, verbose_name=_('Project UUID'), default="")
 
@@ -82,6 +84,8 @@ class Lock(models.Model):
         #t5 = datetime.datetime.now()
         wifi_cache = obj.get_lock_wifi(self.uuid)
         #t6 = datetime.datetime.now()
+        code_cache = self.get_all_passcodes_cache()
+        card_cache = self.get_all_cards_cache()
 
         #self.state_cache = state_cache if "Error" not in str(state_cache) else ""
         self.state_cache = ""
@@ -90,6 +94,7 @@ class Lock(models.Model):
         self.gateway_cache = gateway_cache
         self.wifi_cache = wifi_cache if "Error" not in str(wifi_cache) else ""
         self.last_update = pytz.utc.localize(datetime.datetime.now())
+        self.code_cache = code_cache
         self.save()
         #t7 = datetime.datetime.now()
         #print("START: {}".format(t1))
@@ -108,7 +113,11 @@ class Lock(models.Model):
     def set_code(self, code, start_date, end_date, name=""):
         obj = ShLock(self.project.lock_access_token)
         code_name = name if name != "" else self.alias
-        return obj.set_lock_code(self.uuid, code, code_name, start_date, end_date)
+        lock =  obj.set_lock_code(self.uuid, code, code_name, start_date, end_date)
+        if "Error" not in str(lock) and code_name not in self.code_cache:
+            self.code_cache += ",{}".format(code)
+            self.save()
+        return lock
 
     def get_code(self, code_type, start_date, end_date, name=""):
         obj = ShLock(self.project.lock_access_token)
@@ -118,32 +127,62 @@ class Lock(models.Model):
         obj = ShLock(self.project.lock_access_token)
         return obj.change_lock_code(self.uuid, code_id, new_code, start_date, end_date)
 
-    def remove_code(self, code_id):
+    def remove_code(self, code_id, code=""):
         key_code_list = self.keycodes.filter(code_id=code_id)
         for key_code in key_code_list:
             key_code.delete()
         obj = ShLock(self.project.lock_access_token)
-        return obj.remove_lock_code(self.uuid, code_id)
+        lock = obj.remove_lock_code(self.uuid, code_id)
+        if "Error" not in str(lock) and code != "" and code in self.code_cache:
+            self.code_cache = self.code_cache.replace(",{}".format(code), "").replace(code, "")
+            self.save()
+        return lock
 
     def get_all_passcodes(self):
         obj = ShLock(self.project.lock_access_token)
         return obj.get_lock_all_passcodes(self.uuid)
 
+    def get_all_passcodes_cache(self):
+        codes_cache = ""
+        obj = ShLock(self.project.lock_access_token)
+        codes = obj.get_lock_all_passcodes(self.uuid)
+        if "Error" not in str(codes):
+            for code in codes:
+                codes_cache += "{},".format(code.get("keyboardPwd"))
+        return codes_cache[:-1] if len(codes_cache) > 0 else codes_cache
+
     def add_card(self, card_number, start_date, end_date, name=""):
         obj = ShLock(self.project.lock_access_token)
         card_name = name if name != "" else self.alias
-        return obj.lock_add_card(self.uuid, card_number, card_name, start_date, end_date)
+        lock = obj.lock_add_card(self.uuid, card_number, card_name, start_date, end_date)
+        if "Error" not in str(lock) and card_name not in self.card_cache:
+            self.card_cache += ",{}".format(card_number)
+            self.save()
+        return lock
 
-    def remove_card(self, code_id):
+    def remove_card(self, code_id, code=""):
         key_card_list = self.keycards.filter(card_id=code_id)
         for key_card in key_card_list:
             key_card.delete()
         obj = ShLock(self.project.lock_access_token)
-        return obj.remove_lock_card(self.uuid, code_id)
+        lock = obj.remove_lock_card(self.uuid, code_id)
+        if "Error" not in str(lock) and str(code) != "" and str(code) in self.card_cache:
+            self.card_cache = self.card_cache.replace(",{}".format(code), "").replace(code, "")
+            self.save()
+        return lock
 
     def get_all_cards(self):
         obj = ShLock(self.project.lock_access_token)
         return obj.get_lock_all_cards(self.uuid)
+
+    def get_all_cards_cache(self):
+        codes_cache = ""
+        obj = ShLock(self.project.lock_access_token)
+        codes = obj.get_lock_all_cards(self.uuid)
+        if "Error" not in str(codes):
+            for code in codes:
+                codes_cache += "{},".format(code.get("cardNumber"))
+        return codes_cache[:-1] if len(codes_cache) > 0 else codes_cache
 
     def change_period_card(self, card_id, start_date, end_date):
         obj = ShLock(self.project.lock_access_token)

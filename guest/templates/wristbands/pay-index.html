@@ -22,14 +22,19 @@
             <div class="d-none d-lg-block">
                 <input type="text" class="form-control text-center" id="band" name="band" style="padding:20px;border-radius:15px;font-size:1.8rem;"/>
                 <br/> <br/>
+                <button id="btn-send" class="ark" style="display:none" data-url="{% url "wristband-pay-send" %}" data-target-modal="common-modal" 
+                    data-obj_id="{{project.uuid}}" data-value="" data-amount="" data-lg="True"></button>
+                {%comment%}
                 <button id="btn-send" class="ark" style="display:none" data-url="{% url "wristband-pay-send" %}" data-target="div-result" 
                     data-obj_id="{{project.uuid}}" data-value="" data-amount="" data-lg="True"></button>
+                {%endcomment%}
             </div>
             <div class="d-lg-none"> {% include "wristbands/scan-nfc.html" %} </div>
             <div id="div-result" class="fixed-bottom my-3 mx-3"></div>
         </div>
     </div>
 </div>
+{% include "common-modal.html" %}
 <script>
     $("#amount").change(function(){ $("#btn-send").data("amount", $(this).val()); $("#btn-scan").data("amount", $(this).val()); });
     $("#band").change(function(){ 

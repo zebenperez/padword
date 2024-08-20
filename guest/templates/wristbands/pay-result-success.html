@@ -1,0 +1,43 @@
+{% load i18n bookings_tag common_tag padword_tags tpv_tags static %}
+
+
+<div class="row w-100 common-modal-head m-0 p-0">
+    <div class="col-12 text-end"><button type="button" class="btn btn-sm" data-bs-dismiss="modal"><i class="fas fa-times"></i></button> </div>
+</div>
+
+<div id="div-print">
+    <style>
+        .wb-pay-center{
+            text-align: center;
+        }
+    </style>
+    <div id="div-result-content" class="wb-pay-center" style="height:500px !important;">
+        {% trans "PAGO REALIZADO" %}
+        <hr/>
+        {% padword_translate desc %}
+        <hr/>
+        Fecha: {{date|date:'d-m-Y H:i'}}
+        <br/>
+        Cliente: {{guest}}
+        <br/>
+        Pulsera: {{band}}
+        <br/>
+        IMPORTE: {{amount}}
+        <br/>
+    </div>
+</div>
+<br/>
+<a class="" onclick="printContent('div-print');"><i class="fas fa-print"></i> {% trans "Imprimir" %}</a>
+
+<script> 
+    {% if next_action and next_action != "" %} window.open('{{next_action}}', '_blank').focus(); {% endif %} 
+
+    function printContent(el){
+        $('#common-modal').modal('hide');
+        var restorepage = $('body').html();
+        var printcontent = $('#' + el).clone();
+        $('body').empty().html(printcontent);
+        window.print();
+        $('body').html(restorepage);
+    }
+</script>

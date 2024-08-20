@@ -58,19 +58,24 @@ def get_lock_items(request, project_uuid, public=False):
     if "lock_search_passcode" in request.session and request.session["lock_search_passcode"] != "":
         lock_code = []
         for lock in lock_list:
-            item_list = lock.get_all_passcodes()
-            for item in item_list:
-                if item["keyboardPwd"] == request.session["lock_search_passcode"]: 
-                    lock_code.append(lock)
+            if request.session["lock_search_passcode"] in lock.code_cache:
+                lock_code.append(lock)
+#            item_list = lock.get_all_passcodes()
+#            for item in item_list:
+#                if item["keyboardPwd"] == request.session["lock_search_passcode"]: 
+#                    lock_code.append(lock)
         lock_list = set(lock_list) & set(lock_code)
 
     if "lock_search_cardcode" in request.session and request.session["lock_search_cardcode"] != "":
         lock_code = []
         for lock in lock_list:
-            item_list = lock.get_all_cards()
-            for item in item_list:
-                if str(item["cardNumber"]) == str(reverse_cardkey(request.session["lock_search_cardcode"])): 
-                    lock_code.append(lock)
+            card_code = reverse_cardkey(request.session["lock_search_cardcode"]) 
+            if card_code in lock.card_cache:
+                lock_code.append(lock)
+#            item_list = lock.get_all_cards()
+#            for item in item_list:
+#                if str(item["cardNumber"]) == str(reverse_cardkey(request.session["lock_search_cardcode"])): 
+#                    lock_code.append(lock)
         lock_list = set(lock_list) & set(lock_code)
 
     return lock_list 
@@ -120,11 +125,12 @@ def lock_search(request):
         project_uuid = get_param(request.GET, "project_uuid")
         project = get_or_none(Project, project_uuid, "uuid")
         lock_list = get_param(request.GET, "list")
+        card_code = reverse_cardkey(get_param(request.GET, "lock_search_cardcode")) 
 
         if lock_list == "":
             set_session(request, "lock_search_alias")
             set_session(request, "lock_search_passcode")
-            set_session(request, "lock_search_cardcode")
+            set_session(request, "lock_search_cardcode", card_code)
             set_session(request, "lock_search_group")
             #print(request.session["lock_search_cardcode"])
 
@@ -162,8 +168,9 @@ def lock_remove_code(request):
     try:
         lock = get_or_none(Lock, request.GET["obj_id"])
         code_id = request.GET["code_id"]
+        code = get_param(request.GET, "code")
 
-        errcode = lock.remove_code(code_id)
+        errcode = lock.remove_code(code_id, code)
         msg = errcode if "Error" in str(errcode) else ""
  
         return HttpResponse("")
@@ -177,7 +184,7 @@ def lock_remove_all_passcodes(request, obj_id=None):
         lock = get_or_none(Lock, request.GET["obj_id"])
         err = ""
         for code in lock.get_all_passcodes():
-            err2 = lock.remove_code(code["keyboardPwdId"])
+            err2 = lock.remove_code(code["keyboardPwdId"], code["keyboardPwd"])
             if err2 != 0:
                 err += "Code {}: {}<br/>".format(code["keyboardPwd"], err2)
         return render(request, "web/locks/lock-all-passcodes.html", {'obj': lock, "err": err})
@@ -196,8 +203,9 @@ def lock_remove_card(request):
     try:
         lock = get_or_none(Lock, request.GET["obj_id"])
         card_id = request.GET["card_id"]
+        card = get_param(request.GET, "card")
 
-        errcode = lock.remove_card(card_id)
+        errcode = lock.remove_card(card_id, card)
         return HttpResponse("")
         #return render(request, "web/locks/lock-all-cards.html", {'obj': lock,})
     except Exception as e:
@@ -209,7 +217,7 @@ def lock_remove_all_cards(request, obj_id=None):
         lock = get_or_none(Lock, request.GET["obj_id"])
         err = ""
         for code in lock.get_all_cards():
-            err2 = lock.remove_card(code["cardId"])
+            err2 = lock.remove_card(code["cardId"], code["cardNumber"])
             if err2 != 0:
                 err += "Code {}: {}<br/>".format(code["cardNumber"], err2)
         return render(request, "web/locks/lock-all-cards.html", {'obj': lock, 'err': err})
@@ -281,12 +289,12 @@ def lock_set_action(request):
                             item_list = lock.get_all_passcodes()
                             for item in item_list:
                                 if item["keyboardPwd"] == code_remove:
-                                    errcode = lock.remove_code(item["keyboardPwdId"])
+                                    errcode = lock.remove_code(item["keyboardPwdId"], item["keyboardPwd"])
                         if action == "5":
                             item_list = lock.get_all_cards()
                             for item in item_list:
                                 if str(item["cardNumber"]) == str(reverse_cardkey(code_remove)): 
-                                    errcode = lock.remove_card(item["cardId"])
+                                    errcode = lock.remove_card(item["cardId"], item["cardNumber"])
                         msg = errcode if "Error" in str(errcode) else ""
             except Exception as e:
                 msg += "<br/>{}".format(e)
@@ -388,6 +396,7 @@ def locks_by_project2(request):
         context["active"] = 'locks'
         return render(request, "web/locks-by-project/locks.html", context)
     except Exception as e:
+        print(e)
         return render(request, "error_exception.html", {'exc':show_exc(e)})
 
 @group_required("projects")
@@ -403,11 +412,12 @@ def lock_search_by_project(request):
     try:
         project = get_or_none(Project, request.project_id)
         lock_list = get_param(request.GET, "list")
+        card_code = reverse_cardkey(get_param(request.GET, "lock_search_cardcode")) 
 
         if lock_list == "":
             set_session(request, "lock_search_alias")
             set_session(request, "lock_search_passcode")
-            set_session(request, "lock_search_cardcode")
+            set_session(request, "lock_search_cardcode", card_code)
             set_session(request, "lock_search_group")
 
         context = get_context(request, project, True)
@@ -489,12 +499,12 @@ def lock_set_action_by_project(request):
                             item_list = lock.get_all_passcodes()
                             for item in item_list:
                                 if item["keyboardPwd"] == code_remove:
-                                    errcode = lock.remove_code(item["keyboardPwdId"])
+                                    errcode = lock.remove_code(item["keyboardPwdId"], item["keyboardPwd"])
                         if action == "5":
                             item_list = lock.get_all_cards()
                             for item in item_list:
                                 if str(item["cardNumber"]) == str(reverse_cardkey(code_remove)): 
-                                    errcode = lock.remove_card(item["cardId"])
+                                    errcode = lock.remove_card(item["cardId"], item["cardNumber"])
                         msg = errcode if "Error" in str(errcode) else ""
             except Exception as e:
                 msg += "<br/>{}".format(e)

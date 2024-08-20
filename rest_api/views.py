@@ -64,6 +64,7 @@ class GuestViewSet(viewsets.ModelViewSet):
                 "check_out": datetime.strptime(request.POST.get('check_out', ""), "%Y-%m-%d %H:%M"),
                 "project_id": pu.project_uuid,
             }
+            custom_code = request.POST.get('custom_code', "")
             #print(data)
 
             if len(data["mobile"]) < 9:
@@ -78,7 +79,10 @@ class GuestViewSet(viewsets.ModelViewSet):
                 logger.info("[{}]: \"Guest {} {} created\"".format(self.request.user, guest.name, guest.surname))
 
                 guest_data = self.serializer_class(guest).data
-                guest_data["lock_code_err"] = guest.add_all_key_code()
+                if custom_code != "":
+                    guest_data["lock_code_err"] = guest.add_all_key_code()
+                else:
+                    guest_data["lock_code_err"] = guest.add_all_key_code(custom_code)
                 #if guest.room != "":
                 #    guest.change_sensibo_devices(guest.room)
 

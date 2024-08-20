@@ -4,7 +4,10 @@
 <td><input type="checkbox" name="ch_{{item.id}}" /></td>
 <td>{{ item.uuid }}</td>
 <td>{% padword_translate item.alias %}</td>
-<td>{{ item.project.name }}</td>
+<td>{{ item.project.name }}
+    <br/>
+    {{item.card_cache}}
+</td>
 <td>{{ item.group.name }}</td>
 <td>{{ item.room }}</td>
 {#<td>{{ item.state_cache }}</td>#}

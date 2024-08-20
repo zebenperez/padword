@@ -353,8 +353,10 @@ def pay_send(request):
         except Exception as e:
             print(e)
 
-        msg = _('El pago se ha añadido correctamente al huésped: {}!'.format(guest_name))
-        return render(request, "wristbands/pay-result.html", {'error':False, 'msg': msg, 'next_action': next_action})
+        #msg = _('El pago se ha añadido correctamente al huésped: {}!'.format(guest_name))
+        #return render(request, "wristbands/pay-result.html", {'error':False, 'msg': msg, 'next_action': next_action})
+        form = Form.objects.filter(form_type__code="wb-pay", form_type__project_uuid=project.uuid).first()
+        return render(request, "wristbands/pay-result-success.html", {'desc': form.desc, 'date': datetime.now(), 'guest': guest_name, 'band': band.name, 'amount': amount, 'next_action': next_action})
     except Exception as e:
         print(e)
         return render(request, "wristbands/pay-result.html", {'error':True, 'msg': e})
