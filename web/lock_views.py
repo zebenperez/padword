@@ -524,7 +524,8 @@ def lock_set_action_by_project(request):
 def locks_update_info_back():
     lock_list = Lock.objects.all()
     for lock in lock_list:
-        lock.update_params()
+        if lock.project != None:
+            lock.update_params()
 
 def locks_update_info(request, code):
     #lock_list = Lock.objects.filter(project_uuid = request.GET["uuid"])
