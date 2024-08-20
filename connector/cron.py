@@ -159,10 +159,10 @@ def locks_tasks_schedule(project_uuid):
                     if l != None:
                         if task.task == "ADD CARD":
                             err = l.add_card(params[0], params[2], params[3], params[1])
-                            result += "--- AÑADIENDO TARJETA A CERRADURA [{}]: {}\n".format(l.id, err)
+                            result += "--- AÑADIENDO TARJETA A CERRADURA [{} - ({})]: {}\n".format(l.uuid, l.alias, err)
                         elif task.task == "ADD CODE":
                             err = l.set_code(params[0], params[2], params[3], params[1])
-                            result += "--- AÑADIENDO CÓDIGO A CERRADURA [{}]: {}\n".format(l.id, err)
+                            result += "--- AÑADIENDO CÓDIGO A CERRADURA [{} - ({})]: {}\n".format(l.uuid, l.alias, err)
             task.done = True
             task.save()
 
