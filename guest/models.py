@@ -165,8 +165,10 @@ class Guest(models.Model):
         #global_list = Lock.objects.filter(room="*", project_uuid=self.project_id).order_by("-room")
         group_uuid_list = [lock.group_uuid for lock in room_list]
         group_list = Lock.objects.filter(room="*", group_uuid__in=group_uuid_list, project_uuid=self.project_id).order_by("-room")
-        room_group_list = Lock.objects.filter(room="*", group_uuid=self.room_obj.lock_group_uuid, project_uuid=self.project_id).order_by("-room")
-        return items.union(room_list).union(global_list).union(group_list).union(room_group_list)
+        if self.room_obj != None:
+            room_group_list = Lock.objects.filter(room="*", group_uuid=self.room_obj.lock_group_uuid, project_uuid=self.project_id).order_by("-room")
+            return items.union(room_list).union(global_list).union(group_list).union(room_group_list)
+        return items.union(room_list).union(global_list).union(group_list)
 
     def get_locks_json(self):
         #lock_list = Lock.objects.filter(Q(room=self.room) | Q(room="*")).filter(project_uuid=self.project_id).order_by("-room") if self.room != "" else []
