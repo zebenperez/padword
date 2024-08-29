@@ -70,7 +70,7 @@ def get_lock_items(request, project_uuid, public=False):
         lock_code = []
         for lock in lock_list:
             card_code = reverse_cardkey(request.session["lock_search_cardcode"]) 
-            if card_code in lock.card_cache:
+            if str(card_code) in str(lock.card_cache):
                 lock_code.append(lock)
 #            item_list = lock.get_all_cards()
 #            for item in item_list:

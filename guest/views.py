@@ -876,6 +876,7 @@ def key_add_card(request):
         guest.add_all_key_card(code, name)
         return render(request, "guest/keys/guest-keys.html", {"obj": guest})
     except Exception as e:
+        print(e)
         return render(request, "error_exception.html", {'exc':show_exc(e)})
 
 @group_required("admins", "projects")
