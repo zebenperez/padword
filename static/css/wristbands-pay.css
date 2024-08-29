@@ -37,13 +37,38 @@ i.fas.fa-power-off
 .pay-access img {
     height: 70px;
 }
+.btn-success {
+    color: #fff;
+    background-color: #a1c517;
+    border-color: #a1c517;
+}
+.btn-success:hover {
+    color: #fff;
+    background-color: #97b522;
+    border-color: #97b522;
+}
 
 #div-result-content {
     border-radius: 15px !important; 
-    height:200px !important;
+/*    height:200px !important;*/
+    height:500px !important;
     padding-top: 25% !important; 
     background-color: white !important; 
-    padding: 60px 15px 70px 15px !important; 
-    font-size: 1.6rem !important;
+    padding: 0px 0px 0px 0px !important; 
+    /*font-size: 1.6rem !important;*/
     border:1px solid #ccc !important;
+}
+.wb-pay-center {
+    font-size: 1.2rem;
+    text-align: center;
+
+}
+.alert-success {
+    font-size: 1.5rem;
+    border-radius: 15px 15px 0 0 !important; 
+    border-color:white !important;
+}
+.print-info {
+    border-top: 1px solid #ccc;
+    line-height: 1.5;
 }
