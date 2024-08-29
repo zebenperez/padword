@@ -7,27 +7,25 @@
 
 <div id="div-print">
     <style>
-        .wb-pay-center{
-            text-align: center;
-        }
     </style>
-    <div id="div-result-content" class="wb-pay-center" style="height:500px !important;">
-        {% trans "PAGO REALIZADO" %}
-        <hr/>
-        {% padword_translate desc %}
-        <hr/>
-        Fecha: {{date|date:'d-m-Y H:i'}}
-        <br/>
-        Cliente: {{guest}}
-        <br/>
-        Pulsera: {{band}}
-        <br/>
-        IMPORTE: {{amount}}
+    <div id="div-result-content" class="wb-pay-center">
+        <div class="alert alert-success"><strong>{% trans "PAGO REALIZADO" %}</strong></div>
+        <div class="pt-3"><strong>{% padword_translate desc %}</strong></div>
+        <div class="print-info pt-5">
+            Fecha: <strong>{{date|date:'d-m-Y H:i'}}</strong>
+            <br/>
+            Cliente: <strong>{{guest}}</strong>
+            <br/>
+            Pulsera: <strong>{{band}}</strong>
+            <br/>
+            <br/>
+            IMPORTE: <strong>{{amount}} €</strong>
+        </div>
         <br/>
     </div>
 </div>
 <br/>
-<a class="" onclick="printContent('div-print');"><i class="fas fa-print"></i> {% trans "Imprimir" %}</a>
+<a class="btn btn-success" onclick="printContent('div-print');"><i class="fas fa-print"></i> {% trans "Imprimir" %}</a>
 
 <script> 
     {% if next_action and next_action != "" %} window.open('{{next_action}}', '_blank').focus(); {% endif %} 

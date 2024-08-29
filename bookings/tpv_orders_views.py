@@ -24,9 +24,9 @@ ITEMS_PER_PAGE=get_items_per_page()
 '''
     Project users
 '''
-def filter_search_guest(name, uuid_project_list):
-    uuid_guests = list(Guest.objects.filter(Q(name__icontains=name) | Q(surname__icontains=name) | Q(email__icontains=name) | Q(mobile__icontains=name) | Q(room=name)).filter(project_id__in = uuid_project_list).values_list('UUID', flat=True))
-    return uuid_guests
+#def filter_search_guest(name, uuid_project_list):
+#    uuid_guests = list(Guest.objects.filter(Q(name__icontains=name) | Q(surname__icontains=name) | Q(email__icontains=name) | Q(mobile__icontains=name) | Q(room=name)).filter(project_id__in = uuid_project_list).values_list('UUID', flat=True))
+#    return uuid_guests
 
 
 def search(project_uuid, ini_date, end_date, name, status, s_id=""):
@@ -45,7 +45,8 @@ def search(project_uuid, ini_date, end_date, name, status, s_id=""):
         ed = end_date.split("-")
         kwargs["date__lte"] = datetime.datetime(int(ed[0]), int(ed[1]), int(ed[2]), 23, 59, 59)
     if name != "":
-        kwargs["guest_uuid__in"] = filter_search_guest(name, [project_uuid])
+        #kwargs["guest_uuid__in"] = filter_search_guest(name, [project_uuid])
+        return FormInstance.objects.filter(**kwargs).filter(Q(info__client__icontains=name) | Q(info__client_email__icontains=name) | Q(info__client_mobile__icontains=name) | Q(info__client_room__icontains=name))
 
     return FormInstance.objects.filter(**kwargs)
     #items = FormInstance.objects.filter(**kwargs)
