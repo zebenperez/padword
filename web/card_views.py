@@ -147,25 +147,26 @@ def number_search_by_project(value, project):
         lock_list = Lock.objects.filter(project_uuid = project.uuid)
         for lock in lock_list:
             try:
-                card_list = lock.get_all_cards()
-                for card in card_list:
-                    if (card["cardNumber"] == cardkey):
-                        guest_card_list = GuestKeyCard.objects.filter(lock=lock, code=cardkey)
-                        guests = ["{} {}".format(item.guest.name, item.guest.surname) for item in guest_card_list]
-                        dic = {
-                            'value': value, 
-                            'project': lock.project.name, 
-                            'lock_id': lock.id, 
-                            'lock_alias': lock.alias, 
-                            'lock_room': lock.room, 
-                            'card_id': card["cardId"], 
-                            'card_number': card["cardNumber"],
-                            'card_name': card["cardName"],
-                            'start_date': card["startDate"],
-                            'end_date': card["endDate"],
-                            'guests': "<br/>".join(guests)
-                        }
-                        card_result.append(dic)
+                if cardkey in lock.card_cache:
+                    card_list = lock.get_all_cards()
+                    for card in card_list:
+                        if (card["cardNumber"] == cardkey):
+                            guest_card_list = GuestKeyCard.objects.filter(lock=lock, code=cardkey)
+                            guests = ["{} {}".format(item.guest.name, item.guest.surname) for item in guest_card_list]
+                            dic = {
+                                'value': value, 
+                                'project': lock.project.name, 
+                                'lock_id': lock.id, 
+                                'lock_alias': lock.alias, 
+                                'lock_room': lock.room, 
+                                'card_id': card["cardId"], 
+                                'card_number': card["cardNumber"],
+                                'card_name': card["cardName"],
+                                'start_date': card["startDate"],
+                                'end_date': card["endDate"],
+                                'guests': "<br/>".join(guests)
+                            }
+                            card_result.append(dic)
             except Exception as e:
                 #print(e)
                 pass
