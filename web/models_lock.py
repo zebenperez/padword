@@ -20,8 +20,10 @@ class Lock(models.Model):
     state_cache = models.CharField(max_length=100, verbose_name=_('State cache'), default="")
     gateway_cache = models.CharField(max_length=900, verbose_name=_('Gateway cache'), default="")
     wifi_cache = models.CharField(max_length=900, verbose_name=_('Wifi cache'), default="")
-    code_cache = models.CharField(max_length=900, verbose_name=_('Code cache'), default="")
-    card_cache = models.CharField(max_length=1900, verbose_name=_('Card cache'), default="")
+    #code_cache = models.CharField(max_length=900, verbose_name=_('Code cache'), default="")
+    #card_cache = models.CharField(max_length=1900, verbose_name=_('Card cache'), default="")
+    code_cache = models.TextField(verbose_name=_('Code cache'), default="")
+    card_cache = models.TextField(verbose_name=_('Card cache'), default="")
     project_uuid = models.CharField(max_length=255, verbose_name=_('Project UUID'), default="")
     group_uuid = models.CharField(max_length=255, verbose_name=_('Project UUID'), default="")
 
