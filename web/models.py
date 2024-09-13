@@ -121,8 +121,8 @@ class Project(models.Model):
         if pu == None:
             return ""
         menu_mod = pu.menus_mod.first()
-        if menu_mod != None:
-            return menu_mod.code
+        if menu_mod != None and menu_mod.menu != None:
+            return menu_mod.menu.code
         if len(pu.menus) > 0:
             return pu.menus.split(";")[0]
         return ""
@@ -315,7 +315,7 @@ class ProjectUser(models.Model):
     menus = models.CharField(max_length = 1000, verbose_name= _('Menus'), default='orders;guests;notifications', blank=True)
     menus_promo = models.CharField(max_length = 1000, verbose_name= _('Menus Promo'), default='', blank=True)
     image = models.ImageField(upload_to=upload_image, blank=True, verbose_name="Imagen de perfil", help_text="Select file to upload")
-    menus_mod = models.ManyToManyField(Menu, verbose_name=_("Menus"), blank=True, related_name="menus")
+    #menus_mod = models.ManyToManyField(Menu, verbose_name=_("Menus"), blank=True, related_name="menus")
 
     class Meta:
         verbose_name = _('Project user')
@@ -347,6 +347,19 @@ class ProjectUser(models.Model):
                 return None
         pu, created = ProjectUser.objects.get_or_create(project_uuid=project_uuid, username=user.username)
         return user
+
+class ProjectUserMenu(models.Model):
+    order = models.IntegerField(verbose_name=_('Order'), default=0, null=True)
+    menu = models.ForeignKey(Menu, verbose_name=_('Menu'), on_delete=models.SET_NULL, null=True)
+    project_user = models.ForeignKey(ProjectUser, verbose_name=_('ProjectUser'), on_delete=models.CASCADE, null=True, related_name="menus_mod")
+
+    def __str__(self):
+        return str(self.order)
+
+    class Meta:
+        verbose_name = _('Project User Menu')
+        ordering = ['order']
+
 
 class Device(models.Model):
     uuid = models.CharField(max_length=255, verbose_name=_('UUID'), default="")

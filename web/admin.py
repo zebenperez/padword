@@ -1,10 +1,16 @@
 from django.contrib import admin
-from .models import ProjectUser, Waiter, Module, Menu
+from .models import ProjectUser, Waiter, Module, Menu, ProjectUserMenu
+
+
+class ProjectUserMenuTabular(admin.TabularInline):
+    model = ProjectUserMenu
+    extra = 1
 
 class ProjectUserAdmin(admin.ModelAdmin):
-	list_display = ('project', 'user')
-	search_fields = ['project_uuid', 'username']
-	filter_horizontal = ('menus_mod',)
+    list_display = ('project', 'user')
+    search_fields = ['project_uuid', 'username']
+    inlines = [ProjectUserMenuTabular,]
+    #filter_horizontal = ('menus_mod',)
 
 admin.site.register(ProjectUser, ProjectUserAdmin)
 
