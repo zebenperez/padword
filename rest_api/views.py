@@ -315,7 +315,7 @@ class LockViewSet(viewsets.ModelViewSet):
             pu = ProjectUser.objects.get(username=self.request.user.username)
             logger.info("[{}]: \"Lock list\"".format(self.request.user))
             return Lock.objects.filter(project_uuid=pu.project_uuid)
-        except:
+        except Exception as e:
             logger.error("[{}]: \"{}\"".format(self.request.user, str(e)))
             return Lock.objects.none()
 
