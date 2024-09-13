@@ -50,6 +50,7 @@ class GuestViewSet(viewsets.ModelViewSet):
 
     def create(self, request):
         try:
+            print("--1--")
             pu = ProjectUser.objects.get(username=self.request.user.username)
             data = {
                 "UUID": new_ui_slug(Guest, "UUID"),
@@ -67,7 +68,7 @@ class GuestViewSet(viewsets.ModelViewSet):
             custom_code = request.POST.get('custom_code', "")
             #print(data)
 
-            if len(data["mobile"]) < 9:
+            if len(data["mobile"]) < 9 and custom_code == "":
                 msg = "Mobile is required and must be at least 9 characters long!"
                 logger.error("[{}]: \"{}\"".format(self.request.user, msg))
                 return Response(data={'error': 'true', 'msg': msg}, status=status.HTTP_400_BAD_REQUEST)
@@ -90,6 +91,7 @@ class GuestViewSet(viewsets.ModelViewSet):
                 return Response(data=guest_data, status=status.HTTP_201_CREATED)
                 #return Response(data=self.serializer_class(guest).data, status=status.HTTP_201_CREATED)
             else:
+                print(e)
                 logger.error("[{}]: \"Bad request!\"".format(self.request.user))
                 return Response(data=serializer.errors, status=status.HTTP_400_BAD_REQUEST)
         except Exception as e:

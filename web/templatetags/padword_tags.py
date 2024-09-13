@@ -143,8 +143,8 @@ def have_menu(user_project, menu):
     if pu == None:
         return False
     # NEW
-    for m in pu.menus_mod.all():
-        if m.code == menu:
+    for m in pu.menus_mod.all().order_by('order'):
+        if m.menu != None and m.menu.code == menu:
             return True
     # DEPRECATED
     for m in pu.menus.split(";"):

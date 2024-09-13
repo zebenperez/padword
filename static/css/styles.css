@@ -1199,7 +1199,8 @@ img.img-cart-line {
     height:55px;
 	line-height: 1.5;
     background: rgb(255,255,255);
-    background: linear-gradient(270deg, rgba(255,255,255,1) 17%, rgba(20,62,83,1) 99%);
+    /*background: linear-gradient(270deg, rgba(255,255,255,1) 17%, rgba(20,62,83,1) 99%);*/
+    background: linear-gradient(270deg, rgba(255,255,255,1) 10%, rgba(20,62,83,1) 99%);
     position: fixed !important;
     top: 0;
     z-index: 1020;
@@ -1215,14 +1216,16 @@ img.img-cart-line {
     color: #143e53;
 }
 
+/****************************
+ estilo original project-menu
+****************************/
+/*
 .project-menu {
 }
 
 .menu-proyect-tab {
- /*   margin-bottom: -19px;*/
     margin-left: -5px;
     margin-right: 10px;
-    /*background-color: #ffffff;*/
     border:1px solid white;
 }
 
@@ -1238,8 +1241,6 @@ img.img-cart-line {
     font-size: 0.8rem;
     font-weight:600;
     letter-spacing: 0;
-    /*border-top-left-radius: 0.25rem!important;
-    border-top-right-radius: 0.25rem!important;*/
     border-radius: 0.25rem!important;
 }
 
@@ -1248,20 +1249,74 @@ img.img-cart-line {
     font-size: 0.85rem;
     letter-spacing: 0px;
 }
-/*
-i.text-white { color: #143e53 !important; }
 */
+
+/****************************
+    final estilo original project-menu
+****************************/
+
+
+/****************************
+ estilo NUEVO project-menu
+****************************/
+
+.new-header {
+    display: inline-flex;
+    display: grid;
+    grid-template-columns: 5% 10% 70% 10% 5%;
+    align-items: center;
+    width: 100%;
+}
+
+.div-menu-project {
+    display: inline-flex;
+    grid-template-columns: auto;
+    align-items: center;
+    justify-content: start;
+    justify-items: start;
+    width: 100%;
+}
+
+.menu-project-tab {
+    border:1px solid #ffffff;
+}
+
+.menu-project-tab a {
+    color: #c5c5c5;
+    color: #fff;
+    font-size: 0.8rem;
+    letter-spacing: 0;
+}
+.menu-project-tab a i {
+    font-size: 12px !important;
+}
+.menu-project-tab .active-tab {
+    background-color: #35a8df;
+    color: #fff;
+    font-size: 0.8rem;
+    font-weight:600;
+    letter-spacing: 0;
+    border-radius: 0.25rem!important;
+}
+
+.project-name {
+    color: #143e53;
+    font-size: 0.85rem;
+    letter-spacing: 0px;
+}
+
+/****************************
+    final estilo NUEVO project-menu
+****************************/
+
+
+
 .header i { font-size: 17px; font-weight: light !important; }
 i.fas.fa-bars.menu { color: #dfdfdf !important;; }
 i.fas.fa-power-off { color: #143e53 !important; }
 i.fas.fa-user-circle, i.fas.fa-sign-out-alt.text-white, a.dropdown-toggle { color: #5b7898 !important; }
 a.dropdown-toggle { font-size: 1.6rem !important; }
 
-/*
-.divbars-menu { 
-    width: 50px; 
-}
-*/
 
 .general { width: 100%; }
 ul.left-menu { 
