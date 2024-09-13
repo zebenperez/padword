@@ -130,9 +130,10 @@ def keycard_number_guest_remove(request):
     value = request.GET["value"]
     card_id = request.GET["card_id"]
     lock_id = request.GET["lock"]
+    card = get_param(request.GET, "card")
 
     lock = get_or_none(Lock, lock_id)
-    lock.remove_card(card_id)
+    lock.remove_card(card_id, card)
     card_result = number_search(value)
     return render (request, "web/keycards/keycard-number-search.html", {'card_list': card_result})
 
@@ -146,25 +147,26 @@ def number_search_by_project(value, project):
         lock_list = Lock.objects.filter(project_uuid = project.uuid)
         for lock in lock_list:
             try:
-                card_list = lock.get_all_cards()
-                for card in card_list:
-                    if (card["cardNumber"] == cardkey):
-                        guest_card_list = GuestKeyCard.objects.filter(lock=lock, code=cardkey)
-                        guests = ["{} {}".format(item.guest.name, item.guest.surname) for item in guest_card_list]
-                        dic = {
-                            'value': value, 
-                            'project': lock.project.name, 
-                            'lock_id': lock.id, 
-                            'lock_alias': lock.alias, 
-                            'lock_room': lock.room, 
-                            'card_id': card["cardId"], 
-                            'card_number': card["cardNumber"],
-                            'card_name': card["cardName"],
-                            'start_date': card["startDate"],
-                            'end_date': card["endDate"],
-                            'guests': "<br/>".join(guests)
-                        }
-                        card_result.append(dic)
+                if cardkey in lock.card_cache:
+                    card_list = lock.get_all_cards()
+                    for card in card_list:
+                        if (card["cardNumber"] == cardkey):
+                            guest_card_list = GuestKeyCard.objects.filter(lock=lock, code=cardkey)
+                            guests = ["{} {}".format(item.guest.name, item.guest.surname) for item in guest_card_list]
+                            dic = {
+                                'value': value, 
+                                'project': lock.project.name, 
+                                'lock_id': lock.id, 
+                                'lock_alias': lock.alias, 
+                                'lock_room': lock.room, 
+                                'card_id': card["cardId"], 
+                                'card_number': card["cardNumber"],
+                                'card_name': card["cardName"],
+                                'start_date': card["startDate"],
+                                'end_date': card["endDate"],
+                                'guests': "<br/>".join(guests)
+                            }
+                            card_result.append(dic)
             except Exception as e:
                 #print(e)
                 pass
@@ -187,9 +189,10 @@ def keycard_number_guest_remove_by_project(request):
     value = request.GET["value"]
     card_id = request.GET["card_id"]
     lock_id = request.GET["lock"]
+    card = get_param(request.GET, "card")
 
     lock = get_or_none(Lock, lock_id)
-    lock.remove_card(card_id)
+    lock.remove_card(card_id, card)
     card_result = number_search_by_project(value, project)
     return render(request, "web/keycards-by-project/keycard-number-search.html", {'card_list': card_result})
 

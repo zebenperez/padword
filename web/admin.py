@@ -1,5 +1,6 @@
 from django.contrib import admin
 from .models import ProjectUser, Waiter, Module, Menu, ProjectUserMenu
+from .models_lock import Lock
 
 
 class ProjectUserMenuTabular(admin.TabularInline):
@@ -28,3 +29,12 @@ class MenuAdmin(admin.ModelAdmin):
 
 admin.site.register(Module, ModuleAdmin)
 admin.site.register(Menu, MenuAdmin)
+
+class LockAdmin(admin.ModelAdmin):
+	list_display = ('uuid', 'alias', 'project_uuid', 'room')
+	search_fields = ['project_uuid', 'uuid', 'alias']
+	list_filter = ('project_uuid',)
+
+admin.site.register(Lock, LockAdmin)
+
+

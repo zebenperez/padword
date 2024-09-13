@@ -1,0 +1,41 @@
+{% load i18n bookings_tag common_tag padword_tags tpv_tags static %}
+
+
+<div class="row w-100 common-modal-head m-0 p-0">
+    <div class="col-12 text-end"><button type="button" class="btn btn-sm" data-bs-dismiss="modal"><i class="fas fa-times"></i></button> </div>
+</div>
+
+<div id="div-print">
+    <style>
+    </style>
+    <div id="div-result-content" class="wb-pay-center">
+        <div class="alert alert-success"><strong>{% trans "PAGO REALIZADO" %}</strong></div>
+        <div class="pt-3"><strong>{% padword_translate desc %}</strong></div>
+        <div class="print-info pt-5">
+            Fecha: <strong>{{date|date:'d-m-Y H:i'}}</strong>
+            <br/>
+            Cliente: <strong>{{guest}}</strong>
+            <br/>
+            Pulsera: <strong>{{band}}</strong>
+            <br/>
+            <br/>
+            IMPORTE: <strong>{{amount}} €</strong>
+        </div>
+        <br/>
+    </div>
+</div>
+<br/>
+<a class="btn btn-success" onclick="printContent('div-print');"><i class="fas fa-print"></i> {% trans "Imprimir" %}</a>
+
+<script> 
+    {% if next_action and next_action != "" %} window.open('{{next_action}}', '_blank').focus(); {% endif %} 
+
+    function printContent(el){
+        $('#common-modal').modal('hide');
+        var restorepage = $('body').html();
+        var printcontent = $('#' + el).clone();
+        $('body').empty().html(printcontent);
+        window.print();
+        $('body').html(restorepage);
+    }
+</script>

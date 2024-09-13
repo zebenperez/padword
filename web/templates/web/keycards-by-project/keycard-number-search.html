@@ -30,7 +30,8 @@
                 <td> {{item.guests}}</td> 
                 <td>
                     <a class="me-1 btn btn-xs ark" title="{%trans "Remove from guest"%}" data-url="{%url "keycard-number-guest-remove-by-project"%}" 
-                        data-target="keycard-result" data-value="{{item.value}}" data-card_id="{{item.card_id}}" data-lock="{{item.lock_id}}">
+                        data-target="keycard-result" data-value="{{item.value}}" data-card_id="{{item.card_id}}" data-lock="{{item.lock_id}}"
+                        data-card="{{item.card_number}}">
                         <i class="fas fa-trash"></i></a>  
                 </td>
             </tr>

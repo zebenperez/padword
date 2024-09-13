@@ -61,7 +61,7 @@
                 <td class="text-end">
                     <a class="btn btn-outline-warning ark w-100" title="{%trans "Remove card"%}" data-url="{% url "lock-remove-card" %}"
                         data-obj_id="{{obj.id}}" data-card_id="{{item.cardId}}" data-confirm="{%trans "Are you sure to remove this element?"%}" 
-                        data-target="tr-{{item.cardId}}">{%trans "Remove card"%} </a>
+                        data-card="{{item.cardNumber}}" data-target="tr-{{item.cardId}}">{%trans "Remove card"%} </a>
                 </td>
             </tr>
         {% endfor %}

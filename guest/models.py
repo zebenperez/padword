@@ -165,6 +165,9 @@ class Guest(models.Model):
         #global_list = Lock.objects.filter(room="*", project_uuid=self.project_id).order_by("-room")
         group_uuid_list = [lock.group_uuid for lock in room_list]
         group_list = Lock.objects.filter(room="*", group_uuid__in=group_uuid_list, project_uuid=self.project_id).order_by("-room")
+        if self.room_obj != None:
+            room_group_list = Lock.objects.filter(room="*", group_uuid=self.room_obj.lock_group_uuid, project_uuid=self.project_id).order_by("-room")
+            return items.union(room_list).union(global_list).union(group_list).union(room_group_list)
         return items.union(room_list).union(global_list).union(group_list)
 
     def get_locks_json(self):
@@ -233,7 +236,7 @@ class Guest(models.Model):
 
     def remove_all_key_codes(self):
         for key in self.keycodes.all():
-            errcode = key.lock.remove_code(key.code_id)
+            errcode = key.lock.remove_code(key.code_id, key.code)
             if errcode == 0:
                 key.delete()
 
@@ -241,7 +244,7 @@ class Guest(models.Model):
         msg = ""
         for key in self.keycodes.all():
             msg += "<br/> -> Remove code {} from key {}".format(key.code, key.lock.alias)
-            errcode = key.lock.remove_code(key.code_id)
+            errcode = key.lock.remove_code(key.code_id, key.code)
             msg += "<br/> --> {}".format(errcode)
             if errcode == 0:
                 key.delete()
@@ -271,7 +274,7 @@ class Guest(models.Model):
     def remove_all_key_cards(self, code=""):
         key_list = self.keycards.filter(code=code) if code != "" else self.keycards.all()
         for key in key_list:
-            errcode = key.lock.remove_card(key.card_id)
+            errcode = key.lock.remove_card(key.card_id, key.code)
             if errcode == 0:
                 key.delete()
 
@@ -280,7 +283,7 @@ class Guest(models.Model):
         msg = ""
         for key in key_list:
             msg += "<br/> -> Remove card code {} from key {}".format(key.code, key.lock.alias)
-            errcode = key.lock.remove_card(key.card_id)
+            errcode = key.lock.remove_card(key.card_id, key.code)
             msg += "<br/> --> {}".format(errcode)
             if errcode == 0:
                 key.delete()

@@ -36,7 +36,7 @@
                 </td>
                 <td class="text-end">
                     <a class="btn btn-primary ark large" title="{%trans "Remove code"%}" data-url="{% url "room-lock-remove-code" %}"
-                        data-obj_id="{{obj.id}}" data-code_id="{{item.keyboardPwdId}}" 
+                        data-obj_id="{{obj.id}}" data-code_id="{{item.keyboardPwdId}}" data-code="{{item.keyboardPwd}}"
                         data-confirm="{%trans "Are you sure to remove this element?"%}" data-target="code-details">{%trans "Remove code"%} </a>
                 </td>
             </tr>

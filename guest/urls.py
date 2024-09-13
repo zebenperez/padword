@@ -96,6 +96,9 @@ urlpatterns = [
 
     path('guests/key-card-all/', views.key_card_all, name="guest-key-card-all"),
     path('guests/key-add-card-all/', views.key_add_card_all, name="guest-key-add-card-all"),
+
+    path('ext/find-card/<slug:project_uuid>/<slug:ext_id>/', views.key_card_all_ext, name="guest-key-card-all-ext"),
+    path('ext/add-card/', views.key_add_card_all_ext, name="guest-key-add-card-all-ext"),
     #path('guests/keys/', views.keys, name="guest-keys"),
     #path('guests/key/assign/', views.key_assign, name="guest-assign-key"),
     #path('guests/key/remove/', views.key_remove, name="guest-remove-key"),

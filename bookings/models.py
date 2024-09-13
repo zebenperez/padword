@@ -183,10 +183,14 @@ class Form(models.Model):
         return Item.objects.filter(id__in=item_list)
 
     def to_tickets(self, start_id="", start_date="", end_date="", status=""):
-        if start_date != "" and end_date != "":
-            s_date = date_to_utc(datetime.datetime.strptime(start_date, "%Y-%m-%d_%H:%M:%S"), self.project.time_zone_name)
-            e_date = date_to_utc(datetime.datetime.strptime(end_date, "%Y-%m-%d_%H:%M:%S"), self.project.time_zone_name)
-            fi_list = FormInstance.objects.filter(form_uuid=self.uuid, date__range=(s_date, e_date))
+        #if start_date != "" and end_date != "":
+        if start_date != "":
+            s_date = date_to_utc(datetime.datetime.strptime(start_date, "%Y-%m-%d_%H:%M"), self.project.time_zone_name)
+            if end_date != "":
+                e_date = date_to_utc(datetime.datetime.strptime(end_date, "%Y-%m-%d_%H:%M"), self.project.time_zone_name)
+                fi_list = FormInstance.objects.filter(form_uuid=self.uuid, date__range=(s_date, e_date))
+            else:
+                fi_list = FormInstance.objects.filter(form_uuid=self.uuid, date__gte=s_date)
         elif start_id != "":
             fi_list = FormInstance.objects.filter(pk__gte=start_id, form_uuid=self.uuid).order_by("id")
         else:

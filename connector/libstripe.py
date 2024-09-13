@@ -87,7 +87,7 @@ class ShStripe:
                 'quantity': 1,
             }],
             mode='payment', 
-            payment_method_options = {'card': {'setup_future_usage': 'off_session', 'request_three_d_secure': 'automatic'}},
+            payment_method_options = {'card': {'setup_future_usage': 'on_session'}},
             success_url = self.success_url,
             cancel_url = self.cancel_url,
         )
@@ -121,7 +121,7 @@ class ShStripe:
                 customer=customer_id,
                 payment_method=payment_method_id,
                 automatic_payment_methods={ 'enabled': True, },
-                setup_future_usage='off_session',
+                setup_future_usage='on_session',
                 return_url=self.return_pay_url,
                 confirm=True
             )

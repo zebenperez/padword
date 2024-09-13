@@ -565,10 +565,12 @@ def guest_soft_remove_all_by_project(request):
             msg += "<br/>-- Guest deleted."
             msg += "<br/>-----------------------"
 
+        return redirect(guests_by_project)
         #items, total_count = get_guest_items_by_project(request, project.uuid)
-        items = get_guest_items(request, 0)
-        return render(request, "guest-by-project/guest-list.html", {'items':items, 'project_uuid': project.uuid, 'msg': msg})
+        #items = get_guest_items(request, 0)
+        #return render(request, "guest-by-project/guest-list.html", {'items':items, 'project_uuid': project.uuid, 'msg': msg})
     except Exception as e:
+        print(e)
         return render(request, 'error_exception.html', {'exc':show_exc(e)})
 
 
@@ -874,6 +876,7 @@ def key_add_card(request):
         guest.add_all_key_card(code, name)
         return render(request, "guest/keys/guest-keys.html", {"obj": guest})
     except Exception as e:
+        print(e)
         return render(request, "error_exception.html", {'exc':show_exc(e)})
 
 @group_required("admins", "projects")
@@ -905,11 +908,41 @@ def key_add_card_all(request):
         name = "{} {}".format(guest.name, guest.surname)
 
         err = guest.add_all_key_card(code, name)
-        msg =_("Card added successfully") if err == "" or "Error" not in err else "Card not added! {}".format(err)
+        msg =_("Tarjeta añadida correctamente!") if str(err) == "" or "Error" not in str(err) else "No se ha podido añadir la tarjeta! {}".format(err)
         return render(request, "guest/keys/guest-keys-all-msg.html", {"msg": msg})
         #return HttpResponse(msg);
         #return render(request, "guest/keys/guest-keys-all.html", {"obj": guest, 'msg': True})
     except Exception as e:
+        print(e)
+        return render(request, "error_exception.html", {'exc':show_exc(e)})
+
+'''
+    Añadir tarjeta sin login
+'''
+def key_card_all_ext(request, project_uuid, ext_id):
+    try:
+        guest = Guest.objects.filter(ext_id=ext_id, project_id=project_uuid).first()
+        if guest == None:
+            return render(request, "error_exception.html", {'exc': 'Guest not found!'})
+        return render(request, "guest/keys/guest-keys-all.html", {"obj": guest})
+    except Exception as e:
+        print(e)
+        return render(request, "error_exception.html", {'exc':show_exc(e)})
+
+
+def key_add_card_all_ext(request, token):
+    try:
+        guest = get_or_none(Guest, request.GET["obj_id"])
+        code = reverse_cardkey(request.GET["value"])
+        name = "{} {}".format(guest.name, guest.surname)
+
+        err = guest.add_all_key_card(code, name)
+        msg =_("Tarjeta añadida correctamente!") if str(err) == "" or "Error" not in str(err) else "No se ha podido añadir la tarjeta! {}".format(err)
+        return render(request, "guest/keys/guest-keys-all-msg.html", {"msg": msg})
+        #return HttpResponse(msg);
+        #return render(request, "guest/keys/guest-keys-all.html", {"obj": guest, 'msg': True})
+    except Exception as e:
+        print(e)
         return render(request, "error_exception.html", {'exc':show_exc(e)})
 
 
