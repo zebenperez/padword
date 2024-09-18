@@ -48,21 +48,26 @@ def redirect_project_user(request):
         return render(request, 'error_exception.html', {'exc': _('Project not found!')})
 
     menu = project.get_first_menu(request.user.username)
-    if menu == "orders":
-        return redirect('bookings-by-project')
-        #return redirect('bookings-by-project', request.project_id)
-    elif menu == "guests":
-        #return redirect('guests-by-project', project.uuid)
-        return redirect('guests-by-project')
-    elif menu == "notifications":
-        return redirect('guest-notifications')
-    elif menu == "rooms":
-        return redirect('rooms-by-project')
-    elif menu == "locks":
-        return redirect('locks-by-project2')
-        #return redirect('locks-by-project2', request.project_id)
-    else:
+    try:
+        return redirect(menu.url)
+    except:
         return render(request, 'error_exception.html', {'exc': _('Menu not found!')})
+
+#    if menu == "orders":
+#        return redirect('bookings-by-project')
+#        #return redirect('bookings-by-project', request.project_id)
+#    elif menu == "guests":
+#        #return redirect('guests-by-project', project.uuid)
+#        return redirect('guests-by-project')
+#    elif menu == "notifications":
+#        return redirect('guest-notifications')
+#    elif menu == "rooms":
+#        return redirect('rooms-by-project')
+#    elif menu == "locks":
+#        return redirect('locks-by-project2')
+#        #return redirect('locks-by-project2', request.project_id)
+#    else:
+#        return render(request, 'error_exception.html', {'exc': _('Menu not found!')})
 
 def thanks(request):
     return render(request, "thanks.html")
