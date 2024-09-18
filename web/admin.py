@@ -25,7 +25,7 @@ class ModuleAdmin(admin.ModelAdmin):
 	list_display = ('code', 'name', 'desc')
 
 class MenuAdmin(admin.ModelAdmin):
-	list_display = ('code', 'name')
+	list_display = ('code', 'name', 'url', 'ico', 'promo')
 
 admin.site.register(Module, ModuleAdmin)
 admin.site.register(Menu, MenuAdmin)

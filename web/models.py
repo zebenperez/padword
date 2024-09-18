@@ -293,8 +293,11 @@ class Channel(models.Model):
         ordering = ['project__name', 'name']
 
 class Menu(models.Model):
+    promo = models.BooleanField(verbose_name=_("Promo"), default = False)
     code = models.CharField(max_length = 255, verbose_name= _('Code'), default='')
     name = models.CharField(max_length = 255, verbose_name= _('Name'), default='')
+    url = models.CharField(max_length = 255, verbose_name= _('Url'), default='')
+    ico = models.CharField(max_length = 255, verbose_name= _('Icono'), default='')
 
     def __str__(self):
         return self.name

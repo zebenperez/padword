@@ -384,7 +384,7 @@ def get_main_menu(user, path, active=""):
         if user.groups.filter(name="projects").exists():
             obj = ProjectUser.objects.filter(username=user.username).first()
             if obj != None: 
-                return {'user': user, 'menu': "projects", "project": obj.project, "path": path, "active": active}
+                return {'user': user, 'menu': "projects", "project": obj.project, "project_user": obj, "path": path, "active": active}
         if user.groups.filter(name="admins").exists() or user.is_superuser:
             return {'user': user, 'menu': "admins", "active": active}
     except:
@@ -456,4 +456,7 @@ def show_emails(obj):
 def show_timetable(obj):
     return {'obj': obj,}
 
+@register.inclusion_tag('project_user_menu.html')
+def show_timetable(project_user):
+    return {'project_user': project_user,}
 
