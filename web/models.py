@@ -122,7 +122,7 @@ class Project(models.Model):
             return ""
         menu_mod = pu.menus_mod.first()
         if menu_mod != None and menu_mod.menu != None:
-            return menu_mod.menu.code
+            return menu_mod.menu
         if len(pu.menus) > 0:
             return pu.menus.split(";")[0]
         return ""
