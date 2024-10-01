@@ -50,7 +50,6 @@ class GuestViewSet(viewsets.ModelViewSet):
 
     def create(self, request):
         try:
-            print("--1--")
             pu = ProjectUser.objects.get(username=self.request.user.username)
             data = {
                 "UUID": new_ui_slug(Guest, "UUID"),
@@ -80,7 +79,7 @@ class GuestViewSet(viewsets.ModelViewSet):
                 logger.info("[{}]: \"Guest {} {} created\"".format(self.request.user, guest.name, guest.surname))
 
                 guest_data = self.serializer_class(guest).data
-                if custom_code != "":
+                if custom_code == "":
                     guest_data["lock_code_err"] = guest.add_all_key_code()
                 else:
                     guest_data["lock_code_err"] = guest.add_all_key_code(custom_code)
