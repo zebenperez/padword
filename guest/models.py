@@ -41,6 +41,7 @@ class Guest(models.Model):
     balance = models.FloatField(verbose_name='Balance', default=0.)
     deleted = models.IntegerField(verbose_name='Deleted', default=0)
     ext_id = models.CharField(max_length=255, verbose_name='External ID', default="", blank=True, null=True)
+    custom_code = models.CharField(max_length=255, verbose_name='Custom Code', default="", blank=True, null=True)
 
     @property
     def project(self):
