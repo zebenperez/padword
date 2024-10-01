@@ -9,7 +9,7 @@ from contents.models import ShoppingCart
 
 import datetime, csv, os, ftplib
 
-FILES_DIR = os.path.join(settings.BASE_DIR, "media/tpv/orders-daily/")
+#FILES_DIR = os.path.join(settings.BASE_DIR, "media/tpv/orders-daily/")
 
 def get_date_z():
     return datetime.datetime.strptime("{} 23:59:59".format(datetime.datetime.now().strftime("%Y-%m-%d")), "%Y-%m-%d %H:%M:%S")

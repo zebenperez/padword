@@ -17,6 +17,16 @@ FILES_DIR = os.path.join(settings.BASE_DIR, "media/tpv/orders-daily/")
 '''
     TPV Orders Daily
 '''
+def getFiles(project_uuid, ext_code=""):
+    path = "{}{}/".format(FILES_DIR, project_uuid)
+    file_list = []
+    if os.path.exists(path):
+        if ext_code != "":
+            file_list = [f for f in os.listdir(path) if re.match(r'.*{}*'.format(ext_code), f)]
+        else:
+            file_list = [f for f in os.listdir(path)]
+    return file_list
+
 def search(project_uuid, pos):
     form = Form.objects.filter(form_type__code="tpv", form_type__project_uuid=project_uuid).first()
     kwargs = {'form_uuid': form.uuid}
@@ -29,8 +39,9 @@ def orders_daily_by_project(request):
     try:
         project = get_or_none(Project, request.project_id)
         point_of_sales = PointOfSale.objects.filter(project_uuid=project.uuid)
-        file_list = [f for f in os.listdir(FILES_DIR)]
-        return render (request, "bookings/tpv-orders-daily/index.html", {"pos_list": point_of_sales, 'file_list': file_list})
+        file_list = getFiles(project.uuid)
+        context = {"pos_list": point_of_sales, 'file_list': file_list, "project_uuid": project.uuid}
+        return render (request, "bookings/tpv-orders-daily/index.html", context)
     except Exception as e:
         print (show_exc(e))
         logger.error("[bookings-orders_by_project] {}".format(str(e)))
@@ -44,7 +55,8 @@ def orders_daily_search(request):
         pos = get_or_none(PointOfSale, pos_id)
         items = search(project.uuid, pos)
 
-        file_list = [f for f in os.listdir(FILES_DIR) if re.match(r'.*{}*'.format(pos.ext_code), f)]
+        file_list = getFiles(project.uuid, pos.ext_code) if pos != None else getFiles(project.uuid)
+        #file_list = [f for f in os.listdir("{}{}/".format(FILES_DIR, project.uuid)) if re.match(r'.*{}*'.format(pos.ext_code), f)]
         return render(request, "bookings/tpv-orders-daily/index-content.html", {'pos': pos, 'file_list': file_list})
     except Exception as e:
         print (show_exc(e))
@@ -86,7 +98,8 @@ def orders_daily_summary(request):
 #                total_price = item.low_price if item.low_price < item.price else item.price
 #                writer.writerow([obj.ext_code, name, "", item.item.ext_id, desc, date, fi.id, item.price, 1, discount, total_price, room, client_id])
 #
-        file_list = [f for f in os.listdir(FILES_DIR) if re.match(r'.*{}*'.format(obj.ext_code), f)]
+        file_list = getFiles(obj.project_uuid, obj.ext_code)
+        #file_list = [f for f in os.listdir("{}{}/".format(FILES_DIR, obj.project_uuid)) if re.match(r'.*{}*'.format(obj.ext_code), f)]
         return render(request, "bookings/tpv-orders-daily/index-content.html", {'pos': obj, 'file_list': file_list})
     except Exception as e:
         print(e)
@@ -97,8 +110,9 @@ def orders_daily_remove(request):
     try:
         obj = get_or_none(PointOfSale, request.GET["obj_id"]) 
         name = request.GET["name"]
-        os.remove("{}{}".format(FILES_DIR, name))
-        file_list = [f for f in os.listdir(FILES_DIR) if re.match(r'.*{}*'.format(obj.ext_code), f)]
+        os.remove("{}{}/{}".format(FILES_DIR, obj.project_uuid, name))
+        file_list = getFiles(obj.project_uuid, obj.ext_code)
+        #file_list = [f for f in os.listdir("{}{}/".format(FILES_DIR, obj.project_uuid)) if re.match(r'.*{}*'.format(obj.ext_code), f)]
         return render(request, "bookings/tpv-orders-daily/index-content.html", {'pos': obj, 'file_list': file_list})
     except Exception as e:
         print(e)

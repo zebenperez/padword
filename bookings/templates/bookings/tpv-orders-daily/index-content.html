@@ -30,7 +30,7 @@
         <tbody id="table-list-bookings">
             {% for item in file_list %}
                 <tr class="small" id="row_{{item.id}}"> 
-                    <td><a href="/media/tpv/orders-daily/{{item}}" target="_blank">{{item}}</a></td>
+                    <td><a href="/media/tpv/orders-daily/{{project_uuid}}/{{item}}" target="_blank">{{item}}</a></td>
                     <td class="text-right">
                         {% if pos %}
                         <a class="btn btn-sm ark" data-url="{% url "orders-daily-remove" %}" data-target="file-list" data-name="{{item}}" 
