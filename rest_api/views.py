@@ -60,19 +60,17 @@ class GuestViewSet(viewsets.ModelViewSet):
                 "email": request.POST.get('email', ""),
                 "room": request.POST.get('room', ""),
                 "ext_id": request.POST.get('ext_id', ""),
-                "lock_code": request.POST.get('lock_code', ""),
                 "check_in": datetime.strptime(request.POST.get('check_in', ""), "%Y-%m-%d %H:%M"),
                 "check_out": datetime.strptime(request.POST.get('check_out', ""), "%Y-%m-%d %H:%M"),
                 "project_id": pu.project_uuid,
             }
             #print(data)
+            lock_code = request.POST.get('lock_code', ""),
 
-            if len(data["mobile"]) < 9 and data["lock_code"] == "":
+            if len(data["mobile"]) < 9 and lock_code == "":
                 msg = "Mobile is required and must be at least 9 characters long!"
                 logger.error("[{}]: \"{}\"".format(self.request.user, msg))
                 return Response(data={'error': 'true', 'msg': msg}, status=status.HTTP_400_BAD_REQUEST)
-
-            data["lock_code"] = data["lock_code"] if data["lock_code"] != "" else data["mobile"].rstrip()[-4:]
 
             serializer = self.serializer_class(data=data)
             if serializer.is_valid():
@@ -81,12 +79,14 @@ class GuestViewSet(viewsets.ModelViewSet):
                 logger.info("[{}]: \"Guest {} {} created\"".format(self.request.user, guest.name, guest.surname))
 
                 guest_data = self.serializer_class(guest).data
-                guest_data["lock_code_err"] = guest.add_all_key_code(data["lock_code"])
+                guest_data["lock_code_err"] = guest.add_all_key_code() if lock_code == "" else guest.add_all_key_code(lock_code)
+                guest_data["lock_code"] = guest.lock_code 
 
-                #if data["custom_code"] == "":
+                #if data["lock_code"] == "":
                 #    guest_data["lock_code_err"] = guest.add_all_key_code()
                 #else:
-                #    guest_data["lock_code_err"] = guest.add_all_key_code(data["custom_code"])
+                #    guest_data["lock_code_err"] = guest.add_all_key_code(data["lock_code"])
+
                 #if guest.room != "":
                 #    guest.change_sensibo_devices(guest.room)
 
