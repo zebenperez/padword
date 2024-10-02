@@ -1,5 +1,6 @@
 from django.db import models
 from django.utils.translation import ugettext as _
+import datetime
 
 
 class ProjectAvantioUser(models.Model):
@@ -46,6 +47,8 @@ class ProjectWinhotelUser(models.Model):
     target_code = models.CharField(max_length=255, verbose_name=_('Target code'), default="")
     ftp = models.CharField(max_length=900, verbose_name=_('FTP'), default="")
     ftp_filename = models.CharField(max_length=255, verbose_name=_('FTP Filename'), default="")
+    ini_time = models.TimeField(_("Initial Time"), blank=True, default=datetime.time(14, 00))
+    end_time = models.TimeField(_("End Time"), blank=True, default=datetime.time(12, 00))
     project_uuid = models.CharField(max_length=255, verbose_name=_('Project UUID'), default="")
 
     @property
