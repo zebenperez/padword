@@ -65,7 +65,7 @@ class GuestViewSet(viewsets.ModelViewSet):
                 "project_id": pu.project_uuid,
             }
             #print(data)
-            lock_code = request.POST.get('lock_code', ""),
+            lock_code = request.POST.get("lock_code", "")
 
             if len(data["mobile"]) < 9 and lock_code == "":
                 msg = "Mobile is required and must be at least 9 characters long!"
