@@ -60,6 +60,11 @@ urlpatterns = [
     path('wristbands/project/', wristband_views.wristbands_by_project, name='wristbands-by-project'),
     path('wristbands/project/search/', wristband_views.wristbands_search_by_project, name='wristbands-search-by-project'),
 
+    path('wristbands-access/', wristband_views.wristbands_access, name='wristbands-access'),
+    path('wristbands-access/search/', wristband_views.wristbands_access_search, name='wristbands-access-search'),
+    path('wristbands-access/index/<slug:project_uuid>/', wristband_views.wristbands_access_index, name='wristbands-access-index'),
+    path('wristbands-access/send/', wristband_views.wristbands_access_send, name='wristbands-access-send'),
+
     #--------------------- DEVICES --------------------
     path('', views.index, name='device-index'),
     path('devices/', views.devices, name='guest-devices'),

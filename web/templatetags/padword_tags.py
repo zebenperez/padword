@@ -456,7 +456,8 @@ def show_emails(obj):
 def show_timetable(obj):
     return {'obj': obj,}
 
-@register.inclusion_tag('project_user_menu.html')
+#@register.inclusion_tag('project_user_menu.html')
+@register.inclusion_tag('project-menu.html')
 def show_timetable(project_user):
     return {'project_user': project_user,}
 

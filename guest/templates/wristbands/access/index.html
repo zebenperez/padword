@@ -1,0 +1,44 @@
+{% extends "base_guest.html" %}
+{% load i18n bookings_tag common_tag padword_tags tpv_tags static %}
+        
+{%block extralinks%} <link rel="stylesheet" href="{% static 'css/wristbands-pay.css' %}?v=1234" > {% endblock %}
+
+{% block central_content %}
+    <div id="base" style="background-color: #d6d6d6;">
+        <div id="base-tpv-mobile">
+            <div class="row header-wrist-pay pay-access w-100 text-center m-0">
+                <div class="col-lg-3 col-3 name" style="width: 80px;">
+                    <img src="{%if project.logo%}{{project.logo.url}}{%endif%}" alt="logo" width="80%"/>
+                </div>
+                <div class="col-lg-3 offset-lg-2 col-7 text-center">
+                    <h1><i class="fas fa-hand-holding-usd"></i> {% trans "ACCEDER" %}</h1>
+                </div>
+                {%comment%}
+                <div class="col-lg-1 offset-lg-3 col-2 text-center">
+                    <button class="btn btn-header-pwa ark" data-url="{% url "wristband-pay-close" %}" data-target="base" 
+                        data-project_uuid="{{project.uuid}}"> <i class="fas fa-power-off"></i></button>
+                </div>
+                {%endcomment%}
+            </div>
+            <div id="main" class="main-tpv-mobile p-3">
+                <h2>TARJETA</h2>
+                <div class="d-none d-lg-block">
+                    <input type="text" class="form-control text-center" id="band" name="band" style="padding:20px;border-radius:15px;font-size:1.8rem;"/>
+                    <br/> <br/>
+                    <button id="btn-send" class="ark" style="display:none" data-url="{% url "wristbands-access-send" %}" data-target="div-result" 
+                        data-obj_id="{{project.uuid}}" data-value="" data-lg="True"></button>
+                </div>
+                {#<div class="d-lg-none"> {% include "wristbands/scan-nfc.html" %} </div>#}
+                <div id="div-result" class="fixed-bottom my-3 mx-3"></div>
+            </div>
+        </div>
+    </div>
+    {% include "common-modal.html" %}
+    <script>
+        $("#band").change(function(){ 
+            $("#btn-send").data("value", $(this).val()); 
+            $("#btn-send").click();
+        });
+    </script>
+{% endblock %}
+

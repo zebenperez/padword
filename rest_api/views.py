@@ -78,6 +78,8 @@ class GuestViewSet(viewsets.ModelViewSet):
                 guest = Guest.objects.create(**data)
                 logger.info("[{}]: \"Guest {} {} created\"".format(self.request.user, guest.name, guest.surname))
 
+                print("-1-")
+                print(lock_code)
                 guest_data = self.serializer_class(guest).data
                 guest_data["lock_code_err"] = guest.add_all_key_code() if lock_code == "" else guest.add_all_key_code(lock_code)
                 guest_data["lock_code"] = guest.lock_code 

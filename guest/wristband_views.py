@@ -5,7 +5,7 @@ from django.shortcuts import render, redirect
 from django.urls import reverse
 from django.utils.translation import ugettext_lazy as _ 
 
-from .models import Guest, Wristband, WristbandBalance, WristbandType, WristbandLog
+from .models import Guest, Wristband, WristbandBalance, WristbandType, WristbandLog, WristbandAccess
 from web.models import Project, Waiter
 from padword.commons import show_exc, get_or_none, get_param, reverse_cardkey, get_float, get_int
 from padword.decorators import group_required
@@ -230,6 +230,57 @@ def wristbands_search_by_project(request):
     except Exception as e:
         print(e)
         return render(request, 'error_exception.html', {'exc':show_exc(e)})
+
+'''
+    Wristbands Access
+'''
+@group_required("admins")
+def wristbands_access(request):
+    return render (request, "wristbands/access/wristbands.html", {'active': 'wristbands-access'})
+
+@group_required("admins")
+def wristbands_access_search(request):
+    value = reverse_cardkey(get_param(request.GET, "value"))
+    band_result = Wristband.objects.filter(code=value).first()
+    return render (request, "wristbands/access/wristbands-search.html", {'band': band_result, 'band_code': value})
+
+def wristbands_access_index(request, project_uuid):
+    try:
+        project = get_or_none(Project, project_uuid, "uuid")
+
+        return render(request, "wristbands/access/index.html", {'project': project})
+    except Exception as e:
+        print(e)
+        return render(request, "error_exception.html", {'exc':show_exc(e)})
+
+def wristbands_access_send(request):
+    try:
+        print("--1--")
+        project_uuid = get_param(request.GET, "obj_id")
+        project = get_or_none(Project, project_uuid, "uuid")
+        code = get_param(request.GET, "value")
+
+        if "lg" in request.GET:
+            code = reverse_cardkey(code)
+            
+        band = Wristband.get_active_by_project(project, code)
+        if band == None:
+            msg = _("Error!, Por favor revise que:<br/>- La pulsera está dada de alta<br/>- Las fechas de uso son correctas")
+            return render(request, "wristbands/access/result.html", {'error':True, 'msg': msg})
+            
+        last_access = band.access.all().order_by("-id").first()
+        if last_access == None or last_access.inside == False:
+            msg = _('Ha entrado correctamente!')
+            WristbandAccess.objects.create(wristband=band, inside=True)
+        else:
+            msg = _('Ha salido correctamente!')
+            WristbandAccess.objects.create(wristband=band, inside=False)
+        return render(request, "wristbands/access/result.html", {'error':False, 'msg': msg})
+    except Exception as e:
+        print(e)
+        return render(request, "wristbands/pay-result.html", {'error':True, 'msg': e})
+        #return render(request, "error_exception.html", {'exc':show_exc(e)})
+
 
 '''
     Wristbands Direct Pay
