@@ -641,6 +641,16 @@ class WristbandAccess(models.Model):
         verbose_name = _("Wristband log")
         verbose_name_plural = _("Wristbands log")
 
+class WristbandAccessPoint(models.Model):
+    in_point = models.BooleanField(verbose_name=_("In point"), default=False)
+    uuid = models.CharField(max_length = 255, verbose_name= _('UUID'), default=new_ui_slug)
+    name = models.CharField(max_length=255, verbose_name='Name', default="")
+    project_uuid = models.CharField(max_length = 255, verbose_name= _('Project UUID'), default='')
+
+    class Meta:
+        verbose_name = _("Wristband log")
+        verbose_name_plural = _("Wristbands log")
+
 
 '''
     Regime

@@ -26,7 +26,7 @@
                     <input type="text" class="form-control text-center" id="band" name="band" placeholder="Acerque la tarjeta al lector para acceder" />
                     <br/> <br/>
                     <button id="btn-send" class="ark" style="display:none" data-url="{% url "wristbands-access-send" %}" data-target="div-result" 
-                        data-obj_id="{{project.uuid}}" data-value="" data-lg="True"></button>
+                        data-obj_id="{{project.uuid}}" data-value="" data-point="{{access_point.uuid}}" data-lg="True"></button>
                 </div>
                 {#<div class="d-lg-none"> {% include "wristbands/scan-nfc.html" %} </div>#}
                 <div id="div-result" class="fixed-bottom my-3 mx-3"></div>
@@ -35,6 +35,7 @@
     </div>
     {% include "common-modal.html" %}
     <script>
+        $("#band").focus(); 
         $("#band").change(function(){ 
             $("#btn-send").data("value", $(this).val()); 
             $("#btn-send").click();
