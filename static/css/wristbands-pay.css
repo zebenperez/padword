@@ -3,6 +3,40 @@
     background-color: #d6d6d6;
 }
 
+.access-wrist {
+    background-image: url(/static/img/bg-wrist-access.png);    
+    background-repeat: no-repeat;
+    background-color: #fff;
+    background-position: top center;
+    height: 800px;
+    width: 100%;
+}
+.access-wrist img {
+  height: 800px;
+  width: 100%;
+  object-fit: fill;
+}
+
+.access-panel {
+    background-color: #000;
+    border:2px solid white;
+    border-radius: 15px;
+    margin-top: 200px;
+    opacity: 0.5;
+}
+.access-panel h1 {
+    color: white;
+    font-weight: 600;
+}
+.access-panel input {
+    background: white;
+    color: #666;
+    padding:20px;
+    border-radius:15px;
+    font-size:1.5rem;
+    font-style: italic;
+}
+
 .header-wrist-pay
 {
 	align-items: center;
@@ -50,14 +84,31 @@ i.fas.fa-power-off
 
 #div-result-content {
     border-radius: 15px !important; 
-/*    height:200px !important;*/
     height:500px !important;
     padding-top: 25% !important; 
     background-color: white !important; 
     padding: 0px 0px 0px 0px !important; 
-    /*font-size: 1.6rem !important;*/
     border:1px solid #ccc !important;
 }
+#div-result-content.prueba.text-center.alert-danger,
+#div-result-content.prueba.text-center.alert-success {
+    width: 50% !important;
+    height: 100px !important;
+    margin:auto !important;
+    margin-top: -200px !important; 
+    line-height: 2;
+}
+#div-result-content.prueba.text-center.alert-danger {
+    color: #842029 !important;
+    background-color: #f8d7da !important;
+    border-color: #f5c2c7 !important;
+}
+#div-result-content.prueba.text-center.alert-success {
+    color: #0f5132 !important;
+    background-color: #d1e7dd !important;
+    border-color: #badbcc !important;
+}
+
 .wb-pay-center {
     font-size: 1.2rem;
     text-align: center;
@@ -71,4 +122,25 @@ i.fas.fa-power-off
 .print-info {
     border-top: 1px solid #ccc;
     line-height: 1.5;
+}
+
+@media (max-width: 480px) 
+{ 
+    .access-panel input {
+        font-size:0.9rem;
+    }
+    .access-wrist img {
+        height: 800px;
+        width: 50%;
+    }
+    #div-result-content.prueba.text-center.alert-danger,
+    #div-result-content.prueba.text-center.alert-success {
+        width: 90% !important;
+        height: 100px !important;
+        margin:auto !important;
+        margin-left: 0 !important;
+        margin-top: -150px !important; 
+        line-height: 2;
+    }
+
 }
