@@ -64,10 +64,10 @@ class GuestViewSet(viewsets.ModelViewSet):
                 "check_out": datetime.strptime(request.POST.get('check_out', ""), "%Y-%m-%d %H:%M"),
                 "project_id": pu.project_uuid,
             }
-            custom_code = request.POST.get('custom_code', "")
             #print(data)
+            lock_code = request.POST.get("lock_code", "")
 
-            if len(data["mobile"]) < 9:
+            if len(data["mobile"]) < 9 and lock_code == "":
                 msg = "Mobile is required and must be at least 9 characters long!"
                 logger.error("[{}]: \"{}\"".format(self.request.user, msg))
                 return Response(data={'error': 'true', 'msg': msg}, status=status.HTTP_400_BAD_REQUEST)
@@ -79,10 +79,14 @@ class GuestViewSet(viewsets.ModelViewSet):
                 logger.info("[{}]: \"Guest {} {} created\"".format(self.request.user, guest.name, guest.surname))
 
                 guest_data = self.serializer_class(guest).data
-                if custom_code != "":
-                    guest_data["lock_code_err"] = guest.add_all_key_code()
-                else:
-                    guest_data["lock_code_err"] = guest.add_all_key_code(custom_code)
+                guest_data["lock_code_err"] = guest.add_all_key_code() if lock_code == "" else guest.add_all_key_code(lock_code)
+                guest_data["lock_code"] = guest.lock_code 
+
+                #if data["lock_code"] == "":
+                #    guest_data["lock_code_err"] = guest.add_all_key_code()
+                #else:
+                #    guest_data["lock_code_err"] = guest.add_all_key_code(data["lock_code"])
+
                 #if guest.room != "":
                 #    guest.change_sensibo_devices(guest.room)
 
@@ -315,7 +319,7 @@ class LockViewSet(viewsets.ModelViewSet):
             pu = ProjectUser.objects.get(username=self.request.user.username)
             logger.info("[{}]: \"Lock list\"".format(self.request.user))
             return Lock.objects.filter(project_uuid=pu.project_uuid)
-        except:
+        except Exception as e:
             logger.error("[{}]: \"{}\"".format(self.request.user, str(e)))
             return Lock.objects.none()
 

@@ -36,7 +36,7 @@ class Guest(models.Model):
     adults = models.IntegerField(verbose_name='Adults', default=0)
     children = models.IntegerField(verbose_name='Childrens', default=0)
     babies = models.IntegerField(verbose_name='Babies', default=0)
-    mobile = models.CharField(max_length=255, verbose_name='Mobile', default="")
+    mobile = models.CharField(max_length=255, verbose_name='Mobile', default="", blank=True)
     email = models.CharField(max_length=255, verbose_name='Email', default="", blank=True)
     balance = models.FloatField(verbose_name='Balance', default=0.)
     deleted = models.IntegerField(verbose_name='Deleted', default=0)
@@ -101,6 +101,11 @@ class Guest(models.Model):
     @property
     def stripe(self):
         return self.stripes.first() if self.stripes.count() > 0 else GuestStripe.objects.create(guest=self)
+
+    @property
+    def lock_code(self):
+        key_code = self.keycodes.all().first() 
+        return key_code.code if key_code != None else ""
 
     def get_code(self):
         if self.email != None and self.email != "" and "@" in self.email:
