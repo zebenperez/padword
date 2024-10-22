@@ -193,6 +193,19 @@ class Guest(models.Model):
         #return dic
         return lock_list_result
 
+    def get_locks_passcode_json(self):
+        lock_list = self.get_locks()
+        lock_list_result = []
+        dic = {}
+        for lock in lock_list:
+            dic["uuid"] = lock.uuid
+            dic["alias"] = lock.alias
+            dic["codes"] = []
+            for code in self.keycodes.filter(lock=lock):
+                dic["codes"].append(code.code)
+            lock_list_result.append(dic)
+        return lock_list_result
+
     def add_key_code(self, lock, code=""):
         code = self.mobile_to_code() if code == "" else code
         #code_id = lock.set_code(code, self.check_in, self.check_out, "{} {}".format(self.name, self.surname))
@@ -341,6 +354,12 @@ class Guest(models.Model):
         dev_list = AdminSensiboDevice.objects.filter(room=new_room)
         for dev in dev_list:
             SensiboDevice.objects.create(guest=self, uuid=dev.uuid, name=dev.name)
+
+    '''
+        Access Points
+    '''
+    def access_points(self):
+        return WristbandAccessPoint.objects.filter(project_uuid=self.project_id)
 
     '''
         Statics
@@ -627,6 +646,25 @@ class WristbandLog(models.Model):
     date = models.DateTimeField(verbose_name=_('Date'), default=datetime.datetime.now)
     desc = models.TextField(verbose_name=_("Description"), default="", blank=True)
     wristband = models.ForeignKey(Wristband, verbose_name=_("Wristband"), on_delete=models.CASCADE, blank=True, null=True, related_name="logs")
+
+    class Meta:
+        verbose_name = _("Wristband log")
+        verbose_name_plural = _("Wristbands log")
+
+class WristbandAccess(models.Model):
+    inside = models.BooleanField(verbose_name=_("Inside"), default=False)
+    date = models.DateTimeField(verbose_name=_('Date'), default=datetime.datetime.now)
+    wristband = models.ForeignKey(Wristband, verbose_name=_("Wristband"), on_delete=models.CASCADE, blank=True, null=True, related_name="access")
+
+    class Meta:
+        verbose_name = _("Wristband log")
+        verbose_name_plural = _("Wristbands log")
+
+class WristbandAccessPoint(models.Model):
+    in_point = models.BooleanField(verbose_name=_("In point"), default=False)
+    uuid = models.CharField(max_length = 255, verbose_name= _('UUID'), default=new_ui_slug)
+    name = models.CharField(max_length=255, verbose_name='Name', default="")
+    project_uuid = models.CharField(max_length = 255, verbose_name= _('Project UUID'), default='')
 
     class Meta:
         verbose_name = _("Wristband log")

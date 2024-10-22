@@ -9,6 +9,8 @@ urlpatterns = [
     path('index/', views.index, name='web-index-new'),
     path('', views.index, name='web-index'),
     path('set-project/<slug:uuid>/', views.set_project, name='set-project'),
+    path('get-menus/', views.get_menus, name='get-menus'), #REMOVE
+    path('set-menus/', views.set_menus, name='set-menus'), #REMOVE
 
     #path('stripe/test-payment/<int:test_type>', views.stripe_test_payment, name='stripe-test-payment'),
     #path('stripe/test-payment/<str:test_type>', views.stripe_test_payment, name='stripe-test-payment'),
@@ -44,6 +46,8 @@ urlpatterns = [
     path('projects/invitation-remove/', views.project_invitation_remove, name='project-invitation-remove'),
     path('projects/guest-types-add/', views.project_guest_types_add, name='project-guest-types-add'),
     path('projects/guest-types-remove/', views.project_guest_types_remove, name='project-guest-types-remove'),
+    path('projects/access-points-add/', views.project_access_points_add, name='project-access-points-add'),
+    path('projects/access-points-remove/', views.project_access_points_remove, name='project-access-points-remove'),
     path('projects/set-avantio-schedule/', views.project_set_avantio_schedule, name='project-set-avantio-schedule'),
     path('projects/set-winhotel-schedule/', views.project_set_winhotel_schedule, name='project-set-winhotel-schedule'),
     path('projects/set-lock-schedule/', views.project_set_lock_schedule, name='project-set-lock-schedule'),

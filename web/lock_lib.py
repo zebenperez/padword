@@ -110,11 +110,16 @@ class ShLock:
     def get_lock_all_passcodes(self, lock_id):
         try:
             code_list = []
-            for i in range(20):
-                current_list = self.ttlock.lock_get_all_passcodes(lock_id, (i+1))
-                if current_list == None:
-                    break
+            pages, current_list = self.ttlock.lock_get_all_passcodes(lock_id)
+            code_list += current_list
+            for i in range(2, pages+1):
+                pag, current_list = self.ttlock.lock_get_all_passcodes(lock_id, i)
                 code_list += current_list
+            #for i in range(20):
+            #    current_list = self.ttlock.lock_get_all_passcodes(lock_id, (i+1))
+            #    if current_list == None or len(list(current_list)) == 0:
+            #        break
+            #    code_list += current_list
             return code_list
             #return self.ttlock.lock_get_all_passcodes(lock_id)
         except Exception as e:
@@ -136,12 +141,17 @@ class ShLock:
     def get_lock_all_cards(self, lock_id):
         try:
             card_list = []
-            for i in range(20):
-                current_list = self.ttlock.lock_get_all_cards(lock_id, (i+1))
-                if current_list == None:
-                    break
+            pages, current_list = self.ttlock.lock_get_all_cards(lock_id)
+            card_list += current_list
+            for i in range(2, pages+1):
+                pag, current_list = self.ttlock.lock_get_all_cards(lock_id, i)
                 card_list += current_list
             return card_list
+            #for i in range(20):
+            #    current_list = self.ttlock.lock_get_all_cards(lock_id, (i+1))
+            #    if current_list == None or len(list(current_list)) == 0:
+            #        break
+            #    card_list += current_list
             #return self.ttlock.lock_get_all_cards(lock_id)
         except Exception as e:
             return e

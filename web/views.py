@@ -8,7 +8,7 @@ from django.views.decorators.csrf import csrf_exempt
 
 from padword.commons import show_exc, get_or_none, get_param, new_ui_slug, translate, set_session, update_cron, get_int, translate2, get_random_str
 from padword.decorators import group_required
-from guest.models import Regime, ProjectRegime, GuestType, Wristband, Guest, GuestStripe
+from guest.models import Regime, ProjectRegime, GuestType, Wristband, Guest, GuestStripe, WristbandAccessPoint
 from sensibo.models import ProjectSensiboUser
 from connector.models import ProjectAvantioUser, ProjectAvaibookUser, ProjectWinhotelUser, ProjectStripeUser
 from contents.models import Category, PointOfSale, PointOfSaleCategory, Table
@@ -48,21 +48,26 @@ def redirect_project_user(request):
         return render(request, 'error_exception.html', {'exc': _('Project not found!')})
 
     menu = project.get_first_menu(request.user.username)
-    if menu == "orders":
-        return redirect('bookings-by-project')
-        #return redirect('bookings-by-project', request.project_id)
-    elif menu == "guests":
-        #return redirect('guests-by-project', project.uuid)
-        return redirect('guests-by-project')
-    elif menu == "notifications":
-        return redirect('guest-notifications')
-    elif menu == "rooms":
-        return redirect('rooms-by-project')
-    elif menu == "locks":
-        return redirect('locks-by-project2')
-        #return redirect('locks-by-project2', request.project_id)
-    else:
+    try:
+        return redirect(menu.url)
+    except:
         return render(request, 'error_exception.html', {'exc': _('Menu not found!')})
+
+#    if menu == "orders":
+#        return redirect('bookings-by-project')
+#        #return redirect('bookings-by-project', request.project_id)
+#    elif menu == "guests":
+#        #return redirect('guests-by-project', project.uuid)
+#        return redirect('guests-by-project')
+#    elif menu == "notifications":
+#        return redirect('guest-notifications')
+#    elif menu == "rooms":
+#        return redirect('rooms-by-project')
+#    elif menu == "locks":
+#        return redirect('locks-by-project2')
+#        #return redirect('locks-by-project2', request.project_id)
+#    else:
+#        return render(request, 'error_exception.html', {'exc': _('Menu not found!')})
 
 def thanks(request):
     return render(request, "thanks.html")
@@ -199,6 +204,7 @@ def project_details(request, obj_id, current_tab=""):
         point_of_sale_list = PointOfSale.objects.filter(project_uuid=obj.uuid)
         invitation_list = Invitation.objects.filter(project_uuid=obj.uuid)
         guest_type_list = GuestType.objects.filter(project_uuid=obj.uuid)
+        access_list = WristbandAccessPoint.objects.filter(project_uuid=obj.uuid)
         form = Form.objects.filter(form_type__code="tpv", form_type__project_uuid=obj.uuid).first()
         context = {
             'obj': obj, 
@@ -214,6 +220,7 @@ def project_details(request, obj_id, current_tab=""):
             'point_of_sale_list': point_of_sale_list,
             'invitation_list': invitation_list,
             'guest_type_list': guest_type_list,
+            'access_list': access_list,
             'current_tab': current_tab,
             'form': form
         }
@@ -565,6 +572,27 @@ def project_guest_types_remove(request):
     except Exception as e:
         print (show_exc(e))
     return render(request, "web/projects/project-form-guest-types-list.html", {'guest_type_list':guest_type_list,})
+
+@group_required("admins")
+def project_access_points_add(request):
+    try:
+        project = get_or_none(Project, request.GET["obj_id"])
+        WristbandAccessPoint.objects.create(project_uuid=project.uuid, uuid=new_ui_slug(WristbandAccessPoint))
+        access_list = WristbandAccessPoint.objects.filter(project_uuid=project.uuid)
+    except Exception as e:
+        print (show_exc(e))
+    return render(request, "web/projects/project-form-access-points-list.html", {'access_list':access_list,})
+
+@group_required("admins")
+def project_access_points_remove(request):
+    try:
+        access = get_or_none(WristbandAccessPoint, request.GET["obj_id"])
+        project = get_or_none(Project, access.project_uuid, "uuid")
+        access.delete()
+        access_list = WristbandAccessPoint.objects.filter(project_uuid=project.uuid)
+    except Exception as e:
+        print (show_exc(e))
+    return render(request, "web/projects/project-form-access-points-list.html", {'access_list':access_list,})
 
 
 '''
@@ -965,6 +993,47 @@ def download_log(request):
         return response
     except Exception as e:
         return render(request, 'error_exception.html', {'exc': show_exc(e)})
+
+#REMOVE
+@group_required("admins")
+def get_menus(request):
+    try:
+        response = HttpResponse(
+            content_type='text/csv',
+            headers={'Content-Disposition': 'attachment; filename=menus.csv"'},
+        )
+        
+        writer = csv.writer(response)
+        writer.writerow(['pu_id', 'menu_id'])
+
+        item_list = ProjectUser.objects.all()
+        for item in item_list:
+            for m in item.menus_mod.all():
+                writer.writerow([item.id, m.id])
+        return response
+    except Exception as e:
+        print(e)
+        return render(request, 'error_exception.html', {'msg': str(e)})
+
+#REMOVE
+@group_required("admins")
+def set_menus(request):
+    f = open("static/menus.csv", "r", encoding='utf-8')
+    i = 0
+    for line in f.readlines():
+        l = line.split(",")
+        pu = get_or_none(ProjectUser, l[0])
+        m = get_or_none(Menu, l[1].replace("\n", ""))
+        if pu != None and m != None:
+            #pum, created = ProjectUserMenu.objects.get_or_create(project_user=pu, menu=m)
+            #if created:
+            #    pum.order = i
+            #    pum.save()
+            print(pu)
+            print(m)
+        print(i)
+        i = i + 1
+    return HttpResponse("OK")
 
 
 #'''

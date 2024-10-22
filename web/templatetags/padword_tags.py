@@ -143,8 +143,8 @@ def have_menu(user_project, menu):
     if pu == None:
         return False
     # NEW
-    for m in pu.menus_mod.all():
-        if m.code == menu:
+    for m in pu.menus_mod.all().order_by('order'):
+        if m.menu != None and m.menu.code == menu:
             return True
     # DEPRECATED
     for m in pu.menus.split(";"):
@@ -384,7 +384,7 @@ def get_main_menu(user, path, active=""):
         if user.groups.filter(name="projects").exists():
             obj = ProjectUser.objects.filter(username=user.username).first()
             if obj != None: 
-                return {'user': user, 'menu': "projects", "project": obj.project, "path": path, "active": active}
+                return {'user': user, 'menu': "projects", "project": obj.project, "project_user": obj, "path": path, "active": active}
         if user.groups.filter(name="admins").exists() or user.is_superuser:
             return {'user': user, 'menu': "admins", "active": active}
     except:
@@ -456,4 +456,8 @@ def show_emails(obj):
 def show_timetable(obj):
     return {'obj': obj,}
 
+#@register.inclusion_tag('project_user_menu.html')
+@register.inclusion_tag('project-menu.html')
+def show_timetable(project_user):
+    return {'project_user': project_user,}
 

@@ -1,6 +1,15 @@
 {% load i18n padword_tags %}
 
 {% if user.is_authenticated and pu_list|length > 1%}
+    <div class="div-menu-project m-0">
+        {% for pu in pu_list %}
+            <div class="menu-project-tab rounded mx-1 text-center">
+                <a class="nav-link {%if project == pu.project.uuid%}active-tab{%endif%} py-1" href="{% url "set-project" pu.project.uuid %}"> 
+                    <i class="fa fa-folder-open"></i><br />{{pu.project.name}} </a>
+            </div>
+        {% endfor %}
+    </div>
+    {%comment%}
     <div class="row m-0">
         {% for pu in pu_list %}
             <div class="col-lg-3 col-5 menu-proyect-tab rounded px-0">
@@ -9,5 +18,6 @@
             </div>
         {% endfor %}
     </div>
+    {%endcomment%}
 {% endif %}
 

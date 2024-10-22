@@ -374,8 +374,9 @@ class TTLock():
             TTLock.__get_current_millis__(),
         )
         _response = TTLock.__send_request__(_url_request).json()
-        for records in _response.get(LIST_FIELD):
-            yield records
+        return _response.get(PAGES_FIELD), _response.get(LIST_FIELD)
+        #for records in _response.get(LIST_FIELD):
+        #    yield records
 
     def lock_add_card(self, lockId=None, cardNumber="", cardName="", startDate=0, endDate=0):
         if not lockId:
@@ -425,8 +426,9 @@ class TTLock():
             TTLock.__get_current_millis__(),
         )
         _response = TTLock.__send_request__(_url_request).json()
-        for records in _response.get(LIST_FIELD):
-            yield records
+        return _response.get(PAGES_FIELD), _response.get(LIST_FIELD)
+        #for records in _response.get(LIST_FIELD):
+        #    yield records
 
     def lock_change_period_card(self, lockId=None, cardId="", startDate=0, endDate=0):
         if not lockId:

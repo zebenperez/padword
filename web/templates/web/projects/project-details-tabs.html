@@ -11,6 +11,7 @@
     <li class="nav-item"> <a class="nav-link" data-bs-toggle="tab" href="#pos">{% trans "Point of sales" %}</a></li>
     <li class="nav-item"> <a class="nav-link" data-bs-toggle="tab" href="#inv">{% trans "Invitations Accounts" %}</a></li>
     <li class="nav-item"> <a class="nav-link" data-bs-toggle="tab" href="#gtype">{% trans "Guest Types" %}</a></li>
+    <li class="nav-item"> <a class="nav-link" data-bs-toggle="tab" href="#access">{% trans "Access Points" %}</a></li>
 </ul>
 <div class="tab-content internal m-2 p-2">
     {# -------------------------- REGIME ------------------------#}
@@ -44,5 +45,9 @@
     {# -------------------------- GUEST TYPES ------------------------#}
     <div class="tab-pane container {%if current_tab == "gtype"%}active{%endif%}" id="gtype"> <div id="div-gtype">
         {% include "web/projects/project-form-guest-types.html" %}</div> </div> 
+
+    {# -------------------------- ACCESS POINTS ------------------------#}
+    <div class="tab-pane container {%if current_tab == "access"%}active{%endif%}" id="access"> <div id="div-access">
+        {% include "web/projects/project-form-access-points.html" %}</div> </div> 
 </div>
 
