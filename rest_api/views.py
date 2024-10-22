@@ -94,7 +94,6 @@ class GuestViewSet(viewsets.ModelViewSet):
                 return Response(data=guest_data, status=status.HTTP_201_CREATED)
                 #return Response(data=self.serializer_class(guest).data, status=status.HTTP_201_CREATED)
             else:
-                print(e)
                 logger.error("[{}]: \"Bad request!\"".format(self.request.user))
                 return Response(data=serializer.errors, status=status.HTTP_400_BAD_REQUEST)
         except Exception as e:
@@ -161,13 +160,15 @@ class GuestViewSet(viewsets.ModelViewSet):
             codes_err = ""
             if update_dates:
                 guest_data["lock_card_err"] = guest.change_all_key_card_date()
-                if not update_codes:
-                    guest_data["lock_code_err"] = guest.change_all_key_code_date()
-                    codes_err = guest_data["lock_code_err"]
-                #guest.remove_all_key_cards()
-            if update_codes:
-                guest_data["lock_code_err"] = guest.change_all_key_code(guest.mobile_to_code())
+                guest_data["lock_code_err"] = guest.change_all_key_code_date()
                 codes_err = guest_data["lock_code_err"]
+                #if not update_codes:
+                #    guest_data["lock_code_err"] = guest.change_all_key_code_date()
+                #    codes_err = guest_data["lock_code_err"]
+                #guest.remove_all_key_cards()
+            #if update_codes:
+            #    guest_data["lock_code_err"] = guest.change_all_key_code(guest.mobile_to_code())
+            #    codes_err = guest_data["lock_code_err"]
  
             log_str = "[{}]: \"Guest {} {} updated\"".format(self.request.user, guest.name, guest.surname)
             log_str += " (dates modified=\"{}\" - mobile modified=\"{}\" - code err=\"{}\")".format(update_dates, update_codes, codes_err)
@@ -195,6 +196,24 @@ class GuestViewSet(viewsets.ModelViewSet):
         except Exception as e:
             logger.error("[{}]: \"{}\"".format(self.request.user, str(e)))
             return Response({"error": 'true', 'msg': 'Bad request!'})
+
+    @action(detail=False, methods=['post'])
+    def update_lock_code(self, request):
+        try:
+            guest_uuid = request.POST["UUID"]
+            code = request.POST["lock_code"]
+            guest = Guest.objects.get(UUID=guest_uuid)
+            codes_err = guest.change_all_key_code(code)
+
+            if "Error" in codes_err:
+                logger.error("[{}]: \"{}\"".format(self.request.user, codes_err))
+                return Response(data={'error': 'true', 'msg': codes_err}, status=status.HTTP_400_BAD_REQUEST)
+
+            logger.info("[{}]: \"Update code ({}) to guest {} {}\"".format(self.request.user, code, guest.name, guest.surname))
+            return Response(guest.get_locks_passcode_json(), status=status.HTTP_200_OK)
+        except Exception as e:
+            logger.error("[{}]: \"{}\"".format(self.request.user, str(e)))
+            return Response({"error": True, 'msg': 'Bad request!'})
 
     @action(detail=False, methods=['post'])
     def add_card(self, request):

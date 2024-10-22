@@ -994,6 +994,47 @@ def download_log(request):
     except Exception as e:
         return render(request, 'error_exception.html', {'exc': show_exc(e)})
 
+#REMOVE
+@group_required("admins")
+def get_menus(request):
+    try:
+        response = HttpResponse(
+            content_type='text/csv',
+            headers={'Content-Disposition': 'attachment; filename=menus.csv"'},
+        )
+        
+        writer = csv.writer(response)
+        writer.writerow(['pu_id', 'menu_id'])
+
+        item_list = ProjectUser.objects.all()
+        for item in item_list:
+            for m in item.menus_mod.all():
+                writer.writerow([item.id, m.id])
+        return response
+    except Exception as e:
+        print(e)
+        return render(request, 'error_exception.html', {'msg': str(e)})
+
+#REMOVE
+@group_required("admins")
+def set_menus(request):
+    f = open("static/menus.csv", "r", encoding='utf-8')
+    i = 0
+    for line in f.readlines():
+        l = line.split(",")
+        pu = get_or_none(ProjectUser, l[0])
+        m = get_or_none(Menu, l[1].replace("\n", ""))
+        if pu != None and m != None:
+            #pum, created = ProjectUserMenu.objects.get_or_create(project_user=pu, menu=m)
+            #if created:
+            #    pum.order = i
+            #    pum.save()
+            print(pu)
+            print(m)
+        print(i)
+        i = i + 1
+    return HttpResponse("OK")
+
 
 #'''
 #    Locks
