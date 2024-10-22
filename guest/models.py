@@ -343,6 +343,12 @@ class Guest(models.Model):
             SensiboDevice.objects.create(guest=self, uuid=dev.uuid, name=dev.name)
 
     '''
+        Access Points
+    '''
+    def access_points(self):
+        return WristbandAccessPoint.objects.filter(project_uuid=self.project_id)
+
+    '''
         Statics
     '''
     @classmethod
