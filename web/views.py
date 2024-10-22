@@ -24,6 +24,7 @@ import os, re, requests, time, datetime, csv
 
 @group_required("admins", "projects", "categories", "guests")
 def index(request, chk=None):
+    print("--1--")
     if request.user.groups.filter(name='guests').exists():
         return redirect('pwa-index')
 
@@ -34,10 +35,12 @@ def index(request, chk=None):
         #return redirect('bookings-by-category')
         return redirect('categories-by-categories')
 
+    print("--2--")
     if request.user.groups.filter(name='projects').exists():
         if not hasattr(request, "project_id"):
             return render(request, 'error_exception.html', {'exc': _('Project not found!')})
         #return redirect('bookings-by-project', request.project_id)
+        print("--3--")
         return redirect_project_user(request)
 
     return redirect('projects')
@@ -50,24 +53,24 @@ def redirect_project_user(request):
     menu = project.get_first_menu(request.user.username)
     try:
         return redirect(menu.url)
+        #return redirect(menu.url)
     except:
-        return render(request, 'error_exception.html', {'exc': _('Menu not found!')})
-
-#    if menu == "orders":
-#        return redirect('bookings-by-project')
-#        #return redirect('bookings-by-project', request.project_id)
-#    elif menu == "guests":
-#        #return redirect('guests-by-project', project.uuid)
-#        return redirect('guests-by-project')
-#    elif menu == "notifications":
-#        return redirect('guest-notifications')
-#    elif menu == "rooms":
-#        return redirect('rooms-by-project')
-#    elif menu == "locks":
-#        return redirect('locks-by-project2')
-#        #return redirect('locks-by-project2', request.project_id)
-#    else:
-#        return render(request, 'error_exception.html', {'exc': _('Menu not found!')})
+        #return render(request, 'error_exception.html', {'exc': _('Menu not found!')})
+        if menu == "orders":
+            return redirect('bookings-by-project')
+            #return redirect('bookings-by-project', request.project_id)
+        elif menu == "guests":
+            #return redirect('guests-by-project', project.uuid)
+            return redirect('guests-by-project')
+        elif menu == "notifications":
+            return redirect('guest-notifications')
+        elif menu == "rooms":
+            return redirect('rooms-by-project')
+        elif menu == "locks":
+            return redirect('locks-by-project2')
+            #return redirect('locks-by-project2', request.project_id)
+        else:
+            return render(request, 'error_exception.html', {'exc': _('Menu not found!')})
 
 def thanks(request):
     return render(request, "thanks.html")
@@ -1025,11 +1028,11 @@ def set_menus(request):
         pu = get_or_none(ProjectUser, l[0])
         m = get_or_none(Menu, l[1].replace("\n", ""))
         if pu != None and m != None:
-            #pum, created = ProjectUserMenu.objects.get_or_create(project_user=pu, menu=m)
-            #if created:
-            #    pum.order = i
-            #    pum.save()
-            print(pu)
+            pum, created = ProjectUserMenu.objects.get_or_create(project_user=pu, menu=m)
+            if created:
+                pum.order = i
+                pum.save()
+            print(pu.username)
             print(m)
         print(i)
         i = i + 1
