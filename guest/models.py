@@ -36,7 +36,7 @@ class Guest(models.Model):
     adults = models.IntegerField(verbose_name='Adults', default=0)
     children = models.IntegerField(verbose_name='Childrens', default=0)
     babies = models.IntegerField(verbose_name='Babies', default=0)
-    mobile = models.CharField(max_length=255, verbose_name='Mobile', default="")
+    mobile = models.CharField(max_length=255, verbose_name='Mobile', default="", blank=True)
     email = models.CharField(max_length=255, verbose_name='Email', default="", blank=True)
     balance = models.FloatField(verbose_name='Balance', default=0.)
     deleted = models.IntegerField(verbose_name='Deleted', default=0)
@@ -191,6 +191,19 @@ class Guest(models.Model):
                 dic["cards"].append(card.code)
             lock_list_result.append(dic)
         #return dic
+        return lock_list_result
+
+    def get_locks_passcode_json(self):
+        lock_list = self.get_locks()
+        lock_list_result = []
+        dic = {}
+        for lock in lock_list:
+            dic["uuid"] = lock.uuid
+            dic["alias"] = lock.alias
+            dic["codes"] = []
+            for code in self.keycodes.filter(lock=lock):
+                dic["codes"].append(code.code)
+            lock_list_result.append(dic)
         return lock_list_result
 
     def add_key_code(self, lock, code=""):

@@ -9,6 +9,8 @@ urlpatterns = [
     path('index/', views.index, name='web-index-new'),
     path('', views.index, name='web-index'),
     path('set-project/<slug:uuid>/', views.set_project, name='set-project'),
+    path('get-menus/', views.get_menus, name='get-menus'), #REMOVE
+    path('set-menus/', views.set_menus, name='set-menus'), #REMOVE
 
     #path('stripe/test-payment/<int:test_type>', views.stripe_test_payment, name='stripe-test-payment'),
     #path('stripe/test-payment/<str:test_type>', views.stripe_test_payment, name='stripe-test-payment'),

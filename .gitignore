@@ -21,3 +21,5 @@ migrations.sh
 **.mo
 logs.txt
 menu_*
+deprecated
+deprecated2
