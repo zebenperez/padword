@@ -1,5 +1,6 @@
 #login-body {     
-    background-image: url(/static/img/bg-portal.jpg) !important;
+    /*background-image: url(/static/img/bg-portal-new.jpg) !important;*/
+    background-image: url(/static/img/new-pc.jpeg) !important;
     background-repeat:no-repeat;
     background-position: center;
     background-size: cover;
@@ -40,7 +41,8 @@ h4.title {
 }
 .form-container {
     width: 96%;
-    padding: 10px 30px 80px 30px;
+   /*padding: 10px 30px 80px 30px;*/
+    padding: 30px;
     margin: auto;
     margin-top: 1rem;
     background-color: #fff;
@@ -70,7 +72,9 @@ button.btn.btn-submit:hover {
 @media only screen and (max-width: 480px)
 {
     #login-body {     
-        background-image: url(/static/img/bg-portal-mb.jpg) !important;
+        /*background-image: url(/static/img/bg-portal-mb.jpg) !important;*/
+    	/*background-image: url(/static/img/bg-portal-new.jpg) !important;*/
+        background-image: url(/static/img/new-mv.jpeg) !important;
         background-repeat:no-repeat;
         background-position: top center;
         background-size: contain;

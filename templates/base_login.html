@@ -50,7 +50,9 @@
     	{% endif %}
         {% endcomment %}
 
+        {% comment %}
             <div class="col-lg-9 col-12 login-left"> </div>
+        {% endcomment %}
 
             <div class="col-lg-3 col-12 login-right text-center">
                 {% if form.errors %}
@@ -58,7 +60,9 @@
                 {% endif %}
 
                 <div class="form-container toggle-container" id="login-form">
+                    {% comment %}
                     <h4 class="title text-center">Acceso</h4>
+                    {% endcomment %}
                     <form class="form-horizontal" method="post" action="{% url "auth_login" %}">
 						{% csrf_token %}
 						<input type="hidden" name="next" value="{% url 'web-index-new' %}" />
@@ -84,7 +88,9 @@
                 </div>
             <div class="overlay"></div>
         </div>
+        {% comment %}
         <div class="col-12 logo-padword text-center"><img src="/static/img/logo-transp.png" class="img-fluid"></div>
+        {% endcomment %}
 
             <div class="col-lg-12 col-12 banner text-center">
                <img src="/static/img/canarias-avanza-europa.jpg" class="img-fluid">

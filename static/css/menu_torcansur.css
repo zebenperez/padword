@@ -12,7 +12,7 @@
 .main-pwa .row {
     margin:0;
     background-color: #ffffff !important;
-    padding-top: 20px;
+    padding-top: 0px !important;
 }
 
 .main-pwa {
@@ -28,6 +28,14 @@
 
 .gral-content {
     background-color: #ffffff !important;
+    height: 400px;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    flex-wrap: wrap;
+    align-content: stretch;
+    justify-content: center;
+
 }
 
 
@@ -592,6 +600,10 @@ span.badge.bg-success {
 }
 
 /******** Deslizador manual ***************/
+
+.form-check {
+    width: 100% !important;
+}
 
 label.form-check-label {
     color:#1c5ca3;
