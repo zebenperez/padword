@@ -19,7 +19,8 @@ for line in f.readlines():
             new_file_text += new_line
         replace = True
     else:
-        if line == "]\n" and replace == False:
+        #if line == "]\n" and replace == False:
+        if line == "]\n" and replace == False and "-1" not in minute and "-1" not in hour:
             new_line = "\t('%s %s * * *', 'connector.cron.%s', [], {'project_uuid': '%s'},'>> %s'),\n]\n" % (minute,hour,function,project_uuid,log)
             new_file_text += new_line
         else:

@@ -37,4 +37,9 @@ class LockAdmin(admin.ModelAdmin):
 
 admin.site.register(Lock, LockAdmin)
 
+class ProjectUserMenuAdmin(admin.ModelAdmin):
+    list_display = ('project_user', 'menu', 'order')
+    search_fields = ['project_user__username']
 
+admin.site.register(ProjectUserMenu, ProjectUserMenuAdmin)
+ 
