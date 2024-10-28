@@ -28,6 +28,13 @@
 
 .gral-content {
     background-color: #ffffff !important;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    flex-wrap: wrap;
+    align-content: stretch;
+    justify-content: center;
+
 }
 
 
@@ -597,6 +604,10 @@ span.badge.bg-success {
 }
 
 /******** Deslizador manual ***************/
+
+.form-check {
+    width: 100% !important;
+}
 
 label.form-check-label {
     color:#009ee0;

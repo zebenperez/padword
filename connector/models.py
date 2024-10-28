@@ -1,5 +1,6 @@
 from django.db import models
 from django.utils.translation import ugettext as _
+import datetime
 
 
 class ProjectAvantioUser(models.Model):
@@ -36,6 +37,7 @@ class ProjectAvaibookUser(models.Model):
 
 class ProjectWinhotelUser(models.Model):
     update_all_prices = models.BooleanField(verbose_name=_('Update all prices'), default=False)
+    update_checkin = models.BooleanField(verbose_name=_('Update checkin'), default=False)
     days = models.IntegerField(verbose_name=_('Days to import'), default=1)
     hour = models.IntegerField(verbose_name=_('Hours to import'), default=-1)
     hour_price = models.IntegerField(verbose_name=_('Hours to import prices'), default=0)
@@ -46,6 +48,8 @@ class ProjectWinhotelUser(models.Model):
     target_code = models.CharField(max_length=255, verbose_name=_('Target code'), default="")
     ftp = models.CharField(max_length=900, verbose_name=_('FTP'), default="")
     ftp_filename = models.CharField(max_length=255, verbose_name=_('FTP Filename'), default="")
+    ini_time = models.TimeField(_("Initial Time"), blank=True, default=datetime.time(14, 00))
+    end_time = models.TimeField(_("End Time"), blank=True, default=datetime.time(12, 00))
     project_uuid = models.CharField(max_length=255, verbose_name=_('Project UUID'), default="")
 
     @property

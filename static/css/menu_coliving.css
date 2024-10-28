@@ -28,6 +28,7 @@
 
 .gral-content {
     background-color: #ffffff !important;
+    padding-bottom: 50px;
 }
 
 
@@ -191,17 +192,18 @@ img.object-fit_cover.img-new {
 
 .topbar {
     /*background: #f8fcff !important;*/
+    border-bottom: 1px solid #687ca3;
     background: #ffffff !important;
 	position:fixed !important;
     top:0 !important;
     width: 100% !important;
-    height: 70px !important;
+    /*height: 70px !important;*/
     z-index: 1; 
 }
 .topbar img {
 /*    height: 120px;*/
 }
-
+/*
 .separator {
     background-image: url(/static/img/bg-separator.jpg) !important;
     background-position: center;
@@ -211,7 +213,7 @@ img.object-fit_cover.img-new {
 .separator img {
     height: 12px;
 }
-
+*/
 .row.div-slogan {
     /*
     background-image: url(/static/img/bg-hills.png) !important;
@@ -493,12 +495,16 @@ h5.card-title.text-dark.text-center.title-new {
 
 .simple-footer {
     border-top:1px solid #fed734;
+    background-color: #ffffff;
     color: #001846;
-    bottom: 10px;
+    bottom: 0;
     font-size: 0.8rem;
-    position:absolute; 
+    position: fixed; 
 }
 
+.simple-footer p {
+    margin-bottom: 0;
+}
 
 
 /*****************************/
@@ -585,6 +591,10 @@ span.badge.bg-success {
 }
 
 /******** Deslizador manual ***************/
+
+.form-check {
+    width: 100% !important;
+}
 
 label.form-check-label {
     color:#001846;

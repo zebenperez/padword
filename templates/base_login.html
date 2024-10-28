@@ -50,15 +50,24 @@
     	{% endif %}
         {% endcomment %}
 
+        {% comment %}
             <div class="col-lg-9 col-12 login-left"> </div>
+        {% endcomment %}
+        
+        <div class="col-12 logo-padword text-left"><img src="/static/img/thumbnail_logo-padword.png" class="img-fluid" width="150"></div>
 
-            <div class="col-lg-3 col-12 login-right text-center">
+            <div class="col-lg-4 col-12 login-right mt-5">
                 {% if form.errors %}
             		<p>{% trans "Your username and password didn't match. Please try again." %}</p>
                 {% endif %}
+        
+                <div class="login-text"><h1>Acceso clientes</h1>
+                     Todo el control de la tecnología<br /> padword a un solo clic</div>
 
                 <div class="form-container toggle-container" id="login-form">
+                    {% comment %}
                     <h4 class="title text-center">Acceso</h4>
+                    {% endcomment %}
                     <form class="form-horizontal" method="post" action="{% url "auth_login" %}">
 						{% csrf_token %}
 						<input type="hidden" name="next" value="{% url 'web-index-new' %}" />
@@ -69,9 +78,9 @@
                         <div class="form-group row mb-3">
                             <div class="col-12"><div class="form-group">
 							    <input placeholder="{% trans "Password:" %}" class="form-control login" type="password" name="password" id="id_password"/></div></div>
-                        </div><br />
+                        </div>
                         <div class="form-group row">
-							<div class="col-12 text-center">
+							<div class="col-lg-6 col-6 text-center">
 						    	<div class="form-inline">
 									<div class="form-group">
                                         {% comment %} <input value="{% trans "Log in" %}" class="btn btn-submit" type="submit"> {% endcomment %}
@@ -84,8 +93,6 @@
                 </div>
             <div class="overlay"></div>
         </div>
-        <div class="col-12 logo-padword text-center"><img src="/static/img/logo-transp.png" class="img-fluid"></div>
-
             <div class="col-lg-12 col-12 banner text-center">
                <img src="/static/img/canarias-avanza-europa.jpg" class="img-fluid">
     	    </div>

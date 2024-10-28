@@ -1,0 +1,39 @@
+{% load i18n padword_tags %}
+
+
+<div class="row justify-center p-0">
+    {% for item in access_list %}
+        <div class="col-lg-6 col-12 p-1">
+            <div class="p-sale p-3 pt-1">
+                <div class="row">
+                    <div class="col-12 text-end">
+                        <button class="btn btn-sm ark" id="btn-inv-remove" data-url="{%url "project-access-points-remove"%}" 
+                            data-target="div-access-list" data-obj_id="{{item.id}}"> <i class="fas fa-trash"></i></button>
+                    </div>
+                    <div class="col-8">
+                        <label class="label">{% trans "Name" %}</label>
+                        <input type="text" class="form-control autosave input" id="name" name="name" value="{{item.name}}" 
+                            title="{{item.name}}" data-model-name="guest.wristbandaccesspoint" data-obj-id="{{item.id}}" 
+                            data-url="{% url "autosave_field" %}" data-target="div-notification"/> <span id="name__msg"></span>	
+                    </div>
+                    <div class="col-4">
+                        <label class="label">{% trans "Entrada" %}</label>
+                        <input type="checkbox" class="autosave input" id="in_point" name="in_point"  
+                            data-model-name="guest.wristbandaccesspoint" data-obj-id="{{item.id}}" data-url="{% url "autosave_field" %}" 
+                            data-target="div-notification" data-bool="True" {%if item.in_point%}checked{%endif%}/> <span id="in_point__msg"></span>	
+                    </div>
+                    <div class="col-12 text-end">UUID: {{item.uuid}}</div>
+ 
+                    {%comment%}
+                    <div class="col-6">
+                        <label class="label">{% trans "External Code" %}</label>
+                        <input type="text" class="form-control autosave input" id="ext_code" name="ext_code" value="{{item.ext_code}}" 
+                            title="{{item.ext_code}}" data-model-name="contents.pointofsale" data-obj-id="{{item.id}}" 
+                            data-url="{% url "autosave_field" %}" data-target="div-notification"/> <span id="ext_code__msg"></span>	
+                    </div>
+                    {%endcomment%}
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+</div>

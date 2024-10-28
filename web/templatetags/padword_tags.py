@@ -6,6 +6,7 @@ from django.utils.translation import ugettext_lazy as _
 
 from padword.commons import show_exc, get_items_per_page, user_in_group, get_or_none
 from web.models import Project, ProjectUser, ProjectLockUser
+from web.models_lock import Lock
 from contents.models import Allergen, Category, CategoryUser, Feature, ItemPromo, PaymentType
 
 from datetime import datetime
@@ -137,14 +138,26 @@ def str_to_local_date(value, project):
     return project.local_date(datetime.fromtimestamp(value/1000.0)).strftime("%Y-%m-%d %H:%M:%S")
 
 @register.filter
+def str_to_local_date_room(value, lock):
+    room = lock.room_obj
+    if lock.room == "*":
+        room_lock = Lock.objects.filter(project_uuid=lock.project_uuid, group_uuid=lock.group_uuid).exclude(room="*").exclude(room="").first()
+        if room_lock != None:
+            room = room_lock.room_obj
+    if room != None:
+        return lock.project.local_date(datetime.fromtimestamp(value/1000.0), room).strftime("%Y-%m-%d %H:%M:%S")
+    else:
+        return lock.project.local_date(datetime.fromtimestamp(value/1000.0)).strftime("%Y-%m-%d %H:%M:%S")
+
+@register.filter
 def have_menu(user_project, menu):
     up = user_project.split("|")
     pu = ProjectUser.objects.filter(username=up[0], project_uuid=up[1]).first()
     if pu == None:
         return False
     # NEW
-    for m in pu.menus_mod.all():
-        if m.code == menu:
+    for m in pu.menus_mod.all().order_by('order'):
+        if m.menu != None and m.menu.code == menu:
             return True
     # DEPRECATED
     for m in pu.menus.split(";"):
@@ -384,7 +397,7 @@ def get_main_menu(user, path, active=""):
         if user.groups.filter(name="projects").exists():
             obj = ProjectUser.objects.filter(username=user.username).first()
             if obj != None: 
-                return {'user': user, 'menu': "projects", "project": obj.project, "path": path, "active": active}
+                return {'user': user, 'menu': "projects", "project": obj.project, "project_user": obj, "path": path, "active": active}
         if user.groups.filter(name="admins").exists() or user.is_superuser:
             return {'user': user, 'menu': "admins", "active": active}
     except:
@@ -456,4 +469,8 @@ def show_emails(obj):
 def show_timetable(obj):
     return {'obj': obj,}
 
+#@register.inclusion_tag('project_user_menu.html')
+@register.inclusion_tag('project-menu.html')
+def show_timetable(project_user):
+    return {'project_user': project_user,}
 

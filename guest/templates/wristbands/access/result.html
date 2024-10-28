@@ -1,0 +1,9 @@
+{% load i18n bookings_tag common_tag padword_tags tpv_tags static %}
+
+{#<div id="div-result-content" class="msg text-center alert {%if error == True%}alert-danger{%else%}alert-success{%endif%}">{{msg|safe}}</div>#}
+{% if error == True %}
+    <div id="div-result-content" class="msg text-center alert alert-danger pt-5"> {% trans "Acceso denegado" %} </div>
+{% else %}
+    <div id="div-result-content" class="msg text-center alert alert-success pt-5"> {% trans "Acceso permitido" %} </div>
+{% endif %}
+<script> setTimeout(()=>{$("#amount").val("");$("#band").val("");$("#div-result").html("");$("#band").focus()}, 5000); </script>

@@ -29,9 +29,10 @@
             <tr>
                 <td> {% get_record_type item.recordType %}</td> 
                 <td> {% if item.success == 1 %}{% trans "Yes" %}{% else %}{% trans "No" %}{% endif %}</td> 
-                <td> {{item.username}}</td> 
+                <td> {% lock_record_username obj item.lockDate item.recordType item.username %}</td>
+                {#<td> {{item.username}}</td>#}
                 <td> {{item.keyboardPwd}}</td> 
-                <td> {{item.lockDate|str_to_date}} </td> 
+                <td> {{item.lockDate|str_to_local_date}} </td> 
                 <td> {{item.serverDate|str_to_date}} </td> 
             </tr>
         {% endfor %}

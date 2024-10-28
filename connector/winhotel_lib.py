@@ -373,6 +373,16 @@ def get_phone(contact):
 def get_email(contact):
     return contact["emails"][0] if len(contact["emails"]) > 0 else None
 
+def get_checkin(pwu, checkin):
+    if pwu.update_checkin:
+        return checkin.replace(hour=pwu.ini_time.hour, minute=pwu.ini_time.minute)
+    return checkin
+
+def get_checkout(pwu, checkout):
+    if pwu.update_checkin:
+        return checkout.replace(hour=pwu.end_time.hour, minute=pwu.end_time.minute)
+    return checkout
+
 def set_regime(booking, guest):
     try:
         reg_name = booking.occupations[0]["boar_type_real"]["name"]
@@ -414,8 +424,10 @@ def create_booking(pwu, booking):
             if email != None:
                 guest.email = email
             
-        guest.check_in = checkin
-        guest.check_out = checkout
+        #guest.check_in = checkin
+        #guest.check_out = checkout
+        guest.check_in = get_checkin(pwu, checkin)
+        guest.check_out = get_checkout(pwu, checkout)
         guest.room = room
         guest.save()
         set_regime(booking, guest)
@@ -444,8 +456,10 @@ def create_booking_new(pwu, booking, start_date, end_date):
             if email != None:
                 guest.email = email
             
-        guest.check_in = checkin
-        guest.check_out = checkout
+        #guest.check_in = checkin
+        #guest.check_out = checkout
+        guest.check_in = get_checkin(pwu, checkin)
+        guest.check_out = get_checkout(pwu, checkout)
         guest.room = room
         guest.save()
         set_regime(booking, guest)
@@ -480,8 +494,10 @@ def create_booking_day(pwu, booking):
             if email != None:
                 guest.email = email
             
-        guest.check_in = checkin
-        guest.check_out = checkout
+        #guest.check_in = checkin
+        #guest.check_out = checkout
+        guest.check_in = get_checkin(pwu, checkin)
+        guest.check_out = get_checkout(pwu, checkout)
         guest.room = room
         guest.save()
         set_regime(booking, guest)

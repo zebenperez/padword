@@ -11,6 +11,12 @@ import datetime, csv, os, ftplib
 
 FILES_DIR = os.path.join(settings.BASE_DIR, "media/tpv/orders-daily/")
 
+def getPath(project_uuid):
+    path = "{}{}/".format(FILES_DIR, project_uuid)
+    if not os.path.exists(path):
+        os.makedirs(path)
+    return path
+
 def get_drinks_total(fi, band):
     #regime = band.guest.regime.code if band != None and band.guest != None and band.guest.regime != None else ""
     #if regime == "":
@@ -47,7 +53,9 @@ def cash_daily_summary(obj, date):
     s_date = datetime.datetime.strptime("{} 00:00:00".format(date), "%Y-%m-%d %H:%M:%S")
     e_date = datetime.datetime.strptime("{} 23:59:59".format(date), "%Y-%m-%d %H:%M:%S")
 
-    f = open("{}{}_{}07.csv".format(FILES_DIR, e_date.strftime("%Y%m%d_%H%M"), obj.ext_code), "w", encoding='utf-8')
+    path = getPath(obj.project_uuid)
+    f = open("{}{}_{}07.csv".format(path, e_date.strftime("%Y%m%d_%H%M"), obj.ext_code), "w", encoding='utf-8')
+    #f = open("{}{}/{}_{}07.csv".format(FILES_DIR, obj.project_uuid, e_date.strftime("%Y%m%d_%H%M"), obj.ext_code), "w", encoding='utf-8')
 
     writer = csv.writer(f)
     writer.writerow(['_TPV', '_TPVNom', '_Rate', 'ProductUId', '_Description', 'Date', 'Tiket_UID', '_Price', '_Units', '_Discount', 'TotalPrice', '_Room', '_ClientId'])
@@ -87,7 +95,9 @@ def cash_send_daily_summary(project_uuid, obj, date):
     try:
         e_date = datetime.datetime.strptime("{} 23:59:59".format(date), "%Y-%m-%d %H:%M:%S")
         f_name = "{}_{}07.csv".format(e_date.strftime("%Y%m%d_%H%M"), obj.ext_code)
-        f = open("{}{}".format(FILES_DIR, f_name), "rb")
+        path = getPath(obj.project_uuid)
+        f = open("{}{}".format(path, f_name), "rb")
+        #f = open("{}{}/{}".format(FILES_DIR, obj.project_uuid, f_name), "rb")
 
         pau = ProjectWinhotelUser.objects.filter(project_uuid=project_uuid).first()
         ftp = pau.ftp.split("@")
