@@ -33,16 +33,16 @@
                     data-obj-id="{{user_winhotel.id}}" data-url="{% url "autosave_field" %}" data-target="div-notification"/> 
                     <span id="target_code__msg"></span>	
             </div>
-            <div class="col-12">
-                <label class="label">
-                    {% trans "Si esta activo se actualizan todos los precios asociados al producto, si no solo se actualiza el principal" %}:
-                </label>
-                <input type="checkbox" class="autosave input" id="update_all_prices wh-cron" name="update_all_prices" data-bool="True"
-                    data-model-name="connector.projectwinhoteluser" data-obj-id="{{user_winhotel.id}}" data-url="{% url "autosave_field" %}" 
-                    data-target="div-notification" {%if user_winhotel.update_all_prices%}checked{%endif%}/> <span id="update_all_prices__msg"></span>
-            </div>
         </div>
         <div class="row justify-center">
+            <div class="col-12">
+                <label class="label">
+                    {% trans "Si está activo, omite los datos de entrada y salida del pms y siempre crea los que están configurados" %}:
+                </label>
+                <input type="checkbox" class="autosave input" id="update_checkin" name="update_checkin" data-bool="True"
+                    data-model-name="connector.projectwinhoteluser" data-obj-id="{{user_winhotel.id}}" data-url="{% url "autosave_field" %}" 
+                    data-target="div-notification" {%if user_winhotel.update_checkin%}checked{%endif%}/> <span id="update_checkin__msg"></span>
+            </div>
             <div class="col-6">
                 <label class="label">{% trans "Hora por defecto del Checkin" %}:</label>
                 <input type="time" class="form-control autosave input wh-cron" id="ini_time" name="ini_time" 
@@ -52,7 +52,7 @@
             </div>
             <div class="col-6">
                 <label class="label">{% trans "Hora por defecto dle Checkout" %}:</label>
-                <input type="time" class="form-control autosave input wh-cron" id="end_date" name="end_date" 
+                <input type="time" class="form-control autosave input wh-cron" id="end_time" name="end_time" 
                     value="{{user_winhotel.end_time|date:"H:i"}}" title="{{user_winhotel.end_time}}" 
                     data-model-name="connector.projectwinhoteluser" data-obj-id="{{user_winhotel.id}}" data-url="{% url "autosave_field" %}" 
                     data-target="div-notification"/> <span id="end_time__msg"></span>	
@@ -75,6 +75,14 @@
         </div>
 
         <div class="row justify-center">
+            <div class="col-12">
+                <label class="label">
+                    {% trans "Si esta activo se actualizan todos los precios asociados al producto, si no solo se actualiza el principal" %}:
+                </label>
+                <input type="checkbox" class="autosave input" id="update_all_prices wh-cron" name="update_all_prices" data-bool="True"
+                    data-model-name="connector.projectwinhoteluser" data-obj-id="{{user_winhotel.id}}" data-url="{% url "autosave_field" %}" 
+                    data-target="div-notification" {%if user_winhotel.update_all_prices%}checked{%endif%}/> <span id="update_all_prices__msg"></span>
+            </div>
             <div class="col-6">
                 <label class="label">{% trans "Días para crear las reservas" %}
                     <br/>{% trans "(se crean aquellas que empiezan entre hoy y el número de días indicado)" %}:</label>

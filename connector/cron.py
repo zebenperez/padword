@@ -5,6 +5,7 @@ from datetime import datetime, timedelta
 from connector.avantio_lib import get_booking_list, get_booking_notif, send_link
 from connector.winhotel_lib import get_booking_list as wh_get_booking_list, get_booking_cancelled as wh_get_booking_cancelled
 from connector.winhotel_lib import import_item_prices as wh_import_item_prices, get_booking_new_list as wh_get_booking_new_list
+from connector.winhotel_lib import get_booking_range_list as wh_get_booking_range_list
 from web.models import Project, ProjectLockUser
 from web.models_lock import Lock, LockCron
 from connector.models import ProjectAvantioUser, ProjectWinhotelUser
