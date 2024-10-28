@@ -29,9 +29,14 @@
     background-color: #141414;
 }
 
+.logo-padword {
+    padding: 50px 50px 50px 100px !important;
+}
+
 .login-right {
     color: #777;
     transition: width 1s ease-out;
+    padding-left: 100px !important;
 }
 
 .login-right .login-text {
@@ -51,8 +56,8 @@ h4.title {
     color: #505d65;
 }
 .form-container {
-    width: 96%;
-    padding: 30px;
+    /*width: 96%;*/
+    width: 300px;
     padding: 20px 20px 05px 20px;
 /*    margin: auto;*/
     margin-top: 1rem;
@@ -100,6 +105,7 @@ button.btn.btn-submit:hover {
     }
     .login-right {
         width: 100%;
+	padding-left: 20px !important;
     }
     .login-right .login-text {
 	margin-top: -50px;
@@ -113,7 +119,8 @@ button.btn.btn-submit:hover {
     	bottom: 100px;
     }
     .logo-padword {
-	    background-color: #ffffff;
+	background-color: #ffffff;
+	padding: 20px !important;
     }
     .logo-padword img {
     }
