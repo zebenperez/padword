@@ -6,6 +6,7 @@ from django.utils.translation import ugettext_lazy as _
 
 from padword.commons import show_exc, get_items_per_page, user_in_group, get_or_none
 from web.models import Project, ProjectUser, ProjectLockUser
+from web.models_lock import Lock
 from contents.models import Allergen, Category, CategoryUser, Feature, ItemPromo, PaymentType
 
 from datetime import datetime
@@ -135,6 +136,18 @@ def str_to_date(value):
 @register.filter
 def str_to_local_date(value, project):
     return project.local_date(datetime.fromtimestamp(value/1000.0)).strftime("%Y-%m-%d %H:%M:%S")
+
+@register.filter
+def str_to_local_date_room(value, lock):
+    room = lock.room_obj
+    if lock.room == "*":
+        room_lock = Lock.objects.filter(project_uuid=lock.project_uuid, group_uuid=lock.group_uuid).exclude(room="*").exclude(room="").first()
+        if room_lock != None:
+            room = room_lock.room_obj
+    if room != None:
+        return lock.project.local_date(datetime.fromtimestamp(value/1000.0), room).strftime("%Y-%m-%d %H:%M:%S")
+    else:
+        return lock.project.local_date(datetime.fromtimestamp(value/1000.0)).strftime("%Y-%m-%d %H:%M:%S")
 
 @register.filter
 def have_menu(user_project, menu):
