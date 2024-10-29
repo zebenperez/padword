@@ -3,7 +3,7 @@
 
 <div class="w-100 text-end">
     <button class="btn btn-primary ark mb-2" data-url="{% url "project-access-points-add" %}" data-target="div-access-list-{{zone.id}}" 
-        data-obj_id="{{obj.id}}" data-zone="{{zone.id}}"> {% trans "Add Point" %}</button>
+        data-obj_id="{{zone.id}}"> {% trans "Add Point" %}</button>
 </div>		
 <div id="div-access-list-{{zone.id}}">{% include "web/projects/project-form-access-points-list.html" %}</div>
 

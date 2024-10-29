@@ -34,6 +34,7 @@
                     </div>
                 </div>
                 <br/>
+                {% include "web/projects/project-form-access-zone-times.html" with access_times=zone.timetable.all %} 
                 {% include "web/projects/project-form-access-points.html" with access_list=zone.accesspoints.all %} 
             </div>
         </div>
