@@ -32,7 +32,7 @@
                 <td> {% lock_record_username obj item.lockDate item.recordType item.username %}</td>
                 {#<td> {{item.username}}</td>#}
                 <td> {{item.keyboardPwd}}</td> 
-                <td> {{item.lockDate|str_to_local_date}} </td> 
+                <td> {{item.lockDate|str_to_local_date:obj.project}} </td> 
                 <td> {{item.serverDate|str_to_date}} </td> 
             </tr>
         {% endfor %}
