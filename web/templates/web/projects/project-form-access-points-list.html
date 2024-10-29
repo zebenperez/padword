@@ -8,7 +8,7 @@
                 <div class="row">
                     <div class="col-12 text-end">
                         <button class="btn btn-sm ark" id="btn-inv-remove" data-url="{%url "project-access-points-remove"%}" 
-                            data-target="div-access-list" data-obj_id="{{item.id}}"> <i class="fas fa-trash"></i></button>
+                            data-target="div-access-list-{{zone.id}}" data-obj_id="{{item.id}}"> <i class="fas fa-trash"></i></button>
                     </div>
                     <div class="col-8">
                         <label class="label">{% trans "Name" %}</label>

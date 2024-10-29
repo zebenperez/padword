@@ -1,0 +1,41 @@
+{% load i18n padword_tags %}
+
+
+{% for zone in access_zones %}
+    <div class="row justify-center p-0">
+        <div class="col-12 p-1">
+            <div class="p-sale p-3 pt-1">
+                <div class="row">
+                    <div class="col-6"> <small>UUID: {{zone.uuid}}</small></div>
+                    <div class="col-6 text-end mt-1">
+                        <button class="btn btn-sm ark" id="btn-inv-remove" data-url="{%url "project-access-zone-remove"%}" 
+                            data-target="div-access-zones" data-obj_id="{{zone.id}}"
+                            data-confirm="Si borra la zona se borrarán los puntos de acceso, quiere continuar?"> <i class="fas fa-trash"></i></button>
+                    </div>
+                    <div class="col-6">
+                        <label class="label">{% trans "Name" %}</label>
+                        <input type="text" class="form-control autosave input" id="name" name="name" value="{{zone.name}}" 
+                            title="{{zone.name}}" data-model-name="guest.wristbandaccesszone" data-obj-id="{{zone.id}}" 
+                            data-url="{% url "autosave_field" %}" data-target="div-notification"/> <span id="name__msg"></span>	
+                    </div>
+                    <div class="col-3">
+                        <label class="label">{% trans "Hora apertura" %}:</label>
+                        <input type="time" class="form-control autosave input wh-cron" id="ini_time" name="ini_time" 
+                            value="{{zone.ini_time|date:"H:i"}}" title="{{zone.ini_time}}" data-model-name="guest.wristbandaccesszone" 
+                            data-obj-id="{{zone.id}}" data-url="{% url "autosave_field" %}" data-target="div-notification"/> 
+                        <span id="ini_time__msg"></span>	
+                    </div>
+                    <div class="col-3">
+                        <label class="label">{% trans "Hora cierre" %}:</label>
+                        <input type="time" class="form-control autosave input wh-cron" id="end_time" name="end_time" 
+                            value="{{zone.end_time|date:"H:i"}}" title="{{zone.end_time}}" data-model-name="guest.wristbandaccesszone" 
+                            data-obj-id="{{zone.id}}" data-url="{% url "autosave_field" %}" data-target="div-notification"/> 
+                        <span id="end_time__msg"></span>	
+                    </div>
+                </div>
+                <br/>
+                {% include "web/projects/project-form-access-points.html" with access_list=zone.accesspoints.all %} 
+            </div>
+        </div>
+    </div>
+{% endfor %}

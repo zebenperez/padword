@@ -660,15 +660,28 @@ class WristbandAccess(models.Model):
         verbose_name = _("Wristband log")
         verbose_name_plural = _("Wristbands log")
 
+class WristbandAccessZone(models.Model):
+    uuid = models.CharField(max_length = 255, verbose_name= _('UUID'), default=new_ui_slug)
+    name = models.CharField(max_length=255, verbose_name='Name', default="")
+    ini_time = models.TimeField(_("Initial Time"), blank=True, default=datetime.time(8, 00))
+    end_time = models.TimeField(_("End Time"), blank=True, default=datetime.time(20, 00))
+    project_uuid = models.CharField(max_length = 255, verbose_name= _('Project UUID'), default='')
+
+    class Meta:
+        verbose_name = _("Wristband Access Zone")
+        verbose_name_plural = _("Wristbands Access Zones")
+        ordering = ["-id"]
+
 class WristbandAccessPoint(models.Model):
     in_point = models.BooleanField(verbose_name=_("In point"), default=False)
     uuid = models.CharField(max_length = 255, verbose_name= _('UUID'), default=new_ui_slug)
     name = models.CharField(max_length=255, verbose_name='Name', default="")
     project_uuid = models.CharField(max_length = 255, verbose_name= _('Project UUID'), default='')
+    zone = models.ForeignKey(WristbandAccessZone,verbose_name=_("Zone"),on_delete=models.CASCADE,blank=True,null=True,related_name="accesspoints")
 
     class Meta:
-        verbose_name = _("Wristband log")
-        verbose_name_plural = _("Wristbands log")
+        verbose_name = _("Wristband Access Point")
+        verbose_name_plural = _("Wristbands Access Points")
 
 
 '''
