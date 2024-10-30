@@ -40,16 +40,18 @@
                         {%trans "Import winhotel bookings"%}</a>  
                 {% endif %}
             </div>
-            <div class="col-2">
-                {% if project.avaibook_user != None and project.avaibook_user.uuid != "" %}
+            {% if project.avaibook_user != None and project.avaibook_user.uuid != "" %}
+                <div class="col-2">
                     <a class="btn btn-primary ark" data-url="{% url "avaibook-get-booking-list" project.uuid %}" data-target-modal="common-modal"> 
                         {%trans "Import avaibook bookings"%}</a>  
-            </div>
-            <div class="col-2">
-                <a class="btn btn-primary ark" data-url="{% url "avaibook-get-accommodation-list" project.uuid %}" data-target-modal="common-modal"> 
+                </div>
+                {%comment%}
+                <div class="col-2">
+                    <a class="btn btn-primary ark" data-url="{%url "avaibook-get-accommodation-list" project.uuid%}" data-target-modal="common-modal">
                         {%trans "Import avaibook accommodation"%}</a>  
-                {% endif %}
-            </div>
+                </div>
+                {%endcomment%}
+            {% endif %}
             <div class="col-2">
                 {% if project.avantio_user != None and project.avantio_user.username != "" %}
                     <a class="btn btn-primary ark" data-url="{% url "avantio-get-booking-list" project.uuid %}" data-target-modal="common-modal"> 

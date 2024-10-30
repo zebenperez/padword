@@ -359,7 +359,7 @@ class Guest(models.Model):
         Access Points
     '''
     def access_points(self):
-        return WristbandAccessPoint.objects.filter(project_uuid=self.project_id)
+        return WristbandAccessPoint.objects.filter(zone__project_uuid=self.project_id)
 
     '''
         Statics

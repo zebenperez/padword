@@ -182,6 +182,7 @@ def guest_details(request, obj_id=""):
         context = {'obj':obj, 'temp_range':range(16,26), 'regime_list':regime_list, 'guest_type_list':guest_type_list, 'card':obj.card, 'stripe':obj.stripe}
         return render(request, "guest/guest-details.html", context)
     except Exception as e:
+        print(e)
         return render(request, 'error_exception.html', {'exc':show_exc(e)})
 
 
