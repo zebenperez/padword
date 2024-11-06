@@ -1,12 +1,18 @@
-{% load i18n padword_tags %}
+{% load i18n padword_tags guest_tags %}
 
 <div class="d-flex">
     <div class="row">
-        {% for ap in obj.access_points %}
+        {% for zone in obj.access_zones %}
             <div class="col-6">
-                <button type="button" class="btn btn-info ark" id="ap-{{ap.id}}" data-url="" data-target="" 
-                    data-obj_id="" data-guest="" data-band="">
-                    {{ ap.name }} {% if ap.in_point %}<i class="fas fa-check"></i>{% else %}<i class="fas fa-times"></i>{% endif %}</button> 
+                {% if obj|zone_active:zone %}
+                    <button type="button" class="btn btn-success ark" id="zone-{{zone.id}}" data-url="{% url "guest-band-manage-zone" %}" 
+                        data-target="band-ap-{{band.id}}" data-obj_id="{{obj.id}}" data-zone="{{zone.id}}" data-band="{{band.id}}" data-add="False" 
+                        style="width:150px"> {{ zone.name }}</button> 
+                {% else %}
+                    <button type="button" class="btn btn-default ark" id="zone-{{zone.id}}" data-url="{% url "guest-band-manage-zone" %}" 
+                        data-target="band-ap-{{band.id}}" data-obj_id="{{obj.id}}" data-zone="{{zone.id}}" data-band="{{band.id}}" data-add="True" 
+                        style="width:150px"> {{ zone.name }}</button> 
+                {% endif %}
             </div>
         {% endfor %}
     </div>

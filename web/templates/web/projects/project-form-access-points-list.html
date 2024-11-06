@@ -22,7 +22,14 @@
                             data-model-name="guest.wristbandaccesspoint" data-obj-id="{{item.id}}" data-url="{% url "autosave_field" %}" 
                             data-target="div-notification" data-bool="True" {%if item.in_point%}checked{%endif%}/> <span id="in_point__msg"></span>	
                     </div>
-                    <div class="col-12 text-end">UUID: {{item.uuid}}</div>
+                    <div class="col-12 text-end">
+                        Link: 
+                        <a class="btn" href="#" title="{% trans 'Show Link' %}" onclick='showAccessPointLink("{{item.uuid}}")'> 
+                            <i class="fas fa-eye"></i></a>
+                        <a class="btn" href="#" title="{% trans 'Copy Link' %}" onclick='copyAccessPointLink("{{item.uuid}}")'> 
+                            <i class="fas fa-copy"></i></a>
+                    </div>
+                    {#<div class="col-12 text-end">UUID: {{item.uuid}}</div>#}
  
                     {%comment%}
                     <div class="col-6">
@@ -37,3 +44,18 @@
         </div>
     {% endfor %}
 </div>
+<script>
+    function showAccessPointLink(uuid){
+        alert("https://{{request.META.HTTP_HOST}}/guest/wristbands-access/index/{{obj.uuid}}/"+uuid+"/");
+        return False;
+    }
+    function copyAccessPointLink(uuid){
+        var copyText = "https://{{request.META.HTTP_HOST}}/guest/wristbands-access/index/{{obj.uuid}}/"+uuid+"/";
+        var $temp = $("<input>");
+        $("body").append($temp);
+        $temp.val(copyText).select();
+        document.execCommand("copy");
+        $temp.remove();
+        alert("Copied the text: " + copyText);
+    }
+</script>

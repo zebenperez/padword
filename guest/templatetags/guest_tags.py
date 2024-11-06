@@ -1,9 +1,16 @@
 from django import template
 
 from padword.commons import show_exc
-from guest.models import KeyCode, KeyCard
+from guest.models import KeyCode, KeyCard, WristbandAccessZoneGuest
 
 register = template.Library()
+
+'''
+    Filters
+'''
+@register.filter
+def zone_active(guest, zone):
+    return WristbandAccessZoneGuest.objects.filter(guest=guest, zone=zone).first() != None
 
 '''
     Inclusion Tags

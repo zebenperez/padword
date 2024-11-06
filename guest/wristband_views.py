@@ -5,7 +5,8 @@ from django.shortcuts import render, redirect
 from django.urls import reverse
 from django.utils.translation import ugettext_lazy as _ 
 
-from .models import Guest, Wristband, WristbandBalance, WristbandType, WristbandLog, WristbandAccess, WristbandAccessPoint
+from .models import Guest, Wristband, WristbandBalance, WristbandType, WristbandLog
+from .models import WristbandAccess, WristbandAccessPoint, WristbandAccessZone, WristbandAccessZoneGuest
 from web.models import Project, Waiter
 from padword.commons import show_exc, get_or_none, get_param, reverse_cardkey, get_float, get_int
 from padword.decorators import group_required
@@ -192,6 +193,24 @@ def guest_band_balance_remove(request):
         band = balance.wristband
         balance.delete()
         return render(request, "guest/bands/balance.html", {"band": band})
+    except Exception as e:
+        return render(request, "error_exception.html", {'exc':show_exc(e)})
+
+
+@group_required("admins", "projects")
+def guest_band_manage_zone(request):
+    try:
+        guest = get_or_none(Guest, get_param(request.GET, "obj_id"))
+        zone = get_or_none(WristbandAccessZone, get_param(request.GET, "zone"))
+        band = get_or_none(Wristband, get_param(request.GET, "band"))
+        add = get_param(request.GET, "add")
+        if add == "True":
+            WristbandAccessZoneGuest.objects.get_or_create(guest=guest, zone=zone)
+        else:
+            obj = WristbandAccessZoneGuest.objects.filter(guest=guest, zone=zone).first()
+            if obj != None:
+                obj.delete()
+        return render(request, "guest/bands/access-points.html", {"obj": guest, "band": band})
     except Exception as e:
         return render(request, "error_exception.html", {'exc':show_exc(e)})
 

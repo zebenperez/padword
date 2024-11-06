@@ -356,10 +356,10 @@ class Guest(models.Model):
             SensiboDevice.objects.create(guest=self, uuid=dev.uuid, name=dev.name)
 
     '''
-        Access Points
+        Access Zones
     '''
-    def access_points(self):
-        return WristbandAccessPoint.objects.filter(zone__project_uuid=self.project_id)
+    def access_zones(self):
+        return WristbandAccessZone.objects.filter(project_uuid=self.project_id)
 
     '''
         Statics
@@ -689,6 +689,14 @@ class WristbandAccessPoint(models.Model):
     class Meta:
         verbose_name = _("Wristband Access Point")
         verbose_name_plural = _("Wristbands Access Points")
+
+class WristbandAccessZoneGuest(models.Model):
+    guest = models.ForeignKey(Guest, on_delete=models.CASCADE, verbose_name=_("Guest"), related_name="zones")
+    zone = models.ForeignKey(WristbandAccessZone, verbose_name=_("Zone"), on_delete=models.CASCADE, blank=True, null=True, related_name="guests")
+
+    class Meta:
+        verbose_name = _("Wristband Access Zone Guest")
+        verbose_name_plural = _("Wristbands Access Zone Guest")
 
 
 '''
