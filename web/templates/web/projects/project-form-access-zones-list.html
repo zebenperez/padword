@@ -18,6 +18,7 @@
                             title="{{zone.name}}" data-model-name="guest.wristbandaccesszone" data-obj-id="{{zone.id}}" 
                             data-url="{% url "autosave_field" %}" data-target="div-notification"/> <span id="name__msg"></span>	
                     </div>
+                    {%comment%}
                     <div class="col-3">
                         <label class="label">{% trans "Hora apertura" %}:</label>
                         <input type="time" class="form-control autosave input wh-cron" id="ini_time" name="ini_time" 
@@ -32,6 +33,7 @@
                             data-obj-id="{{zone.id}}" data-url="{% url "autosave_field" %}" data-target="div-notification"/> 
                         <span id="end_time__msg"></span>	
                     </div>
+                    {%endcomment%}
                 </div>
                 <br/>
                 {% include "web/projects/project-form-access-zone-times.html" with access_times=zone.timetable.all %} 
