@@ -686,6 +686,15 @@ class WristbandAccessPoint(models.Model):
     name = models.CharField(max_length=255, verbose_name='Name', default="")
     zone = models.ForeignKey(WristbandAccessZone,verbose_name=_("Zone"),on_delete=models.CASCADE,blank=True,null=True,related_name="accesspoints")
 
+    def is_open(self):
+        now = datetime.datetime.now()
+        for item in self.zone.timetable.all():
+            i_time = now.replace(hour=item.ini_time.hour, minute=item.ini_time.minute)
+            e_time = now.replace(hour=item.end_time.hour, minute=item.end_time.minute)
+            if now > i_time and now < e_time:
+                return True
+        return False
+
     class Meta:
         verbose_name = _("Wristband Access Point")
         verbose_name_plural = _("Wristbands Access Points")
@@ -778,5 +787,15 @@ class GuestLockLog(models.Model):
             if guest != None:
                 return guest.name 
         return ""
+
+'''
+    Guest Car
+'''
+class GuestCar(models.Model):
+    number = models.CharField(max_length=50, verbose_name='Number', default="")
+    guest = models.ForeignKey(Guest, on_delete=models.CASCADE, verbose_name=_("Guest"), related_name="cars")
+
+    class Meta:
+        verbose_name = _('Guest Car')
 
 

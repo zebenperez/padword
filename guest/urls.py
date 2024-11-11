@@ -55,6 +55,7 @@ urlpatterns = [
     path('guests/band/balance/form/', wristband_views.guest_band_balance_form, name="guest-band-balance-form"),
     path('guests/band/balance/remove/', wristband_views.guest_band_balance_remove, name="guest-band-balance-remove"),
     path('guests/band/manage-zone/', wristband_views.guest_band_manage_zone, name="guest-band-manage-zone"),
+    path('guests/band/manage-all-zone/', wristband_views.guest_band_manage_all_zone, name="guest-band-manage-all-zone"),
 
     path('wristbands/', wristband_views.wristbands, name='wristbands'),
     path('wristbands/search/', wristband_views.wristbands_search, name='wristbands-search'),
@@ -125,5 +126,9 @@ urlpatterns = [
     path('wristbands/pay-send/', wristband_views.pay_send, name='wristband-pay-send'),
     path('wristbands/pay-index/<slug:project_uuid>/', wristband_views.pay_index, name='wristband-pay-index'),
  
+    #-------------------- CARS --------------#
+    path('guests/cars', views.guest_cars, name='guest-cars'),
+    path('guests/car/add', views.guest_car_add, name='guest-car-add'),
+    path('guests/car/remove', views.guest_car_remove, name='guest-car-remove'),
 ]
 

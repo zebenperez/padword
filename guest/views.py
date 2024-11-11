@@ -946,4 +946,34 @@ def key_add_card_all_ext(request, token):
         print(e)
         return render(request, "error_exception.html", {'exc':show_exc(e)})
 
+'''
+    CARS
+'''
+@group_required("admins", "projects")
+def guest_cars(request):
+    try:
+        guest = get_or_none(Guest, get_param(request.GET, "obj_id"))
+        return render(request, "guest/guest-cars.html", {"obj": guest})
+    except Exception as e:
+        return render(request, "error_exception.html", {'exc':show_exc(e)})
+
+@group_required("admins", "projects")
+def guest_car_add(request):
+    try:
+        guest = get_or_none(Guest, get_param(request.GET, "obj_id"))
+        car = GuestCar.objects.create(guest=guest)
+        return render(request, "guest/guest-cars-form.html", {"obj": guest, "car": car})
+    except Exception as e:
+        return render(request, "error_exception.html", {'exc':show_exc(e)})
+
+@group_required("admins", "projects")
+def guest_car_remove(request):
+    try:
+        car = get_or_none(GuestCar, get_param(request.GET, "obj_id"))
+        guest = car.guest
+        car.delete()
+        return render(request, "guest/guest-cars.html", {"obj": guest})
+    except Exception as e:
+        return render(request, "error_exception.html", {'exc':show_exc(e)})
+
 

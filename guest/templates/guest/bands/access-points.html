@@ -1,17 +1,29 @@
 {% load i18n padword_tags guest_tags %}
 
+<div class="row">
+    <div class="col-12 text-end">
+        <button class="btn btn-warning ark" data-url="{%url "guest-band-manage-all-zone"%}" data-target="band-ap-{{band.id}}" 
+            data-obj_id="{{obj.id}}" data-band="{{band.id}}" data-add="False">
+            {% trans "Quitar acceso de todas las zonas" %}</button>
+        <button class="btn btn-success ark" data-url="{%url "guest-band-manage-all-zone"%}" data-target="band-ap-{{band.id}}" 
+            data-obj_id="{{obj.id}}" data-band="{{band.id}}" data-add="True">
+            {% trans "Dar acceso de todas las zonas" %}</button>
+    </div>
+</div>
+<br/>
+ 
 <div class="d-flex">
-    <div class="row">
+   <div class="row">
         {% for zone in obj.access_zones %}
             <div class="col-6">
                 {% if obj|zone_active:zone %}
-                    <button type="button" class="btn btn-success ark" id="zone-{{zone.id}}" data-url="{% url "guest-band-manage-zone" %}" 
-                        data-target="band-ap-{{band.id}}" data-obj_id="{{obj.id}}" data-zone="{{zone.id}}" data-band="{{band.id}}" data-add="False" 
-                        style="width:150px"> {{ zone.name }}</button> 
+                    <button type="button" class="btn btn-success ark" id="zone-{{zone.id}}" 
+                        data-url="{%url "guest-band-manage-zone"%}" data-target="band-ap-{{band.id}}" data-obj_id="{{obj.id}}" 
+                        data-zone="{{zone.id}}" data-band="{{band.id}}" data-add="False" style="width:150px"> {{ zone.name }}</button> 
                 {% else %}
-                    <button type="button" class="btn btn-default ark" id="zone-{{zone.id}}" data-url="{% url "guest-band-manage-zone" %}" 
-                        data-target="band-ap-{{band.id}}" data-obj_id="{{obj.id}}" data-zone="{{zone.id}}" data-band="{{band.id}}" data-add="True" 
-                        style="width:150px"> {{ zone.name }}</button> 
+                    <button type="button" class="btn btn-default ark" id="zone-{{zone.id}}" 
+                        data-url="{% url "guest-band-manage-zone" %}" data-target="band-ap-{{band.id}}" data-obj_id="{{obj.id}}" 
+                        data-zone="{{zone.id}}" data-band="{{band.id}}" data-add="True" style="width:150px"> {{ zone.name }}</button> 
                 {% endif %}
             </div>
         {% endfor %}

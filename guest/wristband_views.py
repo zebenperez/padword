@@ -214,6 +214,23 @@ def guest_band_manage_zone(request):
     except Exception as e:
         return render(request, "error_exception.html", {'exc':show_exc(e)})
 
+@group_required("admins", "projects")
+def guest_band_manage_all_zone(request):
+    try:
+        guest = get_or_none(Guest, get_param(request.GET, "obj_id"))
+        band = get_or_none(Wristband, get_param(request.GET, "band"))
+        add = get_param(request.GET, "add")
+        for zone in guest.access_zones():
+            if add == "True":
+                WristbandAccessZoneGuest.objects.get_or_create(guest=guest, zone=zone)
+            else:
+                obj = WristbandAccessZoneGuest.objects.filter(guest=guest, zone=zone).first()
+                if obj != None:
+                    obj.delete()
+        return render(request, "guest/bands/access-points.html", {"obj": guest, "band": band})
+    except Exception as e:
+        return render(request, "error_exception.html", {'exc':show_exc(e)})
+
 
 '''
     Wristbands
@@ -267,6 +284,10 @@ def wristbands_access_index(request, project_uuid, point_uuid):
     try:
         project = get_or_none(Project, project_uuid, "uuid")
         ap = get_or_none(WristbandAccessPoint, point_uuid, "uuid")
+
+        if not ap.is_open():
+            msg = _("Esta zona se encuentra cerrada!")
+            return render(request, "wristbands/access/result.html", {'error':True, 'msg': msg})
 
         return render(request, "wristbands/access/index.html", {'project': project, 'access_point': ap})
     except Exception as e:

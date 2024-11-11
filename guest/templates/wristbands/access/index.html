@@ -5,7 +5,7 @@
 
 {% block central_content %}
     <div id="base" class="access-wrist">
-    {%comment%}
+        {%comment%}
           <div id="base-tpv-mobile">
             <div class="row header-wrist-pay pay-access w-100 text-center m-0">
                 <div class="col-lg-3 col-3 name" style="width: 80px;">
@@ -20,17 +20,18 @@
                 </div>
             </div>
         {%endcomment%}
-            <div id="main" class="row main-tpv-mobile m-0">
-                <div class="access-panel col-lg-8 offset-lg-2 col-10 offset-1 text-center px-2 py-5">
-                    <h1 class="mb-5">{% trans "ACCEDER" %}</h1>
-                    <input type="text" class="form-control text-center" id="band" name="band" placeholder="Acerque la tarjeta al lector para acceder" />
-                    <br/> <br/>
-                    <button id="btn-send" class="ark" style="display:none" data-url="{% url "wristbands-access-send" %}" data-target="div-result" 
-                        data-obj_id="{{project.uuid}}" data-value="" data-point="{{access_point.uuid}}" data-lg="True"></button>
-                </div>
-                {#<div class="d-lg-none"> {% include "wristbands/scan-nfc.html" %} </div>#}
-                <div id="div-result"></div>
+        <div id="main" class="row main-tpv-mobile m-0">
+            <div class="access-panel col-lg-8 offset-lg-2 col-10 offset-1 text-center px-2 py-5">
+                <h1 class="mb-5">{% trans "ACCEDER" %}</h1>
+                <input type="text" class="form-control text-center" id="band" name="band" 
+                    placeholder="Acerque la tarjeta al lector para acceder" />
+                <br/> <br/>
+                <button id="btn-send" class="ark" style="display:none" data-url="{% url "wristbands-access-send" %}" 
+                    data-target="div-result" data-obj_id="{{project.uuid}}" data-value="" data-point="{{access_point.uuid}}" 
+                    data-lg="True"></button>
             </div>
+            {#<div class="d-lg-none"> {% include "wristbands/scan-nfc.html" %} </div>#}
+            <div id="div-result"></div>
         </div>
     </div>
     {% include "common-modal.html" %}
