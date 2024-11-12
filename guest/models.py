@@ -651,19 +651,19 @@ class WristbandLog(models.Model):
         verbose_name = _("Wristband log")
         verbose_name_plural = _("Wristbands log")
 
-class WristbandAccess(models.Model):
-    inside = models.BooleanField(verbose_name=_("Inside"), default=False)
-    date = models.DateTimeField(verbose_name=_('Date'), default=datetime.datetime.now)
-    wristband = models.ForeignKey(Wristband, verbose_name=_("Wristband"), on_delete=models.CASCADE, blank=True, null=True, related_name="access")
-
-    class Meta:
-        verbose_name = _("Wristband log")
-        verbose_name_plural = _("Wristbands log")
-
 class WristbandAccessZone(models.Model):
+    reset_time = models.TimeField(_("Reset Time"), blank=True, default=datetime.time(23, 00))
     uuid = models.CharField(max_length = 255, verbose_name= _('UUID'), default=new_ui_slug)
     name = models.CharField(max_length=255, verbose_name='Name', default="")
     project_uuid = models.CharField(max_length = 255, verbose_name= _('Project UUID'), default='')
+
+    @property
+    def project(self):
+        try:
+            return Project.objects.get(uuid = self.project_uuid)
+        except Exception as e:
+            return Project(name='UNKNOWN')
+
 
     class Meta:
         verbose_name = _("Wristband Access Zone")
@@ -678,7 +678,6 @@ class WristbandAccessZoneTimes(models.Model):
     class Meta:
         verbose_name = _("Wristband Access Point")
         verbose_name_plural = _("Wristbands Access Points")
-
 
 class WristbandAccessPoint(models.Model):
     in_point = models.BooleanField(verbose_name=_("In point"), default=False)
@@ -706,6 +705,16 @@ class WristbandAccessZoneGuest(models.Model):
     class Meta:
         verbose_name = _("Wristband Access Zone Guest")
         verbose_name_plural = _("Wristbands Access Zone Guest")
+
+class WristbandAccess(models.Model):
+    inside = models.BooleanField(verbose_name=_("Inside"), default=False)
+    date = models.DateTimeField(verbose_name=_('Date'), default=datetime.datetime.now)
+    wristband = models.ForeignKey(Wristband, verbose_name=_("Wristband"), on_delete=models.CASCADE, blank=True, null=True, related_name="access")
+    access_point = models.ForeignKey(WristbandAccessPoint,verbose_name=_("Access Point"),on_delete=models.SET_NULL,blank=True,null=True,related_name="accesspoints")
+
+    class Meta:
+        verbose_name = _("Wristband access")
+        verbose_name_plural = _("Wristbands access")
 
 
 '''

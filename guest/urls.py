@@ -66,6 +66,8 @@ urlpatterns = [
     path('wristbands-access/search/', wristband_views.wristbands_access_search, name='wristbands-access-search'),
     path('wristbands-access/index/<slug:project_uuid>/<slug:point_uuid>/', wristband_views.wristbands_access_index, name='wristbands-access-index'),
     path('wristbands-access/send/', wristband_views.wristbands_access_send, name='wristbands-access-send'),
+    path('wristbands-access/export-csv/', wristband_views.wristbands_access_export_csv, name='wristbands-access-export-csv'),
+    path('wristbands-access/schedule/', wristband_views.wristbands_access_schedule, name='wristbands-access-schedule'),
 
     #--------------------- DEVICES --------------------
     path('', views.index, name='device-index'),

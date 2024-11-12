@@ -8,6 +8,7 @@ from connector.winhotel_lib import import_item_prices as wh_import_item_prices, 
 from connector.winhotel_lib import get_booking_range_list as wh_get_booking_range_list
 from web.models import Project, ProjectLockUser
 from web.models_lock import Lock, LockCron
+from guest.models import WristbandAccess, WristbandAccessZone
 from connector.models import ProjectAvantioUser, ProjectWinhotelUser
 from padword.commons import get_or_none
 from padword.email_lib import send_email
@@ -172,6 +173,23 @@ def locks_tasks_schedule(project_uuid):
         if plu != None and plu.report_email != "" and len(task_list) > 0:
             subject = "Informe de tarea {} {}".format(project_name, datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
             send_email(subject, result, settings.EMAIL_FROM_DEFAULT, [plu.report_email])
+    except Exception as e:
+        print("\n<br/>Error: {}".format(e))
+    print(result)
+
+def wristband_access_schedule(project_uuid):
+    zone = get_or_none(WristbandAccessZone, project_uuid)
+    project_name = zone.project.name if zone != None and zone.project != None else "---"
+    result = "Reseteo de pulseras {} {}\n".format(project_name, datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
+    result += "-----------------------------------------------------\n"
+    try:
+        access_list = WristbandAccess.objects.filter(access_point__zone = zone)
+        for item in access_list:
+            if item.inside:
+                wa = WristbandAccess.objects.filter(access_point__zone = zone, inside = False, date__gte = item.date).first()
+                if wa == None:
+                    result += "- Band [{}] {}: \n".format(item.date, item.wristband)
+                    WristbandAccess.objects.create(wristband=item.wristband, access_point=item.access_point)
     except Exception as e:
         print("\n<br/>Error: {}".format(e))
     print(result)
