@@ -24,7 +24,7 @@
             <div class="access-panel col-lg-8 offset-lg-2 col-10 offset-1 text-center px-2 py-5">
                 <h1 class="mb-5">{% trans "ACCEDER" %}</h1>
                 <input type="text" class="form-control text-center" id="band" name="band" 
-                    {% if ap.is_open %}
+                    {% if access_point.is_open and not access_point.close %}
                         placeholder="Acerque la tarjeta al lector para acceder"
                     {% else %}
                         placeholder="La instalación esta cerrada en este momento" disabled
