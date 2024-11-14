@@ -601,6 +601,19 @@ def project_access_zone_remove(request):
         print (show_exc(e))
     return render(request, "web/projects/project-form-access-zones-list.html", {'access_zones':access_zones,})
 
+@group_required("admins")
+def project_access_zone_close(request):
+    try:
+        zone = get_or_none(WristbandAccessZone, request.GET["obj_id"])
+        close = get_param(request.GET, "close")
+        project_uuid = zone.project_uuid
+        for point in zone.accesspoints.all():
+            point.close = True if close == "True" else False
+            point.save()
+        access_zones = WristbandAccessZone.objects.filter(project_uuid=project_uuid)
+    except Exception as e:
+        print (show_exc(e))
+    return render(request, "web/projects/project-form-access-zones-list.html", {'access_zones':access_zones,})
 
 @group_required("admins")
 def project_access_points_add(request):

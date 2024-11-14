@@ -306,9 +306,9 @@ def wristbands_access_index(request, project_uuid, point_uuid):
         project = get_or_none(Project, project_uuid, "uuid")
         ap = get_or_none(WristbandAccessPoint, point_uuid, "uuid")
 
-        if not ap.is_open():
-            msg = _("Esta zona se encuentra cerrada!")
-            return render(request, "wristbands/access/result.html", {'error':True, 'msg': msg})
+        #if not ap.is_open():
+        #    msg = _("Esta zona se encuentra cerrada!")
+        #    return render(request, "wristbands/access/result.html", {'error':True, 'msg': msg})
 
         return render(request, "wristbands/access/index.html", {'project': project, 'access_point': ap})
     except Exception as e:

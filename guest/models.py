@@ -681,6 +681,7 @@ class WristbandAccessZoneTimes(models.Model):
 
 class WristbandAccessPoint(models.Model):
     in_point = models.BooleanField(verbose_name=_("In point"), default=False)
+    close = models.BooleanField(verbose_name=_("Close"), default=False)
     uuid = models.CharField(max_length = 255, verbose_name= _('UUID'), default=new_ui_slug)
     name = models.CharField(max_length=255, verbose_name='Name', default="")
     zone = models.ForeignKey(WristbandAccessZone,verbose_name=_("Zone"),on_delete=models.CASCADE,blank=True,null=True,related_name="accesspoints")

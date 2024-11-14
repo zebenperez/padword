@@ -48,6 +48,7 @@ urlpatterns = [
     path('projects/guest-types-remove/', views.project_guest_types_remove, name='project-guest-types-remove'),
     path('projects/access-zone-add/', views.project_access_zone_add, name='project-access-zone-add'),
     path('projects/access-zone-remove/', views.project_access_zone_remove, name='project-access-zone-remove'),
+    path('projects/access-zone-close/', views.project_access_zone_close, name='project-access-zone-close'),
     path('projects/access-zone-times-add/', views.project_access_zone_times_add, name='project-access-zone-times-add'),
     path('projects/access-zone-times-remove/', views.project_access_zone_times_remove, name='project-access-zone-times-remove'),
     path('projects/access-points-add/', views.project_access_points_add, name='project-access-points-add'),

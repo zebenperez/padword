@@ -8,9 +8,14 @@
                 <div class="row">
                     <div class="col-6"> <small>UUID: {{zone.uuid}}</small></div>
                     <div class="col-6 text-end mt-1">
+                        <button class="btn btn-sm ark" data-url="{%url "project-access-zone-close"%}" data-target="div-access-zones" 
+                            data-obj_id="{{zone.id}}" data-close="True"> {% trans "Close zone" %}</button>
+                        <button class="btn btn-sm ark" data-url="{%url "project-access-zone-close"%}" data-target="div-access-zones" 
+                            data-obj_id="{{zone.id}}" data-close="False"> {% trans "Open zone" %}</button>
                         <button class="btn btn-sm ark" id="btn-inv-remove" data-url="{%url "project-access-zone-remove"%}" 
                             data-target="div-access-zones" data-obj_id="{{zone.id}}"
-                            data-confirm="Si borra la zona se borrarán los puntos de acceso, quiere continuar?"> <i class="fas fa-trash"></i></button>
+                            data-confirm="Si borra la zona se borrarán los puntos de acceso, quiere continuar?"> 
+                            <i class="fas fa-trash"></i></button>
                     </div>
                     <div class="col-6">
                         <label class="label">{% trans "Name" %}</label>

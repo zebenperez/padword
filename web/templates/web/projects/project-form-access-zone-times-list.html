@@ -6,24 +6,25 @@
         <div class="col-lg-6 col-12 p-1">
             <div class="p-sale p-3 pt-1">
                 <div class="row">
-                    <div class="col-12 text-end mt-1">
-                        <button class="btn btn-sm ark" id="btn-inv-remove" data-url="{%url "project-access-zone-times-remove"%}" 
-                            data-target="div-access-times-{{zone.id}}" data-obj_id="{{item.id}}"> <i class="fas fa-trash"></i></button>
-                    </div>
-                    <div class="col-6">
+                   <div class="col-5">
                         <label class="label">{% trans "Hora apertura" %}:</label>
                         <input type="time" class="form-control autosave input wh-cron" id="ini_time" name="ini_time" 
                             value="{{item.ini_time|date:"H:i"}}" data-model-name="guest.wristbandaccesszonetimes" 
                             data-obj-id="{{item.id}}" data-url="{% url "autosave_field" %}" data-target="div-notification"/> 
                         <span id="ini_time__msg"></span>	
                     </div>
-                    <div class="col-6">
+                    <div class="col-5">
                         <label class="label">{% trans "Hora cierre" %}:</label>
                         <input type="time" class="form-control autosave input wh-cron" id="end_time" name="end_time" 
                             value="{{item.end_time|date:"H:i"}}" data-model-name="guest.wristbandaccesszonetimes" 
                             data-obj-id="{{item.id}}" data-url="{% url "autosave_field" %}" data-target="div-notification"/> 
                         <span id="end_time__msg"></span>	
                     </div>
+                    <div class="col-2 text-end mt-1">
+                        <button class="btn btn-sm ark" id="btn-inv-remove" data-url="{%url "project-access-zone-times-remove"%}" 
+                            data-target="div-access-times-{{zone.id}}" data-obj_id="{{item.id}}"> <i class="fas fa-trash"></i></button>
+                    </div>
+ 
                 </div>
             </div>
         </div>
