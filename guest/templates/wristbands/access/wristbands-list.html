@@ -20,8 +20,8 @@
         {% for item in item_list %}
             <tr id="tr-{{item.id}}">
                 <td> {{item.date}} </td>
-                <td> {{item.wristband.code}} </td>
-                <td> {{item.wristband.guest.name}} </td>
+                <td> {{item.wristband.name}} ({{item.wristband.code}}) </td>
+                <td> {{item.wristband.guest.name}} {{item.wristband.guest.surname}}</td>
                 <td> {{item.access_point.zone.name}} </td>
                 <td class="{% if item.inside %}text-success{% else %}text-danger{% endif %}"> 
                     {% if item.inside %} {% trans "Entrada" %} {% else %} {% trans "Salida" %} {% endif %} </td> 

@@ -622,6 +622,12 @@ class Wristband(models.Model):
             print(e)
             return -1
 
+    def can_access_zone(self, zone):
+        if self.guest == None:
+            return False
+        zones = [item.zone for item in self.guest.zones.all()]
+        return (zone in zones)
+
     @staticmethod
     def get_active_by_project(project, code):
         #now = datetime.datetime.now()
@@ -687,15 +693,11 @@ class WristbandAccessPoint(models.Model):
     zone = models.ForeignKey(WristbandAccessZone,verbose_name=_("Zone"),on_delete=models.CASCADE,blank=True,null=True,related_name="accesspoints")
 
     def is_open(self):
-        print("--0--")
         now = datetime.datetime.now()
-        print("--1--")
         for item in self.zone.timetable.all():
             i_time = now.replace(hour=item.ini_time.hour, minute=item.ini_time.minute)
             e_time = now.replace(hour=item.end_time.hour, minute=item.end_time.minute)
-            print("--2--")
             if now > i_time and now < e_time:
-                print("--3--")
                 return True
         return False
 
@@ -720,6 +722,7 @@ class WristbandAccess(models.Model):
     class Meta:
         verbose_name = _("Wristband access")
         verbose_name_plural = _("Wristbands access")
+        ordering = ["-date"]
 
 
 '''

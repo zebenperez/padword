@@ -280,9 +280,11 @@ def access_search(request):
     if band != "" and band != 0:
         kwargs["wristband__code"] = band
     if ini_date != "":
-        kwargs["date__gte"] = ini_date
-    if ini_date != "":
-        kwargs["date__lte"] = end_date
+        i_date = datetime.strptime(ini_date, "%Y-%m-%d").replace(hour=0, minute=0)
+        kwargs["date__gte"] = i_date
+    if end_date != "":
+        e_date = datetime.strptime(end_date, "%Y-%m-%d").replace(hour=23, minute=59)
+        kwargs["date__lte"] = e_date
     access_list = WristbandAccess.objects.filter(**kwargs)
     return access_list 
 
@@ -316,6 +318,10 @@ def wristbands_access_index(request, project_uuid, point_uuid):
         return render(request, "error_exception.html", {'exc':show_exc(e)})
 
 def wristbands_access_check(last_access, ap, band):
+    if not band.can_access_zone(ap.zone):
+        msg = _("Error!, No tiene permisos para acceder a esta zona")
+        return True, msg
+
     if last_access == None:
         #Primer acceso
         if not ap.in_point:
@@ -323,7 +329,7 @@ def wristbands_access_check(last_access, ap, band):
             return True, msg
         else:
             msg = _('Ha entrado correctamente!')
-            WristbandAccess.objects.create(wristband=band, inside=True)
+            WristbandAccess.objects.create(wristband=band, access_point=ap, inside=True)
             return False, msg
     else:
         #Esta fuera
@@ -335,14 +341,14 @@ def wristbands_access_check(last_access, ap, band):
             #Punto de entrada
             else:
                 msg = _('Ha entrado correctamente!')
-                WristbandAccess.objects.create(wristband=band, inside=True)
+                WristbandAccess.objects.create(wristband=band, access_point=ap, inside=True)
                 return False, msg
         #Esta dentro
         else:
             #Punto de salida
             if not ap.in_point:
                 msg = _('Ha salido correctamente!')
-                WristbandAccess.objects.create(wristband=band, inside=False)
+                WristbandAccess.objects.create(wristband=band, access_point=ap, inside=False)
                 return False, msg
             #Punto de entrada
             else:
