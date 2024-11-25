@@ -159,13 +159,20 @@ def locks_tasks_schedule(project_uuid):
                 for lock in lock_list:
                     l = get_or_none(Lock, lock)
                     if l != None:
-                        if task.task == "ADD CARD":
-                            err = l.add_card(params[0], params[2], params[3], params[1])
-                            result += "--- AÑADIENDO TARJETA A CERRADURA [{} - ({})]: {}\n".format(l.uuid, l.alias, err)
-                        elif task.task == "ADD CODE":
-                            err = l.set_code(params[0], params[2], params[3], params[1])
-                            result += "--- AÑADIENDO CÓDIGO A CERRADURA [{} - ({})]: {}\n".format(l.uuid, l.alias, err)
-            task.done = True
+                        try:
+                            ini_date = datetime.strptime(params[2].split(".")[0], "%Y-%m-%d %H:%M:%S")
+                            end_date = datetime.strptime(params[3].split(".")[0], "%Y-%m-%d %H:%M:%S")
+                            if task.task == "ADD CARD":
+                                #err = l.add_card(params[0], params[2], params[3], params[1])
+                                err = l.add_card(params[0], ini_date, end_date, params[1])
+                                result += "--- AÑADIENDO TARJETA A CERRADURA [{} - ({})]: {}\n".format(l.uuid, l.alias, err)
+                            elif task.task == "ADD CODE":
+                                #err = l.set_code(params[0], params[2], params[3], params[1])
+                                err = l.set_code(params[0], ini_date, end_date, params[1])
+                                result += "--- AÑADIENDO CÓDIGO A CERRADURA [{} - ({})]: {}\n".format(l.uuid, l.alias, err)
+                        except Exception as e:
+                            result += "--- ERROR: {}\n".format(e)
+                task.done = True
             task.save()
 
         plu = ProjectLockUser.objects.filter(project_uuid=project.uuid).first()
