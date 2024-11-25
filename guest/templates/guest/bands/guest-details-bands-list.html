@@ -38,14 +38,15 @@
         </div>
 
         <div class="card mt-2 pt-2 pb-2">
-            <div class="card-header toggle-btn" data-target="band-ap-{{item.id}}" data-id-change="icon-extra" 
+            <div class="card-header toggle-btn" data-target="band-ap-{{item.id}}" data-id-change="icon-ap" 
                 data-text='<i class="fas fa-plus"></i>' data-text-alt='<i class="fas fa-minus"></i>'>
                 <div class="row w-100">
-                    <div class="col-6 text-right" id="icon-extra"><i class="fas fa-plus"></i></div>
+                    <div class="col-6 text-right" id="icon-ap"><i class="fas fa-plus"></i></div>
                     <div class="col-6 text-left"><strong>{% trans "Access Points" %}</strong></div>
                 </div>
             </div>
-            <div class="card-body hide" id="band-ap-{{item.id}}"> {% include "guest/bands/access-points.html" with band=item %} </div>
+            <div class="card-body hide" id="band-ap-{{item.id}}"> 
+                {% include "guest/bands/access-points.html" with band=item %} </div>
         </div>
  
     </div>

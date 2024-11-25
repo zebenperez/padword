@@ -8,7 +8,8 @@ from django.views.decorators.csrf import csrf_exempt
 
 from padword.commons import show_exc, get_or_none, get_param, new_ui_slug, translate, set_session, update_cron, get_int, translate2, get_random_str
 from padword.decorators import group_required
-from guest.models import Regime, ProjectRegime, GuestType, Wristband, Guest, GuestStripe, WristbandAccessPoint
+from guest.models import Regime, ProjectRegime, GuestType, Wristband, Guest, GuestStripe
+from guest.models import WristbandAccessZone, WristbandAccessZoneTimes, WristbandAccessPoint
 from sensibo.models import ProjectSensiboUser
 from connector.models import ProjectAvantioUser, ProjectAvaibookUser, ProjectWinhotelUser, ProjectStripeUser
 from contents.models import Category, PointOfSale, PointOfSaleCategory, Table
@@ -204,7 +205,8 @@ def project_details(request, obj_id, current_tab=""):
         point_of_sale_list = PointOfSale.objects.filter(project_uuid=obj.uuid)
         invitation_list = Invitation.objects.filter(project_uuid=obj.uuid)
         guest_type_list = GuestType.objects.filter(project_uuid=obj.uuid)
-        access_list = WristbandAccessPoint.objects.filter(project_uuid=obj.uuid)
+        access_zones = WristbandAccessZone.objects.filter(project_uuid=obj.uuid)
+        #access_list = WristbandAccessPoint.objects.filter(project_uuid=obj.uuid)
         form = Form.objects.filter(form_type__code="tpv", form_type__project_uuid=obj.uuid).first()
         context = {
             'obj': obj, 
@@ -220,7 +222,7 @@ def project_details(request, obj_id, current_tab=""):
             'point_of_sale_list': point_of_sale_list,
             'invitation_list': invitation_list,
             'guest_type_list': guest_type_list,
-            'access_list': access_list,
+            'access_zones': access_zones,
             'current_tab': current_tab,
             'form': form
         }
@@ -574,11 +576,51 @@ def project_guest_types_remove(request):
     return render(request, "web/projects/project-form-guest-types-list.html", {'guest_type_list':guest_type_list,})
 
 @group_required("admins")
-def project_access_points_add(request):
+def project_access_zone_add(request):
     try:
         project = get_or_none(Project, request.GET["obj_id"])
-        WristbandAccessPoint.objects.create(project_uuid=project.uuid, uuid=new_ui_slug(WristbandAccessPoint))
-        access_list = WristbandAccessPoint.objects.filter(project_uuid=project.uuid)
+        WristbandAccessZone.objects.create(project_uuid=project.uuid, uuid=new_ui_slug(WristbandAccessZone))
+        access_zones = WristbandAccessZone.objects.filter(project_uuid=project.uuid)
+    except Exception as e:
+        print (show_exc(e))
+    return render(request, "web/projects/project-form-access-zones-list.html", {'obj': project, 'access_zones':access_zones,})
+
+@group_required("admins")
+def project_access_zone_remove(request):
+    try:
+        zone = get_or_none(WristbandAccessZone, request.GET["obj_id"])
+        #project = get_or_none(Project, zone.project_uuid, "uuid")
+        project_uuid = zone.project_uuid
+        for point in zone.accesspoints.all():
+            point.delete()
+        for times in zone.timetable.all():
+            times.delete()
+        zone.delete()
+        access_zones = WristbandAccessZone.objects.filter(project_uuid=project_uuid)
+    except Exception as e:
+        print (show_exc(e))
+    return render(request, "web/projects/project-form-access-zones-list.html", {'access_zones':access_zones,})
+
+@group_required("admins")
+def project_access_zone_close(request):
+    try:
+        zone = get_or_none(WristbandAccessZone, request.GET["obj_id"])
+        close = get_param(request.GET, "close")
+        project_uuid = zone.project_uuid
+        for point in zone.accesspoints.all():
+            point.close = True if close == "True" else False
+            point.save()
+        access_zones = WristbandAccessZone.objects.filter(project_uuid=project_uuid)
+    except Exception as e:
+        print (show_exc(e))
+    return render(request, "web/projects/project-form-access-zones-list.html", {'access_zones':access_zones,})
+
+@group_required("admins")
+def project_access_points_add(request):
+    try:
+        zone = get_or_none(WristbandAccessZone, request.GET["obj_id"])
+        WristbandAccessPoint.objects.create(zone=zone, uuid=new_ui_slug(WristbandAccessPoint))
+        access_list = zone.accesspoints.all()
     except Exception as e:
         print (show_exc(e))
     return render(request, "web/projects/project-form-access-points-list.html", {'access_list':access_list,})
@@ -587,12 +629,34 @@ def project_access_points_add(request):
 def project_access_points_remove(request):
     try:
         access = get_or_none(WristbandAccessPoint, request.GET["obj_id"])
-        project = get_or_none(Project, access.project_uuid, "uuid")
+        zone = access.zone
         access.delete()
-        access_list = WristbandAccessPoint.objects.filter(project_uuid=project.uuid)
+        access_list = zone.accesspoints.all()
     except Exception as e:
         print (show_exc(e))
     return render(request, "web/projects/project-form-access-points-list.html", {'access_list':access_list,})
+
+@group_required("admins")
+def project_access_zone_times_add(request):
+    try:
+        zone = get_or_none(WristbandAccessZone, request.GET["obj_id"])
+        WristbandAccessZoneTimes.objects.create(zone=zone)
+        access_times = zone.timetable.all()
+    except Exception as e:
+        print (show_exc(e))
+    return render(request, "web/projects/project-form-access-zone-times-list.html", {'access_times':access_times,})
+
+@group_required("admins")
+def project_access_zone_times_remove(request):
+    try:
+        access = get_or_none(WristbandAccessZoneTimes, request.GET["obj_id"])
+        zone = access.zone
+        access.delete()
+        access_times = zone.timetable.all()
+    except Exception as e:
+        print (show_exc(e))
+    return render(request, "web/projects/project-form-access-zone-times-list.html", {'access_times':access_times,})
+
 
 
 '''

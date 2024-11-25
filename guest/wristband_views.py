@@ -5,9 +5,10 @@ from django.shortcuts import render, redirect
 from django.urls import reverse
 from django.utils.translation import ugettext_lazy as _ 
 
-from .models import Guest, Wristband, WristbandBalance, WristbandType, WristbandLog, WristbandAccess, WristbandAccessPoint
+from .models import Guest, Wristband, WristbandBalance, WristbandType, WristbandLog
+from .models import WristbandAccess, WristbandAccessPoint, WristbandAccessZone, WristbandAccessZoneGuest
 from web.models import Project, Waiter
-from padword.commons import show_exc, get_or_none, get_param, reverse_cardkey, get_float, get_int
+from padword.commons import show_exc, get_or_none, get_param, reverse_cardkey, get_float, get_int, update_cron
 from padword.decorators import group_required
 from bookings.models import Form
 from bookings.common_lib import user_in_group
@@ -16,6 +17,7 @@ from connector.libstripe import ShStripe
 from padword.email_lib import send_email
 
 from datetime import datetime
+import csv
 
 import logging
 logger = logging.getLogger(__name__)
@@ -196,6 +198,41 @@ def guest_band_balance_remove(request):
         return render(request, "error_exception.html", {'exc':show_exc(e)})
 
 
+@group_required("admins", "projects")
+def guest_band_manage_zone(request):
+    try:
+        guest = get_or_none(Guest, get_param(request.GET, "obj_id"))
+        zone = get_or_none(WristbandAccessZone, get_param(request.GET, "zone"))
+        band = get_or_none(Wristband, get_param(request.GET, "band"))
+        add = get_param(request.GET, "add")
+        if add == "True":
+            WristbandAccessZoneGuest.objects.get_or_create(guest=guest, zone=zone)
+        else:
+            obj = WristbandAccessZoneGuest.objects.filter(guest=guest, zone=zone).first()
+            if obj != None:
+                obj.delete()
+        return render(request, "guest/bands/access-points.html", {"obj": guest, "band": band})
+    except Exception as e:
+        return render(request, "error_exception.html", {'exc':show_exc(e)})
+
+@group_required("admins", "projects")
+def guest_band_manage_all_zone(request):
+    try:
+        guest = get_or_none(Guest, get_param(request.GET, "obj_id"))
+        band = get_or_none(Wristband, get_param(request.GET, "band"))
+        add = get_param(request.GET, "add")
+        for zone in guest.access_zones():
+            if add == "True":
+                WristbandAccessZoneGuest.objects.get_or_create(guest=guest, zone=zone)
+            else:
+                obj = WristbandAccessZoneGuest.objects.filter(guest=guest, zone=zone).first()
+                if obj != None:
+                    obj.delete()
+        return render(request, "guest/bands/access-points.html", {"obj": guest, "band": band})
+    except Exception as e:
+        return render(request, "error_exception.html", {'exc':show_exc(e)})
+
+
 '''
     Wristbands
 '''
@@ -234,20 +271,46 @@ def wristbands_search_by_project(request):
 '''
     Wristbands Access
 '''
+def access_search(request):
+    band = request.session["s_access_band"] if "s_access_band" in request.session else ""
+    ini_date = request.session["s_access_ini_date"] if "s_access_ini_date" in request.session else ""
+    end_date = request.session["s_access_end_date"] if "s_access_end_date" in request.session else ""
+
+    kwargs = {}
+    if band != "" and band != 0:
+        kwargs["wristband__code"] = band
+    if ini_date != "":
+        i_date = datetime.strptime(ini_date, "%Y-%m-%d").replace(hour=0, minute=0)
+        kwargs["date__gte"] = i_date
+    if end_date != "":
+        e_date = datetime.strptime(end_date, "%Y-%m-%d").replace(hour=23, minute=59)
+        kwargs["date__lte"] = e_date
+    access_list = WristbandAccess.objects.filter(**kwargs)
+    return access_list 
+
 @group_required("admins")
 def wristbands_access(request):
-    return render (request, "wristbands/access/wristbands.html", {'active': 'wristbands-access'})
+    request.session["s_access_ini_date"] = datetime.now().strftime("%Y-%m-%d")
+    request.session["s_access_end_date"] = datetime.now().strftime("%Y-%m-%d")
+    return render(request, "wristbands/access/wristbands.html", {'active': 'wristbands-access', 'item_list': access_search(request)})
 
 @group_required("admins")
 def wristbands_access_search(request):
-    value = reverse_cardkey(get_param(request.GET, "value"))
-    band_result = Wristband.objects.filter(code=value).first()
-    return render (request, "wristbands/access/wristbands-search.html", {'band': band_result, 'band_code': value})
+    request.session["s_access_band"] = reverse_cardkey(get_param(request.GET, "band"))
+    request.session["s_access_ini_date"] = get_param(request.GET, "ini_date")
+    request.session["s_access_end_date"] = get_param(request.GET, "end_date")
+    return render (request, "wristbands/access/wristbands-list.html", {'item_list': access_search(request),})
+    #band = Wristband.objects.filter(code=value).first()
+    #return render (request, "wristbands/access/wristbands-search.html", {'band': band_result, 'band_code': value})
 
 def wristbands_access_index(request, project_uuid, point_uuid):
     try:
         project = get_or_none(Project, project_uuid, "uuid")
         ap = get_or_none(WristbandAccessPoint, point_uuid, "uuid")
+
+        #if not ap.is_open():
+        #    msg = _("Esta zona se encuentra cerrada!")
+        #    return render(request, "wristbands/access/result.html", {'error':True, 'msg': msg})
 
         return render(request, "wristbands/access/index.html", {'project': project, 'access_point': ap})
     except Exception as e:
@@ -255,6 +318,10 @@ def wristbands_access_index(request, project_uuid, point_uuid):
         return render(request, "error_exception.html", {'exc':show_exc(e)})
 
 def wristbands_access_check(last_access, ap, band):
+    if not band.can_access_zone(ap.zone):
+        msg = _("Error!, No tiene permisos para acceder a esta zona")
+        return True, msg
+
     if last_access == None:
         #Primer acceso
         if not ap.in_point:
@@ -262,7 +329,7 @@ def wristbands_access_check(last_access, ap, band):
             return True, msg
         else:
             msg = _('Ha entrado correctamente!')
-            WristbandAccess.objects.create(wristband=band, inside=True)
+            WristbandAccess.objects.create(wristband=band, access_point=ap, inside=True)
             return False, msg
     else:
         #Esta fuera
@@ -274,14 +341,14 @@ def wristbands_access_check(last_access, ap, band):
             #Punto de entrada
             else:
                 msg = _('Ha entrado correctamente!')
-                WristbandAccess.objects.create(wristband=band, inside=True)
+                WristbandAccess.objects.create(wristband=band, access_point=ap, inside=True)
                 return False, msg
         #Esta dentro
         else:
             #Punto de salida
             if not ap.in_point:
                 msg = _('Ha salido correctamente!')
-                WristbandAccess.objects.create(wristband=band, inside=False)
+                WristbandAccess.objects.create(wristband=band, access_point=ap, inside=False)
                 return False, msg
             #Punto de entrada
             else:
@@ -315,6 +382,46 @@ def wristbands_access_send(request):
         print(e)
         return render(request, "wristbands/pay-result.html", {'error':True, 'msg': e})
         #return render(request, "error_exception.html", {'exc':show_exc(e)})
+
+@group_required("admins", "projects")
+def wristbands_access_export_csv(request):
+    try:
+        access_list = access_search(request)
+        response = HttpResponse(
+            content_type='text/csv',
+            headers={'Content-Disposition': 'attachment; filename="access.csv"'},
+        )
+
+        writer = csv.writer(response)
+        writer.writerow(['Fecha', 'Pulsera', 'Huésped', 'Zona', 'Entrada/Salida'])
+        for item in access_list:
+            inside = "Entrada" if item.inside else "Salida"
+            code = item.wristband.code if item.wristband != None else ""
+            guest = item.wristband.guest.name if item.wristband != None and item.wristband.guest != None else ""
+            zone = item.access_point.zone.name if item.access_point != None and item.access_point.zone != None else ""
+            writer.writerow([item.date, code, guest, zone, inside])
+        return response
+    except Exception as e:
+        return HttpResponse("Error: {}".format(e))
+
+@group_required("admins", "projects")
+def wristbands_access_schedule(request):
+    try:
+        zone = get_or_none(WristbandAccessZone, get_param(request.GET, "obj_id"))
+        time = get_param(request.GET, "time")
+
+        zone.reset_time = time
+        zone.save()
+
+        function = "wristband_access_schedule"
+        
+        hour = time.split(":")[0] if time != "-1" else time
+        minute = time.split(":")[1] if time != "-1" else time
+        update_cron(hour.lstrip("0"), minute.lstrip("0"), function, zone.id)
+        return HttpResponse("Saved!")
+    except Exception as e:
+        print (show_exc(e))
+        return HttpResponse("Error!")
 
 
 '''

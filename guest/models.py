@@ -356,10 +356,10 @@ class Guest(models.Model):
             SensiboDevice.objects.create(guest=self, uuid=dev.uuid, name=dev.name)
 
     '''
-        Access Points
+        Access Zones
     '''
-    def access_points(self):
-        return WristbandAccessPoint.objects.filter(project_uuid=self.project_id)
+    def access_zones(self):
+        return WristbandAccessZone.objects.filter(project_uuid=self.project_id)
 
     '''
         Statics
@@ -622,6 +622,12 @@ class Wristband(models.Model):
             print(e)
             return -1
 
+    def can_access_zone(self, zone):
+        if self.guest == None:
+            return False
+        zones = [item.zone for item in self.guest.zones.all()]
+        return (zone in zones)
+
     @staticmethod
     def get_active_by_project(project, code):
         #now = datetime.datetime.now()
@@ -651,24 +657,72 @@ class WristbandLog(models.Model):
         verbose_name = _("Wristband log")
         verbose_name_plural = _("Wristbands log")
 
-class WristbandAccess(models.Model):
-    inside = models.BooleanField(verbose_name=_("Inside"), default=False)
-    date = models.DateTimeField(verbose_name=_('Date'), default=datetime.datetime.now)
-    wristband = models.ForeignKey(Wristband, verbose_name=_("Wristband"), on_delete=models.CASCADE, blank=True, null=True, related_name="access")
-
-    class Meta:
-        verbose_name = _("Wristband log")
-        verbose_name_plural = _("Wristbands log")
-
-class WristbandAccessPoint(models.Model):
-    in_point = models.BooleanField(verbose_name=_("In point"), default=False)
+class WristbandAccessZone(models.Model):
+    reset_time = models.TimeField(_("Reset Time"), blank=True, default=datetime.time(23, 00))
     uuid = models.CharField(max_length = 255, verbose_name= _('UUID'), default=new_ui_slug)
     name = models.CharField(max_length=255, verbose_name='Name', default="")
     project_uuid = models.CharField(max_length = 255, verbose_name= _('Project UUID'), default='')
 
+    @property
+    def project(self):
+        try:
+            return Project.objects.get(uuid = self.project_uuid)
+        except Exception as e:
+            return Project(name='UNKNOWN')
+
+
     class Meta:
-        verbose_name = _("Wristband log")
-        verbose_name_plural = _("Wristbands log")
+        verbose_name = _("Wristband Access Zone")
+        verbose_name_plural = _("Wristbands Access Zones")
+        ordering = ["-id"]
+
+class WristbandAccessZoneTimes(models.Model):
+    ini_time = models.TimeField(_("Initial Time"), blank=True, default=datetime.time(8, 00))
+    end_time = models.TimeField(_("End Time"), blank=True, default=datetime.time(20, 00))
+    zone = models.ForeignKey(WristbandAccessZone,verbose_name=_("Zone"),on_delete=models.CASCADE,blank=True,null=True,related_name="timetable")
+
+    class Meta:
+        verbose_name = _("Wristband Access Point")
+        verbose_name_plural = _("Wristbands Access Points")
+
+class WristbandAccessPoint(models.Model):
+    in_point = models.BooleanField(verbose_name=_("In point"), default=False)
+    close = models.BooleanField(verbose_name=_("Close"), default=False)
+    uuid = models.CharField(max_length = 255, verbose_name= _('UUID'), default=new_ui_slug)
+    name = models.CharField(max_length=255, verbose_name='Name', default="")
+    zone = models.ForeignKey(WristbandAccessZone,verbose_name=_("Zone"),on_delete=models.CASCADE,blank=True,null=True,related_name="accesspoints")
+
+    def is_open(self):
+        now = datetime.datetime.now()
+        for item in self.zone.timetable.all():
+            i_time = now.replace(hour=item.ini_time.hour, minute=item.ini_time.minute)
+            e_time = now.replace(hour=item.end_time.hour, minute=item.end_time.minute)
+            if now > i_time and now < e_time:
+                return True
+        return False
+
+    class Meta:
+        verbose_name = _("Wristband Access Point")
+        verbose_name_plural = _("Wristbands Access Points")
+
+class WristbandAccessZoneGuest(models.Model):
+    guest = models.ForeignKey(Guest, on_delete=models.CASCADE, verbose_name=_("Guest"), related_name="zones")
+    zone = models.ForeignKey(WristbandAccessZone, verbose_name=_("Zone"), on_delete=models.CASCADE, blank=True, null=True, related_name="guests")
+
+    class Meta:
+        verbose_name = _("Wristband Access Zone Guest")
+        verbose_name_plural = _("Wristbands Access Zone Guest")
+
+class WristbandAccess(models.Model):
+    inside = models.BooleanField(verbose_name=_("Inside"), default=False)
+    date = models.DateTimeField(verbose_name=_('Date'), default=datetime.datetime.now)
+    wristband = models.ForeignKey(Wristband, verbose_name=_("Wristband"), on_delete=models.CASCADE, blank=True, null=True, related_name="access")
+    access_point = models.ForeignKey(WristbandAccessPoint,verbose_name=_("Access Point"),on_delete=models.SET_NULL,blank=True,null=True,related_name="accesspoints")
+
+    class Meta:
+        verbose_name = _("Wristband access")
+        verbose_name_plural = _("Wristbands access")
+        ordering = ["-date"]
 
 
 '''
@@ -750,5 +804,15 @@ class GuestLockLog(models.Model):
             if guest != None:
                 return guest.name 
         return ""
+
+'''
+    Guest Car
+'''
+class GuestCar(models.Model):
+    number = models.CharField(max_length=50, verbose_name='Number', default="")
+    guest = models.ForeignKey(Guest, on_delete=models.CASCADE, verbose_name=_("Guest"), related_name="cars")
+
+    class Meta:
+        verbose_name = _('Guest Car')
 
 

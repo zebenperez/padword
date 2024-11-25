@@ -8,9 +8,21 @@ class RegimeAdmin(admin.ModelAdmin):
 class WristbandAdmin(admin.ModelAdmin):
     list_display = ('code', 'name')
 
+class WristbandAccessAdmin(admin.ModelAdmin):
+    list_display = ('date', 'wristband', 'access_point', 'inside')
+
+class WristbandAccessPointAdmin(admin.ModelAdmin):
+    list_display = ('name',)
+
+class WristbandAccessZoneAdmin(admin.ModelAdmin):
+    list_display = ('name',)
+
 class WristbandTypeAdmin(admin.ModelAdmin):
     list_display = ('code', 'name')
 
 admin.site.register(Regime, RegimeAdmin)
 admin.site.register(Wristband, WristbandAdmin)
+admin.site.register(WristbandAccess, WristbandAccessAdmin)
+admin.site.register(WristbandAccessPoint, WristbandAccessPointAdmin)
+admin.site.register(WristbandAccessZone, WristbandAccessZoneAdmin)
 admin.site.register(WristbandType, WristbandTypeAdmin)

@@ -9,6 +9,14 @@
                 data-related="room_search_name" value="{{request.session.room_search_name}}"/>
         </div>
     </div>
+    {% if project.avaibook_user != None and project.avaibook_user.uuid != "" %}
+        <div class="row m-0 p-2"> 
+            <div class="col-12 text-end">
+                <a class="btn btn-primary ark" data-url="{%url "avaibook-get-accommodation-list" project.uuid%}" data-target-modal="common-modal">
+                    {%trans "Import avaibook accommodation"%}</a>
+            </div>
+        </div>
+    {% endif %}
 
     <div id="room-list-{{project.uuid}}" class="mb-2">{% room_group_list_by_project project request.session.room_search_name %} </div>
 </div>

@@ -105,22 +105,22 @@ button.btn.btn-submit:hover {
     }
     .login-right {
         width: 100%;
-	padding-left: 20px !important;
+	    padding-left: 20px !important;
     }
     .login-right .login-text {
-	margin-top: -50px;
+        margin-top: -50px;
      }
 
     .form-container {
         height: 75%;
         height: 200px;
         width: 90%;
-	position:fixed;
+	    position:fixed;
     	bottom: 100px;
     }
     .logo-padword {
-	background-color: #ffffff;
-	padding: 20px !important;
+	    background-color: #ffffff;
+    	padding: 20px !important;
     }
     .logo-padword img {
     }

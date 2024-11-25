@@ -1,0 +1,9 @@
+{% load i18n padword_tags %}
+
+
+<div class="w-100 text-end">
+    <button class="btn btn-primary ark mb-2" data-url="{% url "project-access-zone-add" %}" data-target="div-access-zones" data-obj_id="{{obj.id}}">
+       {% trans "Add Zone" %}</button>
+</div>		
+<div id="div-access-zones">{% include "web/projects/project-form-access-zones-list.html" %}</div>
+
