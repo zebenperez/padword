@@ -24,7 +24,7 @@ $SYSPATH/python $PATH/update_cron.py $MIN $HOUR $FUNCTION $PROJECT $PATH
 
 /usr/bin/sleep 3
 
-source /opt/envs/padword/bin/activate
+#source /opt/envs/padword/bin/activate
 $SYSPATH/python $PATH/manage.py crontab remove  
 $SYSPATH/python $PATH/manage.py crontab add 
 #/opt/envs/padword/bin/python /var/www/django/padword/manage.py crontab remove >> /var/www/django/padword/kk.log 
