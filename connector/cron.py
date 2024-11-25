@@ -186,7 +186,7 @@ def wristband_access_schedule(project_uuid):
         access_list = WristbandAccess.objects.filter(access_point__zone = zone)
         for item in access_list:
             if item.inside:
-                wa = WristbandAccess.objects.filter(access_point__zone = zone, inside = False, date__gte = item.date).first()
+                wa = WristbandAccess.objects.filter(access_point__zone=zone,inside=False,date__gte=item.date,wristband=item.wristband).first()
                 if wa == None:
                     result += "- Band [{}] {}: \n".format(item.date, item.wristband)
                     WristbandAccess.objects.create(wristband=item.wristband, access_point=item.access_point)

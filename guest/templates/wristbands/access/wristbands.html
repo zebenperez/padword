@@ -9,7 +9,18 @@
         <form class="form" method="GET" action="{% url "wristbands-access-search" %}" id="form-search">
             {%csrf_token%}
             <div class="row m-0">
-                <div class="col-4 p-1"> 
+                <div class="col-3 p-1"> 
+                    <div class="input-rounded-pill bg-white" style="display:flex; align-items: center;">
+                        <select class="form-control" id="project" name="project">
+                            <option value="">{% trans "-- Select project --" %}</option>
+                            {% for item in project_list %}
+                                <option value="{{item.uuid}}" {%if request.session.s_access_project == item.uuid%}selected{%endif%}>
+                                    {{item.name}}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+                <div class="col-3 p-1"> 
                     <div class="input-rounded-pill bg-white" style="display:flex; align-items: center;">
                         <div class="mx-2"> <i class="fas fa-search"></i></div>
                         <div><input type="text" class="form-control form-control-dark pill" name="band" id="band" 
@@ -18,10 +29,10 @@
                     </div>
                 </div>
                 <div class="col-1">Inicio</div>
-                <div class="col-3"> <div class="w-50"><input type="date" class="form-control form-control-dark" name="ini_date" 
+                <div class="col-2"> <div class="w-50"><input type="date" class="form-control form-control-dark" name="ini_date" 
                     id="ini_date" value="{{request.session.s_access_ini_date}}"/></div> </div>
                 <div class="col-1">Fin</div>
-                <div class="col-3"> <div class="w-50"><input type="date" class="form-control form-control-dark" name="end_date" 
+                <div class="col-2"> <div class="w-50"><input type="date" class="form-control form-control-dark" name="end_date" 
                     id="end_date" value="{{request.session.s_access_end_date}}"/></div> </div>
             </div>
             <div class="row"><div class="col-6 offset-3">

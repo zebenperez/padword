@@ -320,6 +320,9 @@ class ProjectUser(models.Model):
     image = models.ImageField(upload_to=upload_image, blank=True, verbose_name="Imagen de perfil", help_text="Select file to upload")
     #menus_mod = models.ManyToManyField(Menu, verbose_name=_("Menus"), blank=True, related_name="menus")
 
+    def __str__(self):
+        return self.username
+
     class Meta:
         verbose_name = _('Project user')
 

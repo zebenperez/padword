@@ -190,9 +190,18 @@ def get_share_text(lock, code):
 def replace(string, val):
     return string.replace("{}", val)
 
+
 '''
     Simple Tags
 '''
+@register.simple_tag
+def get_logo():
+    try:
+        from padword.settings import LOGO
+        return LOGO
+    except:
+        return ""
+
 @register.simple_tag(takes_context=True)
 def current(context, url, **kwargs):
     try:

@@ -1574,7 +1574,21 @@ i.fas.fa-check-square {
 
 #main { transition: margin-left .5s; }
 
+.license {
+	border-radius:10px;
+	background-color: #9fc41d;
+	color: #fff;
+	font-size: 1.1rem;
+	letter-spacing:0;
+	line-height: 1.2;
+}
+
+.validation {
+	font-size: 0.8rem;
+}
+
 .row.contact { 
+   background-color: #143e53;
     color: #fff;
     position:fixed;
     bottom: 20px;
