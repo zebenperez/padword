@@ -70,4 +70,18 @@ class ProjectStripeUser(models.Model):
         except:
             return None
 
+class ProjectMewsUser(models.Model):
+    hour = models.IntegerField(verbose_name=_('Hour to import'), default=0)
+    minute = models.IntegerField(verbose_name=_('Minutes to import'), default=0)
+    client_token = models.CharField(max_length=255, verbose_name=_('Client Token'), default="")
+    access_token = models.CharField(max_length=255, verbose_name=_('Access Token'), default="")
+    project_uuid = models.CharField(max_length=255, verbose_name=_('Project UUID'), default="")
+
+    @property
+    def project(self):
+        try:
+            return Project.objects.get(uuid=self.project_uuid)
+        except:
+            return None
+
 

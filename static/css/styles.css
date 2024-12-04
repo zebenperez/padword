@@ -350,6 +350,13 @@ span.badge.rounded-pill {
     background: #e8421b !important;
 }
 
+.btn.btn-primary.bg-dark.ark {
+    background-color: #212529!important;
+    border: 1px solid #212529!important;
+}
+
+
+
 /************************************/
 /* estilo común a todos los botones */
 /************************************/
@@ -1847,6 +1854,87 @@ textarea.form-control { border:1px solid #ced4da !important; }
 }
 
 .suggest-guest a { text-decoration: none; }
+
+
+/*********************************
+**** POPUP MESSAGE OPEN LOCK *****
+*********************************/
+.popup {
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+}
+
+/* The actual popup (appears on top) */
+.popup .popuptext {
+  display:none;
+  width: 160px;
+  height: 60px;
+/*  backgrounid-color: #555;*/
+  color: #fff;
+  text-align: center;
+  border-radius: 0.5rem;
+  padding-top: 22px;
+  position: absolute;
+  z-index: 1;
+  bottom: 100%;
+  left: 50%;
+  margin-left: -80px;
+  
+  border: 2px transparent;
+  background-color: #fff;
+}
+
+/* Popup arrow */
+.popup .popuptext::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  margin-left: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: #555 transparent transparent transparent;
+}
+
+.alert {
+  padding: 1.25rem 1.2rem;
+  border-radius: 0.5rem;
+}
+
+.alert-danger-lock {
+    color: #842029;
+    background-color: #f8d7da;
+    border-color: #f5c2c7;
+    font-weight: 600;
+}
+
+.alert-success-lock {
+    color: #ffffff;
+    background-color: #a1c517;
+    border-color: #a1c517;
+    font-weight: 600;
+}
+
+/* Toggle this class when clicking on the popup container (hide and show the popup) */
+/*.popup .show {
+  visibility: visible;
+  -webkit-animation: fadeIn 1s;
+  animation: fadeIn 1s
+}*/
+
+/* Add animation (fade in the popup) */
+/*@-webkit-keyframes fadeIn {
+  from {opacity: 0;}
+  to {opacity: 1;}
+}
+
+@keyframes fadeIn {
+  from {opacity: 0;}
+  to {opacity:1 ;}
+} */
+
+
 
 /*********************************
 *********** CHAT BOX ************

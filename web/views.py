@@ -11,7 +11,7 @@ from padword.decorators import group_required
 from guest.models import Regime, ProjectRegime, GuestType, Wristband, Guest, GuestStripe
 from guest.models import WristbandAccessZone, WristbandAccessZoneTimes, WristbandAccessPoint
 from sensibo.models import ProjectSensiboUser
-from connector.models import ProjectAvantioUser, ProjectAvaibookUser, ProjectWinhotelUser, ProjectStripeUser
+from connector.models import ProjectAvantioUser, ProjectAvaibookUser, ProjectWinhotelUser, ProjectStripeUser, ProjectMewsUser
 from contents.models import Category, PointOfSale, PointOfSaleCategory, Table
 from bookings.models import Form, FormInstance
 from .models import *
@@ -100,6 +100,10 @@ def get_or_create_user_stripe(project_uuid):
     obj, created = ProjectStripeUser.objects.get_or_create(project_uuid = project_uuid)
     return obj 
 
+def get_or_create_user_mews(project_uuid):
+    obj, created = ProjectMewsUser.objects.get_or_create(project_uuid = project_uuid)
+    return obj 
+
 '''
     Projects
 '''
@@ -164,6 +168,7 @@ def project_form(request):
         user_avaibook = get_or_create_user_avaibook(obj.uuid)
         user_winhotel = get_or_create_user_winhotel(obj.uuid)
         user_stripe = get_or_create_user_stripe(obj.uuid)
+        user_mews = get_or_create_user_mews(obj.uuid)
 
         regime_list = Regime.objects.all()
         point_of_sale_list = PointOfSale.objects.filter(project_uuid=obj.uuid)
@@ -179,6 +184,7 @@ def project_form(request):
             'user_avaibook': user_avaibook, 
             'user_winhotel': user_winhotel, 
             'user_stripe': user_stripe, 
+            'user_mews': user_mews, 
             'project_regime_list': [item.regime for item in obj.regimes.all()],
             'regime_list': regime_list,
             'point_of_sale_list': point_of_sale_list,
@@ -200,6 +206,7 @@ def project_details(request, obj_id, current_tab=""):
         user_avaibook = get_or_create_user_avaibook(obj.uuid)
         user_winhotel = get_or_create_user_winhotel(obj.uuid)
         user_stripe = get_or_create_user_stripe(obj.uuid)
+        user_mews = get_or_create_user_mews(obj.uuid)
 
         regime_list = Regime.objects.all()
         point_of_sale_list = PointOfSale.objects.filter(project_uuid=obj.uuid)
@@ -217,6 +224,7 @@ def project_details(request, obj_id, current_tab=""):
             'user_avaibook': user_avaibook, 
             'user_winhotel': user_winhotel, 
             'user_stripe': user_stripe, 
+            'user_mews': user_mews, 
             'project_regime_list': [item.regime for item in obj.regimes.all()],
             'regime_list': regime_list,
             'point_of_sale_list': point_of_sale_list,
@@ -508,6 +516,31 @@ def project_set_lock_schedule(request):
         print (show_exc(e))
         return HttpResponse("Error!")
 
+@group_required("admins")
+def project_set_mews_schedule(request):
+    try:
+        pau = get_or_none(ProjectMewsUser, request.GET["obj_id"])
+        val = get_param(request.GET, "value")
+        field = get_param(request.GET, "field")
+        if pau != None:
+            if field == "hour":
+                pau.hour = val
+            elif field == "minute":
+                pau.minute = val
+            pau.save()
+
+            function = ""
+            if field == "hour" or field == "minute": 
+                function = "mews_booking_schedule"
+                hour = pau.hour
+                minute = pau.minute
+            if function != "":
+                update_cron(hour, minute, function, pau.project_uuid)
+
+        return HttpResponse("Saved!")
+    except Exception as e:
+        print (show_exc(e))
+        return HttpResponse("Error!")
 
 @group_required("admins")
 def project_add_logo(request):

@@ -18,6 +18,11 @@
 <td>{% get_wifi_icon item.wifi %} {{item.wifi}}</td>
 {%endcomment%}
 <td class="text-end px-0">
+    <div class="popup"> <span class="popuptext" id="lock-msg-{{item.id}}"></span> 
+        <a class="me-1 btn btn-xs ark" data-url="{% url "locks-open" %}" data-obj_id="{{item.id}}"
+            data-target="lock-msg-{{item.id}}" title="{% trans "Open lock" %}" data-show="lock-msg-{{item.id}}">
+            <img src="/static/img/door-open.png" width="10%"></a>
+    </div>
     <a class="btn btn-xs ark" title="{%trans "Update parameters"%}" data-url="{% url "lock-update-params-by-project" %}" 
         data-target="row_{{item.id}}" data-obj_id="{{item.id}}"><i class="fas fa-sync"></i></a>  
     <a class="btn btn-xs ark" title="{%trans "Get all passcodes"%}" data-url="{% url "lock-get-all-passcodes-by-project" %}" 

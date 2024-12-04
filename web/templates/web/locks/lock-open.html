@@ -1,0 +1,18 @@
+{% load i18n %}
+
+{%comment%}
+<div class="row p-3 m-0 lock-sticky-top">
+    <div class="d-flex justify-content-end pb-2">
+	    <button id="btn-close" type="button" class="btn" data-bs-dismiss="modal" title="{% trans "Close" %}">
+            <i class="fas fa-times"></i> </button>
+    </div>  
+</div>
+{%endcomment%}
+
+{% if msg != "" %}
+    <span class="alert alert-danger-lock">{% trans "Apertura Denegada" %}</span>
+{% else %}
+    <span class="alert alert-success-lock">{% trans "Apertura correcta" %}</span>
+{% endif %}
+
+<script>setTimeout(()=>{$("#lock-msg-{{lock}}").hide();}, 2000);</script>

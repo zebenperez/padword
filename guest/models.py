@@ -107,6 +107,12 @@ class Guest(models.Model):
         key_code = self.keycodes.all().first() 
         return key_code.code if key_code != None else ""
 
+    @property
+    def pax(self):
+        if self.adults == 0:
+            return 1 + self.children + self.babies
+        return self.adults + self.children + self.babies
+
     def get_code(self):
         if self.email != None and self.email != "" and "@" in self.email:
             return self.email

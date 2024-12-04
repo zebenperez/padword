@@ -134,5 +134,6 @@ urlpatterns = [
     path('guests/cars', views.guest_cars, name='guest-cars'),
     path('guests/car/add', views.guest_car_add, name='guest-car-add'),
     path('guests/car/remove', views.guest_car_remove, name='guest-car-remove'),
+    path('guests/car/list/<slug:project_uuid>/', views.guest_car_list, name='guest-car-list'),
 ]
 
