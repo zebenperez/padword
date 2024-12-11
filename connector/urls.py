@@ -1,5 +1,5 @@
 from django.urls import path
-from . import views
+from . import views, camera_views
 
 urlpatterns = [ 
     #--------------------- AVANTIO --------------------
@@ -24,6 +24,9 @@ urlpatterns = [
     path('cron-log/', views.cron_log, name='cron-log'),
     path('avantio-log/', views.avantio_log, name='avantio-log'),
     path('avaibook-log/', views.avaibook_log, name='avaibook-log'),
+
+    #--------------------- CAMERA --------------------
+    path('car/plates/<slug:project_uuid>/', camera_views.car_plates, name='car_plates'),
 
     #--------------------- TEST --------------------
     path('test-email/', views.test_email, name='test-email'),

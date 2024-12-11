@@ -17,6 +17,8 @@ except:
     API_URL = "https://api.mews-demo.com/api/connector/v1/"
 
 BOOKINGS_URL = "reservations/getAll/2023-06-06"
+CUSTOMERS_URL = "customers/getAll"
+RESOURCES_URL = "resources/getAll"
 #BOOKINGS_URL = "configuration/get"
 #ACCOMMODATIONS_URL = "accommodations"
 #SEND_LINK_URL = "booking/checkin/register-access-data"
@@ -113,6 +115,37 @@ class Mews():
         except Exception as err:
             raise MewsAPIError(menssage=err)
 
+    def get_customer(self, customer_id):
+        try:
+            _url_request = "{}{}".format(API_URL, CUSTOMERS_URL)
+            params = {
+                    "ClientToken": "{}".format(self.client_token),
+                    "AccessToken": "{}".format(self.access_token),
+                    "Client": "Padword",
+                    "CustomerIds": [customer_id]
+            }
+            dic = self.__send_post_request__(_url_request, params).json()
+            items = dic["Customers"]
+            return items
+        except Exception as err:
+            raise MewsAPIError(menssage=err)
+
+    def get_resource(self, resource_id):
+        try:
+            _url_request = "{}{}".format(API_URL, RESOURCES_URL)
+            params = {
+                    "ClientToken": "{}".format(self.client_token),
+                    "AccessToken": "{}".format(self.access_token),
+                    "Client": "Padword",
+                    "ResourceIds": [resource_id]
+            }
+            dic = self.__send_post_request__(_url_request, params).json()
+            items = dic["Resources"]
+            return items
+        except Exception as err:
+            raise MewsAPIError(menssage=err)
+
+
 class MewsBooking():
     def __init__(self, dic):
         self.id = get_param(dic, "Id")
@@ -125,23 +158,22 @@ class MewsBooking():
         self.updated = get_param(dic, "UpdatedUtc")
         self.number = get_param(dic, "Number")
         self.state = get_param(dic, "State")
-#        self.accommodation_id = get_param(dic, "accommodation_id")
-#        self.unit_id = get_param(dic, "unit_id")
-#        self.check_in_date = get_param(dic, "check_in_date")
-#        self.check_out_date = get_param(dic, "check_out_date")
-#        self.check_in_time = get_param(dic, "check_in_time")
-#        self.check_out_time = get_param(dic, "check_out_time")
-#        self.night_of_stay = get_param(dic, "night_of_stay")
-#        self.created_at = get_param(dic, "created_at")
-#        self.price = get_param(dic, "price")
-#        self.number_of_guests = get_param(dic, "number_of_guests")
-#        self.default_invite_email = get_param(dic, "default_invite_email")
-#        self.default_leader_full_name = get_param(dic, "default_leader_full_name")
-#        self.default_leader_phone = get_param(dic, "default_leader_phone")
-#        self.source = get_param(dic, "source")
-#        self.partner_name = get_param(dic, "partner_name")
-#        self.action = get_param(dic, "action")
+        self.resource_id = get_param(dic, "AssignedResourceId")
+        self.customer = None
+        self.room = None
         self.created = False
+
+class MewsCustomer():
+    def __init__(self, dic):
+        self.id = get_param(dic, "Id")
+        self.name = "{} {}".format(get_param(dic, "FirstName"), get_param(dic, "LastName"))
+        self.phone = get_param(dic, "Phone")
+        self.email = get_param(dic, "Email")
+
+class MewsResource():
+    def __init__(self, dic):
+        self.id = get_param(dic, "Id")
+        self.number = get_param(dic, "Name")
 
 '''
     FUNCTIONS
@@ -156,28 +188,28 @@ def room_exist(project_uuid, room):
 def create_booking(pmu, booking, av):
     checkin = get_date(booking.start)
     checkout = get_date(booking.end)
-    print(checkin)
-    print(checkout)
-    #room = booking.unit_id
-    #room_ex = room_exist(pau.project_uuid, room)
-    #yesterday = datetime.today().replace(hour=23, minute=59, second=59) + timedelta(days=-1)
+    #print(checkin)
+    #print(checkout)
+    room = booking.room.number if booking.room != None else "-1"
+    room_ex = room_exist(pmu.project_uuid, room)
     err = ""
 
-###    if room_ex and checkout > yesterday:
-###        b_id = booking.webhook_id if booking.webhook_id != "" else booking.id
-    #guest = Guest.objects.filter(ext_id=booking.id, project_id=pmu.project_uuid, deleted=0).first()
-    #if guest == None:
-    #    guest = Guest(UUID = new_ui_slug(Guest, "UUID"), ext_id=booking.id, project_id=pmu.project_uuid)
-    #    booking.created = True
+    if room_ex:
+        guest = Guest.objects.filter(ext_id=booking.id, project_id=pmu.project_uuid, deleted=0).first()
+        if guest == None:
+            guest = Guest(UUID = new_ui_slug(Guest, "UUID"), ext_id=booking.id, project_id=pmu.project_uuid)
+            booking.created = True
         
-    #guest.name = booking.default_leader_full_name
-#        guest.mobile = booking.default_leader_phone
-#        guest.email = booking.default_invite_email
-#        guest.check_in = checkin
-#        guest.check_out = checkout
-#        guest.room = room
-#        guest.save()
-#
+        if booking.customer != None:
+            guest.name = booking.customer.name
+            guest.mobile = booking.customer.phone
+            guest.email = booking.customer.email
+        
+        guest.check_in = checkin
+        guest.check_out = checkout
+        guest.room = room
+        guest.save()
+
 #        if booking.created:
 #            #lock_code = guest.mobile[-4:]
 #            lock_code = ''.join([random.choice(string.digits) for i in range(4)])
@@ -200,11 +232,25 @@ def get_booking_list(pmu):
         i += 1
         node = MewsBooking(item)
         booking_list.append(node)
+
+        customers = av.get_customer(node.account_id)
+        for customer in customers:
+            node_c = MewsCustomer(customer)
+            node.customer = node_c
+            break
+
+        if (node.resource_id != None):
+            rooms = av.get_resource(node.resource_id)
+            for room in rooms:
+                node_r = MewsResource(room)
+                node.room = node_r
+                break
+
         create_booking(pmu, node, av)
         #if node.status == "CONFIRMED":
         #    guest, err = create_booking(pau, node, av)
         #elif node.status == "CANCELLED":
         #    delete_booking(pau, node)
-    print("Total: {}".format(i))
+    #print("Total: {}".format(i))
     return booking_list
 

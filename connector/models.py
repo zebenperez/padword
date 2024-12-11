@@ -84,4 +84,17 @@ class ProjectMewsUser(models.Model):
         except:
             return None
 
+class ProjectCarUser(models.Model):
+    code = models.CharField(max_length=255, verbose_name=_('Code'), default="")
+    description = models.CharField(max_length=255, verbose_name=_('Description'), default="")
+    ftp = models.CharField(max_length=900, verbose_name=_('FTP'), default="")
+    project_uuid = models.CharField(max_length=255, verbose_name=_('Project UUID'), default="")
+
+    @property
+    def project(self):
+        try:
+            return Project.objects.get(uuid=self.project_uuid)
+        except:
+            return None
+
 

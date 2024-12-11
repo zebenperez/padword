@@ -15,7 +15,7 @@
             <div class="col-3 offset-9">
                 <div class="form-check form-switch">
                     <input class="form-check-input toggleCron" type="checkbox" id="activeCronMews" data-class-name="mews-cron" 
-                        data-fields="mews-hour" {% if user_mews.hour < 1 %} checked {% endif %}>
+                        data-fields="mews-hour" {% if user_mews.hour > 0 %} checked {% endif %}>
                     <label class="form-check-label" for="activeCronMews">Activar planificador</label>
                 </div>
             </div>

@@ -11,7 +11,8 @@ from padword.decorators import group_required
 from guest.models import Regime, ProjectRegime, GuestType, Wristband, Guest, GuestStripe
 from guest.models import WristbandAccessZone, WristbandAccessZoneTimes, WristbandAccessPoint
 from sensibo.models import ProjectSensiboUser
-from connector.models import ProjectAvantioUser, ProjectAvaibookUser, ProjectWinhotelUser, ProjectStripeUser, ProjectMewsUser
+from connector.models import ProjectAvantioUser, ProjectAvaibookUser, ProjectWinhotelUser, ProjectStripeUser
+from connector.models import ProjectMewsUser, ProjectCarUser
 from contents.models import Category, PointOfSale, PointOfSaleCategory, Table
 from bookings.models import Form, FormInstance
 from .models import *
@@ -104,6 +105,10 @@ def get_or_create_user_mews(project_uuid):
     obj, created = ProjectMewsUser.objects.get_or_create(project_uuid = project_uuid)
     return obj 
 
+def get_or_create_user_cars(project_uuid):
+    obj, created = ProjectCarUser.objects.get_or_create(project_uuid = project_uuid)
+    return obj 
+
 '''
     Projects
 '''
@@ -169,6 +174,7 @@ def project_form(request):
         user_winhotel = get_or_create_user_winhotel(obj.uuid)
         user_stripe = get_or_create_user_stripe(obj.uuid)
         user_mews = get_or_create_user_mews(obj.uuid)
+        user_cars = get_or_create_user_cars(obj.uuid)
 
         regime_list = Regime.objects.all()
         point_of_sale_list = PointOfSale.objects.filter(project_uuid=obj.uuid)
@@ -185,6 +191,7 @@ def project_form(request):
             'user_winhotel': user_winhotel, 
             'user_stripe': user_stripe, 
             'user_mews': user_mews, 
+            'user_cars': user_cars, 
             'project_regime_list': [item.regime for item in obj.regimes.all()],
             'regime_list': regime_list,
             'point_of_sale_list': point_of_sale_list,
@@ -207,6 +214,7 @@ def project_details(request, obj_id, current_tab=""):
         user_winhotel = get_or_create_user_winhotel(obj.uuid)
         user_stripe = get_or_create_user_stripe(obj.uuid)
         user_mews = get_or_create_user_mews(obj.uuid)
+        user_cars = get_or_create_user_cars(obj.uuid)
 
         regime_list = Regime.objects.all()
         point_of_sale_list = PointOfSale.objects.filter(project_uuid=obj.uuid)
@@ -225,6 +233,7 @@ def project_details(request, obj_id, current_tab=""):
             'user_winhotel': user_winhotel, 
             'user_stripe': user_stripe, 
             'user_mews': user_mews, 
+            'user_cars': user_cars, 
             'project_regime_list': [item.regime for item in obj.regimes.all()],
             'regime_list': regime_list,
             'point_of_sale_list': point_of_sale_list,

@@ -43,56 +43,27 @@
                     <div class="col-2">{% trans 'State' %}</div>
                     <div class="col-4">{{item.state}}</div>
                 </div>
- 
-        
-                {%comment%}
                 <div class="row">
-                    <div class="col-2">{% trans 'Id' %}</div>
-                    <div class="col-4">{{item.id}}</div>
-                    <div class="col-2">{% trans 'Status' %}</div>
-                    <div class="col-4">{{item.status}}</div>
-
-                    <div class="col-2">{% trans 'Accommodation ID' %}</div>
-                    <div class="col-4">{{item.accommodation_id}}</div>
-                    <div class="col-2">{% trans 'Unit ID' %}</div>
-                    <div class="col-4">{{item.unit_id}}</div>
-
-                    <div class="col-2">{% trans 'Check in date' %}</div>
-                    <div class="col-4">{{item.check_in_date}}</div>
-                    <div class="col-2">{% trans 'Check out date' %}</div>
-                    <div class="col-4">{{item.check_out_date}}</div>
-
-                    <div class="col-2">{% trans 'Check in time' %}</div>
-                    <div class="col-4">{{item.check_in_time}}</div>
-                    <div class="col-2">{% trans 'Check out time' %}</div>
-                    <div class="col-4">{{item.check_out_time}}</div>
-
-                    <div class="col-2">{% trans 'Night of stay' %}</div>
-                    <div class="col-4">{{item.night_of_stay}}</div>
-                    <div class="col-2">{% trans 'Created at' %}</div>
-                    <div class="col-4">{{item.created_at}}</div>
-
-                    <div class="col-2">{% trans 'Price' %}</div>
-                    <div class="col-4">{{item.price}}</div>
-                    <div class="col-2">{% trans 'Number of guests' %}</div>
-                    <div class="col-4">{{item.number_of_guests}}</div>
-
-                    <div class="col-2">{% trans 'Default invite email' %}</div>
-                    <div class="col-4">{{item.default_invite_email}}</div>
-                    <div class="col-2">{% trans 'Default leader full name' %}</div>
-                    <div class="col-4">{{item.default_leader_full_name}}</div>
-
-                    <div class="col-2">{% trans 'Default leader phone' %}</div>
-                    <div class="col-4">{{item.default_leader_phone}}</div>
-                    <div class="col-2">{% trans 'Source' %}</div>
-                    <div class="col-4">{{item.source}}</div>
-
-                    <div class="col-2">{% trans 'Partner name' %}</div>
-                    <div class="col-4">{{item.partner_name}}</div>
-                    <div class="col-2"></div>
+                    <div class="col-1">{% trans 'Resource' %}</div>
+                    <div class="col-5">{{item.resource_id}}</div>
+                    <div class="col-2">{% trans '' %}</div>
                     <div class="col-4"></div>
                 </div>
-                {%endcomment%}
+
+                <div class="row">
+                    <div class="col-1">{% trans 'Name' %}</div>
+                    <div class="col-3">{{item.customer.name}}</div>
+                    <div class="col-1">{% trans 'Phone' %}</div>
+                    <div class="col-2">{{item.customer.phone}}</div>
+                    <div class="col-1">{% trans 'Email' %}</div>
+                    <div class="col-3">{{item.customer.email}}</div>
+                </div>
+                <div class="row">
+                    <div class="col-2">{% trans 'Room' %}</div>
+                    <div class="col-4">{{item.room.number}}</div>
+                    <div class="col-2">{% trans '' %}</div>
+                    <div class="col-4"></div>
+                </div>
                 <hr/>
             {% endfor %}
         </div>
