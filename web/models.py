@@ -48,6 +48,7 @@ class Project(models.Model):
     active = models.IntegerField(verbose_name='Active', default=1)
     guest_delete = models.IntegerField(verbose_name='Delete guest after', default=90)
     created_at = models.DateTimeField(verbose_name='Created at', default=datetime.datetime.now)
+    expiration = models.DateTimeField(verbose_name='Expiration', default=datetime.datetime.now)
 
     logo = models.ImageField(upload_to=upload_logo, blank=True, verbose_name="Logo", help_text="Select file to upload")
     company = models.ForeignKey(Company, verbose_name = 'Company', on_delete=models.SET_NULL, null=True)

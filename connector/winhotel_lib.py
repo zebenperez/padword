@@ -1,3 +1,4 @@
+from django.conf import settings
 from datetime import datetime, timedelta
 
 from bookings.models import Form, FormType
@@ -11,6 +12,7 @@ import hashlib
 import urllib
 import json
 import random
+import os
 
 API_URL = "http://queryapi2.winhotelweb.com/"
 BOOKINGS_URL = "query/PublicQuery/BookingListQuery"
@@ -22,6 +24,11 @@ USER_ID = "f6806784-68ba-4930-b26e-194fb5b9aa36"
 
 def get_param(dic, key):
     return dic[key] if key in dic else ""
+
+def write_log(result):
+    f = open(os.path.join(settings.BASE_DIR, "winhotel.log"), "a", encoding='utf-8')
+    f.write("{}\n".format(result))
+    f.close()
 
 class WinhotelGuest():
     def __init__(self, dic):
@@ -350,8 +357,11 @@ class Winhotel:
             _url_request = "{}{}".format(API_URL, SEND_CHARGE_URL)
             _json = self._request_send_charge(dic)
             _json_data = json.dumps(_json)
+            #write_log("--------> WH LIB ENVIO POST")
+            write_log(str(_json))
             return self.__send_request__(_url_request, _json_data).json()
         except Exception as err:
+            write_log("--------> WH LIB ERROR: {}".format(err))
             raise WinhotelAPIError(message=err)
 
 '''
@@ -590,7 +600,10 @@ def send_charge(pwu,booking_code,room_code,contact_name,contact_id,has_credit,li
         "CashCode": cash_code
     }
     w = Winhotel(pwu.source_code, pwu.target_code)
+    #write_log("--------> WH LIB ENVIO")
     result = w.send_charge(dic)
+    #write_log("--------> WH LIB ENVIADO")
+    write_log(result)
 
  
 '''

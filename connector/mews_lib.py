@@ -202,8 +202,8 @@ def create_booking(pmu, booking, av):
         
         if booking.customer != None:
             guest.name = booking.customer.name
-            guest.mobile = booking.customer.phone
-            guest.email = booking.customer.email
+            guest.mobile = booking.customer.phone if booking.customer.phone != None else ""
+            guest.email = booking.customer.email if booking.customer.email != None else ""
         
         guest.check_in = checkin
         guest.check_out = checkout

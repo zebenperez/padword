@@ -10,7 +10,7 @@ from web.models import Project, Waiter
 from contents.models import Category, ShoppingCart, Item, PaymentType, PointOfSale, Table
 from guest.models import Guest, Wristband, WristbandBalance
 #from web.lock_lib import ShLock
-from connector.winhotel_lib import send_charge
+from connector.winhotel_lib import send_charge, write_log as wh_write_log
 from connector.models import ProjectWinhotelUser
 
 from .common_lib import get_or_create_form_instance_tpv, get_or_create_form_instance_info_tpv, get_or_create_form_instance_info_client_tpv
@@ -362,14 +362,17 @@ def tpv_order_send(request):
         fi.save()
         fi.update_index()
 
+        wh_write_log("ORDER: {} ({})".format(fi.id, datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")))
         if pt != None and (pt.code == "03" or pt.code == "0403") and band_id != "":
             pos = get_or_none(PointOfSale, request.session["point_of_sale"])
             band = get_or_none(Wristband, band_id)
             add_balance_to_band(pos, fi, band)
 
+            #wh_write_log("--> PAGO CON PULSERA: {}".format(band_id))
             if band != None and pt.code == "03":
                 pwu = get_or_none(ProjectWinhotelUser, fi.form.project.uuid, "project_uuid")
                 if pwu != None and pwu.source_code != "":
+                    wh_write_log("----> SE ENVIA EL CARGO: {} ({})".format(band.name, band.code))
                     send_charges(pwu, fi, band, pos, factor)
 
         set_desc(fi, desc)
@@ -531,9 +534,9 @@ def send_charges(pwu, fi, band, pos, factor):
     s_food = pos.code2
     s_break = pos.code3
     #source_document
-    sd_drink = "Cargo Ticket Nº- {} del TPV {} (Bebidas)".format(fi.id, pos.name)
-    sd_food = "Cargo Ticket Nº- {} del TPV {} (Comidas)".format(fi.id, pos.name)
-    sd_break = "Cargo Ticket Nº- {} del TPV {} (Desayunos)".format(fi.id, pos.name)
+    sd_drink = "Cargo Ticket Nº-{} / TPV {} (Bebidas)".format(fi.id, pos.name)
+    sd_food = "Cargo Ticket Nº-{} / TPV {} (Comidas)".format(fi.id, pos.name)
+    sd_break = "Cargo Ticket Nº-{} / TPV {} (Desayunos)".format(fi.id, pos.name)
     date = fi.date.strftime("%Y-%m-%dT%H:%M:%S")
     #total_amount
     #total_amount = fi.get_total()
@@ -547,9 +550,12 @@ def send_charges(pwu, fi, band, pos, factor):
     #print(ta_food)
 
     if ta_drink != None:
+        #wh_write_log("------> BEBIDAS")
         send_charge(pwu,booking_code,room_code,contact_name,contact_id,has_credit,limit_credit,s_drink,sd_drink,date,ta_drink*factor,cash_code)
     if ta_food != None:
+        #wh_write_log("------> COMIDAS")
         send_charge(pwu,booking_code,room_code,contact_name,contact_id,has_credit,limit_credit,s_food,sd_food,date,ta_food*factor,cash_code)
     if ta_break != None:
+        #wh_write_log("------> DESAYUNO")
         send_charge(pwu,booking_code,room_code,contact_name,contact_id,has_credit,limit_credit,s_break,sd_break,date,ta_break*factor,cash_code)
 
