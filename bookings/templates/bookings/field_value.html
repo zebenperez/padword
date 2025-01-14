@@ -9,35 +9,35 @@
 	<div class="col-12 d-flex justify-content-center">
 		<div class="card">
 			<div class="image special" id="cover">
-				<img src="{% if item.image %}{{item.image.url}} {%else%} {% static 'img/none.png' %}{%endif%}" class="object-fit_cover" 
-				alt="{% padword_translate item.name %}">
+				<img src="{% if item.image %}{{item.image.url}} {%else%} {% static 'img/none.png' %}{%endif%}" class="object-fit_cover"
+                    alt="{% padword_translate item.name %}">
 			</div>
 			<div class="card-body">
 				<div class="row special">
-					<div class="col-lg-8 col-9 b-marine"> <h5 class="card-title text-dark text-left">{% padword_translate item.name %}</h5> </div>
-					<div class="col-lg-4 col-3 b-marine"> <h5 class="card-title text-dark text-right">{{ item.price}} &euro; </h5> </div>
+					<div class="col-lg-8 col-9 b-marine"> 
+                        <h5 class="card-title text-dark text-left">{% padword_translate item.name %}</h5> </div>
+					<div class="col-lg-4 col-3 b-marine"> 
+                        <h5 class="card-title text-dark text-right">{{item.price}} {{item.currency}}{#&euro;#} </h5> </div>
 					<div class="col-12">
 						<p class="card-text text-secondary"><small>{% padword_translate item.description %}</small></p> 
 					</div>
                     {% if ai.text|length > 37 %}
-					<div class="col-12">
-                        Extras solicitados:
-                        <ul>
-                        {% for extra in item.extra_list.all %}
-                            {% if extra.id|addstr:"|" in ai.text %}
-                                <li>{% padword_translate extra.name %}</li>
-                            {% endif %}
-                        {% endfor %}
-					</div>
+					    <div class="col-12">
+                            Extras solicitados:
+                            <ul>
+                                {% for extra in item.extra_list.all %}
+                                    {% if extra.id|addstr:"|" in ai.text %}
+                                        <li>{% padword_translate extra.name %}</li>
+                                    {% endif %}
+                                {% endfor %}
+                            </ul>
+					    </div>
                     {% endif %}
 				</div>
 			</div>
 		</div>
 	</div>
-
 {% else %}
-
     {% padword_translate ai.text %}
-
 {% endif %}
 

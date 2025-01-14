@@ -3,7 +3,7 @@
 <div class="col-10 offset-1 fixed-head p-2">
     <div class="item1">{% padword_translate form.name %} &nbsp;</div> 
     <div class="item2 text-right">(<span id="span-total-items">{{items.count}}</span> art.&nbsp;&nbsp;&nbsp; 
-        <span id="span-total-price">{{fi.get_total|stringformat:".2f"}}</span> &euro;)</div>
+        <span id="span-total-price">{{fi.get_total|stringformat:".2f"}}</span> {{fi.currency}}{#&euro;#})</div>
     <a class="btn btn-light-pad small ark mb-1 p-1" data-url="{% url 'view-shopping-cart'  %}" 
         data-target-modal="common-modal" data-form_id="{{fi.pk}}"> <i class="fas fa-shopping-cart"></i> </a>
 </div>

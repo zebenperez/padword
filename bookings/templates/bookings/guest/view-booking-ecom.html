@@ -5,8 +5,9 @@
 <div class="main-content-booking container-fluid">
         <div class="row"> 
             <div class="col-7 btn-sky pt-2 pb-2 text-left">{% padword_translate fi.form.get_category.name %}</div> 
-            <div class="col-5 btn-sky pt-2 pb-2 text-right"><span id="info-shopping"><span class="art-number">{{items.count}} art.&nbsp;&nbsp;&nbsp;</span> 
-                {{fi.get_total|stringformat:".2f"}} &euro; </span></div>
+            <div class="col-5 btn-sky pt-2 pb-2 text-right">
+                <span id="info-shopping"><span class="art-number">{{items.count}} art.&nbsp;&nbsp;&nbsp;</span> 
+                {{fi.get_total|stringformat:".2f"}} {{fi.currency}}{#&euro;#} </span></div>
 	    </div>
         <div class="row booking-data-navbar"> 
             <div class="col-lg-3 col-12 btn-light pt-2 pb-2 text-left"><span class="data-mb"><i class="fas fa-portrait"></i>&nbsp; {{fi.guest.name}} {{fi.guest.surname}} </span> </div>

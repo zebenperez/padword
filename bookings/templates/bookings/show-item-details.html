@@ -4,16 +4,20 @@
     <div class="col-lg-10 col-10 btn-dark pt-2">
         <span class="card-title text-left">{% padword_translate item.name %}</span>
     </div>
-    <div class="col-lg-2 col-2 btn-dark price pt-1" id="div-total-shopping-cart">{{item.price}} {%if item.price != ""%}&euro;{%endif%}  </div>
+    <div class="col-lg-2 col-2 btn-dark price pt-1" id="div-total-shopping-cart">
+        {{item.price}} {%if item.price != ""%}{{item.currency}}{#&euro;#}{%endif%}  </div>
 </div>
 <div class="row">
     {% if item.image %}
         <div class="col-lg-4 col-12 p-3 imagen-item">
-            <div class="image" id="cover"> <img src="{{item.image.url}}" class="object-fit_cover" alt="{% padword_translate item.name %}"> </div>
+            <div class="image" id="cover"> <img src="{{item.image.url}}" class="object-fit_cover" 
+                alt="{% padword_translate item.name %}"> </div>
         </div>
-        <div class="col-lg-8 col-12 description-item p-3"> <p class="card-text text-secondary">{% padword_translate item.description %} </p> </div>
+        <div class="col-lg-8 col-12 description-item p-3"> <p class="card-text text-secondary">
+            {% padword_translate item.description %} </p> </div>
     {% else %}
-        <div class="col-12 description-item p-3"> <p class="card-text text-secondary">{% padword_translate item.description %} </p> </div>
+        <div class="col-12 description-item p-3"> 
+            <p class="card-text text-secondary">{% padword_translate item.description %} </p> </div>
     {% endif %}
 </div>
 <div class="row">
