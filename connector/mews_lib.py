@@ -14,7 +14,8 @@ import string
 try:
     API_URL = settings.MEWS_API_URL
 except:
-    API_URL = "https://api.mews-demo.com/api/connector/v1/"
+    API_URL = "https://api.mews.com/api/connector/v1/"
+    #API_URL = "https://api.mews-demo.com/api/connector/v1/"
 
 BOOKINGS_URL = "reservations/getAll/2023-06-06"
 CUSTOMERS_URL = "customers/getAll"
@@ -39,8 +40,8 @@ class Mews():
         self.access_token = access_token
         self.ini_date = datetime.now().strftime("%Y-%m-%dT00:00:00Z")
         self.end_date = datetime.now().strftime("%Y-%m-%dT23:59:59Z")
-        self.ini_date = "2024-03-14T00:00:00Z"
-        self.end_date = "2024-03-14T23:59:59Z"
+        #self.ini_date = "2024-03-14T00:00:00Z"
+        #self.end_date = "2024-03-14T23:59:59Z"
     
     def __send_request__(self, _url_request, _params=""):
         try:
@@ -109,6 +110,8 @@ class Mews():
                     #},
                     #"States": ["Confirmed", "Started"]
             }
+            print("--a--")
+            print(self.__send_post_request__(_url_request, params))
             dic = self.__send_post_request__(_url_request, params).json()
             items = dic["Reservations"]
             return items
@@ -224,6 +227,9 @@ def create_booking(pmu, booking, av):
 
 def get_booking_list(pmu):
     av = Mews(pmu.client_token, pmu.access_token)
+    print("--1--")
+    print(pmu.client_token)
+    print(pmu.access_token)
     result = av.get_bookings()
     #print(result)
     booking_list = []
