@@ -599,7 +599,8 @@ def get_price_shopping_cart(request):
         instance_id = get_param(request.GET, "form_id")
         instance = FormInstance.objects.get(pk=instance_id)
         items = ShoppingCart.objects.filter(form_instance_id=instance.pk)
-        return HttpResponse('{} art.&nbsp;&nbsp;&nbsp;{:.2f} &euro;'.format(items.count(), instance.get_total))
+        currency = items[0].item.currency if len(items) > 0 else "&euro;"
+        return HttpResponse('{} art.&nbsp;&nbsp;&nbsp;{:.2f} {}'.format(items.count(), instance.get_total, currency))
     except Exception as e:
         #return HttpResponse(show_exc(e))
         return render(request, "error_exception.html", {'exc':show_exc(e)})

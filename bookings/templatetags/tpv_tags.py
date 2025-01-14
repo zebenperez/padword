@@ -63,7 +63,7 @@ def have_cash(pos):
 @register.simple_tag
 def get_item_price(item, band, code):
     price =  item.item.get_price(code, band)
-    return "{} €".format(item.item.get_price(code, band)) if price != None else "NOT INCLUDED!"
+    return "{} {}".format(item.item.get_price(code, band), item.item.currency) if price != None else "NOT INCLUDED!"
 
 
 '''

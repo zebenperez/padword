@@ -10,15 +10,15 @@
             <span class="article-title">{% padword_translate item.name %}</span>
         </div>
         <div class="col-3 d-flex justify-content-end pr-2">
-            <span class="article-price">{{item.price}} {%if item.price != ""%}&euro;{%endif%} </span>
+            <span class="article-price">{{item.price}} {%if item.price != ""%}{{item.currency}}{#&euro;#}{%endif%} </span>
         </div>
 
         {% if show_footer and fi.form|check_timetable %}
             <div class="col-4 col-sum">
                 <div class="row">
                     <div class="col-2 p-0 minus">
-                        <a class="tn tn-sm ark" data-url="{% url 'remove-generic-item-shopping-cart' %}" 
-                            data-target="for-scripts" data-form_id="{{fi.pk}}" data-item_id="{{item.pk}}"> <i class="fas fa-minus"></i></a>
+                        <a class="tn tn-sm ark" data-url="{% url 'remove-generic-item-shopping-cart' %}" data-target="for-scripts" 
+                            data-form_id="{{fi.pk}}" data-item_id="{{item.pk}}"> <i class="fas fa-minus"></i></a>
                     </div>              
                     <div class="col-8">
                         <input type="text" class="ark_change form-control text-center readonly"

@@ -7,7 +7,8 @@
             {% padword_translate fi.form.get_category.name %}&nbsp;({{items|length}} {% trans 'art.' %})
         </h5>
     </div>
-    <div class="col-lg-4 col-4 btn-dark price p-2" id="div-total-shopping-cart"> {% trans 'Total price' %}: {{total|floatformat:2}} &euro;</div>
+    <div class="col-lg-4 col-4 btn-dark price p-2" id="div-total-shopping-cart"> 
+        {% trans 'Total price' %}: {{total|floatformat:2}} {{fi.currency}}{#&euro;#}</div>
 </div>
 <div class="row justify-content-center"> <p class="small alert text-center"><strong>*</strong> 
     {% trans 'You can add comments to the article with click on comment buttons' %} <i class="fas fa-comments"></i></p> </div>

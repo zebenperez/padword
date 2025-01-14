@@ -1,7 +1,7 @@
 {% load i18n tpv_tags bookings_tag padword_tags %}
 
 <div id="div-return" class="alert alert-warning hide">
-    {% trans "Va a realizar una devolución por un importe de: " %} -{{total|floatformat:2}} &euro; 
+    {% trans "Va a realizar una devolución por un importe de: " %} -{{total|floatformat:2}} {{fi.currency}}{#&euro;#}
     {#{% if regime %} -{{fi|get_total_by_regime:regime.code}} &euro; {% else %} -{{total|floatformat:2}} &euro; {% endif %}#}
     <br/> <br/> 
     <div class="row">
@@ -9,7 +9,8 @@
         <div class="col-6">
             <button id="btn-return-order-{{fi.id}}" class="btn btn-warning w-100 a-disabled ark" data-bs-dismiss="modal" 
                 data-url="{% url "tpv-order-send" %}" data-target="base" data-obj_id="{{fi.id}}" data-payment_type="04" 
-                data-subtotal="-{{subtotal}}" data-band="{{band.id}}" data-total="-{{total}}" data-mobile="{{mobile}}"> {%trans "Confirm"%}</i>
+                data-subtotal="-{{subtotal}}" data-band="{{band.id}}" data-total="-{{total}}" data-mobile="{{mobile}}"> 
+                {%trans "Confirm"%}</i>
                 {#data-amount_user="{%if regime%}-{{fi|get_total_by_regime:regime.code}}{%endif%}" data-mobile="{{mobile}}"> {%trans "Confirm"%}</i>#}
             </button>
         </div>
@@ -17,7 +18,7 @@
 </div>
 
 <div id="div-free" class="alert alert-primary hide">
-    {% trans "Va a realizar una invitación por un importe de: " %} {{total|floatformat:2}} &euro;
+    {% trans "Va a realizar una invitación por un importe de: " %} {{total|floatformat:2}} {{fi.currency}}{#&euro;#}
     {#{% if regime %} {{fi|get_total_by_regime:regime.code}} &euro; {% else %} {{total|floatformat:2}} &euro; {% endif %}#}
     <br/> <br/> 
     <input type="text" class="form-control" name="free_desc" placeholder="{%trans "Nombre de la persona realiza la invitación..."%}"

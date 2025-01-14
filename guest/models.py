@@ -113,6 +113,13 @@ class Guest(models.Model):
             return 1 + self.children + self.babies
         return self.adults + self.children + self.babies
 
+    @property
+    def currency(self):
+        try:
+            return self.project.currency
+        except Exception as e:
+            return "€"
+
     def get_code(self):
         if self.email != None and self.email != "" and "@" in self.email:
             return self.email

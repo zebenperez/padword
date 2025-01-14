@@ -524,6 +524,14 @@ class FormInstance(models.Model):
         items = ShoppingCart.objects.filter(form_instance_id=self.pk)
         return (items)
 
+    @property
+    def currency(self):
+        try:
+            return self.form.project.currency
+        except Exception as e:
+            return "€"
+
+
     def get_total_by_regime(self, regime):
         try:
             items = ShoppingCart.objects.filter(form_instance_id=self.pk)

@@ -2,16 +2,19 @@
 
 <div class="row">
     <div class="col-lg-8 col-8 btn-dark pt-2"> <h5 class="card-title text-left">{% padword_translate obj.item.name %}</h5> </div>
-    <div class="col-lg-4 col-4 btn-dark price pt-1" id="div-total-shopping-cart">{{ obj.item.price}} &euro;  </div>
+    <div class="col-lg-4 col-4 btn-dark price pt-1" id="div-total-shopping-cart">{{obj.item.price}} {{obj.item.currency}}{#&euro;#} 
+        </div>
     <div class="col-lg-4 col-12 p-3 imagen-item">
-        <div class="image" id="cover"> <img src="{% if obj.item.image %}{{obj.item.image.url}} {%else%} {% static 'img/none.png' %}{%endif%}" 
+        <div class="image" id="cover"> 
+            <img src="{% if obj.item.image %}{{obj.item.image.url}} {%else%} {% static 'img/none.png' %}{%endif%}" 
             class="card-img-top" alt="{% padword_translate obj.item.name %}" style="height:auto; width: auto;"></div>
     </div>
     <div class="col-lg-8 col-12 description-item p-3">
         <p class="card-text text-secondary">
 	        <textarea class="form-control autosave" id="comments" name="comments" rows="7" value="{{obj.comments}}" 
-                data-url="{% url "autosave_field" %}" data-model-name="contents.shoppingcart" data-obj-id="{{obj.pk}}" data-target="div-notification" 
-                placeholder="{% trans "Please, write here your comments" %}" >{{obj.comments}}</textarea> <span id="comments__msg"></span>
+                data-url="{% url "autosave_field" %}" data-model-name="contents.shoppingcart" data-obj-id="{{obj.pk}}" 
+                data-target="div-notification" placeholder="{% trans "Please, write here your comments" %}" >
+                {{obj.comments}}</textarea> <span id="comments__msg"></span>
         </p>
         {% for item in obj.item.extra_list.all %}
             <input type="checkbox" id="extra-{{item.id}}" class="extra" value="{% padword_translate item.name %}"/> 
