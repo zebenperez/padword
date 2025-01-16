@@ -20,6 +20,8 @@ except:
 BOOKINGS_URL = "reservations/getAll/2023-06-06"
 CUSTOMERS_URL = "customers/getAll"
 RESOURCES_URL = "resources/getAll"
+CONFIRM_STATE = "Confirmed"
+CANCELED_STATE = "Canceled"
 #BOOKINGS_URL = "configuration/get"
 #ACCOMMODATIONS_URL = "accommodations"
 #SEND_LINK_URL = "booking/checkin/register-access-data"
@@ -82,36 +84,35 @@ class Mews():
         except requests.exceptions.RequestException as err:
             raise MewsAPIError(menssage=err)
 
-    def get_bookings(self):
+    def get_bookings(self, state=CONFIRM_STATE):
         try:
             _url_request = "{}{}".format(API_URL, BOOKINGS_URL)
             params = {
                     "ClientToken": "{}".format(self.client_token),
                     "AccessToken": "{}".format(self.access_token),
                     "Client": "Padword",
-                    #"AccountIds": [
-                    #    "1b768e9c-ffdd-485c-95e8-3c96d3f9c4cc"
-                    #],
                     "Limitation": {
                         #"Cursor": "819e3435-7d5e-441f-bc68-76d89c69b8f5",
                         "Count": 100
                     },
-                    #"ScheduleStartUtc": {
-                    #    "StartUtc": "2024-03-12T00:00:00Z",
-                    #    "EndUtc": "2024-03-15T00:00:00Z"
-                    #},
                     "CreatedUtc": {
                         "StartUtc": self.ini_date,
                         "EndUtc": self.end_date
                     },
+                    "States": [state]
+                    #"AccountIds": [
+                    #    "1b768e9c-ffdd-485c-95e8-3c96d3f9c4cc"
+                    #],
+                    #"ScheduleStartUtc": {
+                    #    "StartUtc": "2024-03-12T00:00:00Z",
+                    #    "EndUtc": "2024-03-15T00:00:00Z"
+                    #},
                     #"UpdatedUtc": {
                     #    "StartUtc": "2023-04-01T00:00:00Z",
                     #    "EndUtc": "2023-05-05T00:00:00Z"
                     #},
                     #"States": ["Confirmed", "Started"]
             }
-            print("--a--")
-            print(self.__send_post_request__(_url_request, params))
             dic = self.__send_post_request__(_url_request, params).json()
             items = dic["Reservations"]
             return items
@@ -225,11 +226,13 @@ def create_booking(pmu, booking, av):
         #        guest.delete()
     return None, err
 
+def delete_booking(pwu, booking):
+    guest = Guest.objects.filter(ext_id=booking.id, project_id=pwu.project_uuid, deleted=0).first()
+    if guest != None:
+        guest.delete()
+
 def get_booking_list(pmu):
     av = Mews(pmu.client_token, pmu.access_token)
-    print("--1--")
-    print(pmu.client_token)
-    print(pmu.access_token)
     result = av.get_bookings()
     #print(result)
     booking_list = []
@@ -258,5 +261,18 @@ def get_booking_list(pmu):
         #elif node.status == "CANCELLED":
         #    delete_booking(pau, node)
     #print("Total: {}".format(i))
+    return booking_list
+
+def cancel_booking_list(pmu):
+    av = Mews(pmu.client_token, pmu.access_token)
+    result = av.get_bookings(CANCELED_STATE)
+    #print(result)
+    booking_list = []
+    i = 0
+    for item in result:
+        i += 1
+        node = MewsBooking(item)
+        booking_list.append(node)
+        delete_booking(pmu, node)
     return booking_list
 

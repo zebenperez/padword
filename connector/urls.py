@@ -19,6 +19,7 @@ urlpatterns = [
 
     #--------------------- MEWS --------------------
     path('mews/get-booking-list/<slug:project_uuid>/', views.mews_get_booking_list, name='mews-get-booking-list'),
+    path('mews/cancel-booking-list/<slug:project_uuid>/', views.mews_cancel_booking_list, name='mews-cancel-booking-list'),
 
     #--------------------- CRON --------------------
     path('cron-log/', views.cron_log, name='cron-log'),
