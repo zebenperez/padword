@@ -4,7 +4,7 @@ from django.core import serializers
 from django.shortcuts import render, redirect
 from django.utils.translation import ugettext_lazy as _ 
 from django.db.models import Q
-import datetime
+import datetime, csv
 
 from .models import *
 from web.lock_lib import ShLock
@@ -974,6 +974,25 @@ def guest_car_remove(request):
         car.delete()
         return render(request, "guest/guest-cars.html", {"obj": guest})
     except Exception as e:
+        return render(request, "error_exception.html", {'exc':show_exc(e)})
+
+@group_required("admins", "projects")
+def guest_car_list(request, project_uuid):
+    try:
+        project = get_or_none(Project, project_uuid, "uuid")
+        guest_list = Guest.objects.filter(project_id=project.uuid)
+        car_list = []
+
+        response = HttpResponse( content_type='text/csv', headers={'Content-Disposition': 'attachment; filename="matriculas.csv"'},)
+        writer = csv.writer(response)
+        #writer.writerow(['Fecha', 'Pulsera', 'Huésped', 'Zona', 'Entrada/Salida'])
+        for item in guest_list:
+            if item.have_valid_booking():
+                for car in item.cars.all():
+                    writer.writerow([car.number, item.check_in, item.check_out])
+        return response
+    except Exception as e:
+        #return HttpResponse("Error: {}".format(e))
         return render(request, "error_exception.html", {'exc':show_exc(e)})
 
 

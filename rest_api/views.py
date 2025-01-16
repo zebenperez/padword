@@ -5,9 +5,9 @@ from rest_framework.permissions import IsAuthenticated
 
 from django.urls import reverse
 
-from .models_serializers import GuestSerializer, LockSerializer, RoomSerializer
+from .models_serializers import GuestSerializer, LockSerializer, RoomSerializer, GuestCarSerializer
 
-from guest.models import Guest, Wristband
+from guest.models import Guest, Wristband, GuestCar
 from bookings.models import GuestUser, Form
 #from web.models import ProjectUser, Lock, Room
 from web.models import ProjectUser, Room
@@ -15,7 +15,7 @@ from web.models_lock import Lock, LockCodeExtId
 from web.lock_lib import get_record_type
 from sensibo.models import ProjectSensiboUser
 from contents.models import PointOfSale
-from connector.models import ProjectStripeUser
+from connector.models import ProjectStripeUser, ProjectCarUser
 from padword.commons import new_ui_slug, reverse_cardkey, timestamp_to_date, get_float, get_int
 from connector.libstripe import ShStripe
 
@@ -907,4 +907,85 @@ class DepositBoxViewSet(viewsets.ModelViewSet):
         except Exception as e:
             logger.error("[{}]: \"{}\"".format(self.request.user, str(e)))
             return Response({"error": True, 'msg': 'Bad request!'})
+
+class GuestCarViewSet(viewsets.ModelViewSet):
+    """
+    API endpoint that allows users to be viewed or edited.
+    """
+    queryset = GuestCar.objects.none()
+    serializer_class = GuestCarSerializer
+    permission_classes = [IsAuthenticated,]
+
+    def serialize_guestcar(self, item):
+        if item != None:
+            return Response(GuestCarSerializer(item, many=False).data)
+        return Response({"error": True})
+
+    def get_queryset(self):
+        try:
+            pu = ProjectUser.objects.get(username=self.request.user.username)
+            logger.info("[{}]: \"Guest car list\"".format(self.request.user))
+            return GuestCar.objects.filter(guest__project_id=pu.project_uuid)
+        except:
+            logger.error("[{}]: \"{}\"".format(self.request.user, str(e)))
+            return GuestCar.objects.none()
+
+    def create(self, request):
+        try:
+            pu = ProjectUser.objects.get(username=self.request.user.username)
+            pcu = ProjectCarUser.objects.filter(project_uuid=pu.project_uuid).first()
+            if pcu == None or pcu.code == "":
+                msg = "Camera not found!"
+                logger.error("[{}]: \"{}\"".format(self.request.user, msg))
+                return Response(data={'error': 'true', 'msg': msg}, status=status.HTTP_400_BAD_REQUEST)
+
+            ext_id = request.POST.get('ext_id', "")
+            number = request.POST.get('plate', "")
+            guest = Guest.objects.filter(project_id=pu.project_uuid, ext_id=ext_id).first()
+
+            if guest == None:
+                msg = "Guest not found!"
+                logger.error("[{}]: \"{}\"".format(self.request.user, msg))
+                return Response(data={'error': 'true', 'msg': msg}, status=status.HTTP_400_BAD_REQUEST)
+
+            gc, created = GuestCar.objects.get_or_create(number=number, guest=guest)
+            logger.info("[{}]: \"Guest Car {} created for guest {} {}\"".format(self.request.user, number, guest.name, guest.surname))
+            gc_data = self.serializer_class(gc).data
+            return Response(data=gc_data, status=status.HTTP_201_CREATED)
+        except Exception as e:
+            logger.error("[{}]: \"{}\"".format(self.request.user, str(e)))
+            return Response(data={'error': 'true', 'msg': "Bad request!"}, status=status.HTTP_400_BAD_REQUEST)
+
+    def retrieve(self, request, pk=None):
+        logger.error("[{}]: \"Retrieve function is not offered in this path.\"".format(self.request.user))
+        response = {'message': 'Retrieve function is not offered in this path.'}
+        return Response(response, status=status.HTTP_403_FORBIDDEN)
+
+    def destroy(self, request, pk=None):
+        try:
+            pu = ProjectUser.objects.get(username=self.request.user.username)
+            pcu = ProjectCarUser.objects.filter(project_uuid=pu.project_uuid).first()
+            if pcu == None or pcu.code == "":
+                msg = "Camera not found!"
+                logger.error("[{}]: \"{}\"".format(self.request.user, msg))
+                return Response(data={'error': 'true', 'msg': msg}, status=status.HTTP_400_BAD_REQUEST)
+            number = request.POST.get("plate", "")
+            gc = GuestCar.objects.filter(guest__project_id=pu.project_uuid, guest__ext_id=pk, number=number).first()
+            if gc != None:
+                gc.delete()
+            logger.info("[{}]: \"Guest car {} destroyed\"".format(self.request.user, number))
+            return Response(data={'error': 'false'}, status=status.HTTP_200_OK)
+        except Exception as e:
+            logger.error("[{}]: \"{}\"".format(self.request.user, str(e)))
+            return Response(data={'error': 'true', 'msg': 'Bad request!'}, status=status.HTTP_400_BAD_REQUEST)
+
+    def update(self, request, pk=None):
+        logger.error("[{}]: \"Update function is not offered in this path.\"".format(self.request.user))
+        response = {'message': 'Update function is not offered in this path.'}
+        return Response(response, status=status.HTTP_403_FORBIDDEN)
+
+    def partial_update(self, request, pk=None):
+        logger.error("[{}]: \"Partial update function is not offered in this path.\"".format(self.request.user))
+        response = {'message': 'Update function is not offered in this path.'}
+        return Response(response, status=status.HTTP_403_FORBIDDEN)
 

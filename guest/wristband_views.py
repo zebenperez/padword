@@ -272,11 +272,14 @@ def wristbands_search_by_project(request):
     Wristbands Access
 '''
 def access_search(request):
+    project = request.session["s_access_project"] if "s_access_project" in request.session else ""
     band = request.session["s_access_band"] if "s_access_band" in request.session else ""
     ini_date = request.session["s_access_ini_date"] if "s_access_ini_date" in request.session else ""
     end_date = request.session["s_access_end_date"] if "s_access_end_date" in request.session else ""
 
     kwargs = {}
+    if project != "":
+        kwargs["access_point__zone__project_uuid"] = project
     if band != "" and band != 0:
         kwargs["wristband__code"] = band
     if ini_date != "":
@@ -292,10 +295,13 @@ def access_search(request):
 def wristbands_access(request):
     request.session["s_access_ini_date"] = datetime.now().strftime("%Y-%m-%d")
     request.session["s_access_end_date"] = datetime.now().strftime("%Y-%m-%d")
-    return render(request, "wristbands/access/wristbands.html", {'active': 'wristbands-access', 'item_list': access_search(request)})
+    project_list = Project.objects.filter(active=1).order_by('name')
+    context = {'active': 'wristbands-access', 'item_list': access_search(request), 'project_list': project_list}
+    return render(request, "wristbands/access/wristbands.html", context)
 
 @group_required("admins")
 def wristbands_access_search(request):
+    request.session["s_access_project"] = get_param(request.GET, "project")
     request.session["s_access_band"] = reverse_cardkey(get_param(request.GET, "band"))
     request.session["s_access_ini_date"] = get_param(request.GET, "ini_date")
     request.session["s_access_end_date"] = get_param(request.GET, "end_date")
@@ -422,6 +428,33 @@ def wristbands_access_schedule(request):
     except Exception as e:
         print (show_exc(e))
         return HttpResponse("Error!")
+
+'''
+    Wristbands Access Admin Local
+'''
+@group_required("projects")
+def wristbands_access2(request):
+    try:
+        project = get_or_none(Project, request.project_id)
+        request.session["s_access_project"] = project.uuid
+        request.session["s_access_ini_date"] = datetime.now().strftime("%Y-%m-%d")
+        request.session["s_access_end_date"] = datetime.now().strftime("%Y-%m-%d")
+        context = {'active':'wristbands-access', 'item_list':access_search(request)}
+        return render(request, "wristbands-by-project/access/wristbands.html", context)
+    except Exception as e:
+        return render(request, 'error_exception.html', {'exc':show_exc(e)})
+
+@group_required("projects")
+def wristbands_access_search2(request):
+    try:
+        project = get_or_none(Project, request.project_id)
+        request.session["s_access_project"] = project.uuid
+        request.session["s_access_band"] = reverse_cardkey(get_param(request.GET, "band"))
+        request.session["s_access_ini_date"] = get_param(request.GET, "ini_date")
+        request.session["s_access_end_date"] = get_param(request.GET, "end_date")
+        return render (request, "wristbands-by-project/access/wristbands-list.html", {'item_list': access_search(request),})
+    except Exception as e:
+        return render(request, 'error_exception.html', {'exc':show_exc(e)})
 
 
 '''

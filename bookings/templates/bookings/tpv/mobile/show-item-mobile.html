@@ -5,22 +5,28 @@
     {%if cat_special and cat_special != ""%}data-cat="{{cat_special}}"{%else%}data-cat="{{item.category.id}}"{%endif%}>
 
     <div class="box-new mobile {%if item.especial%}ti_special{%endif%}" id="div-item-box-{{item.id}}"
-        onclick="$(this).addClass('item_selected');setTimeout(()=>{$('#div-item-box-{{item.id}}').removeClass('item_selected')}, 1000)">
-    {% if item.image %}
-        <div class="image" id="cover"> 
-            <img src="{{item.image.url}}" class="img-fill mobile" alt="{% padword_translate item.name %}"> 
-        </div>
-        {#<div class="card-new-nophoto"></div> #}
-    {% endif %}
+        onclick="$(this).addClass('item_selected');setTimeout(()=>{$('#div-item-box-{{item.id}}').removeClass('item_selected')},1000)">
+
+        {% if item.image %}
+            <div class="image" id="cover"> 
+                <img src="{{item.image.url}}" class="img-fill mobile" alt="{% padword_translate item.name %}"> 
+            </div>
+            {#<div class="card-new-nophoto"></div> #}
+        {% endif %}
 
         <div class="row-01"><h5 class="card-title-mobile text-dark text-center title-new" 
             {%if item.especial%}style="background-color: #35a8e0;"{%endif%}>{% padword_translate item.name %}</h5></div>
-        <div class="row-02"><h4 class="card-title text-dark text-center price-new">{{item.price}} {%if item.price != ""%}&euro;{%endif%} </h4></div>
+
+        <div class="row-02"><h4 class="card-title text-dark text-center price-new">
+            {{item.price}} {%if item.price != ""%}{{item.currency}}{#&euro;#}{%endif%} </h4></div>
+
         <div class="row-03 allerg-new">
             {% for ia in item.allergen_list.all %}
-                <img src="{{ia.allergen.icon.url}}" alt="{{ia.allergen.name}}" title="{{ia.allergen.name}}" style="width: 2.8em !important;" />
+                <img src="{{ia.allergen.icon.url}}" alt="{{ia.allergen.name}}" title="{{ia.allergen.name}}" 
+                    style="width: 2.8em !important;" />
             {% endfor %}
         </div>
+
         <div class="row-04 info-new">
             {% if not item.description|is_empty:request.LANGUAGE_CODE %}{% include "bookings/show-item-btn.html" %}{% endif %}
         </div>

@@ -293,6 +293,14 @@ class Item(models.Model):
         except Exception as e:
             return Project(name='UNKNOWN')
 
+    @property
+    def currency(self):
+        try:
+            return self.project.currency
+        except Exception as e:
+            return "€"
+
+
     def get_price(self, code, band=None):
         ip = self.prices.filter(regime_code=code).first()
 

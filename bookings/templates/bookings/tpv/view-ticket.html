@@ -20,15 +20,16 @@
                 <span class="small">({{items|length}} {% trans 'art.' %})</span>
             </div>
             <div class="col-8 price-tpv text-right" id="div-total-shopping-cart">
-                <strong>{%trans 'Subtotal'%}: {{subtotal|floatformat:2}} &euro;</strong>
+                <strong>{%trans 'Subtotal'%}: {{subtotal|floatformat:2}} {{fi.currency}}{#&euro;#}</strong>
             </div>
         </div>
+
         {#{% if regime %}#}
-            <div class="row">
-                <div class="col-12 price p-2" id="div-total-shopping-cart">
-                    {#<strong class="text-warning">{%trans 'Total price user'%}: {{fi|get_total_by_regime:regime.code}} &euro;</strong></div>#}
-                    <strong class="text-warning">{%trans 'Total'%}: {{total|floatformat:2}} &euro;</strong></div>
-            </div>
+        <div class="row">
+            <div class="col-12 price p-2" id="div-total-shopping-cart">
+                {#<strong class="text-warning">{%trans 'Total price user'%}: {{fi|get_total_by_regime:regime.code}} &euro;</strong></div>#}
+                <strong class="text-warning">{%trans 'Total'%}: {{total|floatformat:2}} {{fi.currency}}{#&euro;#}</strong></div>
+        </div>
         {#{% endif %}#}
 
         <div class="row" id="block-comments"> 
@@ -47,7 +48,7 @@
                     </div>
                     <div class="col-4 p-0 text-left"><div class="text-left">{% padword_translate item.item.name %}</div> </div>
                     {#<div class="col-1 p-0 text-left"><div class="text-right">{{ item.item.price }}€</div> </div>#}
-                    <div class="col-1 p-0 text-left"><div class="text-right">{{ item.price }}€</div> </div>
+                    <div class="col-1 p-0 text-left"><div class="text-right">{{ item.price }} {{item.currency}}</div> </div>
                     <div class="col-2 p-0 text-right"> 
                         {#{% if regime %} <div class="text-right text-warning">{{ item|get_item_price:regime.code }}€</div> {% endif %}#}
                         {#{% if regime %} <div class="text-right text-warning">{% get_item_price item fi.band regime.code %}</div> {% endif %}#}

@@ -11,7 +11,8 @@
         <div class="info"> {{item.guest.name}} {{item.guest.surname}}<br/>{{item.guest.mobile}}<br/>{{item.guest.email}}</div>
         <div class="room">{{ item.guest.room}}</div>
         <div class="date">{{ item.date|timezone:"Atlantic/Canary"|date:'d/m/Y H:i:s'}}</div>
-        <div class="payment">{% padword_translate item.payment_type.name %}{% if item.amount %}: {{ item.amount|floatformat:2 }} &euro; {% endif %}</div>
+        <div class="payment">{% padword_translate item.payment_type.name %}
+            {% if item.amount %}: {{ item.amount|floatformat:2 }} &euro; {% endif %}</div>
         <div class="status" >{% padword_translate item.get_status.status.name %} </div>
     </div>
     <div class="card-footer drag">

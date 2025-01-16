@@ -1,0 +1,35 @@
+{% load i18n padword_tags %}
+
+
+<div class="card mt-2">
+    <div class="card-header toggle-btn" data-target="body-cars" data-id-change="icon-extra"
+        data-text='<i class="fas fa-plus"></i>' data-text-alt='<i class="fas fa-minus"></i>'>
+        <div class="row w-100">
+            <div class="col-6 text-right" id="icon-extra"><i class="fas fa-plus"></i></div>
+            <div class="col-6 text-left"><strong>{% trans "Camera" %}</strong></div>
+        </div>
+    </div>
+    <div class="card-body hide" id="body-cars"> 
+        <div class="row justify-center">
+            <div class="col-4">
+                <label class="label">{% trans "Code" %}:</label>
+                <input type="text" class="form-control autosave input" id="code" name="code" value="{{user_cars.code}}" 
+                    title="{{user_cars.code}}" data-model-name="connector.projectcaruser" data-obj-id="{{user_cars.id}}" 
+                    data-url="{% url "autosave_field" %}" data-target="div-notification"/> <span id="code__msg"></span>	
+            </div>
+            <div class="col-4">
+                <label class="label">{% trans "List" %}:</label>
+                <input type="text" class="form-control autosave input" id="description" name="description" 
+                    value="{{user_cars.description}}" data-model-name="connector.projectcaruser" data-obj-id="{{user_cars.id}}" 
+                    data-url="{% url "autosave_field" %}" data-target="div-notification"/> <span id="description__msg"></span>	
+            </div>
+            <div class="col-4">
+                <label class="label">{% trans "FTP" %}:</label>
+                <input type="text" class="form-control autosave input" id="ftp" name="ftp" value="{{user_cars.ftp}}" 
+                    data-model-name="connector.projectcaruser" data-obj-id="{{user_cars.id}}" 
+                    data-url="{% url "autosave_field" %}" data-target="div-notification"/> <span id="ftp__msg"></span>	
+            </div>
+        </div>		
+    </div>		
+</div>		
+

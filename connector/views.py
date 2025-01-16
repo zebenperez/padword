@@ -14,12 +14,13 @@ from padword.email_lib import send_email
 from padword.decorators import group_required
 from contents.models import ItemInCat
 from web.models import Project
-from .models import ProjectAvantioUser, ProjectAvaibookUser, ProjectWinhotelUser
+from .models import ProjectAvantioUser, ProjectAvaibookUser, ProjectWinhotelUser, ProjectMewsUser
 from .avantio_lib import get_booking_list, get_booking_notif, send_link
 from .avaibook_lib import get_accommodation_list, manage_booking_from_webhook, get_booking_list as av_get_booking_list, WEBHOOK_TOKEN
 from .winhotel_lib import get_booking_list as wh_get_booking_list, import_item_prices as wh_import_item_prices
 from .winhotel_lib import get_booking_new_list as wh_get_booking_new_list, get_booking_day_list as wh_get_booking_day_list
 from .winhotel_lib import get_booking_range_list as wh_get_booking_range_list
+from .mews_lib import get_booking_list as mw_get_booking_list, cancel_booking_list as mw_cancel_booking_list
 
 
 import json, os, csv, re
@@ -195,6 +196,16 @@ def winhotel_import_items(request, project_uuid):
         updated, not_updated = wh_import_item_prices(file, project_uuid, pau.update_all_prices)
     return render(request, 'winhotel/items-import.html', {'project_uuid': project_uuid, 'updated': updated, 'not_updated': not_updated})
 
+@group_required("admins")
+def winhotel_log(request):
+    f = open(os.path.join(settings.BASE_DIR, "winhotel.log"), "r", encoding='utf-8')
+    text = f.read()
+    try:
+        log_list = [f for f in os.listdir(settings.LOGPATH) if re.match(r'.*avantio.*', f)]
+    except:
+        log_list = []
+    return render(request, 'cron-log.html', {'text': text.replace("\n", "<br/>"), 'log_list': log_list})
+
 #    updated = []
 #    not_updated = []
 #    if request.POST:
@@ -217,6 +228,30 @@ def winhotel_import_items(request, project_uuid):
 #            else:
 #                not_updated.append(dic_line)
 #    return render(request, 'winhotel/items-import.html', {'project_uuid': project_uuid, 'updated': updated, 'not_updated': not_updated})
+
+'''
+    Mews
+'''
+@group_required("admins", "projects")
+def mews_get_booking_list(request, project_uuid):
+    try:
+        pmu = get_or_none(ProjectMewsUser, project_uuid, "project_uuid")
+        booking_list = mw_get_booking_list(pmu)
+        return render(request, 'mews/booking-list.html', {'booking_list': booking_list})
+    except Exception as e:
+        print(e)
+        return render(request, 'error_exception.html', {'exc':show_exc(e)})
+
+@group_required("admins", "projects")
+def mews_cancel_booking_list(request, project_uuid):
+    try:
+        pmu = get_or_none(ProjectMewsUser, project_uuid, "project_uuid")
+        booking_list = mw_cancel_booking_list(pmu)
+        return render(request, 'mews/booking-list.html', {'booking_list': booking_list})
+    except Exception as e:
+        print(e)
+        return render(request, 'error_exception.html', {'exc':show_exc(e)})
+
 
 '''
     Cron Logs

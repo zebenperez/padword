@@ -1,0 +1,57 @@
+{% load i18n padword_tags %}
+
+
+<div class="card mt-2">
+    <div class="card-header toggle-btn" data-target="body-mews" data-id-change="icon-extra-mews"
+        data-text='<i class="fas fa-plus"></i>' data-text-alt='<i class="fas fa-minus"></i>'>
+        <div class="row w-100">
+            <div class="col-6 text-right" id="icon-extra-mews"><i class="fas fa-plus"></i></div>
+            <div class="col-6 text-left"><strong>{% trans "Mews" %}</strong></div>
+        </div>
+    </div>
+    <div class="card-body hide" id="body-mews"> 
+        <div id="mews-notif"></div>
+        <div class="row">
+            <div class="col-3 offset-9">
+                <div class="form-check form-switch">
+                    <input class="form-check-input toggleCron" type="checkbox" id="activeCronMews" data-class-name="mews-cron" 
+                        data-fields="mews-hour" {% if user_mews.hour > 0 %} checked {% endif %}>
+                    <label class="form-check-label" for="activeCronMews">Activar planificador</label>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-6">
+                <label class="label">{% trans "Client Token" %}:</label>
+                <input type="text" class="form-control autosave input" id="client_token" name="client_token" 
+                    value="{{user_mews.client_token}}" data-model-name="connector.projectmewsuser" data-obj-id="{{user_mews.id}}" 
+                    data-url="{% url "autosave_field" %}" data-target="mews-notif"/> <span id="client_token__msg"></span>	
+            </div>
+            <div class="col-6">
+                <label class="label">{% trans "Access Token" %}:</label>
+                <input type="text" class="form-control autosave input" id="access_token" name="access_token" 
+                    value="{{user_mews.access_token}}" data-model-name="connector.projectmewsuser" data-obj-id="{{user_mews.id}}" 
+                    data-url="{% url "autosave_field" %}" data-target="mews-notif"/> <span id="access_token__msg"></span>	
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-6">
+                <label class="label">{% trans "Hora a la que se realiza la importación" %}
+                    <br/>{% trans "(P.E.: si el valor es '13' se importaría a las 13 horas)" %}:</label>
+                <input type="text" class="form-control input ark_change mews-cron mews-hour" id="hour" name="hour" 
+                    value="{{user_mews.hour}}" title="{{user_mews.hour}}" data-url="{% url "project-set-mews-schedule" %}" 
+                    data-target="mews-notif" data-obj_id="{{user_mews.id}}" data-field="hour"/> <span id="hour__msg"></span>	
+            </div>
+            <div class="col-6">
+                <label class="label">{% trans "Minutos a los que se realiza la importación" %}
+                    <br/> {% trans "(P.E.: si el valor es '30' se importaría a la hora indicada en el minuto 30)" %}:</label>
+                <input type="text" class="form-control input ark_change mews-cron" id="minute" name="minute" 
+                    value="{{user_mews.minute}}" title="{{user_mews.minute}}" data-url="{% url "project-set-mews-schedule" %}" 
+                    data-target="mews-notif" data-obj_id="{{user_mews.id}}" data-field="minute"/> 
+                <span id="minute__msg"></span>	
+            </div>
+        </div>		
+    </div>		
+</div>		
+<script> checkCronEnable("{{user_mews.hour}}", "mews-cron"); </script>
+

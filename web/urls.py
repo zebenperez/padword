@@ -56,6 +56,7 @@ urlpatterns = [
     path('projects/set-avantio-schedule/', views.project_set_avantio_schedule, name='project-set-avantio-schedule'),
     path('projects/set-winhotel-schedule/', views.project_set_winhotel_schedule, name='project-set-winhotel-schedule'),
     path('projects/set-lock-schedule/', views.project_set_lock_schedule, name='project-set-lock-schedule'),
+    path('projects/set-mews-schedule/', views.project_set_mews_schedule, name='project-set-mews-schedule'),
     path('projects/add-logo/', views.project_add_logo, name='project-add-logo'),
     path('projects/remove-logo/', views.project_remove_logo, name='project-remove-logo'),
     #--------------------- Channels --------------------
@@ -110,6 +111,7 @@ urlpatterns = [
     path('locks/get-all-records/by-project/', lock_views.lock_get_all_records_by_project, name='lock-get-all-records-by-project'),
     path('locks/set-action/by-project/', lock_views.lock_set_action_by_project, name='lock-set-action-by-project'),
     path('locks/update-info/<slug:code>/', lock_views.locks_update_info, name='locks-update-info'),
+    path('locks/open/', lock_views.locks_open, name='locks-open'),
 
     #--------------------- LocksUsers --------------------
     path('locks-users/', lock_user_views.locks_users, name='locks-users'),

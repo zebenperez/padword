@@ -9,14 +9,14 @@
                 <div class="col-6 btn-sky pt-2 pb-2 text-left">{% padword_translate fi.form.get_category.name %}</div> 
                <div class="col-3 btn-sky pt-2 pb-2 text-right">
                     <span id="info-shopping"><span class="art-number">subtotal &nbsp;&nbsp;&nbsp;</span> 
-                    {{fi.get_total|stringformat:".2f"}} &euro; </span></div>
+                    {{fi.get_total|stringformat:".2f"}} {{fi.currency}}{#&euro;#} </span></div>
                 <div class="col-3 btn-sky pt-2 pb-2 text-right">
                     <span id="info-shopping"><span class="art-number">total &nbsp;&nbsp;&nbsp;</span> 
                         {#Compatibilidad tickets viejos higos beach#}
                         {% if fi.form.project.uuid == "d7b3cb5d-a7eb-793f-6110-8f623c93c74a" and fi.id <= 2401 %}
-                            {{fi.get_total|stringformat:".2f"}} &euro; 
+                            {{fi.get_total|stringformat:".2f"}} {{fi.currency}}{#&euro;#} 
                         {% else %}
-                            {{fi.get_total_total|stringformat:".2f"}} &euro; 
+                            {{fi.get_total_total|stringformat:".2f"}} {{fi.currency}}{#&euro;#}
                         {% endif %}
                     </span></div>
 	        </div>

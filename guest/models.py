@@ -107,6 +107,19 @@ class Guest(models.Model):
         key_code = self.keycodes.all().first() 
         return key_code.code if key_code != None else ""
 
+    @property
+    def pax(self):
+        if self.adults == 0:
+            return 1 + self.children + self.babies
+        return self.adults + self.children + self.babies
+
+    @property
+    def currency(self):
+        try:
+            return self.project.currency
+        except Exception as e:
+            return "€"
+
     def get_code(self):
         if self.email != None and self.email != "" and "@" in self.email:
             return self.email
@@ -811,6 +824,18 @@ class GuestLockLog(models.Model):
 class GuestCar(models.Model):
     number = models.CharField(max_length=50, verbose_name='Number', default="")
     guest = models.ForeignKey(Guest, on_delete=models.CASCADE, verbose_name=_("Guest"), related_name="cars")
+
+    @property
+    def guest_name(self):
+        return "{} {}".format(self.guest.name, self.guest.surname) if self.guest != None else ""
+
+    @property
+    def date_in(self):
+        return self.guest.check_in if self.guest != None else ""
+
+    @property
+    def date_out(self):
+        return self.guest.check_out if self.guest != None else ""
 
     class Meta:
         verbose_name = _('Guest Car')

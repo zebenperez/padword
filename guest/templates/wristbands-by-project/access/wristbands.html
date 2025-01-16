@@ -6,21 +6,10 @@
 {% block central_content %}
 
     <div class="toolbar-search p-2">
-        <form class="form" method="GET" action="{% url "wristbands-access-search" %}" id="form-search">
+        <form class="form" method="GET" action="{% url "wristbands-access-search2" %}" id="form-search">
             {%csrf_token%}
             <div class="row m-0">
-                <div class="col-3 p-1"> 
-                    <div class="input-rounded-pill bg-white" style="display:flex; align-items: center;">
-                        <select class="form-control" id="project" name="project">
-                            <option value="">{% trans "-- Select project --" %}</option>
-                            {% for item in project_list %}
-                                <option value="{{item.uuid}}" {%if request.session.s_access_project == item.uuid%}selected{%endif%}>
-                                    {{item.name}}</option>
-                            {% endfor %}
-                        </select>
-                    </div>
-                </div>
-                <div class="col-3 p-1"> 
+                <div class="col-6 p-1"> 
                     <div class="input-rounded-pill bg-white" style="display:flex; align-items: center;">
                         <div class="mx-2"> <i class="fas fa-search"></i></div>
                         <div><input type="text" class="form-control form-control-dark pill" name="band" id="band" 

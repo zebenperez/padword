@@ -64,6 +64,8 @@ urlpatterns = [
 
     path('wristbands-access/', wristband_views.wristbands_access, name='wristbands-access'),
     path('wristbands-access/search/', wristband_views.wristbands_access_search, name='wristbands-access-search'),
+    path('wristbands-access2/', wristband_views.wristbands_access2, name='wristbands-access2'),
+    path('wristbands-access2/search/', wristband_views.wristbands_access_search2, name='wristbands-access-search2'),
     path('wristbands-access/index/<slug:project_uuid>/<slug:point_uuid>/', wristband_views.wristbands_access_index, name='wristbands-access-index'),
     path('wristbands-access/send/', wristband_views.wristbands_access_send, name='wristbands-access-send'),
     path('wristbands-access/export-csv/', wristband_views.wristbands_access_export_csv, name='wristbands-access-export-csv'),
@@ -132,5 +134,6 @@ urlpatterns = [
     path('guests/cars', views.guest_cars, name='guest-cars'),
     path('guests/car/add', views.guest_car_add, name='guest-car-add'),
     path('guests/car/remove', views.guest_car_remove, name='guest-car-remove'),
+    path('guests/car/list/<slug:project_uuid>/', views.guest_car_list, name='guest-car-list'),
 ]
 

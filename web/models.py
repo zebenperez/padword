@@ -7,7 +7,7 @@ from padword.commons import show_exc, get_int, new_ui_slug, date_to_utc, date_to
 from .lock_lib import ShLock
 from sensibo.sensibo_lib import ShSensibo
 from sensibo.models import ProjectSensiboUser
-from connector.models import ProjectAvantioUser, ProjectAvaibookUser, ProjectWinhotelUser
+from connector.models import ProjectAvantioUser, ProjectAvaibookUser, ProjectWinhotelUser, ProjectMewsUser
 
 import datetime, pytz
 import requests
@@ -48,6 +48,7 @@ class Project(models.Model):
     active = models.IntegerField(verbose_name='Active', default=1)
     guest_delete = models.IntegerField(verbose_name='Delete guest after', default=90)
     created_at = models.DateTimeField(verbose_name='Created at', default=datetime.datetime.now)
+    expiration = models.DateTimeField(verbose_name='Expiration', default=datetime.datetime.now)
 
     logo = models.ImageField(upload_to=upload_logo, blank=True, verbose_name="Logo", help_text="Select file to upload")
     company = models.ForeignKey(Company, verbose_name = 'Company', on_delete=models.SET_NULL, null=True)
@@ -110,6 +111,14 @@ class Project(models.Model):
     @property
     def winhotel_user(self):
         return ProjectWinhotelUser.objects.filter(project_uuid=self.uuid).first()
+
+    @property
+    def mews_user(self):
+        print(ProjectMewsUser.objects.filter(project_uuid=self.uuid).first())
+        print(ProjectMewsUser.objects.all())
+        for p in ProjectMewsUser.objects.all():
+            print(p)
+        return ProjectMewsUser.objects.filter(project_uuid=self.uuid).first()
 
     @property
     def invitations(self):
@@ -319,6 +328,9 @@ class ProjectUser(models.Model):
     menus_promo = models.CharField(max_length = 1000, verbose_name= _('Menus Promo'), default='', blank=True)
     image = models.ImageField(upload_to=upload_image, blank=True, verbose_name="Imagen de perfil", help_text="Select file to upload")
     #menus_mod = models.ManyToManyField(Menu, verbose_name=_("Menus"), blank=True, related_name="menus")
+
+    def __str__(self):
+        return self.username
 
     class Meta:
         verbose_name = _('Project user')
