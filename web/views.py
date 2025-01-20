@@ -219,6 +219,7 @@ def project_details(request, obj_id, current_tab=""):
         regime_list = Regime.objects.all()
         point_of_sale_list = PointOfSale.objects.filter(project_uuid=obj.uuid)
         invitation_list = Invitation.objects.filter(project_uuid=obj.uuid)
+        thirdpart_list = Thirdpart.objects.all()
         guest_type_list = GuestType.objects.filter(project_uuid=obj.uuid)
         access_zones = WristbandAccessZone.objects.filter(project_uuid=obj.uuid)
         #access_list = WristbandAccessPoint.objects.filter(project_uuid=obj.uuid)
@@ -238,6 +239,7 @@ def project_details(request, obj_id, current_tab=""):
             'regime_list': regime_list,
             'point_of_sale_list': point_of_sale_list,
             'invitation_list': invitation_list,
+            'thirdpart_list': thirdpart_list,
             'guest_type_list': guest_type_list,
             'access_zones': access_zones,
             'current_tab': current_tab,
@@ -698,6 +700,27 @@ def project_access_zone_times_remove(request):
     except Exception as e:
         print (show_exc(e))
     return render(request, "web/projects/project-form-access-zone-times-list.html", {'access_times':access_times,})
+
+@group_required("admins")
+def project_thirdpart_add(request):
+    try:
+        project = get_or_none(Project, request.GET["obj_id"])
+        pt = ProjectThirdpart.objects.create(project=project)
+        item_list = Thirdpart.objects.all()
+    except Exception as e:
+        print (show_exc(e))
+    return render(request, "web/projects/project-form-thirdpart-list.html", {'obj':pt.project, 'thirdpart_list':item_list,})
+
+@group_required("admins")
+def project_thirdpart_remove(request):
+    try:
+        obj = get_or_none(ProjectThirdpart, request.GET["obj_id"])
+        project = obj.project
+        obj.delete()
+        item_list = Thirdpart.objects.all()
+    except Exception as e:
+        print (show_exc(e))
+    return render(request, "web/projects/project-form-thirdpart-list.html", {'obj':project, 'thirdpart_list':item_list,})
 
 
 

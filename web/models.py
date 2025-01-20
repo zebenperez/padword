@@ -643,7 +643,6 @@ class Invitation(models.Model):
         except:
             return None
 
-
 class Module(models.Model):
     code = models.CharField(max_length = 255, verbose_name= _('Code'), default='')
     name = models.CharField(max_length = 255, verbose_name= _('Name'), default='')
@@ -652,4 +651,17 @@ class Module(models.Model):
     class Meta:
         verbose_name = _('Module')
 
+class Thirdpart(models.Model):
+    name = models.CharField(max_length = 255, verbose_name= _('Name'), default='')
+    desc = models.TextField(verbose_name= _('Description'), default='')
+
+    class Meta:
+        verbose_name = _('Thirdpart')
+
+class ProjectThirdpart(models.Model):
+    thirdpart = models.ForeignKey(Thirdpart,verbose_name=_('Thirdpart'), on_delete=models.SET_NULL, null=True, related_name="projects")
+    project = models.ForeignKey(Project, verbose_name=_('Project'), on_delete=models.CASCADE, null=True, related_name="thirdparts")
+
+    class Meta:
+        verbose_name = _('Project Thirdpart')
 
