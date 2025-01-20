@@ -20,7 +20,7 @@ from .avaibook_lib import get_accommodation_list, manage_booking_from_webhook, g
 from .winhotel_lib import get_booking_list as wh_get_booking_list, import_item_prices as wh_import_item_prices
 from .winhotel_lib import get_booking_new_list as wh_get_booking_new_list, get_booking_day_list as wh_get_booking_day_list
 from .winhotel_lib import get_booking_range_list as wh_get_booking_range_list
-from .mews_lib import get_booking_list as mw_get_booking_list
+from .mews_lib import get_booking_list as mw_get_booking_list, cancel_booking_list as mw_cancel_booking_list
 
 
 import json, os, csv, re
@@ -237,6 +237,16 @@ def mews_get_booking_list(request, project_uuid):
     try:
         pmu = get_or_none(ProjectMewsUser, project_uuid, "project_uuid")
         booking_list = mw_get_booking_list(pmu)
+        return render(request, 'mews/booking-list.html', {'booking_list': booking_list})
+    except Exception as e:
+        print(e)
+        return render(request, 'error_exception.html', {'exc':show_exc(e)})
+
+@group_required("admins", "projects")
+def mews_cancel_booking_list(request, project_uuid):
+    try:
+        pmu = get_or_none(ProjectMewsUser, project_uuid, "project_uuid")
+        booking_list = mw_cancel_booking_list(pmu)
         return render(request, 'mews/booking-list.html', {'booking_list': booking_list})
     except Exception as e:
         print(e)
