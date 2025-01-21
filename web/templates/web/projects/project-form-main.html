@@ -4,8 +4,8 @@
 <div class="row justify-center">
     {# -------------------- MAIN -----------------------#}
     <div class="row">
-        <div class="col-4 grey"> {% trans "Logo" %}: <div id="div-image">{% include "web/projects/project-img.html" %}</div> </div>
-	    <div class="col-8">
+        <div class="col-3 grey"> {% trans "Logo" %}: <div id="div-image">{% include "web/projects/project-img.html" %}</div> </div>
+	    <div class="col-9">
             {# -------------------- ROW 1 -----------------------#}
             <div class="row">
                 <div class="col-6">
@@ -74,7 +74,7 @@
 
             {# -------------------- ROW 3 -----------------------#}
             <div class="row">
-                <div class="col-3">
+                <div class="col-4">
                     {#<label class="label">{% trans "Used Languages (code separated by colons)" %}:</label>#}
                     <label class="label">{% trans "Languages" %}:</label>
                     <input type="input" class="form-control autosave input mb-4" id="used_languates" name="used_languages" 
@@ -88,7 +88,7 @@
                         title="{{obj.prefix}}" data-model-name="web.project" data-obj-id="{{obj.id}}" 
                         data-url="{% url "autosave_field" %}" data-target="div-notification"/> <span id="prefix__msg"></span>
                 </div>
-                <div class="col-3">
+                <div class="col-4">
                     <label class="label">{% trans "Days after checkout to delete guest" %}:</label>
                     <input type="text" class="form-control autosave input mb-4" id="guest_delete" name="guest_delete" 
                         value="{{obj.guest_delete}}" title="{{obj.guest_delete}}" data-model-name="web.project" 

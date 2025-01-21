@@ -134,7 +134,7 @@ def tpv_index(request, project_uuid):
 @group_required("waiters")
 def tpv_set_pos(request):
     try:
-        print("set pos")
+        #print("set pos")
         pos = get_or_none(PointOfSale, request.GET["obj_id"])
         request.session["point_of_sale"] = pos.id
         return redirect(reverse("tpv-mob-index", kwargs = {'project_uuid': pos.project_uuid}))

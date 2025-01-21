@@ -12,6 +12,7 @@
     <li class="nav-item"> <a class="nav-link" data-bs-toggle="tab" href="#inv">{% trans "Invitations Accounts" %}</a></li>
     <li class="nav-item"> <a class="nav-link" data-bs-toggle="tab" href="#gtype">{% trans "Guest Types" %}</a></li>
     <li class="nav-item"> <a class="nav-link" data-bs-toggle="tab" href="#access">{% trans "Access Zones" %}</a></li>
+    <li class="nav-item"> <a class="nav-link" data-bs-toggle="tab" href="#thirdpart">{% trans "Thirdpart" %}</a></li>
 </ul>
 <div class="tab-content internal m-2 p-2">
     {# -------------------------- REGIME ------------------------#}
@@ -51,5 +52,10 @@
     {# -------------------------- ACCESS ZONES ------------------------#}
     <div class="tab-pane container {%if current_tab == "access"%}active{%endif%}" id="access"> <div id="div-access">
         {% include "web/projects/project-form-access-zones.html" %}</div> </div> 
+
+    {# -------------------------- THIRDPART ------------------------#}
+    <div class="tab-pane container {%if current_tab == "inv"%}active{%endif%}" id="thirdpart"> <div id="div-thirdpart">
+        {% include "web/projects/project-form-thirdpart.html" %}</div> </div> 
+
 </div>
 

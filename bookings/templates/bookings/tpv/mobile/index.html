@@ -18,7 +18,8 @@
             {% endfor %}
         </div>
     {% elif tables|length > 0 or cash != None %}
-        <div class="row d-flex justify-content-start m-0"> {% include "bookings/tpv/tpv-tables.html" with index="tpv-mob-index"%} </div>
+        <div class="row d-flex justify-content-start m-0"> {%include "bookings/tpv/mobile/tpv-tables.html" %} </div>
+        {#<div class="row d-flex justify-content-start m-0"> {%include "bookings/tpv/tpv-tables.html" with index="tpv-mob-index"%} </div>#}
     {% else %}
         {% include "bookings/tpv/mobile/index-mobile.html" %}
     {% endif %}
