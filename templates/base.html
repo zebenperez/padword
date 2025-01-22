@@ -146,12 +146,14 @@
                 <aside id="sidebar" class="bg-light closed">
                     <div id="side_menu"> {% get_main_menu request.user request.path active %} </div>
                     <div class="row contact text-center m-0">
-                         {#<div class="col-12 my-2"><div class="license p-2"><strong>Licencia Activa</strong><br /> <div class="validation pt-2 pb-2 mt-2">Válida hasta el 30 de enero de 2025</div></div></div>#}
+                        <div class="col-12 my-2"><div class="license p-2"><strong>Licencia Activa</strong><br /> <div class="validation pt-2 pb-2 mt-2">Válida hasta el 15 de febrero de 2025</div></div></div>
+                        {%comment%}
                         <div class="col-12 my-2"><div class="license p-2">
                             <strong>Licencia Activa</strong><br /> 
                             <div class="validation pt-2 pb-2 mt-2">
                                 Válida hasta el {{ request.user|project_expiration }} {#30 de enero de 2025#}</div>
                         </div></div>
+                        {%endcomment%}
                         <div class="col-lg-3 col-3"><a href="mailto:info@padword.es" title="inf@padword.es">
                             <img src="/static/img/email.png" width="20px"></a></div>
                         <div class="col-lg-3 col-3"><a href="https://www.padword.com/consultanos" title="Consúltanos" target="_blank">
