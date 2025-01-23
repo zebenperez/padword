@@ -114,7 +114,7 @@ def guest_access_auto(request, guest_uuid):
         err = show_exc(e)
     return render(request, 'error_exception.html', {'exc':err})
 
- def guest_access_ext(request, ext_id):
+def guest_access_ext(request, ext_id):
     try:
         guest = get_or_none(Guest, ext_id, "ext_id")
         if guest == None:
