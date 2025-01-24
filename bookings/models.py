@@ -440,6 +440,14 @@ class FormInstance(models.Model):
         return Form.objects.filter(uuid = self.form_uuid).first()
 
     @property
+    def project(self):
+        form = Form.objects.filter(uuid = self.form_uuid).first()
+        if form != None:
+            cat = Category.objects.filter(uuid = form.category).first()
+            return cat.project if cat != None else None
+        return None
+
+    @property
     def pos(self):
         return PointOfSale.objects.filter(uuid = self.pos_uuid).first()
 
