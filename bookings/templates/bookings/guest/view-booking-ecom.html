@@ -11,7 +11,9 @@
 	    </div>
         <div class="row booking-data-navbar"> 
             <div class="col-lg-3 col-12 btn-light pt-2 pb-2 text-left"><span class="data-mb"><i class="fas fa-portrait"></i>&nbsp; {{fi.guest.name}} {{fi.guest.surname}} </span> </div>
-            <div class="col-lg-5 col-12 btn-light pt-2 pb-2 text-left"><span class="data-mb"><i class="fas fa-clock"></i>&nbsp; {{fi.date}}</span></div>
+            <div class="col-lg-5 col-12 btn-light pt-2 pb-2 text-left"> <span class="data-mb"><i class="fas fa-clock"></i>
+                &nbsp; {{ fi.date|timezone:fi.project.time_zone_name|date:'d/m/Y H:i:s' }}</span></div>
+                {#<span class="data-mb"><i class="fas fa-clock"></i>&nbsp; {{fi.date}}</span></div>#}
 		    <div class="col-lg-2 col-6 btn-light pt-2 pb-2 text-left" style="padding-right:0 !important;"><span class="data-mb"><i class="fas fa-phone-square"></i>&nbsp; <a href="tel:{{fi.guest.mobile}}">{{fi.guest.mobile}}</span></a></div>
 		    <div class="col-lg-2 col-6 btn-light pt-2 pb-2 text-right"><span class="data-mb"><i class="fas fa-bed"></i>&nbsp; {{fi.guest.room}}</span></div>
 	    </div>
