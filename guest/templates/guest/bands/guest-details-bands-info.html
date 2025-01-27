@@ -40,6 +40,7 @@
                                         {% for balance in item.balances.all %}
                                             <tr class="small guest-row" id="row_{{item.id}}"> 
                                                 <td> {{ balance.date }} </td>
+                                                <td> {{ balance.date|timezone:obj.project.time_zone_name|date:'d/m/Y H:i:s' }} </td>
                                                 <td> {{ balance.desc|safe }} </td>
                                                 <td> {{ balance.amount }} </td>
                                                 <td class="text-end"> </td>
