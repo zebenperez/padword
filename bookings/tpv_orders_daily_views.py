@@ -8,6 +8,7 @@ from web.models import Project
 from contents.models import PointOfSale, PaymentType
 
 from .models import Form, FormInstance, FormInstanceInfo
+from .tpv_winhotel_lib import cash_daily_summary  
 
 import csv, datetime, logging, os, re
 logger = logging.getLogger(__name__)
