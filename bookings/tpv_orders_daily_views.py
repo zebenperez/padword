@@ -69,38 +69,7 @@ def orders_daily_summary(request):
         obj = get_or_none(PointOfSale, request.GET["obj_id"]) 
         date_str = request.GET["date"]
         cash_daily_summary(obj, date_str)
-
-#        s_date = datetime.datetime.strptime("{} 00:00".format(date_str), "%Y-%m-%d %H:%M")
-#        e_date = datetime.datetime.strptime("{} 23:59:59".format(date_str), "%Y-%m-%d %H:%M:%S")
-#
-#        #response = HttpResponse(
-#        #    content_type='text/csv',
-#        #    headers={'Content-Disposition': 'attachment; filename="{}_{}.csv"'.format(date_str, obj.name)},
-#        #)
-#        #f = open("{}{}_{}.csv".format(FILES_DIR, date_str, obj.regular_name), "w", encoding='utf-8')
-#
-#        f = open("{}{}_{}.csv".format(FILES_DIR, e_date.strftime("%Y%m%d_%H%M"), obj.ext_code), "w", encoding='utf-8')
-#
-#        writer = csv.writer(f)
-#        writer.writerow(['_TPV', '_TPVNom', '_Rate', 'ProductUId', '_Description', 'Date', 'Tiket_UID', '_Price', '_Units', '_Discount', 'TotalPrice', '_Room', '_ClientId'])
-#
-#        fi_list = FormInstance.objects.filter(pos_uuid=obj.uuid, date__range=(s_date, e_date))
-#        for fi in fi_list:
-#            info = fi.info.first()
-#            room = info.client_room if info != None else ""
-#            client_id = info.client_id if info != None else ""
-#            for item in fi.get_items:
-#                #code = obj.name[:4].upper()
-#                name = obj.name
-#                desc = translate2("es", item.name).replace('"', '')
-#                date = fi.date.strftime("%Y%m%d%H%M")
-#                discount = (item.low_price/item.price)*100 if item.low_price < item.price else 0
-#                discount = "{:.2f}".format(discount)
-#                total_price = item.low_price if item.low_price < item.price else item.price
-#                writer.writerow([obj.ext_code, name, "", item.item.ext_id, desc, date, fi.id, item.price, 1, discount, total_price, room, client_id])
-#
         file_list = getFiles(obj.project_uuid, obj.ext_code)
-        #file_list = [f for f in os.listdir("{}{}/".format(FILES_DIR, obj.project_uuid)) if re.match(r'.*{}*'.format(obj.ext_code), f)]
         return render(request, "bookings/tpv-orders-daily/index-content.html", {'pos': obj, 'file_list': file_list})
     except Exception as e:
         print(e)
