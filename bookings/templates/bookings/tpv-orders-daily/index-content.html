@@ -33,9 +33,10 @@
                     <td><a href="/media/tpv/orders-daily/{{project_uuid}}/{{item}}" target="_blank">{{item}}</a></td>
                     <td class="text-right">
                         {% if pos %}
-                        <a class="btn btn-sm ark" data-url="{% url "orders-daily-remove" %}" data-target="file-list" data-name="{{item}}" 
-                            data-obj_id="{{pos.id}}" title="{%trans "Remove"%}" data-confirm="{% trans "Are you sure to remove this element?" %}"> 
-                            <i class="fas fa-trash"></i></a>
+                            <a class="btn btn-sm ark" data-url="{% url "orders-daily-remove" %}" data-target="file-list" 
+                                data-name="{{item}}" data-obj_id="{{pos.id}}" title="{%trans "Remove"%}" 
+                                data-confirm="{% trans "Are you sure to remove this element?" %}"> 
+                                <i class="fas fa-trash"></i></a>
                         {% endif %}
                     </td>
                 </tr>

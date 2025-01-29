@@ -58,7 +58,8 @@ def orders_daily_search(request):
 
         file_list = getFiles(project.uuid, pos.ext_code) if pos != None else getFiles(project.uuid)
         #file_list = [f for f in os.listdir("{}{}/".format(FILES_DIR, project.uuid)) if re.match(r'.*{}*'.format(pos.ext_code), f)]
-        return render(request, "bookings/tpv-orders-daily/index-content.html", {'pos': pos, 'file_list': file_list})
+        context = {'pos': pos, 'file_list': file_list, "project_uuid": project.uuid}
+        return render(request, "bookings/tpv-orders-daily/index-content.html", context)
     except Exception as e:
         print (show_exc(e))
         return render(request, 'error_exception.html', {'exc':show_exc(e)})
@@ -70,7 +71,8 @@ def orders_daily_summary(request):
         date_str = request.GET["date"]
         cash_daily_summary(obj, date_str)
         file_list = getFiles(obj.project_uuid, obj.ext_code)
-        return render(request, "bookings/tpv-orders-daily/index-content.html", {'pos': obj, 'file_list': file_list})
+        context = {'pos': obj, 'file_list': file_list, "project_uuid": obj.project.uuid}
+        return render(request, "bookings/tpv-orders-daily/index-content.html", context)
     except Exception as e:
         print(e)
         return render(request, 'error_exception.html', {'msg': str(e)})
@@ -83,7 +85,8 @@ def orders_daily_remove(request):
         os.remove("{}{}/{}".format(FILES_DIR, obj.project_uuid, name))
         file_list = getFiles(obj.project_uuid, obj.ext_code)
         #file_list = [f for f in os.listdir("{}{}/".format(FILES_DIR, obj.project_uuid)) if re.match(r'.*{}*'.format(obj.ext_code), f)]
-        return render(request, "bookings/tpv-orders-daily/index-content.html", {'pos': obj, 'file_list': file_list})
+        context = {'pos': obj, 'file_list': file_list, "project_uuid": obj.project.uuid}
+        return render(request, "bookings/tpv-orders-daily/index-content.html", context)
     except Exception as e:
         print(e)
         return render(request, 'error_exception.html', {'msg': str(e)})
