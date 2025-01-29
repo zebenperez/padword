@@ -11,8 +11,9 @@ import datetime, csv, os, ftplib
 
 #FILES_DIR = os.path.join(settings.BASE_DIR, "media/tpv/orders-daily/")
 
-def get_date_z():
-    return datetime.datetime.strptime("{} 23:59:59".format(datetime.datetime.now().strftime("%Y-%m-%d")), "%Y-%m-%d %H:%M:%S")
+def get_date_z(local_date):
+    return datetime.datetime.strptime("{} 23:59:59".format(local_date.strftime("%Y-%m-%d")), "%Y-%m-%d %H:%M:%S")
+    #return datetime.datetime.strptime("{} 23:59:59".format(datetime.datetime.now().strftime("%Y-%m-%d")), "%Y-%m-%d %H:%M:%S")
 
 def get_number_z(pos_uuid):
     return get_int(Cash.objects.filter(pos_uuid=pos_uuid, zeta=True).aggregate(Max("number"))["number__max"]) + 1
@@ -28,7 +29,8 @@ def cash_exists(pos):
 
 #def get_cash(pos, date, username=""):
 def get_cash_zeta(pos, username=""):
-    cash, created = Cash.objects.get_or_create(project_uuid=pos.project.uuid, pos_uuid=pos.uuid, date=get_date_z())
+    local_date = pos.project.local_date(datetime.datetime.now())
+    cash, created = Cash.objects.get_or_create(project_uuid=pos.project.uuid, pos_uuid=pos.uuid, date=get_date_z(local_date))
     if created:
         cash.zeta = True
         cash.number = get_number_z(pos.uuid)
