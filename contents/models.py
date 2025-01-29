@@ -510,12 +510,14 @@ class CategoryUser(models.Model):
         return user
 
 class PointOfSale(models.Model):
+    order = models.IntegerField(verbose_name=_('Order'), default=0)
     uuid = models.CharField(max_length = 255, verbose_name= _('UUID'), default="")
     name = models.CharField(verbose_name="Nombre", max_length=150, blank=True, null=True, default="")
     code1 = models.CharField(verbose_name="Código 1", max_length=10, blank=True, null=True, default="")
     code2 = models.CharField(verbose_name="Código 2", max_length=10, blank=True, null=True, default="")
     code3 = models.CharField(verbose_name="Código 3", max_length=10, blank=True, null=True, default="")
     ext_code = models.CharField(verbose_name="Código externo", max_length=10, blank=True, null=True, default="")
+    suffix = models.CharField(verbose_name="Sufijo fichero", max_length=50, blank=True, null=True, default="")
     image = models.ImageField(upload_to=upload_pos_image, verbose_name=_("Image"), blank=True, null=True)
     project_uuid = models.CharField(max_length=36, verbose_name='UUID Project', default="")
 
@@ -536,6 +538,7 @@ class PointOfSale(models.Model):
     class Meta:
         verbose_name = _("Point of sale")
         verbose_name_plural = _("Points of sales")
+        ordering = ['order']
 
 class PointOfSaleCategory(models.Model):
     category = models.ForeignKey(Category, on_delete=models.CASCADE, verbose_name=_("Category"), related_name="point_of_sales")

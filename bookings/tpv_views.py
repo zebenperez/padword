@@ -93,7 +93,7 @@ def tpv_index(request, project_uuid):
 
         if "point_of_sale" not in request.session or request.session["point_of_sale"] == "":
             project = get_or_none(Project, project_uuid, "uuid")
-            point_of_sales = PointOfSale.objects.filter(project_uuid=project.uuid)
+            point_of_sales = PointOfSale.objects.filter(project_uuid=project.uuid).order_by("order")
             return render(request, "bookings/tpv/index.html", {'point_of_sales': point_of_sales, 'project_uuid':project.uuid})
         elif "table" not in request.session or request.session["table"] == "":
             pos = get_or_none(PointOfSale, request.session["point_of_sale"])

@@ -54,7 +54,7 @@ def cash_daily_summary(obj, date):
     e_date = datetime.datetime.strptime("{} 23:59:59".format(date), "%Y-%m-%d %H:%M:%S")
 
     path = getPath(obj.project_uuid)
-    f = open("{}{}_{}07.csv".format(path, e_date.strftime("%Y%m%d_%H%M"), obj.ext_code), "w", encoding='utf-8')
+    f = open("{}{}_{}{}.csv".format(path, e_date.strftime("%Y%m%d_%H%M"), obj.ext_code, obj.suffix), "w", encoding='utf-8')
     #f = open("{}{}/{}_{}07.csv".format(FILES_DIR, obj.project_uuid, e_date.strftime("%Y%m%d_%H%M"), obj.ext_code), "w", encoding='utf-8')
 
     writer = csv.writer(f)
@@ -94,7 +94,7 @@ def cash_daily_summary(obj, date):
 def cash_send_daily_summary(project_uuid, obj, date):
     try:
         e_date = datetime.datetime.strptime("{} 23:59:59".format(date), "%Y-%m-%d %H:%M:%S")
-        f_name = "{}_{}07.csv".format(e_date.strftime("%Y%m%d_%H%M"), obj.ext_code)
+        f_name = "{}_{}{}.csv".format(e_date.strftime("%Y%m%d_%H%M"), obj.ext_code, obj.suffix)
         path = getPath(obj.project_uuid)
         f = open("{}{}".format(path, f_name), "rb")
         #f = open("{}{}/{}".format(FILES_DIR, obj.project_uuid, f_name), "rb")
