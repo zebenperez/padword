@@ -1,10 +1,10 @@
-{% load i18n padword_tags %}
+{% load i18n padword_tags tz %}
 
 
 <div class="row">
     <div class="col-10 {%if band.balance < 0%}text-danger{%endif%}">{% trans "Balance:" %} {{band.balance|floatformat:2|default:""}} </div>
     <div class="col-2">
-        <button class="btn btn-primary btn-sm ark" data-url="{% url "guest-band-balance-form" %}" data-target="balance-form-{{band.id}}" 
+        <button class="btn btn-primary btn-sm ark" data-url="{%url "guest-band-balance-form"%}" data-target="balance-form-{{band.id}}" 
             data-obj_id="{{band.id}}"> <i class="fas fa-plus"></i> {% trans "Añadir Saldo" %}</button>
     </div>
 </div>
@@ -23,7 +23,8 @@
         <tbody id="table-list-guests"> 
             {% for balance in band.balances.all %}
                 <tr class="small guest-row" id="row_{{item.id}}"> 
-                    <td> {{ balance.date }} </td>
+                    {#<td> {{ balance.date }} </td>#}
+                    <td> {{ balance.date|timezone:band.guest.project.time_zone_name|date:'d/m/Y H:i:s' }} </td>
                     <td> {{ balance.desc|safe }} </td>
                     <td> {{ balance.amount }} </td>
                     <td class="text-end">
