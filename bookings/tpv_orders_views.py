@@ -3,7 +3,7 @@ from django.shortcuts import render, redirect
 from django.utils.translation import ugettext_lazy as _ 
 
 from padword.decorators import group_required
-from padword.commons import show_exc, get_or_none, get_param, get_float, get_bool, new_ui_slug, get_items_per_page
+from padword.commons import show_exc, get_or_none, get_param, get_float, get_bool, new_ui_slug, get_items_per_page, get_int
 from web.models import Project
 from contents.models import Category
 from guest.models import Guest
@@ -46,9 +46,20 @@ def search(project_uuid, ini_date, end_date, name, status, s_id=""):
         kwargs["date__lte"] = datetime.datetime(int(ed[0]), int(ed[1]), int(ed[2]), 23, 59, 59)
     if name != "":
         #kwargs["guest_uuid__in"] = filter_search_guest(name, [project_uuid])
-        return FormInstance.objects.filter(**kwargs).filter(Q(info__client__icontains=name) | Q(info__client_email__icontains=name) | Q(info__client_mobile__icontains=name) | Q(info__client_room__icontains=name))
+        #return FormInstance.objects.filter(**kwargs).filter(Q(info__client__icontains=name) | Q(info__client_email__icontains=name) | Q(info__client_mobile__icontains=name) | Q(info__client_room__icontains=name))
+        fi_list = FormInstance.objects.filter(**kwargs).filter(Q(info__client__icontains=name) | Q(info__client_email__icontains=name) | Q(info__client_mobile__icontains=name) | Q(info__client_room__icontains=name))
+    else:
+        fi_list = FormInstance.objects.filter(**kwargs)
 
-    return FormInstance.objects.filter(**kwargs)
+    if status != "":
+        items = []
+        for fi in fi_list:
+            if fi.get_status != None and fi.get_status.status.id == get_int(status):
+                items.append(fi)
+        return items
+    else:
+        return fi_list
+    #return FormInstance.objects.filter(**kwargs)
     #items = FormInstance.objects.filter(**kwargs)
     #return filter_search_status_project(items, status, project_uuid)
 
@@ -58,7 +69,7 @@ def get_orders_project_context(project):
     ini_date = today + datetime.timedelta(days=-3)
     end_date = today + datetime.timedelta(days=1)
             
-    items = search(project.uuid, ini_date, end_date.strftime("%Y-%m-%d"), "", "")
+    items = search(project.uuid, ini_date.strftime("%Y-%m-%d"), end_date.strftime("%Y-%m-%d"), "", "")
 
     context["project_uuid"] = project.uuid
     context["project_name"] = project.name
