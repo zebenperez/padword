@@ -182,6 +182,9 @@ class MewsResource():
 '''
     FUNCTIONS
 '''
+def get_ext_id(booking):
+    return "{}__{}".format(booking.id, booking.number)
+
 def get_date(date):
     return datetime.strptime("{}".format(date), "%Y-%m-%dT%H:%M:%SZ")
 
@@ -198,10 +201,11 @@ def create_booking(pmu, booking, av):
     room_ex = room_exist(pmu.project_uuid, room)
     err = ""
 
-    if room_ex:
-        guest = Guest.objects.filter(ext_id=booking.id, project_id=pmu.project_uuid, deleted=0).first()
+    if room_ex and "207" in room:
+        ext_id = get_ext_id(booking)
+        guest = Guest.objects.filter(ext_id=ext_id, project_id=pmu.project_uuid, deleted=0).first()
         if guest == None:
-            guest = Guest(UUID = new_ui_slug(Guest, "UUID"), ext_id=booking.id, project_id=pmu.project_uuid)
+            guest = Guest(UUID = new_ui_slug(Guest, "UUID"), ext_id=ext_id, project_id=pmu.project_uuid)
             booking.created = True
         
         if booking.customer != None:
@@ -214,11 +218,12 @@ def create_booking(pmu, booking, av):
         guest.room = room
         guest.save()
 
-#        if booking.created:
-#            #lock_code = guest.mobile[-4:]
-#            lock_code = ''.join([random.choice(string.digits) for i in range(4)])
-#            err = guest.add_all_key_code(lock_code)
-#            av.send_pwa_link(guest.ext_id, lock_code, guest.pwa_link)
+        if booking.created:
+            #lock_code = guest.mobile[-4:]
+            #lock_code = ''.join([random.choice(string.digits) for i in range(4)])
+            lock_code = booking.number
+            err = guest.add_all_key_code(lock_code)
+            #av.send_pwa_link(guest.ext_id, lock_code, guest.pwa_link)
 #
 #        return guest, err
 #        #else:
@@ -227,7 +232,8 @@ def create_booking(pmu, booking, av):
     return None, err
 
 def delete_booking(pwu, booking):
-    guest = Guest.objects.filter(ext_id=booking.id, project_id=pwu.project_uuid, deleted=0).first()
+    ext_id = get_ext_id(booking)
+    guest = Guest.objects.filter(ext_id=ext_id, project_id=pwu.project_uuid, deleted=0).first()
     if guest != None:
         guest.delete()
 

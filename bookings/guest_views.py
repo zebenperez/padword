@@ -144,6 +144,40 @@ def guest_access_ext(request, ext_id):
         err = show_exc(e)
     return render(request, 'error_exception.html', {'exc':err})
  
+def guest_access_extp(request, proj_name, ext_id):
+    try:
+        project = Project.objects.filter(name=proj_name.replace("_", " ")).first()
+        if project == None:
+            return render(request, 'bookings/guest/guest-welcome-error.html', {})
+
+        guest = Guest.objects.filter(project_id=project.uuid, ext_id__endswith="__{}".format(ext_id)).first()
+        if guest == None:
+            return render(request, 'bookings/guest/guest-welcome-error.html', {})
+
+        project = guest.project
+        form = Form.get_main(project)
+        cat = form.get_category
+        if not guest.have_valid_booking():
+            return render(request, 'bookings/guest/guest-welcome-error.html', {'cat': cat})
+
+        user, err = GuestUser.get_or_create_guest_user(guest.UUID, project.uuid, guest.id)
+        if err != "":
+            return render(request, 'error_exception.html', {'exc': err})
+        auth.login(request, user)
+
+        if not check_user(request.user, guest):
+            return render(request, 'bookings/guest/guest-welcome-error.html', {'cat': cat})
+
+        next_url = reverse("pwa-index-cat", kwargs = {'category_uuid':cat.uuid})
+        context = {'project_uuid': project.uuid, 'cat': cat}
+        context["guest"] = guest
+        context["next_url"] = next_url
+        return render(request, 'bookings/guest/guest-welcome.html', context)
+    except Exception as e:
+        print(e)
+        err = show_exc(e)
+    return render(request, 'error_exception.html', {'exc':err})
+ 
 #def guest_access_anonymous(request, category_uuid):
 #    try:
 #        cat = get_or_none(Category, category_uuid, "uuid")
