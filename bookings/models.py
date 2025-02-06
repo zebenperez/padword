@@ -13,6 +13,50 @@ from padword.commons import show_exc, translate2, date_to_utc, date_to_local
 import datetime, threading
 
 
+def ticket_to_json(fi, fi_status):
+    resp = {"tickets": []}
+    details = fi.details
+    pos_name = details.pos if details != None else ""
+    table_name = details.table if details != None else ""
+    guest_name = details.client if details != None else ""
+    lang = details.lang if details != None else ""
+    payment_type = translate2("es", fi.payment_type.name) if fi.payment_type != None else ""
+    date = date_to_local(fi.date, fi.project.time_zone_name)
+    st = translate2("es", fi_status.status.name)
+    fi_json = {
+        'id': fi.id, 
+        #'fecha': fi.date.strftime("%d-%m-%Y"), 
+        #'hora': fi.date.strftime("%H:%M:%S"), 
+        'fecha': date.strftime("%d-%m-%Y"), 
+        'hora': date.strftime("%H:%M:%S"), 
+        'subtotal': "{:.2f}".format(fi.get_total), 
+        'total': "{:.2f}".format(fi.get_total_total), 
+        'punto de venta': pos_name, 
+        'mesa': table_name,
+        'cliente': guest_name,
+        'idioma': lang,
+        'estado': st,
+        'tipo de pago': payment_type,
+        'elementos': []
+    }
+    for item in fi.get_items:
+        #Si el ticket está enviado añade todos los artículos, si no, solo los artículos marcados para enviar
+        if item.status == 1 or fi_status.status.code == "01":
+            item_json = {
+                'nombre_servicio': item.name,
+                'id_servicio': item.id,
+                'cantidad': 1,
+                'precio_servicio': item.price,
+                'precio_servicio_reducido': item.total_price,
+                'subtotal': 0,
+                'familia': item.category,
+                'id_articulo_pms': 0
+            }
+            fi_json["elementos"].append(item_json)
+    if len(fi_json["elementos"]) > 0:
+        resp["tickets"].append(fi_json)
+    return resp
+
 def get_int(val):
     try:
         return int(val)
@@ -243,6 +287,26 @@ class Form(models.Model):
                     }
                     fi_json["elementos"].append(item_json)
                 resp["tickets"].append(fi_json)
+                fi.receive_items()
+        return resp
+
+    def to_tickets2(self, start_date="", end_date=""):
+        if start_date != "":
+            s_date = date_to_utc(datetime.datetime.strptime(start_date, "%Y-%m-%d_%H:%M"), self.project.time_zone_name)
+            if end_date != "":
+                e_date = date_to_utc(datetime.datetime.strptime(end_date, "%Y-%m-%d_%H:%M"), self.project.time_zone_name)
+                fi_list = FormInstance.objects.filter(form_uuid=self.uuid, date__range=(s_date, e_date))
+            else:
+                fi_list = FormInstance.objects.filter(form_uuid=self.uuid, date__gte=s_date)
+        else:
+            fi_list = FormInstance.objects.filter(form_uuid=self.uuid)
+        resp = {"tickets": []}
+        for fi in fi_list:
+            fi_status = fi.get_status
+            #Ticker abiertos o enviados
+            if fi_status == None or fi_status.status.code == "01":
+                resp = ticket_to_json(fi, translate2("es", fi_status))
+                fi.receive_items()
         return resp
 
     def to_tickets_pos(self, pos, index=""):
@@ -650,6 +714,18 @@ class FormInstance(models.Model):
     def update_index(self):
         self.index = get_int(FormInstance.objects.filter(form_uuid=self.form_uuid, pos_uuid=self.pos_uuid).aggregate(Max('index'))["index__max"])+1
         self.save()
+
+    def send_items(self):
+        for item in self.get_items:
+            if item.status == 0:
+                item.status = 1
+                item.save()
+
+    def receive_items(self):
+        for item in self.get_items:
+            if item.status == 1:
+                item.status = 2
+                item.save()
 
 #    def update_items_low_price(self):
 #        band = self.band

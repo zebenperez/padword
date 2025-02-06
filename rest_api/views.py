@@ -730,6 +730,22 @@ class TicketViewSet(viewsets.ViewSet):
             return Response({"error": True, 'msg': 'Bad request!'})
 
     @action(detail=False, methods=['POST'])
+    def get_tickets2(self, request):
+        try:
+            pu = ProjectUser.objects.get(username=self.request.user.username)
+            start_date = request.POST["start_date"] if "start_date" in request.POST else ""
+            end_date = request.POST["end_date"] if "end_date" in request.POST else ""
+
+            form = Form.objects.filter(form_type__code="tpv", form_type__project_uuid=pu.project.uuid).first()
+            if form != None:
+                return Response(form.to_tickets2(start_date, end_date))
+            return Response({"error": True, 'msg': 'This project do not have TPV configured!'})
+        except Exception as e:
+            logger.error("[{}]: \"{}\"".format(self.request.user, str(e)))
+            return Response({"error": True, 'msg': 'Bad request!'})
+
+
+    @action(detail=False, methods=['POST'])
     def get_tickets_tpv(self, request):
         try:
             if "tpv" not in request.POST:

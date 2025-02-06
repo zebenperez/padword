@@ -5,14 +5,42 @@
     <div class="col-1"><button type="button" class="btn btn-sm" data-bs-dismiss="modal"><i class="fas fa-times"></i></button> </div>
 </div>
 
-<div class="row"><div class="col-12"> <div class="content"> 
-    <select id="form_type_templates" name="form_type_templates" class="form-control ark_change" 
-        data-url="{% url "form-type-template-select" %}" data-target="div-template-selected" data-obj_id="{{obj.id}}">
-        <option value="">--{% trans "Select option" %}--</option>
-        {% for item in template_list %}
-            <option value="{{item.pk}}">{{item.name}}</option>
-        {% endfor %}
-    </select>
-    <div id="div-template-selected"></div>
-</div> </div> </div>
+<div class="row pwa-maker m-0">
+    {%comment%} --- NUEVO --- {%endcomment%}
+
+    <div class="col-12">
+        <div class="row m-0" style="flex-flow: row nowrap; column-gap: 10px;">
+            <div class="col-3 text-center" style="box-shadow: 0 1px 10px rgb(0 0 0 / 15%); transition: transform .5s ease;">
+                Template 1
+                <img src="https://paddev.shidix.es/media/form_types_template/img/bphoto_5794097318700629761_x.jpg" alt="image" width="150px" /></div>
+            <div class="col-3 text-center" style="box-shadow: 0 1px 10px rgb(0 0 0 / 15%); transition: transform .5s ease;">
+                Template 2
+                <img src="https://paddev.shidix.es/media/form_types_template/img/bphoto_5794097318700629761_x.jpg" alt="image" width="150px" /></div>
+            <div class="col-3 text-center" style="box-shadow: 0 1px 10px rgb(0 0 0 / 15%); transition: transform .5s ease;">
+                Template 3
+                <img src="https://paddev.shidix.es/media/form_types_template/img/bphoto_5794097318700629761_x.jpg" alt="image" width="150px" /></div>
+            <div class="col-3 text-center" style="box-shadow: 0 1px 10px rgb(0 0 0 / 15%); transition: transform .5s ease;">
+                Template 4
+                <img src="https://paddev.shidix.es/media/form_types_template/img/bphoto_5794097318700629761_x.jpg" alt="image" width="150px" /></div>
+            </div>
+        </div>
+
+
+    {%comment%} --- END NUEVO --- {%endcomment%}
+
+
+    <div class="col-12"> 
+        <div class="content"> 
+            <span class="step1-pwa">1. Seleccione una plantilla:</span>
+            <select id="form_type_templates" name="form_type_templates" class="form-control ark_change" 
+                data-url="{% url "form-type-template-select" %}" data-target="div-template-selected" data-obj_id="{{obj.id}}">
+                <option value="">--{% trans "Select option" %}--</option>
+            {% for item in template_list %}
+                <option value="{{item.pk}}">{{item.name}}</option>
+            {% endfor %}
+            </select>
+            <div id="div-template-selected"></div>  
+        </div> 
+    </div> 
+</div>
 

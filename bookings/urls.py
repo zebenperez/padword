@@ -203,6 +203,7 @@ urlpatterns = [
     path('tpv-order-item-comment/', tpv.tpv_order_item_comment, name='tpv-order-item-comment'),
     #path('tpv-order-payment/', tpv.tpv_order_payment, name='tpv-order-payment'),
     path('tpv-order-send/', tpv.tpv_order_send, name='tpv-order-send'),
+    path('tpv-order-send-part/', tpv.tpv_order_send_part, name='tpv-order-send-part'),
 
     path('tpv-orders-by-waiter/', tpv.orders_by_waiter, name='tpv-orders-by-waiter'),
     path('tpv-order-details/', tpv.order_details, name='tpv-order-details'),

@@ -13,10 +13,11 @@ from guest.models import Guest, Wristband, WristbandBalance
 from connector.winhotel_lib import send_charge, write_log as wh_write_log
 from connector.models import ProjectWinhotelUser
 
-from .common_lib import get_or_create_form_instance_tpv, get_or_create_form_instance_info_tpv, get_or_create_form_instance_info_client_tpv
-from .common_lib import user_in_group
+from .common_lib import get_or_create_form_instance_tpv, get_or_create_form_instance_info_tpv
+from .common_lib import user_in_group, get_or_create_form_instance_info_client_tpv
 from .tpv_lib import get_cash_zeta, update_cash, get_number_x
-from .tpv_winhotel_lib import get_food_total, get_drinks_total, get_breakfast_total, cash_daily_summary, cash_send_daily_summary, cash_send_charges 
+from .tpv_winhotel_lib import get_food_total, get_drinks_total, get_breakfast_total, cash_daily_summary
+from .tpv_winhotel_lib import cash_send_daily_summary, cash_send_charges 
 from .models import Form, FormInstance, Status, Cash
 from django.conf import settings
 
@@ -321,7 +322,7 @@ def tpv_order_item_comment(request):
 def add_balance_to_band(pos, fi, band):
     url = "/bookings/booking-view/"
     desc = "Ticket from {}: ".format(pos.name)
-    desc += "<a class='ark' data-url='{}' data-target-modal='common-modal' data-obj_id='{}'> #{}</a>".format(url, fi.id, fi.id)
+    desc += "<a class='ark' data-url='{}' data-target-modal='common-modal' data-obj_id='{}'> #{}</a>".format(url, fi.id, fi.index)
     WristbandBalance.objects.create(amount=(get_float(fi.amount)*-1), desc=desc, wristband=band)
 
 def set_desc(fi, desc):
@@ -361,6 +362,7 @@ def tpv_order_send(request):
         fi.payment_type = pt
         fi.save()
         fi.update_index()
+        fi.send_items()
 
         wh_write_log("ORDER: {} ({})".format(fi.id, datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")))
         if pt != None and (pt.code == "03" or pt.code == "0403") and band_id != "":
@@ -380,6 +382,21 @@ def tpv_order_send(request):
         context = {'msg': fi.get_status.status.code, 'project_uuid': fi.form.project.uuid, "mobile": mobile}
         #context = {'msg': fi.get_status.status.code, 'project_uuid': fi.form.project.uuid}
         return render(request, 'bookings/tpv/show-msg.html', context)
+    except Exception as e:
+        print(e)
+        logger.error("[bookings-booking_send] {}".format(str(e)))
+        return render(request, 'error_exception.html', {'exc':show_exc(e)})
+
+@group_required("waiters")
+def tpv_order_send_part(request):
+    try:
+        fi_id = get_param(request.GET, "obj_id")
+        mobile = get_param(request.GET, "mobile", "")
+
+        fi = get_or_none(FormInstance, fi_id)
+        fi.send_items()
+
+        return render(request, "bookings/tpv/view-ticket.html", {'fi':fi,})
     except Exception as e:
         print(e)
         logger.error("[bookings-booking_send] {}".format(str(e)))

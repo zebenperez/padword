@@ -46,17 +46,21 @@
                             </div>
                         {% endif %}
                     </div>
-                    <div class="col-4 p-0 text-left"><div class="text-left">{% padword_translate item.item.name %}</div> </div>
+                    <div class="col-4 p-0 text-left">
+                        <div class="text-left">{% padword_translate item.item.name %}</div> 
+                        {%if item.status == 1%}<div class="text-success">{% trans "Sended" %}</div>{%endif%}
+                    </div>
                     {#<div class="col-1 p-0 text-left"><div class="text-right">{{ item.item.price }}€</div> </div>#}
                     <div class="col-1 p-0 text-left"><div class="text-right">{{ item.price }} {{item.currency}}</div> </div>
                     <div class="col-2 p-0 text-right"> 
-                        {#{% if regime %} <div class="text-right text-warning">{{ item|get_item_price:regime.code }}€</div> {% endif %}#}
-                        {#{% if regime %} <div class="text-right text-warning">{% get_item_price item fi.band regime.code %}</div> {% endif %}#}
+                    {#{%if regime%} <div class="text-right text-warning">{{ item|get_item_price:regime.code }}€</div> {% endif %}#}
+                    {#{%if regime%}<div class="text-right text-warning">{%get_item_price item fi.band regime.code%}</div>{%endif%}#}
                         <div class="text-right text-warning">{{ item.total_price }}</div>
                     </div>
                     <div class="col-3 p-0">
-                        <a class="btn btn-primary btn-sm ark" title="{%trans 'Add comment at this article'%}" data-url="{%url "tpv-order-item-comment"%}" 
-                            data-item_id="{{item.pk}}" data-form_id="{{fi.pk}}" data-target-modal="common-modal"><i class="fas fa-comments"></i></a>
+                        <a class="btn btn-primary btn-sm ark" title="{%trans 'Add comment at this article'%}" 
+                            data-url="{%url "tpv-order-item-comment"%}" data-item_id="{{item.pk}}" data-form_id="{{fi.pk}}" 
+                            data-target-modal="common-modal"><i class="fas fa-comments"></i></a>
 
                         <a class="btn btn-danger btn-sm ark" title="{%trans 'Remove article from shopping-cart'%}" 
                             data-url="{%url "tpv-order-item-remove"%}" data-item_id="{{item.pk}}" data-target="ticket-summary">
