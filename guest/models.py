@@ -644,7 +644,9 @@ class Wristband(models.Model):
     @staticmethod
     def get_active_by_project(project, code):
         #now = datetime.datetime.now()
-        now = timezone.now()
+        #now = timezone.now()
+        now = project.local_date(timezone.now())
+        now = now.strftime("%Y-%m-%d %H:%M:%S")
         return Wristband.objects.filter(code=code, guest__project_id=project.uuid, guest__deleted=False, guest__check_in__lte=now, guest__check_out__gte=now).first()
 
     class Meta:

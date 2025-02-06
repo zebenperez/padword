@@ -1,4 +1,4 @@
-{% load i18n static padword_tags lock_tags %}
+{% load i18n static padword_tags lock_tags tz %}
 
 <html lang="en">
     <head>
@@ -50,7 +50,9 @@
                 <tbody>
                     <tr><td>{% if obj.zeta %}{% trans "Zeta Nº" %}{% else %}{% trans "Equis Nº" %}{% endif %}</td>
                         <td class="text-end"> <strong>{{obj.number}}</strong></td> </tr>
-                    <tr><td>{% trans "Date" %}</td><td class="text-end"> <strong>{{obj.date|date:"d-m-Y H:i:s"}}</strong></td> </tr>
+                    {#<tr><td>{% trans "Date" %}</td><td class="text-end"> <strong>{{obj.date|date:"d-m-Y H:i:s"}}</strong></td></tr>#}
+                    <tr><td>{% trans "Date" %}</td><td class="text-end"> 
+                        <strong>{{ obj.date|timezone:obj.project.time_zone_name|date:'d/m/Y H:i:s' }}</strong></td></tr>
                     <tr><td>{% trans "User" %}</td><td class="text-end"> <strong>{{obj.username}}</strong></td> </tr>
                     <tr><td>{% trans "Fondo" %}</td><td class="text-end"> <strong>{{obj.ini_cash|floatformat:2}}</strong></td> </tr>
                     <tr><td>{%trans "Total cash"%}</td><td class="text-end">
