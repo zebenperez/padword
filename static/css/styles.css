@@ -2575,3 +2575,19 @@ input:focus, select:focus, select, input.form-control:focus {
     padding: 0 15px 15px 20px ;
 }
 
+
+/***************************************/
+/***************************************/
+
+/* CSS STEPS PWA AUTOMATIC CREATION */
+
+/***************************************/
+/***************************************/
+
+.pwa-maker {
+/*    border:1px solid red;*/
+    letter-spacing:0 !important;
+}
+.step1-pwa {
+/*    border:1px solid red;*/
+}

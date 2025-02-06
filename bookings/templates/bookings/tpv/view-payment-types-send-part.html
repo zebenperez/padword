@@ -1,0 +1,7 @@
+{#{% load i18n tpv_tags bookings_tag padword_tags %}#}
+{% load i18n %}
+
+<button id="btn-send-part-{{fi.id}}" class="btn btn-info text-white w-100 ark" data-url="{% url "tpv-order-send-part" %}" 
+    data-target="ticket-summary" data-obj_id="{{fi.id}}"> <i class="fa fa-share-square"></i><br /> {%trans "Send Partial Order"%} 
+</button>
+

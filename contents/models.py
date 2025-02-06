@@ -379,6 +379,9 @@ class ItemImage(models.Model):
         ordering = ['order']
 
 class ShoppingCart(models.Model):
+    SC_STATUS = ((0,'Added'), (1,'Sended'), (2,'Received'),)
+
+    status = models.IntegerField(choices=SC_STATUS, verbose_name=_('Status'), default=0)
     form_instance_id = models.IntegerField(verbose_name=_("Form Instance"), default=0)
     item = models.ForeignKey(Item, on_delete=models.SET_NULL, verbose_name=_("Item"), blank=True, null=True)
     options = models.ManyToManyField(OptionItem, blank=True, verbose_name=_("Options"))
