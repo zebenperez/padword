@@ -201,7 +201,7 @@ def create_booking(pmu, booking, av):
     room_ex = room_exist(pmu.project_uuid, room)
     err = ""
 
-    if room_ex and "207" in room:
+    if room_ex and "Z" in room:
         ext_id = get_ext_id(booking)
         guest = Guest.objects.filter(ext_id=ext_id, project_id=pmu.project_uuid, deleted=0).first()
         if guest == None:
