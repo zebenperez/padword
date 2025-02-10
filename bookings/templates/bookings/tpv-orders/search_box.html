@@ -46,9 +46,11 @@
                 class="btn btn-status btn-{% if status == '' or not status %}primary{%else%}light{%endif%} pointer me-1" 
                 data-value=""> <small>{% trans 'All' %}</small></a>
             {% for item in status_list %}
+                {% if item.code == "01" or item.code == "05" %}
                 <a style="border:1px solid #ccc;color:#000;font-size:.75em;" id="btn-status-{{item.pk}}" data-value="{{item.id}}" 
                     class="btn text-nowrap btn-status btn-{% if status == item.pk %}primary{%else%}light{%endif%} pointer me-1">
                     <small>{% padword_translate item.name %}</small></a>
+                {% endif %}
             {% endfor %}
         </div>
    </div>
