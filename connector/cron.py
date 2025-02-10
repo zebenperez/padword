@@ -6,10 +6,11 @@ from connector.avantio_lib import get_booking_list, get_booking_notif, send_link
 from connector.winhotel_lib import get_booking_list as wh_get_booking_list, get_booking_cancelled as wh_get_booking_cancelled
 from connector.winhotel_lib import import_item_prices as wh_import_item_prices, get_booking_new_list as wh_get_booking_new_list
 from connector.winhotel_lib import get_booking_range_list as wh_get_booking_range_list
+from connector.mews_lib import get_booking_list as mews_get_booking_list
 from web.models import Project, ProjectLockUser
 from web.models_lock import Lock, LockCron
 from guest.models import WristbandAccess, WristbandAccessZone
-from connector.models import ProjectAvantioUser, ProjectWinhotelUser
+from connector.models import ProjectAvantioUser, ProjectWinhotelUser, ProjectMewsUser
 from padword.commons import get_or_none
 from padword.email_lib import send_email
 
@@ -125,6 +126,26 @@ def winhotel_cancel_schedule(project_uuid):
         pau = ProjectWinhotelUser.objects.filter(project_uuid=project.uuid).first()
         booking_list, err = wh_get_booking_cancelled(pau, "5")
         result += render_to_string('winhotel/booking-log.html', {'booking_list': booking_list, "error": err})
+    except Exception as e:
+        print("\n<br/>Error: {}".format(e))
+    print(result)
+
+def mews_booking_schedule(project_uuid):
+    #project_uuid = "0fa03300-2646-b206-981b-b078262cacc5"
+    project = get_or_none(Project, project_uuid, "uuid")
+    project_name = project.name if project != None else "---"
+    result = "[MEWS] Importación {} {}\n".format(project_name, datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
+    result += "-----------------------------------------------------"
+    try:
+        pmu = get_or_none(ProjectMewsUser, project_uuid, "project_uuid")
+        booking_list = mews_get_booking_list(pmu)
+        result += render_to_string('mews/booking-log.html', {'booking_list': booking_list, "error": ""})
+
+        pau = ProjectMewsUser.objects.filter(project_uuid=project.uuid).first()
+        #if pau != None and pau.email != "":
+            #subject = "Importación {} {}".format(project_name, datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
+            #send_email(subject, result, settings.EMAIL_FROM_DEFAULT, [pau.email])
+            #send_email(subject, result, "no-reply@padword.es", [pau.email])
     except Exception as e:
         print("\n<br/>Error: {}".format(e))
     print(result)

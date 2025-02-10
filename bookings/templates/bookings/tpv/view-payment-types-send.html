@@ -5,7 +5,7 @@
     <button id="btn-send-order-{{fi.id}}" class="btn btn-success-tpv w-100 a-disabled ark" data-url="{% url "tpv-order-send" %}" 
         data-target="base" data-obj_id="{{fi.id}}" data-payment_type="" data-subtotal="{{subtotal}}" data-band="{{band.id}}"
         data-total="{{total}}" data-mobile="{{mobile}}">
-        <i class="fa fa-share-square"></i><br /> {%trans "Send Order"%} </button>
+        <i class="fa fa-share-square"></i><br /> {#{%trans "Send Order"%}#}{% trans "Pagar" %} </button>
     {% comment %}
     <button id="btn-send-order-{{fi.id}}" class="btn btn-success-tpv w-100 a-disabled ark" data-url="{% url "tpv-order-send" %}" 
         data-target="base" data-obj_id="{{fi.id}}" data-payment_type="" data-amount="{{total}}" data-band="{{band.id}}"

@@ -2,7 +2,7 @@
 
 
 <div class="card mt-2">
-    <div class="card-header toggle-btn" data-target="body-mews" data-id-change="icon-extra-mews"
+    <div class="card-header toggle-btn bg-success mews-cron-head" data-target="body-mews" data-id-change="icon-extra-mews"
         data-text='<i class="fas fa-plus"></i>' data-text-alt='<i class="fas fa-minus"></i>'>
         <div class="row w-100">
             <div class="col-6 text-right" id="icon-extra-mews"><i class="fas fa-plus"></i></div>
@@ -35,13 +35,14 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-6">
-                <label class="label">{% trans "Hora a la que se realiza la importación" %}
-                    <br/>{% trans "(P.E.: si el valor es '13' se importaría a las 13 horas)" %}:</label>
+            <div class="col-12">
+                <label class="label">{% trans "Cada cuantas hora se realiza la importación" %}
+                    <br/>{% trans "(P.E.: si el valor es '1' se importaría cada hora)" %}:</label>
                 <input type="text" class="form-control input ark_change mews-cron mews-hour" id="hour" name="hour" 
                     value="{{user_mews.hour}}" title="{{user_mews.hour}}" data-url="{% url "project-set-mews-schedule" %}" 
                     data-target="mews-notif" data-obj_id="{{user_mews.id}}" data-field="hour"/> <span id="hour__msg"></span>	
             </div>
+            {%comment%}
             <div class="col-6">
                 <label class="label">{% trans "Minutos a los que se realiza la importación" %}
                     <br/> {% trans "(P.E.: si el valor es '30' se importaría a la hora indicada en el minuto 30)" %}:</label>
@@ -50,6 +51,7 @@
                     data-target="mews-notif" data-obj_id="{{user_mews.id}}" data-field="minute"/> 
                 <span id="minute__msg"></span>	
             </div>
+            {%endcomment%}
         </div>		
     </div>		
 </div>		

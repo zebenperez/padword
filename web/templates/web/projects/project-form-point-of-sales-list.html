@@ -47,6 +47,7 @@
                             </div>
                         </div>
                     </div>
+                    {% if user_winhotel.hour != -1 %}
                     <div class="col-4">
                         <label class="label">{% trans "Code 1 (drink)" %}</label>
                         <input type="text" class="form-control autosave input" id="code1" name="code1" value="{{item.code1}}" 
@@ -65,11 +66,20 @@
                             title="{{item.code3}}" data-model-name="contents.pointofsale" data-obj-id="{{item.id}}" 
                             data-url="{% url "autosave_field" %}" data-target="div-notification"/> <span id="code3__msg"></span>	
                     </div>
-                    <div class="col-12">
+                    {% endif %}
+                    <div class="col-6">
                         <label class="label">{% trans "UUID" %}</label>
                         <input type="text" class="form-control autosave input" id="uuid" name="uuid" value="{{item.uuid}}" 
                             title="{{item.uuid}}" data-model-name="contents.pointofsale" data-obj-id="{{item.id}}" 
                             data-url="{% url "autosave_field" %}" data-target="div-notification"/> <span id="uuid__msg"></span>	
+                    </div>
+                    <div class="col-6">
+                        <label class="label">{% trans "Envíos parciales" %} </label>
+                        <div class="form-check form-switch">
+                            <input type="checkbox" class="autosave form-check-input" id="partial" name="partial" data-bool="True"
+                                data-model-name="contents.pointofsale" data-obj-id="{{item.id}}" data-url="{% url "autosave_field" %}" 
+                                data-target="div-notification" {%if item.partial%}checked{%endif%}/> <span id="uuid__msg"></span>	
+                        </div>
                     </div>
                 </div>
 

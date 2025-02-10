@@ -1,6 +1,5 @@
 html {
 	background-color: #f9fafb; 
-	letter-spacing: .0892857143em;
 }
 
 body {
@@ -709,7 +708,7 @@ h2, h2.pathway.b-right {
     color: #35a8df;
     font-size: 0.87rem !important; 
     font-weight: 600;
-    text-transform: uppercase;
+/*    text-transform: uppercase;*/
 }
 
 .opt {

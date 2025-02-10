@@ -543,8 +543,8 @@ def project_set_mews_schedule(request):
             function = ""
             if field == "hour" or field == "minute": 
                 function = "mews_booking_schedule"
-                hour = pau.hour
-                minute = pau.minute
+                hour = "\*\|{}".format(pau.hour)
+                minute = "0"
             if function != "":
                 update_cron(hour, minute, function, pau.project_uuid)
 
