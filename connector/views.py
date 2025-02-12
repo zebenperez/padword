@@ -14,13 +14,15 @@ from padword.email_lib import send_email
 from padword.decorators import group_required
 from contents.models import ItemInCat
 from web.models import Project
-from .models import ProjectAvantioUser, ProjectAvaibookUser, ProjectWinhotelUser, ProjectMewsUser
+from .models import ProjectAvantioUser, ProjectAvaibookUser, ProjectWinhotelUser, ProjectMewsUser, ProjectCloudbedsUser
 from .avantio_lib import get_booking_list, get_booking_notif, send_link
 from .avaibook_lib import get_accommodation_list, manage_booking_from_webhook, get_booking_list as av_get_booking_list, WEBHOOK_TOKEN
 from .winhotel_lib import get_booking_list as wh_get_booking_list, import_item_prices as wh_import_item_prices
 from .winhotel_lib import get_booking_new_list as wh_get_booking_new_list, get_booking_day_list as wh_get_booking_day_list
 from .winhotel_lib import get_booking_range_list as wh_get_booking_range_list
 from .mews_lib import get_booking_list as mw_get_booking_list, cancel_booking_list as mw_cancel_booking_list
+from .cloudbeds_lib import get_booking_list as cb_get_booking_list, get_room_list as cb_get_room_list
+
 
 
 import json, os, csv, re
@@ -248,6 +250,29 @@ def mews_cancel_booking_list(request, project_uuid):
         pmu = get_or_none(ProjectMewsUser, project_uuid, "project_uuid")
         booking_list = mw_cancel_booking_list(pmu)
         return render(request, 'mews/booking-list.html', {'booking_list': booking_list})
+    except Exception as e:
+        print(e)
+        return render(request, 'error_exception.html', {'exc':show_exc(e)})
+
+'''
+    Cloudbeds
+'''
+@group_required("admins", "projects")
+def cloudbeds_get_booking_list(request, project_uuid):
+    try:
+        pmu = get_or_none(ProjectCloudbedsUser, project_uuid, "project_uuid")
+        booking_list = cb_get_booking_list(pmu)
+        return render(request, 'cloudbeds/booking-list.html', {'booking_list': booking_list})
+    except Exception as e:
+        print(e)
+        return render(request, 'error_exception.html', {'exc':show_exc(e)})
+
+@group_required("admins", "projects")
+def cloudbeds_get_room_list(request, project_uuid):
+    try:
+        pau = get_or_none(ProjectCloudbedsUser, project_uuid, "project_uuid")
+        item_list = cb_get_room_list(pau)
+        return render(request, 'cloudbeds/room-list.html', {'item_list': item_list})
     except Exception as e:
         print(e)
         return render(request, 'error_exception.html', {'exc':show_exc(e)})

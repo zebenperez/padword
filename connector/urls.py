@@ -21,6 +21,10 @@ urlpatterns = [
     path('mews/get-booking-list/<slug:project_uuid>/', views.mews_get_booking_list, name='mews-get-booking-list'),
     path('mews/cancel-booking-list/<slug:project_uuid>/', views.mews_cancel_booking_list, name='mews-cancel-booking-list'),
 
+    #--------------------- CLOUDBEDS --------------------
+    path('cloudbeds/get-booking-list/<slug:project_uuid>/', views.cloudbeds_get_booking_list, name='cloudbeds-get-booking-list'),
+    path('cloudbeds/get-room-list/<slug:project_uuid>/', views.cloudbeds_get_room_list, name='cloudbeds-get-room-list'),
+
     #--------------------- CRON --------------------
     path('cron-log/', views.cron_log, name='cron-log'),
     path('avantio-log/', views.avantio_log, name='avantio-log'),

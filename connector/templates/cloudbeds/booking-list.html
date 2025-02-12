@@ -1,0 +1,99 @@
+{% load i18n %}
+
+<div class="row w-100 common-modal-head m-0 p-0">
+    <div class="col-11"><h2>{% trans 'Mews booking list' %}</h2></div>
+    <div class="col-1">
+        <button type="button" class="btn btn-sm ark" data-bs-dismiss="modal" data-url="{% url "guest-search-by-project" %}" 
+        data-target="guest-list"><i class="fas fa-times"></i></button> </div>
+</div>
+
+{% if error and error != "" %} <div class="alert alert-danger">{{error|safe}}</div> {% endif %}
+
+<div class="row m-0">
+    <div class="content">
+        <div id="item-list">
+            {% for item in booking_list %} 
+                <div class="row">
+                    <div class="col-1">{% trans 'Id' %}</div>
+                    <div class="col-5">{{item.id}}</div>
+                    <div class="col-1">{% trans 'Property' %}</div>
+                    <div class="col-5">{{item.property_id}}</div>
+                </div>
+                <div class="row">
+                    <div class="col-1">{% trans 'Source Id' %}</div>
+                    <div class="col-5">{{item.source_id}}</div>
+                    <div class="col-1">{% trans 'Source Name' %}</div>
+                    <div class="col-5">{{item.source_name}}</div>
+                </div>
+                <div class="row">
+                    <div class="col-1">{% trans 'Guest Id' %}</div>
+                    <div class="col-5">{{item.guest_id}}</div>
+                    <div class="col-1">{% trans 'Guest Name' %}</div>
+                    <div class="col-5">{{item.guest_name}}</div>
+                </div>
+                <div class="row">
+                    <div class="col-2">{% trans 'Start' %}</div>
+                    <div class="col-4">{{item.start}}</div>
+                    <div class="col-2">{% trans 'End' %}</div>
+                    <div class="col-4">{{item.end}}</div>
+                </div>
+                 <div class="row">
+                    <div class="col-2">{% trans 'Created' %}</div>
+                    <div class="col-4">{{item.created}}</div>
+                    <div class="col-2">{% trans 'Updated' %}</div>
+                    <div class="col-4">{{item.updated}}</div>
+                </div>
+                <div class="row">
+                    <div class="col-2">{% trans 'Adults' %}</div>
+                    <div class="col-4">{{item.adults}}</div>
+                    <div class="col-2">{% trans 'Children' %}</div>
+                    <div class="col-4">{{item.children}}</div>
+                </div>
+                <div class="row">
+                    <div class="col-2">{% trans 'Status' %}</div>
+                    <div class="col-4">{{item.status}}</div>
+                    <div class="col-2">{% trans 'Balance' %}</div>
+                    <div class="col-4">{{item.balance}}</div>
+                </div>
+                <div class="alert alert-info">{% trans "Rooms" %}</div>
+                {% for room in item.rooms %}
+                    <div class="row">
+                        <div class="col-2">{% trans 'Id' %}</div>
+                        <div class="col-2">{{room.id}}</div>
+                        <div class="col-2">{% trans 'Name' %}</div>
+                        <div class="col-2">{{room.name}}</div>
+                        <div class="col-2">{% trans 'Status' %}</div>
+                        <div class="col-2">{{room.status}}</div>
+                    </div>
+                    <div class="row">
+                        <div class="col-2">{% trans 'Check in' %}</div>
+                        <div class="col-4">{{room.check_in}}</div>
+                        <div class="col-2">{% trans 'Check out' %}</div>
+                        <div class="col-4">{{room.check_out}}</div>
+                    </div>
+                    <div class="row">
+                        <div class="col-2">{% trans 'Tipo Id' %}</div>
+                        <div class="col-4">{{room.type_id}}</div>
+                        <div class="col-2">{% trans 'Tipo' %}</div>
+                        <div class="col-4">{{room.type_name}}</div>
+                    </div>
+                    <div class="row">
+                        <div class="col-2">{% trans 'Guest Id' %}</div>
+                        <div class="col-4">{{room.guest_id}}</div>
+                        <div class="col-2">{% trans 'Guest' %}</div>
+                        <div class="col-4">{{room.guest_name}}</div>
+                    </div>
+                    <div class="row">
+                        <div class="col-2">{% trans 'Adults' %}</div>
+                        <div class="col-4">{{room.adults}}</div>
+                        <div class="col-2">{% trans 'Children' %}</div>
+                        <div class="col-4">{{room.children}}</div>
+                    </div>
+                    <hr/>
+                {% endfor %}
+                <hr/>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+

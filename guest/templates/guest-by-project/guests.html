@@ -69,6 +69,13 @@
                         data-target-modal="common-modal"> {%trans "Cancel mews bookings"%}</a>  
                 {% endif %}
             </div>
+            {% if project.cloudbeds_user != None and project.cloudbeds_user.token != "" %}
+                <div class="col-2">
+                    <a class="btn btn-primary bg-dark ark" data-url="{% url "cloudbeds-get-booking-list" project.uuid %}" 
+                        data-target-modal="common-modal"> {%trans "Import cloudbeds bookings"%}</a>  
+                </div>
+            {% endif %}
+
         </div>
         <div id="guest-list"> {% include "guest-by-project/guest-list.html" %} </div>
     </div>

@@ -7,7 +7,7 @@ from padword.commons import show_exc, get_int, new_ui_slug, date_to_utc, date_to
 from .lock_lib import ShLock
 from sensibo.sensibo_lib import ShSensibo
 from sensibo.models import ProjectSensiboUser
-from connector.models import ProjectAvantioUser, ProjectAvaibookUser, ProjectWinhotelUser, ProjectMewsUser
+from connector.models import ProjectAvantioUser, ProjectAvaibookUser, ProjectWinhotelUser, ProjectMewsUser, ProjectCloudbedsUser
 
 import datetime, pytz
 import requests
@@ -114,11 +114,11 @@ class Project(models.Model):
 
     @property
     def mews_user(self):
-        print(ProjectMewsUser.objects.filter(project_uuid=self.uuid).first())
-        print(ProjectMewsUser.objects.all())
-        for p in ProjectMewsUser.objects.all():
-            print(p)
         return ProjectMewsUser.objects.filter(project_uuid=self.uuid).first()
+
+    @property
+    def cloudbeds_user(self):
+        return ProjectCloudbedsUser.objects.filter(project_uuid=self.uuid).first()
 
     @property
     def invitations(self):
