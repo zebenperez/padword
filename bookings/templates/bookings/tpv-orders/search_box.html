@@ -33,25 +33,27 @@
         </div>
     </div>
     <div class="row mt-1">
-        <div class="col-6 d-flex justify-content-center">
+        <div class="col-12 d-flex justify-content-center">
+            <a style="border:1px solid #ccc;" id="btn-pos" class="btn btn-pos btn-primary pointer me-1" data-value=""> 
+                <small>{% trans 'All' %}</small></a>
+            {% for item in pos_list %}
+                <a style="border:1px solid #ccc;color:#000;font-size:.85em;" id="btn-pos-{{item.pk}}" data-value="{{item.name}}" 
+                    class="btn text-nowrap btn-pos btn-light pointer me-1"> <small>{% padword_translate item.name %}</small></a>
+            {% endfor %}
+        </div>
+        <div class="col-12 d-flex justify-content-center mt-3">
             <a style="border:1px solid #ccc;" id="btn-status-" 
                 class="btn btn-status btn-{% if status == '' or not status %}primary{%else%}light{%endif%} pointer me-1" 
                 data-value=""> <small>{% trans 'All' %}</small></a>
             {% for item in status_list %}
-                <a style="border:1px solid #ccc;color:#000;font-size:.875em;" id="btn-status-{{item.pk}}" data-value="{{item.id}}" 
+                {% if item.code == "01" or item.code == "05" %}
+                <a style="border:1px solid #ccc;color:#000;font-size:.75em;" id="btn-status-{{item.pk}}" data-value="{{item.id}}" 
                     class="btn text-nowrap btn-status btn-{% if status == item.pk %}primary{%else%}light{%endif%} pointer me-1">
                     <small>{% padword_translate item.name %}</small></a>
+                {% endif %}
             {% endfor %}
         </div>
-        <div class="col-6 d-flex justify-content-center">
-            <a style="border:1px solid #ccc;" id="btn-pos" class="btn btn-pos btn-primary pointer me-1" data-value=""> 
-                <small>{% trans 'All' %}</small></a>
-            {% for item in pos_list %}
-                <a style="border:1px solid #ccc;color:#000;font-size:.875em;" id="btn-pos-{{item.pk}}" data-value="{{item.name}}" 
-                    class="btn text-nowrap btn-pos btn-light pointer me-1"> <small>{% padword_translate item.name %}</small></a>
-            {% endfor %}
-        </div>
-    </div>
+   </div>
 
     <script>
         $(".btn-status").click(function(){

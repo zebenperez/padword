@@ -63,9 +63,9 @@
             </div>
             <div class="col-2">
                 {% if project.mews_user != None and project.mews_user.client_token != "" %}
-                    <a class="btn btn-primary bg-dark ark" data-url="{% url "mews-get-booking-list" project.uuid %}" 
+                    <a class="btn btn-primary bg-info ark" data-url="{% url "mews-get-booking-list" project.uuid %}" 
                         data-target-modal="common-modal"> {%trans "Import mews bookings"%}</a>  
-                    <a class="btn btn-primary bg-dark ark" data-url="{% url "mews-cancel-booking-list" project.uuid %}" 
+                    <a class="btn btn-primary bg-dark mt-2 ark" data-url="{% url "mews-cancel-booking-list" project.uuid %}" 
                         data-target-modal="common-modal"> {%trans "Cancel mews bookings"%}</a>  
                 {% endif %}
             </div>
