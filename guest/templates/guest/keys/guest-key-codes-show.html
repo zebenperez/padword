@@ -1,0 +1,10 @@
+{% load i18n %}
+
+{% for key_code in key_code_list %}
+    <div class="row">
+        <div class="col-6 pt-1">{% trans "Manual code" %}: </div>
+        <div class="col-6 pt-1">{{key_code.code}} #</div>
+    </div>
+{% endfor %}
+
+

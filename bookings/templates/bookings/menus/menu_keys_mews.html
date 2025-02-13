@@ -22,7 +22,9 @@
                     <div id="div-notifications mt-3"></div>
                 </div>
             {%endwith%}
-            {#{% trans "Code" %}: {% guest_key_codes guest lock %}#}
+            <div class="col-12 hand-code"> 
+                {% guest_key_codes_show guest lock %}
+            </div>
         {% endfor %}
     </div>
     <div class="simple-footer">{% padword_translate form.desc %}</div> 

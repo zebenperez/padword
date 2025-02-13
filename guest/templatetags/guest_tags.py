@@ -20,6 +20,11 @@ def guest_key_codes(guest, lock):
     key_code_list = KeyCode.objects.filter(guest=guest, lock=lock)
     return {'key_code_list': key_code_list,}
 
+@register.inclusion_tag('guest/keys/guest-key-codes-show.html')
+def guest_key_codes_show(guest, lock):
+    key_code_list = KeyCode.objects.filter(guest=guest, lock=lock)
+    return {'key_code_list': key_code_list,}
+
 @register.inclusion_tag('guest/keys/guest-key-cards.html')
 def guest_key_cards(guest, lock):
     key_card_list = KeyCard.objects.filter(guest=guest, lock=lock)
