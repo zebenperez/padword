@@ -177,8 +177,8 @@ class CloudbedsRoom():
 '''
     FUNCTIONS
 '''
-def get_ext_id(booking):
-    return "{}".format(booking.id)
+def get_ext_id(booking, room):
+    return "{}_{}".format(booking.id, room.id)
 
 def get_date(date):
     return datetime.strptime("{}".format(date), "%Y-%m-%d")
@@ -198,7 +198,7 @@ def create_booking(pmu, room, booking, av):
     err = ""
 
     if room_ex:
-        ext_id = get_ext_id(booking)
+        ext_id = get_ext_id(booking, room)
         guest = Guest.objects.filter(ext_id=ext_id, project_id=pmu.project_uuid, deleted=0).first()
         if guest == None:
             guest = Guest(UUID = new_ui_slug(Guest, "UUID"), ext_id=ext_id, project_id=pmu.project_uuid)
