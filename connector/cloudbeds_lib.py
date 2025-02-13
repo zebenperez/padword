@@ -18,6 +18,7 @@ except:
 
 BOOKINGS_URL = "getReservations"
 ROOMS_URL = "getRooms"
+GUEST_URL = "getGuest"
 CONFIRM_STATE = "confirmed"
 
 def get_param(dic, key):
@@ -93,6 +94,15 @@ class Cloudbeds():
         except Exception as err:
             raise CloudbedsAPIError(menssage=err)
 
+    def get_guest(self, guest_id):
+        try:
+            _url_request = "{}{}".format(API_URL, GUEST_URL)
+            dic = self.__send_request__(_url_request, {"guestID":guest_id}).json()
+            items = dic["data"]
+            return items
+        except Exception as err:
+            raise CloudbedsAPIError(menssage=err)
+
 
 #    def get_customer(self, customer_id):
 #        try:
@@ -160,6 +170,15 @@ class CloudbedsBookingRoom():
         self.adults = get_param(dic, "adults")
         self.children = get_param(dic, "children")
 
+class CloudbedsGuest():
+    def __init__(self, dic):
+        self.id = get_param(dic, "guestID")
+        self.first_name = get_param(dic, "firstName")
+        self.last_name = get_param(dic, "lastName")
+        self.email = get_param(dic, "email")
+        self.phone = get_param(dic, "phone")
+        self.cell_phone = get_param(dic, "cellPhone")
+
 class CloudbedsRoom():
     def __init__(self, dic):
         self.id = get_param(dic, "roomID")
@@ -188,7 +207,7 @@ def room_exist(project_uuid, room):
     count = Room.objects.filter(project_uuid=project_uuid, number=room).count()
     return (count > 0)
 
-def create_booking(pmu, room, booking, av):
+def create_booking(pmu, room, booking, bguest, av):
     checkin = get_date(room.check_in)
     checkout = get_date(room.check_out)
     #print(checkin)
@@ -204,9 +223,12 @@ def create_booking(pmu, room, booking, av):
             guest = Guest(UUID = new_ui_slug(Guest, "UUID"), ext_id=ext_id, project_id=pmu.project_uuid)
             booking.created = True
         
-        guest.name = room.guest_name
-        #guest.mobile = booking.customer.phone if booking.customer.phone != None else ""
-        #guest.email = booking.customer.email if booking.customer.email != None else ""
+        #print(bguest)
+        #print(bguest.first_name)
+        guest.name = bguest.first_name
+        guest.surname = bguest.last_name
+        guest.mobile = bguest.cell_phone
+        guest.email = bguest.email
         
         guest.check_in = checkin
         guest.check_out = checkout
@@ -257,29 +279,11 @@ def get_booking_list(pcu):
         for room in room_list:
             #print(room)
             room_node = CloudbedsBookingRoom(room)
-            create_booking(pcu, room_node, node, av)
+            guest = av.get_guest(room_node.guest_id)
+            guest_node = CloudbedsGuest(guest)
+            create_booking(pcu, room_node, node, guest_node, av)
             node.rooms.append(room_node)
         booking_list.append(node)
-
-        #customers = av.get_customer(node.account_id)
-        #for customer in customers:
-        #    node_c = CloudbedsCustomer(customer)
-        #    node.customer = node_c
-        #    break
-
-        #if (node.resource_id != None):
-        #    rooms = av.get_resource(node.resource_id)
-        #    for room in rooms:
-        #        node_r = CloudbedsResource(room)
-        #        node.room = node_r
-        #        break
-
-        #create_booking(pmu, node, av)
-        #if node.status == "CONFIRMED":
-        #    guest, err = create_booking(pau, node, av)
-        #elif node.status == "CANCELLED":
-        #    delete_booking(pau, node)
-    #print("Total: {}".format(i))
     return booking_list
 
 def get_room_list(pcu):
