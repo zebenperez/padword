@@ -265,7 +265,11 @@ class GuestViewSet(viewsets.ModelViewSet):
                 logger.error("[{}]: \"Guest deleted! - ext_id: {}\"".format(self.request.user, guest_ext_id))
                 return Response({"error": True, 'msg': 'This guest is removed!'})
             logger.info("[{}]: \"Get guest {} {} by ext_id {}\"".format(self.request.user, guest.name, guest.surname, guest_ext_id))
-            return Response(self.serializer_class(guest).data, status=status.HTTP_200_OK)
+
+            guest_data = self.serializer_class(guest).data
+            guest_data["lock_code"] = guest.lock_code 
+            return Response(guest_data, status=status.HTTP_200_OK)
+            #return Response(self.serializer_class(guest).data, status=status.HTTP_200_OK)
         except Exception as e:
             logger.error("[{}]: \"{}\"".format(self.request.user, str(e)))
             return Response({"error": True, 'msg': 'Bad request!'})
