@@ -59,6 +59,7 @@ urlpatterns = [
     path('projects/set-winhotel-schedule/', views.project_set_winhotel_schedule, name='project-set-winhotel-schedule'),
     path('projects/set-lock-schedule/', views.project_set_lock_schedule, name='project-set-lock-schedule'),
     path('projects/set-mews-schedule/', views.project_set_mews_schedule, name='project-set-mews-schedule'),
+    path('projects/set-cloudbeds-schedule/', views.project_set_cloudbeds_schedule, name='project-set-cloudbeds-schedule'),
     path('projects/add-logo/', views.project_add_logo, name='project-add-logo'),
     path('projects/remove-logo/', views.project_remove_logo, name='project-remove-logo'),
     #--------------------- Channels --------------------
