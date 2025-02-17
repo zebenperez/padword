@@ -55,6 +55,7 @@ urlpatterns = [
     path('projects/access-points-remove/', views.project_access_points_remove, name='project-access-points-remove'),
     path('projects/thirdpart-add/', views.project_thirdpart_add, name='project-thirdpart-add'),
     path('projects/thirdpart-remove/', views.project_thirdpart_remove, name='project-thirdpart-remove'),
+    path('projects/thirdpart-toggle/', views.project_thirdpart_toggle, name='project-thirdpart-toggle'),
     path('projects/set-avantio-schedule/', views.project_set_avantio_schedule, name='project-set-avantio-schedule'),
     path('projects/set-winhotel-schedule/', views.project_set_winhotel_schedule, name='project-set-winhotel-schedule'),
     path('projects/set-lock-schedule/', views.project_set_lock_schedule, name='project-set-lock-schedule'),

@@ -11,7 +11,7 @@
                             data-target="div-thirdpart-list" data-obj_id="{{item.id}}"> <i class="fas fa-trash"></i></button>
                     </div>
                     <div class="col-lg-6 col-12">
-                        <label class="label">{% trans "Thirdpart" %}</label>
+                        <label class="label">{% trans "Thirdpart" %} {{item.id}} </label>
                         <select class="form-control autosave input" id="thirdpart" name="thirdpart"  
                             data-model-name="web.projectthirdpart" data-obj-id="{{item.id}}" data-url="{% url "autosave_field" %}" 
                             data-target="div-notification">
