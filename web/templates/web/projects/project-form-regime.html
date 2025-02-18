@@ -4,7 +4,8 @@
 <div class="row justify-center p-0">
     {% for item in regime_list %}
         <div class="col-md-3 col-6 p-1">
-            <button class="btn regime {%if item in project_regime_list%}btn-primary-active{%else%}btn-outline-primary{%endif%} w-100 ark" 
+            <button 
+                class="btn regime {%if item in project_regime_list%}btn-primary-active{%else%}btn-outline-primary{%endif%} w-100 ark" 
                 data-url="{% url "project-regime-toggle" %}" data-target="" data-obj_id="{{item.id}}" data-project_id="{{obj.id}}"
                 onclick="$(this).toggleClass('btn-outline-primary btn-primary-active')">{{item.name}}</button>
         </div>

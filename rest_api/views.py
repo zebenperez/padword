@@ -80,7 +80,7 @@ class GuestViewSet(viewsets.ModelViewSet):
 
                 guest_data = self.serializer_class(guest).data
                 guest_data["lock_code_err"] = guest.add_all_key_code() if lock_code == "" else guest.add_all_key_code(lock_code)
-                #guest_data["lock_code"] = guest.lock_code 
+                guest_data["lock_code"] = guest.lock_code 
 
                 #if data["lock_code"] == "":
                 #    guest_data["lock_code_err"] = guest.add_all_key_code()
@@ -270,6 +270,17 @@ class GuestViewSet(viewsets.ModelViewSet):
             #guest_data["lock_code"] = guest.lock_code 
             return Response(guest_data, status=status.HTTP_200_OK)
             #return Response(self.serializer_class(guest).data, status=status.HTTP_200_OK)
+        except Exception as e:
+            logger.error("[{}]: \"{}\"".format(self.request.user, str(e)))
+            return Response({"error": True, 'msg': 'Bad request!'})
+
+    @action(detail=False, methods=['get'])
+    def get_all_guest_by_ext_id(self, request):
+        try:
+            guest_ext_id = request.GET["ext_id"]
+            guest_list = Guest.objects.filter(ext_id = guest_ext_id)
+            logger.info("[{}]: \"Get all guest by ext_id {}\"".format(self.request.user, guest_ext_id))
+            return Response(GuestSerializer(guest_list, many=True).data, status=status.HTTP_200_OK)
         except Exception as e:
             logger.error("[{}]: \"{}\"".format(self.request.user, str(e)))
             return Response({"error": True, 'msg': 'Bad request!'})

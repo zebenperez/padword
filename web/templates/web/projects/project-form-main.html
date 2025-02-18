@@ -116,9 +116,32 @@
             <div class="row">
                 <div class="col-12">
                     <label class="label">{% trans "UUID" %}:</label>
-                    <input type="text" class="form-control autosave input mb-4" id="uuid" name="uuid" value="{{obj.uuid}}" title="{{obj.uuid}}" 
-                        data-model-name="web.project" data-obj-id="{{obj.id}}" data-url="{% url "autosave_field" %}" data-target="div-notification" 
-                        readonly/> <span id="uuid__msg"></span>
+                    <input type="text" class="form-control autosave input mb-4" id="uuid" name="uuid" value="{{obj.uuid}}" 
+                        title="{{obj.uuid}}" data-model-name="web.project" data-obj-id="{{obj.id}}" 
+                        data-url="{% url "autosave_field" %}" data-target="div-notification" readonly/> <span id="uuid__msg"></span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <label class="label">{% trans "Terceros" %}:</label>
+                    <div class="row">
+                    {% for th in thirdpart_list %}
+                        <div class="col-2 mt-1"> <button class="btn regime 
+                            {%if th in obj.thirdpart_list%}btn-primary-active{%else%}btn-outline-primary{%endif%} w-100 ark" 
+                            data-url="{% url "project-thirdpart-toggle" %}" data-target="" data-obj_id="{{th.id}}" 
+                            data-project_id="{{obj.id}}"
+                            onclick="$(this).toggleClass('btn-outline-primary btn-primary-active')">{{th.name}}</button>
+                        </div>
+                    {% endfor %}
+                    </div>
+                    {%comment%}
+                    <select class="form-control ark input mb-4" id="thirdparts" name="thirdparts" multiple
+                        data-url="{%url "project-thirdpart-change"%}" data-target="" data-obj_id="{{obj.id}}">
+                        {% for th in thirdpart_list %}
+                            <option value="{{th.id}}" {%if th|item_in_list:obj.thirdparts.all%}selected{%endif%}>{{th.name}}</option>
+                        {% endfor %}
+                    </select>
+                    {%endcomment%}
                 </div>
             </div>
         </div>

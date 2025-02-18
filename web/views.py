@@ -757,6 +757,19 @@ def project_thirdpart_remove(request):
         print (show_exc(e))
     return render(request, "web/projects/project-form-thirdpart-list.html", {'obj':project, 'thirdpart_list':item_list,})
 
+@group_required("admins")
+def project_thirdpart_toggle(request):
+    try:
+        project = get_or_none(Project, request.GET["project_id"])
+        third = get_or_none(Thirdpart, request.GET["obj_id"])
+        th_list = ProjectThirdpart.objects.filter(thirdpart=third, project=project)
+        if len(th_list) > 0:
+            th_list.delete()
+        else:
+            ProjectThirdpart.objects.create(thirdpart=third, project=project)
+    except Exception as e:
+        print (show_exc(e))
+    return HttpResponse("")
 
 
 '''

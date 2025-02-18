@@ -203,6 +203,7 @@ def project_expiration(user):
     else:
         return ""
 
+
 '''
     Simple Tags
 '''

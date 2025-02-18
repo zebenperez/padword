@@ -242,6 +242,9 @@ class Project(models.Model):
         except Exception as e:
             return date
 
+    def thirdpart_list(self):
+        return [item.thirdpart for item in self.thirdparts.all()]
+
 class ProjectLockUser(models.Model):
     username = models.CharField(max_length=255, verbose_name=_('Lock Username'), default="")
     password = models.CharField(max_length=255, verbose_name=_('Lock Password'), default="")
