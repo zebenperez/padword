@@ -808,11 +808,11 @@ $(document).ready(()=>{
     }*/
 
     //async function scanNFC(id, url, guest_uuid, {signal} = {}) {
-    async function scanNFC(id, url, target, fi_id, {signal} = {}) {
+    async function scanNFC(id, url, target, fi_id, ac) {
         var container = $(`#${id}`);
         try {
-            const ndef = new NDEFReader(signal);
-            await ndef.scan();
+            const ndef = new NDEFReader();
+            await ndef.scan({ signal: ac.signal });
             //container.html("> Scan started");
 
             ndef.addEventListener("readingerror", () => {
@@ -846,20 +846,20 @@ $(document).ready(()=>{
         return;
     }
 
-    $("body").on("click", ".scan-nfc", function() {
+    $("body").on("click", ".scan-nfc", function(e) {
         var id = $(this).data("scan-container");
         var url = $(this).data("scan-url");
         var target = $(this).data("scan-target");
         //var guest_uuid = $(this).data("guest-uuid");
         var fi_id = $(this).data("obj_id");
-        $(`#${id}`).show();
         const ac = new AbortController();
+
+        $(this).prop("disabled", "disabled");
+        $(`#${id}`).show();
         //scanNFC(id, url, guest_uuid, {signal: ac.signal});
-        //alert(url);
-        //alert(target);
-        scanNFC(id, url, target, fi_id, {signal: ac.signal});
-        ac.abort(); 
-        setTimeout(() => {ac.abort(); $(`#${id}-wait`).hide();}, 20000);
+        scanNFC(id, url, target, fi_id, ac);
+        setTimeout(() => {ac.abort(); $(`#${id}-wait`).hide();}, 10000);
+        ac.signal.onabort = event => {$(this).prop("disabled", "");};
     });
 
     async function scanNFCPay(id, url, target, obj_id, amount, {signal} = {}) {
