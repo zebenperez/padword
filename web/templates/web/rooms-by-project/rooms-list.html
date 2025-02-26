@@ -17,7 +17,7 @@
             </div>
         </div>
     {% endif %}
-    {% if project.cloudbeds_user != None and project.cloudbeds_user.uuid != "" %}
+    {% if project.cloudbeds_user != None and project.cloudbeds_user.token != "" %}
         <div class="row m-0 p-2"> 
             <div class="col-12 text-end">
                 <a class="btn btn-primary ark" data-url="{%url "cloudbeds-get-room-list" project.uuid%}" 
