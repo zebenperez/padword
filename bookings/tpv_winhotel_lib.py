@@ -72,9 +72,9 @@ def cash_daily_summary(obj, date):
                 #code = obj.name[:4].upper()
                 name = obj.name
                 desc = translate2("es", item.name).replace('"', '')
-                #date = fi.date.strftime("%Y%m%d%H%M")
-                date = fi.project.local_date(fi.date)
-                date = date.strftime("%Y%m%d%H%M")
+                date = fi.date.strftime("%Y%m%d%H%M")
+                #date = fi.project.local_date(fi.date)
+                #date = date.strftime("%Y%m%d%H%M")
                 units = 1
                 #Invitación
                 if fi.payment_type != None and fi.payment_type.code == "05":

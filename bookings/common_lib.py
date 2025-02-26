@@ -47,8 +47,10 @@ def get_or_create_form_instance(form, guest_uuid, guest_name=""):
 def get_or_create_form_instance_tpv(form, pos_uuid, table_uuid, guest_name=""):
     if form.form_type.order:
         fi, created = FormInstance.objects.get_or_create(form_uuid=form.uuid, pos_uuid=pos_uuid, table_uuid=table_uuid, status_list__isnull=True)
-        if created and guest_name != "":
-            fi.guest_name = guest_name
+        if created:
+            fi.date = form.project.local_date(datetime.now())
+            if guest_name != "":
+                fi.guest_name = guest_name
             fi.save()
         #fi, created = FormInstance.objects.get_or_create(form_uuid=form.uuid, guest_uuid=guest_uuid)
         return fi
