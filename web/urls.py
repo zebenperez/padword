@@ -203,10 +203,15 @@ urlpatterns = [
     path('rooms/search/by-project/', room_views.rooms_search_by_project, name='rooms-search-by-project'),
 
     #--------------------- KeyCard --------------------
-    path('keycards/', card_views.keycards, name='keycards'),
+    #path('keycards/', card_views.keycards, name='keycards'),
+    path('keycards/by-project/<slug:project_uuid>/', card_views.keycards_by_project, name='keycards-by-project'),
     path('keycards/search/', card_views.keycard_search, name='keycard-search'),
     path('keycards/form/', card_views.keycard_form, name='keycard-form'),
     path('keycards/remove/', card_views.keycard_remove, name='keycard-remove'),
+
+    path('keycards/add-multiple/<slug:project_uuid>/', card_views.keycards_add_multiple, name='keycards-add-multiple'),
+    path('keycards/add-multiple-step1/', card_views.keycards_add_multiple_step1, name='keycards-add-multiple-step1'),
+    path('keycards/add-multiple-step2/', card_views.keycards_add_multiple_step2, name='keycards-add-multiple-step2'),
 
     path('keycards/number/', card_views.keycard_number, name='keycard-number'),
     path('keycards/number-search/', card_views.keycard_number_search, name='keycard-number-search'),

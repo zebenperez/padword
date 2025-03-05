@@ -1,0 +1,9 @@
+{% load i18n %}
+
+{% if percent == 100 %}
+    <h2>{% trans "Se ha completado el proceso" %}</h2>
+{% endif %}
+<div class="progress">
+    <div class="progress-bar progress-bar-striped bg-warning" role="progressbar" style="width: {{percent}}%" 
+        aria-valuenow="{{percent}}" aria-valuemin="0" aria-valuemax="100"></div>
+</div>

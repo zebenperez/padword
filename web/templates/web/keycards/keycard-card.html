@@ -2,12 +2,14 @@
 <div class="col-1">
     <div class="card ark"  data-url="{% url "keycard-form" %}" data-target-modal="common-modal" data-obj_id="{{item.id}}">
         <div class="card-body lock-box">
+            <div class="col-12 text-center">{% trans 'Lock' %}:</div>
+            <div class="col-12 text-center"><strong>{{item.lock.uuid|default:'-'}}</strong></div>
+            {%comment%}
             <div class="col-12 text-center">{% trans 'Bluetooth' %}:</div>
             <div class="col-12 text-center"><strong>{{item.bluetooth|default:'-'}}</strong></div>
             <div class="col-12 text-center">{% trans 'Card Reader' %}:</div>
             <div class="col-12 text-center"><strong>{{item.cardreader|default:'-'}}</strong></div>
-            <div class="col-12 text-center">{% trans 'Lock' %}:</div>
-            <div class="col-12 text-center"><strong>{{item.lock.uuid|default:'-'}}</strong></div>
+            {%endcomment%}
         </div>
     </div>
 </div>

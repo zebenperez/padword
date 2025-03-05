@@ -148,8 +148,8 @@ class Project(models.Model):
         obj = ShLock(self.lock_access_token)
         return obj.get_ekeys()
 
-    def get_keycards(self):
-        return KeyCard.objects.filter(project_uuid=self.uuid)
+    #def get_keycards(self):
+    #    return KeyCard.objects.filter(project_uuid=self.uuid)
 
     def sensibo_device_list(self):
         obj = ShSensibo(self.sensibo_api_key)

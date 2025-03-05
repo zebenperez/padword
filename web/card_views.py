@@ -5,7 +5,7 @@ from django.shortcuts import render, redirect
 from django.utils.translation import ugettext_lazy as _ 
 from django.views.decorators.csrf import csrf_exempt
 
-from padword.commons import show_exc, get_or_none, get_param, new_ui_slug, translate, set_session, reverse_cardkey
+from padword.commons import show_exc, get_or_none, get_param, new_ui_slug, translate, set_session, reverse_cardkey, get_int
 from padword.decorators import group_required
 from guest.models import KeyCard as GuestKeyCard
 from .models import *
@@ -16,19 +16,14 @@ import os
 import requests
 
 
-def get_projects(request):
-    search_value = request.session["keycard_search_name"] if "keycard_search_name" in request.session else ""
-    projects = Project.objects.filter(name__icontains=search_value) if search_value != "" else Project.objects.all()
-    return projects
+def get_context(project_uuid):
+    project = get_or_none(Project, project_uuid, "uuid")
+    item_list = KeyCard.objects.filter(project_uuid=project.uuid)
+    return {'project': project, 'item_list': item_list, 'active': 'keycard'}
 
 @group_required("admins")
-def keycards (request):
-    return render (request, "web/keycards/keycards.html", {'project_list': get_projects(request), 'active': 'keycard'})
-#    projects = Project.objects.all()
-#    list_keycards = []
-#    for project in projects:
-#        list_keycards.append([project, KeyCard.objects.filter(project_uuid = project.uuid)])
-#    return render (request, "web/keycards/keycards.html", {'list_keycards':list_keycards})
+def keycards_by_project (request, project_uuid):
+    return render (request, "web/keycards/keycards.html", get_context(project_uuid))
 
 @group_required("admins")
 def keycard_form(request):
@@ -46,24 +41,77 @@ def keycard_form(request):
 @group_required("admins")
 def keycard_remove(request):
     obj = get_or_none(KeyCard, request.GET["obj_id"]) if "obj_id" in request.GET else None
+    project_uuid = get_param(request.GET, "project")
     if obj != None:
         obj.delete()
-    return render (request, "web/keycards/keycards-list.html", {'project_list': get_projects(request)})
-    #items = KeyCard.objects.filter(parent__isnull = True)
-    #return render (request, "web/keycards/keycards-list.html",{'items':items} )
-
-@group_required("admins")
-def keycard_floors(request):
-    project_uuid = request.GET["project"]
-    project = Project.objects.get(uuid=project_uuid)
-    return render(request, "web/keycards/keycards-list.html", {'project_list': [project]})
-    #items = KeyCard.objects.filter(parent__isnull = True, project_uuid=project_uuid)
-    #return render(request, "web/keycards/keycards-list.html", {'items': items,'project':project})
+    return render (request, "web/keycards/keycards-list.html", get_context(project_uuid))
 
 @group_required("admins")
 def keycard_search (request):
     set_session(request, "keycard_search_name")
     return render (request, "web/keycards/keycards-list.html", {'project_list': get_projects(request)})
+
+'''
+    Keycard multiple
+'''
+@group_required("admins")
+def keycards_add_multiple (request, project_uuid):
+    project = get_or_none(Project, project_uuid, "uuid")
+    items = Lock.objects.filter(project_uuid=project.uuid)
+    return render (request, "web/keycards/keycards-add-multiple.html", {"project": project, "items": items})
+
+@group_required("admins")
+def keycards_add_multiple_step1(request):
+    project = get_or_none(Project, get_param(request.POST, "project"), "uuid")
+    number = get_int(get_param(request.POST, "number"))
+    ini_date = get_param(request.POST, "ini_date")
+    end_date = get_param(request.POST, "end_date")
+    locks = ""
+    for key in request.POST.keys():
+        if key.startswith("ch_"):
+            val = get_int(key.split("_")[1])
+            if val > 0:
+                locks += "{},".format(val)
+    context = {"project":project, "number":number, "range":range(number), "locks":locks[:-1], "ini_date":ini_date, "end_date":end_date}
+    return render (request, "web/keycards/keycards-add-multiple-step1.html", context)
+ 
+@group_required("admins")
+def keycards_add_multiple_step2(request):
+    project = get_or_none(Project, get_param(request.POST, "project"), "uuid")
+    locks = get_param(request.POST, "locks")
+    ini_date= get_param(request.POST, "ini_date")
+    end_date= get_param(request.POST, "end_date")
+    name = get_param(request.POST, "name")
+    card = reverse_cardkey(get_param(request.POST, "card"))
+    current = get_int(get_param(request.POST, "current"))
+    total = get_int(get_param(request.POST, "total"))
+    percent = (current * 100) // total
+    lock_list = locks.split(",")
+    for lock in lock_list:
+        l = get_or_none(Lock, lock)
+        #print("{} {} {} {}".format(card, ini_date, end_date, name))
+        l.add_card(card, ini_date, end_date, name)
+    return render (request, "web/keycards/keycards-add-multiple-progress.html", {"percent": percent,})
+
+#def get_projects(request):
+#    search_value = request.session["keycard_search_name"] if "keycard_search_name" in request.session else ""
+#    projects = Project.objects.filter(name__icontains=search_value) if search_value != "" else Project.objects.all()
+#    return projects
+#
+#@group_required("admins")
+#def keycards (request):
+#    return render (request, "web/keycards/keycards.html", {'project_list': get_projects(request), 'active': 'keycard'})
+#    projects = Project.objects.all()
+#    list_keycards = []
+#    for project in projects:
+#        list_keycards.append([project, KeyCard.objects.filter(project_uuid = project.uuid)])
+#    return render (request, "web/keycards/keycards.html", {'list_keycards':list_keycards})
+
+#@group_required("admins")
+#def keycard_floors(request):
+#    project_uuid = request.GET["project"]
+#    project = Project.objects.get(uuid=project_uuid)
+#    return render(request, "web/keycards/keycards-list.html", {'project_list': [project]})
 
 
 #@group_required("admins")
