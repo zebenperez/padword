@@ -12,43 +12,49 @@
                 {%csrf_token%}
                 <input type="hidden" id="project" name="project" value="{{project.uuid}}" />
                 <input type="hidden" id="current" name="current" value="0" />
-                <div class="row">
-                    <div class="col-4"> {% trans "Indique el número de tarjetas a generar" %}:
+                <div class="row m-0 pt-3">
+                    <div class="col-4"> <label class="label pb-2"><strong><span class="bg-ico-bar px-2">1</span> {% trans "Indique el número de tarjetas a generar" %}:</strong></label>
                         <input type="text" class="form-control" id="number" name="number" placeholder="Número de tarjetas"/>
                     </div>
-                    <div class="col-4"> {% trans "Fecha de inicio" %}:
+                    <div class="col-4"> <label class="label pb-2"><strong><span class="bg-ico-bar px-2">2</span> {% trans "Fecha de inicio" %}:</strong></label>
                         <input type="date" class="form-control" id="ini_date" name="ini_date"/>
                     </div>
-                    <div class="col-4"> {% trans "Fecha de fin" %}:
+                    <div class="col-4"> <label class="label pb-2"><strong><span class="bg-ico-bar px-2">3</span> {% trans "Fecha de fin" %}:</strong></label>
                         <input type="date" class="form-control" id="end_date" name="end_date"/>
                     </div>
                 </div>
-                <br/>
-                {% trans "Seleccione las cerraduras" %}:
-                <table class="table table-striped table-hover mt-3" id="main-table">
-                    <thead>
-                        <tr class="small small">
-                            <th><input type="checkbox" name="ch_0" id="check-all"/></th>
-                            <th> {% trans 'UUID' %} <i class="fas fa-sort"></i> </th>
-                            <th> {% trans 'Lock Alias' %} <i class="fas fa-sort"></i> </th>
-                            <th> {% trans 'Group' %} <i class="fas fa-sort"></i> </th>
-                            <th> {% trans 'Room' %} <i class="fas fa-sort"></i> </th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for item in items %}
-                        <tr class="small load-row" id="row_{{item.id}}" data-obj_id="{{item.id}}">
-                            <td><input type="checkbox" name="ch_{{item.id}}" /></td>
-                            <td>{{ item.uuid }}</td>
-                            <td>{% padword_translate item.alias %}</td>
-                            <td>{{ item.group.name }}</td>
-                            <td>{{ item.room }}</td>
-                        </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
-
-                <button class="btn btn-info saveform" data-form="form-card" data-target="div-main"> {% trans "Continuar" %}</button>
+                <div class="row m-0 pt-4">
+                    <div class="col-12"> <label class="label"><strong><span class="bg-ico-bar px-2">4</span> {% trans "Seleccione las cerraduras" %}:</strong></label></div>
+                    <div class="col-12 pt-2">
+                        <table class="table table-striped table-hover" id="main-table">
+                            <thead>
+                                <tr class="small small tablesorter-headerRow">
+                                    <th><input type="checkbox" name="ch_0" id="check-all"/></th>
+                                    <th> {% trans 'UUID' %} <i class="fas fa-sort"></i> </th>
+                                    <th> {% trans 'Lock Alias' %} <i class="fas fa-sort"></i> </th>
+                                    <th> {% trans 'Group' %} <i class="fas fa-sort"></i> </th>
+                                    <th> {% trans 'Room' %} <i class="fas fa-sort"></i> </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for item in items %}
+                                <tr class="small load-row" id="row_{{item.id}}" data-obj_id="{{item.id}}">
+                                    <td><input type="checkbox" name="ch_{{item.id}}" /></td>
+                                    <td>{{ item.uuid }}</td>
+                                    <td>{% padword_translate item.alias %}</td>
+                                    <td>{{ item.group.name }}</td>
+                                    <td>{{ item.room }}</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="row m-0">
+                    <div class="col-12 p-3 text-end">
+                        <button class="btn btn-primary saveform" data-form="form-card" data-target="div-main"> {% trans "Continuar" %}</button>
+                    </div>
+                </div>
             </form>
         </div>
         {% include "common-modal.html" %}
