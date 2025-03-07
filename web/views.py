@@ -24,7 +24,7 @@ import os, re, requests, time, datetime, csv
 
 
 
-@group_required("admins", "projects", "categories", "guests")
+@group_required("admins", "projects", "categories", "guests", "project_admin")
 def index(request, chk=None):
     if request.user.groups.filter(name='guests').exists():
         return redirect('pwa-index')
@@ -41,6 +41,9 @@ def index(request, chk=None):
             return render(request, 'error_exception.html', {'exc': _('Project not found!')})
         #return redirect('bookings-by-project', request.project_id)
         return redirect_project_user(request)
+
+    if request.user.groups.filter(name='project_admin').exists():
+        return redirect('projects-admin')
 
     return redirect('projects')
 

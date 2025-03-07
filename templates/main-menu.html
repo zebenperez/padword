@@ -264,6 +264,10 @@
                 <i class="fas fa-tablet-alt"></i> {%trans "Categories"%}</a></li>
         {% endif %}
         {#<li class="nav-item"><a class="nav-link " href="{%url 'bookings-by-category'%}"><i class="fas fa-book"></i> {% trans "Orders" %}</a></li>#}
+    {% elif menu == "project_admin" %}
+        <li class="nav-item"><a class="nav-link {%if active == "projects"%}active{%endif%}" href="{% url "projects-admin" %}">
+            <i class="far fa-folder-open"></i> {% trans "Projects" %} </a> </li>
+ 
     {% endif %}
     </ul>
 {% else %}
