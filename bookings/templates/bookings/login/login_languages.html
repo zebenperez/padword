@@ -1,4 +1,4 @@
-{% load i18n %}
+{% load i18n bookings_tag common_tag padword_tags static %}
 
 {% if form.errors %} <p>{% trans "Your username and password didn't match. Please try again." %}</p> {% endif %}
 {% csrf_token %}
@@ -39,7 +39,7 @@
 				        <div class="col-md-2 offset-md-5">
 				    	    <div class="form-inline"> <div class="form-group">
                                 <button class="btn btn-access btn-submit saveform" data-form="form-guest" data-target="div-main"> 
-                                    {% trans "Access" %}</button> 
+                                    {% trans "Pulsa para iniciar sesión" %}</button> 
 						    </div> </div>
 	                    </div>
 			        </div>

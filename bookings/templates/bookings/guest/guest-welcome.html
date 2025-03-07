@@ -1,5 +1,5 @@
 {% extends "base_guest.html" %}
-{% load i18n padword_tags %}
+{% load i18n bookings_tag common_tag padword_tags static %}
 
 {% block central_content %}
 	<div id="div-main" class="welcome-page">
@@ -18,7 +18,7 @@
                     <button class="me-1 btn btn-access ark" data-url="{{next_url}}" data-target="div-main" data-project_uuid="{{project_uuid}}"
                         data-lang="{{lang}}" data-category_uuid="{{cat.uuid}}" onclick="javascript:openFullScreen();"> 
                         {#data-lang="{{lang}}" data-category_uuid="{{cat.uuid}}" data-history="True"> #}
-                        {%trans "Access"%}</button>
+                        {%trans "Pulsar para acceder"%}</button>
                 {% else %}
                     <button class="me-1 btn btn-access ark" data-url="{% url next_url %}" data-target="div-main" 
                         data-form_uuid="{{form_uuid}}" onclick="javascript:openFullScreen();">{%trans "Access"%}</button>
