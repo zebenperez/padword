@@ -560,6 +560,33 @@ input#keycard_search_name {
     background-color: #f4f4f5 !important;
 }
 
+.form-check.form-switch {
+    text-align:right !important;
+}
+
+.divbutact {
+    display:grid;
+    grid-template-columns: 70% 30%;
+    align-items:center;
+}
+.act-pro {
+    text-transform: uppercase;
+    font-weight: 600;
+}
+.form-switch,
+.form-switch .form-check-input {
+    margin-left: 0 !important;
+    padding-left: 0 !important;
+}
+.form-switch .form-check-input {
+    width: 60px;
+} 
+.form-check-input:checked {
+    background-color: #73bf00;
+    border-color: #73bf00;
+    width: 60px;
+}
+
 /************* Estilo del scroll ********************/
 
 /* width */

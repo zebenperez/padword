@@ -203,6 +203,9 @@ def project_expiration(user):
     else:
         return ""
 
+@register.filter
+def get_locks_number(project):
+    return Lock.objects.filter(project_uuid=project.uuid).count()
 
 '''
     Simple Tags

@@ -18,6 +18,7 @@
 {%endcomment%}
 <td>{%if item.box%}<i class="fas fa-check"></i>{%else%}<i class="fas fa-times"></i>{%endif%}</td>
 <td>{%if item.private%}<i class="fas fa-check"></i>{%else%}<i class="fas fa-times"></i>{%endif%}</td>
+<td>{%if item.default%}<i class="fas fa-check"></i>{%else%}<i class="fas fa-times"></i>{%endif%}</td>
 <td class="text-end">
     <div class="popup"> <span class="popuptext" id="lock-msg-{{item.id}}"></span> 
         <a class="me-1 btn btn-xs ark" data-url="{% url "locks-open" %}" data-obj_id="{{item.id}}"

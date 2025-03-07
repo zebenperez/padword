@@ -3,7 +3,17 @@
 {% if percent == 100 %}
     <h2>{% trans "Se ha completado el proceso" %}</h2>
 {% endif %}
+{% if err and err != "" %}
+    <div class="alert alert-warning">{{err}}</div>
+    <br/>
+{% endif %}
 <div class="progress">
     <div class="progress-bar progress-bar-striped bg-warning" role="progressbar" style="width: {{percent}}%" 
         aria-valuenow="{{percent}}" aria-valuemin="0" aria-valuemax="100"></div>
 </div>
+{% if percent == 100 %}
+    <div class="mt-4 text-center">
+        <a class="btn btn-info" href="{% url "projects" %}"> {% trans "Volver a projectos" %}</a>
+        <a class="btn btn-info" href="{% url "keycards-add-multiple" project_uuid %}"> {% trans "Añadir mas tarjetas" %}</a>
+    </div>
+{% endif %}

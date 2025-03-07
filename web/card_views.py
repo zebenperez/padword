@@ -4,6 +4,7 @@ from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, redirect
 from django.utils.translation import ugettext_lazy as _ 
 from django.views.decorators.csrf import csrf_exempt
+import datetime
 
 from padword.commons import show_exc, get_or_none, get_param, new_ui_slug, translate, set_session, reverse_cardkey, get_int
 from padword.decorators import group_required
@@ -79,19 +80,23 @@ def keycards_add_multiple_step1(request):
 def keycards_add_multiple_step2(request):
     project = get_or_none(Project, get_param(request.POST, "project"), "uuid")
     locks = get_param(request.POST, "locks")
-    ini_date= get_param(request.POST, "ini_date")
-    end_date= get_param(request.POST, "end_date")
+    ini_date= "{} 00:00:00".format(get_param(request.POST, "ini_date"))
+    end_date= "{} 23:59:59".format(get_param(request.POST, "end_date"))
     name = get_param(request.POST, "name")
     card = reverse_cardkey(get_param(request.POST, "card"))
     current = get_int(get_param(request.POST, "current"))
     total = get_int(get_param(request.POST, "total"))
     percent = (current * 100) // total
     lock_list = locks.split(",")
+    err = ""
     for lock in lock_list:
         l = get_or_none(Lock, lock)
+        i_date = datetime.datetime.strptime(ini_date, "%Y-%m-%d %H:%M:%S")
+        e_date = datetime.datetime.strptime(end_date, "%Y-%m-%d %H:%M:%S")
         #print("{} {} {} {}".format(card, ini_date, end_date, name))
-        l.add_card(card, ini_date, end_date, name)
-    return render (request, "web/keycards/keycards-add-multiple-progress.html", {"percent": percent,})
+        err = l.add_card(card, i_date, e_date, name)
+    context = {"percent": percent, "project_uuid": project.uuid, "err": err}
+    return render (request, "web/keycards/keycards-add-multiple-progress.html", context)
 
 #def get_projects(request):
 #    search_value = request.session["keycard_search_name"] if "keycard_search_name" in request.session else ""
