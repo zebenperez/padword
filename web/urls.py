@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 from django.urls import path
 from . import views, auto_views, room_views, card_views, lock_views, lock_user_views, lock_group_views 
-from . import gateway_views, ekey_views, box_views, lock_cron_views
+from . import gateway_views, ekey_views, box_views, lock_cron_views, project_admin_views
 
 urlpatterns = [ 
     #path('index/<slug:chk>/', views.index, name='web-index-new'),
@@ -63,6 +63,12 @@ urlpatterns = [
     path('projects/set-cloudbeds-schedule/', views.project_set_cloudbeds_schedule, name='project-set-cloudbeds-schedule'),
     path('projects/add-logo/', views.project_add_logo, name='project-add-logo'),
     path('projects/remove-logo/', views.project_remove_logo, name='project-remove-logo'),
+    
+    #--------------------- Projects Admin--------------------
+    path('projects-admin/', project_admin_views.projects, name='projects-admin'),
+    path('projects-admin/search/', project_admin_views.projects_search, name='projects-admin-search'),
+    path('projects-admin/details/<int:obj_id>/', project_admin_views.projects_details, name='projects-admin-details'),
+ 
     #--------------------- Channels --------------------
     path('channels/project-<slug:project_id>/', views.channels, name='channels-by-project'),
     path('channels/company-<slug:company_id>/', views.channels, name='channels-by-company'),
