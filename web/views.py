@@ -77,6 +77,10 @@ def thanks(request):
 def csrf_failure(request, reason=""):
     return render(request, "csrf_error.html")
 
+def get_or_create_projectaux(project):
+    obj, created = ProjectAux.objects.get_or_create(project = project)
+    return obj 
+
 def get_or_create_user_lock(project_uuid):
     obj, created = ProjectLockUser.objects.get_or_create(project_uuid = project_uuid)
     return obj 
@@ -171,6 +175,7 @@ def project_form(request):
                 obj.company = company
                 obj.save()
 
+        aux = get_or_create_projectaux(obj)
         user_lock = get_or_create_user_lock(obj.uuid)
         user_sensibo = get_or_create_user_sensibo(obj.uuid)
         user_avantio = get_or_create_user_avantio(obj.uuid)
@@ -187,6 +192,7 @@ def project_form(request):
         form = Form.objects.filter(form_type__code="tpv", form_type__project_uuid=obj.uuid).first()
         context = {
             'obj': obj, 
+            'aux': aux, 
             'companies': Company.objects.all(), 
             'company_id': company_id, 
             'user_lock': user_lock, 
@@ -213,6 +219,7 @@ def project_details(request, obj_id, current_tab=""):
     try:
         obj = get_or_none(Project, obj_id) 
 
+        aux = get_or_create_projectaux(obj)
         user_lock = get_or_create_user_lock(obj.uuid)
         user_sensibo = get_or_create_user_sensibo(obj.uuid)
         user_avantio = get_or_create_user_avantio(obj.uuid)
@@ -233,6 +240,7 @@ def project_details(request, obj_id, current_tab=""):
         form = Form.objects.filter(form_type__code="tpv", form_type__project_uuid=obj.uuid).first()
         context = {
             'obj': obj, 
+            'aux': aux, 
             'companies': Company.objects.all(), 
             'user_lock': user_lock, 
             'user_sensibo': user_sensibo, 

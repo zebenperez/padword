@@ -18,7 +18,7 @@
             {% comment %} <td>{{ item.get_devices | length }}</td> {% endcomment %} 
             <td class="text-end">
                 {% if item.lock_access_token != "" %}
-                    <a class="btn btn-xs" href="{% url 'keycards-by-project' item.uuid %}" title="{% trans 'Cards' %}">
+                    <a class="btn btn-xs" href="{% url 'keycards-add-multiple' item.uuid %}" title="{% trans 'Cards' %}">
                         <i class="fas fa-credit-card"></i></a>
                     <a class="btn btn-xs" href="{% url 'locks-by-project' item.id %}" title="{% trans 'Locks' %}">
                         <i class="fas fa-key"></i></a>
