@@ -861,6 +861,7 @@ class FormInstanceInfo(models.Model):
     pos = models.CharField(max_length=255, verbose_name=_("Point of service"), default="")
     table = models.CharField(max_length=255, verbose_name=_("Table"), default="")
     band = models.CharField(max_length=255, verbose_name=_("Band"), default="")
+    band_name = models.CharField(max_length=255, verbose_name=_("Band"), default="")
     client = models.CharField(max_length=255, verbose_name=_("Guest name"), default="")
     client_id = models.CharField(max_length=255, verbose_name=_("Guest name"), default="")
     client_mobile = models.CharField(max_length=255, verbose_name=_("Guest mobile"), default="")
