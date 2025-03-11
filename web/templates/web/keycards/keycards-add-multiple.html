@@ -6,27 +6,31 @@
         <div class="toolbar-content">
             <h2 class="b-right">{{project.name}} - {% trans 'Add Multiple Key Cards' %} </h2>
         </div>
- 
+
         <div id="div-main">
+            {% include "web/keycards/keycards-add-path.html" with step=1 %}
             <form method="POST" action="{% url "keycards-add-multiple-step1" %}" id="form-card">
                 {%csrf_token%}
                 <input type="hidden" id="project" name="project" value="{{project.uuid}}" />
                 <input type="hidden" id="current" name="current" value="0" />
                 <div class="row m-0 pt-3">
-                    <div class="col-4"> <label class="label pb-2"><strong><span class="bg-ico-bar px-2">1</span> 
+                    <div class="col-12"> <label class="label pb-2"><strong><span class="bg-ico-bar px-2">1</span> 
                         {% trans "Indique el número de tarjetas a generar" %}:</strong></label>
-                        <input type="text" class="form-control" id="number" name="number" placeholder="Número de tarjetas"/>
+                        <input type="number" step="1" class="form-control" id="number" name="number" value="1"/>
                     </div>
+                </div>
+                <div class="row m-0 pt-3 mt-4">
                     <div class="col-4"> <label class="label pb-2"><strong><span class="bg-ico-bar px-2">2</span> 
                         {% trans "Fecha de inicio" %}:</strong></label>
-                        <input type="date" class="form-control" id="ini_date" name="ini_date"/>
+                        <input type="date" class="form-control" id="ini_date" name="ini_date" value="{{ini_date}}"/>
                     </div>
                     <div class="col-4"> <label class="label pb-2"><strong><span class="bg-ico-bar px-2">3</span> 
                         {% trans "Fecha de fin" %}:</strong></label>
-                        <input type="date" class="form-control" id="end_date" name="end_date"/>
+                        <input type="date" class="form-control" id="end_date" name="end_date" value="{{end_date}}"/>
                     </div>
                 </div>
-                <div class="row m-0 pt-4">
+                {%comment%}
+                <div class="row m-0 pt-4 mt-4">
                     <div class="col-6"> <label class="label"><strong><span class="bg-ico-bar px-2">4</span> 
                         {% trans "Cerraduras predeterminadas" %}:</strong></label></div>
                     <div class="col-6"> <label class="label"><strong><span class="bg-ico-bar px-2">5</span> 
@@ -84,9 +88,11 @@
                         </table>
                     </div>
                 </div>
+                {%endcomment%}
                 <div class="row m-0">
                     <div class="col-12 p-3 text-end">
-                        <button class="btn btn-primary saveform" data-form="form-card" data-target="div-main"> {% trans "Continuar" %}</button>
+                        <button class="btn btn-primary saveform" data-form="form-card" data-target="div-main"> 
+                            {% trans "Continuar" %}</button>
                     </div>
                 </div>
             </form>

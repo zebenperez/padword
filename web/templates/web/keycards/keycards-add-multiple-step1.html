@@ -1,31 +1,130 @@
 {% load i18n padword_tags %}
 
-<h2>{% trans "Añadir tarjetas" %}</h2>
-<br/>
-
-{% for card in range %}
-    <div id="div-lock-{{forloop.counter}}" class="div-lock hide">
-        <form method="POST" action="{% url "keycards-add-multiple-step2" %}" id="form-card-{{forloop.counter}}">
-            {%csrf_token%}
-            <input type="hidden" id="project" name="project" value="{{project.uuid}}" />
-            <input type="hidden" id="locks" name="locks" value="{{locks}}" />
-            <input type="hidden" id="ini_date" name="ini_date" value="{{ini_date}}" />
-            <input type="hidden" id="end_date" name="end_date" value="{{end_date}}" />
-            <input type="hidden" id="current" name="current" value="{{forloop.counter}}" />
-            <input type="hidden" id="total" name="total" value="{{number}}" />
-            {% trans "Tarjeta" %} {{forloop.counter}}
-            <br/>
-            {% trans "Nombre" %}: <input type="text" class="form-control" id="name" name="name" value="" />
-            <br/>
-            {% trans "Escanear tarjera" %}: <input type="text" class="form-control" id="card" name="card" value="" />
-            <br/>
-            <button class="btn btn-info saveform" data-form="form-card-{{forloop.counter}}" data-target="div-progress" 
-                data-id="{{forloop.counter}}"> {% trans "Continuar" %}</button>
-        </form>
+{% include "web/keycards/keycards-add-path.html" with step=2 %}
+<div class="card"><div class="card-body border-secondary"> 
+    <div class="row">
+        <div class="col-4">{% trans "Número de tarjetas" %}: {{number}} </div>
+        <div class="col-4">{% trans "Fecha de inicio" %}: {{ini_date}} </div>
+        <div class="col-4">{% trans "Fecha de fin" %}: {{end_date}} </div>
     </div>
-{% endfor %}
-<div id="div-progress">{% include "web/keycards/keycards-add-multiple-progress.html" with percent=1 %}</div>
-<script>
-    $("#div-lock-1").show();
-    $(".saveform").click(function(e){ var id = parseInt($(this).data("id")); console.log(id); $("#div-lock-"+id).hide(); $("#div-lock-"+(id+1)).show(); });
+</div></div>
+<form method="POST" action="{% url "keycards-add-multiple-step2" %}" id="form-card">
+    {%csrf_token%}
+    <input type="hidden" id="project" name="project" value="{{project.uuid}}" />
+    <input type="hidden" id="ini_date" name="ini_date" value="{{ini_date}}" />
+    <input type="hidden" id="end_date" name="end_date" value="{{end_date}}" />
+    <input type="hidden" id="number" name="number" value="{{number}}" />
+    <div class="row m-0 pt-4 mt-4">
+        <div class="col-12"> <label class="label"><strong><span class="bg-ico-bar px-2">4</span> 
+            {% trans "Cerraduras predeterminadas" %}:</strong></label></div>
+        <div class="col-12">
+            <div class="row mt-4">
+            {% for item in items %}
+                {% if item.default %}
+                    <div class="col-3">
+                        <input type="hidden" id="ch_{{item.id}}" name="ch_{{item.id}}" value="{{item.id}}" />
+                        <div class="btn btn-info btn-lock w-100" data-id="{{item.id}}">{% padword_translate item.alias %}</div>
+                    </div>
+                {% endif %}
+            {% endfor %}
+            </div>
+        </div>
+    </div>
+    <div class="row m-0 pt-4 mt-4">
+        <div class="col-12"> <label class="label"><strong><span class="bg-ico-bar px-2">4</span> 
+            {% trans "Cerraduras" %}:</strong></label></div>
+        <div class="col-12">
+            <div class="row mt-4">
+            {% for item in items %}
+                {% if not item.default %}
+                    <div class="col-3">
+                        <input type="hidden" id="ch_{{item.id}}" name="ch_{{item.id}}" value="" />
+                        <div class="btn btn-lock w-100" data-id="{{item.id}}">{% padword_translate item.alias %}</div>
+                    </div>
+                {% endif %}
+            {% endfor %}
+        </div>
+    </div>
+
+    <div class="row m-0">
+        <div class="col-12 p-3 text-end">
+            <button class="btn btn-primary saveform" data-form="form-card" data-target="div-main"> {% trans "Continuar" %}</button>
+        </div>
+    </div>
+</form>
+                {%comment%}
+<script> 
+    $(".btn-lock").click(function(){
+        var obj = $(this)
+        var input = "#ch_"+obj.data("id");
+        var activeClass = "btn-info";
+        if (obj.hasClass(activeClass)) {
+            obj.removeClass(activeClass);
+            $(input).val("");
+        } else {
+            obj.addClass(activeClass);
+            $(input).val(obj.data("id"));
+        }
+    });
 </script>
+
+                <div class="row m-0 pt-4 mt-4">
+                    <div class="col-6"> <label class="label"><strong><span class="bg-ico-bar px-2">4</span> 
+                        {% trans "Cerraduras predeterminadas" %}:</strong></label></div>
+                    <div class="col-6"> <label class="label"><strong><span class="bg-ico-bar px-2">5</span> 
+                        {% trans "Seleccione las cerraduras" %}:</strong></label></div>
+                    <div class="col-6 pt-2">
+                        <table class="table table-striped table-hover" id="main-table">
+                            <thead>
+                                <tr class="small small tablesorter-headerRow">
+                                    <th><input type="checkbox" name="ch_0" id="check-all"/></th>
+                                    <th> {% trans 'UUID' %} <i class="fas fa-sort"></i> </th>
+                                    <th> {% trans 'Lock Alias' %} <i class="fas fa-sort"></i> </th>
+                                    <th> {% trans 'Group' %} <i class="fas fa-sort"></i> </th>
+                                    <th> {% trans 'Room' %} <i class="fas fa-sort"></i> </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for item in items %}
+                                    {% if item.default %}
+                                        <tr class="small load-row" id="row_{{item.id}}" data-obj_id="{{item.id}}">
+                                            <td><input type="checkbox" name="ch_{{item.id}}" checked/></td>
+                                            <td>{{ item.uuid }}</td>
+                                            <td>{% padword_translate item.alias %}</td>
+                                            <td>{{ item.group.name }}</td>
+                                            <td>{{ item.room }}</td>
+                                        </tr>
+                                    {% endif %}
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="col-6 pt-2">
+                        <table class="table table-striped table-hover" id="main-table">
+                            <thead>
+                                <tr class="small small tablesorter-headerRow">
+                                    <th><input type="checkbox" name="ch_0" id="check-all"/></th>
+                                    <th> {% trans 'UUID' %} <i class="fas fa-sort"></i> </th>
+                                    <th> {% trans 'Lock Alias' %} <i class="fas fa-sort"></i> </th>
+                                    <th> {% trans 'Group' %} <i class="fas fa-sort"></i> </th>
+                                    <th> {% trans 'Room' %} <i class="fas fa-sort"></i> </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for item in items %}
+                                    {% if not item.default %}
+                                        <tr class="small load-row" id="row_{{item.id}}" data-obj_id="{{item.id}}">
+                                            <td><input type="checkbox" name="ch_{{item.id}}" /></td>
+                                            <td>{{ item.uuid }}</td>
+                                            <td>{% padword_translate item.alias %}</td>
+                                            <td>{{ item.group.name }}</td>
+                                            <td>{{ item.room }}</td>
+                                        </tr>
+                                    {% endif %}
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                {%endcomment%}
+ 

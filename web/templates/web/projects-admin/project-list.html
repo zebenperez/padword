@@ -1,10 +1,12 @@
-{% load i18n %}
+{% load i18n padword_tags %}
 
 <table class="table table-striped table-hover" id="main-table">
     <thead>
         <tr class="small small">
             <th> {% trans 'Name' %} <i class="fas fa-sort"></i> </th>
             <th> {% trans 'Company' %} <i class="fas fa-sort"></i> </th>
+            <th> {% trans 'Cerraduras' %} <i class="fas fa-sort"></i> </th>
+            <th> {% trans 'Licencia hasta' %} <i class="fas fa-sort"></i> </th>
             <th> </th>
         </tr>
     </thead>
@@ -14,6 +16,8 @@
             <td> {% if item.active == 1 %}<i class="text-success fas fa-check-circle"></i>
                 {% else %}<i class="text-danger fas fa-times-circle"></i>{% endif%}&nbsp;{{ item.name }}</td>
             <td>{{ item.company.name }}</td>
+            <td>{{ item|get_locks_number }}</td>
+            <td>{{ item.expiration}}</td>
             <td class="text-end">
                 <a class="btn btn-sm" href="{% url "projects-admin-details" item.id %}" title="{% trans "Details" %}"> 
                     <i class="fas fa-edit"></i></a>  

@@ -1,0 +1,13 @@
+{% load i18n %}
+
+<div class="row mb-4">
+    <div class="col-3"><button class="btn {%if step == 1%}btn-warning{%else%}btn-default{%endif%}">
+        {% trans "Paso1: Número de tarjetas y Fechas" %}</button></div>
+    <div class="col-1"> >> </div>
+    <div class="col-3"><button class="btn {%if step == 2%}btn-warning{%else%}btn-default{%endif%}">
+        {% trans "Paso2: Selección de cerraduras" %}</button></div>
+    <div class="col-1"> >> </div>
+    <div class="col-4"><button class="btn {%if step == 3%}btn-warning{%else%}btn-default{%endif%}">
+        {% trans "Paso3: Escanear las tarjeras" %} </button></div>
+</div>
+ 
