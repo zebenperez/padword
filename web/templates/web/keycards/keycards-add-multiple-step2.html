@@ -6,7 +6,8 @@
         <div class="col-3">{% trans "Número de tarjetas" %}: {{number}} </div>
         <div class="col-3">{% trans "Fecha de inicio" %}: {{ini_date}} </div>
         <div class="col-3">{% trans "Fecha de fin" %}: {{end_date}} </div>
-        <div class="col-3">{% trans "Cerraduras" %}: {%for l in items%}{% padword_translate l.alias %}{%endfor%} </div>
+        <div class="col-3">{% trans "Cerraduras" %}: 
+            {%for l in items%}{% padword_translate l.alias %}{%if not forloop.last%}, {%endif%}{%endfor%} </div>
     </div>
 </div></div>
 <div class="row mt-4">

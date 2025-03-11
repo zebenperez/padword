@@ -18,31 +18,37 @@
         <div class="col-12"> <label class="label"><strong><span class="bg-ico-bar px-2">4</span> 
             {% trans "Cerraduras predeterminadas" %}:</strong></label></div>
         <div class="col-12">
-            <div class="row mt-4">
+            
+            <div class="card mt-4"><div class="card-body border-secondary"><div class="row">
             {% for item in items %}
                 {% if item.default %}
                     <div class="col-3">
                         <input type="hidden" id="ch_{{item.id}}" name="ch_{{item.id}}" value="{{item.id}}" />
-                        <div class="btn btn-info btn-lock w-100" data-id="{{item.id}}">{% padword_translate item.alias %}</div>
+                        <div class="btn btn-info btnLock w-75 border-secondary" data-id="{{item.id}}">
+                            {% padword_translate item.alias %}</div>
                     </div>
                 {% endif %}
             {% endfor %}
-            </div>
+            </div> </div> </div>
         </div>
     </div>
     <div class="row m-0 pt-4 mt-4">
         <div class="col-12"> <label class="label"><strong><span class="bg-ico-bar px-2">4</span> 
-            {% trans "Cerraduras" %}:</strong></label></div>
+            {% trans "Cerraduras" %}:</strong></label> 
+            <input type="text" class="form-control" id="search" name="search" placeholder="Buscar..."/>
+        </div>
         <div class="col-12">
-            <div class="row mt-4">
+            <div class="card mt-4"><div class="card-body border-secondary"><div class="row">
             {% for item in items %}
                 {% if not item.default %}
                     <div class="col-3">
                         <input type="hidden" id="ch_{{item.id}}" name="ch_{{item.id}}" value="" />
-                        <div class="btn btn-lock w-100" data-id="{{item.id}}">{% padword_translate item.alias %}</div>
+                        <div class="btn btnLock lock-search w-75 border-secondary" data-id="{{item.id}}">
+                            {% padword_translate item.alias %}</div>
                     </div>
                 {% endif %}
             {% endfor %}
+            </div> </div> </div>
         </div>
     </div>
 
@@ -52,79 +58,20 @@
         </div>
     </div>
 </form>
-                {%comment%}
-<script> 
-    $(".btn-lock").click(function(){
-        var obj = $(this)
-        var input = "#ch_"+obj.data("id");
-        var activeClass = "btn-info";
-        if (obj.hasClass(activeClass)) {
-            obj.removeClass(activeClass);
-            $(input).val("");
-        } else {
-            obj.addClass(activeClass);
-            $(input).val(obj.data("id"));
+<script>
+    $("#search").keyup(function(){
+        var val = $(this).val();
+        if (val != ""){
+            $(".lock-search").each(function(){
+                var html = $(this).html();
+                if(html.indexOf(val) >= 0)
+                    $(this).show();
+                else
+                    $(this).hide();
+            });
+        }else{
+            $(".lock-search").show();
         }
     });
 </script>
 
-                <div class="row m-0 pt-4 mt-4">
-                    <div class="col-6"> <label class="label"><strong><span class="bg-ico-bar px-2">4</span> 
-                        {% trans "Cerraduras predeterminadas" %}:</strong></label></div>
-                    <div class="col-6"> <label class="label"><strong><span class="bg-ico-bar px-2">5</span> 
-                        {% trans "Seleccione las cerraduras" %}:</strong></label></div>
-                    <div class="col-6 pt-2">
-                        <table class="table table-striped table-hover" id="main-table">
-                            <thead>
-                                <tr class="small small tablesorter-headerRow">
-                                    <th><input type="checkbox" name="ch_0" id="check-all"/></th>
-                                    <th> {% trans 'UUID' %} <i class="fas fa-sort"></i> </th>
-                                    <th> {% trans 'Lock Alias' %} <i class="fas fa-sort"></i> </th>
-                                    <th> {% trans 'Group' %} <i class="fas fa-sort"></i> </th>
-                                    <th> {% trans 'Room' %} <i class="fas fa-sort"></i> </th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {% for item in items %}
-                                    {% if item.default %}
-                                        <tr class="small load-row" id="row_{{item.id}}" data-obj_id="{{item.id}}">
-                                            <td><input type="checkbox" name="ch_{{item.id}}" checked/></td>
-                                            <td>{{ item.uuid }}</td>
-                                            <td>{% padword_translate item.alias %}</td>
-                                            <td>{{ item.group.name }}</td>
-                                            <td>{{ item.room }}</td>
-                                        </tr>
-                                    {% endif %}
-                                {% endfor %}
-                            </tbody>
-                        </table>
-                    </div>
-                    <div class="col-6 pt-2">
-                        <table class="table table-striped table-hover" id="main-table">
-                            <thead>
-                                <tr class="small small tablesorter-headerRow">
-                                    <th><input type="checkbox" name="ch_0" id="check-all"/></th>
-                                    <th> {% trans 'UUID' %} <i class="fas fa-sort"></i> </th>
-                                    <th> {% trans 'Lock Alias' %} <i class="fas fa-sort"></i> </th>
-                                    <th> {% trans 'Group' %} <i class="fas fa-sort"></i> </th>
-                                    <th> {% trans 'Room' %} <i class="fas fa-sort"></i> </th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {% for item in items %}
-                                    {% if not item.default %}
-                                        <tr class="small load-row" id="row_{{item.id}}" data-obj_id="{{item.id}}">
-                                            <td><input type="checkbox" name="ch_{{item.id}}" /></td>
-                                            <td>{{ item.uuid }}</td>
-                                            <td>{% padword_translate item.alias %}</td>
-                                            <td>{{ item.group.name }}</td>
-                                            <td>{{ item.room }}</td>
-                                        </tr>
-                                    {% endif %}
-                                {% endfor %}
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-                {%endcomment%}
- 

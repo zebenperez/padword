@@ -43,7 +43,7 @@ $(document).ready(()=>{
         }
     });
 
-    $("body").on("click", ".btn-lock", function(e){
+    $("body").on("click", ".btnLock", function(e){
         var obj = $(this)
         var input = "#ch_"+obj.data("id");
         var activeClass = "btn-info";
