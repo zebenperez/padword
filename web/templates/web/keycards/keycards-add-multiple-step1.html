@@ -33,10 +33,10 @@
         </div>
     </div>
     <div class="row m-0 pt-4 mt-4">
-        <div class="col-12"> <label class="label"><strong><span class="bg-ico-bar px-2">4</span> 
-            {% trans "Cerraduras" %}:</strong></label> 
-            <input type="text" class="form-control" id="search" name="search" placeholder="Buscar..."/>
-        </div>
+        <div class="col-2">
+            <label class="label"><strong><span class="bg-ico-bar px-2">4</span> {%trans "Cerraduras"%}:</strong></label></div>
+        <div class="col-10">
+            <input type="text" class="form-control" id="search" name="search" placeholder="Buscar..."/> </div>
         <div class="col-12">
             <div class="card mt-4"><div class="card-body border-secondary"><div class="row">
             {% for item in items %}

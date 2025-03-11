@@ -50,5 +50,6 @@
 </div>
 <script>
     $("#div-lock-1").show();
+    $("#name").focus();
     $(".saveform").click(function(e){ var id = parseInt($(this).data("id")); console.log(id); $("#div-lock-"+id).hide(); $("#div-lock-"+(id+1)).show(); });
 </script>
