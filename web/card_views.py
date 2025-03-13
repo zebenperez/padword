@@ -64,30 +64,31 @@ def keycards_add_multiple (request, project_uuid):
     #context = {"project": project, "items": items, "ini_date": now.strftime("%Y-%m-%d"), "end_date": now.strftime("%Y-%m-%d")}
     return render (request, "web/keycards/keycards-add-multiple.html", context)
 
-@group_required("admins")
+@group_required("projects")
+def keycards_add_multiple_by_project(request, group=""):
+    project = get_or_none(Project, request.project_id)
+    now = datetime.datetime.now()
+    context = {"project": project, "ini_date": now.strftime("%Y-%m-%d"), "end_date": now.strftime("%Y-%m-%d"), "group": group}
+    return render (request, "web/keycards/keycards-add-multiple.html", context)
+
+@group_required("admins", "projects")
 def keycards_add_multiple_step1(request):
     project = get_or_none(Project, get_param(request.POST, "project"), "uuid")
     number = get_int(get_param(request.POST, "number"))
     ini_date = get_param(request.POST, "ini_date")
     end_date = get_param(request.POST, "end_date")
-    items = Lock.objects.filter(project_uuid=project.uuid)
-    context = {"project":project, "number":number, "ini_date":ini_date, "end_date":end_date, "items": items}
+    group = get_param(request.POST, "group")
+    items = Lock.objects.filter(project_uuid=project.uuid, default=True)
+    context = {"project":project, "number":number, "ini_date":ini_date, "end_date":end_date, "items": items, "group": group}
     return render (request, "web/keycards/keycards-add-multiple-step1.html", context)
-#    locks = ""
-#    for key in request.POST.keys():
-#        if key.startswith("ch_"):
-#            val = get_int(key.split("_")[1])
-#            if val > 0:
-#                locks += "{},".format(val)
-#    context = {"project":project, "number":number, "range":range(number), "locks":locks[:-1], "ini_date":ini_date, "end_date":end_date}
-#    return render (request, "web/keycards/keycards-add-multiple-step1.html", context)
  
-@group_required("admins")
+@group_required("admins", "projects")
 def keycards_add_multiple_step2(request):
     project = get_or_none(Project, get_param(request.POST, "project"), "uuid")
     number = get_int(get_param(request.POST, "number"))
     ini_date = get_param(request.POST, "ini_date")
     end_date = get_param(request.POST, "end_date")
+    group = get_param(request.POST, "group")
     locks = ""
     items = []
     for key in request.POST.keys():
@@ -97,16 +98,26 @@ def keycards_add_multiple_step2(request):
             if val > 0:
                 locks += "{},".format(val)
                 items.append(get_or_none(Lock, val))
-    context = {"project":project, "number":number, "range":range(number), "locks":locks[:-1], "ini_date":ini_date, "end_date":end_date, "items":items}
+    context = {
+        "project": project, 
+        "number" :number, 
+        "range": range(number), 
+        "locks": locks[:-1], 
+        "ini_date": ini_date, 
+        "end_date": end_date, 
+        "group": group, 
+        "items": items
+    }
     return render (request, "web/keycards/keycards-add-multiple-step2.html", context)
  
-@group_required("admins")
+@group_required("admins", "projects")
 def keycards_add_multiple_step3(request):
     project = get_or_none(Project, get_param(request.POST, "project"), "uuid")
     locks = get_param(request.POST, "locks")
     ini_date= "{} 00:00:00".format(get_param(request.POST, "ini_date"))
     end_date= "{} 23:59:59".format(get_param(request.POST, "end_date"))
     name = get_param(request.POST, "name")
+    group = get_param(request.POST, "group")
     card = reverse_cardkey(get_param(request.POST, "card"))
     current = get_int(get_param(request.POST, "current"))
     total = get_int(get_param(request.POST, "total"))
@@ -119,9 +130,28 @@ def keycards_add_multiple_step3(request):
         e_date = datetime.datetime.strptime(end_date, "%Y-%m-%d %H:%M:%S")
         #print("{} {} {} {}".format(card, ini_date, end_date, name))
         err = l.add_card(card, i_date, e_date, name)
-    context = {"percent": percent, "project_uuid": project.uuid, "err": err}
+    context = {"percent": percent, "project_uuid": project.uuid, "group": group, "err": err}
     return render (request, "web/keycards/keycards-add-multiple-progress.html", context)
 
+@group_required("admins", "projects")
+def keycards_add_multiple_locks(request):
+    project = get_or_none(Project, get_param(request.GET, "obj_id"), "uuid")
+    items = Lock.objects.filter(project_uuid=project.uuid, default=False)
+    return render (request, "web/keycards/keycards-add-multiple-locks.html", {"items": items})
+ 
+@group_required("admins", "projects")
+def keycards_add_multiple_locks_select(request):
+    #project = get_or_none(Project, get_param(request.POST, "project"), "uuid")
+    locks = ""
+    items = []
+    for key in request.POST.keys():
+        if key.startswith("ch_"):
+            val = get_int(get_param(request.POST, key))
+            if val > 0:
+                locks += "{},".format(val)
+                items.append(get_or_none(Lock, val))
+    return render (request, "web/keycards/keycards-add-multiple-locks-select.html", {"locks": locks[:-1], "items": items})
+ 
 #def get_projects(request):
 #    search_value = request.session["keycard_search_name"] if "keycard_search_name" in request.session else ""
 #    projects = Project.objects.filter(name__icontains=search_value) if search_value != "" else Project.objects.all()

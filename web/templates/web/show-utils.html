@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+{% load i18n padword_tags static %}
+
+
+{% block central_content %}
+<div class="utils-div">
+    <div class="row mb-5 pt-5 pb-3 m-0">
+        <div class="col-2 offset-2">
+            {%comment%}
+            <a class="btn border-secondary utils w-100" style="min-height:120px" href="{% url "keycards-add-multiple-by-project" %}" data-title="Texto para explicar el funcionamiento de las Tarjetas múltiples">
+            {%endcomment%}
+
+            <a class="btn border-secondary utils w-100" href="{% url "keycards-add-multiple-by-project" %}">
+                <img src="{% static "img/logo-padword.png" %}" alt="logo"/><br/><br/>{% trans "Tarjetas múltiples" %}</a>
+        </div>
+        <div class="col-2 offset-1">
+            <a class="btn border-secondary utils w-100" href="">
+                <img src="{% static "img/logo-padword.png" %}" alt="logo"/><br/><br/>{% trans "Tarjetas maestras" %}</a>
+        </div>
+        <div class="col-2 offset-1">
+            <a class="btn border-secondary utils w-100" href="{% url "keycards-add-multiple-by-project" "1" %}">
+                <img src="{% static "img/logo-padword.png" %}" alt="logo"/><br/><br/>{% trans "Grupos de tarjetas" %}</a>
+        </div>
+    </div>
+    <div class="row my-5 m-0">
+        <div class="col-2 offset-2" >
+            <button class="btn border-secondary utils w-100">
+                <img src="{% static "img/logo-padword.png" %}" alt="logo"/><br/><br/>{% trans "Códigos múltiples" %}</button>
+        </div>
+        <div class="col-2 offset-1">
+            <button class="btn border-secondary utils w-100">
+                <img src="{% static "img/logo-padword.png" %}" alt="logo"/><br/><br/>{% trans "Códigos maestros" %}</button>
+        </div>
+        <div class="col-2 offset-1">
+            <button class="btn border-secondary utils w-100">
+                <img src="{% static "img/logo-padword.png" %}" alt="logo"/><br/><br/>{% trans "Grupos de códigos" %}</button>
+        </div>
+    </div>
+    <div class="row my-5 py-3 m-0">
+        <div class="col-2 offset-5">
+            <button class="btn border-secondary utils w-100">
+                <img src="{% static "img/logo-padword.png" %}" alt="logo"/><br/><br/>{% trans "Programar tareas" %}</button>
+        </div>
+    </div>
+</div>
+{% endblock central_content %}

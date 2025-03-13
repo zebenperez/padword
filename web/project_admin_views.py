@@ -60,7 +60,7 @@ def projects_details(request, obj_id, current_tab=""):
     try:
         obj = get_or_none(Project, obj_id) 
         aux = get_or_create_projectaux(obj)
-        context = { 'obj': obj, 'aux': aux, 'companies': Company.objects.all(), }
+        context = { 'obj': obj, 'aux': aux, 'companies': Company.objects.all(), 'thirdpart_list': Thirdpart.objects.all()}
         return render(request, "web/projects-admin/project-details.html", context)
     except Exception as e:
         print(e)

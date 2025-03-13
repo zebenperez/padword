@@ -13,88 +13,62 @@
                 {%csrf_token%}
                 <input type="hidden" id="project" name="project" value="{{project.uuid}}" />
                 <input type="hidden" id="current" name="current" value="0" />
-                <div class="row m-0 pt-3">
-                    <div class="col-12"> <label class="label pb-2"><strong><span class="bg-ico-bar px-2">1</span> 
-                        {% trans "Indique el número de tarjetas a generar" %}:</strong></label>
-                        <input type="number" step="1" class="form-control" id="number" name="number" value="1"/>
+
+                <div class="row m-0 pt-4 work-screen" tyle="border:1px solid red">
+                    <div class="col-4 offset-4">
+                        {%comment%}
+                        <div class="card keyboard">
+                            <div class="card-body border-primary text-center">
+                                <div class="col-12 text-center"> <label class="label pb-2"><strong><span class="bg-ico-bar px-2">1</span> 
+                                    {% trans "Indique el número de tarjetas a generar" %}:</strong></label>
+                                    <input type="number" step="1" class="form-control" id="number" name="number" value="1"/>
+                                </div>
+                                <div class="col-12 text-center mt-5"> <label class="label pb-2"><strong><span class="bg-ico-bar px-2">2</span> 
+                                    {% trans "Seleccione las fechas" %}:</strong></label>
+                                </div>
+                                <div class="col-12 text-center mt-3"> <label class="label pb-2"><strong>{% trans "De inicio" %}:</strong></label>
+                                    <input type="date" class="form-control w-100" id="ini_date" name="ini_date" value="{{ini_date}}"/>
+                                </div>
+                                <div class="col-12 text-center mt-3"> <label class="label pb-2"><strong>{% trans "De fin" %}:</strong></label>
+                                    <input type="date" class="form-control" id="end_date" name="end_date" value="{{end_date}}"/>
+                                </div>
+                            </div>
+                        </div>
+                        {%endcomment%}
+
+                        <div class="card keyboard mt-step1">
+                            <div class="card-body border-primary text-center">
+                                <div class="col-12 text-center py-4"> 
+                                    <strong>{% trans "Number of cards to create" %}:</strong>
+                                    <input type="number" step="1" class="form-control wizard" id="number" name="number" value="1"/>
+                                </div>
+                                <div class="col-12 text-center py-4 mt-3">
+                                    <strong>{% trans "Start date" %}:</strong>
+                                    <input type="date" class="form-control wizard w-100" id="ini_date" name="ini_date" value="{{ini_date}}"/>
+                                </div>
+                                <div class="col-12 text-center py-4 mt-3">
+                                    <strong>{% trans "End date" %}:</strong>
+                                    <input type="date" class="form-control wizard" id="end_date" name="end_date" value="{{end_date}}"/>
+                                </div>
+                            </div>
+                            <div class="col-12 p-3 text-center">
+                                <button class="btn btn-primary saveform" data-form="form-card" data-target="div-main">
+                                    {% trans "Continue" %}</button>
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <div class="row m-0 pt-3 mt-4">
-                    <div class="col-4"> <label class="label pb-2"><strong><span class="bg-ico-bar px-2">2</span> 
-                        {% trans "Fecha de inicio" %}:</strong></label>
-                        <input type="date" class="form-control" id="ini_date" name="ini_date" value="{{ini_date}}"/>
+                {% if group and group != "" %}
+                    <div class="row m-0 pt-3 mt-4">
+                        <div class="col-12"> <label class="label pb-2"><strong><span class="bg-ico-bar px-2">4</span> 
+                            {% trans "Group name" %}:</strong></label>
+                            <input type="text" class="form-control" id="group" name="group" value=""/>
+                        </div>
                     </div>
-                    <div class="col-4"> <label class="label pb-2"><strong><span class="bg-ico-bar px-2">3</span> 
-                        {% trans "Fecha de fin" %}:</strong></label>
-                        <input type="date" class="form-control" id="end_date" name="end_date" value="{{end_date}}"/>
-                    </div>
-                </div>
-                {%comment%}
-                <div class="row m-0 pt-4 mt-4">
-                    <div class="col-6"> <label class="label"><strong><span class="bg-ico-bar px-2">4</span> 
-                        {% trans "Cerraduras predeterminadas" %}:</strong></label></div>
-                    <div class="col-6"> <label class="label"><strong><span class="bg-ico-bar px-2">5</span> 
-                        {% trans "Seleccione las cerraduras" %}:</strong></label></div>
-                    <div class="col-6 pt-2">
-                        <table class="table table-striped table-hover" id="main-table">
-                            <thead>
-                                <tr class="small small tablesorter-headerRow">
-                                    <th><input type="checkbox" name="ch_0" id="check-all"/></th>
-                                    <th> {% trans 'UUID' %} <i class="fas fa-sort"></i> </th>
-                                    <th> {% trans 'Lock Alias' %} <i class="fas fa-sort"></i> </th>
-                                    <th> {% trans 'Group' %} <i class="fas fa-sort"></i> </th>
-                                    <th> {% trans 'Room' %} <i class="fas fa-sort"></i> </th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {% for item in items %}
-                                    {% if item.default %}
-                                        <tr class="small load-row" id="row_{{item.id}}" data-obj_id="{{item.id}}">
-                                            <td><input type="checkbox" name="ch_{{item.id}}" checked/></td>
-                                            <td>{{ item.uuid }}</td>
-                                            <td>{% padword_translate item.alias %}</td>
-                                            <td>{{ item.group.name }}</td>
-                                            <td>{{ item.room }}</td>
-                                        </tr>
-                                    {% endif %}
-                                {% endfor %}
-                            </tbody>
-                        </table>
-                    </div>
-                    <div class="col-6 pt-2">
-                        <table class="table table-striped table-hover" id="main-table">
-                            <thead>
-                                <tr class="small small tablesorter-headerRow">
-                                    <th><input type="checkbox" name="ch_0" id="check-all"/></th>
-                                    <th> {% trans 'UUID' %} <i class="fas fa-sort"></i> </th>
-                                    <th> {% trans 'Lock Alias' %} <i class="fas fa-sort"></i> </th>
-                                    <th> {% trans 'Group' %} <i class="fas fa-sort"></i> </th>
-                                    <th> {% trans 'Room' %} <i class="fas fa-sort"></i> </th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {% for item in items %}
-                                    {% if not item.default %}
-                                        <tr class="small load-row" id="row_{{item.id}}" data-obj_id="{{item.id}}">
-                                            <td><input type="checkbox" name="ch_{{item.id}}" /></td>
-                                            <td>{{ item.uuid }}</td>
-                                            <td>{% padword_translate item.alias %}</td>
-                                            <td>{{ item.group.name }}</td>
-                                            <td>{{ item.room }}</td>
-                                        </tr>
-                                    {% endif %}
-                                {% endfor %}
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-                {%endcomment%}
-                <div class="row m-0">
-                    <div class="col-12 p-3 text-end">
-                        <button class="btn btn-primary saveform" data-form="form-card" data-target="div-main"> 
-                            {% trans "Continuar" %}</button>
-                    </div>
-                </div>
+                {% else %}
+                    <input type="hidden" id="group" name="group" value=""/>
+                {% endif %}
+                
             </form>
         </div>
         {% include "common-modal.html" %}

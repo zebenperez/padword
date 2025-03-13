@@ -1145,6 +1145,16 @@ def show_module(request):
         print(e)
         return render(request, 'error_exception.html', {'exc': show_exc(e)})
 
+'''
+    Utils
+'''
+@group_required("admins", "projects")
+def show_utils(request):
+    try:
+        return render (request, "web/show-utils.html", {})
+    except Exception as e:
+        print(e)
+        return render(request, 'error_exception.html', {'exc': show_exc(e)})
 
 '''
     Logs

@@ -1,63 +1,77 @@
 {% load i18n padword_tags %}
 
 {% include "web/keycards/keycards-add-path.html" with step=2 %}
-<div class="card"><div class="card-body border-secondary"> 
-    <div class="row">
-        <div class="col-4">{% trans "Número de tarjetas" %}: {{number}} </div>
-        <div class="col-4">{% trans "Fecha de inicio" %}: {{ini_date}} </div>
-        <div class="col-4">{% trans "Fecha de fin" %}: {{end_date}} </div>
-    </div>
-</div></div>
+
+<div class="row alert alert-primary mx-2">
+    <div class="col-4">{% trans "Number of cards" %}: {{number}} </div>
+    <div class="col-4">{% trans "Start date" %}: {{ini_date}} </div>
+    <div class="col-4">{% trans "End date" %}: {{end_date}} </div>
+</div>
 <form method="POST" action="{% url "keycards-add-multiple-step2" %}" id="form-card">
     {%csrf_token%}
     <input type="hidden" id="project" name="project" value="{{project.uuid}}" />
     <input type="hidden" id="ini_date" name="ini_date" value="{{ini_date}}" />
     <input type="hidden" id="end_date" name="end_date" value="{{end_date}}" />
     <input type="hidden" id="number" name="number" value="{{number}}" />
-    <div class="row m-0 pt-4 mt-4">
-        <div class="col-12"> <label class="label"><strong><span class="bg-ico-bar px-2">4</span> 
-            {% trans "Cerraduras predeterminadas" %}:</strong></label></div>
-        <div class="col-12">
-            
-            <div class="card mt-4"><div class="card-body border-secondary"><div class="row">
-            {% for item in items %}
-                {% if item.default %}
-                    <div class="col-3">
-                        <input type="hidden" id="ch_{{item.id}}" name="ch_{{item.id}}" value="{{item.id}}" />
-                        <div class="btn btn-info btnLock w-75 border-secondary" data-id="{{item.id}}">
-                            {% padword_translate item.alias %}</div>
-                    </div>
-                {% endif %}
-            {% endfor %}
-            </div> </div> </div>
-        </div>
-    </div>
-    <div class="row m-0 pt-4 mt-4">
-        <div class="col-2">
-            <label class="label"><strong><span class="bg-ico-bar px-2">4</span> {%trans "Cerraduras"%}:</strong></label></div>
-        <div class="col-10">
-            <input type="text" class="form-control" id="search" name="search" placeholder="Buscar..."/> </div>
-        <div class="col-12">
-            <div class="card mt-4"><div class="card-body border-secondary"><div class="row">
-            {% for item in items %}
-                {% if not item.default %}
-                    <div class="col-3">
-                        <input type="hidden" id="ch_{{item.id}}" name="ch_{{item.id}}" value="" />
-                        <div class="btn btnLock lock-search w-75 border-secondary" data-id="{{item.id}}">
-                            {% padword_translate item.alias %}</div>
-                    </div>
-                {% endif %}
-            {% endfor %}
-            </div> </div> </div>
-        </div>
-    </div>
+    <input type="hidden" id="number" name="group" value="{{group}}" />
 
-    <div class="row m-0">
-        <div class="col-12 p-3 text-end">
-            <button class="btn btn-primary saveform" data-form="form-card" data-target="div-main"> {% trans "Continuar" %}</button>
+    <div class="row m-0 work-screen" tyle="border:1px solid red !important"> 
+        <div class="col-4 offset-4">
+            <div class="card keyboard mt-4" tyle="border:1px solid blue"><div class="card-body border-primary text-center">
+                <div class="col-12 py-4"><strong>{% trans "Default locks" %}:</div>
+                <div class="col-12">
+                    <div class="card mt-4"><div class="card-body border-secondary" style="background: #f8f9fa;"><div class="row">
+                    {% for item in items %}
+                        {#{% if item.default %}#}
+                            <div class="col-3">
+                                <input type="hidden" id="ch_{{item.id}}" name="ch_{{item.id}}" value="{{item.id}}" />
+                                <div class="btn btn-info btnLock w-100 border-secondary" data-id="{{item.id}}">
+                                    {% padword_translate item.alias %}</div>
+                            </div>
+                        {#{% endif %}#}
+                    {% endfor %}
+                    </div> </div> </div>
+                </div>
+            </div>
+
+            <div class="text-center">
+                <button class="btn btn-outline-success ark" data-url="{% url "keycards-add-multiple-locks" %}" 
+                    data-target-modal="common-modal" data-obj_id="{{project.uuid}}">{% trans "More locks" %}</button></div>
+            <div class="text-center mt-4"><strong> {%trans "Locks selected"%}:</strong></div>
+            <div id="div-locks-selected"></div>
+
+            {%comment%}
+            <div class="row m-0 pt-4 mt-4">
+                <div class="col-3"><strong> {%trans "Cerraduras"%}:</strong></div>
+                <div class="col-9">
+                    <input type="text" class="form-control" id="search" name="search" placeholder="Buscar..."/> </div>
+                <div class="col-12">
+                    <div class="card mt-4"><div class="card-body border-secondary"><div class="row">
+                    {% for item in items %}
+                        {% if not item.default %}
+                            <div class="col-3">
+                                <input type="hidden" id="ch_{{item.id}}" name="ch_{{item.id}}" value="" />
+                                <div class="btn btnLock lock-search w-100 border-secondary" data-id="{{item.id}}">
+                                    {% padword_translate item.alias %}</div>
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                    </div> </div> </div>
+                </div>
+            </div>
+            {%endcomment%}
+
+            <div class="row m-0">
+                <div class="col-12 p-3 text-center">
+                    <button class="btn btn-primary saveform" data-form="form-card" data-target="div-main">
+                        {%trans "Continue"%}</button>
+                </div>
+            </div>
         </div>
     </div>
 </form>
+
+{%comment%}
 <script>
     $("#search").keyup(function(){
         var val = $(this).val();
@@ -74,4 +88,5 @@
         }
     });
 </script>
+{%endcomment%}
 

@@ -216,9 +216,13 @@ urlpatterns = [
     path('keycards/remove/', card_views.keycard_remove, name='keycard-remove'),
 
     path('keycards/add-multiple/<slug:project_uuid>/', card_views.keycards_add_multiple, name='keycards-add-multiple'),
+    path('keycards/add-multiple-by-project/', card_views.keycards_add_multiple_by_project, name='keycards-add-multiple-by-project'),
+    path('keycards/add-multiple-by-project/<int:group>/', card_views.keycards_add_multiple_by_project, name='keycards-add-multiple-by-project'),
     path('keycards/add-multiple-step1/', card_views.keycards_add_multiple_step1, name='keycards-add-multiple-step1'),
     path('keycards/add-multiple-step2/', card_views.keycards_add_multiple_step2, name='keycards-add-multiple-step2'),
     path('keycards/add-multiple-step3/', card_views.keycards_add_multiple_step3, name='keycards-add-multiple-step3'),
+    path('keycards/add-multiple-locks/', card_views.keycards_add_multiple_locks, name='keycards-add-multiple-locks'),
+    path('keycards/add-multiple-locks-select/', card_views.keycards_add_multiple_locks_select, name='keycards-add-multiple-locks-select'),
 
     path('keycards/number/', card_views.keycard_number, name='keycard-number'),
     path('keycards/number-search/', card_views.keycard_number_search, name='keycard-number-search'),
@@ -242,6 +246,9 @@ urlpatterns = [
 
     #--------------------- Modules --------------------
     path('show-module/', views.show_module, name='show-module'),
+
+    #--------------------- Utils --------------------
+    path('show-utils/', views.show_utils, name='show-utils'),
 
     #--------------------- Logs --------------------
     path('logs/', views.logs, name='logs'),

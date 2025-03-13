@@ -1,7 +1,7 @@
 {% load i18n %}
 
 {% if percent == 100 %}
-    <h2>{% trans "Se ha completado el proceso" %}</h2>
+    <h2>{% trans "Process complete" %}</h2>
 {% endif %}
 {% if err and err != "" %}
     <div class="alert alert-warning">{{err}}</div>
@@ -13,7 +13,7 @@
 </div>
 {% if percent == 100 %}
     <div class="mt-4 text-center">
-        <a class="btn btn-info" href="{% url "projects" %}"> {% trans "Volver a projectos" %}</a>
-        <a class="btn btn-info" href="{% url "keycards-add-multiple" project_uuid %}"> {% trans "Añadir mas tarjetas" %}</a>
+        <a class="btn btn-primary" href="{% url "projects" %}"> {% trans "Back to projects" %}</a>
+        <a class="btn btn-primary" href="{% url "keycards-add-multiple" project_uuid %}"> {% trans "Add more cards" %}</a>
     </div>
 {% endif %}
