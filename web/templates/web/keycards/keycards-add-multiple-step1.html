@@ -5,8 +5,7 @@
 <div class="row alert alert-primary mx-2">
     <div class="col-4">{% trans "Number of cards" %}: {{number}} </div>
     <div class="col-4">{% trans "Start date" %}: {{ini_date}} </div>
-    <div class="col-4">End date: {{end_date}} </div>
-    {% comment %}<div class="col-4">{% trans "End date" %}: {{end_date}} </div>{% endcomment %}
+    <div class="col-4">{% trans "End date" %}: {{end_date}} </div>
 </div>
 <form method="POST" action="{% url "keycards-add-multiple-step2" %}" id="form-card">
     {%csrf_token%}
@@ -64,12 +63,8 @@
 
             <div class="row m-0">
                 <div class="col-12 p-3 text-center">
-                    <button class="btn btn-primary saveform" data-form="form-card" data-target="div-main">Continue</button>
-                    {%comment%}
                     <button class="btn btn-primary saveform" data-form="form-card" data-target="div-main">
                         {%trans "Continue"%}</button>
-                    {%endcomment%}
-
                 </div>
             </div>
         </div>
