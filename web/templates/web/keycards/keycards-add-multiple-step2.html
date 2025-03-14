@@ -4,11 +4,16 @@
     <div class="row alert alert-primary mx-2">
         <div class="col-3">{% trans "Number of cards" %}: {{number}} </div>
         <div class="col-3">{% trans "Start date" %}: {{ini_date}} </div>
+        <div class="col-3">End date: {{end_date}} </div>
+        <div class="col-3">Locks: 
+            {%for l in items%}{% padword_translate l.alias %}{%if not forloop.last%}, {%endif%}{%endfor%} </div>
+        {% comment %}
         <div class="col-3">{% trans "End date" %}: {{end_date}} </div>
         <div class="col-3">{% trans "Locks" %}: 
             {%for l in items%}{% padword_translate l.alias %}{%if not forloop.last%}, {%endif%}{%endfor%} </div>
+        {% endcomment %}
     </div>
-<div class="row m-0 mt-4 work-screen" tyle="border:1px solid red">
+<div class="row m-0 mt-4 work-screen">
     <div class="col-4 offset-4 mt-4">
         <div class="card keyboard"><div class="card-body border-primary text-center">
         <h2>{{project.name}} - {% trans "Add cards" %}</h2>
@@ -28,7 +33,10 @@
                         <strong>{% trans "Card" %} {{forloop.counter}} / {{number}}</strong></div>
                     <br />
                     <br />
+                    {% comment %}
                     <div class="text-center py-4 mb-1"> <strong>{% trans "Name" %}:</strong> </div>
+                    {% endcomment %}
+                    <div class="text-center py-4 mb-1"> <strong>Name:</strong> </div>
                     {% if group != "" %}
                         <input type="text" class="form-control wizard" id="name_{{forloop.counter}}" name="name"
                             value="{{group}} {{forloop.counter}}" />
@@ -43,7 +51,11 @@
                     <br/>
                     <div class="text-center mb-2"> 
                         <button class="btn btn-primary saveform" data-form="form-card-{{forloop.counter}}" data-target="div-progress" 
+                            data-id="{{forloop.counter}}">Continue</button>
+                        {% comment %}
+                        <button class="btn btn-primary saveform" data-form="form-card-{{forloop.counter}}" data-target="div-progress" 
                             data-id="{{forloop.counter}}"> {% trans "Continue" %}</button>
+                        {% endcomment %}
                     </div>
                 </form>
             </div>

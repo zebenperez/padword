@@ -2705,8 +2705,9 @@ button.btn.border-secondary.utils {
     background-color: #f5f5f5;
     border-radius: 15px;
     border: 2px solid #ccc;
-    font-size: 0.9rem;
-    min-height: 120px;
+    font-size: 0.87rem;
+    /*min-height: 120px;*/
+    height: 120px;
 }
 
 /***************************************/
