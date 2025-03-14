@@ -1,0 +1,20 @@
+{% load i18n %}
+
+{% if code and code == "True" %}
+    {% if group and group == "1" %}
+        <h2 class="b-right">{{project.name}} - {% trans 'Add Code for Group' %} </h2>
+    {% elif group and group == "2" %}
+        <h2 class="b-right">{{project.name}} - {% trans 'Add Master Code' %} </h2>
+    {% else %}
+        <h2 class="b-right">{{project.name}} - {% trans 'Add Multiple Key Codes' %} </h2>
+    {% endif %}
+{% else %}
+    {% if group and group == "1" %}
+        <h2 class="b-right">{{project.name}} - {% trans 'Add Cards for Group' %} </h2>
+    {% elif group and group == "2" %}
+        <h2 class="b-right">{{project.name}} - {% trans 'Add Master Cards' %} </h2>
+    {% else %}
+        <h2 class="b-right">{{project.name}} - {% trans 'Add Multiple Key Cards' %} </h2>
+    {% endif %}
+{% endif %}
+

@@ -2,7 +2,11 @@
 
 {% include "web/keycards/keycards-add-path.html" with step=3 %}
     <div class="row alert alert-primary mx-2">
-        <div class="col-3">{% trans "Number of cards" %}: {{number}} </div>
+        {% if code and code == "True" %}
+            <div class="col-3">{% trans "Number of codes" %}: {{number}} </div>
+        {% else %}
+            <div class="col-3">{% trans "Number of cards" %}: {{number}} </div>
+        {% endif %}
         <div class="col-3">{% trans "Start date" %}: {{ini_date}} </div>
         <div class="col-3">{% trans "End date" %}: {{end_date}} </div>
         <div class="col-3">{% trans "Locks" %}: 
@@ -24,8 +28,13 @@
                     <input type="hidden" id="end_date" name="end_date" value="{{end_date}}" />
                     <input type="hidden" id="current" name="current" value="{{forloop.counter}}" />
                     <input type="hidden" id="total" name="total" value="{{number}}" />
+                    <input type="hidden" id="code" name="code" value="{{code}}" />
                     <div class="text-success text-center">
-                        <strong>{% trans "Card" %} {{forloop.counter}} / {{number}}</strong></div>
+                        {% if code and code == "True" %}
+                            <strong>{% trans "Code" %} {{forloop.counter}} / {{number}}</strong></div>
+                        {% else %}
+                            <strong>{% trans "Card" %} {{forloop.counter}} / {{number}}</strong></div>
+                        {% endif %}
                     <br />
                     <br />
                     <div class="text-center py-4 mb-1"> <strong>{% trans "Name" %}:</strong> </div>
@@ -37,7 +46,11 @@
                     {% endif %}
 
                     <br/>
-                    <div class="text-center py-4 mb-2"> <strong>{% trans "Scan card" %}:</strong> </div>
+                    {% if code and code == "True" %}
+                        <div class="text-center py-4 mb-2"> <strong>{% trans "Enter code" %}:</strong> </div>
+                    {% else %}
+                        <div class="text-center py-4 mb-2"> <strong>{% trans "Scan card" %}:</strong> </div>
+                    {% endif %}
                     <input type="text" class="form-control wizard" id="card_{{forloop.counter}}" name="card" value="" />
 
                     <br/>

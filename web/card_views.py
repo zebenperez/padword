@@ -68,7 +68,20 @@ def keycards_add_multiple (request, project_uuid):
 def keycards_add_multiple_by_project(request, group=""):
     project = get_or_none(Project, request.project_id)
     now = datetime.datetime.now()
-    context = {"project": project, "ini_date": now.strftime("%Y-%m-%d"), "end_date": now.strftime("%Y-%m-%d"), "group": group}
+    context = {"project": project, "ini_date": now.strftime("%Y-%m-%d"), "end_date": now.strftime("%Y-%m-%d"), "group": str(group)}
+    return render (request, "web/keycards/keycards-add-multiple.html", context)
+
+@group_required("projects")
+def keycode_add_multiple_by_project(request, group=""):
+    project = get_or_none(Project, request.project_id)
+    now = datetime.datetime.now()
+    context = {
+        "project": project, 
+        "ini_date": now.strftime("%Y-%m-%d"), 
+        "end_date": now.strftime("%Y-%m-%d"), 
+        "group": str(group),
+        "code": "True"
+    }
     return render (request, "web/keycards/keycards-add-multiple.html", context)
 
 @group_required("admins", "projects")
@@ -78,8 +91,18 @@ def keycards_add_multiple_step1(request):
     ini_date = get_param(request.POST, "ini_date")
     end_date = get_param(request.POST, "end_date")
     group = get_param(request.POST, "group")
-    items = Lock.objects.filter(project_uuid=project.uuid, default=True)
-    context = {"project":project, "number":number, "ini_date":ini_date, "end_date":end_date, "items": items, "group": group}
+    code = get_param(request.POST, "code")
+    #items = Lock.objects.filter(project_uuid=project.uuid, default=True)
+    items = Lock.objects.filter(project_uuid=project.uuid)
+    context = {
+        "project": project, 
+        "number": number, 
+        "ini_date": ini_date, 
+        "end_date": end_date, 
+        "items": items, 
+        "group": group, 
+        "code": code
+    }
     return render (request, "web/keycards/keycards-add-multiple-step1.html", context)
  
 @group_required("admins", "projects")
@@ -89,6 +112,7 @@ def keycards_add_multiple_step2(request):
     ini_date = get_param(request.POST, "ini_date")
     end_date = get_param(request.POST, "end_date")
     group = get_param(request.POST, "group")
+    code = get_param(request.POST, "code")
     locks = ""
     items = []
     for key in request.POST.keys():
@@ -106,6 +130,7 @@ def keycards_add_multiple_step2(request):
         "ini_date": ini_date, 
         "end_date": end_date, 
         "group": group, 
+        "code": code, 
         "items": items
     }
     return render (request, "web/keycards/keycards-add-multiple-step2.html", context)
@@ -118,7 +143,9 @@ def keycards_add_multiple_step3(request):
     end_date= "{} 23:59:59".format(get_param(request.POST, "end_date"))
     name = get_param(request.POST, "name")
     group = get_param(request.POST, "group")
-    card = reverse_cardkey(get_param(request.POST, "card"))
+    code = get_param(request.POST, "code")
+    card = get_param(request.POST, "card")
+    #card = reverse_cardkey(get_param(request.POST, "card"))
     current = get_int(get_param(request.POST, "current"))
     total = get_int(get_param(request.POST, "total"))
     percent = (current * 100) // total
@@ -129,7 +156,10 @@ def keycards_add_multiple_step3(request):
         i_date = datetime.datetime.strptime(ini_date, "%Y-%m-%d %H:%M:%S")
         e_date = datetime.datetime.strptime(end_date, "%Y-%m-%d %H:%M:%S")
         #print("{} {} {} {}".format(card, ini_date, end_date, name))
-        err = l.add_card(card, i_date, e_date, name)
+        if code == "True":
+            err = l.add_card(reverse_cardkey(card), i_date, e_date, name)
+        else:
+            err = l.set_code(card, i_date, e_date, name)
     context = {"percent": percent, "project_uuid": project.uuid, "group": group, "err": err}
     return render (request, "web/keycards/keycards-add-multiple-progress.html", context)
 

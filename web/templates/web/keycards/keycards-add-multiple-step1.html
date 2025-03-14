@@ -3,7 +3,11 @@
 {% include "web/keycards/keycards-add-path.html" with step=2 %}
 
 <div class="row alert alert-primary mx-2">
-    <div class="col-4">{% trans "Number of cards" %}: {{number}} </div>
+    {% if code and code == "True" %}
+        <div class="col-3">{% trans "Number of codes" %}: {{number}} </div>
+    {% else %}
+        <div class="col-4">{% trans "Number of cards" %}: {{number}} </div>
+    {% endif %}
     <div class="col-4">{% trans "Start date" %}: {{ini_date}} </div>
     <div class="col-4">{% trans "End date" %}: {{end_date}} </div>
 </div>
@@ -14,6 +18,7 @@
     <input type="hidden" id="end_date" name="end_date" value="{{end_date}}" />
     <input type="hidden" id="number" name="number" value="{{number}}" />
     <input type="hidden" id="number" name="group" value="{{group}}" />
+    <input type="hidden" id="code" name="code" value="{{code}}" />
 
     <div class="row m-0 work-screen"> 
         <div class="col-4 offset-4">
@@ -22,23 +27,40 @@
                 <div class="col-12">
                     <div class="card mt-4"><div class="card-body border-secondary" style="background: #f8f9fa;"><div class="row">
                     {% for item in items %}
-                        {#{% if item.default %}#}
+                        {% if item.default %}
                             <div class="col-3">
                                 <input type="hidden" id="ch_{{item.id}}" name="ch_{{item.id}}" value="{{item.id}}" />
                                 <div class="btn btn-info btnLock w-100 border-secondary" data-id="{{item.id}}">
                                     {% padword_translate item.alias %}</div>
                             </div>
-                        {#{% endif %}#}
+                        {% endif %}
                     {% endfor %}
                     </div> </div> </div>
                 </div>
             </div>
 
-            <div class="text-center">
-                <button class="btn btn-outline-success ark" data-url="{% url "keycards-add-multiple-locks" %}" 
-                    data-target-modal="common-modal" data-obj_id="{{project.uuid}}">{% trans "More locks" %}</button></div>
-            <div class="text-center mt-4"><strong> {%trans "Locks selected"%}:</strong></div>
-            <div id="div-locks-selected"></div>
+            {% if group == "2" %}
+                <div class="text-center mt-4"><strong> {%trans "Locks selected"%}:</strong></div>
+                <div class="col-12">
+                    <div class="card mt-4"><div class="card-body border-secondary" style="background: #f8f9fa;"><div class="row">
+                    {% for item in items %}
+                        {% if not item.default %}
+                            <div class="col-3">
+                                <input type="hidden" id="ch_{{item.id}}" name="ch_{{item.id}}" value="{{item.id}}" />
+                                <div class="btn btn-info btnLock w-100 border-secondary" data-id="{{item.id}}">
+                                    {% padword_translate item.alias %}</div>
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                    </div> </div> </div>
+                </div>
+            {% else %}
+                <div class="text-center">
+                    <button class="btn btn-outline-success ark" data-url="{% url "keycards-add-multiple-locks" %}" 
+                        data-target-modal="common-modal" data-obj_id="{{project.uuid}}">{% trans "More locks" %}</button></div>
+                <div class="text-center mt-4"><strong> {%trans "Locks selected"%}:</strong></div>
+                <div id="div-locks-selected"></div>
+            {% endif %}
 
             {%comment%}
             <div class="row m-0 pt-4 mt-4">
