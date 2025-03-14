@@ -12,8 +12,15 @@
         aria-valuenow="{{percent}}" aria-valuemin="0" aria-valuemax="100"></div>
 </div>
 {% if percent == 100 %}
-    <div class="mt-4 text-center">
-        <a class="btn btn-primary" href="{% url "projects" %}"> {% trans "Back to projects" %}</a>
-        <a class="btn btn-primary" href="{% url "keycards-add-multiple" project_uuid %}"> {% trans "Add more cards" %}</a>
-    </div>
+    {% if utils_back %}
+        <div class="mt-4 text-center">
+            <a class="btn btn-primary" href="{% url "show-utils" %}"> {% trans "Back to utils" %}</a>
+            <a class="btn btn-primary" href="{% url "keycards-add-multiple-by-project" %}"> {% trans "Add more" %}</a>
+        </div>
+    {% else %}
+        <div class="mt-4 text-center">
+            <a class="btn btn-primary" href="{% url "projects" %}"> {% trans "Back to projects" %}</a>
+            <a class="btn btn-primary" href="{% url "keycards-add-multiple" project_uuid %}"> {% trans "Add more" %}</a>
+        </div>
+    {% endif %}
 {% endif %}

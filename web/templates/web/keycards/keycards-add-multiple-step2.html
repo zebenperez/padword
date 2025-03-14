@@ -15,7 +15,7 @@
 <div class="row m-0 mt-4 work-screen">
     <div class="col-4 offset-4 mt-4">
         <div class="card keyboard"><div class="card-body border-primary text-center">
-        <h2>{{project.name}} - {% trans "Add cards" %}</h2>
+        <h2>{{project.name}} - {%if code and code == "True"%}{% trans "Add codes" %}{%else%}{% trans "Add cards" %}{%endif%}</h2>
         <br/>
 
         {% for card in range %}
