@@ -158,9 +158,9 @@ def keycards_add_multiple_step3(request):
         e_date = datetime.datetime.strptime(end_date, "%Y-%m-%d %H:%M:%S")
         #print("{} {} {} {}".format(card, ini_date, end_date, name))
         if code == "True":
-            err = l.add_card(reverse_cardkey(card), i_date, e_date, name)
-        else:
             err = l.set_code(card, i_date, e_date, name)
+        else:
+            err = l.add_card(reverse_cardkey(card), i_date, e_date, name)
     utils_back = user_in_group(request.user, "projects")
     context = {"percent": percent, "project_uuid": project.uuid, "group": group, "utils_back": utils_back, "err": err}
     return render (request, "web/keycards/keycards-add-multiple-progress.html", context)
