@@ -212,7 +212,7 @@ def tpv_check_band(request):
         if band != None and band.guest != None:
             gr = band.guest.regimes.first()
             regime = gr.regime if gr != None else None
-            get_or_create_form_instance_info_client_tpv(fi, band.guest, band.code)
+            get_or_create_form_instance_info_client_tpv(fi, band.guest, band.code, band.name)
             #fi.update_items_low_price()
             fi.update_items_prices()
         else:

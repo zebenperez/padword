@@ -218,7 +218,7 @@ def tpv_check_band(request):
             #else:
             gr = band.guest.regimes.first()
             regime = gr.regime if gr != None else None
-            get_or_create_form_instance_info_client_tpv(fi, band.guest, band.code)
+            get_or_create_form_instance_info_client_tpv(fi, band.guest, band.code, band.name)
             #fi.update_items_low_price()
             fi.update_items_prices()
         else:
@@ -346,8 +346,10 @@ def tpv_order_send(request):
         mobile = get_param(request.GET, "mobile", "")
 
         fi = get_or_none(FormInstance, fi_id)
+        local_date = fi.project.local_date(datetime.datetime.now())
         fi.set_status("01", request.user, "")
-        fi.date = datetime.datetime.now()
+        #fi.date = datetime.datetime.now()
+        fi.date = local_date
         fi.amount = total
 
         pt = get_or_none(PaymentType, pt_code, "code")
@@ -364,7 +366,7 @@ def tpv_order_send(request):
         fi.update_index()
         fi.send_items()
 
-        wh_write_log("ORDER: {} ({})".format(fi.id, datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")))
+        wh_write_log("ORDER: {} ({})".format(fi.id, local_date.strftime("%Y-%m-%d %H:%M:%S")))
         if pt != None and (pt.code == "03" or pt.code == "0403") and band_id != "":
             pos = get_or_none(PointOfSale, request.session["point_of_sale"])
             band = get_or_none(Wristband, band_id)
@@ -446,7 +448,7 @@ def cash_z(request):
     try:
         cash = get_or_none(Cash, request.GET["obj_id"]) 
         update_cash(cash, request.user, True)
-        cash.close_date = datetime.datetime.now()
+        cash.close_date = cash.project.local_date(datetime.datetime.now())
         cash.close = True
         cash.save()
         
@@ -469,11 +471,11 @@ def cash_x(request):
         cash_x.pk = None
         cash_x.number = get_number_x(cash.pos_uuid)
         cash_x.zeta = False
-        cash_x.date = datetime.datetime.now()
+        cash_x.date = cash.project.local_date(datetime.datetime.now())
         cash_x.save()
         update_cash(cash_x, request.user)
         cash_x.close = True
-        cash_x.close_date = datetime.datetime.now()
+        cash_x.close_date = cash.project.local_date(datetime.datetime.now())
         cash_x.save()
         return render(request, 'bookings/tpv/tpv-tables-x.html', {'cash': cash, 'back_url': request.GET["back"]})
         #return redirect(reverse(request.GET["index"], kwargs = {'project_uuid': cash.project_uuid}))

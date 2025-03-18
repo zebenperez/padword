@@ -43,4 +43,16 @@ $(document).ready(()=>{
         }
     });
 
+    $("body").on("click", ".btnLock", function(e){
+        var obj = $(this)
+        var input = "#ch_"+obj.data("id");
+        var activeClass = "btn-info";
+        if (obj.hasClass(activeClass)) {
+            obj.removeClass(activeClass);
+            $(input).val("");
+        } else {
+            obj.addClass(activeClass);
+            $(input).val(obj.data("id"));
+        }
+    });
 });

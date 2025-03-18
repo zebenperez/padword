@@ -1,15 +1,25 @@
 {% load i18n padword_tags tz %}
 
 <td>{{ item.index }}</td>
-<td>{{item.details.client }} <br/>{{item.details.client_mobile}}<br/>{{item.details.client_email}}</td>
-<td>{{ item.guest_name }}</td>
-<td>{{ item.details.pos }}</td>
-<td>{{ item.details.table }}</td>
-<td>{{ item.details.client_room }}</td>
+<td><strong>{% trans "Nombre" %}:</strong> {{item.details.client }} <br/>
+    <strong>{% trans "Teléfono" %}:</strong> {{item.details.client_mobile}}<br/>
+    <strong>{% trans "Email" %}:</strong> {{item.details.client_email}}</br>
+    <strong>{% trans "Habitación" %}:</strong> {{item.details.client_room}}</td>
+
+<td><strong>{% trans "Nombre" %}:</strong> {{item.details.band_name}}<br/>
+    <strong>{% trans "ID" %}:</strong> {{item.details.band}}</td>
+
+<td><strong>{% trans "Nombre" %}:</strong> {{ item.guest_name }}<br/>
+    <strong>{% trans "TPV" %}:</strong> {{ item.details.pos }}<br/>
+    <strong>{% trans "Mesa" %}:</strong> {{ item.details.table }}</td>
+{#<td>{{ item.details.pos }}</td>#}
+{#<td>{{ item.details.table }}</td>#}
+{#<td>{{ item.details.client_room }}</td>#}
 <td>{{ item.date|timezone:item.form.project.time_zone_name|date:'d/m/Y H:i:s' }} </td>
 <td id="status-{{item.pk}}">{% padword_translate item.get_status.status.name %} </td>
-<td>{% padword_translate item.payment_type.name %} </td>
-<td>{{ item.details.desc }} </td>
+<td><strong>{% trans "Tipo pago" %}:</strong> {% padword_translate item.payment_type.name %}<br/>
+    <strong>{% trans "Descripción" %}:</strong> {{ item.details.desc }}</td>
+{#<td>{{ item.details.desc }} </td>#}
 {#Compatibilidad tickets viejos higos beach#}
 {% if item.form.project.uuid == "d7b3cb5d-a7eb-793f-6110-8f623c93c74a" and item.id <= 2401 %}
     <td>{{ item.get_total|floatformat:2 }}</td>

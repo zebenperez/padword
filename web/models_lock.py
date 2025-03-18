@@ -12,6 +12,7 @@ import requests
 class Lock(models.Model):
     private = models.BooleanField(verbose_name=_('Private'), default=False)
     box = models.BooleanField(verbose_name=_('Deposit box'), default=False)
+    default = models.BooleanField(verbose_name=_('Default'), default=False)
     last_update = models.DateTimeField(verbose_name=_('Last update'), default=datetime.datetime.now, null=True)
     uuid = models.CharField(max_length=255, verbose_name=_('UUID'), default="")
     alias = models.CharField(max_length=255, verbose_name=_('Alias'), default="", null=True)

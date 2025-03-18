@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 from django.urls import path
 from . import views, auto_views, room_views, card_views, lock_views, lock_user_views, lock_group_views 
-from . import gateway_views, ekey_views, box_views, lock_cron_views
+from . import gateway_views, ekey_views, box_views, lock_cron_views, project_admin_views
 
 urlpatterns = [ 
     #path('index/<slug:chk>/', views.index, name='web-index-new'),
@@ -63,6 +63,12 @@ urlpatterns = [
     path('projects/set-cloudbeds-schedule/', views.project_set_cloudbeds_schedule, name='project-set-cloudbeds-schedule'),
     path('projects/add-logo/', views.project_add_logo, name='project-add-logo'),
     path('projects/remove-logo/', views.project_remove_logo, name='project-remove-logo'),
+    
+    #--------------------- Projects Admin--------------------
+    path('projects-admin/', project_admin_views.projects, name='projects-admin'),
+    path('projects-admin/search/', project_admin_views.projects_search, name='projects-admin-search'),
+    path('projects-admin/details/<int:obj_id>/', project_admin_views.projects_details, name='projects-admin-details'),
+ 
     #--------------------- Channels --------------------
     path('channels/project-<slug:project_id>/', views.channels, name='channels-by-project'),
     path('channels/company-<slug:company_id>/', views.channels, name='channels-by-company'),
@@ -203,10 +209,22 @@ urlpatterns = [
     path('rooms/search/by-project/', room_views.rooms_search_by_project, name='rooms-search-by-project'),
 
     #--------------------- KeyCard --------------------
-    path('keycards/', card_views.keycards, name='keycards'),
+    #path('keycards/', card_views.keycards, name='keycards'),
+    path('keycards/by-project/<slug:project_uuid>/', card_views.keycards_by_project, name='keycards-by-project'),
     path('keycards/search/', card_views.keycard_search, name='keycard-search'),
     path('keycards/form/', card_views.keycard_form, name='keycard-form'),
     path('keycards/remove/', card_views.keycard_remove, name='keycard-remove'),
+
+    path('utils/add-multiple/<slug:project_uuid>/', card_views.keycards_add_multiple, name='keycards-add-multiple'),
+    path('utils/add-multiple-by-project/', card_views.keycards_add_multiple_by_project, name='keycards-add-multiple-by-project'),
+    path('utils/add-multiple-by-project/<int:group>/', card_views.keycards_add_multiple_by_project, name='keycards-add-multiple-by-project'),
+    path('utils/add-multiple-code-by-project/', card_views.keycode_add_multiple_by_project, name='keycode-add-multiple-by-project'),
+    path('utils/add-multiple-code-by-project/<int:group>/', card_views.keycode_add_multiple_by_project, name='keycode-add-multiple-by-project'),
+    path('utils/add-multiple-step1/', card_views.keycards_add_multiple_step1, name='keycards-add-multiple-step1'),
+    path('utils/add-multiple-step2/', card_views.keycards_add_multiple_step2, name='keycards-add-multiple-step2'),
+    path('utils/add-multiple-step3/', card_views.keycards_add_multiple_step3, name='keycards-add-multiple-step3'),
+    path('utils/add-multiple-locks/', card_views.keycards_add_multiple_locks, name='keycards-add-multiple-locks'),
+    path('utils/add-multiple-locks-select/', card_views.keycards_add_multiple_locks_select, name='keycards-add-multiple-locks-select'),
 
     path('keycards/number/', card_views.keycard_number, name='keycard-number'),
     path('keycards/number-search/', card_views.keycard_number_search, name='keycard-number-search'),
@@ -230,6 +248,9 @@ urlpatterns = [
 
     #--------------------- Modules --------------------
     path('show-module/', views.show_module, name='show-module'),
+
+    #--------------------- Utils --------------------
+    path('show-utils/', views.show_utils, name='show-utils'),
 
     #--------------------- Logs --------------------
     path('logs/', views.logs, name='logs'),

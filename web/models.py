@@ -148,8 +148,8 @@ class Project(models.Model):
         obj = ShLock(self.lock_access_token)
         return obj.get_ekeys()
 
-    def get_keycards(self):
-        return KeyCard.objects.filter(project_uuid=self.uuid)
+    #def get_keycards(self):
+    #    return KeyCard.objects.filter(project_uuid=self.uuid)
 
     def sensibo_device_list(self):
         obj = ShSensibo(self.sensibo_api_key)
@@ -245,6 +245,18 @@ class Project(models.Model):
     def thirdpart_list(self):
         return [item.thirdpart for item in self.thirdparts.all()]
 
+class ProjectAux(models.Model):
+    contact_name = models.CharField(max_length=255, verbose_name=_('Contact Name'), default="")
+    contact_email = models.CharField(max_length=255, verbose_name=_('Contact Email'), default="")
+    contact_phone = models.CharField(max_length=255, verbose_name=_('Contact Phone'), default="")
+    fee = models.CharField(max_length=255, verbose_name=_('Fee'), default="")
+    payment_method = models.CharField(max_length=255, verbose_name=_('Payment Method'), default="")
+    paid = models.CharField(max_length=255, verbose_name=_('Paid'), default="")
+    project = models.ForeignKey(Project, verbose_name=_('Project'), on_delete=models.CASCADE, null=True)
+
+    class Meta:
+        verbose_name = _('Project Aux')
+ 
 class ProjectLockUser(models.Model):
     username = models.CharField(max_length=255, verbose_name=_('Lock Username'), default="")
     password = models.CharField(max_length=255, verbose_name=_('Lock Password'), default="")

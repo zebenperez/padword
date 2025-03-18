@@ -24,7 +24,7 @@ import os, re, requests, time, datetime, csv
 
 
 
-@group_required("admins", "projects", "categories", "guests")
+@group_required("admins", "projects", "categories", "guests", "project_admin")
 def index(request, chk=None):
     if request.user.groups.filter(name='guests').exists():
         return redirect('pwa-index')
@@ -41,6 +41,9 @@ def index(request, chk=None):
             return render(request, 'error_exception.html', {'exc': _('Project not found!')})
         #return redirect('bookings-by-project', request.project_id)
         return redirect_project_user(request)
+
+    if request.user.groups.filter(name='project_admin').exists():
+        return redirect('projects-admin')
 
     return redirect('projects')
 
@@ -76,6 +79,10 @@ def thanks(request):
 
 def csrf_failure(request, reason=""):
     return render(request, "csrf_error.html")
+
+def get_or_create_projectaux(project):
+    obj, created = ProjectAux.objects.get_or_create(project = project)
+    return obj 
 
 def get_or_create_user_lock(project_uuid):
     obj, created = ProjectLockUser.objects.get_or_create(project_uuid = project_uuid)
@@ -171,6 +178,7 @@ def project_form(request):
                 obj.company = company
                 obj.save()
 
+        aux = get_or_create_projectaux(obj)
         user_lock = get_or_create_user_lock(obj.uuid)
         user_sensibo = get_or_create_user_sensibo(obj.uuid)
         user_avantio = get_or_create_user_avantio(obj.uuid)
@@ -187,6 +195,7 @@ def project_form(request):
         form = Form.objects.filter(form_type__code="tpv", form_type__project_uuid=obj.uuid).first()
         context = {
             'obj': obj, 
+            'aux': aux, 
             'companies': Company.objects.all(), 
             'company_id': company_id, 
             'user_lock': user_lock, 
@@ -213,6 +222,7 @@ def project_details(request, obj_id, current_tab=""):
     try:
         obj = get_or_none(Project, obj_id) 
 
+        aux = get_or_create_projectaux(obj)
         user_lock = get_or_create_user_lock(obj.uuid)
         user_sensibo = get_or_create_user_sensibo(obj.uuid)
         user_avantio = get_or_create_user_avantio(obj.uuid)
@@ -233,6 +243,7 @@ def project_details(request, obj_id, current_tab=""):
         form = Form.objects.filter(form_type__code="tpv", form_type__project_uuid=obj.uuid).first()
         context = {
             'obj': obj, 
+            'aux': aux, 
             'companies': Company.objects.all(), 
             'user_lock': user_lock, 
             'user_sensibo': user_sensibo, 
@@ -1134,6 +1145,16 @@ def show_module(request):
         print(e)
         return render(request, 'error_exception.html', {'exc': show_exc(e)})
 
+'''
+    Utils
+'''
+@group_required("admins", "projects")
+def show_utils(request):
+    try:
+        return render (request, "web/show-utils.html", {})
+    except Exception as e:
+        print(e)
+        return render(request, 'error_exception.html', {'exc': show_exc(e)})
 
 '''
     Logs

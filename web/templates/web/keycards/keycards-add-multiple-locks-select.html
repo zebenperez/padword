@@ -1,0 +1,16 @@
+{% load i18n padword_tags %}
+
+<div class="row m-0 mt-4">
+    <div class="col-12">
+        <div class="card"><div class="card-body border-secondary"><div class="row">
+        {% for item in items %}
+            <div class="col-3">
+                <input type="hidden" id="ch_{{item.id}}" name="ch_{{item.id}}" value="{{item.id}}" />
+                <div class="btn btn-info btnLock lock-search w-100 border-secondary" data-id="{{item.id}}">
+                    {% padword_translate item.alias %}</div>
+            </div>
+        {% endfor %}
+        </div> </div> </div>
+    </div>
+</div>
+

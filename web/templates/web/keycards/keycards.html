@@ -1,21 +1,26 @@
 {% extends 'base.html' %}
 {% load i18n padword_tags %}
 
-{% block second_menu %}{% get_second_menu request.user %} {% endblock second_menu %}
-
 {% block central_content %}
-
     {% if msg and msg != "" %} <div class="alert alert-danger">{{msg}}</div> {% endif %}
+    <div class="content">
+        <div class="row">
+            <div class="col-10"><h2 class="b-right">{{project.name}} - {% trans 'Key Cards' %} </h2></div>
+            <div class="col-2">
+                <a class="btn btn-info" href="{% url "keycards-add-multiple" project.uuid %}">{% trans "Add Multiple Cards" %}</a>
+            </div>
+        </div>
+ 
+        <div class="toolbar-search keycards p-2">
+            <div class="text-center"><i class="fas fa-search"></i></div>
+            <div> <input type="text" class="autosearch form-control form-control-dark w-100" name="keycard_search_name" 
+                id="keycard_search_name" placeholder="{% trans 'Name' %}" data-url="{% url "keycard-search" %}" 
+                data-target="keycard-list" data-related="keycard_search_name"/></div>
+        </div>
 
-    <div class="toolbar-search keycards p-2">
-        <div class="text-center"><i class="fas fa-search"></i></div>
-        <div>
-            <input type="text" class="autosearch form-control form-control-dark w-100" name="keycard_search_name" id="keycard_search_name" 
-            placeholder="{% trans 'Name' %}" data-url="{% url "keycard-search" %}" data-target="keycard-list" data-related="keycard_search_name"/></div>
+        <div class="mt-4" id="keycard-list">{% include "web/keycards/keycards-list.html" %}</div>
+        {% include "common-modal.html" %}
     </div>
-
-    <div class="mt-4" id="keycard-list">{% include "web/keycards/keycards-list.html" %}</div>
-    {% include "common-modal.html" %}
 
     {%comment%}
     <div class="content">

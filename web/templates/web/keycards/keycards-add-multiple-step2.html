@@ -1,0 +1,77 @@
+{% load i18n padword_tags %}
+
+{% include "web/keycards/keycards-add-path.html" with step=3 %}
+    <div class="row alert alert-primary mx-2">
+        {% if code and code == "True" %}
+            <div class="col-3">{% trans "Number of codes" %}: {{number}} </div>
+        {% else %}
+            <div class="col-3">{% trans "Number of cards" %}: {{number}} </div>
+        {% endif %}
+        <div class="col-3">{% trans "Start date" %}: {{ini_date}} </div>
+        <div class="col-3">{% trans "End date" %}: {{end_date}} </div>
+        <div class="col-3">{% trans "Locks" %}: 
+            {%for l in items%}{% padword_translate l.alias %}{%if not forloop.last%}, {%endif%}{%endfor%} </div>
+    </div>
+<div class="row m-0 mt-4 work-screen">
+    <div class="col-4 offset-4 mt-4">
+        <div class="card keyboard"><div class="card-body border-primary text-center">
+        <h2>{{project.name}} - {%if code and code == "True"%}{% trans "Add codes" %}{%else%}{% trans "Add cards" %}{%endif%}</h2>
+        <br/>
+
+        {% for card in range %}
+            <div id="div-lock-{{forloop.counter}}" class="div-lock hide">
+                <form method="POST" action="{% url "keycards-add-multiple-step3" %}" id="form-card-{{forloop.counter}}">
+                    {%csrf_token%}
+                    <input type="hidden" id="project" name="project" value="{{project.uuid}}" />
+                    <input type="hidden" id="locks" name="locks" value="{{locks}}" />
+                    <input type="hidden" id="ini_date" name="ini_date" value="{{ini_date}}" />
+                    <input type="hidden" id="end_date" name="end_date" value="{{end_date}}" />
+                    <input type="hidden" id="current" name="current" value="{{forloop.counter}}" />
+                    <input type="hidden" id="total" name="total" value="{{number}}" />
+                    <input type="hidden" id="code" name="code" value="{{code}}" />
+                    <div class="text-success text-center">
+                        {% if code and code == "True" %}
+                            <strong>{% trans "Code" %} {{forloop.counter}} / {{number}}</strong></div>
+                        {% else %}
+                            <strong>{% trans "Card" %} {{forloop.counter}} / {{number}}</strong></div>
+                        {% endif %}
+                    <br />
+                    <br />
+                    <div class="text-center py-4 mb-1"> <strong>{% trans "Name" %}:</strong> </div>
+                    {% if group != "" %}
+                        <input type="text" class="form-control wizard" id="name_{{forloop.counter}}" name="name"
+                            value="{{group}} {{forloop.counter}}" />
+                    {% else %}
+                        <input type="text" class="form-control wizard" id="name_{{forloop.counter}}" name="name" value="" />
+                    {% endif %}
+
+                    <br/>
+                    {% if code and code == "True" %}
+                        <div class="text-center py-4 mb-2"> <strong>{% trans "Enter code" %}:</strong> </div>
+                    {% else %}
+                        <div class="text-center py-4 mb-2"> <strong>{% trans "Scan card" %}:</strong> </div>
+                    {% endif %}
+                    <input type="text" class="form-control wizard" id="card_{{forloop.counter}}" name="card" value="" />
+
+                    <br/>
+                    <div class="text-center mb-2"> 
+                        <button class="btn btn-primary saveform" data-form="form-card-{{forloop.counter}}" data-target="div-progress" 
+                            data-id="{{forloop.counter}}"> {% trans "Continue" %}</button>
+                    </div>
+                </form>
+            </div>
+        {% endfor %}
+        <div id="div-progress">{% include "web/keycards/keycards-add-multiple-progress.html" with percent=1 %}</div>
+        </div></div>
+    </div>
+</div>
+<script>
+    $("#div-lock-1").show();
+    {%if group != ""%} $("#card_1").focus(); {%else%} $("#name_1").focus(); {%endif%}
+    $(".saveform").click(function(e){ 
+        var id = parseInt($(this).data("id")); 
+        $("#div-lock-"+id).hide(); 
+        $("#div-lock-"+(id+1)).show(); 
+        {%if group != ""%} $("#card_"+(id+1)).focus(); {% else %} $("#name_"+(id+1)).focus(); {%endif%}
+    });
+</script>
