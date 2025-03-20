@@ -23,7 +23,7 @@ def ticket_to_json(fi, fi_status):
     lang = details.lang if details != None else ""
     payment_type = translate2("es", fi.payment_type.name) if fi.payment_type != None else ""
     date = date_to_local(fi.date, fi.project.time_zone_name)
-    st = translate2("es", fi_status.status.name)
+    st = translate2("es", fi_status.status.name) if fi_status != None else ""
     fi_json = {
         'id': fi.id, 
         #'fecha': fi.date.strftime("%d-%m-%Y"), 
@@ -42,7 +42,7 @@ def ticket_to_json(fi, fi_status):
     }
     for item in fi.get_items:
         #Si el ticket está enviado añade todos los artículos, si no, solo los artículos marcados para enviar
-        if item.status == 1 or fi_status.status.code == "01":
+        if item.status == 1 or (fi_status != None and fi_status.status.code == "01"):
             item_json = {
                 'nombre_servicio': item.name,
                 'id_servicio': item.id,
@@ -306,7 +306,8 @@ class Form(models.Model):
             fi_status = fi.get_status
             #Ticker abiertos o enviados
             if fi_status == None or fi_status.status.code == "01":
-                resp = ticket_to_json(fi, translate2("es", fi_status))
+                resp = ticket_to_json(fi, fi_status)
+                #resp = ticket_to_json(fi, translate2("es", fi_status))
                 fi.receive_items()
         return resp
 
