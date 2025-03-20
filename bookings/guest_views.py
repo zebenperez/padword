@@ -14,7 +14,8 @@ from padword.commons import show_exc, get_or_none, get_param, get_float, get_boo
 from web.models import Device, Project, ProjectUser
 from web.models_lock import Lock
 from contents.models import Category, ShoppingCart, Item, PaymentType
-from guest.models import Guest, GuestNotification, Wristband, GuestLockLog
+from guest.models import Guest, GuestNotification, GuestLockLog
+from guest.wristband_models import Wristband
 from web.lock_lib import ShLock
 
 from .common_lib import get_or_create_form_instance, get_max_index, get_or_create_answer_instance, user_in_group, get_guest, get_login_template

@@ -71,6 +71,8 @@ urlpatterns = [
     path('wristbands-access/export-csv/', wristband_views.wristbands_access_export_csv, name='wristbands-access-export-csv'),
     path('wristbands-access/schedule/', wristband_views.wristbands_access_schedule, name='wristbands-access-schedule'),
 
+    path('wristbands/close/', wristband_views.wristbands_close, name='wristbands-close'),
+
     #--------------------- DEVICES --------------------
     path('', views.index, name='device-index'),
     path('devices/', views.devices, name='guest-devices'),

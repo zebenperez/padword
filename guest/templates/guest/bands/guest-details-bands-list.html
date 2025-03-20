@@ -1,6 +1,13 @@
 {% load i18n guest_tags %}
 
+
 {% for item in obj.bands.all %} 
+    <div class="text-end">
+        <button class="btn btn-warning btn-sm ark" data-url="{% url "wristbands-close" %}" data-target-modal="common-modal" 
+            data-obj_id="{{item.id}}" data-confirm="{% trans "Are you sure to close this band?" %}">
+            <i class="fas fa-plus"></i> {%trans "Cerrar Pulsera"%}</button>
+    </div>
+
     <div class="row m-2 p-2 w-100 band-div">
         <div class="col-2 head-band"><strong>{% trans "Band Code" %}:</strong> <br />{{item.code}} </div>
         <div class="col-2 head-band"><strong>{% trans "Name" %}:</strong> <br /> {{item.name}} </div>

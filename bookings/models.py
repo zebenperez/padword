@@ -5,7 +5,8 @@ from django.utils.translation import ugettext_lazy as _
 
 from contents.models import Category, Item, ShoppingCart, PaymentType, PointOfSale, Table
 from web.models import Channel, Device, Project
-from guest.models import Guest, Wristband
+from guest.models import Guest
+from guest.wristband_models import Wristband
 
 from .email_lib import send_change_status_email
 from padword.commons import show_exc, translate2, date_to_utc, date_to_local

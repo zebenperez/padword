@@ -1,0 +1,69 @@
+{% load i18n padword_tags %}
+
+<div class="row w-100 common-modal-head m-0 p-0">
+    <div class="col-11"><h2>{% trans 'Wristband backup' %}</h2></div>
+    <div class="col-1"><button type="button" class="btn btn-sm" data-bs-dismiss="modal"><i class="fas fa-times"></i></button> </div>
+</div>
+
+{% if err %}
+    <div class="alert alert-warning">{% trans "In order to close this wristband the balance must be 0" %}</div>
+{% else %}
+    <div class="card pb-3">
+        <div class="card-header">{% trans "Band Info" %}</div>
+        <div class="card-body">
+            <div class="row m-0">
+                <div class="col-2">{% trans "Kids" %}</div>
+                <div class="col-2">{% trans "Locks" %}</div>
+                <div class="col-3">{% trans "Code" %}</div>
+                <div class="col-3">{% trans "Name" %}</div>
+                <div class="col-2">{% trans "Type" %}</div>
+            </div>
+            <div class="row m-0">
+                <div class="col-2">{%if obj.kid%}<i class="fas fa-check"></i>{%else%}<i class="fas fa-times"></i>{%endif%}</div>
+                <div class="col-2">{%if obj.locks%}<i class="fas fa-check"></i>{%else%}<i class="fas fa-times"></i>{%endif%}</div>
+                <div class="col-3">{{obj.code}}</div>
+                <div class="col-3">{{obj.name}}</div>
+                <div class="col-2">{{obj.type}}</div>
+            </div>
+        </div>
+    </div>
+    <div class="card pb-3">
+        <div class="card-header">{% trans "Guest Info" %}</div>
+        <div class="card-body">
+            <div class="row m-0">
+                <div class="col-2">{% trans "UUID" %}</div>
+                <div class="col-2">{% trans "Name" %}</div>
+                <div class="col-2">{% trans "Mobile - Email" %}</div>
+                <div class="col-2">{% trans "Room" %}</div>
+                <div class="col-2">{% trans "Checkin" %}</div>
+                <div class="col-2">{% trans "Checkout" %}</div>
+            </div>
+            <div class="row m-0">
+                <div class="col-2">{{obj.guest_uuid}}</div>
+                <div class="col-2">{{obj.guest_name}}</div>
+                <div class="col-2">{{obj.guest_mobile}} - {{obj.guest_email}}</div>
+                <div class="col-2">{{obj.guest_room}}</div>
+                <div class="col-2">{{obj.check_in|date:"d-m-Y H:i"}}</div>
+                <div class="col-2">{{obj.check_out|date:"d-m-Y H:i"}}</div>
+            </div>
+        </div>
+    </div>
+    <div class="card pb-3">
+        <div class="card-header">{% trans "Balances" %}</div>
+        <div class="card-body">
+            <div class="row m-0">
+                <div class="col-2">{% trans "Date" %}</div>
+                <div class="col-2">{% trans "Amount" %}</div>
+                <div class="col-8">{% trans "Description" %}</div>
+            </div>
+            {% for band in obj.balances.all %}
+                <div class="row m-0">
+                    <div class="col-2">{{obj.date|date:"d-m-Y H:i"}}</div>
+                    <div class="col-2">{{obj.amount}}</div>
+                    <div class="col-8">{{obj.desc}}</div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endif %}
+

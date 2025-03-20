@@ -1,7 +1,8 @@
 from django import template
 
 from padword.commons import show_exc
-from guest.models import KeyCode, KeyCard, WristbandAccessZoneGuest
+from guest.models import KeyCode, KeyCard
+from guest.wristband_models import WristbandAccessZoneGuest
 
 register = template.Library()
 

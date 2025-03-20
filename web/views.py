@@ -8,8 +8,8 @@ from django.views.decorators.csrf import csrf_exempt
 
 from padword.commons import show_exc, get_or_none, get_param, new_ui_slug, translate, set_session, update_cron, get_int, translate2, get_random_str
 from padword.decorators import group_required
-from guest.models import Regime, ProjectRegime, GuestType, Wristband, Guest, GuestStripe
-from guest.models import WristbandAccessZone, WristbandAccessZoneTimes, WristbandAccessPoint
+from guest.models import Regime, ProjectRegime, GuestType, Guest, GuestStripe
+from guest.wristband_models import Wristband, WristbandAccessZone, WristbandAccessZoneTimes, WristbandAccessPoint
 from sensibo.models import ProjectSensiboUser
 from connector.models import ProjectAvantioUser, ProjectAvaibookUser, ProjectWinhotelUser, ProjectStripeUser
 from connector.models import ProjectMewsUser, ProjectCarUser, ProjectCloudbedsUser

@@ -14,7 +14,8 @@
  
 <div class="d-flex">
    <div class="row">
-        {% for zone in obj.access_zones %}
+       {#{% for zone in obj.access_zones %}#}
+        {% for zone in access_zones %}
             <div class="col-6">
                 {% if obj|zone_active:zone %}
                     <button type="button" class="btn btn-success ark" id="zone-{{zone.id}}" 
