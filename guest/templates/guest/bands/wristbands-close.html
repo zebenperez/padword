@@ -53,14 +53,14 @@
         <div class="card-body">
             <div class="row m-0">
                 <div class="col-2">{% trans "Date" %}</div>
-                <div class="col-2">{% trans "Amount" %}</div>
                 <div class="col-8">{% trans "Description" %}</div>
+                <div class="col-2">{% trans "Amount" %}</div>
             </div>
             {% for band in obj.balances.all %}
                 <div class="row m-0">
-                    <div class="col-2">{{obj.date|date:"d-m-Y H:i"}}</div>
-                    <div class="col-2">{{obj.amount}}</div>
-                    <div class="col-8">{{obj.desc}}</div>
+                    <div class="col-2">{{band.date|date:"d-m-Y H:i"}}</div>
+                    <div class="col-8">{{band.desc}}</div>
+                    <div class="col-2">{{band.amount}}</div>
                 </div>
             {% endfor %}
         </div>

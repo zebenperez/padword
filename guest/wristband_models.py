@@ -143,6 +143,7 @@ class WristbandBackup(models.Model):
     locks = models.BooleanField(verbose_name=_("Locks"), default=False)
     code = models.CharField(max_length=255, verbose_name=_('Code'), default="")
     name = models.CharField(max_length=255, verbose_name=_('Name'), default="")
+    project_uuid = models.CharField(max_length=255, verbose_name=_('Project UUID'), default="")
     guest_uuid = models.CharField(max_length=255, verbose_name=_('Guest UUID'), default="")
     guest_name = models.CharField(max_length=255, verbose_name=_('Guest name'), default="")
     guest_mobile = models.CharField(max_length=255, verbose_name=_('Guest mobile'), default="")

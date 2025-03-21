@@ -272,6 +272,17 @@ def wristbands_search_by_project(request):
         print(e)
         return render(request, 'error_exception.html', {'exc':show_exc(e)})
 
+@group_required("projects")
+def wristbands_backup_search_by_project(request):
+    try:
+        project = get_or_none(Project, request.project_id)
+        value = reverse_cardkey(get_param(request.GET, "value"))
+        band_result = WristbandBackup.objects.filter(code=value, project_uuid=project.uuid)
+        return render (request, "wristbands-by-project/wristbands-backup-search.html", {'band_list': band_result, 'band_code': value})
+    except Exception as e:
+        print(e)
+        return render(request, 'error_exception.html', {'exc':show_exc(e)})
+
 '''
     Wristbands Access
 '''
@@ -637,6 +648,7 @@ def get_or_update_wristband_backup(wb):
     wbb.kid = wb.kid
     wbb.locks = wb.locks
     wbb.name = wb.name
+    wbb.project_uuid = wb.guest.project_id
     wbb.guest_uuid = wb.guest.UUID
     wbb.guest_name = "{} {}".format(wb.guest.name, wb.guest.surname)
     wbb.guest_mobile = wb.guest.mobile
