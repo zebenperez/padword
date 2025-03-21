@@ -51,6 +51,7 @@ def ticket_to_json(fi, fi_status):
                 'precio_servicio_reducido': item.total_price,
                 'subtotal': 0,
                 'familia': item.category,
+                'comments': item.comments,
                 'id_articulo_pms': 0
             }
             fi_json["elementos"].append(item_json)
@@ -293,9 +294,9 @@ class Form(models.Model):
 
     def to_tickets2(self, start_date="", end_date=""):
         if start_date != "":
-            s_date = date_to_utc(datetime.datetime.strptime(start_date, "%Y-%m-%d_%H:%M:%S"), self.project.time_zone_name)
+            s_date = date_to_utc(datetime.datetime.strptime(start_date, "%Y-%m-%d_%H:%M"), self.project.time_zone_name)
             if end_date != "":
-                e_date = date_to_utc(datetime.datetime.strptime(end_date, "%Y-%m-%d_%H:%M:%S"), self.project.time_zone_name)
+                e_date = date_to_utc(datetime.datetime.strptime(end_date, "%Y-%m-%d_%H:%M"), self.project.time_zone_name)
                 fi_list = FormInstance.objects.filter(form_uuid=self.uuid, date__range=(s_date, e_date))
             else:
                 fi_list = FormInstance.objects.filter(form_uuid=self.uuid, date__gte=s_date)
