@@ -279,6 +279,25 @@ def cloudbeds_get_room_list(request, project_uuid):
 
 
 '''
+    ACCESS CONTROL
+'''
+def access_control(request, project, card):
+    f = open(os.path.join(settings.BASE_DIR, "access_control.log"), "a", encoding='utf-8')
+    f.write("\n---------------------------------------")
+    f.write("\n{} - Recibida lectura de tarjeta".format(datetime.now().strftime("%Y-%m-%d %H:%M:%S")))
+
+    try:
+        pr = get_or_none(Project, project, "uuid")
+        if pr == None:
+            f.write("\nError: {}".format(e))
+        else:
+            f.write("\nProject: {} - Card: {}".format(pr.name, card))
+    except Exception as e:
+        f.write("\nError: {}".format(e))
+    return HttpResponse("")
+
+
+'''
     Cron Logs
 '''
 @group_required("admins")
