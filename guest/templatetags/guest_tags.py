@@ -13,6 +13,13 @@ register = template.Library()
 def zone_active(guest, zone):
     return WristbandAccessZoneGuest.objects.filter(guest=guest, zone=zone).first() != None
 
+@register.filter
+def have_open_band(guest):
+    for band in guest.bands.all():
+        if not band.is_close():
+            return True
+    return False
+
 '''
     Inclusion Tags
 '''

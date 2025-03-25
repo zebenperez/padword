@@ -34,6 +34,11 @@ class Wristband(models.Model):
             print(e)
             return -1
 
+    @property
+    def is_close(self):
+        wb = WristbandBackup.objects.filter(code=self.code).first()
+        return (wb != None)
+
     def can_access_zone(self, zone):
         if self.guest == None:
             return False

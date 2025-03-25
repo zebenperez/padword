@@ -13,14 +13,17 @@
         <div class="col-2 head-band"><strong>{% trans "Name" %}:</strong> <br /> {{item.name}} </div>
         <div class="col-2 head-band"><strong>{% trans "Type" %}:</strong> <br /> {{item.type.name}} </div>
         <div class="col-2 head-band"><strong>{% trans "Locks" %}:</strong> <br /> {{item.locks}} </div>
-        <div class="col-1 head-band"><strong>{% trans "Kids" %}:</strong> <br /> {%if item.kid%}{%trans "Yes"%}{%else%}{%trans "No"%}{%endif%}</div>
+        <div class="col-1 head-band"><strong>{% trans "Kids" %}:</strong> <br /> 
+            {%if item.kid%}{%trans "Yes"%}{%else%}{%trans "No"%}{%endif%}</div>
         <div class="col-2 head-band"><strong>{% trans "Balance" %}:</strong> 
             <br /> {{item.balance|floatformat:2|default:0}} {{obj.currency}}{#&euro;#}</div>
         <div class="col-1 head-band text-end p-0">
             <button class="btn btn-sm ark" id="btn-band-edit" data-url="{% url "guest-band-edit" %}" data-target-modal="common-modal" 
                 data-obj_id="{{item.id}}"> <i class="fas fa-edit"></i></button>
-            <button class="btn btn-sm ark" id="btn-band-remove" data-url="{% url "guest-band-remove" %}" data-target="div-band-list" 
-                data-obj_id="{{item.id}}" data-band_lock="true"> <i class="fas fa-trash"></i></button>
+            {% if item.is_close %}
+                <button class="btn btn-sm ark" id="btn-band-remove" data-url="{%url "guest-band-remove"%}" data-target="div-band-list" 
+                    data-obj_id="{{item.id}}" data-band_lock="true"> <i class="fas fa-trash"></i></button>
+            {% endif %}
         </div>
 
         <div class="card mt-2 pt-2 pb-2">
