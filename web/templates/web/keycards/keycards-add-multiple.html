@@ -31,7 +31,8 @@
                                         value="{{ini_date}}"/>
                                 </div>
                                 <div class="col-12 text-center py-4 mt-3">
-                                    <strong>{% trans "End date" %}:</strong>
+                                    {#<strong>{% trans "End date" %}:</strong>#}
+                                    <strong>End date:</strong>
                                     <input type="date" class="form-control wizard" id="end_date" name="end_date" value="{{end_date}}"/>
                                 </div>
                             </div>
@@ -47,7 +48,9 @@
                             {% endif %}
                             <div class="col-12 p-3 text-center">
                                 <button class="btn btn-primary saveform" data-form="form-card" data-target="div-main">
-                                    {% trans "Continue" %}</button>
+                                    {#{% trans "Continue" %}#}
+                                    Continue
+                                </button>
                             </div>
                         </div>
                     </div>
