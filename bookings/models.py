@@ -14,8 +14,8 @@ from padword.commons import show_exc, translate2, date_to_utc, date_to_local
 import datetime, threading
 
 
-def ticket_to_json(fi, fi_status):
-    resp = {"tickets": []}
+def ticket_to_json(fi, fi_status, resp):
+    #resp = {"tickets": []}
     details = fi.details
     pos_name = details.pos if details != None else ""
     table_name = details.table if details != None else ""
@@ -23,9 +23,10 @@ def ticket_to_json(fi, fi_status):
     lang = details.lang if details != None else ""
     payment_type = translate2("es", fi.payment_type.name) if fi.payment_type != None else ""
     date = date_to_local(fi.date, fi.project.time_zone_name)
-    st = translate2("es", fi_status.status.name) if fi_status != None else ""
+    st = translate2("es", fi_status.status.name) if fi_status != None else "parcial"
     fi_json = {
         'id': fi.id, 
+        'ticket numero': fi.index, 
         #'fecha': fi.date.strftime("%d-%m-%Y"), 
         #'hora': fi.date.strftime("%H:%M:%S"), 
         'fecha': date.strftime("%d-%m-%Y"), 
@@ -307,7 +308,7 @@ class Form(models.Model):
             fi_status = fi.get_status
             #Ticker abiertos o enviados
             if fi_status == None or fi_status.status.code == "01":
-                resp = ticket_to_json(fi, fi_status)
+                resp = ticket_to_json(fi, fi_status, resp)
                 #resp = ticket_to_json(fi, translate2("es", fi_status))
                 fi.receive_items()
         return resp

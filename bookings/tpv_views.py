@@ -399,6 +399,9 @@ def tpv_order_send_part(request):
         fi = get_or_none(FormInstance, fi_id)
         fi.send_items()
 
+        fi.date = fi.project.local_date(datetime.datetime.now())
+        fi.save()
+
         return render(request, "bookings/tpv/view-ticket.html", {'fi':fi,})
     except Exception as e:
         print(e)
