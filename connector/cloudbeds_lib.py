@@ -76,12 +76,11 @@ class Cloudbeds():
     def __send_put_request__(self, _url_request, _json):
         try:
             _headers = {}
-            _headers['Accept'] = 'application/json'
-            _headers['x-api-key'] = '{}'.format(self.token)
-            print("--a--")
-            print(_json)
+            #_headers['Accept'] = 'application/json'
+            #_headers['x-api-key'] = '{}'.format(self.token)
+            _headers['Authorization'] = 'Bearer {}'.format(self.token)
+            _headers['Content-Type'] = 'application/x-www-form-urlencoded'
             _response = requests.put(_url_request, headers=_headers, data=_json)
-            print(_response)
             _response.raise_for_status()
             return _response
         except requests.exceptions.HTTPError as errh:
@@ -99,7 +98,7 @@ class Cloudbeds():
             _url_request = "{}{}".format(API_URL, BOOKINGS_URL)
             params = {
                 "includeAllRooms": "true",
-                #"status": "confirmed"
+                "status": "confirmed"
             }
             dic = self.__send_request__(_url_request, params).json()
             items = dic["data"]
@@ -125,17 +124,17 @@ class Cloudbeds():
         except Exception as err:
             raise CloudbedsAPIError(menssage=err)
 
-    def set_booking_code(self, booking_id, code):
+    def set_booking_code(self, booking_id, param, code):
         try:
             _url_request = "{}{}".format(API_URL, BOOKING_PUT_URL)
             params = {
-                "customFields": [{"customFieldName":"lockCode","customFieldValue":"1234"},],
-                "reservationID": booking_id,
+                'reservationID': booking_id,
+                'customFields[0][customFieldName]': param,
+                'customFields[0][customFieldValue]': code
             }
-            print("--9--")
-            #dic = self.__send_put_request__(_url_request, params).json()
-            dic = self.__send_put_request__(_url_request, json.dumps(params)).json()
-            print(dic)
+            dic = self.__send_put_request__(_url_request, params).json()
+            #dic = self.__send_put_request__(_url_request, json.dumps(params)).json()
+            #print(dic)
             items = dic["data"]
             return items
         except Exception as err:
@@ -257,7 +256,6 @@ def create_booking(pmu, room, booking, bguest, av):
     err = ""
 
     if room_ex:
-        print("--2--")
         ext_id = get_ext_id(booking, room)
         guest = Guest.objects.filter(ext_id=ext_id, project_id=pmu.project_uuid, deleted=0).first()
         if guest == None:
@@ -277,16 +275,14 @@ def create_booking(pmu, room, booking, bguest, av):
         guest.save()
 
         if booking.created:
-            print("--3--")
             #lock_code = guest.mobile[-4:]
             lock_code = ''.join([random.choice(string.digits) for i in range(4)])
-            print(lock_code)
+            #print(lock_code)
             #lock_code = booking.number
             err = guest.add_all_key_code(lock_code)
-            av.set_booking_code(booking.id, lock_code)
-            print("--4--")
-            #av.send_pwa_link(guest.ext_id, lock_code, guest.pwa_link)
-#
+            av.set_booking_code(booking.id, "lockCode", lock_code)
+            av.set_booking_code(booking.id, "lockLink", guest.pwa_link)
+
 #        return guest, err
 #        #else:
         #    if guest != None:
