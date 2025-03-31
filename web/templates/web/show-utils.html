@@ -13,17 +13,20 @@
                 {%endcomment%}
                 <a class="btn border-secondary utils" href="{% url "keycards-add-multiple-by-project" %}">
                     <img src="{% static "img/logo-padword.png" %}" alt="logo"/><br/>
-                    <div class="mt-2">{% trans "Crear Múltiples Tarjetas" %}</div></a>
+                    {#<div class="mt-2">{% trans "Crear Múltiples Tarjetas" %}</div></a>#}
+                    <div class="mt-2">{% trans "Create Multiple Cards" %}</div></a>
             </div>
             <div class="col-2 offset-1 text-center">
                 <a class="btn border-secondary utils" href="{% url "keycards-add-multiple-by-project" "1" %}">
                     <img src="{% static "img/logo-padword.png" %}" alt="logo"/><br/>
-                    <div class="mt-2">{% trans "Crear Tarjetas para un Grupo" %}</div></a>
+                    {#<div class="mt-2">{% trans "Crear Tarjetas para un Grupo" %}</div></a>#}
+                    <div class="mt-2">{% trans "Create Cards for Groups" %}</div></a>
             </div>
             <div class="col-2 offset-1 text-left">
                 <a class="btn border-secondary utils" href="{% url "keycards-add-multiple-by-project" "2" %}">
                     <img src="{% static "img/logo-padword.png" %}" alt="logo"/><br/>
-                    <div class="mt-2">{% trans "Crear Tarjetas Maestras" %}</div></a>
+                    {#<div class="mt-2">{% trans "Crear Tarjetas Maestras" %}</div></a>#}
+                    <div class="mt-2">{% trans "Create Master Cards" %}</div></a>
             </div>
 
         </div>
@@ -31,17 +34,20 @@
             <div class="col-2 offset-2 text-right" >
                 <a class="btn border-secondary utils" href="{% url "keycode-add-multiple-by-project" %}">
                     <img src="{% static "img/logo-padword.png" %}" alt="logo"/><br/>
-                    <div class="mt-2">{% trans "Crear Múltiples Códigos" %}</div></a>
+                    {#<div class="mt-2">{% trans "Crear Múltiples Códigos" %}</div></a>#}
+                    <div class="mt-2">{% trans "Create Multiple Codes" %}</div></a>
             </div>
             <div class="col-2 offset-1 text-center">
                 <a class="btn border-secondary utils" href="{% url "keycode-add-multiple-by-project" "1" %}">
                     <img src="{% static "img/logo-padword.png" %}" alt="logo"/><br/>
-                    <div class="mt-2">{% trans "Crear Códigos para un Grupo" %}</div></a>
+                    {#<div class="mt-2">{% trans "Crear Códigos para un Grupo" %}</div></a>#}
+                    <div class="mt-2">{% trans "Create Codes for Groups" %}</div></a>
             </div>
             <div class="col-2 offset-1 text-left">
                 <a class="btn border-secondary utils" href="{% url "keycode-add-multiple-by-project" "2" %}">
                     <img src="{% static "img/logo-padword.png" %}" alt="logo"/><br/>
-                    <div class="mt-2">{% trans "Crear Códigos Maestros" %}</div></a>
+                    {#<div class="mt-2">{% trans "Crear Códigos Maestros" %}</div></a>#}
+                    <div class="mt-2">{% trans "Create Master Codes" %}</div></a>
             </div>
 
         </div>
@@ -49,7 +55,8 @@
             <div class="col-2 offset-5 text-center">
                 <a class="btn border-secondary utils" href="{% url "locks-tasks-by-project" %}">
                     <img src="{% static "img/logo-padword.png" %}" alt="logo"/><br/>
-                    <div class="mt-2">{% trans "Programar tareas" %}</div></a>
+                    {#<div class="mt-2">{% trans "Programar tareas" %}</div></a>#}
+                    <div class="mt-2">{% trans "Schedule Tasks" %}</div></a>
             </div>
         </div>
     </div>

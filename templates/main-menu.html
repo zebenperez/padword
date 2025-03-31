@@ -54,7 +54,8 @@
             {% for m in project_user.menus_mod.all %}
                 {% if not m.promo %}
                     <li class="nav-item"><a class="nav-link {%if m.menu.code in path%}active{%endif%}" href="{{m.menu.url}}"> 
-                        <i class="fas {{m.menu.ico}}"></i> {{m.menu.name}}</a> </li>
+                        <i class="fas {{m.menu.ico}}"></i> {% padword_translate_menu m.menu.name lang %}</a> </li>
+                        {#<i class="fas {{m.menu.ico}}"></i> {{m.menu.name}}</a> </li>#}
                 {% else %}
                     <li class="nav-item">
                         <a class="nav-link pointer ark" data-url="{%url "show-module"%}" data-target-modal="common-modal"

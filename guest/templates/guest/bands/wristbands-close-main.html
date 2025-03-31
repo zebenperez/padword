@@ -1,0 +1,84 @@
+{% load i18n padword_tags %}
+
+{% if err %}
+    <div class="alert alert-warning text-center"> {% trans "BALANCE ACTUAL" %}: {{band.balance}} <br/> </div>
+    <form class="form-horizontal p-4" method="post" action="{% url "wristbands-close-balance" %}" id="formCloseBalance">
+        {% csrf_token %}
+        <input type="hidden" name="obj_id" value="{{band.id}}"/>
+        <div class="row">
+            <div class="col-6"><h2 class="text-center">{%trans "Realizar devolución"%}<br/>{% trans "Efectivo / Tarjeta" %}</h2></div>
+            <div class="col-6">
+                <div class="form-group mb-4">
+                    <div class="text-center"><label class="control-label text-left">{% trans "Observaciones:" %} </label></div>
+                    <div class="form-group"> <input class="form-control text-center" type="text" name="desc" id="desc"/></div>
+                </div><br />
+            </div>
+        </div>
+    </form>
+    <div class="form-group"> <div class="col-md-2 offset-md-5">
+        <div class="form-inline"> <div class="form-group">
+            <button class="btn btn-access btn-submit saveform" data-form="formCloseBalance" data-target="div-modal-main"> 
+                {% trans "Save" %}</button>
+            <button class="btn btn-access btn-submit" data-bs-dismiss="modal"> {% trans "Cancel" %}</button>
+        </div> </div>
+    </div> </div>
+{% else %}
+    <div class="card pb-3">
+        <div class="card-header">{% trans "Band Info" %}</div>
+        <div class="card-body">
+            <div class="row m-0">
+                <div class="col-2">{% trans "Kids" %}</div>
+                <div class="col-2">{% trans "Locks" %}</div>
+                <div class="col-3">{% trans "Code" %}</div>
+                <div class="col-3">{% trans "Name" %}</div>
+                <div class="col-2">{% trans "Type" %}</div>
+            </div>
+            <div class="row m-0">
+                <div class="col-2">{%if obj.kid%}<i class="fas fa-check"></i>{%else%}<i class="fas fa-times"></i>{%endif%}</div>
+                <div class="col-2">{%if obj.locks%}<i class="fas fa-check"></i>{%else%}<i class="fas fa-times"></i>{%endif%}</div>
+                <div class="col-3">{{obj.code}}</div>
+                <div class="col-3">{{obj.name}}</div>
+                <div class="col-2">{{obj.type}}</div>
+            </div>
+        </div>
+    </div>
+    <div class="card pb-3">
+        <div class="card-header">{% trans "Guest Info" %}</div>
+        <div class="card-body">
+            <div class="row m-0">
+                <div class="col-2">{% trans "UUID" %}</div>
+                <div class="col-2">{% trans "Name" %}</div>
+                <div class="col-2">{% trans "Mobile - Email" %}</div>
+                <div class="col-2">{% trans "Room" %}</div>
+                <div class="col-2">{% trans "Checkin" %}</div>
+                <div class="col-2">{% trans "Checkout" %}</div>
+            </div>
+            <div class="row m-0">
+                <div class="col-2">{{obj.guest_uuid}}</div>
+                <div class="col-2">{{obj.guest_name}}</div>
+                <div class="col-2">{{obj.guest_mobile}} - {{obj.guest_email}}</div>
+                <div class="col-2">{{obj.guest_room}}</div>
+                <div class="col-2">{{obj.check_in|date:"d-m-Y H:i"}}</div>
+                <div class="col-2">{{obj.check_out|date:"d-m-Y H:i"}}</div>
+            </div>
+        </div>
+    </div>
+    <div class="card pb-3">
+        <div class="card-header">{% trans "Balances" %}</div>
+        <div class="card-body">
+            <div class="row m-0">
+                <div class="col-2">{% trans "Date" %}</div>
+                <div class="col-8">{% trans "Description" %}</div>
+                <div class="col-2">{% trans "Amount" %}</div>
+            </div>
+            {% for band in obj.balances.all %}
+                <div class="row m-0">
+                    <div class="col-2">{{band.date|date:"d-m-Y H:i"}}</div>
+                    <div class="col-8">{{band.desc}}</div>
+                    <div class="col-2">{{band.amount}}</div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endif %}
+

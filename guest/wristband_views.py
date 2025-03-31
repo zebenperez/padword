@@ -667,9 +667,31 @@ def wristbands_close(request):
     try:
         wb = get_or_none(Wristband, get_param(request.GET, "obj_id"))
         if wb.balance != 0:
-            return render(request, "guest/bands/wristbands-close.html", {"err": True})
+            return render(request, "guest/bands/wristbands-close.html", {"band": wb,"err": True})
         obj = get_or_update_wristband_backup(wb)
         return render(request, "guest/bands/wristbands-close.html", {"obj": obj, "err": False})
+    except Exception as e:
+        print(e)
+        return render(request, 'error_exception.html', {'exc':show_exc(e)})
+
+@group_required("projects")
+def wristbands_close_balance(request):
+    try:
+        wb = get_or_none(Wristband, get_param(request.POST, "obj_id"))
+        desc = get_param(request.POST, "desc")
+        balance = WristbandBalance.objects.create(wristband=wb, amount=float(wb.balance)*-1, desc=desc)
+        obj = get_or_update_wristband_backup(wb)
+        return render(request, "guest/bands/wristbands-close-main.html", {"obj": obj, "err": False})
+    except Exception as e:
+        print(e)
+        return render(request, 'error_exception.html', {'exc':show_exc(e)})
+
+@group_required("projects")
+def wristbands_close_print(request, obj_id):
+    try:
+        wb = get_or_none(Wristband, obj_id)
+        wbb = WristbandBackup.objects.filter(code=wb.code).first()
+        return render(request, "guest/bands/wristbands-close-balances.html", {"obj": wbb, "err": False})
     except Exception as e:
         print(e)
         return render(request, 'error_exception.html', {'exc':show_exc(e)})

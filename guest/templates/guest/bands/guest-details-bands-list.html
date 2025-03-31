@@ -3,6 +3,10 @@
 
 {% for item in obj.bands.all %} 
     <div class="text-end">
+        {% if item.is_close %}
+            <a class="btn btn-warning btn-sm" href="{% url "wristbands-close-print" item.id %}" target="_blank"> 
+                <i class="fas fa-print"></i> {%trans "Imprimir cierre"%}</a>
+        {% endif %}
         <button class="btn btn-warning btn-sm ark" data-url="{% url "wristbands-close" %}" data-target-modal="common-modal" 
             data-obj_id="{{item.id}}" data-confirm="{% trans "Are you sure to close this band?" %}">
             <i class="fas fa-plus"></i> {%trans "Cerrar Pulsera"%}</button>

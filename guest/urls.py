@@ -73,6 +73,8 @@ urlpatterns = [
     path('wristbands-access/schedule/', wristband_views.wristbands_access_schedule, name='wristbands-access-schedule'),
 
     path('wristbands/close/', wristband_views.wristbands_close, name='wristbands-close'),
+    path('wristbands/close/balance/', wristband_views.wristbands_close_balance, name='wristbands-close-balance'),
+    path('wristbands/close/print/<int:obj_id>/', wristband_views.wristbands_close_print, name='wristbands-close-print'),
 
     #--------------------- DEVICES --------------------
     path('', views.index, name='device-index'),
