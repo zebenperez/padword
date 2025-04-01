@@ -235,7 +235,11 @@ class CloudbedsRoom():
     FUNCTIONS
 '''
 def get_ext_id(booking, room):
-    return "{}_{}".format(booking.id, room.id)
+    return "{}".format(booking.id)
+    #return "{}_{}".format(booking.id, room.id)
+
+def get_code(pmu, mobile=""):
+    return mobile.rstrip()[-4:] if pmu.code_mobile and mobile != "" else ''.join([random.choice(string.digits) for i in range(4)]) 
 
 def get_date(date):
     return datetime.strptime("{}".format(date), "%Y-%m-%d")
@@ -246,7 +250,6 @@ def room_exist(project_uuid, room):
     return (count > 0)
 
 def create_booking(pmu, room, booking, bguest, av):
-    print("--1--")
     checkin = get_date(room.check_in)
     checkout = get_date(room.check_out)
     #print(checkin)
@@ -262,6 +265,7 @@ def create_booking(pmu, room, booking, bguest, av):
             guest = Guest(UUID = new_ui_slug(Guest, "UUID"), ext_id=ext_id, project_id=pmu.project_uuid)
             booking.created = True
         
+        change_booking = True if guest.check_in != checkin or guest.check_out != checkout or guest.room != r else False
         #print(bguest)
         #print(bguest.first_name)
         guest.name = bguest.first_name
@@ -275,13 +279,13 @@ def create_booking(pmu, room, booking, bguest, av):
         guest.save()
 
         if booking.created:
-            #lock_code = guest.mobile[-4:]
-            lock_code = ''.join([random.choice(string.digits) for i in range(4)])
+            lock_code = get_code(pmu, guest.mobile)
             #print(lock_code)
-            #lock_code = booking.number
             err = guest.add_all_key_code(lock_code)
             av.set_booking_code(booking.id, "lockCode", lock_code)
             av.set_booking_code(booking.id, "lockLink", guest.pwa_link)
+        elif change_booking:
+            guest.change_room()
 
 #        return guest, err
 #        #else:
