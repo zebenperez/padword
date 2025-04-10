@@ -50,14 +50,20 @@
 
     <body class="pdf-wristbands m-2">
         <div id="main" class="m-2">
-            <div class="row header-pdf text-center">
-                <div class="col-4"><button class="btn ark w-100" data-url="{% url "tpv-change-pos" %}" data-target="base" 
-                        data-project_uuid="{{obj.project_uuid}}"> {% trans "Back" %}</button></div>
-                <div class="col-4">
-                    <img src="/static/img/Padword.png" alt="Logo" width="250px"/><br/> <br/> 
+            <div class="row header-pdf" style="border:1px solid black">
+                <div class="col-8">
+                    <img src="/static/img/thumbnail_logo-padword.png" alt="Logo" width="150px"/><br/> <br/> 
                 </div>
-                <div class="col-4">
-                    <a class="btn btn-default" onclick="window.print()"> &#128424; {% trans "Imprimir" %}</a>
+
+                <div class="col-2 text-end">
+                    {% comment %}
+                       <button class="btn ark w-100" data-url="{% url "tpv-change-pos" %}" data-target="base" data-project_uuid="{{obj.project_uuid}}">
+                           {% trans "Back" %}</button>
+                    {% endcomment %}
+                    <button class="btn btn-outline-danger ark w-50 print-hide" type="button" onclick="javascript:window.close()"><i class="fas fa-times"></i> {% trans "Salir" %}</button>
+                </div>
+                <div class="col-2 text-end">
+                    <a class="btn btn-outline-dark print-hide" onclick="$('.print-hide').hide(); window.print()"> <i class="fa fa-print"></i> {% trans "Imprimir" %}</a>
                 </div>
             </div>
 

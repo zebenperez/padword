@@ -21,11 +21,18 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-12">
+            <div class="col-6">
                 <label class="label">{% trans "Token" %}:</label>
                 <input type="text" class="form-control autosave input" id="token" name="token" value="{{user_cloudbeds.token}}" 
                     data-model-name="connector.projectcloudbedsuser" data-obj-id="{{user_cloudbeds.id}}"
                     data-url="{% url "autosave_field" %}" data-target="cloudbeds-notif"/> <span id="token__msg"></span>	
+            </div>
+            <div class="col-6">
+                <label class="label">{% trans "Property ID" %}:</label>
+                <input type="text" class="form-control autosave input" id="property_id" name="property_id" 
+                    value="{{user_cloudbeds.property_id}}" data-model-name="connector.projectcloudbedsuser" 
+                    data-obj-id="{{user_cloudbeds.id}}" data-url="{% url "autosave_field" %}" data-target="cloudbeds-notif"/> 
+                <span id="property_id__msg"></span>	
             </div>
         </div>
         <div class="row">

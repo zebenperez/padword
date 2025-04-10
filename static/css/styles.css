@@ -21,7 +21,8 @@ p { margin:0 !important; }
     left: 0;
     z-index: 9999;
     cursor: progress;
-    background: url('https://usagif.com/wp-content/uploads/loading-12.gif') 50% 50% no-repeat;
+    /*background: url('https://usagif.com/wp-content/uploads/loading-12.gif') 50% 50% no-repeat;*/
+    background: url(/static/img/loading.gif) 50% 50% no-repeat;
     background-size: 50px 50px;
 }
 

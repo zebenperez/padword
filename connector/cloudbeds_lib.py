@@ -20,7 +20,9 @@ BOOKINGS_URL = "getReservations"
 ROOMS_URL = "getRooms"
 GUEST_URL = "getGuest"
 BOOKING_PUT_URL = "putReservation"
+WEBHOOK_URL = "postWebhook"
 CONFIRM_STATE = "confirmed"
+END_POINT_URL = "{}/connector/cloudbeds/webhook/".format(settings.MAIN_URL)
 
 def get_param(dic, key):
     return dic[key] if key in dic else ""
@@ -141,6 +143,21 @@ class Cloudbeds():
             raise CloudbedsAPIError(menssage=err)
 
 
+    def set_webhook(self, obj, action, property_id):
+        try:
+            _url_request = "{}{}".format(API_URL, WEBHOOK_URL)
+            params = {
+                "endpointUrl": END_POINT_URL,
+                "object": obj,
+                "action": action,
+                "propertyID": property_id
+            }
+            #dic = self.__send_post_request__(_url_request, params).json()
+            dic = self.__send_post_request__(_url_request, params)
+            print(dic)
+            return ""
+        except Exception as err:
+            raise CloudbedsAPIError(menssage=err)
 
 #    def get_customer(self, customer_id):
 #        try:
@@ -346,17 +363,8 @@ def get_room_list(pcu):
         room_list.append(node)
     return room_list
 
+def set_webhooks(pcu):
+    av = Cloudbeds(pcu.token)
+    result = av.set_webhook("reservation", "created", pcu.property_id)
+    return ""
 
-#def cancel_booking_list(pmu):
-#    av = Cloudbeds(pmu.client_token, pmu.access_token)
-#    result = av.get_bookings(CANCELED_STATE)
-#    #print(result)
-#    booking_list = []
-#    i = 0
-#    for item in result:
-#        i += 1
-#        node = CloudbedsBooking(item)
-#        booking_list.append(node)
-#        delete_booking(pmu, node)
-#    return booking_list
-#

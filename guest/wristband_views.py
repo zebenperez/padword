@@ -283,6 +283,15 @@ def wristbands_backup_search_by_project(request):
         print(e)
         return render(request, 'error_exception.html', {'exc':show_exc(e)})
 
+@group_required("projects")
+def wristbands_backup_balance(request):
+    try:
+        wb = get_or_none(WristbandBackup, get_param(request.GET, "obj_id"))
+        return render (request, "wristbands-by-project/wristbands-backup-balance.html", {'band': wb})
+    except Exception as e:
+        print(e)
+        return render(request, 'error_exception.html', {'exc':show_exc(e)})
+
 '''
     Wristbands Access
 '''

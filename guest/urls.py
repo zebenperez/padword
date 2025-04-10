@@ -62,6 +62,7 @@ urlpatterns = [
     path('wristbands/project/', wristband_views.wristbands_by_project, name='wristbands-by-project'),
     path('wristbands/project/search/', wristband_views.wristbands_search_by_project, name='wristbands-search-by-project'),
     path('wristbands/backup/project/search/', wristband_views.wristbands_backup_search_by_project, name='wristbands-backup-search-by-project'),
+    path('wristbands/backup/project/balance/', wristband_views.wristbands_backup_balance, name='wristbands-backup-balance'),
 
     path('wristbands-access/', wristband_views.wristbands_access, name='wristbands-access'),
     path('wristbands-access/search/', wristband_views.wristbands_access_search, name='wristbands-access-search'),

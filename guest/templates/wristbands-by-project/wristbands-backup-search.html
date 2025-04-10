@@ -31,7 +31,8 @@
                 <td> {%if item.kid%}{%trans "Yes"%}{%else%}{%trans "No"%}{%endif%} </td> 
                 <td> {{item.balance}} </td>
                 <td> {%if item.locks%}{%trans "Yes"%}{%else%}{%trans "No"%}{%endif%} </td> 
-                <td> </td>
+                <td><button class="btn btn-default ark" data-url="{%url "wristbands-backup-balance"%}" data-target-modal="common-modal"
+                    data-obj_id="{{item.id}}"> <i class="fas fa-list"></i></button></td>
             </tr>
         {% endfor %}
     </tbody>

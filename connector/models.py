@@ -92,6 +92,7 @@ class ProjectCloudbedsUser(models.Model):
     token = models.CharField(max_length=255, verbose_name=_('Token'), default="")
     ini_time = models.TimeField(_("Initial Time"), blank=True, default=datetime.time(14, 00))
     end_time = models.TimeField(_("End Time"), blank=True, default=datetime.time(12, 00))
+    property_id = models.CharField(max_length=255, verbose_name=_('Property ID'), default="")
     project_uuid = models.CharField(max_length=255, verbose_name=_('Project UUID'), default="")
 
     @property
