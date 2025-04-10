@@ -252,13 +252,15 @@ def room_exist(project_uuid, room):
 def create_booking(pmu, room, booking, bguest, av):
     checkin = get_date(room.check_in)
     checkout = get_date(room.check_out)
+    e_date = datetime.today() + timedelta(pmu.days)
+    end_date = e_date.strftime("%Y-%m-%d") 
     #print(checkin)
     #print(checkout)
     r = room.id if room != None else "-1"
     room_ex = room_exist(pmu.project_uuid, r)
     err = ""
 
-    if room_ex:
+    if room_ex and checkin <= end_date:
         ext_id = get_ext_id(booking, room)
         guest = Guest.objects.filter(ext_id=ext_id, project_id=pmu.project_uuid, deleted=0).first()
         if guest == None:

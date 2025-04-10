@@ -2,68 +2,90 @@
 
 
 {% for item in obj.bands.all %} 
-    <div class="text-end">
-        {% if item.is_close %}
-            <a class="btn btn-warning btn-sm" href="{% url "wristbands-close-print" item.id %}" target="_blank"> 
-                <i class="fas fa-print"></i> {%trans "Imprimir cierre"%}</a>
-        {% endif %}
-        <button class="btn btn-warning btn-sm ark" data-url="{% url "wristbands-close" %}" data-target-modal="common-modal" 
-            data-obj_id="{{item.id}}" data-confirm="{% trans "Are you sure to close this band?" %}">
-            <i class="fa fa-lock"></i> {%trans "Cerrar Pulsera"%}</button>
-    </div>
 
-    <div class="row m-2 p-2 w-100 band-div">
-        <div class="col-2 head-band"><strong>{% trans "Band Code" %}:</strong> <br />{{item.code}} </div>
-        <div class="col-2 head-band"><strong>{% trans "Name" %}:</strong> <br /> {{item.name}} </div>
-        <div class="col-2 head-band"><strong>{% trans "Type" %}:</strong> <br /> {{item.type.name}} </div>
-        <div class="col-2 head-band"><strong>{% trans "Locks" %}:</strong> <br /> {{item.locks}} </div>
-        <div class="col-1 head-band"><strong>{% trans "Kids" %}:</strong> <br /> 
-            {%if item.kid%}{%trans "Yes"%}{%else%}{%trans "No"%}{%endif%}</div>
-        <div class="col-2 head-band"><strong>{% trans "Balance" %}:</strong> 
-            <br /> {{item.balance|floatformat:2|default:0}} {{obj.currency}}{#&euro;#}</div>
-        <div class="col-1 head-band text-end p-0">
-            <button class="btn btn-sm ark" id="btn-band-edit" data-url="{% url "guest-band-edit" %}" data-target-modal="common-modal" 
-                data-obj_id="{{item.id}}"> <i class="fas fa-edit"></i></button>
-            {% if item.is_close %}
-                <button class="btn btn-sm ark" id="btn-band-remove" data-url="{%url "guest-band-remove"%}" data-target="div-band-list" 
-                    data-obj_id="{{item.id}}" data-band_lock="true"> <i class="fas fa-trash"></i></button>
-            {% endif %}
-        </div>
-
-        <div class="card mt-2 pt-2 pb-2">
-            <div class="card-header toggle-btn" data-target="band-{{item.id}}" data-id-change="icon-extra" 
-                data-text='<i class="fas fa-plus"></i>' data-text-alt='<i class="fas fa-minus"></i>'>
-                <div class="row w-100">
-                    <div class="col-6 text-right" id="icon-extra"><i class="fas fa-plus"></i></div>
-                    <div class="col-6 text-left"><strong>{% trans "Balance" %}</strong></div>
+    <div class="card mb-4">
+        <div class="card-header p-4" style="background: #fff;">
+            <div class="row w-100">
+                <div class="col-6"> <h2 class="mt-2">{% trans "Band Code" %}: {{item.code}}</h2> </div>
+                <div class="col-6 text-end p-0">
+                    {% if item.is_close %}
+                        <a class="btn btn-outline-primary btn-sm" href="{% url "wristbands-close-print" item.id %}" target="_blank"> 
+                            <i class="fas fa-print text-primary"></i> {%trans "Imprimir cierre"%}</a>
+                        <button class="btn btn-outline-primary btn-sm ark" data-url="{%url "wristbands-close"%}" 
+                            data-target-modal="common-modal" data-obj_id="{{item.id}}" 
+                            data-confirm="{% trans "Are you sure to close this band?" %}">
+                            <i class="fa fa-lock text-primary"></i> {%trans "Nuevo cierre"%}</button>
+                    {% else %}
+                        <button class="btn btn-outline-warning btn-sm ark" data-url="{%url "wristbands-close"%}" 
+                            data-target-modal="common-modal" data-obj_id="{{item.id}}" 
+                            data-confirm="{% trans "Are you sure to close this band?" %}">
+                            <i class="fa fa-lock warning"></i> {%trans "Cerrar Pulsera"%}</button>
+                    {% endif %}
                 </div>
             </div>
-            <div class="card-body hide" id="band-{{item.id}}"> {% include "guest/bands/balance.html" with band=item %} </div>
         </div>
+        <div class="card-body">
+            <div class="row m-2 p-2 w-100">
+                <div class="col-3 head-band" style="border:1px solid #ff9200; border-radius: 0.25rem;">
+                    <div class="row">
+                        <div class="col-12 py-2">
+                            <strong><span class="text-uppercase" style="text-transform: uppercase;font-size: 0.9rem; color: #ff9200;">{{item.name}}</span> </strong>
+                        </div>
+                        <div class="col-4 py-1">{% trans "Type" %}</div>
+                        <div class="col-8 py-1 text-start"><strong>{{item.type.name}}</strong></div>
+                        <div class="col-4 py-1">{% trans "Locks" %}</div>
+                        <div class="col-8 py-1 text-start"><strong>{{item.locks}}</strong></div>
+                        <div class="col-4 py-1">{% trans "Kids" %}</div> 
+                        <div class="col-8 py-1 text-start"><strong>{%if item.kid%}{%trans "Yes"%}{%else%}{%trans "No"%}{%endif%}</strong> </div>
+                        <div class="col-4 py-1">{% trans "Balance" %} </div>
+                        <div class="col-8 py-1 text-start"><strong>{{item.balance|floatformat:2|default:0}} {{obj.currency}}{#&euro;#}</strong></div> <br/>
+                        <hr class="separator orange" />
+                        <div class="col-6 py-1"><button class="btn btn-outline-warning btn-sm ark small-act" id="btn-band-edit" data-url="{% url "guest-band-edit" %}"                                                              data-target-modal="common-modal" data-obj_id="{{item.id}}"> <i class="fas fa-edit"></i> {%trans "Edit"%}</button></div>
+                            {% if item.is_close %}
+                                <div class="col-6 py-1"><button class="btn btn-outline-danger btn-sm ark small-act" id="btn-band-remove" data-url="{%url "guest-band-remove"%}" 
+                                    data-target="div-band-list" data-obj_id="{{item.id}}" data-band_lock="true"> 
+                                        <i class="fas fa-trash"></i> {%trans "Remove"%}</button></div>
+                            {% endif %}
+                    </div>
+                </div>
+                <div class="col-9 head-band">
 
-        <div class="card mt-2 pt-2 pb-2">
-            <div class="card-header toggle-btn" data-target="band-log-{{item.id}}" data-id-change="icon-extra" 
-                data-text='<i class="fas fa-plus"></i>' data-text-alt='<i class="fas fa-minus"></i>'>
-                <div class="row w-100">
-                    <div class="col-6 text-right" id="icon-extra"><i class="fas fa-plus"></i></div>
-                    <div class="col-6 text-left"><strong>{% trans "Log" %}</strong></div>
+                    <div class="card pt-2 pb-2">
+                        <div class="card-header toggle-btn bg-white" data-target="band-{{item.id}}" data-id-change="icon-extra" 
+                            data-text='<i class="fas fa-plus"></i>' data-text-alt='<i class="fas fa-minus"></i>'>
+                            <div class="row w-100">
+                                <div class="col-6 text-right" id="icon-extra"><i class="fas fa-plus"></i></div>
+                                <div class="col-6 text-left"><strong>{% trans "Balance" %}</strong></div>
+                            </div>
+                        </div>
+                        <div class="card-body hide" id="band-{{item.id}}">{%include "guest/bands/balance.html" with band=item%}</div>
+                    </div>
+
+                    <div class="card mt-2 pt-2 pb-2">
+                        <div class="card-header toggle-btn bg-white" data-target="band-log-{{item.id}}" data-id-change="icon-extra" 
+                            data-text='<i class="fas fa-plus"></i>' data-text-alt='<i class="fas fa-minus"></i>'>
+                            <div class="row w-100">
+                                <div class="col-6 text-right" id="icon-extra"><i class="fas fa-plus"></i></div>
+                                <div class="col-6 text-left"><strong>{% trans "Log" %}</strong></div>
+                            </div>
+                        </div>
+                        <div class="card-body hide" id="band-log-{{item.id}}">{%include "guest/bands/log.html" with band=item%}</div>
+                    </div>
+
+                    <div class="card mt-2 pt-2 pb-2">
+                        <div class="card-header toggle-btn bg-white" data-target="band-ap-{{item.id}}" data-id-change="icon-ap" 
+                            data-text='<i class="fas fa-plus"></i>' data-text-alt='<i class="fas fa-minus"></i>'>
+                            <div class="row w-100">
+                                <div class="col-6 text-right" id="icon-ap"><i class="fas fa-plus"></i></div>
+                                <div class="col-6 text-left"><strong>{% trans "Access Points" %}</strong></div>
+                            </div>
+                        </div>
+                        <div class="card-body hide" id="band-ap-{{item.id}}"> 
+                            {% include "guest/bands/access-points.html" with band=item %} </div>
+                    </div>
                 </div>
             </div>
-            <div class="card-body hide" id="band-log-{{item.id}}"> {% include "guest/bands/log.html" with band=item %} </div>
         </div>
-
-        <div class="card mt-2 pt-2 pb-2">
-            <div class="card-header toggle-btn" data-target="band-ap-{{item.id}}" data-id-change="icon-ap" 
-                data-text='<i class="fas fa-plus"></i>' data-text-alt='<i class="fas fa-minus"></i>'>
-                <div class="row w-100">
-                    <div class="col-6 text-right" id="icon-ap"><i class="fas fa-plus"></i></div>
-                    <div class="col-6 text-left"><strong>{% trans "Access Points" %}</strong></div>
-                </div>
-            </div>
-            <div class="card-body hide" id="band-ap-{{item.id}}"> 
-                {% include "guest/bands/access-points.html" with band=item %} </div>
-        </div>
- 
     </div>
 {% endfor %}
 

@@ -2,7 +2,10 @@
 
 <div class="row w-100 common-modal-head m-0 p-0">
     <div class="col-11"><h2>{% trans 'Wristband backup' %}</h2></div>
-    <div class="col-1"><button type="button" class="btn btn-sm" data-bs-dismiss="modal"><i class="fas fa-times"></i></button> </div>
+    {#<div class="col-1"><button type="button" class="btn btn-sm" data-bs-dismiss="modal"><i class="fas fa-times"></i></button></div>#}
+    <div class="col-1"><button type="button" class="btn btn-smi ark" data-bs-dismiss="modal"
+        data-url="{% url "guest-band-details" %}" data-target="div-bands" data-obj_id="{{obj.id}}">
+        <i class="fas fa-times"></i></button></div>
 </div>
 
 <div id="div-modal-main">{% include "guest/bands/wristbands-close-main.html" %}</div>

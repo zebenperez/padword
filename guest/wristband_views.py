@@ -678,8 +678,20 @@ def wristbands_close(request):
 def wristbands_close_balance(request):
     try:
         wb = get_or_none(Wristband, get_param(request.POST, "obj_id"))
+        cash = get_param(request.POST, "cash")
         desc = get_param(request.POST, "desc")
-        balance = WristbandBalance.objects.create(wristband=wb, amount=float(wb.balance)*-1, desc=desc)
+        bal = float(wb.balance)
+        if bal < 0:
+            txt = _("Pago realizado ")
+        else:
+            txt = _("Devolución realizada ")
+        if cash == "0":
+            txt += _("en efectivo. ")
+        else:
+            txt += _("con tarjera. ")
+        txt += _("Observaciones: {}".format(desc))
+        balance = WristbandBalance.objects.create(wristband=wb, amount=bal*-1, desc=txt)
+        #balance = WristbandBalance.objects.create(wristband=wb, amount=bal*-1, desc=desc)
         obj = get_or_update_wristband_backup(wb)
         return render(request, "guest/bands/wristbands-close-main.html", {"obj": obj, "err": False})
     except Exception as e:

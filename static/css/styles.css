@@ -120,7 +120,20 @@ table.table-hover.table-striped { font-size: 0.8rem; }
 /************************/
 /*		UTILITIES		*/
 /************************/
+hr.separator {
+    color: #35a8df;
+}
+hr.separator.orange {
+    color: #ff9200;
+}
 
+.bg-white {
+    background: white !important;
+}
+.small-act,
+.small-act i {
+    font-size:0.8rem !important;
+}
 
 .rounded-pill-btn {
     border-radius: 50rem;
@@ -346,6 +359,9 @@ span.badge.rounded-pill {
     font-size:1em
 }
 
+.danger {
+    color: #dc3545 !important;
+}
 .bg-danger {
     background: #e8421b !important;
 }
@@ -2374,6 +2390,7 @@ a.btn.btn-outline-warning.large {
 }
 
 .btn-outline-warning {
+    font-size:0.75rem;
     color: #ff9200 !important;
     background-color: #fff;
     border-color: #ff9200 !important;
@@ -2381,7 +2398,9 @@ a.btn.btn-outline-warning.large {
 .btn-outline-warning:hover { 
     color: #fff !important; 
 }
-
+i.warning {
+    color: #ff9200 !important;
+}
 .btn.btn-delete {
     background-color: #ff3814;
 	border-radius: 1.5rem;
@@ -2615,9 +2634,10 @@ th.row.div-cards { padding:0px !important; }
 .card-header, 
 
 .card-header.bg-secondary.text-white {
-    background: rgb(244,244,245);
+    background: #f4f4f5;
     background: linear-gradient(180deg, rgba(244,244,245,1) 0%, rgba(244,244,245,1) 35%, rgba(255,255,255,1) 100%);
     border:none;
+    border-bottom: 1px solid #f4f4f5;
     color: #143e53 !important;
     font-size: 0.8rem !important;
     padding: 15px 0 15px 0;
@@ -2625,7 +2645,7 @@ th.row.div-cards { padding:0px !important; }
     letter-spacing: 0;
     line-height: 1.3;
     display: flex;
-    justify-content: center;
+    /*justify-content: center;*/
     align-items: center;
 }
 
@@ -2677,8 +2697,6 @@ input:focus, select:focus, select, input.form-control:focus {
 
 /* CSS STEPS PWA AUTOMATIC CREATION */
 
-/***************************************/
-/***************************************/
 
 .pwa-maker {
 /*    border:1px solid red;*/
@@ -2747,4 +2765,45 @@ button.btn.border-secondary.utils {
 }
 [data-title] {
     position: relative;
+}
+
+/***************************************/
+/***************************************/
+
+/* STYLE PRINT CLOSE WRISTBANDS */
+
+body.pdf-wristbands {
+    background: #fff;
+/*    border: 1px solid red;*/
+}
+.header-pdf {
+    align-items: center;
+    background: #ffffff;
+    font-size: 0.8rem;
+    font-weight: light !important;
+    color: #9e9e9e !important;
+    /* position: fixed; */
+    top: 0;
+}
+
+.list-item-cl {
+/*    border: 1px solid #e3e5fe;*/
+    border-radius: 5px;
+    margin-bottom: 15px !important;
+    -webkit-box-shadow: 0 1px 5px rgba(0,0,0,0.2);
+}
+.list-item-cl .card-header {
+    font-size:0.9rem !important;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.list-item-cl .card-body i {
+    font-size: 14px !Important;
+}
+.list-item-cl .card-body {
+    font-size: 0.8rem;
+}
+.dark-blue {
+    color: #143e53;
 }
