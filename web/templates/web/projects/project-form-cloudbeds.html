@@ -12,7 +12,20 @@
     <div class="card-body hide" id="body-cloudbeds"> 
         <div id="cloudbeds-notif"></div>
         <div class="row">
-            <div class="col-3 offset-9">
+            <div class="col-3">
+                <div class="form-check form-switch">
+                    <button class="btn btn-info ark" data-url="{% url "project-set-cloudbeds-webhooks" %}" 
+                        data-target="div-cloudbeds-webhooks" data-obj_id="{{user_cloudbeds.id}}">{% trans "Enviar webhooks" %}</button>
+                </div>
+                <div id="div-cloudbeds-webhooks"></div>
+            </div>
+            <div class="col-3">
+                <div class="form-check form-switch">
+                    <button class="btn btn-info ark" data-url="{% url "project-get-cloudbeds-webhooks" %}" 
+                        data-target-modal="common-modal" data-obj_id="{{user_cloudbeds.id}}">{% trans "Ver webhooks" %}</button>
+                </div>
+            </div>
+            <div class="col-3 offset-3">
                 <div class="form-check form-switch">
                     <input class="form-check-input toggleCron" type="checkbox" id="activeCronCloudbeds" 
                         data-class-name="cloudbeds-cron" data-fields="cloudbeds-hour" {%if user_cloudbeds.hour > 0%}checked{%endif%}>
@@ -20,7 +33,7 @@
                 </div>
             </div>
         </div>
-        <div class="row">
+        <div class="row mt-4">
             <div class="col-6">
                 <label class="label">{% trans "Token" %}:</label>
                 <input type="text" class="form-control autosave input" id="token" name="token" value="{{user_cloudbeds.token}}" 

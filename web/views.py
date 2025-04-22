@@ -13,6 +13,7 @@ from guest.wristband_models import Wristband, WristbandAccessZone, WristbandAcce
 from sensibo.models import ProjectSensiboUser
 from connector.models import ProjectAvantioUser, ProjectAvaibookUser, ProjectWinhotelUser, ProjectStripeUser
 from connector.models import ProjectMewsUser, ProjectCarUser, ProjectCloudbedsUser
+from connector.cloudbeds_lib import set_webhooks, get_webhooks
 from contents.models import Category, PointOfSale, PointOfSaleCategory, Table
 from bookings.models import Form, FormInstance
 from .models import *
@@ -598,6 +599,25 @@ def project_set_cloudbeds_schedule(request):
         print (show_exc(e))
         return HttpResponse("Error!")
 
+@group_required("admins")
+def project_get_cloudbeds_webhooks(request):
+    try:
+        pcu = get_or_none(ProjectCloudbedsUser, request.GET["obj_id"])
+        webhooks = get_webhooks(pcu)
+        return render(request, "web/projects/cloudbeds-info.html", {"webhooks": webhooks,})
+    except Exception as e:
+        print (show_exc(e))
+        return HttpResponse("Error!")
+
+@group_required("admins")
+def project_set_cloudbeds_webhooks(request):
+    try:
+        pcu = get_or_none(ProjectCloudbedsUser, request.GET["obj_id"])
+        set_webhooks(pcu)
+        return HttpResponse("Saved!")
+    except Exception as e:
+        print (show_exc(e))
+        return HttpResponse("Error!")
 
 @group_required("admins")
 def project_add_logo(request):
