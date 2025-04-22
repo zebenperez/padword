@@ -347,6 +347,11 @@ def tpv_order_send(request):
         mobile = get_param(request.GET, "mobile", "")
 
         fi = get_or_none(FormInstance, fi_id)
+        #Formulario ya enviado
+        if fi.current_status("01"):
+            context = {'msg': "00", 'project_uuid': fi.form.project.uuid, "mobile": mobile}
+            return render(request, 'bookings/tpv/show-msg.html', context)
+
         local_date = fi.project.local_date(datetime.datetime.now())
         fi.set_status("01", request.user, "")
         #fi.date = datetime.datetime.now()
