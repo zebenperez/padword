@@ -284,6 +284,15 @@ def padword_translate(context, json_str):
             except Exception as e:
                 return mark_safe(json_str)
 
+@register.simple_tag()
+def padword_translate_menu(json_str, lang):
+    try:
+        json_dict = json.loads(json_str)
+        return mark_safe(json_dict[lang.upper()])
+    except Exception as e:
+        print(e)
+        return json_str
+
 #@register.simple_tag(takes_context=True)
 #def padword_translate_short(context, json_str, chars):
 #    val = ""
@@ -412,7 +421,8 @@ def get_main_menu(user, path, active=""):
         if user.groups.filter(name="projects").exists():
             obj = ProjectUser.objects.filter(username=user.username).first()
             if obj != None: 
-                return {'user': user, 'menu': "projects", "project": obj.project, "project_user": obj, "path": path, "active": active}
+                lang = translation.get_language()
+                return {'user':user,'menu':"projects","project":obj.project,"project_user":obj,"path":path,"active":active,"lang":lang}
         if user.groups.filter(name="project_admin").exists():
             return {'user': user, 'menu': "project_admin", "active": active}
         if user.groups.filter(name="admins").exists() or user.is_superuser:
