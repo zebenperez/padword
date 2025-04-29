@@ -16,7 +16,7 @@ def zone_active(guest, zone):
 @register.filter
 def have_open_band(guest):
     for band in guest.bands.all():
-        if not band.is_close():
+        if not band.is_close:
             return True
     return False
 
