@@ -53,6 +53,7 @@ urlpatterns = [
     path('guests/band/balance/', wristband_views.guest_bands_balance, name="guest-bands-balance"),
     path('guests/band/balance/list/', wristband_views.guest_band_balance_list, name="guest-band-balance-list"),
     path('guests/band/balance/form/', wristband_views.guest_band_balance_form, name="guest-band-balance-form"),
+    path('guests/band/balance/print/<int:obj_id>/', wristband_views.guest_band_balance_print, name="guest-band-balance-print"),
     path('guests/band/balance/remove/', wristband_views.guest_band_balance_remove, name="guest-band-balance-remove"),
     path('guests/band/manage-zone/', wristband_views.guest_band_manage_zone, name="guest-band-manage-zone"),
     path('guests/band/manage-all-zone/', wristband_views.guest_band_manage_all_zone, name="guest-band-manage-all-zone"),

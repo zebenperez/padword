@@ -19,7 +19,7 @@
             <tr id="tr">
                 <td> {{item.date|date:"d-m-Y H:i"}} </td>
                 <td> {{item.amount}} </td> 
-                <td> {{item.desc}} </td> 
+                <td> {{item.desc|striptags}} </td> 
             </tr>
         {% endfor %}
     </tbody>

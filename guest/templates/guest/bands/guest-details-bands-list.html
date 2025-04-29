@@ -4,7 +4,7 @@
 {% for item in obj.bands.all %} 
 
     <div class="card mb-4">
-        <div class="card-header p-4" style="background: #fff;">
+        <div class="card-header bg-white p-4">
             <div class="row w-100">
                 <div class="col-6"> <h2 class="mt-2">{% trans "Band Code" %}: {{item.code}}</h2> </div>
                 <div class="col-6 text-end p-0">
@@ -26,26 +26,34 @@
         </div>
         <div class="card-body">
             <div class="row m-2 p-2 w-100">
-                <div class="col-3 head-band" style="border:1px solid #ff9200; border-radius: 0.25rem;">
+                <div class="col-3 head-band">
                     <div class="row">
                         <div class="col-12 py-2">
-                            <strong><span class="text-uppercase" style="text-transform: uppercase;font-size: 0.9rem; color: #ff9200;">{{item.name}}</span> </strong>
+                            <strong><span class="band-name">{{item.name}}</span> </strong>
                         </div>
                         <div class="col-4 py-1">{% trans "Type" %}</div>
                         <div class="col-8 py-1 text-start"><strong>{{item.type.name}}</strong></div>
                         <div class="col-4 py-1">{% trans "Locks" %}</div>
                         <div class="col-8 py-1 text-start"><strong>{{item.locks}}</strong></div>
                         <div class="col-4 py-1">{% trans "Kids" %}</div> 
-                        <div class="col-8 py-1 text-start"><strong>{%if item.kid%}{%trans "Yes"%}{%else%}{%trans "No"%}{%endif%}</strong> </div>
+                        <div class="col-8 py-1 text-start">
+                            <strong>{%if item.kid%}{%trans "Yes"%}{%else%}{%trans "No"%}{%endif%}</strong> </div>
                         <div class="col-4 py-1">{% trans "Balance" %} </div>
-                        <div class="col-8 py-1 text-start"><strong>{{item.balance|floatformat:2|default:0}} {{obj.currency}}{#&euro;#}</strong></div> <br/>
+                        <div class="col-8 py-1 text-start"> <strong><span id="div-guest-balance-{{item.id}}">
+                            {{item.balance|floatformat:2|default:0}}</span> {{obj.currency}}{#&euro;#}</strong></div> <br/>
                         <hr class="separator orange" />
-                        <div class="col-6 py-1"><button class="btn btn-outline-warning btn-sm ark small-act" id="btn-band-edit" data-url="{% url "guest-band-edit" %}"                                                              data-target-modal="common-modal" data-obj_id="{{item.id}}"> <i class="fas fa-edit"></i> {%trans "Edit"%}</button></div>
-                            {% if item.is_close %}
-                                <div class="col-6 py-1"><button class="btn btn-outline-danger btn-sm ark small-act" id="btn-band-remove" data-url="{%url "guest-band-remove"%}" 
-                                    data-target="div-band-list" data-obj_id="{{item.id}}" data-band_lock="true"> 
-                                        <i class="fas fa-trash"></i> {%trans "Remove"%}</button></div>
-                            {% endif %}
+                        <div class="col-6 py-1">
+                            <button class="btn btn-outline-warning btn-sm ark small-act" id="btn-band-edit" 
+                                data-url="{% url "guest-band-edit" %}" data-target-modal="common-modal" data-obj_id="{{item.id}}"> 
+                                <i class="fas fa-edit"></i> {%trans "Edit"%}</button>
+                        </div>
+                        {% if item.is_close %}
+                            <div class="col-6 py-1">
+                                <button class="btn btn-outline-danger btn-sm ark small-act" id="btn-band-remove" 
+                                    data-url="{%url "guest-band-remove"%}" data-target="div-band-list" data-obj_id="{{item.id}}" 
+                                    data-band_lock="true"> <i class="fas fa-trash"></i> {%trans "Remove"%}</button>
+                            </div>
+                        {% endif %}
                     </div>
                 </div>
                 <div class="col-9 head-band">

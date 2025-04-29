@@ -51,33 +51,17 @@
     <body class="pdf-wristbands m-2">
         <div id="main" class="m-2">
             <div class="row header-pdf" style="border:1px solid black">
-                <div class="col-8">
-                    <img src="/static/img/thumbnail_logo-padword.png" alt="Logo" width="120px"/>
-                </div>
+                <div class="col-8"> <img src="/static/img/thumbnail_logo-padword.png" alt="Logo" width="120px"/> </div>
 
                 <div class="col-2 text-end">
-                    {% comment %}
-                       <button class="btn ark w-100" data-url="{% url "tpv-change-pos" %}" data-target="base" data-project_uuid="{{obj.project_uuid}}">
-                           {% trans "Back" %}</button>
-                    {% endcomment %}
-                    <button class="btn btn-outline-danger ark w-50 print-hide" type="button" onclick="javascript:window.close()"><i class="fas fa-times"></i> {% trans "Salir" %}</button>
+                    <button class="btn btn-outline-danger ark w-50 print-hide" type="button" onclick="javascript:window.close()">
+                        <i class="fas fa-times"></i> {% trans "Salir" %}</button>
                 </div>
                 <div class="col-2 text-end">
-                    <a class="btn btn-outline-dark print-hide" onclick="$('.print-hide').hide(); window.print()"> <i class="fa fa-print"></i> {% trans "Imprimir" %}</a>
+                    <a class="btn btn-outline-dark print-hide" onclick="$('.print-hide').hide(); window.print()"> 
+                        <i class="fa fa-print"></i> {% trans "Imprimir" %}</a>
                 </div>
             </div>
-
-            {% comment %}
-            <div class="d-flex justify-content-end">
-                <button class="btn ark w-100" data-url="{% url "tpv-change-pos" %}" data-target="base" 
-                    data-project_uuid="{{obj.project_uuid}}"> {% trans "Back" %}</button>
-                <a class="btn btn-default" onclick="window.print()"> &#128424; {% trans "Imprimir" %}</a>
-            </div>
-            <br/>
-            {% if obj.project.logo %}
-            <img src="{{obj.project.logo.url}}" alt="Logo" width="250px"/><br/>{% endif %} <br/> 
-            {% endcomment %}
-
 
             <h3>{{obj.project.name}}</h3> 
             <div class="title">{% trans 'TPV' %} {{obj.pos.name}}</div> 
@@ -93,32 +77,13 @@
                         <div class="col-2"><strong>{% trans "Type" %}</strong></div>
                     </div>
                     <div class="row m-0">
-                        <div class="col-2">{%if obj.kid%}<i class="fas fa-check"></i>{%else%}<i class="fas fa-times danger"></i>{%endif%}</div>
-                        <div class="col-2">{%if obj.locks%}<i class="fas fa-check"></i>{%else%}<i class="fas fa-times danger"></i>{%endif%}</div>
+                        <div class="col-2">
+                            {%if obj.kid%}<i class="fas fa-check"></i>{%else%}<i class="fas fa-times danger"></i>{%endif%}</div>
+                        <div class="col-2">
+                            {%if obj.locks%}<i class="fas fa-check"></i>{%else%}<i class="fas fa-times danger"></i>{%endif%}</div>
                         <div class="col-3">{{obj.code}}</div>
                         <div class="col-3">{{obj.name}}</div>
                         <div class="col-2">{{obj.type}}</div>
-                    </div>
-                </div>
-            </div>
-            <div class="list-item-cl pb-3">
-                <div class="card-header"><i class="far fa-address-card dark-blue p-2"></i> {% trans "Guest Info" %}</div>
-                <div class="card-body">
-                    <div class="row m-0">
-                        <div class="col-2"><strong>{% trans "UUID" %}</strong></div>
-                        <div class="col-2"><strong>{% trans "Name" %}</strong></div>
-                        <div class="col-2"><strong>{% trans "Mobile - Email" %}</strong></div>
-                        <div class="col-2"><strong>{% trans "Room" %}</strong></div>
-                        <div class="col-2"><strong>{% trans "Checkin" %}</strong></div>
-                        <div class="col-2"><strong>{% trans "Checkout" %}</strong></div>
-                    </div>
-                    <div class="row m-0">
-                        <div class="col-2">{{obj.guest_uuid}}</div>
-                        <div class="col-2">{{obj.guest_name}}</div>
-                        <div class="col-2">{{obj.guest_mobile}} - {{obj.guest_email}}</div>
-                        <div class="col-2">{{obj.guest_room}}</div>
-                        <div class="col-2">{{obj.check_in|date:"d-m-Y H:i"}}</div>
-                        <div class="col-2">{{obj.check_out|date:"d-m-Y H:i"}}</div>
                     </div>
                 </div>
             </div>

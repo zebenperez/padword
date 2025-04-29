@@ -407,7 +407,11 @@ def tpv_order_send_part(request):
         fi.date = fi.project.local_date(datetime.datetime.now())
         fi.save()
 
-        return render(request, "bookings/tpv/view-ticket.html", {'fi':fi,})
+        mobile = get_param(request.GET, "mobile")
+        if mobile != "":
+            return render(request, "bookings/tpv/mobile/view-ticket.html", {'fi':fi,})
+        else:
+            return render(request, "bookings/tpv/view-ticket.html", {'fi':fi,})
     except Exception as e:
         print(e)
         logger.error("[bookings-booking_send] {}".format(str(e)))

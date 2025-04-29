@@ -127,7 +127,9 @@ hr.separator {
 hr.separator.orange {
     color: #ff9200;
 }
-
+.word-break {
+    word-break: break-word;
+}
 .bg-white {
     background: white !important;
 }
@@ -1655,6 +1657,14 @@ button.btn.btn-default.ark {
 
 .head-band {
     font-size: 0.8em;
+    border:1px solid #ff9200; 
+    border-radius: 0.25rem;
+}
+
+.band-name {
+    text-transform: uppercase;
+    font-size: 0.9rem; 
+    color: #ff9200;
 }
 
 /*****  END WIZZARD *****/
@@ -2646,7 +2656,7 @@ th.row.div-cards { padding:0px !important; }
     letter-spacing: 0;
     line-height: 1.3;
     display: flex;
-    /*justify-content: center;*/
+    justify-content: center;
     align-items: center;
 }
 

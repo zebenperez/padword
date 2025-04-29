@@ -31,7 +31,7 @@ logger = logging.getLogger(__name__)
 def guest_band_details(request):
     try:
         guest = get_or_none(Guest, get_param(request.GET, "obj_id"))
-        print(guest)
+        #print(guest)
         return render(request, "guest/bands/guest-details-bands.html", {"obj": guest})
     except Exception as e:
         return render(request, "error_exception.html", {'exc':show_exc(e)})
@@ -197,6 +197,15 @@ def guest_band_balance_remove(request):
         return render(request, "guest/bands/balance.html", {"band": band})
     except Exception as e:
         return render(request, "error_exception.html", {'exc':show_exc(e)})
+
+@group_required("admins", "projects")
+def guest_band_balance_print(request, obj_id):
+    try:
+        band = get_or_none(Wristband, obj_id)
+        return render(request, "guest/bands/balance-print.html", {"obj": band, "err": False})
+    except Exception as e:
+        return render(request, "error_exception.html", {'exc':show_exc(e)})
+
 
 
 @group_required("admins", "projects")
@@ -678,7 +687,7 @@ def wristbands_close(request):
         if wb.balance != 0:
             return render(request, "guest/bands/wristbands-close.html", {"band": wb,"err": True})
         obj = get_or_update_wristband_backup(wb)
-        return render(request, "guest/bands/wristbands-close.html", {"obj": obj, "err": False})
+        return render(request, "guest/bands/wristbands-close.html", {"obj": obj, "band": wb, "err": False})
     except Exception as e:
         print(e)
         return render(request, 'error_exception.html', {'exc':show_exc(e)})
