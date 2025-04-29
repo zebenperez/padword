@@ -127,7 +127,9 @@ hr.separator {
 hr.separator.orange {
     color: #ff9200;
 }
-
+.word-break {
+    word-break: break-word;
+}
 .bg-white {
     background: white !important;
 }

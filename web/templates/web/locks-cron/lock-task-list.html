@@ -17,7 +17,7 @@
         {% for task in tasks %}
             <tr class="small" id="task_{{item.id}}">
                 <td width="10%"> {{task.task}} </td>
-                <td width="35%"> {{task.lock_list_html}} </td>
+                <td class="word-break" width="35%"> {{task.lock_list_html}} </td>
                 <td width="35%"> {{task.params}} </td>
                 <td width="10%"> {% if task.done %}<i class="fas fa-check"></i>{% else %}<i class="fas fa-times"></i>{% endif %} </td>
                 <td>
