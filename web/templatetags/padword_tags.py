@@ -207,6 +207,13 @@ def project_expiration(user):
 def get_locks_number(project):
     return Lock.objects.filter(project_uuid=project.uuid).count()
 
+@register.filter
+def get_assigned_locks_number(project):
+    room_num = Lock.objects.filter(project_uuid=project.uuid).exclude(room="").count()
+    box_num = Lock.objects.filter(project_uuid=project.uuid, box=True, room="").count()
+    def_num = Lock.objects.filter(project_uuid=project.uuid, default=True, room="").count()
+    return room_num + box_num + def_num
+
 '''
     Simple Tags
 '''

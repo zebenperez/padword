@@ -21,9 +21,8 @@ from .winhotel_lib import get_booking_list as wh_get_booking_list, import_item_p
 from .winhotel_lib import get_booking_new_list as wh_get_booking_new_list, get_booking_day_list as wh_get_booking_day_list
 from .winhotel_lib import get_booking_range_list as wh_get_booking_range_list
 from .mews_lib import get_booking_list as mw_get_booking_list, cancel_booking_list as mw_cancel_booking_list
-from .cloudbeds_lib import get_booking_list as cb_get_booking_list, get_room_list as cb_get_room_list, set_webhooks as cb_set_webhooks
-
-
+from .cloudbeds_lib import get_booking_list as cb_get_booking_list, get_room_list as cb_get_room_list
+from .cloudbeds_lib import set_webhooks as cb_set_webhooks, manage_webhook_actions as cb_manage_webhook_actions
 
 import json, os, csv, re
 
@@ -295,18 +294,21 @@ def cloudbeds_webhook(request):
     f = open(os.path.join(settings.BASE_DIR, "cloudbeds.log"), "a", encoding='utf-8')
     f.write("\n---------------------------------------")
     f.write("\n{} - Evento de cloudbeds".format(datetime.now().strftime("%Y-%m-%d %H:%M:%S")))
-    f.write("\n{}".format(request.headers))
-
-    f.write("\n{}".format(request.POST))
+    #f.write("\n{}".format(request.headers))
+    f.write("\n{}".format(request.body))
 
     try:
-        pcu = get_or_none(ProjectCloudbedsUser, request.POST["propertyId_str"], "property_id")
+        booking = json.loads(request.body)
+        pcu = None
+        if "propertyId_str" in booking:
+            pcu = get_or_none(ProjectCloudbedsUser, booking["propertyId_str"], "property_id")
+        elif "propertyID_str" in booking:
+            pcu = get_or_none(ProjectCloudbedsUser, booking["propertyID_str"], "property_id")
         if pcu == None:
-            f.write("\nError: Propiedad {} no encontrada".format(request.POST["propertyId_str"]))
-#        err = manage_booking_from_webhook(pau, booking)
-#        if err != "":
-#            f.write("\nError Lock: {}".format(err))
-#        f.write("\nBooking created!")
+            f.write("\nError: Propiedad {} no encontrada".format(booking["propertyId_str"]))
+
+        msg = cb_manage_webhook_actions(pcu, booking)
+        f.write(msg)
     except Exception as e:
         f.write("\nError: {}".format(e))
 
