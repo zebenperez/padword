@@ -195,6 +195,16 @@ def winhotel_import_items(request, project_uuid):
         updated, not_updated = wh_import_item_prices(file, project_uuid, pau.update_all_prices)
     return render(request, 'winhotel/items-import.html', {'project_uuid': project_uuid, 'updated': updated, 'not_updated': not_updated})
 
+@group_required("admins")
+def winhotel_log(request):
+    f = open(os.path.join(settings.BASE_DIR, "winhotel.log"), "r", encoding='utf-8')
+    text = f.read()
+    try:
+        log_list = [f for f in os.listdir(settings.LOGPATH) if re.match(r'.*avantio.*', f)]
+    except:
+        log_list = []
+    return render(request, 'cron-log.html', {'text': text.replace("\n", "<br/>"), 'log_list': log_list})
+
 #    updated = []
 #    not_updated = []
 #    if request.POST:

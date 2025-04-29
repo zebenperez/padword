@@ -21,6 +21,7 @@ urlpatterns = [
     path('cron-log/', views.cron_log, name='cron-log'),
     path('avantio-log/', views.avantio_log, name='avantio-log'),
     path('avaibook-log/', views.avaibook_log, name='avaibook-log'),
+    path('winhotel-log/', views.winhotel_log, name='winhotel-log'),
 
     #--------------------- TEST --------------------
     path('test-email/', views.test_email, name='test-email'),
