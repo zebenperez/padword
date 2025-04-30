@@ -305,10 +305,11 @@ def tpv_order_item_remove(request):
 @group_required("waiters")
 def tpv_order_item_comment(request):
     try:
-        item_id = request.GET["item_id"]
-        form_id = request.GET["form_id"]
+        item_id = get_param(request.GET, "item_id")
+        form_id = get_param(request.GET, "form_id")
+        mobile = get_param(request.GET, "mobile")
         obj = get_or_none(ShoppingCart, int(item_id))
-        return render(request, "bookings/tpv/shopping-form.html", {'obj':obj, 'form_id':form_id})
+        return render(request, "bookings/tpv/shopping-form.html", {'obj':obj, 'form_id':form_id, 'mobile': mobile})
         #temp = get_param(request.GET, "template")
         #template = "bookings/tpv/{}.html".format(temp) if temp != "" else "bookings/tpv/shopping-form.html"
         #mobile = get_param(request.GET, "mobile")
@@ -318,6 +319,7 @@ def tpv_order_item_comment(request):
         #return render(request, template, {'obj':obj, 'form_id':form_id})
         #return render(request, "bookings/tpv/shopping-form.html", {'obj':obj, 'form_id':form_id})
     except Exception as e:
+        print(e)
         return render(request, "error_exception.html", {'exc':show_exc(e)})
 
 def add_balance_to_band(pos, fi, band):

@@ -13,8 +13,8 @@
         <p class="card-text text-secondary">
 	        <textarea class="form-control autosave" id="comments" name="comments" rows="7" value="{{obj.comments}}" 
                 data-url="{% url "autosave_field" %}" data-model-name="contents.shoppingcart" data-obj-id="{{obj.pk}}" 
-                data-target="div-notification" placeholder="{% trans "Please, write here your comments" %}" >
-                {{obj.comments}}</textarea> <span id="comments__msg"></span>
+                data-target="div-notification" placeholder="{%trans "Please, write here your comments"%}" >{{obj.comments}}</textarea>
+            <span id="comments__msg"></span>
         </p>
         {% for item in obj.item.extra_list.all %}
             <input type="checkbox" id="extra-{{item.id}}" class="extra" value="{% padword_translate item.name %}"/> 
@@ -24,8 +24,13 @@
 </div>
 
 <div class="row mt-2">
-    <a class="btn btn-marine w-100 ark" data-url="{% url 'tpv-ticket' %}" data-target="ticket-summary" 
-        data-obj_id="{{obj.form_instance_id}}" data-bs-dismiss="modal"> {% trans "Save" %}</a>
+    {% if mobile == "True" %}
+        <a class="btn btn-marine w-100 ark" data-url="{% url 'tpv-mob-ticket' %}" data-target="ticket-summary" 
+            data-obj_id="{{obj.form_instance_id}}" data-bs-dismiss="modal"> {% trans "Save" %}</a>
+    {% else %}
+        <a class="btn btn-marine w-100 ark" data-url="{% url 'tpv-ticket' %}" data-target="ticket-summary" 
+            data-obj_id="{{obj.form_instance_id}}" data-bs-dismiss="modal"> {% trans "Save" %}</a>
+    {% endif %}
 </div>
 
 <script>
