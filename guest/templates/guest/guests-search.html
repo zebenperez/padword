@@ -51,36 +51,40 @@
                 </div>
             </div>
             <div class="row mt-3 m-0">
-                <div class="col-5"><span class="small-title">{% trans "Fecha de Entrada" %}</span>
-                    <div class="" style="display:flex; align-items: center;">
-                        <div class="w-50">
-                            {% trans "Desde" %}<br/>
-                            <input type="date" class="form-control form-control-dark" name="gs_ini_date" id="gs_ini_date" 
-                                value="{{request.session.gs_ini_date}}"/>
-                            <span onclick="$('#gs_ini_date').val('')"><i class="fas fa-times"></i></span>
-                        </div>
-                        <div class="w-50">
-                            {% trans "Hasta" %}<br/>
-                            <input type="date" class="form-control form-control-dark" name="gs_end_date" id="gs_end_date" 
-                            value="{{request.session.gs_end_date}}"/>
-                            <span onclick="$('#gs_end_date').val('')"><i class="fas fa-times"></i></span>
-                        </div>
+                <div class="col-5"><span class="small-title">{% trans "Fecha de Entrada" %}</span></div>
+                <div class="col-5 offset-1"><span class="small-title">{% trans "Fecha de Salida" %}</span></div>
+            </div>
+            <div class="row mt-3 m-0">
+                <div class="col-3">
+                    <small>{% trans "Desde" %}</small><br/>
+                    <div class="input-group">
+                        <input type="date" class="form-control form-control-dark" name="gs_ini_date" id="gs_ini_date" 
+                            value="{{request.session.gs_ini_date}}"/>
+                        <span class="input-group-text" onclick="$('#gs_ini_date').val('')"><i class="fas fa-times"></i></span>
                     </div>
                 </div>
-                <div class="col-5 offset-1"><span class="small-title">{% trans "Fecha de Salida" %}</span>
-                    <div class="" style="display:flex; align-items: center;">
-                        <div class="w-50">
-                            {% trans "Desde" %}<br/>
-                            <input type="date" class="form-control form-control-dark" name="gs_ini_date_end" 
-                                id="gs_ini_date_end" value="{{request.session.gs_ini_date_end}}"/>
-                            <span onclick="$('#gs_ini_date_end').val('')"><i class="fas fa-times"></i></span>
-                        </div>
-                        <div class="w-50">
-                            {% trans "Hasta" %}<br/>
-                            <input type="date" class="form-control form-control-dark" name="gs_end_date_end" 
-                                id="gs_end_date_end" value="{{request.session.gs_end_date_end}}"/>
-                            <span onclick="$('#gs_end_date_end').val('')"><i class="fas fa-times"></i></span>
-                        </div>
+                <div class="col-3">
+                    <small>{% trans "Hasta" %}</small><br/>
+                    <div class="input-group">
+                        <input type="date" class="form-control form-control-dark" name="gs_end_date" id="gs_end_date" 
+                            value="{{request.session.gs_end_date}}"/>
+                        <span class="input-group-text" onclick="$('#gs_end_date').val('')"><i class="fas fa-times"></i></span>
+                    </div>
+                </div>
+                <div class="col-3">
+                    <small>{% trans "Desde" %}</small><br/>
+                    <div class="input-group">
+                        <input type="date" class="form-control form-control-dark" name="gs_ini_date_end" 
+                            id="gs_ini_date_end" value="{{request.session.gs_ini_date_end}}"/>
+                        <span class="input-group-text" onclick="$('#gs_ini_date_end').val('')"><i class="fas fa-times"></i></span>
+                    </div>
+                </div>
+                <div class="col-3">
+                    <small>{% trans "Hasta" %}</small><br/>
+                    <div class="input-group">
+                        <input type="date" class="form-control form-control-dark" name="gs_end_date_end" 
+                            id="gs_end_date_end" value="{{request.session.gs_end_date_end}}"/>
+                        <span class="input-group-text" onclick="$('#gs_end_date_end').val('')"><i class="fas fa-times"></i></span>
                     </div>
                 </div>
             </div>

@@ -658,16 +658,17 @@ def create_wristband_backup_balance(wb, wbb):
         WristbandBackupBalance.objects.create(date=item.date, amount=item.amount, desc=item.desc, wristband=wbb)
 
 def get_or_update_wristband_backup(wb):
-    wbb = get_or_none(WristbandBackup, wb.code, "code")
+    #wbb = get_or_none(WristbandBackup, wb.code, "code")
+    wbb = WristbandBackup.objects.filter(code=wb.code, guest_uuid=wb.guest.UUID).first()
     if wbb == None:
-        wbb = WristbandBackup.objects.create(code = wb.code)
+        wbb = WristbandBackup.objects.create(code=wb.code, guest_uuid=wb.guest.UUID)
     else:
         remove_wristband_backup_balance(wbb)
     wbb.kid = wb.kid
     wbb.locks = wb.locks
     wbb.name = wb.name
     wbb.project_uuid = wb.guest.project_id
-    wbb.guest_uuid = wb.guest.UUID
+    #wbb.guest_uuid = wb.guest.UUID
     wbb.guest_name = "{} {}".format(wb.guest.name, wb.guest.surname)
     wbb.guest_mobile = wb.guest.mobile
     wbb.guest_email = wb.guest.email
