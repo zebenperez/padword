@@ -8,7 +8,8 @@ from padword.decorators import group_required
 from padword.commons import show_exc, get_or_none, get_param, get_float, reverse_cardkey
 from web.models import Project, Waiter
 from contents.models import Category, ShoppingCart, Item, PaymentType, PointOfSale, Table
-from guest.models import Guest, Wristband, WristbandBalance
+from guest.models import Guest
+from guest.wristband_models import Wristband, WristbandBalance
 #from web.lock_lib import ShLock
 from connector.winhotel_lib import send_charge, write_log as wh_write_log
 from connector.models import ProjectWinhotelUser
@@ -346,6 +347,11 @@ def tpv_order_send(request):
         mobile = get_param(request.GET, "mobile", "")
 
         fi = get_or_none(FormInstance, fi_id)
+        #Formulario ya enviado
+        if fi.current_status("01"):
+            context = {'msg': "00", 'project_uuid': fi.form.project.uuid, "mobile": mobile}
+            return render(request, 'bookings/tpv/show-msg.html', context)
+
         local_date = fi.project.local_date(datetime.datetime.now())
         fi.set_status("01", request.user, "")
         #fi.date = datetime.datetime.now()
@@ -398,7 +404,14 @@ def tpv_order_send_part(request):
         fi = get_or_none(FormInstance, fi_id)
         fi.send_items()
 
-        return render(request, "bookings/tpv/view-ticket.html", {'fi':fi,})
+        fi.date = fi.project.local_date(datetime.datetime.now())
+        fi.save()
+
+        mobile = get_param(request.GET, "mobile")
+        if mobile != "":
+            return render(request, "bookings/tpv/mobile/view-ticket.html", {'fi':fi,})
+        else:
+            return render(request, "bookings/tpv/view-ticket.html", {'fi':fi,})
     except Exception as e:
         print(e)
         logger.error("[bookings-booking_send] {}".format(str(e)))

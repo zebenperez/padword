@@ -4,15 +4,8 @@ body {
 	background-repeat: no-repeat;
 	background-size: cover;
 }
-
-#main-pwa {
-    /*padding-top: 100px !important;*/
-   /* padding-top: 150px !important;*/
-}
-
 #main { 
     padding: 0px; 
-/*    margin-top: -20px;*/
 }
 
 .container, .container-fluid, .container-lg, .container-md, .container-sm, .container-xl, .container-xxl { padding: 0px !important; height:auto !important;}

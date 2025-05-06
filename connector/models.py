@@ -85,9 +85,14 @@ class ProjectMewsUser(models.Model):
             return None
 
 class ProjectCloudbedsUser(models.Model):
+    code_mobile = models.BooleanField(verbose_name=_('Get code from mobile'), default=False)
     hour = models.IntegerField(verbose_name=_('Hour to import'), default=0)
     minute = models.IntegerField(verbose_name=_('Minutes to import'), default=0)
+    days = models.IntegerField(verbose_name=_('Days to import'), default=1)
     token = models.CharField(max_length=255, verbose_name=_('Token'), default="")
+    ini_time = models.TimeField(_("Initial Time"), blank=True, default=datetime.time(14, 00))
+    end_time = models.TimeField(_("End Time"), blank=True, default=datetime.time(12, 00))
+    property_id = models.CharField(max_length=255, verbose_name=_('Property ID'), default="")
     project_uuid = models.CharField(max_length=255, verbose_name=_('Project UUID'), default="")
 
     @property
@@ -96,7 +101,6 @@ class ProjectCloudbedsUser(models.Model):
             return Project.objects.get(uuid=self.project_uuid)
         except:
             return None
-
 
 class ProjectCarUser(models.Model):
     code = models.CharField(max_length=255, verbose_name=_('Code'), default="")

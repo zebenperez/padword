@@ -5,8 +5,9 @@ from django.shortcuts import render, redirect
 from django.urls import reverse
 from django.utils.translation import ugettext_lazy as _ 
 
-from .models import Guest, Wristband, WristbandBalance, WristbandType, WristbandLog
-from .models import WristbandAccess, WristbandAccessPoint, WristbandAccessZone, WristbandAccessZoneGuest
+from .models import Guest
+from .wristband_models import Wristband, WristbandBalance, WristbandType, WristbandLog, WristbandBackup, WristbandBackupBalance
+from .wristband_models import WristbandAccess, WristbandAccessPoint, WristbandAccessZone, WristbandAccessZoneGuest
 from web.models import Project, Waiter
 from padword.commons import show_exc, get_or_none, get_param, reverse_cardkey, get_float, get_int, update_cron
 from padword.decorators import group_required
@@ -30,7 +31,7 @@ logger = logging.getLogger(__name__)
 def guest_band_details(request):
     try:
         guest = get_or_none(Guest, get_param(request.GET, "obj_id"))
-        print(guest)
+        #print(guest)
         return render(request, "guest/bands/guest-details-bands.html", {"obj": guest})
     except Exception as e:
         return render(request, "error_exception.html", {'exc':show_exc(e)})
@@ -197,6 +198,15 @@ def guest_band_balance_remove(request):
     except Exception as e:
         return render(request, "error_exception.html", {'exc':show_exc(e)})
 
+@group_required("admins", "projects")
+def guest_band_balance_print(request, obj_id):
+    try:
+        band = get_or_none(Wristband, obj_id)
+        return render(request, "guest/bands/balance-print.html", {"obj": band, "err": False})
+    except Exception as e:
+        return render(request, "error_exception.html", {'exc':show_exc(e)})
+
+
 
 @group_required("admins", "projects")
 def guest_band_manage_zone(request):
@@ -211,7 +221,8 @@ def guest_band_manage_zone(request):
             obj = WristbandAccessZoneGuest.objects.filter(guest=guest, zone=zone).first()
             if obj != None:
                 obj.delete()
-        return render(request, "guest/bands/access-points.html", {"obj": guest, "band": band})
+        access_zones = WristbandAccessZone.objects.filter(project_uuid=guest.project_id)
+        return render(request, "guest/bands/access-points.html", {"obj": guest, "band": band, "access_zones": access_zones})
     except Exception as e:
         return render(request, "error_exception.html", {'exc':show_exc(e)})
 
@@ -221,14 +232,16 @@ def guest_band_manage_all_zone(request):
         guest = get_or_none(Guest, get_param(request.GET, "obj_id"))
         band = get_or_none(Wristband, get_param(request.GET, "band"))
         add = get_param(request.GET, "add")
-        for zone in guest.access_zones():
+        access_zones = WristbandAccessZone.objects.filter(project_uuid=guest.project_id)
+        #for zone in guest.access_zones():
+        for zone in access_zones:
             if add == "True":
                 WristbandAccessZoneGuest.objects.get_or_create(guest=guest, zone=zone)
             else:
                 obj = WristbandAccessZoneGuest.objects.filter(guest=guest, zone=zone).first()
                 if obj != None:
                     obj.delete()
-        return render(request, "guest/bands/access-points.html", {"obj": guest, "band": band})
+        return render(request, "guest/bands/access-points.html", {"obj": guest, "band": band, "access_zones": access_zones})
     except Exception as e:
         return render(request, "error_exception.html", {'exc':show_exc(e)})
 
@@ -264,6 +277,26 @@ def wristbands_search_by_project(request):
         value = reverse_cardkey(get_param(request.GET, "value"))
         band_result = Wristband.objects.filter(code=value, guest__project_id=project.uuid)
         return render (request, "wristbands-by-project/wristbands-search.html", {'band_list': band_result, 'band_code': value})
+    except Exception as e:
+        print(e)
+        return render(request, 'error_exception.html', {'exc':show_exc(e)})
+
+@group_required("projects")
+def wristbands_backup_search_by_project(request):
+    try:
+        project = get_or_none(Project, request.project_id)
+        value = reverse_cardkey(get_param(request.GET, "value"))
+        band_result = WristbandBackup.objects.filter(code=value, project_uuid=project.uuid)
+        return render (request, "wristbands-by-project/wristbands-backup-search.html", {'band_list': band_result, 'band_code': value})
+    except Exception as e:
+        print(e)
+        return render(request, 'error_exception.html', {'exc':show_exc(e)})
+
+@group_required("projects")
+def wristbands_backup_balance(request):
+    try:
+        wb = get_or_none(WristbandBackup, get_param(request.GET, "obj_id"))
+        return render (request, "wristbands-by-project/wristbands-backup-balance.html", {'band': wb})
     except Exception as e:
         print(e)
         return render(request, 'error_exception.html', {'exc':show_exc(e)})
@@ -612,5 +645,86 @@ def pay_send_email(amount, email):
     body = "Ha realizado un pago con tarjeta por un importe de {} euros".format(amount) 
     send_email(subject, body, settings.EMAIL_FROM_DEFAULT, [email])
 
+
+'''
+    Wristbands close
+'''
+def remove_wristband_backup_balance(wbb):
+    for item in wbb.balances.all():
+        item.delete()
+
+def create_wristband_backup_balance(wb, wbb):
+    for item in wb.balances.all():
+        WristbandBackupBalance.objects.create(date=item.date, amount=item.amount, desc=item.desc, wristband=wbb)
+
+def get_or_update_wristband_backup(wb):
+    #wbb = get_or_none(WristbandBackup, wb.code, "code")
+    wbb = WristbandBackup.objects.filter(code=wb.code, guest_uuid=wb.guest.UUID).first()
+    if wbb == None:
+        wbb = WristbandBackup.objects.create(code=wb.code, guest_uuid=wb.guest.UUID)
+    else:
+        remove_wristband_backup_balance(wbb)
+    wbb.kid = wb.kid
+    wbb.locks = wb.locks
+    wbb.name = wb.name
+    wbb.project_uuid = wb.guest.project_id
+    #wbb.guest_uuid = wb.guest.UUID
+    wbb.guest_name = "{} {}".format(wb.guest.name, wb.guest.surname)
+    wbb.guest_mobile = wb.guest.mobile
+    wbb.guest_email = wb.guest.email
+    wbb.guest_room = wb.guest.room
+    wbb.check_in = wb.guest.check_in
+    wbb.check_out = wb.guest.check_out
+    if wb.type != None:
+        wbb.type = wb.type.name
+    wbb.save()
+    create_wristband_backup_balance(wb, wbb)
+    return wbb
+
+@group_required("projects")
+def wristbands_close(request):
+    try:
+        wb = get_or_none(Wristband, get_param(request.GET, "obj_id"))
+        if wb.balance != 0:
+            return render(request, "guest/bands/wristbands-close.html", {"band": wb,"err": True})
+        obj = get_or_update_wristband_backup(wb)
+        return render(request, "guest/bands/wristbands-close.html", {"obj": obj, "band": wb, "err": False})
+    except Exception as e:
+        print(e)
+        return render(request, 'error_exception.html', {'exc':show_exc(e)})
+
+@group_required("projects")
+def wristbands_close_balance(request):
+    try:
+        wb = get_or_none(Wristband, get_param(request.POST, "obj_id"))
+        cash = get_param(request.POST, "cash")
+        desc = get_param(request.POST, "desc")
+        bal = float(wb.balance)
+        if bal < 0:
+            txt = _("Pago realizado ")
+        else:
+            txt = _("Devolución realizada ")
+        if cash == "0":
+            txt += _("en efectivo. ")
+        else:
+            txt += _("con tarjera. ")
+        txt += _("Observaciones: {}".format(desc))
+        balance = WristbandBalance.objects.create(wristband=wb, amount=bal*-1, desc=txt)
+        #balance = WristbandBalance.objects.create(wristband=wb, amount=bal*-1, desc=desc)
+        obj = get_or_update_wristband_backup(wb)
+        return render(request, "guest/bands/wristbands-close-main.html", {"obj": obj, "err": False})
+    except Exception as e:
+        print(e)
+        return render(request, 'error_exception.html', {'exc':show_exc(e)})
+
+@group_required("projects")
+def wristbands_close_print(request, obj_id):
+    try:
+        wb = get_or_none(Wristband, obj_id)
+        wbb = WristbandBackup.objects.filter(code=wb.code).first()
+        return render(request, "guest/bands/wristbands-close-balances.html", {"obj": wbb, "err": False})
+    except Exception as e:
+        print(e)
+        return render(request, 'error_exception.html', {'exc':show_exc(e)})
 
 

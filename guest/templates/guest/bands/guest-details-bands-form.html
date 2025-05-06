@@ -2,9 +2,12 @@
 
 {%if err and err != ""%}
     <div id="div-notification" class="alert-danger">
-        {% trans "There are another user with this band:" %} <strong>{{band.guest.name}} {{band.guest.surname}} - {{band.guest.room}}</strong>
-        <button class="btn btn-sm ark" id="btn-band-remove" data-url="{% url "guest-band-remove2" %}" data-target="div-band-form" 
-            data-obj_id="{{band.id}}" data-band_lock="true" data-guest="{{obj.id}}"><i class="fas fa-trash"></i></button>
+        {% trans "There are another user with this band:" %} 
+        <strong>{{band.guest.name}} {{band.guest.surname}} - {{band.guest.room}}</strong>
+        {% if band.is_close %}
+            <button class="btn btn-sm ark" id="btn-band-remove" data-url="{% url "guest-band-remove2" %}" data-target="div-band-form" 
+                data-obj_id="{{band.id}}" data-band_lock="true" data-guest="{{obj.id}}"><i class="fas fa-trash"></i></button>
+        {% endif %}
     </div>
 {%endif%}
 

@@ -7,6 +7,9 @@
 				{% if msg == "01" %}
 					<i class="fas fa-check-circle text-success"></i><br/><h4 class="success mt-3">
                         {% trans "Your order has been sent correctly!" %}</h4>
+				{% elif msg == "00" %}
+					<i class="fas fa-ban text-cancel"></i><br /><h4 class="cancel mt-3" style="color:#333;">
+                        {% trans "Your order could not be sended!" %}</h4>
 				{% elif msg == "05" %}
 					<i class="fas fa-ban text-cancel"></i><br /><h4 class="cancel mt-3" style="color:#333;">
                         {% trans "Your order has been cancelled correctly!" %}</h4>

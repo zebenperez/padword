@@ -8,8 +8,10 @@
             <div class="col-3">{% trans "Number of cards" %}: {{number}} </div>
         {% endif %}
         <div class="col-3">{% trans "Start date" %}: {{ini_date}} </div>
-        <div class="col-3">{% trans "End date" %}: {{end_date}} </div>
-        <div class="col-3">{% trans "Locks" %}: 
+        {#<div class="col-3">{% trans "End date" %}: {{end_date}} </div>#}
+        <div class="col-3">End date: {{end_date}} </div>
+        {#<div class="col-3">{% trans "Locks" %}: #}
+        <div class="col-3">Locks: 
             {%for l in items%}{% padword_translate l.alias %}{%if not forloop.last%}, {%endif%}{%endfor%} </div>
     </div>
 <div class="row m-0 mt-4 work-screen">
@@ -37,7 +39,10 @@
                         {% endif %}
                     <br />
                     <br />
-                    <div class="text-center py-4 mb-1"> <strong>{% trans "Name" %}:</strong> </div>
+                    <div class="text-center py-4 mb-1">
+                        {#<strong>{% trans "Name" %}:</strong> #}
+                        <strong>Name:</strong> 
+                    </div>
                     {% if group != "" %}
                         <input type="text" class="form-control wizard" id="name_{{forloop.counter}}" name="name"
                             value="{{group}} {{forloop.counter}}" />
@@ -55,8 +60,10 @@
 
                     <br/>
                     <div class="text-center mb-2"> 
-                        <button class="btn btn-primary saveform" data-form="form-card-{{forloop.counter}}" data-target="div-progress" 
-                            data-id="{{forloop.counter}}"> {% trans "Continue" %}</button>
+                        <button class="btn btn-primary saveform" data-form="form-card-{{forloop.counter}}" data-target="div-progress" data-id="{{forloop.counter}}"> 
+                            {#{% trans "Continue" %}#}
+                            Continue
+                        </button>
                     </div>
                 </form>
             </div>

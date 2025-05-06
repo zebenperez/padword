@@ -6,14 +6,14 @@
     <div class="col-2 mt-3"><a class="btn btn-orange" href="{% url "locks-cron" project.id %}"><i class='fas fa-tasks'></i>{%trans "Tareas programadas"%}</a></div>
 </div>
 
-<div class="row mt-3">
+<div class="row mt-3 m-0">
     <div class="col-lg-3 col-12 ">{% include "web/locks/lock-search.html" %}</div>
     <div class="col-lg-3 col-12 ">{% include "web/locks/lock-add-group.html" %}</div>
     <div class="col-lg-3 col-12 ">{% include "web/locks/lock-add-code.html" %}</div>
     <div class="col-lg-3 col-12 ">{% include "web/locks/lock-remove-code.html" %}</div>
 </div>
 
-<div class="content mt-3">
+<div class="content mt-3 m-0">
     <div class="toolbar-content">
         <h2 class="b-right">{% trans 'Locks' %} (<span id="items-counter">{{items|length}}</span>)</h2>
         <span class="b-right"><small>{% trans 'Last update:' %} {{items.0.last_update|date:"d-m-Y H:i"}}</small></span>

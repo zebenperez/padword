@@ -1,7 +1,8 @@
 from django import template
 
 from padword.commons import show_exc
-from guest.models import KeyCode, KeyCard, WristbandAccessZoneGuest
+from guest.models import KeyCode, KeyCard
+from guest.wristband_models import WristbandAccessZoneGuest
 
 register = template.Library()
 
@@ -11,6 +12,13 @@ register = template.Library()
 @register.filter
 def zone_active(guest, zone):
     return WristbandAccessZoneGuest.objects.filter(guest=guest, zone=zone).first() != None
+
+@register.filter
+def have_open_band(guest):
+    for band in guest.bands.all():
+        if not band.is_close:
+            return True
+    return False
 
 '''
     Inclusion Tags

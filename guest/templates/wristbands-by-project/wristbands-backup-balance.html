@@ -1,0 +1,28 @@
+{% load i18n bookings_tag common_tag padword_tags tpv_tags static %}
+
+
+<div class="row w-100 common-modal-head m-0 p-0">
+    <div class="col-12 text-end"><button type="button" class="btn btn-sm" data-bs-dismiss="modal">
+        <i class="fas fa-times"></i></button> </div>
+</div>
+
+<table class="table table-hover table-striped">
+    <thead>
+        <tr> 
+            <th>{%trans 'Date'%}</th> 
+            <th>{%trans 'Amount'%}</th> 
+            <th>{%trans 'Description'%}</th> 
+        </tr>
+    </thead>
+    <tbody>
+        {% for item in band.balances.all %}
+            <tr id="tr">
+                <td> {{item.date|date:"d-m-Y H:i"}} </td>
+                <td> {{item.amount}} </td> 
+                <td> {{item.desc|striptags}} </td> 
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+

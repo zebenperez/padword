@@ -319,6 +319,34 @@ a.btn.btn-select-payment.pay-opts
     width: 100%;
 }
 
+button.btn.btn-danger-tpv {
+	background-color: #f8d7da;  
+	border:1px solid #ccc;
+    color: #8e2730;
+	font-size: 1em;
+}
+.btn-mobile > button.btn.btn-danger-tpv {
+	background-color: #f8d7da;  
+	border:1px solid #ccc;
+	font-size: 0.65em;
+    color: #8e2730;
+    padding: 5px 0 5px 0;
+}
+
+button.btn.btn-info-tpv {
+	background-color: #0dcaf0;  
+	border:1px solid #ccc;
+    color: #ffffff;
+	font-size: 1em;
+}
+.btn-mobile > button.btn.btn-info-tpv {
+	background-color: #0dcaf0;  
+	border:1px solid #ccc;
+	font-size: 0.65em;
+    color: #ffffff;
+    padding: 5px 0 5px 0;
+}
+
 button.btn.btn-success-tpv {
 	background-color: #a1c517;  
 	border:1px solid #ccc;

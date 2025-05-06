@@ -24,6 +24,8 @@ urlpatterns = [
     #--------------------- CLOUDBEDS --------------------
     path('cloudbeds/get-booking-list/<slug:project_uuid>/', views.cloudbeds_get_booking_list, name='cloudbeds-get-booking-list'),
     path('cloudbeds/get-room-list/<slug:project_uuid>/', views.cloudbeds_get_room_list, name='cloudbeds-get-room-list'),
+    path('cloudbeds/set-webhooks/', views.cloudbeds_set_webhooks, name='cloudbeds-set-webhooks'),
+    path('cloudbeds/webhook/', views.cloudbeds_webhook, name='cloudbeds-webhook'),
 
     #--------------------- CRON --------------------
     path('cron-log/', views.cron_log, name='cron-log'),
@@ -33,6 +35,9 @@ urlpatterns = [
 
     #--------------------- CAMERA --------------------
     path('car/plates/<slug:project_uuid>/', camera_views.car_plates, name='car_plates'),
+
+    #--------------------- ACCESS CONTROL --------------------
+    path('access-control/<slug:project>/<slug:card>/', views.access_control, name='access-control'),
 
     #--------------------- TEST --------------------
     path('test-email/', views.test_email, name='test-email'),

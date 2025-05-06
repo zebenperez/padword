@@ -7,7 +7,8 @@ from django.urls import reverse
 
 from .models_serializers import GuestSerializer, LockSerializer, RoomSerializer, GuestCarSerializer
 
-from guest.models import Guest, Wristband, GuestCar
+from guest.models import Guest, GuestCar
+from guest.wristband_models import Wristband
 from bookings.models import GuestUser, Form
 #from web.models import ProjectUser, Lock, Room
 from web.models import ProjectUser, Room
