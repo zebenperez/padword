@@ -138,16 +138,24 @@ hr.separator.orange {
     font-size:0.8rem !important;
 }
 
+.box-search {
+    border-radius: 0.25rem;
+    background: #ffffff;
+    border: 1px solid #ced4da;
+}
+
 .rounded-pill-btn {
-    border-radius: 50rem;
-    border: 2px solid #666;
+    border: 1px solid #666;
+    background: #ff7805;
+    color: #fff;
+    border-radius: 0.25rem;
     font-size: 0.8rem;
     font-weight: 600;
     text-transform: uppercase;
 }
 .input-rounded-pill {
-    border-radius: 50rem;
-    border: 1px solid #666;
+    border-radius: 0.25rem;
+    border: 1px solid #ced4da;
     font-size: 0.8rem;
     font-weight: 600;
     text-transform: uppercase;
