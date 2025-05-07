@@ -8,7 +8,8 @@ from padword.decorators import group_required
 from padword.commons import show_exc, get_or_none, get_param, get_float, reverse_cardkey
 from web.models import Project, Waiter
 from contents.models import Category, ShoppingCart, Item, PaymentType, PointOfSale, Table
-from guest.models import Guest, Wristband, WristbandBalance
+from guest.models import Guest
+from guest.wristband_models import Wristband, WristbandBalance
 from web.lock_lib import ShLock
 from connector.winhotel_lib import send_charge
 
@@ -94,7 +95,7 @@ def tpv_index(request, project_uuid):
 
         if "point_of_sale" not in request.session or request.session["point_of_sale"] == "":
             project = get_or_none(Project, project_uuid, "uuid")
-            point_of_sales = PointOfSale.objects.filter(project_uuid=project.uuid)
+            point_of_sales = PointOfSale.objects.filter(project_uuid=project.uuid).order_by("order")
             return render(request, "bookings/tpv/mobile/index.html", {'point_of_sales': point_of_sales,})
         elif "table" not in request.session or request.session["table"] == "":
             pos = get_or_none(PointOfSale, request.session["point_of_sale"])
@@ -134,7 +135,7 @@ def tpv_index(request, project_uuid):
 @group_required("waiters")
 def tpv_set_pos(request):
     try:
-        print("set pos")
+        #print("set pos")
         pos = get_or_none(PointOfSale, request.GET["obj_id"])
         request.session["point_of_sale"] = pos.id
         return redirect(reverse("tpv-mob-index", kwargs = {'project_uuid': pos.project_uuid}))
@@ -212,7 +213,7 @@ def tpv_check_band(request):
         if band != None and band.guest != None:
             gr = band.guest.regimes.first()
             regime = gr.regime if gr != None else None
-            get_or_create_form_instance_info_client_tpv(fi, band.guest, band.code)
+            get_or_create_form_instance_info_client_tpv(fi, band.guest, band.code, band.name)
             #fi.update_items_low_price()
             fi.update_items_prices()
         else:

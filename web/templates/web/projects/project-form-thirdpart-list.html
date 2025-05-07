@@ -1,0 +1,28 @@
+{% load i18n padword_tags %}
+
+
+<div class="row justify-center p-0">
+    {% for item in obj.thirdparts.all %}
+        <div class="col-lg-6 col-12 p-1">
+            <div class="p-sale p-3 pt-1">
+                <div class="row">
+                    <div class="col-12 text-end">
+                        <button class="btn btn-sm ark" id="btn-thirdpart-remove" data-url="{%url "project-thirdpart-remove"%}" 
+                            data-target="div-thirdpart-list" data-obj_id="{{item.id}}"> <i class="fas fa-trash"></i></button>
+                    </div>
+                    <div class="col-lg-6 col-12">
+                        <label class="label">{% trans "Thirdpart" %} {{item.id}} </label>
+                        <select class="form-control autosave input" id="thirdpart" name="thirdpart"  
+                            data-model-name="web.projectthirdpart" data-obj-id="{{item.id}}" data-url="{% url "autosave_field" %}" 
+                            data-target="div-notification">
+                            <option value="">{% trans "-- Select thirdpart --" %}</option>
+                            {% for t in thirdpart_list %}
+                                <option value="{{t.id}}" {%if t == item.thirdpart%}selected{%endif%}>{{t.name}}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+</div>

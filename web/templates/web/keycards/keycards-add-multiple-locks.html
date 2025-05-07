@@ -1,0 +1,59 @@
+{% load i18n padword_tags %}
+
+<div class="row toolbar-content w-100 m-0 p-0">
+    <div class="col-11"> <h2>{% trans 'Select Locks' %}</h2></div>
+    <div class="col-1"> <button type="button" class="btn btn-sm" data-bs-dismiss="modal"><i class="fas fa-times"></i></button> </div>
+</div>
+
+<span id="div-notification"></span><br/>
+
+<form method="POST" action="{% url "keycards-add-multiple-locks-select" %}" id="form-locks-select">
+    {%csrf_token%}
+    <div class="row justify-center">
+        <div class="col-12">
+            <div class="row">
+                <div class="col-12 text-center">
+                    {#<strong>{%trans "Locks"%}:</strong>#}
+                    <strong>Locks:</strong>
+                    <input type="text" class="form-control wizard" id="search" name="search" placeholder="Type the name of the lock to search for..."/> 
+                </div>
+                <div class="col-12 mt-4">
+                    <div class="card mt-4"><div class="card-body border-secondary"><div class="row">
+                    {% for item in items %}
+                        <div class="col-3">
+                            <input type="hidden" id="ch_{{item.id}}" name="ch_{{item.id}}" value="" />
+                            <div class="btn btnLock lock-search w-100 border-secondary" data-id="{{item.id}}">
+                                {% padword_translate item.alias %}</div>
+                        </div>
+                    {% endfor %}
+                    </div> </div> </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="text-center p-3">
+        <button class="btn btn-primary saveform" data-form="form-locks-select" data-target="div-locks-selected" data-bs-dismiss="modal"> 
+            {#{%trans "Save"%}#}
+            Save
+        </button>
+    </div>
+</form>
+
+<script>
+    $("#search").keyup(function(){
+        var val = $(this).val();
+        if (val != ""){
+            $(".lock-search").each(function(){
+                var html = $(this).html();
+                if(html.indexOf(val) >= 0)
+                    $(this).show();
+                else
+                    $(this).hide();
+            });
+        }else{
+            $(".lock-search").show();
+        }
+    });
+</script>
+

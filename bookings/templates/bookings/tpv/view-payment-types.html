@@ -28,6 +28,10 @@
 
 {# ------------------------------------------------ ACCIONES --------------------------------------------------------------#}
 <div class="row footer-buttons m-0 p-0 justify-content-center">
+    {# -------------------------------- ENVIO PARCIAL ---------------------------- #}
+    {% if fi.pos.partial %}
+        <div class="col-12 text-center p-0"> {% include "bookings/tpv/view-payment-types-send-part.html" %} </div>
+    {% endif %}
     {# -------------------------------- CANCELAR ---------------------------- #}
     <div class="col-6 text-center p-0"> {% include "bookings/tpv/view-payment-types-cancel.html" %} </div>
     {# -------------------------------- ENVIAR ---------------------------- #}

@@ -14,7 +14,8 @@ from padword.commons import show_exc, get_or_none, get_param, get_float, get_boo
 from web.models import Device, Project, ProjectUser
 from web.models_lock import Lock
 from contents.models import Category, ShoppingCart, Item, PaymentType
-from guest.models import Guest, GuestNotification, Wristband, GuestLockLog
+from guest.models import Guest, GuestNotification, GuestLockLog
+from guest.wristband_models import Wristband
 from web.lock_lib import ShLock
 
 from .common_lib import get_or_create_form_instance, get_max_index, get_or_create_answer_instance, user_in_group, get_guest, get_login_template
@@ -104,6 +105,70 @@ def guest_access_auto(request, guest_uuid):
         #ft = FormType.objects.filter(project_uuid = project.uuid, main = True).first()
         #form = Form.objects.filter(form_type = ft).first()
         #cat = Category.objects.filter(project_uuid = project.uuid, uuid = form.category).first()
+        next_url = reverse("pwa-index-cat", kwargs = {'category_uuid':cat.uuid})
+        context = {'project_uuid': project.uuid, 'cat': cat}
+        context["guest"] = guest
+        context["next_url"] = next_url
+        return render(request, 'bookings/guest/guest-welcome.html', context)
+    except Exception as e:
+        print(e)
+        err = show_exc(e)
+    return render(request, 'error_exception.html', {'exc':err})
+
+def guest_access_ext(request, ext_id):
+    try:
+        guest = get_or_none(Guest, ext_id, "ext_id")
+        if guest == None:
+            return render(request, 'bookings/guest/guest-welcome-error.html', {})
+
+        project = guest.project
+        form = Form.get_main(project)
+        cat = form.get_category
+        if not guest.have_valid_booking():
+            return render(request, 'bookings/guest/guest-welcome-error.html', {'cat': cat})
+
+        user, err = GuestUser.get_or_create_guest_user(guest.UUID, project.uuid, guest.id)
+        if err != "":
+            return render(request, 'error_exception.html', {'exc': err})
+        auth.login(request, user)
+
+        if not check_user(request.user, guest):
+            return render(request, 'bookings/guest/guest-welcome-error.html', {'cat': cat})
+
+        next_url = reverse("pwa-index-cat", kwargs = {'category_uuid':cat.uuid})
+        context = {'project_uuid': project.uuid, 'cat': cat}
+        context["guest"] = guest
+        context["next_url"] = next_url
+        return render(request, 'bookings/guest/guest-welcome.html', context)
+    except Exception as e:
+        print(e)
+        err = show_exc(e)
+    return render(request, 'error_exception.html', {'exc':err})
+ 
+def guest_access_extp(request, proj_name, ext_id):
+    try:
+        project = Project.objects.filter(name=proj_name.replace("_", " ")).first()
+        if project == None:
+            return render(request, 'bookings/guest/guest-welcome-error.html', {})
+
+        guest = Guest.objects.filter(project_id=project.uuid, ext_id__endswith="__{}".format(ext_id)).first()
+        if guest == None:
+            return render(request, 'bookings/guest/guest-welcome-error.html', {})
+
+        project = guest.project
+        form = Form.get_main(project)
+        cat = form.get_category
+        if not guest.have_valid_booking():
+            return render(request, 'bookings/guest/guest-welcome-error.html', {'cat': cat})
+
+        user, err = GuestUser.get_or_create_guest_user(guest.UUID, project.uuid, guest.id)
+        if err != "":
+            return render(request, 'error_exception.html', {'exc': err})
+        auth.login(request, user)
+
+        if not check_user(request.user, guest):
+            return render(request, 'bookings/guest/guest-welcome-error.html', {'cat': cat})
+
         next_url = reverse("pwa-index-cat", kwargs = {'category_uuid':cat.uuid})
         context = {'project_uuid': project.uuid, 'cat': cat}
         context["guest"] = guest
@@ -599,7 +664,8 @@ def get_price_shopping_cart(request):
         instance_id = get_param(request.GET, "form_id")
         instance = FormInstance.objects.get(pk=instance_id)
         items = ShoppingCart.objects.filter(form_instance_id=instance.pk)
-        return HttpResponse('{} art.&nbsp;&nbsp;&nbsp;{:.2f} &euro;'.format(items.count(), instance.get_total))
+        currency = items[0].item.currency if len(items) > 0 else "&euro;"
+        return HttpResponse('{} art.&nbsp;&nbsp;&nbsp;{:.2f} {}'.format(items.count(), instance.get_total, currency))
     except Exception as e:
         #return HttpResponse(show_exc(e))
         return render(request, "error_exception.html", {'exc':show_exc(e)})

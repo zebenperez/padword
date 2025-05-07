@@ -1,35 +1,31 @@
 {% load i18n static padword_tags %}
 
-<div class="row"><div class="col-10 offset-1">
+<div class="row m-0 mt-3"><div class="col-12">
     <div class="row">
-        <div class="col-4">{% trans "Template" %}</div>
-        <div class="col-8"><strong>{{template.template}}</strong></div>
-    </div>
-    <br/>
-    <div class="row">
-        <div class="col-4">{% trans "Template Base" %}</div>
-        <div class="col-8"><strong>{{template.template_base}}</strong></div>
-    </div>
-    <br/>
-    <div class="row">
-        <div class="col-4">{% trans "Template Login" %}</div>
-        <div class="col-8"><strong>{{template.template_login}}</strong></div>
-    </div>
-    <br/>
-    <div class="row">
-        <div class="col-4">{% trans "CSS" %}</div>
-        <div class="col-8"><strong>{{template.css}}</strong></div>
-    </div>
-    <br/>
-    <div class="row">
-        <div class="col-4">{% trans "Demo" %}</div>
-        <div class="col-8"><img src="{{template.img.url}}" alt="image"/></div>
+        <div class="col-3">{% trans "Template" %}</div>
+        <div class="col-9">{{template.template}}</div>
+        <div class="col-3">{% trans "Template Base" %}</div>
+        <div class="col-9">{{template.template_base}}</div>
+        <div class="col-3">{% trans "Template Login" %}</div>
+        <div class="col-9">{{template.template_login}}</div>
+        <div class="col-3">{% trans "CSS" %}</div>
+        <div class="col-9">{{template.css}}</div>
+    <div class="row mt-4">
+        <div class="col-3" style="border:1px solid red;">{% trans "Demo" %}</div>
+        <div class="col-7 text-center" style="border:1px solid red;"><img src="{{template.img.url}}" alt="image"/></div>
+        <div class="col-2 actions text-center" style="border:1px solid red;">
+            <a id="btn-set" class="btn btn-primary ark" data-bs-dismiss="modal" data-url="{% url "form-type-template-set" %}"
+                data-target="div-preview" data-obj_id="{{obj.id}}" data-template="{{template.id}}">{%trans "Asignar"%}</a>
+        </div>
     </div>
 </div> </div>
 
+
+{%comment%}
 <div class="row mb-4 d-flex justify-content-center change-status-box">
     <div class="actions text-center mt-2">
         <a id="btn-set" class="btn btn-primary ark" data-bs-dismiss="modal" data-url="{% url "form-type-template-set" %}"
             data-target="div-preview" data-obj_id="{{obj.id}}" data-template="{{template.id}}">{%trans "Asignar"%}</a>
     </div>
 </div>
+{%endcomment%}

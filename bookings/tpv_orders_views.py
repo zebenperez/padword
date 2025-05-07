@@ -3,9 +3,9 @@ from django.shortcuts import render, redirect
 from django.utils.translation import ugettext_lazy as _ 
 
 from padword.decorators import group_required
-from padword.commons import show_exc, get_or_none, get_param, get_float, get_bool, new_ui_slug, get_items_per_page
+from padword.commons import show_exc, get_or_none, get_param, get_float, get_bool, new_ui_slug, get_items_per_page, get_int
 from web.models import Project
-from contents.models import Category
+from contents.models import Category, PointOfSale
 from guest.models import Guest
 from connector.winhotel_lib import send_charge
 from connector.models import ProjectWinhotelUser
@@ -29,7 +29,7 @@ ITEMS_PER_PAGE=get_items_per_page()
 #    return uuid_guests
 
 
-def search(project_uuid, ini_date, end_date, name, status, s_id=""):
+def search(project_uuid, ini_date, end_date, name, status, pos, s_id=""):
     if s_id != "":
         try:
             return FormInstance.objects.filter(id=s_id)
@@ -44,11 +44,24 @@ def search(project_uuid, ini_date, end_date, name, status, s_id=""):
     if end_date != "":
         ed = end_date.split("-")
         kwargs["date__lte"] = datetime.datetime(int(ed[0]), int(ed[1]), int(ed[2]), 23, 59, 59)
+    if pos != "":
+        kwargs["info__pos"] = pos
     if name != "":
         #kwargs["guest_uuid__in"] = filter_search_guest(name, [project_uuid])
-        return FormInstance.objects.filter(**kwargs).filter(Q(info__client__icontains=name) | Q(info__client_email__icontains=name) | Q(info__client_mobile__icontains=name) | Q(info__client_room__icontains=name))
+        #return FormInstance.objects.filter(**kwargs).filter(Q(info__client__icontains=name) | Q(info__client_email__icontains=name) | Q(info__client_mobile__icontains=name) | Q(info__client_room__icontains=name))
+        fi_list = FormInstance.objects.filter(**kwargs).filter(Q(info__client__icontains=name) | Q(info__client_email__icontains=name) | Q(info__client_mobile__icontains=name) | Q(info__client_room__icontains=name))
+    else:
+        fi_list = FormInstance.objects.filter(**kwargs)
 
-    return FormInstance.objects.filter(**kwargs)
+    if status != "":
+        items = []
+        for fi in fi_list:
+            if fi.get_status != None and fi.get_status.status.id == get_int(status):
+                items.append(fi)
+        return items
+    else:
+        return fi_list
+    #return FormInstance.objects.filter(**kwargs)
     #items = FormInstance.objects.filter(**kwargs)
     #return filter_search_status_project(items, status, project_uuid)
 
@@ -58,13 +71,14 @@ def get_orders_project_context(project):
     ini_date = today + datetime.timedelta(days=-3)
     end_date = today + datetime.timedelta(days=1)
             
-    items = search(project.uuid, ini_date, end_date.strftime("%Y-%m-%d"), "", "")
+    items = search(project.uuid, ini_date.strftime("%Y-%m-%d"), end_date.strftime("%Y-%m-%d"), "", "", "")
 
     context["project_uuid"] = project.uuid
     context["project_name"] = project.name
     context["ini_date"] = ini_date
     context["end_date"] = end_date
     context["status_list"] = Status.objects.all()
+    context["pos_list"] = PointOfSale.objects.filter(project_uuid=project.uuid)
     context['items'] = items[0:ITEMS_PER_PAGE]
     context['total_items'] = len(items)
     return context
@@ -78,8 +92,9 @@ def orders_search(request):
         end_date = get_param(request.GET, "s-end_date")
         name = get_param(request.GET, "s-name")
         status = get_param(request.GET, "s-status")
+        pos = get_param(request.GET, "s-pos")
 
-        items = search(project.uuid, ini_date, end_date, name, status, s_id)
+        items = search(project.uuid, ini_date, end_date, name, status, pos, s_id)
 
         context={'total_items': len(items), 'items': items[0:ITEMS_PER_PAGE], 'status': status, 'index': ITEMS_PER_PAGE}
         return render(request, "bookings/tpv-orders/order-list.html", context)
@@ -96,11 +111,12 @@ def orders_page(request):
         end_date = get_param(request.GET, "s-end_date")
         name = get_param(request.GET, "s-name")
         status = get_param(request.GET, "s-status")
+        pos = get_param(request.GET, "s-pos")
         page = get_param(request.GET, "page", "0")
         ini = int(page)*ITEMS_PER_PAGE
         end = ini+ITEMS_PER_PAGE
 
-        items = search(project.uuid, ini_date, end_date, name, status)
+        items = search(project.uuid, ini_date, end_date, name, status, pos)
         #items = search(project.uuid, form, ini_date, end_date, name, status)
 
         context={'total_items': len(items), 'items': items[ini:end], 'status': status, 'index': end}

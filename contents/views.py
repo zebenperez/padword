@@ -546,7 +546,7 @@ def item_remove_banner(request):
         print(e)
         return render(request, 'error_exception.html', {'msg': str(e)})
 
-@group_required("admins", "projects")
+@group_required("admins", "projects", "categories")
 def item_change_price(request):
     try:
         obj_id = request.GET["obj_id"]

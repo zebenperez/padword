@@ -1,0 +1,145 @@
+{% load i18n static padword_tags lock_tags tz %}
+
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description" content="">
+        <title>Padword Cloud 360</title>
+
+        <!-- Bootstrap core CSS -->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" 
+            integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
+        <!-- Font awesome -->
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" 
+            integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+
+        <!-- JQuery -->
+        <script src="https://code.jquery.com/jquery-3.5.1.js" ></script>
+
+        <!-- Shidix -->
+        <link rel="stylesheet" href="{% static 'css/styles.css' %}" >
+
+        <!-- Favicons -->
+        <meta name="theme-color" content="#7952b3">
+
+        <style>
+            @page {
+                size: A4;
+            }
+            @media print {
+                html, body {
+                    width: 210mm;
+                    height: 297mm;
+                }
+            }
+            /*#main {
+                width: 90mm;
+            }*/
+            .title{
+              /*  border: 1px solid #333;*/
+                color:#143e53 !important;
+                font-size: 1.2em;
+                font-weight: 600;
+                margin: 10px;
+                text-align: center;
+            }
+        </style>
+    </head>
+
+    <body class="pdf-wristbands m-2">
+        <div id="main" class="m-2">
+            <div class="row header-pdf" style="border:1px solid black">
+                <div class="col-8">
+                    <img src="/static/img/thumbnail_logo-padword.png" alt="Logo" width="120px"/>
+                </div>
+
+                <div class="col-2 text-end">
+                    {% comment %}
+                       <button class="btn ark w-100" data-url="{% url "tpv-change-pos" %}" data-target="base" data-project_uuid="{{obj.project_uuid}}">
+                           {% trans "Back" %}</button>
+                    {% endcomment %}
+                    <button class="btn btn-outline-danger ark w-50 print-hide" type="button" onclick="javascript:window.close()"><i class="fas fa-times"></i> {% trans "Salir" %}</button>
+                </div>
+                <div class="col-2 text-end">
+                    <a class="btn btn-outline-dark print-hide" onclick="$('.print-hide').hide(); window.print()"> <i class="fa fa-print"></i> {% trans "Imprimir" %}</a>
+                </div>
+            </div>
+
+            {% comment %}
+            <div class="d-flex justify-content-end">
+                <button class="btn ark w-100" data-url="{% url "tpv-change-pos" %}" data-target="base" 
+                    data-project_uuid="{{obj.project_uuid}}"> {% trans "Back" %}</button>
+                <a class="btn btn-default" onclick="window.print()"> &#128424; {% trans "Imprimir" %}</a>
+            </div>
+            <br/>
+            {% if obj.project.logo %}
+            <img src="{{obj.project.logo.url}}" alt="Logo" width="250px"/><br/>{% endif %} <br/> 
+            {% endcomment %}
+
+
+            <h3>{{obj.project.name}}</h3> 
+            <div class="title">{% trans 'TPV' %} {{obj.pos.name}}</div> 
+
+            <div class="list-item-cl pb-3">
+                <div class="card-header"><i class="fa fa-info-circle dark-blue p-2"></i> {% trans "Band Info" %}</div>
+                <div class="card-body">
+                    <div class="row m-0">
+                        <div class="col-2"><strong>{% trans "Kids" %}</strong></div>
+                        <div class="col-2"><strong>{% trans "Locks" %}</strong></div>
+                        <div class="col-3"><strong>{% trans "Code" %}</strong></div>
+                        <div class="col-3"><strong>{% trans "Name" %}</strong></div>
+                        <div class="col-2"><strong>{% trans "Type" %}</strong></div>
+                    </div>
+                    <div class="row m-0">
+                        <div class="col-2">{%if obj.kid%}<i class="fas fa-check"></i>{%else%}<i class="fas fa-times danger"></i>{%endif%}</div>
+                        <div class="col-2">{%if obj.locks%}<i class="fas fa-check"></i>{%else%}<i class="fas fa-times danger"></i>{%endif%}</div>
+                        <div class="col-3">{{obj.code}}</div>
+                        <div class="col-3">{{obj.name}}</div>
+                        <div class="col-2">{{obj.type}}</div>
+                    </div>
+                </div>
+            </div>
+            <div class="list-item-cl pb-3">
+                <div class="card-header"><i class="far fa-address-card dark-blue p-2"></i> {% trans "Guest Info" %}</div>
+                <div class="card-body">
+                    <div class="row m-0">
+                        <div class="col-2"><strong>{% trans "UUID" %}</strong></div>
+                        <div class="col-2"><strong>{% trans "Name" %}</strong></div>
+                        <div class="col-2"><strong>{% trans "Mobile - Email" %}</strong></div>
+                        <div class="col-2"><strong>{% trans "Room" %}</strong></div>
+                        <div class="col-2"><strong>{% trans "Checkin" %}</strong></div>
+                        <div class="col-2"><strong>{% trans "Checkout" %}</strong></div>
+                    </div>
+                    <div class="row m-0">
+                        <div class="col-2">{{obj.guest_uuid}}</div>
+                        <div class="col-2">{{obj.guest_name}}</div>
+                        <div class="col-2">{{obj.guest_mobile}} - {{obj.guest_email}}</div>
+                        <div class="col-2">{{obj.guest_room}}</div>
+                        <div class="col-2">{{obj.check_in|date:"d-m-Y H:i"}}</div>
+                        <div class="col-2">{{obj.check_out|date:"d-m-Y H:i"}}</div>
+                    </div>
+                </div>
+            </div>
+            <div class="list-item-cl pb-3">
+                <div class="card-header"><i class="fas fa-euro-sign dark-blue p-2"></i> {% trans "Balances" %}</div>
+                <div class="card-body">
+                    <div class="row m-0">
+                        <div class="col-2"><strong>{% trans "Date" %}</strong></div>
+                        <div class="col-8"><strong>{% trans "Description" %}</strong></div>
+                        <div class="col-2"><strong>{% trans "Amount" %}</strong></div>
+                    </div>
+                    {% for band in obj.balances.all %}
+                        <div class="row m-0">
+                            <div class="col-2">{{band.date|date:"d-m-Y H:i"}}</div>
+                            <div class="col-8">{{band.desc|striptags}}</div>
+                            <div class="col-2">{{band.amount}}</div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div> 
+    </body> 
+</html>
+

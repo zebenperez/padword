@@ -14,6 +14,7 @@
         <li class="nav-item"> <a class="nav-link" data-bs-toggle="tab" href="#admins">{% trans "Administrator" %}</a> </li>
     {% endif %}
     <li class="nav-item"> <a class="nav-link" data-bs-toggle="tab" href="#card">{% trans "Credit Card" %}</a></li>
+    <li class="nav-item"> <a class="nav-link" data-bs-toggle="tab" href="#car">{% trans "Matrículas" %}</a></li>
 </ul>
 
 <div class="tab-content internal m-2 p-2">
@@ -51,5 +52,8 @@
 
     {# -------------------------- CARD ------------------------#}
     <div class="tab-pane container" id="card"> <div id="div-card"> {% include "guest/guest-form-card.html" %} </div> </div>
+
+    {# -------------------------- CAR ------------------------#}
+    <div class="tab-pane container" id="car"> <div id="div-car"> {% include "guest/guest-cars.html" %} </div> </div>
 </div>
 

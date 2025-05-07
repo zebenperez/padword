@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% load i18n padword_tags %}
+
+{% block second_menu %}{#{% include 'web/second_menu.html' %}#}{% get_second_menu request.user %} {% endblock second_menu %}
+
+{% block central_content %}
+    <div class="toolbar-search projects p-2">
+        <div><input type="hidden" name="company_id" id="company_id" value="{{company.id}}" /></div>
+        <div><i class="fas fa-search"></i></div>
+        <div>
+            <input type="text" class="autosearch form-control form-control-dark w-100" name="s-name" id="s-name" 
+               placeholder="{% trans 'Name or company' %}" data-url="{% url "projects-admin-search" %}" 
+               data-target="project-list" data-related="s-name,s-comp" />
+        </div>
+    </div>
+    <div class="content mt-4">
+        <div class="toolbar-content">
+			<h2 class="pathway b-right">
+                {% if company %}<a href="{%url "companies"%}">{{company.name}}</a> <i class="fas fa-angle-double-right"></i>{%endif%}
+                {% trans 'Projects' %} (<span id="items-counter">{{items|length}}</span>)</h2>
+            {% include "common-modal.html" %}
+        </div>
+        <div id="project-list">{% include "web/projects-admin/project-list.html" %}</div>
+    </div>
+{% endblock central_content %}

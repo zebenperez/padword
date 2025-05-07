@@ -19,14 +19,14 @@
                 </h6>
             </div>
             <div class="col-5 btn-dark price p-1" id="div-total-shopping-cart">
-                {%trans 'Subtotal'%}: <strong>{{subtotal|floatformat:2}} &euro;</strong></div>
+                {%trans 'Subtotal'%}: <strong>{{subtotal|floatformat:2}} {{fi.currency}}{#&euro;#}</strong></div>
         </div>
 
         {#{% if regime %}#}
             <div class="row m-0">
                 <div class="col-12 btn-dark-grey price p-1" id="div-total-shopping-cart">
                     {#<strong class="text-warning">{%trans 'Total price user'%}: {{fi|get_total_by_regime:regime.code}} &euro;</strong></div>#}
-                    <strong class="text-warning">{%trans 'Total'%}: {{total|floatformat:2}} &euro;</strong></div>
+                    <strong class="text-warning">{%trans 'Total'%}: {{total|floatformat:2}} {{fi.currency}}{#&euro;#}</strong></div>
             </div>
         {#{% endif %}#}
     
@@ -42,7 +42,7 @@
                 <div class="col-3 text-left"><div class="text-right text-warning"> {{ item.total_price }}</div></div>
 
                 {#<div class="col-2"> <div class="text-left">{{ item.item.price }}€</div> </div>#}
-                <div class="col-2"> <div class="text-left">{{ item.price }}€</div> </div>
+                <div class="col-2"> <div class="text-left">{{ item.price }} {{item.currency}}</div> </div>
 
                 <div class="col-1 p-0 ">
                     <a class="btn btn-outline-danger btn-xs ark" title="{%trans 'Remove article from shopping-cart'%}" data-mobile="True"
@@ -67,7 +67,7 @@
         </div>
 
         <div class="row justify-content-center w-100" 
-            style="position:fixed;bottom:0px;background:white;-webkit-box-shadow:-1px -13px 7px -13px #D6D6D6;box-shadow:-1px -13px 7px -13px #D6D6D6;">
+            style="position:fixed;bottom:0px;background:white;">
             <div class="col-12 text-center p-0">{%include "bookings/tpv/mobile/view-payment-types-mobile.html"%}</div>
         </div>
     {% endif %}

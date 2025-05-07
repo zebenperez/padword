@@ -1,0 +1,72 @@
+{% load i18n %}
+
+<div class="row w-100 common-modal-head m-0 p-0">
+    <div class="col-11"><h2>{% trans 'Mews booking list' %}</h2></div>
+    <div class="col-1">
+        <button type="button" class="btn btn-sm ark" data-bs-dismiss="modal" data-url="{% url "guest-search-by-project" %}" 
+        data-target="guest-list"><i class="fas fa-times"></i></button> </div>
+</div>
+
+{% if error and error != "" %} <div class="alert alert-danger">{{error|safe}}</div> {% endif %}
+
+<div class="row m-0">
+    <div class="content">
+        <div id="item-list">
+            {% for item in booking_list %} 
+                <div class="row">
+                    <div class="col-1">{% trans 'Id' %}</div>
+                    <div class="col-5">{{item.id}}</div>
+                    <div class="col-1">{% trans 'Service' %}</div>
+                    <div class="col-5">{{item.service_id}}</div>
+                </div>
+                <div class="row">
+                    <div class="col-1">{% trans 'Account' %}</div>
+                    <div class="col-5">{{item.account_id}}</div>
+                    <div class="col-1">{% trans 'Booker' %}</div>
+                    <div class="col-5">{{item.booker_id}}</div>
+                </div>
+                <div class="row">
+                    <div class="col-2">{% trans 'Start' %}</div>
+                    <div class="col-4">{{item.start}}</div>
+                    <div class="col-2">{% trans 'End' %}</div>
+                    <div class="col-4">{{item.end}}</div>
+                </div>
+                 <div class="row">
+                    <div class="col-2">{% trans 'Created' %}</div>
+                    <div class="col-4">{{item.created}}</div>
+                    <div class="col-2">{% trans 'Updated' %}</div>
+                    <div class="col-4">{{item.updated}}</div>
+                </div>
+                <div class="row">
+                    <div class="col-2">{% trans 'Number' %}</div>
+                    <div class="col-4">{{item.number}}</div>
+                    <div class="col-2">{% trans 'State' %}</div>
+                    <div class="col-4">{{item.state}}</div>
+                </div>
+                <div class="row">
+                    <div class="col-1">{% trans 'Resource' %}</div>
+                    <div class="col-5">{{item.resource_id}}</div>
+                    <div class="col-2">{% trans '' %}</div>
+                    <div class="col-4"></div>
+                </div>
+
+                <div class="row">
+                    <div class="col-1">{% trans 'Name' %}</div>
+                    <div class="col-3">{{item.customer.name}}</div>
+                    <div class="col-1">{% trans 'Phone' %}</div>
+                    <div class="col-2">{{item.customer.phone}}</div>
+                    <div class="col-1">{% trans 'Email' %}</div>
+                    <div class="col-3">{{item.customer.email}}</div>
+                </div>
+                <div class="row">
+                    <div class="col-2">{% trans 'Room' %}</div>
+                    <div class="col-4">{{item.room.number}}</div>
+                    <div class="col-2">{% trans '' %}</div>
+                    <div class="col-4"></div>
+                </div>
+                <hr/>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+

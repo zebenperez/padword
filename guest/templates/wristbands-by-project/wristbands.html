@@ -7,7 +7,7 @@
 
     <div class="toolbar-search">
         <div class="row key-number p-2">
-            <div class="row col-6 left-k pt-2 pb-2">
+            <div class="row col-4 left-k pt-2 pb-2">
                 <div class="col-4 left-cardnumber">{% trans "Band number" %}:</div>
                 <div class="col-8">
                     <input type="text" class="form-control input-k w-100 ark_change" name="number" id="number"
@@ -15,7 +15,16 @@
                         data-url="{% url "wristbands-search-by-project" %}" data-target="bands-result" onchange="setNumbers($(this))"/>
                 </div>
             </div>
-            <div class="col-5 offset-1 right-k p-2">
+            <div class="row col-4 left-k pt-2 pb-2">
+                <div class="col-4 left-cardnumber">{% trans "Band backup" %}:</div>
+                <div class="col-8">
+                    <input type="text" class="form-control input-k w-100 ark_change" name="number" id="number"
+                        placeholder="{% trans 'Click here and then place the card on the reader' %}" 
+                        data-url="{% url "wristbands-backup-search-by-project" %}" data-target="bands-result" 
+                        onchange="setNumbers($(this))"/>
+                </div>
+            </div>
+            <div class="col-4 right-k p-2">
                 <div class="">{% trans "Current band number" %}:</div>
                 <div class="text-end"><strong><span id="current-card"></span></strong></div>
             </div>
@@ -24,5 +33,6 @@
 
     <div id="bands-result"> </div>
 
+    {% include "common-modal.html" %}
     <script> function setNumbers(obj){ setTimeout(()=>{obj.val('')}, 200); } </script>
 {% endblock central_content %}

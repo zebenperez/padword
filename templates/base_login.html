@@ -5,7 +5,7 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="description" content="">
-        <title>Padword by Shidix</title>
+        <title>Padword Cloud 360</title>
         {% block extrahead%} {% endblock extrahead%}
 
         {#<link rel="manifest" href="{% static 'manifest.json' %}">#}
@@ -54,7 +54,9 @@
             <div class="col-lg-9 col-12 login-left"> </div>
         {% endcomment %}
         
-        <div class="col-12 logo-padword text-left"><img src="/static/img/thumbnail_logo-padword.png" class="img-fluid" width="150"></div>
+        <div class="col-12 logo-padword text-left">
+            {#<img src="/static/img/thumbnail_logo-padword-pre.png" class="img-fluid" width="150"></div>#}
+            <img src="{% get_logo %}" class="img-fluid" width="150"></div>
 
             <div class="col-lg-4 col-12 login-right mt-5">
                 {% if form.errors %}

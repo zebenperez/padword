@@ -54,11 +54,11 @@ def cash_daily_summary(obj, date):
     e_date = datetime.datetime.strptime("{} 23:59:59".format(date), "%Y-%m-%d %H:%M:%S")
 
     path = getPath(obj.project_uuid)
-    f = open("{}{}_{}07.csv".format(path, e_date.strftime("%Y%m%d_%H%M"), obj.ext_code), "w", encoding='utf-8')
+    f = open("{}{}_{}{}.csv".format(path, e_date.strftime("%Y%m%d_%H%M"), obj.ext_code, obj.suffix), "w", encoding='utf-8')
     #f = open("{}{}/{}_{}07.csv".format(FILES_DIR, obj.project_uuid, e_date.strftime("%Y%m%d_%H%M"), obj.ext_code), "w", encoding='utf-8')
 
     writer = csv.writer(f)
-    writer.writerow(['_TPV', '_TPVNom', '_Rate', 'ProductUId', '_Description', 'Date', 'Tiket_UID', '_Price', '_Units', '_Discount', 'TotalPrice', '_Room', '_ClientId'])
+    writer.writerow(['_TPV', '_TPVNom', '_Rate', 'ProductUId', '_Description', 'Date', 'Tiket_UID', '_Price', '_Units', '_Discount', 'TotalPrice', '_Room', '_ClientId', 'Band', 'BandName'])
 
     fi_list = FormInstance.objects.filter(pos_uuid=obj.uuid, date__range=(s_date, e_date))
     for fi in fi_list:
@@ -73,6 +73,8 @@ def cash_daily_summary(obj, date):
                 name = obj.name
                 desc = translate2("es", item.name).replace('"', '')
                 date = fi.date.strftime("%Y%m%d%H%M")
+                #date = fi.project.local_date(fi.date)
+                #date = date.strftime("%Y%m%d%H%M")
                 units = 1
                 #Invitación
                 if fi.payment_type != None and fi.payment_type.code == "05":
@@ -88,13 +90,18 @@ def cash_daily_summary(obj, date):
                         #total_price = total_price * -1
                         units = -1
                 discount = "{:.2f}".format(discount)
-                writer.writerow([obj.ext_code, name, "", item.item.ext_id, desc, date, fi.id, item.price, units, discount, total_price, room, client_id])
+
+                details = fi.details
+                band = details.band if details != None else ""
+                band_name = details.band_name if details != None else ""
+
+                writer.writerow([obj.ext_code, name, "", item.item.ext_id, desc, date, fi.id, item.price, units, discount, total_price, room, client_id, band, band_name])
     f.close()
 
 def cash_send_daily_summary(project_uuid, obj, date):
     try:
         e_date = datetime.datetime.strptime("{} 23:59:59".format(date), "%Y-%m-%d %H:%M:%S")
-        f_name = "{}_{}07.csv".format(e_date.strftime("%Y%m%d_%H%M"), obj.ext_code)
+        f_name = "{}_{}{}.csv".format(e_date.strftime("%Y%m%d_%H%M"), obj.ext_code, obj.suffix)
         path = getPath(obj.project_uuid)
         f = open("{}{}".format(path, f_name), "rb")
         #f = open("{}{}/{}".format(FILES_DIR, obj.project_uuid, f_name), "rb")

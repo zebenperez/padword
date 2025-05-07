@@ -1,6 +1,5 @@
 {% load i18n padword_tags lock_tags static %}
 
-
 <td><input type="checkbox" name="ch_{{item.id}}" /></td>
 <td>{{ item.uuid }}</td>
 <td>{% padword_translate item.alias %}</td>
@@ -19,21 +18,28 @@
 {%endcomment%}
 <td>{%if item.box%}<i class="fas fa-check"></i>{%else%}<i class="fas fa-times"></i>{%endif%}</td>
 <td>{%if item.private%}<i class="fas fa-check"></i>{%else%}<i class="fas fa-times"></i>{%endif%}</td>
+<td>{%if item.default%}<i class="fas fa-check"></i>{%else%}<i class="fas fa-times"></i>{%endif%}</td>
 <td class="text-end">
-    <a class="me-1 btn btn-xs ark" title="{%trans "Update parameters"%}" data-url="{% url "lock-update-params" %}" data-target="row_{{item.id}}" 
-        data-obj_id="{{item.id}}"><i class="fas fa-sync"></i></a>  
-    <a class="me-1 btn btn-xs ark" title="{%trans "Get all passcodes"%}" data-url="{%url "lock-get-all-passcodes"%}" data-target-modal="common-modal" 
-        data-obj_id="{{item.id}}"><img src="{% static "/img/ico-passcodes.png" %}"/>
-    </a>  
-    <a class="me-1 btn btn-xs ark" title="{%trans "Get all cards"%}" data-url="{% url "lock-get-all-cards" %}" data-target-modal="common-modal" 
-        data-obj_id="{{item.id}}"><i class="fas fa-credit-card"></i></a>  
-    <a class="me-1 btn btn-xs ark" title="{%trans "Get all registers"%}" data-url="{% url "lock-get-all-records" %}" data-target-modal="common-modal" 
-        data-obj_id="{{item.id}}"><i class="fas fa-bars"></i></a>  
+    <div class="popup"> <span class="popuptext" id="lock-msg-{{item.id}}"></span> 
+        <a class="me-1 btn btn-xs ark" data-url="{% url "locks-open" %}" data-obj_id="{{item.id}}"
+            data-target="lock-msg-{{item.id}}" title="{% trans "Open lock" %}" data-show="lock-msg-{{item.id}}">
+            {#data-target="notification__{{item.id}}" title="{% trans "Open lock" %}">#}
+            <img src="/static/img/door-open.png" width="10%"></a>
+    </div>
+    <a class="me-1 btn btn-xs ark" title="{%trans "Update parameters"%}" data-url="{% url "lock-update-params" %}" 
+        data-target="row_{{item.id}}" data-obj_id="{{item.id}}"><i class="fas fa-sync"></i></a>  
+    <a class="me-1 btn btn-xs ark" title="{%trans "Get all passcodes"%}" data-url="{%url "lock-get-all-passcodes"%}" 
+        data-target-modal="common-modal" data-obj_id="{{item.id}}"><img src="{% static "/img/ico-passcodes.png" %}"/></a>  
+    <a class="me-1 btn btn-xs ark" title="{%trans "Get all cards"%}" data-url="{% url "lock-get-all-cards" %}" 
+        data-target-modal="common-modal" data-obj_id="{{item.id}}"><i class="fas fa-credit-card"></i></a>  
+    <a class="me-1 btn btn-xs ark" title="{%trans "Get all registers"%}" data-url="{% url "lock-get-all-records" %}" 
+        data-target-modal="common-modal" data-obj_id="{{item.id}}"><i class="fas fa-bars"></i></a>  
     <a class="me-1 btn btn-xs ark" title="{%trans "Edit lock"%}" data-url="{% url "lock-form" %}" data-target-modal="common-modal" 
         data-obj_id="{{item.id}}"><i class="fas fa-edit"></i></a>  
     <a class="btn btn-sm autoremove" title="{%trans "Remove lock"%}" data-model-name="web.lock" data-obj-id="{{item.id}}" 
-        data-url="{% url "autoremove_obj" %}" data-target="row_{{item.id}}" data-confirm="{%trans "Are you sure to remove this element?"%}">
-        <i class="fas fa-trash"></i></a>
+        data-url="{% url "autoremove_obj" %}" data-target="row_{{item.id}}" 
+        data-confirm="{%trans "Are you sure to remove this element?"%}"> <i class="fas fa-trash"></i></a>
+    {#<div id="notification__{{item.id}}"></div>#}
 </td>
 
 <script> $("#main-table").trigger("update"); </script>

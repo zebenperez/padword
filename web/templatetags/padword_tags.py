@@ -17,20 +17,6 @@ register = template.Library()
 '''
     Filters
 '''
-@register.inclusion_tag('link-css.html')
-def get_css_project(pk_proj):
-    try:
-        from padword.settings import STATIC_URL, STATIC_ROOT
-        path = f'{STATIC_ROOT}/css/menu_prj_{pk_proj}.css'
-        url = f'{STATIC_URL}css/menu_prj_{pk_proj}.css'
-        print(path)
-        if os.path.exists(path):
-            return {'url':url}
-        return {'url':None}
-    except Exception as e:
-        print (show_exc(e))
-    return {'url':None}
-
 @register.filter
 def in_group(user, group):
     try:
@@ -190,9 +176,55 @@ def get_share_text(lock, code):
 def replace(string, val):
     return string.replace("{}", val)
 
+@register.filter
+def get_obj(uuid, model):
+    try:
+        obj = eval("{}.objects.get(uuid='{}')".format(model,uuid))
+        return obj
+    except Exception as e:
+        return None
+
+@register.filter
+def addstr(arg1,arg2):
+    return(mark_safe(str(arg1)+str(arg2)))
+
+@register.filter
+def items_in_bookings(fi,item):
+    try:
+        return fi.items_in_bookings(item).count()
+    except Exception as e:
+        return (0)
+
+@register.filter
+def project_expiration(user):
+    obj = ProjectUser.objects.filter(username=user.username).first()
+    if obj != None and obj.project != None:
+        return obj.project.expiration.strftime("%d del %m del %Y")
+    else:
+        return ""
+
+@register.filter
+def get_locks_number(project):
+    return Lock.objects.filter(project_uuid=project.uuid).count()
+
+@register.filter
+def get_assigned_locks_number(project):
+    room_num = Lock.objects.filter(project_uuid=project.uuid).exclude(room="").count()
+    box_num = Lock.objects.filter(project_uuid=project.uuid, box=True, room="").count()
+    def_num = Lock.objects.filter(project_uuid=project.uuid, default=True, room="").count()
+    return room_num + box_num + def_num
+
 '''
     Simple Tags
 '''
+@register.simple_tag
+def get_logo():
+    try:
+        from padword.settings import LOGO
+        return LOGO
+    except:
+        return ""
+
 @register.simple_tag(takes_context=True)
 def current(context, url, **kwargs):
     try:
@@ -216,7 +248,6 @@ def current_exact(context, url, **kwargs):
     except:
         return ""
 
-
 @register.simple_tag(takes_context=True)
 def current_lang(context):
     try:
@@ -232,7 +263,6 @@ def idx_page (idx, page, items_per_page):
         return (int(idx) + int(page)*int(items_per_page))
     except:
         return 0
-
 
 @register.simple_tag(takes_context=True)
 def padword_translate(context, json_str):
@@ -260,6 +290,15 @@ def padword_translate(context, json_str):
                 return mark_safe(json_dict[keys[0]])
             except Exception as e:
                 return mark_safe(json_str)
+
+@register.simple_tag()
+def padword_translate_menu(json_str, lang):
+    try:
+        json_dict = json.loads(json_str)
+        return mark_safe(json_dict[lang.upper()])
+    except Exception as e:
+        print(e)
+        return json_str
 
 #@register.simple_tag(takes_context=True)
 #def padword_translate_short(context, json_str, chars):
@@ -350,32 +389,24 @@ def get_category_url(cat_uuid):
         return cat.url
     return ""
 
-'''
-    Filters
-'''
-@register.filter
-def get_obj(uuid, model):
-    try:
-        obj = eval("{}.objects.get(uuid='{}')".format(model,uuid))
-        return obj
-    except Exception as e:
-        return None
-
-@register.filter
-def addstr(arg1,arg2):
-    return(mark_safe(str(arg1)+str(arg2)))
-
-@register.filter
-def items_in_bookings(fi,item):
-    try:
-        return fi.items_in_bookings(item).count()
-    except Exception as e:
-        return (0)
-
 
 '''
     Inclusion Tags
 '''
+@register.inclusion_tag('link-css.html')
+def get_css_project(pk_proj):
+    try:
+        from padword.settings import STATIC_URL, STATIC_ROOT
+        path = f'{STATIC_ROOT}/css/menu_prj_{pk_proj}.css'
+        url = f'{STATIC_URL}css/menu_prj_{pk_proj}.css'
+        print(path)
+        if os.path.exists(path):
+            return {'url':url}
+        return {'url':None}
+    except Exception as e:
+        print (show_exc(e))
+    return {'url':None}
+
 @register.inclusion_tag('project-menu.html', takes_context=True)
 def get_project_menu(context, user, active=""):
     try:
@@ -397,7 +428,10 @@ def get_main_menu(user, path, active=""):
         if user.groups.filter(name="projects").exists():
             obj = ProjectUser.objects.filter(username=user.username).first()
             if obj != None: 
-                return {'user': user, 'menu': "projects", "project": obj.project, "project_user": obj, "path": path, "active": active}
+                lang = translation.get_language()
+                return {'user':user,'menu':"projects","project":obj.project,"project_user":obj,"path":path,"active":active,"lang":lang}
+        if user.groups.filter(name="project_admin").exists():
+            return {'user': user, 'menu': "project_admin", "active": active}
         if user.groups.filter(name="admins").exists() or user.is_superuser:
             return {'user': user, 'menu': "admins", "active": active}
     except:

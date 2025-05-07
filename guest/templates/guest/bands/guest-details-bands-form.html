@@ -2,9 +2,12 @@
 
 {%if err and err != ""%}
     <div id="div-notification" class="alert-danger">
-        {% trans "There are another user with this band:" %} <strong>{{band.guest.name}} {{band.guest.surname}} - {{band.guest.room}}</strong>
-        <button class="btn btn-sm ark" id="btn-band-remove" data-url="{% url "guest-band-remove2" %}" data-target="div-band-form" 
-            data-obj_id="{{band.id}}" data-band_lock="true" data-guest="{{obj.id}}"><i class="fas fa-trash"></i></button>
+        {% trans "There are another user with this band:" %} 
+        <strong>{{band.guest.name}} {{band.guest.surname}} - {{band.guest.room}}</strong>
+        {% if band.is_close %}
+            <button class="btn btn-sm ark" id="btn-band-remove" data-url="{% url "guest-band-remove2" %}" data-target="div-band-form" 
+                data-obj_id="{{band.id}}" data-band_lock="true" data-guest="{{obj.id}}"><i class="fas fa-trash"></i></button>
+        {% endif %}
     </div>
 {%endif%}
 
@@ -94,7 +97,7 @@
         <div class="row"> 
             <div class="col-5 p-0" style="display:flex; align-items: center;"> 
                 <input type="text" class="form-control highly border-0 text-right step-balance" id="ini-amount" name="ini_amount" value="0" 
-                    onchange="$('#btn-balance-add').data('balance', $(this).val())" />&nbsp; <span>&euro;</span>
+                    onchange="$('#btn-balance-add').data('balance', $(this).val())" />&nbsp; <span>{{obj.currency}}{#&euro;#}</span>
             </div>
             <div class="col-4"> 
                 <button class="btn btn-default ark" id="btn-balance-add" data-url="{%url "guest-band-balance-add"%}" data-target="guest-tabs" 

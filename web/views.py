@@ -8,9 +8,12 @@ from django.views.decorators.csrf import csrf_exempt
 
 from padword.commons import show_exc, get_or_none, get_param, new_ui_slug, translate, set_session, update_cron, get_int, translate2, get_random_str
 from padword.decorators import group_required
-from guest.models import Regime, ProjectRegime, GuestType, Wristband, Guest, GuestStripe, WristbandAccessPoint
+from guest.models import Regime, ProjectRegime, GuestType, Guest, GuestStripe
+from guest.wristband_models import Wristband, WristbandAccessZone, WristbandAccessZoneTimes, WristbandAccessPoint
 from sensibo.models import ProjectSensiboUser
 from connector.models import ProjectAvantioUser, ProjectAvaibookUser, ProjectWinhotelUser, ProjectStripeUser
+from connector.models import ProjectMewsUser, ProjectCarUser, ProjectCloudbedsUser
+from connector.cloudbeds_lib import set_webhooks, get_webhooks
 from contents.models import Category, PointOfSale, PointOfSaleCategory, Table
 from bookings.models import Form, FormInstance
 from .models import *
@@ -22,7 +25,7 @@ import os, re, requests, time, datetime, csv
 
 
 
-@group_required("admins", "projects", "categories", "guests")
+@group_required("admins", "projects", "categories", "guests", "project_admin")
 def index(request, chk=None):
     if request.user.groups.filter(name='guests').exists():
         return redirect('pwa-index')
@@ -39,6 +42,9 @@ def index(request, chk=None):
             return render(request, 'error_exception.html', {'exc': _('Project not found!')})
         #return redirect('bookings-by-project', request.project_id)
         return redirect_project_user(request)
+
+    if request.user.groups.filter(name='project_admin').exists():
+        return redirect('projects-admin')
 
     return redirect('projects')
 
@@ -75,6 +81,10 @@ def thanks(request):
 def csrf_failure(request, reason=""):
     return render(request, "csrf_error.html")
 
+def get_or_create_projectaux(project):
+    obj, created = ProjectAux.objects.get_or_create(project = project)
+    return obj 
+
 def get_or_create_user_lock(project_uuid):
     obj, created = ProjectLockUser.objects.get_or_create(project_uuid = project_uuid)
     return obj 
@@ -97,6 +107,18 @@ def get_or_create_user_winhotel(project_uuid):
 
 def get_or_create_user_stripe(project_uuid):
     obj, created = ProjectStripeUser.objects.get_or_create(project_uuid = project_uuid)
+    return obj 
+
+def get_or_create_user_mews(project_uuid):
+    obj, created = ProjectMewsUser.objects.get_or_create(project_uuid = project_uuid)
+    return obj 
+
+def get_or_create_user_cloudbeds(project_uuid):
+    obj, created = ProjectCloudbedsUser.objects.get_or_create(project_uuid = project_uuid)
+    return obj 
+
+def get_or_create_user_cars(project_uuid):
+    obj, created = ProjectCarUser.objects.get_or_create(project_uuid = project_uuid)
     return obj 
 
 '''
@@ -157,12 +179,16 @@ def project_form(request):
                 obj.company = company
                 obj.save()
 
+        aux = get_or_create_projectaux(obj)
         user_lock = get_or_create_user_lock(obj.uuid)
         user_sensibo = get_or_create_user_sensibo(obj.uuid)
         user_avantio = get_or_create_user_avantio(obj.uuid)
         user_avaibook = get_or_create_user_avaibook(obj.uuid)
         user_winhotel = get_or_create_user_winhotel(obj.uuid)
         user_stripe = get_or_create_user_stripe(obj.uuid)
+        user_mews = get_or_create_user_mews(obj.uuid)
+        user_cloudbeds = get_or_create_user_cloudbeds(obj.uuid)
+        user_cars = get_or_create_user_cars(obj.uuid)
 
         regime_list = Regime.objects.all()
         point_of_sale_list = PointOfSale.objects.filter(project_uuid=obj.uuid)
@@ -170,6 +196,7 @@ def project_form(request):
         form = Form.objects.filter(form_type__code="tpv", form_type__project_uuid=obj.uuid).first()
         context = {
             'obj': obj, 
+            'aux': aux, 
             'companies': Company.objects.all(), 
             'company_id': company_id, 
             'user_lock': user_lock, 
@@ -178,6 +205,9 @@ def project_form(request):
             'user_avaibook': user_avaibook, 
             'user_winhotel': user_winhotel, 
             'user_stripe': user_stripe, 
+            'user_mews': user_mews, 
+            'user_cloudbeds': user_cloudbeds, 
+            'user_cars': user_cars, 
             'project_regime_list': [item.regime for item in obj.regimes.all()],
             'regime_list': regime_list,
             'point_of_sale_list': point_of_sale_list,
@@ -193,21 +223,28 @@ def project_details(request, obj_id, current_tab=""):
     try:
         obj = get_or_none(Project, obj_id) 
 
+        aux = get_or_create_projectaux(obj)
         user_lock = get_or_create_user_lock(obj.uuid)
         user_sensibo = get_or_create_user_sensibo(obj.uuid)
         user_avantio = get_or_create_user_avantio(obj.uuid)
         user_avaibook = get_or_create_user_avaibook(obj.uuid)
         user_winhotel = get_or_create_user_winhotel(obj.uuid)
         user_stripe = get_or_create_user_stripe(obj.uuid)
+        user_mews = get_or_create_user_mews(obj.uuid)
+        user_cloudbeds = get_or_create_user_cloudbeds(obj.uuid)
+        user_cars = get_or_create_user_cars(obj.uuid)
 
         regime_list = Regime.objects.all()
         point_of_sale_list = PointOfSale.objects.filter(project_uuid=obj.uuid)
         invitation_list = Invitation.objects.filter(project_uuid=obj.uuid)
+        thirdpart_list = Thirdpart.objects.all()
         guest_type_list = GuestType.objects.filter(project_uuid=obj.uuid)
-        access_list = WristbandAccessPoint.objects.filter(project_uuid=obj.uuid)
+        access_zones = WristbandAccessZone.objects.filter(project_uuid=obj.uuid)
+        #access_list = WristbandAccessPoint.objects.filter(project_uuid=obj.uuid)
         form = Form.objects.filter(form_type__code="tpv", form_type__project_uuid=obj.uuid).first()
         context = {
             'obj': obj, 
+            'aux': aux, 
             'companies': Company.objects.all(), 
             'user_lock': user_lock, 
             'user_sensibo': user_sensibo, 
@@ -215,12 +252,16 @@ def project_details(request, obj_id, current_tab=""):
             'user_avaibook': user_avaibook, 
             'user_winhotel': user_winhotel, 
             'user_stripe': user_stripe, 
+            'user_mews': user_mews, 
+            'user_cloudbeds': user_cloudbeds, 
+            'user_cars': user_cars, 
             'project_regime_list': [item.regime for item in obj.regimes.all()],
             'regime_list': regime_list,
             'point_of_sale_list': point_of_sale_list,
             'invitation_list': invitation_list,
+            'thirdpart_list': thirdpart_list,
             'guest_type_list': guest_type_list,
-            'access_list': access_list,
+            'access_zones': access_zones,
             'current_tab': current_tab,
             'form': form
         }
@@ -506,6 +547,77 @@ def project_set_lock_schedule(request):
         print (show_exc(e))
         return HttpResponse("Error!")
 
+@group_required("admins")
+def project_set_mews_schedule(request):
+    try:
+        pau = get_or_none(ProjectMewsUser, request.GET["obj_id"])
+        val = get_param(request.GET, "value")
+        field = get_param(request.GET, "field")
+        if pau != None:
+            if field == "hour":
+                pau.hour = val
+            elif field == "minute":
+                pau.minute = val
+            pau.save()
+
+            function = ""
+            if field == "hour" or field == "minute": 
+                function = "mews_booking_schedule"
+                hour = "\*\|{}".format(pau.hour)
+                minute = "0"
+            if function != "":
+                update_cron(hour, minute, function, pau.project_uuid)
+
+        return HttpResponse("Saved!")
+    except Exception as e:
+        print (show_exc(e))
+        return HttpResponse("Error!")
+
+@group_required("admins")
+def project_set_cloudbeds_schedule(request):
+    try:
+        pau = get_or_none(ProjectCloudbedsUser, request.GET["obj_id"])
+        val = get_param(request.GET, "value")
+        field = get_param(request.GET, "field")
+        if pau != None:
+            if field == "hour":
+                pau.hour = val
+            elif field == "minute":
+                pau.minute = val
+            pau.save()
+
+            function = ""
+            if field == "hour" or field == "minute": 
+                function = "cloudbeds_booking_schedule"
+                hour = "\*\|{}".format(pau.hour)
+                minute = "0"
+            if function != "":
+                update_cron(hour, minute, function, pau.project_uuid)
+
+        return HttpResponse("Saved!")
+    except Exception as e:
+        print (show_exc(e))
+        return HttpResponse("Error!")
+
+@group_required("admins")
+def project_get_cloudbeds_webhooks(request):
+    try:
+        pcu = get_or_none(ProjectCloudbedsUser, request.GET["obj_id"])
+        webhooks = get_webhooks(pcu)
+        return render(request, "web/projects/cloudbeds-info.html", {"webhooks": webhooks,})
+    except Exception as e:
+        print (show_exc(e))
+        return HttpResponse("Error!")
+
+@group_required("admins")
+def project_set_cloudbeds_webhooks(request):
+    try:
+        pcu = get_or_none(ProjectCloudbedsUser, request.GET["obj_id"])
+        set_webhooks(pcu)
+        return HttpResponse("Saved!")
+    except Exception as e:
+        print (show_exc(e))
+        return HttpResponse("Error!")
 
 @group_required("admins")
 def project_add_logo(request):
@@ -574,11 +686,51 @@ def project_guest_types_remove(request):
     return render(request, "web/projects/project-form-guest-types-list.html", {'guest_type_list':guest_type_list,})
 
 @group_required("admins")
-def project_access_points_add(request):
+def project_access_zone_add(request):
     try:
         project = get_or_none(Project, request.GET["obj_id"])
-        WristbandAccessPoint.objects.create(project_uuid=project.uuid, uuid=new_ui_slug(WristbandAccessPoint))
-        access_list = WristbandAccessPoint.objects.filter(project_uuid=project.uuid)
+        WristbandAccessZone.objects.create(project_uuid=project.uuid, uuid=new_ui_slug(WristbandAccessZone))
+        access_zones = WristbandAccessZone.objects.filter(project_uuid=project.uuid)
+    except Exception as e:
+        print (show_exc(e))
+    return render(request, "web/projects/project-form-access-zones-list.html", {'obj': project, 'access_zones':access_zones,})
+
+@group_required("admins")
+def project_access_zone_remove(request):
+    try:
+        zone = get_or_none(WristbandAccessZone, request.GET["obj_id"])
+        #project = get_or_none(Project, zone.project_uuid, "uuid")
+        project_uuid = zone.project_uuid
+        for point in zone.accesspoints.all():
+            point.delete()
+        for times in zone.timetable.all():
+            times.delete()
+        zone.delete()
+        access_zones = WristbandAccessZone.objects.filter(project_uuid=project_uuid)
+    except Exception as e:
+        print (show_exc(e))
+    return render(request, "web/projects/project-form-access-zones-list.html", {'access_zones':access_zones,})
+
+@group_required("admins")
+def project_access_zone_close(request):
+    try:
+        zone = get_or_none(WristbandAccessZone, request.GET["obj_id"])
+        close = get_param(request.GET, "close")
+        project_uuid = zone.project_uuid
+        for point in zone.accesspoints.all():
+            point.close = True if close == "True" else False
+            point.save()
+        access_zones = WristbandAccessZone.objects.filter(project_uuid=project_uuid)
+    except Exception as e:
+        print (show_exc(e))
+    return render(request, "web/projects/project-form-access-zones-list.html", {'access_zones':access_zones,})
+
+@group_required("admins")
+def project_access_points_add(request):
+    try:
+        zone = get_or_none(WristbandAccessZone, request.GET["obj_id"])
+        WristbandAccessPoint.objects.create(zone=zone, uuid=new_ui_slug(WristbandAccessPoint))
+        access_list = zone.accesspoints.all()
     except Exception as e:
         print (show_exc(e))
     return render(request, "web/projects/project-form-access-points-list.html", {'access_list':access_list,})
@@ -587,12 +739,68 @@ def project_access_points_add(request):
 def project_access_points_remove(request):
     try:
         access = get_or_none(WristbandAccessPoint, request.GET["obj_id"])
-        project = get_or_none(Project, access.project_uuid, "uuid")
+        zone = access.zone
         access.delete()
-        access_list = WristbandAccessPoint.objects.filter(project_uuid=project.uuid)
+        access_list = zone.accesspoints.all()
     except Exception as e:
         print (show_exc(e))
     return render(request, "web/projects/project-form-access-points-list.html", {'access_list':access_list,})
+
+@group_required("admins")
+def project_access_zone_times_add(request):
+    try:
+        zone = get_or_none(WristbandAccessZone, request.GET["obj_id"])
+        WristbandAccessZoneTimes.objects.create(zone=zone)
+        access_times = zone.timetable.all()
+    except Exception as e:
+        print (show_exc(e))
+    return render(request, "web/projects/project-form-access-zone-times-list.html", {'access_times':access_times,})
+
+@group_required("admins")
+def project_access_zone_times_remove(request):
+    try:
+        access = get_or_none(WristbandAccessZoneTimes, request.GET["obj_id"])
+        zone = access.zone
+        access.delete()
+        access_times = zone.timetable.all()
+    except Exception as e:
+        print (show_exc(e))
+    return render(request, "web/projects/project-form-access-zone-times-list.html", {'access_times':access_times,})
+
+@group_required("admins")
+def project_thirdpart_add(request):
+    try:
+        project = get_or_none(Project, request.GET["obj_id"])
+        pt = ProjectThirdpart.objects.create(project=project)
+        item_list = Thirdpart.objects.all()
+    except Exception as e:
+        print (show_exc(e))
+    return render(request, "web/projects/project-form-thirdpart-list.html", {'obj':pt.project, 'thirdpart_list':item_list,})
+
+@group_required("admins")
+def project_thirdpart_remove(request):
+    try:
+        obj = get_or_none(ProjectThirdpart, request.GET["obj_id"])
+        project = obj.project
+        obj.delete()
+        item_list = Thirdpart.objects.all()
+    except Exception as e:
+        print (show_exc(e))
+    return render(request, "web/projects/project-form-thirdpart-list.html", {'obj':project, 'thirdpart_list':item_list,})
+
+@group_required("admins")
+def project_thirdpart_toggle(request):
+    try:
+        project = get_or_none(Project, request.GET["project_id"])
+        third = get_or_none(Thirdpart, request.GET["obj_id"])
+        th_list = ProjectThirdpart.objects.filter(thirdpart=third, project=project)
+        if len(th_list) > 0:
+            th_list.delete()
+        else:
+            ProjectThirdpart.objects.create(thirdpart=third, project=project)
+    except Exception as e:
+        print (show_exc(e))
+    return HttpResponse("")
 
 
 '''
@@ -957,6 +1165,16 @@ def show_module(request):
         print(e)
         return render(request, 'error_exception.html', {'exc': show_exc(e)})
 
+'''
+    Utils
+'''
+@group_required("admins", "projects")
+def show_utils(request):
+    try:
+        return render (request, "web/show-utils.html", {})
+    except Exception as e:
+        print(e)
+        return render(request, 'error_exception.html', {'exc': show_exc(e)})
 
 '''
     Logs

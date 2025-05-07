@@ -29,7 +29,7 @@
         {% for item in band_list %}
             <tr id="tr-{{item.card_id}}">
                 <td> {{item.guest.room}} </td>
-                <td> <a href="{%url "guest-details" item.guest.id%}"> {{item.guest.name}} {{item.guest.surname}} <a> </td> 
+                <td> <a href="{%url "guest-details-by-project" item.guest.id%}"> {{item.guest.name}} {{item.guest.surname}} <a> </td> 
                 <td> {{item.guest.check_in}} </td> 
                 <td> {{item.guest.check_out}} </td> 
                 <td> {{item.name}} </td>

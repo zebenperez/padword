@@ -14,13 +14,15 @@ from padword.email_lib import send_email
 from padword.decorators import group_required
 from contents.models import ItemInCat
 from web.models import Project
-from .models import ProjectAvantioUser, ProjectAvaibookUser, ProjectWinhotelUser
+from .models import ProjectAvantioUser, ProjectAvaibookUser, ProjectWinhotelUser, ProjectMewsUser, ProjectCloudbedsUser
 from .avantio_lib import get_booking_list, get_booking_notif, send_link
 from .avaibook_lib import get_accommodation_list, manage_booking_from_webhook, get_booking_list as av_get_booking_list, WEBHOOK_TOKEN
 from .winhotel_lib import get_booking_list as wh_get_booking_list, import_item_prices as wh_import_item_prices
 from .winhotel_lib import get_booking_new_list as wh_get_booking_new_list, get_booking_day_list as wh_get_booking_day_list
 from .winhotel_lib import get_booking_range_list as wh_get_booking_range_list
-
+from .mews_lib import get_booking_list as mw_get_booking_list, cancel_booking_list as mw_cancel_booking_list
+from .cloudbeds_lib import get_booking_list as cb_get_booking_list, get_room_list as cb_get_room_list
+from .cloudbeds_lib import set_webhooks as cb_set_webhooks, manage_webhook_actions as cb_manage_webhook_actions
 
 import json, os, csv, re
 
@@ -227,6 +229,110 @@ def winhotel_log(request):
 #            else:
 #                not_updated.append(dic_line)
 #    return render(request, 'winhotel/items-import.html', {'project_uuid': project_uuid, 'updated': updated, 'not_updated': not_updated})
+
+'''
+    Mews
+'''
+@group_required("admins", "projects")
+def mews_get_booking_list(request, project_uuid):
+    try:
+        pmu = get_or_none(ProjectMewsUser, project_uuid, "project_uuid")
+        booking_list = mw_get_booking_list(pmu)
+        return render(request, 'mews/booking-list.html', {'booking_list': booking_list})
+    except Exception as e:
+        print(e)
+        return render(request, 'error_exception.html', {'exc':show_exc(e)})
+
+@group_required("admins", "projects")
+def mews_cancel_booking_list(request, project_uuid):
+    try:
+        pmu = get_or_none(ProjectMewsUser, project_uuid, "project_uuid")
+        booking_list = mw_cancel_booking_list(pmu)
+        return render(request, 'mews/booking-list.html', {'booking_list': booking_list})
+    except Exception as e:
+        print(e)
+        return render(request, 'error_exception.html', {'exc':show_exc(e)})
+
+'''
+    Cloudbeds
+'''
+@group_required("admins", "projects")
+def cloudbeds_get_booking_list(request, project_uuid):
+    try:
+        pmu = get_or_none(ProjectCloudbedsUser, project_uuid, "project_uuid")
+        booking_list = cb_get_booking_list(pmu)
+        return render(request, 'cloudbeds/booking-list.html', {'booking_list': booking_list})
+    except Exception as e:
+        print(e)
+        return render(request, 'error_exception.html', {'exc':show_exc(e)})
+
+@group_required("admins", "projects")
+def cloudbeds_get_room_list(request, project_uuid):
+    try:
+        pau = get_or_none(ProjectCloudbedsUser, project_uuid, "project_uuid")
+        item_list = cb_get_room_list(pau)
+        return render(request, 'cloudbeds/room-list.html', {'item_list': item_list})
+    except Exception as e:
+        print(e)
+        return render(request, 'error_exception.html', {'exc':show_exc(e)})
+
+@group_required("admins", "projects")
+def cloudbeds_set_webhooks(request):
+    try:
+        pcu = get_or_none(ProjectCloudbedsUser, project_uuid, "project_uuid")
+        if pcu.property_id == "":
+            return HttpResponse("Property ID can not be empty!")
+        cb_set_webhooks(pcu)
+        return HttpResponse("Sended!")
+    except Exception as e:
+        print(e)
+        return render(request, 'error_exception.html', {'exc':show_exc(e)})
+
+@csrf_exempt
+@require_POST
+def cloudbeds_webhook(request):
+    f = open(os.path.join(settings.BASE_DIR, "cloudbeds.log"), "a", encoding='utf-8')
+    f.write("\n---------------------------------------")
+    f.write("\n{} - Evento de cloudbeds".format(datetime.now().strftime("%Y-%m-%d %H:%M:%S")))
+    #f.write("\n{}".format(request.headers))
+    f.write("\n{}".format(request.body))
+
+    try:
+        booking = json.loads(request.body)
+        pcu = None
+        if "propertyId_str" in booking:
+            pcu = get_or_none(ProjectCloudbedsUser, booking["propertyId_str"], "property_id")
+        elif "propertyID_str" in booking:
+            pcu = get_or_none(ProjectCloudbedsUser, booking["propertyID_str"], "property_id")
+        if pcu == None:
+            f.write("\nError: Propiedad {} no encontrada".format(booking["propertyId_str"]))
+
+        msg = cb_manage_webhook_actions(pcu, booking)
+        f.write(msg)
+    except Exception as e:
+        f.write("\nError: {}".format(e))
+
+    return HttpResponse("OK", content_type="text/plain")
+
+
+'''
+    ACCESS CONTROL
+'''
+def access_control(request, project, card):
+    f = open(os.path.join(settings.BASE_DIR, "access_control.log"), "a", encoding='utf-8')
+    f.write("\n---------------------------------------")
+    f.write("\n{} - Recibida lectura de tarjeta".format(datetime.now().strftime("%Y-%m-%d %H:%M:%S")))
+
+    try:
+        pr = get_or_none(Project, project, "uuid")
+        if pr == None:
+            f.write("\nError: {}".format(e))
+        else:
+            f.write("\nProject: {} - Card: {}".format(pr.name, card))
+    except Exception as e:
+        f.write("\nError: {}".format(e))
+    return HttpResponse("")
+
 
 '''
     Cron Logs

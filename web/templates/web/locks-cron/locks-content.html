@@ -1,7 +1,7 @@
 {% load i18n padword_tags %}
 
 
-<h4>{{project.name}}</h4>
+<h4 class="p-2">{{project.name}}</h4>
 
 <div class="content mt-3">
     <div class="toolbar-content"> <h2 class="b-right">{% trans 'Tasks' %} (<span id="items-counter">{{tasks|length}}</span>)</h2> </div>
@@ -9,7 +9,7 @@
 </div>
 
 <hr/>
-<div class="row mt-3">
+<div class="row mt-3 m-0">
     <div class="col-lg-3 col-12 ">{% include "web/locks-cron/lock-search.html" %}</div>
     <div class="col-lg-3 col-12 ">{% include "web/locks-cron/lock-add-task.html" %}</div>
     {%comment%}

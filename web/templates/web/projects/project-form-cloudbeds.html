@@ -1,0 +1,97 @@
+{% load i18n padword_tags %}
+
+
+<div class="card mt-2">
+    <div class="card-header toggle-btn bg-success cloudbeds-cron-head" data-target="body-cloudbeds" 
+        data-id-change="icon-extra-cloudbeds" data-text='<i class="fas fa-plus"></i>' data-text-alt='<i class="fas fa-minus"></i>'>
+        <div class="row w-100">
+            <div class="col-6 text-right" id="icon-extra-cloudbeds"><i class="fas fa-plus"></i></div>
+            <div class="col-6 text-left"><strong>{% trans "Cloudbeds" %}</strong></div>
+        </div>
+    </div>
+    <div class="card-body hide" id="body-cloudbeds"> 
+        <div id="cloudbeds-notif"></div>
+        <div class="row">
+            <div class="col-3">
+                <div class="form-check form-switch">
+                    <button class="btn btn-info ark" data-url="{% url "project-set-cloudbeds-webhooks" %}" 
+                        data-target="div-cloudbeds-webhooks" data-obj_id="{{user_cloudbeds.id}}">{% trans "Enviar webhooks" %}</button>
+                </div>
+                <div id="div-cloudbeds-webhooks"></div>
+            </div>
+            <div class="col-3">
+                <div class="form-check form-switch">
+                    <button class="btn btn-info ark" data-url="{% url "project-get-cloudbeds-webhooks" %}" 
+                        data-target-modal="common-modal" data-obj_id="{{user_cloudbeds.id}}">{% trans "Ver webhooks" %}</button>
+                </div>
+            </div>
+            <div class="col-3 offset-3">
+                <div class="form-check form-switch">
+                    <input class="form-check-input toggleCron" type="checkbox" id="activeCronCloudbeds" 
+                        data-class-name="cloudbeds-cron" data-fields="cloudbeds-hour" {%if user_cloudbeds.hour > 0%}checked{%endif%}>
+                    <label class="form-check-label" for="activeCronCloudbeds">Activar planificador</label>
+                </div>
+            </div>
+        </div>
+        <div class="row mt-4">
+            <div class="col-6">
+                <label class="label">{% trans "Token" %}:</label>
+                <input type="text" class="form-control autosave input" id="token" name="token" value="{{user_cloudbeds.token}}" 
+                    data-model-name="connector.projectcloudbedsuser" data-obj-id="{{user_cloudbeds.id}}"
+                    data-url="{% url "autosave_field" %}" data-target="cloudbeds-notif"/> <span id="token__msg"></span>	
+            </div>
+            <div class="col-6">
+                <label class="label">{% trans "Property ID" %}:</label>
+                <input type="text" class="form-control autosave input" id="property_id" name="property_id" 
+                    value="{{user_cloudbeds.property_id}}" data-model-name="connector.projectcloudbedsuser" 
+                    data-obj-id="{{user_cloudbeds.id}}" data-url="{% url "autosave_field" %}" data-target="cloudbeds-notif"/> 
+                <span id="property_id__msg"></span>	
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-8">
+                <label class="label">{% trans "Días para crear las reservas" %}
+                    <br/>{% trans "(se crean aquellas que empiezan entre hoy y el número de días indicado)" %}:</label>
+                <input type="text" class="form-control autosave input wh-cron" id="days" name="days" 
+                    value="{{user_cloudbeds.days}}" title="{{user_cloudbeds.days}}" data-model-name="connector.projectcloudbedsuser" 
+                    data-obj-id="{{user_cloudbeds.id}}" data-url="{% url "autosave_field" %}" data-target="div-notification"/> 
+                <span id="days__msg"></span>	
+            </div>
+            <div class="col-4">
+                <label class="label">{% trans "Cada cuantas hora se realiza la importación" %}
+                    <br/>{% trans "(P.E.: si el valor es '1' se importaría cada hora)" %}:</label>
+                <input type="text" class="form-control input ark_change cloudbeds-cron cloudbeds-hour" id="hour" name="hour" 
+                    value="{{user_cloudbeds.hour}}" title="{{user_cloudbeds.hour}}" data-url="{%url "project-set-cloudbeds-schedule"%}"
+                    data-target="cloudbeds-notif" data-obj_id="{{user_cloudbeds.id}}" data-field="hour"/> <span id="hour__msg"></span>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-4">
+                <label class="label">{% trans "Hora por defecto del Checkin" %}:</label>
+                <input type="time" class="form-control autosave input cloudbeds-cron" id="ini_time" name="ini_time" 
+                    value="{{user_cloudbeds.ini_time|date:"H:i"}}" title="{{user_cloudbeds.ini_time}}" 
+                    data-model-name="connector.projectcloudbedsuser" data-obj-id="{{user_cloudbeds.id}}" 
+                    data-url="{% url "autosave_field" %}" data-target="div-notification"/> <span id="ini_time__msg"></span>	
+            </div>
+            <div class="col-4">
+                <label class="label">{% trans "Hora por defecto dle Checkout" %}:</label>
+                <input type="time" class="form-control autosave input wh-cron" id="end_time" name="end_time" 
+                    value="{{user_cloudbeds.end_time|date:"H:i"}}" title="{{user_cloudbeds.end_time}}" 
+                    data-model-name="connector.projectcloudbedsuser" data-obj-id="{{user_cloudbeds.id}}" 
+                    data-url="{% url "autosave_field" %}" data-target="div-notification"/> <span id="end_time__msg"></span>	
+            </div>
+            <div class="col-4">
+                <label class="label">
+                    {% trans "Si está activo el código asignado a las cerraduras serán los últimos 4 dígitos del teléfono indicado en la reserva" %}:
+                </label>
+                <input type="checkbox" class="form-control- autosave input cloudbeds-cron" id="code_mobile" name="code_mobile" 
+                    value="{{user_cloudbeds.code_mobile}}" title="{{user_cloudbeds.code_mobile}}" 
+                    data-model-name="connector.projectcloudbedsuser" data-obj-id="{{user_cloudbeds.id}}" 
+                    data-url="{% url "autosave_field" %}" data-target="div-notification" data-bool="True"
+                    {%if user_cloudbeds.code_mobile%}checked{%endif%}/> <span id="code_mobile__msg"></span>	
+            </div>
+        </div>		
+    </div>		
+</div>		
+<script> checkCronEnable("{{user_cloudbeds.hour}}", "cloudbeds-cron"); </script>
+

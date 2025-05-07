@@ -1,0 +1,9 @@
+{% load i18n padword_tags %}
+
+
+<div class="w-100 text-end">
+    <button class="btn btn-primary ark mb-2" data-url="{% url "project-access-zone-times-add" %}" data-target="div-access-times-{{zone.id}}" 
+        data-obj_id="{{zone.id}}"> {% trans "Add Times" %}</button>
+</div>		
+<div id="div-access-times-{{zone.id}}">{% include "web/projects/project-form-access-zone-times-list.html" %}</div>
+

@@ -1,0 +1,27 @@
+{% load i18n %}
+
+<div class="">
+    <div class="card-header mb-1"> {% trans "Car assigned" %} </div>
+    <div class="card-body p-0">
+        <div id="div-notification" {%if msg and msg != ""%}class="alert-danger"{%endif%}>{{msg}}</div>
+        <div class="text-right">
+            <button class="btn btn-primary btn-sm ark" data-url="{%url "guest-car-add"%}" data-target="div-car-form" 
+                data-obj_id="{{obj.id}}" data-show="div-car-form"> <i class="fas fa-plus"></i> {% trans "Añadir Matrícula" %}</button>
+        </div>
+        <div id="div-car-form" class="hide"></div>
+        <div id="div-car-list">
+            {% for item in obj.cars.all %} 
+                <div class="row m-2 p-2 w-100 band-div">
+                    <div class="col-2 head-band"><strong>{% trans "Matrícula" %}:</strong> <br />{{item.number}} </div>
+                    <div class="col-1 head-band text-end p-0">
+                        <button class="btn btn-sm ark" id="btn-band-remove" data-url="{% url "guest-band-remove" %}" 
+                            data-target="div-band-list" data-obj_id="{{item.id}}" data-band_lock="true"> 
+                            <i class="fas fa-trash"></i></button>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+

@@ -1,0 +1,35 @@
+{% load i18n padword_tags %}
+
+
+<div class="row">
+    <div class="col-10"><h2 class="common-modal-head">{% trans 'Accesos' %}</h2></div>
+    <div class="col-2"><a href="{% url "wristbands-access-export-csv" %}" target="_blank">{% trans "Export CSV" %}</a></div>
+</div>
+<table class="table table-hover table-striped">
+    <thead>
+        <tr> 
+            <th>{%trans 'Date'%}</th> 
+            <th>{%trans 'Band'%}</th> 
+            <th>{%trans 'User'%}</th> 
+            <th>{%trans 'Zone'%}</th> 
+            <th>{%trans 'Inside'%}</th> 
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for item in item_list %}
+            <tr id="tr-{{item.id}}">
+                <td> {{item.date}} </td>
+                <td> {{item.wristband.name}} ({{item.wristband.code}}) </td>
+                <td> {{item.wristband.guest.name}} {{item.wristband.guest.surname}}</td>
+                <td> {{item.access_point.zone.name}} </td>
+                <td class="{% if item.inside %}text-success{% else %}text-danger{% endif %}"> 
+                    {% if item.inside %} {% trans "Entrada" %} {% else %} {% trans "Salida" %} {% endif %} </td> 
+                <td> </td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<script> $('#current-card').html("{{band_code}}"); </script>
+

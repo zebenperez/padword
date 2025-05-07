@@ -15,10 +15,12 @@
                     </div>
                     <div class="card-body">
                         <div class="row">
-                            <div class="col-9 text-left"><h5 class="card-title text-dark"><strong>{%padword_translate item.name%}</strong></h5></div>
-                            <div class="col-3"> <h5 class="card-title text-dark text-right"><strong>{{ item.price}} &euro;</strong> </h5></div>
+                            <div class="col-9 text-left"><h5 class="card-title text-dark">
+                                <strong>{%padword_translate item.name%}</strong></h5></div>
+                            <div class="col-3"> <h5 class="card-title text-dark text-right">
+                                <strong>{{item.price}} {{item.currency}}{#&euro;#}</strong> </h5></div>
                             <div class="col-12 text-left"> <h5 class="card-title text-dark">
-                                <small>{% padword_translate item.description as desc %}{{desc|truncatechars_html:100}}</small></h5></div>
+                                <small>{%padword_translate item.description as desc%}{{desc|truncatechars_html:100}}</small></h5></div>
                             <div class="div-ch-extras text-left">
                                 {% for extra in item.extra_list.all %}
                                     <input type="hidden" id="extra-{{extra.id}}" class="ark" data-url="{% url "select-item" %}" 
@@ -63,7 +65,7 @@
     {%endcomment%}
     <script> 
         $("input[id^='ch-extra-{{selected_item.id}}']").prop("disabled", false);
-        $("#item-selected-text").html("{% padword_translate selected_item.name %} - {{selected_item.price}} &euro;");
+        $("#item-selected-text").html("{% padword_translate selected_item.name %} - {{selected_item.price}} {{guest.currency}}");
         var element = document.getElementById("item-selected"); 
         $(element).show();
         {% if selected_item.extra_list.all|length == 0 %}

@@ -11,7 +11,8 @@
     <li class="nav-item"> <a class="nav-link" data-bs-toggle="tab" href="#pos">{% trans "Point of sales" %}</a></li>
     <li class="nav-item"> <a class="nav-link" data-bs-toggle="tab" href="#inv">{% trans "Invitations Accounts" %}</a></li>
     <li class="nav-item"> <a class="nav-link" data-bs-toggle="tab" href="#gtype">{% trans "Guest Types" %}</a></li>
-    <li class="nav-item"> <a class="nav-link" data-bs-toggle="tab" href="#access">{% trans "Access Points" %}</a></li>
+    <li class="nav-item"> <a class="nav-link" data-bs-toggle="tab" href="#access">{% trans "Access Zones" %}</a></li>
+    {#<li class="nav-item"> <a class="nav-link" data-bs-toggle="tab" href="#thirdpart">{% trans "Thirdpart" %}</a></li>#}
 </ul>
 <div class="tab-content internal m-2 p-2">
     {# -------------------------- REGIME ------------------------#}
@@ -32,6 +33,9 @@
         {% include "web/projects/project-form-avaibook.html" %}
         {% include "web/projects/project-form-winhotel.html" %}
         {% include "web/projects/project-form-stripe.html" %}
+        {% include "web/projects/project-form-mews.html" %}
+        {% include "web/projects/project-form-cloudbeds.html" %}
+        {% include "web/projects/project-form-cars.html" %}
     </div> </div> 
 
     {# -------------------------- POINT OF SALES ------------------------#}
@@ -46,8 +50,15 @@
     <div class="tab-pane container {%if current_tab == "gtype"%}active{%endif%}" id="gtype"> <div id="div-gtype">
         {% include "web/projects/project-form-guest-types.html" %}</div> </div> 
 
-    {# -------------------------- ACCESS POINTS ------------------------#}
+    {# -------------------------- ACCESS ZONES ------------------------#}
     <div class="tab-pane container {%if current_tab == "access"%}active{%endif%}" id="access"> <div id="div-access">
-        {% include "web/projects/project-form-access-points.html" %}</div> </div> 
+        {% include "web/projects/project-form-access-zones.html" %}</div> </div> 
+
+    {%comment%}
+    {# -------------------------- THIRDPART ------------------------#}
+    <div class="tab-pane container {%if current_tab == "inv"%}active{%endif%}" id="thirdpart"> <div id="div-thirdpart">
+        {% include "web/projects/project-form-thirdpart.html" %}</div> </div> 
+    {%endcomment%}
+
 </div>
 

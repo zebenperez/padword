@@ -19,10 +19,12 @@
         <div class="col-4"> <input type="text" class="form-control" id="code" name="code" /> </div>
         <div class="col-3"> <input type="text" class="form-control" id="name" name="name" /> </div>
         <div class="col-5" style="display: grid;grid-template-columns: 33% 33% 33%;align-items: center;">
-            <div><input type="checkbox" class="check_per toggle-tags" data-id="permanent" id="perm" value="" data-class-name="check_per"/>
-                <small>{%trans "Permanent"%}</small></div>
-            <div><input type="date" class="form-control check_per" data-id="ini_date" value="{{ini_date|date:"Y-m-d"}}"/>  </div>
-            <div> <input type="date" class="form-control check_per" data-id="end_date" value="{{end_date|date:"Y-m-d"}}"/>  </div>
+            <div><input type="checkbox" class="check_per toggle-tags" name="permanent" id="permanent" data-class-name="check_per"/> 
+                <small>{%trans "Permanent"%}..</small></div>
+            <div><input type="date" class="form-control check_per" id="ini_date" name="ini_date" value="{{ini_date|date:"Y-m-d"}}"/>
+                </div>
+            <div><input type="date" class="form-control check_per" id="end_date" name="end_date" value="{{end_date|date:"Y-m-d"}}"/>
+                </div>
         </div>
     </div>
 

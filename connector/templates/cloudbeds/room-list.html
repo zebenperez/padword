@@ -1,0 +1,45 @@
+{% load i18n %}
+
+<div class="row w-100 common-modal-head m-0 p-0">
+    <div class="col-11"><h2>{% trans 'Avaibook booking list' %}</h2></div>
+    <div class="col-1"><button type="button" class="btn btn-sm ark" data-bs-dismiss="modal" data-url="{% url "guest-search-by-project" %}" 
+        data-target="guest-list"><i class="fas fa-times"></i></button> </div>
+</div>
+
+{% if error and error != "" %} <div class="alert alert-danger">{{error|safe}}</div> {% endif %}
+
+<div class="row m-0">
+    <div class="content">
+        <div id="item-list">
+            {% for item in item_list %} 
+                <div class="row">
+                    <div class="col-2">{% trans 'Id' %}</div>
+                    <div class="col-2">{{item.id}}</div>
+                    <div class="col-2">{% trans 'Name' %}</div>
+                    <div class="col-2">{{item.name}}</div>
+                    <div class="col-2">{% trans 'Max Guests' %}</div>
+                    <div class="col-2">{{item.max_guests}}</div>
+
+                    <div class="col-2">{% trans 'Description' %}</div>
+                    <div class="col-10">{{item.description}}</div>
+
+                    <div class="col-2">{% trans 'Is private' %}</div>
+                    <div class="col-2">{{item.is_private}}</div>
+                    <div class="col-2">{% trans 'Is virtual' %}</div>
+                    <div class="col-2">{{item.is_virtual}}</div>
+                    <div class="col-2">{% trans 'Blocked' %}</div>
+                    <div class="col-2">{{item.room_blocked}}</div>
+
+                    <div class="col-2">{% trans 'Type id' %}</div>
+                    <div class="col-2">{{item.type_id}}</div>
+                    <div class="col-2">{% trans 'Type Name' %}</div>
+                    <div class="col-2">{{item.type_name}}</div>
+                    <div class="col-2">{% trans 'Type Name Short' %}</div>
+                    <div class="col-2">{{item.type_name_short}}</div>
+                </div>
+                <hr/>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+

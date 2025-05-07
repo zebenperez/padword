@@ -535,6 +535,14 @@ def locks_update_info(request, code):
         t.start()
     return HttpResponse("--OK--")
 
+@group_required("admins", "projects")
+def locks_open(request):
+    lock = get_or_none(Lock, request.GET["obj_id"])
+    msg = lock.open_lock()
+    msg = msg if msg != True else ""
+    return render (request, "web/locks/lock-open.html", {"msg": msg, "lock": lock.id})
+    #return HttpResponse(msg)
+
 #@group_required("admins")
 #def lock_get_cards(request):
 #    obj = get_or_none(Lock, request.GET["obj_id"]) if "obj_id" in request.GET else None

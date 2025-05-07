@@ -1,4 +1,4 @@
-{% load i18n padword_tags %}
+{% load i18n padword_tags guest_tags %}
 
 <td> {{ item.room|default_if_none:'000' }} ({{item.room_obj.alias}})</td>
 <td> <span class="badge rounded-pill bg-success"> {{ item.check_in|date:'Y-m-d H:i'}}</td>
@@ -23,10 +23,13 @@
             data-target-modal="common-modal"><i class="fas fa-credit-card"></i></a>
     {% endif %}
 
-    <a class="btn btn-sm" href="{% url "guest-details-by-project" item.id %}" title="{% trans "Details" %}"> <i class="fas fa-user"></i></a>  
+    <a class="btn btn-sm" href="{% url "guest-details-by-project" item.id %}" title="{% trans "Details" %}"> 
+        <i class="fas fa-user"></i></a>  
 
-    <a class="btn btn-sm" href="{% url "guest-soft-remove-by-project" item.id %}" title="{% trans "Remove" %}"
-        onclick="return confirm('{% trans "Are you sure to remove this element?" %}')"> <i class="fas fa-trash"></i></a>  
+    {% if not item|have_open_band %}
+        <a class="btn btn-sm" href="{% url "guest-soft-remove-by-project" item.id %}" title="{% trans "Remove" %}"
+            onclick="return confirm('{% trans "Are you sure to remove this element?" %}')"> <i class="fas fa-trash"></i></a>  
+    {% endif %}
 
     <a class="btn btn-sm ark" title="{%trans "Share code"%}" data-url="{% url "lock-share-code-guest" %}" data-obj_id="{{item.id}}" 
         data-target-modal="share-modal"><i class="fas fa-share-alt"></i></a>

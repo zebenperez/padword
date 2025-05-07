@@ -8,15 +8,17 @@ from padword.decorators import group_required
 from padword.commons import show_exc, get_or_none, get_param, get_float, reverse_cardkey
 from web.models import Project, Waiter
 from contents.models import Category, ShoppingCart, Item, PaymentType, PointOfSale, Table
-from guest.models import Guest, Wristband, WristbandBalance
+from guest.models import Guest
+from guest.wristband_models import Wristband, WristbandBalance
 #from web.lock_lib import ShLock
 from connector.winhotel_lib import send_charge, write_log as wh_write_log
 from connector.models import ProjectWinhotelUser
 
-from .common_lib import get_or_create_form_instance_tpv, get_or_create_form_instance_info_tpv, get_or_create_form_instance_info_client_tpv
-from .common_lib import user_in_group
+from .common_lib import get_or_create_form_instance_tpv, get_or_create_form_instance_info_tpv
+from .common_lib import user_in_group, get_or_create_form_instance_info_client_tpv
 from .tpv_lib import get_cash_zeta, update_cash, get_number_x
-from .tpv_winhotel_lib import get_food_total, get_drinks_total, get_breakfast_total, cash_daily_summary, cash_send_daily_summary, cash_send_charges 
+from .tpv_winhotel_lib import get_food_total, get_drinks_total, get_breakfast_total, cash_daily_summary
+from .tpv_winhotel_lib import cash_send_daily_summary, cash_send_charges 
 from .models import Form, FormInstance, Status, Cash
 from django.conf import settings
 
@@ -93,7 +95,7 @@ def tpv_index(request, project_uuid):
 
         if "point_of_sale" not in request.session or request.session["point_of_sale"] == "":
             project = get_or_none(Project, project_uuid, "uuid")
-            point_of_sales = PointOfSale.objects.filter(project_uuid=project.uuid)
+            point_of_sales = PointOfSale.objects.filter(project_uuid=project.uuid).order_by("order")
             return render(request, "bookings/tpv/index.html", {'point_of_sales': point_of_sales, 'project_uuid':project.uuid})
         elif "table" not in request.session or request.session["table"] == "":
             pos = get_or_none(PointOfSale, request.session["point_of_sale"])
@@ -217,7 +219,7 @@ def tpv_check_band(request):
             #else:
             gr = band.guest.regimes.first()
             regime = gr.regime if gr != None else None
-            get_or_create_form_instance_info_client_tpv(fi, band.guest, band.code)
+            get_or_create_form_instance_info_client_tpv(fi, band.guest, band.code, band.name)
             #fi.update_items_low_price()
             fi.update_items_prices()
         else:
@@ -321,7 +323,7 @@ def tpv_order_item_comment(request):
 def add_balance_to_band(pos, fi, band):
     url = "/bookings/booking-view/"
     desc = "Ticket from {}: ".format(pos.name)
-    desc += "<a class='ark' data-url='{}' data-target-modal='common-modal' data-obj_id='{}'> #{}</a>".format(url, fi.id, fi.id)
+    desc += "<a class='ark' data-url='{}' data-target-modal='common-modal' data-obj_id='{}'> #{}</a>".format(url, fi.id, fi.index)
     WristbandBalance.objects.create(amount=(get_float(fi.amount)*-1), desc=desc, wristband=band)
 
 def set_desc(fi, desc):
@@ -345,8 +347,15 @@ def tpv_order_send(request):
         mobile = get_param(request.GET, "mobile", "")
 
         fi = get_or_none(FormInstance, fi_id)
+        #Formulario ya enviado
+        if fi.current_status("01"):
+            context = {'msg': "00", 'project_uuid': fi.form.project.uuid, "mobile": mobile}
+            return render(request, 'bookings/tpv/show-msg.html', context)
+
+        local_date = fi.project.local_date(datetime.datetime.now())
         fi.set_status("01", request.user, "")
-        fi.date = datetime.datetime.now()
+        #fi.date = datetime.datetime.now()
+        fi.date = local_date
         fi.amount = total
 
         pt = get_or_none(PaymentType, pt_code, "code")
@@ -361,8 +370,9 @@ def tpv_order_send(request):
         fi.payment_type = pt
         fi.save()
         fi.update_index()
+        fi.send_items()
 
-        wh_write_log("ORDER: {} ({})".format(fi.id, datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")))
+        wh_write_log("ORDER: {} ({})".format(fi.id, local_date.strftime("%Y-%m-%d %H:%M:%S")))
         if pt != None and (pt.code == "03" or pt.code == "0403") and band_id != "":
             pos = get_or_none(PointOfSale, request.session["point_of_sale"])
             band = get_or_none(Wristband, band_id)
@@ -380,6 +390,28 @@ def tpv_order_send(request):
         context = {'msg': fi.get_status.status.code, 'project_uuid': fi.form.project.uuid, "mobile": mobile}
         #context = {'msg': fi.get_status.status.code, 'project_uuid': fi.form.project.uuid}
         return render(request, 'bookings/tpv/show-msg.html', context)
+    except Exception as e:
+        print(e)
+        logger.error("[bookings-booking_send] {}".format(str(e)))
+        return render(request, 'error_exception.html', {'exc':show_exc(e)})
+
+@group_required("waiters")
+def tpv_order_send_part(request):
+    try:
+        fi_id = get_param(request.GET, "obj_id")
+        mobile = get_param(request.GET, "mobile", "")
+
+        fi = get_or_none(FormInstance, fi_id)
+        fi.send_items()
+
+        fi.date = fi.project.local_date(datetime.datetime.now())
+        fi.save()
+
+        mobile = get_param(request.GET, "mobile")
+        if mobile != "":
+            return render(request, "bookings/tpv/mobile/view-ticket.html", {'fi':fi,})
+        else:
+            return render(request, "bookings/tpv/view-ticket.html", {'fi':fi,})
     except Exception as e:
         print(e)
         logger.error("[bookings-booking_send] {}".format(str(e)))
@@ -429,7 +461,7 @@ def cash_z(request):
     try:
         cash = get_or_none(Cash, request.GET["obj_id"]) 
         update_cash(cash, request.user, True)
-        cash.close_date = datetime.datetime.now()
+        cash.close_date = cash.project.local_date(datetime.datetime.now())
         cash.close = True
         cash.save()
         
@@ -452,11 +484,11 @@ def cash_x(request):
         cash_x.pk = None
         cash_x.number = get_number_x(cash.pos_uuid)
         cash_x.zeta = False
-        cash_x.date = datetime.datetime.now()
+        cash_x.date = cash.project.local_date(datetime.datetime.now())
         cash_x.save()
         update_cash(cash_x, request.user)
         cash_x.close = True
-        cash_x.close_date = datetime.datetime.now()
+        cash_x.close_date = cash.project.local_date(datetime.datetime.now())
         cash_x.save()
         return render(request, 'bookings/tpv/tpv-tables-x.html', {'cash': cash, 'back_url': request.GET["back"]})
         #return redirect(reverse(request.GET["index"], kwargs = {'project_uuid': cash.project_uuid}))

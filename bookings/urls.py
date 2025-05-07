@@ -89,6 +89,8 @@ urlpatterns = [
     #------------- Bookings Guests --------------#
     path('guest-access/<slug:category_uuid>/', gv.guest_access, name='guest-access'),
     path('guest-access-auto/<slug:guest_uuid>/', gv.guest_access_auto, name='guest-access-auto'),
+    path('guest-access-ext/<slug:ext_id>/', gv.guest_access_ext, name='guest-access-ext'),
+    path('guest-access-extp/<slug:proj_name>/<slug:ext_id>/', gv.guest_access_extp, name='guest-access-extp'),
     #path('guest-access-anonymous/<slug:category_uuid>/', gv.guest_access_anonymous, name='guest-access-anonymous'),
     path('guest-set-lang/', gv.set_guest_language, name='guest-set-lang'),
     #path('guest-set-lang/<slug:category_uuid>/<str:lang>/', gv.set_guest_language, name='guest-set-lang'),
@@ -201,6 +203,7 @@ urlpatterns = [
     path('tpv-order-item-comment/', tpv.tpv_order_item_comment, name='tpv-order-item-comment'),
     #path('tpv-order-payment/', tpv.tpv_order_payment, name='tpv-order-payment'),
     path('tpv-order-send/', tpv.tpv_order_send, name='tpv-order-send'),
+    path('tpv-order-send-part/', tpv.tpv_order_send_part, name='tpv-order-send-part'),
 
     path('tpv-orders-by-waiter/', tpv.orders_by_waiter, name='tpv-orders-by-waiter'),
     path('tpv-order-details/', tpv.order_details, name='tpv-order-details'),

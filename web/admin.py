@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import ProjectUser, Waiter, Module, Menu, ProjectUserMenu
+from .models import ProjectUser, Waiter, Module, Menu, ProjectUserMenu, Thirdpart
 from .models_lock import Lock
 
 
@@ -42,4 +42,11 @@ class ProjectUserMenuAdmin(admin.ModelAdmin):
     search_fields = ['project_user__username']
 
 admin.site.register(ProjectUserMenu, ProjectUserMenuAdmin)
- 
+
+class ThirdpartAdmin(admin.ModelAdmin):
+	list_display = ('name', 'desc')
+	#search_fields = ['project_uuid', 'username']
+
+admin.site.register(Thirdpart, ThirdpartAdmin)
+
+

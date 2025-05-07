@@ -54,117 +54,184 @@
             {% for m in project_user.menus_mod.all %}
                 {% if not m.promo %}
                     <li class="nav-item"><a class="nav-link {%if m.menu.code in path%}active{%endif%}" href="{{m.menu.url}}"> 
-                        <i class="fas {{m.menu.ico}}"></i> {{m.menu.name}}</a> </li>
+                        <i class="fas {{m.menu.ico}}"></i> {% padword_translate_menu m.menu.name lang %}</a> </li>
+                        {#<i class="fas {{m.menu.ico}}"></i> {{m.menu.name}}</a> </li>#}
                 {% else %}
-                    <li class="nav-item"><a class="nav-link pointer ark" data-url="{%url "show-module"%}" data-target-modal="common-modal"
-                        data-code="{{m.menu.code}}"><i class="fas {{m.menu.ico}}"></i> {{m.menu.name}} <span class="new">NEW</span> </a></li>
+                    <li class="nav-item">
+                        <a class="nav-link pointer ark" data-url="{%url "show-module"%}" data-target-modal="common-modal"
+                        data-code="{{m.menu.code}}"><i class="fas {{m.menu.ico}}"></i> {{m.menu.name}} 
+                        <span class="new">NEW</span> </a></li>
                 {% endif %}
             {% endfor %}
         {% else %}
             {% with user_project=user.username|addstr:"|"|addstr:project.uuid %}
                 {% if user_project|have_menu:"guests" %}
-                    <li class="nav-item"><a class="nav-link {%if "guests" in path%}active{%endif%}" href="{% url 'guests-by-project' %}">
-                        <i class="fas fa-users"></i>  {% trans "Guests" %}</a> </li>
+                    <li class="nav-item">
+                        <a class="nav-link {%if "guests" in path%}active{%endif%}" href="{% url 'guests-by-project' %}">
+                        <i class="fas fa-users"></i>  {% trans "Guests" %}</a> 
+                    </li>
                 {% elif user_project|have_menu_promo:"guests" %}
-                    <li class="nav-item"><a class="nav-link pointer ark" data-url="{%url "show-module"%}" data-target-modal="common-modal"
-                        data-code="guests"><i class="fas fa-users"></i> {%trans "Guests"%} <span class="new">NEW</span> </a></li>
+                    <li class="nav-item">
+                        <a class="nav-link pointer ark" data-url="{%url "show-module"%}" data-target-modal="common-modal"
+                        data-code="guests"><i class="fas fa-users"></i> {%trans "Guests"%} <span class="new">NEW</span> </a>
+                    </li>
                 {% endif %}
 
                 {% if user_project|have_menu:"orders_live" %}
-                    <li class="nav-item"><a class="nav-link {%if "live" in path%}active{%endif%}" href="{% url 'bookings-live-by-project' %}">
-                        <i class="fas fa-bookmark"></i>  {% trans "Orders Live" %}</a> </li>
+                    <li class="nav-item">
+                        <a class="nav-link {%if "live" in path%}active{%endif%}" href="{% url 'bookings-live-by-project' %}">
+                        <i class="fas fa-bookmark"></i>  {% trans "Orders Live" %}</a> 
+                    </li>
                 {% elif user_project|have_menu_promo:"orders_live" %}
-                    <li class="nav-item"><a class="nav-link pointer ark" data-url="{%url "show-module"%}" data-target-modal="common-modal"
-                        data-code="orders_live"><i class="fas fa-bookmark"></i> {%trans "Orders Live"%} <span class="new">NEW</span> </a></li>
+                    <li class="nav-item">
+                        <a class="nav-link pointer ark" data-url="{%url "show-module"%}" data-target-modal="common-modal"
+                            data-code="orders_live"><i class="fas fa-bookmark"></i> {%trans "Orders Live"%} 
+                            <span class="new">NEW</span> </a>
+                    </li>
                 {% endif %}
 
                 {% if user_project|have_menu:"orders" %}
-                    <li class="nav-item"><a class="nav-link {%if "bookings_by_project" in path%}active{%endif%}" href="{% url 'bookings-by-project' %}">
-                        <i class="fas fa-book"></i>  {% trans "Orders" %}</a> </li>
+                    <li class="nav-item">
+                        <a class="nav-link {%if "bookings_by_project" in path%}active{%endif%}" href="{% url 'bookings-by-project' %}">
+                            <i class="fas fa-book"></i>  {% trans "Orders" %}</a> 
+                    </li>
                 {% elif user_project|have_menu_promo:"orders" %}
-                    <li class="nav-item"><a class="nav-link pointer ark" data-url="{%url "show-module"%}" data-target-modal="common-modal"
-                        data-code="orders"><i class="fas fa-book"></i> {%trans "Orders"%} <span class="new">NEW</span> </a></li>
+                    <li class="nav-item">
+                        <a class="nav-link pointer ark" data-url="{%url "show-module"%}" data-target-modal="common-modal"
+                            data-code="orders"><i class="fas fa-book"></i> {%trans "Orders"%} <span class="new">NEW</span> </a>
+                    </li>
                 {% endif %}
 
                 {% if user_project|have_menu:"orders_tpv" %}
-                    <li class="nav-item"><a class="nav-link {%if "orders_by_project" in path%}active{%endif%}" href="{% url 'orders-by-project' %}">
-                        <i class="fas fa-book"></i>  {% trans "Orders TPV" %}</a> </li>
+                    <li class="nav-item">
+                        <a class="nav-link {%if "orders_by_project" in path%}active{%endif%}" href="{% url 'orders-by-project' %}">
+                            <i class="fas fa-book"></i>  {% trans "Orders TPV" %}</a> 
+                    </li>
                 {% elif user_project|have_menu_promo:"orders" %}
-                    <li class="nav-item"><a class="nav-link pointer ark" data-url="{%url "show-module"%}" data-target-modal="common-modal"
-                        data-code="orders_tpv"><i class="fas fa-book"></i> {%trans "Orders TPV"%} <span class="new">NEW</span> </a></li>
+                    <li class="nav-item">
+                        <a class="nav-link pointer ark" data-url="{%url "show-module"%}" data-target-modal="common-modal"
+                            data-code="orders_tpv"><i class="fas fa-book"></i> {%trans "Orders TPV"%} <span class="new">NEW</span> </a>
+                    </li>
                 {% endif %}
 
                 {% if user_project|have_menu:"orders_daily_tpv" %}
                     <li class="nav-item"><a class="nav-link {%if "orders_daily" in path%}active{%endif%}" 
-                        href="{% url 'orders-daily-by-project' %}">
-                        <i class="fas fa-book"></i>  {% trans "Orders Daily TPV" %}</a> </li>
+                        href="{% url 'orders-daily-by-project' %}"> <i class="fas fa-book"></i>  {% trans "Orders Daily TPV" %}</a> 
+                    </li>
                 {% elif user_project|have_menu_promo:"orders_daily_tpv" %}
-                    <li class="nav-item"><a class="nav-link pointer ark" data-url="{%url "show-module"%}" data-target-modal="common-modal"
-                        data-code="orders_daily_tpv"><i class="fas fa-book"></i> {%trans "Orders Daily TPV"%} <span class="new">NEW</span> </a></li>
+                    <li class="nav-item">
+                        <a class="nav-link pointer ark" data-url="{%url "show-module"%}" data-target-modal="common-modal"
+                            data-code="orders_daily_tpv"><i class="fas fa-book"></i> {%trans "Orders Daily TPV"%} 
+                            <span class="new">NEW</span> </a>
+                    </li>
                 {% endif %}
 
                 {% if user_project|have_menu:"cash_tpv" %}
-                    <li class="nav-item"><a class="nav-link {%if "tpv-cash" in path%}active{%endif%}" href="{% url 'cash-by-project' %}">
-                        <i class="fas fa-book"></i>  {% trans "Cash TPV" %}</a> </li>
+                    <li class="nav-item">
+                        <a class="nav-link {%if "tpv-cash" in path%}active{%endif%}" href="{% url 'cash-by-project' %}">
+                            <i class="fas fa-book"></i>  {% trans "Cash TPV" %}</a> 
+                    </li>
                 {% elif user_project|have_menu_promo:"cash_tpv" %}
-                    <li class="nav-item"><a class="nav-link pointer ark" data-url="{%url "show-module"%}" data-target-modal="common-modal"
-                        data-code="orders_daily_tpv"><i class="fas fa-book"></i> {%trans "Cash TPV"%} <span class="new">NEW</span> </a></li>
+                    <li class="nav-item">
+                        <a class="nav-link pointer ark" data-url="{%url "show-module"%}" data-target-modal="common-modal"
+                            data-code="orders_daily_tpv"><i class="fas fa-book"></i> {%trans "Cash TPV"%} 
+                            <span class="new">NEW</span></a>
+                    </li>
                 {% endif %}
 
                 {% if user_project|have_menu:"notifications" %}
-                    <li class="nav-item"><a class="nav-link {%if "notifications" in path%}active{%endif%}" href="{% url 'guest-notifications' %}">
-                        <i class="fas fa-envelope"></i> {%trans "Notifications"%}</a></li>
+                    <li class="nav-item">
+                        <a class="nav-link {%if "notifications" in path%}active{%endif%}" href="{% url 'guest-notifications' %}">
+                            <i class="fas fa-envelope"></i> {%trans "Notifications"%}</a>
+                    </li>
                 {% elif user_project|have_menu_promo:"notifications" %}
-                    <li class="nav-item"><a class="nav-link pointer ark" data-url="{%url "show-module"%}" data-target-modal="common-modal"
-                        data-code="notifications"><i class="fas fa-envelope"></i> {%trans "Notifications"%} <span class="new">NEW</span> </a></li>
+                    <li class="nav-item">
+                        <a class="nav-link pointer ark" data-url="{%url "show-module"%}" data-target-modal="common-modal"
+                            data-code="notifications"><i class="fas fa-envelope"></i> {%trans "Notifications"%} 
+                            <span class="new">NEW</span> </a>
+                    </li>
                 {% endif %}
 
                 {% if user_project|have_menu:"rooms" %}
-                    <li class="nav-item"><a class="nav-link {%if "rooms" in path%}active{%endif%}" href="{% url 'rooms-by-project' %}">
-                        <i class="fas fa-bed"></i>  {% trans "Rooms" %}</a> </li>
+                    <li class="nav-item">
+                        <a class="nav-link {%if "rooms" in path%}active{%endif%}" href="{% url 'rooms-by-project' %}">
+                            <i class="fas fa-bed"></i>  {% trans "Rooms" %}</a> 
+                    </li>
                 {% elif user_project|have_menu_promo:"rooms" %}
-                    <li class="nav-item"><a class="nav-link pointer ark" data-url="{%url "show-module"%}" data-target-modal="common-modal"
-                        data-code="rooms"><i class="fas fa-bed"></i> {%trans "Rooms"%} <span class="new">NEW</span> </a></li>
+                    <li class="nav-item">
+                        <a class="nav-link pointer ark" data-url="{%url "show-module"%}" data-target-modal="common-modal"
+                            data-code="rooms"><i class="fas fa-bed"></i> {%trans "Rooms"%} <span class="new">NEW</span> </a>
+                    </li>
                 {% endif %}
 
                 {% if user_project|have_menu:"locks" %}
-                    <li class="nav-item"><a class="nav-link {%if "locks" in path%}active{%endif%}" href="{% url 'locks-by-project2' %}">
-                        <i class="fas fa-door-closed"></i>  {% trans "Locks" %}</a> </li>
+                    <li class="nav-item">
+                        <a class="nav-link {%if "locks" in path%}active{%endif%}" href="{% url 'locks-by-project2' %}">
+                            <i class="fas fa-door-closed"></i>  {% trans "Locks" %}</a> 
+                    </li>
                 {% elif user_project|have_menu_promo:"locks" %}
-                    <li class="nav-item"><a class="nav-link pointer ark" data-url="{%url "show-module"%}" data-target-modal="common-modal"
-                        data-code="locks"><i class="fas fa-door-closed"></i> {%trans "Locks"%} <span class="new">NEW</span> </a></li>
+                    <li class="nav-item">
+                        <a class="nav-link pointer ark" data-url="{%url "show-module"%}" data-target-modal="common-modal"
+                            data-code="locks"><i class="fas fa-door-closed"></i> {%trans "Locks"%} <span class="new">NEW</span> </a>
+                    </li>
                 {% endif %}
 
                 {% if user_project|have_menu:"gateways" %}
-                    <li class="nav-item"><a class="nav-link {%if "gateways" in path%}active{%endif%}" href="{% url 'gateways-by-project2' %}">
-                        <i class="fas fa-signal"></i>  {% trans "Gateways" %}</a> </li>
+                    <li class="nav-item">
+                        <a class="nav-link {%if "gateways" in path%}active{%endif%}" href="{% url 'gateways-by-project2' %}">
+                            <i class="fas fa-signal"></i>  {% trans "Gateways" %}</a> 
+                    </li>
                 {% elif user_project|have_menu_promo:"gateways" %}
-                    <li class="nav-item"><a class="nav-link pointer ark" data-url="{%url "show-module"%}" data-target-modal="common-modal"
-                        data-code="gateways"><i class="fas fa-signal"></i> {%trans "Gateways"%} <span class="new">NEW</span> </a></li>
+                    <li class="nav-item">
+                        <a class="nav-link pointer ark" data-url="{%url "show-module"%}" data-target-modal="common-modal"
+                            data-code="gateways"><i class="fas fa-signal"></i> {%trans "Gateways"%} <span class="new">NEW</span> </a>
+                    </li>
                 {% endif %}
 
                 {% if user_project|have_menu:"searchbands" %}
-                    <li class="nav-item"><a class="nav-link {%if "wristbands" in path%}active{%endif%}" href="{% url 'wristbands-by-project' %}">
-                        <i class="fas fa-ring"></i>  {% trans "Consultar Pulsera" %}</a> </li>
+                    <li class="nav-item">
+                        <a class="nav-link {%if "wristbands" in path%}active{%endif%}" href="{% url 'wristbands-by-project' %}">
+                            <i class="fas fa-ring"></i>  {% trans "Consultar Pulsera" %}</a> 
+                    </li>
                 {% elif user_project|have_menu_promo:"searchbands" %}
-                    <li class="nav-item"><a class="nav-link pointer ark" data-url="{%url "show-module"%}" data-target-modal="common-modal"
-                        data-code="searchbands"><i class="fas fa-ring"></i> {%trans "Consultar Pulsera"%} <span class="new">NEW</span> </a></li>
+                    <li class="nav-item">
+                        <a class="nav-link pointer ark" data-url="{%url "show-module"%}" data-target-modal="common-modal"
+                            data-code="searchbands"><i class="fas fa-ring"></i> {%trans "Consultar Pulsera"%} 
+                            <span class="new">NEW</span> </a>
+                    </li>
+                {% endif %}
+
+                {% if user_project|have_menu:"bandaccess" %}
+                    <li class="nav-item">
+                        <a class="nav-link {%if active == "wristbands-access2"%}active{%endif%}" href="{%url "wristbands-access"%}">
+                            <i class="fas fa-ring"></i> {%trans "Accesos Pulsera"%}</a>
+                    </li>
                 {% endif %}
 
                 {% if user_project|have_menu:"sensibo" %}
-                    <li class="nav-item"><a class="nav-link {%if "sensibo" in path%}active{%endif%}" href="{% url 'sensibo-device-by-project2' %}">
-                        <i class="fas fa-wind"></i>  {% trans "Air conditioner" %}</a> </li>
+                    <li class="nav-item">
+                        <a class="nav-link {%if "sensibo" in path%}active{%endif%}" href="{% url 'sensibo-device-by-project2' %}">
+                            <i class="fas fa-wind"></i>  {% trans "Air conditioner" %}</a> 
+                    </li>
                 {% elif user_project|have_menu_promo:"sensibo" %}
-                    <li class="nav-item"><a class="nav-link pointer ark" data-url="{%url "show-module"%}" data-target-modal="common-modal"
-                        data-code="sensibo"><i class="fas fa-wind"></i> {%trans "Air conditioner"%} <span class="new">NEW</span> </a></li>
+                    <li class="nav-item">
+                        <a class="nav-link pointer ark" data-url="{%url "show-module"%}" data-target-modal="common-modal"
+                            data-code="sensibo"><i class="fas fa-wind"></i> {%trans "Air conditioner"%} 
+                            <span class="new">NEW</span> </a>
+                    </li>
                 {% endif %}
 
                 {% if user_project|have_menu:"keycard" %}
-                    <li class="nav-item"><a class="nav-link {%if "keycard" in path%}active{%endif%}" href="{% url "keycard-number-by-project" %}">
-                        <i class="fas fa-address-card"></i> {%trans "Consultar Tarjeta"%}</a></li>
+                    <li class="nav-item">
+                        <a class="nav-link {%if "keycard" in path%}active{%endif%}" href="{% url "keycard-number-by-project" %}">
+                            <i class="fas fa-address-card"></i> {%trans "Consultar Tarjeta"%}</a>
+                    </li>
                 {% elif user_project|have_menu_promo:"keycard" %}
-                    <li class="nav-item"><a class="nav-link pointer ark" data-url="{%url "show-module"%}" data-target-modal="common-modal"
-                        data-code="keycard"><i class="fas fa-address-card"></i> {%trans "Consultar Tarjeta"%} <span class="new">NEW</span> </a></li>
+                    <li class="nav-item">
+                        <a class="nav-link pointer ark" data-url="{%url "show-module"%}" data-target-modal="common-modal"
+                            data-code="keycard"><i class="fas fa-address-card"></i> {%trans "Consultar Tarjeta"%} 
+                            <span class="new">NEW</span> </a>
+                    </li>
                 {% endif %}
 
                 {%comment%}
@@ -178,11 +245,16 @@
                 {%endcomment%}
 
                 {% if user_project|have_menu:"box" %}
-                    <li class="nav-item"><a class="nav-link {%if "boxes" in path%}active{%endif%}" href="{% url "boxes-by-project" %}">
-                        <i class="fab fa-buromobelexperte"></i> {% trans "Safe Deposit Box" %} </a> </li>
+                    <li class="nav-item">
+                        <a class="nav-link {%if "boxes" in path%}active{%endif%}" href="{% url "boxes-by-project" %}">
+                            <i class="fab fa-buromobelexperte"></i> {% trans "Safe Deposit Box" %} </a> 
+                    </li>
                 {% elif user_project|have_menu_promo:"box" %}
-                    <li class="nav-item"><a class="nav-link pointer ark" data-url="{%url "show-module"%}" data-target-modal="common-modal" 
-                        data-code="box"> <i class="fab fa-buromobelexperte"></i> {% trans "Safe Deposit Box" %} <span class="new">NEW</span></a> </li>
+                    <li class="nav-item">
+                        <a class="nav-link pointer ark" data-url="{%url "show-module"%}" data-target-modal="common-modal" 
+                            data-code="box"> <i class="fab fa-buromobelexperte"></i> {% trans "Safe Deposit Box" %} 
+                            <span class="new">NEW</span></a> 
+                    </li>
                 {% endif %}
             {% endwith %}
         {% endif %}
@@ -193,6 +265,10 @@
                 <i class="fas fa-tablet-alt"></i> {%trans "Categories"%}</a></li>
         {% endif %}
         {#<li class="nav-item"><a class="nav-link " href="{%url 'bookings-by-category'%}"><i class="fas fa-book"></i> {% trans "Orders" %}</a></li>#}
+    {% elif menu == "project_admin" %}
+        <li class="nav-item"><a class="nav-link {%if active == "projects"%}active{%endif%}" href="{% url "projects-admin" %}">
+            <i class="far fa-folder-open"></i> {% trans "Projects" %} </a> </li>
+ 
     {% endif %}
     </ul>
 {% else %}

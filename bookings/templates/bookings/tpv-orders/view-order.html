@@ -1,70 +1,69 @@
-{% load i18n static padword_tags %}
+{% load i18n static padword_tags tz %}
 
 <div class="col-12 card info-panel">
     <div class="content">
-
         <div id="mask"> &nbsp; </div>
         <div class="main-content-booking container-fluid">
             <div class="row"> 
                 <div class="col-6 btn-sky pt-2 pb-2 text-left">{% padword_translate fi.form.get_category.name %}</div> 
-               <div class="col-3 btn-sky pt-2 pb-2 text-right">
+                <div class="col-3 btn-sky pt-2 pb-2 text-right">
                     <span id="info-shopping"><span class="art-number">subtotal &nbsp;&nbsp;&nbsp;</span> 
-                    {{fi.get_total|stringformat:".2f"}} &euro; </span></div>
+                    {{fi.get_total|stringformat:".2f"}} {{fi.currency}}{#&euro;#} </span></div>
                 <div class="col-3 btn-sky pt-2 pb-2 text-right">
                     <span id="info-shopping"><span class="art-number">total &nbsp;&nbsp;&nbsp;</span> 
                         {#Compatibilidad tickets viejos higos beach#}
                         {% if fi.form.project.uuid == "d7b3cb5d-a7eb-793f-6110-8f623c93c74a" and fi.id <= 2401 %}
-                            {{fi.get_total|stringformat:".2f"}} &euro; 
+                            {{fi.get_total|stringformat:".2f"}} {{fi.currency}}{#&euro;#} 
                         {% else %}
-                            {{fi.get_total_total|stringformat:".2f"}} &euro; 
+                            {{fi.get_total_total|stringformat:".2f"}} {{fi.currency}}{#&euro;#}
                         {% endif %}
                     </span></div>
 	        </div>
             <div class="row booking-data-navbar"> 
                 <div class="col-lg-3 col-12 btn-light pt-2 pb-2 text-left">
                     <span class="data-mb"><i class="fas fa-portrait"></i>&nbsp; {{fi.details.client}} </span> </div>
-            <div class="col-lg-5 col-12 btn-light pt-2 pb-2 text-left">
-                <span class="data-mb"><i class="fas fa-clock"></i>&nbsp; {{fi.date}}</span></div>
-		    <div class="col-lg-2 col-6 btn-light pt-2 pb-2 text-left" style="padding-right:0 !important;">
-                <span class="data-mb"><i class="fas fa-phone-square"></i>&nbsp; <a href="tel:{{fi.details.client_mobile}}">
+                <div class="col-lg-5 col-12 btn-light pt-2 pb-2 text-left"> <span class="data-mb"><i class="fas fa-clock"></i>
+                    &nbsp; {{ fi.date|timezone:fi.project.time_zone_name|date:'d/m/Y H:i:s' }}</span></div>
+		        <div class="col-lg-2 col-6 btn-light pt-2 pb-2 text-left" style="padding-right:0 !important;">
+                    <span class="data-mb"><i class="fas fa-phone-square"></i>&nbsp; <a href="tel:{{fi.details.client_mobile}}">
                     {{fi.details.client_mobile}}</span></a></div>
-		    <div class="col-lg-2 col-6 btn-light pt-2 pb-2 text-right">
-                <span class="data-mb"><i class="fas fa-bed"></i>&nbsp; {{fi.details.client_room}}</span></div>
-	    </div>
+		        <div class="col-lg-2 col-6 btn-light pt-2 pb-2 text-right">
+                    <span class="data-mb"><i class="fas fa-bed"></i>&nbsp; {{fi.details.client_room}}</span></div>
+	        </div>
 
-        <div class="row bloque mt-3">
-            <div id="main" class="col-12 articles">
-                {% for item in fi.get_items %}
-                    <div class="row booking-line-item mt-2 pt-2 pb-2">
-                        <div class="col-3 d-flex justify-content-center">
-                            <img class="img-cart-line" 
-                            src="{% if item.item.image %}{{item.item.image.url}} {%else%} {% static 'img/none.png' %}{%endif%}" 
-                            alt="{% padword_translate item.name %}">
+            <div class="row bloque mt-3">
+                <div id="main" class="col-12 articles">
+                    {% for item in fi.get_items %}
+                        <div class="row booking-line-item mt-2 pt-2 pb-2">
+                            <div class="col-3 d-flex justify-content-center">
+                                <img class="img-cart-line" 
+                                    src="{% if item.item.image %}{{item.item.image.url}} {%else%} {% static 'img/none.png' %}{%endif%}"
+                                    alt="{% padword_translate item.name %}">
+                            </div>
+                            <div class="col-7 text-left">
+			                    <p class="name"><strong>{% padword_translate item.name %}</strong></p>
+                                <p class="comments"><i class="far fa-comment-alt"></i>&nbsp; {{item.comments}}</p>
+                            </div>
+                            <div class="col-1 text-left">{{item.price}}</div>
+                            <div class="col-1 text-left">
+                                {#Compatibilidad tickets viejos higos beach#}
+                                {% if fi.form.project.uuid == "d7b3cb5d-a7eb-793f-6110-8f623c93c74a" and fi.id <= 2401 %}
+                                    {{item.price}} 
+                                {%else%} 
+                                    {{item.total_price}} 
+                                {%endif%} 
+                            </div>
                         </div>
-                        <div class="col-7 text-left">
-			                <p class="name"><strong>{% padword_translate item.name %}</strong></p>
-                            <p class="comments"><i class="far fa-comment-alt"></i>&nbsp; {{item.comments}}</p>
-                        </div>
-                        <div class="col-1 text-left">{{item.price}}</div>
-                        <div class="col-1 text-left">
-                            {#Compatibilidad tickets viejos higos beach#}
-                            {% if fi.form.project.uuid == "d7b3cb5d-a7eb-793f-6110-8f623c93c74a" and fi.id <= 2401 %}
-                                {{item.price}} 
-                            {%else%} 
-                                {{item.total_price}} 
-                            {%endif%} 
-                        </div>
-                    </div>
-                {% endfor %}
+                    {% endfor %}
+                </div>
+            </div>
+
+            <div class="row mb-4 d-flex justify-content-center change-status-box">
+                <div class="actions text-center mt-2">
+                    <button id="btn-close-modal" class="btn btn-primary" data-bs-dismiss="modal">{%trans "Close"%}</button>
+                </div>
             </div>
         </div>
-
-        <div class="row mb-4 d-flex justify-content-center change-status-box">
-            <div class="actions text-center mt-2">
-                <button id="btn-close-modal" class="btn btn-primary" data-bs-dismiss="modal">{%trans "Close"%}</button>
-            </div>
-        </div>
-
     </div>
 </div>
 

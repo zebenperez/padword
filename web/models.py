@@ -7,7 +7,7 @@ from padword.commons import show_exc, get_int, new_ui_slug, date_to_utc, date_to
 from .lock_lib import ShLock
 from sensibo.sensibo_lib import ShSensibo
 from sensibo.models import ProjectSensiboUser
-from connector.models import ProjectAvantioUser, ProjectAvaibookUser, ProjectWinhotelUser
+from connector.models import ProjectAvantioUser, ProjectAvaibookUser, ProjectWinhotelUser, ProjectMewsUser, ProjectCloudbedsUser
 
 import datetime, pytz
 import requests
@@ -48,6 +48,7 @@ class Project(models.Model):
     active = models.IntegerField(verbose_name='Active', default=1)
     guest_delete = models.IntegerField(verbose_name='Delete guest after', default=90)
     created_at = models.DateTimeField(verbose_name='Created at', default=datetime.datetime.now)
+    expiration = models.DateTimeField(verbose_name='Expiration', default=datetime.datetime.now)
 
     logo = models.ImageField(upload_to=upload_logo, blank=True, verbose_name="Logo", help_text="Select file to upload")
     company = models.ForeignKey(Company, verbose_name = 'Company', on_delete=models.SET_NULL, null=True)
@@ -112,6 +113,14 @@ class Project(models.Model):
         return ProjectWinhotelUser.objects.filter(project_uuid=self.uuid).first()
 
     @property
+    def mews_user(self):
+        return ProjectMewsUser.objects.filter(project_uuid=self.uuid).first()
+
+    @property
+    def cloudbeds_user(self):
+        return ProjectCloudbedsUser.objects.filter(project_uuid=self.uuid).first()
+
+    @property
     def invitations(self):
         return Invitation.objects.filter(project_uuid=self.uuid)
 
@@ -139,8 +148,8 @@ class Project(models.Model):
         obj = ShLock(self.lock_access_token)
         return obj.get_ekeys()
 
-    def get_keycards(self):
-        return KeyCard.objects.filter(project_uuid=self.uuid)
+    #def get_keycards(self):
+    #    return KeyCard.objects.filter(project_uuid=self.uuid)
 
     def sensibo_device_list(self):
         obj = ShSensibo(self.sensibo_api_key)
@@ -233,6 +242,21 @@ class Project(models.Model):
         except Exception as e:
             return date
 
+    def thirdpart_list(self):
+        return [item.thirdpart for item in self.thirdparts.all()]
+
+class ProjectAux(models.Model):
+    contact_name = models.CharField(max_length=255, verbose_name=_('Contact Name'), default="")
+    contact_email = models.CharField(max_length=255, verbose_name=_('Contact Email'), default="")
+    contact_phone = models.CharField(max_length=255, verbose_name=_('Contact Phone'), default="")
+    fee = models.CharField(max_length=255, verbose_name=_('Fee'), default="")
+    payment_method = models.CharField(max_length=255, verbose_name=_('Payment Method'), default="")
+    paid = models.CharField(max_length=255, verbose_name=_('Paid'), default="")
+    project = models.ForeignKey(Project, verbose_name=_('Project'), on_delete=models.CASCADE, null=True)
+
+    class Meta:
+        verbose_name = _('Project Aux')
+ 
 class ProjectLockUser(models.Model):
     username = models.CharField(max_length=255, verbose_name=_('Lock Username'), default="")
     password = models.CharField(max_length=255, verbose_name=_('Lock Password'), default="")
@@ -319,6 +343,9 @@ class ProjectUser(models.Model):
     menus_promo = models.CharField(max_length = 1000, verbose_name= _('Menus Promo'), default='', blank=True)
     image = models.ImageField(upload_to=upload_image, blank=True, verbose_name="Imagen de perfil", help_text="Select file to upload")
     #menus_mod = models.ManyToManyField(Menu, verbose_name=_("Menus"), blank=True, related_name="menus")
+
+    def __str__(self):
+        return self.username
 
     class Meta:
         verbose_name = _('Project user')
@@ -631,7 +658,6 @@ class Invitation(models.Model):
         except:
             return None
 
-
 class Module(models.Model):
     code = models.CharField(max_length = 255, verbose_name= _('Code'), default='')
     name = models.CharField(max_length = 255, verbose_name= _('Name'), default='')
@@ -640,4 +666,17 @@ class Module(models.Model):
     class Meta:
         verbose_name = _('Module')
 
+class Thirdpart(models.Model):
+    name = models.CharField(max_length = 255, verbose_name= _('Name'), default='')
+    desc = models.TextField(verbose_name= _('Description'), default='')
+
+    class Meta:
+        verbose_name = _('Thirdpart')
+
+class ProjectThirdpart(models.Model):
+    thirdpart = models.ForeignKey(Thirdpart,verbose_name=_('Thirdpart'), on_delete=models.SET_NULL, null=True, related_name="projects")
+    project = models.ForeignKey(Project, verbose_name=_('Project'), on_delete=models.CASCADE, null=True, related_name="thirdparts")
+
+    class Meta:
+        verbose_name = _('Project Thirdpart')
 

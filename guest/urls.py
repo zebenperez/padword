@@ -53,17 +53,30 @@ urlpatterns = [
     path('guests/band/balance/', wristband_views.guest_bands_balance, name="guest-bands-balance"),
     path('guests/band/balance/list/', wristband_views.guest_band_balance_list, name="guest-band-balance-list"),
     path('guests/band/balance/form/', wristband_views.guest_band_balance_form, name="guest-band-balance-form"),
+    path('guests/band/balance/print/<int:obj_id>/', wristband_views.guest_band_balance_print, name="guest-band-balance-print"),
     path('guests/band/balance/remove/', wristband_views.guest_band_balance_remove, name="guest-band-balance-remove"),
+    path('guests/band/manage-zone/', wristband_views.guest_band_manage_zone, name="guest-band-manage-zone"),
+    path('guests/band/manage-all-zone/', wristband_views.guest_band_manage_all_zone, name="guest-band-manage-all-zone"),
 
     path('wristbands/', wristband_views.wristbands, name='wristbands'),
     path('wristbands/search/', wristband_views.wristbands_search, name='wristbands-search'),
     path('wristbands/project/', wristband_views.wristbands_by_project, name='wristbands-by-project'),
     path('wristbands/project/search/', wristband_views.wristbands_search_by_project, name='wristbands-search-by-project'),
+    path('wristbands/backup/project/search/', wristband_views.wristbands_backup_search_by_project, name='wristbands-backup-search-by-project'),
+    path('wristbands/backup/project/balance/', wristband_views.wristbands_backup_balance, name='wristbands-backup-balance'),
 
     path('wristbands-access/', wristband_views.wristbands_access, name='wristbands-access'),
     path('wristbands-access/search/', wristband_views.wristbands_access_search, name='wristbands-access-search'),
+    path('wristbands-access2/', wristband_views.wristbands_access2, name='wristbands-access2'),
+    path('wristbands-access2/search/', wristband_views.wristbands_access_search2, name='wristbands-access-search2'),
     path('wristbands-access/index/<slug:project_uuid>/<slug:point_uuid>/', wristband_views.wristbands_access_index, name='wristbands-access-index'),
     path('wristbands-access/send/', wristband_views.wristbands_access_send, name='wristbands-access-send'),
+    path('wristbands-access/export-csv/', wristband_views.wristbands_access_export_csv, name='wristbands-access-export-csv'),
+    path('wristbands-access/schedule/', wristband_views.wristbands_access_schedule, name='wristbands-access-schedule'),
+
+    path('wristbands/close/', wristband_views.wristbands_close, name='wristbands-close'),
+    path('wristbands/close/balance/', wristband_views.wristbands_close_balance, name='wristbands-close-balance'),
+    path('wristbands/close/print/<int:obj_id>/', wristband_views.wristbands_close_print, name='wristbands-close-print'),
 
     #--------------------- DEVICES --------------------
     path('', views.index, name='device-index'),
@@ -124,5 +137,10 @@ urlpatterns = [
     path('wristbands/pay-send/', wristband_views.pay_send, name='wristband-pay-send'),
     path('wristbands/pay-index/<slug:project_uuid>/', wristband_views.pay_index, name='wristband-pay-index'),
  
+    #-------------------- CARS --------------#
+    path('guests/cars', views.guest_cars, name='guest-cars'),
+    path('guests/car/add', views.guest_car_add, name='guest-car-add'),
+    path('guests/car/remove', views.guest_car_remove, name='guest-car-remove'),
+    path('guests/car/list/<slug:project_uuid>/', views.guest_car_list, name='guest-car-list'),
 ]
 

@@ -4,10 +4,10 @@
 {% block second_menu %}{% get_second_menu request.user %}{% endblock second_menu %}
 
 {% block central_content %}
-    <span id="div-notification"></span><br/>
+    <span id="div-notification"></span>
 
-    <div class="card pb-3">
-        <div class="card-header"><h2>{% trans "Main" %}</h2></div>
+    <div class="card pb-3 b-none">
+        {% comment %}<div class="card-header"><h2>{% trans "Main" %}</h2></div> {% endcomment %}
         <div class="card-body">
             {% include "web/projects/project-form-main.html" %} 
 

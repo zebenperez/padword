@@ -20,15 +20,16 @@
                 <span class="small">({{items|length}} {% trans 'art.' %})</span>
             </div>
             <div class="col-8 price-tpv text-right" id="div-total-shopping-cart">
-                <strong>{%trans 'Subtotal'%}: {{subtotal|floatformat:2}} &euro;</strong>
+                <strong>{%trans 'Subtotal'%}: {{subtotal|floatformat:2}} {{fi.currency}}{#&euro;#}</strong>
             </div>
         </div>
+
         {#{% if regime %}#}
-            <div class="row">
-                <div class="col-12 price p-2" id="div-total-shopping-cart">
-                    {#<strong class="text-warning">{%trans 'Total price user'%}: {{fi|get_total_by_regime:regime.code}} &euro;</strong></div>#}
-                    <strong class="text-warning">{%trans 'Total'%}: {{total|floatformat:2}} &euro;</strong></div>
-            </div>
+        <div class="row">
+            <div class="col-12 price p-2" id="div-total-shopping-cart">
+                {#<strong class="text-warning">{%trans 'Total price user'%}: {{fi|get_total_by_regime:regime.code}} &euro;</strong></div>#}
+                <strong class="text-warning">{%trans 'Total'%}: {{total|floatformat:2}} {{fi.currency}}{#&euro;#}</strong></div>
+        </div>
         {#{% endif %}#}
 
         <div class="row" id="block-comments"> 
@@ -45,17 +46,21 @@
                             </div>
                         {% endif %}
                     </div>
-                    <div class="col-4 p-0 text-left"><div class="text-left">{% padword_translate item.item.name %}</div> </div>
+                    <div class="col-4 p-0 text-left">
+                        <div class="text-left">{% padword_translate item.item.name %}</div> 
+                        {%if item.status == 1 or item.status == 2%}<div class="text-success">{% trans "Enviado" %}</div>{%endif%}
+                    </div>
                     {#<div class="col-1 p-0 text-left"><div class="text-right">{{ item.item.price }}€</div> </div>#}
-                    <div class="col-1 p-0 text-left"><div class="text-right">{{ item.price }}€</div> </div>
+                    <div class="col-1 p-0 text-left"><div class="text-right">{{ item.price }} {{item.currency}}</div> </div>
                     <div class="col-2 p-0 text-right"> 
-                        {#{% if regime %} <div class="text-right text-warning">{{ item|get_item_price:regime.code }}€</div> {% endif %}#}
-                        {#{% if regime %} <div class="text-right text-warning">{% get_item_price item fi.band regime.code %}</div> {% endif %}#}
+                    {#{%if regime%} <div class="text-right text-warning">{{ item|get_item_price:regime.code }}€</div> {% endif %}#}
+                    {#{%if regime%}<div class="text-right text-warning">{%get_item_price item fi.band regime.code%}</div>{%endif%}#}
                         <div class="text-right text-warning">{{ item.total_price }}</div>
                     </div>
                     <div class="col-3 p-0">
-                        <a class="btn btn-primary btn-sm ark" title="{%trans 'Add comment at this article'%}" data-url="{%url "tpv-order-item-comment"%}" 
-                            data-item_id="{{item.pk}}" data-form_id="{{fi.pk}}" data-target-modal="common-modal"><i class="fas fa-comments"></i></a>
+                        <a class="btn btn-primary btn-sm ark" title="{%trans 'Add comment at this article'%}" 
+                            data-url="{%url "tpv-order-item-comment"%}" data-item_id="{{item.pk}}" data-form_id="{{fi.pk}}" 
+                            data-target-modal="common-modal"><i class="fas fa-comments"></i></a>
 
                         <a class="btn btn-danger btn-sm ark" title="{%trans 'Remove article from shopping-cart'%}" 
                             data-url="{%url "tpv-order-item-remove"%}" data-item_id="{{item.pk}}" data-target="ticket-summary">

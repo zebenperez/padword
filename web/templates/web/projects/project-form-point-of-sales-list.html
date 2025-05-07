@@ -8,47 +8,78 @@
             <div class="p-sale p-3 pt-1">
                 <div class="row">
                     <div class="col-12 text-end">
-                        <button class="btn btn-sm ark" id="btn-pos-remove" data-url="{% url "project-pos-remove" %}" data-target="div-pos-list" 
-                            data-obj_id="{{item.id}}"> <i class="fas fa-trash"></i></button>
-                        <a class="btn btn-sm pointer" id="btn-pos-summary" href="{% url "project-pos-daily-summary" item.id %}" target="_blank" > 
-                            <i class="fas fa-file-csv"></i></a>
+                        <button class="btn btn-sm ark" id="btn-pos-remove" data-url="{% url "project-pos-remove" %}" 
+                            data-target="div-pos-list" data-obj_id="{{item.id}}"> <i class="fas fa-trash"></i></button>
+                        <a class="btn btn-sm pointer" id="btn-pos-summary" href="{% url "project-pos-daily-summary" item.id %}" 
+                            target="_blank" > <i class="fas fa-file-csv"></i></a>
                     </div>
-                    <div class="col-lg-6 col-12">
-                        <label class="label">{% trans "Name" %}</label>
-                        <input type="text" class="form-control autosave input" id="name" name="name" value="{{item.name}}" 
-                            title="{{item.name}}" data-model-name="contents.pointofsale" data-obj-id="{{item.id}}" 
-                            data-url="{% url "autosave_field" %}" data-target="div-notification"/> <span id="name__msg"></span>	
-                    </div>
-                    <div class="col-6">
-                        <label class="label">{% trans "External Code" %}</label>
-                        <input type="text" class="form-control autosave input" id="ext_code" name="ext_code" value="{{item.ext_code}}" 
-                            title="{{item.ext_code}}" data-model-name="contents.pointofsale" data-obj-id="{{item.id}}" 
-                            data-url="{% url "autosave_field" %}" data-target="div-notification"/> <span id="ext_code__msg"></span>	
-                    </div>
-                    <div class="col-6">
+                    <div class="col-4">
                         <label class="label">{% trans "Image" %}</label>
                         <div id="div-image-{{item.id}}">{% include "web/projects/pos-img.html" with obj=item%}</div>
                     </div>
-                    <div class="col-6">
+                    <div class="col-8">
+                        <div class="row">
+                            <div class="col-8">
+                                <label class="label">{% trans "Name" %}</label>
+                                <input type="text" class="form-control autosave input" id="name" name="name" value="{{item.name}}" 
+                                    title="{{item.name}}" data-model-name="contents.pointofsale" data-obj-id="{{item.id}}" 
+                                    data-url="{%url "autosave_field"%}" data-target="div-notification"/> <span id="name__msg"></span>
+                            </div>
+                            <div class="col-4">
+                                <label class="label">{% trans "Orden" %}</label>
+                                <input type="text" class="form-control autosave input" id="order" name="order" value="{{item.order}}" 
+                                    title="{{item.order}}" data-model-name="contents.pointofsale" data-obj-id="{{item.id}}" 
+                                    data-url="{%url "autosave_field"%}" data-target="div-notification"/> <span id="order__msg"></span>
+                            </div>
+                            <div class="col-6">
+                                <label class="label">{% trans "External Code" %}</label>
+                                <input type="text" class="form-control autosave input" id="ext_code" name="ext_code" 
+                                    value="{{item.ext_code}}" title="{{item.ext_code}}" data-model-name="contents.pointofsale" 
+                                    data-obj-id="{{item.id}}" data-url="{% url "autosave_field" %}" data-target="div-notification"/> 
+                                <span id="ext_code__msg"></span>	
+                            </div>
+                            <div class="col-6">
+                                <label class="label">{% trans "File Suffix" %}</label>
+                                <input type="text" class="form-control autosave input" id="suffix" name="suffix" 
+                                    value="{{item.suffix}}" title="{{item.suffix}}" data-model-name="contents.pointofsale" 
+                                    data-obj-id="{{item.id}}" data-url="{% url "autosave_field" %}" data-target="div-notification"/> 
+                                <span id="suffix__msg"></span>	
+                            </div>
+                        </div>
+                    </div>
+                    {% if user_winhotel.hour != -1 %}
+                    <div class="col-4">
                         <label class="label">{% trans "Code 1 (drink)" %}</label>
                         <input type="text" class="form-control autosave input" id="code1" name="code1" value="{{item.code1}}" 
                             title="{{item.code1}}" data-model-name="contents.pointofsale" data-obj-id="{{item.id}}" 
                             data-url="{% url "autosave_field" %}" data-target="div-notification"/> <span id="code1__msg"></span>	
- 
+                    </div>
+                    <div class="col-4">
                         <label class="label">{% trans "Code 2 (food)" %}</label>
                         <input type="text" class="form-control autosave input" id="code2" name="code2" value="{{item.code2}}" 
                             title="{{item.code2}}" data-model-name="contents.pointofsale" data-obj-id="{{item.id}}" 
                             data-url="{% url "autosave_field" %}" data-target="div-notification"/> <span id="code2__msg"></span>	
-
+                    </div>
+                    <div class="col-4">
                         <label class="label">{% trans "Code 3 (breakfast)" %}</label>
                         <input type="text" class="form-control autosave input" id="code3" name="code3" value="{{item.code3}}" 
                             title="{{item.code3}}" data-model-name="contents.pointofsale" data-obj-id="{{item.id}}" 
                             data-url="{% url "autosave_field" %}" data-target="div-notification"/> <span id="code3__msg"></span>	
-
-                       <label class="label">{% trans "UUID" %}</label>
+                    </div>
+                    {% endif %}
+                    <div class="col-6">
+                        <label class="label">{% trans "UUID" %}</label>
                         <input type="text" class="form-control autosave input" id="uuid" name="uuid" value="{{item.uuid}}" 
                             title="{{item.uuid}}" data-model-name="contents.pointofsale" data-obj-id="{{item.id}}" 
                             data-url="{% url "autosave_field" %}" data-target="div-notification"/> <span id="uuid__msg"></span>	
+                    </div>
+                    <div class="col-6">
+                        <label class="label">{% trans "Envíos parciales" %} </label>
+                        <div class="form-check form-switch">
+                            <input type="checkbox" class="autosave form-check-input" id="partial" name="partial" data-bool="True"
+                                data-model-name="contents.pointofsale" data-obj-id="{{item.id}}" data-url="{% url "autosave_field" %}" 
+                                data-target="div-notification" {%if item.partial%}checked{%endif%}/> <span id="uuid__msg"></span>	
+                        </div>
                     </div>
                 </div>
 
