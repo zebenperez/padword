@@ -30,18 +30,23 @@
 
 {# ------------------------------------------------ ACCIONES --------------------------------------------------------------#}
 <div class="row footer-buttons mt-0 m-0 p-0">
+    {# -------------------------------- CANCELAR ---------------------------- #}
+    <div class="col-4 p-0 btn-mobile"> {% include "bookings/tpv/view-payment-types-cancel.html" with mobile="mobile"%} </div>
+       {# -------------------------------- DEVOLUCIÓN ---------------------------- #}
+    <div class="col-4 p-0 btn-mobile"> {% include "bookings/tpv/view-payment-types-return.html" %} </div>
+    {# -------------------------------- INVITACION ---------------------------- #}
+    <div class="col-4 p-0 btn-mobile"> {% include "bookings/tpv/view-payment-types-free.html" %} </div>
+
+    {# -------------------------------- ENVIAR ---------------------------- #}
+    
+    <div class="{%if fi.pos.partial%}col-6{%else%}col-12{%endif%} p-0 btn-mobile"> 
+        {% include "bookings/tpv/view-payment-types-send.html" with mobile="mobile"%} </div>
+
     {# -------------------------------- ENVIO PARCIAL ---------------------------- #}
     {% if fi.pos.partial %}
-        <div class="col-12 p-0 btn-mobile"> {% include "bookings/tpv/view-payment-types-send-part.html" with mobile="mobile"%} </div>
+        <div class="col-6 p-0 btn-mobile"> {% include "bookings/tpv/view-payment-types-send-part.html" with mobile="mobile"%} </div>
     {% endif %}
-    {# -------------------------------- CANCELAR ---------------------------- #}
-    <div class="col-3 mb-3 p-0 btn-mobile"> {% include "bookings/tpv/view-payment-types-cancel.html" with mobile="mobile"%} </div>
-    {# -------------------------------- ENVIAR ---------------------------- #}
-    <div class="col-3 mb-3 p-0 btn-mobile"> {% include "bookings/tpv/view-payment-types-send.html" with mobile="mobile"%} </div>
-    {# -------------------------------- DEVOLUCIÓN ---------------------------- #}
-    <div class="col-3 mb-3 p-0 btn-mobile"> {% include "bookings/tpv/view-payment-types-return.html" %} </div>
-    {# -------------------------------- INVITACION ---------------------------- #}
-    <div class="col-3 mb-3 p-0 btn-mobile"> {% include "bookings/tpv/view-payment-types-free.html" %} </div>
+
 </div>
 
 {# ------------------------------------------------ VENTANAS AUX --------------------------------------------------------#}
