@@ -42,8 +42,8 @@ class Mews():
         self.access_token = access_token
         self.ini_date = datetime.now().strftime("%Y-%m-%dT00:00:00Z")
         self.end_date = datetime.now().strftime("%Y-%m-%dT23:59:59Z")
-        #self.ini_date = "2024-03-14T00:00:00Z"
-        #self.end_date = "2024-03-14T23:59:59Z"
+        #self.ini_date = "2024-10-01T00:00:00Z"
+        #self.end_date = "2024-10-31T23:59:59Z"
     
     def __send_request__(self, _url_request, _params=""):
         try:
@@ -93,7 +93,7 @@ class Mews():
                     "Client": "Padword",
                     "Limitation": {
                         #"Cursor": "819e3435-7d5e-441f-bc68-76d89c69b8f5",
-                        "Count": 100
+                        "Count": 1000
                     },
                     "CreatedUtc": {
                         "StartUtc": self.ini_date,
@@ -201,10 +201,15 @@ def create_booking(pmu, booking, av):
     room_ex = room_exist(pmu.project_uuid, room)
     err = ""
 
-    if room_ex and "Z" in room:
+    #if room_ex and (("Z" in room) or ("Y" in room)):
+    print("----")
+    print("{} {}".format(booking.id, booking.number))
+    if room_ex:
+        print("--ENTRA--")
         ext_id = get_ext_id(booking)
         guest = Guest.objects.filter(ext_id=ext_id, project_id=pmu.project_uuid, deleted=0).first()
         if guest == None:
+            print("--CREA--")
             guest = Guest(UUID = new_ui_slug(Guest, "UUID"), ext_id=ext_id, project_id=pmu.project_uuid)
             booking.created = True
         
