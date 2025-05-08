@@ -4,7 +4,7 @@
 {% include "bookings/tpv/view-payment-types-styles.html" %}
 
 {# ------------------------------------------------ TIPOS DE PAGO ---------------------------------------------------------#}
-<div class="row justify-content-center m-0">
+<div class="row justify-content-center">
     {% for item in fi.form.get_category.payment_types.all %}
         <div class="col-4 justify-content-center mt-1 pt-box pay-method" id="pt-box-{{item.id}}">
             <div class="justify-content-center">
@@ -26,25 +26,25 @@
 
 {#<input type="text" class="form-control hide mt-2" id="cash-value" placeholder="{%trans "Amount to pay (10, 20, 50...)"%}" />#}
 
-<br/><div id="band-alert" class="text-danger" class="hide"></div>
+<div id="band-alert" class="text-danger" class="hide"></div>
 
 {# ------------------------------------------------ ACCIONES --------------------------------------------------------------#}
-<div class="row footer-buttons mt-0 m-0 p-0">
+<div class="row footer-buttons mt-2 p-0">
     {# -------------------------------- CANCELAR ---------------------------- #}
-    <div class="col-4 p-0 btn-mobile"> {% include "bookings/tpv/view-payment-types-cancel.html" with mobile="mobile"%} </div>
+    <div class="col-4 p-0 btn-mobile"> {% include "bookings/tpv/mobile/view-payment-types-cancel.html" with mobile="mobile"%} </div>
        {# -------------------------------- DEVOLUCIÓN ---------------------------- #}
-    <div class="col-4 p-0 btn-mobile"> {% include "bookings/tpv/view-payment-types-return.html" %} </div>
+    <div class="col-4 p-0 btn-mobile"> {% include "bookings/tpv/mobile/view-payment-types-return.html" %} </div>
     {# -------------------------------- INVITACION ---------------------------- #}
-    <div class="col-4 p-0 btn-mobile"> {% include "bookings/tpv/view-payment-types-free.html" %} </div>
+    <div class="col-4 p-0 btn-mobile"> {% include "bookings/tpv/mobile/view-payment-types-free.html" %} </div>
 
     {# -------------------------------- ENVIAR ---------------------------- #}
     
-    <div class="{%if fi.pos.partial%}col-6{%else%}col-12{%endif%} p-0 btn-mobile"> 
+    <div class="{%if fi.pos.partial%}col-6{%else%}col-12{%endif%} p-0 mt-1 btn-mobile"> 
         {% include "bookings/tpv/view-payment-types-send.html" with mobile="mobile"%} </div>
 
     {# -------------------------------- ENVIO PARCIAL ---------------------------- #}
     {% if fi.pos.partial %}
-        <div class="col-6 p-0 btn-mobile"> {% include "bookings/tpv/view-payment-types-send-part.html" with mobile="mobile"%} </div>
+        <div class="col-6 p-0 mt-1 btn-mobile"> {% include "bookings/tpv/view-payment-types-send-part.html" with mobile="mobile"%} </div>
     {% endif %}
 
 </div>
