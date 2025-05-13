@@ -54,7 +54,10 @@
                     <td>{%if item.date|date:"H:i:s" == "23:59:59" %} Zeta {%else%} Equis {%endif%}</td>
                     <td>{{item.pos.name}}</td>
                     <td>{{item.number}}</td>
-                    <td>{{item.date|timezone:item.project.time_zone_name|date:'d-m-Y'}}</td>
+                    <td>
+                        {% if obj.zeta %}{{item.date|date:'d-m-Y'}}
+                        {%else%}{{item.date|timezone:item.project.time_zone_name|date:'d-m-Y'}}{%endif%}
+                    </td>
                     <td>
                         {% if obj.zeta %}{{item.close_date|date:'d-m-Y'}}
                         {%else%}{{item.close_date|timezone:item.project.time_zone_name|date:'d-m-Y'}}{%endif%}
