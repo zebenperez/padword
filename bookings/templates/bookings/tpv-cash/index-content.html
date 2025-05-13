@@ -55,11 +55,11 @@
                     <td>{{item.pos.name}}</td>
                     <td>{{item.number}}</td>
                     <td>
-                        {% if obj.zeta %}{{item.date|date:'d-m-Y'}}
+                        {% if item.zeta %}{{item.date|date:'d-m-Y'}}
                         {%else%}{{item.date|timezone:item.project.time_zone_name|date:'d-m-Y'}}{%endif%}
                     </td>
                     <td>
-                        {% if obj.zeta %}{{item.close_date|date:'d-m-Y'}}
+                        {% if item.zeta %}{{item.close_date|date:'d-m-Y'}}
                         {%else%}{{item.close_date|timezone:item.project.time_zone_name|date:'d-m-Y'}}{%endif%}
                     </td>
                     {%comment%}
