@@ -1,6 +1,6 @@
 {% load i18n padword_tags tz %}
 
-<td>{{ item.index }}</td>
+<td>{{ item.id }} ({{ item.index }})</td>
 <td><strong>{% trans "Nombre" %}:</strong> {{item.details.client }} <br/>
     <strong>{% trans "Teléfono" %}:</strong> {{item.details.client_mobile}}<br/>
     <strong>{% trans "Email" %}:</strong> {{item.details.client_email}}</br>
