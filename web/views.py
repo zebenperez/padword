@@ -611,10 +611,11 @@ def project_get_cloudbeds_webhooks(request):
 
 @group_required("admins")
 def project_set_cloudbeds_webhooks(request):
+    from django.utils.safestring import mark_safe
     try:
         pcu = get_or_none(ProjectCloudbedsUser, request.GET["obj_id"])
-        set_webhooks(pcu)
-        return HttpResponse("Saved!")
+        result = set_webhooks(pcu)
+        return HttpResponse(mark_safe(result))
     except Exception as e:
         print (show_exc(e))
         return HttpResponse("Error!")

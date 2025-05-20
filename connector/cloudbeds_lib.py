@@ -22,6 +22,8 @@ ROOMS_URL = "getRooms"
 GUEST_URL = "getGuest"
 BOOKING_PUT_URL = "putReservation"
 WEBHOOK_URL = "postWebhook"
+WEBHOOK_DELETE_URL = "deleteWebhook"
+CUSTOM_FIELD_URL = "postCustomField"
 CONFIRM_STATE = "confirmed"
 END_POINT_URL = "{}/connector/cloudbeds/webhook/".format(settings.MAIN_URL)
 
@@ -172,39 +174,31 @@ class Cloudbeds():
                 "propertyID": property_id
             }
             dic = self.__send_post_request__(_url_request, params).json()
-            return ""
+            return str(dic)
         except Exception as err:
             raise CloudbedsAPIError(menssage=err)
 
-#    def get_customer(self, customer_id):
-#        try:
-#            _url_request = "{}{}".format(API_URL, CUSTOMERS_URL)
-#            params = {
-#                    "ClientToken": "{}".format(self.client_token),
-#                    "AccessToken": "{}".format(self.access_token),
-#                    "Client": "Padword",
-#                    "CustomerIds": [customer_id]
-#            }
-#            dic = self.__send_post_request__(_url_request, params).json()
-#            items = dic["Customers"]
-#            return items
-#        except Exception as err:
-#            raise CloudbedsAPIError(menssage=err)
-#
-#    def get_resource(self, resource_id):
-#        try:
-#            _url_request = "{}{}".format(API_URL, RESOURCES_URL)
-#            params = {
-#                    "ClientToken": "{}".format(self.client_token),
-#                    "AccessToken": "{}".format(self.access_token),
-#                    "Client": "Padword",
-#                    "ResourceIds": [resource_id]
-#            }
-#            dic = self.__send_post_request__(_url_request, params).json()
-#            items = dic["Resources"]
-#            return items
-#        except Exception as err:
-#            raise CloudbedsAPIError(menssage=err)
+    def delete_webhook(self, property_id, subs_id):
+        try:
+            _url_request = "{}{}".format(API_URL, WEBHOOK_DELETE_URL)
+            params = { "propertyID": property_id, "subscriptionID": subs_id }
+            dic = self.__send_request__(_url_request, params).json()
+            return dic
+        except Exception as err:
+            raise CloudbedsAPIError(menssage=err)
+
+    def set_custom_field(self, name):
+        try:
+            _url_request = "{}{}".format(API_URL, CUSTOM_FIELD_URL)
+            params = {
+                "name": name,
+                "shortcode": name,
+                "isPersonal": "False"
+            }
+            dic = self.__send_post_request__(_url_request, params).json()
+            return str(dic)
+        except Exception as err:
+            raise CloudbedsAPIError(menssage=err)
 
 
 class CloudbedsBooking():
@@ -280,6 +274,7 @@ class CloudbedsRoom2():
         self.id = get_param(dic, "roomID")
         self.name = get_param(dic, "roomName")
         self.type_name = get_param(dic, "roomTypeName")
+        self.subreservation_id = get_param(dic, "subReservationID")
         self.check_in = ""
         self.check_out = ""
 
@@ -287,16 +282,16 @@ class CloudbedsRoom2():
 '''
     FUNCTIONS
 '''
-def get_ext_id(booking, room):
-    return "{}".format(booking.id)
-    #return "{}_{}".format(booking.id, room.id)
+def get_ext_id(booking, guest, room):
+    return "{}".format(room.subreservation_id)
+    #return "{}".format(booking.id)
+    #return "{}_{}_{}".format(booking.id, guest.id, room.id)
 
 def get_code(pcu, mobile=""):
     return mobile.rstrip()[-4:] if pcu.code_mobile and mobile != "" else ''.join([random.choice(string.digits) for i in range(4)]) 
 
 def get_date(date, hour, minute):
     return datetime.strptime("{} {}:{}".format(date, hour, minute), "%Y-%m-%d %H:%M")
-    #return datetime.strptime("{}".format(date), "%Y-%m-%dT%H:%M:%SZ")
 
 def room_exist(project_uuid, room):
     count = Room.objects.filter(project_uuid=project_uuid, number=room).count()
@@ -310,15 +305,10 @@ def send_lock_code(pcu, guest, booking_id):
     av.set_booking_code(booking_id, "lockLink", guest.pwa_link)
 
 def create_booking(pcu, room, booking, bguest, av):
-    #checkin = get_date(room.check_in, pcu.ini_time.hour, pcu.ini_time.minute)
-    #checkout = get_date(room.check_out, pcu.end_time.hour, pcu.end_time.minute)
     checkin = get_date(booking.start, pcu.ini_time.hour, pcu.ini_time.minute)
     checkout = get_date(booking.end, pcu.end_time.hour, pcu.end_time.minute)
     today = datetime.today()
     e_date = today + timedelta(pcu.days)
-    #end_date = e_date.strftime("%Y-%m-%d") 
-    #print(checkin)
-    #print(checkout)
     r = room.id if room != None else "-1"
     room_ex = room_exist(pcu.project_uuid, r)
     err = ""
@@ -328,7 +318,7 @@ def create_booking(pcu, room, booking, bguest, av):
 
     if room_ex and booking.status == "confirmed" and checkin <= e_date and checkin >= today:
         #msg += "\n Entrando"
-        ext_id = get_ext_id(booking, room)
+        ext_id = get_ext_id(booking, bguest, room)
         guest = Guest.objects.filter(ext_id=ext_id, project_id=pcu.project_uuid, deleted=0).first()
         if guest == None:
             guest = Guest(UUID = new_ui_slug(Guest, "UUID"), ext_id=ext_id, project_id=pcu.project_uuid)
@@ -361,13 +351,7 @@ def create_booking(pcu, room, booking, bguest, av):
         elif change_booking:
             msg += "\n MODIFICADA"
             guest.change_room(r)
-
-#        return guest, err
-#        #else:
-        #    if guest != None:
-        #        guest.delete()
     return msg
-    #return None, err
 
 def create_room(pcu, room, index):
     r = Room.objects.filter(project_uuid=pcu.project_uuid, number=room.id).first()
@@ -380,26 +364,18 @@ def create_room(pcu, room, index):
     r.order = index 
     r.save()
 
-#def delete_booking(pwu, booking):
-#    ext_id = get_ext_id(booking)
-#    guest = Guest.objects.filter(ext_id=ext_id, project_id=pwu.project_uuid, deleted=0).first()
-#    if guest != None:
-#        guest.delete()
-
 def get_booking_list(pcu):
-    #get_or_create_booking(pcu, "1880682788524")
+    #get_or_create_booking(pcu, "4584434224985")
+    #return []
     av = Cloudbeds(pcu.token)
     result = av.get_bookings()
-    #print(result)
     booking_list = []
     i = 0
     for item in result:
-        #print(item)
         i += 1
         node = CloudbedsBooking(item)
         room_list = get_param(item, "rooms")
         for room in room_list:
-            #print(room)
             room_node = CloudbedsBookingRoom(room)
             guest = av.get_guest(room_node.guest_id)
             guest_node = CloudbedsGuest(guest)
@@ -411,7 +387,6 @@ def get_booking_list(pcu):
 def get_room_list(pcu):
     av = Cloudbeds(pcu.token)
     result = av.get_rooms()
-    #print(result)
     room_list = []
     i = 0
     for item in result:
@@ -435,35 +410,40 @@ def get_webhooks(pcu):
 
 def set_webhooks(pcu):
     av = Cloudbeds(pcu.token)
-    #result = av.set_webhook("reservation", "created", pcu.property_id)
+    result = "Adding reservation/status_changed webhook <br/>"
     result += av.set_webhook("reservation", "status_changed", pcu.property_id)
+    result += "<br/>"
+    result += "Adding reservation/dates_changed webhook <br/>"
     result += av.set_webhook("reservation", "dates_changed", pcu.property_id)
+    result += "<br/>"
+    result += "Adding reservation/accommodation_changed webhook <br/>"
     result += av.set_webhook("reservation", "accommodation_changed", pcu.property_id)
+    result += "<br/>"
+    result += "Adding reservation/deleted webhook <br/>"
     result += av.set_webhook("reservation", "deleted", pcu.property_id)
-#    result += av.set_webhook("guest", "created", pcu.property_id)
-    #result += av.set_webhook("guest", "assigned", pcu.property_id)
-#    result += av.set_webhook("guest", "accommodation_changed", pcu.property_id)
-    return ""
+    result += "<br/>"
+    result += "Adding integration/appstate_changed webhook <br/>"
+    result += av.set_webhook("integration", "appstate_changed", pcu.property_id)
+    result += "<br/>"
+    result += "Adding custom field 'lockCode' <br/>"
+    result += av.set_custom_field("lockCode")
+    result += "<br/>"
+    result += "Adding custom field 'lockLink' <br/>"
+    result += av.set_custom_field("lockLink")
+    #print("-- Result: {}".format(result))
+    return result
 
 def manage_webhook_actions(pcu, obj):
     msg = ""
-    #if obj["event"] == "reservation/created":
-        #reservation_create(pcu, obj)
-    #    msg = "\n-- Creada la reserva {}".format(obj["reservationID"])
-    #    msg += get_or_create_booking(pcu, obj["reservationID"])
-
     if obj["event"] == "reservation/status_changed":
-        #reservation_status_change(pcu, obj)
         msg = "\n-- Modificado el estado de la reserva {}".format(obj["reservationID"])
         msg += get_or_create_booking(pcu, obj["reservationID"])
 
     if obj["event"] == "reservation/dates_changed":
-        #reservation_dates_change(pcu, obj)
         msg = "\n-- Modificadas las fechas de la reserva {}".format(obj["reservationId"])
         msg += get_or_create_booking(pcu, obj["reservationId"])
 
     if obj["event"] == "reservation/accommodation_changed":
-        #reservation_room_change(pcu, obj)
         msg = "\n-- Modificada la habitación de la reserva {}".format(obj["reservationId"])
         msg += get_or_create_booking(pcu, obj["reservationId"])
 
@@ -471,26 +451,22 @@ def manage_webhook_actions(pcu, obj):
         reservation_delete(pcu, obj)
         msg = "\n-- Eliminada la reserva {}".format(obj["reservationId"])
 
-#    if obj["event"] == "guest/created":
-#        guest_create(pcu, obj)
-#        msg = "\n-- Creado el huésped {}".format(obj["guestId"])
-
-    #if obj["event"] == "guest/assigned":
-        #guest_assigned(pcu, obj)
-    #    msg = "\n-- Asignado el huésped {} a la reserva {}".format(obj["guestId"], obj["reservationId"])
-    #    msg += get_or_create_booking(pcu, obj["reservationId"])
-
-#    if obj["event"] == "guest/accommodation_changed":
-#        guest_room_change(pcu, obj)
-#        msg = "\n-- Modificada la habitación del huésped {} en la reserva {}".format(obj["guestId"], obj["reservationId"])
-
+    if obj["event"] == "integration/appstate_changed":
+        disabled_connection(pcu, obj)
+        msg = "\n-- Desconectada la propiedad {}".format(obj["propertyId"])
     return msg
+
+def get_subreservation_dates(booking, sub_id):
+    if "assigned" in booking:
+        for node in booking["assigned"]:
+            if node["subReservationID"] == sub_id:
+                return node["startDate"], node["endDate"]
+    return booking["startDate"], booking["endDate"]
 
 def get_or_create_booking(pcu, ext_id):
     msg = ""
     av = Cloudbeds(pcu.token)
     booking = av.get_booking(ext_id)
-    #msg += "\n --1--"
     #msg += "\n {}".format(booking)
     node = CloudbedsBooking(booking)
 
@@ -505,119 +481,37 @@ def get_or_create_booking(pcu, ext_id):
         guest_list = get_param(booking, "guestList")
         for guest_id in guest_list:
             datas = guest_list[guest_id]
-            #msg += "\n --2--"
             #msg += "\n {}".format(datas)
-            #print(datas)
             guest_node = CloudbedsGuest2(datas)
-            room_node = CloudbedsRoom2(datas)
-            #msg += "\n --3--"
-            msg_g = create_booking(pcu, room_node, node, guest_node, av)
-            msg += "\n {}".format(msg_g)
-            #msg += "\n --4--"
-            #msg += "\n {} {}".format(guest.name, guest.room)
+
+            room_list = get_param(datas, "rooms")
+            for room_data in room_list:
+                node.start, node.end = get_subreservation_dates(booking, room_data["subReservationID"])
+                room_node = CloudbedsRoom2(room_data)
+                msg_g = create_booking(pcu, room_node, node, guest_node, av)
+                msg += "\n {}".format(msg_g)
             break
     return msg
 
-#def reservation_create(pcu, obj):
-#    ext_id = obj["reservationID"]
-#    checkin = get_date(obj["startDate"])
-#    checkout = get_date(obj["endDate"])
-#    
-#    guest = Guest.objects.filter(ext_id=ext_id, project_id=pcu.project_uuid, deleted=0).first()
-#    if guest == None:
-#        av = Cloudbeds(pcu.token)
-#        booking = av.get_booking(ext_id)
-#        b = CloudbedsBooking(booking)
-#        if b.status == "confirmed": 
-#            new_uuid = new_ui_slug(Guest, "UUID")
-#            guest = Guest.objects.create(UUID=new_uuid,ext_id=ext_id,project_id=pcu.project_uuid,check_in=checkin,check_out=checkout)
-#
-#    return guest
-#
-#def reservation_status_change(pcu, obj):
-#    ext_id = obj["reservationID"]
-#    status = obj["status"]
-#    status_list = ["in_progress", "confirmed", "not_confirmed", "canceled", "checked_in", "checked_out", "no_show"]
-#
-#    #in_progress se ignora
-#    #not_confirmed se ignora
-#    #check_in se ignora
-#    #no_show se ignora
-#
-#    #confirmed si no está creada se crea
-#    if status == "confirmed":
-#        guest = Guest.objects.filter(ext_id=ext_id, project_id=pcu.project_uuid, deleted=0).first()
-#        if guest == None:
-#            new_uuid = new_ui_slug(Guest, "UUID")
-#            guest = Guest.objects.create(UUID=new_uuid,ext_id=ext_id,project_id=pcu.project_uuid,check_in=checkin,check_out=checkout)
-#
-#    #canceled hacer soft_remove
-#    #check_out hacer soft_remove
-#    if status == "canceled" or status == "check_out":
-#        guest = Guest.objects.filter(ext_id=ext_id, project_id=pcu.project_uuid, deleted=0).first()
-#        if guest != None:
-#            guest.delete_soft()
-#
-#    return ""
-#
-#def reservation_dates_change(pcu, obj):
-#    ext_id = obj["reservationId"]
-#    checkin = get_date(obj["startDate"])
-#    checkout = get_date(obj["endDate"])
-#    guest = Guest.objects.filter(ext_id=ext_id, project_id=pcu.project_uuid, deleted=0).first()
-#    if guest != None:
-#        guest.check_in = checkin
-#        guest.check_out = checkout
-#        guest.save()
-#    return ""
-#
-#def reservation_room_change(pcu, obj):
-#    ext_id = obj["reservationId"]
-#    room_id = obj["roomId"]
-#    guest = Guest.objects.filter(ext_id=ext_id, project_id=pcu.project_uuid, deleted=0).first()
-#    if guest != None:
-#        if room_exist(pcu.project_uuid, room_id):
-#            guest.change_room(room_id)
-#            send_lock_code(pcu, guest, ext_id)
-#    return ""
-
 def reservation_delete(pcu, obj):
     ext_id = obj["reservationId"]
-    guest = Guest.objects.filter(ext_id=ext_id, project_id=pcu.project_uuid, deleted=0).first()
+    guest = Guest.objects.filter(ext_id__startswith=ext_id, project_id=pcu.project_uuid, deleted=0).first()
     if guest != None:
         guest.delete_soft()
     return ""
 
-#def guest_create(pcu, obj):
-#    guest_id = obj["guestId"]
-#    return ""
+def disabled_connection(pcu, obj):
+    prop_id = obj["propertyID"]
 
-#def guest_assigned(pcu, obj):
-#    guest_id = obj["guestId"]
-#    ext_id = obj["reservationId"]
-#    room_id = obj["roomId"]
-#    guest = Guest.objects.filter(ext_id=ext_id, project_id=pcu.project_uuid, deleted=0).first()
-#    if guest != None:
-#        av = Cloudbeds(pcu.token)
-#        guest_json = av.get_guest(guest_id)
-#        g = CloudbedsGuest(guest_json)
-#        guest.name = g.first_name
-#        guest.surname = g.last_name
-#        guest.mobile = g.cell_phone
-#        guest.email = g.email
-#        guest.save()
-#        if room_exist(pcu.project_uuid, room_id):
-#            guest.change_room(room_id)
-#            send_lock_code(pcu, guest, ext_id)
-#    return ""
-#
-#def guest_room_change(pcu, obj):
-#    guest_id = obj["guestId"]
-#    ext_id = obj["reservationId"]
-#    room_id = obj["roomId"]
-#    guest = Guest.objects.filter(ext_id=ext_id, project_id=pcu.project_uuid, deleted=0).first()
-#    if guest != None:
-#        if room_exist(pcu.project_uuid, room_id):
-#            guest.change_room(room_id)
-#    return ""
+    av = Cloudbeds(pcu.token)
+    result = av.get_webhook(pcu.property_id)
+    if "data" in result:
+        for r in result["data"]:
+            delete_webhook(prop_id, r["id"])
+ 
+    if obj["newState"] == "disabled":
+        pcu.token = ""
+        pcu.property_id = ""
+        pcu.save()
+    return ""
 

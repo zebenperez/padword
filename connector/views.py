@@ -282,8 +282,8 @@ def cloudbeds_set_webhooks(request):
         pcu = get_or_none(ProjectCloudbedsUser, project_uuid, "project_uuid")
         if pcu.property_id == "":
             return HttpResponse("Property ID can not be empty!")
-        cb_set_webhooks(pcu)
-        return HttpResponse("Sended!")
+        result = cb_set_webhooks(pcu)
+        return HttpResponse(result)
     except Exception as e:
         print(e)
         return render(request, 'error_exception.html', {'exc':show_exc(e)})

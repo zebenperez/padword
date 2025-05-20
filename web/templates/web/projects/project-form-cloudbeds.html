@@ -15,9 +15,8 @@
             <div class="col-3">
                 <div class="form-check form-switch">
                     <button class="btn btn-info ark" data-url="{% url "project-set-cloudbeds-webhooks" %}" 
-                        data-target="div-cloudbeds-webhooks" data-obj_id="{{user_cloudbeds.id}}">{% trans "Enviar webhooks" %}</button>
+                        data-target="div-cloudbeds-webhooks" data-obj_id="{{user_cloudbeds.id}}">{%trans "Realizar conexión"%}</button>
                 </div>
-                <div id="div-cloudbeds-webhooks"></div>
             </div>
             <div class="col-3">
                 <div class="form-check form-switch">
@@ -33,6 +32,7 @@
                 </div>
             </div>
         </div>
+        <div class="row"> <div class="col-12"> <div id="div-cloudbeds-webhooks"></div> </div> </div>
         <div class="row mt-4">
             <div class="col-6">
                 <label class="label">{% trans "Token" %}:</label>

@@ -4,7 +4,7 @@
     <div class="col-lg-8 col-8 btn-dark pt-2"> <h5 class="card-title text-left">{% padword_translate obj.item.name %}</h5> </div>
     <div class="col-lg-4 col-4 btn-dark price pt-1" id="div-total-shopping-cart">{{obj.item.price}} {{obj.item.currency}}{#&euro;#} 
         </div>
-    <div class="col-lg-4 col-12 p-3 imagen-item">
+    <div class="col-lg-4 col-12 p-3 imagen-item d-none d-lg-block">
         <div class="image" id="cover"> 
             <img src="{% if obj.item.image %}{{obj.item.image.url}} {%else%} {% static 'img/none.png' %}{%endif%}" 
             class="card-img-top" alt="{% padword_translate obj.item.name %}" style="height:auto; width: auto;"></div>
