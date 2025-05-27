@@ -10,6 +10,7 @@ import urllib
 import json
 import random
 import string
+import time
 
 try:
     API_URL = settings.CLOUDBEDS_API_URL
@@ -40,6 +41,9 @@ class CloudbedsAPIError(Exception):
 class Cloudbeds():
     def __init__(self, token):
         self.token = token
+        self.ids = ""
+        #self.codes = ""
+        #self.links = ""
     
     def __send_request__(self, _url_request, _params=""):
         try:
@@ -193,6 +197,7 @@ class Cloudbeds():
             params = {
                 "name": name,
                 "shortcode": name,
+                "maxCharacters": 2000,
                 "isPersonal": "False"
             }
             dic = self.__send_post_request__(_url_request, params).json()
@@ -324,7 +329,15 @@ def create_booking(pcu, room, booking, bguest, av):
             guest = Guest(UUID = new_ui_slug(Guest, "UUID"), ext_id=ext_id, project_id=pcu.project_uuid)
             booking.created = True
         
-        change_booking = True if guest.check_in != checkin or guest.check_out != checkout or guest.room != r else False
+        gc_in = guest.check_in.strftime("%Y-%m-%d %H:%M:%S")
+        gc_out = guest.check_out.strftime("%Y-%m-%d %H:%M:%S")
+        c_in = checkin.strftime("%Y-%m-%d %H:%M:%S")
+        c_out = checkout.strftime("%Y-%m-%d %H:%M:%S")
+        change_booking = True if gc_in != c_in or gc_out != c_out or guest.room != r else False
+        #msg += "\n Checkin {} == {}".format(gc_in, c_in)
+        #msg += "\n Checkout {} == {}".format(gc_out, c_out)
+        #msg += "\n Checkout {} == {}".format(guest.room, r)
+        #msg += "\n Change Booking {}".format(change_booking)
         #print(bguest)
         #print(bguest.first_name)
         guest.name = bguest.first_name
@@ -340,16 +353,20 @@ def create_booking(pcu, room, booking, bguest, av):
         msg += "\n Asignando: {} ({})".format(guest.room, guest.name)
 
         if booking.created:
-            msg += "\n CREADA"
-            lock_code = get_code(pcu, guest.mobile)
+            msg += "\n CREADA: {}".format(guest.ext_id)
+            av.ids += "{}:{},".format(room.name, guest.ext_id)
+            #lock_code = get_code(pcu, guest.mobile)
             #msg += "-- CODE: {} - mobile {} - code mobile{}".format(lock_code, guest.mobile, pcu.code_mobile)
             #print(lock_code)
-            err = guest.add_all_key_code(lock_code)
-            msg += "\n {}".format(err)
-            av.set_booking_code(booking.id, "lockCode", lock_code)
-            av.set_booking_code(booking.id, "lockLink", guest.pwa_link)
+            #err = guest.add_all_key_code(lock_code)
+            #msg += "\n {}".format(err)
+            #av.codes += "{}:{} ".format(r, lock_code)
+            #av.links += "{}:{} ".format(r, guest.pwa_link)
+            #av.set_booking_code(booking.id, "lockCode", lock_code)
+            #av.set_booking_code(booking.id, "lockLink", guest.pwa_link)
         elif change_booking:
-            msg += "\n MODIFICADA"
+            #time.sleep(3)
+            msg += "\n MODIFICADA: {}".format(guest.ext_id)
             guest.change_room(r)
     return msg
 
@@ -365,8 +382,8 @@ def create_room(pcu, room, index):
     r.save()
 
 def get_booking_list(pcu):
-    #get_or_create_booking(pcu, "4584434224985")
-    #return []
+    get_or_create_booking(pcu, "8330112552572")
+    return []
     av = Cloudbeds(pcu.token)
     result = av.get_bookings()
     booking_list = []
@@ -434,6 +451,8 @@ def set_webhooks(pcu):
     return result
 
 def manage_webhook_actions(pcu, obj):
+    random_time = random.uniform(8.0, 12.0)
+    time.sleep(random_time)
     msg = ""
     if obj["event"] == "reservation/status_changed":
         msg = "\n-- Modificado el estado de la reserva {}".format(obj["reservationID"])
@@ -448,8 +467,8 @@ def manage_webhook_actions(pcu, obj):
         msg += get_or_create_booking(pcu, obj["reservationId"])
 
     if obj["event"] == "reservation/deleted":
-        reservation_delete(pcu, obj)
         msg = "\n-- Eliminada la reserva {}".format(obj["reservationId"])
+        msg += reservation_delete(pcu, obj)
 
     if obj["event"] == "integration/appstate_changed":
         disabled_connection(pcu, obj)
@@ -473,9 +492,9 @@ def get_or_create_booking(pcu, ext_id):
     msg += "\n -- Estado: {}".format(node.status)
     if node.status == "canceled" or node.status == "check_out":
         #msg += "\n -- Cancelada."
-        guest = Guest.objects.filter(ext_id=ext_id, project_id=pcu.project_uuid, deleted=0).first()
-        if guest != None:
-            msg += "\n -- Borrando."
+        guest_list = Guest.objects.filter(ext_id__startswith=ext_id, project_id=pcu.project_uuid, deleted=0)
+        for guest in guest_list:
+            msg += "\n -- Borrando: {}".format(guest.ext_id)
             guest.delete_soft()
     else:
         guest_list = get_param(booking, "guestList")
@@ -491,12 +510,16 @@ def get_or_create_booking(pcu, ext_id):
                 msg_g = create_booking(pcu, room_node, node, guest_node, av)
                 msg += "\n {}".format(msg_g)
             break
+        #Envío de códigos de reserva y subreservas
+        msg += send_booking_codes(pcu, av, node.id)
     return msg
 
 def reservation_delete(pcu, obj):
     ext_id = obj["reservationId"]
-    guest = Guest.objects.filter(ext_id__startswith=ext_id, project_id=pcu.project_uuid, deleted=0).first()
-    if guest != None:
+    msg += "\n -- Borrado de reservas"
+    guest_list = Guest.objects.filter(ext_id__startswith=ext_id, project_id=pcu.project_uuid, deleted=0)
+    for guest in guest_list:
+        msg += "\n -- Borrado de subreserva: {}".format(guest.ext_id)
         guest.delete_soft()
     return ""
 
@@ -515,3 +538,35 @@ def disabled_connection(pcu, obj):
         pcu.save()
     return ""
 
+def send_booking_codes(pcu, av, booking_id):
+    codes = ""
+    links = ""
+    guest_list = av.ids.split(",")
+    msg = "\n -- Envío de códigos"
+    for data in guest_list:
+        if ":" in data:
+            try:
+                datas = data.split(":")
+                room = datas[0]
+                ext_id = datas[1]
+                if ext_id != "":
+                    guest = Guest.objects.filter(ext_id=ext_id, project_id=pcu.project_uuid, deleted=0).first()
+                    if guest != None:
+                        lock_code = get_code(pcu, guest.mobile)
+                        #msg += "-- CODE: {} - mobile {} - code mobile{}".format(lock_code, guest.mobile, pcu.code_mobile)
+                        #print(lock_code)
+                        err = guest.add_all_key_code(lock_code)
+                        msg += "\n {}".format(err)
+                        if not "Error" in err:
+                            codes += "{}:{} ".format(room, lock_code)
+                            links += "{}:{} ".format(room, guest.pwa_link)
+            except Exception as e:
+                msg = "\n -- Error: {}".format(e)
+    if codes != "":
+        msg += "\n -- Enviando códigos: {}".format(codes)
+        av.set_booking_code(booking_id, "lockCode", codes)
+        av.set_booking_code(booking_id, "lockLink", links)
+        msg += "\n -- Códigos enviados"
+    return msg
+
+ 
