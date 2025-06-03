@@ -220,6 +220,7 @@ class Guest(models.Model):
         return lock_list_result
 
     def add_key_code(self, lock, code=""):
+        #print("-- Add key code {}:{}--".format(lock.alias, code))
         code = self.mobile_to_code() if code == "" else code
         #code_id = lock.set_code(code, self.check_in, self.check_out, "{} {}".format(self.name, self.surname))
         #code_id = lock.set_code(code, self.get_start_date(), self.check_out, "{} {}".format(self.name, self.surname))
@@ -236,6 +237,7 @@ class Guest(models.Model):
         return ""
 
     def add_all_key_code(self, code=""):
+        #print("-- Add all key code --")
         err = ""
         for lock in self.get_locks():
             #t2 = datetime.datetime.now()
@@ -373,6 +375,22 @@ class Guest(models.Model):
 #    '''
 #    def access_zones(self):
 #        return WristbandAccessZone.objects.filter(project_uuid=self.project_id)
+
+    '''
+        Cars
+    '''
+    @property
+    def plates(self):
+        return ",".join([item.number for item in self.cars.all()])
+
+    def add_plates(self, plates):
+        for number in plates.split(","):
+            GuestCar.objects.get_or_create(number=number, guest=self)
+
+    def manage_plates(self, plates):
+        current_plates = GuestCar.objects.all().delete()
+        for number in plates.split(","):
+            GuestCar.objects.create(number=number, guest=self)
 
     '''
         Statics

@@ -67,6 +67,7 @@ class GuestViewSet(viewsets.ModelViewSet):
             }
             #print(data)
             lock_code = request.POST.get("lock_code", "")
+            plates = request.POST.get("plates", "")
 
             if len(data["mobile"]) < 9 and lock_code == "":
                 msg = "Mobile is required and must be at least 9 characters long!"
@@ -75,7 +76,6 @@ class GuestViewSet(viewsets.ModelViewSet):
 
             serializer = self.serializer_class(data=data)
             if serializer.is_valid():
-                #serializer.save()
                 guest = Guest.objects.create(**data)
                 logger.info("[{}]: \"Guest {} {} created\"".format(self.request.user, guest.name, guest.surname))
 
@@ -83,17 +83,11 @@ class GuestViewSet(viewsets.ModelViewSet):
                 guest_data["lock_code_err"] = guest.add_all_key_code() if lock_code == "" else guest.add_all_key_code(lock_code)
                 guest_data["lock_code"] = guest.lock_code 
 
-                #if data["lock_code"] == "":
-                #    guest_data["lock_code_err"] = guest.add_all_key_code()
-                #else:
-                #    guest_data["lock_code_err"] = guest.add_all_key_code(data["lock_code"])
-
-                #if guest.room != "":
-                #    guest.change_sensibo_devices(guest.room)
+                #Gestión de matrículas
+                guest.add_plates(plates)
 
                 logger.info("[{}]: \"Guest key codes {} {} created\"".format(self.request.user, guest.name, guest.surname))
                 return Response(data=guest_data, status=status.HTTP_201_CREATED)
-                #return Response(data=self.serializer_class(guest).data, status=status.HTTP_201_CREATED)
             else:
                 logger.error("[{}]: \"Bad request!\"".format(self.request.user))
                 return Response(data=serializer.errors, status=status.HTTP_400_BAD_REQUEST)
@@ -157,20 +151,18 @@ class GuestViewSet(viewsets.ModelViewSet):
                 guest.change_room(request.POST["room"])
                 #guest.change_sensibo_devices(request.POST["room"])
             guest.save()
+
+            #Gestión de matrículas
+            if "plates" in request.POST:
+                guest.add_plates(request.POST["plates"])
+ 
             guest_data = self.serializer_class(guest).data
             codes_err = ""
             if update_dates:
                 guest_data["lock_card_err"] = guest.change_all_key_card_date()
                 guest_data["lock_code_err"] = guest.change_all_key_code_date()
                 codes_err = guest_data["lock_code_err"]
-                #if not update_codes:
-                #    guest_data["lock_code_err"] = guest.change_all_key_code_date()
-                #    codes_err = guest_data["lock_code_err"]
-                #guest.remove_all_key_cards()
-            #if update_codes:
-            #    guest_data["lock_code_err"] = guest.change_all_key_code(guest.mobile_to_code())
-            #    codes_err = guest_data["lock_code_err"]
- 
+
             log_str = "[{}]: \"Guest {} {} updated\"".format(self.request.user, guest.name, guest.surname)
             log_str += " (dates modified=\"{}\" - mobile modified=\"{}\" - code err=\"{}\")".format(update_dates, update_codes, codes_err)
             log_str += " <br/>(POST=\"{}\")".format(request.POST)

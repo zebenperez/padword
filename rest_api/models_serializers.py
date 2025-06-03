@@ -44,13 +44,17 @@ class GuestSerializer(serializers.HyperlinkedModelSerializer):
 #    fcoc = FcocSerializer(many=False, read_only=True)
 #    #area = AreaSerializer(many=True, read_only=True, source="teacher_area")
     lock_code = serializers.SerializerMethodField()
+    plates = serializers.SerializerMethodField()
 
     def get_lock_code(self, obj):
         return obj.lock_code
 
+    def get_plates(self, obj):
+        return obj.plates
+
     class Meta:
         model = Guest
-        fields = ['UUID', 'name', 'surname', 'language', 'mobile', 'email', 'check_in', 'check_out', 'room', 'ext_id', 'pwa_link', 'lock_code']
+        fields = ['UUID', 'name', 'surname', 'language', 'mobile', 'email', 'check_in', 'check_out', 'room', 'ext_id', 'pwa_link', 'lock_code', 'plates']
 
 class LockSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:

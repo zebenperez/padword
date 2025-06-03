@@ -1,8 +1,9 @@
 {% load i18n bookings_tag common_tag padword_tags tpv_tags static %}
 
 <div id="base-tpv-mobile">
-    <div class="header-mobile sticky-top" tyle="border: 1px solid black">
 
+    <!-- header --> 
+    <div class="header-mobile sticky-top">
         <div class="row products-tpv-mobile w-100 text-center m-0 p-0">
             <div class="col-4 p-0 name">
                 <button class="btn ark w-100" data-url="{% url "tpv-mob-change-pos" %}" data-target="base" data-project_uuid="{{project_uuid}}">
@@ -46,12 +47,6 @@
         <div class="header-bottom tpv-toggle" id="title-div-scan">
             {% include "bookings/tpv/mobile/scan-nfc.html" %}
         </div>
-    </div>
-
-    <div id="main" class="main-tpv-mobile">
-        <div id="tpv-cart-mobile" class="tpv-toggle">
-            {% if form and form != None %} {% include "bookings/tpv/mobile/tpv-cart-mobile.html" %} {% endif %}
-        </div>
 
         {# -- TICKET -- #}
         <div id="ticket-tpv-mobile" class="ticket-tpv-mobile tpv-toggle">
@@ -63,6 +58,16 @@
         </div>
         {# -- TICKET -- #}
     </div>
+    <!-- end header --> 
+    
+    <!-- content --> 
+    <div id="main" class="main-tpv-mobile">
+        <div id="tpv-cart-mobile" class="tpv-toggle">
+            {% if form and form != None %} {% include "bookings/tpv/mobile/tpv-cart-mobile.html" %} {% endif %}
+        </div>
+    </div>
+    <!-- end content --> 
+
 </div>
 {% include "common-modal.html" %}
 

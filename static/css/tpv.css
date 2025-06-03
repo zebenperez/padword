@@ -520,7 +520,7 @@ button.btn.btn-header-pwa.ark, a.btn.btn-header-pwa.ark
 /*****************************/
 /* MAIN TPV */
 
-
+/*
 .main-tpv 
 {
 	background-color: #e0e0e0;
@@ -530,6 +530,8 @@ button.btn.btn-header-pwa.ark, a.btn.btn-header-pwa.ark
 	height: 90%;
 	overflow-y: scroll;
 }
+*/
+
 .main-tpv .card.slider-cart
 {
 	background: transparent !important;
@@ -652,15 +654,16 @@ h5.card-title
 
 #main.main-tpv-mobile {
     /*padding-bottom:150px;*/
-} // Dani
+}
 
 #base-tpv-mobile
 {
 	background-color: #ffffff;
 	/*height: 99vh !important;*/
-    margin-top: 150px;
+    margin-top: 120px;
+    padding-bottom: 200px;
 }
-
+/*
 .main-tpv-mobile {
 	top: 110px;
 	position: fixed;
@@ -669,6 +672,8 @@ h5.card-title
 	overflow-y: scroll;
     padding-bottom: 150px !important;
 }
+*/
+
 /*****************************/
 /* HEADER */
 
@@ -682,7 +687,7 @@ h5.card-title
     top: 0;
     z-index: 1020;
     width: 100%;
-	height: 110px;
+/*	height: 100px !important;*/
     align-items: center;
 }
 .products-tpv-mobile .name button
@@ -946,3 +951,13 @@ img.img-fill.mobile
     -webkit-box-shadow: 0px rgb(f f f / 0% ;
 }
 
+.infinite-ticket.m-0.mt-3 {
+    background: #f6ffe5 !important;
+    border-top: 2px solid #a1c517 !important;
+    top: 460px !important; 
+    position: fixed !important; 
+    width: 100% !important; 
+    height: 100% !important; 
+    overflow-y: scroll !important; 
+    padding-bottom: 150px !important;
+}
