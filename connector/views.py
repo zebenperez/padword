@@ -202,7 +202,7 @@ def winhotel_log(request):
     f = open(os.path.join(settings.BASE_DIR, "winhotel.log"), "r", encoding='utf-8')
     text = f.read()
     try:
-        log_list = [f for f in os.listdir(settings.LOGPATH) if re.match(r'.*avantio.*', f)]
+        log_list = [f for f in os.listdir(settings.LOGPATH) if re.match(r'.*winhotel.*', f)]
     except:
         log_list = []
     return render(request, 'cron-log.html', {'text': text.replace("\n", "<br/>"), 'log_list': log_list})
@@ -305,7 +305,12 @@ def cloudbeds_webhook(request):
         elif "propertyID_str" in booking:
             pcu = get_or_none(ProjectCloudbedsUser, booking["propertyID_str"], "property_id")
         if pcu == None:
-            f.write("\nError: Propiedad {} no encontrada".format(booking["propertyId_str"]))
+            if "propertyId_str" in booking:
+                f.write("\nError: Propiedad {} no encontrada".format(booking["propertyId_str"]))
+            elif "propertyID_str" in booking:
+                f.write("\nError: Propiedad {} no encontrada".format(booking["propertyID_str"]))
+            else:
+                f.write("\nError: Propiedad no encontrada")
 
         msg = cb_manage_webhook_actions(pcu, booking)
         f.write(msg)

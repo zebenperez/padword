@@ -9,7 +9,7 @@ from connector.winhotel_lib import get_booking_range_list as wh_get_booking_rang
 from connector.mews_lib import get_booking_list as mews_get_booking_list
 from web.models import Project, ProjectLockUser
 from web.models_lock import Lock, LockCron
-from guest.models import WristbandAccess, WristbandAccessZone
+from guest.wristband_models import WristbandAccess, WristbandAccessZone
 from connector.models import ProjectAvantioUser, ProjectWinhotelUser, ProjectMewsUser
 from padword.commons import get_or_none
 from padword.email_lib import send_email
