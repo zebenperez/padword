@@ -298,6 +298,7 @@ class LockUser(models.Model):
         result = []
         for user in user_list:
             val = LockUser.objects.filter(lock_username=user["username"]).count()
+            #val = LockUser.objects.filter(lock_username=user["username"], project_uuid=project.uuid).count()
             if val == 0:
                 result.append(user)
         return result
@@ -334,12 +335,12 @@ class LockGroup(models.Model):
         return obj.delete_group(self.remote_id)
 
     @staticmethod
-    def list_group_not_assigned(access_token):
-        obj = ShLock(access_token)
+    def list_group_not_assigned(project):
+        obj = ShLock(project.lock_access_token)
         group_list = obj.list_group()
         result = []
         for group in group_list:
-            val = LockGroup.objects.filter(remote_name=group["groupName"]).count()
+            val = LockGroup.objects.filter(remote_name=group["groupName"], project_uuid=project.uuid).count()
             if val == 0:
                 result.append(group)
         return result
