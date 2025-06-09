@@ -520,9 +520,9 @@ button.btn.btn-header-pwa.ark, a.btn.btn-header-pwa.ark
 /*****************************/
 /* MAIN TPV */
 
-/*
 .main-tpv 
 {
+	background-color: #e0e0e0;
 	background-color: #e0e0e0;
 	top: 90px;
 	position: fixed;
@@ -530,7 +530,6 @@ button.btn.btn-header-pwa.ark, a.btn.btn-header-pwa.ark
 	height: 90%;
 	overflow-y: scroll;
 }
-*/
 
 .main-tpv .card.slider-cart
 {
