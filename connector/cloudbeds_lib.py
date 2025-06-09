@@ -125,13 +125,14 @@ class Cloudbeds():
         except Exception as err:
             raise CloudbedsAPIError(menssage=err)
 
-    def get_rooms(self):
+    def get_rooms(self, property_id):
         try:
-            _url_request = "{}{}".format(API_URL, ROOMS_URL)
-            params = {
-                "pageNumber": "10",
-                "pageSize": "100"
-            }
+            _url_request = "{}{}?propertyIDs={}&pageSize=10&pageSize=100".format(API_URL, ROOMS_URL)
+            #_url_request = "{}{}".format(API_URL, ROOMS_URL)
+            #params = {
+            #    "pageNumber": "10",
+            #    "pageSize": "100"
+            #}
             dic = self.__send_request__(_url_request, params).json()
             items = dic["data"][0]["rooms"]
             return items
@@ -407,7 +408,7 @@ def get_booking_list(pcu):
 
 def get_room_list(pcu):
     av = Cloudbeds(pcu.token)
-    result = av.get_rooms()
+    result = av.get_rooms(pcu.property_id)
     room_list = []
     i = 0
     for item in result:
