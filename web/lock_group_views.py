@@ -20,7 +20,7 @@ def get_lock_group_items(request, project):
     if "lock_group_search_name" in request.session and request.session["lock_group_search_name"] != "":
         kwargs["name__icontains"] = request.session["lock_group_search_name"]
 
-    return LockGroup.objects.filter(**kwargs)
+    return LockGroup.objects.filter(**kwargs).order_by("name")
     #return LockGroup.objects.filter(**kwargs) if len(kwargs) > 0 else LockGroup.objects.all()
 
 def get_context(request, project):
