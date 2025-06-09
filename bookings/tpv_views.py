@@ -389,7 +389,7 @@ def tpv_order_send(request):
 
         set_desc(fi, desc)
 
-        context = {'msg': fi.get_status.status.code, 'project_uuid': fi.form.project.uuid, "mobile": mobile}
+        context = {'msg': fi.get_status.status.code, 'project_uuid': fi.form.project.uuid, "mobile": mobile, 'fi': fi}
         #context = {'msg': fi.get_status.status.code, 'project_uuid': fi.form.project.uuid}
         return render(request, 'bookings/tpv/show-msg.html', context)
     except Exception as e:
@@ -417,6 +417,18 @@ def tpv_order_send_part(request):
     except Exception as e:
         print(e)
         logger.error("[bookings-booking_send] {}".format(str(e)))
+        return render(request, 'error_exception.html', {'exc':show_exc(e)})
+
+@group_required("waiters")
+def tpv_print_ticket(request, obj_id):
+    try:
+        #fi = get_or_none(FormInstance, get_param(request.GET, "obj_id"))
+        fi = get_or_none(FormInstance, obj_id)
+        mobile = get_param(request.GET, "mobile", "")
+        return render(request, 'bookings/tpv/print-ticket.html', {'fi': fi, 'info': fi.details, 'mobile': mobile})
+    except Exception as e:
+        print(e)
+        logger.error("[bookings-print-ticket] {}".format(str(e)))
         return render(request, 'error_exception.html', {'exc':show_exc(e)})
 
 @group_required("waiters")

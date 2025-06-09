@@ -1,0 +1,153 @@
+{% load i18n static padword_tags lock_tags tz %}
+
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description" content="">
+        <title>Padword Cloud 360</title>
+
+        <!-- Bootstrap core CSS -->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" 
+            integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
+        <!-- Font awesome -->
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" 
+            integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+
+        <!-- JQuery -->
+        <script src="https://code.jquery.com/jquery-3.5.1.js" ></script>
+
+        <!-- Shidix -->
+        <link rel="stylesheet" href="{% static 'css/styles.css' %}" >
+
+        <!-- Favicons -->
+        <meta name="theme-color" content="#7952b3">
+        
+        <style>
+            body { background: #fff }
+            #main {
+                width: 90mm;
+                margin: auto;
+            }
+            h1 {
+                font-size: 1.2rem;
+                text-transform: uppercase;
+            }
+            h2 {
+                color: #212529;
+                font-size: 1rem;
+            }
+
+            .title {
+                text-align: center;
+                font-size: 1.2em;
+            } 
+            .separator {
+                border-bottom: 1px dashed #ccc;
+                height: 10px;
+                margin-bottom: 10px;
+            }
+            .footer {
+                position: fixed;
+                bottom: 0;
+                width: 90mm;
+                margin: auto;
+
+            }
+
+            @media screen {
+                @media print {
+                    @page {
+                        size: A4;
+                        margin: 2cm;
+                    }
+                }
+            }
+        </style>
+    </head>
+
+    <body>
+        <div id="main" class="small text-center">
+            {%comment%}
+            <div class="d-flex justify-content-end"> 
+                <button id="btn-back" class="me-1 btn btn-access ark" data-target="base" data-project_uuid="{{fi.project.uuid}}"
+                    data-url="{%if mobile and mobile != ""%}{%url "tpv-mob-change-table"%}{%else%}{%url "tpv-change-table"%}{%endif%}"
+                    style="display:none">
+                    {%trans "Back"%}</button>
+                <a class="btn btn-default" onclick="window.print()"> &#128424; {% trans "Imprimir" %}</a> 
+            </div>
+            {%endcomment%}
+
+            <br/>
+            {% if fi.project.logo %}<img src="{{fi.project.logo.url}}" alt="Logo" width="100px"/><br/>{% endif %} <br/>
+            <h1>{{fi.project.name}}</h1>
+            {% with pos=fi.pos %}
+                {%comment%}
+                <div class="trade-name text-start">Lanis Suites de Luxe, S.L. </div>
+                <div class="fiscal text-start">Dirección del hotel, 38000 </div>
+                <div class="vat text-start">{% trans 'VAT ID' %}: A0001133 </div>
+                {%endcomment%}
+                <div class="trade-name text-start">{{pos.ticket_head|safe}} </div>
+                <div class="separator"></div>
+                <div class="title">{% trans 'TPV' %} {{pos.name}}</div>
+            {% endwith %}
+            <table width="100%" class="small">
+                <tbody>
+                    <tr><td>{% trans "Nº" %}.:</td> <td class="text-end"> <strong>{{fi.id}}</strong></td></tr>
+                    <tr><td>{% trans "Date" %}:</td><td class="text-end"> 
+                        <strong>{{ fi.date|date:'d/m/Y H:i:s' }}</strong></td></tr>
+                        {#<strong>{{ fi.date|timezone:fi.project.time_zone_name|date:'d/m/Y H:i:s' }}</strong></td></tr>#}
+                    <tr><td>{% trans "Client" %}:</td><td class="text-end"> <strong>{{info.client}}</strong></td> </tr>
+                    <tr><td>{% trans "Room" %}:</td><td class="text-end"> <strong>{{info.client_room}}</strong></td> </tr>
+                </tbody>
+            </table>
+            <div class="separator"></div>
+            {% with items=fi.get_items subtotal=fi.get_total total=fi.get_total_total regime=fi.band.guest.regime band=fi.band%}
+                {% if items|length > 0 %}
+                    <h2>{% trans 'Items' %}</h2>
+                    <table width="100%" class="small">
+                        <tbody>
+                                <tr>
+                                    <th>{% trans 'Items' %}</th>
+                                    <th>{% trans 'Description' %}</th>
+                                    <th class="text-end">{% trans 'Price' %}</th>
+                                    <th class="text-end">{% trans 'Total' %}</th>
+                                </tr>
+                            {% for item in items %}
+                                <tr>
+                                    <td>{{items|length}}</td>
+                                    <td>{% padword_translate item.item.name %}</td>
+                                    <td class="text-end"><strong>{{ item.price }} {{item.currency}}</strong></td>
+                                    <td class="text-end"><strong>{{ item.total_price }} {{item.currency}}</strong></td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                    <div class="separator"></div>
+                {% endif %}
+
+                <h2>{% trans 'Summary' %}</h2>
+                <table width="100%" class="small">
+                    <tbody>
+                        <tr><td>{%trans "Nº Items"%}</td><td class="text-end"><strong>{{items|length}}</strong></td></tr>
+                        <tr><td>{%trans "Subtotal"%}</td><td class="text-end">
+                            <strong>{{subtotal|floatformat:2}} {{fi.currency}}</strong></td></tr>
+                        <tr><td>{%trans "Total"%}</td><td class="text-end">
+                            <strong>{{total|floatformat:2}} {{fi.currency}}</strong></td></tr>
+                    </tbody>
+                </table>
+                <div class="separator"></div>
+                <div class="footer small text-center">IGIC No Incluido<br/>Este Documento No Es Una Factura</div>
+            {% endwith %}
+        </div>
+        <script>
+            window.print();
+            window.addEventListener('afterprint', () => {
+                console.log('El diálogo de impresión se cerró');
+                //window.close();
+            });
+        </script>
+        {#<script>setTimeout(()=>{$("#btn-back").click();}, 3000)</script>#}
+    </body>
+</html>

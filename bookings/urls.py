@@ -205,6 +205,8 @@ urlpatterns = [
     path('tpv-order-send/', tpv.tpv_order_send, name='tpv-order-send'),
     path('tpv-order-send-part/', tpv.tpv_order_send_part, name='tpv-order-send-part'),
 
+    path('tpv-print-ticket/<int:obj_id>/', tpv.tpv_print_ticket, name='tpv-print-ticket'),
+
     path('tpv-orders-by-waiter/', tpv.orders_by_waiter, name='tpv-orders-by-waiter'),
     path('tpv-order-details/', tpv.order_details, name='tpv-order-details'),
 
