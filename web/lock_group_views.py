@@ -24,7 +24,8 @@ def get_lock_group_items(request, project):
     #return LockGroup.objects.filter(**kwargs) if len(kwargs) > 0 else LockGroup.objects.all()
 
 def get_context(request, project):
-    group_items = LockGroup.list_group_not_assigned(project.lock_access_token)
+    #group_items = LockGroup.list_group_not_assigned(project.lock_access_token)
+    group_items = LockGroup.list_group_not_assigned(project)
     items = get_lock_group_items(request, project)
     return {'items':items, 'group_items': group_items, 'project': project}
 
