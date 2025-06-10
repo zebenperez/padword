@@ -500,7 +500,7 @@ def guest_form_by_project(request):
         return render(request, 'error_exception.html', {'exc':show_exc(e)})
 
 @group_required("projects")
-def guest_details_by_project(request, obj_id=""):
+def guest_details_by_project(request, obj_id="", current_tab=""):
     try:
         project = get_or_none(Project, request.project_id)
         if obj_id != "":
@@ -512,7 +512,16 @@ def guest_details_by_project(request, obj_id=""):
         guest_type_list = GuestType.objects.filter(project_uuid = obj.project_id)
         #card = obj.cards.first() if obj.cards.count() > 0 else GuestCard.objects.create(guest=obj)
         #stripe = obj.stripes.first() if obj.stripes.count() > 0 else GuestStripe.objects.create(guest=obj)
-        context = {'obj':obj, 'project_uuid':project.uuid, 'temp_range':range(16,26), 'regime_list':regime_list, 'guest_type_list':guest_type_list, 'card':obj.card, 'stripe':obj.stripe}
+        context = {
+            'obj':obj, 
+            'project_uuid':project.uuid, 
+            'temp_range':range(16,26), 
+            'regime_list':regime_list, 
+            'guest_type_list':guest_type_list, 
+            'card':obj.card, 
+            'current_tab': current_tab,
+            'stripe':obj.stripe
+        }
         return render(request, "guest-by-project/guest-details-by-project.html", context)
     except Exception as e:
         print(e)

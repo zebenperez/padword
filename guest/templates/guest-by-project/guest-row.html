@@ -24,6 +24,9 @@
             data-target-modal="common-modal"><i class="fas fa-credit-card"></i></a>
     {% endif %}
 
+    <a class="btn btn-sm" href="{% url "guest-details-by-project" item.id "bands" %}" title="{% trans "Details" %}"> 
+        <i class="fas fa-ring"></i></a>  
+
     <a class="btn btn-sm" href="{% url "guest-details-by-project" item.id %}" title="{% trans "Details" %}"> 
         <i class="fas fa-user"></i></a>  
 

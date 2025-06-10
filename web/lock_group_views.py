@@ -20,12 +20,13 @@ def get_lock_group_items(request, project):
     if "lock_group_search_name" in request.session and request.session["lock_group_search_name"] != "":
         kwargs["name__icontains"] = request.session["lock_group_search_name"]
 
-    return LockGroup.objects.filter(**kwargs)
+    return LockGroup.objects.filter(**kwargs).order_by("name")
     #return LockGroup.objects.filter(**kwargs) if len(kwargs) > 0 else LockGroup.objects.all()
 
 def get_context(request, project):
     #group_items = LockGroup.list_group_not_assigned(project.lock_access_token)
-    group_items = LockGroup.list_group_not_assigned(project)
+    lg_list = LockGroup.list_group_not_assigned(project)
+    group_items = sorted(lg_list, key=lambda x: x["groupName"])
     items = get_lock_group_items(request, project)
     return {'items':items, 'group_items': group_items, 'project': project}
 
