@@ -2,7 +2,8 @@
 
 
 <ul class="nav nav-tabs m-2 pl-2 pr-2 pt-2">
-    <li class="nav-item"> <a class="nav-link {%if not current_tab%}active{%endif%}" data-bs-toggle="tab" href="#locks">{% trans "Locks" %}</a> </li>
+    <li class="nav-item"> <a class="nav-link {%if not current_tab%}active{%endif%}" data-bs-toggle="tab" href="#locks">
+        {% trans "Locks" %}</a> </li>
     <li class="nav-item"> <a class="nav-link {%if current_tab == "bands"%}active{%endif%}" data-bs-toggle="tab" href="#bands">
         {%trans "Pulseras"%}</a> </li>
     <li class="nav-item"> <a class="nav-link" data-bs-toggle="tab" href="#extras">{% trans "Extras" %}</a></li>
