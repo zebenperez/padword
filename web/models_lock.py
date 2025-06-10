@@ -352,7 +352,7 @@ class LockGroup(models.Model):
 
     class Meta:
         verbose_name = _('Lock group')
-        ordering = ["order"]
+        ordering = ["name", "order"]
 
 class LockEkey(models.Model):
     token = models.CharField(max_length = 32, verbose_name=_('Token'), default="")

@@ -17,6 +17,7 @@ urlpatterns = [
     path('guests/soft-remove/<int:obj_id>/', views.guest_soft_remove, name='guest-soft-remove'),
     #path('guests/page/', views.guest_pagination, name='guest-page'),
     path('guests/details/<int:obj_id>/', views.guest_details, name='guest-details'),
+    path('guests/details/<int:obj_id>/<slug:current_tab>/', views.guest_details, name='guest-details'),
     path('guests/details/', views.guest_details, name='guest-details'),
     path('guests/stripe-update/', views.guest_stripe_update, name='guest-stripe-update'),
 

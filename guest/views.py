@@ -171,7 +171,7 @@ def guest_form(request):
         return render(request, 'error_exception.html', {'exc':show_exc(e)})
 
 @group_required("admins")
-def guest_details(request, obj_id=""):
+def guest_details(request, obj_id="", current_tab=""):
     try:
         date = datetime.datetime.now().replace(hour=12, minute=00)
         obj = Guest.objects.create(UUID=new_ui_slug(Guest, "UUID"), check_in=date, check_out=date) if obj_id == "" else get_or_none(Guest, obj_id)
@@ -179,7 +179,15 @@ def guest_details(request, obj_id=""):
         guest_type_list = GuestType.objects.filter(project_uuid = obj.project_id)
         #card = obj.cards.first() if obj.cards.count() > 0 else GuestCard.objects.create(guest=obj)
         #stripe = obj.stripes.first() if obj.stripes.count() > 0 else GuestStripe.objects.create(guest=obj)
-        context = {'obj':obj, 'temp_range':range(16,26), 'regime_list':regime_list, 'guest_type_list':guest_type_list, 'card':obj.card, 'stripe':obj.stripe}
+        context = {
+            'obj':obj, 
+            'temp_range':range(16,26), 
+            'regime_list':regime_list, 
+            'guest_type_list':guest_type_list, 
+            'card':obj.card, 
+            'current_tab':current_tab, 
+            'stripe':obj.stripe
+        }
         return render(request, "guest/guest-details.html", context)
     except Exception as e:
         print(e)
