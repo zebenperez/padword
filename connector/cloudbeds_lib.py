@@ -127,13 +127,13 @@ class Cloudbeds():
 
     def get_rooms(self, property_id):
         try:
-            _url_request = "{}{}?propertyIDs={}&pageSize=10&pageSize=100".format(API_URL, ROOMS_URL)
+            _url_request = "{}{}?propertyIDs={}&pageSize=10&pageSize=100".format(API_URL, ROOMS_URL, property_id)
             #_url_request = "{}{}".format(API_URL, ROOMS_URL)
             #params = {
             #    "pageNumber": "10",
             #    "pageSize": "100"
             #}
-            dic = self.__send_request__(_url_request, params).json()
+            dic = self.__send_request__(_url_request, {}).json()
             items = dic["data"][0]["rooms"]
             return items
         except Exception as err:
