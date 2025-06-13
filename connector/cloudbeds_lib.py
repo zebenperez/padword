@@ -387,8 +387,8 @@ def create_room(pcu, room, index):
     r.save()
 
 def get_booking_list(pcu):
-    get_or_create_booking(pcu, "8330112552572")
-    return []
+    #get_or_create_booking(pcu, "8330112552572")
+    #return []
     av = Cloudbeds(pcu.token)
     result = av.get_bookings()
     booking_list = []
