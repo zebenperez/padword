@@ -300,13 +300,25 @@ class Item(models.Model):
         except Exception as e:
             return "€"
 
-
     def get_price(self, code, band=None):
         ip = self.prices.filter(regime_code=code).first()
 
         #Regime price not defined
         if ip == None:
             ip = ItemPrice.objects.create(item=self, regime_code=code, price=self.price)
+
+        #Credit 0
+        if code == "TI" and band != None and band.type != None and band.type.code == "02" and ip.price > 0:
+            return None
+
+        return ip.price
+
+    def get_pos_price(self, code, pos, band=None):
+        ip = self.prices.filter(regime_code=code, pos=pos).first()
+
+        #Regime price not defined
+        if ip == None:
+            ip = ItemPrice.objects.create(item=self, regime_code=code, pos=pos, price=self.price)
 
         #Credit 0
         if code == "TI" and band != None and band.type != None and band.type.code == "02" and ip.price > 0:
@@ -462,6 +474,7 @@ class ItemPromo(models.Model):
 class ItemPrice(models.Model):
     price = models.FloatField(verbose_name='Price', default=0, null=True, blank=True)
     regime_code = models.CharField(max_length=50, verbose_name= _('Regime code'), default='')
+    pos = models.CharField(max_length=50, verbose_name= _('TPV'), default='')
     item = models.ForeignKey(Item, on_delete=models.CASCADE, null=True, related_name="prices")
 
     class Meta:

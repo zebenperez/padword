@@ -79,7 +79,7 @@ def get_lock_items(request, project_uuid, public=False):
         lock_list = set(lock_list) & set(lock_code)
 
     #return lock_list 
-    return sorted(lock_list, key=lambda x: x.alias.lower())
+    return sorted(lock_list, key=lambda x: x.alias.lower().lstrip())
 
 def get_context(request, project, public=False):
     context = {}

@@ -2,7 +2,7 @@ from django.conf import settings
 from datetime import datetime, timedelta
 
 from bookings.models import Form, FormType
-from contents.models import ItemInCat, Category, Item
+from contents.models import ItemInCat, Category, Item, ItemPrice, PointOfSale
 from guest.models import Guest, Regime, GuestRegime, ProjectRegime
 from web.models import Room
 from padword.commons import new_ui_slug
@@ -666,6 +666,36 @@ def unactive_categories(project_uuid, cat_list):
             c.is_active = 0
             c.save()
 
+def update_item_pos_price(project_uuid, dic):
+    cat_id = dic[6]
+    item_id = dic[3]
+    pos_code = dic[0]
+    regime_code = dic[2]
+    price = dic[5].replace(",", ".")
+    print("-- ENTRANDO")
+    print(cat_id)
+    print(item_id)
+    print(pos_code)
+    print(regime_code)
+    print(price)
+
+    pos = PointOfSale.objects.filter(project_uuid=project_uuid, ext_code=pos_code).first()
+    print("POS: {}".format(pos))
+    if pos != None:
+        regime = ProjectRegime.objects.filter(project__uuid=project_uuid, regime__code=regime_code).first()
+        print("REG: {}".format(regime))
+        if regime != None:
+            category_list = list(Category.objects.filter(project_uuid=project_uuid, internal=cat_id))
+            for cat in category_list:
+                print("CAT: {}".format(cat))
+                ic_list = ItemInCat.objects.filter(category=cat, item__ext_id=item_id)
+                for ic in ic_list:
+                    print("ITEM: {}".format(ic.item))
+                    ip, created = ItemPrice.objects.get_or_create(item=ic.item, pos=pos.uuid, regime_code=regime_code)
+                    ip.price = float(price)
+                    ip.save()
+                    print("{} {} {}".format(ip.pos, ip.regime_code, ip.price))
+
 def import_item_prices(file, project_uuid, update_all_prices=False):
     updated = []
     not_updated = []
@@ -711,9 +741,10 @@ def import_item_prices(file, project_uuid, update_all_prices=False):
                     ic.category.is_active = 1
                     ic.category.save()
                 if update_all_prices:
-                    for ip in ic.item.prices.all():
-                        ip.price = price
-                        ip.save()
+                    update_item_pos_price(project_uuid, dic_line)
+                    #for ip in ic.item.prices.all():
+                    #    ip.price = price
+                    #    ip.save()
         except Exception as e:
             print(e)
         if update:

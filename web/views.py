@@ -190,7 +190,8 @@ def project_form(request):
         user_cloudbeds = get_or_create_user_cloudbeds(obj.uuid)
         user_cars = get_or_create_user_cars(obj.uuid)
 
-        regime_list = Regime.objects.all()
+        regime_list = Regime.objects.filter(project_uuid="")
+        regime_list_pr = Regime.objects.filter(project_uuid=obj.uuid)
         point_of_sale_list = PointOfSale.objects.filter(project_uuid=obj.uuid)
         #table_list = Table.objects.filter(project_uuid=obj.uuid)
         form = Form.objects.filter(form_type__code="tpv", form_type__project_uuid=obj.uuid).first()
@@ -210,6 +211,7 @@ def project_form(request):
             'user_cars': user_cars, 
             'project_regime_list': [item.regime for item in obj.regimes.all()],
             'regime_list': regime_list,
+            'regime_list_pr': regime_list_pr,
             'point_of_sale_list': point_of_sale_list,
             #'table_list': table_list,
             'form': form
@@ -316,6 +318,27 @@ def project_regime_toggle(request):
     except Exception as e:
         print (show_exc(e))
     return HttpResponse("")
+
+@group_required("admins")
+def project_regime_add(request):
+    try:
+        project = get_or_none(Project, request.GET["obj_id"])
+        Regime.objects.create(project_uuid=project.uuid)
+        regime_list_pr = Regime.objects.filter(project_uuid=obj.uuid)
+    except Exception as e:
+        print (show_exc(e))
+    return render(request, "web/projects/project-form-regime-list.html", {'regime_list_pr': regime_list, 'obj': project})
+
+@group_required("admins")
+def project_regime_remove(request):
+    try:
+        reg = get_or_none(Regime, request.GET["obj_id"])
+        project = get_or_none(Project, pos.project_uuid, "uuid")
+        reg.delete()
+        regime_list_pr = Regime.objects.filter(project_uuid=obj.uuid)
+    except Exception as e:
+        print (show_exc(e))
+    return render(request, "web/projects/project-form-regime-list.html", {'regime_list_pr': regime_list, 'obj': project})
 
 @group_required("admins")
 def project_pos_add(request):

@@ -799,7 +799,9 @@ class SensiboDevice(models.Model):
 '''
 class Regime(models.Model):
     code = models.CharField(max_length=50, verbose_name='Code', default="")
+    alt_code = models.CharField(max_length=50, verbose_name='Code', default="")
     name = models.CharField(max_length=255, verbose_name='Name', default="")
+    project_uuid = models.CharField(max_length = 255, verbose_name= _('Project UUID'), default='')
 
     class Meta:
         verbose_name = _('Regime')

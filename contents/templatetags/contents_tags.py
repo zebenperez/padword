@@ -1,6 +1,6 @@
 from django import template
 
-from contents.models import Allergen, ItemPromo
+from contents.models import Allergen, ItemPromo, PointOfSale
 
 register = template.Library()
 
@@ -28,11 +28,18 @@ def get_item_price(obj, regime_code):
     return obj.get_price(regime_code)
 
 '''
+    Simple tags
+'''
+@register.simple_tag()
+def get_item_pos_price(obj, regime_code, pos):
+    return obj.get_pos_price(regime_code, pos)
+
+'''
     Inclusion tags
 '''
 @register.inclusion_tag('contents/prices.html')
 def show_prices(obj):
-    return {'obj': obj,}
+    return {'obj': obj, 'pos_list': PointOfSale.objects.filter(project_uuid=obj.project.uuid)}
 
 @register.inclusion_tag('contents/allergens.html')
 def show_allergen(obj):
