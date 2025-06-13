@@ -4,7 +4,8 @@
 <div id="base">
     {% if point_of_sales|length > 0 %}
         <div class="row left-tpv w-100 text-center m-0" style="height:50px">
-            <div class="col-2 offset-10 text-right">
+            <div class="col-10 text-left"> {% trans "Usuario" %}: {{request.user}} </div>
+            <div class="col-2 text-right">
                 <button class="btn btn-header-pwa ark" data-url="{% url "tpv-close" %}" data-target="base" 
                     data-project_uuid="{{project_uuid}}"> <i class="fas fa-power-off"></i></button>
             </div>
