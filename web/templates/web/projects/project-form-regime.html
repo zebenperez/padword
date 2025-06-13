@@ -12,6 +12,13 @@
     {% endfor %}
 </div>
 
+<div class="w-100 text-end">
+    <button class="btn btn-primary ark mb-2" data-url="{% url "project-regime-add" %}" data-target="div-regime-list" 
+        data-obj_id="{{obj.id}}"> {% trans "Add" %}</button>
+</div>		
+<div id="div-regime-list">{% include "web/projects/project-form-regime-list.html" %}</div>
+
+
 {%comment%}
 <div class="card">
     {#<div class="card-header">#}
