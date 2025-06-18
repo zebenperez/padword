@@ -236,7 +236,8 @@ def project_details(request, obj_id, current_tab=""):
         user_cloudbeds = get_or_create_user_cloudbeds(obj.uuid)
         user_cars = get_or_create_user_cars(obj.uuid)
 
-        regime_list = Regime.objects.all()
+        regime_list = Regime.objects.filter(project_uuid="")
+        regime_list_pr = Regime.objects.filter(project_uuid=obj.uuid)
         point_of_sale_list = PointOfSale.objects.filter(project_uuid=obj.uuid)
         invitation_list = Invitation.objects.filter(project_uuid=obj.uuid)
         thirdpart_list = Thirdpart.objects.all()
@@ -259,6 +260,7 @@ def project_details(request, obj_id, current_tab=""):
             'user_cars': user_cars, 
             'project_regime_list': [item.regime for item in obj.regimes.all()],
             'regime_list': regime_list,
+            'regime_list_pr': regime_list_pr,
             'point_of_sale_list': point_of_sale_list,
             'invitation_list': invitation_list,
             'thirdpart_list': thirdpart_list,
@@ -321,24 +323,30 @@ def project_regime_toggle(request):
 
 @group_required("admins")
 def project_regime_add(request):
+    regime_list_pr = []
     try:
         project = get_or_none(Project, request.GET["obj_id"])
-        Regime.objects.create(project_uuid=project.uuid)
-        regime_list_pr = Regime.objects.filter(project_uuid=obj.uuid)
+        regime = Regime.objects.create(project_uuid=project.uuid)
+        ProjectRegime.objects.create(regime=regime, project=project)
+        regime_list_pr = Regime.objects.filter(project_uuid=project.uuid)
     except Exception as e:
         print (show_exc(e))
-    return render(request, "web/projects/project-form-regime-list.html", {'regime_list_pr': regime_list, 'obj': project})
+    return render(request, "web/projects/project-form-regime-list.html", {'regime_list_pr': regime_list_pr, 'obj': project})
 
 @group_required("admins")
 def project_regime_remove(request):
+    regime_list_pr = []
+    project = None
     try:
-        reg = get_or_none(Regime, request.GET["obj_id"])
-        project = get_or_none(Project, pos.project_uuid, "uuid")
-        reg.delete()
-        regime_list_pr = Regime.objects.filter(project_uuid=obj.uuid)
+        regime = get_or_none(Regime, request.GET["obj_id"])
+        project = get_or_none(Project, regime.project_uuid, "uuid")
+        pr_list = ProjectRegime.objects.filter(regime=regime, project=project)
+        pr_list.delete()
+        regime.delete()
+        regime_list_pr = Regime.objects.filter(project_uuid=project.uuid)
     except Exception as e:
         print (show_exc(e))
-    return render(request, "web/projects/project-form-regime-list.html", {'regime_list_pr': regime_list, 'obj': project})
+    return render(request, "web/projects/project-form-regime-list.html", {'regime_list_pr': regime_list_pr, 'obj': project})
 
 @group_required("admins")
 def project_pos_add(request):

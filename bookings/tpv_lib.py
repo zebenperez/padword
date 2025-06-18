@@ -2,7 +2,7 @@ from django.conf import settings
 from django.db.models import Sum, Max
 
 from bookings.models import Cash, FormInstance
-from padword.commons import get_int, get_float, translate2, date_to_local
+from padword.commons import get_int, get_float, translate2
 from bookings.models import FormInstance
 from connector.models import ProjectWinhotelUser
 from contents.models import ShoppingCart
@@ -42,14 +42,15 @@ def cancel_open_orders(cash, user):
         fi.set_status("05", user, "Cancell in Z!")
 
 def update_cash(cash, user, cancel_orders=False):
-    date = cash.date.strftime("%Y-%m-%d")
-    s_date = datetime.datetime.strptime("{} 00:00:00".format(date), "%Y-%m-%d %H:%M:%S")
-    e_date = datetime.datetime.strptime("{} 23:59:59".format(date), "%Y-%m-%d %H:%M:%S")
+    #date = cash.date.strftime("%Y-%m-%d")
+    #s_date = datetime.datetime.strptime("{} 00:00:00".format(date), "%Y-%m-%d %H:%M:%S")
+    #e_date = datetime.datetime.strptime("{} 23:59:59".format(date), "%Y-%m-%d %H:%M:%S")
 
     if cancel_orders:
         cancel_open_orders(cash, user)
 
-    fi_list = FormInstance.objects.filter(pos_uuid=cash.pos_uuid, date__range=(s_date, e_date))
+    #fi_list = FormInstance.objects.filter(pos_uuid=cash.pos_uuid, date__range=(s_date, e_date))
+    fi_list = FormInstance.get_by_local_date(cash.date.strftime("%Y-%m-%d"), cash.pos)
 
     cash_total = 0
     band_total = 0

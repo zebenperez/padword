@@ -667,34 +667,34 @@ def unactive_categories(project_uuid, cat_list):
             c.save()
 
 def update_item_pos_price(project_uuid, dic):
-    cat_id = dic[6]
+    cat_id = dic[6].zfill(4)
     item_id = dic[3]
     pos_code = dic[0]
     regime_code = dic[2]
     price = dic[5].replace(",", ".")
-    print("-- ENTRANDO")
-    print(cat_id)
-    print(item_id)
-    print(pos_code)
-    print(regime_code)
-    print(price)
+    #print("-- ENTRANDO")
+    #print(cat_id)
+    #print(item_id)
+    #print(pos_code)
+    #print(regime_code)
+    #print(price)
 
     pos = PointOfSale.objects.filter(project_uuid=project_uuid, ext_code=pos_code).first()
-    print("POS: {}".format(pos))
+    #print("POS: {}".format(pos))
     if pos != None:
-        regime = ProjectRegime.objects.filter(project__uuid=project_uuid, regime__code=regime_code).first()
-        print("REG: {}".format(regime))
-        if regime != None:
+        regime_list = ProjectRegime.objects.filter(project__uuid=project_uuid, regime__alt_code=regime_code)
+        for regime in regime_list:
+            #print("REG: {}".format(regime))
             category_list = list(Category.objects.filter(project_uuid=project_uuid, internal=cat_id))
             for cat in category_list:
-                print("CAT: {}".format(cat))
+                #print("CAT: {}".format(cat))
                 ic_list = ItemInCat.objects.filter(category=cat, item__ext_id=item_id)
                 for ic in ic_list:
-                    print("ITEM: {}".format(ic.item))
-                    ip, created = ItemPrice.objects.get_or_create(item=ic.item, pos=pos.uuid, regime_code=regime_code)
+                    #print("ITEM: {}".format(ic.item))
+                    ip, created = ItemPrice.objects.get_or_create(item=ic.item, pos=pos.uuid, regime_code=regime.regime.code)
                     ip.price = float(price)
                     ip.save()
-                    print("{} {} {}".format(ip.pos, ip.regime_code, ip.price))
+                    #print("{} {}({}) {}".format(ip.pos, ip.regime_code, regime.regime.code, ip.price))
 
 def import_item_prices(file, project_uuid, update_all_prices=False):
     updated = []
@@ -702,6 +702,7 @@ def import_item_prices(file, project_uuid, update_all_prices=False):
     decoded_file = file.read().decode('latin-1').splitlines()
     id_list = []
     cat_list = []
+    #print("--> 1")
     for line in decoded_file:
         update = False
         try:
@@ -741,6 +742,7 @@ def import_item_prices(file, project_uuid, update_all_prices=False):
                     ic.category.is_active = 1
                     ic.category.save()
                 if update_all_prices:
+                    #print("--> 2")
                     update_item_pos_price(project_uuid, dic_line)
                     #for ip in ic.item.prices.all():
                     #    ip.price = price

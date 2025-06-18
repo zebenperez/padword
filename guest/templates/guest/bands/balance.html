@@ -33,8 +33,11 @@
                     <td> {{ balance.desc|safe }} </td>
                     <td> {{ balance.amount }} </td>
                     <td class="text-end">
-                        <a class="btn btn-sm ark" data-url="{% url "guest-band-balance-form" %}" data-target="balance-form-{{band.id}}" 
-                            data-obj_id="{{band.id}}" data-balance_id="{{balance.id}}" title="{% trans "Edit" %}"><i class="fas fa-edit"></i></a>
+                        {% if "#" not in balance.desc %}
+                            <a class="btn btn-sm ark" data-url="{% url "guest-band-balance-form" %}" 
+                                data-target="balance-form-{{band.id}}" data-obj_id="{{band.id}}" data-balance_id="{{balance.id}}" 
+                                title="{% trans "Edit" %}"><i class="fas fa-edit"></i></a>
+                        {% endif %}
                         <a class="btn btn-sm ark" data-url="{% url "guest-band-balance-remove" %}" data-target="band-{{band.id}}" 
                             data-obj_id="{{balance.id}}" data-confirm="{% trans "Are you sure to remove this element?" %}"
                             title="{% trans "Remove" %}"> <i class="fas fa-trash"></i></a>

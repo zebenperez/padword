@@ -301,7 +301,7 @@ class Item(models.Model):
             return "€"
 
     def get_price(self, code, band=None):
-        ip = self.prices.filter(regime_code=code).first()
+        ip = self.prices.filter(regime_code=code, pos="").first()
 
         #Regime price not defined
         if ip == None:

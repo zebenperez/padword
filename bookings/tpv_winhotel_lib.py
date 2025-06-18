@@ -18,52 +18,32 @@ def getPath(project_uuid):
     return path
 
 def get_drinks_total(fi, band):
-    #regime = band.guest.regime.code if band != None and band.guest != None and band.guest.regime != None else ""
-    #if regime == "":
-    #    total = ShoppingCart.objects.filter(form_instance_id=fi.pk, item__ext_id__lt=50000).aggregate(Sum('price'))["price__sum"]
-    #else:
-    #    total = ShoppingCart.objects.filter(form_instance_id=fi.pk, item__ext_id__lt=50000).aggregate(Sum('low_price'))["low_price__sum"]
-    #return total
     return ShoppingCart.objects.filter(form_instance_id=fi.pk, item__ext_id__lt=50000).aggregate(Sum('total_price'))["total_price__sum"]
  
 def get_food_total(fi, band):
     break_list = [56029, 56030, 56031, 56032]
     return ShoppingCart.objects.filter(form_instance_id=fi.pk, item__ext_id__gte=50000).exclude(item__ext_id__in=break_list).aggregate(Sum('total_price'))["total_price__sum"]
-    #regime = band.guest.regime.code if band != None and band.guest != None and band.guest.regime != None else ""
-    #if regime == "":
-    #    total = ShoppingCart.objects.filter(form_instance_id=fi.pk, item__ext_id__gte=50000).exclude(item__ext_id__in=break_list).aggregate(Sum('price'))["price__sum"]
-    #else:
-    #    total = ShoppingCart.objects.filter(form_instance_id=fi.pk, item__ext_id__gte=50000).exclude(item__ext_id__in=break_list).aggregate(Sum('low_price'))["low_price__sum"]
-    #return total
 
 def get_breakfast_total(fi, band):
     break_list = [56029, 56030, 56031, 56032]
     return ShoppingCart.objects.filter(form_instance_id=fi.pk, item__ext_id__in=break_list).aggregate(Sum('total_price'))["total_price__sum"]
-    #regime = band.guest.regime.code if band != None and band.guest != None and band.guest.regime != None else ""
-    #if regime == "":
-    #    total = ShoppingCart.objects.filter(form_instance_id=fi.pk, item__ext_id__in=break_list).aggregate(Sum('price'))["price__sum"]
-    #else:
-    #    total = ShoppingCart.objects.filter(form_instance_id=fi.pk, item__ext_id__in=break_list).aggregate(Sum('low_price'))["low_price__sum"]
-    #return total
 
 '''
     CASH
 '''
 def cash_daily_summary(obj, date):
-    s_date = datetime.datetime.strptime("{} 00:00:00".format(date), "%Y-%m-%d %H:%M:%S")
-    e_date = datetime.datetime.strptime("{} 23:59:59".format(date), "%Y-%m-%d %H:%M:%S")
-
     path = getPath(obj.project_uuid)
-    f = open("{}{}_{}{}.csv".format(path, e_date.strftime("%Y%m%d_%H%M"), obj.ext_code, obj.suffix), "w", encoding='utf-8')
-    #f = open("{}{}/{}_{}07.csv".format(FILES_DIR, obj.project_uuid, e_date.strftime("%Y%m%d_%H%M"), obj.ext_code), "w", encoding='utf-8')
+    f = open("{}{}_{}{}.csv".format(path, "{}_2359".format(date.replace("-", "")), obj.ext_code, obj.suffix), "w", encoding='utf-8')
 
     writer = csv.writer(f)
     writer.writerow(['_TPV', '_TPVNom', '_Rate', 'ProductUId', '_Description', 'Date', 'Tiket_UID', '_Price', '_Units', '_Discount', 'TotalPrice', '_Room', '_ClientId', 'Band', 'BandName'])
 
-    fi_list = FormInstance.objects.filter(pos_uuid=obj.uuid, date__range=(s_date, e_date))
+    project = obj.project
+    fi_list = FormInstance.get_by_local_date(date, obj)
     for fi in fi_list:
+        #fi_date = date_to_local(fi.date, project.time_zone_name)
+        fi_date = project.local_date(fi.date)
         #Tickets no cancelados
-        #if fi.get_status != None and fi.get_status.status != None and fi.get_status.status.code != "05":
         if not fi.current_status("05"):
             info = fi.info.first()
             room = info.client_room if info != None else ""
@@ -72,22 +52,17 @@ def cash_daily_summary(obj, date):
                 #code = obj.name[:4].upper()
                 name = obj.name
                 desc = translate2("es", item.name).replace('"', '')
-                date = fi.date.strftime("%Y%m%d%H%M")
-                #date = fi.project.local_date(fi.date)
-                #date = date.strftime("%Y%m%d%H%M")
+                date = fi_date.strftime("%Y%m%d%H%M")
                 units = 1
                 #Invitación
                 if fi.payment_type != None and fi.payment_type.code == "05":
                     discount = 100
                     total_price = 0
                 else:
-                    #discount = 100-((item.low_price/item.price)*100) if item.low_price < item.price and item.low_price > -1 else 0
-                    #total_price = item.low_price if item.low_price < item.price and item.low_price > -1 else item.price
                     discount = 100-((item.total_price/item.price)*100) if item.total_price < item.price else 0
                     total_price = item.total_price
                     #Devolución
                     if fi.payment_type != None and "04" in fi.payment_type.code:
-                        #total_price = total_price * -1
                         units = -1
                 discount = "{:.2f}".format(discount)
 
@@ -95,7 +70,8 @@ def cash_daily_summary(obj, date):
                 band = details.band if details != None else ""
                 band_name = details.band_name if details != None else ""
 
-                writer.writerow([obj.ext_code, name, "", item.item.ext_id, desc, date, fi.id, item.price, units, discount, total_price, room, client_id, band, band_name])
+                ext_id = item.item.ext_id if item.item != None else ""
+                writer.writerow([obj.ext_code, name, "", ext_id, desc, date, fi.get_index, item.price, units, discount, total_price, room, client_id, band, band_name])
     f.close()
 
 def cash_send_daily_summary(project_uuid, obj, date):
@@ -104,7 +80,6 @@ def cash_send_daily_summary(project_uuid, obj, date):
         f_name = "{}_{}{}.csv".format(e_date.strftime("%Y%m%d_%H%M"), obj.ext_code, obj.suffix)
         path = getPath(obj.project_uuid)
         f = open("{}{}".format(path, f_name), "rb")
-        #f = open("{}{}/{}".format(FILES_DIR, obj.project_uuid, f_name), "rb")
 
         pau = ProjectWinhotelUser.objects.filter(project_uuid=project_uuid).first()
         ftp = pau.ftp.split("@")
@@ -125,7 +100,10 @@ def cash_send_daily_summary(project_uuid, obj, date):
 #Efectivo
 #Tarjetas
 def cash_send_charge(cash, source, total_amount, cash_code):
-    now = datetime.datetime.now()
+    if cash.project != None:
+        now = cash.project.local_date(datetime.datetime.now())
+    else:
+        now = datetime.datetime.now()
 
     booking_code = band.guest.ext_id
     room_code = "ZTPV"
@@ -142,11 +120,12 @@ def cash_send_charge(cash, source, total_amount, cash_code):
     send_charge(pwu,booking_code,room_code,contact_name,contact_id,has_credit,limit_credit,source,source_document,date,total_amount,cash_code)
 
 def cash_send_charges(cash):
-    date = cash.date.strftime("%Y-%m-%d")
-    s_date = datetime.datetime.strptime("{} 00:00:00".format(date), "%Y-%m-%d %H:%M:%S")
-    e_date = datetime.datetime.strptime("{} 23:59:59".format(date), "%Y-%m-%d %H:%M:%S")
+    #date = cash.date.strftime("%Y-%m-%d")
+    #s_date = datetime.datetime.strptime("{} 00:00:00".format(date), "%Y-%m-%d %H:%M:%S")
+    #e_date = datetime.datetime.strptime("{} 23:59:59".format(date), "%Y-%m-%d %H:%M:%S")
 
-    fi_list = FormInstance.objects.filter(pos_uuid=cash.pos_uuid, date__range=(s_date, e_date))
+    #fi_list = FormInstance.objects.filter(pos_uuid=cash.pos_uuid, date__range=(s_date, e_date))
+    fi_list = FormInstance.get_by_local_date(cash.date.strftime("%Y-%m-%d"), cash.pos)
 
     total_drinks = 0
     total_food = 0

@@ -323,9 +323,9 @@ def tpv_order_item_comment(request):
         return render(request, "error_exception.html", {'exc':show_exc(e)})
 
 def add_balance_to_band(pos, fi, band):
-    url = "/bookings/booking-view/"
+    url = "/bookings/booking-guest-view/"
     desc = "Ticket from {}: ".format(pos.name)
-    desc += "<a class='ark' data-url='{}' data-target-modal='common-modal' data-obj_id='{}'> #{}</a>".format(url, fi.id, fi.index)
+    desc += "<a class='ark' data-url='{}' data-target-modal='common-modal' data-obj_id='{}'> #{}</a>".format(url, fi.id, fi.get_index)
     WristbandBalance.objects.create(amount=(get_float(fi.amount)*-1), desc=desc, wristband=band)
 
 def set_desc(fi, desc):

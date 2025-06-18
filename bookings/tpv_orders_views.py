@@ -4,6 +4,7 @@ from django.utils.translation import ugettext_lazy as _
 
 from padword.decorators import group_required
 from padword.commons import show_exc, get_or_none, get_param, get_float, get_bool, new_ui_slug, get_items_per_page, get_int
+from padword.commons import date_to_utc
 from web.models import Project
 from contents.models import Category, PointOfSale
 from guest.models import Guest
@@ -37,13 +38,17 @@ def search(project_uuid, ini_date, end_date, name, status, pos, s_id=""):
             print(e)
 
     form = Form.objects.filter(form_type__code="tpv", form_type__project_uuid=project_uuid).first()
+    project = form.project
 
     kwargs = {'form_uuid': form.uuid}
     if ini_date != "":
-        kwargs["date__gte"] = ini_date
+        sd = ini_date.split("-")
+        sd_local = datetime.datetime(int(sd[0]), int(sd[1]), int(sd[2]), 00, 00, 00)
+        kwargs["date__gte"] = date_to_utc(sd_local, project.time_zone_name)
     if end_date != "":
         ed = end_date.split("-")
-        kwargs["date__lte"] = datetime.datetime(int(ed[0]), int(ed[1]), int(ed[2]), 23, 59, 59)
+        ed_local = datetime.datetime(int(ed[0]), int(ed[1]), int(ed[2]), 23, 59, 59)
+        kwargs["date__lte"] = date_to_utc(ed_local, project.time_zone_name)
     if pos != "":
         kwargs["info__pos"] = pos
     if name != "":

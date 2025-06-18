@@ -127,7 +127,7 @@ def booking_view(request):
         #if (fi.get_status != None and fi.get_status.status != None and fi.get_status.status.code == "01") or (fi.get_status is None):
         #    fi.set_status("02", request.user, "")
 
-        context = {'fi': fi, 'index': "0", 'items':items, 'status_list': Status.objects.all(), 'manage': True, 'show_status': show_status}
+        context = {'fi':fi, 'index':"0", 'items':items, 'status_list':Status.objects.all(), 'manage':True, 'show_status':show_status}
         return render(request, 'bookings/guest/view-booking.html', context)
     except Exception as e:
         print(e)

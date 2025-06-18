@@ -9,9 +9,9 @@ from guest.models import Guest
 from guest.wristband_models import Wristband
 
 from .email_lib import send_change_status_email
-from padword.commons import show_exc, translate2, date_to_utc, date_to_local
+from padword.commons import show_exc, translate2, date_to_utc, date_to_local, date_to_utc
 
-import datetime, threading
+import datetime, threading, pytz
 
 
 def ticket_to_json(fi, fi_status, resp):
@@ -607,6 +607,17 @@ class FormInstance(models.Model):
         except Exception as e:
             return "€"
 
+    @property
+    def get_index(self):
+        pos = self.pos.ext_code if self.pos != None else ""
+        return "{}-{}{}".format(pos, self.date.year, str(self.index).zfill(6))
+
+    @property
+    def date_local(self):
+        if self.project != None:
+            return date_to_local(self.date, self.project.time_zone_name)
+        else:
+            return self.date
 
     def get_total_by_regime(self, regime):
         try:
@@ -615,7 +626,9 @@ class FormInstance(models.Model):
             for item in items:
                 try:
                     #price = item.item.get_price(regime, self.band)
-                    price = item.get_price(regime, self.band)
+                    #price = item.get_price(regime, self.band)
+                    pos = self.pos.uuid if self.pos != None else ""
+                    price = item.get_pos_price(regime, pos, self.band)
                     total_price += float(price)
                 except Exception as ex:
                     #print(ex)
@@ -692,7 +705,9 @@ class FormInstance(models.Model):
             guest = self.band.guest
             gr = guest.regimes.first()
             if gr != None and gr.regime != None:
-                low_price = item.item.get_price(gr.regime.code)
+                #low_price = item.item.get_price(gr.regime.code)
+                pos = self.pos.uuid if self.pos != None else ""
+                low_price = item.item.get_pos_price(gr.regime.code, pos)
                 total_price = low_price
             if guest.guest_type_obj != None:
                 discount = guest.guest_type_obj.discount
@@ -753,6 +768,32 @@ class FormInstance(models.Model):
         return FormInstance.objects.filter(form_uuid=form.uuid, pos_uuid = pos.uuid, table_uuid = table.uuid, status_list__isnull = True)
         #return FormInstance.objects.filter(pos_uuid = pos.uuid, table_uuid = table.uuid, status_list__isnull = True).first()
 
+    @staticmethod
+    def get_by_local_date(date, pos):
+        time_zone = pos.project.time_zone_name
+
+        s_date = datetime.datetime.strptime("{} 00:00:00".format(date), "%Y-%m-%d %H:%M:%S")
+        e_date = datetime.datetime.strptime("{} 23:59:59".format(date), "%Y-%m-%d %H:%M:%S")
+
+        sd = date_to_utc(s_date, time_zone)
+        ed = date_to_utc(e_date, time_zone)
+        return FormInstance.objects.filter(pos_uuid=pos.uuid, date__range=(sd, ed))
+
+#        s_date = datetime.datetime.strptime("{} 00:00:00".format(date), "%Y-%m-%d %H:%M:%S")
+#        e_date = datetime.datetime.strptime("{} 23:59:59".format(date), "%Y-%m-%d %H:%M:%S")
+#        sq_date = s_date + datetime.timedelta(days=-1)
+#        eq_date = e_date + datetime.timedelta(days=1)
+#
+#        item_list = []
+#        fi_list = FormInstance.objects.filter(pos_uuid=pos.uuid, date__range=(sq_date, eq_date))
+#        for fi in fi_list:
+#            #fi_date = date_to_local(fi.date, project.time_zone_name)
+#            fi_date_check = datetime.datetime.strptime(fi.date_local.strftime("%Y-%m-%d %H:%M:%S"), "%Y-%m-%d %H:%M:%S")
+#            if fi_date_check > s_date and fi_date_check < e_date:
+#                item_list.append(fi)
+#        return item_list
+
+ 
     class Meta:
         verbose_name = _('1.- Form instance')
         verbose_name_plural = _('1.- Form instances')

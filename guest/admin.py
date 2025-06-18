@@ -4,7 +4,7 @@ from .wristband_models import *
 
 
 class RegimeAdmin(admin.ModelAdmin):
-    list_display = ('code', 'name')
+    list_display = ('code', 'name', 'alt_code', 'project_uuid')
 
 class WristbandAdmin(admin.ModelAdmin):
     list_display = ('code', 'name')

@@ -11,7 +11,8 @@
 
         {% if manage %}
             <div class="row mb-4 d-flex justify-content-center change-status-box">
-                {% if status_list and show_status == "True"%}<div id="div-status">{% include "bookings/manage/status-form.html" %}</div>{% endif %}
+                {% if status_list and show_status == "True"%}
+                    <div id="div-status">{% include "bookings/manage/status-form.html" %}</div>{% endif %}
 
                 <div class="actions text-center mt-2">
                     {%comment%}

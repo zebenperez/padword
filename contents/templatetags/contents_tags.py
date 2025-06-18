@@ -26,6 +26,7 @@ def have_payment_type(obj, payment_type):
 @register.filter()
 def get_item_price(obj, regime_code):
     return obj.get_price(regime_code)
+    #return obj.get_pos_price(regime_code, "")
 
 '''
     Simple tags
