@@ -26,7 +26,10 @@
 
 {#<input type="text" class="form-control hide mt-2" id="cash-value" placeholder="{%trans "Amount to pay (10, 20, 50...)"%}" />#}
 
-<div id="band-alert" class="text-danger" class="hide"></div>
+<div id="band-alert-container" class="row alerta-flotante hide p-1">
+    <div class="col-12 text-end"><button class="cerrar-btn" onclick="$('#band-alert-container').hide();"><i class="fas fa-times"></i></button></div>
+    <div class="col-12"><span id="band-alert"></span></div>
+</div>
 
 {# ------------------------------------------------ ACCIONES --------------------------------------------------------------#}
 <div class="row footer-buttons mt-2 p-0">
@@ -55,3 +58,9 @@
 {# ------------------------------------------------ SCRIPTS --------------------------------------------------------#}
 {% include "bookings/tpv/view-payment-types-scripts.html" %}
 
+
+<script>
+  document.getElementById('cerrar-alerta').addEventListener('click', function() {
+    document.getElementById('alerta').style.display = 'none';
+  });
+</script>

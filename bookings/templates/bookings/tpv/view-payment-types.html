@@ -11,8 +11,8 @@
                 {% if item.payment_type.code != "03" %}
                     <a id="pay-type-{{item.payment_type.code}}" class="btn btn-select-payment pay-opts" 
                         data-id="{{item.id}}" data-pt="{{item.payment_type.code}}" data-cash="{{item.payment_type.code}}">
-                        <img src="{{item.payment_type.icon.url}}" alt="{% padword_translate item.payment_type.name %}" class="img-width"><br />
-                            {% padword_translate item.payment_type.name %} 
+                        <img src="{{item.payment_type.icon.url}}" alt="{% padword_translate item.payment_type.name %}" 
+                            class="img-width"><br /> {% padword_translate item.payment_type.name %} 
                     </a>
                 {% else %}
                     {% include "bookings/tpv/view-payment-types-band.html" %}
@@ -24,7 +24,7 @@
 
 {#<input type="text" class="form-control hide mt-2" id="cash-value" placeholder="{%trans "Amount to pay (10, 20, 50...)"%}" />#}
 
-<br/><div id="band-alert" class="text-danger" class="hide"></div>
+<br/><div id="band-alert" class="text-danger hide"></div>
 
 {# ------------------------------------------------ ACCIONES --------------------------------------------------------------#}
 <div class="row footer-buttons m-0 p-0 justify-content-center">

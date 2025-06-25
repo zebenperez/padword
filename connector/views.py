@@ -15,6 +15,7 @@ from padword.decorators import group_required
 from contents.models import ItemInCat
 from web.models import Project
 from .models import ProjectAvantioUser, ProjectAvaibookUser, ProjectWinhotelUser, ProjectMewsUser, ProjectCloudbedsUser
+from .models import ProjectPaytefUser
 from .avantio_lib import get_booking_list, get_booking_notif, send_link
 from .avaibook_lib import get_accommodation_list, manage_booking_from_webhook, get_booking_list as av_get_booking_list, WEBHOOK_TOKEN
 from .winhotel_lib import get_booking_list as wh_get_booking_list, import_item_prices as wh_import_item_prices
@@ -23,6 +24,7 @@ from .winhotel_lib import get_booking_range_list as wh_get_booking_range_list
 from .mews_lib import get_booking_list as mw_get_booking_list, cancel_booking_list as mw_cancel_booking_list
 from .cloudbeds_lib import get_booking_list as cb_get_booking_list, get_room_list as cb_get_room_list
 from .cloudbeds_lib import set_webhooks as cb_set_webhooks, manage_webhook_actions as cb_manage_webhook_actions
+from .paytef_lib import get_config as pay_get_config
 
 import json, os, csv, re
 
@@ -312,11 +314,52 @@ def cloudbeds_webhook(request):
             else:
                 f.write("\nError: Propiedad no encontrada")
 
+        if pcu != None and pcu.project != None:
+            f.write("\n PROYECTO: {}".format(pcu.project.name))
         msg = cb_manage_webhook_actions(pcu, booking)
         f.write(msg)
     except Exception as e:
         f.write("\nError: {}".format(e))
 
+    return HttpResponse("OK", content_type="text/plain")
+
+@group_required("admins")
+def cloudbeds_log(request):
+    f = open(os.path.join(settings.BASE_DIR, "cloudbeds.log"), "r", encoding='utf-8')
+    text = f.read()
+    try:
+        log_list = [f for f in os.listdir(settings.LOGPATH) if re.match(r'.*cloudbeds.*', f)]
+    except:
+        log_list = []
+    return render(request, 'cron-log.html', {'text': text.replace("\n", "<br/>"), 'log_list': log_list})
+
+
+'''
+    Paytef
+'''
+@group_required("admins", "projects")
+def paytef_get_config(request, project_uuid):
+    try:
+        ppu = get_or_none(ProjectPaytefUser, project_uuid, "project_uuid")
+        config = pay_get_config(ppu)
+        return render(request, 'paytef/config.html', {'config': config})
+    except Exception as e:
+        print(e)
+        return render(request, 'error_exception.html', {'exc':show_exc(e)})
+
+'''
+    Zkteco
+'''
+@csrf_exempt
+#@require_POST
+def zkteco_webhook(request):
+    f = open(os.path.join(settings.BASE_DIR, "zkteco.log"), "a", encoding='utf-8')
+    f.write("\n---------------------------------------")
+    f.write("\n{} - Evento de zkteco".format(datetime.now().strftime("%Y-%m-%d %H:%M:%S")))
+    #f.write("\n{}".format(request.headers))
+    f.write("\nGET: {}".format(request.GET))
+    f.write("\nPOST: {}".format(request.POST))
+    f.write("\nBODY: {}".format(request.body))
     return HttpResponse("OK", content_type="text/plain")
 
 

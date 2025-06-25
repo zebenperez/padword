@@ -12,7 +12,7 @@ from guest.models import Regime, ProjectRegime, GuestType, Guest, GuestStripe
 from guest.wristband_models import Wristband, WristbandAccessZone, WristbandAccessZoneTimes, WristbandAccessPoint
 from sensibo.models import ProjectSensiboUser
 from connector.models import ProjectAvantioUser, ProjectAvaibookUser, ProjectWinhotelUser, ProjectStripeUser
-from connector.models import ProjectMewsUser, ProjectCarUser, ProjectCloudbedsUser
+from connector.models import ProjectMewsUser, ProjectCarUser, ProjectCloudbedsUser, ProjectPaytefUser
 from connector.cloudbeds_lib import set_webhooks, get_webhooks
 from contents.models import Category, PointOfSale, PointOfSaleCategory, Table
 from bookings.models import Form, FormInstance
@@ -121,6 +121,10 @@ def get_or_create_user_cars(project_uuid):
     obj, created = ProjectCarUser.objects.get_or_create(project_uuid = project_uuid)
     return obj 
 
+def get_or_create_user_paytef(project_uuid):
+    obj, created = ProjectPaytefUser.objects.get_or_create(project_uuid = project_uuid)
+    return obj 
+
 '''
     Projects
 '''
@@ -189,6 +193,7 @@ def project_form(request):
         user_mews = get_or_create_user_mews(obj.uuid)
         user_cloudbeds = get_or_create_user_cloudbeds(obj.uuid)
         user_cars = get_or_create_user_cars(obj.uuid)
+        user_paytef = get_or_create_user_paytef(obj.uuid)
 
         regime_list = Regime.objects.filter(project_uuid="")
         regime_list_pr = Regime.objects.filter(project_uuid=obj.uuid)
@@ -209,6 +214,7 @@ def project_form(request):
             'user_mews': user_mews, 
             'user_cloudbeds': user_cloudbeds, 
             'user_cars': user_cars, 
+            'user_paytef': user_paytef, 
             'project_regime_list': [item.regime for item in obj.regimes.all()],
             'regime_list': regime_list,
             'regime_list_pr': regime_list_pr,
@@ -235,6 +241,7 @@ def project_details(request, obj_id, current_tab=""):
         user_mews = get_or_create_user_mews(obj.uuid)
         user_cloudbeds = get_or_create_user_cloudbeds(obj.uuid)
         user_cars = get_or_create_user_cars(obj.uuid)
+        user_paytef = get_or_create_user_paytef(obj.uuid)
 
         regime_list = Regime.objects.filter(project_uuid="")
         regime_list_pr = Regime.objects.filter(project_uuid=obj.uuid)
@@ -258,6 +265,7 @@ def project_details(request, obj_id, current_tab=""):
             'user_mews': user_mews, 
             'user_cloudbeds': user_cloudbeds, 
             'user_cars': user_cars, 
+            'user_paytef': user_paytef, 
             'project_regime_list': [item.regime for item in obj.regimes.all()],
             'regime_list': regime_list,
             'regime_list_pr': regime_list_pr,

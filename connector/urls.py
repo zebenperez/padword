@@ -27,11 +27,18 @@ urlpatterns = [
     path('cloudbeds/set-webhooks/', views.cloudbeds_set_webhooks, name='cloudbeds-set-webhooks'),
     path('cloudbeds/webhook/', views.cloudbeds_webhook, name='cloudbeds-webhook'),
 
+    #--------------------- PAYTEF --------------------
+    path('paytef/get-config/<slug:project_uuid>/', views.paytef_get_config, name='paytef-get-config'),
+
+    #--------------------- ZKTECO --------------------
+    path('zkteco/webhook/', views.zkteco_webhook, name='zkteco-webhook'),
+
     #--------------------- CRON --------------------
     path('cron-log/', views.cron_log, name='cron-log'),
     path('avantio-log/', views.avantio_log, name='avantio-log'),
     path('avaibook-log/', views.avaibook_log, name='avaibook-log'),
     path('winhotel-log/', views.winhotel_log, name='winhotel-log'),
+    path('cloudbeds-log/', views.cloudbeds_log, name='cloudbeds-log'),
 
     #--------------------- CAMERA --------------------
     path('car/plates/<slug:project_uuid>/', camera_views.car_plates, name='car_plates'),

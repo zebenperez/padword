@@ -17,9 +17,13 @@
             data-url="https://system.padword.es" class="share-btn pointer"> <i class="fab fa-telegram"></i><br />
             {% trans "Share on telegram" %}</button></div>
     <div class="col-lg-3 col-6 p-2">
+        {%comment%}
         <button class="btn-share w-100" type="button" data-sharer="email" data-title="{% trans "New code" %}" 
             data-url="" data-subject='{% padword_translate text %}' data-to="" class="share-btn pointer"><i class="far fa-envelope share"></i><br />
-            {% trans "Send by email" %}</button></div>
+        {%endcomment%}
+        <button class="btn-share w-100" type="button" data-sharer="email" data-title="{% padword_translate text %}" 
+            data-url="" data-subject='{% trans "Datos de interés sobre su reserva" %}' data-to="" class="share-btn pointer">
+            <i class="far fa-envelope share"></i><br /> {% trans "Send by email" %}</button></div>
     <div class="col-lg-3 col-6 p-2">
         <button class="btn-share w-100" type="button" id="copy-to-clipboard" class="pointer" data-src="text-to-share" data-answer="copy-answer">
         <i class="fas fa-copy"></i><br />{% trans "Copy to clicboard" %}</a> <span id="copy-answer"></button></div>

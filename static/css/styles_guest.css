@@ -1254,4 +1254,72 @@ body.loading { overflow: hidden; }
 
 body.loading .overlay { display: block; }
 
+.alerta {
+  position: fixed;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #f8d7da; /* color de fondo de alerta */
+  color: #721c24; /* color del texto */
+  padding: 15px 30px;
+  border: 1px solid #f5c6cb;
+  border-radius: 4px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+  display: flex;
+  align-items: center;
+  z-index: 1000;
+  max-width: 50%;
+  width: 100%;
+  box-sizing: border-box;
+}
 
+.cerrar {
+  background: none;
+  border: none;
+  font-size: 20px;
+  line-height: 1;
+  cursor: pointer;
+  color: #721c24;
+  margin-left: 15px;
+}
+
+.cerrar:hover {
+  color: #a94442;
+}
+
+
+.alerta-flotante {
+  position: fixed;
+  top: 300px;
+  right: auto;
+  background-color: #f8d7da; /* color de fondo de alerta */
+  opacity: 0.9;
+  border: 2px solid #dc3545 !important; 
+  border-radius: 15px; 
+  padding: 15px 20px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+  z-index: 1000;
+  display: flex;
+  max-width: 300px;
+  color: #dc3545;
+  width: 60%;
+  margin-left: 20%;
+}
+
+.alerta-flotante i.fas.fa-times {
+  color: #dc3545;
+}
+
+/* Estilo para el botón de cerrar */
+.cerrar-btn {
+  background: transparent;
+  border: none;
+  font-size: 16px;
+  cursor: pointer;
+  color: #721c24;
+  font-weight: bold;
+}
+
+.cerrar-btn:hover {
+  color: #a71d2a;
+}

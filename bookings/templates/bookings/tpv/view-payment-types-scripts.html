@@ -35,7 +35,7 @@
         {% if val == 3 %} $("#band-alert").html("{% trans "ADVISE: You have invalid products, please remove!" %}"); {% endif %} 
 
         {# Not enough credit #}
-        {% if val == 4 %} $("#band-alert").html("{% trans "ADVISE: You have not balance, recharge your band!" %}").show(); {% endif %} 
+    {% if val == 4 %} $("#band-alert").html("{% trans "<strong>ADVISE:</strong><br />You have not balance, recharge your band!" %}"); $('band-alert-container').show(); {% endif %} 
 
         {# Lock send btn #}
         {% if val == 1 or val == 3 or val == 4 %} $("#btn-send-order-{{fi.id}}").addClass("a-disabled"); {% endif %} 

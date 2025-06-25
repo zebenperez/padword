@@ -19,12 +19,14 @@ from .common_lib import user_in_group, get_or_create_form_instance_info_client_t
 from .tpv_lib import get_cash_zeta, update_cash, get_number_x
 from .tpv_winhotel_lib import get_food_total, get_drinks_total, get_breakfast_total, cash_daily_summary
 from .tpv_winhotel_lib import cash_send_daily_summary, cash_send_charges 
+from .tpv_paytef_lib import manage_transaction
 from .models import Form, FormInstance, Status, Cash
 from django.conf import settings
 
 import datetime
 import json
 import logging
+import time
 logger = logging.getLogger(__name__)
 
 
@@ -351,8 +353,16 @@ def tpv_order_send(request):
         fi = get_or_none(FormInstance, fi_id)
         #Formulario ya enviado
         if fi.current_status("01"):
-            context = {'msg': "00", 'project_uuid': fi.form.project.uuid, "mobile": mobile}
+            context = {'msg': "00", 'fi': fi, 'project_uuid': fi.form.project.uuid, "mobile": mobile}
             return render(request, 'bookings/tpv/show-msg.html', context)
+
+        pt = get_or_none(PaymentType, pt_code, "code")
+        #Pago con paytef
+        if pt.code == "06":
+            payment_ok = manage_transaction()
+            if not payment_ok:
+                context = {'msg': "00", 'fi': fi, 'project_uuid': fi.form.project.uuid, "mobile": mobile}
+                return render(request, 'bookings/tpv/show-msg.html', context)
 
         local_date = fi.project.local_date(datetime.datetime.now())
         fi.set_status("01", request.user, "")
@@ -360,7 +370,6 @@ def tpv_order_send(request):
         fi.date = local_date
         fi.amount = total
 
-        pt = get_or_none(PaymentType, pt_code, "code")
         factor = 1
         if "04" in pt.code:
             factor = -1

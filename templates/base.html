@@ -51,8 +51,11 @@
 
             <div id="main" class="row m-0">
                 <div class="new-header header sticky-top m-0 p-0 w-100">
-                    <div class="mx-3"><a href="#" class="menu-btn"><i class="fas fa-bars menu"></i></a></div>
-                    <div class="text-center d-none d-lg-block"><a href="/guest/guests/project/"><img src="/static/img/Padword.png" width="120" height=""></a></div>
+                    <div class="mx-4"><a href="#" class="menu-btn"><i class="fas fa-bars menu"></i></a></div>
+                    <div class="text-center d-none d-lg-block">
+                        {# <a href="/guest/guests/project/"><img src="/static/img/Padword.png" width="120" height=""></a>#}
+                        <a href="/guest/guests/project/"><img src="{% get_logo %}" class="img-fluid"></a>
+                    </div>
                     <div class="text-center d-lg-none p-0"><a href="/web/projects/"><img src="/static/img/padword-symbol.png" width="30" height=""></a></div>
                     <div class="project-menu mx-3"> {% get_project_menu request.user %}</div>
                     <div class="project-name text-end d-none d-lg-block"> {% trans "Hola" %}, <strong>{{project.name}}</strong></div>
