@@ -17,6 +17,7 @@ from .common_lib import get_or_create_form_instance_tpv, get_or_create_form_inst
 from .common_lib import user_in_group
 from .models import Form, FormInstance, Status, Cash
 from .tpv_lib import get_cash_zeta
+from .tpv_paytef_lib import paytef_scan_band
 from django.conf import settings
 
 import datetime
@@ -48,12 +49,14 @@ def tpv_access(request, project_uuid, mobile=""):
     form = Form.objects.filter(form_type__code="tpv", form_type__project_uuid=project.uuid).first()
     context["next_url"] = next_url
     context["cat"] = form.get_category
+    context["mobile"] = mobile
     return render(request, 'bookings/tpv/mobile/tpv-welcome.html', context)
 
 def tpv_login_form(request):
     mobile = get_param(request.GET, "mobile")
     if mobile != "":
-        request.session["mobile"] = "mobile"
+        request.session["mobile"] = mobile
+        #request.session["mobile"] = "mobile"
     return render(request, "bookings/tpv/mobile/tpv-form-login.html", {'project_uuid': request.GET["project_uuid"], 'error': ''})
 
 def tpv_login(request):
@@ -226,6 +229,39 @@ def tpv_check_band(request):
         print(e)
         logger.error("[bookings-check_band] {}".format(str(e)))
         return render(request, "error_exception.html", {'exc':show_exc(e)})
+
+@group_required("waiters")
+def tpv_check_band_paytef(request):
+    try:
+        fi = get_or_none(FormInstance, get_param(request.GET, "obj_id"))
+        tcod = get_param(request.GET, "code")
+
+        # No coincide la mesa actual con la del ticket
+        if fi.table.id != request.session["table"] or fi.get_status != None:
+            return HttpResponse("")
+
+        band_err = ""
+        project = fi.form.project
+        band_code = paytef_scan_band(project, tcod)
+        if band_code == "":
+            band_err = _("Band could not be readed!")
+        else:
+            #band = Wristband.get_active_by_project(fi.form.project, reverse_cardkey(val))
+            band = Wristband.get_active_by_project(project, band_code)
+            regime = None
+            if band != None and band.guest != None:
+                gr = band.guest.regimes.first()
+                regime = gr.regime if gr != None else None
+                get_or_create_form_instance_info_client_tpv(fi, band.guest, band.code, band.name)
+                fi.update_items_prices()
+            else:
+                band_err = _("This band is not asigned to any guest!")
+        return render(request, "bookings/tpv/mobile/view-ticket-mobile.html", {'fi':fi, 'band_err': band_err})
+    except Exception as e:
+        print(e)
+        logger.error("[bookings-check_band] {}".format(str(e)))
+        return render(request, "error_exception.html", {'exc':show_exc(e)})
+
 
 @group_required("waiters")
 def tpv_item_add(request):

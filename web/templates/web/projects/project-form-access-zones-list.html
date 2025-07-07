@@ -17,16 +17,22 @@
                             data-confirm="Si borra la zona se borrarán los puntos de acceso, quiere continuar?"> 
                             <i class="fas fa-trash"></i></button>
                     </div>
-                    <div class="col-6">
+                    <div class="col-3">
                         <label class="label">{% trans "Name" %}</label>
                         <input type="text" class="form-control autosave input" id="name" name="name" value="{{zone.name}}" 
                             title="{{zone.name}}" data-model-name="guest.wristbandaccesszone" data-obj-id="{{zone.id}}" 
                             data-url="{% url "autosave_field" %}" data-target="div-notification"/> <span id="name__msg"></span>	
                     </div>
+                    <div class="col-3">
+                        <label class="label">{% trans "Code" %}</label>
+                        <input type="text" class="form-control autosave input" id="code" name="code" value="{{zone.code}}" 
+                            title="{{zone.code}}" data-model-name="guest.wristbandaccesszone" data-obj-id="{{zone.id}}" 
+                            data-url="{% url "autosave_field" %}" data-target="div-notification"/> <span id="code__msg"></span>	
+                    </div>
                     <div class="col-3"> <label class="label">{% trans "Time to execute tasks" %}:</label> </div>
                     <div class="col-2">
-                        <input type="time" class="form-control input" id="reset_time" name="reset_time" 
-                            value="{{zone.reset_time}}" onchange="$('#btn-access-time').data('time', $(this).val());console.log($('#btn-time').data('time'));"/>
+                        <input type="time" class="form-control input" id="reset_time" name="reset_time" value="{{zone.reset_time}}" 
+                            onchange="$('#btn-access-time').data('time', $(this).val());console.log($('#btn-time').data('time'));"/>
                     </div>
                     <div class="col-1">
                         <a id="btn-access-time" class="btn btn-sm ark" data-url="{%url "wristbands-access-schedule"%}"

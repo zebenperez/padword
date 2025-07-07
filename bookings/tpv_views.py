@@ -351,20 +351,23 @@ def tpv_order_send(request):
         mobile = get_param(request.GET, "mobile", "")
 
         fi = get_or_none(FormInstance, fi_id)
+        project = fi.form.project
+
         #Formulario ya enviado
         if fi.current_status("01"):
-            context = {'msg': "00", 'fi': fi, 'project_uuid': fi.form.project.uuid, "mobile": mobile}
+            context = {'msg': "00", 'fi': fi, 'project_uuid': project.uuid, "mobile": mobile}
             return render(request, 'bookings/tpv/show-msg.html', context)
 
         pt = get_or_none(PaymentType, pt_code, "code")
         #Pago con paytef
         if pt.code == "06":
-            payment_ok = manage_transaction()
+            tcod = request.session["mobile"] if "mobile" in request.session else ""
+            payment_ok = manage_transaction(project, total, "Ticket: {}".format(fi.get_index), tcod)
             if not payment_ok:
-                context = {'msg': "00", 'fi': fi, 'project_uuid': fi.form.project.uuid, "mobile": mobile}
+                context = {'msg': "00", 'fi': fi, 'project_uuid': project.uuid, "mobile": mobile}
                 return render(request, 'bookings/tpv/show-msg.html', context)
 
-        local_date = fi.project.local_date(datetime.datetime.now())
+        local_date = project.local_date(datetime.datetime.now())
         fi.set_status("01", request.user, "")
         #fi.date = datetime.datetime.now()
         fi.date = local_date
@@ -391,14 +394,14 @@ def tpv_order_send(request):
 
             #wh_write_log("--> PAGO CON PULSERA: {}".format(band_id))
             if band != None and pt.code == "03":
-                pwu = get_or_none(ProjectWinhotelUser, fi.form.project.uuid, "project_uuid")
+                pwu = get_or_none(ProjectWinhotelUser, project.uuid, "project_uuid")
                 if pwu != None and pwu.source_code != "":
                     wh_write_log("----> SE ENVIA EL CARGO: {} ({})".format(band.name, band.code))
                     send_charges(pwu, fi, band, pos, factor)
 
         set_desc(fi, desc)
 
-        context = {'msg': fi.get_status.status.code, 'project_uuid': fi.form.project.uuid, "mobile": mobile, 'fi': fi}
+        context = {'msg': fi.get_status.status.code, 'project_uuid': project.uuid, "mobile": mobile, 'fi': fi}
         #context = {'msg': fi.get_status.status.code, 'project_uuid': fi.form.project.uuid}
         return render(request, 'bookings/tpv/show-msg.html', context)
     except Exception as e:

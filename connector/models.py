@@ -118,7 +118,23 @@ class ProjectCarUser(models.Model):
 class ProjectPaytefUser(models.Model):
     username = models.CharField(max_length=255, verbose_name=_('Username'), default="")
     password = models.CharField(max_length=255, verbose_name=_('Password'), default="")
+    accessKey = models.CharField(max_length=255, verbose_name=_('accessKey'), default="")
+    secretKey = models.CharField(max_length=255, verbose_name=_('secretKey'), default="")
+    token = models.CharField(max_length=255, verbose_name=_('Token'), default="")
+    tcod = models.CharField(max_length=255, verbose_name=_('TCOD'), default="")
     company = models.CharField(max_length=255, verbose_name=_('Company'), default="")
+    project_uuid = models.CharField(max_length=255, verbose_name=_('Project UUID'), default="")
+
+    @property
+    def project(self):
+        try:
+            return Project.objects.get(uuid=self.project_uuid)
+        except:
+            return None
+
+class ProjectZktecoUser(models.Model):
+    token = models.CharField(max_length=255, verbose_name=_('Token'), default="")
+    dep = models.CharField(max_length=255, verbose_name=_('Department'), default="")
     project_uuid = models.CharField(max_length=255, verbose_name=_('Project UUID'), default="")
 
     @property

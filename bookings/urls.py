@@ -225,6 +225,7 @@ urlpatterns = [
     path('tpv-mob-change-table/', tpv_mob.tpv_change_table, name='tpv-mob-change-table'),
     #path('tpv-mob-set-cash/', tpv_mob.tpv_set_cash, name='tpv-mob-set-cash'),
     path('tpv-mob-check-band/', tpv_mob.tpv_check_band, name='tpv-mob-check-band'),
+    path('tpv-mob-check-band-paytef/', tpv_mob.tpv_check_band_paytef, name='tpv-mob-check-band-paytef'),
 
     path('tpv-mob-item-add/', tpv_mob.tpv_item_add, name='tpv-mob-item-add'),
     path('tpv-mob-item-remove/', tpv_mob.tpv_item_remove, name='tpv-mob-item-remove'),

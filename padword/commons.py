@@ -154,6 +154,9 @@ def set_session(request, key, default=""):
 def get_random_str(n):
     return ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(n))
 
+def get_random_digits(n):
+    return ''.join(random.choice(string.digits) for _ in range(n))
+
 def timestamp_to_date(value):
     return datetime.datetime.fromtimestamp(value/1000.0).strftime("%Y-%m-%d %H:%M:%S")
 

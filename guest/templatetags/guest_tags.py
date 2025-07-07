@@ -2,7 +2,7 @@ from django import template
 
 from padword.commons import show_exc
 from guest.models import KeyCode, KeyCard
-from guest.wristband_models import WristbandAccessZoneGuest
+from guest.wristband_models import WristbandAccessZoneGuest, WristbandAccessZone
 
 register = template.Library()
 
@@ -37,4 +37,10 @@ def guest_key_codes_show(guest, lock):
 def guest_key_cards(guest, lock):
     key_card_list = KeyCard.objects.filter(guest=guest, lock=lock)
     return {'key_card_list': key_card_list, 'guest': guest, 'lock': lock}
+
+@register.inclusion_tag('guest/bands/access-points.html')
+def guest_access_zones(guest, band):
+    zones = WristbandAccessZone.objects.filter(project_uuid=guest.project_id)
+    return {'obj': guest, 'band': band, 'access_zones': zones,}
+
 

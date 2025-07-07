@@ -1,0 +1,6 @@
+{% load i18n %}
+
+<button class="btn btn-sm scan-nfc ark" data-url="{% url "tpv-mob-check-band-paytef" %}" data-target="ticket-summary-mobile" 
+    data-obj_id="{{fi.id}}" data-code="{{request.session.mobile}}">Escanear pulsera (NFC)</button>
+
+

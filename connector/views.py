@@ -9,13 +9,15 @@ from django.views.decorators.http import require_POST
 from datetime import datetime
 from secrets import compare_digest
 
-from padword.commons import show_exc, get_or_none
+from padword.commons import show_exc, get_or_none, get_param, get_random_digits, reverse_cardkey
 from padword.email_lib import send_email
 from padword.decorators import group_required
 from contents.models import ItemInCat
 from web.models import Project
+from guest.models import Guest
+from guest.wristband_models import WristbandAccessZone, Wristband
 from .models import ProjectAvantioUser, ProjectAvaibookUser, ProjectWinhotelUser, ProjectMewsUser, ProjectCloudbedsUser
-from .models import ProjectPaytefUser
+from .models import ProjectPaytefUser, ProjectZktecoUser
 from .avantio_lib import get_booking_list, get_booking_notif, send_link
 from .avaibook_lib import get_accommodation_list, manage_booking_from_webhook, get_booking_list as av_get_booking_list, WEBHOOK_TOKEN
 from .winhotel_lib import get_booking_list as wh_get_booking_list, import_item_prices as wh_import_item_prices
@@ -24,7 +26,8 @@ from .winhotel_lib import get_booking_range_list as wh_get_booking_range_list
 from .mews_lib import get_booking_list as mw_get_booking_list, cancel_booking_list as mw_cancel_booking_list
 from .cloudbeds_lib import get_booking_list as cb_get_booking_list, get_room_list as cb_get_room_list
 from .cloudbeds_lib import set_webhooks as cb_set_webhooks, manage_webhook_actions as cb_manage_webhook_actions
-from .paytef_lib import get_config as pay_get_config
+from .paytef_lib import get_config as pay_get_config, get_status as pay_get_status, start_trans as pay_start_trans
+from .zkteco_lib import add_person as zk_add_person
 
 import json, os, csv, re
 
@@ -347,9 +350,53 @@ def paytef_get_config(request, project_uuid):
         print(e)
         return render(request, 'error_exception.html', {'exc':show_exc(e)})
 
+@group_required("admins", "projects")
+def paytef_pinpad_status(request, project_uuid):
+    try:
+        ppu = get_or_none(ProjectPaytefUser, project_uuid, "project_uuid")
+        config = pay_get_status(ppu)
+        return render(request, 'paytef/config.html', {'config': config})
+    except Exception as e:
+        print(e)
+        return render(request, 'error_exception.html', {'exc':show_exc(e)})
+
+@group_required("admins", "projects")
+def paytef_test_transfer(request, project_uuid):
+    try:
+        ppu = get_or_none(ProjectPaytefUser, project_uuid, "project_uuid")
+        is_ok, config = pay_start_trans(ppu)
+        return render(request, 'paytef/transfer.html', {'is_ok': is_ok, 'config': config})
+    except Exception as e:
+        print(e)
+        return render(request, 'error_exception.html', {'exc':show_exc(e)})
+
+
 '''
     Zkteco
 '''
+@group_required("admins", "projects")
+def zkteco_add_person(request):
+    try:
+        guest = get_or_none(Guest, get_param(request.GET, "obj_id"))
+        zone = get_or_none(WristbandAccessZone, get_param(request.GET, "zone"))
+        wband = get_or_none(Wristband, get_param(request.GET, "band"))
+        res = "Guest: {} --- Zone: {}".format(guest, zone)
+        pzu = get_or_none(ProjectZktecoUser, guest.project_id, "project_uuid")
+        idate = guest.check_in.strftime("%Y-%m-%d %H:%M:%S") #"2025-07-14 12:00:00",
+        edate = guest.check_out.strftime("%Y-%m-%d %H:%M:%S") #"2025-07-14 12:00:00",
+        level = zone.code
+        band = reverse_cardkey(wband.code)
+        lastname = guest.surname
+        name = guest.name
+        pin = get_random_digits(6) #"202507"                    
+        res = zk_add_person(pzu, idate, edate, level, band, lastname, name, pin)
+        params = {"idate": idate, "edate": edate, "level": level, "band": band, "lastname": lastname, "name": name, "pin": pin}
+        return render(request, 'zkteco/result.html', {'params': params, 'res': res})
+    except Exception as e:
+        print(e)
+        return render(request, 'error_exception.html', {'exc':show_exc(e)})
+
+
 @csrf_exempt
 #@require_POST
 def zkteco_webhook(request):

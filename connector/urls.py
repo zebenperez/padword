@@ -29,8 +29,11 @@ urlpatterns = [
 
     #--------------------- PAYTEF --------------------
     path('paytef/get-config/<slug:project_uuid>/', views.paytef_get_config, name='paytef-get-config'),
+    path('paytef/pinpad-status/<slug:project_uuid>/', views.paytef_pinpad_status, name='paytef-pinpad-status'),
+    path('paytef/test-transfer/<slug:project_uuid>/', views.paytef_test_transfer, name='paytef-test-transfer'),
 
     #--------------------- ZKTECO --------------------
+    path('zkteco/add-person/', views.zkteco_add_person, name='zkteco-add-person'),
     path('zkteco/webhook/', views.zkteco_webhook, name='zkteco-webhook'),
 
     #--------------------- CRON --------------------

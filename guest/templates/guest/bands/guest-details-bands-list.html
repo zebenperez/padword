@@ -89,7 +89,9 @@
                             </div>
                         </div>
                         <div class="card-body hide" id="band-ap-{{item.id}}"> 
-                            {% include "guest/bands/access-points.html" with band=item %} </div>
+                            {#{% include "guest/bands/access-points.html" with band=item %}#}
+                            {% guest_access_zones obj item %}
+                        </div>
                     </div>
                 </div>
             </div>

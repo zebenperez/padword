@@ -1,0 +1,20 @@
+{% load i18n %}
+
+<div class="row w-100 common-modal-head m-0 p-0">
+    <div class="col-11"><h2>{% trans 'Cloudbeds booking list' %}</h2></div>
+    <div class="col-1">
+        <button type="button" class="btn btn-sm" data-bs-dismiss="modal"><i class="fas fa-times"></i></button> </div>
+</div>
+
+{% if error and error != "" %} <div class="alert alert-danger">{{error|safe}}</div> {% endif %}
+
+<div class="row m-0">
+    <div class="content">
+        <h3>Parámetros</h3>
+        <div id="item-list">{{params}} </div>
+        <br/>
+        <h3>Resultado</h3>
+        <div id="item-list">{{res}} </div>
+    </div>
+</div>
+

@@ -17,6 +17,10 @@ except:
 TRANSACTION_URL = "transactionConsultation"
 TRANSACTION_START_URL = "transaction/start"
 TRANSACTION_POLL_URL = "transaction/poll"
+TRANSACTION_RESULT_URL = "transaction/result"
+MIFARE_START_URL = "miFare/read/start"
+MIFARE_POLL_URL = "miFare/read/poll"
+MIFARE_RESULT_URL = "miFare/read/result"
 PINPAD_STATUS_URL = "pinpad/status"
 GET_TOKEN_URL = "authorize"
 CONFIG_URL = "configurationConsultation"
@@ -33,13 +37,13 @@ class PaytefAPIError(Exception):
         return 'Error: {}'.format(self.menssage)
 
 class Paytef():
-    def __init__(self, username, password, comp, accessKey, secretKey):
+    def __init__(self, username, password, comp, accessKey, secretKey, token=""):
         self.username = username 
         self.password = password
         self.company = comp
         self.accessKey = accessKey
         self.secretKey = secretKey
-        self.token = ""
+        self.token = token
     
     def __send_request__(self, _url_request, _params=""):
         try:
@@ -67,6 +71,7 @@ class Paytef():
             #_headers['Accept'] = 'application/json'
             #_headers['x-api-key'] = '{}'.format(self.token)
             _response = requests.post(_url_request, headers=_headers, json=_json)
+            print(_response.text)
             _response.raise_for_status()
             return _response
         except requests.exceptions.HTTPError as errh:
@@ -87,7 +92,11 @@ class Paytef():
             #print("HEADERS: {}".format(_headers))
             #print("PARAM: {}".format(_json))
             _response = requests.post(_url_request, headers=_headers, json=_json, allow_redirects=True)
-            #print(_response.text)
+            print("-------------------------------------------------------------------------------------")
+            print(_response.text)
+            if "error" in _response.text:
+                return _response
+
             _response.raise_for_status()
             return _response
         except requests.exceptions.HTTPError as errh:
@@ -98,24 +107,6 @@ class Paytef():
             raise PaytefAPIError(menssage=errt)
         except requests.exceptions.RequestException as err:
             raise PaytefAPIError(menssage=err)
-
-#    def __send_put_request__(self, _url_request, _json):
-#        try:
-#            _headers = {}
-#            _headers['Authorization'] = 'Bearer {}'.format(self.token)
-#            _headers['Content-Type'] = 'application/x-www-form-urlencoded'
-#            _response = requests.put(_url_request, headers=_headers, data=_json)
-#            _response.raise_for_status()
-#            return _response
-#        except requests.exceptions.HTTPError as errh:
-#            raise PaytefAPIError(menssage=errh)
-#        except requests.exceptions.ConnectionError as errc:
-#            raise PaytefAPIError(menssage=errc)
-#        except requests.exceptions.Timeout as errt:
-#            raise PaytefAPIError(menssage=errt)
-#        except requests.exceptions.RequestException as err:
-#            raise PaytefAPIError(menssage=err)
-
 
     def config_query(self):
         try:
@@ -139,124 +130,110 @@ class Paytef():
         except Exception as err:
             raise PaytefAPIError(menssage=err)
 
-    def transaction_query(self):
+    def transaction_start_query(self, ppu, tcod, amount, ref):
         try:
-            _url_request = "{}{}".format(API_URL, TRANSACTION_URL)
+            _url_request = "{}{}".format(CLOUD_URL, TRANSACTION_START_URL)
             params = {
-                "authentication": {
-                    "username": self.username,
-                    "password": self.password,
-                    "company": self.company
+                "executeOptions": {
+                    "method": "polling"
                 },
-                "parameters": {
-                    "page": "0",
-                    "branch": "0",
-                    "fromDate": {
-                        "year": "2025",
-                        "month": "6",
-                        "day": "20"
-                    },
-                    "toDate": {
-                        "year": "2025",
-                        "month": "6",
-                        "day": "21"
-                    },
-                    "reference": "string",
-                    "fromAmount": "12.24",
-                    "toAmount": "50",
-                    "tcod": "19JQV5",
-                    "transactionID": "0",
-                    "useLocalTime": "false"
-                }
+                "opType": "sale",
+                "pinpad": tcod,
+                "requestedAmount": amount,
+                "transactionReference": ref
             }
-            dic = self.__send_post_request__(_url_request, params).json()
-            print(dic)
-            return(dic)
-            #items = dic["data"]
-            #return items
+
+            dic = self.__send_post_token_request__(_url_request, params).json()
+
+            if self.update_token(dic, ppu):
+                dic = self.__send_post_token_request__(_url_request, params).json()
+
+            #print(dic)
+            return dic["info"]["sessionID"]
         except Exception as err:
             raise PaytefAPIError(menssage=err)
 
-    def transaction_start_query(self, amount, ref):
+    def transaction_poll_query(self, tcod):
         try:
-            _url_request = "{}{}".format(API_URL, TRANSACTION_START_URL)
-            params = {
-                "authentication": {
-                    "username": self.username,
-                    "password": self.password,
-                    "company": self.company
-                },
-                "parameters": {
-                    "cardNumberHashDomain": "branch",
-                    #"commerceCodeID": null,
-                    "executeOptions": {
-                        "method": "polling"
-                        #"userData": "null"
-                    },
-                    "opType": "sale",
-                    "pinpad": "*",
-                    "requestedAmount": amount,
-                    #"requireConfirmation": false,
-                    #"tcod": null,
-                    "transactionReference": ref
-                }
-            }
-            dic = self.__send_post_request__(_url_request, params).json()
-            print(dic)
+            _url_request = "{}{}".format(CLOUD_URL, TRANSACTION_POLL_URL)
+            params = { "pinpad": tcod, }
+            dic = self.__send_post_token_request__(_url_request, params).json()
+            #print(dic)
             return dic
-            #items = dic["data"]
-            #return items
         except Exception as err:
             raise PaytefAPIError(menssage=err)
 
-    def transaction_poll_query(self, session, ref):
+    def transaction_result_query(self, tcod):
         try:
-            _url_request = "{}{}".format(API_URL, TRANSACTION_START_URL)
-            params = {
-                "authentication": {
-                    "username": self.username,
-                    "password": self.password,
-                    "company": self.company
-                },
-                "parameters": {
-                    "confirmation": "null",
-                    "info": {
-                        "cardStatus": "waitingForCard",
-                        "opType": "sale",
-                        "requestedAmount": 0,
-                        "sessionID": session,
-                        "tcod": "",
-                        "transactionConfirmed": "null",
-                        "transactionReference": ref,
-                        "transactionStatus": "starting"
-                    },
-                    "result": "null",
-                    "resultWorldCoo": "null",
-                    "version": "2023.02.040333"
-                }
-            }
-            dic = self.__send_post_request__(_url_request, params).json()
-            print(dic)
+            _url_request = "{}{}".format(CLOUD_URL, TRANSACTION_RESULT_URL)
+            params = { "pinpad": tcod, }
+            dic = self.__send_post_token_request__(_url_request, params).json()
+            #print(dic)
             return dic
-            #items = dic["data"]
-            #return items
         except Exception as err:
             raise PaytefAPIError(menssage=err)
 
-    def pinpad_status(self):
+    def mifare_start_query(self, ppu, tcod):
+        try:
+            _url_request = "{}{}".format(CLOUD_URL, MIFARE_START_URL)
+            params = {
+                "executeOptions": {
+                    "method": "polling"
+                },
+                "language": "es",
+                "pinpad": tcod,
+                "timeoutSeconds": 60
+            }
+
+            dic = self.__send_post_token_request__(_url_request, params).json()
+
+            if self.update_token(dic, ppu):
+                dic = self.__send_post_token_request__(_url_request, params).json()
+
+            #print(dic)
+            return dic["info"]["message"]
+        except Exception as err:
+            raise PaytefAPIError(menssage=err)
+
+    def mifare_poll_query(self, tcod):
+        try:
+            _url_request = "{}{}".format(CLOUD_URL, MIFARE_POLL_URL)
+            params = { "pinpad": tcod, }
+            dic = self.__send_post_token_request__(_url_request, params).json()
+            #print(dic)
+            return dic
+        except Exception as err:
+            raise PaytefAPIError(menssage=err)
+
+    def mifare_result_query(self, tcod):
+        try:
+            _url_request = "{}{}".format(CLOUD_URL, MIFARE_RESULT_URL)
+            params = { "pinpad": tcod, }
+            dic = self.__send_post_token_request__(_url_request, params).json()
+            #print(dic)
+            return dic
+        except Exception as err:
+            raise PaytefAPIError(menssage=err)
+
+
+    def pinpad_status(self, ppu, tcod):
         try:
             #_url_request = "{}{}".format(API_URL, PINPAD_STATUS_URL)
             _url_request = "{}{}".format(CLOUD_URL, PINPAD_STATUS_URL)
             #print("--> GET STATUS")
             params = {
                 "language": "es",
-                "pinpad": "1234"
+                "pinpad": tcod
+                #"pinpad": "01853234265"
+                #"pinpad": "19JQV5"
             }
             dic = self.__send_post_token_request__(_url_request, params).json()
-            print(dic)
+
+            if self.update_token(dic, ppu):
+                dic = self.__send_post_token_request__(_url_request, params).json()
+
+            #print(dic)
             return dic
-            #items = dic["data"]
-            #return items
         except Exception as err:
             raise PaytefAPIError(menssage=err)
 
@@ -272,26 +249,14 @@ class Paytef():
         except Exception as err:
             raise PaytefAPIError(menssage=err)
 
-
-#class PaytefBooking():
-#    def __init__(self, dic):
-#        self.id = get_param(dic, "reservationID")
-#        self.property_id = get_param(dic, "propertyID")
-#        self.source_id = get_param(dic, "sourceID")
-#        self.source_name = get_param(dic, "sourceName")
-#        self.guest_id = get_param(dic, "guestID")
-#        self.guest_name = get_param(dic, "guestName")
-#        self.start = get_param(dic, "startDate")
-#        self.end = get_param(dic, "endDate")
-#        self.created = get_param(dic, "dateCreated")
-#        self.updated = get_param(dic, "dateModified")
-#        self.status = get_param(dic, "status")
-#        self.adults = get_param(dic, "adults")
-#        self.children = get_param(dic, "children")
-#        self.balance = get_param(dic, "balance")
-#        #self.customer = None
-#        self.rooms = []
-#        self.created = False
+    def update_token(self, dic, ppu):
+        if "error" in dic:
+            if "description" in dic["error"] and "authorization token" in dic["error"]["description"]:
+                ppu.token = self.get_token()
+                ppu.save()
+                self.token = ppu.token
+                return True
+        return False
 
 '''
     FUNCTIONS
@@ -303,22 +268,56 @@ def get_config(ppu):
     return res
     #pt.transaction_query()
  
-#def trans_start(ppu):
-#    pt = Paytef(ppu.username, ppu.password, ppu.company)
-def trans_start():
-    pt = Paytef("7CucWdfBNR8xK8xR6", "7e7cfmMyqm_qCZgNa3", "113202", "", "")
-    res = pt.transaction_start_query(10, "Op Test 1")
-    print(res)
-
 def get_token():
     pt = Paytef("", "", "", "MS4yZmNp", "9KiyvtmGpVB9RHbLWvq4A494MwKbu2lfA5Zixdov")
     pt.token = pt.get_token()
     print(pt.token)
 
-def get_status():
-    pt = Paytef("", "", "", "MS4yZmNp", "9KiyvtmGpVB9RHbLWvq4A494MwKbu2lfA5Zixdov")
-    #pt.token = pt.get_token()
-    pt.token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjcHlJZCI6MTEzMjAyLCJpYXQiOjE3NTA4NDc3MDUsImV4cCI6MTc1MDkzNDEwNSwiYXVkIjoidXJuOnBheXRlZjpkZXZpY2UtYXBpLWNsb3VkIiwiaXNzIjoidXJuOnBheXRlZjphd3MifQ.fBoFEaaKYldZYfpbkgY7Qui6BwAOh8lI1VQP-Vodg18"
+def get_status(ppu):
+    pt = Paytef("", "", "", ppu.accessKey, ppu.secretKey, ppu.token)
+    tcod = "19JQV5"
     #print("TOKEN: {}".format(pt.token))
-    res = pt.pinpad_status()
+    res = pt.pinpad_status(ppu, tcod)
+    print(res)
+    return res
+
+def start_trans(ppu):
+    import time 
+
+    pt = Paytef("", "", "", ppu.accessKey, ppu.secretKey, ppu.token)
+    tcod = ppu.tcod
+    amount = 100
+    ref = "Test transaction 01"
+    session = pt.transaction_start_query(ppu, tcod, amount, ref)
+    #print(session)
+
+    trans_ok = False
+    start_time = time.time()  # Guarda el momento de inicio
+    timeout = 10  # Segundos
+    res = ""
+    while time.time() - start_time < timeout:
+        #print("Ejecutando tarea...")  # Reemplaza con tu lógica
+        time.sleep(1)  # Espera 1 segundo entre iteraciones (opcional)
+        res = pt.transaction_poll_query(tcod)
+        print("Confirmada: {}".format(res["info"]["transactionConfirmed"]))
+        print("Estado: {}".format(res["info"]["transactionStatus"]))
+        try:
+            if res["info"]["transactionConfirmed"] == "true" and res["info"]["transactionStatus"] == "finished":
+                trans_ok = True
+                break
+        except:
+            pass
+
+        #print(res)
+        #print("¡Bucle terminado después de 10 segundos!")
+    #print("OK")
+    return trans_ok, res
+
+def poll_trans():
+    import time 
+
+    pt = Paytef("", "", "", "MS4yZmNp", "9KiyvtmGpVB9RHbLWvq4A494MwKbu2lfA5Zixdov")
+    pt.token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjcHlJZCI6MTEzMjAyLCJpYXQiOjE3NTA5NDMzMzIsImV4cCI6MTc1MTAyOTczMiwiYXVkIjoidXJuOnBheXRlZjpkZXZpY2UtYXBpLWNsb3VkIiwiaXNzIjoidXJuOnBheXRlZjphd3MifQ.0IILCUwy92JbA6StXVB7PYYsRkCocJ0Ez16d2SXDO1Q"
+    tcod = "19JQV5"
+    res = pt.transaction_poll_query(tcod)
     print(res)

@@ -11,27 +11,58 @@
     </div>
     <div class="card-body hide" id="body-paytef"> 
         <div class="row justify-center">
-            <div class="col-3">
+            <div class="col-6">
                 <label class="label">{% trans "Username" %}:</label>
                 <input type="text" class="form-control autosave input" id="username" name="username" value="{{user_paytef.username}}" 
                     title="{{user_paytef.username}}" data-model-name="connector.projectpaytefuser" data-obj-id="{{user_paytef.id}}" 
                     data-url="{% url "autosave_field" %}" data-target="div-notification"/> <span id="username__msg"></span>	
             </div>
-            <div class="col-3">
+            <div class="col-6">
                 <label class="label">{% trans "Password" %}:</label>
                 <input type="text" class="form-control autosave input" id="password" name="password" 
                     value="{{user_paytef.password}}" data-model-name="connector.projectpaytefuser" data-obj-id="{{user_paytef.id}}" 
                     data-url="{% url "autosave_field" %}" data-target="div-notification"/> <span id="password__msg"></span>	
             </div>
-            <div class="col-3">
+            <div class="col-6">
+                <label class="label">{% trans "Access Key" %}:</label>
+                <input type="text" class="form-control autosave input" id="accessKey" name="accessKey" 
+                    value="{{user_paytef.accessKey}}" title="{{user_paytef.accessKey}}" data-model-name="connector.projectpaytefuser" 
+                    data-obj-id="{{user_paytef.id}}" data-url="{% url "autosave_field" %}" data-target="div-notification"/> 
+                <span id="accessKey__msg"></span>	
+            </div>
+            <div class="col-6">
+                <label class="label">{% trans "Secret Key" %}:</label>
+                <input type="text" class="form-control autosave input" id="secretKey" name="secretKey" 
+                    value="{{user_paytef.secretKey}}" data-model-name="connector.projectpaytefuser" data-obj-id="{{user_paytef.id}}" 
+                    data-url="{% url "autosave_field" %}" data-target="div-notification"/> <span id="secretKey__msg"></span>	
+            </div>
+            <div class="col-4">
                 <label class="label">{% trans "Company" %}:</label>
                 <input type="text" class="form-control autosave input" id="company" name="company" value="{{user_paytef.company}}" 
                     data-model-name="connector.projectpaytefuser" data-obj-id="{{user_paytef.id}}" 
                     data-url="{% url "autosave_field" %}" data-target="div-notification"/> <span id="company__msg"></span>	
             </div>
-            <div class="col-3">
+            <div class="col-4">
+                <label class="label">{% trans "TCOD" %}:</label>
+                <input type="text" class="form-control autosave input" id="tcod" name="tcod" value="{{user_paytef.tcod}}" 
+                    data-model-name="connector.projectpaytefuser" data-obj-id="{{user_paytef.id}}" 
+                    data-url="{% url "autosave_field" %}" data-target="div-notification"/> <span id="tcod__msg"></span>	
+            </div>
+            <div class="col-4">
+                <label class="label">{% trans "Token" %}:</label>
+                <input type="text" class="form-control input" id="token" name="token" value="{{user_paytef.token}}" disabled/> 
+            </div>
+            <div class="col-4">
                 <a class="btn btn-primary ark" data-url="{% url "paytef-get-config" obj.uuid %}" data-target-modal="common-modal"> 
                     {%trans "View Config"%}</a>  
+            </div>
+            <div class="col-4">
+                <a class="btn btn-primary ark" data-url="{% url "paytef-pinpad-status" obj.uuid %}" data-target-modal="common-modal"> 
+                    {%trans "Pinpad Status"%}</a>  
+            </div>
+            <div class="col-4">
+                <a class="btn btn-primary ark" data-url="{% url "paytef-test-transfer" obj.uuid %}" data-target-modal="common-modal"> 
+                    {%trans "Transfer Test"%}</a>  
             </div>
         </div>		
     </div>		

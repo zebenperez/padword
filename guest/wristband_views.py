@@ -223,6 +223,7 @@ def guest_band_manage_zone(request):
                 obj.delete()
         access_zones = WristbandAccessZone.objects.filter(project_uuid=guest.project_id)
         return render(request, "guest/bands/access-points.html", {"obj": guest, "band": band, "access_zones": access_zones})
+        #return render(request, "guest/bands/access-points.html", {"obj": guest, "band": band})
     except Exception as e:
         return render(request, "error_exception.html", {'exc':show_exc(e)})
 
@@ -242,6 +243,7 @@ def guest_band_manage_all_zone(request):
                 if obj != None:
                     obj.delete()
         return render(request, "guest/bands/access-points.html", {"obj": guest, "band": band, "access_zones": access_zones})
+        #return render(request, "guest/bands/access-points.html", {"obj": guest, "band": band})
     except Exception as e:
         return render(request, "error_exception.html", {'exc':show_exc(e)})
 

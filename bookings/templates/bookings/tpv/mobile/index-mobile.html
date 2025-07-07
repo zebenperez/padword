@@ -6,21 +6,22 @@
     <div class="header-mobile sticky-top">
         <div class="row products-tpv-mobile w-100 text-center m-0 p-0">
             <div class="col-4 p-0 name">
-                <button class="btn ark w-100" data-url="{% url "tpv-mob-change-pos" %}" data-target="base" data-project_uuid="{{project_uuid}}">
-                    <i class="fas fa-cash-register"></i><br /> {{pos.name}} </button>
+                <button class="btn ark w-100" data-url="{% url "tpv-mob-change-pos" %}" data-target="base" 
+                    data-project_uuid="{{project_uuid}}"> <i class="fas fa-cash-register"></i><br /> {{pos.name}} </button>
             </div>
             <div class="col-4 p-0 name">
                 <button class="btn ark w-100 table-name" data-url="{%url "tpv-mob-change-table"%}" data-target="base" 
                     data-project_uuid="{{project_uuid}}"> <i class="fas fa-coffee"></i><br /> {{table.name}} </button>
             </div>
             <div class="col-4 p-0 access-ticket text-center">
-                <button class="btn btn-header-pwa" onclick="$('.tpv-toggle').toggle();" data-url="{% url "tpv-close" %}" data-target="base" 
-                    data-project_uuid="{{project_uuid}}"> 
+                <button class="btn btn-header-pwa" onclick="$('.tpv-toggle').toggle();" data-url="{% url "tpv-close" %}" 
+                    data-target="base" data-project_uuid="{{project_uuid}}"> 
                     <span class="tpv-toggle p-0">
                         <i class="fas fa-tag"></i><br />Ticket
                         <span id="items-counter" class="badge badge-primary" style="color:red"></span>
                     </span>
-                    <span id="title-products-mobile" class="tpv-toggle p-0"><i class="fas fa-shopping-basket"></i><br />{% trans 'Products' %}</span>
+                    <span id="title-products-mobile" class="tpv-toggle p-0"><i class="fas fa-shopping-basket"></i>
+                        <br />{% trans 'Products' %}</span>
                 </button>
             </div>
             {%comment%}
@@ -45,7 +46,11 @@
             </div>
         </div>
         <div class="header-bottom tpv-toggle" id="title-div-scan">
-            {% include "bookings/tpv/mobile/scan-nfc.html" %}
+            {% if request.session.mobile and request.session.mobile != "" %}
+                {% include "bookings/tpv/mobile/scan-paytef.html" %}
+            {% else %}
+                {% include "bookings/tpv/mobile/scan-nfc.html" %}
+            {% endif %}
         </div>
 
         {# -- TICKET -- #}

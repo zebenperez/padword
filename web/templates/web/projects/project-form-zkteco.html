@@ -1,0 +1,36 @@
+{% load i18n padword_tags %}
+
+
+<div class="card mt-2">
+    <div class="card-header toggle-btn" data-target="body-zkteco" data-id-change="icon-extra"
+        data-text='<i class="fas fa-plus"></i>' data-text-alt='<i class="fas fa-minus"></i>'>
+        <div class="row w-100">
+            <div class="col-6 text-right" id="icon-extra"><i class="fas fa-plus"></i></div>
+            <div class="col-6 text-left"><strong>{% trans "Zkteco" %}</strong></div>
+        </div>
+    </div>
+    <div class="card-body hide" id="body-zkteco"> 
+        <div class="row justify-center">
+            <div class="col-4">
+                <label class="label">{% trans "Token" %}:</label>
+                <input type="text" class="form-control autosave input" id="token" name="token" value="{{user_zkteco.token}}" 
+                    data-model-name="connector.projectzktecouser" data-obj-id="{{user_zkteco.id}}" 
+                    data-url="{% url "autosave_field" %}" data-target="div-notification"/> <span id="tcod__msg"></span>	
+            </div>
+            <div class="col-4">
+                <label class="label">{% trans "ID Departamento" %}:</label>
+                <input type="text" class="form-control autosave input" id="dep" name="dep" value="{{user_zkteco.dep}}" 
+                    data-model-name="connector.projectzktecouser" data-obj-id="{{user_zkteco.id}}" 
+                    data-url="{% url "autosave_field" %}" data-target="div-notification"/> <span id="dep__msg"></span>	
+            </div>
+
+            {%comment%}
+            <div class="col-4">
+                <a class="btn btn-primary ark" data-url="{% url "zkteco-get-config" obj.uuid %}" data-target-modal="common-modal"> 
+                    {%trans "View Config"%}</a>  
+            </div>
+            {%endcomment%}
+        </div>		
+    </div>		
+</div>		
+

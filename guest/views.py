@@ -7,6 +7,7 @@ from django.db.models import Q
 import datetime, csv
 
 from .models import *
+#from .wristband_models import WristbandAccessZone
 from web.lock_lib import ShLock
 from padword.commons import show_exc, get_or_none, get_float, new_ui_slug, translate, user_in_group, get_param, reverse_cardkey, set_session
 from padword.decorators import group_required
@@ -184,6 +185,7 @@ def guest_details(request, obj_id="", current_tab=""):
             'temp_range':range(16,26), 
             'regime_list':regime_list, 
             'guest_type_list':guest_type_list, 
+            #'access_zones': WristbandAccessZone.objects.filter(project_uuid=obj.project_id),
             'card':obj.card, 
             'current_tab':current_tab, 
             'stripe':obj.stripe

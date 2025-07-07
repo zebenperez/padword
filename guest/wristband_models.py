@@ -86,6 +86,7 @@ class WristbandAccessZone(models.Model):
     reset_time = models.TimeField(_("Reset Time"), blank=True, default=datetime.time(23, 00))
     uuid = models.CharField(max_length = 255, verbose_name= _('UUID'), default=new_ui_slug)
     name = models.CharField(max_length=255, verbose_name='Name', default="")
+    code = models.CharField(max_length=255, verbose_name='Code', default="")
     project_uuid = models.CharField(max_length = 255, verbose_name= _('Project UUID'), default='')
 
     @property
