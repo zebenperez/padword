@@ -1,0 +1,19 @@
+{% load i18n padword_tags guest_tags %}
+
+{% if active %}
+    <button type="button" class="btn btn-success ark" id="zone-{{zone.id}}" 
+        data-url="{%url "guest-band-manage-zone"%}" data-target="guest-ap-{{band.id}}" data-obj_id="{{obj.id}}" 
+        data-zone="{{zone.id}}" data-band="{{band.id}}" data-add="False" data-temp="guest" data-card="{{card}}" style="width:150px"> 
+        {{ zone.name }}</button> 
+    {%comment%}
+    <button type="button" class="btn btn-warning ark" id="send-zone-{{zone.id}}" 
+        data-url="{%url "zkteco-add-person"%}" data-target-modal="common-modal" data-obj_id="{{obj.id}}" 
+        data-zone="{{zone.id}}" data-band="{{band.code}}" style="width:150px"> {% trans "Send" %} </button> 
+    {%endcomment%}
+{% else %}
+    <button type="button" class="btn btn-default ark" id="zone-{{zone.id}}" 
+        data-url="{% url "guest-band-manage-zone" %}" data-target="guest-ap-{{band.id}}" data-obj_id="{{obj.id}}" 
+        data-zone="{{zone.id}}" data-band="{{band.id}}" data-add="True" data-temp="guest" data-card="{{card}}" style="width:150px"> 
+        {{ zone.name }}</button> 
+{% endif %}
+

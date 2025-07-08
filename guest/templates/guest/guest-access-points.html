@@ -1,0 +1,24 @@
+{% load i18n padword_tags guest_tags %}
+
+<div class="row">
+    <div class="col-12 text-end">
+        <button type="button" class="btn btn-warning ark" id="send-zones-{{band.code}}" 
+            data-url="{%url "zkteco-add-person-band"%}" data-target-modal="common-modal" data-obj_id="{{obj.id}}" 
+            data-band="{{band.code}}" style="width:150px"> {% trans "Sync" %} </button> 
+        <button class="btn btn-warning ark" data-url="{%url "guest-band-manage-all-zone"%}" data-target="guest-ap-{{band.id}}" 
+            data-obj_id="{{obj.id}}" data-band="{{band.id}}" data-add="False" data-temp="guest" data-card="{{card}}">
+            {% trans "Quitar acceso de todas las zonas" %}</button>
+        <button class="btn btn-success ark" data-url="{%url "guest-band-manage-all-zone"%}" data-target="guest-ap-{{band.id}}" 
+            data-obj_id="{{obj.id}}" data-band="{{band.id}}" data-add="True" data-temp="guest" data-card="{{card}}">
+            {% trans "Dar acceso de todas las zonas" %}</button>
+    </div>
+</div>
+<br/>
+ 
+<div class="d-flex">
+   <div class="row">
+       {#{% for zone in obj.access_zones %}#}
+       {% for zone in access_zones %} <div class="col-6"> {% guest_zone_active obj zone band card %} </div> {% endfor %}
+    </div>
+</div>
+

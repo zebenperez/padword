@@ -15,7 +15,7 @@ from padword.decorators import group_required
 from contents.models import ItemInCat
 from web.models import Project
 from guest.models import Guest
-from guest.wristband_models import WristbandAccessZone, Wristband
+from guest.wristband_models import WristbandAccessZone, Wristband, WristbandAccessZoneGuest
 from .models import ProjectAvantioUser, ProjectAvaibookUser, ProjectWinhotelUser, ProjectMewsUser, ProjectCloudbedsUser
 from .models import ProjectPaytefUser, ProjectZktecoUser
 from .avantio_lib import get_booking_list, get_booking_notif, send_link
@@ -374,41 +374,101 @@ def paytef_test_transfer(request, project_uuid):
 '''
     Zkteco
 '''
+def get_person_dic(guest, pzu, code, levels):
+    return {
+        "accStartTime": guest.check_in.strftime("%Y-%m-%d %H:%M:%S"), #"2025-07-14 12:00:00",
+        "accEndTime": guest.check_out.strftime("%Y-%m-%d %H:%M:%S"), #"2025-07-14 12:00:00",
+        "accLevelIds": levels,
+        #"accLevelIds": zone.code,
+        "deptCode": pzu.dep,
+        "cardNo": str(reverse_cardkey(code)),
+        "lastName": guest.surname,
+        "name": guest.name,
+        "pin": get_random_digits(6) #"202507"                    
+        #"pin": pin
+    }
+ 
 @group_required("admins", "projects")
-def zkteco_add_person(request):
+def zkteco_add_persons(request):
     try:
         guest = get_or_none(Guest, get_param(request.GET, "obj_id"))
-        zone = get_or_none(WristbandAccessZone, get_param(request.GET, "zone"))
-        wband = get_or_none(Wristband, get_param(request.GET, "band"))
-        res = "Guest: {} --- Zone: {}".format(guest, zone)
         pzu = get_or_none(ProjectZktecoUser, guest.project_id, "project_uuid")
-        idate = guest.check_in.strftime("%Y-%m-%d %H:%M:%S") #"2025-07-14 12:00:00",
-        edate = guest.check_out.strftime("%Y-%m-%d %H:%M:%S") #"2025-07-14 12:00:00",
-        level = zone.code
-        band = reverse_cardkey(wband.code)
-        lastname = guest.surname
-        name = guest.name
-        pin = get_random_digits(6) #"202507"                    
-        res = zk_add_person(pzu, idate, edate, level, band, lastname, name, pin)
-        params = {"idate": idate, "edate": edate, "level": level, "band": band, "lastname": lastname, "name": name, "pin": pin}
-        return render(request, 'zkteco/result.html', {'params': params, 'res': res})
+        res = "Guest: {}".format(guest)
+        res += "<br/><br/>"
+
+        dic_code = {}
+        dic_pin = {}
+        for ac in guest.zones.all():
+            key = ac.code
+            dic_code[key] = "{},{}".format(dic_code[key], ac.zone.code) if key in dic_code else ac.zone.code
+            #dic_pin[key] = ac.pin
+
+        for key in dic_code.keys():
+            dic = get_person_dic(guest, pzu, key, dic_code[key])
+            res += json.dumps(dic)
+            res += "<br/>"
+            res += zk_add_person(pzu, dic)
+            res += "<br/><br/>"
+
+        return render(request, 'zkteco/result.html', {'params': "", 'res': res})
     except Exception as e:
         print(e)
         return render(request, 'error_exception.html', {'exc':show_exc(e)})
 
+@group_required("admins", "projects")
+def zkteco_add_person_band(request):
+    try:
+        guest = get_or_none(Guest, get_param(request.GET, "obj_id"))
+        pzu = get_or_none(ProjectZktecoUser, guest.project_id, "project_uuid")
+        code = get_param(request.GET, "band")
+        res = "Guest: {}".format(guest)
+        res += "<br/><br/>"
 
-@csrf_exempt
-#@require_POST
-def zkteco_webhook(request):
-    f = open(os.path.join(settings.BASE_DIR, "zkteco.log"), "a", encoding='utf-8')
-    f.write("\n---------------------------------------")
-    f.write("\n{} - Evento de zkteco".format(datetime.now().strftime("%Y-%m-%d %H:%M:%S")))
-    #f.write("\n{}".format(request.headers))
-    f.write("\nGET: {}".format(request.GET))
-    f.write("\nPOST: {}".format(request.POST))
-    f.write("\nBODY: {}".format(request.body))
-    return HttpResponse("OK", content_type="text/plain")
+        level = ""
+        zone_list = WristbandAccessZoneGuest.objects.filter(guest=guest, code=code)
+        if len(zone_list) > 0:
+            for ac in zone_list:
+                level = "{},{}".format(level, ac.zone.code) if level != "" else ac.zone.code
+            dic = get_person_dic(guest, pzu, code, level)
+            res += json.dumps(dic)
+            res += "<br/>"
+            res += zk_add_person(pzu, dic)
+            res += "<br/><br/>"
 
+        return render(request, 'zkteco/result.html', {'params': "", 'res': res})
+    except Exception as e:
+        print(e)
+        return render(request, 'error_exception.html', {'exc':show_exc(e)})
+
+#@group_required("admins", "projects")
+#def zkteco_add_person(request):
+#    try:
+#        guest = get_or_none(Guest, get_param(request.GET, "obj_id"))
+#        zone = get_or_none(WristbandAccessZone, get_param(request.GET, "zone"))
+#        wband = get_param(request.GET, "band")
+#        pzu = get_or_none(ProjectZktecoUser, guest.project_id, "project_uuid")
+#        res = "Guest: {} --- Zone: {}".format(guest, zone)
+#
+#        dic = get_person_dic(guest, pzu, wband, zone.code, "")
+#        res = zk_add_person(pzu, dic)
+#
+#        return render(request, 'zkteco/result.html', {'params': dic, 'res': res})
+#    except Exception as e:
+#        print(e)
+#        return render(request, 'error_exception.html', {'exc':show_exc(e)})
+#
+#@csrf_exempt
+##@require_POST
+#def zkteco_webhook(request):
+#    f = open(os.path.join(settings.BASE_DIR, "zkteco.log"), "a", encoding='utf-8')
+#    f.write("\n---------------------------------------")
+#    f.write("\n{} - Evento de zkteco".format(datetime.now().strftime("%Y-%m-%d %H:%M:%S")))
+#    #f.write("\n{}".format(request.headers))
+#    f.write("\nGET: {}".format(request.GET))
+#    f.write("\nPOST: {}".format(request.POST))
+#    f.write("\nBODY: {}".format(request.body))
+#    return HttpResponse("OK", content_type="text/plain")
+#
 
 '''
     ACCESS CONTROL

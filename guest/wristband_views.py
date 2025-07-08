@@ -5,7 +5,7 @@ from django.shortcuts import render, redirect
 from django.urls import reverse
 from django.utils.translation import ugettext_lazy as _ 
 
-from .models import Guest
+from .models import Guest, KeyCard
 from .wristband_models import Wristband, WristbandBalance, WristbandType, WristbandLog, WristbandBackup, WristbandBackupBalance
 from .wristband_models import WristbandAccess, WristbandAccessPoint, WristbandAccessZone, WristbandAccessZoneGuest
 from web.models import Project, Waiter
@@ -207,22 +207,31 @@ def guest_band_balance_print(request, obj_id):
         return render(request, "error_exception.html", {'exc':show_exc(e)})
 
 
-
+def manage_zone(guest, zone, band, add):
+    if add == "True":
+        WristbandAccessZoneGuest.objects.get_or_create(guest=guest, zone=zone, code=band.code)
+    else:
+        obj = WristbandAccessZoneGuest.objects.filter(guest=guest, zone=zone, code=band.code).first()
+        if obj != None:
+            obj.delete()
+ 
 @group_required("admins", "projects")
 def guest_band_manage_zone(request):
     try:
         guest = get_or_none(Guest, get_param(request.GET, "obj_id"))
         zone = get_or_none(WristbandAccessZone, get_param(request.GET, "zone"))
-        band = get_or_none(Wristband, get_param(request.GET, "band"))
         add = get_param(request.GET, "add")
-        if add == "True":
-            WristbandAccessZoneGuest.objects.get_or_create(guest=guest, zone=zone)
+        temp = get_param(request.GET, "temp")
+        card = get_param(request.GET, "card")
+        if card != "":
+            band = get_or_none(KeyCard, get_param(request.GET, "band"))
         else:
-            obj = WristbandAccessZoneGuest.objects.filter(guest=guest, zone=zone).first()
-            if obj != None:
-                obj.delete()
+            band = get_or_none(Wristband, get_param(request.GET, "band"))
+
+        manage_zone(guest, zone, band, add)
         access_zones = WristbandAccessZone.objects.filter(project_uuid=guest.project_id)
-        return render(request, "guest/bands/access-points.html", {"obj": guest, "band": band, "access_zones": access_zones})
+        template = "guest/guest-access-points.html" if temp != "" else "guest/bands/access-points.html"
+        return render(request, template, {"obj": guest, "band": band, "card": card, "access_zones": access_zones})
         #return render(request, "guest/bands/access-points.html", {"obj": guest, "band": band})
     except Exception as e:
         return render(request, "error_exception.html", {'exc':show_exc(e)})
@@ -231,18 +240,20 @@ def guest_band_manage_zone(request):
 def guest_band_manage_all_zone(request):
     try:
         guest = get_or_none(Guest, get_param(request.GET, "obj_id"))
-        band = get_or_none(Wristband, get_param(request.GET, "band"))
         add = get_param(request.GET, "add")
+        temp = get_param(request.GET, "temp")
+        card = get_param(request.GET, "card")
+        if card != "":
+            band = get_or_none(KeyCard, get_param(request.GET, "band"))
+        else:
+            band = get_or_none(Wristband, get_param(request.GET, "band"))
         access_zones = WristbandAccessZone.objects.filter(project_uuid=guest.project_id)
+
         #for zone in guest.access_zones():
         for zone in access_zones:
-            if add == "True":
-                WristbandAccessZoneGuest.objects.get_or_create(guest=guest, zone=zone)
-            else:
-                obj = WristbandAccessZoneGuest.objects.filter(guest=guest, zone=zone).first()
-                if obj != None:
-                    obj.delete()
-        return render(request, "guest/bands/access-points.html", {"obj": guest, "band": band, "access_zones": access_zones})
+            manage_zone(guest, zone, band, add)
+        template = "guest/guest-access-points.html" if temp != "" else "guest/bands/access-points.html"
+        return render(request, template, {"obj": guest, "band": band, "card": card, "access_zones": access_zones})
         #return render(request, "guest/bands/access-points.html", {"obj": guest, "band": band})
     except Exception as e:
         return render(request, "error_exception.html", {'exc':show_exc(e)})

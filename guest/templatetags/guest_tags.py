@@ -10,10 +10,6 @@ register = template.Library()
     Filters
 '''
 @register.filter
-def zone_active(guest, zone):
-    return WristbandAccessZoneGuest.objects.filter(guest=guest, zone=zone).first() != None
-
-@register.filter
 def have_open_band(guest):
     for band in guest.bands.all():
         if not band.is_close:
@@ -43,4 +39,18 @@ def guest_access_zones(guest, band):
     zones = WristbandAccessZone.objects.filter(project_uuid=guest.project_id)
     return {'obj': guest, 'band': band, 'access_zones': zones,}
 
+@register.inclusion_tag('guest/guest-access-points.html')
+def guest_access_points(guest, band, card=""):
+    zones = WristbandAccessZone.objects.filter(project_uuid=guest.project_id)
+    return {'obj': guest, 'band': band, 'card': card, 'access_zones': zones,}
+
+@register.inclusion_tag('guest/bands/access-points-active.html')
+def zone_active(guest, zone, band):
+    active = WristbandAccessZoneGuest.objects.filter(guest=guest, zone=zone, code=band.code).first() != None
+    return {'obj': guest, 'zone': zone, 'band': band, 'active': active}
+
+@register.inclusion_tag('guest/guest-access-points-active.html')
+def guest_zone_active(guest, zone, band, card):
+    active = WristbandAccessZoneGuest.objects.filter(guest=guest, zone=zone, code=band.code).first() != None
+    return {'obj': guest, 'zone': zone, 'band': band, 'card': card, 'active': active}
 

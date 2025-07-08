@@ -17,6 +17,8 @@
        {#{% for zone in obj.access_zones %}#}
         {% for zone in access_zones %}
             <div class="col-6">
+                {% zone_active obj zone band %}
+                {%comment%}
                 {% if obj|zone_active:zone %}
                     <button type="button" class="btn btn-success ark" id="zone-{{zone.id}}" 
                         data-url="{%url "guest-band-manage-zone"%}" data-target="band-ap-{{band.id}}" data-obj_id="{{obj.id}}" 
@@ -30,6 +32,7 @@
                         data-url="{% url "guest-band-manage-zone" %}" data-target="band-ap-{{band.id}}" data-obj_id="{{obj.id}}" 
                         data-zone="{{zone.id}}" data-band="{{band.id}}" data-add="True" style="width:150px"> {{ zone.name }}</button> 
                 {% endif %}
+                {%endcomment%}
             </div>
         {% endfor %}
     </div>

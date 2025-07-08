@@ -1,0 +1,75 @@
+{% load i18n guest_tags %}
+
+
+<div class="text-end">
+    <button type="button" class="btn btn-warning ark" id="send-zone-{{zone.id}}" data-url="{% url "zkteco-add-persons" %}" 
+        data-target-modal="common-modal" data-obj_id="{{obj.id}}" style="width:150px"> {% trans "Sync All" %} </button>
+</div>
+
+<h3> {% trans "Bands" %} </h3>
+{% for item in obj.bands.all %} 
+    <div class="card mb-4">
+        <div class="card-body">
+            <div class="row m-2 p-2 w-100">
+                <div class="col-3 head-band">
+                    <div class="row">
+                        <div class="col-12 py-2">
+                            <strong><span class="band-name">{{item.name}}</span> </strong>
+                        </div>
+                        <div class="col-4 py-1">{% trans "Number" %}</div>
+                        <div class="col-8 py-1 text-start"><strong>{{item.code}}</strong></div>
+                        <div class="col-4 py-1">{% trans "Type" %}</div>
+                        <div class="col-8 py-1 text-start"><strong>{{item.type.name}}</strong></div>
+                        <div class="col-4 py-1">{% trans "Locks" %}</div>
+                        <div class="col-8 py-1 text-start"><strong>{{item.locks}}</strong></div>
+                        <div class="col-4 py-1">{% trans "Kids" %}</div> 
+                        <div class="col-8 py-1 text-start">
+                            <strong>{%if item.kid%}{%trans "Yes"%}{%else%}{%trans "No"%}{%endif%}</strong> </div>
+                    </div>
+                </div>
+                <div class="col-9 head-band">
+                    <div class="card mt-2 pt-2 pb-2">
+                        <div class="card-header toggle-btn bg-white" data-target="guest-ap-{{item.id}}" data-id-change="icon-ap" 
+                            data-text='<i class="fas fa-plus"></i>' data-text-alt='<i class="fas fa-minus"></i>'>
+                            <div class="row w-100">
+                                <div class="col-6 text-right" id="icon-ap"><i class="fas fa-plus"></i></div>
+                                <div class="col-6 text-left"><strong>{% trans "Access Points" %}</strong></div>
+                            </div>
+                        </div>
+                        <div class="card-body" id="guest-ap-{{item.id}}"> {% guest_access_points obj item %} </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endfor %}
+
+<h3> {% trans "Cards" %} </h3>
+{% for item in obj.keycards.all %} 
+    <div class="card mb-4">
+        <div class="card-body">
+            <div class="row m-2 p-2 w-100">
+                <div class="col-3 head-band">
+                    <div class="row">
+                        <div class="col-12 py-2"> <strong><span class="band-name">{{item.lock.alias}}</span> </strong> </div>
+                        <div class="col-4 py-1">{% trans "Number" %}</div>
+                        <div class="col-8 py-1 text-start"><strong>{{item.code}}</strong></div>
+                    </div>
+                </div>
+                <div class="col-9 head-band">
+                    <div class="card mt-2 pt-2 pb-2">
+                        <div class="card-header toggle-btn bg-white" data-target="guest-ap-{{item.id}}" data-id-change="icon-ap" 
+                            data-text='<i class="fas fa-plus"></i>' data-text-alt='<i class="fas fa-minus"></i>'>
+                            <div class="row w-100">
+                                <div class="col-6 text-right" id="icon-ap"><i class="fas fa-plus"></i></div>
+                                <div class="col-6 text-left"><strong>{% trans "Access Points" %}</strong></div>
+                            </div>
+                        </div>
+                        <div class="card-body" id="guest-ap-{{item.id}}"> {% guest_access_points obj item "card" %} </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endfor %}
+

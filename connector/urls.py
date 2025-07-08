@@ -33,8 +33,10 @@ urlpatterns = [
     path('paytef/test-transfer/<slug:project_uuid>/', views.paytef_test_transfer, name='paytef-test-transfer'),
 
     #--------------------- ZKTECO --------------------
-    path('zkteco/add-person/', views.zkteco_add_person, name='zkteco-add-person'),
-    path('zkteco/webhook/', views.zkteco_webhook, name='zkteco-webhook'),
+    path('zkteco/add-persons/', views.zkteco_add_persons, name='zkteco-add-persons'),
+    path('zkteco/add-person-band/', views.zkteco_add_person_band, name='zkteco-add-person-band'),
+    #path('zkteco/add-person/', views.zkteco_add_person, name='zkteco-add-person'),
+    #path('zkteco/webhook/', views.zkteco_webhook, name='zkteco-webhook'),
 
     #--------------------- CRON --------------------
     path('cron-log/', views.cron_log, name='cron-log'),
