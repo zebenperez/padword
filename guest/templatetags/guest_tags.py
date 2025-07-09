@@ -34,20 +34,20 @@ def guest_key_cards(guest, lock):
     key_card_list = KeyCard.objects.filter(guest=guest, lock=lock)
     return {'key_card_list': key_card_list, 'guest': guest, 'lock': lock}
 
-@register.inclusion_tag('guest/bands/access-points.html')
-def guest_access_zones(guest, band):
-    zones = WristbandAccessZone.objects.filter(project_uuid=guest.project_id)
-    return {'obj': guest, 'band': band, 'access_zones': zones,}
+#@register.inclusion_tag('guest/bands/access-points.html')
+#def guest_access_zones(guest, band):
+#    zones = WristbandAccessZone.objects.filter(project_uuid=guest.project_id)
+#    return {'obj': guest, 'band': band, 'access_zones': zones,}
 
 @register.inclusion_tag('guest/guest-access-points.html')
 def guest_access_points(guest, band, card=""):
     zones = WristbandAccessZone.objects.filter(project_uuid=guest.project_id)
     return {'obj': guest, 'band': band, 'card': card, 'access_zones': zones,}
 
-@register.inclusion_tag('guest/bands/access-points-active.html')
-def zone_active(guest, zone, band):
-    active = WristbandAccessZoneGuest.objects.filter(guest=guest, zone=zone, code=band.code).first() != None
-    return {'obj': guest, 'zone': zone, 'band': band, 'active': active}
+#@register.inclusion_tag('guest/bands/access-points-active.html')
+#def zone_active(guest, zone, band):
+#    active = WristbandAccessZoneGuest.objects.filter(guest=guest, zone=zone, code=band.code).first() != None
+#    return {'obj': guest, 'zone': zone, 'band': band, 'active': active}
 
 @register.inclusion_tag('guest/guest-access-points-active.html')
 def guest_zone_active(guest, zone, band, card):

@@ -131,11 +131,7 @@ class WristbandAccessPoint(models.Model):
         verbose_name = _("Wristband Access Point")
         verbose_name_plural = _("Wristbands Access Points")
 
-def new_pin():
-    return get_random_digits(6)
-
 class WristbandAccessZoneGuest(models.Model):
-    pin = models.CharField(max_length=50, verbose_name=_('PIN'), default=new_pin)
     code = models.CharField(max_length=255, verbose_name=_('Code'), default="")
     guest = models.ForeignKey(Guest, on_delete=models.CASCADE, verbose_name=_("Guest"), related_name="zones")
     zone = models.ForeignKey(WristbandAccessZone, verbose_name=_("Zone"), on_delete=models.CASCADE, blank=True, null=True, related_name="guests")

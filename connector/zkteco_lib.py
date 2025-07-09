@@ -26,7 +26,8 @@ class ZktecoAPIError(Exception):
         return 'Error: {}'.format(self.menssage)
 
 class Zkteco():
-    def __init__(self, token):
+    def __init__(self, server, token):
+        self.server = server
         self.token = token
     
     def __send_request__(self, _url_request, _params=""):
@@ -69,7 +70,8 @@ class Zkteco():
 
     def add_person(self, person):
         try:
-            _url_request = "{}{}?access_token={}".format(API_URL, ADD_PERSON_URL, self.token)
+            #_url_request = "{}{}?access_token={}".format(API_URL, ADD_PERSON_URL, self.token)
+            _url_request = "{}{}?access_token={}".format(self.server, ADD_PERSON_URL, self.token)
             params = {
                 "accEndTime": person.accEndTime,
                 "accLevelIds": person.accLevelIds,
@@ -101,7 +103,7 @@ class ZktecoPerson():
     FUNCTIONS
 '''
 def add_person(pzu, dic):
-    zk = Zkteco(pzu.token)
+    zk = Zkteco(pzu.server, pzu.token)
     person = ZktecoPerson(dic)
     res = zk.add_person(person)
     print(res)

@@ -80,6 +80,7 @@
                         <div class="card-body hide" id="band-log-{{item.id}}">{%include "guest/bands/log.html" with band=item%}</div>
                     </div>
 
+                    {%comment%}
                     <div class="card mt-2 pt-2 pb-2">
                         <div class="card-header toggle-btn bg-white" data-target="band-ap-{{item.id}}" data-id-change="icon-ap" 
                             data-text='<i class="fas fa-plus"></i>' data-text-alt='<i class="fas fa-minus"></i>'>
@@ -93,6 +94,7 @@
                             {% guest_access_zones obj item %}
                         </div>
                     </div>
+                    {%endcomment%}
                 </div>
             </div>
         </div>

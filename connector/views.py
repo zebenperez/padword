@@ -384,10 +384,26 @@ def get_person_dic(guest, pzu, code, levels):
         "cardNo": str(reverse_cardkey(code)),
         "lastName": guest.surname,
         "name": guest.name,
-        "pin": get_random_digits(6) #"202507"                    
-        #"pin": pin
+        "pin": code[:6]                     
+        #"pin": get_random_digits(6) #"202507"                    
     }
  
+def send_person_code(pzu, guest, code):
+    res = ""
+    level = ""
+    zone_list = WristbandAccessZoneGuest.objects.filter(guest=guest, code=code)
+    if len(zone_list) == 0:
+        dic = get_person_dic(guest, pzu, code, "")
+    else:
+        for ac in zone_list:
+            level = "{},{}".format(level, ac.zone.code) if level != "" else ac.zone.code
+        dic = get_person_dic(guest, pzu, code, level)
+    res += json.dumps(dic)
+    res += "<br/>"
+    res += zk_add_person(pzu, dic)
+    res += "<br/><br/>"
+    return res
+
 @group_required("admins", "projects")
 def zkteco_add_persons(request):
     try:
@@ -396,19 +412,22 @@ def zkteco_add_persons(request):
         res = "Guest: {}".format(guest)
         res += "<br/><br/>"
 
-        dic_code = {}
-        dic_pin = {}
-        for ac in guest.zones.all():
-            key = ac.code
-            dic_code[key] = "{},{}".format(dic_code[key], ac.zone.code) if key in dic_code else ac.zone.code
-            #dic_pin[key] = ac.pin
+        for b in guest.bands.all():
+            res += send_person_code(pzu, guest, b.code)
+        for c in guest.cards_for_access(): 
+            res += send_person_code(pzu, guest, c.code)
 
-        for key in dic_code.keys():
-            dic = get_person_dic(guest, pzu, key, dic_code[key])
-            res += json.dumps(dic)
-            res += "<br/>"
-            res += zk_add_person(pzu, dic)
-            res += "<br/><br/>"
+#        dic_code = {}
+#        for ac in guest.zones.all():
+#            key = ac.code
+#            dic_code[key] = "{},{}".format(dic_code[key], ac.zone.code) if key in dic_code else ac.zone.code
+#
+#        for key in dic_code.keys():
+#            dic = get_person_dic(guest, pzu, key, dic_code[key])
+#            res += json.dumps(dic)
+#            res += "<br/>"
+#            res += zk_add_person(pzu, dic)
+#            res += "<br/><br/>"
 
         return render(request, 'zkteco/result.html', {'params': "", 'res': res})
     except Exception as e:
@@ -424,17 +443,20 @@ def zkteco_add_person_band(request):
         res = "Guest: {}".format(guest)
         res += "<br/><br/>"
 
-        level = ""
-        zone_list = WristbandAccessZoneGuest.objects.filter(guest=guest, code=code)
-        if len(zone_list) > 0:
-            for ac in zone_list:
-                level = "{},{}".format(level, ac.zone.code) if level != "" else ac.zone.code
-            dic = get_person_dic(guest, pzu, code, level)
-            res += json.dumps(dic)
-            res += "<br/>"
-            res += zk_add_person(pzu, dic)
-            res += "<br/><br/>"
-
+        res += send_person_code(pzu, guest, code)
+#        level = ""
+#        zone_list = WristbandAccessZoneGuest.objects.filter(guest=guest, code=code)
+#        if len(zone_list) == 0:
+#            dic = get_person_dic(guest, pzu, code, "")
+#        else:
+#            for ac in zone_list:
+#                level = "{},{}".format(level, ac.zone.code) if level != "" else ac.zone.code
+#            dic = get_person_dic(guest, pzu, code, level)
+#        res += json.dumps(dic)
+#        res += "<br/>"
+#        res += zk_add_person(pzu, dic)
+#        res += "<br/><br/>"
+#
         return render(request, 'zkteco/result.html', {'params': "", 'res': res})
     except Exception as e:
         print(e)

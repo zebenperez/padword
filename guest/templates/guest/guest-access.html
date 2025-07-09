@@ -45,7 +45,8 @@
 {% endfor %}
 
 <h3> {% trans "Cards" %} </h3>
-{% for item in obj.keycards.all %} 
+{#{% for item in obj.keycards.all %}#}
+{% for item in obj.cards_for_access %}
     <div class="card mb-4">
         <div class="card-body">
             <div class="row m-2 p-2 w-100">

@@ -221,7 +221,7 @@ def guest_band_manage_zone(request):
         guest = get_or_none(Guest, get_param(request.GET, "obj_id"))
         zone = get_or_none(WristbandAccessZone, get_param(request.GET, "zone"))
         add = get_param(request.GET, "add")
-        temp = get_param(request.GET, "temp")
+        #temp = get_param(request.GET, "temp")
         card = get_param(request.GET, "card")
         if card != "":
             band = get_or_none(KeyCard, get_param(request.GET, "band"))
@@ -230,8 +230,11 @@ def guest_band_manage_zone(request):
 
         manage_zone(guest, zone, band, add)
         access_zones = WristbandAccessZone.objects.filter(project_uuid=guest.project_id)
-        template = "guest/guest-access-points.html" if temp != "" else "guest/bands/access-points.html"
-        return render(request, template, {"obj": guest, "band": band, "card": card, "access_zones": access_zones})
+        context = {"obj": guest, "band": band, "card": card, "access_zones": access_zones}
+        return render(request, "guest/guest-access-points.html", context)
+
+        #template = "guest/guest-access-points.html" if temp != "" else "guest/bands/access-points.html"
+        #return render(request, template, {"obj": guest, "band": band, "card": card, "access_zones": access_zones})
         #return render(request, "guest/bands/access-points.html", {"obj": guest, "band": band})
     except Exception as e:
         return render(request, "error_exception.html", {'exc':show_exc(e)})
@@ -241,7 +244,7 @@ def guest_band_manage_all_zone(request):
     try:
         guest = get_or_none(Guest, get_param(request.GET, "obj_id"))
         add = get_param(request.GET, "add")
-        temp = get_param(request.GET, "temp")
+        #temp = get_param(request.GET, "temp")
         card = get_param(request.GET, "card")
         if card != "":
             band = get_or_none(KeyCard, get_param(request.GET, "band"))
@@ -252,8 +255,11 @@ def guest_band_manage_all_zone(request):
         #for zone in guest.access_zones():
         for zone in access_zones:
             manage_zone(guest, zone, band, add)
-        template = "guest/guest-access-points.html" if temp != "" else "guest/bands/access-points.html"
-        return render(request, template, {"obj": guest, "band": band, "card": card, "access_zones": access_zones})
+        context = {"obj": guest, "band": band, "card": card, "access_zones": access_zones}
+        return render(request, "guest/guest-access-points.html", context)
+
+        #template = "guest/guest-access-points.html" if temp != "" else "guest/bands/access-points.html"
+        #return render(request, template, {"obj": guest, "band": band, "card": card, "access_zones": access_zones})
         #return render(request, "guest/bands/access-points.html", {"obj": guest, "band": band})
     except Exception as e:
         return render(request, "error_exception.html", {'exc':show_exc(e)})

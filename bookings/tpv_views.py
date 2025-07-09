@@ -359,6 +359,7 @@ def tpv_order_send(request):
             return render(request, 'bookings/tpv/show-msg.html', context)
 
         pt = get_or_none(PaymentType, pt_code, "code")
+
         #Pago con paytef
         if pt.code == "06":
             tcod = request.session["mobile"] if "mobile" in request.session else ""
@@ -366,6 +367,12 @@ def tpv_order_send(request):
             if not payment_ok:
                 context = {'msg': "00", 'fi': fi, 'project_uuid': project.uuid, "mobile": mobile}
                 return render(request, 'bookings/tpv/show-msg.html', context)
+
+        #Devolución con paytef
+        if pt.code == "0406":
+            print("Entra")
+            context = {'msg': "00", 'fi': fi, 'project_uuid': project.uuid, "mobile": mobile}
+            return render(request, 'bookings/tpv/show-msg.html', context)
 
         local_date = project.local_date(datetime.datetime.now())
         fi.set_status("01", request.user, "")

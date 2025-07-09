@@ -1328,6 +1328,10 @@ img.img-cart-line {
     align-items: center;
 }
 
+img.img-project {
+    height: 35px !important;
+}
+
 .tab {
     margin-bottom: -15px;
     background-color: #ffffff;

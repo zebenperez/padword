@@ -130,14 +130,14 @@ class Paytef():
         except Exception as err:
             raise PaytefAPIError(menssage=err)
 
-    def transaction_start_query(self, ppu, tcod, amount, ref):
+    def transaction_start_query(self, ppu, tcod, amount, ref, op_type="sale"):
         try:
             _url_request = "{}{}".format(CLOUD_URL, TRANSACTION_START_URL)
             params = {
                 "executeOptions": {
                     "method": "polling"
                 },
-                "opType": "sale",
+                "opType": op_type,
                 "pinpad": tcod,
                 "requestedAmount": amount,
                 "transactionReference": ref

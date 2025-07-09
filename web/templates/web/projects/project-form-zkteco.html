@@ -23,6 +23,12 @@
                     data-model-name="connector.projectzktecouser" data-obj-id="{{user_zkteco.id}}" 
                     data-url="{% url "autosave_field" %}" data-target="div-notification"/> <span id="dep__msg"></span>	
             </div>
+            <div class="col-4">
+                <label class="label">{% trans "Dirección Acceso" %}:</label>
+                <input type="text" class="form-control autosave input" id="server" name="server" value="{{user_zkteco.server}}" 
+                    data-model-name="connector.projectzktecouser" data-obj-id="{{user_zkteco.id}}" 
+                    data-url="{% url "autosave_field" %}" data-target="div-notification"/> <span id="server__msg"></span>	
+            </div>
 
             {%comment%}
             <div class="col-4">

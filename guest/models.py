@@ -393,6 +393,19 @@ class Guest(models.Model):
             GuestCar.objects.create(number=number, guest=self)
 
     '''
+        Access points
+    '''
+    def cards_for_access(self):
+        c_list = []
+        card_list = self.keycards.all()
+        band_list = [item.code for item in self.bands.all()]
+        for c in card_list:
+            code_list = [item.code for item in c_list]
+            if c.code not in code_list and c.code not in band_list:
+                c_list.append(c)
+        return c_list
+
+    '''
         Statics
     '''
     @classmethod

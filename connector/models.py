@@ -135,6 +135,7 @@ class ProjectPaytefUser(models.Model):
 class ProjectZktecoUser(models.Model):
     token = models.CharField(max_length=255, verbose_name=_('Token'), default="")
     dep = models.CharField(max_length=255, verbose_name=_('Department'), default="")
+    server = models.CharField(max_length=255, verbose_name=_('Server'), default="")
     project_uuid = models.CharField(max_length=255, verbose_name=_('Project UUID'), default="")
 
     @property

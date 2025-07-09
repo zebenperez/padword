@@ -6,10 +6,10 @@
             data-url="{%url "zkteco-add-person-band"%}" data-target-modal="common-modal" data-obj_id="{{obj.id}}" 
             data-band="{{band.code}}" style="width:150px"> {% trans "Sync" %} </button> 
         <button class="btn btn-warning ark" data-url="{%url "guest-band-manage-all-zone"%}" data-target="guest-ap-{{band.id}}" 
-            data-obj_id="{{obj.id}}" data-band="{{band.id}}" data-add="False" data-temp="guest" data-card="{{card}}">
+            data-obj_id="{{obj.id}}" data-band="{{band.id}}" data-add="False" data-card="{{card}}">
             {% trans "Quitar acceso de todas las zonas" %}</button>
         <button class="btn btn-success ark" data-url="{%url "guest-band-manage-all-zone"%}" data-target="guest-ap-{{band.id}}" 
-            data-obj_id="{{obj.id}}" data-band="{{band.id}}" data-add="True" data-temp="guest" data-card="{{card}}">
+            data-obj_id="{{obj.id}}" data-band="{{band.id}}" data-add="True" data-card="{{card}}">
             {% trans "Dar acceso de todas las zonas" %}</button>
     </div>
 </div>
