@@ -27,16 +27,18 @@
         <style>
             body { background: #fff }
             #main {
-                width: 90mm;
+                /*width: 90mm;*/
+                width: 70mm;
                 margin: auto;
+                font-size: 1.2rem;
             }
             h1 {
-                font-size: 1.2rem;
+                font-size: 1.3rem;
                 text-transform: uppercase;
             }
             h2 {
                 color: #212529;
-                font-size: 1rem;
+                font-size: 1.4rem;
             }
 
             .title {
@@ -109,16 +111,16 @@
                     <table width="100%" class="small">
                         <tbody>
                                 <tr>
-                                    <th>{% trans 'Items' %}</th>
+                                    {#<th>{% trans 'Items' %}</th>#}
                                     <th>{% trans 'Description' %}</th>
-                                    <th class="text-end">{% trans 'Price' %}</th>
+                                    {#<th class="text-end">{% trans 'Price' %}</th>#}
                                     <th class="text-end">{% trans 'Total' %}</th>
                                 </tr>
                             {% for item in items %}
                                 <tr>
-                                    <td>{{items|length}}</td>
+                                    {#<td>{{items|length}}</td>#}
                                     <td>{% padword_translate item.item.name %}</td>
-                                    <td class="text-end"><strong>{{ item.price }} {{item.currency}}</strong></td>
+                                    {#<td class="text-end"><strong>{{ item.price }} {{item.currency}}</strong></td>#}
                                     <td class="text-end"><strong>{{ item.total_price }} {{item.currency}}</strong></td>
                                 </tr>
                             {% endfor %}

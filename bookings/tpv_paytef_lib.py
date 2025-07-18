@@ -3,13 +3,14 @@ from connector.models import ProjectPaytefUser
 from padword.commons import get_float
 import time
 
-def manage_transaction(project, total, ref, tcod=""): 
+def manage_transaction(project, total, ref, tcod="", op_type="sale"): 
     amount = round(get_float(total), 2) * 100
+    amount = (amount * -1) if op_type == "refund" else amount
     ppu = ProjectPaytefUser.objects.filter(project_uuid=project.uuid).first()
     pt = Paytef("", "", "", ppu.accessKey, ppu.secretKey, ppu.token)
     if tcod == "":
         tcod = ppu.tcod
-    session = pt.transaction_start_query(ppu, tcod, amount, ref)
+    session = pt.transaction_start_query(ppu, tcod, amount, ref, op_type)
 
     trans_ok = False
     start_time = time.time()  # Guarda el momento de inicio

@@ -2,7 +2,7 @@ from django.conf import settings
 from datetime import datetime, timedelta
 
 from bookings.models import Form, FormType
-from contents.models import ItemInCat, Category, Item, ItemPrice, PointOfSale
+from contents.models import ItemInCat, Category, Item, ItemPrice, PointOfSale, PointOfSaleCategory
 from guest.models import Guest, Regime, GuestRegime, ProjectRegime
 from web.models import Room
 from padword.commons import new_ui_slug
@@ -658,6 +658,7 @@ def unactive_categories(project_uuid, cat_list):
     for c in category_list:
         c.is_active = 0
         c.save()
+        update_tpv_cat("", c, False)
 
     #Desactivamos las categorías que tienen todos los items desactivados
     category_list = Category.objects.filter(project_uuid=project_uuid, parent=cat, is_active=1)
@@ -665,6 +666,7 @@ def unactive_categories(project_uuid, cat_list):
         if len(c.get_items_active) == 0:
             c.is_active = 0
             c.save()
+            update_tpv_cat("", c, False)
 
 def update_item_pos_price(project_uuid, dic):
     cat_id = dic[6].zfill(4)
@@ -695,6 +697,26 @@ def update_item_pos_price(project_uuid, dic):
                     ip.price = float(price)
                     ip.save()
                     #print("{} {}({}) {}".format(ip.pos, ip.regime_code, regime.regime.code, ip.price))
+
+def update_tpv_cat(pos_code, cat, active):
+    if active:
+        pos = PointOfSale.objects.filter(ext_code=pos_code).first()
+        if pos != None:
+            PointOfSaleCategory.objects.get_or_create(category=cat, point_of_sale=pos)
+    else:
+        posc_list = PointOfSaleCategory.objects.filter(category=cat)
+        for posc in posc_list:
+            posc.delete()
+        #posc = PointOfSaleCategory.objects.filter(category=cat, point_of_sale=pos).first()
+        #if posc != None:
+        #    posc.delete()
+
+def update_item_price_default(project_uuid, regime_code, item, price):
+    regime_list = ProjectRegime.objects.filter(project__uuid=project_uuid, regime__alt_code=regime_code)
+    for regime in regime_list:
+        ip, created = ItemPrice.objects.get_or_create(item=item, pos="", regime_code=regime.regime.code)
+        ip.price = float(price)
+        ip.save()
 
 def import_item_prices(file, project_uuid, update_all_prices=False):
     updated = []
@@ -727,11 +749,14 @@ def import_item_prices(file, project_uuid, update_all_prices=False):
                     ic.item.name = name
                     ic.item.save()
                     update = True
-                #Actualizamos el precio
-                if price != ic.item.price:
+                #Actualizamos el precio, se selecciona el precio mayor
+                #if price != ic.item.price:
+                if float(price) > float(ic.item.price):
+                    #print("Actualiza precio {}".format(price))
                     ic.item.price = price
                     ic.item.save()
                     update = True
+                    update_item_price_default(project_uuid, dic_line[2], ic.item, price)
                 #Activamos el item si no lo está
                 if ic.item.is_active == 0:
                     ic.item.is_active = 1
@@ -741,6 +766,7 @@ def import_item_prices(file, project_uuid, update_all_prices=False):
                 if ic.category.is_active == 0:
                     ic.category.is_active = 1
                     ic.category.save()
+                    update_tpv_cat(dic_line[0], ic.category, True)
                 if update_all_prices:
                     #print("--> 2")
                     update_item_pos_price(project_uuid, dic_line)

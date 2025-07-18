@@ -47,6 +47,7 @@ urlpatterns = [
 
     #--------------------- CAMERA --------------------
     path('car/plates/<slug:project_uuid>/', camera_views.car_plates, name='car_plates'),
+    path('car/plates/csv/<slug:project_uuid>/', camera_views.car_plates_csv, name='car_plates_csv'),
 
     #--------------------- ACCESS CONTROL --------------------
     path('access-control/<slug:project>/<slug:card>/', views.access_control, name='access-control'),

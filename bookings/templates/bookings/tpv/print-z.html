@@ -26,13 +26,14 @@
         
         <style>
             #main {
-                width: 90mm;
+                width: 70mm;
+                font-size: 1.0em;
             }
             .title{
                 border: 1px solid #333;
                 text-align: center;
                 font-size: 1.2em;
-                margin: 10px;
+                /*margin: 10px;*/
             }
         </style>
     </head>
@@ -40,13 +41,13 @@
     <body>
         <div id="main" class ="text-center">
             <div class="d-flex justify-content-end"> 
-                <button class="btn ark w-100" data-url="{% url "tpv-change-pos" %}" data-target="base" data-project_uuid="{{obj.project_uuid}}">
-                    {% trans "Back" %}</button>
+                <button class="btn ark w-100" data-url="{% url "tpv-change-pos" %}" data-target="base" 
+                    data-project_uuid="{{obj.project_uuid}}"> {% trans "Back" %}</button>
                 <a class="btn btn-default" onclick="window.print()"> &#128424; {% trans "Imprimir" %}</a> 
             </div>
 
             <br/>
-            {% if obj.project.logo %}<img src="{{obj.project.logo.url}}" alt="Logo" width="250px"/><br/>{% endif %} <br/>
+            {% if obj.project.logo %}<img src="{{obj.project.logo.url}}" alt="Logo" width="200px"/><br/>{% endif %} <br/>
             <h3>{{obj.project.name}}</h3>
             <div class="title">{% trans 'TPV' %} {{obj.pos.name}}</div>
             <h2>{% trans 'Summary' %} </h2>

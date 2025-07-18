@@ -647,6 +647,30 @@ def project_set_cloudbeds_schedule(request):
         return HttpResponse("Error!")
 
 @group_required("admins")
+def project_set_cars_schedule(request):
+    try:
+        pcu = get_or_none(ProjectCarUser, request.GET["obj_id"])
+        val = get_param(request.GET, "value")
+        field = get_param(request.GET, "field")
+        if pcu != None:
+            if field == "minute":
+                pcu.minute = val
+            pcu.save()
+
+            function = ""
+            if field == "minute": 
+                function = "cars_import_schedule"
+                hour = "%"
+                minute = "\*\|{}".format(pcu.minute)
+            if function != "":
+                update_cron(hour, minute, function, pcu.project_uuid)
+
+        return HttpResponse("Saved!")
+    except Exception as e:
+        print (show_exc(e))
+        return HttpResponse("Error!")
+
+@group_required("admins")
 def project_get_cloudbeds_webhooks(request):
     try:
         pcu = get_or_none(ProjectCloudbedsUser, request.GET["obj_id"])

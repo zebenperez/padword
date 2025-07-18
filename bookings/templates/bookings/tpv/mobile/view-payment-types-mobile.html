@@ -24,8 +24,9 @@
 
 {#<input type="text" class="form-control hide mt-2" id="cash-value" placeholder="{%trans "Amount to pay (10, 20, 50...)"%}" />#}
 
-<div id="band-alert-container" class="row alerta-flotante hide p-1">
-    <div class="col-12 text-end"><button class="cerrar-btn" onclick="$('#band-alert-container').hide();"><i class="fas fa-times"></i></button></div>
+<div id="band-alert-container" class="row alerta-flotante hide p-1" style="display:none">
+    <div class="col-12 text-end">
+        <button class="cerrar-btn" onclick="$('#band-alert-container').hide();"><i class="fas fa-times"></i></button></div>
     <div class="col-12"><span id="band-alert"></span></div>
 </div>
 

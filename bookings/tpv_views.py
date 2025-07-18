@@ -370,9 +370,10 @@ def tpv_order_send(request):
 
         #Devolución con paytef
         if pt.code == "0406":
-            print("Entra")
-            context = {'msg': "00", 'fi': fi, 'project_uuid': project.uuid, "mobile": mobile}
-            return render(request, 'bookings/tpv/show-msg.html', context)
+            tcod = request.session["mobile"] if "mobile" in request.session else ""
+            payment_ok = manage_transaction(project, total, "Ticket: {}".format(fi.get_index), tcod, "refund")
+            if not payment_ok:
+                context = {'msg': "00", 'fi': fi, 'project_uuid': project.uuid, "mobile": mobile}
 
         local_date = project.local_date(datetime.datetime.now())
         fi.set_status("01", request.user, "")

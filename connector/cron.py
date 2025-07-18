@@ -7,6 +7,7 @@ from connector.winhotel_lib import get_booking_list as wh_get_booking_list, get_
 from connector.winhotel_lib import import_item_prices as wh_import_item_prices, get_booking_new_list as wh_get_booking_new_list
 from connector.winhotel_lib import get_booking_range_list as wh_get_booking_range_list
 from connector.mews_lib import get_booking_list as mews_get_booking_list
+from connector.camera_views import car_plates_csv_cron
 from web.models import Project, ProjectLockUser
 from web.models_lock import Lock, LockCron
 from guest.wristband_models import WristbandAccess, WristbandAccessZone
@@ -146,6 +147,18 @@ def mews_booking_schedule(project_uuid):
             #subject = "Importación {} {}".format(project_name, datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
             #send_email(subject, result, settings.EMAIL_FROM_DEFAULT, [pau.email])
             #send_email(subject, result, "no-reply@padword.es", [pau.email])
+    except Exception as e:
+        print("\n<br/>Error: {}".format(e))
+    print(result)
+
+def cars_import_schedule(project_uuid):
+    #project_uuid = "0fa03300-2646-b206-981b-b078262cacc5"
+    project = get_or_none(Project, project_uuid, "uuid")
+    project_name = project.name if project != None else "---"
+    result = "Importación {} {}\n".format(project_name, datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
+    result += "-----------------------------------------------------"
+    try:
+        result += car_plates_csv_cron(project_uuid)
     except Exception as e:
         print("\n<br/>Error: {}".format(e))
     print(result)

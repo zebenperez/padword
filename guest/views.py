@@ -12,7 +12,7 @@ from web.lock_lib import ShLock
 from padword.commons import show_exc, get_or_none, get_float, new_ui_slug, translate, user_in_group, get_param, reverse_cardkey, set_session
 from padword.decorators import group_required
 from bookings.models import GuestUser
-from connector.models import ProjectStripeUser
+from connector.models import ProjectStripeUser, ProjectCarUser
 import web.models as webmod 
 
 ITEMS_PER_PAGE=20
@@ -999,10 +999,13 @@ def guest_car_remove(request):
 def guest_car_list(request, project_uuid):
     try:
         project = get_or_none(Project, project_uuid, "uuid")
+        pcu = get_or_none(ProjectCarUser, project_uuid, "project_uuid")
         guest_list = Guest.objects.filter(project_id=project.uuid)
         car_list = []
 
-        response = HttpResponse( content_type='text/csv', headers={'Content-Disposition': 'attachment; filename="matriculas.csv"'},)
+        #response = HttpResponse( content_type='text/csv', headers={'Content-Disposition': 'attachment; filename="matriculas.csv"'},)
+        _headers = {'Content-Disposition': 'attachment; filename="{}"'.format(pcu.file_name)}
+        response = HttpResponse(content_type='text/csv', headers=_headers,)
         writer = csv.writer(response)
         #writer.writerow(['Fecha', 'Pulsera', 'Huésped', 'Zona', 'Entrada/Salida'])
         for item in guest_list:

@@ -230,6 +230,14 @@ class CloudbedsBooking():
         #self.customer = None
         self.rooms = []
         self.created = False
+        self.plate = ""
+        custom_fields = get_param(dic, "customFields")
+        try:
+            for cf in custom_fields:
+                if cf["customFieldName"] == "Matricula":
+                    self.plate = cf["customFieldValue"]
+        except:
+            pass
 
 class CloudbedsBookingRoom():
     def __init__(self, dic):
@@ -357,6 +365,9 @@ def create_booking(pcu, room, booking, bguest, av):
         guest.save()
         msg += "\n Asignando: {} ({})".format(guest.room, guest.name)
 
+        if booking.plate != "":
+            guest.add_plate(booking.plate)
+
         if booking.created:
             msg += "\n CREADA: {}".format(guest.ext_id)
             av.ids += "{}:{},".format(room.name, guest.ext_id)
@@ -387,8 +398,8 @@ def create_room(pcu, room, index):
     r.save()
 
 def get_booking_list(pcu):
-    #get_or_create_booking(pcu, "8330112552572")
-    #return []
+    get_or_create_booking(pcu, "8990638557302")
+    return []
     av = Cloudbeds(pcu.token)
     result = av.get_bookings()
     booking_list = []
@@ -491,6 +502,7 @@ def get_or_create_booking(pcu, ext_id):
     msg = ""
     av = Cloudbeds(pcu.token)
     booking = av.get_booking(ext_id)
+    #print(booking)
     #msg += "\n {}".format(booking)
     node = CloudbedsBooking(booking)
 

@@ -383,6 +383,9 @@ class Guest(models.Model):
     def plates(self):
         return ",".join([item.number for item in self.cars.all()])
 
+    def add_plate(self, plate):
+        GuestCar.objects.get_or_create(number=plate, guest=self)
+
     def add_plates(self, plates):
         for number in plates.split(","):
             GuestCar.objects.get_or_create(number=number, guest=self)

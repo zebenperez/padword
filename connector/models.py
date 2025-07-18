@@ -106,6 +106,12 @@ class ProjectCarUser(models.Model):
     code = models.CharField(max_length=255, verbose_name=_('Code'), default="")
     description = models.CharField(max_length=255, verbose_name=_('Description'), default="")
     ftp = models.CharField(max_length=900, verbose_name=_('FTP'), default="")
+    file_name = models.CharField(max_length=255, verbose_name=_('File Name'), default="")
+    dir_name = models.CharField(max_length=255, verbose_name=_('Dir Name'), default="")
+    minute = models.IntegerField(verbose_name=_('Minutes to import'), default=0)
+    header_xml = models.TextField(verbose_name=_('Header XML'), default="")
+    header_csv = models.TextField(verbose_name=_('Header CSV'), default="")
+
     project_uuid = models.CharField(max_length=255, verbose_name=_('Project UUID'), default="")
 
     @property

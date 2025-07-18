@@ -11,23 +11,64 @@
     </div>
     <div class="card-body hide" id="body-cars"> 
         <div class="row justify-center">
-            <div class="col-4">
+            <div class="col-6">
+                <label class="label">{% trans "Header XML" %}:</label>
+                <textarea class="form-control autosave input" id="header_xml" name="header_xml" value="{{user_cars.header_xml}}" 
+                    data-model-name="connector.projectcaruser" data-obj-id="{{user_cars.id}}" 
+                    data-url="{% url "autosave_field" %}" data-target="div-notification"/>{{user_cars.header_xml}}</textarea> 
+                <span id="header_xml__msg"></span>	
+            </div>
+            <div class="col-6">
+                <label class="label">{% trans "Header CSV" %}:</label>
+                <textarea class="form-control autosave input" id="header_csv" name="header_csv" value="{{user_cars.header_csv}}" 
+                    data-model-name="connector.projectcaruser" data-obj-id="{{user_cars.id}}" 
+                    data-url="{% url "autosave_field" %}" data-target="div-notification"/>{{user_cars.header_csv}}</textarea> 
+                <span id="header_csv__msg"></span>	
+            </div>
+
+            <div class="col-6">
                 <label class="label">{% trans "Code" %}:</label>
                 <input type="text" class="form-control autosave input" id="code" name="code" value="{{user_cars.code}}" 
                     title="{{user_cars.code}}" data-model-name="connector.projectcaruser" data-obj-id="{{user_cars.id}}" 
                     data-url="{% url "autosave_field" %}" data-target="div-notification"/> <span id="code__msg"></span>	
             </div>
-            <div class="col-4">
+            <div class="col-6">
                 <label class="label">{% trans "List" %}:</label>
                 <input type="text" class="form-control autosave input" id="description" name="description" 
                     value="{{user_cars.description}}" data-model-name="connector.projectcaruser" data-obj-id="{{user_cars.id}}" 
                     data-url="{% url "autosave_field" %}" data-target="div-notification"/> <span id="description__msg"></span>	
             </div>
-            <div class="col-4">
+            <div class="col-6">
+                <label class="label">{% trans "Dir Name" %}:</label>
+                <input type="text" class="form-control autosave input" id="dir_name" name="dir_name" 
+                    value="{{user_cars.dir_name}}" data-model-name="connector.projectcaruser" data-obj-id="{{user_cars.id}}" 
+                    data-url="{% url "autosave_field" %}" data-target="div-notification"/> <span id="dir_name__msg"></span>	
+            </div>
+            <div class="col-6">
+                <label class="label">{% trans "File Name" %}:</label>
+                <input type="text" class="form-control autosave input" id="file_name" name="file_name" 
+                    value="{{user_cars.file_name}}" data-model-name="connector.projectcaruser" data-obj-id="{{user_cars.id}}" 
+                    data-url="{% url "autosave_field" %}" data-target="div-notification"/> <span id="file_name__msg"></span>	
+            </div>
+            <div class="col-8">
                 <label class="label">{% trans "FTP" %}:</label>
                 <input type="text" class="form-control autosave input" id="ftp" name="ftp" value="{{user_cars.ftp}}" 
                     data-model-name="connector.projectcaruser" data-obj-id="{{user_cars.id}}" 
                     data-url="{% url "autosave_field" %}" data-target="div-notification"/> <span id="ftp__msg"></span>	
+            </div>
+            <div class="col-4">
+                {%comment%}
+                <label class="label">{% trans "Minutes to Import" %}:</label>
+                <input type="text" class="form-control autosave input" id="minute" name="minute" value="{{user_cars.minute}}" 
+                    data-model-name="connector.projectcaruser" data-obj-id="{{user_cars.id}}" 
+                    data-url="{% url "autosave_field" %}" data-target="div-notification"/> <span id="minute__msg"></span>	
+                {%endcomment%}
+                <label class="label">{% trans "Cada cuantos minutos se realiza la importación" %}
+                    <br/> {% trans "(P.E.: si el valor es '30' se importaría cada 30 minutos)" %}:</label>
+                <input type="text" class="form-control input ark_change" id="minute" name="minute" 
+                    value="{{user_cars.minute}}" title="{{user_cars.minute}}" data-url="{% url "project-set-cars-schedule" %}" 
+                    data-target="div-notification" data-obj_id="{{user_cars.id}}" data-field="minute"/> 
+                <span id="minute__msg"></span>	
             </div>
         </div>		
     </div>		
