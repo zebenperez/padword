@@ -25,6 +25,7 @@
         <meta name="theme-color" content="#7952b3">
         
         <style>
+            {%comment%}
             #main {
                 width: 70mm;
                 font-size: 1.0em;
@@ -34,6 +35,45 @@
                 text-align: center;
                 font-size: 1.2em;
                 /*margin: 10px;*/
+            }
+            {%endcomment%}
+            body { background: #fff }
+            #main {
+                /*width: 90mm;*/
+                width: 70mm;
+                margin: auto;
+                font-size: 1.2rem;
+            }
+            h1 {
+                font-size: 1.3rem;
+                text-transform: uppercase;
+            }
+            h2 {
+                color: #212529;
+                font-size: 1.4rem;
+            }
+            .title {
+                text-align: center;
+                font-size: 1.2em;
+            } 
+            .separator {
+                border-bottom: 1px dashed #ccc;
+                height: 10px;
+                margin-bottom: 10px;
+            }
+            .footer {
+                position: fixed;
+                bottom: 0;
+                width: 90mm;
+                margin: auto;
+            }
+            @media screen {
+                @media print {
+                    @page {
+                        size: A4;
+                        margin: 2cm;
+                    }
+                }
             }
         </style>
     </head>

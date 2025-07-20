@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 from django.urls import path
 from . import views, auto_views, room_views, card_views, lock_views, lock_user_views, lock_group_views 
-from . import gateway_views, ekey_views, box_views, lock_cron_views, project_admin_views
+from . import gateway_views, ekey_views, box_views, lock_cron_views, project_admin_views, project_lock_views
 
 urlpatterns = [ 
     #path('index/<slug:chk>/', views.index, name='web-index-new'),
@@ -74,6 +74,11 @@ urlpatterns = [
     path('projects-admin/search/', project_admin_views.projects_search, name='projects-admin-search'),
     path('projects-admin/details/<int:obj_id>/', project_admin_views.projects_details, name='projects-admin-details'),
  
+    #--------------------- Projects Locks--------------------
+    path('projects-locks/', project_lock_views.projects, name='projects-locks'),
+    path('projects-locks/search/', project_lock_views.projects_search, name='projects-locks-search'),
+    path('projects-locks/details/<int:obj_id>/', project_lock_views.projects_details, name='projects-locks-details'),
+
     #--------------------- Channels --------------------
     path('channels/project-<slug:project_id>/', views.channels, name='channels-by-project'),
     path('channels/company-<slug:company_id>/', views.channels, name='channels-by-company'),

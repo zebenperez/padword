@@ -1,7 +1,7 @@
 from django.conf import settings
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
-from datetime import datetime
+from datetime import datetime, timedelta
 import csv, os, ftplib
 
 from padword.decorators import group_required
@@ -63,8 +63,14 @@ def getPath(project_uuid):
 def get_xml_elements(pcu):
     xml = "\n<nlelemlists>"
     now = datetime.now()
+    late = now + timedelta(pcu.days)
     now_str = now.strftime("%Y-%m-%dT%H:%M:%S")
-    guest_list = Guest.objects.filter(check_in__lte=now, check_out__gte=now, project_id=pcu.project_uuid)
+    #Reservas activas
+    guest_list = list(Guest.objects.filter(check_in__lte=now, check_out__gte=now, project_id=pcu.project_uuid))
+    #Reservas que se activarán en pcu.days
+    guest_list += list(Guest.objcts.filter(check_in__gt=now, check_in__lte=late, project_id=pcu.project_uuid))
+    #Reservas que salesn en pcu.days
+    #guest_list += list(Guest.objcts.filter(check_in__gt=now, check_in__lte=late, project_id=pcu.project_uuid))
     for g in guest_list:
         ini_date = g.check_in.strftime("%Y-%m-%dT%H:%M:%S")
         end_date = g.check_out.strftime("%Y-%m-%dT%H:%M:%S")
@@ -76,16 +82,23 @@ def get_xml_elements(pcu):
 def get_csv_elements(pcu):
     csv = "\nnlelemlist-id;numberplate;listid;timestamp;description;startvaliditydate;endvaliditydate"
     now = datetime.now()
-    now_str = now.strftime("%Y-%m-%dT%H:%M:%S")
-    guest_list = Guest.objects.filter(check_in__lte=now, check_out__gte=now, project_id=pcu.project_uuid)
+    late = now + timedelta(pcu.days)
+    now_str = now.strftime("%Y-%m-%dT%H:%M:%S.%f")[:-3]
+    #Reservas activas
+    guest_list = list(Guest.objects.filter(check_in__lte=now, check_out__gte=now, project_id=pcu.project_uuid))
+    #Reservas que se activarán en pcu.days
+    guest_list += list(Guest.objects.filter(check_in__gt=now, check_in__lte=late, project_id=pcu.project_uuid))
+    #Reservas que salesn en pcu.days
+    #guest_list += list(Guest.objcts.filter(check_in__gt=now, check_in__lte=late, project_id=pcu.project_uuid))
+    i = 0
     for g in guest_list:
-        ini_date = g.check_in.strftime("%Y-%m-%dT%H:%M:%S")
-        end_date = g.check_out.strftime("%Y-%m-%dT%H:%M:%S")
-        i = 0
+        print("{} {} {} {}".format(g.name, g.surname, g.check_in, g.check_out))
+        ini_date = g.check_in.strftime("%Y-%m-%dT%H:%M:%S.%f")[:-3]
+        end_date = g.check_out.strftime("%Y-%m-%dT%H:%M:%S.%f")[:-3]
         for c in g.cars.all():
             name = "{} {}".format(g.name, g.surname)
             csv += """\n{};{};{};{};{};{};{}""".format(i, c.number, pcu.code, now_str, name, ini_date, end_date)
-            i += 1
+            i = i+1
     return csv
 
 #def get_xml_footer(pcu):
@@ -168,7 +181,7 @@ def car_plates(request, project_uuid):
         #f = open("{}matriculas.xml".format(getPath(project_uuid)), "w")
         f = open("{}{}.{}".format(getPath(project_uuid), pcu.file_name, "xml"), "w")
         f.write(xml)
-        xmlf.close()
+        xml.close()
         ff = open("{}{}.{}.FLAG".format(getPath(project_uuid), pcu.file_name, "xml"), "w")
         ff.close()
         car_send(pcu, "xml")

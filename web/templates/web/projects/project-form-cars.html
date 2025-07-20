@@ -50,13 +50,19 @@
                     value="{{user_cars.file_name}}" data-model-name="connector.projectcaruser" data-obj-id="{{user_cars.id}}" 
                     data-url="{% url "autosave_field" %}" data-target="div-notification"/> <span id="file_name__msg"></span>	
             </div>
-            <div class="col-8">
+            <div class="col-6">
                 <label class="label">{% trans "FTP" %}:</label>
                 <input type="text" class="form-control autosave input" id="ftp" name="ftp" value="{{user_cars.ftp}}" 
                     data-model-name="connector.projectcaruser" data-obj-id="{{user_cars.id}}" 
                     data-url="{% url "autosave_field" %}" data-target="div-notification"/> <span id="ftp__msg"></span>	
             </div>
-            <div class="col-4">
+            <div class="col-3">
+                <label class="label">{% trans "Días a partir del final de la reserva para importar" %}:</label>
+                <input type="text" class="form-control autosave input" id="days" name="days" 
+                    value="{{user_cars.days}}" data-model-name="connector.projectcaruser" data-obj-id="{{user_cars.id}}" 
+                    data-url="{% url "autosave_field" %}" data-target="div-notification"/> <span id="days__msg"></span>	
+            </div>
+            <div class="col-3">
                 {%comment%}
                 <label class="label">{% trans "Minutes to Import" %}:</label>
                 <input type="text" class="form-control autosave input" id="minute" name="minute" value="{{user_cars.minute}}" 

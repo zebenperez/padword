@@ -25,7 +25,7 @@ import os, re, requests, time, datetime, csv
 
 
 
-@group_required("admins", "projects", "categories", "guests", "project_admin")
+@group_required("admins", "projects", "categories", "guests", "project_admin", "project_locks")
 def index(request, chk=None):
     if request.user.groups.filter(name='guests').exists():
         return redirect('pwa-index')
@@ -45,6 +45,9 @@ def index(request, chk=None):
 
     if request.user.groups.filter(name='project_admin').exists():
         return redirect('projects-admin')
+
+    if request.user.groups.filter(name='project_locks').exists():
+        return redirect('projects-locks')
 
     return redirect('projects')
 
