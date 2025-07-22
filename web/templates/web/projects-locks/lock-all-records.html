@@ -1,0 +1,37 @@
+{% load i18n padword_tags lock_tags %}
+
+<div class="d-flex justify-content-end p-3 m-0 lock-sticky-top">
+    {%comment%}
+	<a class="btn btn-info m-2 text-white" href="{%url "lock-export-csv" obj.id%}" target="_blank">{%trans "CSV Export"%}</a>
+	<a class="btn btn-info m-2 text-white" href="{%url "lock-export-pdf" obj.id%}" target="_blank">{%trans "PDF Export / Print"%}</a>
+    {%endcomment%}
+	<button type="button" class="btn ark" data-bs-dismiss="modal" title="{% trans "Close" %}"><i class="fas fa-times"></i></button>
+</div>
+
+<h2 class="common-modal-head">{% trans 'Access history' %}</h2>
+
+<table class="table table-hover table-striped">
+    <thead>
+        <tr> 
+            <th>{%trans 'Record type'%}</th> 
+            <th>{%trans 'Success'%}</th> 
+            <th>{%trans 'Username'%}</th> 
+            <th>{%trans 'Code'%}</th> 
+            <th>{%trans 'Lock date'%}</th> 
+            <th>{%trans 'Server date'%}</th> 
+        </tr>
+    </thead>
+    <tbody>
+        {% for item in obj.get_all_records %}
+            <tr>
+                <td> {% get_record_type item.recordType %}</td> 
+                <td> {% if item.success == 1 %}{% trans "Yes" %}{% else %}{% trans "No" %}{% endif %}</td> 
+                <td> {% lock_record_username obj item.lockDate item.recordType item.username %}</td>
+                <td> {{item.keyboardPwd}}</td> 
+                <td> {{item.lockDate|str_to_local_date_room:obj}} </td> 
+                <td> {{item.serverDate|str_to_date}} </td> 
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+

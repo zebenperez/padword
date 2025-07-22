@@ -23,14 +23,12 @@
             <td class="text-end">
                 <a class="btn btn-sm" href="{% url "projects-locks-details" item.id %}" title="{% trans "Details" %}"> 
                     <i class="fas fa-edit"></i></a>  
-                {%comment%}
                 {% if item.lock_access_token != "" %}
-                    <a class="btn btn-xs" href="{% url 'locks-by-project' item.id %}" title="{% trans 'Locks' %}">
+                    <a class="btn btn-xs" href="{% url 'projects-locks-by-project' item.id %}" title="{% trans 'Locks' %}">
                         <i class="fas fa-key"></i></a>
-                    <a class="btn btn-xs" href="{% url 'gateways-by-project' item.id %}" title="{% trans 'Gateways' %}">
+                    <a class="btn btn-xs" href="{% url 'projects-locks-gateways-by-project' item.id %}" title="{% trans 'Gateways' %}">
                         <i class="fas fa-signal"></i></a>
                 {% endif %}
-                {%endcomment%}
             </td>
         </tr>
         {% endfor %}

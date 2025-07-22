@@ -455,6 +455,9 @@ def set_webhooks(pcu):
     result += "Adding reservation/deleted webhook <br/>"
     result += av.set_webhook("reservation", "deleted", pcu.property_id)
     result += "<br/>"
+    result += "Adding guest/accommodation_changed webhook <br/>"
+    result += av.set_webhook("guest", "accommodation_changed", pcu.property_id)
+    result += "<br/>"
     result += "Adding integration/appstate_changed webhook <br/>"
     result += av.set_webhook("integration", "appstate_changed", pcu.property_id)
     result += "<br/>"
@@ -485,6 +488,10 @@ def manage_webhook_actions(pcu, obj):
     if obj["event"] == "reservation/deleted":
         msg = "\n-- Eliminada la reserva {}".format(obj["reservationId"])
         msg += reservation_delete(pcu, obj)
+
+    if obj["event"] == "guest/accommodation_changed":
+        msg = "\n-- Modificada la habitación de la reserva {}".format(obj["reservationId"])
+        msg += get_or_create_booking(pcu, obj["reservationId"])
 
     if obj["event"] == "integration/appstate_changed":
         disabled_connection(pcu, obj)

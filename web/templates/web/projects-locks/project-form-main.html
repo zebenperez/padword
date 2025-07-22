@@ -65,3 +65,68 @@
 {# -------------------- end new -----------------------#}
 </div>
 
+<div id="project-tabs"> 
+    <ul class="nav nav-tabs m-2 pl-2 pr-2 pt-2">
+        <li class="nav-item"> <a class="nav-link active" data-bs-toggle="tab" href="#locks">
+            {%trans "Locks"%}</a> </li>
+    </ul>
+    <div class="tab-content internal m-2 p-2">
+        <div class="tab-pane container active" id="locks"><div id="div-locks">
+            <div class="row justify-center">
+                <div class="col-md-6 col-12">
+                    <label class="label">{% trans "TTLock Username" %}:</label>
+                    <input type="text" class="form-control input" id="username" name="username" value="{{user_lock.username}}"/> 
+                </div>
+                <div class="col-md-6 col-12">
+                    <label class="label">{% trans "TTLock Password" %}:</label>
+                    <input type="text" class="form-control input" id="password" name="password" value="{{user_lock.password}}"/> 
+                </div>
+            </div>		
+
+            <span id="span-token">
+                <div class="row justify-center m-0 p-0">
+                    <div class="col-md-6 col-12">
+                        <label class="label">{% trans "Token" %} ({% trans "expire:" %} {{user_lock.expire_date}}):</label>
+                        <input type="text" class="form-control input mb-4" id="token" name="token" value="{{user_lock.token}}"/> 
+                    </div>
+                    <div class="col-md-6 col-12">
+                        <label class="label">{% trans "Refresh Token" %}:</label>
+                        <input type="text" class="form-control input mb-4" id="refresh_token" name="refresh_token" 
+                            value="{{user_lock.refresh_token}}"/> 
+                    </div>
+                </div>		
+            </span>
+
+            <div class="row justify-center"> 
+                <div class="col-6"> <label class="label">{% trans "Time to execute tasks" %}:</label> </div> 
+                <div class="col-6"> <label class="label">{% trans "Report email" %}:</label> </div> 
+            </div>		
+            <div class="row justify-center">
+                <div class="col-3">
+                    <input type="time" class="form-control input lock-cron" id="time" name="time" 
+                        value="{{user_lock.time_schedule_tasks}}"/>
+                </div>
+                <div class="col-6 offset-3">
+                    <input type="text" class="form-control input lock-cron" id="report_email" name="report_email" 
+                        value="{{user_lock.report_email}}"/> 
+                </div>
+            </div>		
+            <div class="row justify-center m-0 p-0">
+                <div class="col-12 d-flex justify-content-end">
+                    {%comment%}
+                    {% for lang in obj.get_languages %}
+                        <a class="btn btn-{% is_current_lang lang 'primary' 'secondary'%} ms-2 me-2 pointer" 
+                            href="{% url "projects-locks-details" obj.id "locks" %}?lang={{lang}}"> {{lang}}</a>
+                    {%endfor%}
+                    {%endcomment%}
+                </div>
+
+                <div class="col-12">
+                    <label class="label">{% trans "Text to share" %}:</label>
+                    <textarea class="form-control input mb-4" id="text_to_share" name="text_to_share" rows="10" disabled>{% padword_translate user_lock.text_to_share %}</textarea> 
+                </div>
+            </div>
+
+        </div></div>
+    </div>
+</div>

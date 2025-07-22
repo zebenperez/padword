@@ -78,6 +78,12 @@ urlpatterns = [
     path('projects-locks/', project_lock_views.projects, name='projects-locks'),
     path('projects-locks/search/', project_lock_views.projects_search, name='projects-locks-search'),
     path('projects-locks/details/<int:obj_id>/', project_lock_views.projects_details, name='projects-locks-details'),
+    path('projects-locks/by-project/<int:project_id>/', project_lock_views.locks_by_project, name='projects-locks-by-project'),
+    path('projects-locks/gateways-by-project/<int:project_id>/', project_lock_views.gateways_by_project, name='projects-locks-gateways-by-project'),
+    path('projects-locks/update-params/', project_lock_views.lock_update_params, name='projects-locks-update-params'),
+    path('projects-locks/get-all-passcodes/', project_lock_views.lock_get_all_passcodes, name='projects-locks-get-all-passcodes'),
+    path('projects-locks/get-all-cards/', project_lock_views.lock_get_all_cards, name='projects-locks-get-all-cards'),
+    path('projects-locks/get-all-records/', project_lock_views.lock_get_all_records, name='projects-locks-get-all-records'),
 
     #--------------------- Channels --------------------
     path('channels/project-<slug:project_id>/', views.channels, name='channels-by-project'),

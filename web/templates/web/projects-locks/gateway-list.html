@@ -1,0 +1,36 @@
+{% load i18n lock_tags %}
+
+
+{% if msg and msg != "" %} <div class="alert alert-danger">{{msg}}</div> {% endif %}
+
+<div class="d-flex menu-actions-blue">
+    <div class="flex-grow-1 p-2"><span class="bg-ico-bar"><i class="fas fa-lock"></i></span>&nbsp; {% trans "Gateways Status" %}</div>
+    <div class="action p-2"> </div>
+</div>
+
+<table class="table table-striped table-hover" id="main-table">
+    <thead> <tr class="small small"> 
+            <th> {% trans 'Name' %} <i class="fas fa-sort"></i> </th> 
+            <th> {% trans 'Network name' %} <i class="fas fa-sort"></i> </th> 
+            <th> {% trans 'MAC' %} <i class="fas fa-sort"></i> </th> 
+            <th> {% trans 'Version' %} <i class="fas fa-sort"></i> </th> 
+            <th> {% trans 'Connected locks' %} <i class="fas fa-sort"></i> </th> 
+            <th> {% trans 'Is online' %} <i class="fas fa-sort"></i> </th> 
+    </tr> </thead>
+    <tbody>
+        {% for item in gateway_list %}
+            <tr class="small">
+                {#<td><span id="gt-name-{{item.gatewayId}}"></span></td>#}
+                <td>{{ item.gatewayName}}</td>
+                <td>{{ item.networkName }}</td>
+                <td>{{ item.gatewayMac }}</td>
+                <td>{{ item.gatewayVersion }}</td>
+                {#<td>{{ item.lockNum }}</td>#}
+                <td>Total: {{ item.lockNum }}<br/><br/>{% get_locks_by_gateway project item.gatewayId %}</td>
+                <td>{% if item.isOnline == 1 %}{% trans "Yes" %}{% else %}{% trans "No" %}{% endif %}</td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<script> $("#main-table").tablesorter(); </script>

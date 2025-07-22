@@ -5,6 +5,7 @@ from django.utils.translation import ugettext_lazy as _
 from padword.commons import show_exc, get_or_none, get_param, new_ui_slug, set_session, get_int
 from padword.decorators import group_required
 from .models import *
+from .models_lock import Lock, LockGroup
 
 from django.conf import settings
 import os, re, requests, time, datetime, csv
@@ -60,10 +61,63 @@ def projects_details(request, obj_id, current_tab=""):
     try:
         obj = get_or_none(Project, obj_id) 
         aux = get_or_create_projectaux(obj)
-        context = { 'obj': obj, 'aux': aux, 'companies': Company.objects.all(), 'thirdpart_list': Thirdpart.objects.all()}
+        user_lock = ProjectLockUser.objects.filter(project_uuid=obj.uuid).first()
+        context = {
+            'obj': obj, 
+            'aux': aux, 
+            'companies': Company.objects.all(), 
+            'thirdpart_list': Thirdpart.objects.all(), 
+            'user_lock': user_lock
+        }
         return render(request, "web/projects-locks/project-details.html", context)
     except Exception as e:
         print(e)
         return render(request, 'error_exception.html', {'exc':show_exc(e)})
 
+@group_required("project_locks")
+def locks_by_project(request, project_id):
+    project = get_or_none(Project, project_id)
+    try:
+        lock_list = Lock.objects.filter(project_uuid=project.uuid)
+        lg_list = LockGroup.objects.filter(project_uuid=project.uuid)
+        context = {"project": project, "msg": "", "items": lock_list, "lock_group_list": lg_list}
+        return render(request, "web/projects-locks/locks.html", context)
+    except Exception as e:
+        print(e)
+        return render(request, 'error_exception.html', {'exc':show_exc(e)})
+
+@group_required("project_locks")
+def gateways_by_project(request, project_id):
+    try:
+        project = get_or_none(Project, project_id)
+        return render (request, "web/projects-locks/gateways.html", {'project': project, 'gateway_list': project.gateway_list()})
+    except Exception as e:
+        return render(request, 'error_exception.html', {'exc':show_exc(e)})
+
+@group_required("project_locks")
+def lock_update_params(request):
+    lock = get_or_none(Lock, request.GET["obj_id"])
+    lock.update_params()
+    return render(request, "web/projects-locks/lock-list-row.html", {"item": lock})
+
+@group_required("project_locks")
+def lock_get_all_passcodes(request, obj_id=None):
+    obj = get_or_none(Lock, request.GET["obj_id"]) if "obj_id" in request.GET else None
+    if obj == None:
+        return render(request, 'error_exception.html', {'exc':'Lock not found!'})
+    return render(request, "web/projects-locks/lock-all-passcodes.html", {'obj': obj,})
+
+@group_required("project_locks")
+def lock_get_all_cards(request, obj_id=None):
+    obj = get_or_none(Lock, request.GET["obj_id"]) if "obj_id" in request.GET else None
+    if obj == None:
+        return render(request, 'error_exception.html', {'exc':'Lock not found!'})
+    return render(request, "web/projects-locks/lock-all-cards.html", {'obj': obj,})
+
+@group_required("project_locks")
+def lock_get_all_records(request, obj_id=None):
+    obj = get_or_none(Lock, request.GET["obj_id"]) if "obj_id" in request.GET else None
+    if obj == None:
+        return render(request, 'error_exception.html', {'exc':'Lock not found!'})
+    return render(request, "web/projects-locks/lock-all-records.html", {'obj': obj,})
 
