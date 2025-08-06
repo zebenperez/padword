@@ -272,6 +272,9 @@ def get_token(ppu):
     #pt = Paytef("", "", "", "MS4yZmNp", "9KiyvtmGpVB9RHbLWvq4A494MwKbu2lfA5Zixdov")
     pt = Paytef("", "", "", ppu.accessKey, ppu.secretKey)
     pt.token = pt.get_token()
+
+    ppu.token = pt.token
+    ppu.save()
     print(pt.token)
     return pt.token
 
