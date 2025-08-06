@@ -268,10 +268,12 @@ def get_config(ppu):
     return res
     #pt.transaction_query()
  
-def get_token():
-    pt = Paytef("", "", "", "MS4yZmNp", "9KiyvtmGpVB9RHbLWvq4A494MwKbu2lfA5Zixdov")
+def get_token(ppu):
+    #pt = Paytef("", "", "", "MS4yZmNp", "9KiyvtmGpVB9RHbLWvq4A494MwKbu2lfA5Zixdov")
+    pt = Paytef("", "", "", ppu.accessKey, ppu.secretKey)
     pt.token = pt.get_token()
     print(pt.token)
+    return pt.token
 
 def get_status(ppu):
     pt = Paytef("", "", "", ppu.accessKey, ppu.secretKey, ppu.token)

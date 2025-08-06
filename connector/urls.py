@@ -31,6 +31,7 @@ urlpatterns = [
     path('paytef/get-config/<slug:project_uuid>/', views.paytef_get_config, name='paytef-get-config'),
     path('paytef/pinpad-status/<slug:project_uuid>/', views.paytef_pinpad_status, name='paytef-pinpad-status'),
     path('paytef/test-transfer/<slug:project_uuid>/', views.paytef_test_transfer, name='paytef-test-transfer'),
+    path('paytef/get-token/<slug:project_uuid>/', views.paytef_get_token, name='paytef-get-token'),
 
     #--------------------- ZKTECO --------------------
     path('zkteco/add-persons/', views.zkteco_add_persons, name='zkteco-add-persons'),

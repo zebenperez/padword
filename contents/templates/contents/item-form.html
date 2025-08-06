@@ -12,53 +12,60 @@
 </div>
 
 <div class="row justify-center">
-    <div class="col-3"> <label class="label">{% trans "Image" %}:</label> <div id="div-image">{% include "contents/item-img.html" %}</div> </div>
+    <div class="col-12"> 
+        <label class="label">{% trans "Image" %}:</label> <div id="div-image">{% include "contents/item-img.html" %}</div> </div>
 
-    <div class="col-9">
+    <div class="col-12">
         <div class="row justify-center">
             <div class="col-sm-6 col-md-6 col-12">
                 <label class="label">{% trans "Name" %}:</label>
-                <input type="text" class="form-control autosave b-bottom mb-4" id="name" name="name" value="{% padword_translate obj.name %}" 
-                    title="{% padword_translate obj.name %}" data-lang="{% current_lang %}" data-model-name="contents.item" data-obj-id="{{obj.id}}" 
-                    data-url="{% url "autosave_field" %}" data-target="div-notification"/> <span id="name__msg"></span>
+                <input type="text" class="form-control autosave b-bottom mb-4" id="name" name="name" 
+                    value="{% padword_translate obj.name %}" title="{% padword_translate obj.name %}" data-lang="{% current_lang %}" 
+                    data-model-name="contents.item" data-obj-id="{{obj.id}}" data-url="{% url "autosave_field" %}" 
+                    data-target="div-notification"/> <span id="name__msg"></span>
             </div>
             <div class="col-sm-2 col-md-2 col-12">
                 <label class="label">{% trans "Price" %}:</label>
-                <input type="number" step="0.01" class="form-control autosave b-bottom mb-4" id="price" name="price" value="{{obj.price}}" 
-                    title="{% trans 'Price' %}" data-model-name="contents.item" data-obj-id="{{obj.id}}" data-url="{% url "autosave_field" %}" 
-                    data-target="div-notification"/> <span id="price__msg"></span>	
+                <input type="number" step="0.01" class="form-control autosave b-bottom mb-4" id="price" name="price" 
+                    value="{{obj.price}}" title="{% trans 'Price' %}" data-model-name="contents.item" data-obj-id="{{obj.id}}" 
+                    data-url="{% url "autosave_field" %}" data-target="div-notification"/> <span id="price__msg"></span>	
             </div>
             <div class="col-sm-2 col-md-2 col-12">
                 <label class="label">{% trans "Active" %}:</label>
                 <select class="form-control autosave b-bottom mb-4" id="is_active" name="is_active" value="{{obj.is_active}}" 
-                    title="{{obj.ais_ctive}}" data-model-name="contents.item" data-obj-id="{{obj.id}}" data-url="{% url "autosave_field" %}" 
-                    data-target="div-notification"/>
+                    title="{{obj.ais_ctive}}" data-model-name="contents.item" data-obj-id="{{obj.id}}" 
+                    data-url="{% url "autosave_field" %}" data-target="div-notification"/>
                     <option value="1" {%if obj.is_active == 1%}selected{%endif%}>{% trans "Yes" %}</option>
                     <option value="0" {%if obj.is_active == 0%}selected{%endif%}>{% trans "No" %}</option>
                 </select>
                 <span id="active__msg"></span>
             </div>
             <div class="col-sm-2 col-md-2 col-12">
-                <input type="checkbox" class="form-check-input autosave b-bottom mb-4" id="favorite" name="favorite" title="{% trans 'Favorite' %}" 
-                    data-model-name="contents.item" data-obj-id="{{obj.id}}" data-url="{% url "autosave_field" %}" data-target="div-notification" 
-                    data-bool="True" {%if obj.favorite%}checked{%endif%}/> <span id="favorite__msg"></span><label class="label">{% trans "Favorite" %}</label>
+                <input type="checkbox" class="form-check-input autosave b-bottom mb-4" id="favorite" name="favorite" 
+                    title="{% trans 'Favorite' %}" data-model-name="contents.item" data-obj-id="{{obj.id}}" 
+                    data-url="{% url "autosave_field" %}" data-target="div-notification" data-bool="True" 
+                    {%if obj.favorite%}checked{%endif%}/> <span id="favorite__msg"></span>
+                    <label class="label">{% trans "Favorite" %}</label>
 
-                <input type="checkbox" class="form-check-input autosave b-bottom mb-4" id="especial" name="especial" title="{% trans 'Especial' %}" 
-                   data-model-name="contents.item" data-obj-id="{{obj.id}}" data-url="{% url "autosave_field" %}" data-target="div-notification" 
-                   data-bool="True" {%if obj.especial%}checked{%endif%}/> <span id="favorite__msg"></span><label class="label">{% trans "Especial" %}</label>
+                <input type="checkbox" class="form-check-input autosave b-bottom mb-4" id="especial" name="especial" 
+                    title="{% trans 'Especial' %}" data-model-name="contents.item" data-obj-id="{{obj.id}}" 
+                    data-url="{% url "autosave_field" %}" data-target="div-notification" data-bool="True" 
+                    {%if obj.especial%}checked{%endif%}/> <span id="favorite__msg"></span>
+                    <label class="label">{% trans "Especial" %}</label>
             </div>
             <div class="col-12">
                 <label class="label">{% trans "External ID" %} </label>
                 <input type="number" class="form-control autosave b-bottom mb-4" id="ext_id" name="ext_id" value="{{obj.ext_id}}" 
-                    title="{{obj.ext_id}}" data-model-name="contents.item" data-obj-id="{{obj.id}}" data-url="{% url "autosave_field" %}" 
+                    title="{{obj.ext_id}}" data-model-name="contents.item" data-obj-id="{{obj.id}}" data-url="{%url "autosave_field"%}"
                     data-target="div-notification"/> <span id="ext_id__msg"></span>
             </div>
 
             <div class="col-12">
                 <label class="label">{% trans "Description" %}</label>
                 (<a id="show-html" class="small toggle-editor" data-source="description" data-editor="desc-editor-item">html</a>):
-                <textarea class="form-control autosavepost b-bottom mb-4" id="description" name="description"  data-lang="{% current_lang %}" 
-                    data-model-name="contents.item" data-obj-id="{{obj.id}}" data-url="{%url "autosave_field_post"%}" data-target="div-notification" 
+                <textarea class="form-control autosavepost b-bottom mb-4" id="description" name="description"  
+                    data-lang="{% current_lang %}" data-model-name="contents.item" data-obj-id="{{obj.id}}" 
+                    data-url="{%url "autosave_field_post"%}" data-target="div-notification" 
                     style="display:none"></textarea> <span id="description__msg"></span>
                 <div id="desc-editor-item" style="height:200px; overflow:scroll;"> {% padword_translate obj.description %}</div>
             </div>
@@ -72,13 +79,16 @@
             {% trans "Allergens" %} </a>
         <div class="collapse" id="collapseAllergen"> <div id="div-allergens-{{obj.id}}">{% show_allergen obj %}</div> </div>
         <br/>
-        <a data-bs-toggle="collapse" href="#collapseExtra" role="button" aria-expanded="false" aria-controls="collapseExtra">{% trans "Extras" %}</a>
+        <a data-bs-toggle="collapse" href="#collapseExtra" role="button" aria-expanded="false" aria-controls="collapseExtra">
+            {% trans "Extras" %}</a>
         <div class="collapse" id="collapseExtra"> <div id="div-extras-{{obj.id}}">{% show_extras obj %}</div> </div>
         <br/>
-        <a data-bs-toggle="collapse" href="#collapsePromo" role="button" aria-expanded="false" aria-controls="collapseExtra">{% trans "Promos" %}</a>
+        <a data-bs-toggle="collapse" href="#collapsePromo" role="button" aria-expanded="false" aria-controls="collapseExtra">
+            {% trans "Promos" %}</a>
         <div class="collapse" id="collapsePromo"> <div id="div-promos-{{obj.id}}">{% show_promos obj %}</div> </div>
         <br/>
-        <a data-bs-toggle="collapse" href="#collapseImages" role="button" aria-expanded="false" aria-controls="collapseImages">{%trans "Images"%}</a>
+        <a data-bs-toggle="collapse" href="#collapseImages" role="button" aria-expanded="false" aria-controls="collapseImages">
+            {%trans "Images"%}</a>
         <div class="collapse" id="collapseImages"> <div id="div-images-{{obj.id}}">
             <div id="div-gallery">{% include "contents/item-gallery.html" with obj=obj%}</div>
         </div>
@@ -89,9 +99,9 @@
     <button type="button" class="btn btn-primary ark m-2" data-bs-dismiss="modal" data-url="{% url "items-by-category" cat.uuid %}" 
         data-target="items-list-{{cat.pk}}" >{% trans "Save" %}</button>
     {% if request.user|can_remove_cat %}
-        <button type="button" class="btn btn-primary ark m-2" data-bs-dismiss="modal" data-url="{% url "item-remove" %}" data-obj-id="{{obj.uuid}}" 
-            data-cat-id= "{{cat.uuid}}" data-target="items-list-{{cat.pk}}" data-confirm="{% trans "Are you sure to remove this element?" %}">
-            {% trans "Remove" %}</button>
+        <button type="button" class="btn btn-primary ark m-2" data-bs-dismiss="modal" data-url="{% url "item-remove" %}" 
+            data-obj-id="{{obj.uuid}}" data-cat-id="{{cat.uuid}}" data-target="items-list-{{cat.pk}}" 
+            data-confirm="{% trans "Are you sure to remove this element?" %}"> {% trans "Remove" %}</button>
     {% endif %}
 </div>
 

@@ -26,7 +26,7 @@ from .winhotel_lib import get_booking_range_list as wh_get_booking_range_list
 from .mews_lib import get_booking_list as mw_get_booking_list, cancel_booking_list as mw_cancel_booking_list
 from .cloudbeds_lib import get_booking_list as cb_get_booking_list, get_room_list as cb_get_room_list
 from .cloudbeds_lib import set_webhooks as cb_set_webhooks, manage_webhook_actions as cb_manage_webhook_actions
-from .paytef_lib import get_config as pay_get_config, get_status as pay_get_status, start_trans as pay_start_trans
+from .paytef_lib import get_config as pay_get_config, get_status as pay_get_status, start_trans as pay_start_trans, get_token as pay_get_token
 from .zkteco_lib import add_person as zk_add_person
 
 import json, os, csv, re
@@ -366,6 +366,16 @@ def paytef_test_transfer(request, project_uuid):
         ppu = get_or_none(ProjectPaytefUser, project_uuid, "project_uuid")
         is_ok, config = pay_start_trans(ppu)
         return render(request, 'paytef/transfer.html', {'is_ok': is_ok, 'config': config})
+    except Exception as e:
+        print(e)
+        return render(request, 'error_exception.html', {'exc':show_exc(e)})
+
+@group_required("admins")
+def paytef_get_token(request, project_uuid):
+    try:
+        ppu = get_or_none(ProjectPaytefUser, project_uuid, "project_uuid")
+        config = pay_get_token(ppu)
+        return render(request, 'paytef/config.html', {'config': config})
     except Exception as e:
         print(e)
         return render(request, 'error_exception.html', {'exc':show_exc(e)})

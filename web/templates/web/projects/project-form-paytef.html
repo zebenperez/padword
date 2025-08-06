@@ -52,17 +52,21 @@
                 <label class="label">{% trans "Token" %}:</label>
                 <input type="text" class="form-control input" id="token" name="token" value="{{user_paytef.token}}" disabled/> 
             </div>
-            <div class="col-4">
+            <div class="col-3">
                 <a class="btn btn-primary ark" data-url="{% url "paytef-get-config" obj.uuid %}" data-target-modal="common-modal"> 
                     {%trans "View Config"%}</a>  
             </div>
-            <div class="col-4">
+            <div class="col-3">
                 <a class="btn btn-primary ark" data-url="{% url "paytef-pinpad-status" obj.uuid %}" data-target-modal="common-modal"> 
                     {%trans "Pinpad Status"%}</a>  
             </div>
-            <div class="col-4">
+            <div class="col-3">
                 <a class="btn btn-primary ark" data-url="{% url "paytef-test-transfer" obj.uuid %}" data-target-modal="common-modal"> 
                     {%trans "Transfer Test"%}</a>  
+            </div>
+            <div class="col-3">
+                <a class="btn btn-primary ark" data-url="{% url "paytef-get-token" obj.uuid %}" data-target-modal="common-modal"> 
+                    {%trans "Get Token"%}</a>  
             </div>
         </div>		
     </div>		
