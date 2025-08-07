@@ -21,7 +21,8 @@
 
         <a type="button" id="btn-save" class="btn btn-primary m-2" href="{% url "guests" %}"> {%trans "Save"%}</a>
 
-        {% if obj.bands.all|length > 0 and current_tab == "bands" and access_zones|length > 0 %}
+        {#{% if obj.bands.all|length > 0 and current_tab == "bands" and access_zones|length > 0 %}#}
+        {% if obj.bands.all|length > 0 and access_zones|length > 0 %}
             <button type="button" class="btn btn-primary m-2 ark" id="send-zone-{{zone.id}}" data-url="{% url "zkteco-add-persons" %}" 
                 data-target-modal="common-modal" data-obj_id="{{obj.id}}" data-redirect="{% url "guests" %}" style="width:150px"> 
                 {% trans "Sync & Save" %} </button>
