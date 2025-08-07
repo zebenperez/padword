@@ -530,6 +530,7 @@ def guest_details_by_project(request, obj_id="", current_tab=""):
             'guest_type_list':guest_type_list, 
             'card':obj.card, 
             'current_tab': current_tab,
+            'access_zones': WristbandAccessZone.objects.filter(project_uuid=obj.project_id),
             'stripe':obj.stripe
         }
         return render(request, "guest-by-project/guest-details-by-project.html", context)
