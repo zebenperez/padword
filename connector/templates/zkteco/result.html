@@ -18,3 +18,9 @@
     </div>
 </div>
 
+{% if redirect and redirect != "" %}
+    <div class="text-center mb-4">
+        <a type="button" id="" class="btn btn-primary" href="{{redirect}}"> {%trans "Close"%}</a>
+    </div>
+{% endif %}
+

@@ -1,10 +1,12 @@
 {% load i18n guest_tags %}
 
 
+{%comment%}
 <div class="text-end">
     <button type="button" class="btn btn-warning ark" id="send-zone-{{zone.id}}" data-url="{% url "zkteco-add-persons" %}" 
         data-target-modal="common-modal" data-obj_id="{{obj.id}}" style="width:150px"> {% trans "Sync All" %} </button>
 </div>
+{%endcomment%}
 
 <h3> {% trans "Bands" %} </h3>
 {% for item in obj.bands.all %} 

@@ -394,7 +394,7 @@ def get_person_dic(guest, pzu, code, levels):
         "cardNo": str(reverse_cardkey(code)),
         "lastName": guest.surname,
         "name": guest.name,
-        "pin": code[:6]                     
+        "pin": code[-7:]                     
         #"pin": get_random_digits(6) #"202507"                    
     }
  
@@ -419,6 +419,7 @@ def zkteco_add_persons(request):
     try:
         guest = get_or_none(Guest, get_param(request.GET, "obj_id"))
         pzu = get_or_none(ProjectZktecoUser, guest.project_id, "project_uuid")
+        redirect = get_param(request.GET, "redirect")
         res = "Guest: {}".format(guest)
         res += "<br/><br/>"
 
@@ -427,7 +428,7 @@ def zkteco_add_persons(request):
         for c in guest.cards_for_access(): 
             res += send_person_code(pzu, guest, c.code)
 
-        return render(request, 'zkteco/result.html', {'params': "", 'res': res})
+        return render(request, 'zkteco/result.html', {'params': "", 'res': res, 'redirect': redirect})
     except Exception as e:
         print(e)
         return render(request, 'error_exception.html', {'exc':show_exc(e)})
