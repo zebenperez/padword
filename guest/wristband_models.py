@@ -83,6 +83,7 @@ class WristbandLog(models.Model):
         verbose_name_plural = _("Wristbands log")
 
 class WristbandAccessZone(models.Model):
+    default = models.BooleanField(verbose_name=_("Default"), default=False)
     reset_time = models.TimeField(_("Reset Time"), blank=True, default=datetime.time(23, 00))
     uuid = models.CharField(max_length = 255, verbose_name= _('UUID'), default=new_ui_slug)
     name = models.CharField(max_length=255, verbose_name='Name', default="")

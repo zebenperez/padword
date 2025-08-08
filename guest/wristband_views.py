@@ -119,7 +119,8 @@ def guest_band_balance_add(request):
         amount = get_float(get_param(request.GET, "balance"))
         if amount > 0:
             balance = WristbandBalance.objects.create(wristband=band, amount=amount, desc=_("Init charge"))
-        return render(request, "guest/guest-details-tabs.html", {'obj': band.guest, 'current_tab': 'bands', 'temp_range': range(16,26)})
+        set_default_zones(band)
+        return render(request, "guest/guest-details-tabs.html", {'obj':band.guest, 'current_tab':'bands', 'temp_range':range(16,26)})
         #return render(request, "guest/bands/guest-details-bands-list.html", {"obj": band.guest})
     except Exception as e:
         return render(request, "error_exception.html", {'exc':show_exc(e)})
@@ -264,6 +265,10 @@ def guest_band_manage_all_zone(request):
     except Exception as e:
         return render(request, "error_exception.html", {'exc':show_exc(e)})
 
+def set_default_zones(band):
+    access_zones = WristbandAccessZone.objects.filter(project_uuid=band.guest.project_id, default=True)
+    for zone in access_zones:
+        WristbandAccessZoneGuest.objects.get_or_create(guest=band.guest, zone=zone, code=band.code)
 
 '''
     Wristbands
