@@ -680,3 +680,20 @@ class ProjectThirdpart(models.Model):
     class Meta:
         verbose_name = _('Project Thirdpart')
 
+class ProjectPartner(models.Model):
+    partner = models.CharField(max_length=255, verbose_name=_('Project UUID'), default='')
+    project = models.ForeignKey(Project, verbose_name=_('Project'), on_delete=models.CASCADE, null=True, related_name="partners")
+
+    @property
+    def partner_name(self):
+        try:
+            print(self.partner)
+            obj = Project.objects.get(uuid=self.partner)
+            print(obj)
+            return obj.name
+        except:
+            return ""
+
+    class Meta:
+        verbose_name = _('Project Partner')
+ 

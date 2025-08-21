@@ -36,12 +36,43 @@
             <button class="btn btn-primary w-100 " onclick="$('#div-free').hide()">{%trans "Cancel"%}</button>
         </div>
         <div class="col-6">
-            <button id="btn-free-order-{{fi.id}}" class="btn btn-primary w-100 ark" data-bs-dismiss="modal" data-url="{% url "tpv-order-send" %}" 
-                data-target="base" data-obj_id="{{fi.id}}" data-payment_type="05" data-subtotal="0" data-band="{{band.id}}"
-                data-total="0" data-desc="" data-mobile="{{mobile}}"> {%trans "Confirm"%}</i>
+            <button id="btn-free-order-{{fi.id}}" class="btn btn-primary w-100 ark" data-bs-dismiss="modal" 
+                data-url="{% url "tpv-order-send" %}" data-target="base" data-obj_id="{{fi.id}}" data-payment_type="05" 
+                data-subtotal="0" data-band="{{band.id}}" data-total="0" data-desc="" data-mobile="{{mobile}}">{%trans "Confirm"%}</i>
             </button>
         </div>
     </div>
 </div>
 
+{% with partner_list=fi.project.partners.all %}
+    {% if partner_list|length > 0 %}
+    <div id="div-room" class="alert alert-primary hide">
+        {% trans "Va a realizar un cargo en habitación por un importe de: " %} {{total|floatformat:2}} {{fi.currency}}
+        <br/> <br/> 
+        <select class="form-control" onchange="$('#btn-room-order-{{fi.id}}').data('partner', $(this).val());">
+            <option value="">{% trans "Seleccione un hotel" %}</option>
+            {% for par in partner_list %}
+                <option value="{{par.partner}}">{{par.partner_name}}</option>
+            {% endfor %}
+        </select>
+        <br/> 
+        <input type="text" class="form-control" name="room_number" placeholder="{%trans "Número de la habitación..."%}"
+            onchange="$('#btn-room-order-{{fi.id}}').data('room', $(this).val());"/>
+        <br/> 
+        <div class="row">
+            <div class="col-6">
+                <button class="btn btn-primary w-100 " onclick="$('#div-room').hide()">{%trans "Cancel"%}</button>
+            </div>
+            <div class="col-6">
+                <button id="btn-room-order-{{fi.id}}" class="btn btn-primary w-100 ark" data-bs-dismiss="modal" 
+                    data-url="{% url "tpv-order-send" %}" data-target="base" data-obj_id="{{fi.id}}" data-payment_type="07" 
+                    data-subtotal="{{subtotal}}" data-band="{{band.id}}" data-total="{{total}}" data-desc="" data-mobile="{{mobile}}"
+                    data-room="" data-partner="">
+                    {%trans "Confirm"%}</i>
+                </button>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+{% endwith %}
 

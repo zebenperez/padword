@@ -28,7 +28,16 @@
 
 .gral-content {
     background-color: #ffffff !important;
-    padding-bottom: 3.5rem;
+    /*padding-bottom: 3.5rem; */
+    
+    height: 600px;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    flex-wrap: wrap;
+    align-content: stretch;
+    justify-content: center;
+
 }
 
 
@@ -419,7 +428,7 @@ i.fas.fa-home {
 *****************************************/
 
 i.fas.fa-bars {
-    color: #ffffff;
+    color: #ffffff !important;
 }
 
 ul.dropdown-menu {
@@ -487,7 +496,7 @@ h5.card-title.text-dark.text-center.title-new {
     color: #002d06;
     background: #fff;
     bottom: 0;
-    font-size: 0.9rem;
+    font-size: 0.8rem;
     position: fixed; 
 }
 
@@ -577,6 +586,10 @@ span.badge.bg-success {
 }
 
 /******** Deslizador manual ***************/
+
+.form-check {
+    width: 100% !important;
+}
 
 label.form-check-label {
     color:#002d06;

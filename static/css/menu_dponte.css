@@ -1,12 +1,16 @@
 .welcome-page {
     background-color: #ffffff !important;
     background-image: none !important;
-    height: 92% !important;
+    /*height: 92% !important;*/
 }
 
 #main {
     height: auto !important;
-    margin-top:70px;
+/*    margin-top:70px;*/
+}
+
+#main-base {
+    /*background: #f8fcff !important;*/
 }
 
 .main-pwa .row {
@@ -27,8 +31,15 @@
 }
 
 .gral-content {
-    background-color: #ffffff !important;
-    padding-bottom: 3.5rem;
+   background-color: #ffffff !important;
+ /*   height: 500px;*/
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    flex-wrap: wrap;
+    align-content: stretch;
+    justify-content: center;
+margin-top: -50px;
 }
 
 
@@ -191,54 +202,42 @@ img.object-fit_cover.img-new {
 
 
 .topbar {
-    /*background: #f8fcff !important;*/
-    background: #ffffff !important;
-	position:fixed !important;
+    background-color: #fff;
+    border-bottom: 1px solid #00b5fb;
+    position:fixed !important;
     top:0 !important;
     width: 100% !important;
-/*    height: 70px !important;*/
-    z-index: 1; 
+    height: 100px;
+    padding: 0 !important;
+    z-index: 1;
+
 }
 .topbar img {
-    height: 120px;
-}
-.separator {
-    background-image: url(/static/img/bg-separator.jpg) !important;
-    background-position: center;
-    height: 12px;
-}
-
-
-.separator img {
-    height: 12px;
+    height: 80px;
+    margin-top: -5px !important;
 }
 
 .row.div-slogan {
-    /*
-    background-image: url(/static/img/bg-hills.png) !important;
+    background-image: url(/static/img/bg-haro-hotel.jpg) !important;
     background-repeat: no-repeat;
     background-position: bottom !important;
-     */
     padding:0px !important;
-    height: 130px;
+    height: 100px;
     color: #fff;
 }
 
-.slogan-dponte {
-    background-color: #fff;
-    color: #000000;
-    font-size: 1.5rem;
+.slogan-haro, .slogan-.text-center {
+    color: #333 !important;
+    font-size: 1rem;
 }
-.slogan-dponte img { height: 50px; }
-.slogan-dponte .text { margin-top:35px !important; }
+.slogan-haro img { height: 50px; }
+.slogan-haro .text { margin-top:35px !important; }
 
 .div-key {
     background-color: #2e2e2e;
-    /*max-height: 150px;*/
+    max-height: 150px;
     font-size: 1.3rem;
-    padding-top: -20px !important;       
 }
-
 .collapse-option {
     margin-bottom: 50px;
 }
@@ -289,7 +288,7 @@ a.collapsible-header {
     border-radius: 90px !important;
     height: auto !important;
     font-size: 15px !important;
-    text-decoration: none;
+    text-dharoration: none;
 }
 
 a.collapsible-header span.btn-name {
@@ -377,14 +376,14 @@ a.collapsible-header.waves-effect.btn-large-2 {
 }
 
 button.menu-options { 
-    background: none;
-   	border:0;
-/*    color: #b0aba7 !important;*/
-    font-size: 0.7rem !important;
-    font-weight: 600;
+	background: none;
+	border:0;
+	color: #000 !important;
+	font-size: 0.7rem !important;
+	font-weight: 600;
 	height: 60px;
-    line-height:1.5;
-    text-transform: uppercase !important;
+	line-height:1.5;
+	text-transform: uppercase !important;
 }
 
 .menu-botton {
@@ -431,7 +430,7 @@ i.fas.fa-home {
 *****************************************/
 
 i.fas.fa-bars {
-    color: #b0aba7;
+    color: #999;
 }
 
 ul.dropdown-menu {
@@ -455,7 +454,7 @@ ul.dropdown-menu {
 }
 .dropdown-item a {
     color: #878787 !important;
-    text-decoration: none;
+    text-dharoration: none;
 }
 
 .dropdown-menu.show {
@@ -491,15 +490,14 @@ h5.card-title.text-dark.text-center.title-new {
 
 .info-new {
     bottom: 60px !important;
+
 }
 
 .simple-footer {
     border-top:1px solid #000; 
-    background: #fff;
-    bottom: 0;
-    font-size: 0.9rem;
-    position: fixed; 
-
+    bottom: 0px;
+    font-size: 0.8rem;
+    position:absolute; 
 }
 
 
@@ -589,27 +587,34 @@ span.badge.bg-success {
 
 /******** Deslizador manual ***************/
 
+.form-check {
+    width: 100% !important;
+}
+
 label.form-check-label {
-    color:#000000;
-    font-size: 1rem;
+    color:#000;
+    font-size: 0.9rem;
     position: absolute;
     left: 22%;
-    padding-top: 30px !important;
     width: 60%;
     float:none!important;
+    text-transform: uppercase;
+        padding: 0 !important;
+
 }
 .form-switch .form-check-input {
-    width: auto;
-    height: 79px;
+    width: 100% !important;
+    height: 70px;
+    line-height: 70px;
     margin-left: 0.25em;
     background-image: url(/static/img/lock-close.png) !important;
     background-position: left center;
     background-size: 65px;
     border-radius: 2em;
-    border: 1px solid #000000;
+    border: 1px solid #000;
     transition: background-position .15s ease-in-out;
 }
-.dponte-keys {
+.haro-keys {
     width: 100%;
     height: 100px;
 }

@@ -7,7 +7,7 @@ from django.utils.translation import ugettext_lazy as _
 from padword.decorators import group_required
 from padword.commons import show_exc, get_or_none, get_param, get_float, reverse_cardkey
 from web.models import Project, Waiter
-from contents.models import Category, ShoppingCart, Item, PaymentType, PointOfSale, Table
+from contents.models import Category, ShoppingCart, Item, PaymentType, PointOfSale, Table, PosCodeItem
 from guest.models import Guest
 from guest.wristband_models import Wristband, WristbandBalance
 #from web.lock_lib import ShLock
@@ -18,7 +18,7 @@ from .common_lib import get_or_create_form_instance_tpv, get_or_create_form_inst
 from .common_lib import user_in_group, get_or_create_form_instance_info_client_tpv
 from .tpv_lib import get_cash_zeta, update_cash, get_number_x
 from .tpv_winhotel_lib import get_food_total, get_drinks_total, get_breakfast_total, cash_daily_summary
-from .tpv_winhotel_lib import cash_send_daily_summary, cash_send_charges 
+from .tpv_winhotel_lib import cash_send_daily_summary, cash_send_charges, get_source_total 
 from .tpv_paytef_lib import manage_transaction
 from .models import Form, FormInstance, Status, Cash
 from django.conf import settings
@@ -375,6 +375,18 @@ def tpv_order_send(request):
             if not payment_ok:
                 context = {'msg': "00", 'fi': fi, 'project_uuid': project.uuid, "mobile": mobile}
 
+        #Cargo en habitación
+        guest = None
+        partner = ""
+        if pt.code == "07":
+            room = get_param(request.GET, "room", "")
+            partner = get_param(request.GET, "partner", "")
+            now = datetime.datetime.now()
+            guest = Guest.objects.filter(project_id=partner, room=room, check_in__lte=now, check_out__gte=now).first()
+            if guest == None:
+                context = {'msg': "07", 'fi': fi, 'project_uuid': project.uuid, "mobile": mobile}
+                return render(request, 'bookings/tpv/show-msg.html', context)
+
         local_date = project.local_date(datetime.datetime.now())
         fi.set_status("01", request.user, "")
         #fi.date = datetime.datetime.now()
@@ -405,7 +417,16 @@ def tpv_order_send(request):
                 pwu = get_or_none(ProjectWinhotelUser, project.uuid, "project_uuid")
                 if pwu != None and pwu.source_code != "":
                     wh_write_log("----> SE ENVIA EL CARGO: {} ({})".format(band.name, band.code))
-                    send_charges(pwu, fi, band, pos, factor)
+                    #send_charges(pwu, fi, band, pos, factor)
+                    send_charges2(pwu, fi, band, pos, factor)
+
+        #Cargo en habitación
+        if pt.code == "07" and guest != None and partner != "":
+            pos = get_or_none(PointOfSale, request.session["point_of_sale"])
+            pwu = get_or_none(ProjectWinhotelUser, partner, "project_uuid")
+            wh_write_log("----> SE ENVIA EL CARGO EN HABITACIÓN: {} ({})".format(guest.name, guest.code))
+            #send_charges(pwu, fi, guest, pos, factor)
+            send_charges_room(pwu, fi, guest, pos, factor)
 
         set_desc(fi, desc)
 
@@ -624,4 +645,68 @@ def send_charges(pwu, fi, band, pos, factor):
     if ta_break != None:
         #wh_write_log("------> DESAYUNO")
         send_charge(pwu,booking_code,room_code,contact_name,contact_id,has_credit,limit_credit,s_break,sd_break,date,ta_break*factor,cash_code)
+
+def send_charges2(pwu, fi, band, pos, factor):
+    b_code = band.guest.ext_id
+    room_code = band.guest.room
+    cont_name = "{} {}".format(band.guest.name, band.guest.surname)
+    cont_id = band.guest.ext_id
+    has_credit = "true"
+    limit_credit = 0
+    date = fi.date.strftime("%Y-%m-%dT%H:%M:%S")
+
+    source_list = PosCodeItem.get_codes_by_project(fi.project.uuid, pos.ext_code)
+    for source in source_list:
+        s_desc = "Cargo Ticket Nº-{} / TPV {} ({})".format(fi.id, pos.name, source)
+        s_total = get_source_total(fi, source)
+        cash_code = ""
+        wh_write_log("------> Source: {} - Total: {}".format(source, s_total))
+        print("------> Source: {} - Total: {}".format(source, s_total))
+        send_charge(pwu,b_code,room_code,cont_name,cont_id,has_credit,limit_credit,source,s_desc,date,s_total*factor,cash_code)
+
+#def send_charges_room(pwu, fi, guest, pos, factor):
+#    booking_code = guest.ext_id
+#    room_code = guest.room
+#    contact_name = "{} {}".format(guest.name, guest.surname)
+#    contact_id = guest.ext_id
+#    has_credit = "true"
+#    limit_credit = 0
+#    s_drink = pos.code1
+#    s_food = pos.code2
+#    s_break = pos.code3
+#    sd_drink = "Cargo Ticket Nº-{} / TPV {} (Bebidas)".format(fi.id, pos.name)
+#    sd_food = "Cargo Ticket Nº-{} / TPV {} (Comidas)".format(fi.id, pos.name)
+#    sd_break = "Cargo Ticket Nº-{} / TPV {} (Desayunos)".format(fi.id, pos.name)
+#    date = fi.date.strftime("%Y-%m-%dT%H:%M:%S")
+#    ta_drink = get_drinks_total(fi, None)
+#    ta_food = get_food_total(fi, None)
+#    ta_break = get_breakfast_total(fi, None)
+#    cash_code = ""
+#
+#    if ta_drink != None:
+#        #wh_write_log("------> BEBIDAS")
+#        send_charge(pwu,booking_code,room_code,contact_name,contact_id,has_credit,limit_credit,s_drink,sd_drink,date,ta_drink*factor,cash_code)
+#    if ta_food != None:
+#        #wh_write_log("------> COMIDAS")
+#        send_charge(pwu,booking_code,room_code,contact_name,contact_id,has_credit,limit_credit,s_food,sd_food,date,ta_food*factor,cash_code)
+#    if ta_break != None:
+#        #wh_write_log("------> DESAYUNO")
+#        send_charge(pwu,booking_code,room_code,contact_name,contact_id,has_credit,limit_credit,s_break,sd_break,date,ta_break*factor,cash_code)
+#
+def send_charges_room(pwu, fi, guest, pos, factor):
+    booking_code = guest.ext_id
+    room_code = guest.room
+    contact_name = "{} {}".format(guest.name, guest.surname)
+    contact_id = guest.ext_id
+    has_credit = "true"
+    limit_credit = 0
+    source = "900"
+    s_desc = "Cargo Ticket Nº-{} / TPV {}".format(fi.id, pos.name)
+    date = fi.date.strftime("%Y-%m-%dT%H:%M:%S")
+    s_total = fi.get_total()
+    cash_code = ""
+
+    #wh_write_log("------> {}".format(source))
+    send_charge(pwu,b_code,room_code,cont_name,cont_id,has_credit,limit_credit,source,s_desc,date,s_total*factor,cash_code)
+
 

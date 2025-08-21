@@ -2,22 +2,22 @@
 
 <div class="row mb-2">
     <div class="col-4"> {% trans "Regime" %} </div>
-    <div class="col-2"> {% trans "Default" %} </div>
-    {% for item in pos_list %} <div class="col-2">{{item.name}}</div> {% endfor %}
+    <div class="col-1 text-center"> {% trans "Default" %} </div>
+    {% for item in pos_list %} <div class="col-1 text-center">{{item.name}}</div> {% endfor %}
 </div>
 <hr/><br/>
 
 {% for item in obj.project.regimes.all %}
     <div class="row">
         <div class="col-4"> {{item.regime.name}} ({{item.regime.code}}) </div>
-        <div class="col-2">
+        <div class="col-1 text-center">
             <input type="text" class="form-control b-bottom mb-4 ark_change" id="price" name="price" 
                 value="{{obj|get_item_price:item.regime.code}}" data-url="{% url "item-change-price" %}" 
                 data-target="div-notification" data-obj_id="{{obj.id}}" data-regime_code="{{item.regime.code}}"
                 data-pos=""/> <span id="price__msg"></span>
         </div>
         {% for pos in pos_list %}
-            <div class="col-2">
+            <div class="col-1 text-center">
                 <input type="text" class="form-control b-bottom mb-4 ark_change" id="price" name="price" 
                     value="{% get_item_pos_price obj item.regime.code pos.uuid %}" data-url="{% url "item-change-price" %}" 
                     data-target="div-notification" data-obj_id="{{obj.id}}" data-regime_code="{{item.regime.code}}"

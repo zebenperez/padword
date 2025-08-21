@@ -2,7 +2,7 @@ from django.conf import settings
 from datetime import datetime, timedelta
 
 from bookings.models import Form, FormType
-from contents.models import ItemInCat, Category, Item, ItemPrice, PointOfSale, PointOfSaleCategory
+from contents.models import ItemInCat, Category, Item, ItemPrice, PointOfSale, PointOfSaleCategory, PosCodeItem
 from guest.models import Guest, Regime, GuestRegime, ProjectRegime
 from web.models import Room
 from padword.commons import new_ui_slug
@@ -397,15 +397,19 @@ def set_regime(booking, guest):
     try:
         reg_name = booking.occupations[0]["boar_type_real"]["name"]
         reg_code = booking.occupations[0]["boar_type_real"]["code"]
-        regime = Regime.objects.filter(code=reg_code).first()
-        if regime != None:
-            gr_list = GuestRegime.objects.filter(guest=guest)
-            gr_list.delete()
-            GuestRegime.objects.create(regime=regime, guest=guest)        
+        #regime = Regime.objects.filter(code=reg_code).first()
+        regime_list = Regime.objects.filter(code=reg_code)
+        #if regime != None:
+        for regime in regime_list:
+            #Activa si solo este el generico o es un regimen creado a medida para un proyecto
+            if len(regime_list) == 1 or regime.project_uuid != "":
+                gr_list = GuestRegime.objects.filter(guest=guest)
+                gr_list.delete()
+                GuestRegime.objects.create(regime=regime, guest=guest)        
 
-            pr = ProjectRegime.objects.filter(regime=regime, project=guest.project).first()        
-            if pr == None:
-                pr = ProjectRegime.objects.create(regime=regime, project=guest.project)        
+                pr = ProjectRegime.objects.filter(regime=regime, project=guest.project).first()        
+                if pr == None:
+                    pr = ProjectRegime.objects.create(regime=regime, project=guest.project)        
     except Exception as e:
         print(e)
         return ""
@@ -718,6 +722,15 @@ def update_item_price_default(project_uuid, regime_code, item, price):
         ip.price = float(price)
         ip.save()
 
+def clean_pos_code_item(project_uuid):
+    PosCodeItem.objects.filter(project_uuid=project_uuid).delete()
+
+def set_pos_code_item(dic, project_uuid):
+    pos = dic[0]
+    code = dic[9]
+    item = dic[3]
+    pci, created = PosCodeItem.objects.get_or_create(item_id=item, code=code, pos=pos, project_uuid=project_uuid)
+
 def import_item_prices(file, project_uuid, update_all_prices=False):
     updated = []
     not_updated = []
@@ -725,6 +738,8 @@ def import_item_prices(file, project_uuid, update_all_prices=False):
     id_list = []
     cat_list = []
     #print("--> 1")
+    #Eliminamod los items con los códigos en los tpv
+    clean_pos_code_item(project_uuid)
     for line in decoded_file:
         update = False
         try:
@@ -734,6 +749,9 @@ def import_item_prices(file, project_uuid, update_all_prices=False):
             price = float(dic_line[5].replace(",", "."))
             cat_id = dic_line[6].zfill(4)
             #print("{} - {}".format(dic_line[3], dic_line[5]))
+
+            #Actualización de los items con los códigos en los tpv
+            set_pos_code_item(dic_line, project_uuid)
 
             id_list.append(ext_id)
             if cat_id not in cat_list:

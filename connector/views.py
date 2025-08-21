@@ -392,6 +392,7 @@ def get_person_dic(guest, pzu, code, levels):
         #"accLevelIds": zone.code,
         "deptCode": pzu.dep,
         "cardNo": str(reverse_cardkey(code)),
+        #"cardNo": str(code),
         "lastName": guest.surname,
         "name": guest.name,
         "pin": code[-7:]                     
@@ -408,6 +409,9 @@ def send_person_code(pzu, guest, code):
         for ac in zone_list:
             level = "{},{}".format(level, ac.zone.code) if level != "" else ac.zone.code
         dic = get_person_dic(guest, pzu, code, level)
+    print("--1--")
+    print(code)
+    print(dic)
     res += json.dumps(dic)
     res += "<br/>"
     res += zk_add_person(pzu, dic)

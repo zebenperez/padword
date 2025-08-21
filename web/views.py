@@ -877,6 +877,25 @@ def project_thirdpart_toggle(request):
         print (show_exc(e))
     return HttpResponse("")
 
+@group_required("admins")
+def project_partner_add(request):
+    try:
+        project = get_or_none(Project, request.GET["obj_id"])
+        pp = ProjectPartner.objects.create(project=project)
+    except Exception as e:
+        print (show_exc(e))
+    return render(request, "web/projects/project-form-partners-list.html", {'obj': project,})
+
+@group_required("admins")
+def project_partner_remove(request):
+    try:
+        pp = get_or_none(ProjectPartner, request.GET["obj_id"])
+        project = pp.project
+        pp.delete()
+    except Exception as e:
+        print (show_exc(e))
+    return render(request, "web/projects/project-form-partners-list.html", {'obj': project,})
+
 
 '''
     Channels

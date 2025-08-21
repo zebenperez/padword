@@ -1,7 +1,7 @@
 from django.conf import settings
 from django.db.models import Sum
 
-from contents.models import ShoppingCart
+from contents.models import ShoppingCart, PosCodeItem
 from bookings.models import Cash, FormInstance
 from padword.commons import get_float, translate2
 from bookings.models import FormInstance
@@ -27,6 +27,12 @@ def get_food_total(fi, band):
 def get_breakfast_total(fi, band):
     break_list = [56029, 56030, 56031, 56032]
     return ShoppingCart.objects.filter(form_instance_id=fi.pk, item__ext_id__in=break_list).aggregate(Sum('total_price'))["total_price__sum"]
+
+def get_source_total(fi, code):
+    item_list = [pci.item_id for pci in PosCodeItem.objects.filter(project_uuid=fi.project.uuid, code=code)]
+    total = ShoppingCart.objects.filter(form_instance_id=fi.pk, item__ext_id__in=item_list).aggregate(Sum('total_price'))["total_price__sum"]
+    print(total)
+    return total if total != None else 0
 
 '''
     CASH

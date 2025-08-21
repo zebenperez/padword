@@ -1,0 +1,9 @@
+{% load i18n padword_tags %}
+
+
+<div class="w-100 text-end">
+    <button class="btn btn-primary ark mb-2" data-url="{% url "project-partner-add" %}" data-target="div-partners-list" 
+        data-obj_id="{{obj.id}}"> {% trans "Add Partner" %}</button>
+</div>		
+<div id="div-partners-list">{% include "web/projects/project-form-partners-list.html" %}</div>
+

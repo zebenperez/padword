@@ -569,3 +569,24 @@ class Table(models.Model):
 
     def __str__(self):
         return self.name
+
+class PosCodeItem(models.Model):
+    item_id = models.CharField(max_length = 255, verbose_name= _('Item Id'), default="")
+    code = models.CharField(max_length = 255, verbose_name= _('Code'), default="")
+    pos = models.CharField(max_length=255, verbose_name=_("Point of Sale"), default="")
+    project_uuid = models.CharField(max_length=255, verbose_name='UUID Project', default="")
+
+    @property
+    def project(self):
+        try:
+            return Project.objects.get(uuid = self.project_uuid)
+        except Exception as e:
+            return None
+
+    @staticmethod
+    def get_codes_by_project(project_uuid, pos):
+        return list(PosCodeItem.objects.filter(project_uuid=project_uuid, pos=pos).values_list('code', flat=True).distinct())
+
+    def __str__(self):
+        return self.code
+

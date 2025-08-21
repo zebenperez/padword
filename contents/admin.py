@@ -16,8 +16,13 @@ class PaymentTypeAdmin(admin.ModelAdmin):
 class ShoppingCartAdmin(admin.ModelAdmin):
     list_display = ('form_instance_id', 'item', 'comments')
 
+class PosCodeItemAdmin(admin.ModelAdmin):
+    list_display = ('pos', 'code', 'item_id', 'project_uuid')
+    search_fields = ['project_uuid']
+
 admin.site.register(Allergen, AllergenAdmin)
 admin.site.register(CategoryUser, CategoryUserAdmin)
 admin.site.register(Feature, FeatureAdmin)
 admin.site.register(PaymentType, PaymentTypeAdmin)
 admin.site.register(ShoppingCart, ShoppingCartAdmin)
+admin.site.register(PosCodeItem, PosCodeItemAdmin)

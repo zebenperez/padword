@@ -40,6 +40,10 @@
     <div class="col-6 text-center p-0"> {% include "bookings/tpv/view-payment-types-return.html" %} </div>
     {# -------------------------------- INVITACION ---------------------------- #}
     <div class="col-6 text-center p-0"> {% include "bookings/tpv/view-payment-types-free.html" %} </div>
+    {# -------------------------------- CARGO HABITACIÓN ---------------------------- #}
+    {% if fi.project.partners.all|length > 0 %}
+        <div class="col-12 text-center p-0"> {% include "bookings/tpv/view-payment-types-room.html" %} </div>
+    {% endif %}
 </div>
 
 {# ------------------------------------------------ VENTANAS AUX --------------------------------------------------------#}
