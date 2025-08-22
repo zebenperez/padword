@@ -413,7 +413,7 @@ def tpv_order_send(request):
             add_balance_to_band(pos, fi, band)
 
             #wh_write_log("--> PAGO CON PULSERA: {}".format(band_id))
-            if band != None and pt.code == "03":
+            if band != None and (pt.code == "03" or pt.code == "0403"):
                 pwu = get_or_none(ProjectWinhotelUser, project.uuid, "project_uuid")
                 if pwu != None and pwu.source_code != "":
                     wh_write_log("----> SE ENVIA EL CARGO: {} ({})".format(band.name, band.code))
@@ -424,7 +424,7 @@ def tpv_order_send(request):
         if pt.code == "07" and guest != None and partner != "":
             pos = get_or_none(PointOfSale, request.session["point_of_sale"])
             pwu = get_or_none(ProjectWinhotelUser, partner, "project_uuid")
-            wh_write_log("----> SE ENVIA EL CARGO EN HABITACIÓN: {} ({})".format(guest.name, guest.code))
+            wh_write_log("----> SE ENVIA EL CARGO EN HABITACIÓN: {} ({})".format(guest.name, guest.room))
             #send_charges(pwu, fi, guest, pos, factor)
             send_charges_room(pwu, fi, guest, pos, factor)
 
@@ -694,16 +694,16 @@ def send_charges2(pwu, fi, band, pos, factor):
 #        send_charge(pwu,booking_code,room_code,contact_name,contact_id,has_credit,limit_credit,s_break,sd_break,date,ta_break*factor,cash_code)
 #
 def send_charges_room(pwu, fi, guest, pos, factor):
-    booking_code = guest.ext_id
+    b_code = guest.ext_id
     room_code = guest.room
-    contact_name = "{} {}".format(guest.name, guest.surname)
-    contact_id = guest.ext_id
+    cont_name = "{} {}".format(guest.name, guest.surname)
+    cont_id = guest.ext_id
     has_credit = "true"
     limit_credit = 0
     source = "900"
     s_desc = "Cargo Ticket Nº-{} / TPV {}".format(fi.id, pos.name)
     date = fi.date.strftime("%Y-%m-%dT%H:%M:%S")
-    s_total = fi.get_total()
+    s_total = fi.get_total
     cash_code = ""
 
     #wh_write_log("------> {}".format(source))

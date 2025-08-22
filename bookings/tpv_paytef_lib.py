@@ -6,6 +6,7 @@ import time
 def manage_transaction(project, total, ref, tcod="", op_type="sale"): 
     amount = round(get_float(total), 2) * 100
     amount = (amount * -1) if op_type == "refund" else amount
+    amount = f"{amount:.2f}"
     ppu = ProjectPaytefUser.objects.filter(project_uuid=project.uuid).first()
     pt = Paytef("", "", "", ppu.accessKey, ppu.secretKey, ppu.token)
     if tcod == "":
