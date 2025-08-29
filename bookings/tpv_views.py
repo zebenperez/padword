@@ -6,7 +6,7 @@ from django.utils.translation import ugettext_lazy as _
 
 from padword.decorators import group_required
 from padword.commons import show_exc, get_or_none, get_param, get_float, reverse_cardkey
-from web.models import Project, Waiter
+from web.models import Project, Waiter, Room
 from contents.models import Category, ShoppingCart, Item, PaymentType, PointOfSale, Table, PosCodeItem
 from guest.models import Guest
 from guest.wristband_models import Wristband, WristbandBalance
@@ -236,6 +236,27 @@ def tpv_check_band(request):
         return render(request, "error_exception.html", {'exc':show_exc(e)})
 
 @group_required("waiters")
+def tpv_check_room(request):
+    try:
+        fi = get_or_none(FormInstance, request.GET["obj_id"])
+        val = get_param(request.GET, "value", "")
+
+        project = fi.form.project
+        room = Room.objects.filter(project_uuid=project.uuid, number=val).first()
+        if room == None:
+            return render(request, "bookings/tpv/view-ticket.html", {'fi':fi, 'band_err':_("Room not found!")})
+        guest = room.current_guest
+        if guest == None:
+            return render(request, "bookings/tpv/view-ticket.html", {'fi':fi, 'band_err':_("Guest not found!")})
+
+        get_or_create_form_instance_info_client_tpv(fi, guest, "", "")
+        fi.update_items_prices_guest(guest)
+        return render(request, "bookings/tpv/view-ticket.html", {'fi':fi, 'band_err': "", "guest": guest})
+    except Exception as e:
+        print(e)
+        return render(request, "error_exception.html", {'exc':show_exc(e)})
+
+@group_required("waiters")
 def tpv_add_item(request):
     try:
         form_id = request.GET["form_id"]
@@ -339,6 +360,21 @@ def set_desc(fi, desc):
         info.desc = desc
         info.save()
 
+def tpv_order_send_room(fi, pt, local_date, factor, project, request):
+    wh_write_log("ORDER: {} ({})".format(fi.id, local_date.strftime("%Y-%m-%d %H:%M:%S")))
+    details = fi.details
+    if pt != None and (pt.code == "08" or pt.code == "0408") and details != None and details.client_room != "":
+        pos = get_or_none(PointOfSale, request.session["point_of_sale"])
+        room = Room.objects.filter(project_uuid=project.uuid, number=details.client_room).first()
+        guest = room.current_guest
+
+        #wh_write_log("--> PAGO CON PULSERA: {}".format(band_id))
+        if guest != None and (pt.code == "08" or pt.code == "0408"):
+            pwu = get_or_none(ProjectWinhotelUser, project.uuid, "project_uuid")
+            if pwu != None and pwu.source_code != "":
+                wh_write_log("----> SE ENVIA EL CARGO: {} ({})".format(guest.name, details.client_room))
+                send_charges_guest(pwu, fi, guest, pos, factor)
+
 @group_required("waiters")
 def tpv_order_send(request):
     try:
@@ -420,6 +456,9 @@ def tpv_order_send(request):
                     #send_charges(pwu, fi, band, pos, factor)
                     send_charges2(pwu, fi, band, pos, factor)
 
+        #Cargo en habitación local
+        tpv_order_send_room(fi, pt, local_date, factor, project, request)
+
         #Cargo en habitación
         if pt.code == "07" and guest != None and partner != "":
             pos = get_or_none(PointOfSale, request.session["point_of_sale"])
@@ -471,6 +510,19 @@ def tpv_print_ticket(request, obj_id):
         print(e)
         logger.error("[bookings-print-ticket] {}".format(str(e)))
         return render(request, 'error_exception.html', {'exc':show_exc(e)})
+
+@group_required("waiters")
+def tpv_print_ticket2(request):
+    try:
+        fi = get_or_none(FormInstance, get_param(request.GET, "obj_id"))
+        #fi = get_or_none(FormInstance, obj_id)
+        mobile = get_param(request.GET, "mobile", "")
+        return render(request, 'bookings/tpv/print-ticket.html', {'fi': fi, 'info': fi.details, 'mobile': mobile})
+    except Exception as e:
+        print(e)
+        logger.error("[bookings-print-ticket] {}".format(str(e)))
+        return render(request, 'error_exception.html', {'exc':show_exc(e)})
+
 
 @group_required("waiters")
 def orders_by_waiter(request, project_uuid=None):
@@ -663,6 +715,25 @@ def send_charges2(pwu, fi, band, pos, factor):
         wh_write_log("------> Source: {} - Total: {}".format(source, s_total))
         print("------> Source: {} - Total: {}".format(source, s_total))
         send_charge(pwu,b_code,room_code,cont_name,cont_id,has_credit,limit_credit,source,s_desc,date,s_total*factor,cash_code)
+
+def send_charges_guest(pwu, fi, guest, pos, factor):
+    b_code = guest.ext_id
+    room_code = guest.room
+    cont_name = "{} {}".format(guest.name, guest.surname)
+    cont_id = guest.ext_id
+    has_credit = "true"
+    limit_credit = 0
+    date = fi.date.strftime("%Y-%m-%dT%H:%M:%S")
+
+    source_list = PosCodeItem.get_codes_by_project(fi.project.uuid, pos.ext_code)
+    for source in source_list:
+        s_desc = "Cargo Ticket Nº-{} / TPV {} ({})".format(fi.id, pos.name, source)
+        s_total = get_source_total(fi, source)
+        cash_code = ""
+        wh_write_log("------> Source: {} - Total: {}".format(source, s_total))
+        print("------> Source: {} - Total: {}".format(source, s_total))
+        send_charge(pwu,b_code,room_code,cont_name,cont_id,has_credit,limit_credit,source,s_desc,date,s_total*factor,cash_code)
+
 
 #def send_charges_room(pwu, fi, guest, pos, factor):
 #    booking_code = guest.ext_id

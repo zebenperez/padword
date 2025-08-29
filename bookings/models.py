@@ -504,6 +504,13 @@ class FormInstance(models.Model):
         return Guest.objects.filter(UUID = self.guest_uuid).first()
 
     @property
+    def guest_info(self):
+        try:
+            return Guest.objects.get(id = self.details.client_id)
+        except:
+            return None
+
+    @property
     def form(self):
         return Form.objects.filter(uuid = self.form_uuid).first()
 
@@ -719,9 +726,33 @@ class FormInstance(models.Model):
         item.total_price = total_price
         item.save()
 
+    def update_item_prices_guest(self, item, guest):
+        discount = 0
+        low_price = item.item.price
+        total_price = item.item.price
+        if guest != None:
+            gr = guest.regimes.first()
+            if gr != None and gr.regime != None:
+                pos = self.pos.uuid if self.pos != None else ""
+                low_price = item.item.get_pos_price(gr.regime.code, pos)
+                total_price = low_price
+            if guest.guest_type_obj != None:
+                discount = guest.guest_type_obj.discount
+                total_price = low_price - (low_price * (discount/100)) if discount > 0 else low_price
+
+        item.price = item.item.price
+        item.low_price = low_price
+        item.discount = discount
+        item.total_price = total_price
+        item.save()
+
     def update_items_prices(self):
         for item in self.get_items:
             self.update_item_prices(item)
+
+    def update_items_prices_guest(self, guest):
+        for item in self.get_items:
+            self.update_item_prices_guest(item, guest)
 
     def update_items_prices_return(self):
         for item in self.get_items:

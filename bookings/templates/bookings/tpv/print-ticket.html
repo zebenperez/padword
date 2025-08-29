@@ -71,15 +71,12 @@
 
     <body>
         <div id="main" class="small text-center">
-            {%comment%}
             <div class="d-flex justify-content-end"> 
                 <button id="btn-back" class="me-1 btn btn-access ark" data-target="base" data-project_uuid="{{fi.project.uuid}}"
-                    data-url="{%if mobile and mobile != ""%}{%url "tpv-mob-change-table"%}{%else%}{%url "tpv-change-table"%}{%endif%}"
-                    style="display:none">
+                    data-url="{%if mobile and mobile != ""%}{%url "tpv-mob-change-table"%}{%else%}{%url "tpv-change-table"%}{%endif%}">
                     {%trans "Back"%}</button>
                 <a class="btn btn-default" onclick="window.print()"> &#128424; {% trans "Imprimir" %}</a> 
             </div>
-            {%endcomment%}
 
             <br/>
             {% if fi.project.logo %}<img src="{{fi.project.logo.url}}" alt="Logo" width="100px"/><br/>{% endif %} <br/>
@@ -143,6 +140,7 @@
                 <div class="footer small text-center">IGIC No Incluido<br/>Este Documento No Es Una Factura</div>
             {% endwith %}
         </div>
+        {%comment%}
         <script>
             window.print();
             window.addEventListener('afterprint', () => {
@@ -150,6 +148,7 @@
                 //window.close();
             });
         </script>
+        {%endcomment%}
         {#<script>setTimeout(()=>{$("#btn-back").click();}, 3000)</script>#}
     </body>
 </html>

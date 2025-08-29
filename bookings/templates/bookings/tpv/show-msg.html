@@ -24,13 +24,13 @@
 		</div>
 		<div class="row">	
 			<div class="col-12 text-center mt-3 mb-3 pt-3">
-                {%comment%}
-                <button id="btn-back" class="me-1 btn btn-access ark" data-target="base" data-url="{%url "tpv-print-ticket"%}" 
-                    data-obj_id="{{fi.id}}" data-mobile="{{mobile}}"> {%trans "Print Ticket"%}</button>
-                {%endcomment%}
 				{% if msg == "01" %}
+                    <button id="btn-back" class="me-1 btn btn-access ark" data-target="base" data-url="{%url "tpv-print-ticket2"%}" 
+                        data-obj_id="{{fi.id}}" data-mobile="{{mobile}}"> {%trans "Print Ticket"%}</button>
+                    {%comment%}
                     <a class="me-1 btn btn-access" href="{% url "tpv-print-ticket" fi.id %}" target="_blank" 
                         onclick="$('#btn-back').click();"> {% trans "Print Ticket" %}</a>
+                    {%endcomment%}
                 {% endif %}
                 <button id="btn-back" class="me-1 btn btn-access ark" data-target="base" data-project_uuid="{{project_uuid}}"
                     data-url="{%if mobile and mobile != ""%}{%url "tpv-mob-change-table"%}{%else%}{%url "tpv-change-table"%}{%endif%}">
@@ -39,4 +39,6 @@
 	    </div>
 	</div>
 </div>
+{%comment%}
 <script>setTimeout(()=>{$("#btn-back").click();}, 5000)</script>
+{%endcomment%}

@@ -30,12 +30,23 @@
         </div>
         <div class="row w-100 m-0">
            <div class="col-lg-12">
-                <div class="d-none d-lg-block" id="block-scan">
-                    <input type="text" id="div-scan" class="form-control ark_change" name="bans-scan"
-                        data-url="{% url "tpv-check-band" %}" data-target="ticket-summary" data-obj_id="{{fi.id}}" 
-                        placeholder="Scan band..."/>
+                <div class="row w-100 m-0">
+                    <div class="col-6">
+                        <div class="d-none d-lg-block" id="block-scan">
+                            <input type="text" id="div-scan" class="form-control ark_change" name="bans-scan"
+                                data-url="{% url "tpv-check-band" %}" data-target="ticket-summary" data-obj_id="{{fi.id}}" 
+                                placeholder="Scan band..."/>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="d-none d-lg-block" id="block-scan-room">
+                            <input type="text" id="div-scan-room" class="form-control ark_change" name="bans-scan-room"
+                                data-url="{% url "tpv-check-room" %}" data-target="ticket-summary" data-obj_id="{{fi.id}}" 
+                                placeholder="Habitación..."/>
+                        </div>
+                    </div>
                 </div>
- 
+         
                 <div id="ticket-summary">{% include "bookings/tpv/view-ticket.html" %}</div>
             </div>
         </div>

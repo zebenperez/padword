@@ -190,6 +190,7 @@ urlpatterns = [
     path('tpv-cash-x/', tpv.cash_x, name='tpv-cash-x'),
     path('tpv-print-z/', tpv.print_z, name='tpv-print-z'),
     path('tpv-check-band/', tpv.tpv_check_band, name='tpv-check-band'),
+    path('tpv-check-room/', tpv.tpv_check_room, name='tpv-check-room'),
 
     #path('tpv-shopping-cart/', tpv.tpv_shopping_cart, name='tpv-shopping-cart'),
     #path('tpv-category-shopping-cart/', tpv.tpv_category_shopping_cart, name='tpv-category-shopping-cart'),
@@ -206,6 +207,7 @@ urlpatterns = [
     path('tpv-order-send-part/', tpv.tpv_order_send_part, name='tpv-order-send-part'),
 
     path('tpv-print-ticket/<int:obj_id>/', tpv.tpv_print_ticket, name='tpv-print-ticket'),
+    path('tpv-print-ticket2/', tpv.tpv_print_ticket2, name='tpv-print-ticket2'),
 
     path('tpv-orders-by-waiter/', tpv.orders_by_waiter, name='tpv-orders-by-waiter'),
     path('tpv-order-details/', tpv.order_details, name='tpv-order-details'),
