@@ -4,70 +4,77 @@
 {% if request.session.table == fi.table.id %}
     {% with items=fi.get_items subtotal=fi.get_total total=fi.get_total_total regime=fi.band.guest.regime band=fi.band%}
         {% if items|length > 0 %} 
-
-    <div>
-            {% comment %} -- GUEST INFO -- {% endcomment %}
-            <div class="row section-guest justify-content-center p-0 m-0">
-                <div id="guest-info" class="col-12 text-center mb-1">{% include "bookings/tpv/view-guest-info.html" %}</div>
-            </div>
-
+            <div>
+                {% comment %} -- GUEST INFO -- {% endcomment %}
+                <div class="row section-guest justify-content-center p-0 m-0">
+                    <div id="guest-info" class="col-12 text-center mb-1">
+                        {% if fi.band %}
+                            {% include "bookings/tpv/view-guest-info.html" %}
+                        {% elif fi.details.client_room != "" %}
+                            {% include "bookings/tpv/view-guest-info2.html" %}
+                        {% endif %}
+                    </div>
+                </div>
         
-            {% comment %} -- TPV ACTIONS -- {% endcomment %}
-            <div class="row section-tpv total m-0 mt-3">
-                <div class="col-12">
-                    <div class="row btn-dark small">
-                        <div class="col-5">
+                {% comment %} -- TPV ACTIONS -- {% endcomment %}
+                <div class="row section-tpv total m-0 mt-3">
+                    <div class="col-12">
+                        <div class="row btn-dark small">
+                            <div class="col-5">
                                 <strong>
                                     {% padword_translate fi.form.get_category.parent.name %} 
                                     {% padword_translate fi.form.get_category.name %}
                                 </strong>({{items|length}} {% trans 'art.' %})       
+                            </div>
+                            <div class="col-7 btn-dark text-end small" id="div-total-shopping-cart">
+                                {%trans 'Subtotal'%}: <strong>{{subtotal|floatformat:2}} {{fi.currency}}{#&euro;#}</strong>
+                            </div>
                         </div>
-                        <div class="col-7 btn-dark text-end small" id="div-total-shopping-cart">
-                            {%trans 'Subtotal'%}: <strong>{{subtotal|floatformat:2}} {{fi.currency}}{#&euro;#}</strong>
-                        </div>
-                    </div>
 
-                    <div class="row"> 
-                        <div class="col-12 btn-dark-grey price p-1" id="div-total-shopping-cart">
+                        <div class="row"> 
+                            <div class="col-12 btn-dark-grey price p-1" id="div-total-shopping-cart">
                             <strong class="text-warning">{%trans 'Total'%}: {{total|floatformat:2}} {{fi.currency}}{#&euro;#}</strong>
-                        </div> 
-                    </div>
+                            </div> 
+                        </div>
 
-                    <div class="row m-0 justify-content-center w-100">
-                        <div class="col-12 text-center p-0">{%include "bookings/tpv/mobile/view-payment-types-mobile.html"%}</div>
+                        <div class="row m-0 justify-content-center w-100">
+                            <div class="col-12 text-center p-0">{%include "bookings/tpv/mobile/view-payment-types-mobile.html"%}</div>
+                        </div>
+                    </div>
+                </div>  
+
+
+                {% comment %} -- TPV TICKET -- {% endcomment %}
+                <div class="infinite-ticket mt-3"
+                    style="background: #f6ffe5;border-top: 2px solid #a1c517; position: fixed; height: 100%; overflow-y: scroll; padding-bottom: 150px !important; width: 96%;">
+                    <div class="row ticket-line m-0" style="overflow-y:scroll; padding-bottom: 450px;">
+                        {% for item in items %}
+                            <div class="col-12">
+                                <div class="row line-article py-1">
+                                    <div class="col-6"> 
+                                        <div class="item-name text-left">{% padword_translate item.item.name %}</div> 
+                                    </div>
+                                    <div class="col-2 text-left">
+                                        <div class="text-right text-warning"> {{ item.total_price }}</div>
+                                    </div>
+                                    <div class="col-2"> <div class="text-left">{{ item.price }} {{item.currency}}</div> </div>
+                                    <div class="col-1 p-0">
+                                        <a class="btn btn-primary btn-sm ark" title="{%trans 'Add comment at this article'%}" 
+                                            data-mobile="True" data-url="{%url "tpv-order-item-comment"%}" data-item_id="{{item.pk}}" 
+                                            data-form_id="{{fi.pk}}" data-target-modal="common-modal">
+                                            <i class="fas fa-comments"></i></a>
+                                    </div>
+                                    <div class="col-1 p-0">
+                                        <a class="btn btn-danger btn-sm ark" title="{%trans 'Remove article from shopping-cart'%}" 
+                                            data-mobile="True" data-url="{%url "tpv-mob-item-remove"%}" data-item_id="{{item.pk}}" 
+                                            data-target="ticket-summary-mobile"> <i class="fas fa-trash"></i></a>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
                     </div>
                 </div>
-            </div>  
-
-
-        {% comment %} -- TPV TICKET -- {% endcomment %}
-        <div class="infinite-ticket mt-3"
-            style="background: #f6ffe5;border-top: 2px solid #a1c517; position: fixed; height: 100%; overflow-y: scroll; padding-bottom: 150px !important; width: 96%;">
-            <div class="row ticket-line m-0" style="overflow-y:scroll; padding-bottom: 450px;">
-                {% for item in items %}
-                    <div class="col-12">
-                        <div class="row line-article py-1">
-                            <div class="col-6"> <div class="item-name text-left">{% padword_translate item.item.name %}</div> </div>
-                            <div class="col-2 text-left"><div class="text-right text-warning"> {{ item.total_price }}</div></div>
-                            <div class="col-2"> <div class="text-left">{{ item.price }} {{item.currency}}</div> </div>
-                            <div class="col-1 p-0">
-                                <a class="btn btn-primary btn-sm ark" title="{%trans 'Add comment at this article'%}" 
-                                    data-mobile="True" data-url="{%url "tpv-order-item-comment"%}" data-item_id="{{item.pk}}" 
-                                    data-form_id="{{fi.pk}}" data-target-modal="common-modal"><i class="fas fa-comments"></i></a>
-                            </div>
-                            <div class="col-1 p-0">
-                                <a class="btn btn-danger btn-sm ark" title="{%trans 'Remove article from shopping-cart'%}" 
-                                    data-mobile="True" data-url="{%url "tpv-mob-item-remove"%}" data-item_id="{{item.pk}}" 
-                                    data-target="ticket-summary-mobile"> <i class="fas fa-trash"></i></a>
-                            </div>
-                        </div>
-                    </div>
-                {% endfor %}
             </div>
-        </div>
-
-    </div>
-
         {% endif %}
         <script>$("#items-counter").html("{{fi.get_items|length}}");</script>
     {% endwith %}

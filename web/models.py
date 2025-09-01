@@ -687,9 +687,9 @@ class ProjectPartner(models.Model):
     @property
     def partner_name(self):
         try:
-            print(self.partner)
+            #print(self.partner)
             obj = Project.objects.get(uuid=self.partner)
-            print(obj)
+            #print(obj)
             return obj.name
         except:
             return ""

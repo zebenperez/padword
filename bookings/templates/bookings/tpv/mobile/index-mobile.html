@@ -46,18 +46,34 @@
             </div>
         </div>
         <div class="header-bottom tpv-toggle" id="title-div-scan">
-            {% if request.session.mobile and request.session.mobile != "" %}
-                {% include "bookings/tpv/mobile/scan-paytef.html" %}
-            {% else %}
-                {% include "bookings/tpv/mobile/scan-nfc.html" %}
-            {% endif %}
+             <div class="row w-100 m-0">
+                <div class="col-6">
+                    {% if request.session.mobile and request.session.mobile != "" %}
+                        {% include "bookings/tpv/mobile/scan-paytef.html" %}
+                    {% else %}
+                        {% include "bookings/tpv/mobile/scan-nfc.html" %}
+                    {% endif %}
+                </div>
+                <div class="col-6">
+                    <button class="btn btn-sm scan-btn" onclick="$('#div-room-container').slideToggle()"> 
+                        {% trans "Consultar Habitación" %}</button>
+                </div>
+                <div class="col-12 mt-2" id="div-room-container" style="display:none">
+                    <div class="row">
+                        <div class="col-10"><input type="text" id="div-scan-room" class="form-control ark_change" name="bans-scan-room"
+                            data-url="{% url "tpv-mob-check-room" %}" data-target="ticket-summary-mobile" data-obj_id="{{fi.id}}" 
+                            placeholder="Habitación..."/></div>
+                        <div class="col-2"><button class="btn btn-sm"><i class="fas fa-search"></i></button></div>
+                    </div>
+                </div>
+            </div>
         </div>
 
         {# -- TICKET -- #}
         <div id="ticket-tpv-mobile" class="ticket-tpv-mobile tpv-toggle row w-100 m-0">
-                <div class="col-12 p-2">
-                    <div id="ticket-summary-mobile">{% include "bookings/tpv/mobile/view-ticket-mobile.html" %}</div>
-                </div>
+            <div class="col-12 p-2">
+                <div id="ticket-summary-mobile">{% include "bookings/tpv/mobile/view-ticket-mobile.html" %}</div>
+            </div>
         </div>
         {# -- TICKET -- #}
     </div>

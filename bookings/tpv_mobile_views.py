@@ -6,7 +6,7 @@ from django.utils.translation import ugettext_lazy as _
 
 from padword.decorators import group_required
 from padword.commons import show_exc, get_or_none, get_param, get_float, reverse_cardkey
-from web.models import Project, Waiter
+from web.models import Project, Waiter, Room
 from contents.models import Category, ShoppingCart, Item, PaymentType, PointOfSale, Table
 from guest.models import Guest
 from guest.wristband_models import Wristband, WristbandBalance
@@ -296,6 +296,28 @@ def tpv_item_remove(request):
     except Exception as e:
         print(e)
         return render(request, "error_exception.html", {'exc':show_exc(e)})
+
+@group_required("waiters")
+def tpv_check_room(request):
+    try:
+        fi = get_or_none(FormInstance, request.GET["obj_id"])
+        val = get_param(request.GET, "value", "")
+
+        project = fi.form.project
+        room = Room.objects.filter(project_uuid=project.uuid, number=val).first()
+        if room == None:
+            return render(request, "bookings/tpv/mobile/view-ticket-mobile.html", {'fi':fi, 'band_err':_("Room not found!")})
+        guest = room.current_guest
+        if guest == None:
+            return render(request, "bookings/tpv/mobile/view-ticket-mobile.html", {'fi':fi, 'band_err':_("Guest not found!")})
+
+        get_or_create_form_instance_info_client_tpv(fi, guest, "", "")
+        fi.update_items_prices_guest(guest)
+        return render(request, "bookings/tpv/mobile/view-ticket-mobile.html", {'fi':fi, 'band_err': "", "guest": guest})
+    except Exception as e:
+        print(e)
+        return render(request, "error_exception.html", {'exc':show_exc(e)})
+
 
 #@group_required("waiters")
 #def tpv_add_item(request):

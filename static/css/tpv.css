@@ -807,11 +807,12 @@ input#div-scan.form-control.ark_change.scanband::placeholder {
     color: #666 !important;
 }
 
-.header-bottom .scan-NFC {
-    height: 45px !important;
+/*.header-bottom .scan-NFC {*/
+.header-bottom .scan-btn {
+    height: 50px !important;
     line-height: 20px !important;
     color: #1d94cf;
-    font-size: 1.5em;
+    font-size: 1em;
     font-weight: 600;
     width: 100%;
     border-bottom: 1px solid #59acd6;
