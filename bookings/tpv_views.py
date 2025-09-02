@@ -105,7 +105,8 @@ def tpv_index(request, project_uuid):
             #cash, created = get_cash(pos, date, request.user.username)
             cash, created = get_cash_zeta(pos, request.user.username)
             tables = Table.objects.filter(point_of_sale=pos)
-            return render(request, "bookings/tpv/index.html", {'pos': pos, 'tables': tables, 'cash': cash, 'created': created})
+            context = {'pos': pos, 'tables': tables, 'cash': cash, 'created': created, 'project_uuid': project.uuid}
+            return render(request, "bookings/tpv/index.html", context)
         else:
             form = Form.objects.filter(form_type__code="tpv", form_type__project_uuid=project.uuid).first()
             pos = get_or_none(PointOfSale, request.session["point_of_sale"])
@@ -771,12 +772,14 @@ def send_charges_room(pwu, fi, guest, pos, factor):
     cont_id = guest.ext_id
     has_credit = "true"
     limit_credit = 0
-    source = "900"
+    source = "0900"
     s_desc = "Cargo Ticket Nº-{} / TPV {}".format(fi.id, pos.name)
     date = fi.date.strftime("%Y-%m-%dT%H:%M:%S")
     s_total = fi.get_total
     cash_code = ""
 
+    #FIXME: el HotelSource tiene que ser el del club y no el del hotel
+    #FIXME: el contactId tiene que venir de una consulta
     #wh_write_log("------> {}".format(source))
     send_charge(pwu,b_code,room_code,cont_name,cont_id,has_credit,limit_credit,source,s_desc,date,s_total*factor,cash_code)
 

@@ -559,7 +559,8 @@ class Room(models.Model):
     @property
     def current_guest(self):
         from guest.models import Guest
-        today = datetime.date.today()
+        #today = datetime.date.today()
+        today = datetime.datetime.now()
         return Guest.objects.filter(project_id=self.project_uuid, room=self.number, check_in__lte=today, check_out__gte=today).order_by('pk').last()
 
     @property

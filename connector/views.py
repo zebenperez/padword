@@ -395,7 +395,7 @@ def get_person_dic(guest, pzu, code, levels):
         #"cardNo": str(code),
         "lastName": guest.surname,
         "name": guest.name,
-        "pin": code[-7:]                     
+        "pin": "1{}".format(code[-7:])
         #"pin": get_random_digits(6) #"202507"                    
     }
  

@@ -99,14 +99,15 @@ def tpv_index(request, project_uuid):
         if "point_of_sale" not in request.session or request.session["point_of_sale"] == "":
             project = get_or_none(Project, project_uuid, "uuid")
             point_of_sales = PointOfSale.objects.filter(project_uuid=project.uuid).order_by("order")
-            return render(request, "bookings/tpv/mobile/index.html", {'point_of_sales': point_of_sales,})
+            return render(request, "bookings/tpv/mobile/index.html", {'point_of_sales': point_of_sales, 'project_uuid': project.uuid})
         elif "table" not in request.session or request.session["table"] == "":
             pos = get_or_none(PointOfSale, request.session["point_of_sale"])
             #date = datetime.datetime.strptime("{} 23:59:59".format(datetime.datetime.now().strftime("%Y-%m-%d")), "%Y-%m-%d %H:%M:%S")
             #cash, created = get_cash(pos, date, request.user.username)
             cash, created = get_cash_zeta(pos, request.user.username)
             tables = Table.objects.filter(point_of_sale=pos)
-            return render(request, "bookings/tpv/mobile/index.html", {'pos': pos, 'tables': tables, 'cash': cash, 'created': created})
+            context = {'pos': pos, 'tables': tables, 'cash': cash, 'created': created, 'project_uuid': project.uuid}
+            return render(request, "bookings/tpv/mobile/index.html", context)
         else:
             form = Form.objects.filter(form_type__code="tpv", form_type__project_uuid=project.uuid).first()
             pos = get_or_none(PointOfSale, request.session["point_of_sale"])
