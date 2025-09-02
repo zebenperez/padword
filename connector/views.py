@@ -385,6 +385,8 @@ def paytef_get_token(request, project_uuid):
     Zkteco
 '''
 def get_person_dic(guest, pzu, code, levels):
+    pin_aux = code[-7:]
+    pin = "1{}".format(pin_aux) if pin_aux.startswith("0") else pin_aux
     return {
         "accStartTime": guest.check_in.strftime("%Y-%m-%d %H:%M:%S"), #"2025-07-14 12:00:00",
         "accEndTime": guest.check_out.strftime("%Y-%m-%d %H:%M:%S"), #"2025-07-14 12:00:00",
@@ -395,7 +397,8 @@ def get_person_dic(guest, pzu, code, levels):
         #"cardNo": str(code),
         "lastName": guest.surname,
         "name": guest.name,
-        "pin": "1{}".format(code[-7:])
+        "pin": pin
+        #"pin": code[-7:]
         #"pin": get_random_digits(6) #"202507"                    
     }
  
