@@ -3,25 +3,24 @@
 
 {#{% with items=fi.get_items total=fi.get_total regime=fi.band.guest.regime band=fi.band%}#}
 {% with items=fi.get_items subtotal=fi.get_total total=fi.get_total_total regime=fi.band.guest.regime band=fi.band%}
-    {% if items|length > 0 %} 
-        <div class="row justify-content-center">
-            <div id="guest-info" class="col-12 text-left mb-3">
-                {% comment %}
-                {% if guest %}
-                    {% include "bookings/tpv/view-guest-info2.html" %}
-                {% else %}
-                    {% include "bookings/tpv/view-guest-info.html" %}
-                {% endif %}
-                {% endcomment %}
-                {% if fi.band %}
-                    {% include "bookings/tpv/view-guest-info.html" %}
-                {% elif fi.details.client_room != "" %}
-                    {% include "bookings/tpv/view-guest-info2.html" %}
-                {% endif %}
-
-            </div>
+    <div class="row justify-content-center">
+        <div id="guest-info" class="col-12 text-left mb-3">
+            {% comment %}
+            {% if guest %}
+                {% include "bookings/tpv/view-guest-info2.html" %}
+            {% else %}
+                {% include "bookings/tpv/view-guest-info.html" %}
+            {% endif %}
+            {% endcomment %}
+            {% if fi.band %}
+                {% include "bookings/tpv/view-guest-info.html" %}
+            {% elif fi.details.client_room != "" %}
+                {% include "bookings/tpv/view-guest-info2.html" %}
+            {% endif %}
         </div>
+    </div>
 
+    {% if items|length > 0 %} 
         <div class="row summary-price-tpv btn-dark">
             <div class="col-12 text-left pt-1 pb-1">
                 <strong>

@@ -3,19 +3,19 @@
 
 {% if request.session.table == fi.table.id %}
     {% with items=fi.get_items subtotal=fi.get_total total=fi.get_total_total regime=fi.band.guest.regime band=fi.band%}
+        {% comment %} -- GUEST INFO -- {% endcomment %}
+        <div class="row section-guest justify-content-center p-0 m-0">
+            <div id="guest-info" class="col-12 text-center mb-1">
+                {% if fi.band %}
+                    {% include "bookings/tpv/view-guest-info.html" %}
+                {% elif fi.details.client_room != "" %}
+                    {% include "bookings/tpv/view-guest-info2.html" %}
+                {% endif %}
+            </div>
+        </div>
+
         {% if items|length > 0 %} 
             <div>
-                {% comment %} -- GUEST INFO -- {% endcomment %}
-                <div class="row section-guest justify-content-center p-0 m-0">
-                    <div id="guest-info" class="col-12 text-center mb-1">
-                        {% if fi.band %}
-                            {% include "bookings/tpv/view-guest-info.html" %}
-                        {% elif fi.details.client_room != "" %}
-                            {% include "bookings/tpv/view-guest-info2.html" %}
-                        {% endif %}
-                    </div>
-                </div>
-        
                 {% comment %} -- TPV ACTIONS -- {% endcomment %}
                 <div class="row section-tpv total m-0 mt-3">
                     <div class="col-12">
