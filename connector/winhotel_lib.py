@@ -617,6 +617,25 @@ def get_tpv_cat(project_uuid):
     form = Form.objects.filter(form_type__code="tpv", form_type__project_uuid=project_uuid).first()
     return form.get_category
 
+def get_or_create_item(dic_line, project_uuid, now):
+    uuid = new_ui_slug(Item)
+    price = float(dic_line[5].replace(",", "."))
+
+    item_list = Item.objects.filter(ext_id=dic_line[3])
+    item = None
+    for it in item_list:
+        if it.project != None and it.project.uuid == project_uuid:
+            item = it
+            break
+    if item == None:
+        item = Item.objects.create(uuid=uuid, ext_id=dic_line[3])
+    item.active = 1
+    item.price = price
+    item.name = dic_line[4]
+    item.updated_at = now
+    item.save()
+    return item
+ 
 def create_items(project_uuid, dic_line):
     update = False
     cat_id = dic_line[6].zfill(4)
@@ -636,10 +655,9 @@ def create_items(project_uuid, dic_line):
 
     #Se crea el item para todas las categorías con el código indicado
     for cat in category_list:
-        uuid = new_ui_slug(Item)
-        price = float(dic_line[5].replace(",", "."))
-        item = Item.objects.create(uuid=uuid, is_active=1, price=price, name=dic_line[4], ext_id=dic_line[3], updated_at=now, created_at=now)
-        item.save()
+        #item = Item.objects.create(uuid=uuid, is_active=1, price=price, name=dic_line[4], ext_id=dic_line[3], updated_at=now, created_at=now)
+        #item.save()
+        item = get_or_create_item(dic_line, projct_uuid, now)
         new_position = 0
         if ItemInCat.objects.filter(category=cat).exists():
             new_position = ItemInCat.objects.filter(category = cat).order_by('position').last().position + 1

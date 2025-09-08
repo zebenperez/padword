@@ -40,7 +40,7 @@ def check_user(user):
         return False
     return True
 
-def tpv_access(request, project_uuid):
+def tpv_access(request, project_uuid, mobile=""):
     project = get_or_none(Project, project_uuid, "uuid")
 
     context = {'project_uuid': project.uuid}
@@ -53,9 +53,13 @@ def tpv_access(request, project_uuid):
     form = Form.objects.filter(form_type__code="tpv", form_type__project_uuid=project.uuid).first()
     context["next_url"] = next_url
     context["cat"] = form.get_category
+    context["mobile"] = mobile
     return render(request, 'bookings/tpv/tpv-welcome.html', context)
 
 def tpv_login_form(request):
+    mobile = get_param(request.GET, "mobile")
+    if mobile != "":
+        request.session["mobile"] = mobile
     return render(request, "bookings/tpv/tpv-form-login.html", {'project_uuid': request.GET["project_uuid"], 'error': ''})
 
 def tpv_login(request):
