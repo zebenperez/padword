@@ -743,6 +743,19 @@ def update_item_price_default(project_uuid, regime_code, item, price):
 def clean_pos_code_item(project_uuid):
     PosCodeItem.objects.filter(project_uuid=project_uuid).delete()
 
+def clean_price_item(project_uuid):
+    form = Form.objects.filter(form_type__code="tpv", form_type__project_uuid=project_uuid).first()
+    cat = form.get_category
+    cat_list = Category.objects.filter(parent=cat)
+    regime_list = ProjectRegime.objects.filter(project__uuid=project_uuid)
+    for cat in cat_list:
+        item_list = cat.get_items
+        for item in item_list:
+            item.price = 0
+            item.save()
+            for reg in regime_list:
+                update_item_price_default(project_uuid, reg.regime.code, item, 0)
+
 def set_pos_code_item(dic, project_uuid):
     pos = dic[0]
     code = dic[9]
@@ -757,6 +770,7 @@ def import_item_prices(file, project_uuid, update_all_prices=False):
     cat_list = []
     #print("--> 1")
     #Eliminamod los items con los códigos en los tpv
+    clean_price_item(project_uuid)
     clean_pos_code_item(project_uuid)
     for line in decoded_file:
         update = False

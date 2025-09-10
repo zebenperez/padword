@@ -175,6 +175,7 @@ urlpatterns = [
 
     #------------- TPV --------------#
     path('tpv-access/<slug:project_uuid>/', tpv.tpv_access, name='tpv-access'),
+    path('tpv-access/<slug:project_uuid>/<slug:mobile>', tpv.tpv_access, name='tpv-access'),
     path('tpv-login/', tpv.tpv_login, name='tpv-login'),
     path('tpv-login-form/', tpv.tpv_login_form, name='tpv-login-form'),
     path('tpv-close/', tpv.tpv_close, name='tpv-close'),
