@@ -3,10 +3,14 @@
 {%comment%} -- nuevo -- {%endcomment%}
 
 <div class="row justify-center p-0">
-    {% for item in regime_list_pr %}
+    {#{% for item in regime_list_pr %}#}
+    {% for item in project_regime_list %}{% if item.project_uuid != ""%}
         <div class="col-lg-6 col-12 p-1">
             <div class="p-sale p-3 pt-1">
                 <div class="row">
+                    {% if item.project_uuid != obj.uuid %}
+                        <div class="col-12 alert alert-danger"> {{obj.name}} != {{item.project.name}} </div>
+                    {% endif %}
                     <div class="col-12 text-end">
                         <button class="btn btn-sm ark" id="btn-regime-remove" data-url="{% url "project-regime-remove" %}" 
                             data-target="div-regime-list" data-obj_id="{{item.id}}"> <i class="fas fa-trash"></i></button>
@@ -33,7 +37,7 @@
                 </div>
             </div>
         </div>
-    {% endfor %}
+    {% endif %}{% endfor %}
 </div>
 <br /><br /><br />
 

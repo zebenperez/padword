@@ -819,6 +819,13 @@ class Regime(models.Model):
     name = models.CharField(max_length=255, verbose_name='Name', default="")
     project_uuid = models.CharField(max_length = 255, verbose_name= _('Project UUID'), default='')
 
+    @property
+    def project(self):
+        try:
+            return Project.objects.get(uuid = self.project_uuid)
+        except Exception as e:
+            return None
+
     class Meta:
         verbose_name = _('Regime')
 

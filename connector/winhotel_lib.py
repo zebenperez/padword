@@ -628,8 +628,8 @@ def get_or_create_item(dic_line, project_uuid, now):
             item = it
             break
     if item == None:
-        item = Item.objects.create(uuid=uuid, ext_id=dic_line[3])
-    item.active = 1
+        item = Item.objects.create(uuid=uuid, ext_id=dic_line[3], created_at=now, updated_at=now)
+    item.is_active = 1
     item.price = price
     item.name = dic_line[4]
     item.updated_at = now
@@ -657,7 +657,7 @@ def create_items(project_uuid, dic_line):
     for cat in category_list:
         #item = Item.objects.create(uuid=uuid, is_active=1, price=price, name=dic_line[4], ext_id=dic_line[3], updated_at=now, created_at=now)
         #item.save()
-        item = get_or_create_item(dic_line, projct_uuid, now)
+        item = get_or_create_item(dic_line, project_uuid, now)
         new_position = 0
         if ItemInCat.objects.filter(category=cat).exists():
             new_position = ItemInCat.objects.filter(category = cat).order_by('position').last().position + 1
@@ -715,6 +715,11 @@ def update_item_pos_price(project_uuid, dic):
                 ic_list = ItemInCat.objects.filter(category=cat, item__ext_id=item_id)
                 for ic in ic_list:
                     #print("ITEM: {}".format(ic.item))
+                    #ip_list = ItemPrice.objects.filter(item=ic.item, pos=pos.uuid, regime_code=regime.regime.code)
+                    #if len(ip_list) > 0:
+                    #    for ip in ip_list:
+                    #        ip.delete()
+                    ItemPrice.objects.filter(item=ic.item, pos=pos.uuid, regime_code=regime.regime.code).delete()
                     ip, created = ItemPrice.objects.get_or_create(item=ic.item, pos=pos.uuid, regime_code=regime.regime.code)
                     ip.price = float(price)
                     ip.save()
@@ -736,7 +741,13 @@ def update_tpv_cat(pos_code, cat, active):
 def update_item_price_default(project_uuid, regime_code, item, price):
     regime_list = ProjectRegime.objects.filter(project__uuid=project_uuid, regime__alt_code=regime_code)
     for regime in regime_list:
+#        ip_list = ItemPrice.objects.filter(item=item, pos="", regime_code=regime.regime.code)
+#        if len(ip_list) > 0:
+#            for ip in ip_list:
+#                ip.delete()
+        ItemPrice.objects.filter(item=item, pos="", regime_code=regime.regime.code).delete()
         ip, created = ItemPrice.objects.get_or_create(item=item, pos="", regime_code=regime.regime.code)
+            
         ip.price = float(price)
         ip.save()
 
@@ -824,6 +835,7 @@ def import_item_prices(file, project_uuid, update_all_prices=False):
                     #    ip.price = price
                     #    ip.save()
         except Exception as e:
+            print(line)
             print(e)
         if update:
             updated.append(dic_line)
