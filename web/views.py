@@ -345,21 +345,21 @@ def project_regime_toggle(request):
 
 @group_required("admins")
 def project_regime_add(request):
-    #regime_list_pr = []
+    project_reg_list = []
     try:
         project = get_or_none(Project, request.GET["obj_id"])
         regime = Regime.objects.create(project_uuid=project.uuid)
-        ProjectRegime.objects.create(regime=regime, project=project)
+        pr = ProjectRegime.objects.create(regime=regime, project=project)
+        project_reg_list = [item.regime for item in project.regimes.all()]
         #regime_list_pr = Regime.objects.filter(project_uuid=project.uuid)
-        #regime_list_pr = [item.regime for item in obj.regimes.all()]
     except Exception as e:
         print (show_exc(e))
-    return render(request, "web/projects/project-form-regime-list.html", {'obj': project})
+    return render(request, "web/projects/project-form-regime-list.html", {'project_regime_list': project_reg_list, 'obj': project})
     #return render(request, "web/projects/project-form-regime-list.html", {'regime_list_pr': regime_list_pr, 'obj': project})
 
 @group_required("admins")
 def project_regime_remove(request):
-    #regime_list_pr = []
+    project_reg_list = []
     project = None
     try:
         regime = get_or_none(Regime, request.GET["obj_id"])
@@ -367,11 +367,11 @@ def project_regime_remove(request):
         pr_list = ProjectRegime.objects.filter(regime=regime, project=project)
         pr_list.delete()
         regime.delete()
+        project_reg_list = [item.regime for item in project.regimes.all()]
         #regime_list_pr = Regime.objects.filter(project_uuid=project.uuid)
-        #regime_list_pr = [item.regime for item in obj.regimes.all()]
     except Exception as e:
         print (show_exc(e))
-    return render(request, "web/projects/project-form-regime-list.html", {'obj': project})
+    return render(request, "web/projects/project-form-regime-list.html", {'project_regime_list': project_reg_list, 'obj': project})
     #return render(request, "web/projects/project-form-regime-list.html", {'regime_list_pr': regime_list_pr, 'obj': project})
 
 @group_required("admins")

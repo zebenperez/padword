@@ -397,19 +397,30 @@ def set_regime(booking, guest):
     try:
         reg_name = booking.occupations[0]["boar_type_real"]["name"]
         reg_code = booking.occupations[0]["boar_type_real"]["code"]
-        #regime = Regime.objects.filter(code=reg_code).first()
-        regime_list = Regime.objects.filter(code=reg_code)
-        #if regime != None:
-        for regime in regime_list:
-            #Activa si solo este el generico o es un regimen creado a medida para un proyecto
-            if len(regime_list) == 1 or regime.project_uuid != "":
-                gr_list = GuestRegime.objects.filter(guest=guest)
-                gr_list.delete()
-                GuestRegime.objects.create(regime=regime, guest=guest)        
+        project = guest.project
+        regime = Regime.objects.filter(code=reg_code, project_uuid=project.uuid).first()
+        if regime != None:
+            gr_list = GuestRegime.objects.filter(guest=guest)
+            gr_list.delete()
+            GuestRegime.objects.create(regime=regime, guest=guest)        
 
-                pr = ProjectRegime.objects.filter(regime=regime, project=guest.project).first()        
-                if pr == None:
-                    pr = ProjectRegime.objects.create(regime=regime, project=guest.project)        
+            pr = ProjectRegime.objects.filter(regime=regime, project=project).first()        
+            if pr == None:
+                pr = ProjectRegime.objects.create(regime=regime, project=project)        
+
+#        #regime = Regime.objects.filter(code=reg_code).first()
+#        regime_list = Regime.objects.filter(code=reg_code)
+#        #if regime != None:
+#        for regime in regime_list:
+#            #Activa si solo este el generico o es un regimen creado a medida para un proyecto
+#            if len(regime_list) == 1 or regime.project_uuid != "":
+#                gr_list = GuestRegime.objects.filter(guest=guest)
+#                gr_list.delete()
+#                GuestRegime.objects.create(regime=regime, guest=guest)        
+#
+#                pr = ProjectRegime.objects.filter(regime=regime, project=guest.project).first()        
+#                if pr == None:
+#                    pr = ProjectRegime.objects.create(regime=regime, project=guest.project)        
     except Exception as e:
         print(e)
         return ""
