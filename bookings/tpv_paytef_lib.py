@@ -11,6 +11,7 @@ def manage_transaction(project, total, ref, tcod="", op_type="sale"):
     pt = Paytef("", "", "", ppu.accessKey, ppu.secretKey, ppu.token)
     if tcod == "":
         tcod = ppu.tcod
+    print("--> PAYTEF Start Transaction {} {} {} {}".format(tcod, amount, ref, op_type))
     session = pt.transaction_start_query(ppu, tcod, amount, ref, op_type)
 
     trans_ok = False
@@ -30,8 +31,8 @@ def manage_transaction(project, total, ref, tcod="", op_type="sale"):
                 if result["approved"] == True and result["failed"] == False and info["sessionID"] == session:
                     trans_ok = True
                 break
-        except:
-            pass
+        except Exception as e:
+            print("ERROR (paytef transaction): {}".format(e))
 
     return trans_ok
 
