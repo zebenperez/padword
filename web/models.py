@@ -249,6 +249,8 @@ class ProjectAux(models.Model):
     contact_name = models.CharField(max_length=255, verbose_name=_('Contact Name'), default="")
     contact_email = models.CharField(max_length=255, verbose_name=_('Contact Email'), default="")
     contact_phone = models.CharField(max_length=255, verbose_name=_('Contact Phone'), default="")
+    user_web = models.CharField(max_length=255, verbose_name=_('Usuario Portal'), default="")
+    user_api = models.CharField(max_length=255, verbose_name=_('Usuario API'), default="")
     fee = models.CharField(max_length=255, verbose_name=_('Fee'), default="")
     payment_method = models.CharField(max_length=255, verbose_name=_('Payment Method'), default="")
     paid = models.CharField(max_length=255, verbose_name=_('Paid'), default="")

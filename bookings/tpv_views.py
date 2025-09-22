@@ -54,12 +54,18 @@ def tpv_access(request, project_uuid, mobile=""):
     context["next_url"] = next_url
     context["cat"] = form.get_category
     context["mobile"] = mobile
+    print("--A--")
+    print(mobile)
+    if mobile != "":
+        request.session["mobile"] = mobile
     return render(request, 'bookings/tpv/tpv-welcome.html', context)
 
 def tpv_login_form(request):
-    mobile = get_param(request.GET, "mobile")
-    if mobile != "":
-        request.session["mobile"] = mobile
+    #mobile = get_param(request.GET, "mobile")
+    #print("--B--")
+    #print(mobile)
+    #if mobile != "":
+    #    request.session["mobile"] = mobile
     return render(request, "bookings/tpv/tpv-form-login.html", {'project_uuid': request.GET["project_uuid"], 'error': ''})
 
 def tpv_login(request):
@@ -403,6 +409,11 @@ def tpv_order_send(request):
 
         #Pago con paytef
         if pt.code == "06":
+            print("--C--")
+            if "mobile" in request.session:
+                print(request.session["mobile"])
+            else:
+                print("No hay TCOD")
             tcod = request.session["mobile"] if "mobile" in request.session else ""
             payment_ok = manage_transaction(project, total, "Ticket: {}".format(fi.get_index), tcod)
             if not payment_ok:
