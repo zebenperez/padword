@@ -54,8 +54,6 @@ def tpv_access(request, project_uuid, mobile=""):
     context["next_url"] = next_url
     context["cat"] = form.get_category
     context["mobile"] = mobile
-    print("--A--")
-    print(mobile)
     if mobile != "":
         request.session["mobile"] = mobile
     return render(request, 'bookings/tpv/tpv-welcome.html', context)
@@ -114,7 +112,7 @@ def tpv_index(request, project_uuid):
             #date = datetime.datetime.strptime("{} 23:59:59".format(datetime.datetime.now().strftime("%Y-%m-%d")), "%Y-%m-%d %H:%M:%S")
             #cash, created = get_cash(pos, date, request.user.username)
             cash, created = get_cash_zeta(pos, request.user.username)
-            tables = Table.objects.filter(point_of_sale=pos)
+            tables = Table.objects.filter(point_of_sale=pos).order_by("order")
             context = {'pos': pos, 'tables': tables, 'cash': cash, 'created': created, 'project_uuid': project.uuid}
             return render(request, "bookings/tpv/index.html", context)
         else:
@@ -123,7 +121,7 @@ def tpv_index(request, project_uuid):
             table = get_or_none(Table, request.session["table"])
             fi = get_or_create_form_instance_tpv(form, pos.uuid, table.uuid, request.user.username)
             fi_info = get_or_create_form_instance_info_tpv(fi, pos.name, table.name)
-            cat_list = [item.category for item in pos.categories.all()]
+            cat_list = [item.category for item in pos.categories.filter(category__project_uuid=pos.project_uuid)]
             item_favorites = []
             for cat in cat_list:
                 item_favorites += list(cat.get_items_favorites)
@@ -371,6 +369,17 @@ def set_desc(fi, desc):
         info.desc = desc
         info.save()
 
+def set_partner(project, fi, partner, room):
+    if fi != None:
+        try:
+            info = fi.details
+        except:
+            info = FormInstanceInfo.objects.create(fi = fi)
+        for par in project.partners.all():
+            if par.partner == partner:
+                info.partner = f"{par.partner_name} (room: {room})"
+                info.save()
+
 def tpv_order_send_room(fi, pt, local_date, factor, project, request):
     wh_write_log("ORDER: {} ({})".format(fi.id, local_date.strftime("%Y-%m-%d %H:%M:%S")))
     details = fi.details
@@ -405,15 +414,18 @@ def tpv_order_send(request):
             context = {'msg': "00", 'fi': fi, 'project_uuid': project.uuid, "mobile": mobile}
             return render(request, 'bookings/tpv/show-msg.html', context)
 
+        fi.update_index()
         pt = get_or_none(PaymentType, pt_code, "code")
+        fi.payment_type = pt
+        fi.save()
 
         #Pago con paytef
         if pt.code == "06":
-            print("--C--")
-            if "mobile" in request.session:
-                print(request.session["mobile"])
-            else:
-                print("No hay TCOD")
+            #print("--C--")
+            #if "mobile" in request.session:
+            #    print(request.session["mobile"])
+            #else:
+            #    print("No hay TCOD")
             tcod = request.session["mobile"] if "mobile" in request.session else ""
             payment_ok = manage_transaction(project, total, "Ticket: {}".format(fi.get_index), tcod)
             if not payment_ok:
@@ -435,6 +447,7 @@ def tpv_order_send(request):
             partner = get_param(request.GET, "partner", "")
             now = datetime.datetime.now()
             guest = Guest.objects.filter(project_id=partner, room=room, check_in__lte=now, check_out__gte=now).first()
+            set_partner(project, fi, partner, room)
             if guest == None:
                 context = {'msg': "07", 'fi': fi, 'project_uuid': project.uuid, "mobile": mobile}
                 return render(request, 'bookings/tpv/show-msg.html', context)
@@ -453,9 +466,6 @@ def tpv_order_send(request):
         #fi.amount = amount if amount_user == "" else amount_user
         #factor = -1 if get_float(amount.replace(",", ".")) < 0 else 1
         #if pt_code != "":
-        fi.payment_type = pt
-        fi.save()
-        fi.update_index()
         fi.send_items()
 
         wh_write_log("ORDER: {} ({})".format(fi.id, local_date.strftime("%Y-%m-%d %H:%M:%S")))
@@ -729,7 +739,7 @@ def send_charges2(pwu, fi, band, pos, factor):
         s_total = get_source_total(fi, source)
         cash_code = ""
         wh_write_log("------> Source: {} - Total: {}".format(source, s_total))
-        print("------> Source: {} - Total: {}".format(source, s_total))
+        #print("------> Source: {} - Total: {}".format(source, s_total))
         send_charge(pwu,b_code,room_code,cont_name,cont_id,has_credit,limit_credit,source,s_desc,date,s_total*factor,cash_code)
 
 def send_charges_guest(pwu, fi, guest, pos, factor):
@@ -784,7 +794,7 @@ def send_charges_room(pwu, fi, guest, pos, factor):
     b_code = guest.ext_id
     room_code = guest.room
     cont_name = "{} {}".format(guest.name, guest.surname)
-    cont_id = guest.ext_id
+    cont_id = guest.PID
     has_credit = "true"
     limit_credit = 0
     source = "0900"

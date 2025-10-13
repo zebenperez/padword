@@ -39,6 +39,9 @@ urlpatterns = [
     #path('zkteco/add-person/', views.zkteco_add_person, name='zkteco-add-person'),
     #path('zkteco/webhook/', views.zkteco_webhook, name='zkteco-webhook'),
 
+    #--------------------- ROOMRACCOON --------------------
+    path('roomraccoon/get-booking/', views.roomraccoon_get_booking, name='roomraccoon-get-booking'),
+
     #--------------------- CRON --------------------
     path('cron-log/', views.cron_log, name='cron-log'),
     path('avantio-log/', views.avantio_log, name='avantio-log'),

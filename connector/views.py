@@ -17,7 +17,7 @@ from web.models import Project
 from guest.models import Guest
 from guest.wristband_models import WristbandAccessZone, Wristband, WristbandAccessZoneGuest
 from .models import ProjectAvantioUser, ProjectAvaibookUser, ProjectWinhotelUser, ProjectMewsUser, ProjectCloudbedsUser
-from .models import ProjectPaytefUser, ProjectZktecoUser
+from .models import ProjectPaytefUser, ProjectZktecoUser, ProjectRoomraccoonUser
 from .avantio_lib import get_booking_list, get_booking_notif, send_link
 from .avaibook_lib import get_accommodation_list, manage_booking_from_webhook, get_booking_list as av_get_booking_list, WEBHOOK_TOKEN
 from .winhotel_lib import get_booking_list as wh_get_booking_list, import_item_prices as wh_import_item_prices
@@ -485,6 +485,42 @@ def zkteco_add_person_band(request):
 #    f.write("\nBODY: {}".format(request.body))
 #    return HttpResponse("OK", content_type="text/plain")
 #
+
+'''
+    ROOMRACCOON
+'''
+@csrf_exempt
+@require_POST
+def roomraccoon_get_booking(request):
+    f = open(os.path.join(settings.BASE_DIR, "roomraccoon.log"), "a", encoding='utf-8')
+    f.write("\n---------------------------------------")
+    f.write("\n{} - Recibida reserva de roomraccoon".format(datetime.now().strftime("%Y-%m-%d %H:%M:%S")))
+    f.write("\n{}".format(request.headers))
+
+    given_token = request.headers.get("Roomraccoon-Webhook-Token", "")
+    pru = get_or_none(ProjectRoomraccoonUser, given_token, "token")
+    #if not compare_digest(given_token, WEBHOOK_TOKEN):
+    if pru == None:
+        f.write("\nToken no valido".format(datetime.now().strftime("%Y-%m-%d %H:%M:%S")))
+        return HttpResponseForbidden(
+            "Incorrect token in Avaibook-Webhook-Token header.",
+            content_type="text/plain",
+        )
+
+    booking = json.loads(request.body)
+    f.write("\n{}".format(booking))
+
+    try:
+        pru = get_or_none(ProjectRoomraccoonUser, given_token, "token")
+        #err = manage_booking_from_webhook(pau, booking)
+        #if err != "":
+        #    f.write("\nError Lock: {}".format(err))
+        #f.write("\nBooking created!")
+    except Exception as e:
+        f.write("\nError: {}".format(e))
+
+    return HttpResponse("Message received okay.", content_type="text/plain")
+
 
 '''
     ACCESS CONTROL

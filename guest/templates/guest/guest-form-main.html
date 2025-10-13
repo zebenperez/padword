@@ -58,12 +58,19 @@
             <i class="fas fa-check-square mt-3"></i></button>
 	</div>
 
-	<div class="col-6">
+	<div class="col-4">
 		<label class="label">{% trans "Email" %}:</label>
 		<input type="text" class="form-control autosave input mb-4" id="email" name="email" value="{{obj.email|default:""}}" 
             title="{% trans "Please enter valid email"%}" data-model-name="guest.guest" data-obj-id="{{obj.id}}" 
             data-url="{% url "autosave_field" %}" data-target="div-notification" data-check="mobile" 
             pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" required/> <span class="msg_error" id="email__msg"></span>
+	</div>
+
+	<div class="col-2">
+	    <label class="label">{% trans "PID" %}:</label>
+		<input type="text" class="form-control autosave input mb-1" id="PID" name="PID" value="{{obj.PID}}" 
+            data-model-name="guest.guest" data-obj-id="{{obj.id}}" data-url="{% url "autosave_field" %}" 
+            data-target="div-notification"/> <span class="msg_error" id="ext_id__msg"></span>
 	</div>
 
 	<div class="col-3">

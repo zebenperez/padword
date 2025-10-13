@@ -18,7 +18,9 @@
 <td>{{ item.date|timezone:item.form.project.time_zone_name|date:'d/m/Y H:i:s' }} </td>
 <td id="status-{{item.pk}}">{% padword_translate item.get_status.status.name %} </td>
 <td><strong>{% trans "Tipo pago" %}:</strong> {% padword_translate item.payment_type.name %}<br/>
-    <strong>{% trans "Descripción" %}:</strong> {{ item.details.desc }}</td>
+    <strong>{% trans "Descripción" %}:</strong> {{ item.details.desc }}
+    {% if item.payment_type.code == "07" %} <br/> <strong>{% trans "Hotel" %}:</strong> {{ item.details.partner }} {% endif %}
+</td>
 {#<td>{{ item.details.desc }} </td>#}
 {#Compatibilidad tickets viejos higos beach#}
 {% if item.form.project.uuid == "d7b3cb5d-a7eb-793f-6110-8f623c93c74a" and item.id <= 2401 %}

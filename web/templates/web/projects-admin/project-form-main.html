@@ -79,6 +79,21 @@
     </div>
 
     <div class="row m-0 mt-3 card-info">
+        <div class="col-5">
+            <label class="label">{% trans "Usuario Portal" %}:</label>
+            <input type="text" class="form-control autosave input mb-4" id="user_web" name="user_web" 
+                value="{{aux.user_web}}" data-model-name="web.projectaux" data-obj-id="{{aux.id}}"
+                data-url="{%url "autosave_field"%}" data-target="div-notification"/> <span id="user_web__msg"></span>
+        </div>        
+        <div class="col-5">
+            <label class="label">{% trans "Usuario API" %}:</label>
+            <input type="text" class="form-control autosave input mb-4" id="user_api" name="user_api" 
+                value="{{aux.user_api}}" data-model-name="web.projectaux" data-obj-id="{{aux.id}}"
+                data-url="{%url "autosave_field"%}" data-target="div-notification"/> <span id="user_api__msg"></span>
+        </div>      
+    </div>
+
+    <div class="row m-0 mt-3 card-info">
         <div class="col-2">
             <label class="label">{% trans "Licencia hasta" %}:</label>
             <input type="date" class="form-control autosave input mb-4" id="expiration" name="expiration" 

@@ -27,7 +27,6 @@
         <style>
             body { background: #fff }
             #main {
-                /*width: 90mm;*/
                 width: 70mm;
                 margin: auto;
                 font-size: 1.2rem;
@@ -41,6 +40,15 @@
                 font-size: 1.4rem;
             }
 
+            button#btn-back.btn.btn-default.ark,
+            a.btn.btn-default {
+                border: 1px solid #000;
+                padding: 0.275rem 0.45rem;
+                color: #000;
+                font-weight: 400;
+                font-size: 1rem;
+                line-height: 1.5;
+            }   
             .title {
                 text-align: center;
                 font-size: 1.2em;
@@ -51,11 +59,11 @@
                 margin-bottom: 10px;
             }
             .footer {
-                position: fixed;
+            /*    position: fixed;*/
                 bottom: 0;
-                width: 90mm;
+               /* width: 90mm;*/
                 margin: auto;
-
+                font-size: 0.9rem;
             }
 
             @media screen {
@@ -71,11 +79,13 @@
 
     <body>
         <div id="main" class="small text-center">
-            <div class="d-flex justify-content-end"> 
-                <button id="btn-back" class="me-1 btn btn-access ark" data-target="base" data-project_uuid="{{fi.project.uuid}}"
-                    data-url="{%if mobile and mobile != ""%}{%url "tpv-mob-change-table"%}{%else%}{%url "tpv-change-table"%}{%endif%}">
-                    {%trans "Back"%}</button>
-                <a class="btn btn-default" onclick="window.print()"> &#128424; {% trans "Imprimir" %}</a> 
+            <br />
+            <div class="row">
+                <div class="col-6">
+                    <button id="btn-back" class="btn btn-default ark" data-target="base" data-project_uuid="{{fi.project.uuid}}"
+                        data-url="{%if mobile and mobile != ""%}{%url "tpv-mob-change-table"%}{%else%}{%url "tpv-change-table"%}{%endif%}"> <i class="fa fa-chevron-left"></i> {%trans "Back"%}</button></div>
+                <div class="col-6">
+                    <a class="btn btn-default" onclick="window.print()"> &#128424; {% trans "Imprimir" %}</a></div>
             </div>
 
             <br/>
@@ -99,6 +109,11 @@
                         {#<strong>{{ fi.date|timezone:fi.project.time_zone_name|date:'d/m/Y H:i:s' }}</strong></td></tr>#}
                     <tr><td>{% trans "Client" %}:</td><td class="text-end"> <strong>{{info.client}}</strong></td> </tr>
                     <tr><td>{% trans "Room" %}:</td><td class="text-end"> <strong>{{info.client_room}}</strong></td> </tr>
+                    <tr><td>{% trans "Pago" %}:</td>
+                        <td class="text-end"> <strong>{% padword_translate fi.payment_type.name %}</strong></td></tr>
+                    {% if fi.payment_type.code == "07" %}
+                        <tr><td>{% trans "Hotel" %}:</td> <td class="text-end"> <strong>{{info.partner}}</strong></td></tr>
+                    {% endif %}
                 </tbody>
             </table>
             <div class="separator"></div>

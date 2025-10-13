@@ -55,9 +55,13 @@ def update_cash(cash, user, cancel_orders=False):
     cash_total = 0
     band_total = 0
     card_total = 0
+    room_total = 0
+    cardpay_total = 0
     back_total = 0
     back_card_total = 0
     back_band_total = 0
+    back_room_total = 0
+    back_cardpay_total = 0
     free_total = 0
     val1_total = 0
     val2_total = 0
@@ -70,21 +74,33 @@ def update_cash(cash, user, cancel_orders=False):
                 card_total += amount
             elif fi.payment_type.code == "03":
                 band_total += amount
+            elif fi.payment_type.code == "08":
+                room_total += amount
+            elif fi.payment_type.code == "06":
+                cardpay_total += amount
             elif fi.payment_type.code == "0401":
                 back_total += amount
             elif fi.payment_type.code == "0402":
                 back_card_total += amount
             elif fi.payment_type.code == "0403":
                 back_band_total += amount
+            elif fi.payment_type.code == "0408":
+                back_room_total += amount
+            elif fi.payment_type.code == "0406":
+                back_cardpay_total += amount
             elif fi.payment_type.code == "05":
                 free_total += amount
                 
     cash.end_cash = cash_total
     cash.band = band_total
     cash.card = card_total
+    cash.room = room_total
+    cash.cardpay = cardpay_total
     cash.back = back_total
     cash.back_card = back_card_total
     cash.back_band = back_band_total
+    cash.back_room = back_room_total
+    cash.back_cardpay = back_cardpay_total
     cash.free = free_total
     cash.val1 = val1_total
     cash.val2 = val2_total

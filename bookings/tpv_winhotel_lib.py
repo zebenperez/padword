@@ -42,7 +42,7 @@ def cash_daily_summary(obj, date):
     f = open("{}{}_{}{}.csv".format(path, "{}_2359".format(date.replace("-", "")), obj.ext_code, obj.suffix), "w", encoding='utf-8')
 
     writer = csv.writer(f)
-    writer.writerow(['_TPV', '_TPVNom', '_Rate', 'ProductUId', '_Description', 'Date', 'Tiket_UID', '_Price', '_Units', '_Discount', 'TotalPrice', '_Room', '_ClientId', 'Band', 'BandName'])
+    writer.writerow(['_TPV', '_TPVNom', '_Rate', 'ProductUId', '_Description', 'Date', 'Tiket_UID', '_Price', '_Units', '_Discount', 'TotalPrice', '_Room', '_ClientId', 'PaymentType', 'Band', 'BandName'])
 
     project = obj.project
     fi_list = FormInstance.get_by_local_date(date, obj)
@@ -77,7 +77,9 @@ def cash_daily_summary(obj, date):
                 band_name = details.band_name if details != None else ""
 
                 ext_id = item.item.ext_id if item.item != None else ""
-                writer.writerow([obj.ext_code, name, "", ext_id, desc, date, fi.get_index, item.price, units, discount, total_price, room, client_id, band, band_name])
+                payment_type = translate2("es", fi.payment_type.name).replace('"', '') if fi.payment_type != None else ""
+
+                writer.writerow([obj.ext_code, name, "", ext_id, desc, date, fi.get_index, item.price, units, discount, total_price, room, client_id, payment_type, band, band_name])
     f.close()
 
 def cash_send_daily_summary(project_uuid, obj, date):

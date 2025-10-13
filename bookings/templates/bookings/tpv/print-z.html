@@ -25,11 +25,12 @@
         <meta name="theme-color" content="#7952b3">
         
         <style>
-            {%comment%}
             #main {
                 width: 70mm;
-                font-size: 1.0em;
+                margin: auto;
+                font-size: 1.2rem;
             }
+            {%comment%}
             .title{
                 border: 1px solid #333;
                 text-align: center;
@@ -52,6 +53,18 @@
                 color: #212529;
                 font-size: 1.4rem;
             }
+           
+            button.btn.btn-default.ark,
+            button#btn-back.btn.btn-default.ark,
+            a.btn.btn-default {
+                border: 1px solid #000 !important;
+                padding: 0.275rem 0.45rem !important;
+                color: #000 !important;
+                font-weight: 400 !important;
+                font-size: 1rem !important;
+                line-height: 1.5 !important;
+            }   
+
             .title {
                 text-align: center;
                 font-size: 1.2em;
@@ -80,14 +93,16 @@
 
     <body>
         <div id="main" class ="text-center">
-            <div class="d-flex justify-content-end"> 
-                <button class="btn ark w-100" data-url="{% url "tpv-change-pos" %}" data-target="base" 
-                    data-project_uuid="{{obj.project_uuid}}"> {% trans "Back" %}</button>
-                <a class="btn btn-default" onclick="window.print()"> &#128424; {% trans "Imprimir" %}</a> 
+            <br />
+            <div class="row">
+                <div class="col-6">
+                    <button class="btn btn-default ark" data-url="{% url "tpv-change-pos" %}" data-target="base" 
+                    data-project_uuid="{{obj.project_uuid}}"> <i class="fa fa-chevron-left"></i> {% trans "Back" %}</button>  </div>
+                <div class="col-6"> 
+                    <a class="btn btn-default" onclick="window.print()"> &#128424; {% trans "Imprimir" %}</a> </div>
             </div>
-
-            <br/>
-            {% if obj.project.logo %}<img src="{{obj.project.logo.url}}" alt="Logo" width="200px"/><br/>{% endif %} <br/>
+               <br/>
+            {% if obj.project.logo %}<img src="{{obj.project.logo.url}}" alt="Logo" width="100px"/><br/>{% endif %} <br/>
             <h3>{{obj.project.name}}</h3>
             <div class="title">{% trans 'TPV' %} {{obj.pos.name}}</div>
             <h2>{% trans 'Summary' %} </h2>
@@ -116,9 +131,18 @@
                     <tr><td>{% trans "Cash" %}</td><td class="text-end"><strong>{{obj.end_cash|floatformat:2}}</strong></td></tr>
                     <tr><td>{% trans "Band" %}</td><td class="text-end"><strong>{{obj.band|floatformat:2}}</strong></td></tr>
                     <tr><td>{% trans "Card" %}</td><td class="text-end"><strong>{{obj.card|floatformat:2}}</strong></td></tr>
-                    <tr><td>{% trans "Devoluciones Efectivo" %}</td><td class="text-end"><strong>{{obj.back|floatformat:2}}</strong></td></tr>
-                    <tr><td>{% trans "Devoluciones Tarjeta" %}</td><td class="text-end"><strong>{{obj.back_card|floatformat:2}}</strong></td></tr>
-                    <tr><td>{% trans "Devoluciones Pulsera" %}</td><td class="text-end"><strong>{{obj.back_band|floatformat:2}}</strong></td></tr>
+                    <tr><td>{% trans "Room" %}</td><td class="text-end"><strong>{{obj.room|floatformat:2}}</strong></td></tr>
+                    <tr><td>{% trans "Cardpay" %}</td><td class="text-end"><strong>{{obj.cardpay|floatformat:2}}</strong></td></tr>
+                    <tr><td>{% trans "Devoluciones Efectivo" %}</td>
+                        <td class="text-end"><strong>{{obj.back|floatformat:2}}</strong></td></tr>
+                    <tr><td>{% trans "Devoluciones Tarjeta" %}</td>
+                        <td class="text-end"><strong>{{obj.back_card|floatformat:2}}</strong></td></tr>
+                    <tr><td>{% trans "Devoluciones Pulsera" %}</td>
+                        <td class="text-end"><strong>{{obj.back_band|floatformat:2}}</strong></td></tr>
+                    <tr><td>{% trans "Devoluciones Habitación" %}</td>
+                        <td class="text-end"><strong>{{obj.back_room|floatformat:2}}</strong></td></tr>
+                    <tr><td>{% trans "Devoluciones Cardpay" %}</td>
+                        <td class="text-end"><strong>{{obj.back_cardpay|floatformat:2}}</strong></td></tr>
                     <tr><td>{% trans "Invitaciones" %}</td><td class="text-end"><strong>{{obj.free|floatformat:2}}</strong></td></tr>
                 </tbody>
             </table>

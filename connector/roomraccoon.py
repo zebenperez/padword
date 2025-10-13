@@ -14,9 +14,10 @@ import string
 try:
     API_URL = settings.AVAIBOOK_API_URL
 except:
-    API_URL = "https://developer.siteminder.com"
+    #API_URL = "https://developer.siteminder.com"
+    API_URL = "https://tpi-pmsx.preprod.siteminderlabs.com/core-api/pmses"
 
-BOOKINGS_URL = "reservations"
+BOOKINGS_URL = "/__PMS__/hotels/__HOTEL__/reservation-import"
 
 def get_param(dic, key):
     return dic[key] if key in dic else ""
@@ -29,18 +30,19 @@ class RoomRaccoomAPIError(Exception):
         return 'Error: {}'.format(self.menssage)
 
 class RoomRaccoom():
-    def __init__(self, uuid, token):
+    def __init__(self, username, password, token, pms, hotel):
+        self.username = username
+        self.password = password
         self.token = token
-        self.uuid = uuid
+        self.pms = pms
+        self.hotel = hotel
     
     def __send_request__(self, _url_request, _params=""):
         try:
             _headers = {}
             _headers['Accept'] = 'application/json'
-            _headers['x-sm-api-id'] = ''
-            _headers['x-sm-api-key'] = ''
-            #_headers['Authorization'] = 'Basic {}'.format(self.uuid)
-            #_headers['Token'] = '{}'.format(self.token)
+            _headers['Authorization'] = 'Basic {}:{}'.format(self.username, self.password)
+            _headers['X-SM-TRACE-TOKEN'] = '{}'.format(self.token)
             if _params != "":
                 _response = requests.get(_url_request, headers=_headers, params=_params)
             else:
@@ -61,10 +63,10 @@ class RoomRaccoom():
             #_headers = {'Content-Type': 'application/x-www-form-urlencoded', 'Token': '43bedb65e2fa3a57dd19650c7f67a1cb648644f8'}
             _headers = {}
             _headers['Accept'] = 'application/json'
-            _headers['Authorization'] = 'Basic {}'.format(self.uuid)
-            _headers['Token'] = '{}'.format(self.token)
+            _headers['Authorization'] = 'Basic {}:{}'.format(self.username, self.password)
+            _headers['X-SM-TRACE-TOKEN'] = '{}'.format(self.token)
             _response = requests.post(_url_request, headers=_headers, json=_json)
-            _response.raise_for_status()
+            #_response.raise_for_status()
             return _response
         except requests.exceptions.HTTPError as errh:
             raise RoomRaccoomAPIError(menssage=errh)
@@ -77,13 +79,15 @@ class RoomRaccoom():
 
     def get_bookings(self):
         try:
-            _url_request = "{}{}".format(API_URL, BOOKINGS_URL)
-            params = {
-                "dateType": "checkIn",
-                "fromDate": "2025-07-01",
-                "toDate": "2025-07-30"
-            }
-            dic = self.__send_request__(_url_request, params).json()
+            _url = BOOKINGS_URL.replace("__PMS__", self.pms).replace("__HOTEL__", self.hotel)
+            _url_request = "{}{}".format(API_URL, _url)
+            #params = {
+            #    "dateType": "checkIn",
+            #    "fromDate": "2025-07-01",
+            #    "toDate": "2025-07-30"
+            #}
+            params = {}
+            dic = self.__send_post_request__(_url_request, params).json()
             print(dic)
             return dic
         except Exception as err:
@@ -216,19 +220,22 @@ def create_booking(pau, booking, av):
 #        guest.delete()
 #    return None
 
-def get_booking_list(pau):
-    av = RoomRaccoom(pau.uuid, pau.token)
+def get_booking_list():
+    from .models import ProjectRoomraccoonUser
+    pru = ProjectRoomraccoonUser.objects.filter(project_uuid='ccd38078-b710-eb58-b270-5926c27d9077').first()
+    av = RoomRaccoom(pru.username, pru.password, pru.token, pru.pms, pru.hotel)
     result = av.get_bookings()
     #print(result)
     booking_list = []
     for item in result:
         node = RoomRaccoomBooking(item)
         booking_list.append(node)
+        print(node)
         #create_booking(pau, node, av)
-        if node.status == "CONFIRMED":
-            guest, err = create_booking(pau, node, av)
-        elif node.status == "CANCELLED":
-            delete_booking(pau, node)
+        #if node.status == "CONFIRMED":
+        #    guest, err = create_booking(pau, node, av)
+        #elif node.status == "CANCELLED":
+        #    delete_booking(pau, node)
     return booking_list
 
 #def create_accommodation(pau, acc):

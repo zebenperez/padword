@@ -1,5 +1,6 @@
 from django.conf import settings
 from datetime import datetime, timedelta
+from django.db.models import Count
 
 from bookings.models import Form, FormType
 from contents.models import ItemInCat, Category, Item, ItemPrice, PointOfSale, PointOfSaleCategory, PosCodeItem
@@ -472,6 +473,7 @@ def create_booking_new(pwu, booking, start_date, end_date):
         if wguest != None:
             guest.name = wguest.contact["name"]
             guest.surname = wguest.contact["surname"]
+            guest.PID = wguest.contact["id"]
 
             phone = get_phone(wguest.contact)
             if phone != None:
@@ -738,7 +740,7 @@ def update_item_pos_price(project_uuid, dic):
 
 def update_tpv_cat(pos_code, cat, active):
     if active:
-        pos = PointOfSale.objects.filter(ext_code=pos_code).first()
+        pos = PointOfSale.objects.filter(ext_code=pos_code, project_uuid=cat.project_uuid).first()
         if pos != None:
             PointOfSaleCategory.objects.get_or_create(category=cat, point_of_sale=pos)
     else:
@@ -783,6 +785,14 @@ def set_pos_code_item(dic, project_uuid):
     code = dic[9]
     item = dic[3]
     pci, created = PosCodeItem.objects.get_or_create(item_id=item, code=code, pos=pos, project_uuid=project_uuid)
+
+def check_item_cat(project_uuid):
+    c_list = Category.objects.filter(project_uuid=project_uuid).values('internal').annotate(total=Count('id')).filter(total__gt=1)
+    i_list = Item.objects.values('ext_id').annotate(total=Count('id')).filter(total__gt=1)
+    write_log("{} - CATEGORIAS DUPLICADAS:".format(datetime.now()))
+    write_log(c_list)
+    write_log("{} - ITEMS DUPLICADOS:".format(datetime.now()))
+    write_log(i_list)
 
 def import_item_prices(file, project_uuid, update_all_prices=False):
     updated = []
@@ -854,6 +864,7 @@ def import_item_prices(file, project_uuid, update_all_prices=False):
             not_updated.append(dic_line)
     unactive_items(project_uuid, id_list)
     unactive_categories(project_uuid, cat_list)
+    check_item_cat(project_uuid)
     return updated, not_updated
 
 

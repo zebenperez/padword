@@ -112,16 +112,23 @@
                     <tr><td>{% trans "Cash" %}</td><td class="text-end"><strong>{{obj.end_cash|floatformat:2}}</strong></td></tr>
                     <tr><td>{% trans "Band" %}</td><td class="text-end"><strong>{{obj.band|floatformat:2}}</strong></td></tr>
                     <tr><td>{% trans "Card" %}</td><td class="text-end"><strong>{{obj.card|floatformat:2}}</strong></td></tr>
-                    <tr><td>{% trans "Devoluciones Efectivo" %}</td><td class="text-end"><strong>{{obj.back|floatformat:2}}</strong></td></tr>
-                    <tr><td>{% trans "Devoluciones Tarjeta" %}</td><td class="text-end"><strong>{{obj.back_card|floatformat:2}}</strong></td></tr>
-                    <tr><td>{% trans "Devoluciones Pulsera" %}</td><td class="text-end"><strong>{{obj.back_band|floatformat:2}}</strong></td></tr>
+                    <tr><td>{% trans "Room" %}</td><td class="text-end"><strong>{{obj.room|floatformat:2}}</strong></td></tr>
+                    <tr><td>{% trans "Devoluciones Efectivo" %}</td>
+                        <td class="text-end"><strong>{{obj.back|floatformat:2}}</strong></td></tr>
+                    <tr><td>{% trans "Devoluciones Tarjeta" %}</td>
+                        <td class="text-end"><strong>{{obj.back_card|floatformat:2}}</strong></td></tr>
+                    <tr><td>{% trans "Devoluciones Pulsera" %}</td>
+                        <td class="text-end"><strong>{{obj.back_band|floatformat:2}}</strong></td></tr>
+                    <tr><td>{% trans "Devoluciones Habitación" %}</td>
+                        <td class="text-end"><strong>{{obj.back_room|floatformat:2}}</strong></td></tr>
                     <tr><td>{% trans "Invitaciones" %}</td><td class="text-end"><strong>{{obj.free|floatformat:2}}</strong></td></tr>
                 </tbody>
             </table>
             <br/><hr/><br/>
             <table width="100%">
                 <tbody>
-                    <tr><td><h2>{% trans "Nº Tickets" %}</h2></td><td class="text-end"><strong>{{obj.date|date:"Ymd"}}</strong></td></tr>
+                    <tr><td><h2>{% trans "Nº Tickets" %}</h2></td>
+                        <td class="text-end"><strong>{{obj.date|date:"Ymd"}}</strong></td></tr>
                 </tbody>
             </table>
  

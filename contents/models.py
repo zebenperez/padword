@@ -563,12 +563,18 @@ class PointOfSaleCategory(models.Model):
     point_of_sale = models.ForeignKey(PointOfSale, on_delete=models.CASCADE, verbose_name=_("Point of sale"), related_name="categories")
 
 class Table(models.Model):
+    order = models.IntegerField(verbose_name=_('Order'), default=0)
     uuid = models.CharField(max_length = 255, verbose_name= _('UUID'), default="")
     name = models.CharField(max_length=200, verbose_name=_("Name"))
     point_of_sale = models.ForeignKey(PointOfSale, on_delete=models.CASCADE, verbose_name=_("Point of sale"), related_name="tables")
 
     def __str__(self):
         return self.name
+
+    class Meta:
+        verbose_name = _("Table")
+        verbose_name_plural = _("Tables")
+        ordering = ['order']
 
 class PosCodeItem(models.Model):
     item_id = models.CharField(max_length = 255, verbose_name= _('Item Id'), default="")

@@ -105,7 +105,7 @@ def tpv_index(request, project_uuid):
             #date = datetime.datetime.strptime("{} 23:59:59".format(datetime.datetime.now().strftime("%Y-%m-%d")), "%Y-%m-%d %H:%M:%S")
             #cash, created = get_cash(pos, date, request.user.username)
             cash, created = get_cash_zeta(pos, request.user.username)
-            tables = Table.objects.filter(point_of_sale=pos)
+            tables = Table.objects.filter(point_of_sale=pos).order_by("order")
             context = {'pos': pos, 'tables': tables, 'cash': cash, 'created': created, 'project_uuid': project.uuid}
             return render(request, "bookings/tpv/mobile/index.html", context)
         else:
