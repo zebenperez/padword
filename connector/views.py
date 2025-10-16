@@ -489,37 +489,121 @@ def zkteco_add_person_band(request):
 '''
     ROOMRACCOON
 '''
-@csrf_exempt
-@require_POST
-def roomraccoon_get_booking(request):
+#@csrf_exempt
+#@require_POST
+#def roomraccoon_get_booking(request):
+#    f = open(os.path.join(settings.BASE_DIR, "roomraccoon.log"), "a", encoding='utf-8')
+#    f.write("\n---------------------------------------")
+#    f.write("\n{} - Recibida reserva de roomraccoon".format(datetime.now().strftime("%Y-%m-%d %H:%M:%S")))
+#    f.write("\n{}".format(request.headers))
+#
+#    given_token = request.headers.get("Roomraccoon-Webhook-Token", "")
+#    pru = get_or_none(ProjectRoomraccoonUser, given_token, "token")
+#    #if not compare_digest(given_token, WEBHOOK_TOKEN):
+#    if pru == None:
+#        f.write("\nToken no valido".format(datetime.now().strftime("%Y-%m-%d %H:%M:%S")))
+#        return HttpResponseForbidden(
+#            "Incorrect token in Avaibook-Webhook-Token header.",
+#            content_type="text/plain",
+#        )
+#
+#    booking = json.loads(request.body)
+#    f.write("\n{}".format(booking))
+#
+#    try:
+#        pru = get_or_none(ProjectRoomraccoonUser, given_token, "token")
+#        #err = manage_booking_from_webhook(pau, booking)
+#        #if err != "":
+#        #    f.write("\nError Lock: {}".format(err))
+#        #f.write("\nBooking created!")
+#    except Exception as e:
+#        f.write("\nError: {}".format(e))
+#
+#    return HttpResponse("Message received okay.", content_type="text/plain")
+
+import base64
+import xml.etree.ElementTree as ET
+from django.contrib.auth import authenticate
+
+def roomraccoon_get_soap_response():
+    soap_response = f"""<SOAP-ENV:Envelope
+	    xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/">
+	    <SOAP-ENV:Header/>
+	    <SOAP-ENV:Body>
+		    <OTA_HotelResNotifRS
+			    xmlns="http://www.opentravel.org/ota/2003/05" EchoToken="ed8835ff-6198-4f38-b589-3058397f677c" Version="1" TimeStamp="2024-07-06T15:27:47+00:00">
+			    <Success/>
+			    <HotelReservations>
+				    <HotelReservation>
+					    <ResGlobalInfo>
+						    <HotelReservationIDs>
+							    <HotelReservationID ResID_Source="PMS" ResID_Type="40" ResID_Value="ABC-1234567890"/>
+						    </HotelReservationIDs>
+					    </ResGlobalInfo>
+				    </HotelReservation>
+			    </HotelReservations>
+		    </OTA_HotelResNotifRS>
+	    </SOAP-ENV:Body>
+    </SOAP-ENV:Envelope>
+    """
+    return soap_response
+
+def roomraccoon_get_soap_body(xml_body):
+    #print(f"📩 SOAP recibido de {username}:")
+    print(xml_body)
+
+    # Parsear el XML
+    root = ET.fromstring(xml_body)
+    ns = {"soap": "http://schemas.xmlsoap.org/soap/envelope/"}
+
+    # Extraer el Body SOAP
+    body = root.find(".//soap:Body", ns)
+    if body is None:
+        raise ValueError("No se encontró el Body SOAP")
+
+    # (Aquí podrías extraer tus parámetros específicos)
+    contenido = ET.tostring(body, encoding="unicode")
+    return contenido
+
+def roomraccoon_write_log(xml_body):
     f = open(os.path.join(settings.BASE_DIR, "roomraccoon.log"), "a", encoding='utf-8')
     f.write("\n---------------------------------------")
     f.write("\n{} - Recibida reserva de roomraccoon".format(datetime.now().strftime("%Y-%m-%d %H:%M:%S")))
-    f.write("\n{}".format(request.headers))
+    f.write("\n{}".format(xml_body))
 
-    given_token = request.headers.get("Roomraccoon-Webhook-Token", "")
-    pru = get_or_none(ProjectRoomraccoonUser, given_token, "token")
-    #if not compare_digest(given_token, WEBHOOK_TOKEN):
-    if pru == None:
-        f.write("\nToken no valido".format(datetime.now().strftime("%Y-%m-%d %H:%M:%S")))
-        return HttpResponseForbidden(
-            "Incorrect token in Avaibook-Webhook-Token header.",
-            content_type="text/plain",
-        )
+@csrf_exempt  # SOAP no maneja CSRF tokens
+def roomraccoon_get_booking(request):
+    if request.method != "POST":
+        return HttpResponse("Método no permitido", status=405)
 
-    booking = json.loads(request.body)
-    f.write("\n{}".format(booking))
+    auth_header = request.META.get("HTTP_AUTHORIZATION")
+    if not auth_header or not auth_header.startswith("Basic "):
+        response = HttpResponse("No autorizado", status=401)
+        response["WWW-Authenticate"] = 'Basic realm="SOAP API"'
+        return response
 
     try:
-        pru = get_or_none(ProjectRoomraccoonUser, given_token, "token")
-        #err = manage_booking_from_webhook(pau, booking)
-        #if err != "":
-        #    f.write("\nError Lock: {}".format(err))
-        #f.write("\nBooking created!")
-    except Exception as e:
-        f.write("\nError: {}".format(e))
+        encoded = auth_header.split(" ")[1]
+        decoded = base64.b64decode(encoded).decode("utf-8")
+        username, password = decoded.split(":")
+    except Exception:
+        return HttpResponse("Credenciales inválidas", status=400)
 
-    return HttpResponse("Message received okay.", content_type="text/plain")
+    user = authenticate(username=username, password=password)
+    if user == None:
+        response = HttpResponse("No autorizado", status=401)
+        response["WWW-Authenticate"] = 'Basic realm="SOAP API"'
+        return response
+
+    roomraccoon_write_log(request.body.decode("utf-8"))
+
+    try:
+        contenido = roomraccoon_get_soap_body(request.body.decode("utf-8"))
+        soap_response = roomraccoon_get_soap_response() # Resuesta SOAP
+        return HttpResponse(soap_response, content_type="text/xml")
+    except Exception as e:
+        print("❌ Error procesando SOAP:", e)
+        return HttpResponse("Error procesando SOAP", status=400)
 
 
 '''

@@ -78,6 +78,8 @@ def cash_daily_summary(obj, date):
 
                 ext_id = item.item.ext_id if item.item != None else ""
                 payment_type = translate2("es", fi.payment_type.name).replace('"', '') if fi.payment_type != None else ""
+                if fi.payment_type != None and fi.payment_type.code == "05" and details != None:
+                    payment_type = "{} (Invitado por: {})".format(payment_type, details.desc)
 
                 writer.writerow([obj.ext_code, name, "", ext_id, desc, date, fi.get_index, item.price, units, discount, total_price, room, client_id, payment_type, band, band_name])
     f.close()
