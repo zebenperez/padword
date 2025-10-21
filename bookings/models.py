@@ -4,7 +4,7 @@ from django.contrib.auth.models import User, Group
 from django.utils.translation import ugettext_lazy as _ 
 
 from contents.models import Category, Item, ShoppingCart, PaymentType, PointOfSale, Table
-from web.models import Channel, Device, Project
+from web.models import Channel, Device, Project, Room
 from guest.models import Guest
 from guest.wristband_models import Wristband
 
@@ -708,8 +708,21 @@ class FormInstance(models.Model):
         discount = 0
         low_price = item.item.price
         total_price = item.item.price
+        guest = None
+        details = self.details
+
+        #Pulsera
         if self.band != None and self.band.guest != None:
             guest = self.band.guest
+        #Habitación
+        elif details != None and details.client_room != "":
+            project = self.project
+            if project != None:
+                room = Room.objects.filter(project_uuid=project.uuid, number=details.client_room).first()
+                if room != None:
+                    guest = room.current_guest
+
+        if guest != None:
             gr = guest.regimes.first()
             if gr != None and gr.regime != None:
                 #low_price = item.item.get_price(gr.regime.code)
@@ -719,7 +732,7 @@ class FormInstance(models.Model):
             if guest.guest_type_obj != None:
                 discount = guest.guest_type_obj.discount
                 total_price = low_price - (low_price * (discount/100)) if discount > 0 else low_price
-
+ 
         item.price = item.item.price
         item.low_price = low_price
         item.discount = discount

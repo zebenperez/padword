@@ -8,6 +8,18 @@
     {% for item in fi.form.get_category.payment_types.all %}
         <div class="col-4 justify-content-center mt-1 pt-box pay-method" id="pt-box-{{item.id}}">
             <div class="justify-content-center">
+                {% if item.payment_type.code == "03" %}
+                    {% include "bookings/tpv/view-payment-types-band.html" %}
+                {% elif item.payment_type.code == "08" %}
+                    {% include "bookings/tpv/view-payment-types-guest-room.html" %}
+                {% else %}
+                    <a id="pay-type-{{item.payment_type.code}}" class="btn btn-select-payment pay-opts" 
+                        data-id="{{item.id}}" data-pt="{{item.payment_type.code}}" data-cash='{{item.payment_type.code}}'>
+                        <img src="{{item.payment_type.icon.url}}" alt="{% padword_translate item.payment_type.name %}" 
+                            class="img-width"><br /> {% padword_translate item.payment_type.name %} 
+                    </a>
+                {% endif %}
+                {%comment%}
                 {% if item.payment_type.code != "03" %}
                     <a id="pay-type-{{item.payment_type.code}}" class="btn btn-select-payment pay-opts" 
                         data-id="{{item.id}}" data-pt="{{item.payment_type.code}}" data-cash='{{item.payment_type.code}}'>
@@ -17,6 +29,7 @@
                 {% else %}
                     {% include "bookings/tpv/view-payment-types-band.html" %}
                 {% endif %}
+                {%endcomment%}
             </div>
         </div>
     {% endfor %}

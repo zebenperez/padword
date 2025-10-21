@@ -105,12 +105,15 @@
                 <tbody>
                     <tr><td>{% trans "Nº" %}.:</td> <td class="text-end"> <strong>{{fi.id}}</strong></td></tr>
                     <tr><td>{% trans "Date" %}:</td><td class="text-end"> 
-                        <strong>{{ fi.date|date:'d/m/Y H:i:s' }}</strong></td></tr>
+                        <strong>{{ fi.date_local|date:'d/m/Y H:i:s' }}</strong></td></tr>
                         {#<strong>{{ fi.date|timezone:fi.project.time_zone_name|date:'d/m/Y H:i:s' }}</strong></td></tr>#}
                     <tr><td>{% trans "Client" %}:</td><td class="text-end"> <strong>{{info.client}}</strong></td> </tr>
                     <tr><td>{% trans "Room" %}:</td><td class="text-end"> <strong>{{info.client_room}}</strong></td> </tr>
                     <tr><td>{% trans "Pago" %}:</td>
                         <td class="text-end"> <strong>{% padword_translate fi.payment_type.name %}</strong></td></tr>
+                    {% if fi.payment_type.code == "05" %}
+                        <tr><td>{% trans "Invitado por" %}:</td> <td class="text-end"> <strong>{{info.desc}}</strong></td></tr>
+                    {% endif %}
                     {% if fi.payment_type.code == "07" %}
                         <tr><td>{% trans "Hotel" %}:</td> <td class="text-end"> <strong>{{info.partner}}</strong></td></tr>
                     {% endif %}

@@ -271,17 +271,23 @@ def tpv_add_item(request):
         form_id = request.GET["form_id"]
         item_id = request.GET["item_id"]
         fi = get_or_none(FormInstance, int(form_id))
-        item = get_or_none(Item, int(item_id))
 
-        #obj = ShoppingCart.objects.create(form_instance_id=fi.id,item=item,category=item.category.name,name=item.name,price=item.price,comments='')
-        #fi.update_item_low_price(obj)
-        #fi.update_item_discount_price(obj)
+        #Formulario ya enviado o cancelado
+        if fi.current_status("01") or fi.current_status("05"):
+            context = {'msg': "00", 'fi': fi, 'project_uuid': fi.project.uuid, "mobile": ""}
+            return render(request, 'bookings/tpv/show-msg.html', context)
+
+        item = get_or_none(Item, int(item_id))
 
         obj = ShoppingCart.objects.create(form_instance_id=fi.id,item=item,category=item.category.name,name=item.name,comments='')
         fi.update_item_prices(obj)
 
         instance = FormInstance.objects.get(pk=form_id)
         return render(request, "bookings/tpv/view-ticket.html", {'fi':instance,})
+
+        #obj = ShoppingCart.objects.create(form_instance_id=fi.id,item=item,category=item.category.name,name=item.name,price=item.price,comments='')
+        #fi.update_item_low_price(obj)
+        #fi.update_item_discount_price(obj)
 
         #mobile = get_param(request.GET, "mobile")
         #temp = "view-ticket-mobile.html" if mobile != "" else "view-ticket.html"
@@ -297,20 +303,26 @@ def tpv_add_item(request):
 @group_required("waiters")
 def tpv_order_remove(request):
     try:
-        #fi_id = request.GET["obj_id"]
-        #fi = get_or_none(FormInstance, fi_id)
-        #form = fi.form
-        #fi.delete()
         fi = get_or_none(FormInstance, request.GET["obj_id"])
+
+        #Formulario ya enviado o cancelado
+        if fi.current_status("01") or fi.current_status("05"):
+            context = {'msg': "00", 'fi': fi, 'project_uuid': fi.project.uuid, "mobile": ""}
+            return render(request, 'bookings/tpv/show-msg.html', context)
+
         fi.set_status("05", request.user, "")
         request.session["table"] = ""
 
-        #return redirect(reverse("tpv-index", kwargs = {'project_uuid': form.project.uuid}))
         mobile = get_param(request.GET, "mobile")
         if mobile != "":
             return redirect(reverse("tpv-mob-index", kwargs = {'project_uuid': fi.form.project.uuid}))
         else:
             return redirect(reverse("tpv-index", kwargs = {'project_uuid': fi.form.project.uuid}))
+        #fi_id = request.GET["obj_id"]
+        #fi = get_or_none(FormInstance, fi_id)
+        #form = fi.form
+        #fi.delete()
+        #return redirect(reverse("tpv-index", kwargs = {'project_uuid': form.project.uuid}))
     except Exception as e:
         print(e)
         logger.error("[bookings-remove_fi] {}".format(str(e)))
@@ -322,6 +334,12 @@ def tpv_order_item_remove(request):
         item_id = request.GET["item_id"]
         obj = get_or_none(ShoppingCart, item_id)
         fi = get_or_none(FormInstance, obj.form_instance_id)
+
+        #Formulario ya enviado o cancelado
+        if fi.current_status("01") or fi.current_status("05"):
+            context = {'msg': "00", 'fi': fi, 'project_uuid': fi.project.uuid, "mobile": ""}
+            return render(request, 'bookings/tpv/show-msg.html', context)
+
         obj.delete()
 
         return render(request, "bookings/tpv/view-ticket.html", {'fi':fi,})
@@ -341,6 +359,13 @@ def tpv_order_item_comment(request):
         form_id = get_param(request.GET, "form_id")
         mobile = get_param(request.GET, "mobile")
         obj = get_or_none(ShoppingCart, int(item_id))
+        fi = get_or_none(FormInstance, form_id)
+
+        #Formulario ya enviado o cancelado
+        if fi.current_status("01") or fi.current_status("05"):
+            context = {'msg': "00", 'fi': fi, 'project_uuid': fi.project.uuid, "mobile": mobile}
+            return render(request, 'bookings/tpv/show-msg.html', context)
+
         return render(request, "bookings/tpv/shopping-form.html", {'obj':obj, 'form_id':form_id, 'mobile': mobile})
         #temp = get_param(request.GET, "template")
         #template = "bookings/tpv/{}.html".format(temp) if temp != "" else "bookings/tpv/shopping-form.html"
@@ -409,14 +434,17 @@ def tpv_order_send(request):
         fi = get_or_none(FormInstance, fi_id)
         project = fi.form.project
 
-        #Formulario ya enviado
-        if fi.current_status("01"):
+        #Formulario ya enviado o cancelado
+        if fi.current_status("01") or fi.current_status("05"):
             context = {'msg': "00", 'fi': fi, 'project_uuid': project.uuid, "mobile": mobile}
             return render(request, 'bookings/tpv/show-msg.html', context)
 
         fi.update_index()
         pt = get_or_none(PaymentType, pt_code, "code")
         fi.payment_type = pt
+        local_date = project.local_date(datetime.datetime.now())
+        fi.date = local_date
+        fi.amount = total
         fi.save()
 
         #Pago con paytef
@@ -452,11 +480,13 @@ def tpv_order_send(request):
                 context = {'msg': "07", 'fi': fi, 'project_uuid': project.uuid, "mobile": mobile}
                 return render(request, 'bookings/tpv/show-msg.html', context)
 
-        local_date = project.local_date(datetime.datetime.now())
+        #Ponemos el formulario como enviado
         fi.set_status("01", request.user, "")
+        #local_date = project.local_date(datetime.datetime.now())
         #fi.date = datetime.datetime.now()
-        fi.date = local_date
-        fi.amount = total
+        #fi.date = local_date
+        #fi.amount = total
+        #fi.save()
 
         factor = 1
         if "04" in pt.code:
@@ -510,6 +540,12 @@ def tpv_order_send_part(request):
         mobile = get_param(request.GET, "mobile", "")
 
         fi = get_or_none(FormInstance, fi_id)
+
+        #Formulario ya enviado o cancelado
+        if fi.current_status("01") or fi.current_status("05"):
+            context = {'msg': "00", 'fi': fi, 'project_uuid': fi.project.uuid, "mobile": mobile}
+            return render(request, 'bookings/tpv/show-msg.html', context)
+
         fi.send_items()
 
         fi.date = fi.project.local_date(datetime.datetime.now())
@@ -592,6 +628,7 @@ def order_details(request):
 @group_required("waiters")
 def cash_z(request):
     try:
+        print("--A_-")
         cash = get_or_none(Cash, request.GET["obj_id"]) 
         update_cash(cash, request.user, True)
         cash.close_date = cash.project.local_date(datetime.datetime.now())

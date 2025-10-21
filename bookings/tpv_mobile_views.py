@@ -270,6 +270,12 @@ def tpv_item_add(request):
         form_id = request.GET["form_id"]
         item_id = request.GET["item_id"]
         fi = get_or_none(FormInstance, int(form_id))
+
+        #Formulario ya enviado o cancelado
+        if fi.current_status("01") or fi.current_status("05"):
+            context = {'msg': "00", 'fi': fi, 'project_uuid': project.uuid, "mobile": "True"}
+            return render(request, 'bookings/tpv/show-msg.html', context)
+
         item = get_or_none(Item, int(item_id))
 
         #obj = ShoppingCart.objects.create(form_instance_id=fi.id,item=item,category=item.category.name,name=item.name,price=item.price,comments='')
@@ -291,6 +297,12 @@ def tpv_item_remove(request):
         item_id = request.GET["item_id"]
         obj = get_or_none(ShoppingCart, item_id)
         fi = get_or_none(FormInstance, obj.form_instance_id)
+
+        #Formulario ya enviado o cancelado
+        if fi.current_status("01") or fi.current_status("05"):
+            context = {'msg': "00", 'fi': fi, 'project_uuid': project.uuid, "mobile": "True"}
+            return render(request, 'bookings/tpv/show-msg.html', context)
+
         obj.delete()
 
         return render(request, "bookings/tpv/mobile/view-ticket-mobile.html", {'fi':fi,})
