@@ -205,7 +205,7 @@ def car_plates_csv(request, project_uuid):
         #car_get(pcu, getPath(project_uuid), "csv")
         csv = pcu.header_csv
         csv += get_csv_elements(pcu)
-        f = open("{}{}.csv".format(getPath(project_uuid), pcu.file_name), "w")
+        f = open("{}{}.csv".format(getPath(project_uuid), pcu.file_name), "w", encoding="utf-8")
         f.write(csv)
         f.close()
         ff = open("{}{}.csv.FLAG".format(getPath(project_uuid), pcu.file_name), "w")
