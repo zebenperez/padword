@@ -31,7 +31,7 @@ def get_breakfast_total(fi, band):
 def get_source_total(fi, code):
     item_list = [pci.item_id for pci in PosCodeItem.objects.filter(project_uuid=fi.project.uuid, code=code)]
     total = ShoppingCart.objects.filter(form_instance_id=fi.pk, item__ext_id__in=item_list).aggregate(Sum('total_price'))["total_price__sum"]
-    print(total)
+    #print(total)
     return total if total != None else 0
 
 '''

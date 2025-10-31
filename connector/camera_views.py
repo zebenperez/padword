@@ -92,7 +92,7 @@ def get_csv_elements(pcu):
     #guest_list += list(Guest.objcts.filter(check_in__gt=now, check_in__lte=late, project_id=pcu.project_uuid))
     i = 0
     for g in guest_list:
-        print("{} {} {} {}".format(g.name, g.surname, g.check_in, g.check_out))
+        #print("{} {} {} {}".format(g.name, g.surname, g.check_in, g.check_out))
         ini_date = g.check_in.strftime("%Y-%m-%dT%H:%M:%S.%f")[:-3]
         end_date = g.check_out.strftime("%Y-%m-%dT%H:%M:%S.%f")[:-3]
         for c in g.cars.all():

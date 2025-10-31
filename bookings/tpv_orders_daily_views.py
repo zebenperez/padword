@@ -26,6 +26,7 @@ def getFiles(project_uuid, ext_code=""):
             file_list = [f for f in os.listdir(path) if re.match(r'.*{}*'.format(ext_code), f)]
         else:
             file_list = [f for f in os.listdir(path)]
+        file_list.sort(key=str.lower, reverse=True)
     return file_list
 
 def search(project_uuid, pos):

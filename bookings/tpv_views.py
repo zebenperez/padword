@@ -405,7 +405,8 @@ def set_partner(project, fi, partner, room):
                 info.partner = f"{par.partner_name} (room: {room})"
                 info.save()
 
-def tpv_order_send_room(fi, pt, local_date, factor, project, request):
+#def tpv_order_send_room(fi, pt, local_date, factor, project, request):
+def tpv_order_send_room(fi, pt, local_date, project, request):
     wh_write_log("ORDER: {} ({})".format(fi.id, local_date.strftime("%Y-%m-%d %H:%M:%S")))
     details = fi.details
     if pt != None and (pt.code == "08" or pt.code == "0408") and details != None and details.client_room != "":
@@ -418,7 +419,8 @@ def tpv_order_send_room(fi, pt, local_date, factor, project, request):
             pwu = get_or_none(ProjectWinhotelUser, project.uuid, "project_uuid")
             if pwu != None and pwu.source_code != "":
                 wh_write_log("----> SE ENVIA EL CARGO: {} ({})".format(guest.name, details.client_room))
-                send_charges_guest(pwu, fi, guest, pos, factor)
+                #send_charges_guest(pwu, fi, guest, pos, factor)
+                send_charges_guest(pwu, fi, guest, pos)
 
 @group_required("waiters")
 def tpv_order_send(request):
@@ -510,10 +512,12 @@ def tpv_order_send(request):
                 if pwu != None and pwu.source_code != "":
                     wh_write_log("----> SE ENVIA EL CARGO: {} ({})".format(band.name, band.code))
                     #send_charges(pwu, fi, band, pos, factor)
-                    send_charges2(pwu, fi, band, pos, factor)
+                    #send_charges2(pwu, fi, band, pos, factor)
+                    send_charges2(pwu, fi, band, pos)
 
         #Cargo en habitación local
-        tpv_order_send_room(fi, pt, local_date, factor, project, request)
+        #tpv_order_send_room(fi, pt, local_date, factor, project, request)
+        tpv_order_send_room(fi, pt, local_date, project, request)
 
         #Cargo en habitación
         if pt.code == "07" and guest != None and partner != "":
@@ -761,7 +765,8 @@ def send_charges(pwu, fi, band, pos, factor):
         #wh_write_log("------> DESAYUNO")
         send_charge(pwu,booking_code,room_code,contact_name,contact_id,has_credit,limit_credit,s_break,sd_break,date,ta_break*factor,cash_code)
 
-def send_charges2(pwu, fi, band, pos, factor):
+#def send_charges2(pwu, fi, band, pos, factor):
+def send_charges2(pwu, fi, band, pos):
     b_code = band.guest.ext_id
     room_code = band.guest.room
     cont_name = "{} {}".format(band.guest.name, band.guest.surname)
@@ -777,9 +782,11 @@ def send_charges2(pwu, fi, band, pos, factor):
         cash_code = ""
         wh_write_log("------> Source: {} - Total: {}".format(source, s_total))
         #print("------> Source: {} - Total: {}".format(source, s_total))
-        send_charge(pwu,b_code,room_code,cont_name,cont_id,has_credit,limit_credit,source,s_desc,date,s_total*factor,cash_code)
+        #send_charge(pwu,b_code,room_code,cont_name,cont_id,has_credit,limit_credit,source,s_desc,date,s_total*factor,cash_code)
+        send_charge(pwu,b_code,room_code,cont_name,cont_id,has_credit,limit_credit,source,s_desc,date,s_total,cash_code)
 
-def send_charges_guest(pwu, fi, guest, pos, factor):
+#def send_charges_guest(pwu, fi, guest, pos, factor):
+def send_charges_guest(pwu, fi, guest, pos):
     b_code = guest.ext_id
     room_code = guest.room
     cont_name = "{} {}".format(guest.name, guest.surname)
@@ -795,7 +802,8 @@ def send_charges_guest(pwu, fi, guest, pos, factor):
         cash_code = ""
         wh_write_log("------> Source: {} - Total: {}".format(source, s_total))
         print("------> Source: {} - Total: {}".format(source, s_total))
-        send_charge(pwu,b_code,room_code,cont_name,cont_id,has_credit,limit_credit,source,s_desc,date,s_total*factor,cash_code)
+        #send_charge(pwu,b_code,room_code,cont_name,cont_id,has_credit,limit_credit,source,s_desc,date,s_total*factor,cash_code)
+        send_charge(pwu,b_code,room_code,cont_name,cont_id,has_credit,limit_credit,source,s_desc,date,s_total,cash_code)
 
 
 #def send_charges_room(pwu, fi, guest, pos, factor):

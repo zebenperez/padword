@@ -156,7 +156,7 @@ def cars_import_schedule(project_uuid):
     project = get_or_none(Project, project_uuid, "uuid")
     project_name = project.name if project != None else "---"
     result = "Cars Importación {} {}\n".format(project_name, datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
-    result += "-----------------------------------------------------"
+    result += "-----------------------------------------------------\n"
     try:
         result += car_plates_csv_cron(project_uuid)
     except Exception as e:

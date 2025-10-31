@@ -548,9 +548,38 @@ def roomraccoon_get_soap_response():
     """
     return soap_response
 
+def roomraccoon_get_soap_header(xml):
+    try:
+        namespaces = {
+            'SOAP-ENV': 'http://schemas.xmlsoap.org/soap/envelope/',
+            'wsse': 'http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd'
+        }
+
+        for prefix, uri in namespaces.items():
+            ET.register_namespace(prefix, uri)
+
+        root = ET.fromstring(xml)
+
+        # Encontrar elementos usando namespaces
+        username_elem = root.find('.//{http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd}Username')
+        password_elem = root.find('.//{http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd}Password')
+
+        if username_elem is not None and password_elem is not None:
+            return {
+                'username': username_elem.text,
+                'password': password_elem.text
+            }
+        else:
+            print("No se encontraron las credenciales en el header")
+            return None
+
+    except Exception as e:
+        print(f"Error procesando SOAP header: {e}")
+        return None
+
 def roomraccoon_get_soap_body(xml_body):
     #print(f"📩 SOAP recibido de {username}:")
-    print(xml_body)
+    #print(xml_body)
 
     # Parsear el XML
     root = ET.fromstring(xml_body)
@@ -576,26 +605,35 @@ def roomraccoon_get_booking(request):
     if request.method != "POST":
         return HttpResponse("Método no permitido", status=405)
 
-    auth_header = request.META.get("HTTP_AUTHORIZATION")
-    if not auth_header or not auth_header.startswith("Basic "):
-        response = HttpResponse("No autorizado", status=401)
-        response["WWW-Authenticate"] = 'Basic realm="SOAP API"'
-        return response
+#    auth_header = request.META.get("HTTP_AUTHORIZATION")
+#    if not auth_header or not auth_header.startswith("Basic "):
+#        response = HttpResponse("No autorizado", status=401)
+#        response["WWW-Authenticate"] = 'Basic realm="SOAP API"'
+#        return response
+#
+#    try:
+#        encoded = auth_header.split(" ")[1]
+#        decoded = base64.b64decode(encoded).decode("utf-8")
+#        username, password = decoded.split(":")
+#    except Exception:
+#        return HttpResponse("Credenciales inválidas", status=400)
+#
+#    user = authenticate(username=username, password=password)
+#    if user == None:
+#        response = HttpResponse("No autorizado", status=401)
+#        response["WWW-Authenticate"] = 'Basic realm="SOAP API"'
+#        return response
 
-    try:
-        encoded = auth_header.split(" ")[1]
-        decoded = base64.b64decode(encoded).decode("utf-8")
-        username, password = decoded.split(":")
-    except Exception:
+    roomraccoon_write_log(request.body.decode("utf-8"))
+    auth_header = roomraccoon_get_soap_header(request.body.decode("utf-8"))
+    if auth_header == None:
         return HttpResponse("Credenciales inválidas", status=400)
 
-    user = authenticate(username=username, password=password)
+    user = authenticate(username=auth_header["username"], password=auth_header["password"])
     if user == None:
         response = HttpResponse("No autorizado", status=401)
         response["WWW-Authenticate"] = 'Basic realm="SOAP API"'
         return response
-
-    roomraccoon_write_log(request.body.decode("utf-8"))
 
     try:
         contenido = roomraccoon_get_soap_body(request.body.decode("utf-8"))
