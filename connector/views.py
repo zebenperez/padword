@@ -13,7 +13,7 @@ from padword.commons import show_exc, get_or_none, get_param, get_random_digits,
 from padword.email_lib import send_email
 from padword.decorators import group_required
 from contents.models import ItemInCat
-from web.models import Project
+from web.models import Project, ProjectUser
 from guest.models import Guest
 from guest.wristband_models import WristbandAccessZone, Wristband, WristbandAccessZoneGuest
 from .models import ProjectAvantioUser, ProjectAvaibookUser, ProjectWinhotelUser, ProjectMewsUser, ProjectCloudbedsUser
@@ -28,6 +28,7 @@ from .cloudbeds_lib import get_booking_list as cb_get_booking_list, get_room_lis
 from .cloudbeds_lib import set_webhooks as cb_set_webhooks, manage_webhook_actions as cb_manage_webhook_actions
 from .paytef_lib import get_config as pay_get_config, get_status as pay_get_status, start_trans as pay_start_trans, get_token as pay_get_token
 from .zkteco_lib import add_person as zk_add_person
+from .roomraccoon import roomraccoon_get_soap_response, roomraccoon_get_soap_header, roomraccoon_get_soap_body, roomraccoon_parse_soap_reservation, roomraccoon_manage_booking
 
 import json, os, csv, re
 
@@ -412,9 +413,9 @@ def send_person_code(pzu, guest, code):
         for ac in zone_list:
             level = "{},{}".format(level, ac.zone.code) if level != "" else ac.zone.code
         dic = get_person_dic(guest, pzu, code, level)
-    print("--1--")
-    print(code)
-    print(dic)
+    #print("--1--")
+    #print(code)
+    #print(dic)
     res += json.dumps(dic)
     res += "<br/>"
     res += zk_add_person(pzu, dic)
@@ -489,110 +490,7 @@ def zkteco_add_person_band(request):
 '''
     ROOMRACCOON
 '''
-#@csrf_exempt
-#@require_POST
-#def roomraccoon_get_booking(request):
-#    f = open(os.path.join(settings.BASE_DIR, "roomraccoon.log"), "a", encoding='utf-8')
-#    f.write("\n---------------------------------------")
-#    f.write("\n{} - Recibida reserva de roomraccoon".format(datetime.now().strftime("%Y-%m-%d %H:%M:%S")))
-#    f.write("\n{}".format(request.headers))
-#
-#    given_token = request.headers.get("Roomraccoon-Webhook-Token", "")
-#    pru = get_or_none(ProjectRoomraccoonUser, given_token, "token")
-#    #if not compare_digest(given_token, WEBHOOK_TOKEN):
-#    if pru == None:
-#        f.write("\nToken no valido".format(datetime.now().strftime("%Y-%m-%d %H:%M:%S")))
-#        return HttpResponseForbidden(
-#            "Incorrect token in Avaibook-Webhook-Token header.",
-#            content_type="text/plain",
-#        )
-#
-#    booking = json.loads(request.body)
-#    f.write("\n{}".format(booking))
-#
-#    try:
-#        pru = get_or_none(ProjectRoomraccoonUser, given_token, "token")
-#        #err = manage_booking_from_webhook(pau, booking)
-#        #if err != "":
-#        #    f.write("\nError Lock: {}".format(err))
-#        #f.write("\nBooking created!")
-#    except Exception as e:
-#        f.write("\nError: {}".format(e))
-#
-#    return HttpResponse("Message received okay.", content_type="text/plain")
-
-import base64
-import xml.etree.ElementTree as ET
 from django.contrib.auth import authenticate
-
-def roomraccoon_get_soap_response():
-    soap_response = f"""<SOAP-ENV:Envelope
-	    xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/">
-	    <SOAP-ENV:Header/>
-	    <SOAP-ENV:Body>
-		    <OTA_HotelResNotifRS
-			    xmlns="http://www.opentravel.org/ota/2003/05" EchoToken="ed8835ff-6198-4f38-b589-3058397f677c" Version="1" TimeStamp="2024-07-06T15:27:47+00:00">
-			    <Success/>
-			    <HotelReservations>
-				    <HotelReservation>
-					    <ResGlobalInfo>
-						    <HotelReservationIDs>
-							    <HotelReservationID ResID_Source="PMS" ResID_Type="40" ResID_Value="ABC-1234567890"/>
-						    </HotelReservationIDs>
-					    </ResGlobalInfo>
-				    </HotelReservation>
-			    </HotelReservations>
-		    </OTA_HotelResNotifRS>
-	    </SOAP-ENV:Body>
-    </SOAP-ENV:Envelope>
-    """
-    return soap_response
-
-def roomraccoon_get_soap_header(xml):
-    try:
-        namespaces = {
-            'SOAP-ENV': 'http://schemas.xmlsoap.org/soap/envelope/',
-            'wsse': 'http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd'
-        }
-
-        for prefix, uri in namespaces.items():
-            ET.register_namespace(prefix, uri)
-
-        root = ET.fromstring(xml)
-
-        # Encontrar elementos usando namespaces
-        username_elem = root.find('.//{http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd}Username')
-        password_elem = root.find('.//{http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd}Password')
-
-        if username_elem is not None and password_elem is not None:
-            return {
-                'username': username_elem.text,
-                'password': password_elem.text
-            }
-        else:
-            print("No se encontraron las credenciales en el header")
-            return None
-
-    except Exception as e:
-        print(f"Error procesando SOAP header: {e}")
-        return None
-
-def roomraccoon_get_soap_body(xml_body):
-    #print(f"📩 SOAP recibido de {username}:")
-    #print(xml_body)
-
-    # Parsear el XML
-    root = ET.fromstring(xml_body)
-    ns = {"soap": "http://schemas.xmlsoap.org/soap/envelope/"}
-
-    # Extraer el Body SOAP
-    body = root.find(".//soap:Body", ns)
-    if body is None:
-        raise ValueError("No se encontró el Body SOAP")
-
-    # (Aquí podrías extraer tus parámetros específicos)
-    contenido = ET.tostring(body, encoding="unicode")
-    return contenido
 
 def roomraccoon_write_log(xml_body):
     f = open(os.path.join(settings.BASE_DIR, "roomraccoon.log"), "a", encoding='utf-8')
@@ -636,7 +534,12 @@ def roomraccoon_get_booking(request):
         return response
 
     try:
-        contenido = roomraccoon_get_soap_body(request.body.decode("utf-8"))
+        #contenido = roomraccoon_get_soap_body(request.body.decode("utf-8"))
+        pu = get_or_none(ProjectUser, user.username, "username")
+        pru = get_or_none(ProjectRoomraccoonUser, pu.project_uuid, "project_uuid")
+        content = roomraccoon_parse_soap_reservation(request.body.decode("utf-8"))
+        print(content)
+        err = roomraccoon_manage_booking(pru, content)
         soap_response = roomraccoon_get_soap_response() # Resuesta SOAP
         return HttpResponse(soap_response, content_type="text/xml")
     except Exception as e:

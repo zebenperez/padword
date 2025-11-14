@@ -11,6 +11,10 @@ import json
 import random
 import string
 
+import base64
+import xml.etree.ElementTree as ET
+
+
 try:
     API_URL = settings.AVAIBOOK_API_URL
 except:
@@ -19,9 +23,174 @@ except:
 
 BOOKINGS_URL = "/__PMS__/hotels/__HOTEL__/reservation-import"
 
+'''
+    COMMONS
+'''
 def get_param(dic, key):
     return dic[key] if key in dic else ""
 
+'''
+    SOAP MANAGEMENT
+'''
+def roomraccoon_get_soap_response():
+    soap_response = f"""<SOAP-ENV:Envelope
+	    xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/">
+	    <SOAP-ENV:Header/>
+	    <SOAP-ENV:Body>
+		    <OTA_HotelResNotifRS
+			    xmlns="http://www.opentravel.org/ota/2003/05" EchoToken="ed8835ff-6198-4f38-b589-3058397f677c" Version="1" TimeStamp="2024-07-06T15:27:47+00:00">
+			    <Success/>
+			    <HotelReservations>
+				    <HotelReservation>
+					    <ResGlobalInfo>
+						    <HotelReservationIDs>
+							    <HotelReservationID ResID_Source="PMS" ResID_Type="40" ResID_Value="ABC-1234567890"/>
+						    </HotelReservationIDs>
+					    </ResGlobalInfo>
+				    </HotelReservation>
+			    </HotelReservations>
+		    </OTA_HotelResNotifRS>
+	    </SOAP-ENV:Body>
+    </SOAP-ENV:Envelope>
+    """
+    return soap_response
+
+def roomraccoon_get_soap_header(xml):
+    try:
+        namespaces = {
+            'SOAP-ENV': 'http://schemas.xmlsoap.org/soap/envelope/',
+            'wsse': 'http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd'
+        }
+
+        for prefix, uri in namespaces.items():
+            ET.register_namespace(prefix, uri)
+
+        root = ET.fromstring(xml)
+
+        # Encontrar elementos usando namespaces
+        username_elem = root.find('.//{http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd}Username')
+        password_elem = root.find('.//{http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd}Password')
+
+        if username_elem is not None and password_elem is not None:
+            return {
+                'username': username_elem.text,
+                'password': password_elem.text
+            }
+        else:
+            print("No se encontraron las credenciales en el header")
+            return None
+
+    except Exception as e:
+        print(f"Error procesando SOAP header: {e}")
+        return None
+
+def roomraccoon_get_soap_body(xml_body):
+    #print(f"📩 SOAP recibido de {username}:")
+    #print(xml_body)
+
+    # Parsear el XML
+    root = ET.fromstring(xml_body)
+    ns = {"soap": "http://schemas.xmlsoap.org/soap/envelope/"}
+
+    # Extraer el Body SOAP
+    body = root.find(".//soap:Body", ns)
+    if body is None:
+        raise ValueError("No se encontró el Body SOAP")
+
+    # (Aquí podrías extraer tus parámetros específicos)
+    contenido = ET.tostring(body, encoding="unicode")
+    return contenido
+
+def roomraccoon_parse_soap_reservation(xml_string):
+    # Namespaces necesarios
+    namespaces = {
+        'SOAP-ENV': 'http://schemas.xmlsoap.org/soap/envelope/',
+        'ota': 'http://www.opentravel.org/OTA/2003/05',
+        'wsse': 'http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd'
+    }
+
+    # Registrar los namespaces
+    for prefix, uri in namespaces.items():
+        ET.register_namespace(prefix, uri)
+
+    try:
+        root = ET.fromstring(xml_string)
+
+        # Extraer datos de la reserva
+        reservation_data = {}
+
+        # Información básica de la reserva
+        hotel_res = root.find('.//{http://www.opentravel.org/OTA/2003/05}HotelReservation')
+        if hotel_res is not None:
+            reservation_data['status'] = hotel_res.get('ResStatus')
+            reservation_data['create_date'] = hotel_res.get('CreateDateTime')
+            reservation_data['modify_date'] = hotel_res.get('LastModifyDateTime')
+        
+        # Unique ID
+        unique_id = root.find('.//{http://www.opentravel.org/OTA/2003/05}UniqueID')
+        if unique_id is not None:
+            reservation_data['unique_id'] = unique_id.get('ID')
+        
+        # Información de la habitación
+        room_stay = root.find('.//{http://www.opentravel.org/OTA/2003/05}RoomStay')
+        if room_stay is not None:
+            # Tipo de habitación
+            room_type = room_stay.find('.//{http://www.opentravel.org/OTA/2003/05}RoomType')
+            if room_type is not None:
+                reservation_data['room_id'] = room_type.get('RoomID')
+                reservation_data['room_type'] = room_type.get('RoomType')
+                reservation_data['room_type_code'] = room_type.get('RoomTypeCode')
+            
+            # Fechas de estadía
+            time_span = room_stay.find('.//{http://www.opentravel.org/OTA/2003/05}TimeSpan')
+            if time_span is not None:
+                reservation_data['check_in'] = time_span.get('Start')
+                reservation_data['check_out'] = time_span.get('End')
+            # Total
+            total = room_stay.find('.//{http://www.opentravel.org/OTA/2003/05}Total')
+            if total is not None:
+                reservation_data['amount_before_tax'] = total.get('AmountBeforeTax')
+                reservation_data['amount_after_tax'] = total.get('AmountAfterTax')
+                reservation_data['currency'] = total.get('CurrencyCode')
+        
+        # Información del huésped
+        profile = root.find('.//{http://www.opentravel.org/OTA/2003/05}Profile')
+        if profile is not None:
+            customer = profile.find('.//{http://www.opentravel.org/OTA/2003/05}Customer')
+            if customer is not None:
+                person_name = customer.find('.//{http://www.opentravel.org/OTA/2003/05}PersonName')
+                if person_name is not None:
+                    reservation_data['guest_first_name'] = person_name.find('.//{http://www.opentravel.org/OTA/2003/05}GivenName').text
+                    reservation_data['guest_last_name'] = person_name.find('.//{http://www.opentravel.org/OTA/2003/05}Surname').text
+                
+                telephone = customer.find('.//{http://www.opentravel.org/OTA/2003/05}Telephone')
+                if telephone is not None:
+                    reservation_data['guest_phone'] = telephone.get('PhoneNumber')
+                
+                email = customer.find('.//{http://www.opentravel.org/OTA/2003/05}Email')
+                if email is not None:
+                    reservation_data['guest_email'] = email.text
+        
+        # Información del hotel
+        basic_property = root.find('.//{http://www.opentravel.org/OTA/2003/05}BasicPropertyInfo')
+        if basic_property is not None:
+            reservation_data['hotel_code'] = basic_property.get('HotelCode')
+        
+        # Comentarios
+        comment = root.find('.//{http://www.opentravel.org/OTA/2003/05}Comment/{http://www.opentravel.org/OTA/2003/05}Text')
+        if comment is not None:
+            reservation_data['comments'] = comment.text
+        
+        return reservation_data
+        #return { 'reservation': reservation_data }
+    except ET.ParseError as e:
+        return {'error': f'Error parsing XML: {str(e)}'}
+
+    #print(result)
+
+'''
+    CLASSES AND RESERVATION
+'''
 class RoomRaccoomAPIError(Exception):
     def __init__(self, menssage='Invalid Parameter'):
         self.menssage=menssage
@@ -93,76 +262,23 @@ class RoomRaccoom():
         except Exception as err:
             raise RoomRaccoomAPIError(menssage=err)
 
-#    def get_accommodations(self):
-#        try:
-#            _url_request = "{}{}".format(API_URL, ACCOMMODATIONS_URL)
-#            params = {"page": 1, "limit": 100}
-#            dic = self.__send_request__(_url_request, params).json()
-#            items = dic["items"]
-#            for i in range(2, dic["paginator"]["total_pages"]+1):
-#                params = {"page": i, "limit": 100}
-#                dic = self.__send_request__(_url_request, params).json()
-#                items += dic["items"]
-#            return items
-#            #return self.__send_request__(_url_request, params).json()["items"]
-#        except Exception as err:
-#            raise RoomRaccoomAPIError(menssage=err)
-#
-#    def send_pwa_link(self, booking_id, code, link):
-#        try:
-#            _url_request = "{}{}".format(API_URL, SEND_LINK_URL)
-#            json = {"booking_id": booking_id, "access_code": code, "access_link": link}
-#            return self.__send_post_request__(_url_request, json)
-#        except Exception as err:
-#            raise RoomRaccoomAPIError(menssage=err)
-
-class RoomRaccoomBooking():
+class RoomRaccoonBooking():
     def __init__(self, dic):
-        self.id = get_param(dic, "id")
-        self.webhook_id = get_param(dic, "internal_booking_id")
+        self.id = get_param(dic, "unique_id")
         self.status = get_param(dic, "status")
-        self.accommodation_id = get_param(dic, "accommodation_id")
-        self.unit_id = get_param(dic, "unit_id")
-        self.check_in_date = get_param(dic, "check_in_date")
-        self.check_out_date = get_param(dic, "check_out_date")
-        self.check_in_time = get_param(dic, "check_in_time")
-        self.check_out_time = get_param(dic, "check_out_time")
-        self.night_of_stay = get_param(dic, "night_of_stay")
-        self.created_at = get_param(dic, "created_at")
-        self.price = get_param(dic, "price")
-        self.number_of_guests = get_param(dic, "number_of_guests")
-        self.default_invite_email = get_param(dic, "default_invite_email")
-        self.default_leader_full_name = get_param(dic, "default_leader_full_name")
-        self.default_leader_phone = get_param(dic, "default_leader_phone")
-        self.source = get_param(dic, "source")
-        self.partner_name = get_param(dic, "partner_name")
-        self.action = get_param(dic, "action")
+        self.room_id = get_param(dic, "room_id")
+        self.room_type = get_param(dic, "room_type")
+        self.room_type_code = get_param(dic, "room_type_code")
+        self.check_in = get_param(dic, "check_in")
+        self.check_out = get_param(dic, "check_out")
+        self.guest_name = get_param(dic, "guest_first_name")
+        self.guest_last_name = get_param(dic, "guest_last_name")
+        self.guest_phone = get_param(dic, "guest_phone")
+        self.guest_email = get_param(dic, "guest_email")
+        self.hotel_code = get_param(dic, "hotel_code")
+        self.comments = get_param(dic, "comments")
         self.created = False
 
-#class RoomRaccoomAccommodationLocation():
-#    def __init__(self, dic):
-#        self.address = get_param(dic, "address")
-#        self.zip_code = get_param(dic, "zip_code")
-#        self.city = get_param(dic, "city")
-#        self.region = get_param(dic, "region")
-#        self.country = get_param(dic, "country")
-#        self.area = get_param(dic, "area")
-#        self.longitude = get_param(dic, "longitude")
-#        self.latitude = get_param(dic, "latitude")
-#
-#class RoomRaccoomAccommodationUnit():
-#    def __init__(self, dic):
-#        self.id = get_param(dic, "id")
-#        self.name = dic["name"] if "name" in dic else {}
-#
-#class RoomRaccoomAccommodation():
-#    def __init__(self, dic, location, units):
-#        self.id = get_param(dic, "id")
-#        self.name = get_param(dic, "name")
-#        self.rental_type = get_param(dic, "rental_type")
-#        self.location = location
-#        self.units = units
- 
 '''
     FUNCTIONS
 '''
@@ -176,26 +292,32 @@ def room_exist(project_uuid, room):
     count = Room.objects.filter(project_uuid=project_uuid, number=room).count()
     return (count > 0)
 
-def create_booking(pau, booking, av):
-    checkin = get_date(booking.check_in_date, booking.check_in_time)
-    checkout = get_date(booking.check_out_date, booking.check_out_time)
-    room = booking.unit_id
-    room_ex = room_exist(pau.project_uuid, room)
-    yesterday = datetime.today().replace(hour=23, minute=59, second=59) + timedelta(days=-1)
+def guest_is_changed(guest, room, checkin, checkout):
+    gc_in = guest.check_in.strftime("%Y-%m-%d %H:%M:%S")
+    gc_out = guest.check_out.strftime("%Y-%m-%d %H:%M:%S")
+    c_in = checkin.strftime("%Y-%m-%d %H:%M:%S")
+    c_out = checkout.strftime("%Y-%m-%d %H:%M:%S")
+    return True if gc_in != c_in or gc_out != c_out or guest.room != room else False
+
+def create_booking(pru, booking):
+    checkin = get_date(booking.check_in, None)
+    checkout = get_date(booking.check_out, None)
+    room = booking.room_id
+    room_ex = room_exist(pru.project_uuid, room)
     err = ""
 
-    if room_ex and checkout > yesterday:
-        b_id = booking.webhook_id if booking.webhook_id != "" else booking.id
-        guest = Guest.objects.filter(ext_id=b_id, project_id=pau.project_uuid, deleted=0).first()
-        #guest = Guest.objects.filter(ext_id=booking.id, project_id=pau.project_uuid, deleted=0).first()
-        #if booking.action != "CANCELLATION":
+    if room_ex:
+        guest = Guest.objects.filter(ext_id=booking.id, project_id=pru.project_uuid, deleted=0).first()
+        change_booking = False
         if guest == None:
-            guest = Guest(UUID = new_ui_slug(Guest, "UUID"), ext_id=b_id, project_id=pau.project_uuid)
+            guest = Guest(UUID = new_ui_slug(Guest, "UUID"), ext_id=booking.id, project_id=pru.project_uuid)
             booking.created = True
-        
-        guest.name = booking.default_leader_full_name
-        guest.mobile = booking.default_leader_phone
-        guest.email = booking.default_invite_email
+        else:
+            change_booking = guest_is_changed(guest, room, checkin, checkout)
+
+        guest.name = f"{booking.guest_name} {booking.guest_last_name}"
+        guest.mobile = booking.guest_phone
+        guest.email = booking.guest_email
         guest.check_in = checkin
         guest.check_out = checkout
         guest.room = room
@@ -205,20 +327,14 @@ def create_booking(pau, booking, av):
             #lock_code = guest.mobile[-4:]
             lock_code = ''.join([random.choice(string.digits) for i in range(4)])
             err = guest.add_all_key_code(lock_code)
-            av.send_pwa_link(guest.ext_id, lock_code, guest.pwa_link)
+            #av.send_pwa_link(guest.ext_id, lock_code, guest.pwa_link)
+        elif change_booking:
+            #time.sleep(3)
+            msg += "\n MODIFICADA: {}".format(guest.ext_id)
+            guest.change_room(room)
 
         return guest, err
-        #else:
-        #    if guest != None:
-        #        guest.delete()
     return None, err
-
-#def delete_booking(pau, booking):
-#    b_id = booking.webhook_id if booking.webhook_id != "" else booking.id
-#    guest = Guest.objects.filter(ext_id=b_id, project_id=pau.project_uuid, deleted=0).first()
-#    if guest != None:
-#        guest.delete()
-#    return None
 
 def get_booking_list():
     from .models import ProjectRoomraccoonUser
@@ -228,7 +344,7 @@ def get_booking_list():
     #print(result)
     booking_list = []
     for item in result:
-        node = RoomRaccoomBooking(item)
+        node = RoomRaccoonBooking(item)
         booking_list.append(node)
         print(node)
         #create_booking(pau, node, av)
@@ -238,45 +354,14 @@ def get_booking_list():
         #    delete_booking(pau, node)
     return booking_list
 
-#def create_accommodation(pau, acc):
-#    room = Room.objects.filter(project_uuid=pau.project_uuid, number=acc.id).first()
-#    if room != None:
-#        return room
-#
-#    room =  Room.objects.create(project_uuid=pau.project_uuid, number=acc.id)
-#    room.alias = acc.name["es"]
-#    room.uuid = new_ui_slug(Room)
-#    #room.order = 
-#    room.save()
-#    #return room
-#
-#def get_accommodation_list(pau):
-#    av = RoomRaccoom(pau.uuid, pau.token)
-#    result = av.get_accommodations()
-#    item_list = []
-#    for item in result:
-#        unit_list = []
-#        for u in item["units"]:
-#            unit = RoomRaccoomAccommodationUnit(u)
-#            unit_list.append(unit)
-#            create_accommodation(pau, unit)
-#        loc = RoomRaccoomAccommodationLocation(item["location"]) if "location" in item else {}
-#        node = RoomRaccoomAccommodation(item, loc, unit_list)
-#        item_list.append(node)
-#    return item_list
-#
-#def manage_booking_from_webhook(pau, booking):
-#    av = RoomRaccoom(pau.uuid, pau.token)
-#    node = RoomRaccoomBooking(booking)
-#    err = ""
-#    if node.action == "CANCELLATION":
-#        delete_booking(pau, node)
-#    else:
-#        guest, err = create_booking(pau, node, av)
-#    return err
-#    #if guest != None:
-#    #    send_link(pau, guest)
-#
+def roomraccoon_manage_booking(pru, booking):
+    #av = RoomRaccoom(pau.uuid, pau.token)
+    node = RoomRaccoonBooking(booking)
+    guest, err = create_booking(pru, node)
+    return err
+    #if guest != None:
+    #    send_link(pau, guest)
+
 #def send_link(pau, guest):
 #    resp = "---"
 #    av = RoomRaccoom(pau.uuid, pau.token)

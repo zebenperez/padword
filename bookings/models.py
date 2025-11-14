@@ -21,6 +21,7 @@ def ticket_to_json(fi, fi_status, resp):
     table_name = details.table if details != None else ""
     guest_name = details.client if details != None else ""
     lang = details.lang if details != None else ""
+    client_room = details.client_room if details != None else ""
     payment_type = translate2("es", fi.payment_type.name) if fi.payment_type != None else ""
     date = date_to_local(fi.date, fi.project.time_zone_name)
     st = translate2("es", fi_status.status.name) if fi_status != None else "parcial"
@@ -39,6 +40,7 @@ def ticket_to_json(fi, fi_status, resp):
         'idioma': lang,
         'estado': st,
         'tipo de pago': payment_type,
+        'habitacion': client_room,
         'elementos': []
     }
     for item in fi.get_items:
@@ -255,6 +257,7 @@ class Form(models.Model):
                 table_name = details.table if details != None else ""
                 guest_name = details.client if details != None else ""
                 lang = details.lang if details != None else ""
+                client_room = details.client_room if details != None else ""
                 payment_type = translate2("es", fi.payment_type.name) if fi.payment_type != None else ""
                 date = date_to_local(fi.date, self.project.time_zone_name)
                 fi_json = {
@@ -271,6 +274,7 @@ class Form(models.Model):
                     'idioma': lang,
                     'estado': st,
                     'tipo de pago': payment_type,
+                    'habitacion': client_room,
                     'elementos': []
                 }
                 for item in fi.get_items:
@@ -325,6 +329,7 @@ class Form(models.Model):
             table_name = details.table if details != None else ""
             guest_name = details.client if details != None else ""
             lang = details.lang if details != None else ""
+            client_room = details.client_room if details != None else ""
             st = translate2("es", fi.get_status.status.name) if fi.get_status != None else ""
             payment_type = translate2("es", fi.payment_type.name) if fi.payment_type != None else ""
             fi_json = {
@@ -339,6 +344,7 @@ class Form(models.Model):
                 'idioma': lang,
                 'estado': st,
                 'tipo de pago': payment_type,
+                'habitacion': client_room,
                 'elementos': []
             }
             for item in fi.get_items:
