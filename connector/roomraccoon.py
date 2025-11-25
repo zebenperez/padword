@@ -299,14 +299,18 @@ def guest_is_changed(guest, room, checkin, checkout):
     c_out = checkout.strftime("%Y-%m-%d %H:%M:%S")
     return True if gc_in != c_in or gc_out != c_out or guest.room != room else False
 
-def create_booking(pru, booking):
+def create_booking(pru, booking, f):
     checkin = get_date(booking.check_in, None)
     checkout = get_date(booking.check_out, None)
     room = booking.room_id
     room_ex = room_exist(pru.project_uuid, room)
     err = ""
 
+    f.write("\n[LOG]: ROOM {} {}".format(room, room_ex))
+    f.write("\n[LOG]: STATUS {}".format(booking.status))
     if room_ex:
+        f.write("\n[LOG]: CREA LA RESERVA")
+
         guest = Guest.objects.filter(ext_id=booking.id, project_id=pru.project_uuid, deleted=0).first()
         change_booking = False
         if guest == None:
@@ -315,7 +319,10 @@ def create_booking(pru, booking):
         else:
             change_booking = guest_is_changed(guest, room, checkin, checkout)
 
-        guest.name = f"{booking.guest_name} {booking.guest_last_name}"
+        f.write("\n[LOG]: ACTUALIZA LA RESERVA")
+
+        guest.name = f"{booking.guest_name}"
+        guest.surname = f"{booking.guest_last_name}"
         guest.mobile = booking.guest_phone
         guest.email = booking.guest_email
         guest.check_in = checkin
@@ -330,11 +337,19 @@ def create_booking(pru, booking):
             #av.send_pwa_link(guest.ext_id, lock_code, guest.pwa_link)
         elif change_booking:
             #time.sleep(3)
-            msg += "\n MODIFICADA: {}".format(guest.ext_id)
+            #msg += "\n MODIFICADA: {}".format(guest.ext_id)
             guest.change_room(room)
 
         return guest, err
     return None, err
+
+def remove_booking(pru, booking, f):
+    f.write("\n[LOG]: BORRANDO RESERVAS")
+    guest_list = Guest.objects.filter(ext_id=booking.id, project_id=pru.project_uuid, deleted=0)
+    for guest in guest_list:
+        f.write("\n[LOG]: BORRANDO RESERVA {}".format(guest.ext_id))
+        #msg += "\n -- Borrando: {}".format(guest.ext_id)
+        guest.delete_soft()
 
 def get_booking_list():
     from .models import ProjectRoomraccoonUser
@@ -354,11 +369,27 @@ def get_booking_list():
         #    delete_booking(pau, node)
     return booking_list
 
-def roomraccoon_manage_booking(pru, booking):
+def get_action(booking):
+    st = booking.status
+    create_list = ["Reserved", "In-house"]
+    cancel_list = ["Cancelled", "Checked-Out", "Checked-out"]
+    if st in create_list:
+        return "Manage"
+    if st in cancel_list:
+        return "Cancel"
+
+def roomraccoon_manage_booking(pru, booking, f):
     #av = RoomRaccoom(pau.uuid, pau.token)
     node = RoomRaccoonBooking(booking)
-    guest, err = create_booking(pru, node)
+    f.write("\n[LOG]: MANAGE BOOKING")
+    err = ""
+    action = get_action(node)
+    if action == "Manage":
+        guest, err = create_booking(pru, node, f)
+    if action == "Cancel":
+        remove_booking(pru, node, f)
     return err
+
     #if guest != None:
     #    send_link(pau, guest)
 

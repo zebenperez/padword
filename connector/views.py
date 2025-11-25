@@ -522,11 +522,17 @@ def roomraccoon_get_booking(request):
 #        response["WWW-Authenticate"] = 'Basic realm="SOAP API"'
 #        return response
 
+    f = open(os.path.join(settings.BASE_DIR, "roomraccoon.log"), "a", encoding='utf-8')
+    f.write("\n[LOG]: ENTRA")
+
     roomraccoon_write_log(request.body.decode("utf-8"))
     auth_header = roomraccoon_get_soap_header(request.body.decode("utf-8"))
+
+    f.write("\n[LOG]: {}".format(auth_header))
     if auth_header == None:
         return HttpResponse("Credenciales inválidas", status=400)
 
+    f.write("\n[LOG]: VALIDACION")
     user = authenticate(username=auth_header["username"], password=auth_header["password"])
     if user == None:
         response = HttpResponse("No autorizado", status=401)
@@ -534,12 +540,13 @@ def roomraccoon_get_booking(request):
         return response
 
     try:
+        f.write("\n[LOG]: CONTENIDO")
         #contenido = roomraccoon_get_soap_body(request.body.decode("utf-8"))
         pu = get_or_none(ProjectUser, user.username, "username")
         pru = get_or_none(ProjectRoomraccoonUser, pu.project_uuid, "project_uuid")
         content = roomraccoon_parse_soap_reservation(request.body.decode("utf-8"))
-        print(content)
-        err = roomraccoon_manage_booking(pru, content)
+        #print(content)
+        err = roomraccoon_manage_booking(pru, content, f)
         soap_response = roomraccoon_get_soap_response() # Resuesta SOAP
         return HttpResponse(soap_response, content_type="text/xml")
     except Exception as e:
