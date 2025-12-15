@@ -2,16 +2,16 @@
 {% load i18n bookings_tag common_tag padword_tags static %}
 
 {% block central_content %}
-	<div id="div-main" class="welcome-page">
+	<div id="div-main" class="welcome-page only">
 	    <div class="row">
               <div class="welcome-inner fit col-12 justify-content-center menu">
-                <div class="welcome-opac">
-                <h3> {% trans "Bienvenid@" %} </h3>
+                <div class="welcome-opac only">
+                <h3 class="no-text"> {% trans "Bienvenid@" %} </h3>
                 {% if guest and guest.name != "" %}
                     <h4> {{guest.name}} {{guest.surname}}<h4> 
                 {% else %}
-                    {% if cat.name != "" %}<h4> {% padword_translate cat.name %} <h4> {% endif %}
-                    {% if cat.description != "" %}<h5> {% padword_translate cat.description %} <h5> {% endif %}
+                    {% if cat.name != "" %}<h4 class="no-text"> {% padword_translate cat.name %} <h4> {% endif %}
+                    {% if cat.description != "" %}<h5 class="no-text"> {% padword_translate cat.description %} <h5> {% endif %}
                 {% endif %}
                 {% if project_uuid %}
                 </div>

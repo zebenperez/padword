@@ -69,6 +69,15 @@ class Guest(models.Model):
             return Project(name='UNKNOWN')
 
     @property
+    def room_name(self):
+        try:
+            room = Room.objects.filter(project_uuid=self.project_id, number=self.room).first()
+            return f'{room.number} ({room.alias})'
+        except Exception as e:
+            return ""
+
+
+    @property
     def check_in_gmt(self):
         return self.project.gmt_date(self.check_in, self.room_obj)
 

@@ -202,14 +202,14 @@ def create_booking(pmu, booking, av):
     err = ""
 
     #if room_ex and (("Z" in room) or ("Y" in room)):
-    print("----")
-    print("{} {}".format(booking.id, booking.number))
+    #print("----")
+    #print("{} {}".format(booking.id, booking.number))
     if room_ex:
-        print("--ENTRA--")
+        #print("--ENTRA--")
         ext_id = get_ext_id(booking)
         guest = Guest.objects.filter(ext_id=ext_id, project_id=pmu.project_uuid, deleted=0).first()
         if guest == None:
-            print("--CREA--")
+            #print("--CREA--")
             guest = Guest(UUID = new_ui_slug(Guest, "UUID"), ext_id=ext_id, project_id=pmu.project_uuid)
             booking.created = True
         

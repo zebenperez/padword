@@ -12,6 +12,7 @@ router.register(r'air', views.SensiboViewSet, basename='air')
 router.register(r'tickets', views.TicketViewSet, basename='tickets')
 router.register(r'depositboxes', views.DepositBoxViewSet, basename='depositbox')
 router.register(r'guestcars', views.GuestCarViewSet, basename='guestcars')
+router.register(r'access', views.AccessZoneViewSet, basename='access')
 
 # Wire up our API using automatic URL routing.
 # Additionally, we include login URLs for the browsable API.

@@ -7,15 +7,17 @@
         <div class="col-12 text-right p-2"><a href="" onclick="$('#guest-room-list').html('');return false;">
             <i class="fas fa-times"></i></a></div>
 
-        <div class="row guest pt-1 pb-1 pointer ark" data-url="{% url "guest-save-room" %}" data-target="div-locks" data-obj_id="{{obj.id}}" 
-            data-value="" data-hide="guest-room-list" onclick="$('#s-room').val('').removeClass('text-danger')">
+        <div class="row guest pt-1 pb-1 pointer ark" data-url="{% url "guest-save-room" %}" data-target="div-locks" 
+            data-obj_id="{{obj.id}}" data-value="" data-hide="guest-room-list" 
+            onclick="$('#s-room').val('').removeClass('text-danger')">
             <div class="col-10"> {% trans "Not assign" %} </div>
             <div class="col-2 text-right"> <i class="far fa-check-circle"></i> </div>
         </div>
 
         {% for item in items %}
-            <div class="row guest pt-1 pb-1 pointer ark" data-url="{% url "guest-save-room" %}" data-target="guest-tabs" data-obj_id="{{obj.id}}" 
-                data-value="{{item.number}}" data-hide="guest-room-list" onclick="$('#s-room').val('{{item.number}}').removeClass('text-danger')">
+            <div class="row guest pt-1 pb-1 pointer ark" data-url="{% url "guest-save-room" %}" data-target="guest-tabs" 
+                data-obj_id="{{obj.id}}" data-value="{{item.number}}" data-hide="guest-room-list" 
+                onclick="$('#s-room').val('{{item.number}}').removeClass('text-danger')">
                 <div class="col-10"> {{item.number}} ({{ item.alias }})</div>
                 <div class="col-2 text-right"> <i class="far fa-check-circle"></i> </div>
             </div>

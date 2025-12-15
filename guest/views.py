@@ -66,13 +66,21 @@ def get_guest_items(request, deleted=""):
     end_date_end = request.session["gs_end_date_end"] if "gs_end_date_end" in request.session else ""
     project_uuid = request.session["gs_project"] if "gs_project" in request.session else ""
 
+    ini_date = f'{ini_date} 00:00:00' if ini_date != "" else ""
+    end_date = f'{end_date} 23:59:59' if end_date != "" else ""
+    ini_date_end = f'{ini_date_end} 00:00:00' if ini_date_end != "" else ""
+    end_date_end = f'{end_date_end} 23:59:59' if end_date_end != "" else ""
+
     full_query = Q()
     if search_value != "":
         for myfilter in filters_to_search:
             full_query |= Q(**{myfilter: search_value})
     if room_value != "":
-        rooms_number = [item.number for item in webmod.Room.objects.filter(alias__icontains = room_value)]
-        full_query &= Q(**{'room__in': rooms_number})
+        if project_uuid != "":
+            rooms_number = [item.number for item in webmod.Room.objects.filter(alias__icontains=room_value, project_uuid=project_uuid)]
+        else:
+            rooms_number = [item.number for item in webmod.Room.objects.filter(alias__icontains = room_value)]
+        full_query &= (Q(**{'room__in': rooms_number}) | Q(**{'room__contains': room_value}))
     if lang_value != "":
         full_query &= Q(**{'language__in': lang_value})
     if ext_id_value != "":

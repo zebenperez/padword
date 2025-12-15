@@ -7,8 +7,9 @@
         <label class="label">{% trans "Name" %}*:</label>
 	    <div class="change-mobile">
             <div><input type="text" class="form-control autosave input mb-1" id="name" name="name" value="{{obj.name}}" 
-                title="{%trans "This field is required"%}" data-model-name="guest.guest" data-obj-id="{{obj.id}}" data-url="{%url "autosave_field"%}" 
-                data-target="div-notification" required/> <span class="msg_error" id="name__msg"></span></div>
+                title="{%trans "This field is required"%}" data-model-name="guest.guest" data-obj-id="{{obj.id}}" 
+                data-url="{%url "autosave_field"%}" data-target="div-notification" required/> 
+                <span class="msg_error" id="name__msg"></span></div>
             <div><button class="btn mt-1" onclick="setGuestFields('{{obj.id}}')"> <i class="fas fa-sync"></i></button></div>
         </div>
 	</div>
@@ -17,8 +18,9 @@
 	    <label class="label">{% trans "Surname" %}*:</label>
 	    <div class="change-mobile">
 		    <div><input type="text" class="form-control autosave input mb-1" id="surname" name="surname" value="{{obj.surname}}" 
-                title="{%trans "This field is required"%}" data-model-name="guest.guest" data-obj-id="{{obj.id}}" data-url="{%url "autosave_field"%}" 
-                data-target="div-notification" required/> <span class="msg_error" id="surname__msg"></span></div>
+                title="{%trans "This field is required"%}" data-model-name="guest.guest" data-obj-id="{{obj.id}}" 
+                data-url="{%url "autosave_field"%}" data-target="div-notification" required/> 
+                <span class="msg_error" id="surname__msg"></span></div>
             <div><button class="btn mt-1" onclick="setGuestSurname('{{obj.id}}')"><i class="fas fa-sync"></i></button></div>
         </div>
 	</div>
@@ -26,7 +28,7 @@
 	<div class="col-2">
 		<label class="label">{% trans "Language" %}*:</label>
         <select class="form-control input autosave b-bottom" id="language" name="language" value="{{obj.language}}" 
-            data-model-name="guest.guest" data-obj-id="{{obj.id}}" data-url="{% url "autosave_field" %}" data-target="div-notification"/>
+            data-model-name="guest.guest" data-obj-id="{{obj.id}}" data-url="{%url "autosave_field"%}" data-target="div-notification"/>
             {% for lang in obj.project.get_languages %}
                 <option value="{{lang}}" {%if obj.language|upper == lang %}selected{%endif%}>{{lang}}</option>
             {% endfor %}
@@ -36,7 +38,7 @@
 	<div class="col-2">
 	    <label class="label">{% trans "External ID" %}:</label>
 		<input type="text" class="form-control autosave input mb-1" id="ext_id" name="ext_id" value="{{obj.ext_id}}" 
-            data-model-name="guest.guest" data-obj-id="{{obj.id}}" data-url="{% url "autosave_field" %}" data-target="div-notification"/> 
+            data-model-name="guest.guest" data-obj-id="{{obj.id}}" data-url="{%url "autosave_field"%}" data-target="div-notification"/>
         <span class="msg_error" id="ext_id__msg"></span>
 	</div>
 
@@ -45,8 +47,8 @@
 	    <div class="change-mobile">
             <div><input style="border:none !important;" type="tel" class="form-control autosave input mb-4" id="mobile" name="mobile" 
                 value="{{obj.mobile|default:""}}" title="{% trans "Please enter valid phone number"%}" data-model-name="guest.guest" 
-                data-obj-id="{{obj.id}}" data-url="{% url "autosave_field" %}" data-target="div-notification" data-check="email" minlength="6" 
-                maxlength="14" required/> <span class="msg_error" id="mobile__msg"></span></div>
+                data-obj-id="{{obj.id}}" data-url="{% url "autosave_field" %}" data-target="div-notification" data-check="email" 
+                minlength="6" maxlength="14" required/> <span class="msg_error" id="mobile__msg"></span></div>
             <div><button class="btn generate-random mt-1" data-longitude="6" data-target="mobile" 
                 title="{%trans "Generate random number"%}" data-confirm="{% trans "Are you sure to modify the mobile phone?." %}">
                 <i class="fas fa-sync"></i></button></div>
@@ -54,7 +56,8 @@
 	</div>
 	<div class="col-1" style="padding:0;">
         <button class="btn ark" data-url="{%url "guest-update-code"%}" data-target="div-locks" data-obj_id="{{obj.id}}" 
-            title="{%trans "Update code locks"%}" data-confirm="{% trans "Code will be updated with last four digits of mobile phone." %}"> 
+            title="{%trans "Update code locks"%}" 
+            data-confirm="{% trans "Code will be updated with last four digits of mobile phone." %}"> 
             <i class="fas fa-check-square mt-3"></i></button>
 	</div>
 
@@ -75,40 +78,46 @@
 
 	<div class="col-3">
 		<label class="label">{% trans "Check-in date" %}*:</label>
-		<input type="date" class="form-control input mb-4 date_field" id="check_in" name="check_in" value="{{obj.check_in|date:"Y-m-d"}}" 
-            title="{% trans "This field is required" %}" required/> 
+		<input type="date" class="form-control input mb-4 date_field" id="check_in" name="check_in" 
+            value="{{obj.check_in|date:"Y-m-d"}}" title="{% trans "This field is required" %}" required/> 
             {#title="{% trans "This field is required" %}" onchange="checkDates($(this), 'check_in')" required/> #}
             <span class="msg_error" id="check_in__msg"></span>
 	</div>
 
 	<div class="col-3">
 		<label class="label">{% trans "Check-in time" %}*:</label>
-		<input type="time" class="form-control input mb-4 date_field" id="check_in_time" name="check_in" value="{{obj.check_in|date:"H:i"}}" 
-            title="{% trans "This field is required" %}" required/> 
+		<input type="time" class="form-control input mb-4 date_field" id="check_in_time" name="check_in" 
+            value="{{obj.check_in|date:"H:i"}}" title="{% trans "This field is required" %}" required/> 
             {#title="{% trans "This field is required" %}" onchange="checkDates($(this), 'check_in_time')" required/> #}
             <span class="msg_error" id="check_in_time__msg"></span>
 	</div>
 
 	<div class="col-3">
 		<label class="label">{% trans "Check-out date" %}*:</label>
-		<input type="date" class="form-control input mb-4 date_field" id="check_out" name="check_out" value="{{obj.check_out|date:"Y-m-d"}}" 
-            title="{% trans "This field is required" %}" required/> 
+		<input type="date" class="form-control input mb-4 date_field" id="check_out" name="check_out" 
+            value="{{obj.check_out|date:"Y-m-d"}}" title="{% trans "This field is required" %}" required/> 
             {#onfocusin="$('#guest-tabs').hide()" onfocusout="checkDates($(this), 'check_out'); $('#guest-tabs').show()" required/> #}
             <span class="msg_error" id="check_out__msg"></span>
 	</div>
 
 	<div class="col-3">
 		<label class="label">{% trans "Check-out time" %}*:</label>
-		<input type="time" class="form-control input mb-4 date_field" id="check_out_time" name="check_out" value="{{obj.check_out|date:"H:i"}}" 
-            title="{% trans "This field is required" %}" required/> 
+		<input type="time" class="form-control input mb-4 date_field" id="check_out_time" name="check_out" 
+            value="{{obj.check_out|date:"H:i"}}" title="{% trans "This field is required" %}" required/> 
             {#title="{% trans "This field is required" %}" onchange="checkDates($(this), 'check_out_time')" required/> #}
             <span class="msg_error" id="check_out_time__msg"></span>
 	</div>
 
 	<div class="col-4">
-		<label class="label">{% trans "Room" %}*:</label>
-        <input class="form-control input autocomplete" id="s-room" name="s-room" placeholder="Type room number..." value="{{obj.room}}"
-            data-url="{% url "guest-room-autocomplete" %}" data-target="guest-room-list" data-obj_id="{{obj.id}}" data-show="guest-room-list"/>
+        <label class="label">{% trans "Room" %}*: </label>
+        <div class="row">
+            <div class="col-6">
+                <input class="form-control input autocomplete" id="s-room" name="s-room" placeholder="Type room number..." 
+                    value="{{obj.room}}" data-url="{% url "guest-room-autocomplete" %}" data-target="guest-room-list" 
+                    data-obj_id="{{obj.id}}" data-show="guest-room-list"/>
+            </div>
+            <div class="col-6 text-end"><label class="label pt-2">{{obj.room_name}}</label></div>
+        </div>
         <div id="guest-room-list"></div>
 	</div>
 
@@ -128,8 +137,8 @@
     {% if guest_type_list|length > 0 %}
         <div class="col-4">
             <label class="label">{% trans "Guest Type" %}: </label>
-            <select class="form-control input b-bottom autosave" id="guest_type" name="guest_type" 
-                data-model-name="guest.guest" data-obj-id="{{obj.id}}" data-url="{% url "autosave_field" %}" data-target="div-notification"/>
+            <select class="form-control input b-bottom autosave" id="guest_type" name="guest_type" data-model-name="guest.guest" 
+                data-obj-id="{{obj.id}}" data-url="{% url "autosave_field" %}" data-target="div-notification"/>
                 <option value="">-- {% trans "Select guest type" %} --</option>
                 {% for item in guest_type_list %}
                     <option value="{{item.uuid}}" {%if item.uuid == obj.guest_type%}selected{%endif%}>{{item.name}}</option>
@@ -138,12 +147,14 @@
         </div>
     {% endif %}
 
-    <button id="btn-date" class="btn btn-success ark hide" data-url="{% url "guest-save-date" %}" data-target="guest-tabs" data-obj_id="{{obj.id}}" 
+    <button id="btn-date" class="btn btn-success ark hide" 
+        data-url="{% url "guest-save-date" %}" data-target="guest-tabs" data-obj_id="{{obj.id}}" 
         data-check_in="{{obj.check_in|date:"Y-m-d"}}" data-check_in_time="{{obj.check_in|date:"H:i"}}" 
         data-check_out="{{obj.check_out|date:"Y-m-d"}}" data-check_out_time="{{obj.check_out|date:"H:i"}}" 
         data-show_admin="{% if request.user|in_group:"admins" %}True{%else%}False{%endif%}"></button>  
-
 </div>
 
-<script> $(".date_field").focusout(function(){ checkGuestDates($(this), "{% trans "Checkout can not be less than checkin" %}"); }); </script>
+<script> 
+    $(".date_field").focusout(function(){ checkGuestDates($(this), "{% trans "Checkout can not be less than checkin" %}"); }); 
+</script>
 

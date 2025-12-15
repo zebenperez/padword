@@ -75,7 +75,7 @@ def get_xml_elements(pcu):
         ini_date = g.check_in.strftime("%Y-%m-%dT%H:%M:%S")
         end_date = g.check_out.strftime("%Y-%m-%dT%H:%M:%S")
         for c in g.cars.all():
-            xml += """\n<nlelemlist id="{}" numberplate="{}" listid="3" timestamp="{}" description="redcarJoe" startvaliditydate="{}" endvaliditydate="{}"/>""".format(pcu.code, c.number, now_str, ini_date, end_date)
+            xml += """\n<nlelemlist id="{}" numberplate="{}" listid="3" timestamp="{}" description="redcarJoe" startvaliditydate="{}" endvaliditydate="{}"/>""".format(pcu.code, c.number.upper(), now_str, ini_date, end_date)
     xml += "\n\n</nlelemlists>"
     return xml
 
@@ -97,7 +97,7 @@ def get_csv_elements(pcu):
         end_date = g.check_out.strftime("%Y-%m-%dT%H:%M:%S.%f")[:-3]
         for c in g.cars.all():
             name = "{} {}".format(g.name, g.surname)
-            csv += """\n{};{};{};{};{};{};{}""".format(i, c.number, pcu.code, now_str, name, ini_date, end_date)
+            csv += """\n{};{};{};{};{};{};{}""".format(i, c.number.upper(), pcu.code, now_str, name, ini_date, end_date)
             i = i+1
     return csv
 

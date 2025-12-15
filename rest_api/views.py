@@ -5,10 +5,10 @@ from rest_framework.permissions import IsAuthenticated
 
 from django.urls import reverse
 
-from .models_serializers import GuestSerializer, LockSerializer, RoomSerializer, GuestCarSerializer
+from .models_serializers import GuestSerializer, LockSerializer, RoomSerializer, GuestCarSerializer, WristbandAccessSerializer
 
 from guest.models import Guest, GuestCar
-from guest.wristband_models import Wristband
+from guest.wristband_models import Wristband, WristbandAccess, WristbandAccessPoint, WristbandAccessZone
 from bookings.models import GuestUser, Form
 #from web.models import ProjectUser, Lock, Room
 from web.models import ProjectUser, Room
@@ -17,10 +17,10 @@ from web.lock_lib import get_record_type
 from sensibo.models import ProjectSensiboUser
 from contents.models import PointOfSale
 from connector.models import ProjectStripeUser, ProjectCarUser
-from padword.commons import new_ui_slug, reverse_cardkey, timestamp_to_date, get_float, get_int
+from padword.commons import new_ui_slug, reverse_cardkey, timestamp_to_date, get_float, get_int, get_or_none
 from connector.libstripe import ShStripe
 
-from datetime import datetime
+from datetime import datetime, timedelta
 
 import logging
 logger = logging.getLogger(__name__)
@@ -1012,4 +1012,110 @@ class GuestCarViewSet(viewsets.ModelViewSet):
         logger.error("[{}]: \"Partial update function is not offered in this path.\"".format(self.request.user))
         response = {'message': 'Update function is not offered in this path.'}
         return Response(response, status=status.HTTP_403_FORBIDDEN)
+
+
+class AccessZoneViewSet(viewsets.ViewSet):
+    """
+    A simple ViewSet for access zones.
+    """
+    @action(detail=False, methods=['POST'])
+    def get_access(self, request):
+        try:
+            pu = ProjectUser.objects.get(username=self.request.user.username)
+            start_date = request.POST["start_date"] if "start_date" in request.POST else ""
+            end_date = request.POST["end_date"] if "end_date" in request.POST else ""
+            access_zone = request.POST["access_zone"] if "access_zone" in request.POST else ""
+            band_code = request.POST["band_code"] if "band_code" in request.POST else ""
+
+            if start_date == "":
+                date = datetime.today() + timedelta(days=-7)
+                start_date = date.strftime("%Y-%m-%d")
+            if end_date == "":
+                date = datetime.today() + timedelta(days=7) 
+                end_date = date.strftime("%Y-%m-%d")
+            start_date = f"{start_date} 00:00:00"
+            end_date = f"{end_date} 23:59:59"
+            kwargs = {"access_point__zone__project_uuid": pu.project.uuid, "date__range": (start_date, end_date)}
+            if access_zone != "":
+                kwargs["access_point__zone__uuid"] = access_zone
+            if band_code != "":
+                kwargs["wristband__code"] = reverse_cardkey(band_code)
+
+            access_list = WristbandAccess.objects.filter(**kwargs)
+            return Response(WristbandAccessSerializer(access_list, many=True).data, status=status.HTTP_200_OK)
+        except Exception as e:
+            logger.error("[{}]: \"{}\"".format(self.request.user, str(e)))
+            return Response({"error": True, 'msg': 'Bad request!'})
+
+
+    @action(detail=False, methods=['POST'])
+    def access_check(self, request):
+        try:
+            pu = ProjectUser.objects.get(username=self.request.user.username)
+
+            access_point = request.POST["access_point"] if "access_point" in request.POST else ""
+            code = request.POST["band_code"] if "band_code" in request.POST else ""
+
+            ap = get_or_none(WristbandAccessPoint, access_point, "uuid")
+            if ap== None:
+                msg = "Punto de acceso no encontrado!"
+                logger.error("[{}]: \"{}\"".format(self.request.user, msg))
+                return Response({"error": True, 'msg': msg})
+
+            band = Wristband.get_active_by_project(pu.project, reverse_cardkey(code))
+            if band == None:
+                msg = "Pulsera no encontrada!"
+                logger.error("[{}]: \"{}\"".format(self.request.user, msg))
+                return Response({"error": True, 'msg': msg})
+
+            if not band.can_access_zone(ap.zone):
+                msg = "Este usuario no tiene permisos para acceder a esta zona!" 
+                logger.error("[{}]: \"{}\"".format(self.request.user, msg))
+                return Response({"error": True, 'msg': msg})
+
+            last_access = band.access.all().order_by("-id").first()
+            if last_access == None:
+                #Primer acceso
+                if not ap.in_point:
+                    msg = "Este es un punto de salida y no se ha registrado ninguna entrada!"
+                    logger.error("[{}]: \"{}\"".format(self.request.user, msg))
+                    return Response({"error": True, 'msg': msg})
+                else:
+                    msg = "Ha entrado correctamente!"
+                    WristbandAccess.objects.create(wristband=band, access_point=ap, inside=True)
+                    logger.error("[{}]: \"{}\"".format(self.request.user, msg))
+                    return Response({"error": False, 'msg': msg})
+
+            else:
+                #Esta fuera
+                if not last_access.inside:
+                    #Punto de salida
+                    if not ap.in_point:
+                        msg = "Este es un punto de salida y no se ha registrado ninguna entrada"
+                        logger.error("[{}]: \"{}\"".format(self.request.user, msg))
+                        return Response({"error": True, 'msg': msg})
+                    #Punto de entrada
+                    else:
+                        msg = "Ha entrado correctamente!"
+                        WristbandAccess.objects.create(wristband=band, access_point=ap, inside=True)
+                        logger.error("[{}]: \"{}\"".format(self.request.user, msg))
+                        return Response({"error": False, 'msg': msg})
+                #Esta dentro
+                else:
+                    #Punto de salida
+                    if not ap.in_point:
+                        msg = "Ha salido correctamente!"
+                        WristbandAccess.objects.create(wristband=band, access_point=ap, inside=False)
+                        logger.error("[{}]: \"{}\"".format(self.request.user, msg))
+                        return Response({"error": False, 'msg': msg})
+                    #Punto de entrada
+                    else:
+                        msg = "Este es un punto de entrada y no se ha registrado ninguna salida"
+                        logger.error("[{}]: \"{}\"".format(self.request.user, msg))
+                        return Response({"error": True, 'msg': msg})
+            return Response({"error": True, 'msg': 'Error!'})
+        except Exception as e:
+            logger.error("[{}]: \"{}\"".format(self.request.user, str(e)))
+            return Response({"error": True, 'msg': 'Bad request!'})
+
 

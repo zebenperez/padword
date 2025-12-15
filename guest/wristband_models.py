@@ -3,7 +3,7 @@ from django.db.models import Q, Sum
 from django.utils.translation import ugettext as _
 from django.utils import timezone
 
-from padword.commons import show_exc, new_ui_slug, get_random_digits
+from padword.commons import show_exc, new_ui_slug, get_random_digits, reverse_cardkey
 from web.models import Project
 from .models import Guest
 
@@ -97,7 +97,6 @@ class WristbandAccessZone(models.Model):
         except Exception as e:
             return Project(name='UNKNOWN')
 
-
     class Meta:
         verbose_name = _("Wristband Access Zone")
         verbose_name_plural = _("Wristbands Access Zones")
@@ -146,6 +145,28 @@ class WristbandAccess(models.Model):
     date = models.DateTimeField(verbose_name=_('Date'), default=datetime.datetime.now)
     wristband = models.ForeignKey(Wristband, verbose_name=_("Wristband"), on_delete=models.CASCADE, blank=True, null=True, related_name="access")
     access_point = models.ForeignKey(WristbandAccessPoint,verbose_name=_("Access Point"),on_delete=models.SET_NULL,blank=True,null=True,related_name="accesspoints")
+
+    @property
+    def band_name(self):
+        try:
+            code = reverse_cardkey(self.wristband.code)
+            return f"{self.wristband.name} ({code})"
+        except:
+            return ""
+
+    @property
+    def zone_name(self):
+        try:
+            return f"{self.access_point.zone.name}"
+        except:
+            return ""
+
+    @property
+    def guest_name(self):
+        try:
+            return f"{self.wristband.guest.name} {self.wristband.guest.surname}"
+        except:
+            return ""
 
     class Meta:
         verbose_name = _("Wristband access")

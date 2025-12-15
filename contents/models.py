@@ -410,6 +410,13 @@ class ShoppingCart(models.Model):
     def get_low_price(self):
         return "" if self.low_price == -1 else self.low_price
 
+    def get_pos_code(self, pos, project):
+        pos_code = pos.ext_code if pos != None else ""
+        if self.item != None:
+            pci = PosCodeItem.objects.filter(item_id=self.item.ext_id, pos=pos_code, project_uuid=project.uuid).first()
+            return pci.code if pci != None else ""
+        return ""
+
     class Meta:
         db_table = 'shopping_cart'
         verbose_name = _('Shopping Cart')

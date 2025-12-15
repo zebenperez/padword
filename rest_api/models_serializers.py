@@ -1,5 +1,6 @@
 from rest_framework import serializers
 from guest.models import Guest, GuestCar
+from guest.wristband_models import WristbandAccess
 from web.models import Room
 from web.models_lock import Lock
 
@@ -70,3 +71,8 @@ class GuestCarSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = GuestCar
         fields = ['number', 'guest_name', 'date_in', 'date_out']
+
+class WristbandAccessSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = WristbandAccess
+        fields = ['inside', 'date', 'band_name', 'zone_name', 'guest_name']

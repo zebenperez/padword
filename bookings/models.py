@@ -54,6 +54,7 @@ def ticket_to_json(fi, fi_status, resp):
                 'precio_servicio_reducido': item.total_price,
                 'subtotal': 0,
                 'familia': item.category,
+                'pos_code': item.get_pos_code(fi.pos, fi.project),
                 'comments': item.comments,
                 'id_articulo_pms': 0
             }
@@ -290,6 +291,7 @@ class Form(models.Model):
                         #'precio_servicio_reducido': low_price,
                         'subtotal': 0,
                         'familia': item.category,
+                        'pos_code': item.get_pos_code(fi.pos, fi.project),
                         'id_articulo_pms': 0
                     }
                     fi_json["elementos"].append(item_json)
@@ -356,6 +358,7 @@ class Form(models.Model):
                     'precio_servicio_reducido': item.total_price,
                     'subtotal': 0,
                     'familia': item.category,
+                    'pos_code': item.get_pos_code(fi.pos, fi.project),
                     'id_articulo_pms': 0
                 }
                 fi_json["elementos"].append(item_json)

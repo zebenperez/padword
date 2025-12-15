@@ -757,6 +757,9 @@ label.control-label {
 	text-align: center;
 }
 
+.welcome-page.only {
+    padding-top: 20px;    
+}
 p.ql-align-center {
 	text-align: center;
 }
@@ -808,6 +811,14 @@ p.ql-align-right {
     font-weight: 600 !important;
 }
 
+.welcome-opac.only {
+    padding-top: 10px;
+        height: 70px;
+}
+h4.no-text,
+h5.no-text {
+    color: transparent !important;
+}
 .welcome-inner .error-msg {
     background: #fff;
     border-radius: 5px ;
