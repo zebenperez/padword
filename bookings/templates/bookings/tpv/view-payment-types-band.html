@@ -8,6 +8,10 @@
             <img src="{{item.payment_type.icon.url}}" alt="{% padword_translate item.payment_type.name %}" class="img-width"><br />
             {% padword_translate item.payment_type.name %} 
         </a>
+        {% if val == 1 %} <small style="color:#777">({%trans "Pulsera bloqueada"%})</small> {% endif %}
+        {% if val == 2 %} <small style="color:#777">({%trans "Pulsera sin límite"%})</small> {% endif %}
+        {% if val == 3 %} <small style="color:#777">({%trans "Producto no válido"%})</small> {% endif %}
+        {% if val == 4 %} <small style="color:#777">({%trans "Pulsera sin saldo"%})</small> {% endif %}
         </div>
     {% else %}
         <div class="col-4 w-100">

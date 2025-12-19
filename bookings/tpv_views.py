@@ -632,7 +632,6 @@ def order_details(request):
 @group_required("waiters")
 def cash_z(request):
     try:
-        print("--A_-")
         cash = get_or_none(Cash, request.GET["obj_id"]) 
         update_cash(cash, request.user, True)
         cash.close_date = cash.project.local_date(datetime.datetime.now())

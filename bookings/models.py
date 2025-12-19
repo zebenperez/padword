@@ -713,6 +713,21 @@ class FormInstance(models.Model):
                 return item.item.get_price(gr.regime.code)
         return item.item.price
 
+    def check_limit_hour_price(self):
+        try:
+            pos = self.pos
+            h_limit = int(pos.limit_hour.split(":")[0])
+            m_limit = int(pos.limit_hour.split(":")[1])
+            timezone = self.project.time_zone_name
+            now = datetime.datetime.now(datetime.timezone.utc)
+            date = date_to_local(now, timezone)
+            limit = datetime.datetime(now.year, now.month, now.day, h_limit, m_limit, tzinfo=datetime.timezone.utc)
+            limit_date = date_to_local(limit, timezone)
+            return (date > limit)
+        except Exception as e:
+            print(e)
+            return False
+
     def update_item_prices(self, item):
         discount = 0
         low_price = item.item.price
@@ -720,28 +735,31 @@ class FormInstance(models.Model):
         guest = None
         details = self.details
 
-        #Pulsera
-        if self.band != None and self.band.guest != None:
-            guest = self.band.guest
-        #Habitación
-        elif details != None and details.client_room != "":
-            project = self.project
-            if project != None:
-                room = Room.objects.filter(project_uuid=project.uuid, number=details.client_room).first()
-                if room != None:
-                    guest = room.current_guest
+        over_limit = self.check_limit_hour_price()
 
-        if guest != None:
-            gr = guest.regimes.first()
-            if gr != None and gr.regime != None:
-                #low_price = item.item.get_price(gr.regime.code)
-                pos = self.pos.uuid if self.pos != None else ""
-                low_price = item.item.get_pos_price(gr.regime.code, pos)
-                total_price = low_price
-            if guest.guest_type_obj != None:
-                discount = guest.guest_type_obj.discount
-                total_price = low_price - (low_price * (discount/100)) if discount > 0 else low_price
- 
+        if not over_limit:
+            #Pulsera
+            if self.band != None and self.band.guest != None:
+                guest = self.band.guest
+            #Habitación
+            elif details != None and details.client_room != "":
+                project = self.project
+                if project != None:
+                    room = Room.objects.filter(project_uuid=project.uuid, number=details.client_room).first()
+                    if room != None:
+                        guest = room.current_guest
+
+            if guest != None:
+                gr = guest.regimes.first()
+                if gr != None and gr.regime != None:
+                    #low_price = item.item.get_price(gr.regime.code)
+                    pos = self.pos.uuid if self.pos != None else ""
+                    low_price = item.item.get_pos_price(gr.regime.code, pos)
+                    total_price = low_price
+                if guest.guest_type_obj != None:
+                    discount = guest.guest_type_obj.discount
+                    total_price = low_price - (low_price * (discount/100)) if discount > 0 else low_price
+     
         item.price = item.item.price
         item.low_price = low_price
         item.discount = discount

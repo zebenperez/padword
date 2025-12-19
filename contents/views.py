@@ -555,7 +555,7 @@ def item_change_price(request):
         value = request.GET["value"]
 
         obj = get_or_none(Item, obj_id) 
-        #ItemPrice.objects.filter(item=obj, regime_code=code, pos=pos).delete()
+        ItemPrice.objects.filter(item=obj, regime_code=code, pos=pos).delete()
         ip, created = ItemPrice.objects.get_or_create(item=obj, regime_code=code, pos=pos)
         ip.price = get_float(value.replace(",", "."))
         ip.save()

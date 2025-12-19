@@ -618,6 +618,7 @@ class Room(models.Model):
         ordering = ["order"]
 
 class Waiter(models.Model):
+    view_cash = models.BooleanField(verbose_name=_("Ver Caja"), default=True)
     uuid = models.CharField(max_length = 255, verbose_name= _('UUID'), default=new_ui_slug)
     project_uuid = models.CharField(max_length = 255, verbose_name= _('Project UUID'), default='')
     username = models.CharField(max_length = 255, verbose_name= _('Username'), default='')

@@ -542,6 +542,7 @@ class PointOfSale(models.Model):
     code3 = models.CharField(verbose_name="Código 3", max_length=10, blank=True, null=True, default="")
     ext_code = models.CharField(verbose_name="Código externo", max_length=10, blank=True, null=True, default="")
     suffix = models.CharField(verbose_name="Sufijo fichero", max_length=50, blank=True, null=True, default="")
+    limit_hour = models.CharField(verbose_name="Hora límite", max_length=10, blank=True, null=True, default="")
     image = models.ImageField(upload_to=upload_pos_image, verbose_name=_("Image"), blank=True, null=True)
     ticket_head= models.TextField(verbose_name='Ticket head', default="")
     project_uuid = models.CharField(max_length=36, verbose_name='UUID Project', default="")

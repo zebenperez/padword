@@ -16,7 +16,7 @@ class ProjectUserAdmin(admin.ModelAdmin):
 admin.site.register(ProjectUser, ProjectUserAdmin)
 
 class WaiterAdmin(admin.ModelAdmin):
-	list_display = ('project', 'user')
+	list_display = ('project', 'user', 'view_cash')
 	search_fields = ['project_uuid', 'username']
 
 admin.site.register(Waiter, WaiterAdmin)

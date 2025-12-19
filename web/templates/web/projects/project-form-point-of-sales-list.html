@@ -73,12 +73,20 @@
                             title="{{item.uuid}}" data-model-name="contents.pointofsale" data-obj-id="{{item.id}}" 
                             data-url="{% url "autosave_field" %}" data-target="div-notification"/> <span id="uuid__msg"></span>	
                     </div>
-                    <div class="col-6">
+                    <div class="col-3">
                         <label class="label">{% trans "Envíos parciales" %}</label>
                         <div class="form-check form-switch">
                             <input type="checkbox" class="autosave form-check-input" id="partial" name="partial" data-bool="True"
                                 data-model-name="contents.pointofsale" data-obj-id="{{item.id}}" data-url="{% url "autosave_field" %}" 
                                 data-target="div-notification" {%if item.partial%}checked{%endif%}/> <span id="partial__msg"></span>
+                        </div>
+                    </div>
+                    <div class="col-3">
+                        <label class="label">{% trans "Hora límite" %} <small>(HH:MM)</small></label>
+                        <div class="form-check form-switch">
+                            <input type="text" class="autosave form-control" id="limit_hour" name="limit_hour" 
+                                data-model-name="contents.pointofsale" data-obj-id="{{item.id}}" data-url="{%url "autosave_field"%}" 
+                                data-target="div-notification" value="{{item.limit_hour}}"/> <span id="limit_hour__msg"></span>
                         </div>
                     </div>
                 </div>

@@ -11,12 +11,14 @@
         </div>
     </div>
     
-    <div class="row m-0 mt-3">
-        <div class="col-lg-4 offset-lg-4 col-12 text-center">
-            <button class="menu-options tables print ark w-25" data-url="{% url "tpv-print-z" %}" data-target="base" 
-                data-obj_id="{{cash.id}}"> <i class="fas fa-print"></i></button>
+    {% if request.waiter.view_cash %}
+        <div class="row m-0 mt-3">
+            <div class="col-lg-4 offset-lg-4 col-12 text-center">
+                <button class="menu-options tables print ark w-25" data-url="{% url "tpv-print-z" %}" data-target="base" 
+                    data-obj_id="{{cash.id}}"> <i class="fas fa-print"></i></button>
+            </div>
         </div>
-    </div>
+    {% endif %}
     
     <div class="row m-0 mt-3">
         <div class="col-lg-4 offset-lg-4 col-12 text-center">
