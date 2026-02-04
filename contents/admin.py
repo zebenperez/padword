@@ -31,7 +31,7 @@ class ShoppingCartAdmin(admin.ModelAdmin):
     list_display = ('form_instance_id', 'item', 'comments')
 
 class PosCodeItemAdmin(admin.ModelAdmin):
-    list_display = ('pos', 'code', 'item_id', 'project_uuid')
+    list_display = ('pos', 'code', 'name', 'item_id', 'project_uuid')
     search_fields = ['project_uuid']
 
 class PointOfSaleAdmin(admin.ModelAdmin):

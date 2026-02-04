@@ -1,0 +1,48 @@
+{% load i18n padword_tags %}
+
+
+<div class="card mt-2">
+    <div class="card-header toggle-btn" data-target="body-octorate" data-id-change="icon-extra"
+        data-text='<i class="fas fa-plus"></i>' data-text-alt='<i class="fas fa-minus"></i>'>
+        <div class="row w-100">
+            <div class="col-6 text-right" id="icon-extra"><i class="fas fa-plus"></i></div>
+            <div class="col-6 text-left"><strong>{% trans "Octorate" %}</strong></div>
+        </div>
+    </div>
+    <div class="card-body hide" id="body-octorate"> 
+        <div class="row justify-center">
+            <div class="col-6">
+                <label class="label">{% trans "Client ID" %}:</label>
+                <input type="text" class="form-control autosave input" id="client_id" name="client_id" 
+                    value="{{user_octorate.client_id}}" title="{{user_octorate.client_id}}" 
+                    data-model-name="connector.projectoctorateuser" data-obj-id="{{user_octorate.id}}" 
+                    data-url="{% url "autosave_field" %}" data-target="div-notification"/> 
+                <span id="client_id__msg"></span>	
+            </div>
+            <div class="col-6">
+                <label class="label">{% trans "Client Secret" %}:</label>
+                <input type="text" class="form-control autosave input" id="secret" name="secret" 
+                    value="{{user_octorate.secret}}" data-model-name="connector.projectoctorateuser" 
+                    data-obj-id="{{user_octorate.id}}" data-url="{% url "autosave_field" %}" data-target="div-notification"/> 
+                <span id="secret__msg"></span>	
+            </div>
+            <div class="col-6">
+                <label class="label">{% trans "Token" %}:</label>
+                <input type="text" class="form-control autosave input" id="token" name="token" 
+                    value="{{user_octorate.token}}" title="{{user_octorate.token}}"
+                    data-model-name="connector.projectoctorateuser" data-obj-id="{{user_octorate.id}}" 
+                    data-url="{% url "autosave_field" %}" data-target="div-notification"/> 
+                <span id="token__msg"></span>	
+            </div>
+            <div class="col-6">
+                <label class="label">{% trans "Refresh Token" %}:</label>
+                <input type="text" class="form-control autosave input" id="refresh" name="refresh" 
+                    value="{{user_octorate.refresh}}" title="{{user_octorate.refresh}}"
+                    data-model-name="connector.projectoctorateuser" data-obj-id="{{user_octorate.id}}" 
+                    data-url="{% url "autosave_field" %}" data-target="div-notification"/> 
+                <span id="refresh__msg"></span>	
+            </div>
+        </div>		
+    </div>		
+</div>		
+

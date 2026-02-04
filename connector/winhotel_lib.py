@@ -317,6 +317,27 @@ class Winhotel:
         json["QueryRequest"] = {"QueryHeader": self._request_header(), "InsertExternalChargeRequest": _send_charge_params}
         return json
 
+    def _request_send_liq(self, dic):
+        json = {"QueryCredentials": self._credentials(), "UserID": self.user_id}
+        _send_charge_params = {
+            "ExternalCharge": {
+                "CreditContact": {
+                    "RoomCode": "",
+                    "ContactName": dic["CreditContact"]["ContactName"],
+                    "ContactId": dic["CreditContact"]["ContactId"],
+                    "HasCredit": "true",
+                },
+                "Source": dic["Source"],
+                "SourceDocument": dic["SourceDocument"],
+                "Date": dic["Date"],
+                "TotalAmount": dic["TotalAmount"],
+                "CashCode": dic["CashCode"]
+            }
+        }
+        json["QueryRequest"] = {"QueryHeader": self._request_header(), "InsertExternalChargeRequest": _send_charge_params}
+        return json
+
+
     def get_bookings(self, state):
         try:
             _url_request = "{}{}".format(API_URL, BOOKINGS_URL)
@@ -364,6 +385,19 @@ class Winhotel:
         except Exception as err:
             write_log("--------> WH LIB ERROR: {}".format(err))
             raise WinhotelAPIError(message=err)
+
+    def send_liq(self, dic):
+        try:
+            _url_request = "{}{}".format(API_URL, SEND_CHARGE_URL)
+            _json = self._request_send_liq(dic)
+            _json_data = json.dumps(_json)
+            #write_log("--------> WH LIB ENVIO POST")
+            write_log(str(_json))
+            return self.__send_request__(_url_request, _json_data).json()
+        except Exception as err:
+            write_log("--------> WH LIB ERROR: {}".format(err))
+            raise WinhotelAPIError(message=err)
+
 
 '''
     FUNCTIONS
@@ -622,7 +656,25 @@ def send_charge(pwu,booking_code,room_code,contact_name,contact_id,has_credit,li
     #write_log("--------> WH LIB ENVIADO")
     write_log(result)
 
- 
+def send_liq(pwu, contact_name, contact_id, source, source_document, date, total_amount, cash_code):
+    dic = {
+        "CreditContact": {
+            "ContactName": contact_name,
+            "ContactId": contact_id,
+        },
+        "Source": source,
+        "SourceDocument": source_document,
+        "Date": date,
+        "TotalAmount": total_amount,
+        "CashCode": cash_code
+    }
+    w = Winhotel(pwu.source_code, pwu.target_code)
+    #write_log("--------> WH LIB ENVIO")
+    result = w.send_charge(dic)
+    #write_log("--------> WH LIB ENVIADO")
+    write_log(result)
+
+
 '''
     Import
 '''
@@ -783,8 +835,9 @@ def clean_price_item(project_uuid):
 def set_pos_code_item(dic, project_uuid):
     pos = dic[0]
     code = dic[9]
+    name = dic[10]
     item = dic[3]
-    pci, created = PosCodeItem.objects.get_or_create(item_id=item, code=code, pos=pos, project_uuid=project_uuid)
+    pci, created = PosCodeItem.objects.get_or_create(item_id=item, code=code, name=name, pos=pos, project_uuid=project_uuid)
 
 def check_item_cat(project_uuid):
     c_list = Category.objects.filter(project_uuid=project_uuid).values('internal').annotate(total=Count('id')).filter(total__gt=1)

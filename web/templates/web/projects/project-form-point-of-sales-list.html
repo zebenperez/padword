@@ -89,6 +89,14 @@
                                 data-target="div-notification" value="{{item.limit_hour}}"/> <span id="limit_hour__msg"></span>
                         </div>
                     </div>
+                    <div class="col-12">
+                        <label class="label">{% trans "Regimenes excluidos del cambio de precio después de la hora límite" %}</label>
+                        <div class="form-check form-switch">
+                            <input type="text" class="autosave form-control" id="exclude_regime" name="exclude_regime" 
+                                data-model-name="contents.pointofsale" data-obj-id="{{item.id}}" data-url="{%url "autosave_field"%}" 
+                                data-target="div-notification" value="{{item.exclude_regime}}"/> <span id="exclude_regime__msg"></span>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="col-12 mt-4">

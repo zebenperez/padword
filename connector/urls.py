@@ -16,6 +16,7 @@ urlpatterns = [
     path('winhotel/get-booking-list/<slug:project_uuid>/', views.winhotel_get_booking_list, name='winhotel-get-booking-list'),
     path('winhotel/get-day-booking-list/', views.winhotel_get_day_booking_list, name='winhotel-get-day-booking-list'),
     path('winhotel/import-items/<slug:project_uuid>/', views.winhotel_import_items, name='winhotel-import-items'),
+    path('winhotel/send-liq/<slug:project_uuid>/<slug:pos>/', views.winhotel_send_liq, name='winhotel-send-liq'),
 
     #--------------------- MEWS --------------------
     path('mews/get-booking-list/<slug:project_uuid>/', views.mews_get_booking_list, name='mews-get-booking-list'),
@@ -41,6 +42,9 @@ urlpatterns = [
 
     #--------------------- ROOMRACCOON --------------------
     path('roomraccoon/get-booking/', views.roomraccoon_get_booking, name='roomraccoon-get-booking'),
+
+    #--------------------- OCTORADE --------------------
+    path('octorate/update-token/', views.octorate_update_token, name='octorate-update-token'),
 
     #--------------------- CRON --------------------
     path('cron-log/', views.cron_log, name='cron-log'),

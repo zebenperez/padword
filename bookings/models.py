@@ -716,6 +716,13 @@ class FormInstance(models.Model):
     def check_limit_hour_price(self):
         try:
             pos = self.pos
+            guest = self.guest_info
+
+            if guest != None and guest.regime != None:
+                for exc in pos.exclude_regime.split(";"):
+                    if exc == guest.regime.code:
+                        return False
+
             h_limit = int(pos.limit_hour.split(":")[0])
             m_limit = int(pos.limit_hour.split(":")[1])
             timezone = self.project.time_zone_name
@@ -770,15 +777,19 @@ class FormInstance(models.Model):
         discount = 0
         low_price = item.item.price
         total_price = item.item.price
-        if guest != None:
-            gr = guest.regimes.first()
-            if gr != None and gr.regime != None:
-                pos = self.pos.uuid if self.pos != None else ""
-                low_price = item.item.get_pos_price(gr.regime.code, pos)
-                total_price = low_price
-            if guest.guest_type_obj != None:
-                discount = guest.guest_type_obj.discount
-                total_price = low_price - (low_price * (discount/100)) if discount > 0 else low_price
+
+        over_limit = self.check_limit_hour_price()
+
+        if not over_limit:
+            if guest != None:
+                gr = guest.regimes.first()
+                if gr != None and gr.regime != None:
+                    pos = self.pos.uuid if self.pos != None else ""
+                    low_price = item.item.get_pos_price(gr.regime.code, pos)
+                    total_price = low_price
+                if guest.guest_type_obj != None:
+                    discount = guest.guest_type_obj.discount
+                    total_price = low_price - (low_price * (discount/100)) if discount > 0 else low_price
 
         item.price = item.item.price
         item.low_price = low_price

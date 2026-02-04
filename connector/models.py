@@ -167,4 +167,18 @@ class ProjectRoomraccoonUser(models.Model):
         except:
             return None
 
+class ProjectOctorateUser(models.Model):
+    client_id = models.CharField(max_length=255, verbose_name=_('Client ID'), default="")
+    secret = models.CharField(max_length=255, verbose_name=_('Client Secret'), default="")
+    token = models.CharField(max_length=255, verbose_name=_('Token'), default="")
+    refresh = models.CharField(max_length=255, verbose_name=_('Refresh Token'), default="")
+    project_uuid = models.CharField(max_length=255, verbose_name=_('Project UUID'), default="")
+
+    @property
+    def project(self):
+        try:
+            return Project.objects.get(uuid=self.project_uuid)
+        except:
+            return None
+
 

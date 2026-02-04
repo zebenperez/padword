@@ -1,5 +1,5 @@
 from django.conf import settings
-from django.http import HttpResponse, HttpResponseForbidden 
+from django.http import HttpResponse, HttpResponseForbidden, JsonResponse
 from django.shortcuts import render, redirect
 from django.template.loader import render_to_string
 from django.utils.translation import ugettext_lazy as _ 
@@ -17,12 +17,12 @@ from web.models import Project, ProjectUser
 from guest.models import Guest
 from guest.wristband_models import WristbandAccessZone, Wristband, WristbandAccessZoneGuest
 from .models import ProjectAvantioUser, ProjectAvaibookUser, ProjectWinhotelUser, ProjectMewsUser, ProjectCloudbedsUser
-from .models import ProjectPaytefUser, ProjectZktecoUser, ProjectRoomraccoonUser
+from .models import ProjectPaytefUser, ProjectZktecoUser, ProjectRoomraccoonUser, ProjectOctorateUser
 from .avantio_lib import get_booking_list, get_booking_notif, send_link
 from .avaibook_lib import get_accommodation_list, manage_booking_from_webhook, get_booking_list as av_get_booking_list, WEBHOOK_TOKEN
 from .winhotel_lib import get_booking_list as wh_get_booking_list, import_item_prices as wh_import_item_prices
 from .winhotel_lib import get_booking_new_list as wh_get_booking_new_list, get_booking_day_list as wh_get_booking_day_list
-from .winhotel_lib import get_booking_range_list as wh_get_booking_range_list
+from .winhotel_lib import get_booking_range_list as wh_get_booking_range_list, send_liq as wh_send_liq
 from .mews_lib import get_booking_list as mw_get_booking_list, cancel_booking_list as mw_cancel_booking_list
 from .cloudbeds_lib import get_booking_list as cb_get_booking_list, get_room_list as cb_get_room_list
 from .cloudbeds_lib import set_webhooks as cb_set_webhooks, manage_webhook_actions as cb_manage_webhook_actions
@@ -203,6 +203,25 @@ def winhotel_import_items(request, project_uuid):
         updated, not_updated = wh_import_item_prices(file, project_uuid, pau.update_all_prices)
     return render(request, 'winhotel/items-import.html', {'project_uuid': project_uuid, 'updated': updated, 'not_updated': not_updated})
 
+@group_required("admins", "projects")
+def winhotel_send_liq(request, project_uuid, pos):
+    from contents.models import PosCodeItem
+
+    pwu = ProjectWinhotelUser.objects.filter(project_uuid=project_uuid).first()
+    print(pwu)
+    print(pos)
+    pci_list = PosCodeItem.objects.filter(project_uuid=project_uuid, pos=pos)
+    print(len(pci_list))
+    sources = {}
+    for item in pci_list:
+        if item.code not in sources:
+            sources[item.code] = {"name": item.name, "items":[]}
+        sources[item.code]["items"].append(item.item_id)
+    for key in sources.keys():
+        print(key)
+        print(sources[key])
+    return HttpResponse("OK")
+
 @group_required("admins")
 def winhotel_log(request):
     f = open(os.path.join(settings.BASE_DIR, "winhotel.log"), "r", encoding='utf-8')
@@ -325,7 +344,8 @@ def cloudbeds_webhook(request):
     except Exception as e:
         f.write("\nError: {}".format(e))
 
-    return HttpResponse("OK", content_type="text/plain")
+    return JsonResponse({"status": "OK"}, status=200)
+    #return HttpResponse("OK", content_type="text/plain")
 
 @group_required("admins")
 def cloudbeds_log(request):
@@ -553,6 +573,19 @@ def roomraccoon_get_booking(request):
         print("❌ Error procesando SOAP:", e)
         return HttpResponse("Error procesando SOAP", status=400)
 
+'''
+    OCTORADE
+'''
+@csrf_exempt  
+def octorate_update_token(request):
+    f = open(os.path.join(settings.BASE_DIR, "octorate.log"), "a", encoding='utf-8')
+    f.write("\n---------------------------------------")
+    f.write(request.GET)
+    f.write(request.POST)
+    print("--1--")
+    print(request.GET)
+    print(request.POST)
+    return HttpResponse("OK")
 
 '''
     ACCESS CONTROL

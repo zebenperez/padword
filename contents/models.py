@@ -543,6 +543,7 @@ class PointOfSale(models.Model):
     ext_code = models.CharField(verbose_name="Código externo", max_length=10, blank=True, null=True, default="")
     suffix = models.CharField(verbose_name="Sufijo fichero", max_length=50, blank=True, null=True, default="")
     limit_hour = models.CharField(verbose_name="Hora límite", max_length=10, blank=True, null=True, default="")
+    exclude_regime = models.CharField(verbose_name="Régimen excluido", max_length=900, blank=True, null=True, default="")
     image = models.ImageField(upload_to=upload_pos_image, verbose_name=_("Image"), blank=True, null=True)
     ticket_head= models.TextField(verbose_name='Ticket head', default="")
     project_uuid = models.CharField(max_length=36, verbose_name='UUID Project', default="")
@@ -587,6 +588,7 @@ class Table(models.Model):
 class PosCodeItem(models.Model):
     item_id = models.CharField(max_length = 255, verbose_name= _('Item Id'), default="")
     code = models.CharField(max_length = 255, verbose_name= _('Code'), default="")
+    name = models.CharField(max_length = 255, verbose_name= _('Name'), default="")
     pos = models.CharField(max_length=255, verbose_name=_("Point of Sale"), default="")
     project_uuid = models.CharField(max_length=255, verbose_name='UUID Project', default="")
 

@@ -127,7 +127,7 @@ class Cloudbeds():
 
     def get_rooms(self, property_id):
         try:
-            _url_request = "{}{}?propertyIDs={}&pageSize=10&pageSize=100".format(API_URL, ROOMS_URL, property_id)
+            _url_request = "{}{}?propertyIDs={}&pageNumber=1&pageSize=500".format(API_URL, ROOMS_URL, property_id)
             #_url_request = "{}{}".format(API_URL, ROOMS_URL)
             #params = {
             #    "pageNumber": "10",
