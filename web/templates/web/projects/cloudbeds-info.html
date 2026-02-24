@@ -5,4 +5,5 @@
     <div class="col-1 text-center"> <button type="button" class="btn btn-sm" data-bs-dismiss="modal"><i class="fas fa-times"></i></button> </div>
 </div>
 
+{% if result %}{{result|safe}}{% endif %}
 {% for w in webhooks %} {{w}}<br/><br/> {% endfor %}

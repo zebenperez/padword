@@ -30,7 +30,7 @@ from .paytef_lib import get_config as pay_get_config, get_status as pay_get_stat
 from .zkteco_lib import add_person as zk_add_person
 from .roomraccoon import roomraccoon_get_soap_response, roomraccoon_get_soap_header, roomraccoon_get_soap_body, roomraccoon_parse_soap_reservation, roomraccoon_manage_booking
 
-import json, os, csv, re
+import json, os, csv, re, threading 
 
 
 '''
@@ -313,9 +313,27 @@ def cloudbeds_set_webhooks(request):
         print(e)
         return render(request, 'error_exception.html', {'exc':show_exc(e)})
 
+@group_required("admins", "projects")
+def cloudbeds_remove_webhooks(request):
+    try:
+        pcu = get_or_none(ProjectCloudbedsUser, project_uuid, "project_uuid")
+        if pcu.property_id == "":
+            return HttpResponse("Property ID can not be empty!")
+        result = cb_remove_webhooks(pcu)
+        return HttpResponse(result)
+    except Exception as e:
+        print(e)
+        return render(request, 'error_exception.html', {'exc':show_exc(e)})
+
+
+def cloudbeds_manage_webhook(pcu, booking, f):
+    msg = cb_manage_webhook_actions(pcu, booking)
+    f.write(msg)
+
 @csrf_exempt
 @require_POST
 def cloudbeds_webhook(request):
+
     f = open(os.path.join(settings.BASE_DIR, "cloudbeds.log"), "a", encoding='utf-8')
     f.write("\n---------------------------------------")
     f.write("\n{} - Evento de cloudbeds".format(datetime.now().strftime("%Y-%m-%d %H:%M:%S")))
@@ -339,8 +357,11 @@ def cloudbeds_webhook(request):
 
         if pcu != None and pcu.project != None:
             f.write("\n PROYECTO: {}".format(pcu.project.name))
-        msg = cb_manage_webhook_actions(pcu, booking)
-        f.write(msg)
+
+        t = threading.Thread(target=cloudbeds_manage_webhook, args=[pcu, booking, f], daemon=True)
+        t.start()
+        #msg = cb_manage_webhook_actions(pcu, booking)
+        #f.write(msg)
     except Exception as e:
         f.write("\nError: {}".format(e))
 
@@ -580,8 +601,8 @@ def roomraccoon_get_booking(request):
 def octorate_update_token(request):
     f = open(os.path.join(settings.BASE_DIR, "octorate.log"), "a", encoding='utf-8')
     f.write("\n---------------------------------------")
-    f.write(request.GET)
-    f.write(request.POST)
+    f.write(str(request.GET))
+    f.write(str(request.POST))
     print("--1--")
     print(request.GET)
     print(request.POST)

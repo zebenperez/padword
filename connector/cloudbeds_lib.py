@@ -102,6 +102,26 @@ class Cloudbeds():
         except requests.exceptions.RequestException as err:
             raise CloudbedsAPIError(menssage=err)
 
+    def __send_delete_request__(self, _url_request, _params=""):
+        try:
+            _headers = {}
+            _headers['Accept'] = 'application/json'
+            _headers['x-api-key'] = '{}'.format(self.token)
+            if _params != "":
+                _response = requests.delete(_url_request, headers=_headers, params=_params)
+            else:
+                _response = requests.delete(_url_request, headers=_headers)
+            _response.raise_for_status()
+            return _response
+        except requests.exceptions.HTTPError as errh:
+            raise CloudbedsAPIError(menssage=errh)
+        except requests.exceptions.ConnectionError as errc:
+            raise CloudbedsAPIError(menssage=errc)
+        except requests.exceptions.Timeout as errt:
+            raise CloudbedsAPIError(menssage=errt)
+        except requests.exceptions.RequestException as err:
+            raise CloudbedsAPIError(menssage=err)
+
 
     def get_bookings(self, status=CONFIRM_STATE):
         try:
@@ -191,7 +211,7 @@ class Cloudbeds():
         try:
             _url_request = "{}{}".format(API_URL, WEBHOOK_DELETE_URL)
             params = { "propertyID": property_id, "subscriptionID": subs_id }
-            dic = self.__send_request__(_url_request, params).json()
+            dic = self.__send_delete_request__(_url_request, params).json()
             return dic
         except Exception as err:
             raise CloudbedsAPIError(menssage=err)
@@ -443,7 +463,10 @@ def get_webhooks(pcu):
 
 def set_webhooks(pcu):
     av = Cloudbeds(pcu.token)
-    result = "Adding reservation/status_changed webhook <br/>"
+    result = "Adding reservation/created webhook <br/>"
+    result += av.set_webhook("reservation", "created", pcu.property_id)
+    result += "<br/>"
+    result += "Adding reservation/status_changed webhook <br/>"
     result += av.set_webhook("reservation", "status_changed", pcu.property_id)
     result += "<br/>"
     result += "Adding reservation/dates_changed webhook <br/>"
@@ -473,6 +496,10 @@ def manage_webhook_actions(pcu, obj):
     random_time = random.uniform(8.0, 12.0)
     time.sleep(random_time)
     msg = ""
+    if obj["event"] == "reservation/created":
+        msg = "\n-- Creada la reserva {}".format(obj["reservationID"])
+        msg += get_or_create_booking(pcu, obj["reservationID"])
+
     if obj["event"] == "reservation/status_changed":
         msg = "\n-- Modificado el estado de la reserva {}".format(obj["reservationID"])
         msg += get_or_create_booking(pcu, obj["reservationID"])
@@ -547,6 +574,16 @@ def reservation_delete(pcu, obj):
         guest.delete_soft()
     return ""
 
+def remove_webhooks(pcu):
+    res = ""
+    av = Cloudbeds(pcu.token)
+    result = av.get_webhook(pcu.property_id)
+    if "data" in result:
+        for r in result["data"]:
+            av.delete_webhook(pcu.property_id, r["id"])
+            res += f'Removing webhook {r} <br/>'
+    return res
+ 
 def disabled_connection(pcu, obj):
     prop_id = obj["propertyID"]
 
@@ -554,7 +591,7 @@ def disabled_connection(pcu, obj):
     result = av.get_webhook(pcu.property_id)
     if "data" in result:
         for r in result["data"]:
-            delete_webhook(prop_id, r["id"])
+            av.delete_webhook(prop_id, r["id"])
  
     if obj["newState"] == "disabled":
         pcu.token = ""

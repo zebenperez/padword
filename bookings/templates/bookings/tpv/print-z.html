@@ -143,7 +143,9 @@
                         <td class="text-end"><strong>{{obj.back_room|floatformat:2}}</strong></td></tr>
                     <tr><td>{% trans "Devoluciones Cardpay" %}</td>
                         <td class="text-end"><strong>{{obj.back_cardpay|floatformat:2}}</strong></td></tr>
-                    <tr><td>{% trans "Invitaciones" %}</td><td class="text-end"><strong>{{obj.free|floatformat:2}}</strong></td></tr>
+                    {% if obj.pos.show_free %}
+                        <tr><td>{%trans "Invitaciones"%}</td><td class="text-end"><strong>{{obj.free|floatformat:2}}</strong></td></tr>
+                    {% endif %}
                 </tbody>
             </table>
             <br/><hr/><br/>

@@ -14,7 +14,7 @@ from sensibo.models import ProjectSensiboUser
 from connector.models import ProjectAvantioUser, ProjectAvaibookUser, ProjectWinhotelUser, ProjectStripeUser, ProjectRoomraccoonUser
 from connector.models import ProjectMewsUser, ProjectCarUser, ProjectCloudbedsUser, ProjectPaytefUser, ProjectZktecoUser
 from connector.models import ProjectOctorateUser
-from connector.cloudbeds_lib import set_webhooks, get_webhooks
+from connector.cloudbeds_lib import set_webhooks, get_webhooks, remove_webhooks
 from contents.models import Category, PointOfSale, PointOfSaleCategory, Table
 from bookings.models import Form, FormInstance
 from .models import *
@@ -709,14 +709,28 @@ def project_get_cloudbeds_webhooks(request):
 
 @group_required("admins")
 def project_set_cloudbeds_webhooks(request):
-    from django.utils.safestring import mark_safe
+    #from django.utils.safestring import mark_safe
     try:
         pcu = get_or_none(ProjectCloudbedsUser, request.GET["obj_id"])
         result = set_webhooks(pcu)
-        return HttpResponse(mark_safe(result))
+        return render(request, "web/projects/cloudbeds-info.html", {"result": result,})
+        #return HttpResponse(mark_safe(result))
     except Exception as e:
         print (show_exc(e))
         return HttpResponse("Error!")
+
+@group_required("admins")
+def project_remove_cloudbeds_webhooks(request):
+    #from django.utils.safestring import mark_safe
+    try:
+        pcu = get_or_none(ProjectCloudbedsUser, request.GET["obj_id"])
+        result = remove_webhooks(pcu)
+        return render(request, "web/projects/cloudbeds-info.html", {"result": result,})
+        #return HttpResponse(mark_safe(result))
+    except Exception as e:
+        print (show_exc(e))
+        return HttpResponse("Error!")
+
 
 @group_required("admins")
 def project_add_logo(request):

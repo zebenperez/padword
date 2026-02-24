@@ -20,6 +20,7 @@ try:
 except:
     API_URL = "https://api.octorate.com/connect/rest/v1"
 
+LOGIN_URL = "/identity/apilogin"
 TOKEN_URL = "/identity/token"
 
 '''
@@ -36,7 +37,7 @@ class OctoradeAPIError(Exception):
         return 'Error: {}'.format(self.menssage)
 
 class Octorade():
-    def __init__(self, token):
+    def __init__(self, token=""):
         self.token = token
         self.ids = ""
         #self.codes = ""
@@ -65,10 +66,10 @@ class Octorade():
     def __send_post_request__(self, _url_request, _json):
         try:
             _headers = {}
-            _headers['Accept'] = 'application/json'
-            _headers['x-api-key'] = '{}'.format(self.token)
+            #_headers['Accept'] = 'application/json'
+            #_headers['x-api-key'] = '{}'.format(self.token)
+            _headers['Content-Type'] = 'application/x-www-form-urlencoded'
             _response = requests.post(_url_request, headers=_headers, data=_json)
-            #_response = requests.post(_url_request, headers=_headers, json=_json)
             _response.raise_for_status()
             return _response
         except requests.exceptions.HTTPError as errh:
@@ -113,10 +114,18 @@ class Octorade():
 #        except Exception as err:
 #            raise OctoradeAPIError(menssage=err)
 
-    def get_token(self, booking_id):
+    def get_token(self, client_id, client_secret, redirect_uri, code):
         try:
-            _url_request = "{}{}".format(API_URL, BOOKING_URL)
-            dic = self.__send_request__(_url_request, {"reservationID":booking_id}).json()
+            #_url_request = "{}{}".format(API_URL, LOGIN_URL)
+            #dic = self.__send_post_request__(_url_request, {"client_id":client_id, "client_secret":client_secret}).json()
+            _url_request = "{}{}".format(API_URL, TOKEN_URL)
+            payload = {
+                "client_id": client_id, 
+                "client_secret": client_secret,
+                "redirect_uri": redirect_uri, 
+                "code": code
+            }
+            dic = self.__send_post_request__(_url_request, payload).json()
             items = dic["data"]
             return items
         except Exception as err:
@@ -125,9 +134,15 @@ class Octorade():
 
 def get_token(pcu, ext_id):
     msg = ""
-    av = Octorade(pcu.token)
-    booking = av.get_booking(ext_id)
-    print(booking)
+    oc = Octorade()
+    client_id = "public_8a17175ce23b4f26888e3c2f1f355b9c"
+    client_secret = "secret_efbdad0123d04470a9dac99228e139a0SXGFNUSURY"
+    redirect_uri = "http%3A%2F%2Fpaddev.shidix.es%2Fconnector%2Foctorate%2Fupdate-token%2F'" 
+    code = "487165"
+    oc.get_token(client_id, client_secret, redirect_uri, code)
+    #av = Octorade(pcu.token)
+    #booking = av.get_booking(ext_id)
+    #print(booking)
     return ""
 
 

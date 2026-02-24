@@ -89,7 +89,8 @@ def update_cash(cash, user, cancel_orders=False):
             elif fi.payment_type.code == "0406":
                 back_cardpay_total += amount
             elif fi.payment_type.code == "05":
-                free_total += amount
+                free_total += fi.get_total_total
+                #free_total += amount
                 
     cash.end_cash = cash_total
     cash.band = band_total

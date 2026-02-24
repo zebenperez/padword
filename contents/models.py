@@ -534,6 +534,7 @@ class CategoryUser(models.Model):
 
 class PointOfSale(models.Model):
     partial = models.BooleanField(default=False, verbose_name=_("Envíos parciales"))
+    show_free = models.BooleanField(default=True, verbose_name=_("Mostrar invitaciones"))
     order = models.IntegerField(verbose_name=_('Order'), default=0)
     uuid = models.CharField(max_length = 255, verbose_name= _('UUID'), default="")
     name = models.CharField(verbose_name="Nombre", max_length=150, blank=True, null=True, default="")

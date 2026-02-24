@@ -131,29 +131,73 @@ def roomraccoon_parse_soap_reservation(xml_string):
         if unique_id is not None:
             reservation_data['unique_id'] = unique_id.get('ID')
         
-        # Información de la habitación
-        room_stay = root.find('.//{http://www.opentravel.org/OTA/2003/05}RoomStay')
-        if room_stay is not None:
+
+        # Buscar todos los RoomStay
+        room_stays = root.findall('.//{http://www.opentravel.org/OTA/2003/05}RoomStay')
+
+        # Lista para almacenar los datos de todas las habitaciones
+        reservation_data['rooms'] = []
+
+        # Iterar sobre cada RoomStay
+        for room_stay in room_stays:
+            room_data = {}
+    
             # Tipo de habitación
             room_type = room_stay.find('.//{http://www.opentravel.org/OTA/2003/05}RoomType')
             if room_type is not None:
-                reservation_data['room_id'] = room_type.get('RoomID')
-                reservation_data['room_type'] = room_type.get('RoomType')
-                reservation_data['room_type_code'] = room_type.get('RoomTypeCode')
-            
+                room_data['room_id'] = room_type.get('RoomID')
+                room_data['room_type'] = room_type.get('RoomType')
+                room_data['room_type_code'] = room_type.get('RoomTypeCode')
+                room_data['room_status'] = room_type.get('RoomStatus')
+    
             # Fechas de estadía
             time_span = room_stay.find('.//{http://www.opentravel.org/OTA/2003/05}TimeSpan')
             if time_span is not None:
-                reservation_data['check_in'] = time_span.get('Start')
-                reservation_data['check_out'] = time_span.get('End')
+                room_data['check_in'] = time_span.get('Start')
+                room_data['check_out'] = time_span.get('End')
+    
             # Total
             total = room_stay.find('.//{http://www.opentravel.org/OTA/2003/05}Total')
             if total is not None:
-                reservation_data['amount_before_tax'] = total.get('AmountBeforeTax')
-                reservation_data['amount_after_tax'] = total.get('AmountAfterTax')
-                reservation_data['currency'] = total.get('CurrencyCode')
+                room_data['amount_before_tax'] = total.get('AmountBeforeTax')
+                room_data['amount_after_tax'] = total.get('AmountAfterTax')
+                room_data['currency'] = total.get('CurrencyCode')
+    
+            # Total
+            ns = {'ota': 'http://www.opentravel.org/OTA/2003/05'}
+            room_guest = room_stay.find('.//ota:ResGuestRPHs/ota:ResGuestRPH', ns)
+            if room_guest is not None:
+                room_data['guest_rph'] = room_guest.get('RPH')
+ 
+            # Agregar los datos de esta habitación a la lista
+            reservation_data['rooms'].append(room_data)
+
+#        # Información de la habitación
+#        room_stay = root.find('.//{http://www.opentravel.org/OTA/2003/05}RoomStay')
+#        if room_stay is not None:
+#            # Tipo de habitación
+#            room_type = room_stay.find('.//{http://www.opentravel.org/OTA/2003/05}RoomType')
+#            if room_type is not None:
+#                reservation_data['room_id'] = room_type.get('RoomID')
+#                reservation_data['room_type'] = room_type.get('RoomType')
+#                reservation_data['room_type_code'] = room_type.get('RoomTypeCode')
+#            
+#            # Fechas de estadía
+#            time_span = room_stay.find('.//{http://www.opentravel.org/OTA/2003/05}TimeSpan')
+#            if time_span is not None:
+#                reservation_data['check_in'] = time_span.get('Start')
+#                reservation_data['check_out'] = time_span.get('End')
+#            # Total
+#            total = room_stay.find('.//{http://www.opentravel.org/OTA/2003/05}Total')
+#            if total is not None:
+#                reservation_data['amount_before_tax'] = total.get('AmountBeforeTax')
+#                reservation_data['amount_after_tax'] = total.get('AmountAfterTax')
+#                reservation_data['currency'] = total.get('CurrencyCode')
         
         # Información del huésped
+        #ns = {'ota': 'http://www.opentravel.org/OTA/2003/05'}
+        #profile = root.find( './/ota:ResGuests/ota:ResGuest/ota:Profiles/ota:ProfileInfo/ota:Profile', ns)
+        #if profile == None:
         profile = root.find('.//{http://www.opentravel.org/OTA/2003/05}Profile')
         if profile is not None:
             customer = profile.find('.//{http://www.opentravel.org/OTA/2003/05}Customer')
@@ -171,6 +215,39 @@ def roomraccoon_parse_soap_reservation(xml_string):
                 if email is not None:
                     reservation_data['guest_email'] = email.text
         
+
+        ns = {'ota': 'http://www.opentravel.org/OTA/2003/05'}
+        reservation_data['guests'] = []
+        res_guests = root.findall('.//ota:ResGuests/ota:ResGuest', ns)
+        # Fallback por si el namespace no está aplicado correctamente
+        if not res_guests:
+            res_guests = root.findall('.//{http://www.opentravel.org/OTA/2003/05}ResGuest')
+
+        for res_guest in res_guests:
+            guest_data = {}
+            # Obtener ResGuestRPH
+            guest_data['res_guest_rph'] = res_guest.get('ResGuestRPH')
+            profile = res_guest.find('.//{http://www.opentravel.org/OTA/2003/05}Profile')
+            if profile is not None:
+                customer = profile.find('.//{http://www.opentravel.org/OTA/2003/05}Customer')
+                if customer is not None:
+                    person_name = customer.find('.//{http://www.opentravel.org/OTA/2003/05}PersonName')
+                    if person_name is not None:
+                        given_name = person_name.find('.//{http://www.opentravel.org/OTA/2003/05}GivenName')
+                        surname = person_name.find('.//{http://www.opentravel.org/OTA/2003/05}Surname')
+
+                        if given_name is not None:
+                            guest_data['guest_first_name'] = given_name.text
+                        if surname is not None:
+                            guest_data['guest_last_name'] = surname.text
+                    telephone = customer.find('.//{http://www.opentravel.org/OTA/2003/05}Telephone')
+                    if telephone is not None:
+                        guest_data['guest_phone'] = telephone.get('PhoneNumber')
+                    email = customer.find('.//{http://www.opentravel.org/OTA/2003/05}Email')
+                    if email is not None:
+                        guest_data['guest_email'] = email.text
+            reservation_data['guests'].append(guest_data)
+
         # Información del hotel
         basic_property = root.find('.//{http://www.opentravel.org/OTA/2003/05}BasicPropertyInfo')
         if basic_property is not None:
@@ -262,22 +339,35 @@ class RoomRaccoom():
         except Exception as err:
             raise RoomRaccoomAPIError(menssage=err)
 
+#class RoomRaccoonBookingRoom():
+#    def __init__(self, dic):
+#        self.room_id = get_param(dic, "room_id")
+#        self.room_type = get_param(dic, "room_type")
+#        self.room_type_code = get_param(dic, "room_type_code")
+#        self.check_in = get_param(dic, "check_in")
+#        self.check_out = get_param(dic, "check_out")
+
 class RoomRaccoonBooking():
-    def __init__(self, dic):
+    def __init__(self, dic, guest, room):
         self.id = get_param(dic, "unique_id")
         self.status = get_param(dic, "status")
-        self.room_id = get_param(dic, "room_id")
-        self.room_type = get_param(dic, "room_type")
-        self.room_type_code = get_param(dic, "room_type_code")
-        self.check_in = get_param(dic, "check_in")
-        self.check_out = get_param(dic, "check_out")
-        self.guest_name = get_param(dic, "guest_first_name")
-        self.guest_last_name = get_param(dic, "guest_last_name")
-        self.guest_phone = get_param(dic, "guest_phone")
-        self.guest_email = get_param(dic, "guest_email")
+
+        self.guest_name = get_param(guest, "guest_first_name")
+        self.guest_last_name = get_param(guest, "guest_last_name")
+        self.guest_phone = get_param(guest, "guest_phone")
+        self.guest_email = get_param(guest, "guest_email")
+
         self.hotel_code = get_param(dic, "hotel_code")
         self.comments = get_param(dic, "comments")
+
+        self.room_id = get_param(room, "room_id")
+        self.room_type = get_param(room, "room_type")
+        self.room_type_code = get_param(room, "room_type_code")
+        self.check_in = get_param(room, "check_in")
+        self.check_out = get_param(room, "check_out")
+
         self.created = False
+
 
 '''
     FUNCTIONS
@@ -307,14 +397,17 @@ def create_booking(pru, booking, f):
     err = ""
 
     f.write("\n[LOG]: ROOM {} {}".format(room, room_ex))
+    f.write("\n[LOG]: GUEST {} {}".format(booking.guest_name, booking.guest_last_name))
     f.write("\n[LOG]: STATUS {}".format(booking.status))
     if room_ex:
         f.write("\n[LOG]: CREA LA RESERVA")
 
-        guest = Guest.objects.filter(ext_id=booking.id, project_id=pru.project_uuid, deleted=0).first()
+        ext_id = f'{booking.id}-{booking.room_id}'
+        #ext_id = f'{booking.id}'
+        guest = Guest.objects.filter(ext_id=ext_id, project_id=pru.project_uuid, deleted=0).first()
         change_booking = False
         if guest == None:
-            guest = Guest(UUID = new_ui_slug(Guest, "UUID"), ext_id=booking.id, project_id=pru.project_uuid)
+            guest = Guest(UUID = new_ui_slug(Guest, "UUID"), ext_id=ext_id, project_id=pru.project_uuid)
             booking.created = True
         else:
             change_booking = guest_is_changed(guest, room, checkin, checkout)
@@ -345,7 +438,7 @@ def create_booking(pru, booking, f):
 
 def remove_booking(pru, booking, f):
     f.write("\n[LOG]: BORRANDO RESERVAS")
-    guest_list = Guest.objects.filter(ext_id=booking.id, project_id=pru.project_uuid, deleted=0)
+    guest_list = Guest.objects.filter(ext_id=f"{booking.id}-{booking.room_id}", project_id=pru.project_uuid, deleted=0)
     for guest in guest_list:
         f.write("\n[LOG]: BORRANDO RESERVA {}".format(guest.ext_id))
         #msg += "\n -- Borrando: {}".format(guest.ext_id)
@@ -369,8 +462,7 @@ def get_booking_list():
         #    delete_booking(pau, node)
     return booking_list
 
-def get_action(booking):
-    st = booking.status
+def get_action(st):
     create_list = ["Reserved", "In-house"]
     cancel_list = ["Cancelled", "Checked-Out", "Checked-out"]
     if st in create_list:
@@ -378,16 +470,44 @@ def get_action(booking):
     if st in cancel_list:
         return "Cancel"
 
+def clean_booking(booking_id, rooms, pru):
+    guest_list = Guest.objects.filter(ext_id__startswith=f'{booking_id}-', project_id=pru.project_uuid, deleted=0)
+    g_ids = [item.room for item in guest_list]
+    r_ids = [item["room_id"] for item in rooms]
+    res_list = list(set(g_ids) - set(r_ids))
+    for item in res_list:
+        g = Guest.objects.filter(ext_id=f'{booking_id}-{item}', project_id=pru.project_uuid, deleted=0).first()
+        if g != None:
+            g.delete_soft()
+
+def get_guest(booking, room):
+    try:
+        for item in booking["guests"]:
+            if item["res_guest_rph"] == room["guest_rph"]:
+                return item
+    except:
+        pass
+    return {
+        "guest_first_name": booking["guest_first_name"], 
+        "guest_last_name": booking["guest_last_name"], 
+        "guest_phone": booking["guest_phone"], 
+        "guest_email": booking["guest_email"] 
+    }
+
 def roomraccoon_manage_booking(pru, booking, f):
     #av = RoomRaccoom(pau.uuid, pau.token)
-    node = RoomRaccoonBooking(booking)
-    f.write("\n[LOG]: MANAGE BOOKING")
     err = ""
-    action = get_action(node)
-    if action == "Manage":
-        guest, err = create_booking(pru, node, f)
-    if action == "Cancel":
-        remove_booking(pru, node, f)
+    clean_booking(booking["unique_id"], booking["rooms"], pru)
+    for item in booking["rooms"]:
+        guest_node = get_guest(booking, item)
+        node = RoomRaccoonBooking(booking, guest_node, item)
+        f.write("\n[LOG]: MANAGE BOOKING")
+        action = get_action(node.status)
+        #action = get_action(item["room_status"])
+        if action == "Manage":
+            guest, err = create_booking(pru, node, f)
+        if action == "Cancel":
+            remove_booking(pru, node, f)
     return err
 
     #if guest != None:
