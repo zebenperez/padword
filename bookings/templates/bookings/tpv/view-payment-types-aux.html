@@ -44,6 +44,56 @@
     </div>
 </div>
 
+<div id="div-discount" class="alert alert-primary hide">
+    {% trans "Precio actual del ticket: " %} <strong>{{total|floatformat:2}} {{fi.currency}}</strong> <br/> <br/> 
+    {% trans "Va a realizar un descuento del: " %} 
+    <input type="text" class="form-control" id="input-disc" name="ticket-discount"/> <br/>
+    {% trans "Precio final: " %} <strong><span id="discount-total">{{total|floatformat:2}}</span> {{fi.currency}}</strong> <br/>
+    <select class="form-control" id="select-disc">
+        <option value="">{% trans "Seleccione una cuenta" %}</option>
+        {% for disc in fi.pos.discounts.all %} <option value="{{disc.percent}}">{{disc.percent}}</option> {% endfor %}
+    </select>
+    <br/> 
+    <div class="row">
+        <div class="col-6">
+            <button class="btn btn-primary w-100 " onclick="$('#div-discount').hide()">{%trans "Cancel"%}</button>
+        </div>
+        <div class="col-6">
+            <button id="btn-discount-confirm-{{fi.id}}" class="btn btn-primary w-100 a-disabled ark" data-bs-dismiss="modal">
+                {%trans "Confirm"%}</i>
+            </button>
+        </div>
+    </div>
+    <script>
+        $("#input-disc").keyup(function(){
+            let i = $('#input-disc').val();
+            $('#discount-total').html(getPercent('{{total}}', i));
+        });
+        $("#select-disc").change(function(){
+            let v = $('#select-disc').val();
+            let i = $('#input-disc').val();
+            if (v != "") {
+                $("#input-disc").prop('disabled', true).css('background-color', '#ddd');
+                $('#discount-total').html(getPercent('{{total}}', v));
+            } else {
+                $("#input-disc").prop('disabled', false).css('background-color', '#fff');
+                $('#discount-total').html(getPercent('{{total}}', i));
+            }
+        });
+        $("#btn-discount-confirm-{{fi.id}}").click(function(){
+            const id='#btn-send-order-{{fi.id}}';
+            let v = $('#select-disc').val();
+            let i = $('#input-disc').val();
+            if (v != "") 
+                $(id).data('discount', v);
+            else
+                $(id).data('discount', i);
+            $(id).click();
+        });
+    </script>
+</div>
+
+
 {% with partner_list=fi.project.partners.all %}
     {% if partner_list|length > 0 %}
     <div id="div-room" class="alert alert-primary hide">

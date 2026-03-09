@@ -323,6 +323,12 @@ function showAlert(body, close) {
     $('#common-modal').modal('show');
 }
 
+function getPercent(total, percent){
+    var t = parseFloat(total.replace(",", "."));
+    var p = parseFloat(percent.replace(",", "."));
+    return t - (t * (p / 100));
+}
+
 $(document).ready(()=>{
     $("body").on("keyup", ".autosearch", function(e){
         var obj = $(this);

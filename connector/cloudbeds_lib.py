@@ -123,10 +123,12 @@ class Cloudbeds():
             raise CloudbedsAPIError(menssage=err)
 
 
-    def get_bookings(self, status=CONFIRM_STATE):
+    def get_bookings(self, checkin, checkout, status=CONFIRM_STATE):
         try:
             _url_request = "{}{}".format(API_URL, BOOKINGS_URL)
             params = {
+                "checkInFrom": checkin,
+                "checkInTo": checkout,
                 "includeAllRooms": "true",
                 "status": "confirmed"
             }
@@ -391,6 +393,7 @@ def create_booking(pcu, room, booking, bguest, av):
         if booking.created:
             msg += "\n CREADA: {}".format(guest.ext_id)
             av.ids += "{}:{},".format(room.name, guest.ext_id)
+            msg += send_booking_codes(pcu, av, booking.id)
             #lock_code = get_code(pcu, guest.mobile)
             #msg += "-- CODE: {} - mobile {} - code mobile{}".format(lock_code, guest.mobile, pcu.code_mobile)
             #print(lock_code)
@@ -418,10 +421,12 @@ def create_room(pcu, room, index):
     r.save()
 
 def get_booking_list(pcu):
-    get_or_create_booking(pcu, "8990638557302")
-    return []
+    #get_or_create_booking(pcu, "8990638557302")
+    #return []
+    i_date = datetime.today()
+    e_date = i_date + timedelta(pcu.days)
     av = Cloudbeds(pcu.token)
-    result = av.get_bookings()
+    result = av.get_bookings(i_date.strftime("%Y-%m-%d"), e_date.strftime("%Y-%m-%d"))
     booking_list = []
     i = 0
     for item in result:

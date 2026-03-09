@@ -15,7 +15,7 @@ from connector.models import ProjectAvantioUser, ProjectAvaibookUser, ProjectWin
 from connector.models import ProjectMewsUser, ProjectCarUser, ProjectCloudbedsUser, ProjectPaytefUser, ProjectZktecoUser
 from connector.models import ProjectOctorateUser
 from connector.cloudbeds_lib import set_webhooks, get_webhooks, remove_webhooks
-from contents.models import Category, PointOfSale, PointOfSaleCategory, Table
+from contents.models import Category, PointOfSale, PointOfSaleCategory, Table, PosDiscount, PosDiscountItem
 from bookings.models import Form, FormInstance
 from .models import *
 #from .lock_lib import ShLock
@@ -528,6 +528,49 @@ def project_table_range(request):
     return render(request, "web/projects/project-form-table-list.html", {'item': pos, 'table_list': table_list,})
 
 @group_required("admins")
+def project_pos_discount_add(request):
+    #disc_list = []
+    try:
+        pos = get_or_none(PointOfSale, request.GET["obj_id"])
+        PosDiscount.objects.create(point_of_sale=pos)
+        #disc_list = PosDiscount.objects.filter(pos_uuid=pos.uuid)
+    except Exception as e:
+        print (show_exc(e))
+    return render(request, "web/projects/project-form-point-of-sales-discounts.html", {'item': pos,})
+    #return render(request, "web/projects/project-form-table-list.html", {'item': pos, 'disc_list': disc_list,})
+
+@group_required("admins")
+def project_pos_discount_remove(request):
+    try:
+        disc = get_or_none(PosDiscount, request.GET["obj_id"])
+        pos = disc.point_of_sale
+        disc.delete()
+        #table_list = Table.objects.filter(point_of_sale = pos)
+    except Exception as e:
+        print (show_exc(e))
+    return render(request, "web/projects/project-form-point-of-sales-discounts.html", {'item': pos,})
+    #return render(request, "web/projects/project-form-table-list.html", {'item': pos, 'table_list': table_list,})
+
+@group_required("admins")
+def project_pos_discount_item_add(request):
+    try:
+        pos = get_or_none(PointOfSale, request.GET["obj_id"])
+        PosDiscountItem.objects.create(point_of_sale=pos)
+    except Exception as e:
+        print (show_exc(e))
+    return render(request, "web/projects/project-form-point-of-sales-discounts-item.html", {'item': pos,})
+
+@group_required("admins")
+def project_pos_discount_item_remove(request):
+    try:
+        disc = get_or_none(PosDiscountItem, request.GET["obj_id"])
+        pos = disc.point_of_sale
+        disc.delete()
+    except Exception as e:
+        print (show_exc(e))
+    return render(request, "web/projects/project-form-point-of-sales-discounts-item.html", {'item': pos,})
+
+@group_required("admins")
 def project_set_avantio_schedule(request):
     try:
         pau = get_or_none(ProjectAvantioUser, request.GET["obj_id"])
@@ -550,6 +593,32 @@ def project_set_avantio_schedule(request):
             elif field == "hour_notif":
                 function = "avantio_notification_schedule"
                 hour = "\*\|{}".format(pau.hour_notif)
+                minute = "0"
+            if function != "":
+                update_cron(hour, minute, function, pau.project_uuid)
+
+        return HttpResponse("Saved!")
+    except Exception as e:
+        print (show_exc(e))
+        return HttpResponse("Error!")
+
+@group_required("admins")
+def project_set_avaibook_schedule(request):
+    try:
+        pau = get_or_none(ProjectAvaibookUser, request.GET["obj_id"])
+        val = get_param(request.GET, "value")
+        field = get_param(request.GET, "field")
+        if pau != None:
+            if field == "hour":
+                pau.hour = val
+            elif field == "minute":
+                pau.minute = val
+            pau.save()
+
+            function = ""
+            if field == "hour" or field == "minute": 
+                function = "avaibook_booking_schedule"
+                hour = "\*\|{}".format(pau.hour)
                 minute = "0"
             if function != "":
                 update_cron(hour, minute, function, pau.project_uuid)

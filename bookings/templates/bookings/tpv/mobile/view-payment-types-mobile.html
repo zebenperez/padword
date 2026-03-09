@@ -59,8 +59,14 @@
 
     {# -------------------------------- ENVIO PARCIAL ---------------------------- #}
     {% if fi.pos.partial %}
-        <div class="col-6 p-0 mt-1 btn-mobile"> {% include "bookings/tpv/view-payment-types-send-part.html" with mobile="mobile"%} </div>
+        <div class="col-6 p-0 mt-1 btn-mobile">{%include "bookings/tpv/view-payment-types-send-part.html" with mobile="mobile"%}</div>
     {% endif %}
+
+    {# -------------------------------- DISCOUNT ---------------------------- #}
+    {% if fi.pos.discount %}
+        <div class="col-6 p-0 mt-1 btn-mobile">{%include "bookings/tpv/view-payment-types-discount.html" with mobile="mobile" %}</div>
+    {% endif %}
+
 
 </div>
 

@@ -404,6 +404,7 @@ class ShoppingCart(models.Model):
     price = models.FloatField(verbose_name='Price', default=0, null=True, blank=True)
     low_price = models.FloatField(verbose_name='Low Price', default=-1, null=True, blank=True)
     discount = models.FloatField(verbose_name='Discount', default=0, null=True, blank=True)
+    discount2 = models.FloatField(verbose_name='Manual Discount', default=0, null=True, blank=True)
     total_price = models.FloatField(verbose_name='Total Price', default=-1, null=True, blank=True)
 
     @property
@@ -535,6 +536,8 @@ class CategoryUser(models.Model):
 class PointOfSale(models.Model):
     partial = models.BooleanField(default=False, verbose_name=_("Envíos parciales"))
     show_free = models.BooleanField(default=True, verbose_name=_("Mostrar invitaciones"))
+    discount = models.BooleanField(default=True, verbose_name=_("Descuentos"))
+    discount_item = models.BooleanField(default=True, verbose_name=_("Descuentos Items"))
     order = models.IntegerField(verbose_name=_('Order'), default=0)
     uuid = models.CharField(max_length = 255, verbose_name= _('UUID'), default="")
     name = models.CharField(verbose_name="Nombre", max_length=150, blank=True, null=True, default="")
@@ -606,4 +609,27 @@ class PosCodeItem(models.Model):
 
     def __str__(self):
         return self.code
+
+class PosDiscount(models.Model):
+    percent = models.FloatField(verbose_name='Porcentaje', default=0, null=True, blank=True)
+    point_of_sale = models.ForeignKey(PointOfSale, on_delete=models.CASCADE, verbose_name=_("Point of sale"), related_name="discounts")
+
+    def __str__(self):
+        return self.percent
+
+    class Meta:
+        verbose_name = _("Descuento del punto de venta")
+        verbose_name_plural = _("Descuentos del punto de venta")
+
+class PosDiscountItem(models.Model):
+    percent = models.FloatField(verbose_name='Porcentaje', default=0, null=True, blank=True)
+    point_of_sale = models.ForeignKey(PointOfSale, on_delete=models.CASCADE, verbose_name=_("Point of sale"), related_name="discounts_item")
+
+    def __str__(self):
+        return self.percent
+
+    class Meta:
+        verbose_name = _("Descuento del punto de venta")
+        verbose_name_plural = _("Descuentos del punto de venta")
+
 

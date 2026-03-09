@@ -301,6 +301,29 @@ def tpv_add_item(request):
         return render(request, "error_exception.html", {'exc':show_exc(e)})
 
 @group_required("waiters")
+def tpv_set_discount(request):
+    try:
+        obj = get_or_none(ShoppingCart, get_param(request.POST, "obj_id"))
+        fi = get_or_none(FormInstance, get_param(request.POST, "form_id"))
+        mobile = get_param(request.POST, "mobile", "")
+        disc = get_param(request.POST, "discount2", "")
+        disc_i = get_param(request.POST, "discount2i", "")
+
+        obj.discount2 = get_float(disc) if disc != "" else get_float(disc_i)
+        obj.save()
+
+        fi.update_item_prices(obj)
+        #fi.update_items_prices_guest(guest)
+
+        temp = "view-ticket-mobile.html" if mobile != "" else "view-ticket.html"
+        return render(request, f'bookings/tpv/{temp}', {'fi':fi,})
+        #return render(request, "bookings/tpv/view-ticket.html", {'fi':fi,})
+    except Exception as e:
+        print(e)
+        return render(request, "error_exception.html", {'exc':show_exc(e)})
+
+
+@group_required("waiters")
 def tpv_order_remove(request):
     try:
         fi = get_or_none(FormInstance, request.GET["obj_id"])
@@ -379,6 +402,25 @@ def tpv_order_item_comment(request):
         print(e)
         return render(request, "error_exception.html", {'exc':show_exc(e)})
 
+@group_required("waiters")
+def tpv_order_item_discount(request):
+    try:
+        item_id = get_param(request.GET, "item_id")
+        form_id = get_param(request.GET, "form_id")
+        mobile = get_param(request.GET, "mobile")
+        obj = get_or_none(ShoppingCart, int(item_id))
+        fi = get_or_none(FormInstance, form_id)
+
+        #Formulario ya enviado o cancelado
+        if fi.current_status("01") or fi.current_status("05"):
+            context = {'msg': "00", 'fi': fi, 'project_uuid': fi.project.uuid, "mobile": mobile}
+            return render(request, 'bookings/tpv/show-msg.html', context)
+
+        return render(request, "bookings/tpv/discount-form.html", {'obj':obj, 'form_id':form_id, 'mobile': mobile, 'fi': fi})
+    except Exception as e:
+        print(e)
+        return render(request, "error_exception.html", {'exc':show_exc(e)})
+
 def add_balance_to_band(pos, fi, band):
     url = "/bookings/booking-guest-view/"
     desc = "Ticket from {}: ".format(pos.name)
@@ -432,6 +474,7 @@ def tpv_order_send(request):
         band_id = get_param(request.GET, "band", "")
         desc = get_param(request.GET, "desc", "")
         mobile = get_param(request.GET, "mobile", "")
+        discount = get_param(request.GET, "discount", "")
 
         fi = get_or_none(FormInstance, fi_id)
         project = fi.form.project
@@ -447,6 +490,7 @@ def tpv_order_send(request):
         local_date = project.local_date(datetime.datetime.now())
         fi.date = local_date
         fi.amount = total
+        fi.discount = get_float(discount)
         fi.save()
 
         #Pago con paytef

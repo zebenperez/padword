@@ -1,0 +1,37 @@
+{% load i18n padword_tags %}
+
+<div class="row justify-center p-0">
+    <div class="col-9">
+        {#<label class="label">{% trans "Activar" %}</label>#}
+        <div class="form-check form-switch">
+            <input type="checkbox" class="autosave form-check-input" id="discount_item" name="discount_item" data-bool="True"
+                data-model-name="contents.pointofsale" data-obj-id="{{item.id}}" data-url="{% url "autosave_field" %}" 
+                data-target="div-notification" {%if item.discount_item%}checked{%endif%}/> <span id="discount_item__msg"></span>
+        </div>
+    </div>
+    <div class="col-3">
+        <button class="btn btn-primary ark w-100" data-url="{%url "project-pos-discount-item-add"%}" 
+            data-target="div-discount-item-{{item.id}}" data-obj_id="{{item.id}}"> 
+            <i class="fas fa-plus"></i><small> {% trans "Descuento Items" %}</small></button>
+    </div>
+</div>
+
+<div class="row justify-center p-0">
+    <div class="col-8"> <label class="label">{% trans "Porcentaje" %}</label> </div>
+    <div class="col-2"> </div>
+</div>
+{% for disc in item.discounts_item.all %}
+    <div class="row justify-center p-0">
+        <div class="col-8">
+            <input type="text" class="form-control autosave input mb-0" id="percent" name="percent" value="{{disc.percent}}" 
+                placeholder="{% trans "Porcentaje" %}" title="{{disc.percent}}" data-model-name="contents.posdiscountitem" 
+                data-obj-id="{{disc.id}}" data-url="{% url "autosave_field" %}" data-target="div-notification"/> 
+            <span id="percent__msg"></span>	
+        </div>
+        <div class="col-2">
+            <button class="btn btn-sm ark" id="btn-pos-discount-remove" data-url="{% url "project-pos-discount-item-remove" %}" 
+                data-target="div-discount-item-{{item.id}}" data-obj_id="{{disc.id}}"> <i class="fas fa-trash"></i></button>
+        </div>
+    </div>
+{% endfor %}
+

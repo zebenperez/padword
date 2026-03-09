@@ -2,7 +2,7 @@
 
 
 <div class="card mt-2">
-    <div class="card-header toggle-btn" data-target="body-avaibook" data-id-change="icon-extra-a"
+    <div class="card-header toggle-btn bg-success avaibook-cron-head" data-target="body-avaibook" data-id-change="icon-extra-a"
         data-text='<i class="fas fa-plus"></i>' data-text-alt='<i class="fas fa-minus"></i>'>
         <div class="row w-100">
             <div class="col-6 text-right" id="icon-extra-a"><i class="fas fa-plus"></i></div>
@@ -10,26 +10,51 @@
         </div>
     </div>
     <div class="card-body hide" id="body-avaibook"> 
+        <div id="avaibook-notif"></div>
         <div class="row justify-center">
-            <div class="col-md-4 col-12">
+            <div class="col-4">
                 <label class="label">{% trans "UUID" %}:</label>
                 <input type="text" class="form-control autosave input" id="uuid" name="uuid" value="{{user_avaibook.uuid}}" 
                     title="{{user_avaibook.uuid}}" data-model-name="connector.projectavaibookuser" data-obj-id="{{user_avaibook.id}}" 
                     data-url="{% url "autosave_field" %}" data-target="div-notification"/> <span id="uuid__msg"></span>	
             </div>
-            <div class="col-md-4 col-12">
+            <div class="col-4">
                 <label class="label">{% trans "Token" %}:</label>
                 <input type="text" class="form-control autosave input" id="token" name="token" value="{{user_avaibook.token}}" 
                     title="{{user_avaibook.token}}" data-model-name="connector.projectavaibookuser" data-obj-id="{{user_avaibook.id}}" 
                     data-url="{% url "autosave_field" %}" data-target="div-notification"/> <span id="token__msg"></span>	
             </div>
-            <div class="col-md-4 col-12">
+            <div class="col-2">
                 <label class="label">{% trans "Owner" %}:</label>
                 <input type="text" class="form-control autosave input" id="owner" name="owner" value="{{user_avaibook.owner}}" 
                     title="{{user_avaibook.owner}}" data-model-name="connector.projectavaibookuser" data-obj-id="{{user_avaibook.id}}" 
                     data-url="{% url "autosave_field" %}" data-target="div-notification"/> <span id="owner__msg"></span>	
             </div>
+            <div class="col-2">
+                <div class="form-check form-switch">
+                    <input class="form-check-input toggleCron" type="checkbox" id="activeCronAvaibook" 
+                        data-class-name="avaibook-cron" data-fields="avaibook-hour" {%if user_avaibook.hour > 0%}checked{%endif%}>
+                    <label class="form-check-label" for="activeCronAvaibook">Activar planificador</label>
+                </div>
+            </div>
+        </div>
+        <div class="row justify-center">
+            <div class="col-6">
+                <label class="label">{% trans "Días para crear las reservas" %}
+                    <br/>{% trans "(se crean aquellas que empiezan entre hoy y el número de días indicado)" %}:</label>
+                <input type="text" class="form-control autosave input" id="days" name="days" value="{{user_avaibook.days}}" 
+                    title="{{user_avaibook.days}}" data-model-name="connector.projectavaibookuser" data-obj-id="{{user_avaibook.id}}" 
+                    data-url="{% url "autosave_field" %}" data-target="div-notification"/> <span id="days__msg"></span>	
+            </div>
+            <div class="col-6">
+                <label class="label">{% trans "Cada cuantas hora se realiza la importación" %}
+                    <br/>{% trans "(P.E.: si el valor es '1' se importaría cada hora)" %}:</label>
+
+                <input type="text" class="form-control input ark_change avaibook-cron avaibook-hour" id="hour" name="hour" 
+                    value="{{user_avaibook.hour}}" title="{{user_avaibook.hour}}" data-url="{% url "project-set-avaibook-schedule" %}" 
+                    data-target="avaibook-notif" data-obj_id="{{user_avaibook.id}}" data-field="hour"/><span id="hour__msg"></span>	
+            </div>
         </div>		
     </div>		
 </div>		
-
+<script> checkCronEnable("{{user_avaibook.hour}}", "avaibook-cron"); </script>

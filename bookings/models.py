@@ -503,6 +503,7 @@ class FormInstance(models.Model):
     table_uuid = models.CharField(max_length=255, verbose_name=_("Table UUID"), default="")
     #status = models.ForeignKey(Status, on_delete=models.SET_NULL, verbose_name=_("Status"), blank=True, null=True)
     amount = models.CharField(max_length=100, verbose_name=_("Amount to pay"), default="")
+    discount = models.FloatField(verbose_name='Descuento', default=0, null=True, blank=True)
     payment_type = models.ForeignKey(PaymentType, on_delete=models.SET_NULL, verbose_name=_("Payment Type"), blank=True, null=True)
 
     def __str__(self):
@@ -594,6 +595,8 @@ class FormInstance(models.Model):
                 #    total_price += float(item.total_price(',','.'))
                 #except:
                 #    total_price += 0
+            if self.discount > 0:
+                total_price = total_price - (total_price * (self.discount/100))
             return total_price
         except Exception as e:
             print (show_exc(e))
@@ -766,6 +769,9 @@ class FormInstance(models.Model):
                 if guest.guest_type_obj != None:
                     discount = guest.guest_type_obj.discount
                     total_price = low_price - (low_price * (discount/100)) if discount > 0 else low_price
+
+        if item.discount2 > 0:
+            total_price = float(total_price) - (float(total_price) * (item.discount2/100))
      
         item.price = item.item.price
         item.low_price = low_price
@@ -791,6 +797,9 @@ class FormInstance(models.Model):
                     discount = guest.guest_type_obj.discount
                     total_price = low_price - (low_price * (discount/100)) if discount > 0 else low_price
 
+        if item.discount2 > 0:
+            total_price = float(total_price) - (float(total_price) * (item.discount2/100))
+     
         item.price = item.item.price
         item.low_price = low_price
         item.discount = discount

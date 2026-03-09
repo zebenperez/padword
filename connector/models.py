@@ -23,6 +23,8 @@ class ProjectAvantioUser(models.Model):
             return None
 
 class ProjectAvaibookUser(models.Model):
+    days = models.IntegerField(verbose_name=_('Days to import'), default=1)
+    hour = models.IntegerField(verbose_name=_('Hour to import'), default=0)
     uuid = models.CharField(max_length=255, verbose_name=_('UUID'), default="")
     token = models.CharField(max_length=255, verbose_name=_('Token'), default="")
     owner = models.CharField(max_length=255, verbose_name=_('Owner'), default="")

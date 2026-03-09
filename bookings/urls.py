@@ -198,11 +198,13 @@ urlpatterns = [
     path('tpv-add-item/', tpv.tpv_add_item, name='tpv-add-item'),
     #path('tpv-remove-item/', tpv.tpv_remove_item, name='tpv-remove-item'),
     #path('tpv-set-items/', tpv.tpv_set_items, name='tpv-set-items'),
+    path('tpv-set-discount/', tpv.tpv_set_discount, name='tpv-set-discount'),
 
     path('tpv-order-remove/', tpv.tpv_order_remove, name='tpv-order-remove'),
     #path('tpv-order-view/', tpv.tpv_order_view, name='tpv-order-view'),
     path('tpv-order-item-remove/', tpv.tpv_order_item_remove, name='tpv-order-item-remove'),
     path('tpv-order-item-comment/', tpv.tpv_order_item_comment, name='tpv-order-item-comment'),
+    path('tpv-order-item-discount/', tpv.tpv_order_item_discount, name='tpv-order-item-discount'),
     #path('tpv-order-payment/', tpv.tpv_order_payment, name='tpv-order-payment'),
     path('tpv-order-send/', tpv.tpv_order_send, name='tpv-order-send'),
     path('tpv-order-send-part/', tpv.tpv_order_send_part, name='tpv-order-send-part'),

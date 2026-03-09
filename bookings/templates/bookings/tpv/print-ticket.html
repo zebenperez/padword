@@ -129,6 +129,7 @@
                                     {#<th>{% trans 'Items' %}</th>#}
                                     <th>{% trans 'Description' %}</th>
                                     {#<th class="text-end">{% trans 'Price' %}</th>#}
+                                    <th class="text-end">{% trans 'Desc' %}</th>
                                     <th class="text-end">{% trans 'Total' %}</th>
                                 </tr>
                             {% for item in items %}
@@ -136,6 +137,7 @@
                                     {#<td>{{items|length}}</td>#}
                                     <td>{% padword_translate item.item.name %}</td>
                                     {#<td class="text-end"><strong>{{ item.price }} {{item.currency}}</strong></td>#}
+                                    <td class="text-end"><strong>{{ item.discount2 }} %</strong></td>
                                     <td class="text-end"><strong>{{ item.total_price }} {{item.currency}}</strong></td>
                                 </tr>
                             {% endfor %}
@@ -150,6 +152,10 @@
                         <tr><td>{%trans "Nº Items"%}</td><td class="text-end"><strong>{{items|length}}</strong></td></tr>
                         <tr><td>{%trans "Subtotal"%}</td><td class="text-end">
                             <strong>{{subtotal|floatformat:2}} {{fi.currency}}</strong></td></tr>
+                        {% if fi.discount > 0 %}
+                            <tr><td>{%trans "Descuento"%}</td><td class="text-end">
+                                <strong>{{fi.discount|floatformat:2}} %</strong></td></tr>
+                        {% endif %}
                         <tr><td>{%trans "Total"%}</td><td class="text-end">
                             <strong>{{total|floatformat:2}} {{fi.currency}}</strong></td></tr>
                     </tbody>

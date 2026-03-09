@@ -192,6 +192,11 @@ def room_exist(project_uuid, room):
     count = Room.objects.filter(project_uuid=project_uuid, number=room).count()
     return (count > 0)
 
+def send_email_code(email, code):
+    subject = "Códigos de acceso" 
+    body = f'Su código de acceso es {code}' 
+    send_email(subject, body, settings.EMAIL_FROM_DEFAULT, [email])
+
 def create_booking(pmu, booking, av):
     checkin = get_date(booking.start)
     checkout = get_date(booking.end)
@@ -228,6 +233,8 @@ def create_booking(pmu, booking, av):
             #lock_code = ''.join([random.choice(string.digits) for i in range(4)])
             lock_code = booking.number
             err = guest.add_all_key_code(lock_code)
+            if guest.email != "":
+                send_email_code(guest.email, lock_code)
             #av.send_pwa_link(guest.ext_id, lock_code, guest.pwa_link)
 #
 #        return guest, err

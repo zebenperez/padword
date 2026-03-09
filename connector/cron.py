@@ -3,15 +3,17 @@ from django.conf import settings
 from datetime import datetime, timedelta
 
 from connector.avantio_lib import get_booking_list, get_booking_notif, send_link
+from connector.avaibook_lib import get_booking_list as avaibook_get_booking_list
 from connector.winhotel_lib import get_booking_list as wh_get_booking_list, get_booking_cancelled as wh_get_booking_cancelled
 from connector.winhotel_lib import import_item_prices as wh_import_item_prices, get_booking_new_list as wh_get_booking_new_list
 from connector.winhotel_lib import get_booking_range_list as wh_get_booking_range_list
 from connector.mews_lib import get_booking_list as mews_get_booking_list
+from connector.cloudbeds_lib import get_booking_list as cloudbeds_get_booking_list
 from connector.camera_views import car_plates_csv_cron
 from web.models import Project, ProjectLockUser
 from web.models_lock import Lock, LockCron
 from guest.wristband_models import WristbandAccess, WristbandAccessZone
-from connector.models import ProjectAvantioUser, ProjectWinhotelUser, ProjectMewsUser
+from connector.models import ProjectAvantioUser, ProjectAvaibookUser, ProjectWinhotelUser, ProjectMewsUser, ProjectCloudbedsUser
 from padword.commons import get_or_none
 from padword.email_lib import send_email
 
@@ -46,6 +48,19 @@ def avantio_notification_schedule(project_uuid):
     try:
         booking_list = get_booking_notif(project_uuid)
         result += render_to_string('avantio/booking-log.html', {'booking_list': booking_list})
+    except Exception as e:
+        print("\n<br/>Error: {}".format(e))
+    print(result)
+
+def avaibook_booking_schedule(project_uuid):
+    project = get_or_none(Project, project_uuid, "uuid")
+    project_name = project.name if project != None else "---"
+    result = "[AVAIBOOK] Importación {} {}\n".format(project_name, datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
+    result += "-----------------------------------------------------"
+    try:
+        pau = get_or_none(ProjectAvaibookUser, project_uuid, "project_uuid")
+        booking_list = avaibook_get_booking_list(pau)
+        result += render_to_string('avaibook/booking-log.html', {'booking_list': booking_list, "error": ""})
     except Exception as e:
         print("\n<br/>Error: {}".format(e))
     print(result)
@@ -151,6 +166,22 @@ def mews_booking_schedule(project_uuid):
         print("\n<br/>Error: {}".format(e))
     print(result)
 
+def cloudbeds_booking_schedule(project_uuid):
+    #project_uuid = "0fa03300-2646-b206-981b-b078262cacc5"
+    project = get_or_none(Project, project_uuid, "uuid")
+    project_name = project.name if project != None else "---"
+    result = "[CLOUDBEDS] Importación {} {}\n".format(project_name, datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
+    result += "-----------------------------------------------------"
+    try:
+        pmu = get_or_none(ProjectCloudbedsUser, project_uuid, "project_uuid")
+        booking_list = cloudbeds_get_booking_list(pmu)
+        result += render_to_string('cloudbeds/booking-log.html', {'booking_list': booking_list, "error": ""})
+        pau = ProjectCloudbedsUser.objects.filter(project_uuid=project.uuid).first()
+    except Exception as e:
+        print("\n<br/>Error: {}".format(e))
+    print(result)
+
+
 def cars_import_schedule(project_uuid):
     #project_uuid = "0fa03300-2646-b206-981b-b078262cacc5"
     project = get_or_none(Project, project_uuid, "uuid")
@@ -214,6 +245,7 @@ def locks_tasks_schedule(project_uuid):
         if plu != None and plu.report_email != "" and len(task_list) > 0:
             subject = "Informe de tarea {} {}".format(project_name, datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
             send_email(subject, result, settings.EMAIL_FROM_DEFAULT, [plu.report_email])
+            result += "- EMAIL enviado a {} \n".format(plu.report_email)
     except Exception as e:
         print("\n<br/>Error: {}".format(e))
     print(result)

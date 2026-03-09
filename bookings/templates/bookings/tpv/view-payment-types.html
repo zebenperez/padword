@@ -45,6 +45,10 @@
     {% if fi.pos.partial %}
         <div class="col-12 text-center p-0"> {% include "bookings/tpv/view-payment-types-send-part.html" %} </div>
     {% endif %}
+    {# -------------------------------- CARGO HABITACIÓN ---------------------------- #}
+    {% if fi.project.partners.all|length > 0 %}
+        <div class="col-12 text-center p-0"> {% include "bookings/tpv/view-payment-types-room.html" %} </div>
+    {% endif %}
     {# -------------------------------- CANCELAR ---------------------------- #}
     <div class="col-6 text-center p-0"> {% include "bookings/tpv/view-payment-types-cancel.html" %} </div>
     {# -------------------------------- ENVIAR ---------------------------- #}
@@ -53,9 +57,9 @@
     <div class="col-6 text-center p-0"> {% include "bookings/tpv/view-payment-types-return.html" %} </div>
     {# -------------------------------- INVITACION ---------------------------- #}
     <div class="col-6 text-center p-0"> {% include "bookings/tpv/view-payment-types-free.html" %} </div>
-    {# -------------------------------- CARGO HABITACIÓN ---------------------------- #}
-    {% if fi.project.partners.all|length > 0 %}
-        <div class="col-12 text-center p-0"> {% include "bookings/tpv/view-payment-types-room.html" %} </div>
+    {# -------------------------------- DISCOUNT ---------------------------- #}
+    {% if fi.pos.discount %}
+        <div class="col-6 text-center p-0"> {% include "bookings/tpv/view-payment-types-discount.html" %} </div>
     {% endif %}
 </div>
 

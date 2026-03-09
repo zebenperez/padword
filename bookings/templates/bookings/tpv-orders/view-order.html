@@ -6,10 +6,13 @@
         <div class="main-content-booking container-fluid">
             <div class="row"> 
                 <div class="col-6 btn-sky pt-2 pb-2 text-left">{% padword_translate fi.form.get_category.name %}</div> 
-                <div class="col-3 btn-sky pt-2 pb-2 text-right">
+                <div class="col-2 btn-sky pt-2 pb-2 text-right">
                     <span id="info-shopping"><span class="art-number">subtotal &nbsp;&nbsp;&nbsp;</span> 
                     {{fi.get_total|stringformat:".2f"}} {{fi.currency}}{#&euro;#} </span></div>
-                <div class="col-3 btn-sky pt-2 pb-2 text-right">
+                <div class="col-2 btn-sky pt-2 pb-2 text-right">
+                    <span id="info-shopping"><span class="art-number">descuento &nbsp;&nbsp;&nbsp;</span> 
+                    {{fi.discount|stringformat:".2f"}} % </span></div>
+                <div class="col-2 btn-sky pt-2 pb-2 text-right">
                     <span id="info-shopping"><span class="art-number">total &nbsp;&nbsp;&nbsp;</span> 
                         {#Compatibilidad tickets viejos higos beach#}
                         {% if fi.form.project.uuid == "d7b3cb5d-a7eb-793f-6110-8f623c93c74a" and fi.id <= 2401 %}
@@ -35,23 +38,24 @@
                 <div id="main" class="col-12 articles">
                     {% for item in fi.get_items %}
                         <div class="row booking-line-item mt-2 pt-2 pb-2">
-                            <div class="col-3 d-flex justify-content-center">
+                            <div class="col-2 d-flex justify-content-center">
                                 <img class="img-cart-line" 
                                     src="{% if item.item.image %}{{item.item.image.url}} {%else%} {% static 'img/none.png' %}{%endif%}"
                                     alt="{% padword_translate item.name %}">
                             </div>
-                            <div class="col-7 text-left">
+                            <div class="col-4 text-left">
 			                    <p class="name"><strong>{% padword_translate item.name %}</strong></p>
                                 <p class="comments"><i class="far fa-comment-alt"></i>&nbsp; {{item.comments}}</p>
                             </div>
-                            <div class="col-1 text-left">{{item.price}}</div>
-                            <div class="col-1 text-left">
+                            <div class="col-2 text-end">{%trans "Precio"%}: {{item.price}} {{item.item.currency}}</div>
+                            <div class="col-2 text-end">{%trans "Descuento"%}: {{item.discount2}} %</div>
+                            <div class="col-2 text-end">{%trans "Total"%}:
                                 {#Compatibilidad tickets viejos higos beach#}
                                 {% if fi.form.project.uuid == "d7b3cb5d-a7eb-793f-6110-8f623c93c74a" and fi.id <= 2401 %}
                                     {{item.price}} 
                                 {%else%} 
-                                    {{item.total_price}} 
-                                {%endif%} 
+                                    <strong> {{item.total_price}} {{item.item.currency}} </strong>
+                                {%endif%}  
                             </div>
                         </div>
                     {% endfor %}

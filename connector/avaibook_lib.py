@@ -78,10 +78,10 @@ class Avaibook():
         except requests.exceptions.RequestException as err:
             raise AvaibookAPIError(menssage=err)
 
-    def get_bookings(self):
+    def get_bookings(self, start_date, end_date):
         try:
             _url_request = "{}{}".format(API_URL, BOOKINGS_URL)
-            params = {"page": 1, "limit": 100}
+            params = {"checkinStartDate": start_date, "checkinEndDate": end_date, "page": 1, "limit": 100}
             dic = self.__send_request__(_url_request, params).json()
             items = dic["items"]
             for i in range(2, dic["paginator"]["total_pages"]+1):
@@ -179,12 +179,15 @@ def room_exist(project_uuid, room):
 def create_booking(pau, booking, av):
     checkin = get_date(booking.check_in_date, booking.check_in_time)
     checkout = get_date(booking.check_out_date, booking.check_out_time)
+    today = datetime.today()
+    e_date = today + timedelta(pau.days)
     room = booking.unit_id
     room_ex = room_exist(pau.project_uuid, room)
     yesterday = datetime.today().replace(hour=23, minute=59, second=59) + timedelta(days=-1)
     err = ""
 
-    if room_ex and checkout > yesterday:
+    #if room_ex and checkout > yesterday:
+    if room_ex and checkin <= e_date and checkin >= today:
         b_id = booking.webhook_id if booking.webhook_id != "" else booking.id
         guest = Guest.objects.filter(ext_id=b_id, project_id=pau.project_uuid, deleted=0).first()
         #guest = Guest.objects.filter(ext_id=booking.id, project_id=pau.project_uuid, deleted=0).first()
@@ -222,7 +225,9 @@ def delete_booking(pau, booking):
 
 def get_booking_list(pau):
     av = Avaibook(pau.uuid, pau.token)
-    result = av.get_bookings()
+    today = datetime.today()
+    e_date = today + timedelta(pau.days)
+    result = av.get_bookings(today.strftime("%Y-%m-%d"), e_date.strftime("%Y-%m-%d"))
     #print(result)
     booking_list = []
     for item in result:
