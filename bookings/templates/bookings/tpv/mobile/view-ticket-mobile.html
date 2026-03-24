@@ -1,4 +1,4 @@
-{% load i18n padword_tags bookings_tag tpv_tags %}
+{% load i18n padword_tags bookings_tag tpv_tags static %}
 
 
 {% if request.session.table == fi.table.id %}
@@ -12,39 +12,41 @@
                     {% include "bookings/tpv/view-guest-info2.html" %}
                 {% endif %}
             </div>
+            <div class="col-12">
+                <div class="row btn-dark small">
+                    <div class="col-5">
+                        <strong>
+                            {% padword_translate fi.form.get_category.parent.name %} 
+                            {% padword_translate fi.form.get_category.name %}
+                        </strong>({{items|length}} {% trans 'art.' %})       
+                    </div>
+                    <div class="col-7 btn-dark text-end small" id="div-total-shopping-cart">
+                        {%trans 'Subtotal'%}: <strong>{{subtotal|floatformat:2}} {{fi.currency}}{#&euro;#}</strong>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12">
+                {%if fi.discount and fi.discount > 0%}
+                    <div class="row"> 
+                        <div class="col-12 btn-dark-grey price p-1" id="div-total-shopping-cart">
+                            <strong class="text-warning">{%trans 'Descuento'%}: {{fi.discount|floatformat:2}} %</strong>
+                        </div> 
+                    </div>
+                {%endif%}
+
+                    <div class="row"> 
+                         <div class="col-12 btn-dark-grey price p-1" id="div-total-shopping-cart">
+                             <strong class="text-warning">{%trans 'Total'%}: {{total|floatformat:2}} {{fi.currency}}{#&euro;#}</strong>
+                        </div> 
+                    </div> 
+            </div>
         </div>
 
         {% if items|length > 0 %} 
-            <div>
                 {% comment %} -- TPV ACTIONS -- {% endcomment %}
-                <div class="row section-tpv total m-0 mt-3">
+                <div class="row section-tpv total m-0 mt-1 hide" id="div-mobile-actions">
+                    <p class="grey-title text-start">Selecciona un método de pago:</p>
                     <div class="col-12">
-                        <div class="row btn-dark small">
-                            <div class="col-5">
-                                <strong>
-                                    {% padword_translate fi.form.get_category.parent.name %} 
-                                    {% padword_translate fi.form.get_category.name %}
-                                </strong>({{items|length}} {% trans 'art.' %})       
-                            </div>
-                            <div class="col-7 btn-dark text-end small" id="div-total-shopping-cart">
-                                {%trans 'Subtotal'%}: <strong>{{subtotal|floatformat:2}} {{fi.currency}}{#&euro;#}</strong>
-                            </div>
-                        </div>
-
-                        {%if fi.discount and fi.discount > 0%}
-                            <div class="row"> 
-                                <div class="col-12 btn-dark-grey price p-1" id="div-total-shopping-cart">
-                                    <strong class="text-warning">{%trans 'Descuento'%}: {{fi.discount|floatformat:2}} %</strong>
-                                </div> 
-                            </div>
-                        {%endif%}
-
-                        <div class="row"> 
-                            <div class="col-12 btn-dark-grey price p-1" id="div-total-shopping-cart">
-                            <strong class="text-warning">{%trans 'Total'%}: {{total|floatformat:2}} {{fi.currency}}{#&euro;#}</strong>
-                            </div> 
-                        </div>
-
                         <div class="row m-0 justify-content-center w-100">
                             <div class="col-12 text-center p-0">{%include "bookings/tpv/mobile/view-payment-types-mobile.html"%}</div>
                         </div>
@@ -53,14 +55,17 @@
 
 
                 {% comment %} -- TPV TICKET -- {% endcomment %}
-                <div class="infinite-ticket mt-3"
-                    style="background: #f6ffe5;border-top: 2px solid #a1c517; position: fixed; height: 100%; overflow-y: scroll; padding-bottom: 150px !important; width: 96%;">
-                    <div class="row ticket-line m-0" style="overflow-y:scroll; padding-bottom: 450px;">
+                <div id="div-mobile-details" class="infinite-ticket">
+                    <div class="row ticket-line m-0">
                         {% for item in items %}
                             <div class="col-12">
                                 <div class="row line-article py-1">
                                     <div class="col-5"> 
-                                        <div class="item-name text-left">{% padword_translate item.item.name %}</div> 
+                                        <div class="item-name text-left">{% padword_translate item.item.name %}
+                                            {%if item.status == 1 or item.status == 2%}
+                                                <div class="text-success">{% trans "Enviado" %}</div>
+                                            {%endif%}
+                                        </div>
                                     </div>
                                     <div class="col-2 text-left">
                                         <div class="text-right text-warning"> {{ item.total_price }}</div>
@@ -68,11 +73,13 @@
                                     <div class="col-2"> <div class="text-left">{{ item.price }} {{item.currency}}</div> </div>
 
                                     <div class="col-1 p-0">
+                                        {%if fi.pos.discount_item%}
                                         <a class="btn btn-warning btn-sm ark" title="{%trans 'Add discount at this article'%}" 
                                             data-url="{%url "tpv-order-item-discount"%}" data-item_id="{{item.pk}}" 
                                             data-form_id="{{fi.pk}}" data-target-modal="common-modal" data-mobile="True">
                                             <i class="fas fa-percent"></i>
                                         </a>
+                                        {%endif%}
                                     </div>
                                     <div class="col-1 p-0">
                                         <a class="btn btn-primary btn-sm ark" title="{%trans 'Add comment at this article'%}" 
@@ -90,8 +97,39 @@
                         {% endfor %}
                     </div>
                 </div>
-            </div>
+            
+                <div class="row" style="position:fixed;bottom:0;width: 100%;" id="div-details-view">
+                    <div class="col-6 p-0">
+                        {%include "bookings/tpv/mobile/view-payment-types-cancel.html" with mobile="mobile"%}
+                    </div>
+                    <div class="col-6 p-0">
+                        <button class="btn btn-warning w-100" style="border-radius: 0 !important;" id="btn-make-payment"> 
+				            <i class="fa fa-share-square"></i> <br /> {% trans "Realizar Pago" %}</button>
+                    </div>
+                </div>
+                <div class="row hide" style="position:fixed;bottom:0;width: 100%;" id="div-btns-view">
+                    <div class="col-12 p-0">
+                        <button class="btn btn-warning w-100" style="border-radius: 0 !important;" id="btn-back-payment"> 
+				            <i class="fa fa-share-square"></i> <br /> {% trans "Ver ticket" %}</button>
+                    </div>
+                </div>
         {% endif %}
-        <script>$("#items-counter").html("{{fi.get_items|length}}");</script>
+        <script>
+            $("#items-counter").html("{{fi.get_items|length}}");
+            $("#btn-make-payment").click(function(){
+                $('#div-mobile-actions').show();
+                $('#div-btns-view').show();
+
+                $('#div-mobile-details').hide();
+                $('#div-details-view').hide();
+            });
+            $("#btn-back-payment").click(function(){
+                $('#div-mobile-actions').hide();
+                $('#div-btns-view').hide();
+
+                $('#div-mobile-details').show();
+                $('#div-details-view').show();
+            });
+        </script>
     {% endwith %}
 {% endif %}

@@ -2,7 +2,7 @@
 {% load i18n %}
 
 <button id="btn-send-part-{{fi.id}}" class="btn btn-info-tpv w-100 ark" data-url="{% url "tpv-order-send-part" %}" 
-    data-target="ticket-summary" data-obj_id="{{fi.id}}" data-mobile="{{mobile}}">
-    <i class="fa fa-share-square"></i><br /> {%trans "Envío parcial"%} 
+    {%if mobile != ""%}data-target="ticket-summary-mobile"{%else%}data-target="ticket-summary"{%endif%} 
+    data-obj_id="{{fi.id}}" data-mobile="{{mobile}}"> <i class="fa fa-share-square"></i><br /> {%trans "Envío parcial"%} 
 </button>
 

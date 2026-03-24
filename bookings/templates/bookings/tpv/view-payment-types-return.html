@@ -1,7 +1,7 @@
 {% load i18n tpv_tags bookings_tag padword_tags %}
 
     
-<button id="btn-return-{{fi.id}}" class="btn btn-warning return w-100" onclick="$('#div-return').show()">
+<button id="btn-return-{{fi.id}}" class="btn btn-warning return w-100" onclick="$('#div-return').show();$('#div-btns').hide();">
     <i class="fa fa-reply"></i><br /> {%trans "Devolución"%} </button>
 
 {%comment%}

@@ -170,10 +170,15 @@ class ProjectRoomraccoonUser(models.Model):
             return None
 
 class ProjectOctorateUser(models.Model):
+    code_mobile = models.BooleanField(verbose_name=_('Get code from mobile'), default=False)
+    hour = models.IntegerField(verbose_name=_('Hour to import'), default=0)
+    #minute = models.IntegerField(verbose_name=_('Minutes to import'), default=0)
+    days = models.IntegerField(verbose_name=_('Days to import'), default=1)
     client_id = models.CharField(max_length=255, verbose_name=_('Client ID'), default="")
     secret = models.CharField(max_length=255, verbose_name=_('Client Secret'), default="")
     token = models.CharField(max_length=255, verbose_name=_('Token'), default="")
     refresh = models.CharField(max_length=255, verbose_name=_('Refresh Token'), default="")
+    property_id = models.CharField(max_length=255, verbose_name=_('Property id'), default="")
     project_uuid = models.CharField(max_length=255, verbose_name=_('Project UUID'), default="")
 
     @property

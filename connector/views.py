@@ -26,6 +26,7 @@ from .winhotel_lib import get_booking_range_list as wh_get_booking_range_list, s
 from .mews_lib import get_booking_list as mw_get_booking_list, cancel_booking_list as mw_cancel_booking_list
 from .cloudbeds_lib import get_booking_list as cb_get_booking_list, get_room_list as cb_get_room_list
 from .cloudbeds_lib import set_webhooks as cb_set_webhooks, manage_webhook_actions as cb_manage_webhook_actions
+from .octorate_lib import get_booking_list as oc_get_booking_list, get_room_list as oc_get_room_list
 from .paytef_lib import get_config as pay_get_config, get_status as pay_get_status, start_trans as pay_start_trans, get_token as pay_get_token
 from .zkteco_lib import add_person as zk_add_person
 from .roomraccoon import roomraccoon_get_soap_response, roomraccoon_get_soap_header, roomraccoon_get_soap_body, roomraccoon_parse_soap_reservation, roomraccoon_manage_booking
@@ -204,13 +205,14 @@ def winhotel_import_items(request, project_uuid):
     return render(request, 'winhotel/items-import.html', {'project_uuid': project_uuid, 'updated': updated, 'not_updated': not_updated})
 
 @group_required("admins", "projects")
-def winhotel_send_liq(request, project_uuid, pos):
-    from contents.models import PosCodeItem
+def winhotel_send_liq(request, project_uuid, pos_code):
+    from contents.models import PosCodeItem, PointOfSale
 
     pwu = ProjectWinhotelUser.objects.filter(project_uuid=project_uuid).first()
+    pos = get_or_none(PointOfSale, pos_code, "ext_code")
     print(pwu)
-    print(pos)
-    pci_list = PosCodeItem.objects.filter(project_uuid=project_uuid, pos=pos)
+    print(pos_code)
+    pci_list = PosCodeItem.objects.filter(project_uuid=project_uuid, pos=pos_code)
     print(len(pci_list))
     sources = {}
     for item in pci_list:
@@ -220,6 +222,22 @@ def winhotel_send_liq(request, project_uuid, pos):
     for key in sources.keys():
         print(key)
         print(sources[key])
+        contact_name = pos.name
+        contact_id = key
+        source = pos.ext_code
+        source_document = f'Punto de venta {pos.name}'
+        date = datetime.today().strftime("%Y-%m-%d")
+        total_amount = 0
+        cash_code = ""
+        print(f'contact_name = {contact_name}')
+        print(f'contact_id = {contact_id}')
+        print(f'source = {source}')
+        print(f'source_document = Punto de venta {source_document}')
+        print(f'date = {date}')
+        print(f'total_amount = {total_amount}')
+        print(f'cash_code = {cash_code}')
+
+        #wh_send_liq(pwu, contact_name, contact_id, source, source_document, date, total_amount, cash_code)
     return HttpResponse("OK")
 
 @group_required("admins")
@@ -378,6 +396,28 @@ def cloudbeds_log(request):
         log_list = []
     return render(request, 'cron-log.html', {'text': text.replace("\n", "<br/>"), 'log_list': log_list})
 
+'''
+    Octorate
+'''
+@group_required("admins", "projects")
+def octorate_get_booking_list(request, project_uuid):
+    try:
+        pou = get_or_none(ProjectOctorateUser, project_uuid, "project_uuid")
+        booking_list = oc_get_booking_list(pou)
+        return render(request, 'octorate/booking-list.html', {'booking_list': booking_list})
+    except Exception as e:
+        print(e)
+        return render(request, 'error_exception.html', {'exc':show_exc(e)})
+
+@group_required("admins", "projects")
+def octorate_get_room_list(request, project_uuid):
+    try:
+        pau = get_or_none(ProjectOctorateUser, project_uuid, "project_uuid")
+        item_list = oc_get_room_list(pau)
+        return render(request, 'octorate/room-list.html', {'item_list': item_list})
+    except Exception as e:
+        print(e)
+        return render(request, 'error_exception.html', {'exc':show_exc(e)})
 
 '''
     Paytef
@@ -583,10 +623,11 @@ def roomraccoon_get_booking(request):
     try:
         f.write("\n[LOG]: CONTENIDO")
         #contenido = roomraccoon_get_soap_body(request.body.decode("utf-8"))
-        pu = get_or_none(ProjectUser, user.username, "username")
-        pru = get_or_none(ProjectRoomraccoonUser, pu.project_uuid, "project_uuid")
+        #pu = get_or_none(ProjectUser, user.username, "username")
+        #pru = get_or_none(ProjectRoomraccoonUser, pu.project_uuid, "project_uuid")
         content = roomraccoon_parse_soap_reservation(request.body.decode("utf-8"))
         #print(content)
+        pru = get_or_none(ProjectRoomraccoonUser, content["hotel_code"], "hotel")
         err = roomraccoon_manage_booking(pru, content, f)
         soap_response = roomraccoon_get_soap_response() # Resuesta SOAP
         return HttpResponse(soap_response, content_type="text/xml")

@@ -249,11 +249,6 @@ select.tpv-articles
 	height: auto;
 }
 
-.ticket-line.guest-info
-{
-/*    text-decoration: underline;*/
-}
-
 .blue-info {
     color: #0d6efd;
     text-transform: uppercase !important;
@@ -282,7 +277,6 @@ select.tpv-articles
 .small.alert
 {
 	border-top: 1px solid #ccc;
-	/*font-size: 0.8em;*/
 	font-size: 0.7em;
 	padding: 1em;
 	text-align: left;
@@ -290,13 +284,6 @@ select.tpv-articles
 
 .card-img-top.spec-img {
 	height: fit-content !important;
-}
-
-.ticket-line 
-{
-	align-items: center;
-    color: #444;
-	font-size: 0.8em;
 }
 
 .line-article {
@@ -314,11 +301,20 @@ select.tpv-articles
 /***********************/
 
 a.btn.btn-select-payment-web.pay-opts,
-a.btn.btn-select-payment.pay-opts 
-{
+a.btn.btn-select-payment.pay-opts {
 	border:1px solid #ccc;
 	font-size: 0.8em;
     width: 100%;
+}
+
+.footer-buttons-mobile {
+/*    overflow-y: scroll !important;*/
+/*    padding-bottom: 250px !important;*/
+}
+
+p.grey-title {
+	font-size: 0.9em;
+    color: #666666;
 }
 
 button.btn.btn-danger-tpv {
@@ -326,16 +322,15 @@ button.btn.btn-danger-tpv {
 	border:1px solid #f8d7da;
     border-radius: 0 !important;
     color: #8e2730;
-	font-size: 1em;
 }
 .btn-mobile > button.btn.btn-danger-tpv {
 	background-color: #f8d7da;  
 	border:1px solid #f8d7da;
     border-radius: 0 !important;
-	font-size: 0.65em;
     font-weight: 600;
+	font-size: 1em;
     color: #8e2730;
-    padding: 5px 0 5px 0;
+    padding: 30px 0 30px 0;
     text-transform: uppercase !important;
 }
 
@@ -344,16 +339,15 @@ button.btn.btn-info-tpv {
 	border:1px solid #0dcaf0;
     border-radius: 0 !important;
     color: #ffffff;
-	font-size: 1em;
 }
 .btn-mobile > button.btn.btn-info-tpv {
 	background-color: #0dcaf0;  
 	border:1px solid #0dcaf0;
     border-radius: 0 !important;
-    font-size: 0.8rem;
     font-weight: 600;
+	font-size: 1em;
     color: #ffffff;
-    padding: 5px 0 5px 0;
+    padding: 30px 0 30px 0;
     text-transform: uppercase !important;
 }
 
@@ -362,16 +356,15 @@ button.btn.btn-success-tpv {
 	border:1px solid #a1c517;
     border-radius: 0 !important;
     color: #ffffff;
-	font-size: 1em;
 }
 .btn-mobile > button.btn.btn-success-tpv {
 	background-color: #a1c517;  
 	border:1px solid #a1c517;
     border-radius: 0 !important;
-    font-size: 0.8rem;
     font-weight: 600;
+	font-size: 1em;
     color: #ffffff;
-    padding: 5px 0 5px 0;
+    padding: 30px 0 30px 0;
     text-transform: uppercase !important;
 }
 button.btn.btn-warning.return.w-100,
@@ -380,7 +373,6 @@ button.btn.btn-warning-tpv {
 	border:1px solid #ffc107;
     border-radius: 0 !important;
     color: #ffffff;
-	font-size: 1em;
 }
 
 .btn-mobile > button.btn.btn-warning.return.w-100,
@@ -388,10 +380,10 @@ button.btn.btn-warning-tpv {
 	background-color: #ffc107;  
 	border:1px solid #ffc107;
     border-radius: 0 !important;
-	font-size: 0.65em;
     font-weight: 600;
+	font-size: 1em;
     color: #ffffff;
-    padding: 5px 0 5px 0;
+    padding: 30px 0 30px 0;
     text-transform: uppercase !important;
 }
 button.btn.btn-primary-tpv {
@@ -428,10 +420,10 @@ button.btn.btn-primary-3 {
 	background-color: #0d6efd;  
 	border:1px solid #0d6efd;
     border-radius: 0 !important;
-	font-size: 0.65em;
     font-weight: 600;
+	font-size: 1em;
     color: #ffffff;
-    padding: 5px 0 5px 0;
+    padding: 30px 0 30px 0;
     text-transform: uppercase !important;
 }
 
@@ -523,7 +515,6 @@ button.btn.btn-header-pwa.ark, a.btn.btn-header-pwa.ark
 .main-tpv 
 {
 	background-color: #e0e0e0;
-	background-color: #e0e0e0;
 	top: 90px;
 	position: fixed;
 	width: 74.5%;
@@ -566,14 +557,13 @@ input.form-control.tpv-search {
 /*****************************/
 /* SECTION ITEMS */
 
-.section-guest, .section-tpv, .section-ticket
+.section-guest, .section-ticket
 {
     background-color: #fff;
     border:1px solid #ccc; 
     border-radius: 0.25rem;
     box-shadow: 0px 6px 11px -5px rgba(0,0,0,0.41);
 }
-
 
 .cart-item 
 {
@@ -631,7 +621,7 @@ h5.card-title
 {
 	display: none;
 }
-.row.card-footer.footer-new
+.row.card-footer.ooter-new
 {
 	margin:auto;
 	padding: 10px 0 10px 0;
@@ -678,9 +668,11 @@ h5.card-title
 
 .header-mobile.sticky-top 
 {
+    /*
     box-shadow: 0px 10px 13px -9px rgba(0,0,0,0.46) !important;
 	-webkit-box-shadow: 0px 10px 13px -9px rgba(0,0,0,0.46) !important;
 	-moz-box-shadow: 0px 10px 13px -9px rgba(0,0,0,0.46) !important;
+    */
     background-color: #fff;
     position: fixed !important;
     top: 0;
@@ -843,47 +835,78 @@ input#div-scan.form-control.ark_change.scanband::placeholder {
     font-size: 0.95rem;
 }
 
+.infinite-ticket {
+    background: #f6ffe5; 
+    border-top: 2px solid #a1c517; 
+    position: fixed; 
+    height: 100%; 
+    overflow-y: scroll; 
+    width: 96%;
+    padding-bottom: 150px;
+    margin-top: 5px;
+	
+    /*border:1px solid red;*/
+}
+
+.section-tpv {
+    position: fixed; 
+    height: 80%; 
+    overflow-y: scroll; 
+    width: 96%;
+    padding-bottom: 200px;
+    margin-top: 5px;
+	
+/*    border:1px solid blue;*/
+
+}
+
+.ticket-line {
+    align-items: center;
+    color: #444;
+    font-size: 0.8em;
+    overflow-y:scroll;
+    padding-bottom: 150px;
+}
+.ticket-line-mob {
+    align-items: center;
+    color: #444;
+    font-size: 0.8em;
+    overflow-y:scroll;
+    padding-bottom: 5px;
+}
+
+
 /*****************************/
 /* PRODUCTS TPV */
 
-.products-tpv-mobile
-{
+.products-tpv-mobile {
 	align-items: center;
 	color: #ffffff !important;
 	background-color: #fff;
 }
 
-.products-tpv-mobile .name 
-{
+.products-tpv-mobile .name {
     color: #35a8e0;
 }
+
 .products-tpv-mobile i.fas.fa-power-off {
 	color: #000 !important;
 	font-size: 1.2rem;
 }
 
-
-.section-title 
-{
+.section-title {
     background: #fff !important;
     color: #007bbf !important;
     font-size: 1rem;
 }
 
-/**********************/
-/* 5 articles in line */
-/**********************/
-
-.box-new.mobile 
-{
+.box-new.mobile {
     background-color: #a1c517;
     height: 140px !important;
 }
 
-.row-01 h5.card-title-mobile 
-{
+.row-01 h5.card-title-mobile {
 	background: #a1c517;
-    /*font-size: 0.75em;*/
     font-size: 0.70em;
 	color: #fff !important;
     display: grid !important;
@@ -891,8 +914,7 @@ input#div-scan.form-control.ark_change.scanband::placeholder {
     height: 65px;
 }
 
-h5.card-title 
-{
+h5.card-title {
 	color: #fff !important;
 	position: absolute;
 	bottom: -8px;
@@ -901,8 +923,7 @@ h5.card-title
 	width: 100%;
 }
 
-.col-2.mobile
-{   
+.col-2.mobile {   
     padding: 5px !important;
     width: 20% !important;
 }
@@ -918,47 +939,22 @@ h5.card-title
     border: 2px solid #35a8e0;
 }
 
-.accordion-body 
-{
+.accordion-body {
     padding: 0.1rem 1.25rem !important;
 }
 
-img.img-fill.mobile 
-{
+img.img-fill.mobile {
 	max-width: -webkit-fill-available;
 	max-height: 70px;
-/*  
-    object-fit: cover !important;
-    height: 110px !important;
-    width: 100% !important;
-	object-fit: fill;
-*/
 }
 
 /*****************************/
 /* TICKET mobile */
 
-.ticket-tpv-mobile
-{
-	background-color: #ffffff !important;
-/*    height: 50px;*/
-}
-.header-ticket
-{
+.header-ticket {
 	height: 80px;
 	align-items: center;
     box-shadow: none !important;
     -webkit-box-shadow: 0px rgb(f f f / 0% ;
-}
-
-.infinite-ticket.m-0.mt-3 {
-    background: #f6ffe5 !important;
-    border-top: 2px solid #a1c517 !important;
-    top: 460px !important; 
-    position: fixed !important; 
-    width: 100% !important; 
-    height: 100% !important; 
-    overflow-y: scroll !important; 
-    padding-bottom: 150px !important;
 }
 

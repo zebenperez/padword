@@ -356,7 +356,7 @@ def create_booking(pcu, room, booking, bguest, av):
     #msg += "\n Habitación: {} ({}) - {}".format(r, room_ex, booking.status)
     #msg += "\n Fechas: {} {} {}".format(checkin, e_date, today)
 
-    if room_ex and booking.status == "confirmed" and checkin <= e_date and checkin >= today:
+    if room_ex and (booking.status == "confirmed" or booking.status == "checked_in") and checkin <= e_date and checkin >= today:
         #msg += "\n Entrando"
         ext_id = get_ext_id(booking, bguest, room)
         guest = Guest.objects.filter(ext_id=ext_id, project_id=pcu.project_uuid, deleted=0).first()
@@ -567,7 +567,7 @@ def get_or_create_booking(pcu, ext_id):
                 msg += "\n {}".format(msg_g)
             break
         #Envío de códigos de reserva y subreservas
-        msg += send_booking_codes(pcu, av, node.id)
+        #msg += send_booking_codes(pcu, av, node.id)
     return msg
 
 def reservation_delete(pcu, obj):

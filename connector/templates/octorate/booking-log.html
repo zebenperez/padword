@@ -1,0 +1,5 @@
+{% load i18n %}
+---- {%if item.created%}[----]{%endif%} {%trans "Name"%} - {%trans "Booking Code"%} - {%trans "Start Date"%} / {%trans "End Date"%} - {%trans "Room Code"%}
+{% for item in booking_list %} 
+---- {%if item.created%}[CREATED]{%endif%} {{item.name}} {{item.surname}} - {{item.id}} - {{item.checkin}} / {{item.checkout}} - {{item.room}} {% endfor %}
+{% if error and error != "" %} {{error|safe}} {% endif %}

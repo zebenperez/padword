@@ -9,11 +9,13 @@ from connector.winhotel_lib import import_item_prices as wh_import_item_prices, 
 from connector.winhotel_lib import get_booking_range_list as wh_get_booking_range_list
 from connector.mews_lib import get_booking_list as mews_get_booking_list
 from connector.cloudbeds_lib import get_booking_list as cloudbeds_get_booking_list
+from connector.octorate_lib import get_booking_list as octorate_get_booking_list
 from connector.camera_views import car_plates_csv_cron
 from web.models import Project, ProjectLockUser
 from web.models_lock import Lock, LockCron
 from guest.wristband_models import WristbandAccess, WristbandAccessZone
 from connector.models import ProjectAvantioUser, ProjectAvaibookUser, ProjectWinhotelUser, ProjectMewsUser, ProjectCloudbedsUser
+from connector.models import ProjectOctorateUser
 from padword.commons import get_or_none
 from padword.email_lib import send_email
 
@@ -181,6 +183,20 @@ def cloudbeds_booking_schedule(project_uuid):
         print("\n<br/>Error: {}".format(e))
     print(result)
 
+def octorate_booking_schedule(project_uuid):
+    #project_uuid = "0fa03300-2646-b206-981b-b078262cacc5"
+    project = get_or_none(Project, project_uuid, "uuid")
+    project_name = project.name if project != None else "---"
+    result = "[OCTORATE] Importación {} {}\n".format(project_name, datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
+    result += "-----------------------------------------------------"
+    try:
+        pou = get_or_none(ProjectOctorateUser, project_uuid, "project_uuid")
+        booking_list = octorate_get_booking_list(pou)
+        result += render_to_string('octorate/booking-log.html', {'booking_list': booking_list, "error": ""})
+        pau = ProjectOctorateUser.objects.filter(project_uuid=project.uuid).first()
+    except Exception as e:
+        print("\n<br/>Error: {}".format(e))
+    print(result)
 
 def cars_import_schedule(project_uuid):
     #project_uuid = "0fa03300-2646-b206-981b-b078262cacc5"

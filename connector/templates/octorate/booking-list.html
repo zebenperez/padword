@@ -1,0 +1,51 @@
+{% load i18n %}
+
+<div class="row w-100 common-modal-head m-0 p-0">
+    <div class="col-11"><h2>{% trans 'Cloudbeds booking list' %}</h2></div>
+    <div class="col-1">
+        <button type="button" class="btn btn-sm ark" data-bs-dismiss="modal" data-url="{% url "guest-search-by-project" %}" 
+        data-target="guest-list"><i class="fas fa-times"></i></button> </div>
+</div>
+
+{% if error and error != "" %} <div class="alert alert-danger">{{error|safe}}</div> {% endif %}
+
+<div class="row m-0">
+    <div class="content">
+        <div id="item-list">
+            {% for item in booking_list %} 
+                <div class="row">
+                    <div class="col-1">{% trans 'Id' %}</div>
+                    <div class="col-5">{{item.id}}</div>
+                    <div class="col-1">{% trans 'Status' %}</div>
+                    <div class="col-5">{{item.status}}</div>
+                </div>
+                <div class="row">
+                    <div class="col-1">{% trans 'Name' %}</div>
+                    <div class="col-5">{{item.name}}</div>
+                    <div class="col-1">{% trans 'Surname' %}</div>
+                    <div class="col-5">{{item.surname}}</div>
+                </div>
+                <div class="row">
+                    <div class="col-2">{% trans 'Checkin' %}</div>
+                    <div class="col-4">{{item.checkin}}</div>
+                    <div class="col-2">{% trans 'Checkout' %}</div>
+                    <div class="col-4">{{item.checkout}}</div>
+                </div>
+                 <div class="row">
+                    <div class="col-2">{% trans 'Room' %}</div>
+                    <div class="col-4">{{item.room}}</div>
+                    <div class="col-2">{% trans '' %}</div>
+                    <div class="col-4"></div>
+                </div>
+                <div class="row">
+                    <div class="col-2">{% trans 'Email' %}</div>
+                    <div class="col-4">{{item.email}}</div>
+                    <div class="col-2">{% trans 'Phone' %}</div>
+                    <div class="col-4">{{item.phone}}</div>
+                </div>
+                <hr/>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+

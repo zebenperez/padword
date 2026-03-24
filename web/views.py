@@ -743,6 +743,33 @@ def project_set_cloudbeds_schedule(request):
         return HttpResponse("Error!")
 
 @group_required("admins")
+def project_set_octorate_schedule(request):
+    try:
+        pou = get_or_none(ProjectOctorateUser, request.GET["obj_id"])
+        val = get_param(request.GET, "value")
+        field = get_param(request.GET, "field")
+        if pou != None:
+            if field == "hour":
+                pou.hour = val
+            elif field == "minute":
+                pou.minute = val
+            pou.save()
+
+            function = ""
+            if field == "hour" or field == "minute": 
+                function = "octorate_booking_schedule"
+                hour = "\*\|{}".format(pou.hour)
+                minute = "0"
+            if function != "":
+                update_cron(hour, minute, function, pou.project_uuid)
+
+        return HttpResponse("Saved!")
+    except Exception as e:
+        print (show_exc(e))
+        return HttpResponse("Error!")
+
+
+@group_required("admins")
 def project_set_cars_schedule(request):
     try:
         pcu = get_or_none(ProjectCarUser, request.GET["obj_id"])

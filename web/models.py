@@ -8,6 +8,7 @@ from .lock_lib import ShLock
 from sensibo.sensibo_lib import ShSensibo
 from sensibo.models import ProjectSensiboUser
 from connector.models import ProjectAvantioUser, ProjectAvaibookUser, ProjectWinhotelUser, ProjectMewsUser, ProjectCloudbedsUser
+from connector.models import ProjectOctorateUser
 
 import datetime, pytz
 import requests
@@ -119,6 +120,10 @@ class Project(models.Model):
     @property
     def cloudbeds_user(self):
         return ProjectCloudbedsUser.objects.filter(project_uuid=self.uuid).first()
+
+    @property
+    def octorate_user(self):
+        return ProjectOctorateUser.objects.filter(project_uuid=self.uuid).first()
 
     @property
     def invitations(self):

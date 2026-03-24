@@ -73,6 +73,7 @@ urlpatterns = [
     path('projects/set-cloudbeds-webhooks/', views.project_set_cloudbeds_webhooks, name='project-set-cloudbeds-webhooks'),
     path('projects/get-cloudbeds-webhooks/', views.project_get_cloudbeds_webhooks, name='project-get-cloudbeds-webhooks'),
     path('projects/remove-cloudbeds-webhooks/', views.project_remove_cloudbeds_webhooks, name='project-remove-cloudbeds-webhooks'),
+    path('projects/set-octorate-schedule/', views.project_set_octorate_schedule, name='project-set-octorate-schedule'),
     path('projects/set-cars-schedule/', views.project_set_cars_schedule, name='project-set-cars-schedule'),
     path('projects/add-logo/', views.project_add_logo, name='project-add-logo'),
     path('projects/remove-logo/', views.project_remove_logo, name='project-remove-logo'),

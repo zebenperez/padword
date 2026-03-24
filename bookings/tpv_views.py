@@ -601,7 +601,7 @@ def tpv_order_send_part(request):
 
         mobile = get_param(request.GET, "mobile")
         if mobile != "":
-            return render(request, "bookings/tpv/mobile/view-ticket.html", {'fi':fi,})
+            return render(request, "bookings/tpv/mobile/view-ticket-mobile.html", {'fi':fi,})
         else:
             return render(request, "bookings/tpv/view-ticket.html", {'fi':fi,})
     except Exception as e:

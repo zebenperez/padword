@@ -22,12 +22,13 @@
     </div>
     <div class="row mb-2">
         <div class="col-11">
-            <input type="text" class="form-control" name="discount2i" id="discount2i" value="{{obj.discount2}}"/></div>
+            <input type="text" class="form-control" name="discount2i" id="discount2i" value="{{obj.discount2}}" placeholder="Introducir descuento manual"/></div>
         <div class="col-1">%</div>
     </div>
     <div class="row">
         <div class="col-6">
-            <button class="btn btn-primary saveform" data-form="form-disc" data-target="ticket-summary" data-bs-dismiss="modal">
+            <button class="btn btn-primary saveform" data-form="form-disc" data-bs-dismiss="modal" 
+                {%if mobile != ""%}data-target="ticket-summary-mobile"{%else%}data-target="ticket-summary"{%endif%}>
                 {%trans "Guardar"%}</button> 
         </div>
         <div class="col-6"> <a class="btn btn-danger" data-bs-dismiss="modal"> {%trans "Cerrar"%}</a> </div>

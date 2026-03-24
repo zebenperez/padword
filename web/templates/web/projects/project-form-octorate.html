@@ -10,6 +10,16 @@
         </div>
     </div>
     <div class="card-body hide" id="body-octorate"> 
+        <div class="row">
+            <div class="col-3 offset-9">
+                <div class="form-check form-switch">
+                    <input class="form-check-input toggleCron" type="checkbox" id="activeCronOctorate" 
+                        data-class-name="octorate-cron" data-fields="octorate-hour" {%if user_octorate.hour > 0%}checked{%endif%}>
+                    <label class="form-check-label" for="activeCronOctorate">Activar planificador</label>
+                </div>
+            </div>
+        </div>
+ 
         <div class="row justify-center">
             <div class="col-6">
                 <label class="label">{% trans "Client ID" %}:</label>
@@ -26,7 +36,7 @@
                     data-obj-id="{{user_octorate.id}}" data-url="{% url "autosave_field" %}" data-target="div-notification"/> 
                 <span id="secret__msg"></span>	
             </div>
-            <div class="col-6">
+            <div class="col-4">
                 <label class="label">{% trans "Token" %}:</label>
                 <input type="text" class="form-control autosave input" id="token" name="token" 
                     value="{{user_octorate.token}}" title="{{user_octorate.token}}"
@@ -34,7 +44,7 @@
                     data-url="{% url "autosave_field" %}" data-target="div-notification"/> 
                 <span id="token__msg"></span>	
             </div>
-            <div class="col-6">
+            <div class="col-4">
                 <label class="label">{% trans "Refresh Token" %}:</label>
                 <input type="text" class="form-control autosave input" id="refresh" name="refresh" 
                     value="{{user_octorate.refresh}}" title="{{user_octorate.refresh}}"
@@ -42,7 +52,42 @@
                     data-url="{% url "autosave_field" %}" data-target="div-notification"/> 
                 <span id="refresh__msg"></span>	
             </div>
+            <div class="col-4">
+                <label class="label">{% trans "Property ID" %}:</label>
+                <input type="text" class="form-control autosave input" id="property_id" name="property_id" 
+                    value="{{user_octorate.property_id}}" title="{{user_octorate.property_id}}"
+                    data-model-name="connector.projectoctorateuser" data-obj-id="{{user_octorate.id}}" 
+                    data-url="{% url "autosave_field" %}" data-target="div-notification"/> 
+                <span id="property_id__msg"></span>	
+            </div>
         </div>		
+        <div class="row">
+            <div class="col-4">
+                <label class="label">{% trans "Días para crear las reservas" %}
+                    <br/>{% trans "(se crean aquellas que empiezan entre hoy y el número de días indicado)" %}:</label>
+                <input type="text" class="form-control autosave input wh-cron" id="days" name="days" 
+                    value="{{user_octorate.days}}" title="{{user_octorate.days}}" data-model-name="connector.projectoctorateuser" 
+                    data-obj-id="{{user_octorate.id}}" data-url="{% url "autosave_field" %}" data-target="div-notification"/> 
+                <span id="days__msg"></span>	
+            </div>
+            <div class="col-4">
+                <label class="label">{% trans "Cada cuantas hora se realiza la importación" %}
+                    <br/>{% trans "(P.E.: si el valor es '1' se importaría cada hora)" %}:</label>
+                <input type="text" class="form-control input ark_change octorate-cron octorate-hour" id="hour" name="hour" 
+                    value="{{user_octorate.hour}}" title="{{user_octorate.hour}}" data-url="{%url "project-set-octorate-schedule"%}"
+                    data-target="octorate-notif" data-obj_id="{{user_octorate.id}}" data-field="hour"/> <span id="hour__msg"></span>
+            </div>
+            <div class="col-4">
+                <label class="label"> {% trans "Si está activo el código asignado a las cerraduras serán los últimos 4 dígitos del teléfono indicado en la reserva" %}: </label>
+                <input type="checkbox" class="form-control- autosave input octorate-cron" id="code_mobile" name="code_mobile" 
+                    value="{{user_octorate.code_mobile}}" title="{{user_octorate.code_mobile}}" 
+                    data-model-name="connector.projectoctorateuser" data-obj-id="{{user_octorate.id}}" 
+                    data-url="{% url "autosave_field" %}" data-target="div-notification" data-bool="True"
+                    {%if user_octorate.code_mobile%}checked{%endif%}/> <span id="code_mobile__msg"></span>	
+            </div>
+
+        </div>
+ 
     </div>		
 </div>		
 
