@@ -538,6 +538,9 @@ def get_subreservation_dates(booking, sub_id):
     return booking["startDate"], booking["endDate"]
 
 def get_or_create_booking(pcu, ext_id):
+    if pcu == None:
+        return "\n -- Objeto no encontrado"
+
     msg = ""
     av = Cloudbeds(pcu.token)
     booking = av.get_booking(ext_id)
