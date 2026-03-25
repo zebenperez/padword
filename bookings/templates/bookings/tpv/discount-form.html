@@ -1,6 +1,6 @@
 {% load i18n padword_tags static%}
 
-<form class="form-horizontal p-4" method="post" action="{% url "tpv-set-discount" %}" id="form-disc">
+<form class="form-horizontal alert alert-primary p-4" method="post" action="{% url "tpv-set-discount" %}" id="form-disc">
 	{% csrf_token %}
     <input type="hidden" name="obj_id" value="{{obj.id}}"/>
     <input type="hidden" name="form_id" value="{{form_id}}"/>

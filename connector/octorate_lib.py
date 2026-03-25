@@ -126,15 +126,16 @@ class Octorate():
         except requests.exceptions.RequestException as err:
             raise OctorateAPIError(menssage=err)
 
-    def get_bookings(self, property_id):
+    def get_bookings(self, property_id, i_date, e_date):
         try:
-            #_url_request = "{}{}".format(API_URL, BOOKINGS_URL)
             _url_request = f'{API_URL}{BOOKINGS_URL}/{property_id}'
             today = datetime.today()
             params = {
-                #"startDate": "2026-03-01"
-                "startDate": today.strftime("%Y-%m-%d")
-            #    "status": "confirmed"
+                "startDate": i_date.strftime("%Y-%m-%d"),
+                "endDate": e_date.strftime("%Y-%m-%d"),
+                "type": "CHECKIN",
+                #"type": "NEXT7ARRIVALS",
+                "status": "CONFIRMED"
             }
             dic = self.__send_request__(_url_request, params).json()
             items = dic["data"]
@@ -214,7 +215,8 @@ class CloudbedsBooking():
         self.surname = get_param(dic, "lastName")
         self.checkin = get_param(dic, "checkin").replace("T", " ").split("Z")[0]
         self.checkout = get_param(dic, "checkout").replace("T", " ").split("Z")[0]
-        self.room = get_param(dic, "product")
+        #self.room = get_param(dic, "product")
+        self.room = get_param(dic, "pmsProduct")
         self.email = get_param(guest, "email")
         self.phone = get_param(guest, "phone")
         self.language = get_param(guest, "language")
@@ -261,8 +263,8 @@ def create_booking(pou, booking, oc):
     err = ""
     msg = ""
 
-    if room_ex and booking.status == "CONFIRMED":
-    #if room_ex and booking.status == "CONFIRMED" and checkin <= e_date and checkin >= today:
+    #if room_ex and booking.status == "CONFIRMED":
+    if room_ex and booking.status == "CONFIRMED" and checkin <= e_date and checkin >= today:
         #msg += "\n Entrando"
         #ext_id = get_ext_id(booking, bguest, room)
         ext_id = booking.id
@@ -315,7 +317,9 @@ def get_booking_list(pou):
     token = oc.get_new_token()
     pou.token = token
     pou.save()
-    result = oc.get_bookings(pou.property_id)
+    today = datetime.today()
+    e_date = today + timedelta(pou.days)
+    result = oc.get_bookings(pou.property_id, today, e_date)
     booking_list = []
     i = 0
     for item in result:
