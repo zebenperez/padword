@@ -178,6 +178,30 @@ a.special.ark {
     text-decoration: none;
 }
 
+.border-none {
+	border:none;
+}
+
+.special-popup {
+	border:1px solid #084298;
+}
+
+button.a-disabled {
+	background: #ccc;
+	border:1px solid #ccc;
+}
+
+.invitation,
+.hand-discount {
+	border:1px solid #084298; 
+	width: 110%; 
+	margin-left:-5%;
+}
+
+
+
+
+
 /*****************************/
 /* HEADER */
 
@@ -960,6 +984,3 @@ img.img-fill.mobile {
 }
 
 
-.a-disabled {
-    background: #ccc;
-}

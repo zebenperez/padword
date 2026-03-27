@@ -1,12 +1,12 @@
 {% load i18n tpv_tags bookings_tag padword_tags %}
 
-<div id="div-return" class="alert alert-warning hide">
+<div id="div-return" class="alert alert-warning hide m-0">
     {% trans "Va a realizar una devolución por un importe de: " %} -{{total|floatformat:2}} {{fi.currency}}{#&euro;#}
     {#{% if regime %} -{{fi|get_total_by_regime:regime.code}} &euro; {% else %} -{{total|floatformat:2}} &euro; {% endif %}#}
     <br/> <br/> 
     <div class="row">
         <div class="col-6"> 
-            <button class="btn btn-warning w-100" onclick="$('#div-return').hide();$('#div-btns').show()">{%trans "Cancel"%}</button> 
+            <button class="btn btn-danger w-100" onclick="$('#div-return').hide();$('#div-btns').show()">{%trans "Cerrar"%}</button> 
         </div>
         <div class="col-6">
             <button id="btn-return-order-{{fi.id}}" class="btn btn-warning w-100 a-disabled ark" data-bs-dismiss="modal" 
@@ -19,51 +19,60 @@
     </div>
 </div>
 
-<div id="div-free" class="alert alert-primary hide">
-    {% trans "Va a realizar una invitación por un importe de: " %} {{total|floatformat:2}} {{fi.currency}}{#&euro;#}
-    {#{% if regime %} {{fi|get_total_by_regime:regime.code}} &euro; {% else %} {{total|floatformat:2}} &euro; {% endif %}#}
-    <br/> <br/> 
-    <input type="text" class="form-control" name="free_desc" placeholder="{%trans "Nombre de la persona realiza la invitación..."%}"
-        onchange="$('#btn-free-order-{{fi.id}}').data('desc', 'Invitado por:'+$(this).val());"/>
-    <br/> 
-    <select class="form-control"  onchange="$('#btn-free-order-{{fi.id}}').data('desc', 'Invitado por:'+$(this).val());">
-        <option value="">{% trans "Seleccione una cuenta" %}</option>
-        {% for inv in fi.form.project.invitations %}
-            <option value="{{inv.name}}">{{inv.name}}</option>
-        {% endfor %}
-    </select>
-    <br/> 
-    <div class="row">
-        <div class="col-6">
-            <button class="btn btn-primary w-100" onclick="$('#div-free').hide();$('#div-btns').show()">{%trans "Cancel"%}</button>
-        </div>
-        <div class="col-6">
-            <button id="btn-free-order-{{fi.id}}" class="btn btn-primary w-100 ark" data-bs-dismiss="modal" 
-                data-url="{% url "tpv-order-send" %}" data-target="base" data-obj_id="{{fi.id}}" data-payment_type="05" 
-                data-subtotal="0" data-band="{{band.id}}" data-total="0" data-desc="" data-mobile="{{mobile}}">{%trans "Confirm"%}</i>
-            </button>
-        </div>
+<div id="div-free" class="alert alert-primary hide m-0 bg-white border-none">
+        <div class="row alert alert-primary invitation">
+            <div class="col-9 text-start pb-2"><small>{% trans "Va a realizar una invitación por un importe de: " %}</small></div>
+            <div class="col-3 text-end pb-2"><strong>{{total|floatformat:2}} €</strong></div>
+            {#{% if regime %} {{fi|get_total_by_regime:regime.code}} &euro; {% else %} {{total|floatformat:2}} &euro; {% endif %}#}
+            <div class="col-12 p-0">
+                <input type="text" class="form-control" name="free_desc" placeholder="{%trans "Nombre de la persona realiza la invitación..."%}"
+                onchange="$('#btn-free-order-{{fi.id}}').data('desc', 'Invitado por:'+$(this).val());"/>
+            </div>
+            <div class="col-12 pt-2 p-0">
+                <select class="form-control"  onchange="$('#btn-free-order-{{fi.id}}').data('desc', 'Invitado por:'+$(this).val());">
+                    <option value="">{% trans "Seleccione una cuenta" %}</option>
+                    {% for inv in fi.form.project.invitations %}
+                        <option value="{{inv.name}}">{{inv.name}}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="row mt-3 m-0">
+                <div class="col-6">
+                    <button class="btn btn-danger w-100" onclick="$('#div-free').hide();$('#div-btns').show()">{%trans "Cerrar"%}</button>
+                </div>
+                <div class="col-6">
+                    <button id="btn-free-order-{{fi.id}}" class="btn btn-primary w-100 a-disabled ark" data-bs-dismiss="modal" 
+                        data-url="{% url "tpv-order-send" %}" data-target="base" data-obj_id="{{fi.id}}" data-payment_type="05" 
+                        data-subtotal="0" data-band="{{band.id}}" data-total="0" data-desc="" data-mobile="{{mobile}}">{%trans "Confirm"%}</i>
+                    </button>
+                </div>
+            </div>
     </div>
 </div>
 
-<div id="div-discount" class="alert alert-primary hide">
-    {% trans "Precio actual del ticket: " %} <strong>{{total|floatformat:2}} {{fi.currency}}</strong> <br/> <br/> 
-    {% trans "Va a realizar un descuento del: " %} 
-    <input type="text" class="form-control" id="input-disc" name="ticket-discount"/> <br/>
-    {% trans "Precio final: " %} <strong><span id="discount-total">{{total|floatformat:2}}</span> {{fi.currency}}</strong> <br/>
-    <select class="form-control" id="select-disc">
-        <option value="">{% trans "Seleccione una cuenta" %}</option>
-        {% for disc in fi.pos.discounts.all %} <option value="{{disc.percent}}">{{disc.percent}}</option> {% endfor %}
-    </select>
-    <br/> 
-    <div class="row">
-        <div class="col-6">
-            <button class="btn btn-primary w-100" onclick="$('#div-discount').hide();$('#div-btns').show()">{%trans "Cancel"%}</button>
-        </div>
-        <div class="col-6">
-            <button id="btn-discount-confirm-{{fi.id}}" class="btn btn-primary w-100 a-disabled ark" data-bs-dismiss="modal">
-                {%trans "Confirm"%}</i>
-            </button>
+<div id="div-discount" class="alert alert-primary hide m-0 bg-white border-none">
+    <div class="row alert alert-primary hand-discount">
+        <div class="col-8 text-start pb-2"><strong>{% trans "Precio actual del ticket: " %}</strong></div> <div class="col-4 text-end pb-2"><strong>{{total|floatformat:2}} €</strong></div>
+        <div class="col-12 text-start pt-2"><small>{% trans "Va a realizar un descuento del: " %}</small> </div>
+        <div class="col-11 p-0"><input type="text" class="form-control" id="input-disc" name="ticket-discount" placeholder="Introducir descuento a aplicar"/></div>
+        <div class="col-1 pt-2"> %</div>
+        <div class="col-8 text-start pt-2"><strong>{% trans "Precio final: " %}</strong></div>
+        <div class="col-4 text-end pt-2"><strong><span id="discount-total">{{total|floatformat:2}}</span> €</strong></div>
+        <div class="col-12 pt-2">
+            <select class="form-control" id="select-disc">
+                <option value="">{% trans "Seleccione una cuenta" %}</option>
+                {% for disc in fi.pos.discounts.all %} <option value="{{disc.percent}}">{{disc.percent}}</option> {% endfor %}
+            </select>
+        </div> 
+        <div class="row mt-3 m-0">
+            <div class="col-6">
+                <button class="btn btn-danger w-100" onclick="$('#div-discount').hide();$('#div-btns').show()">{%trans "Cerrar"%}</button>
+            </div>
+            <div class="col-6">
+                <button id="btn-discount-confirm-{{fi.id}}" class="btn btn-primary w-100 a-disabled ark" data-bs-dismiss="modal">
+                    {%trans "Confirm"%}</i>
+                </button>
+            </div>
         </div>
     </div>
     <script>
@@ -98,7 +107,7 @@
 
 {% with partner_list=fi.project.partners.all %}
     {% if partner_list|length > 0 %}
-    <div id="div-room" class="alert alert-primary hide">
+    <div id="div-room" class="alert alert-primary hide m-0">
         {% trans "Va a realizar un cargo en habitación por un importe de: " %} {{total|floatformat:2}} {{fi.currency}}
         <br/> <br/> 
         <select class="form-control" onchange="$('#btn-room-order-{{fi.id}}').data('partner', $(this).val());">
@@ -113,7 +122,7 @@
         <br/> 
         <div class="row">
             <div class="col-6">
-                <button class="btn btn-primary w-100" onclick="$('#div-room').hide();$('#div-btns').show()">{%trans "Cancel"%}</button>
+                <button class="btn btn-danger w-100" onclick="$('#div-room').hide();$('#div-btns').show()">{%trans "Cerrar"%}</button>
             </div>
             <div class="col-6">
                 <button id="btn-room-order-{{fi.id}}" class="btn btn-primary w-100 ark" data-bs-dismiss="modal" 

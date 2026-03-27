@@ -635,6 +635,16 @@ def roomraccoon_get_booking(request):
         print("❌ Error procesando SOAP:", e)
         return HttpResponse("Error procesando SOAP", status=400)
 
+@group_required("admins")
+def roomraccoon_log(request):
+    f = open(os.path.join(settings.BASE_DIR, "roomraccoon.log"), "r", encoding='utf-8')
+    text = f.read()
+    try:
+        log_list = [f for f in os.listdir(settings.LOGPATH) if re.match(r'.*roomraccoon.*', f)]
+    except:
+        log_list = []
+    return render(request, 'cron-log.html', {'text': text.replace("\n", "<br/>"), 'log_list': log_list})
+
 '''
     OCTORADE
 '''

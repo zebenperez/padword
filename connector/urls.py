@@ -57,6 +57,7 @@ urlpatterns = [
     path('avaibook-log/', views.avaibook_log, name='avaibook-log'),
     path('winhotel-log/', views.winhotel_log, name='winhotel-log'),
     path('cloudbeds-log/', views.cloudbeds_log, name='cloudbeds-log'),
+    path('roomraccoon-log/', views.roomraccoon_log, name='roomraccoon-log'),
 
     #--------------------- CAMERA --------------------
     path('car/plates/<slug:project_uuid>/', camera_views.car_plates, name='car_plates'),

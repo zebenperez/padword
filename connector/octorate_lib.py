@@ -187,13 +187,15 @@ class Octorate():
             print(err)
             raise OctorateAPIError(menssage=err)
 
-    def send_code(self, property_id, booking_id, code):
+    def send_code(self, property_id, booking_id, code, link):
         try:
             _url_request = f'{API_URL}{BOOKINGS_URL}/{property_id}/{booking_id}'
             today = datetime.today()
+            metaKey = f'"Apertura desde el móvil Reserva: {booking_id}'
             params = {
                 #"roomCode": {"code":, "rfcTagId": "", "locked": "true"},
                 "roomCode": {"code": code},
+                "metaData": {"labelText":"padwordkey", "metaKey":metaKey, "metaDataType":"LINK", "value": link},
                 "status": "CONFIRMED"
             }
             #print(_url_request)
@@ -292,7 +294,7 @@ def create_booking(pou, booking, oc):
             #print(lock_code)
             err = guest.add_all_key_code(lock_code)
             msg += "\n {}".format(err)
-            oc.send_code(pou.property_id, booking.id.split("_")[0], lock_code)
+            oc.send_code(pou.property_id, booking.id.split("_")[0], lock_code, guest.pwa_link)
             #oc.ids += "{}:{},".format(room.name, guest.ext_id)
             #msg += send_booking_codes(pcu, av, booking.id)
     return msg
