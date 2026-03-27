@@ -753,6 +753,7 @@ class TicketViewSet(viewsets.ViewSet):
                 return Response(res)
             return Response({"error": True, 'msg': 'This project do not have TPV configured!'})
         except Exception as e:
+            logger.info("[DEBUG]: ERROR {}".format(str(e)))
             logger.error("[{}]: \"{}\"".format(self.request.user, str(e)))
             return Response({"error": True, 'msg': 'Bad request!'})
 
