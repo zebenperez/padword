@@ -742,7 +742,7 @@ class TicketViewSet(viewsets.ViewSet):
         try:
             import time
             t0 = time.time()
-            logger.info("[DEBUG]: ({}) ENTRANDO EN GET TICKETS2".format(request.META.get('REMOTE_ADDR')))
+            logger.info("[DEBUG]: ({}) ENTRANDO EN GET TICKETS2: {}".format(request.META.get('REMOTE_ADDR'), request.POST))
             pu = ProjectUser.objects.get(username=self.request.user.username)
             start_date = request.POST["start_date"] if "start_date" in request.POST else ""
             end_date = request.POST["end_date"] if "end_date" in request.POST else ""
