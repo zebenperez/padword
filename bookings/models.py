@@ -303,17 +303,18 @@ class Form(models.Model):
         if start_date != "":
             if (len(start_date) > 16):
                 s_date = date_to_utc(datetime.datetime.strptime(start_date, "%Y-%m-%d_%H:%M:%S"), self.project.time_zone_name)
+                s_date = s_date + datetime.timedelta(seconds=1)
             else:
                 s_date = date_to_utc(datetime.datetime.strptime(start_date, "%Y-%m-%d_%H:%M"), self.project.time_zone_name)
             if end_date != "":
-                if (len(start_date) > 16):
+                if (len(end_date) > 16):
                     e_date = date_to_utc(datetime.datetime.strptime(end_date, "%Y-%m-%d_%H:%M:%S"), self.project.time_zone_name)
                 else:
                     e_date = date_to_utc(datetime.datetime.strptime(end_date, "%Y-%m-%d_%H:%M"), self.project.time_zone_name)
                 fi_list = FormInstance.objects.filter(form_uuid=self.uuid, date__range=(s_date, e_date))
             else:
-                fi_list = FormInstance.objects.filter(form_uuid=self.uuid, date__gt=s_date).order_by("-date")
-                #fi_list = FormInstance.objects.filter(form_uuid=self.uuid, date__gte=s_date).order_by("-date")
+                #fi_list = FormInstance.objects.filter(form_uuid=self.uuid, date__gt=s_date).order_by("-date")
+                fi_list = FormInstance.objects.filter(form_uuid=self.uuid, date__gte=s_date).order_by("-date")
         else:
             fi_list = FormInstance.objects.filter(form_uuid=self.uuid).order_by("-date")
         resp = {"tickets": []}
