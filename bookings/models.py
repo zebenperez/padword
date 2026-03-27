@@ -303,7 +303,6 @@ class Form(models.Model):
         if start_date != "":
             if (len(start_date) > 16):
                 s_date = date_to_utc(datetime.datetime.strptime(start_date, "%Y-%m-%d_%H:%M:%S"), self.project.time_zone_name)
-                s_date = s_date + datetime.timedelta(seconds=1)
             else:
                 s_date = date_to_utc(datetime.datetime.strptime(start_date, "%Y-%m-%d_%H:%M"), self.project.time_zone_name)
             if end_date != "":
