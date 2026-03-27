@@ -740,7 +740,7 @@ class TicketViewSet(viewsets.ViewSet):
     @action(detail=False, methods=['POST'])
     def get_tickets2(self, request):
         try:
-            logger.info("[DEBUG]: ({}) ENTRANDO EN GET TICKETS2: {}".format(request.META.get('REMOTE_ADDR'), request.POST))
+            logger.info("[DEBUG]: ({}) ENTRANDO EN GET TICKETS2: {} {}".format(request.META.get('REMOTE_ADDR'), request.META.get('HTTP_AUTHORIZATION'), request.POST))
             pu = ProjectUser.objects.get(username=self.request.user.username)
             start_date = request.POST["start_date"] if "start_date" in request.POST else ""
             end_date = request.POST["end_date"] if "end_date" in request.POST else ""
