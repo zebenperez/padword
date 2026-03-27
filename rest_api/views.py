@@ -740,7 +740,7 @@ class TicketViewSet(viewsets.ViewSet):
     @action(detail=False, methods=['POST'])
     def get_tickets2(self, request):
         try:
-            logger.info("[DEBUG]: ({}) ENTRANDO EN GET TICKETS2: {} {} {}".format(request.META.get('REMOTE_ADDR'), request.META.get('HTTP_AUTHORIZATION'), self.request.user, request.POST))
+            logger.info("[DEBUG]: ({}) ENTRANDO EN GET TICKETS2: {}".format(request.META.get('REMOTE_ADDR'), request.POST))
             pu = ProjectUser.objects.get(username=self.request.user.username)
             start_date = request.POST["start_date"] if "start_date" in request.POST else ""
             end_date = request.POST["end_date"] if "end_date" in request.POST else ""
@@ -749,8 +749,7 @@ class TicketViewSet(viewsets.ViewSet):
             if form != None:
                 logger.info("[DEBUG]: PROCESANDO")
                 res = form.to_tickets2(start_date, end_date)
-                logger.error("[DEBUG]: PROCESADO")
-                logger.info("[DEBUG]: PROCESADO {}".format(res))
+                logger.info("[DEBUG]: PROCESADO {}".format(res["tickets"]))
                 return Response(res)
             return Response({"error": True, 'msg': 'This project do not have TPV configured!'})
         except Exception as e:
