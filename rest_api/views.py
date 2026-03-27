@@ -750,7 +750,6 @@ class TicketViewSet(viewsets.ViewSet):
                 logger.info("[DEBUG]: PROCESANDO")
                 res = form.to_tickets2(start_date, end_date)
                 logger.info("[DEBUG]: PROCESADO {}".format(len(res)))
-                logger.info(f'[DEBUG]: PROCESADO [{res}]')
                 return Response(res)
             return Response({"error": True, 'msg': 'This project do not have TPV configured!'})
         except Exception as e:
