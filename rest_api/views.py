@@ -755,7 +755,7 @@ class TicketViewSet(viewsets.ViewSet):
         except Exception as e:
             logger.info("[DEBUG]: ERROR {}".format(str(e)))
             logger.error("[{}]: \"{}\"".format(self.request.user, str(e)))
-            return Response({"error": True, 'msg': 'Bad request!'})
+            return Response({"error": True, 'msg': str(e)})
 
 
     @action(detail=False, methods=['POST'])
