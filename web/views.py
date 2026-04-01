@@ -340,9 +340,14 @@ def project_user_token(request):
 
 @group_required("admins")
 def project_user_refresh_token(request):
-    obj = get_or_none(ProjectLockUser, request.GET["obj_id"]) if "obj_id" in request.GET else None
-    obj.get_new_token()
+    project = get_or_none(Project, get_param(request.GET, "obj_id"))
+    obj = project.lock_user
+    if obj != None:
+        obj.get_new_token()
 
+    modal = get_param(request.GET, "modal")
+    if modal == "True":
+        return render(request, "web/projects/project-token-modal.html", {'user_lock':obj,})
     return render(request, "web/projects/project-token.html", {'user_lock':obj,})
 
 @group_required("admins")

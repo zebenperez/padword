@@ -626,12 +626,15 @@ def roomraccoon_get_booking(request):
         #pu = get_or_none(ProjectUser, user.username, "username")
         #pru = get_or_none(ProjectRoomraccoonUser, pu.project_uuid, "project_uuid")
         content = roomraccoon_parse_soap_reservation(request.body.decode("utf-8"))
+        f.write("\n[LOG]: PROYECTO (HOTEL): {}".format(content["hotel_code"]))
         #print(content)
         pru = get_or_none(ProjectRoomraccoonUser, content["hotel_code"], "hotel")
+        f.write("\n[LOG]: PROYECTO: {}".format(pru.project_uuid))
         err = roomraccoon_manage_booking(pru, content, f)
         soap_response = roomraccoon_get_soap_response() # Resuesta SOAP
         return HttpResponse(soap_response, content_type="text/xml")
     except Exception as e:
+        f.write("\n[LOG]: ERROR: {}".format(str(e)))
         print("❌ Error procesando SOAP:", e)
         return HttpResponse("Error procesando SOAP", status=400)
 

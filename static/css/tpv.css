@@ -866,7 +866,8 @@ input#div-scan.form-control.ark_change.scanband::placeholder {
     height: 100%; 
     overflow-y: scroll; 
     width: 96%;
-    padding-bottom: 150px;
+    /*padding-bottom: 150px;*/
+    padding-bottom: 100%;
     margin-top: 5px;
 	
     /*border:1px solid red;*/

@@ -1,0 +1,14 @@
+{% load i18n padword_tags %}
+
+
+<div class="row w-100 common-modal-head m-0 p-0">
+    <div class="col-11"> <h2>{% trans 'Token' %}</h2></div>
+    <div class="col-1 text-center"> <button type="button" class="btn btn-sm" data-bs-dismiss="modal"><i class="fas fa-times"></i></button> </div>
+</div>
+
+<div class="row">
+    <div class="col-12">
+        <label class="label">{% trans "Token" %} ({% trans "expire:" %} {{user_lock.expire_date}}): {{user_lock.token}}</label>
+    </div>
+    <div class="col-12"> <label class="label">{% trans "Refresh Token" %}: {{user_lock.refresh_token}}</label> </div>
+</div>		

@@ -19,8 +19,12 @@
             data-obj_id="{{user_lock.id}}"> {% trans "Get token" %}</a>
     </div>
     <div class="col-md-2 col-6 mt-4 p-0 text-center">
+        {%comment%}
         <a class="btn btn-primary pointer ark" data-url="{% url "project-user-refresh-token" %}" data-target="span-token" 
             data-obj_id="{{user_lock.id}}"> {% trans "Refresh token" %}</a>
+        {%endcomment%}
+        <a class="btn btn-primary pointer ark" data-url="{% url "project-user-refresh-token" %}" data-target="span-token" 
+            data-obj_id="{{obj.id}}"> {% trans "Refresh token" %}</a>
     </div>
 </div>		
 

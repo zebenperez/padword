@@ -25,8 +25,9 @@
             <div class="col-3 text-end pb-2"><strong>{{total|floatformat:2}} €</strong></div>
             {#{% if regime %} {{fi|get_total_by_regime:regime.code}} &euro; {% else %} {{total|floatformat:2}} &euro; {% endif %}#}
             <div class="col-12 p-0">
-                <input type="text" class="form-control" name="free_desc" placeholder="{%trans "Nombre de la persona realiza la invitación..."%}"
-                onchange="$('#btn-free-order-{{fi.id}}').data('desc', 'Invitado por:'+$(this).val());"/>
+                <input type="text" class="form-control" name="free_desc" 
+                    placeholder="{%trans "Nombre de la persona realiza la invitación..."%}"
+                    onchange="$('#btn-free-order-{{fi.id}}').data('desc', 'Invitado por:'+$(this).val());"/>
             </div>
             <div class="col-12 pt-2 p-0">
                 <select class="form-control"  onchange="$('#btn-free-order-{{fi.id}}').data('desc', 'Invitado por:'+$(this).val());">
@@ -38,12 +39,14 @@
             </div>
             <div class="row mt-3 m-0">
                 <div class="col-6">
-                    <button class="btn btn-danger w-100" onclick="$('#div-free').hide();$('#div-btns').show()">{%trans "Cerrar"%}</button>
+                    <button class="btn btn-danger w-100" onclick="$('#div-free').hide();$('#div-btns').show()">
+                        {%trans "Cerrar"%}</button>
                 </div>
                 <div class="col-6">
                     <button id="btn-free-order-{{fi.id}}" class="btn btn-primary w-100 a-disabled ark" data-bs-dismiss="modal" 
                         data-url="{% url "tpv-order-send" %}" data-target="base" data-obj_id="{{fi.id}}" data-payment_type="05" 
-                        data-subtotal="0" data-band="{{band.id}}" data-total="0" data-desc="" data-mobile="{{mobile}}">{%trans "Confirm"%}</i>
+                        data-subtotal="0" data-band="{{band.id}}" data-total="0" data-desc="" data-mobile="{{mobile}}">
+                        {%trans "Confirm"%}</i>
                     </button>
                 </div>
             </div>
@@ -52,10 +55,17 @@
 
 <div id="div-discount" class="alert alert-primary hide m-0 bg-white border-none">
     <div class="row alert alert-primary hand-discount">
-        <div class="col-8 text-start pb-2"><strong>{% trans "Precio actual del ticket: " %}</strong></div> <div class="col-4 text-end pb-2"><strong>{{total|floatformat:2}} €</strong></div>
+        <div class="col-8 text-start pb-2"><strong>{% trans "Precio actual del ticket: " %}</strong></div> 
+        <div class="col-4 text-end pb-2"><strong>{{total|floatformat:2}} €</strong></div>
         <div class="col-12 text-start pt-2"><small>{% trans "Va a realizar un descuento del: " %}</small> </div>
-        <div class="col-11 p-0"><input type="text" class="form-control" id="input-disc" name="ticket-discount" placeholder="Introducir descuento a aplicar"/></div>
+        <div class="col-11 p-0"> <input type="text" class="form-control" id="input-disc" name="ticket-discount" 
+            placeholder="Introducir descuento a aplicar"/></div>
         <div class="col-1 pt-2"> %</div>
+        {%comment%}
+        <div class="col-11 p-0"> <input type="text" class="form-control" id="input-disc-abs" name="ticket-discount-abs" 
+            placeholder="Introducir descuento a aplicar"/></div>
+        {%endcomment%}
+        <div class="col-1 pt-2"> €</div>
         <div class="col-8 text-start pt-2"><strong>{% trans "Precio final: " %}</strong></div>
         <div class="col-4 text-end pt-2"><strong><span id="discount-total">{{total|floatformat:2}}</span> €</strong></div>
         <div class="col-12 pt-2">
@@ -66,7 +76,8 @@
         </div> 
         <div class="row mt-3 m-0">
             <div class="col-6">
-                <button class="btn btn-danger w-100" onclick="$('#div-discount').hide();$('#div-btns').show()">{%trans "Cerrar"%}</button>
+                <button class="btn btn-danger w-100" onclick="$('#div-discount').hide();$('#div-btns').show()">
+                    {%trans "Cerrar"%}</button>
             </div>
             <div class="col-6">
                 <button id="btn-discount-confirm-{{fi.id}}" class="btn btn-primary w-100 a-disabled ark" data-bs-dismiss="modal">
@@ -80,6 +91,10 @@
             let i = $('#input-disc').val();
             $('#discount-total').html(getPercent('{{total}}', i));
         });
+        /*$("#input-disc-abs").keyup(function(){
+            let i = $('#input-disc-abs').val();
+            $('#discount-total').html(parseFloat('{{total}}') - parseFloat(i));
+        });*/
         $("#select-disc").change(function(){
             let v = $('#select-disc').val();
             let i = $('#input-disc').val();
@@ -95,10 +110,17 @@
             const id='#btn-send-order-{{fi.id}}';
             let v = $('#select-disc').val();
             let i = $('#input-disc').val();
+            //let a = $('#input-disc-abs').val();
+            //let t = parseFloat("{{total}}");
             if (v != "") 
                 $(id).data('discount', v);
-            else
+            else {
                 $(id).data('discount', i);
+                /*if (i != "") 
+                    $(id).data('discount', i);
+                else 
+                    $(id).data('discount', 100 - (((t - a)*100)/t));*/
+            }
             $(id).click();
         });
     </script>

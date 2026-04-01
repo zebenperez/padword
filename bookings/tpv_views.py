@@ -20,7 +20,7 @@ from .tpv_lib import get_cash_zeta, update_cash, get_number_x
 from .tpv_winhotel_lib import get_food_total, get_drinks_total, get_breakfast_total, cash_daily_summary
 from .tpv_winhotel_lib import cash_send_daily_summary, cash_send_charges, get_source_total 
 from .tpv_paytef_lib import manage_transaction
-from .models import Form, FormInstance, Status, Cash
+from .models import Form, FormType, FormInstance, Status, Cash
 from django.conf import settings
 
 import datetime
@@ -33,6 +33,13 @@ logger = logging.getLogger(__name__)
 '''
     Bookings client methods
 '''
+def tpv_create(request, project_uuid):
+    project = get_or_none(Project, project_uuid, "uuid")
+    if project.tpv == None:
+        FormType.objects.create(order=True, code="tpv", name=f'TPV {project.name}', template='bookings/tpv/tpv-cart.html', project_uuid=project_uuid)
+
+    return redirect(reverse("categories-by-project", kwargs={'project_id':project_uuid}))
+
 def check_user(user):
     if not user.is_authenticated:
         return False
@@ -315,7 +322,7 @@ def tpv_set_discount(request):
         fi.update_item_prices(obj)
         #fi.update_items_prices_guest(guest)
 
-        temp = "view-ticket-mobile.html" if mobile != "" else "view-ticket.html"
+        temp = "mobile/view-ticket-mobile.html" if mobile != "" else "view-ticket.html"
         return render(request, f'bookings/tpv/{temp}', {'fi':fi,})
         #return render(request, "bookings/tpv/view-ticket.html", {'fi':fi,})
     except Exception as e:
@@ -501,7 +508,7 @@ def tpv_order_send(request):
             #else:
             #    print("No hay TCOD")
             tcod = request.session["mobile"] if "mobile" in request.session else ""
-            payment_ok = manage_transaction(project, total, "Ticket: {}".format(fi.get_index), tcod)
+            payment_ok = manage_transaction(project, fi.get_total_total, "Ticket: {}".format(fi.get_index), tcod)
             if not payment_ok:
                 context = {'msg': "00", 'fi': fi, 'project_uuid': project.uuid, "mobile": mobile}
                 return render(request, 'bookings/tpv/show-msg.html', context)
@@ -509,7 +516,7 @@ def tpv_order_send(request):
         #Devolución con paytef
         if pt.code == "0406":
             tcod = request.session["mobile"] if "mobile" in request.session else ""
-            payment_ok = manage_transaction(project, total, "Ticket: {}".format(fi.get_index), tcod, "refund")
+            payment_ok = manage_transaction(project, fi.get_total_total, "Ticket: {}".format(fi.get_index), tcod, "refund")
             if not payment_ok:
                 context = {'msg': "00", 'fi': fi, 'project_uuid': project.uuid, "mobile": mobile}
 

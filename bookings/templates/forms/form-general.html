@@ -100,11 +100,6 @@
                             <button class="btn btn-xs ark" data-url="{% url "form-type-show-css" %}" data-target-modal="common-modal" 
                                 data-obj_id="{{obj.form_type.id}}"><i class="fas fa-file-alt"></i></a>
                         {% endif %}
-                        {%comment%}
-                        {% if obj.form_type.code != "tpv" %}
-                            <a class="btn btn-sm">{%trans "Crear TPV"%}</a>
-                        {% endif %}
-                        {%endcomment%}
                     </div>
 
                     <div class="col-10 grey">

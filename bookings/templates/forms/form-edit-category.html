@@ -1,21 +1,27 @@
 {% load i18n padword_tags bookings_tag common_tag %}
 
+{% with project=obj.project %}
 <div class="text-end mb-2">
     <a class="btn btn-sm save" title="{%trans 'QR'%}" href="{% url "guest-access" obj.category %}" target="_blank">
         <i class="fas fa-qrcode"></i> {%trans "QR"%}</a>  
     <a class="btn btn-sm save" title="{%trans 'PWA'%}" href="{% url "guest-access" obj.category %}" target="_blank">
         <i class="fas fa-desktop"></i> {%trans "PWA"%}</a>  
     {% if obj.form_type.code == "tpv" %}
-        <a class="btn btn-sm save" title="{%trans 'TPV'%}" href="{% url "tpv-access" obj.project.uuid %}" target="_blank">
+        <a class="btn btn-sm save" title="{%trans 'TPV'%}" href="{% url "tpv-access" project.uuid %}" target="_blank">
             <i class="fas fa-calculator"></i> {%trans "TPV"%}</a>  
-        <a class="btn btn-sm save" title="{%trans 'TPV MOVIL'%}" href="{% url "tpv-mob-access" obj.project.uuid %}" target="_blank">
+        <a class="btn btn-sm save" title="{%trans 'TPV MOVIL'%}" href="{% url "tpv-mob-access" project.uuid %}" target="_blank">
             <i class="fas fa-calculator"></i> {%trans "TPV MOVIL"%}</a>  
+    {% elif project.tpv == None %}
+        <a class="btn btn-sm save" title="{%trans 'CREAR TPV'%}" href="{% url "tpv-create" project.uuid %}">
+            <i class="fas fa-calculator"></i> {%trans "CREAR TPV"%}</a>  
     {% endif %}
     {% if obj.form_type.code == "wb-pay" %}
-        <a class="btn btn-sm save" title="{%trans 'Band Pay'%}" href="{% url "wristband-pay-access" obj.project.uuid %}" target="_blank">
+        <a class="btn btn-sm save" title="{%trans 'Band Pay'%}" href="{%url "wristband-pay-access" project.uuid%}" target="_blank">
             <i class="fas fa-calculator"></i> {%trans "Band Pay"%}</a>  
     {% endif %}
-    <a class="btn btn-sm save" title="{% trans 'Update' %}" onclick="location.reload();"><i class="fas fa-sync-alt"></i> {% trans "update" %}</a>  
+    
+    <a class="btn btn-sm save" title="{% trans 'Update' %}" onclick="location.reload();">i
+        <i class="fas fa-sync-alt"></i> {% trans "update" %}</a>  
 
     {% if not obj.form_type and request.user|in_group:"admins" %}
         <a class="btn btn-sm btn-danger ark" data-url="{% url "form-type-template-show" %}" data-target-modal="common-modal" 
@@ -38,6 +44,7 @@
         onclick="return confirm('{% trans "Are you sure to remove this element?" %}')"> {% trans "Remove" %}</a>
     {%endcomment%}
 </div>
+{% endwith %}
 
 <div id="div-contents">{% include "forms/form-edit-content.html" %} </div>
 

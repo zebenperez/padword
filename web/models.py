@@ -102,6 +102,10 @@ class Project(models.Model):
         return psu.api_key if psu != None and psu.api_key != "" else ""
 
     @property
+    def lock_user(self):
+        return ProjectLockUser.objects.filter(project_uuid=self.uuid).first()
+
+    @property
     def avantio_user(self):
         return ProjectAvantioUser.objects.filter(project_uuid=self.uuid).first()
 
@@ -128,6 +132,11 @@ class Project(models.Model):
     @property
     def invitations(self):
         return Invitation.objects.filter(project_uuid=self.uuid)
+
+    @property
+    def tpv(self):
+        from bookings.models import FormType
+        return FormType.objects.filter(code="tpv", project_uuid = self.uuid).first()
 
     def get_first_menu(self, username):
         pu = ProjectUser.objects.filter(username=username, project_uuid=self.uuid).first()
