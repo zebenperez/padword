@@ -1,0 +1,57 @@
+{% load i18n padword_tags %}
+
+<div class="row bg-guest-opt p-2"> 
+    <div class="col-4">
+        {% if project.guest_delete < 9999 %}
+            <a class="btn btn-primary" href="{% url "guest-soft-remove-all-by-project" %}">
+                {%trans "Remove clients with checkout previous to" %} {{limit}}</a>
+        {% endif %}
+    </div>
+    <div class="col-2">
+        {% if project.winhotel_user != None and project.winhotel_user.source_code != "" %}
+            <a class="btn btn-primary ark" data-url="{% url "winhotel-get-booking-list" project.uuid %}" 
+                data-target-modal="common-modal"> {%trans "Import winhotel bookings"%}</a>  
+        {% endif %}
+    </div>
+    {% if project.avaibook_user != None and project.avaibook_user.uuid != "" %}
+        <div class="col-2">
+            <a class="btn btn-primary ark" data-url="{% url "avaibook-get-booking-list" project.uuid %}" 
+                data-target-modal="common-modal"> {%trans "Import avaibook bookings"%}</a>  
+        </div>
+        {%comment%}
+        <div class="col-2">
+            <a class="btn btn-primary ark" data-url="{%url "avaibook-get-accommodation-list" project.uuid%}" 
+                data-target-modal="common-modal"> {%trans "Import avaibook accommodation"%}</a>  
+        </div>
+        {%endcomment%}
+    {% endif %}
+    <div class="col-2">
+        {% if project.avantio_user != None and project.avantio_user.username != "" %}
+            <a class="btn btn-primary ark" data-url="{% url "avantio-get-booking-list" project.uuid %}" 
+                data-target-modal="common-modal"> {%trans "Import avantio bookings"%}</a>  
+            <a class="btn btn-primary ark" data-url="{% url "avantio-get-booking-notif" project.uuid %}" 
+                data-target-modal="common-modal"> {%trans "Avantio notifications"%}</a>  
+        {% endif %}
+    </div>
+    <div class="col-2">
+        {% if project.mews_user != None and project.mews_user.client_token != "" %}
+            <a class="btn btn-primary bg-info ark" data-url="{% url "mews-get-booking-list" project.uuid %}" 
+                data-target-modal="common-modal"> {%trans "Import mews bookings"%}</a>  
+            <a class="btn btn-primary bg-dark mt-2 ark" data-url="{% url "mews-cancel-booking-list" project.uuid %}" 
+                data-target-modal="common-modal"> {%trans "Cancel mews bookings"%}</a>  
+        {% endif %}
+    </div>
+    {% if project.cloudbeds_user != None and project.cloudbeds_user.token != "" %}
+        <div class="col-2">
+            <a class="btn btn-primary bg-dark ark" data-url="{% url "cloudbeds-get-booking-list" project.uuid %}" 
+                data-target-modal="common-modal"> {%trans "Import cloudbeds bookings"%}</a>  
+        </div>
+    {% endif %}
+    {% if project.octorate_user != None and project.octorate_user.token != "" %}
+        <div class="col-2">
+            <a class="btn btn-primary bg-dark ark" data-url="{% url "octorate-get-booking-list" project.uuid %}" 
+                data-target-modal="common-modal"> {%trans "Import octorate bookings"%}</a>  
+        </div>
+    {% endif %}
+</div>
+
