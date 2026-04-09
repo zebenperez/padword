@@ -1,0 +1,94 @@
+{% load i18n bookings_tag common_tag padword_tags static %}
+
+{% get_current_language as LANGUAGE_CODE %}
+
+<div class="row div-slogan"><div class="col-12">{% trans "Text in the guest's language" %}</div></div>
+
+{%with class_name="slogan-{}"|replace:prefix%}
+
+<div class="row alias px-2">
+	<div class="col-12 inner {{class_name}} text-center text w-100">
+		<span class="w-100" style="">{{guest.room_obj.alias}}</span>
+	</div>
+</div>
+
+{%endwith%}
+
+<div class="row check-dates m-0 pt-3 pb-3">
+    <div class="col-4 offset-1 text-left"><strong>Check in</strong></div>
+    <div class="col-3 text-left">{{guest.check_in|date:"d/m"}}</div>
+    <div class="col-3">{{guest.check_in|date:"h:i"}}</div>
+    <div class="col-4 offset-1 text-left"><strong>Check out</strong></div>
+    <div class="col-3 text-left">{{guest.check_out|date:"d/m"}}</div>
+    <div class="col-3">{{guest.check_out|date:"h:i"}}</div>
+</div>
+
+
+<div class="row m-2"><div class="col-12 text-start">Puertas</div></div>
+<div class="row div-key pt-5">
+    <div class="col-12 text-center gral-content"> 
+        {% for lock in guest.get_locks %}
+            {%with class_name="{}-keys"|replace:prefix%}
+                <div class="form-check form-switch p-2 mt-2 {{class_name}}">
+                    <div class="form-check-input ark" type="checkbox" role="switch" id="flexSwitchCheckDefault"
+                        data-url="{% url "open-lock" %}" 
+                        data-target="div-notifications" 
+                        data-obj_id="{{lock.id}}"
+                        onclick="setUncheck($(this), 'form-check-input-checked')">
+                        <label class="form-check-label pt-4" for="flexSwitchCheckDefault">{{lock.alias}}</label>
+                    </div>
+                    <div id="div-notifications mt-3"></div>
+                </div>
+            {%endwith%}
+        {% endfor %}
+    </div>
+</div>
+<div class="row m-0 w-100 show-codes py-3">
+	<div class="col-9 text-start"><strong>Códigos Activos</strong></div>
+    	<div id="div-show-code" class="col-3 show-active-code text-end">Ver code</div>  
+    {%comment%} -- Cuando se pulse en "Ver code" que se muestre el código de abajo -- {%endcomment%}  
+	<div id="div-hide" class="col-10 offset-1 blind">****</div>
+	<div id="div-code" class="col-12 text-center guest-lock-code"> {{ guest.lock_code }}#</div>
+</div>
+
+<script>
+    function slideCode()
+    {
+        $('#div-hide').slideToggle();
+        $('#div-code').slideToggle();
+    }
+
+    $("#div-show-code").click(function(){
+        slideCode();
+        setTimeout(()=>{slideCode();}, 3000);
+    });
+</script>
+
+{%comment%}
+    <div class="simple-footer">{% padword_translate form.desc %}</div> 
+{%endcomment%}
+
+
+{%comment%}
+<script>
+    function setUncheck(obj, className)
+    {
+        if (!obj.hasClass(className))
+        {
+            obj.addClass(className);
+            setTimeout(() => { obj.removeClass(className); }, "5000");
+        }
+    }
+</script>
+{%endcomment%}
+
+{%comment%}
+<script id="realtime-script">
+    $('#span-total-items').html('{% get_total_items request.user.username category.project_uuid %}');
+    if (parseInt($("#span-total-items").html()) > 0)
+        $("#count-badge").show();
+    else
+        $("#count-badge").hide();
+    $('#realtime-script').remove();
+</script>
+{%endcomment%}

@@ -20,9 +20,9 @@ migrations.sh
 **.pro
 **.mo
 logs.txt
-menu_*
 deprecated
 deprecated2
 *.deprecated2
 *.log
 *.log.gz
+static/css/menu*

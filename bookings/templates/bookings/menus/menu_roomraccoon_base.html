@@ -1,0 +1,40 @@
+{% load i18n bookings_tag common_tag padword_tags static%}
+
+{#{%block extralinks%}{%with css_name='css/menu_{}.css'|replace:prefix%}<link rel="stylesheet" href="{%static css_name%}">{%endwith%}{%endblock%}#}
+{%block extralinks%}{% if form.form_type.css %}<link rel="stylesheet" href="{{ form.form_type.css.url }}">{% endif %}{%endblock%}
+
+{% get_current_language as LANGUAGE_CODE %}
+<div class="row topbar" style="margin:0px">
+    <div class="col-2 text-center pt-2">
+        <button id="back-btn" class="btn btn-header-pwa text-center ark pl-2 pr-2" data-url="{% url "show-category-menu" %}" data-target="main" 
+            data-cat_id="" data-cat_home="{{form.category}}" style="display:none"><i class="fas fa-chevron-left"></i> </button>
+        <button id="back-btn-bookings" class="btn btn-header-pwa text-center ark" data-url="{% url "my-bookings" %}" data-target="main" 
+            data-project_uuid="{{project_uuid}}" data-cat_id="{{form.category}}" style="display:none"> <i class="fas fa-chevron-left"></i> </button>
+    </div>
+
+    <div class="col-8 text-center pt-3">{%if form.logo%}<img class="" src="{{form.logo.url}}">{%endif%}</div>
+    
+    <div class="col-2 text-center pt-2">
+        <ul class="nav justify-content-center mt-2">
+            <li class="nav-item dropdown pt-2">
+                <a class="nav-link pointer" onclick="$('#menu-box').slideToggle()"> <i class="fas fa-bars"></i></a>
+                <ul id="menu-box" style="display:none">
+                    <li>
+                        <button class="menu-options gral pt-2" onclick="window.close()"><i class="fas fa-times"></i> {% trans "Cerrar ventana" %}</button>
+                    </li>
+                    <li>
+                        <button class="menu-options gral ark" data-url="{%url "close-spa"%}" data-target="div-main" 
+                            data-category_uuid="{{form.category}}"> <i class="fas fa-sign-out-alt"></i> {% trans "Close session" %}</button>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+
+    <div class="col-12 text-center separator mt-3" style="padding:0;">{#<img class="" src="/static/img/bg-separator.jpg">#}</div>
+
+    <div class="col-2"> <ul class="nav justify-content-center mt-2"> </ul> </div>
+</div>
+
+<div id="main" class="main-pwa pl-4 pr-4"> {% include form.form_type.template with category=form.get_category %} </div>
+
