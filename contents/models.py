@@ -579,7 +579,7 @@ class Table(models.Model):
     order = models.IntegerField(verbose_name=_('Order'), default=0)
     uuid = models.CharField(max_length = 255, verbose_name= _('UUID'), default="")
     name = models.CharField(max_length=200, verbose_name=_("Name"))
-    current_total = models.CharField(max_length=200, verbose_name=_("Current Total"))
+    current_total = models.CharField(max_length=200, verbose_name=_("Current Total"), default="")
     point_of_sale = models.ForeignKey(PointOfSale, on_delete=models.CASCADE, verbose_name=_("Point of sale"), related_name="tables")
 
     def __str__(self):
