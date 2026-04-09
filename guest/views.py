@@ -1,6 +1,7 @@
 from django.http import HttpResponse, JsonResponse
 from django.contrib.auth.decorators import login_required
 from django.core import serializers
+from django.core.paginator import Paginator
 from django.shortcuts import render, redirect
 from django.utils.translation import ugettext_lazy as _ 
 from django.db.models import Q
@@ -9,13 +10,13 @@ import datetime, csv
 from .models import *
 from .wristband_models import WristbandAccessZone
 from web.lock_lib import ShLock
-from padword.commons import show_exc, get_or_none, get_float, new_ui_slug, translate, user_in_group, get_param, reverse_cardkey, set_session
+from padword.commons import show_exc, get_or_none, get_float, new_ui_slug, translate, user_in_group, get_param, reverse_cardkey, set_session, get_int
 from padword.decorators import group_required
 from bookings.models import GuestUser
 from connector.models import ProjectStripeUser, ProjectCarUser
 import web.models as webmod 
 
-ITEMS_PER_PAGE=20
+ITEMS_PER_PAGE=5
 
 
 @group_required("admins")
@@ -436,7 +437,7 @@ def delete_expired(project):
 #    #return Guest.objects.filter(project_id=project_uuid).filter(full_query)
 
 @group_required("projects")
-def guests_by_project(request):
+def guests_by_project(request, page=1, rows=10):
     try:
         project = get_or_none(Project, request.project_id)
         #items = Guest.objects.filter(project_id = project.uuid)
@@ -453,7 +454,19 @@ def guests_by_project(request):
         items, total_count = get_guest_items(request, 0)
         limit = datetime.datetime.now() - datetime.timedelta(days=project.guest_delete)
 
-        context = {'total_items': total_count, 'items': items, 'index': ITEMS_PER_PAGE, 'project': project, 'limit': limit, 'active': 'guests'}
+        paginator = Paginator(items, get_int(rows))
+        page_obj = paginator.get_page(page)
+        context = {
+            'total_items': total_count, 
+            'items': page_obj, 
+            'project': project, 
+            'limit': limit, 
+            'rows': rows, 
+            'page_url': 'guests-by-project-page', 
+            'active': 'guests'
+        }
+
+        #context = {'total_items': total_count, 'items': items, 'index': ITEMS_PER_PAGE, 'project': project, 'limit': limit, 'active': 'guests'}
         #print(context)
         #context = {'total_items': items.count(), 'page': 0, 'project_uuid':project.uuid, 'items': items[0:ITEMS_PER_PAGE]}
         return render (request, "guest-by-project/guests.html", context)
@@ -466,9 +479,6 @@ def guest_search_by_project(request):
     try:
         project = get_or_none(Project, request.project_id)
         request.session["gs_project"] = project.uuid
-        #request.session["project_uuid"] = project.uuid
-        #set_session(request, "guest_search_name")
-        #items, total_count = get_guest_items_by_project(request, project.uuid)
         set_session(request, "gs_name")
         set_session(request, "gs_room")
         set_session(request, "gs_lang")
@@ -477,32 +487,38 @@ def guest_search_by_project(request):
         set_session(request, "gs_end_date")
         set_session(request, "gs_ini_date_end")
         set_session(request, "gs_end_date_end")
-        items, total_count = get_guest_items(request, 0)
+        return redirect("guests-by-project")
 
-        context = {'total_items': total_count, 'items': items, 'index': ITEMS_PER_PAGE}
-        #context = {'total_items': items.count(), 'items': items[0:ITEMS_PER_PAGE], 'page': 0, 'project_uuid': project.uuid}
-        return render(request, "guest-by-project/guest-list.html", context)
-    except Exception as e:
-        return render(request, 'error_exception.html', {'exc':show_exc(e)})
-
-@group_required("projects")
-def guest_page_by_project(request):
-    try:
-        project = get_or_none(Project, request.project_id)
+        #request.session["project_uuid"] = project.uuid
         #set_session(request, "guest_search_name")
-        #page = get_param(request.GET, "page", 0)
-        #ini = int(page)*ITEMS_PER_PAGE
-        #end = ini+ITEMS_PER_PAGE
-        #items, total_count = get_guest_items_by_project(request, project.uuid, ini, end)
-        items, total_count = get_guest_items(request, 0)
+        #items, total_count = get_guest_items_by_project(request, project.uuid)
 
-        context = {'total_items': total_count, 'items': items, 'index': end}
-        context["project_uuid"] = get_param(request.GET, "project_uuid")
-        return render(request, "guest-by-project/guest-page.html", context)
+#        items, total_count = get_guest_items(request, 0)
+
+#        context = {'total_items': total_count, 'items': items, 'index': ITEMS_PER_PAGE}
+        #context = {'total_items': items.count(), 'items': items[0:ITEMS_PER_PAGE], 'page': 0, 'project_uuid': project.uuid}
+#        return render(request, "guest-by-project/guest-list.html", context)
     except Exception as e:
-        print(e)
         return render(request, 'error_exception.html', {'exc':show_exc(e)})
 
+#@group_required("projects")
+#def guest_page_by_project(request):
+#    try:
+#        project = get_or_none(Project, request.project_id)
+#        #set_session(request, "guest_search_name")
+#        #page = get_param(request.GET, "page", 0)
+#        #ini = int(page)*ITEMS_PER_PAGE
+#        #end = ini+ITEMS_PER_PAGE
+#        #items, total_count = get_guest_items_by_project(request, project.uuid, ini, end)
+#        items, total_count = get_guest_items(request, 0)
+#
+#        context = {'total_items': total_count, 'items': items, 'index': end}
+#        context["project_uuid"] = get_param(request.GET, "project_uuid")
+#        return render(request, "guest-by-project/guest-page.html", context)
+#    except Exception as e:
+#        print(e)
+#        return render(request, 'error_exception.html', {'exc':show_exc(e)})
+#
 
 @group_required("projects")
 def guest_form_by_project(request):
