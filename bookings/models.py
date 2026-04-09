@@ -228,8 +228,8 @@ class Form(models.Model):
         return cat.uuid if cat != None else ""
 
     def get_common_items(self):
-        fi_list = [fi.id for fi in FormInstance.objects.filter(form_uuid=self.uuid)]
-        item_list = list(ShoppingCart.objects.filter(form_instance_id__in=fi_list).values_list('item', flat=True).annotate(total=Count('item')).order_by('-total')[:2])
+        fi_list = [fi.id for fi in FormInstance.objects.filter(form_uuid=self.uuid).order_by('-id')[:100]]
+        item_list = list(ShoppingCart.objects.filter(form_instance_id__in=fi_list).values_list('item', flat=True).annotate(total=Count('item')).order_by('-total')[:6])
         return Item.objects.filter(id__in=item_list)
 
     def to_tickets(self, start_id="", start_date="", end_date="", status=""):
@@ -376,6 +376,10 @@ class Form(models.Model):
     def get_main(project):
         ft = FormType.objects.filter(project_uuid = project.uuid, main = True).first()
         return Form.objects.filter(form_type = ft).first()
+
+    @staticmethod
+    def get_tpv(project_uuid):
+        return Form.objects.filter(form_type__code="tpv", form_type__project_uuid=project_uuid).first()
 
     class Meta:
         verbose_name = _('2.- Form')
@@ -861,9 +865,11 @@ class FormInstance(models.Model):
         return ShoppingCart.objects.filter(form_instance_id__in = list(fi_list)).order_by('form_instance_id')
  
     @staticmethod
-    def get_open_in_table(pos, table):
-        form = Form.objects.filter(form_type__code="tpv", form_type__project_uuid=pos.project_uuid).first()
-        return FormInstance.objects.filter(form_uuid=form.uuid, pos_uuid = pos.uuid, table_uuid = table.uuid, status_list__isnull = True)
+    def get_open_in_table(pos, table, form):
+        #form = Form.objects.filter(form_type__code="tpv", form_type__project_uuid=pos.project_uuid).first()
+        fi = FormInstance.objects.filter(form_uuid=form.uuid, pos_uuid=pos.uuid, table_uuid=table.uuid, status_list__isnull=True).first()
+        return fi
+        #return FormInstance.objects.filter(form_uuid=form.uuid, pos_uuid=pos.uuid, table_uuid=table.uuid, status_list__isnull=True).first()
         #return FormInstance.objects.filter(pos_uuid = pos.uuid, table_uuid = table.uuid, status_list__isnull = True).first()
 
     @staticmethod

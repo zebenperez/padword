@@ -61,10 +61,8 @@
         <div class="col-11 p-0"> <input type="text" class="form-control" id="input-disc" name="ticket-discount" 
             placeholder="Introducir descuento a aplicar"/></div>
         <div class="col-1 pt-2"> %</div>
-        {%comment%}
         <div class="col-11 p-0"> <input type="text" class="form-control" id="input-disc-abs" name="ticket-discount-abs" 
             placeholder="Introducir descuento a aplicar"/></div>
-        {%endcomment%}
         <div class="col-1 pt-2"> €</div>
         <div class="col-8 text-start pt-2"><strong>{% trans "Precio final: " %}</strong></div>
         <div class="col-4 text-end pt-2"><strong><span id="discount-total">{{total|floatformat:2}}</span> €</strong></div>
@@ -91,10 +89,10 @@
             let i = $('#input-disc').val();
             $('#discount-total').html(getPercent('{{total}}', i));
         });
-        /*$("#input-disc-abs").keyup(function(){
+        $("#input-disc-abs").keyup(function(){
             let i = $('#input-disc-abs').val();
             $('#discount-total').html(parseFloat('{{total}}') - parseFloat(i));
-        });*/
+        });
         $("#select-disc").change(function(){
             let v = $('#select-disc').val();
             let i = $('#input-disc').val();
@@ -110,16 +108,16 @@
             const id='#btn-send-order-{{fi.id}}';
             let v = $('#select-disc').val();
             let i = $('#input-disc').val();
-            //let a = $('#input-disc-abs').val();
-            //let t = parseFloat("{{total}}");
+            let a = $('#input-disc-abs').val();
+            let t = parseFloat("{{total}}");
             if (v != "") 
                 $(id).data('discount', v);
             else {
-                $(id).data('discount', i);
-                /*if (i != "") 
+                //$(id).data('discount', i);
+                if (i != "") 
                     $(id).data('discount', i);
                 else 
-                    $(id).data('discount', 100 - (((t - a)*100)/t));*/
+                    $(id).data('discount', 100 - (((t - a)*100)/t));
             }
             $(id).click();
         });

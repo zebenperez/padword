@@ -1,19 +1,27 @@
 {% load i18n bookings_tag common_tag padword_tags static%}
 
 {% for cat in cat_list %}
-    <div class="cart-item tpv-category tpv-class" data-tags="{{cat.pk}}" id="heading-{{cat.pk}}">
-        <div class="col-12 section-title mb-2"> {%padword_translate cat.name%}</div>
-        <div id="div-shopping-cart-{{cat.pk}}" class="div-shopping-cart-{{cat.pk}}">
+    <button id="btn-show-cat-{{cat.id}}" class="hide ark" data-url="{%url "tpv-show-category"%}" 
+        data-target="tpv-show-cat-{{cat.id}}" data-obj_id="{{cat.id}}" data-fi="{{fi.id}}"> </button>
+    <script>$("#btn-show-cat-{{cat.id}}").click();</script>
+    <div id="tpv-show-cat-{{cat.id}}"></div>
+ 
+    {%comment%}
+    <div class="cart-item tpv-category tpv-class" data-tags="{{cat.cat.pk}}" id="heading-{{cat.cat.pk}}">
+        <div class="col-12 section-title mb-2"> {%padword_translate cat.cat.name%}</div>
+        <div id="div-shopping-cart-{{cat.pk}}" class="div-shopping-cart-{{cat.cat.pk}}">
 
             <div class="row d-flex justify-content-start m-0">
-                {% for item in cat.get_items_active %}
+                {#{% for item in cat.get_items_active %}#}
+                {% for item in cat.items %}
                     <div class="col-lg-2 col-md-3 col-xs-12 justify-content-start"> 
                         {% include "bookings/tpv/show-item.html" with show_footer=True %} </div>
-                {% endfor %}
+                   {% endfor %}
             </div>
 
         </div>
     </div>
+    {%endcomment%}
 {% endfor %}
 
 

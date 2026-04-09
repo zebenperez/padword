@@ -115,12 +115,12 @@ class Category(models.Model):
     @property
     def get_items_active(self):
         try:
-            items_in_cat = ItemInCat.objects.filter(category = self).order_by('position')
-            results = []
-            for item in items_in_cat:
-                if item.item.is_active:
-                    results.append(item.item)
-            return results
+            return [i.item for i in ItemInCat.objects.filter(category = self, item__is_active = True).order_by('position')]
+            #results = []
+            #for item in items_in_cat:
+            #    if item.item.is_active:
+            #        results.append(item.item)
+            #return results
         except Exception as e:
             print (show_exc(e))
             return []
@@ -579,10 +579,20 @@ class Table(models.Model):
     order = models.IntegerField(verbose_name=_('Order'), default=0)
     uuid = models.CharField(max_length = 255, verbose_name= _('UUID'), default="")
     name = models.CharField(max_length=200, verbose_name=_("Name"))
+    current_total = models.CharField(max_length=200, verbose_name=_("Current Total"))
     point_of_sale = models.ForeignKey(PointOfSale, on_delete=models.CASCADE, verbose_name=_("Point of sale"), related_name="tables")
 
     def __str__(self):
         return self.name
+
+    def set_current_total(self, fi):
+        if fi != None:
+            total = fi.get_total_total
+            self.current_total = f'{total:.2f} {fi.currency}' if total > 0 else ""
+            self.save()
+        else:
+            self.current_total = ""
+            self.save()
 
     class Meta:
         verbose_name = _("Table")

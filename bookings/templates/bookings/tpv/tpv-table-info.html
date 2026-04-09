@@ -2,7 +2,21 @@
 
 <div class="table-box p-2 text-left">
     <small>
-    {% if fi_list|length == 0%}
+    {% for fi in fi_list %}
+        {% if fi and fi.get_total > 0%}
+            <span class="order-on"> 
+                {%trans "Order"%}: {{fi.pos.name}} <br/> {{fi.details.client}} 
+                <br/> {{fi.get_total_total|floatformat:2}} {{fi.currency}} </span>
+        {% else %}
+            <span class="order-off"> {%trans "No order"%} </span>
+        {% endif %}
+        <br/>
+    {% empty %}
+        <span class="order-off"> {% trans "No orders" %} </span>
+    {% endfor %}
+
+    {%comment%}
+    {% if fi_list.count == 0%}
         <span class="order-off"> {%trans "No order"%} </span>
     {% else %}
         {% for fi in fi_list %}
@@ -16,5 +30,6 @@
             <br/>
         {% endfor %}
     {% endif %}
+    {%endcomment%}
     </small>
 </div>

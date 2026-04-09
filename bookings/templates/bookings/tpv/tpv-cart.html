@@ -16,27 +16,39 @@
 
     {# ---------------- FAVORITES --------------------#}
     <div class="cart-item mb-1" id="heading-fav">
-        <div class="col-12 section-title mb-2">{%trans "Favorite items"%}</div>
+        <div class="col-12 section-title mb-2">{%trans "FAVORITOS"%}</div>
+
+        <button id="btn-tpv-fav" class="hide ark" data-url="{%url "tpv-show-favorites"%}" data-target="div-shopping-cart-favorite" 
+            data-obj_id="{{pos.id}}" data-fi="{{fi.id}}"> </button> <script>$("#btn-tpv-fav").click();</script>
+
         <div id="div-shopping-cart-favorite" class="div-shopping-cart-favorite">
+            {%comment%}
             <div class="row d-flex justify-content-start m-0">
                 {% for item in item_favorites %}
                     <div class="col-2 justify-content-center">
                         {%include "bookings/tpv/show-item.html" with show_footer=True cat_special="fav"%}</div>
                 {% endfor %}
             </div>
+            {%endcomment%}
         </div>
     </div>
 
     {# ---------------- COMMONS --------------------#}
     <div class="cart-item mb-1" id="heading-com">
-        <div class="col-12 section-title mb-2">{%trans "Common items"%}</div>
-        <div id="div-shopping-cart-favorite" class="div-shopping-cart-common">
+        <div class="col-12 section-title mb-2">{%trans "TOP VENTAS"%}</div>
+
+        <button id="btn-tpv-commons" class="hide ark" data-url="{%url "tpv-show-commons"%}" data-target="div-shopping-cart-common" 
+            data-obj_id="{{project_uuid}}" data-fi={{fi.id}}> </button> <script>$("#btn-tpv-commons").click();</script>
+
+        <div id="div-shopping-cart-common" class="div-shopping-cart-common">
+            {%comment%}
             <div class="row d-flex justify-content-start m-0">
                 {% for item in item_commons %}
                     <div class="col-lg-2 col-md-3 col-xs-12 justify-content-start">
                         {%include "bookings/tpv/show-item.html" with show_footer=True cat_special="com"%}</div>
                 {% endfor %}
             </div>
+            {%endcomment%}
         </div>
     </div>
 

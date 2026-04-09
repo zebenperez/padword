@@ -1,0 +1,7 @@
+<div class="row d-flex justify-content-start">
+    {% for item in item_favorites %}
+    <div class="col-2 mobile justify-content-center">
+        {%include "bookings/tpv/mobile/show-item-mobile.html" with show_footer=True cat_special="fav"%}</div>
+    {% endfor %}
+</div>
+

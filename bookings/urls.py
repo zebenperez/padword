@@ -182,6 +182,11 @@ urlpatterns = [
     path('tpv-close/', tpv.tpv_close, name='tpv-close'),
 
     path('tpv-index/<slug:project_uuid>/', tpv.tpv_index, name='tpv-index'),
+    path('tpv-table-info/', tpv.tpv_table_info, name='tpv-table-info'),
+    path('tpv-show-item/', tpv.tpv_show_item, name='tpv-show-item'),
+    path('tpv-show-favorites/', tpv.tpv_show_favorites, name='tpv-show-favorites'),
+    path('tpv-show-commons/', tpv.tpv_show_commons, name='tpv-show-commons'),
+    path('tpv-show-category/', tpv.tpv_show_category, name='tpv-show-category'),
     path('tpv-ticket/', tpv.tpv_ticket, name='tpv-ticket'),
     path('tpv-set-pos/', tpv.tpv_set_pos, name='tpv-set-pos'),
     path('tpv-change-pos/', tpv.tpv_change_pos, name='tpv-change-pos'),

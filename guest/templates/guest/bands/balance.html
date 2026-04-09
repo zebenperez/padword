@@ -31,7 +31,7 @@
                     {#<td> {{ balance.date }} </td>#}
                     <td> {{ balance.date|timezone:band.guest.project.time_zone_name|date:'d/m/Y H:i:s' }} </td>
                     <td> {{ balance.desc|safe }} </td>
-                    <td> {{ balance.amount }} </td>
+                    <td> {{ balance.amount|floatformat:2 }} </td>
                     <td class="text-end">
                         {% if "#" not in balance.desc %}
                             <a class="btn btn-sm ark" data-url="{% url "guest-band-balance-form" %}" 

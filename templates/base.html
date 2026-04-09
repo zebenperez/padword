@@ -49,102 +49,21 @@
         <div id="main-layout-container">
             {% if request.user.is_authenticated %}
 
-            <div id="main" class="row m-0">
-                <div class="new-header header sticky-top m-0 p-0 w-100">
-                    <div class="mx-4"><a href="#" class="menu-btn"><i class="fas fa-bars menu"></i></a></div>
-                    <div class="text-center d-none d-lg-block">
-                        {# <a href="/guest/guests/project/"><img src="/static/img/Padword.png" width="120" height=""></a>#}
+            <div id="main" class="row m-0 header sticky-top">
+                    <div class="col-lg-1 col-1 px-4"><a href="#" class="menu-btn"><i class="fas fa-bars menu"></i></a></div>
+                    <div class="col-lg-2 col-4 text-start">
                         <a href="/guest/guests/project/"><img src="{% get_logo %}" class="img-project"></a>
                     </div>
-                    <div class="text-center d-lg-none p-0"><a href="/web/projects/"><img src="/static/img/padword-symbol.png" width="30" height=""></a></div>
-                    <div class="project-menu mx-3"> {% get_project_menu request.user %}</div>
-                    <div class="project-name text-end d-none d-lg-block"> {% trans "Hola" %}, <strong>{{project.name}}</strong></div>
-                    <div class="project-name text-center">
+                    <div class="col-lg-6 col-5 project-menu"> {% get_project_menu request.user %}</div>
+                    <div class="col-lg-2 col-1 project-name text-end d-none d-lg-block"> {% trans "Hola" %}, <strong>{{project.name}} </strong></div>
+                    <div class="col-lg-1 col-1 project-name text-end">
                         <div class="d-lg-none project-name"><strong>{{project.name}}</strong></div>
-                        <a href="{%url 'auth_logout'%}" title="{%trans "Log out"%}"><i class="fas fa-power-off"></i></a><br />
+                            <a href="{%url 'auth_logout'%}" title="{%trans "Log out"%}"><i class="fas fa-power-off"></i></a><br />
                     </div>
-
-                </div>
-
-                {% comment %}
-                <div class="header sticky-top bg-white">
-                    <div class="col-lg-1 col-1 px-2 w-100"><a href="#" class="menu-btn"><i class="fas fa-bars menu"></i></a></div>
-                    <div class="col-lg-2 col-1 text-center w-100"><a href="/web/projects/"><img src="/static/img/Padword.png" width="120" height=""></a></div>
-                    <div class="col-lg-5 col-5 w-100 project-menu text-center"> {% get_project_menu request.user %}</div>
-                    <div class="col-lg-3 col-3 w-100 project-name text-end"> {% trans "Hola" %}, <strong>{{project.name}}</strong></div>
-                    <div class="col-lg-1 col-1 w-100 text-center"><a href="{%url 'auth_logout'%}" title="{%trans "Log out"%}"><i class="fas fa-power-off"></i></a></div>
-                </div>
-                {% endcomment %}
-
             </div>
 
+     {% endif %}
 
-{% comment %}
-            <div id="main" class="w-100">
-                <div class="header sticky-top bg-white">
-                    <div class="text-center divbars-menu"><a href="#" class="menu-btn"><i class="fas fa-bars menu"></i></a></div>
-                    <div><a href="/web/projects/"><img src="/static/img/Padword.png" width="120" height=""></a></div>
-                    <div class="project-menu"> {% get_project_menu request.user %} </div>
-                    <div class="project-name text-right"> {% trans "Hola" %}, <strong>{{project.name}}</strong> </div>
-                    <div class="text-center"><a href="{%url 'auth_logout'%}" title="{%trans "Log out"%}"><i class="fas fa-power-off"></i></a></div>
-                </div>
-            </div>
-
-{% endcomment %}
-
-
-
-{% comment %}
-                    <div class="text-center pt-2">
-                        <div class="pt-2">
-                            <a data-bs-toggle="collapse" class="" href="#collapseNotifications" role="button" aria-expanded="false" 
-                                aria-controls="collapseNotifications"><i class="far fa-bell"></i></a>	
-                            <div class="collapse" id="collapseNotifications">
-                                <div class="user-dropdown card card-body">
-                                    <ul>
-                                        <li>Notificacion 1</li>
-                                        <li>Notificacion 1</li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="text-center pt-2"><div class="pt-2"><a href="#"><i class="far fa-envelope"></i></a></div></div>
-
-                    <div class="text-center pt-3">
-                        <div class="pt-1">
-                            <a data-bs-toggle="collapse" class="dropdown-toggle" href="#collapseProfile" role="button" 
-                                aria-expanded="false" aria-controls="collapseProfile">
-                                {#<img class="w-2r bdrs-50p" src="https://randomuser.me/api/portraits/men/10.jpg" alt="">#}
-                                {#<img class="w-2r bdrs-50p" src="{% get_user_img request.user %}" alt="user image">#}
-                            </a>	
-                            <div class="collapse" id="collapseProfile">
-                                <div class="user-dropdown card card-body">
-                                    <ul>
-                                        <li><a href="#"><i class="fas fa-user"></i> Mi perfil</a></li>
-                                        <div class="dropdown-divider"></div>
-                                        <li><a href="{% url 'auth_logout' %}"><i class="fas fa-power-off"></i> Salir</a></li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    {% endcomment %}
-
-                    {% comment %}
-                    <div class="text-center pt-2"><div class="pt-2"><a href="{% url 'auth_logout' %}" title="{% trans "Log out" %}">
-                        <i class="fas fa-power-off"></i></a></div></div>
-                    {% endcomment %}
-
-                    {% comment %}
-                </div>
-            </div>
-
-                    {% endcomment %}
-
-
-            {% endif %}
             <main id="main-content">
                 <aside id="sidebar" class="bg-light closed">
                     <div id="side_menu"> {% get_main_menu request.user request.path active %} </div>

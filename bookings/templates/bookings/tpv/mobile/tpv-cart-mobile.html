@@ -12,20 +12,26 @@
     {# ---------------- FAVORITES --------------------#}
     <div class="cart-item accordion-item pt-3">
         <div class="col-12 accordion-header" id="heading-mob-fav">
-            <button class="section-title accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#div-shopping-cart-favorite" 
-                aria-expanded="true" aria-controls="div-shopping-cart-favorite">
-                {%trans "Favorite items"%}
+            <button class="section-title accordion-button" type="button" data-bs-toggle="collapse" 
+                data-bs-target="#div-shopping-cart-favorite" aria-expanded="true" aria-controls="div-shopping-cart-favorite">
+                {%trans "FAVORITOS"%}
             </button>
         </div>
         <div class="accordion-body">
-            <div id="div-shopping-cart-favorite" class="div-shopping-cart-favorite accordion-collapse collapse show" aria-labelledby="heading-fav" 
-                data-bs-parent="#card-accordion">
+
+            <button id="btn-tpv-fav" class="hide ark" data-url="{%url "tpv-show-favorites"%}" data-target="div-shopping-cart-favorite" 
+                data-obj_id="{{pos.id}}" data-fi="{{fi.id}}" data-mobile="True"> </button> <script>$("#btn-tpv-fav").click();</script>
+
+            <div id="div-shopping-cart-favorite" class="div-shopping-cart-favorite accordion-collapse collapse show" 
+                aria-labelledby="heading-fav" data-bs-parent="#card-accordion">
+                {%comment%}
                 <div class="row d-flex justify-content-start">
                     {% for item in item_favorites %}
                     <div class="col-2 mobile justify-content-center">
                         {%include "bookings/tpv/mobile/show-item-mobile.html" with show_footer=True cat_special="fav"%}</div>
                     {% endfor %}
                 </div>
+                {%endcomment%}
             </div>
         </div>
     </div>
@@ -34,11 +40,17 @@
         <div class="col-12 accordion-header" id="heading-mob-com">
             <button class="accordion-button collapsed section-title" type="button" data-bs-toggle="collapse" 
                 data-bs-target="#div-shopping-cart-common" aria-expanded="false" aria-controls="div-shopping-cart-common">
-                {%trans "Common items"%} 
+                {%trans "TOP VENTAS"%} 
             </button>
         </div>
-        <div id="div-shopping-cart-common" class="div-shopping-cart-common accordion-collapse collapse " aria-labelledby="heading-comm" 
+
+        <button id="btn-tpv-commons" class="hide ark" data-url="{%url "tpv-show-commons"%}" data-target="div-shopping-cart-common" 
+            data-obj_id="{{project_uuid}}" data-fi={{fi.id}} data-mobile="True"> </button> 
+        <script>$("#btn-tpv-commons").click();</script>
+
+        <div id="div-shopping-cart-common" class="div-shopping-cart-common accordion-collapse collapse" aria-labelledby="heading-comm" 
             data-bs-parent="#card-accordion">
+            {%comment%}
             <div class="accordion-body">
                 <div class="row d-flex justify-content-start m-0">
                     {% for item in item_commons %}
@@ -47,6 +59,7 @@
                     {% endfor %}
                 </div>
             </div>
+            {%endcomment%}
         </div>
     </div>
 

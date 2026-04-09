@@ -7,7 +7,7 @@ from django.utils.translation import ugettext_lazy as _
 from padword.decorators import group_required
 from padword.commons import show_exc, get_or_none, get_param, get_float, reverse_cardkey
 from web.models import Project, Waiter, Room
-from contents.models import Category, ShoppingCart, Item, PaymentType, PointOfSale, Table, PosCodeItem
+from contents.models import Category, ShoppingCart, Item, ItemInCat, PaymentType, PointOfSale, Table, PosCodeItem
 from guest.models import Guest
 from guest.wristband_models import Wristband, WristbandBalance
 #from web.lock_lib import ShLock
@@ -106,6 +106,52 @@ def tpv_login(request):
         return render(request, 'error_exception.html', {'exc':show_exc(e)})
 
 @group_required("waiters")
+def tpv_table_info(request):
+    table = get_or_none(Table, get_param(request.GET, "obj_id"))
+    pos = get_or_none(PointOfSale, get_param(request.GET, "pos"))
+    #print(f'Table: {table} - POS: {pos}')
+    fi_list = FormInstance.get_open_in_table(pos, table)
+    return render(request, "bookings/tpv/tpv-table-info.html", {"fi_list": fi_list})
+
+@group_required("waiters")
+def tpv_show_item(request):
+    item = get_or_none(Item, get_param(request.GET, "obj_id"))
+    fi = get_or_none(FormInstance, get_param(request.GET, "fi"))
+    mobile = get_param(request.GET, "mobile")
+    if mobile == "True":
+        return render(request, "bookings/tpv/mobile/show-item-mobile.html", {"item": item, "fi": fi, "show_footer": True})
+    return render(request, "bookings/tpv/show-item.html", {"item": item, "fi": fi, "show_footer": True})
+
+@group_required("waiters")
+def tpv_show_favorites(request):
+    pos = get_or_none(PointOfSale, get_param(request.GET, "obj_id"))
+    fi = get_or_none(FormInstance, get_param(request.GET, "fi"))
+    mobile = get_param(request.GET, "mobile")
+    cat_list = [item.category for item in pos.categories.filter(category__project_uuid=pos.project_uuid)]
+    item_favorites = []
+    for cat in cat_list:
+        item_favorites += list(cat.get_items_favorites)
+    temp = "bookings/tpv/mobile/tpv-cart-favorites.html" if mobile == "True" else "bookings/tpv/tpv-cart-favorites.html"
+    return render(request, temp, {"item_favorites": item_favorites, "fi": fi})
+
+@group_required("waiters")
+def tpv_show_commons(request):
+    project_uuid = get_param(request.GET, "obj_id")
+    fi = get_or_none(FormInstance, get_param(request.GET, "fi"))
+    mobile = get_param(request.GET, "mobile")
+    form = Form.get_tpv(project_uuid)
+    temp = "bookings/tpv/mobile/tpv-cart-commons.html" if mobile == "True" else "bookings/tpv/tpv-cart-commons.html"
+    return render(request, temp, {"item_commons": form.get_common_items(), "fi": fi})
+
+@group_required("waiters")
+def tpv_show_category(request):
+    cat = get_or_none(Category, get_param(request.GET, "obj_id"))
+    fi = get_or_none(FormInstance, get_param(request.GET, "fi"))
+    mobile = get_param(request.GET, "mobile")
+    temp = "bookings/tpv/mobile/tpv-cart-category.html" if mobile == "True" else "bookings/tpv/tpv-cart-category.html"
+    return render(request, temp, {"cat": cat, "fi": fi})
+
+@group_required("waiters")
 def tpv_index(request, project_uuid):
     try:
         project = get_or_none(Project, project_uuid, "uuid")
@@ -120,19 +166,36 @@ def tpv_index(request, project_uuid):
             #cash, created = get_cash(pos, date, request.user.username)
             cash, created = get_cash_zeta(pos, request.user.username)
             tables = Table.objects.filter(point_of_sale=pos).order_by("order")
-            context = {'pos': pos, 'tables': tables, 'cash': cash, 'created': created, 'project_uuid': project.uuid}
+            #form = Form.objects.filter(form_type__code="tpv", form_type__project_uuid=pos.project_uuid).first()
+            form = Form.get_tpv(project.uuid)
+
+            context = {'pos': pos, 'tables': tables, 'cash': cash, 'created': created, 'project_uuid': project.uuid, 'form': form}
             return render(request, "bookings/tpv/index.html", context)
         else:
-            form = Form.objects.filter(form_type__code="tpv", form_type__project_uuid=project.uuid).first()
+            #form = Form.objects.filter(form_type__code="tpv", form_type__project_uuid=project.uuid).first()
+            form = Form.get_tpv(project.uuid)
             pos = get_or_none(PointOfSale, request.session["point_of_sale"])
             table = get_or_none(Table, request.session["table"])
             fi = get_or_create_form_instance_tpv(form, pos.uuid, table.uuid, request.user.username)
             fi_info = get_or_create_form_instance_info_tpv(fi, pos.name, table.name)
+
+            #if table != None:
+            #    table.set_current_total(fi)
+
             cat_list = [item.category for item in pos.categories.filter(category__project_uuid=pos.project_uuid)]
-            item_favorites = []
-            for cat in cat_list:
-                item_favorites += list(cat.get_items_favorites)
-            item_commons = form.get_common_items()
+
+#            item_favorites = []
+#            for cat in cat_list:
+#                item_favorites += list(cat.get_items_favorites)
+
+            #item_commons = form.get_common_items()
+            #item_commons = []
+            #item_favorites = []
+#            cat_list = []
+#            for item in pos.categories.filter(category__project_uuid=pos.project_uuid):
+#                cat = item.category
+#                cat_list.append({"cat": cat, "items": cat.get_items_active})
+                #item_favorites += list(cat.get_items_favorites)
 
             #band = Wristband.get_active_by_project(fi.form.project, fi_info.band)
 
@@ -143,13 +206,12 @@ def tpv_index(request, project_uuid):
                 'fi': fi, 
                 'pos': pos, 
                 'table': table, 
-                #'band': band, 
                 'cat_list': cat_list,
+                #'band': band, 
                 #'table_list': Table.objects.filter(project_uuid=project.uuid),
-                'item_favorites': item_favorites,
-                'item_commons': item_commons
+                #'item_favorites': item_favorites,
+                #'item_commons': item_commons
             }
-
             return render(request, "bookings/tpv/index.html", context)
     except Exception as e:
         print(e)
@@ -188,6 +250,13 @@ def tpv_set_table(request):
 @group_required("waiters")
 def tpv_change_table(request):
     try:
+        pos = get_or_none(PointOfSale, request.session["point_of_sale"])
+        t = get_or_none(Table, request.session["table"])
+        form = Form.get_tpv(pos.project_uuid)
+
+        fi = FormInstance.objects.filter(form_uuid=form.uuid, pos_uuid=pos.uuid, table_uuid=t.uuid, status_list__isnull=True).first()
+        t.set_current_total(fi)
+
         request.session["table"] = ""
         return redirect(reverse("tpv-index", kwargs = {'project_uuid': request.GET["project_uuid"]}))
     except Exception as e:
@@ -341,6 +410,10 @@ def tpv_order_remove(request):
             return render(request, 'bookings/tpv/show-msg.html', context)
 
         fi.set_status("05", request.user, "")
+
+        #Limpiamos cache de la mesa y limpiamos la mesa seleccionada
+        t = get_or_none(Table, request.session["table"])
+        t.set_current_total(None)
         request.session["table"] = ""
 
         mobile = get_param(request.GET, "mobile")
@@ -432,7 +505,8 @@ def add_balance_to_band(pos, fi, band):
     url = "/bookings/booking-guest-view/"
     desc = "Ticket from {}: ".format(pos.name)
     desc += "<a class='ark' data-url='{}' data-target-modal='common-modal' data-obj_id='{}'> #{}</a>".format(url, fi.id, fi.get_index)
-    WristbandBalance.objects.create(amount=(get_float(fi.amount)*-1), desc=desc, wristband=band)
+    WristbandBalance.objects.create(amount=(fi.get_total_total*-1), desc=desc, wristband=band)
+    #WristbandBalance.objects.create(amount=(get_float(fi.amount)*-1), desc=desc, wristband=band)
 
 def set_desc(fi, desc):
     if desc != "":

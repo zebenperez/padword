@@ -95,7 +95,20 @@
                     <div class="col-9 text-left">{{item.name}}</div>
                     <div class="col-3 text-right"><i class='fas fa-concierge-bell'></i></div>
                 </div>
-                {% get_table_info pos item %}
+                {%comment%}
+                <div id="div-table-info-{{item.id}}"></div>
+                <button id="btn-table-info-{{item.id}}" class="hide ark" data-url="{%url "tpv-table-info"%}" 
+                    data-target="div-table-info-{{item.id}}" data-obj_id="{{item.id}}" data-pos="{{pos.id}}"></button>
+                <script>$("#btn-table-info-{{item.id}}").click()</script>
+                {%endcomment%}
+                {#{% get_table_info pos item %}#}
+
+                {% if item.current_total and item.current_total != "" %}
+                    <span class="order-on">
+                        {%trans "Order"%}: {{pos.name}} <br/> {{item.current_total}} </span>
+                {% else %}
+                    <span class="order-off"> {%trans "No order"%} </span>
+                {% endif %}
             </button>
         </div>
     {% endfor %}

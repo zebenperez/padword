@@ -1,25 +1,32 @@
 {% load i18n bookings_tag common_tag padword_tags static%}
 
 {% for cat in cat_list %}
-<div class="cart-item tpv-category accordion-item" data-tags="{{cat.pk}}">
-    <div class="col-12 accordion-header tpv-class" id="heading-mob-{{cat.pk}}"> 
-        <button class="accordion-button collapsed section-title" type="button" data-bs-toggle="collapse" 
-            data-bs-target="#div-shopping-cart-{{cat.pk}}" aria-expanded="false" aria-controls="div-shopping-cart-{{cat.pk}}">
-            {%padword_translate cat.name%}
-        </button>
-    </div>
-    <div id="div-shopping-cart-{{cat.pk}}" class="div-shopping-cart-{{cat.pk}} accordion-collapse collapse" aria-labelledby="heading-{{cat.pk}}" 
-        data-bs-parent="#card-accordion">
-        <div class="acccordion-body">
-            <div class="row d-flex justify-content-start m-0">
-                {% for item in cat.get_items_active %}
-                <div class="col-3 mobile justify-content-start"> 
-                    {% include "bookings/tpv/mobile/show-item-mobile.html" with show_footer=True %} </div>
-                {% endfor %}
+    <button id="btn-show-cat-{{cat.id}}" class="hide ark" data-url="{%url "tpv-show-category"%}" 
+        data-target="tpv-show-cat-{{cat.id}}" data-obj_id="{{cat.id}}" data-fi="{{fi.id}}" data-mobile="True"> </button>
+    <script>$("#btn-show-cat-{{cat.id}}").click();</script>
+    <div id="tpv-show-cat-{{cat.id}}"></div>
+
+    {%comment%}
+    <div class="cart-item tpv-category accordion-item" data-tags="{{cat.pk}}">
+        <div class="col-12 accordion-header tpv-class" id="heading-mob-{{cat.pk}}"> 
+            <button class="accordion-button collapsed section-title" type="button" data-bs-toggle="collapse" 
+                data-bs-target="#div-shopping-cart-{{cat.pk}}" aria-expanded="false" aria-controls="div-shopping-cart-{{cat.pk}}">
+                {%padword_translate cat.name%}
+            </button>
+        </div>
+        <div id="div-shopping-cart-{{cat.pk}}" class="div-shopping-cart-{{cat.pk}} accordion-collapse collapse" 
+            aria-labelledby="heading-{{cat.pk}}" data-bs-parent="#card-accordion">
+            <div class="acccordion-body">
+                <div class="row d-flex justify-content-start m-0">
+                    {% for item in cat.get_items_active %}
+                        <div class="col-3 mobile justify-content-start"> 
+                            {% include "bookings/tpv/mobile/show-item-mobile.html" with show_footer=True %} </div>
+                    {% endfor %}
+                </div>
             </div>
         </div>
     </div>
-</div>
+    {%endcomment%}
 {% endfor %}
 
 

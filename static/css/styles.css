@@ -1314,32 +1314,6 @@ img.img-cart-line {
 }
 */
 
-.header.sticky-top {
-    height:55px;
-	line-height: 1.5;
-    background: rgb(255,255,255);
-    /*background: linear-gradient(270deg, rgba(255,255,255,1) 17%, rgba(20,62,83,1) 99%);*/
-    /*background: linear-gradient(270deg, rgba(255,255,255,1) 10%, rgba(20,62,83,1) 99%);*/
-    background-color: #ffffff !important;
-    position: fixed !important;
-    top: 0;
-    z-index: 1020;
-    width: 100%;
-    align-items: center;
-}
-
-img.img-project {
-    height: 35px !important;
-}
-
-.tab {
-    margin-bottom: -15px;
-    background-color: #ffffff;
-}
-.tab a {
-    color: #143e53;
-}
-
 /****************************
  estilo original project-menu
 ****************************/
@@ -1383,13 +1357,42 @@ img.img-project {
 /****************************
  estilo NUEVO project-menu
 ****************************/
-
+/*
 .new-header {
     display: inline-flex;
     display: grid;
     grid-template-columns: 5% 10% 70% 10% 5%;
     align-items: center;
     width: 100%;
+}
+*/
+
+
+.header.sticky-top {
+    height:55px;
+    line-height: 1.5;
+    background: rgb(255,255,255);
+    background-color: #ffffff !important;
+    position: fixed !important;
+    top: 0;
+    z-index: 1020;
+    width: 100%;
+    align-items: center;
+}
+
+
+
+
+img.img-project {
+    height: 35px !important;
+}
+
+.tab {
+    margin-bottom: -15px;
+    background-color: #ffffff;
+}
+.tab a {
+    color: #143e53;
 }
 
 .div-menu-project {
@@ -1733,7 +1736,7 @@ i.fas.fa-check-square {
 .row.contact { 
     background-color: #143e53;
     color: #fff;
-    position:fixed;
+/*    position:fixed;*/
     bottom: 30px;
     width: 230px;
 }

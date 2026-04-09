@@ -106,19 +106,22 @@ def tpv_index(request, project_uuid):
             #cash, created = get_cash(pos, date, request.user.username)
             cash, created = get_cash_zeta(pos, request.user.username)
             tables = Table.objects.filter(point_of_sale=pos).order_by("order")
-            context = {'pos': pos, 'tables': tables, 'cash': cash, 'created': created, 'project_uuid': project.uuid}
+            form = Form.get_tpv(project.uuid)
+
+            context = {'pos': pos, 'tables': tables, 'cash': cash, 'created': created, 'project_uuid': project.uuid, 'form': form}
             return render(request, "bookings/tpv/mobile/index.html", context)
         else:
-            form = Form.objects.filter(form_type__code="tpv", form_type__project_uuid=project.uuid).first()
+            #form = Form.objects.filter(form_type__code="tpv", form_type__project_uuid=project.uuid).first()
+            form = Form.get_tpv(project.uuid)
             pos = get_or_none(PointOfSale, request.session["point_of_sale"])
             table = get_or_none(Table, request.session["table"])
             fi = get_or_create_form_instance_tpv(form, pos.uuid, table.uuid, request.user.username)
             fi_info = get_or_create_form_instance_info_tpv(fi, pos.name, table.name)
             cat_list = [item.category for item in pos.categories.all()]
-            item_favorites = []
-            for cat in cat_list:
-                item_favorites += list(cat.get_items_favorites)
-            item_commons = form.get_common_items()
+            #item_favorites = []
+            #for cat in cat_list:
+            #    item_favorites += list(cat.get_items_favorites)
+            #item_commons = form.get_common_items()
 
             context = {
                 'project_uuid':project.uuid, 
@@ -127,8 +130,8 @@ def tpv_index(request, project_uuid):
                 'pos': pos, 
                 'table': table, 
                 'cat_list': cat_list,
-                'item_favorites': item_favorites,
-                'item_commons': item_commons
+                #'item_favorites': item_favorites,
+                #'item_commons': item_commons
             }
 
             return render(request, "bookings/tpv/mobile/index.html", context)
@@ -171,6 +174,13 @@ def tpv_set_table(request):
 @group_required("waiters")
 def tpv_change_table(request):
     try:
+        pos = get_or_none(PointOfSale, request.session["point_of_sale"])
+        t = get_or_none(Table, request.session["table"])
+        form = Form.get_tpv(pos.project_uuid)
+
+        fi = FormInstance.objects.filter(form_uuid=form.uuid, pos_uuid=pos.uuid, table_uuid=t.uuid, status_list__isnull=True).first()
+        t.set_current_total(fi)
+
         request.session["table"] = ""
         return redirect(reverse("tpv-mob-index", kwargs = {'project_uuid': request.GET["project_uuid"]}))
     except Exception as e:

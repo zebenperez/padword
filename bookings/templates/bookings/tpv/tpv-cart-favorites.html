@@ -1,0 +1,7 @@
+<div class="row d-flex justify-content-start m-0">
+    {% for item in item_favorites %}
+        <div class="col-2 justify-content-center">
+            {%include "bookings/tpv/show-item.html" with show_footer=True cat_special="fav"%}</div>
+    {% endfor %}
+</div>
+
