@@ -351,7 +351,6 @@ def cloudbeds_manage_webhook(pcu, booking, f):
 @csrf_exempt
 @require_POST
 def cloudbeds_webhook(request):
-
     f = open(os.path.join(settings.BASE_DIR, "cloudbeds.log"), "a", encoding='utf-8')
     f.write("\n---------------------------------------")
     f.write("\n{} - Evento de cloudbeds".format(datetime.now().strftime("%Y-%m-%d %H:%M:%S")))
@@ -373,8 +372,9 @@ def cloudbeds_webhook(request):
             else:
                 f.write("\nError: Propiedad no encontrada")
 
-        if pcu != None and pcu.project != None:
-            f.write("\n PROYECTO: {}".format(pcu.project.name))
+        #p = Project.objects.filter(uuid=pcu.project_uuid).first()
+        #if pcu != None and p != None:
+        #    f.write("\n PROYECTO: {}".format(p.name))
 
         t = threading.Thread(target=cloudbeds_manage_webhook, args=[pcu, booking, f], daemon=True)
         t.start()

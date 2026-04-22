@@ -60,10 +60,24 @@ def projects_details(request, obj_id, current_tab=""):
     try:
         obj = get_or_none(Project, obj_id) 
         aux = get_or_create_projectaux(obj)
-        context = { 'obj': obj, 'aux': aux, 'companies': Company.objects.all(), 'thirdpart_list': Thirdpart.objects.all()}
+        context = {
+            'obj': obj, 
+            'aux': aux, 
+            'companies': Company.objects.all(), 
+            'thirdpart_list': Thirdpart.objects.all(), 
+            'user_lock': ProjectLockUser.objects.filter(project_uuid = obj.uuid).first()
+        }
         return render(request, "web/projects-admin/project-details.html", context)
     except Exception as e:
         print(e)
         return render(request, 'error_exception.html', {'exc':show_exc(e)})
+
+@group_required("project_admin")
+def project_user_refresh_token(request):
+    project = get_or_none(Project, get_param(request.GET, "obj_id"))
+    user_lock = project.lock_user
+    if user_lock != None:
+        user_lock.get_new_token()
+    return render(request, "web/projects-admin/project-form-token.html", {'obj': project, 'user_lock': user_lock,})
 
 

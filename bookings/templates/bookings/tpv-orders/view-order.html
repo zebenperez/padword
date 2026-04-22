@@ -54,7 +54,7 @@
                                 {% if fi.form.project.uuid == "d7b3cb5d-a7eb-793f-6110-8f623c93c74a" and fi.id <= 2401 %}
                                     {{item.price}} 
                                 {%else%} 
-                                    <strong> {{item.total_price}} {{item.item.currency}} </strong>
+                                    <strong> {{item.total_price|floatformat:2}} {{item.item.currency}} </strong>
                                 {%endif%}  
                             </div>
                         </div>

@@ -254,8 +254,10 @@ def tpv_change_table(request):
         t = get_or_none(Table, request.session["table"])
         form = Form.get_tpv(pos.project_uuid)
 
-        fi = FormInstance.objects.filter(form_uuid=form.uuid, pos_uuid=pos.uuid, table_uuid=t.uuid, status_list__isnull=True).first()
-        t.set_current_total(fi)
+        #print(f"POS: {pos} - T: {t} - FORM: {form}")
+        if form != None and pos != None and t != None:
+            fi = FormInstance.objects.filter(form_uuid=form.uuid,pos_uuid=pos.uuid,table_uuid=t.uuid,status_list__isnull=True).first()
+            t.set_current_total(fi)
 
         request.session["table"] = ""
         return redirect(reverse("tpv-index", kwargs = {'project_uuid': request.GET["project_uuid"]}))
@@ -593,6 +595,7 @@ def tpv_order_send(request):
             payment_ok = manage_transaction(project, fi.get_total_total, "Ticket: {}".format(fi.get_index), tcod, "refund")
             if not payment_ok:
                 context = {'msg': "00", 'fi': fi, 'project_uuid': project.uuid, "mobile": mobile}
+                return render(request, 'bookings/tpv/show-msg.html', context)
 
         #Cargo en habitación
         guest = None

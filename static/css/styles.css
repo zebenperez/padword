@@ -116,9 +116,63 @@ tr.small.tablesorter-headerRow {
 
 table.table-hover.table-striped { font-size: 0.8rem; }
 
-/************************/
+.footer-pagination {
+	font-size: 0.8rem;
+	align-items: center;
+}
+.page-item.active .page-link,
+.footer-pagination select {
+	background: #e5e5e5; 
+	color: #192a4c;
+  	font-size: 0.8rem;
+	font-weight: 600;
+	border:1px solid #ced4da;
+
+ outline: none !important;
+    box-shadow: none !important;
+}
+.page-link,
+.page-link:hover {
+	color: #192a4c;
+  	font-size: 0.8rem;
+}
+.pagination {
+    display: flex;
+    padding-left: 0;
+    list-style: none;
+    justify-content: flex-end;
+}
+.select-wrapper {
+  position: relative;
+  display: inline-block;
+}
+
+.select-wrapper select {
+  appearance: none; /* Quita la flecha original */
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  padding-right: 30px;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.select-wrapper::after {
+  content: "▼"; /* Aquí pones la flecha */
+  position: absolute;
+  right: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
+}
+
+.foot-pages {
+	align-items: center;
+}
+
+/****************************************/
 /*		UTILITIES		*/
-/************************/
+/****************************************/
+
 hr.separator {
     color: #35a8df;
 }

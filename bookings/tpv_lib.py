@@ -67,7 +67,8 @@ def update_cash(cash, user, cancel_orders=False):
     val2_total = 0
     for fi in fi_list:
         if fi.get_status != None and fi.get_status.status != None and fi.get_status.status.code != "05" and fi.payment_type != None:
-            amount = get_float(fi.amount)
+            #amount = get_float(fi.amount)
+            amount = fi.get_total_total
             if fi.payment_type.code == "01":
                 cash_total += amount
             elif fi.payment_type.code == "02":
@@ -89,8 +90,8 @@ def update_cash(cash, user, cancel_orders=False):
             elif fi.payment_type.code == "0406":
                 back_cardpay_total += amount
             elif fi.payment_type.code == "05":
-                free_total += fi.get_total_total
-                #free_total += amount
+                free_total += amount
+                #free_total += fi.get_total_total
                 
     cash.end_cash = cash_total
     cash.band = band_total

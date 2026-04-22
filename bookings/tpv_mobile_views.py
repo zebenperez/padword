@@ -178,8 +178,9 @@ def tpv_change_table(request):
         t = get_or_none(Table, request.session["table"])
         form = Form.get_tpv(pos.project_uuid)
 
-        fi = FormInstance.objects.filter(form_uuid=form.uuid, pos_uuid=pos.uuid, table_uuid=t.uuid, status_list__isnull=True).first()
-        t.set_current_total(fi)
+        if form != None and pos != None and t != None:
+            fi = FormInstance.objects.filter(form_uuid=form.uuid,pos_uuid=pos.uuid,table_uuid=t.uuid,status_list__isnull=True).first()
+            t.set_current_total(fi)
 
         request.session["table"] = ""
         return redirect(reverse("tpv-mob-index", kwargs = {'project_uuid': request.GET["project_uuid"]}))

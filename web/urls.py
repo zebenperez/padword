@@ -82,6 +82,7 @@ urlpatterns = [
     path('projects-admin/', project_admin_views.projects, name='projects-admin'),
     path('projects-admin/search/', project_admin_views.projects_search, name='projects-admin-search'),
     path('projects-admin/details/<int:obj_id>/', project_admin_views.projects_details, name='projects-admin-details'),
+    path('projects-admin/user-refresh-token/', project_admin_views.project_user_refresh_token, name='project-admin-user-refresh-token'),
  
     #--------------------- Projects Locks--------------------
     path('projects-locks/', project_lock_views.projects, name='projects-locks'),

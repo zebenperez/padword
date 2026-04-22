@@ -22,8 +22,10 @@ urlpatterns = [
     path('guests/stripe-update/', views.guest_stripe_update, name='guest-stripe-update'),
 
     path('guests/project/', views.guests_by_project, name='guests-by-project'),
-    path('guests/project/<int:page>/', views.guests_by_project, name='guests-by-project-page'),
-    path('guests/project/<int:page>/<int:rows>', views.guests_by_project, name='guests-by-project-page'),
+    #path('guests/project/<int:page>/', views.guests_by_project, name='guests-by-project-page'),
+    #path('guests/project/<int:page>/<int:rows>', views.guests_by_project, name='guests-by-project-page'),
+    path('guests/project/page-rows/<int:page>/', views.guests_by_project_page_rows, name='guests-by-project-page-rows'),
+    path('guests/project/page-rows/<int:page>/<int:rows>', views.guests_by_project_page_rows, name='guests-by-project-page-rows'),
     path('guests/project/search', views.guest_search_by_project, name='guest-search-by-project'),
     #path('guests/project/page', views.guest_page_by_project, name='guest-page-by-project'),
     path('guests/project/form/', views.guest_form_by_project, name='guest-form-by-project'),

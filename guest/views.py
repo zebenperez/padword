@@ -99,7 +99,7 @@ def get_guest_items(request, deleted=""):
     if deleted != "":
         full_query &= Q(**{'deleted': deleted})
 
-    items = Guest.objects.filter(full_query) if len(full_query) > 0 else Guest.objects.all()
+    items = Guest.objects.filter(full_query).order_by("check_in") if len(full_query) > 0 else Guest.objects.all().order_by("check_in")
     return items, items.count()
 
 @group_required("admins")
@@ -437,39 +437,54 @@ def delete_expired(project):
 #    #return Guest.objects.filter(project_id=project_uuid).filter(full_query)
 
 @group_required("projects")
-def guests_by_project(request, page=1, rows=10):
+def guests_by_project_page_rows(request, page=1, rows=10):
+    request.session["b_page"] = page
+    request.session["b_rows"] = rows
+    return redirect("guests-by-project")
+
+def init_session(request, project):
+    request.session["gs_project"] = project.uuid
+    if "gs_ini_date" not in request.session:
+        request.session["gs_ini_date"] = datetime.datetime.now().strftime('%Y-%m-%d')
+    if "gs_end_date" not in request.session:
+        end_date = datetime.datetime.now() + datetime.timedelta(days=7)
+        request.session["gs_end_date"] = end_date.strftime('%Y-%m-%d')
+    if "b_page" not in request.session:
+        request.session["b_page"] = 1
+    if "b_rows" not in request.session:
+        request.session["b_rows"] = 10
+
+@group_required("projects")
+#def guests_by_project(request, page=1, rows=10):
+def guests_by_project(request):
     try:
-        project = get_or_none(Project, request.project_id)
         #items = Guest.objects.filter(project_id = project.uuid)
         #delete_expired(project)
-        request.session["gs_project"] = project.uuid
         #request.session["project_uuid"] = project.uuid
-        if "gs_ini_date" not in request.session:
-            request.session["gs_ini_date"] = datetime.datetime.now().strftime('%Y-%m-%d')
-        if "gs_end_date" not in request.session:
-            end_date = datetime.datetime.now() + datetime.timedelta(days=7)
-            request.session["gs_end_date"] = end_date.strftime('%Y-%m-%d')
- 
         #items, total_count = get_guest_items_by_project(request, project.uuid)
+
+        project = get_or_none(Project, request.project_id)
+        init_session(request, project)
+
         items, total_count = get_guest_items(request, 0)
         limit = datetime.datetime.now() - datetime.timedelta(days=project.guest_delete)
 
-        paginator = Paginator(items, get_int(rows))
-        page_obj = paginator.get_page(page)
+        paginator = Paginator(items, get_int(request.session["b_rows"]))
+        page_obj = paginator.get_page(request.session["b_page"])
         context = {
             'total_items': total_count, 
             'items': page_obj, 
             'project': project, 
             'limit': limit, 
-            'rows': rows, 
-            'page_url': 'guests-by-project-page', 
+            'rows': request.session["b_rows"], 
+            'page_url': 'guests-by-project-page-rows', 
             'active': 'guests'
         }
 
+        return render (request, "guest-by-project/guests.html", context)
         #context = {'total_items': total_count, 'items': items, 'index': ITEMS_PER_PAGE, 'project': project, 'limit': limit, 'active': 'guests'}
         #print(context)
         #context = {'total_items': items.count(), 'page': 0, 'project_uuid':project.uuid, 'items': items[0:ITEMS_PER_PAGE]}
-        return render (request, "guest-by-project/guests.html", context)
     except Exception as e:
         print(e)
         return render(request, 'error_exception.html', {'exc':show_exc(e)})

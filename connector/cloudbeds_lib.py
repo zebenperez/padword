@@ -42,6 +42,7 @@ class Cloudbeds():
     def __init__(self, token):
         self.token = token
         self.ids = ""
+        self.send_codes = False
         #self.codes = ""
         #self.links = ""
     
@@ -359,7 +360,9 @@ def create_booking(pcu, room, booking, bguest, av):
     if room_ex and (booking.status == "confirmed" or booking.status == "checked_in") and checkin <= e_date and checkin >= today:
         #msg += "\n Entrando"
         ext_id = get_ext_id(booking, bguest, room)
+        msg += f"\n Ext_id: {ext_id}"
         guest = Guest.objects.filter(ext_id=ext_id, project_id=pcu.project_uuid, deleted=0).first()
+        msg += f"\n Guest: {guest}"
         if guest == None:
             guest = Guest(UUID = new_ui_slug(Guest, "UUID"), ext_id=ext_id, project_id=pcu.project_uuid)
             booking.created = True
@@ -385,20 +388,23 @@ def create_booking(pcu, room, booking, bguest, av):
         guest.check_out = checkout
         guest.room = r
         guest.save()
-        msg += "\n Asignando: {} ({})".format(guest.room, guest.name)
+        msg += f"\n Asignando: {guest.room} ({guest.name}) {booking.created} {change_booking}"
 
         if booking.plate != "":
             guest.add_plate(booking.plate)
 
         if booking.created:
             msg += "\n CREADA: {}".format(guest.ext_id)
-            av.ids += "{}:{},".format(room.name, guest.ext_id)
-            msg += send_booking_codes(pcu, av, booking.id)
-            #lock_code = get_code(pcu, guest.mobile)
+            lock_code = get_code(pcu, guest.mobile)
             #msg += "-- CODE: {} - mobile {} - code mobile{}".format(lock_code, guest.mobile, pcu.code_mobile)
             #print(lock_code)
-            #err = guest.add_all_key_code(lock_code)
-            #msg += "\n {}".format(err)
+            err = guest.add_all_key_code(lock_code)
+            msg += "\n CODES: {}".format(err)
+            av.send_codes = True
+            #av.ids += "{}:{},".format(room.name, guest.ext_id)
+            #av.ids = "{}:{},".format(room.name, guest.ext_id)
+            #msg += send_booking_codes(pcu, av, booking.id)
+            #msg += send_booking_codes(pcu, av, booking.id, room.name, guest)
             #av.codes += "{}:{} ".format(r, lock_code)
             #av.links += "{}:{} ".format(r, guest.pwa_link)
             #av.set_booking_code(booking.id, "lockCode", lock_code)
@@ -406,7 +412,9 @@ def create_booking(pcu, room, booking, bguest, av):
         elif change_booking:
             #time.sleep(3)
             msg += "\n MODIFICADA: {}".format(guest.ext_id)
-            guest.change_room(r)
+            err = guest.change_room(r)
+            msg += "\n CHANGE ROOM: {}".format(err)
+            av.send_codes = True
     return msg
 
 def create_room(pcu, room, index):
@@ -522,7 +530,7 @@ def manage_webhook_actions(pcu, obj):
         msg += reservation_delete(pcu, obj)
 
     if obj["event"] == "guest/accommodation_changed":
-        msg = "\n-- Modificada la habitación de la reserva {}".format(obj["reservationId"])
+        msg = "\n-- Modificada la habitación del huésped {}".format(obj["reservationId"])
         msg += get_or_create_booking(pcu, obj["reservationId"])
 
     if obj["event"] == "integration/appstate_changed":
@@ -557,9 +565,10 @@ def get_or_create_booking(pcu, ext_id):
             guest.delete_soft()
     else:
         guest_list = get_param(booking, "guestList")
+        data_list = []
         for guest_id in guest_list:
             datas = guest_list[guest_id]
-            #msg += "\n {}".format(datas)
+            #msg += "\n DATAS: {}".format(datas)
             guest_node = CloudbedsGuest2(datas)
 
             room_list = get_param(datas, "rooms")
@@ -568,19 +577,21 @@ def get_or_create_booking(pcu, ext_id):
                 room_node = CloudbedsRoom2(room_data)
                 msg_g = create_booking(pcu, room_node, node, guest_node, av)
                 msg += "\n {}".format(msg_g)
+                data_list.append(f"{room_node.name}:{room_node.subreservation_id}")
             break
         #Envío de códigos de reserva y subreservas
+        msg += send_booking_codes(pcu, av, node.id, data_list)
         #msg += send_booking_codes(pcu, av, node.id)
     return msg
 
 def reservation_delete(pcu, obj):
     ext_id = obj["reservationId"]
-    msg += "\n -- Borrado de reservas"
+    msg = "\n -- Borrado de reservas"
     guest_list = Guest.objects.filter(ext_id__startswith=ext_id, project_id=pcu.project_uuid, deleted=0)
     for guest in guest_list:
         msg += "\n -- Borrado de subreserva: {}".format(guest.ext_id)
         guest.delete_soft()
-    return ""
+    return msg
 
 def remove_webhooks(pcu):
     res = ""
@@ -607,35 +618,93 @@ def disabled_connection(pcu, obj):
         pcu.save()
     return ""
 
-def send_booking_codes(pcu, av, booking_id):
-    codes = ""
-    links = ""
-    guest_list = av.ids.split(",")
-    msg = "\n -- Envío de códigos"
-    for data in guest_list:
-        if ":" in data:
-            try:
-                datas = data.split(":")
-                room = datas[0]
-                ext_id = datas[1]
-                if ext_id != "":
-                    guest = Guest.objects.filter(ext_id=ext_id, project_id=pcu.project_uuid, deleted=0).first()
-                    if guest != None:
-                        lock_code = get_code(pcu, guest.mobile)
-                        #msg += "-- CODE: {} - mobile {} - code mobile{}".format(lock_code, guest.mobile, pcu.code_mobile)
-                        #print(lock_code)
-                        err = guest.add_all_key_code(lock_code)
-                        msg += "\n {}".format(err)
-                        if not "Error" in err:
-                            codes += "{}:{} ".format(room, lock_code)
+def send_booking_codes(pcu, av, booking_id, data_list):
+    msg = ""
+    msg = f"\n -- Send Codes: {av.send_codes} --"
+    if av.send_codes:
+        codes = ""
+        links = ""
+        #guest_list = av.ids.split(",")
+        msg += f"\n -- Envío de códigos: {data_list} --"
+        for data in data_list:
+            if ":" in data:
+                try:
+                    datas = data.split(":")
+                    msg += f"\n -- Procesando: {datas}"
+                    room = datas[0]
+                    ext_id = datas[1]
+                    if ext_id != "":
+                        guest = Guest.objects.filter(ext_id=ext_id, project_id=pcu.project_uuid, deleted=0).first()
+                        if guest != None:
+                            #lock_code = get_code(pcu, guest.mobile)
+                            #msg += "-- CODE: {} - mobile {} - code mobile{}".format(lock_code, guest.mobile, pcu.code_mobile)
+                            #err = guest.add_all_key_code(lock_code)
+                            #msg += "\n {}".format(err)
+                            #if not "Error" in err:
+                            codes += "{}:{} ".format(room, guest.lock_code)
                             links += "{}:{} ".format(room, guest.pwa_link)
-            except Exception as e:
-                msg = "\n -- Error: {}".format(e)
-    if codes != "":
-        msg += "\n -- Enviando códigos: {}".format(codes)
-        av.set_booking_code(booking_id, "lockCode", codes)
-        av.set_booking_code(booking_id, "lockLink", links)
-        msg += "\n -- Códigos enviados"
+                except Exception as e:
+                    msg += "\n -- Error: {}".format(e)
+        if codes != "":
+            msg += "\n -- Enviando códigos: {}".format(codes)
+            msg += "\n -- Enviando enlaces: {}".format(links)
+            av.set_booking_code(booking_id, "lockCode", codes)
+            av.set_booking_code(booking_id, "lockLink", links)
+            msg += "\n -- Códigos enviados"
     return msg
 
- 
+#def send_booking_codes(pcu, av, booking_id):
+#    codes = ""
+#    links = ""
+#    guest_list = av.ids.split(",")
+#    msg = f"\n -- Envío de códigos {av.ids} --"
+#    for data in guest_list:
+#        if ":" in data:
+#            try:
+#                datas = data.split(":")
+#                room = datas[0]
+#                ext_id = datas[1]
+#                if ext_id != "":
+#                    guest = Guest.objects.filter(ext_id=ext_id, project_id=pcu.project_uuid, deleted=0).first()
+#                    if guest != None:
+#                        lock_code = get_code(pcu, guest.mobile)
+#                        #msg += "-- CODE: {} - mobile {} - code mobile{}".format(lock_code, guest.mobile, pcu.code_mobile)
+#                        err = guest.add_all_key_code(lock_code)
+#                        msg += "\n {}".format(err)
+#                        if not "Error" in err:
+#                            codes += "{}:{} ".format(room, lock_code)
+#                            links += "{}:{} ".format(room, guest.pwa_link)
+#            except Exception as e:
+#                msg = "\n -- Error: {}".format(e)
+#    if codes != "":
+#        msg += "\n -- Enviando códigos: {}".format(codes)
+#        msg += "\n -- Enviando enlaces: {}".format(links)
+#        av.set_booking_code(booking_id, "lockCode", codes)
+#        av.set_booking_code(booking_id, "lockLink", links)
+#        msg += "\n -- Códigos enviados"
+#    return msg
+
+#def send_booking_codes(pcu, av, booking_id, room, guest):
+#    codes = ""
+#    links = ""
+#    msg = "\n -- Envío de códigos"
+#    try:
+#        if guest != None:
+#            lock_code = get_code(pcu, guest.mobile)
+#            #msg += "-- CODE: {} - mobile {} - code mobile{}".format(lock_code, guest.mobile, pcu.code_mobile)
+#            #print(lock_code)
+#            err = guest.add_all_key_code(lock_code)
+#            msg += "\n {}".format(err)
+#            if not "Error" in err:
+#                codes += "{}:{} ".format(room, lock_code)
+#                links += "{}:{} ".format(room, guest.pwa_link)
+#    except Exception as e:
+#        msg = "\n -- Error: {}".format(e)
+#    if codes != "":
+#        msg += "\n -- Enviando códigos: {}".format(codes)
+#        av.set_booking_code(booking_id, "lockCode", codes)
+#        av.set_booking_code(booking_id, "lockLink", links)
+#        msg += "\n -- Códigos enviados"
+#    return msg
+#
+

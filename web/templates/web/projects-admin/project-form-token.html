@@ -1,0 +1,25 @@
+{% load i18n %}
+
+<label class="label">{% trans "Tokens" %}:</label>
+
+<div class="row justify-center">
+    <div class="col-5"> <label class="label">{% trans "TTLock Username" %}: {{user_lock.username}}</label> </div>
+    <div class="col-5"> <label class="label">{% trans "TTLock Password" %}: {{user_lock.password}}</label> </div>
+    {%comment%}
+    <div class="col-md-2 col-6 mt-4 p-0 text-center">
+        <a class="btn btn-primary pointer ark" data-url="{% url "project-user-token" %}" data-target="span-token" 
+            data-obj_id="{{user_lock.id}}"> {% trans "Get token" %}</a>
+    </div>
+    {%endcomment%}
+    <div class="col-2 text-center">
+        <a class="btn btn-primary pointer ark" data-url="{%url "project-admin-user-refresh-token"%}" data-target="project-token" 
+            data-obj_id="{{obj.id}}"> {% trans "Refresh token" %}</a>
+    </div>
+</div>		
+
+<div class="row justify-center">
+    <div class="col-5">
+        <label class="label">{% trans "Token" %} ({% trans "expire:" %} {{user_lock.expire_date}}): {{user_lock.token}}</label>
+    </div>
+    <div class="col-5"> <label class="label">{% trans "Refresh Token" %}: {{user_lock.refresh_token}}</label> </div>
+</div>		

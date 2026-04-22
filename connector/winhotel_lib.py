@@ -569,7 +569,7 @@ def create_booking_day(pwu, booking):
 def delete_booking(pwu, booking):
     guest = Guest.objects.filter(ext_id=booking.code, project_id=pwu.project_uuid, deleted=0).first()
     if guest == None:
-        guest.delete()
+        guest.delete_soft()
 
 #def get_booking_list(pau, start_date, end_date):
 def get_booking_list(pwu, state):
