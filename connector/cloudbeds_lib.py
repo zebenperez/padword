@@ -345,7 +345,7 @@ def send_lock_code(pcu, guest, booking_id):
     av.set_booking_code(booking_id, "lockCode", lock_code)
     av.set_booking_code(booking_id, "lockLink", guest.pwa_link)
 
-def create_booking(pcu, room, booking, bguest, av):
+def create_booking(pcu, room, booking, bguest, av, ev=""):
     checkin = get_date(booking.start, pcu.ini_time.hour, pcu.ini_time.minute)
     checkout = get_date(booking.end, pcu.end_time.hour, pcu.end_time.minute)
     today = datetime.today()
@@ -363,58 +363,60 @@ def create_booking(pcu, room, booking, bguest, av):
         msg += f"\n Ext_id: {ext_id}"
         guest = Guest.objects.filter(ext_id=ext_id, project_id=pcu.project_uuid, deleted=0).first()
         msg += f"\n Guest: {guest}"
-        if guest == None:
-            guest = Guest(UUID = new_ui_slug(Guest, "UUID"), ext_id=ext_id, project_id=pcu.project_uuid)
-            booking.created = True
-        
-        gc_in = guest.check_in.strftime("%Y-%m-%d %H:%M:%S")
-        gc_out = guest.check_out.strftime("%Y-%m-%d %H:%M:%S")
-        c_in = checkin.strftime("%Y-%m-%d %H:%M:%S")
-        c_out = checkout.strftime("%Y-%m-%d %H:%M:%S")
-        change_booking = True if gc_in != c_in or gc_out != c_out or guest.room != r else False
-        #msg += "\n Checkin {} == {}".format(gc_in, c_in)
-        #msg += "\n Checkout {} == {}".format(gc_out, c_out)
-        #msg += "\n Checkout {} == {}".format(guest.room, r)
-        #msg += "\n Change Booking {}".format(change_booking)
-        #print(bguest)
-        #print(bguest.first_name)
-        guest.name = bguest.first_name
-        guest.surname = bguest.last_name
-        guest.mobile = bguest.cell_phone
-        guest.email = bguest.email
-        guest.language = bguest.country
-        
-        guest.check_in = checkin
-        guest.check_out = checkout
-        guest.room = r
-        guest.save()
-        msg += f"\n Asignando: {guest.room} ({guest.name}) {booking.created} {change_booking}"
+        if guest != None or ev == "reservation/created":
+            if guest == None:
+                guest = Guest(UUID = new_ui_slug(Guest, "UUID"), ext_id=ext_id, project_id=pcu.project_uuid)
+                booking.created = True
+            
+            gc_in = guest.check_in.strftime("%Y-%m-%d %H:%M:%S")
+            gc_out = guest.check_out.strftime("%Y-%m-%d %H:%M:%S")
+            c_in = checkin.strftime("%Y-%m-%d %H:%M:%S")
+            c_out = checkout.strftime("%Y-%m-%d %H:%M:%S")
+            change_booking = True if gc_in != c_in or gc_out != c_out or guest.room != r else False
+            #msg += "\n Checkin {} == {}".format(gc_in, c_in)
+            #msg += "\n Checkout {} == {}".format(gc_out, c_out)
+            #msg += "\n Checkout {} == {}".format(guest.room, r)
+            #msg += "\n Change Booking {}".format(change_booking)
+            #print(bguest)
+            #print(bguest.first_name)
+            guest.name = bguest.first_name
+            guest.surname = bguest.last_name
+            guest.mobile = bguest.cell_phone
+            guest.email = bguest.email
+            guest.language = bguest.country
+            
+            guest.check_in = checkin
+            guest.check_out = checkout
+            guest.room = r
+            guest.save()
+            msg += f"\n Asignando: {guest.room} ({guest.name}) {booking.created} {change_booking}"
 
-        if booking.plate != "":
-            guest.add_plate(booking.plate)
+            if booking.plate != "":
+                guest.add_plate(booking.plate)
 
-        if booking.created:
-            msg += "\n CREADA: {}".format(guest.ext_id)
-            lock_code = get_code(pcu, guest.mobile)
-            #msg += "-- CODE: {} - mobile {} - code mobile{}".format(lock_code, guest.mobile, pcu.code_mobile)
-            #print(lock_code)
-            err = guest.add_all_key_code(lock_code)
-            msg += "\n CODES: {}".format(err)
-            av.send_codes = True
-            #av.ids += "{}:{},".format(room.name, guest.ext_id)
-            #av.ids = "{}:{},".format(room.name, guest.ext_id)
-            #msg += send_booking_codes(pcu, av, booking.id)
-            #msg += send_booking_codes(pcu, av, booking.id, room.name, guest)
-            #av.codes += "{}:{} ".format(r, lock_code)
-            #av.links += "{}:{} ".format(r, guest.pwa_link)
-            #av.set_booking_code(booking.id, "lockCode", lock_code)
-            #av.set_booking_code(booking.id, "lockLink", guest.pwa_link)
-        elif change_booking:
-            #time.sleep(3)
-            msg += "\n MODIFICADA: {}".format(guest.ext_id)
-            err = guest.change_room(r)
-            msg += "\n CHANGE ROOM: {}".format(err)
-            av.send_codes = True
+            if booking.created:
+                msg += "\n CREADA: {}".format(guest.ext_id)
+                lock_code = get_code(pcu, guest.mobile)
+                #msg += "-- CODE: {} - mobile {} - code mobile{}".format(lock_code, guest.mobile, pcu.code_mobile)
+                #print(lock_code)
+                if guest.lock_code == "":
+                    err = guest.add_all_key_code(lock_code)
+                    msg += "\n CODES: {}".format(err)
+                av.send_codes = True
+                #av.ids += "{}:{},".format(room.name, guest.ext_id)
+                #av.ids = "{}:{},".format(room.name, guest.ext_id)
+                #msg += send_booking_codes(pcu, av, booking.id)
+                #msg += send_booking_codes(pcu, av, booking.id, room.name, guest)
+                #av.codes += "{}:{} ".format(r, lock_code)
+                #av.links += "{}:{} ".format(r, guest.pwa_link)
+                #av.set_booking_code(booking.id, "lockCode", lock_code)
+                #av.set_booking_code(booking.id, "lockLink", guest.pwa_link)
+            elif change_booking:
+                #time.sleep(3)
+                msg += "\n MODIFICADA: {}".format(guest.ext_id)
+                err = guest.change_room(r)
+                msg += "\n CHANGE ROOM: {}".format(err)
+                av.send_codes = True
     return msg
 
 def create_room(pcu, room, index):
@@ -445,7 +447,7 @@ def get_booking_list(pcu):
             room_node = CloudbedsBookingRoom(room)
             guest = av.get_guest(room_node.guest_id)
             guest_node = CloudbedsGuest(guest)
-            create_booking(pcu, room_node, node, guest_node, av)
+            create_booking(pcu, room_node, node, guest_node, av, "reservation/created")
             node.rooms.append(room_node)
         booking_list.append(node)
     return booking_list
@@ -491,9 +493,9 @@ def set_webhooks(pcu):
     result += "Adding reservation/deleted webhook <br/>"
     result += av.set_webhook("reservation", "deleted", pcu.property_id)
     result += "<br/>"
-    result += "Adding guest/accommodation_changed webhook <br/>"
-    result += av.set_webhook("guest", "accommodation_changed", pcu.property_id)
-    result += "<br/>"
+    #result += "Adding guest/accommodation_changed webhook <br/>"
+    #result += av.set_webhook("guest", "accommodation_changed", pcu.property_id)
+    #result += "<br/>"
     result += "Adding integration/appstate_changed webhook <br/>"
     result += av.set_webhook("integration", "appstate_changed", pcu.property_id)
     result += "<br/>"
@@ -506,32 +508,32 @@ def set_webhooks(pcu):
     return result
 
 def manage_webhook_actions(pcu, obj):
-    random_time = random.uniform(8.0, 12.0)
-    time.sleep(random_time)
+    #random_time = random.uniform(4.0, 12.0)
+    #time.sleep(random_time)
     msg = ""
     if obj["event"] == "reservation/created":
         msg = "\n-- Creada la reserva {}".format(obj["reservationID"])
-        msg += get_or_create_booking(pcu, obj["reservationID"])
+        msg += get_or_create_booking(pcu, obj["reservationID"], obj["event"])
 
     if obj["event"] == "reservation/status_changed":
         msg = "\n-- Modificado el estado de la reserva {}".format(obj["reservationID"])
-        msg += get_or_create_booking(pcu, obj["reservationID"])
+        msg += get_or_create_booking(pcu, obj["reservationID"], obj["event"])
 
     if obj["event"] == "reservation/dates_changed":
         msg = "\n-- Modificadas las fechas de la reserva {}".format(obj["reservationId"])
-        msg += get_or_create_booking(pcu, obj["reservationId"])
+        msg += get_or_create_booking(pcu, obj["reservationId"], obj["event"])
 
     if obj["event"] == "reservation/accommodation_changed":
         msg = "\n-- Modificada la habitación de la reserva {}".format(obj["reservationId"])
-        msg += get_or_create_booking(pcu, obj["reservationId"])
+        msg += get_or_create_booking(pcu, obj["reservationId"], obj["event"])
 
     if obj["event"] == "reservation/deleted":
         msg = "\n-- Eliminada la reserva {}".format(obj["reservationId"])
         msg += reservation_delete(pcu, obj)
 
-    if obj["event"] == "guest/accommodation_changed":
-        msg = "\n-- Modificada la habitación del huésped {}".format(obj["reservationId"])
-        msg += get_or_create_booking(pcu, obj["reservationId"])
+    #if obj["event"] == "guest/accommodation_changed":
+    #    msg = "\n-- Modificada la habitación del huésped {}".format(obj["reservationId"])
+    #    msg += get_or_create_booking(pcu, obj["reservationId"], obj["event"])
 
     if obj["event"] == "integration/appstate_changed":
         disabled_connection(pcu, obj)
@@ -545,7 +547,7 @@ def get_subreservation_dates(booking, sub_id):
                 return node["startDate"], node["endDate"]
     return booking["startDate"], booking["endDate"]
 
-def get_or_create_booking(pcu, ext_id):
+def get_or_create_booking(pcu, ext_id, ev):
     if pcu == None:
         return "\n -- Objeto no encontrado"
 
@@ -575,7 +577,7 @@ def get_or_create_booking(pcu, ext_id):
             for room_data in room_list:
                 node.start, node.end = get_subreservation_dates(booking, room_data["subReservationID"])
                 room_node = CloudbedsRoom2(room_data)
-                msg_g = create_booking(pcu, room_node, node, guest_node, av)
+                msg_g = create_booking(pcu, room_node, node, guest_node, av, ev)
                 msg += "\n {}".format(msg_g)
                 data_list.append(f"{room_node.name}:{room_node.subreservation_id}")
             break

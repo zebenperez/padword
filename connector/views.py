@@ -351,6 +351,9 @@ def cloudbeds_manage_webhook(pcu, booking, f):
 @csrf_exempt
 @require_POST
 def cloudbeds_webhook(request):
+    #import random
+    #import time
+
     f = open(os.path.join(settings.BASE_DIR, "cloudbeds.log"), "a", encoding='utf-8')
     f.write("\n---------------------------------------")
     f.write("\n{} - Evento de cloudbeds".format(datetime.now().strftime("%Y-%m-%d %H:%M:%S")))
@@ -375,6 +378,9 @@ def cloudbeds_webhook(request):
         #p = Project.objects.filter(uuid=pcu.project_uuid).first()
         #if pcu != None and p != None:
         #    f.write("\n PROYECTO: {}".format(p.name))
+
+        #if booking["event"] != "reservation/created":
+        #    time.sleep(random.randint(8, 12))
 
         t = threading.Thread(target=cloudbeds_manage_webhook, args=[pcu, booking, f], daemon=True)
         t.start()
@@ -418,6 +424,15 @@ def octorate_get_room_list(request, project_uuid):
     except Exception as e:
         print(e)
         return render(request, 'error_exception.html', {'exc':show_exc(e)})
+
+@csrf_exempt  
+def octorate_update_token(request):
+    f = open(os.path.join(settings.BASE_DIR, "octorate.log"), "a", encoding='utf-8')
+    f.write("\n---------------------------------------")
+    f.write("\n{} - Evento de octorate".format(datetime.now().strftime("%Y-%m-%d %H:%M:%S")))
+    #f.write(str(request.GET))
+    f.write(str(request.POST))
+    return HttpResponse("OK")
 
 '''
     Paytef
@@ -647,20 +662,6 @@ def roomraccoon_log(request):
     except:
         log_list = []
     return render(request, 'cron-log.html', {'text': text.replace("\n", "<br/>"), 'log_list': log_list})
-
-'''
-    OCTORADE
-'''
-@csrf_exempt  
-def octorate_update_token(request):
-    f = open(os.path.join(settings.BASE_DIR, "octorate.log"), "a", encoding='utf-8')
-    f.write("\n---------------------------------------")
-    f.write(str(request.GET))
-    f.write(str(request.POST))
-    print("--1--")
-    print(request.GET)
-    print(request.POST)
-    return HttpResponse("OK")
 
 '''
     ACCESS CONTROL

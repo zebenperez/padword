@@ -2,23 +2,11 @@
 
 
 <div class="row justify-center">
-    <div class="col-md-4 col-12">
-        <label class="label">{% trans "TTLock Username" %}:</label>
-        <input type="text" class="form-control autosave input" id="username" name="username" value="{{user_lock.username}}" 
-            title="{{user_lock.username}}" data-model-name="web.projectlockuser" data-obj-id="{{user_lock.id}}" 
-            data-url="{% url "autosave_field" %}" data-target="div-notification"/> <span id="lock_username__msg"></span>	
-    </div>
-    <div class="col-md-4 col-12">
-        <label class="label">{% trans "TTLock Password" %}:</label>
-        <input type="text" class="form-control autosave input" id="password" name="password" value="{{user_lock.password}}" 
-            title="{{user_lock.password}}" data-model-name="web.projectlockuser" data-obj-id="{{user_lock.id}}" 
-            data-url="{% url "autosave_field" %}" data-target="div-notification"/> <span id="lock_password__msg"></span>	
-    </div>
-    <div class="col-md-2 col-6 mt-4 p-0 text-center">
+    <div class="col-2 offset-4 text-center">
         <a class="btn btn-primary pointer ark" data-url="{% url "project-user-token" %}" data-target="span-token" 
             data-obj_id="{{user_lock.id}}"> {% trans "Get token" %}</a>
     </div>
-    <div class="col-md-2 col-6 mt-4 p-0 text-center">
+    <div class="col-2 text-center">
         {%comment%}
         <a class="btn btn-primary pointer ark" data-url="{% url "project-user-refresh-token" %}" data-target="span-token" 
             data-obj_id="{{user_lock.id}}"> {% trans "Refresh token" %}</a>
@@ -26,111 +14,48 @@
         <a class="btn btn-primary pointer ark" data-url="{% url "project-user-refresh-token" %}" data-target="span-token" 
             data-obj_id="{{obj.id}}"> {% trans "Refresh token" %}</a>
     </div>
-</div>		
-
-<span id="span-token">{% include "web/projects/project-token.html" %}</span>
-
-<div class="row justify-center"> 
-    <div class="col-6"> <label class="label">{% trans "Time to execute tasks" %}:</label> </div> 
-    <div class="col-6"> <label class="label">{% trans "Report email" %}:</label> </div> 
-</div>		
-<div class="row justify-center">
-    <div class="col-3 offset-9">
+    <div class="col-3 offset-1">
         <div class="form-check form-switch">
             <input class="form-check-input toggleCronLock" type="checkbox" id="activeCron" data-class-name="lock-cron" 
                 data-field="btn-time" data-field-time="time" {% if user_lock.time_schedule_tasks != -1 %} checked {% endif %}>
             <label class="form-check-label" for="activeCron">Activar planificador</label>
         </div>
     </div>
+</div>
+<br/><br/>
+<span id="span-token">{% include "web/projects/project-token.html" %}</span>
+<div class="row justify-center">
+    <div class="col-3"> <label class="label">{% trans "TTLock Username" %}:</label> </div>
+    <div class="col-3"> <label class="label">{% trans "TTLock Password" %}:</label> </div>
+    <div class="col-3"> <label class="label">{% trans "Time to execute tasks" %}:</label> </div>
+    <div class="col-3"> <label class="label">{% trans "Report email" %}:</label> </div>
+</div>
+<div class="row justify-center">
+    <div class="col-3">
+        <input type="text" class="form-control autosave input" id="username" name="username" value="{{user_lock.username}}" 
+            title="{{user_lock.username}}" data-model-name="web.projectlockuser" data-obj-id="{{user_lock.id}}" 
+            data-url="{% url "autosave_field" %}" data-target="div-notification"/> <span id="lock_username__msg"></span>	
+    </div>
+    <div class="col-3">
+        <input type="text" class="form-control autosave input" id="password" name="password" value="{{user_lock.password}}" 
+            title="{{user_lock.password}}" data-model-name="web.projectlockuser" data-obj-id="{{user_lock.id}}" 
+            data-url="{% url "autosave_field" %}" data-target="div-notification"/> <span id="lock_password__msg"></span>	
+    </div>
     <div class="col-2">
         <input type="time" class="form-control input lock-cron" id="time" name="time" value="{{user_lock.time_schedule_tasks}}" 
             onchange="$('#btn-time').data('time', $(this).val())"/>
     </div>
     <div class="col-1">
-        <a id="btn-time" class="btn btn-sm ark" data-url="{%url "project-set-lock-schedule"%}"
-            data-target="" data-time="" data-obj_id="{{user_lock.id}}" data-project_uuid="{{obj.uuid}}"> <i class="fas fa-chevron-right"></i></a>
+        <a id="btn-time" class="btn btn-sm ark" data-url="{%url "project-set-lock-schedule"%}" data-target="" data-time="" 
+            data-obj_id="{{user_lock.id}}" data-project_uuid="{{obj.uuid}}"> <i class="fas fa-chevron-right"></i></a>
     </div>
-    <div class="col-6 offset-3">
-        <input type="text" class="form-control autosave input lock-cron" id="report_email" name="report_email" value="{{user_lock.report_email}}" 
-            title="{{user_lock.report_email}}" data-model-name="web.projectlockuser" data-obj-id="{{user_lock.id}}" 
-            data-url="{% url "autosave_field" %}" data-target="div-notification"/> <span id="report_email__msg"></span>	
-    </div>
-
-</div>		
-
-<div class="row justify-center m-0 p-0">
-    <div class="col-12 d-flex justify-content-end">
-        {% for lang in obj.get_languages %}
-            {%comment%}
-            <a class="btn btn-{% is_current_lang lang 'primary' 'secondary'%} ark ms-2 me-2 pointer" data-url="{% url "project-form" %}" 
-                data-target-modal="common-modal" data-lang="{{lang}}" data-obj_id="{{obj.id}}">{{lang}}</a>
-            {%endcomment%}
-            <a class="btn btn-{% is_current_lang lang 'primary' 'secondary'%} ms-2 me-2 pointer" 
-                href="{% url "project-details" obj.id "locks" %}?lang={{lang}}"> {{lang}}</a>
-        {%endfor%}
-    </div>
-
-    <div class="col-12">
-        <label class="label">{% trans "Text to share" %}:</label>
-        <textarea class="form-control autosave input mb-4" id="text_to_share" name="text_to_share" rows="10" data-lang="{% current_lang %}"
-            title="{{user_lock.text_to_share}}" data-model-name="web.projectlockuser" data-obj-id="{{user_lock.id}}" 
-            data-url="{% url "autosave_field" %}" data-target="div-notification">{% padword_translate user_lock.text_to_share %}</textarea> 
-        <span id="lock_username__msg"></span>	
+    <div class="col-3">
+        <input type="text" class="form-control autosave input lock-cron" id="report_email" name="report_email" 
+            value="{{user_lock.report_email}}" title="{{user_lock.report_email}}" data-model-name="web.projectlockuser" 
+            data-obj-id="{{user_lock.id}}" data-url="{% url "autosave_field" %}" data-target="div-notification"/> 
+        <span id="report_email__msg"></span>	
     </div>
 </div>
 
-{%comment%}
-<div class="card">
-    <div class="card-header toggle-btn" data-target="body-locks" data-id-change="icon-extra"
-        data-text='<i class="fas fa-plus"></i>' data-text-alt='<i class="fas fa-minus"></i>'>
-        <div class="row w-100">
-            <div class="col-6 text-right" id="icon-extra"><i class="fas fa-plus"></i></div>
-            <div class="col-6 text-left"><strong>{% trans "Locks" %}</strong></div>
-        </div>
-    </div>
-    <div class="card-body hide" id="body-locks"> 
-        <div class="row justify-center">
-            <div class="col-md-4 col-12">
-                <label class="label">{% trans "TTLock Username" %}:</label>
-                <input type="text" class="form-control autosave input" id="username" name="username" value="{{user_lock.username}}" 
-                    title="{{user_lock.username}}" data-model-name="web.projectlockuser" data-obj-id="{{user_lock.id}}" 
-                    data-url="{% url "autosave_field" %}" data-target="div-notification"/> <span id="lock_username__msg"></span>	
-            </div>
-            <div class="col-md-4 col-12">
-                <label class="label">{% trans "TTLock Password" %}:</label>
-                <input type="text" class="form-control autosave input" id="password" name="password" value="{{user_lock.password}}" 
-                    title="{{user_lock.password}}" data-model-name="web.projectlockuser" data-obj-id="{{user_lock.id}}" 
-                    data-url="{% url "autosave_field" %}" data-target="div-notification"/> <span id="lock_password__msg"></span>	
-            </div>
-            <div class="col-md-2 col-6 mt-4 p-0 text-center">
-                <a class="btn btn-primary pointer ark" data-url="{% url "project-user-token" %}" data-target="span-token" 
-                    data-obj_id="{{user_lock.id}}"> {% trans "Get token" %}</a>
-            </div>
-            <div class="col-md-2 col-6 mt-4 p-0 text-center">
-                <a class="btn btn-primary pointer ark" data-url="{% url "project-user-refresh-token" %}" data-target="span-token" 
-                    data-obj_id="{{user_lock.id}}"> {% trans "Refresh token" %}</a>
-            </div>
-        </div>		
 
-        <span id="span-token">{% include "web/projects/project-token.html" %}</span>
-
-        <div class="row justify-center m-0 p-0">
-            <div class="col-12 d-flex justify-content-end">
-                {% for lang in obj.get_languages %}
-                    <a class="btn btn-{% is_current_lang lang 'primary' 'secondary'%} ark ms-2 me-2 pointer" data-url="{% url "project-form" %}" 
-                        data-target-modal="common-modal" data-lang="{{lang}}" data-obj_id="{{obj.id}}">{{lang}}</a>
-                {%endfor%}
-            </div>
-
-            <div class="col-12">
-                <label class="label">{% trans "Text to share" %}:</label>
-                <textarea class="form-control autosave input mb-4" id="text_to_share" name="text_to_share" rows="10" data-lang="{% current_lang %}"
-                    title="{{user_lock.text_to_share}}" data-model-name="web.projectlockuser" data-obj-id="{{user_lock.id}}" 
-                    data-url="{% url "autosave_field" %}" data-target="div-notification">{% padword_translate user_lock.text_to_share %}</textarea> 
-                <span id="lock_username__msg"></span>	
-            </div>
-        </div>
-    </div>
-</div>
-{%endcomment%}
 

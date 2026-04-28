@@ -274,6 +274,7 @@ class ProjectAux(models.Model):
         verbose_name = _('Project Aux')
  
 class ProjectLockUser(models.Model):
+    last_refresh = models.DateTimeField(verbose_name=_('Last Refresh'), default=datetime.datetime.now, null=True)
     username = models.CharField(max_length=255, verbose_name=_('Lock Username'), default="")
     password = models.CharField(max_length=255, verbose_name=_('Lock Password'), default="")
     token = models.CharField(max_length=255, verbose_name=_('Lock Token'), default="")
@@ -314,6 +315,7 @@ class ProjectLockUser(models.Model):
         self.token = res["access_token"]
         self.refresh_token = res["refresh_token"]
         self.expire = res["expires_in"]
+        self.last_refresh = datetime.datetime.now()
         self.save()
 
 class Channel(models.Model):

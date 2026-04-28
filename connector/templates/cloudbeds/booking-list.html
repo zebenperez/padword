@@ -3,8 +3,8 @@
 <div class="row w-100 common-modal-head m-0 p-0">
     <div class="col-11"><h2>{% trans 'Cloudbeds booking list' %}</h2></div>
     <div class="col-1">
-        <button type="button" class="btn btn-sm ark" data-bs-dismiss="modal" data-url="{% url "guest-search-by-project" %}" 
-        data-target="guest-list"><i class="fas fa-times"></i></button> </div>
+        <a class="btn btn-sm" data-bs-dismiss="modal" data-url="{% url "guest-search-by-project" %}"><i class="fas fa-times"></i></a> 
+    </div>
 </div>
 
 {% if error and error != "" %} <div class="alert alert-danger">{{error|safe}}</div> {% endif %}

@@ -324,9 +324,10 @@ function showAlert(body, close) {
 }
 
 function getPercent(total, percent){
-    var t = parseFloat(total.replace(",", "."));
-    var p = parseFloat(percent.replace(",", "."));
-    return t - (t * (p / 100));
+    let t = parseFloat(total.replace(",", "."));
+    let p = parseFloat(percent.replace(",", "."));
+    let res =  t - (t * (p / 100));
+    return Math.round(res * 100) / 100;
 }
 
 $(document).ready(()=>{

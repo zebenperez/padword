@@ -22,4 +22,5 @@
         <label class="label">{% trans "Token" %} ({% trans "expire:" %} {{user_lock.expire_date}}): {{user_lock.token}}</label>
     </div>
     <div class="col-5"> <label class="label">{% trans "Refresh Token" %}: {{user_lock.refresh_token}}</label> </div>
+    <div class="col-2"> <label class="label">{% trans "Last Refresh" %}: {{user_lock.last_refresh|date:"d-m-Y"}}</label> </div>
 </div>		

@@ -10,6 +10,7 @@ import urllib
 import json
 import random
 import string
+import os
 
 import base64
 import xml.etree.ElementTree as ET
@@ -31,6 +32,11 @@ ROOMS_URL = "/pms"
 '''
 def get_param(dic, key):
     return dic[key] if key in dic else ""
+
+def write_log(result):
+    f = open(os.path.join(settings.BASE_DIR, "octorate.log"), "a", encoding='utf-8')
+    f.write("{}\n".format(result))
+    f.close()
 
 class OctorateAPIError(Exception):
     def __init__(self, menssage='Invalid Parameter'):
@@ -95,9 +101,10 @@ class Octorate():
             #_headers['Accept'] = 'application/json'
             #_headers['x-api-key'] = '{}'.format(self.token)
             _headers['Authorization'] = 'Bearer {}'.format(self.token)
-            _headers['Content-Type'] = 'application/x-www-form-urlencoded'
+            #_headers['Content-Type'] = 'application/x-www-form-urlencoded'
+            _headers['Content-Type'] = 'application/json'
             _response = requests.put(_url_request, headers=_headers, data=_json)
-            _response.raise_for_status()
+            #_response.raise_for_status()
             return _response
         except requests.exceptions.HTTPError as errh:
             raise OctorateAPIError(menssage=errh)
@@ -112,6 +119,7 @@ class Octorate():
         try:
             _headers = {}
             #_headers['Content-Type'] = 'application/x-www-form-urlencoded'
+            _headers['Authorization'] = 'Bearer {}'.format(self.token)
             _headers['Content-Type'] = 'application/json'
             _response = requests.patch(_url_request, headers=_headers, data=_json)
             #print(_response.text)
@@ -191,17 +199,17 @@ class Octorate():
         try:
             _url_request = f'{API_URL}{BOOKINGS_URL}/{property_id}/{booking_id}'
             today = datetime.today()
-            metaKey = f'"Apertura desde el móvil Reserva: {booking_id}'
+            metaKey = f'Apertura desde el móvil Reserva: {booking_id}'
             params = {
                 #"roomCode": {"code":, "rfcTagId": "", "locked": "true"},
                 "roomCode": {"code": code},
-                "metaData": {"labelText":"padwordkey", "metaKey":metaKey, "metaDataType":"LINK", "value": link},
+                "metaData": [{"labelText":"padwordkey", "metaKey":metaKey, "metaDataType":"LINK", "value": link}],
                 "status": "CONFIRMED"
             }
-            #print(_url_request)
-            #print(params)
-            dic = self.__send_patch_request__(_url_request, params).json()
-            #print(dic)
+            print(_url_request)
+            print(params)
+            dic = self.__send_patch_request__(_url_request, json.dumps(params)).json()
+            print(dic)
             return dic
             #items = dic["data"]
             #return items
@@ -267,7 +275,7 @@ def create_booking(pou, booking, oc):
 
     #if room_ex and booking.status == "CONFIRMED":
     if room_ex and booking.status == "CONFIRMED" and checkin <= e_date and checkin >= today:
-        #msg += "\n Entrando"
+        msg += "\n Entrando"
         #ext_id = get_ext_id(booking, bguest, room)
         ext_id = booking.id
         guest = Guest.objects.filter(ext_id=ext_id, project_id=pou.project_uuid, deleted=0).first()
@@ -285,7 +293,7 @@ def create_booking(pou, booking, oc):
         guest.check_out = checkout
         guest.room = booking.room
         guest.save()
-        #msg += "\n Asignando: {} ({})".format(guest.room, guest.name)
+        msg += "\n Asignando: {} ({})".format(guest.room, guest.name)
 
         if booking.created:
             msg += "\n CREADA: {}".format(guest.ext_id)
@@ -294,7 +302,8 @@ def create_booking(pou, booking, oc):
             #print(lock_code)
             err = guest.add_all_key_code(lock_code)
             msg += "\n {}".format(err)
-            oc.send_code(pou.property_id, booking.id.split("_")[0], lock_code, guest.pwa_link)
+            res = oc.send_code(pou.property_id, booking.id.split("_")[0], lock_code, guest.pwa_link)
+            msg += "\n {}".format(res)
             #oc.ids += "{}:{},".format(room.name, guest.ext_id)
             #msg += send_booking_codes(pcu, av, booking.id)
     return msg
@@ -324,12 +333,15 @@ def get_booking_list(pou):
     result = oc.get_bookings(pou.property_id, today, e_date)
     booking_list = []
     i = 0
+    write_log(f"---------------------------------------------")
+    write_log(f"CREANDO RESERVAS {datetime.now()}")
     for item in result:
         i += 1
         guest = item["guests"][0] if "guests" in item and len(item["guests"]) > 0 else []
         node = CloudbedsBooking(item, guest)
-        create_booking(pou, node, oc)
+        msg = create_booking(pou, node, oc)
         booking_list.append(node)
+        write_log(f"{msg}")
     return booking_list
 
 def get_room_list(pou):
