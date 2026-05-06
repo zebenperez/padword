@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 from django.urls import path
 from . import views, auto_views, room_views, card_views, lock_views, lock_user_views, lock_group_views 
-from . import gateway_views, ekey_views, box_views, lock_cron_views, project_admin_views, project_lock_views
+from . import gateway_views, ekey_views, box_views, lock_cron_views, project_admin_views, project_lock_views, project_manager_views
 
 urlpatterns = [ 
     #path('index/<slug:chk>/', views.index, name='web-index-new'),
@@ -84,6 +84,12 @@ urlpatterns = [
     path('projects-admin/details/<int:obj_id>/', project_admin_views.projects_details, name='projects-admin-details'),
     path('projects-admin/user-refresh-token/', project_admin_views.project_user_refresh_token, name='project-admin-user-refresh-token'),
  
+    #--------------------- Projects Manager--------------------
+    path('projects-manager/', project_manager_views.projects, name='projects-manager'),
+    path('projects-manager/search/', project_manager_views.projects_search, name='projects-manager-search'),
+    path('projects-manager/details/<int:obj_id>/', project_manager_views.projects_details, name='projects-manager-details'),
+    path('projects-manager/form/', project_manager_views.projects_form, name='projects-manager-form'),
+
     #--------------------- Projects Locks--------------------
     path('projects-locks/', project_lock_views.projects, name='projects-locks'),
     path('projects-locks/search/', project_lock_views.projects_search, name='projects-locks-search'),

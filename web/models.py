@@ -53,6 +53,7 @@ class Project(models.Model):
 
     logo = models.ImageField(upload_to=upload_logo, blank=True, verbose_name="Logo", help_text="Select file to upload")
     company = models.ForeignKey(Company, verbose_name = 'Company', on_delete=models.SET_NULL, null=True)
+    manager = models.ForeignKey(User, verbose_name = 'Manager', on_delete=models.SET_NULL, null=True)
 
     class Meta:
         if (len(settings.DATABASES) > 1):

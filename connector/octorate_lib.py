@@ -95,6 +95,24 @@ class Octorate():
         except requests.exceptions.RequestException as err:
             raise OctorateAPIError(menssage=err)
 
+    def __send_post_token_request__(self, _url_request, _json):
+        try:
+            _headers = {}
+            _headers['Authorization'] = 'Bearer {}'.format(self.token)
+            _headers['Content-Type'] = 'application/json'
+            _response = requests.patch(_url_request, headers=_headers, data=_json)
+            #print(_response.text)
+            #_response.raise_for_status()
+            return _response
+        except requests.exceptions.HTTPError as errh:
+            raise OctorateAPIError(menssage=errh)
+        except requests.exceptions.ConnectionError as errc:
+            raise OctorateAPIError(menssage=errc)
+        except requests.exceptions.Timeout as errt:
+            raise OctorateAPIError(menssage=errt)
+        except requests.exceptions.RequestException as err:
+            raise OctorateAPIError(menssage=err)
+
     def __send_put_request__(self, _url_request, _json):
         try:
             _headers = {}
@@ -199,20 +217,38 @@ class Octorate():
         try:
             _url_request = f'{API_URL}{BOOKINGS_URL}/{property_id}/{booking_id}'
             today = datetime.today()
-            metaKey = f'Apertura desde el móvil Reserva: {booking_id}'
+            #metaKey = f'Apertura desde el móvil Reserva: {booking_id}'
+            metaKey = f'Apertura desde el móvil'
             params = {
                 #"roomCode": {"code":, "rfcTagId": "", "locked": "true"},
                 "roomCode": {"code": code},
                 "metaData": [{"labelText":"padwordkey", "metaKey":metaKey, "metaDataType":"LINK", "value": link}],
                 "status": "CONFIRMED"
             }
-            print(_url_request)
-            print(params)
+            #print("--1--")
+            #print(_url_request)
+            #print(params)
+            #print(self.token)
             dic = self.__send_patch_request__(_url_request, json.dumps(params)).json()
-            print(dic)
+            #print(dic)
             return dic
             #items = dic["data"]
             #return items
+        except Exception as err:
+            raise OctorateAPIError(menssage=err)
+
+    def add_payment(self, property_id, booking_id, amount, paymentMode="PREPAID"):
+        try:
+            _url_request = f'{API_URL}{BOOKINGS_URL}/{property_id}/{booking_id}/payment'
+            today = datetime.today()
+            params = {
+                "referenceTime": today.strftime("%Y-%m-%dT%H:%M:%SZ"),
+                "paymentMode": paymentMode,
+                "amount": amount 
+            }
+            dic = self.__send_post_token_request__(_url_request, json.dumps(params)).json()
+            #print(dic)
+            return dic
         except Exception as err:
             raise OctorateAPIError(menssage=err)
 

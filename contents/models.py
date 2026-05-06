@@ -544,6 +544,7 @@ class PointOfSale(models.Model):
     code1 = models.CharField(verbose_name="Código 1", max_length=10, blank=True, null=True, default="")
     code2 = models.CharField(verbose_name="Código 2", max_length=10, blank=True, null=True, default="")
     code3 = models.CharField(verbose_name="Código 3", max_length=10, blank=True, null=True, default="")
+    contact_code = models.CharField(verbose_name="Contact ID", max_length=10, blank=True, null=True, default="")
     ext_code = models.CharField(verbose_name="Código externo", max_length=10, blank=True, null=True, default="")
     suffix = models.CharField(verbose_name="Sufijo fichero", max_length=50, blank=True, null=True, default="")
     limit_hour = models.CharField(verbose_name="Hora límite", max_length=10, blank=True, null=True, default="")

@@ -1,0 +1,151 @@
+{% load i18n padword_tags %}
+
+
+<div class="row justify-center">
+    {# -------------------- new -----------------------#}
+    <div class="row m-0 p-0">
+        <div class="col-3"><div id="div-image">{% include "web/projects/project-img.html" %}</div> </div>
+        <div class="offset-7 col-2 divbutact">
+            <div class="text-center">
+                <label class="form-check-label label act-pro text-end" for="activeCheck"> {% trans "Active" %}</label>
+            </div>
+            <div class="form-check form-switch">
+                {%if obj.active == 1%}<i class="fas fa-check"></i>{%else%}<i class="fas fa-times"></i>{%endif%}
+            </div>
+        </div>
+    </div>
+    
+    <div class="row m-0 mt-3 card-info">
+	    <div class="col-5">
+            <label class="label">{% trans "Name" %}:</label>
+            <input type="text" class="form-control input mb-4" id="name" name="name" value="{{obj.name}}" disabled/> 
+        </div>
+        <div class="col-5">
+            <label class="label">{% trans "Company" %}:</label>
+            <input type="text" class="form-control input mb-4" id="company" name="company" value="{{obj.company.name}}" disabled/> 
+        </div>
+        <div class="col-2">
+            <label class="label">{% trans "Cerraduras totales" %}:</label>
+            <input type="text" class="form-control input mb-4" value="{{obj|get_locks_number}}" disabled />
+        </div>
+        <div class="col-5">
+           <label class="label">{% trans "Time zone" %}:</label>
+           <input class="form-control input mb-4" id="time_zone" name="time_zone" value="{{obj.time_zone}}" disabled/>
+        </div>
+        <div class="col-5">
+            <label class="label">{% trans "Time zone name" %}:</label>
+            <input type="input" class="form-control input mb-4" id="time_zone_name" name="time_zone_name" 
+                value="{{obj.time_zone_name}}" disabled/> 
+        </div>
+        <div class="col-2">
+            <label class="label">{% trans "Languages" %}:</label>
+            <input type="input" class="form-control input mb-4" id="used_languates" name="used_languages" 
+                value="{{obj.used_languages}}" disabled/> 
+        </div>
+        <div class="col-5">
+            <label class="label">{% trans "UUID" %}:</label>
+            <input type="text" class="form-control input mb-4" id="uuid" name="uuid" value="{{obj.uuid}}" disabled/>
+        </div>
+        <div class="col-5">
+            <label class="label">{% trans "Days after checkout to delete guest" %}:</label>
+            <input type="text" class="form-control input mb-4" id="guest_delete" name="guest_delete" 
+                value="{{obj.guest_delete}}" disabled/>
+        </div>
+        <div class="col-2">
+            <label class="label">{% trans "Prefix" %}:</label>
+            <input type="text" class="form-control autosave input mb-4" id="prefix" name="prefix" value="{{obj.prefix}}" disabled/>
+        </div>        
+    </div>
+    
+    <div class="row m-0 mt-3 card-info">
+        <div class="col-5">
+            <label class="label">{% trans "Contact Name" %}:</label>
+            <input type="text" class="form-control autosave input mb-4" id="contact_name" name="contact_name" 
+                value="{{aux.contact_name}}" data-model-name="web.projectaux" data-obj-id="{{aux.id}}"
+                data-url="{%url "autosave_field"%}" data-target="div-notification"/> <span id="contact_name__msg"></span>
+        </div>        
+        <div class="col-5">
+            <label class="label">{% trans "Email" %}:</label>
+            <input type="text" class="form-control autosave input mb-4" id="contact_email" name="contact_email" 
+                value="{{aux.contact_email}}" data-model-name="web.projectaux" data-obj-id="{{aux.id}}"
+                data-url="{%url "autosave_field"%}" data-target="div-notification"/> <span id="contact_email__msg"></span>
+        </div>      
+        <div class="col-2">
+            <label class="label">{% trans "Phone" %}:</label>
+            <input type="text" class="form-control autosave input mb-4" id="contact_phone" name="contact_phone" 
+                value="{{aux.contact_phone}}" data-model-name="web.projectaux" data-obj-id="{{aux.id}}"
+                data-url="{%url "autosave_field"%}" data-target="div-notification"/> <span id="contact_phone__msg"></span>
+        </div>   
+    </div>
+
+    <div class="row m-0 mt-3 card-info">
+        <div class="col-5">
+            <label class="label">{% trans "Usuario Portal" %}:</label>
+            <input type="text" class="form-control autosave input mb-4" id="user_web" name="user_web" 
+                value="{{aux.user_web}}" data-model-name="web.projectaux" data-obj-id="{{aux.id}}"
+                data-url="{%url "autosave_field"%}" data-target="div-notification"/> <span id="user_web__msg"></span>
+        </div>        
+        <div class="col-5">
+            <label class="label">{% trans "Usuario API" %}:</label>
+            <input type="text" class="form-control autosave input mb-4" id="user_api" name="user_api" 
+                value="{{aux.user_api}}" data-model-name="web.projectaux" data-obj-id="{{aux.id}}"
+                data-url="{%url "autosave_field"%}" data-target="div-notification"/> <span id="user_api__msg"></span>
+        </div>      
+    </div>
+
+    <div class="row m-0 mt-3 card-info">
+        <div class="col-2">
+            <label class="label">{% trans "Licencia hasta" %}:</label>
+            <input type="date" class="form-control autosave input mb-4" id="expiration" name="expiration" 
+                value="{{obj.expiration|date:"Y-m-d"}}" title={% trans 'Licencia hasta' %}"" data-model-name="web.project" 
+                data-obj-id="{{obj.id}}" data-url="{% url "autosave_field" %}" data-target="div-notification"/>
+                <span id="expiration__msg"></span>	
+        </div>
+        <div class="col-2">
+            <label class="label">{% trans "Currency" %}:</label>
+            <input type="text" class="form-control autosave input mb-4" id="currency" name="currency" value="{{obj.currency}}" 
+                title="{{obj.currency}}" data-model-name="web.project" data-obj-id="{{obj.id}}" 
+                data-url="{% url "autosave_field" %}" data-target="div-notification"/> <span id="currency__msg"></span>
+        </div>
+         <div class="col-2">
+            <label class="label">{% trans "Cuota" %}:</label>
+            <input type="text" class="form-control autosave input mb-4" id="fee" name="fee" value="{{aux.fee}}" 
+                data-model-name="web.projectaux" data-obj-id="{{aux.id}}" data-url="{%url "autosave_field"%}" 
+                data-target="div-notification"/> <span id="fee__msg"></span>
+         </div>   
+        <div class="col-4">
+            <label class="label">{% trans "Modo de pago" %}:</label>
+            <input type="text" class="form-control autosave input mb-4" id="payment_method" name="payment_method" 
+                value="{{aux.payment_method}}" data-model-name="web.projectaux" data-obj-id="{{aux.id}}" 
+                data-url="{%url "autosave_field"%}" data-target="div-notification"/> <span id="payment_method__msg"></span>
+         </div>   
+        <div class="col-2">
+            <label class="label">{% trans "Abonado" %}:</label>
+            <input type="text" class="form-control autosave input mb-4" id="paid" name="paid" value="{{aux.paid}}" 
+                data-model-name="web.projectaux" data-obj-id="{{aux.id}}" data-url="{%url "autosave_field"%}" 
+                data-target="div-notification"/> <span id="paid__msg"></span>
+         </div>   
+    </div>
+
+    <div class="row m-0 mt-3 card-info">
+        <div class="col-12">
+            <label class="label">{% trans "Terceros" %}:</label>
+            <div class="row">
+            {% for th in thirdpart_list %}
+                <div class="col-2 mt-1"> <button class="btn regime
+                    {%if th in obj.thirdpart_list%}btn-primary-active{%else%}btn-outline-primary{%endif%} w-100">{{th.name}}</button>
+                </div>
+            {% endfor %}
+            </div>
+        </div>
+    </div>
+
+    <div class="row m-0 mt-3 card-info">
+        <div class="col-12" id="project-token">
+            {#{% include "web/projects-admin/project-form-token.html" %}#}
+       </div>		
+    </div>
+
+{# -------------------- end new -----------------------#}
+</div>
+

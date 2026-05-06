@@ -48,23 +48,30 @@
                         </div>
                     </div>
                     {% if user_winhotel.hour != -1 %}
-                    <div class="col-4">
+                    <div class="col-3">
                         <label class="label">{% trans "Code 1 (drink)" %}</label>
                         <input type="text" class="form-control autosave input" id="code1" name="code1" value="{{item.code1}}" 
                             title="{{item.code1}}" data-model-name="contents.pointofsale" data-obj-id="{{item.id}}" 
                             data-url="{% url "autosave_field" %}" data-target="div-notification"/> <span id="code1__msg"></span>	
                     </div>
-                    <div class="col-4">
+                    <div class="col-3">
                         <label class="label">{% trans "Code 2 (food)" %}</label>
                         <input type="text" class="form-control autosave input" id="code2" name="code2" value="{{item.code2}}" 
                             title="{{item.code2}}" data-model-name="contents.pointofsale" data-obj-id="{{item.id}}" 
                             data-url="{% url "autosave_field" %}" data-target="div-notification"/> <span id="code2__msg"></span>	
                     </div>
-                    <div class="col-4">
+                    <div class="col-3">
                         <label class="label">{% trans "Code 3 (breakfast)" %}</label>
                         <input type="text" class="form-control autosave input" id="code3" name="code3" value="{{item.code3}}" 
                             title="{{item.code3}}" data-model-name="contents.pointofsale" data-obj-id="{{item.id}}" 
                             data-url="{% url "autosave_field" %}" data-target="div-notification"/> <span id="code3__msg"></span>	
+                    </div>
+                    <div class="col-3">
+                        <label class="label">{% trans "Contact ID" %}</label>
+                        <input type="text" class="form-control autosave input" id="contact_code" name="contact_code" 
+                            value="{{item.contact_code}}" title="{{item.contact_code}}" data-model-name="contents.pointofsale" 
+                            data-obj-id="{{item.id}}" data-url="{% url "autosave_field" %}" data-target="div-notification"/> 
+                        <span id="contact_code__msg"></span>	
                     </div>
                     {% endif %}
                     <div class="col-12">
