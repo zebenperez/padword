@@ -225,13 +225,15 @@ class Octorate():
                 "metaData": [{"labelText":"padwordkey", "metaKey":metaKey, "metaDataType":"LINK", "value": link}],
                 "status": "CONFIRMED"
             }
+            msg = f"\n SEND CODE URL: {_url_request}"
+            msg += f"\n SEND CODE PARAMS: {params}"
             #print("--1--")
             #print(_url_request)
             #print(params)
             #print(self.token)
             dic = self.__send_patch_request__(_url_request, json.dumps(params)).json()
             #print(dic)
-            return dic
+            return dic, msg
             #items = dic["data"]
             #return items
         except Exception as err:
@@ -338,7 +340,8 @@ def create_booking(pou, booking, oc):
             #print(lock_code)
             err = guest.add_all_key_code(lock_code)
             msg += "\n {}".format(err)
-            res = oc.send_code(pou.property_id, booking.id.split("_")[0], lock_code, guest.pwa_link)
+            res, msg2 = oc.send_code(pou.property_id, booking.id.split("_")[0], lock_code, guest.pwa_link)
+            msg += "\n {}".format(msg2)
             msg += "\n {}".format(res)
             #oc.ids += "{}:{},".format(room.name, guest.ext_id)
             #msg += send_booking_codes(pcu, av, booking.id)
