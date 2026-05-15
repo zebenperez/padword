@@ -15,12 +15,13 @@ import time, datetime, pytz
 '''
     Gateway
 '''
-@group_required("admins")
+@group_required("admins", "project_manager")
 def gateways_by_project(request, project_id):
     try:
         project = get_or_none(Project, project_id)
         return render (request, "web/gateways/gateways.html", {'project': project, 'gateway_list': project.gateway_list()})
     except Exception as e:
+        print(e)
         return render(request, 'error_exception.html', {'exc':show_exc(e)})
 
 '''

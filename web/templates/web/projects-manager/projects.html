@@ -17,7 +17,7 @@
                 {% if company %}<a href="{%url "companies"%}">{{company.name}}</a> <i class="fas fa-angle-double-right"></i>{%endif%}
                 {% trans 'Projects' %} (<span id="items-counter">{{items|length}}</span>)</h2>
 
-            <a class="btn btn-primary ark" data-url="{% url "project-manager-form" %}" data-target-modal="common-modal"
+            <a class="btn btn-primary ark" data-url="{% url "projects-manager-form" %}" data-target-modal="common-modal"
                 data-company_id="{{company.id}}">{% trans "New project"%}</a>  
             {% include "common-modal.html" %}
         </div>

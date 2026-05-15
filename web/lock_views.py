@@ -91,7 +91,7 @@ def get_context(request, project, public=False):
     context["end_date"] = now + datetime.timedelta(days=7)
     return context
 
-@group_required("admins")
+@group_required("admins", "project_manager")
 #def locks(request):
 def locks_by_project(request, project_id):
     msg = ""
@@ -110,7 +110,7 @@ def locks_by_project(request, project_id):
     except Exception as e:
         return render(request, 'error_exception.html', {'exc':show_exc(e)})
 
-@group_required("admins")
+@group_required("admins", "project_manager")
 def lock_row(request):
     try:
         item = get_or_none(Lock, request.GET["obj_id"])
@@ -118,7 +118,7 @@ def lock_row(request):
     except Exception as e:
         return render(request, "error_exception.html", {'exc':show_exc(e)})
 
-@group_required("admins")
+@group_required("admins", "project_manager")
 def lock_search(request):
     try:
         #set_lock_filter_session(request)
@@ -140,14 +140,14 @@ def lock_search(request):
     except Exception as e:
         return render(request, 'error_exception.html', {'exc':show_exc(e)})
 
-@group_required("admins")
+@group_required("admins", "project_manager")
 def lock_form(request):
     obj = get_or_none(Lock, request.GET["obj_id"]) if "obj_id" in request.GET else None
     if obj == None:
         return render(request, 'error_exception.html', {'exc':'Lock not found!'})
     return render(request, "web/locks/lock-form.html", {'obj': obj,})
 
-@group_required("admins")
+@group_required("admins", "project_manager")
 def lock_remove(request):
     obj = get_or_none(Lock, request.GET["obj_id"]) if "obj_id" in request.GET else None
     if obj != None:
@@ -157,14 +157,14 @@ def lock_remove(request):
     context = get_context(request, project)
     return render (request, "web/locks/lock-list.html", context)
 
-@group_required("admins")
+@group_required("admins", "project_manager")
 def lock_get_all_passcodes(request, obj_id=None):
     obj = get_or_none(Lock, request.GET["obj_id"]) if "obj_id" in request.GET else None
     if obj == None:
         return render(request, 'error_exception.html', {'exc':'Lock not found!'})
     return render(request, "web/locks/lock-all-passcodes.html", {'obj': obj,})
 
-@group_required("admins", "projects")
+@group_required("admins", "projects", "project_manager")
 def lock_remove_code(request):
     try:
         lock = get_or_none(Lock, request.GET["obj_id"])
@@ -179,7 +179,7 @@ def lock_remove_code(request):
     except Exception as e:
         return render(request, "error_exception.html", {'exc':show_exc(e)})
 
-@group_required("admins", "projects")
+@group_required("admins", "projects", "project_manager")
 def lock_remove_all_passcodes(request, obj_id=None):
     try:
         lock = get_or_none(Lock, request.GET["obj_id"])
@@ -192,14 +192,14 @@ def lock_remove_all_passcodes(request, obj_id=None):
     except Exception as e:
         return render(request, "error_exception.html", {'exc':show_exc(e)})
 
-@group_required("admins")
+@group_required("admins", "project_manager")
 def lock_get_all_cards(request, obj_id=None):
     obj = get_or_none(Lock, request.GET["obj_id"]) if "obj_id" in request.GET else None
     if obj == None:
         return render(request, 'error_exception.html', {'exc':'Lock not found!'})
     return render(request, "web/locks/lock-all-cards.html", {'obj': obj,})
 
-@group_required("admins", "projects")
+@group_required("admins", "projects", "project_manager")
 def lock_remove_card(request):
     try:
         lock = get_or_none(Lock, request.GET["obj_id"])
@@ -212,7 +212,7 @@ def lock_remove_card(request):
     except Exception as e:
         return render(request, "error_exception.html", {'exc':show_exc(e)})
 
-@group_required("admins", "projects")
+@group_required("admins", "projects", "project_manager")
 def lock_remove_all_cards(request, obj_id=None):
     try:
         lock = get_or_none(Lock, request.GET["obj_id"])
@@ -225,7 +225,7 @@ def lock_remove_all_cards(request, obj_id=None):
     except Exception as e:
         return render(request, "error_exception.html", {'exc':show_exc(e)})
 
-@group_required("admins")
+@group_required("admins", "project_manager")
 def lock_get_all_records(request, obj_id=None):
     obj = get_or_none(Lock, request.GET["obj_id"]) if "obj_id" in request.GET else None
     if obj == None:
@@ -233,7 +233,7 @@ def lock_get_all_records(request, obj_id=None):
     return render(request, "web/locks/lock-all-records.html", {'obj': obj,})
 
 
-@group_required("admins")
+@group_required("admins", "project_manager")
 def lock_set_action(request):
     try:
         msg = ""
@@ -309,7 +309,7 @@ def lock_set_action(request):
         print(e)
         return render(request, 'error_exception.html', {'exc':show_exc(e)})
 
-@group_required("admins", "projects")
+@group_required("admins", "projects", "project_manager")
 def lock_share_code(request):
     try:
         lock = get_or_none(Lock, request.GET["obj_id"])
@@ -322,7 +322,7 @@ def lock_share_code(request):
     except Exception as e:
         return render(request, "error_exception.html", {'exc':show_exc(e)})
 
-@group_required("admins", "projects")
+@group_required("admins", "projects", "project_manager")
 def lock_share_code_guest(request):
     try:
         guest = get_or_none(Guest, request.GET["obj_id"])
@@ -338,13 +338,13 @@ def lock_share_code_guest(request):
     except Exception as e:
         return render(request, "error_exception.html", {'exc':show_exc(e)})
 
-@group_required("admins")
+@group_required("admins", "project_manager")
 def lock_update_params(request):
     lock = get_or_none(Lock, request.GET["obj_id"])
     lock.update_params()
     return render(request, "web/locks/lock-list-row.html", {"item": lock})
 
-@group_required("admins")
+@group_required("admins", "project_manager")
 def lock_set_group(request):
     try:
         value = request.GET["value"]
@@ -356,7 +356,7 @@ def lock_set_group(request):
     except Exception as e:
         return HttpResponse("Error: {}".format(e))
 
-@group_required("admins", "projects")
+@group_required("admins", "projects", "project_manager")
 def lock_export_csv(request, lock_id):
     try:
         lock = get_or_none(Lock, lock_id)
@@ -377,7 +377,7 @@ def lock_export_csv(request, lock_id):
     except Exception as e:
         return HttpResponse("Error: {}".format(e))
 
-@group_required("admins", "projects")
+@group_required("admins", "projects", "project_manager")
 def lock_export_pdf(request, lock_id):
     try:
         lock = get_or_none(Lock, lock_id)
@@ -536,7 +536,7 @@ def locks_update_info(request, code):
         t.start()
     return HttpResponse("--OK--")
 
-@group_required("admins", "projects")
+@group_required("admins", "projects", "project_manager")
 def locks_open(request):
     lock = get_or_none(Lock, request.GET["obj_id"])
     msg = lock.open_lock()

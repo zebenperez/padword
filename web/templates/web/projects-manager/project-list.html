@@ -21,6 +21,20 @@
             <td>{{ item|get_locks_number }}</td>
             <td>{{ item.expiration}}</td>
             <td class="text-end">
+
+                <a class="btn btn-xs" href="{% url 'locks-by-project' item.id %}" title="{% trans 'Locks' %}">
+                    <i class="fas fa-key"></i></a>
+                <a class="btn btn-xs" href="{% url 'gateways-by-project' item.id %}" title="{% trans 'Gateways' %}">
+                    <i class="fas fa-signal"></i></a>
+                <a class="btn" href="#" onclick='alert("{{item.uuid}}"); return False' title="{% trans 'UUID' %}">
+                    <i class="fas fa-fingerprint"></i></a>
+                {% if item.uuid %}
+                    <a class="btn btn-xs" href="{% url 'projects-manager-categories-by-project' item.uuid|slugify %}" 
+                        title="{% trans 'Categories' %}"> <i class="fas fa-project-diagram"></i></a>
+                {% endif %}
+                <a class="btn btn-xs" href="{% url 'projects-manager-rooms' item.uuid|slugify %}" title="{% trans 'Rooms' %}">
+                    <i class="fas fa-bed"></i></a>
+
                 <a class="btn btn-sm" href="{% url "projects-manager-details" item.id %}" title="{% trans "Details" %}"> 
                     <i class="fas fa-edit"></i></a>  
             </td>

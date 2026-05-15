@@ -432,6 +432,8 @@ def get_main_menu(user, path, active=""):
                 return {'user':user,'menu':"projects","project":obj.project,"project_user":obj,"path":path,"active":active,"lang":lang}
         if user.groups.filter(name="project_admin").exists():
             return {'user': user, 'menu': "project_admin", "active": active}
+        if user.groups.filter(name="project_manager").exists():
+            return {'user': user, 'menu': "project_manager", "active": active}
         if user.groups.filter(name="admins").exists() or user.is_superuser:
             return {'user': user, 'menu': "admins", "active": active}
     except:

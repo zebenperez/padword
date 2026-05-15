@@ -1,0 +1,101 @@
+{% load i18n padword_tags %}
+
+
+<input type="hidden" id="uuid" name="uuid" value="{{uuid}}"/>
+<input type="hidden" id="manager" name="manager" value="{{request.user.id}}"/>
+<div class="row justify-center">
+    {# -------------------- new -----------------------#}
+    <div class="row m-0 p-0">
+        <div class="col-3"><div id="div-image">{% include "web/projects/project-img.html" %}</div> </div>
+        <div class="offset-7 col-2 divbutact">
+            <div class="text-center">
+                <label class="form-check-label label act-pro text-end" for="activeCheck"> {% trans "Active" %}</label>
+            </div>
+            <div class="form-check form-switch">
+                <input class="form-check-input" type="checkbox" id="activeCheck" {%if obj.active == 1%}checked{%endif%}/>
+                <input class="autosave" type="hidden" id="active" name="active" value="0" 
+                    data-url="{% url "autosave_field" %}" data-target="div-notification" data-model-name="web.project" 
+                    data-obj-id="{{obj.id}}" />
+            </div>
+        </div>
+    </div>
+    
+    <div class="row m-0 mt-3 card-info">
+	    <div class="col-4">
+            <label class="label">{% trans "Name" %}:</label>
+            <input type="text" class="form-control autosave input mb-4" id="name" name="name" value="{{obj.name}}" 
+                title="{{obj.name}}" data-model-name="web.project" data-obj-id="{{obj.id}}" data-url="{%url "autosave_field"%}"
+                data-target="div-notification"/> <span id="name__msg"></span>
+        </div>
+        <div class="col-4">
+            <label class="label">{% trans "Company" %}:</label>
+            <select class="form-control autosave input mb-4" id="company" name="company" value="{{obj.company.id}}" 
+                title="{{obj.company.name}}" data-model-name="web.project" data-obj-id="{{obj.id}}" 
+                data-url="{% url "autosave_field" %}" data-target="div-notification"/>
+                <option value="">{% trans "-- Select a company" %}</option>
+                {% for comp in companies %}
+                    <option value="{{comp.id}}" {%if obj.company == comp%}selected{%endif%}>{{comp.name}}</option>
+                {% endfor %}
+           </select>
+           <span id="active__msg"></span>
+        </div>
+        <div class="col-2">
+            <label class="label">{% trans "Licencia hasta" %}:</label>
+            <input type="date" class="form-control autosave input mb-4" id="expiration" name="expiration" 
+                value="{{obj.expiration|date:"Y-m-d"}}" title={% trans 'Licencia hasta' %}"" data-model-name="web.project" 
+                data-obj-id="{{obj.id}}" data-url="{% url "autosave_field" %}" data-target="div-notification"/>
+                <span id="expiration__msg"></span>	
+        </div>
+        <div class="col-2">
+            <label class="label">{% trans "Currency" %}:</label>
+            <input type="text" class="form-control autosave input mb-4" id="currency" name="currency" value="{{obj.currency}}" 
+                title="{{obj.currency}}" data-model-name="web.project" data-obj-id="{{obj.id}}" 
+                data-url="{% url "autosave_field" %}" data-target="div-notification"/> <span id="currency__msg"></span>
+        </div>
+ 
+        <div class="col-5">
+           <label class="label">{% trans "Time zone" %}:</label>
+           <select class="form-control autosave input mb-4" id="time_zone" name="time_zone" value="{{obj.time_zone}}" 
+               title="{{obj.time_zone}}" data-model-name="web.project" data-obj-id="{{obj.id}}" 
+               data-url="{% url "autosave_field" %}" data-target="div-notification"/>
+               <option value="">{% trans "-- Select a company" %}</option>
+               {% include "web/projects/time-zone-list.html"%}
+           </select>
+           <span id="time_zone__msg"></span>
+        </div>
+        <div class="col-5">
+            <label class="label">{% trans "Time zone name" %}:</label>
+            <input type="input" class="form-control autosave input mb-4" id="time_zone_name" name="time_zone_name" 
+               value="{{obj.time_zone_name}}" title={% trans 'Time zone name' %}"" data-model-name="web.project" 
+               data-obj-id="{{obj.id}}" data-url="{% url "autosave_field" %}" data-target="div-notification"/>
+               <span id="time_zone_name__msg"></span>	
+        </div>
+        <div class="col-2">
+            <label class="label">{% trans "Languages" %}:</label>
+            <input type="input" class="form-control autosave input mb-4" id="used_languages" name="used_languages" 
+               value="{{obj.used_languages}}" title={% trans 'Languages in project' %}"" data-model-name="web.project" 
+               data-obj-id="{{obj.id}}" data-url="{% url "autosave_field" %}" data-target="div-notification"/>
+               <span id="used_languages__msg"></span>	
+        </div>
+        <div class="col-10">
+            <label class="label">{% trans "UUID" %}:</label>
+            <input type="text" class="form-control autosave input mb-4" id="uuid" name="uuid" value="{{obj.uuid}}" 
+               title="{{obj.uuid}}" data-model-name="web.project" data-obj-id="{{obj.id}}" 
+               data-url="{% url "autosave_field" %}" data-target="div-notification" readonly/> <span id="uuid__msg"></span>
+        </div>
+        <div class="col-2">
+            <label class="label">{% trans "Prefix" %}:</label>
+            <input type="text" class="form-control autosave input mb-4" id="prefix" name="prefix" value="{{obj.prefix}}" 
+               title="{{obj.prefix}}" data-model-name="web.project" data-obj-id="{{obj.id}}" 
+               data-url="{% url "autosave_field" %}" data-target="div-notification"/> <span id="prefix__msg"></span>
+        </div>        
+    </div>
+    {# -------------------- end new -----------------------#}
+</div>
+
+<script>
+    $("#activeCheck").change(function(){
+        if ($(this).is(":checked")) {$("#active").val("1");} else {$("#active").val("0");}
+        $("#active").change();
+    });
+</script>

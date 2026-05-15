@@ -46,6 +46,14 @@ def get_or_none_str(app_name, model_name, value, field="pk"):
         #logger.error("(get_object): %s" % e)
         return None
 
+def create_obj_str(app_name, model_name):
+    try:
+        model = apps.get_model(app_name, model_name)
+        obj = model.objects.create()
+        return obj
+    except Exception as e:
+        return None
+
 def set_obj_field(obj, field, value):
     obj_field = obj._meta.get_field(field)
     if obj_field.get_internal_type() == "ManyToManyField":
@@ -53,7 +61,8 @@ def set_obj_field(obj, field, value):
         for item in value:
             getattr(obj, field).add(get_or_none_str(obj._meta.app_label, obj_field.remote_field.model.__name__, item))
     elif obj_field.get_internal_type() == "ForeignKey":
-        setattr(obj, field, get_or_none_str(obj._meta.app_label, obj_field.remote_field.model.__name__, value))
+        remote_field = obj_field.remote_field.model
+        setattr(obj, field, get_or_none_str(remote_field._meta.app_label, remote_field.__name__, value))
     elif obj_field.get_internal_type() == "FloatField":
         setattr(obj, field, value.replace(",", "."))
     elif obj_field.get_internal_type() == "BooleanField":

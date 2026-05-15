@@ -10,7 +10,9 @@
                 <label class="form-check-label label act-pro text-end" for="activeCheck"> {% trans "Active" %}</label>
             </div>
             <div class="form-check form-switch">
-                {%if obj.active == 1%}<i class="fas fa-check"></i>{%else%}<i class="fas fa-times"></i>{%endif%}
+                <input class="form-check-input" type="checkbox" id="activeCheck" {%if obj.active == 1%}checked{%endif%}/>
+                <input class="autosave" type="hidden" id="active" name="active" data-url="{% url "autosave_field" %}" 
+                    data-target="div-notification" data-model-name="web.project" data-obj-id="{{obj.id}}" />
             </div>
         </div>
     </div>
@@ -18,11 +20,21 @@
     <div class="row m-0 mt-3 card-info">
 	    <div class="col-5">
             <label class="label">{% trans "Name" %}:</label>
-            <input type="text" class="form-control input mb-4" id="name" name="name" value="{{obj.name}}" disabled/> 
+            <input type="text" class="form-control autosave input mb-4" id="name" name="name" value="{{obj.name}}" 
+                title="{{obj.name}}" data-model-name="web.project" data-obj-id="{{obj.id}}" data-url="{%url "autosave_field"%}"
+                data-target="div-notification"/> <span id="name__msg"></span>
         </div>
         <div class="col-5">
             <label class="label">{% trans "Company" %}:</label>
-            <input type="text" class="form-control input mb-4" id="company" name="company" value="{{obj.company.name}}" disabled/> 
+            <select class="form-control autosave input mb-4" id="company" name="company" value="{{obj.company.id}}" 
+                title="{{obj.company.name}}" data-model-name="web.project" data-obj-id="{{obj.id}}" 
+                data-url="{% url "autosave_field" %}" data-target="div-notification"/>
+                <option value="">{% trans "-- Select a company" %}</option>
+                {% for comp in companies %}
+                    <option value="{{comp.id}}" {%if obj.company == comp%}selected{%endif%}>{{comp.name}}</option>
+                {% endfor %}
+           </select>
+           <span id="active__msg"></span>
         </div>
         <div class="col-2">
             <label class="label">{% trans "Cerraduras totales" %}:</label>
@@ -30,30 +42,46 @@
         </div>
         <div class="col-5">
            <label class="label">{% trans "Time zone" %}:</label>
-           <input class="form-control input mb-4" id="time_zone" name="time_zone" value="{{obj.time_zone}}" disabled/>
+           <select class="form-control autosave input mb-4" id="time_zone" name="time_zone" value="{{obj.time_zone}}" 
+               title="{{obj.time_zone}}" data-model-name="web.project" data-obj-id="{{obj.id}}" 
+               data-url="{% url "autosave_field" %}" data-target="div-notification"/>
+               <option value="">{% trans "-- Select a company" %}</option>
+               {% include "web/projects/time-zone-list.html"%}
+           </select>
+           <span id="time_zone__msg"></span>
         </div>
         <div class="col-5">
             <label class="label">{% trans "Time zone name" %}:</label>
-            <input type="input" class="form-control input mb-4" id="time_zone_name" name="time_zone_name" 
-                value="{{obj.time_zone_name}}" disabled/> 
+            <input type="input" class="form-control autosave input mb-4" id="time_zone_name" name="time_zone_name" 
+               value="{{obj.time_zone_name}}" title={% trans 'Time zone name' %}"" data-model-name="web.project" 
+               data-obj-id="{{obj.id}}" data-url="{% url "autosave_field" %}" data-target="div-notification"/>
+               <span id="time_zone_name__msg"></span>	
         </div>
         <div class="col-2">
             <label class="label">{% trans "Languages" %}:</label>
-            <input type="input" class="form-control input mb-4" id="used_languates" name="used_languages" 
-                value="{{obj.used_languages}}" disabled/> 
+            <input type="input" class="form-control autosave input mb-4" id="used_languates" name="used_languages" 
+               value="{{obj.used_languages}}" title={% trans 'Languages in project' %}"" data-model-name="web.project" 
+               data-obj-id="{{obj.id}}" data-url="{% url "autosave_field" %}" data-target="div-notification"/>
+               <span id="used_languages__msg"></span>	
         </div>
         <div class="col-5">
             <label class="label">{% trans "UUID" %}:</label>
-            <input type="text" class="form-control input mb-4" id="uuid" name="uuid" value="{{obj.uuid}}" disabled/>
+            <input type="text" class="form-control autosave input mb-4" id="uuid" name="uuid" value="{{obj.uuid}}" 
+               title="{{obj.uuid}}" data-model-name="web.project" data-obj-id="{{obj.id}}" 
+               data-url="{% url "autosave_field" %}" data-target="div-notification" readonly/> <span id="uuid__msg"></span>
         </div>
         <div class="col-5">
             <label class="label">{% trans "Days after checkout to delete guest" %}:</label>
-            <input type="text" class="form-control input mb-4" id="guest_delete" name="guest_delete" 
-                value="{{obj.guest_delete}}" disabled/>
+            <input type="text" class="form-control autosave input mb-4" id="guest_delete" name="guest_delete" 
+               value="{{obj.guest_delete}}" title="{{obj.guest_delete}}" data-model-name="web.project" 
+               data-obj-id="{{obj.id}}" data-url="{% url "autosave_field" %}" 
+               data-target="div-notification"/> <span id="created_at__msg"></span>	
         </div>
         <div class="col-2">
             <label class="label">{% trans "Prefix" %}:</label>
-            <input type="text" class="form-control autosave input mb-4" id="prefix" name="prefix" value="{{obj.prefix}}" disabled/>
+            <input type="text" class="form-control autosave input mb-4" id="prefix" name="prefix" value="{{obj.prefix}}" 
+               title="{{obj.prefix}}" data-model-name="web.project" data-obj-id="{{obj.id}}" 
+               data-url="{% url "autosave_field" %}" data-target="div-notification"/> <span id="prefix__msg"></span>
         </div>        
     </div>
     
@@ -132,20 +160,23 @@
             <label class="label">{% trans "Terceros" %}:</label>
             <div class="row">
             {% for th in thirdpart_list %}
-                <div class="col-2 mt-1"> <button class="btn regime
-                    {%if th in obj.thirdpart_list%}btn-primary-active{%else%}btn-outline-primary{%endif%} w-100">{{th.name}}</button>
+                <div class="col-2 mt-1"> <button class="btn regime 
+                    {%if th in obj.thirdpart_list%}btn-primary-active{%else%}btn-outline-primary{%endif%} w-100 ark" 
+                    data-url="{% url "project-thirdpart-toggle" %}" data-target="" data-obj_id="{{th.id}}" 
+                    data-project_id="{{obj.id}}"
+                    onclick="$(this).toggleClass('btn-outline-primary btn-primary-active')">{{th.name}}</button>
                 </div>
             {% endfor %}
             </div>
         </div>
     </div>
 
-    <div class="row m-0 mt-3 card-info">
-        <div class="col-12" id="project-token">
-            {#{% include "web/projects-admin/project-form-token.html" %}#}
-       </div>		
-    </div>
-
-{# -------------------- end new -----------------------#}
+    {# -------------------- end new -----------------------#}
 </div>
 
+<script>
+    $("#activeCheck").change(function(){
+        if ($(this).is(":checked")) {$("#active").val("1");} else {$("#active").val("0");}
+        $("#active").change();
+    });
+</script>

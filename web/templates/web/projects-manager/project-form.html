@@ -7,10 +7,19 @@
 
 <span id="div-notification"></span>
 
-<div class="row m-0"> <div class="col-12">{% include "web/projects-manager/project-form-main.html" %}</div> </div>
+<div class="row m-0"> <div class="col-12">{% include "web/projects-manager/project-form-new.html" %}</div> </div>
 
 <div class="d-flex justify-content-end p-2">
-    <button type="button" class="btn btn-primary ark m-2" data-bs-dismiss="modal" data-url="{% url "project-manager-search" %}" 
-        data-target="project-list" data-company_id="{{company_id}}">{% trans "Save" %}</button>
+    <button type="button" class="btn btn-primary m-2" data-bs-dismiss="modal">{% trans "Cancelar" %}</button>
+    {% if obj %}
+        <button type="button" class="btn btn-primary ark m-2" data-bs-dismiss="modal" data-url="{% url "projects-manager-search" %}" 
+            data-target="project-list" data-company_id="{{company_id}}">{% trans "Save" %}</button>
+    {% else %}
+        <button type="button" class="btn btn-primary ark_new_obj m-2" data-bs-dismiss="modal" 
+            data-url="{% url "projects-manager-search" %}" data-target="project-list" data-url-save="{% url "autosave_fields" %}" 
+            data-args-save="uuid,manager,active,name,company,time_zone,time_zone_name,used_languages,uuid,prefix,expiration,currency" 
+            data-model-name="web.project">
+            {% trans "Guardar" %}</button>
+    {% endif %}
 </div>
 

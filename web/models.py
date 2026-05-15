@@ -20,6 +20,7 @@ class Company(models.Model):
     name = models.CharField(max_length=255, verbose_name=_('Name'), default="", null=True)
     active = models.IntegerField(verbose_name=_('Active'), default=1, null=True)
     created_at = models.DateTimeField(verbose_name=_('Created at'), default=datetime.datetime.now, null=True)
+    manager = models.ForeignKey(User, verbose_name = 'Manager', on_delete=models.SET_NULL, null=True)
 
     class Meta:
         if (len(settings.DATABASES) > 1):

@@ -678,7 +678,7 @@ def project_set_winhotel_schedule(request):
         print (show_exc(e))
         return HttpResponse("Error!")
 
-@group_required("admins")
+@group_required("admins", "project_admin")
 def project_set_lock_schedule(request):
     try:
         user_lock = get_or_none(ProjectLockUser, get_param(request.GET, "obj_id"))
@@ -1005,7 +1005,7 @@ def project_thirdpart_remove(request):
         print (show_exc(e))
     return render(request, "web/projects/project-form-thirdpart-list.html", {'obj':project, 'thirdpart_list':item_list,})
 
-@group_required("admins")
+@group_required("admins","project_manager")
 def project_thirdpart_toggle(request):
     try:
         project = get_or_none(Project, request.GET["project_id"])

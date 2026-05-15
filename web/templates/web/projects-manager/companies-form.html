@@ -1,0 +1,48 @@
+{% load i18n padword_tags %}
+
+<div class="row w-100 common-modal-head m-0 p-0">
+    <div class="col-11"> <h2>{% trans 'New proyect' %}</h2></div>
+    <div class="col-1 text-center"> <button type="button" class="btn btn-sm" data-bs-dismiss="modal"><i class="fas fa-times"></i></button> </div>
+</div>
+
+<span id="div-notification"></span>
+
+<div class="row m-0"> <div class="col-12">
+    <input type="hidden" id="uuid" name="uuid" value="{{uuid}}"/>
+    <input type="hidden" id="manager" name="manager" value="{{request.user.id}}"/>
+
+    <div class="row justify-center">
+        <div class="col-8">
+            <label class="label">{% trans "Name" %}:</label>
+            <input type="text" class="form-control autosave input mb-4" id="name" name="name" value="{{obj.name}}" 
+                title="{{obj.name}}" data-model-name="web.company" data-obj-id="{{obj.id}}" data-url="{% url "autosave_field" %}" 
+                data-target="div-notification"/> <span id="name__msg"></span>
+        </div>
+
+        <div class="col-4">
+            <label class="label">{% trans "Active" %}:</label>
+            <select class="form-control autosave input mb-4" id="active" name="active" value="{{obj.active}}" title="{{obj.active}}" 
+                data-model-name="web.company" data-obj-id="{{obj.id}}" data-url="{% url "autosave_field" %}" 
+                data-target="div-notification"/> 
+                <option value="1" {%if obj.active == "1"%}selected{%endif%}>{% trans "Yes" %}</option>
+                <option value="0" {%if obj.active == "0"%}selected{%endif%}>{% trans "No" %}</option>
+            </select> <span id="active__msg"></span>
+        </div>
+    </div>
+
+</div> </div>
+
+<div class="d-flex justify-content-end p-2">
+    <button type="button" class="btn btn-primary m-2" data-bs-dismiss="modal">{% trans "Cancelar" %}</button>
+    {% if obj %}
+        <button type="button" class="btn btn-primary ark m-2" data-bs-dismiss="modal" 
+            data-url="{%url "projects-manager-companies-search"%}" data-target="company-list" data-company_id="{{company_id}}">
+            {% trans "Save" %}</button>
+    {% else %}
+        <button type="button" class="btn btn-primary ark_new_obj m-2" data-bs-dismiss="modal" 
+            data-url="{% url "projects-manager-companies-search" %}" data-target="company-list" 
+            data-url-save="{% url "autosave_fields" %}" data-args-save="uuid,manager,active,name" data-model-name="web.company">
+            {% trans "Guardar" %}</button>
+    {% endif %}
+</div>
+

@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% load i18n padword_tags %}
+
+{% block second_menu %}{% get_second_menu request.user %} {% endblock second_menu %}
+
+{% block central_content %}
+
+    {% if msg and msg != "" %} <div class="alert alert-danger">{{msg}}</div> {% endif %}
+
+    <div class="row m-0 p-2 align-items-center"> 
+        <div class="col-2"><h2 class="m-0">{% trans 'Rooms' %} </h2> </div>
+        <div class="col-10">
+            <input type="hidden" id="project_uuid" name="project_uuid" value="{{project.uuid}}"/>
+            <input type="text" class="autosearch form-control form-control-dark w-100 input-blue" name="room_search_name" 
+                id="room_search_name" placeholder="{% trans 'Room Name' %}" data-url="{% url "projects-manager-rooms-search" %}" 
+                data-target="room-list" data-related="room_search_name,project_uuid" value="{{request.session.room_search_name}}"/>
+        </div>
+    </div>
+
+    <div class="d-flex menu-actions-blue">
+        <div class="flex-grow-1 p-2 mt-1">
+            <span class="bg-ico-bar"><i class="fas fa-home hotel"></i></span>&nbsp; Floors in {{project.name}}</div>
+        <div class="action p-2">
+            <a class="btn btn-xs ark" data-url="{% url "room-import-csv" %}" data-target-modal="common-modal"
+                data-obj_id="{{project.uuid}}"><i class="fas fa-download"></i> {%trans "Import rooms"%}</a>
+            <a class="btn btn-xs ark" data-url="{% url "room-multiple" %}" data-project="{{project.uuid}}" 
+                data-target-modal="common-modal" title="{% trans 'Add multiple rooms' %}">
+                <i class="fas fa-bed"></i> {% trans 'Add multiple rooms' %}</a>  
+            <a class="btn btn-xs ark" data-url="{%url "projects-manager-rooms-form"%}" data-obj_id="{{project.uuid}}" 
+                data-target-modal="common-modal" title="{% trans 'Add room' %}"><i class="fas fa-bed"></i> {% trans 'Add room' %}</a>  
+        </div>
+    </div>
+
+
+    <div class="mt-1" id="room-list">{% include "web/projects-manager/rooms-list.html" %}</div>
+
+    {% include "common-modal.html" %}
+{% endblock central_content %}

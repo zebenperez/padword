@@ -89,6 +89,17 @@ urlpatterns = [
     path('projects-manager/search/', project_manager_views.projects_search, name='projects-manager-search'),
     path('projects-manager/details/<int:obj_id>/', project_manager_views.projects_details, name='projects-manager-details'),
     path('projects-manager/form/', project_manager_views.projects_form, name='projects-manager-form'),
+    path('projects-manager/user-token/', project_manager_views.project_user_token, name='projects-manager-user-token'),
+    path('projects-manager/user-refresh-token/', project_manager_views.project_user_refresh_token, name='projects-manager-user-refresh-token'),
+    path('projects-manager/categories/project-<slug:project_id>/', project_manager_views.categories_by_project, name='projects-manager-categories-by-project'),
+
+    path('projects-manager/companies/', project_manager_views.companies, name='projects-manager-companies'),
+    path('projects-manager/companies/search/', project_manager_views.companies_search, name='projects-manager-companies-search'),
+    path('projects-manager/companies/form/', project_manager_views.companies_form, name='projects-manager-companies-form'),
+
+    path('projects-manager/rooms/project-<slug:project_uuid>/', project_manager_views.rooms, name='projects-manager-rooms'),
+    path('projects-manager/rooms/search/', project_manager_views.rooms_search, name='projects-manager-rooms-search'),
+    path('projects-manager/rooms/form/', project_manager_views.rooms_form, name='projects-manager-rooms-form'),
 
     #--------------------- Projects Locks--------------------
     path('projects-locks/', project_lock_views.projects, name='projects-locks'),
@@ -294,6 +305,7 @@ urlpatterns = [
 
     #---------------------- AUTO -----------------------
     path('autosave_field/', auto_views.autosave_field, name='autosave_field'),
+    path('autosave_fields/', auto_views.autosave_fields, name='autosave_fields'),
     path('autoremove_obj/', auto_views.autoremove_obj, name='autoremove_obj'),
 ]
 

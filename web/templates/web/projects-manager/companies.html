@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% load i18n padword_tags %}
+
+{% block second_menu %}{% get_second_menu request.user %}{% endblock second_menu %}
+
+{% block central_content %}
+
+    <div class="toolbar-search companies p-2">
+        <div class="text-center"><i class="fas fa-search"></i></div>
+        <div>
+            <input type="text" class="autosearch form-control form-control-dark w-100" name="s-name" id="s-name" 
+                placeholder="{%trans 'Name'%}" data-url="{% url "projects-manager-companies-search" %}" data-target="company-list" 
+                data-related="s-name"/>
+        </div>
+    </div>
+
+    <div class="content mt-4">
+	    <div class="toolbar-content">
+		    <h2 class="b-right">{% trans 'Companies' %} (<span id="items-counter">{{items|length}}</span>)</h2>
+	        <a class="btn btn-primary ark" data-url="{% url "projects-manager-companies-form" %}" data-target-modal="common-modal">
+                {% trans "New company" %}</a>  
+    	    {% include "common-modal.html" %}
+	    </div>
+        <div id="company-list">{% include "web/projects-manager/companies-list.html" %}</div>
+    </div>
+{% endblock central_content %}

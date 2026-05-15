@@ -6,7 +6,10 @@
 {% block central_content %}
     <span id="div-notification"></span>
 
-    <div class="card pb-3 b-none"> <div class="card-body"> {% include "web/projects-manager/project-form-main.html" %} </div> </div>
+    <div class="card pb-3 b-none"> <div class="card-body"> 
+        {% include "web/projects-manager/project-form-main.html" %} 
+        <div id="project-tabs"> {% include "web/projects-manager/project-details-tabs.html" with show_admin="True"%} </div>
+    </div> </div>
 
     <div class="d-flex justify-content-end p-2">
         <a type="button" id="btn-save" class="btn btn-primary m-2" href="{% url "projects-manager" %}"> {%trans "Save"%}</a>
