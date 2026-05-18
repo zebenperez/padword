@@ -6,7 +6,8 @@ from django.utils.translation import ugettext_lazy as _
 from django.views.decorators.csrf import csrf_exempt
 from django.conf import settings
 
-from padword.commons import show_exc, get_or_none, get_param, get_random_str, new_ui_slug, translate, reverse_cardkey, set_session
+from padword.commons import show_exc, get_or_none, get_param, get_random_str, new_ui_slug, translate, reverse_cardkey
+from padword.commons import get_session, set_session
 from padword.decorators import group_required
 from .models import *
 from .models_lock import *
@@ -394,5 +395,50 @@ def room_form_by_project(request):
     except Exception as e:
         print(e)
         return render(request, 'error_exception.html', {'exc':show_exc(e)})
+
+'''
+    Rooms by project2
+'''
+def get_rooms(request):
+    project = get_or_none(Project, request.project_id)
+    name = get_session(request, "room_search_name")
+
+    item_list = {}
+    group_list = LockGroup.objects.filter(project_uuid=project.uuid)
+    for group in group_list:
+        i_list = []
+        kwargs = {'project_uuid': project.uuid}
+        kwargs['lock_group_uuid'] = group.uuid if group != None else ""
+        if name != "":
+            kwargs['alias__icontains'] = name
+        item_list[group.name] = Room.objects.filter(**kwargs)
+
+    kwargs = {'project_uuid': project.uuid}
+    if name != "":
+        kwargs['alias__icontains'] = name
+    item_list["Sin grupo"] = Room.objects.filter(**kwargs)
+
+    return item_list
+
+@group_required("admins", "projects")
+def rooms2_by_project(request):
+    try:
+        project = get_or_none(Project, request.project_id)
+        item_list = get_rooms(request)
+        return render(request, "web/rooms-by-project/rooms2.html",{'item_list': item_list, 'project': project} )
+    except Exception as e:
+        print(e)
+        return render(request, 'error_exception.html', {'exc':show_exc(e)})
+
+@group_required("admins", "projects")
+def rooms2_search_by_project(request):
+    name = set_session(request, get_param(request.GET, "room_search_name"))
+    item_list = get_rooms(request)
+    return render (request, "web/rooms-by-project/rooms-list2.html", {"item_list": item_list})
+
+@group_required("admins", "projects")
+def rooms2_get_card(request):
+    item = get_or_none(Room, get_param(request.GET, "obj_id"))
+    return render (request, "web/rooms-by-project/room-card2.html", {"item": item})
 
 

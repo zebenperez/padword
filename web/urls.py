@@ -100,6 +100,9 @@ urlpatterns = [
     path('projects-manager/rooms/project-<slug:project_uuid>/', project_manager_views.rooms, name='projects-manager-rooms'),
     path('projects-manager/rooms/search/', project_manager_views.rooms_search, name='projects-manager-rooms-search'),
     path('projects-manager/rooms/form/', project_manager_views.rooms_form, name='projects-manager-rooms-form'),
+    path('projects-manager/rooms/remove/', project_manager_views.rooms_remove, name='projects-manager-rooms-remove'),
+    path('projects-manager/rooms/multiple/', project_manager_views.rooms_multiple, name='projects-manager-rooms-multiple'),
+    path('projects-manager/rooms/multiple-save/', project_manager_views.rooms_multiple_save, name='projects-manager-rooms-multiple-save'),
 
     #--------------------- Projects Locks--------------------
     path('projects-locks/', project_lock_views.projects, name='projects-locks'),
@@ -245,11 +248,16 @@ urlpatterns = [
     path('rooms/lock-add-ekey/', room_views.room_lock_add_ekey, name='room-lock-add-ekey'),
     path('rooms/lock-remove-ekey/', room_views.room_lock_remove_ekey, name='room-lock-remove-ekey'),
     path('ekey-url/<slug:token>/', room_views.ekey_url, name='ekey-url'),
+
     #--------------------- Rooms by projects --------------------
     path('rooms/by-project/', room_views.rooms_by_project, name='rooms-by-project'),
     path('rooms/list/by-project/', room_views.room_list_by_project, name='room-list-by-project'),
     path('rooms/form/by-project/', room_views.room_form_by_project, name='room-form-by-project'),
     path('rooms/search/by-project/', room_views.rooms_search_by_project, name='rooms-search-by-project'),
+
+    path('rooms2/by-project/', room_views.rooms2_by_project, name='rooms2-by-project'),
+    path('rooms2/by-project/search/', room_views.rooms2_search_by_project, name='rooms2-search-by-project'),
+    path('rooms2/by-project/get-card/', room_views.rooms2_get_card, name='rooms2-get-card'),
 
     #--------------------- KeyCard --------------------
     #path('keycards/', card_views.keycards, name='keycards'),

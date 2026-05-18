@@ -1,0 +1,19 @@
+{% load i18n padword_tags %}
+
+<div class="card ark" data-url="{%url "room-form-by-project"%}" data-target-modal="common-modal" data-obj_id="{{item.id}}" 
+    data-project="{{item.project_uuid}}">
+    <div class="row lock-box">
+        <div class="col-12 alias text-center pt-1 pb-1"><strong>{% padword_translate item.alias %}</strong></div>
+        <div class="icons-1 d-flex justify-content-center mt-2 mb-2">
+            <div class="w-25 text-center"><i class="fas fa-{{item.state|default:'lock'}}"></i></div>
+            <div class="w-50 text-center">Status</div>
+            <div class="w-25 text-center"><i class="fas fa-wifi"></i> </div>
+        </div>
+        <div class="icons-2 d-flex justify-content-start mt-3 mb-2 pt-2">
+            <div class="w-25 text-center active"><i class="fa fa-bell-slash active"></i></div>
+            <div class="w-25 text-center"><i class="fa fa-bed"></i></div>
+            <div class="w-25 text-center"><i class="fa fa-broom"></i></div>
+            <div class="w-25 text-center active"><i class="fa fa-toilet-paper active"></i></div>
+        </div>  
+    </div>
+</div>

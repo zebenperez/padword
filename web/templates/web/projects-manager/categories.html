@@ -32,6 +32,17 @@
                     </div>
                 </div>
 
+                <div class="row category" id="row-{{item.id}}"> 
+                    <div class="col-12">
+                        {% trans "Imágen de fondo" %}: 
+                        <div id="div-image">{% include "contents/category-img.html" with obj=item %}</div>
+                    </div>
+                    <div class="col-12">
+                        {% trans "Logo" %}: 
+                        <div id="div-logo">{% include "forms/form-logo.html" %}</div>
+                    </div>
+                </div>
+
             </div>
         </div>
     </div>

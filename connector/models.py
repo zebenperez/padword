@@ -175,6 +175,7 @@ class ProjectOctorateUser(models.Model):
     #minute = models.IntegerField(verbose_name=_('Minutes to import'), default=0)
     days = models.IntegerField(verbose_name=_('Days to import'), default=1)
     client_id = models.CharField(max_length=255, verbose_name=_('Client ID'), default="")
+    meta_id = models.CharField(max_length=255, verbose_name=_('Meta ID'), default="")
     secret = models.CharField(max_length=255, verbose_name=_('Client Secret'), default="")
     token = models.CharField(max_length=255, verbose_name=_('Token'), default="")
     refresh = models.CharField(max_length=255, verbose_name=_('Refresh Token'), default="")

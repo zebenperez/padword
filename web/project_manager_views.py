@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.urls import reverse
 from django.utils.translation import ugettext_lazy as _ 
 
-from padword.commons import show_exc, get_or_none, get_param, new_ui_slug, set_session, get_int
+from padword.commons import show_exc, get_or_none, get_param, new_ui_slug, set_session, get_session, get_int
 from padword.decorators import group_required
 from padword.email_lib import send_email
 from .models import *
@@ -120,7 +120,7 @@ def categories_by_project(request, project_id):
     f = Form.objects.filter(category=cat).first()
     if f == None:
         f = Form.objects.create(category=cat, form_type=ft, uuid=new_ui_slug(Form))
-    return render(request, "web/projects-manager/categories.html", {'project':project, 'item':cat})
+    return render(request, "web/projects-manager/categories.html", {'project':project, 'item':cat, 'obj': f})
 
 '''
     Companies
@@ -155,36 +155,97 @@ def companies_form(request):
 '''
     Rooms
 '''
+def get_rooms(request):
+    name = get_session(request, "room_search_name")
+    project_uuid = get_session(request, "manager_project")
+
+    item_list = {}
+    group_list = LockGroup.objects.filter(project_uuid=project_uuid)
+    for group in group_list:
+        i_list = []
+        kwargs = {'project_uuid': project_uuid}
+        kwargs['lock_group_uuid'] = group.uuid if group != None else ""
+        if name != "":
+            kwargs['alias__icontains'] = name
+        item_list[group.name] = Room.objects.filter(**kwargs)
+
+    kwargs = {'project_uuid': project_uuid}
+    if name != "":
+        kwargs['alias__icontains'] = name
+    item_list["Sin grupo"] = Room.objects.filter(**kwargs)
+
+    return item_list
+
 @group_required("project_manager")
 def rooms(request, project_uuid):
     try:
-        project = get_or_none(Project, project_uuid, "uuid")
-        group_list = LockGroup.objects.filter(project_uuid=project.uuid)
-        return render (request, "web/projects-manager/rooms.html",{'project': project, 'group_list': group_list} )
+        set_session(request, "manager_project", project_uuid)
+        item_list = get_rooms(request)
+        return render (request, "web/projects-manager/rooms.html",{'item_list': item_list} )
     except Exception as e:
         print(e)
         return render(request, 'error_exception.html', {'exc':show_exc(e)})
 
 @group_required("project_manager")
 def rooms_search (request):
-    name = get_param(request.GET, "room_search_name")
-    project = get_or_none(Project, get_param(request.GET, "project_uuid"), "uuid")
-    group_list = LockGroup.objects.filter(project_uuid=project.uuid)
-    return render (request, "web/rooms/rooms-list.html", {'project': project, "search_name":name})
+    name = set_session(request, get_param(request.GET, "room_search_name"))
+    item_list = get_rooms(request)
+    return render (request, "web/projects-manager/rooms-list.html", {"item_list": item_list})
 
 @group_required("project_manager")
 def rooms_form(request):
-    print("--1--")
     try:
-        project_uuid = get_param(request.GET, "project")
+        project = get_or_none(Project, get_session(request, "manager_project"), "uuid")
 
         obj = get_or_none(Room, get_param(request.GET, "obj_id")) 
         uuid = obj.uuid if obj != None else new_ui_slug(Room)
-        group_list = LockGroup.objects.filter(project_uuid = project_uuid)
-        print("--2--")
+        group_list = LockGroup.objects.filter(project_uuid = project.uuid)
         context = {'project': project, 'obj':obj, 'uuid':uuid, 'group_list':group_list}
         return render(request, "web/projects-manager/rooms-form.html", context)
     except Exception as e:
         print(e)
         return render(request, 'error_exception.html', {'exc':show_exc(e)})
+
+@group_required("project_manager")
+def rooms_remove(request):
+    obj = get_or_none(Room, request.GET["obj_id"]) if "obj_id" in request.GET else None
+    if obj != None:
+        lock_list = Lock.get_locks_by_room(obj)
+        obj.unassign_locks(lock_list)
+        obj.delete()
+
+    item_list = get_rooms(request)
+    return render (request, "web/projects-manager/rooms-list.html", {"item_list": item_list})
+
+@group_required("project_manager")
+def rooms_multiple(request):
+    try:
+        return render(request, "web/projects-manager/room-multiple.html", {})
+    except Exception as e:
+        return render(request, 'error_exception.html', {'exc':show_exc(e)})
+
+@group_required("project_manager")
+def rooms_multiple_save(request):
+    try:
+        project = get_or_none(Project, get_session(request, "manager_project"), "uuid")
+        order = get_int(request.POST["order"])
+        alias = request.POST["alias"]
+        number = get_int(request.POST["number"])
+        end_number = get_int(request.POST["end_number"]) + 1
+        
+        j = 0
+        for i in range(number, end_number):
+            obj = Room.objects.create(uuid = new_ui_slug(Room), project_uuid=project.uuid)
+            obj.order = order + j
+            obj.alias = "{} {}".format(alias, i)
+            obj.number = i
+            #obj.group = 
+            obj.save()
+            j += 1
+        return redirect(reverse("projects-manager-rooms", kwargs = {'project_uuid': project.uuid})) 
+    except Exception as e:
+        print(e)
+        return render(request, 'error_exception.html', {'exc':show_exc(e)})
+
+
 

@@ -6,10 +6,13 @@
             <div class="locks-head">{{ group_name }} </div>
             <div class="locks-group d-flex flex-wrap pl-2">
                 {% for item in rooms %}
-                    {% include "web/projects-manager/rooms-card.html" %}
+                    {#{% include "web/rooms-by-project/room-card.html" %}#}
+                    <span id="card-{{item.id}}"></span>
+                    <script> ajaxGet("{%url "rooms2-get-card"%}", {"obj_id": "{{item.id}}"}, "card-{{item.id}}", ""); </script>
                 {% endfor %}
             </div>
         </div>
     {% endfor %}
 </div>
+
 

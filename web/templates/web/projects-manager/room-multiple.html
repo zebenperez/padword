@@ -1,0 +1,52 @@
+{% load i18n %}
+
+
+<h2 class="common-modal-head">
+    <div class="row">
+        <div class="col-11"><h2>{% trans 'Create rooms' %}</h2></div>
+        <div class="col-1"><button type="button" class="btn btn-sm" data-bs-dismiss="modal"><i class="fas fa-times"></i></button></div>
+    </div>
+</h2>
+
+<span id="div-notification"></span>
+
+<form method="POST" action="{% url "projects-manager-rooms-multiple-save" %}" id="form-rooms">
+    {%csrf_token%}
+    <input type="hidden" name="project_uuid" value="{{project.uuid}}"/>
+
+    <div class="row m-0 mt-2">
+        <div class="col-2 p-0">
+            <div class="info-box green adm m-1 p-2">
+                <span class="title">{% trans "Initial order" %}</span><span class="icon"><i class="fa fa-sort"></i></span><br /><br />
+                <span class="text-right"><input type="text" class="form-control input" id="order" name="order" value="1"/></span>
+            </div>
+        </div>
+        <div class="col-2 p-0">
+            <div class="info-box green adm m-1 p-2">
+                <span class="title">{% trans "Common Alias" %}</span><span class="icon"><i class="fas fa-user"></i></span><br /><br />
+                <span class="text-right">
+                    <input type="text" class="form-control input" id="alias" name="alias" value=""/></span>
+            </div>
+        </div>
+        <div class="col-2 p-0">
+            <div class="info-box green adm m-1 p-2">
+                <span class="title">{% trans "Initial Number" %}</span><span class="icon"><i class="fas fa-bed"></i></span><br /><br />
+                <span class="text-right"><input type="text" class="form-control input" id="number" name="number" value=""/></span>
+            </div>
+        </div>
+        <div class="col-2 p-0">
+            <div class="info-box green adm m-1 p-2">
+                <span class="title">{% trans "End Number" %}</span><span class="icon"><i class="fas fa-bed"></i></span><br /><br />
+                <span class="text-right">
+                    <input type="text" class="form-control input" id="end_number" name="end_number" value=""/></span>
+            </div>
+        </div>
+    </div>
+    <br/>
+    <div class="row">
+        <div class="col-11 text-end">
+            <input type="submit" class="btn btn-sm save" data-bs-dismiss="modal" value="{%trans "Save"%}"/>
+            <button type="button" class="btn btn-sm cancel" data-bs-dismiss="modal">{% trans "Cancel" %}</button>
+        </div>
+    </div>
+</form>

@@ -206,7 +206,7 @@ def category_links(request):
     except Exception as e:
         return render(request, "error_exception.html", {'exc': show_exc(e)})
 
-@group_required("admins", "projects")
+@group_required("admins", "projects", "project_manager")
 def category_add_image(request):
     try:
         obj_id = request.POST["obj_id"]

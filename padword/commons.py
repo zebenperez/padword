@@ -160,6 +160,9 @@ def reverse_cardkey(cardReader_value):
 def set_session(request, key, default=""):
     request.session[key] = request.GET[key] if key in request.GET else default
 
+def get_session(request, key, default=""):
+    return request.session[key] if key in request.session else default
+
 def get_random_str(n):
     return ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(n))
 

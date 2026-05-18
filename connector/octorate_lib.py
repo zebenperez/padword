@@ -213,18 +213,25 @@ class Octorate():
             print(err)
             raise OctorateAPIError(menssage=err)
 
-    def send_code(self, property_id, booking_id, code, link):
+    def send_code(self, property_id, booking_id, meta_id, code, link):
         try:
             _url_request = f'{API_URL}{BOOKINGS_URL}/{property_id}/{booking_id}'
             today = datetime.today()
-            #metaKey = f'Apertura desde el móvil Reserva: {booking_id}'
-            metaKey = f'Apertura desde el móvil'
+            if meta_id != "":
+                meta_data = [{"id":meta_id, "labelText":"DigitalKey", "metaKey":"PadwordKey", "metaDataType":"LINK", "value": link}]
+            else:
+                meta_data = [{"labelText":"DigitalKey", "metaKey":"PadwordKey", "metaDataType":"LINK", "value": link}]
             params = {
-                #"roomCode": {"code":, "rfcTagId": "", "locked": "true"},
                 "roomCode": {"code": code},
-                "metaData": [{"labelText":"padwordkey", "metaKey":metaKey, "metaDataType":"LINK", "value": link}],
+                "metaData": meta_data,
                 "status": "CONFIRMED"
             }
+            #params = {
+                ##"roomCode": {"code":, "rfcTagId": "", "locked": "true"},
+                #"roomCode": {"code": code},
+                #"metaData": [{"labelText":"DigitalKey", "metaKey":"PadwordKey", "metaDataType":"LINK", "value": link}],
+                #"status": "CONFIRMED"
+            #}
             msg = f"\n SEND CODE URL: {_url_request}"
             msg += f"\n SEND CODE PARAMS: {params}"
             #print("--1--")
@@ -300,6 +307,14 @@ def get_code(pou, mobile=""):
     #return ''.join([random.choice(string.digits) for i in range(4)]) 
     return mobile.rstrip()[-4:] if pou.code_mobile and mobile != "" else ''.join([random.choice(string.digits) for i in range(4)]) 
 
+def set_meta_id(pou, dic):
+    try:
+        pou.meta_id = dic["metaData"][0]["id"]
+        pou.save()
+        return ""
+    except Exception as e:
+        return str(e)
+
 def create_booking(pou, booking, oc):
     checkin = get_date(booking.checkin)
     checkout = get_date(booking.checkout)
@@ -340,9 +355,11 @@ def create_booking(pou, booking, oc):
             #print(lock_code)
             err = guest.add_all_key_code(lock_code)
             msg += "\n {}".format(err)
-            res, msg2 = oc.send_code(pou.property_id, booking.id.split("_")[0], lock_code, guest.pwa_link)
+            res, msg2 = oc.send_code(pou.property_id, booking.id.split("_")[0], pou.meta_id, lock_code, guest.pwa_link)
             msg += "\n {}".format(msg2)
             msg += "\n {}".format(res)
+            err = set_meta_id(pou, res)
+            msg += "\n {}".format(err)
             #oc.ids += "{}:{},".format(room.name, guest.ext_id)
             #msg += send_booking_codes(pcu, av, booking.id)
     return msg

@@ -21,12 +21,14 @@
         <div class="flex-grow-1 p-2 mt-1">
             <span class="bg-ico-bar"><i class="fas fa-home hotel"></i></span>&nbsp; Floors in {{project.name}}</div>
         <div class="action p-2">
+            {%comment%}
             <a class="btn btn-xs ark" data-url="{% url "room-import-csv" %}" data-target-modal="common-modal"
                 data-obj_id="{{project.uuid}}"><i class="fas fa-download"></i> {%trans "Import rooms"%}</a>
-            <a class="btn btn-xs ark" data-url="{% url "room-multiple" %}" data-project="{{project.uuid}}" 
+            {%endcomment%}
+            <a class="btn btn-xs ark" data-url="{% url "projects-manager-rooms-multiple" %}" data-project="{{project.uuid}}" 
                 data-target-modal="common-modal" title="{% trans 'Add multiple rooms' %}">
                 <i class="fas fa-bed"></i> {% trans 'Add multiple rooms' %}</a>  
-            <a class="btn btn-xs ark" data-url="{%url "projects-manager-rooms-form"%}" data-obj_id="{{project.uuid}}" 
+            <a class="btn btn-xs ark" data-url="{%url "projects-manager-rooms-form"%}" data-project="{{project.id}}" 
                 data-target-modal="common-modal" title="{% trans 'Add room' %}"><i class="fas fa-bed"></i> {% trans 'Add room' %}</a>  
         </div>
     </div>
