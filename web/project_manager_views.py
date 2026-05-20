@@ -68,7 +68,7 @@ def projects_form(request):
     try:
         #obj = get_or_none(Project, get_param(request.GET, "obj_id"))  
         #context = { 'obj': obj, 'companies': Company.objects.all(), 'uuid': new_ui_slug(Project) }
-        context = { 'obj': None, 'companies': Company.objects.all(), 'uuid': new_ui_slug(Project) }
+        context = { 'obj': None, 'companies': Company.objects.filter(manager=request.user), 'uuid': new_ui_slug(Project) }
         return render(request, "web/projects-manager/project-form.html", context)
     except Exception as e:
         print(e)

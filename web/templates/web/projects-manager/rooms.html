@@ -10,10 +10,10 @@
     <div class="row m-0 p-2 align-items-center"> 
         <div class="col-2"><h2 class="m-0">{% trans 'Rooms' %} </h2> </div>
         <div class="col-10">
-            <input type="hidden" id="project_uuid" name="project_uuid" value="{{project.uuid}}"/>
+            <input type="hidden" id="s_project_uuid" name="s_project_uuid" value="{{project.uuid}}"/>
             <input type="text" class="autosearch form-control form-control-dark w-100 input-blue" name="room_search_name" 
                 id="room_search_name" placeholder="{% trans 'Room Name' %}" data-url="{% url "projects-manager-rooms-search" %}" 
-                data-target="room-list" data-related="room_search_name,project_uuid" value="{{request.session.room_search_name}}"/>
+                data-target="room-list" data-related="room_search_name,s_project_uuid" value="{{request.session.room_search_name}}"/>
         </div>
     </div>
 

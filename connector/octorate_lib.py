@@ -309,8 +309,9 @@ def get_code(pou, mobile=""):
 
 def set_meta_id(pou, dic):
     try:
-        pou.meta_id = dic["metaData"][0]["id"]
-        pou.save()
+        if pou.meta_id == "":
+            pou.meta_id = dic["metaData"][0]["id"]
+            pou.save()
         return ""
     except Exception as e:
         return str(e)
