@@ -7,8 +7,8 @@ from django.urls import reverse
 
 from .models_serializers import GuestSerializer, LockSerializer, RoomSerializer, GuestCarSerializer, WristbandAccessSerializer
 
-from guest.models import Guest, GuestCar
-from guest.wristband_models import Wristband, WristbandAccess, WristbandAccessPoint, WristbandAccessZone
+from guest.models import Guest, GuestCar, Regime, GuestRegime, GuestType
+from guest.wristband_models import Wristband, WristbandAccess, WristbandAccessPoint, WristbandAccessZone, WristbandType
 from bookings.models import GuestUser, Form
 #from web.models import ProjectUser, Lock, Room
 from web.models import ProjectUser, Room
@@ -18,6 +18,7 @@ from sensibo.models import ProjectSensiboUser
 from contents.models import PointOfSale
 from connector.models import ProjectStripeUser, ProjectCarUser
 from padword.commons import new_ui_slug, reverse_cardkey, timestamp_to_date, get_float, get_int, get_or_none
+from padword.commons import get_today_ini, get_today_end
 from connector.libstripe import ShStripe
 
 from datetime import datetime, timedelta
@@ -327,6 +328,60 @@ class GuestViewSet(viewsets.ModelViewSet):
         except Exception as e:
             logger.error("[{}]: \"{}\"".format(self.request.user, str(e)))
             return Response({"error": 'true', 'msg': 'Bad request!'})
+
+    @action(detail=False, methods=['post'])
+    def create_with_band(self, request):
+        try:
+            pu = ProjectUser.objects.get(username=self.request.user.username)
+            name = request.POST.get("name", "")                 #req
+            surname = request.POST.get("surname", "")           #opt
+            band_code = request.POST.get("band_code", "")       #opt
+            user_regime = request.POST.get("user_regime", "")   #req
+            user_type = request.POST.get("user_type", "")       #opt
+            end_date = request.POST.get('end_date', "")         #opt
+
+            #if name == "" or band_code == "" or user_regime == "":
+            if name == "" or user_regime == "":
+                logger.error("[{}]: \"name and user_regime are required!\"".format(self.request.user))
+                return Response({"error": True, 'msg': 'name, band_code and user_type are required!'})
+
+            reg = Regime.objects.filter(code=user_regime).first()
+            if reg == None:
+                logger.error("[{}]: \"User regime not found!\"".format(self.request.user))
+                return Response({"error": True, 'msg': 'User type not found!'})
+
+            guest_type = ""
+            if user_type != "":
+                gt = GuestType.objects.filter(name=user_type).first()
+                if gt == None:
+                    logger.error("[{}]: \"User type not found!\"".format(self.request.user))
+                    return Response({"error": True, 'msg': 'User type not found!'})
+                guest_type = gt.uuid 
+
+            data = { 
+                "UUID": new_ui_slug(Guest, "UUID"), 
+                "name": name, 
+                "surname": surname, 
+                "check_out": datetime.strptime(end_date, "%Y-%m-%d %H:%M:%S") if end_date != "" else get_today_end(),
+                "guest_type": guest_type,
+                "project_id": pu.project_uuid, 
+            }
+            guest = Guest.objects.create(**data)
+            logger.info("[{}]: \"Guest {} created\"".format(self.request.user, guest.name))
+
+            gr, created = GuestRegime.objects.get_or_create(regime=reg, guest=guest)
+            logger.info("[{}]: \"Guest Regime {} created\"".format(self.request.user, guest.name))
+
+            if band_code != "":
+                bt = WristbandType.objects.filter(code="03").first()
+                datab = { "code": reverse_cardkey(band_code), "name": name, "guest": guest, "type": bt}
+                band = Wristband.objects.create(**datab)
+                logger.info("[{}]: \"Band {} created\"".format(self.request.user, guest.name))
+
+            return Response(data={'error': 'false', 'msg': "Band added successfully!"}, status=status.HTTP_201_CREATED)
+        except Exception as e:
+            logger.error("[{}]: \"{}\"".format(self.request.user, str(e)))
+            return Response(data={'error': 'true', 'msg': "Bad request!"}, status=status.HTTP_400_BAD_REQUEST)
 
 
 class LockViewSet(viewsets.ModelViewSet):

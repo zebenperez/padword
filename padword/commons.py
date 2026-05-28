@@ -186,6 +186,16 @@ def date_to_utc(date, timezone):
 def date_to_local(date, timezone):
     return date.astimezone(tz.gettz(timezone))
 
+def get_today_ini():
+    now = datetime.datetime.now()
+    today = now.date()
+    return datetime.datetime.combine(today, datetime.time(0, 0, 0))
+
+def get_today_end():
+    now = datetime.datetime.now()
+    today = now.date()
+    return datetime.datetime.combine(today, datetime.time(23, 59, 59))
+
 '''
     External scripts
 '''

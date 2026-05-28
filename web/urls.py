@@ -258,6 +258,7 @@ urlpatterns = [
     path('rooms2/by-project/', room_views.rooms2_by_project, name='rooms2-by-project'),
     path('rooms2/by-project/search/', room_views.rooms2_search_by_project, name='rooms2-search-by-project'),
     path('rooms2/by-project/get-card/', room_views.rooms2_get_card, name='rooms2-get-card'),
+    path('rooms2/by-project/get-all-cards/', room_views.rooms2_get_all_cards, name='rooms2-get-all-cards'),
 
     #--------------------- KeyCard --------------------
     #path('keycards/', card_views.keycards, name='keycards'),

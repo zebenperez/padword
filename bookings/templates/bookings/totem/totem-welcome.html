@@ -1,0 +1,19 @@
+{% extends "base_guest.html" %}
+{% load i18n padword_tags %}
+
+{%block extralinks%} {%if form.form_type.css%}<link rel="stylesheet" href="{{form.form_type.css.url}}">{%endif%} {% endblock %}
+
+{% block central_content %}
+    <div id="div-main" class="welcome-page" {% if cat.image %}style="background-image: url('{{cat.image.url}}')" {% endif %}>
+	    <div class="row">
+            <div class="welcome-inner col-12 justify-content-center menu">
+                <h3> {% trans "Welcome" %} </h3>
+                {% if cat.name != "" %}<h4> {% padword_translate cat.name %} <h4> {% endif %}
+                {% if cat.description != "" %}<h5> {% padword_translate cat.description %} <h5> {% endif %}
+                <button class="me-1 btn btn-access ark" data-url="{{next_url}}" data-target="div-main" 
+                    data-project_uuid="{{project_uuid}}" data-mobile="{{mobile}}"> {%trans "Empezar"%}</button>
+	        </div>
+	    </div>
+	</div>
+    <script> $('#sidebar').removeClass('expanded'); </script>
+{% endblock %}

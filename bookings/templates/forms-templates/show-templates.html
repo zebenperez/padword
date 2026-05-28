@@ -1,44 +1,1057 @@
 {% load i18n static padword_tags %}
 
-<div class="row w-100 common-modal-head m-0 p-0">
-    <div class="col-11 text-center"><h2>{% trans 'Personaliza tu plantilla' %}</h2></div>
-    <div class="col-1"><button type="button" class="btn btn-sm" data-bs-dismiss="modal"><i class="fas fa-times"></i></button> </div>
-</div>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 
-<div class="row pwa-maker m-0">
-    {%comment%} --- NUEVO --- {%endcomment%}
+<title>PWA Wizard Builder</title>
 
-    <div class="col-12">
-        <div class="row m-0" style="flex-flow: row nowrap; column-gap: 10px;">
-            <div class="col-3 text-center">Template 1
-                <img src="https://paddev.shidix.es/media/form_types_template/img/bphoto_5794097318700629761_x.jpg" alt="image" width="150px" style="box-shadow: 0 1px 10px rgb(0 0 0 / 15%); transition: transform .5s ease;" /></div>
-            <div class="col-3 text-center">Template 2
-                <img src="https://paddev.shidix.es/media/form_types_template/img/bphoto_5794097318700629761_x.jpg" alt="image" width="150px" style="box-shadow: 0 1px 10px rgb(0 0 0 / 15%); transition: transform .5s ease;" /></div>
-             <div class="col-3 text-center">Template 3
-                <img src="https://paddev.shidix.es/media/form_types_template/img/bphoto_5794097318700629761_x.jpg" alt="image" width="150px" style="box-shadow: 0 1px 10px rgb(0 0 0 / 15%); transition: transform .5s ease;" /></div>
-            <div class="col-3 text-center">Template 4
-                <img src="https://paddev.shidix.es/media/form_types_template/img/bphoto_5794097318700629761_x.jpg" alt="image" width="150px" style="box-shadow: 0 1px 10px rgb(0 0 0 / 15%); transition: transform .5s ease;" /></div>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    font-family:'Inter',sans-serif;
+    background:#f1f5f9;
+    color:#1e293b;
+}
+
+/* =========================================
+ROOT VARIABLES
+========================================= */
+
+:root{
+
+    --header-bg:#111827;
+    --header-border:#1e40af;
+    --menu-color:#ffffff;
+
+    --room-color:#111827;
+    --room-size:28px;
+
+    --button-border:#d1d5db;
+    --button-bg:#ffffff;
+
+    --lock-text:#111827;
+    --lock-size:18px;
+
+    --footer-border:#e5e7eb;
+    --footer-text:#6b7280;
+    --footer-size:14px;
+}
+
+/* =========================================
+LAYOUT
+========================================= */
+
+.wrapper{
+    min-height:100vh;
+}
+
+/* =========================================
+TOP HEADER
+========================================= */
+
+.top-header{
+
+    background:white;
+    border-bottom:1px solid #e2e8f0;
+
+    display:grid;
+    grid-template-columns:1fr 1fr 1fr;
+
+    align-items:center;
+
+    padding:18px 24px;
+}
+
+.logo-area{
+    display:flex;
+    align-items:center;
+    gap:12px;
+}
+
+.logo-box{
+    width:48px;
+    height:48px;
+    border-radius:14px;
+}
+
+.app-name{
+    text-align:center;
+    font-size:22px;
+    font-weight:700;
+}
+
+.logout{
+    text-align:right;
+    font-size:28px;
+    cursor:pointer;
+}
+
+/* =========================================
+SLIDER
+========================================= */
+
+.slider-section{
+    padding:28px 24px;
+}
+
+.slider-title{
+    font-size:24px;
+    font-weight:700;
+    margin-bottom:20px;
+}
+
+.template-slider{
+
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+
+    gap:20px;
+
+    overflow-x:auto;
+}
+
+.template-card{
+
+    background:white;
+
+    border-radius:22px;
+
+    padding:16px;
+
+    min-width:220px;
+
+    box-shadow:0 5px 18px rgba(0,0,0,0.08);
+
+    transition:0.3s;
+
+    cursor:pointer;
+}
+
+.template-card:hover{
+    transform:translateY(-4px);
+}
+
+.template-card.active{
+    border:2px solid #2563eb;
+}
+
+.template-preview{
+
+    height:360px;
+
+    border-radius:18px;
+
+    overflow:hidden;
+
+    background:#ffffff;
+
+    border:1px solid #e2e8f0;
+
+    display:flex;
+    flex-direction:column;
+}
+
+.template-header{
+
+    background:#0f172a;
+
+    height:80px;
+
+    display:grid;
+
+    grid-template-columns:1fr 1fr 1fr;
+
+    align-items:center;
+
+    padding:0 12px;
+
+    color:white;
+}
+
+.template-logo{
+
+ /*   width:44px;
+    height:44px;*/
+
+    border-radius:12px;
+
+    background:white;
+
+    margin:auto;
+}
+
+.template-menu{
+    text-align:right;
+    font-size:24px;
+}
+
+.template-content{
+    padding:20px;
+    display:flex;
+    flex-direction:column;
+    flex:1;
+}
+
+.template-room{
+    text-align:center;
+    font-weight:700;
+    font-size:20px;
+    margin-bottom:20px;
+}
+
+.template-button{
+
+    border:1px solid #d1d5db;
+
+    border-radius:999px;
+
+    padding:14px;
+
+    text-align:center;
+
+    font-weight:600;
+}
+
+.template-footer{
+
+    margin-top:auto;
+
+    border-top:1px solid #e5e7eb;
+
+    padding-top:16px;
+
+    text-align:center;
+
+    font-size:13px;
+}
+
+.template-name{
+    text-align:center;
+    margin-top:14px;
+    font-weight:600;
+}
+
+/* =========================================
+MAIN
+========================================= */
+
+.main{
+
+    display:grid;
+
+    grid-template-columns:420px 1fr;
+
+    gap:28px;
+
+    padding:0 24px 40px;
+}
+
+/* =========================================
+WIZARD PANEL
+========================================= */
+
+.wizard{
+
+    background:white;
+
+    border-radius:24px;
+
+    padding:28px;
+
+    box-shadow:0 10px 30px rgba(0,0,0,0.08);
+
+    height:fit-content;
+}
+
+.wizard h2{
+    margin-bottom:26px;
+    font-size:26px;
+}
+
+.step{
+    margin-bottom:24px;
+}
+
+.step label{
+
+    display:block;
+
+    margin-bottom:10px;
+
+    font-weight:600;
+
+    font-size:15px;
+}
+
+.step input[type="color"]{
+
+    width:100%;
+
+    height:52px;
+
+    border:none;
+
+    border-radius:14px;
+
+    background:none;
+
+    cursor:pointer;
+}
+
+.step input[type="range"]{
+    width:100%;
+}
+
+.step input[type="file"]{
+
+    width:100%;
+
+    border:2px dashed #cbd5e1;
+
+    padding:16px;
+
+    border-radius:14px;
+
+    background:#f8fafc;
+}
+
+/* =========================================
+LIVE PREVIEW
+========================================= */
+
+.preview-area{
+
+    background:white;
+
+    border-radius:24px;
+
+    padding:28px;
+
+    box-shadow:0 10px 30px rgba(0,0,0,0.08);
+}
+
+.phone{
+
+    max-width:390px;
+
+    min-height:760px;
+
+    margin:auto;
+
+    background:white;
+
+    border-radius:38px;
+
+    overflow:hidden;
+
+    border:12px solid #111827;
+
+    display:flex;
+    flex-direction:column;
+}
+
+/* =========================================
+PWA HEADER
+========================================= */
+
+.pwa-header{
+
+    background:var(--header-bg);
+
+    border-bottom:4px solid var(--header-border);
+
+    padding:20px;
+
+    display:grid;
+
+    grid-template-columns:1fr 1fr 1fr;
+
+    align-items:center;
+}
+
+.preview-logo{
+
+    /*width:76px;*/
+    height:76px;
+    border-radius:20px;
+    object-fit:cover;
+    margin:auto;
+    /*background:white;*/
+}
+
+.hamburger{
+
+    text-align:right;
+
+    color:var(--menu-color);
+
+    font-size:30px;
+}
+
+/* =========================================
+PWA CONTENT
+========================================= */
+
+.pwa-content{
+
+    padding:28px 22px;
+
+    display:flex;
+
+    flex-direction:column;
+
+    flex:1;
+}
+
+.room-title{
+
+    text-align:center;
+
+    color:var(--room-color);
+
+    font-size:var(--room-size);
+
+    font-weight:700;
+
+    margin-bottom:26px;
+}
+
+.lock-button{
+
+    width:100%;
+
+    border:1px solid var(--button-border);
+
+    background:var(--button-bg);
+
+    border-radius:999px;
+
+    padding:18px;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    gap:12px;
+
+    color:var(--lock-text);
+
+    font-size:var(--lock-size);
+
+    font-weight:700;
+}
+
+.footer{
+
+    margin-top:auto;
+
+    border-top:2px solid var(--footer-border);
+
+    padding-top:20px;
+
+    text-align:center;
+
+    color:var(--footer-text);
+
+    font-size:var(--footer-size);
+}
+
+/* =========================================
+BUTTONS
+========================================= */
+
+.actions{
+
+    margin-top:30px;
+
+    display:flex;
+
+    justify-content:center;
+
+    gap:16px;
+
+    flex-wrap:wrap;
+}
+
+.btn{
+
+    padding:14px 22px;
+
+    border:none;
+
+    border-radius:14px;
+
+    cursor:pointer;
+
+    font-weight:600;
+
+    transition:0.3s;
+}
+
+.btn:hover{
+    transform:translateY(-2px);
+}
+
+.btn-clear{
+    background:#fee2e2;
+    color:#b91c1c;
+}
+
+.btn-draft{
+    background:#dbeafe;
+    color:#1d4ed8;
+}
+
+.btn-publish{
+    background:#111827;
+    color:white;
+}
+
+/* =========================================
+RESPONSIVE
+========================================= */
+
+@media(max-width:1100px){
+
+    .main{
+        grid-template-columns:1fr;
+    }
+}
+
+@media(max-width:768px){
+
+    .top-header{
+
+        grid-template-columns:1fr;
+
+        gap:16px;
+
+        text-align:center;
+    }
+
+    .logo-area{
+        justify-content:center;
+    }
+
+    .logout{
+        text-align:center;
+    }
+
+    .template-slider{
+        grid-template-columns:repeat(2,1fr);
+    }
+}
+
+@media(max-width:520px){
+
+    .template-slider{
+        grid-template-columns:1fr;
+    }
+
+    .wizard,
+    .preview-area{
+        padding:18px;
+    }
+
+    .room-title{
+        font-size:24px;
+    }
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="wrapper">
+
+    <!-- HEADER -->
+
+    <header class="top-header">
+
+        <div class="logo-area">
+            <div class="logo-box"><img src="/static/img/thumbnail_logo-padword-dev.png" class="img-project"> </div>
+        </div>
+
+        <div class="app-name">
+            PWA Wizard Builder
+        </div>
+
+        <div class="logout">
+            ⎋
+        </div>
+
+    </header>
+
+    <!-- TEMPLATE SLIDER -->
+
+    <section class="slider-section">
+
+        <h2 class="slider-title">
+            Selecciona la plantilla
+        </h2>
+
+        <div class="template-slider">
+
+            <!-- CARD 1 -->
+
+            <div class="template-card active">
+
+                <div class="template-preview">
+
+                    <div class="template-header">
+
+                        <div></div>
+
+                        <div class="template-logo"> 
+                            <img id="previewLogo" class="preview-logo" src="/static/img/padword-icono.png" alt="Logo">
+                        </div>
+
+                        <div class="template-menu">☰</div>
+
+                    </div>
+
+                    <div class="template-content">
+
+                        <div class="template-room">
+                            Habitación Deluxe
+                        </div>
+
+                        <div class="template-button">
+                            <img class="" src="/static/img/lock-close.png" alt="Logo"> Smart Lock
+                        </div>
+
+                        <div class="template-footer">
+                            Footer información
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="template-name">
+                    Plantilla 1
+                </div>
+
+            </div>
+
+            <!-- CARD 2 -->
+
+            <div class="template-card">
+
+                <div class="template-preview"></div>
+
+                <div class="template-name">
+                    Plantilla 2
+                </div>
+
+            </div>
+
+            <!-- CARD 3 -->
+
+            <div class="template-card">
+
+                <div class="template-preview"></div>
+
+                <div class="template-name">
+                    Plantilla 3
+                </div>
+
+            </div>
+
+            <!-- CARD 4 -->
+
+            <div class="template-card">
+
+                <div class="template-preview"></div>
+
+                <div class="template-name">
+                    Plantilla 4
+                </div>
+
+            </div>
 
         </div>
-    </div>
 
+    </section>
 
-    {%comment%} --- END NUEVO --- {%endcomment%}
+    <!-- MAIN -->
 
+    <main class="main">
 
-    <div class="col-12"> 
-        <div class="content"> 
-            <span class="step1-pwa">1. Seleccione una plantilla:</span>
-            <select id="form_type_templates" name="form_type_templates" class="form-control ark_change" 
-                data-url="{% url "form-type-template-select" %}" data-target="div-template-selected" data-obj_id="{{obj.id}}">
-                <option value="">--{% trans "Select option" %}--</option>
-            {% for item in template_list %}
-                <option value="{{item.pk}}">{{item.name}}</option>
-            {% endfor %}
-            </select>
-            <div id="div-template-selected"></div>  
-        </div> 
-    </div> 
+        <!-- WIZARD -->
+
+        <section class="wizard">
+
+            <h2>Configuración PWA</h2>
+
+            <!-- STEP 1 -->
+
+            <div class="step">
+
+                <label>
+                    Paso 1. Añadir logo
+                </label>
+
+                <input type="file" id="logoInput" accept="image/*">
+
+            </div>
+
+            <!-- STEP 2 -->
+
+            <div class="step">
+
+                <label>
+                    Paso 2. Color background cabecera
+                </label>
+
+                <input type="color" id="headerBg" value="#111827">
+
+            </div>
+
+            <!-- STEP 3 -->
+
+            <div class="step">
+
+                <label>
+                    Paso 3. Color borde bottom cabecera
+                </label>
+
+                <input type="color" id="headerBorder" value="#1e40af">
+
+            </div>
+
+            <!-- STEP 4 -->
+
+            <div class="step">
+
+                <label>
+                    Paso 4. Color menú hamburguesa
+                </label>
+
+                <input type="color" id="menuColor" value="#ffffff">
+
+            </div>
+
+            <!-- STEP 5 -->
+
+            <div class="step">
+
+                <label>
+                    Paso 5. Color nombre habitación
+                </label>
+
+                <input type="color" id="roomColor" value="#111827">
+
+                <br><br>
+
+                <label>
+                    Tamaño fuente habitación
+                </label>
+
+                <input type="range" id="roomSize" min="18" max="42" value="28">
+
+            </div>
+
+            <!-- STEP 6 -->
+
+            <div class="step">
+
+                <label>
+                    Paso 6. Color borde botón
+                </label>
+
+                <input type="color" id="buttonBorder" value="#d1d5db">
+
+            </div>
+
+            <!-- STEP 7 -->
+
+            <div class="step">
+
+                <label>
+                    Paso 7. Color background botón
+                </label>
+
+                <input type="color" id="buttonBg" value="#ffffff">
+
+            </div>
+
+            <!-- STEP 8 -->
+
+            <div class="step">
+
+                <label>
+                    Paso 8. Color texto cerradura
+                </label>
+
+                <input type="color" id="lockText" value="#111827">
+
+                <br><br>
+
+                <label>
+                    Tamaño fuente cerradura
+                </label>
+
+                <input type="range" id="lockSize" min="14" max="32" value="18">
+
+            </div>
+
+            <!-- STEP 9 -->
+
+            <div class="step">
+
+                <label>
+                    Paso 9. Color borde footer
+                </label>
+
+                <input type="color" id="footerBorder" value="#e5e7eb">
+
+            </div>
+
+            <!-- STEP 10 -->
+
+            <div class="step">
+
+                <label>
+                    Paso 10. Color texto footer
+                </label>
+
+                <input type="color" id="footerText" value="#6b7280">
+
+                <br><br>
+
+                <label>
+                    Tamaño fuente footer
+                </label>
+
+                <input type="range" id="footerSize" min="10" max="24" value="14">
+
+            </div>
+
+        </section>
+
+        <!-- PREVIEW -->
+
+        <section class="preview-area">
+
+            <div class="phone">
+
+                <!-- HEADER -->
+
+                <div class="pwa-header">
+
+                    <div></div>
+
+                    <img
+                        id="previewLogo"
+                        class="preview-logo"
+                        src="/static/img/padword-icono.png"
+                        alt="Logo">
+
+                    <div class="hamburger">
+                        ☰
+                    </div>
+
+                </div>
+
+                <!-- CONTENT -->
+
+                <div class="pwa-content">
+
+                    <div class="room-title">
+                        Habitación Deluxe
+                    </div>
+
+                    <button class="lock-button">
+                            <img class="" src="/static/img/lock-close.png" alt="Logo"> Smart Lock
+                    </button>
+
+                    <div class="footer">
+                        Footer información de la PWA
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- ACTIONS -->
+
+            <div class="actions">
+
+                <button class="btn btn-clear" id="resetBtn">
+                    Limpiar formato
+                </button>
+
+                <button class="btn btn-draft">
+                    Guardar borrador
+                </button>
+
+                <button class="btn btn-publish">
+                    Publicar
+                </button>
+
+            </div>
+
+        </section>
+
+    </main>
+
 </div>
 
+<script>
+
+/* =========================================
+ROOT
+========================================= */
+
+const root = document.documentElement;
+
+/* =========================================
+COLOR CONTROLS
+========================================= */
+
+const controls = {
+
+    headerBg:'--header-bg',
+    headerBorder:'--header-border',
+    menuColor:'--menu-color',
+
+    roomColor:'--room-color',
+    buttonBorder:'--button-border',
+    buttonBg:'--button-bg',
+
+    lockText:'--lock-text',
+
+    footerBorder:'--footer-border',
+    footerText:'--footer-text'
+};
+
+Object.keys(controls).forEach(id => {
+
+    document.getElementById(id).addEventListener('input', e => {
+
+        root.style.setProperty(
+            controls[id],
+            e.target.value
+        );
+    });
+
+});
+
+/* =========================================
+FONT SIZE CONTROLS
+========================================= */
+
+document.getElementById('roomSize')
+.addEventListener('input', e => {
+
+    root.style.setProperty(
+        '--room-size',
+        e.target.value + 'px'
+    );
+});
+
+document.getElementById('lockSize')
+.addEventListener('input', e => {
+
+    root.style.setProperty(
+        '--lock-size',
+        e.target.value + 'px'
+    );
+});
+
+document.getElementById('footerSize')
+.addEventListener('input', e => {
+
+    root.style.setProperty(
+        '--footer-size',
+        e.target.value + 'px'
+    );
+});
+
+/* =========================================
+LOGO UPLOAD
+========================================= */
+
+const logoInput = document.getElementById('logoInput');
+
+const previewLogo = document.getElementById('previewLogo');
+
+logoInput.addEventListener('change', function(e){
+
+    const file = e.target.files[0];
+
+    if(file){
+
+        const reader = new FileReader();
+
+        reader.onload = function(event){
+
+            previewLogo.src = event.target.result;
+        };
+
+        reader.readAsDataURL(file);
+    }
+});
+
+/* =========================================
+RESET
+========================================= */
+
+document.getElementById('resetBtn')
+.addEventListener('click', () => {
+
+    root.style.setProperty('--header-bg','#111827');
+    root.style.setProperty('--header-border','#1e40af');
+    root.style.setProperty('--menu-color','#ffffff');
+
+    root.style.setProperty('--room-color','#111827');
+    root.style.setProperty('--room-size','28px');
+
+    root.style.setProperty('--button-border','#d1d5db');
+    root.style.setProperty('--button-bg','#ffffff');
+
+    root.style.setProperty('--lock-text','#111827');
+    root.style.setProperty('--lock-size','18px');
+
+    root.style.setProperty('--footer-border','#e5e7eb');
+    root.style.setProperty('--footer-text','#6b7280');
+    root.style.setProperty('--footer-size','14px');
+
+    document.getElementById('headerBg').value='#111827';
+    document.getElementById('headerBorder').value='#1e40af';
+    document.getElementById('menuColor').value='#ffffff';
+
+    document.getElementById('roomColor').value='#111827';
+    document.getElementById('roomSize').value='28';
+
+    document.getElementById('buttonBorder').value='#d1d5db';
+    document.getElementById('buttonBg').value='#ffffff';
+
+    document.getElementById('lockText').value='#111827';
+    document.getElementById('lockSize').value='18';
+
+    document.getElementById('footerBorder').value='#e5e7eb';
+    document.getElementById('footerText').value='#6b7280';
+    document.getElementById('footerSize').value='14';
+
+});
+
+</script>
+
+</body>
+</html>

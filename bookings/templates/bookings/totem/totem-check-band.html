@@ -1,0 +1,21 @@
+{% load i18n %}
+
+{% if form.errors %} <p>{% trans "Your username and password didn't match. Please try again." %}</p> {% endif %}
+{% csrf_token %}
+
+<div class="row login">
+	<div class="col-8 offset-2 login-box justify-content-center mt-4">
+		<div class="panel-login">
+			<div class="toolbar-heading mt-4">{% trans "Acerque su pulsera al lector" %} </div>
+            <div class="panel-body">
+                <div class="d-none d-lg-block" id="block-scan">
+                    <input type="text" id="div-scan" class="form-control ark_change" name="bans-scan"
+                        data-url="{% url "totem-check-band" %}" data-target="div-main" data-project="{{project_uuid}}"
+                        placeholder="Scan band..."/>
+                </div>
+		    </div>
+		</div>
+	</div>
+</div>
+<script> $('#sidebar').removeClass('expanded'); $("#div-scan").focus();</script>
+{% include "autocomplete_off.html" %}

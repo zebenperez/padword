@@ -1,8 +1,8 @@
 from django.urls import include, path, re_path
 from django.contrib import admin
 from bookings import views, form_views as fv, guest_views as gv, guest_sensibo_views as gsv
-from bookings import tpv_views as tpv, tpv_orders_views as tpv_orders, tpv_mobile_views as tpv_mob, tpv_orders_daily_views as tpv_orders_daily
-from bookings import tpv_cash_views as tpv_cash
+from bookings import tpv_views as tpv, tpv_orders_views as tpv_orders, tpv_mobile_views as tpv_mob
+from bookings import tpv_cash_views as tpv_cash, tpv_orders_daily_views as tpv_orders_daily, totem_views as totem
 
 urlpatterns = [ 
     #--------------------- Forms --------------------
@@ -280,5 +280,11 @@ urlpatterns = [
     path('tpv-cash/update-number/', tpv_cash.update_number, name='cash-update-number'),
     path('tpv-cash/update-close-date/', tpv_cash.update_close_date, name='cash-update-close-date'),
  
+    #------------- TOTEM --------------#
+    path('totem-access/<slug:project_uuid>/', totem.totem_access, name='totem-access'),
+    path('totem-start/', totem.totem_start, name='totem-start'),
+    path('totem-check-band/', totem.totem_check_band, name='totem-check-band'),
+    path('totem-close/', totem.totem_close, name='totem-close'),
+    path('totem-index/<slug:project_uuid>/', totem.totem_index, name='totem-index'),
 ]
 

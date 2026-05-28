@@ -6,6 +6,10 @@
         <i class="fas fa-qrcode"></i> {%trans "QR"%}</a>  
     <a class="btn btn-sm save" title="{%trans 'PWA'%}" href="{% url "guest-access" obj.category %}" target="_blank">
         <i class="fas fa-desktop"></i> {%trans "PWA"%}</a>  
+    {% if obj.form_type.code == "totem" %}
+        <a class="btn btn-sm save" title="{%trans 'Totem'%}" href="{% url "totem-access" project.uuid %}" target="_blank">
+            <i class="fas fa-calculator"></i> {%trans "Totem"%}</a>  
+    {% endif %}
     {% if obj.form_type.code == "tpv" %}
         <a class="btn btn-sm save" title="{%trans 'TPV'%}" href="{% url "tpv-access" project.uuid %}" target="_blank">
             <i class="fas fa-calculator"></i> {%trans "TPV"%}</a>  

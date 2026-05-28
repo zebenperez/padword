@@ -538,6 +538,7 @@ class PointOfSale(models.Model):
     show_free = models.BooleanField(default=True, verbose_name=_("Mostrar invitaciones"))
     discount = models.BooleanField(default=True, verbose_name=_("Descuentos"))
     discount_item = models.BooleanField(default=True, verbose_name=_("Descuentos Items"))
+    scan_room = models.BooleanField(default=True, verbose_name=_("Escanear habitación"))
     order = models.IntegerField(verbose_name=_('Order'), default=0)
     uuid = models.CharField(max_length = 255, verbose_name= _('UUID'), default="")
     name = models.CharField(verbose_name="Nombre", max_length=150, blank=True, null=True, default="")
@@ -550,7 +551,8 @@ class PointOfSale(models.Model):
     limit_hour = models.CharField(verbose_name="Hora límite", max_length=10, blank=True, null=True, default="")
     exclude_regime = models.CharField(verbose_name="Régimen excluido", max_length=900, blank=True, null=True, default="")
     image = models.ImageField(upload_to=upload_pos_image, verbose_name=_("Image"), blank=True, null=True)
-    ticket_head= models.TextField(verbose_name='Ticket head', default="")
+    ticket_head = models.TextField(verbose_name='Ticket head', default="")
+    ticket_footer = models.TextField(verbose_name='Ticket footer', default="")
     project_uuid = models.CharField(max_length=36, verbose_name='UUID Project', default="")
 
     @property

@@ -404,6 +404,7 @@ def get_rooms(request):
     name = get_session(request, "room_search_name")
 
     item_list = {}
+    count_list = {}
     group_list = LockGroup.objects.filter(project_uuid=project.uuid)
     for group in group_list:
         i_list = []
@@ -411,12 +412,14 @@ def get_rooms(request):
         kwargs['lock_group_uuid'] = group.uuid if group != None else ""
         if name != "":
             kwargs['alias__icontains'] = name
-        item_list[group.name] = Room.objects.filter(**kwargs)
+        r_list = Room.objects.filter(**kwargs)
+        item_list[group.name] = [r_list[:5], len(r_list)]
 
-    kwargs = {'project_uuid': project.uuid}
+    kwargs = {'project_uuid': project.uuid, 'lock_group_uuid': ""}
     if name != "":
         kwargs['alias__icontains'] = name
-    item_list["Sin grupo"] = Room.objects.filter(**kwargs)
+    r_list = Room.objects.filter(**kwargs)
+    item_list["-"] = [r_list[:5], len(r_list)]
 
     return item_list
 
@@ -425,7 +428,8 @@ def rooms2_by_project(request):
     try:
         project = get_or_none(Project, request.project_id)
         item_list = get_rooms(request)
-        return render(request, "web/rooms-by-project/rooms2.html",{'item_list': item_list, 'project': project} )
+        context = {'item_list': item_list, 'project': project}
+        return render(request, "web/rooms-by-project/rooms2.html", context)
     except Exception as e:
         print(e)
         return render(request, 'error_exception.html', {'exc':show_exc(e)})
@@ -435,6 +439,19 @@ def rooms2_search_by_project(request):
     name = set_session(request, get_param(request.GET, "room_search_name"))
     item_list = get_rooms(request)
     return render (request, "web/rooms-by-project/rooms-list2.html", {"item_list": item_list})
+
+@group_required("admins", "projects")
+def rooms2_get_all_cards(request):
+    project_uuid = get_param(request.GET, "project_uuid")
+    group_name = get_param(request.GET, "group")
+
+    if group_name != "-":
+        group = LockGroup.objects.filter(project_uuid=project_uuid, name=group_name).first()
+        r_list = Room.objects.filter(project_uuid=project_uuid, lock_group_uuid=group.uuid)[5:]
+    else:
+        r_list = Room.objects.filter(project_uuid=project_uuid, lock_group_uuid="")[5:]
+        print(r_list)
+    return render (request, "web/rooms-by-project/rooms-list2-cards.html", {"room_list": r_list,})
 
 @group_required("admins", "projects")
 def rooms2_get_card(request):

@@ -78,6 +78,7 @@
     </head>
 
     <body>
+        {% with pos=fi.pos %}
         <div id="main" class="small text-center">
             <br />
             <div class="row">
@@ -90,17 +91,16 @@
 
             <br/>
             {% if fi.project.logo %}<img src="{{fi.project.logo.url}}" alt="Logo" width="100px"/><br/>{% endif %} <br/>
+
             {#<h1>{{fi.project.name}}</h1>#}
-            {% with pos=fi.pos %}
-                {%comment%}
-                <div class="trade-name text-start">Lanis Suites de Luxe, S.L. </div>
-                <div class="fiscal text-start">Dirección del hotel, 38000 </div>
-                <div class="vat text-start">{% trans 'VAT ID' %}: A0001133 </div>
-                {%endcomment%}
-                <div class="trade-name text-center">{{pos.ticket_head|safe}} </div>
-                <div class="separator"></div>
-                <div class="title">{% trans 'TPV' %} {{pos.name}}</div>
-            {% endwith %}
+            {%comment%}
+            <div class="trade-name text-start">Lanis Suites de Luxe, S.L. </div>
+            <div class="fiscal text-start">Dirección del hotel, 38000 </div>
+            <div class="vat text-start">{% trans 'VAT ID' %}: A0001133 </div>
+            {%endcomment%}
+            <div class="trade-name text-center">{{pos.ticket_head|safe}} </div>
+            <div class="separator"></div>
+            <div class="title">{% trans 'TPV' %} {{pos.name}}</div>
             <table width="100%" class="small">
                 <tbody>
                     <tr><td>{% trans "Nº" %}.:</td> <td class="text-end"> <strong>{{fi.id}}</strong></td></tr>
@@ -161,9 +161,16 @@
                     </tbody>
                 </table>
                 <div class="separator"></div>
-                <div class="footer small text-center">IGIC Incluido<br/>Este Documento No Es Una Factura</div>
+                <div class="footer small text-center">
+                    {% if pos.ticket_footer != "" %}
+                        {{pos.ticket_footer|safe}}
+                    {% else %}
+                        IGIC Incluido<br/>Este Documento No Es Una Factura
+                    {% endif %}
+                </div>
             {% endwith %}
         </div>
+        {% endwith %}
         {%comment%}
         <script>
             window.print();

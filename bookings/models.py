@@ -381,6 +381,10 @@ class Form(models.Model):
     def get_tpv(project_uuid):
         return Form.objects.filter(form_type__code="tpv", form_type__project_uuid=project_uuid).first()
 
+    @staticmethod
+    def get_totem(project_uuid):
+        return Form.objects.filter(form_type__code="totem", form_type__project_uuid=project_uuid).first()
+
     class Meta:
         verbose_name = _('2.- Form')
         verbose_name_plural = _('2.- Forms')

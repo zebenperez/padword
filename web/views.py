@@ -895,7 +895,7 @@ def project_guest_types_add(request):
 def project_guest_types_remove(request):
     try:
         gtype = get_or_none(GuestType, request.GET["obj_id"])
-        project = get_or_none(Project, inv.project_uuid, "uuid")
+        project = get_or_none(Project, gtype.project_uuid, "uuid")
         gtype.delete()
         guest_type_list = GuestType.objects.filter(project_uuid=project.uuid)
     except Exception as e:
