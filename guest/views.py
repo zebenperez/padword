@@ -9,6 +9,7 @@ import datetime, csv
 
 from .models import *
 from .wristband_models import WristbandAccessZone
+from .wristband_lib import close_band_by_regime_and_soft_remove
 from web.lock_lib import ShLock
 from padword.commons import show_exc, get_or_none, get_float, new_ui_slug, translate, user_in_group, get_param, reverse_cardkey, set_session, get_int
 from padword.decorators import group_required
@@ -637,26 +638,7 @@ def guest_soft_remove_all_by_project(request):
 def guest_soft_remove_by_regime(request, code=""):
     try:
         project = get_or_none(Project, request.project_id)
-        today = datetime.date.today()
-        start = datetime.datetime.combine(today, datetime.time.min)
-        end = datetime.datetime.combine(today, datetime.time.max)
-        guest_list = Guest.objects.filter(
-            project_id=project.uuid, 
-            deleted=0, 
-            check_out__range=(start,end), 
-            regimes__regime__code__in=[code]
-        )
-        msg = ""
-        for guest in guest_list:
-            msg += "Deleting guest: {} {}\n".format(guest.name, guest.surname)
-            for band in guest.bands.all():
-                msg += "Deleting band: {} {}\n".format(band.name, band.code)
-                band.make_close()
-                band.delete()
-            GuestUser.delete_by_guest(guest.UUID)
-            msg += guest.delete_soft()
-            print(msg)
-
+        close_band_by_regime_and_soft_remove(project, code)
         return redirect(guests_by_project)
     except Exception as e:
         print(e)

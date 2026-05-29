@@ -82,6 +82,15 @@ class Wristband(models.Model):
         now = now.strftime("%Y-%m-%d %H:%M:%S")
         return Wristband.objects.filter(code=code, guest__project_id=project.uuid, guest__deleted=False, guest__check_in__lte=now, guest__check_out__gte=now).first()
 
+    @staticmethod
+    def reset_band(band):
+        code = band.code
+        name = band.name
+        bt = band.type
+        guest = band.guest
+        band.delete()
+        band = Wristband.objects.create(code = code, name = name, guest = guest, type = bt)
+
     class Meta:
         verbose_name = _("Wristband")
         verbose_name_plural = _("Wristbands")

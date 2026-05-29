@@ -10,6 +10,7 @@ from web.models import Project
 from bookings.models import Form
 from guest.models import Guest
 from guest.wristband_models import Wristband, WristbandBalance, WristbandBackup, WristbandBackupBalance
+from guest.wristband_lib import close_band_by_regime_and_soft_remove
 from connector.models import ProjectPaytefUser
 from .tpv_paytef_lib import manage_transaction
 
@@ -74,36 +75,36 @@ def totem_check_band(request):
         print(e)
         return render(request, "error_exception.html", {'exc':show_exc(e)})
 
-def remove_wristband_backup_balance(wbb):
-    for item in wbb.balances.all():
-        item.delete()
-
-def create_wristband_backup_balance(wb, wbb):
-    for item in wb.balances.all():
-        WristbandBackupBalance.objects.create(date=item.date, amount=item.amount, desc=item.desc, wristband=wbb)
-
-def get_or_update_wristband_backup(wb):
-    wbb = WristbandBackup.objects.filter(code=wb.code, guest_uuid=wb.guest.UUID).first()
-    if wbb == None:
-        wbb = WristbandBackup.objects.create(code=wb.code, guest_uuid=wb.guest.UUID)
-    else:
-        remove_wristband_backup_balance(wbb)
-    wbb.kid = wb.kid
-    wbb.locks = wb.locks
-    wbb.name = wb.name
-    wbb.project_uuid = wb.guest.project_id
-    #wbb.guest_uuid = wb.guest.UUID
-    wbb.guest_name = "{} {}".format(wb.guest.name, wb.guest.surname)
-    wbb.guest_mobile = wb.guest.mobile
-    wbb.guest_email = wb.guest.email
-    wbb.guest_room = wb.guest.room
-    wbb.check_in = wb.guest.check_in
-    wbb.check_out = wb.guest.check_out
-    if wb.type != None:
-        wbb.type = wb.type.name
-    wbb.save()
-    create_wristband_backup_balance(wb, wbb)
-    return wbb
+#def remove_wristband_backup_balance(wbb):
+#    for item in wbb.balances.all():
+#        item.delete()
+#
+#def create_wristband_backup_balance(wb, wbb):
+#    for item in wb.balances.all():
+#        WristbandBackupBalance.objects.create(date=item.date, amount=item.amount, desc=item.desc, wristband=wbb)
+#
+#def get_or_update_wristband_backup(wb):
+#    wbb = WristbandBackup.objects.filter(code=wb.code, guest_uuid=wb.guest.UUID).first()
+#    if wbb == None:
+#        wbb = WristbandBackup.objects.create(code=wb.code, guest_uuid=wb.guest.UUID)
+#    else:
+#        remove_wristband_backup_balance(wbb)
+#    wbb.kid = wb.kid
+#    wbb.locks = wb.locks
+#    wbb.name = wb.name
+#    wbb.project_uuid = wb.guest.project_id
+#    #wbb.guest_uuid = wb.guest.UUID
+#    wbb.guest_name = "{} {}".format(wb.guest.name, wb.guest.surname)
+#    wbb.guest_mobile = wb.guest.mobile
+#    wbb.guest_email = wb.guest.email
+#    wbb.guest_room = wb.guest.room
+#    wbb.check_in = wb.guest.check_in
+#    wbb.check_out = wb.guest.check_out
+#    if wb.type != None:
+#        wbb.type = wb.type.name
+#    wbb.save()
+#    create_wristband_backup_balance(wb, wbb)
+#    return wbb
 
 def totem_pay(request):
     project = get_or_none(Project, request.GET["project"], "uuid")
@@ -124,7 +125,10 @@ def totem_pay(request):
         print(e)
         return render(request, "bookings/totem/payment-return.html", {'err': _('Error procesando el pago'), 'project': project})
 
-    obj = get_or_update_wristband_backup(band)
+    guest = band.guest
+    obj = band.make_close()
+    if guest.regime != None and guest.regime.code != "DAYP":
+        Wristband.reset_band(band)
     return render(request, "bookings/totem/payment-return.html", {'err': '', 'project': project})
 
  
