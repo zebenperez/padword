@@ -1,0 +1,7 @@
+{% load i18n %}
+
+{% if err and err != "" %} <div class="alert alert-danger">{{err}}</div> 
+{% else %} <div class="alert alert-success">{% trans "Su pago se ha procesado correctamente!" %}</div> 
+{% endif %}
+
+<a class="btn btn-info" href="{% url "totem-access" project.uuid %}">{% trans "Volver" %}</a>

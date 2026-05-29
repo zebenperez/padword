@@ -53,5 +53,12 @@
                 data-target-modal="common-modal"> {%trans "Import octorate bookings"%}</a>  
         </div>
     {% endif %}
+    {% if project.close_bands %}
+        <div class="col-2">
+            <a class="btn btn-primary bg-dark" href="{% url "guest-soft-remove-by-regime" "DAYP" %}"
+                onclick="return confirm('Esta sguro/a de que desea cerrar las reservas de hoy?')">{%trans "Cerrar Daypass"%}</a>  
+        </div>
+    {% endif %}
+
 </div>
 

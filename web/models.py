@@ -261,6 +261,10 @@ class Project(models.Model):
     def thirdpart_list(self):
         return [item.thirdpart for item in self.thirdparts.all()]
 
+    def close_bands(self):
+        r_list = [item.regime.code for item in self.regimes.all()]
+        return "DAYP" in r_list
+
 class ProjectAux(models.Model):
     contact_name = models.CharField(max_length=255, verbose_name=_('Contact Name'), default="")
     contact_email = models.CharField(max_length=255, verbose_name=_('Contact Email'), default="")

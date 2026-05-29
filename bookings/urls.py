@@ -284,7 +284,6 @@ urlpatterns = [
     path('totem-access/<slug:project_uuid>/', totem.totem_access, name='totem-access'),
     path('totem-start/', totem.totem_start, name='totem-start'),
     path('totem-check-band/', totem.totem_check_band, name='totem-check-band'),
-    path('totem-close/', totem.totem_close, name='totem-close'),
-    path('totem-index/<slug:project_uuid>/', totem.totem_index, name='totem-index'),
+    path('totem-pay/', totem.totem_pay, name='totem-pay'),
 ]
 

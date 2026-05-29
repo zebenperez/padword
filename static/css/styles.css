@@ -1781,6 +1781,8 @@ i.fas.fa-check-square {
 	font-size: 1.1rem;
 	letter-spacing:0;
 	line-height: 1.2;
+
+	display: none; /* Quitar el display-none cuando Padword nos lo indique */
 }
 
 .validation {

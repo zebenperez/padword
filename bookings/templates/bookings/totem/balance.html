@@ -1,6 +1,30 @@
 {% load i18n padword_tags tz %}
+ 
+<div class="table-header"> CONSUMOS </div>
+<div class="transactions-table">
+    <div class="table-head">
+        <div> {% trans 'Date' %} </div>
+        <div> {% trans 'Description' %} </div>
+        <div class="text-end"> {% trans 'Amount' %} </div>
+    </div>
+    <div class="content-items" tyle="overflow-y: scroll; height: 220px;">
+        <!-- ITEM -->
+        {% for balance in band.balances.all %}
+            <div class="small guest-row transaction-item" id="row_{{item.id}}">
+                <div class="date">
+                    <span>{{ balance.date|timezone:band.guest.project.time_zone_name|date:'d/m/Y' }} </span>
+                    <small>{{ balance.date|timezone:band.guest.project.time_zone_name|date:'H:i:s' }} </small>
+                </div>
+                <div class="description">
+                    <div class="title"> {{ balance.desc|safe }} </div>
+                </div>
+                <div class="amount negative"> {{ balance.amount|floatformat:2 }} </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>
 
-
+<!--
 <div class="table-header"> CONSUMOS </div>
 <div class="table-content">
     <table class="table" id="main-table">
@@ -9,7 +33,6 @@
                 <th> {% trans 'Date' %} </th>
                 <th> {% trans 'Description' %} </th>
                 <th> {% trans 'Amount' %} </th>
-                <th> </th>
             </tr>
         </thead>
         <tbody> 
@@ -18,10 +41,9 @@
                     <td> {{ balance.date|timezone:band.guest.project.time_zone_name|date:'d/m/Y H:i:s' }} </td>
                     <td> {{ balance.desc|safe }} </td>
                     <td> {{ balance.amount|floatformat:2 }} </td>
-                    <td class="text-end">
-                    </td>
                 </tr>
             {% endfor %}
         </tbody>
     </table>
 </div>
+-->

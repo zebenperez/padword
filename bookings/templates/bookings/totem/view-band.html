@@ -1,6 +1,8 @@
 {% load i18n %}
 
-{% if band_err != "" %} <div class="alert alert-danger">{{band_err}}</div>
+{% if band_err != "" %} 
+    <div class="alert alert-danger">{{band_err}}</div>
+    <a class="btn btn-info" href="{% url "totem-access" project.uuid %}">{% trans "Volver" %}</a>
 {% else %}
 <div class="screen">
     <div class="hero">
@@ -30,7 +32,8 @@
             <!-- BOTTOM -->
             <section class="bottom">
                 <div class="balance-card"> <h2>BALANCE: {{band.balance}} {{project.currency}}</h2> </div>
-                <button class="pay-btn"> Pagar </button>
+                <button class="pay-btn ark" data-url="{% url "totem-pay" %}" data-target="div-main" data-obj_id="{{band.id}}" 
+                    data-project="{{project.uuid}}"> Pagar </button>
             </section>
         </main>
     </div>

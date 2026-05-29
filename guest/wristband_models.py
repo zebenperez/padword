@@ -45,6 +45,29 @@ class Wristband(models.Model):
             wb = WristbandBackup.objects.create(code=self.code, guest_uuid=self.guest.UUID)
         return wb
 
+    def update_backup_balance(self, wbb):
+        wbb.balances.all().delete()
+        for item in self.balances.all():
+            WristbandBackupBalance.objects.create(date=item.date, amount=item.amount, desc=item.desc, wristband=wbb)
+
+    def make_close(self):
+        wbb = self.get_or_create_backup()
+        wbb.kid = self.kid
+        wbb.locks = self.locks
+        wbb.name = self.name
+        wbb.project_uuid = self.guest.project_id
+        wbb.guest_name = "{} {}".format(self.guest.name, self.guest.surname)
+        wbb.guest_mobile = self.guest.mobile
+        wbb.guest_email = self.guest.email
+        wbb.guest_room = self.guest.room
+        wbb.check_in = self.guest.check_in
+        wbb.check_out = self.guest.check_out
+        if self.type != None:
+            wbb.type = self.type.name
+        wbb.save()
+        self.update_backup_balance(wbb)
+        return wbb
+
     def can_access_zone(self, zone):
         if self.guest == None:
             return False

@@ -397,7 +397,7 @@ def guest_set_regime(request):
 @group_required("admins", "projects")
 def guest_stripe_update(request):
     try:
-        print("--1--")
+        #print("--1--")
         gs = get_or_none(GuestStripe, get_param(request.GET, "obj_id"))
         psu = ProjectStripeUser.objects.filter(project_uuid=gs.guest.project_id).first()
         if psu != None:
@@ -629,6 +629,35 @@ def guest_soft_remove_all_by_project(request):
         #items, total_count = get_guest_items_by_project(request, project.uuid)
         #items = get_guest_items(request, 0)
         #return render(request, "guest-by-project/guest-list.html", {'items':items, 'project_uuid': project.uuid, 'msg': msg})
+    except Exception as e:
+        print(e)
+        return render(request, 'error_exception.html', {'exc':show_exc(e)})
+
+@group_required("projects")
+def guest_soft_remove_by_regime(request, code=""):
+    try:
+        project = get_or_none(Project, request.project_id)
+        today = datetime.date.today()
+        start = datetime.datetime.combine(today, datetime.time.min)
+        end = datetime.datetime.combine(today, datetime.time.max)
+        guest_list = Guest.objects.filter(
+            project_id=project.uuid, 
+            deleted=0, 
+            check_out__range=(start,end), 
+            regimes__regime__code__in=[code]
+        )
+        msg = ""
+        for guest in guest_list:
+            msg += "Deleting guest: {} {}\n".format(guest.name, guest.surname)
+            for band in guest.bands.all():
+                msg += "Deleting band: {} {}\n".format(band.name, band.code)
+                band.make_close()
+                band.delete()
+            GuestUser.delete_by_guest(guest.UUID)
+            msg += guest.delete_soft()
+            print(msg)
+
+        return redirect(guests_by_project)
     except Exception as e:
         print(e)
         return render(request, 'error_exception.html', {'exc':show_exc(e)})

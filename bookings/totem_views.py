@@ -9,7 +9,9 @@ from padword.commons import show_exc, get_or_none, get_param, get_float, reverse
 from web.models import Project
 from bookings.models import Form
 from guest.models import Guest
-from guest.wristband_models import Wristband, WristbandBalance
+from guest.wristband_models import Wristband, WristbandBalance, WristbandBackup, WristbandBackupBalance
+from connector.models import ProjectPaytefUser
+from .tpv_paytef_lib import manage_transaction
 
 from django.conf import settings
 
@@ -48,7 +50,7 @@ def totem_access(request, project_uuid, mobile=""):
     return render(request, 'bookings/totem/totem-welcome.html', context)
 
 def totem_start(request):
-    return render(request, "bookings/totem/totem-check-band.html", {'project_uuid': request.GET["project_uuid"], 'error': ''})
+    return render(request, "bookings/totem/check-band.html", {'project_uuid': request.GET["project_uuid"], 'error': ''})
 
 def totem_check_band(request):
     try:
@@ -56,11 +58,15 @@ def totem_check_band(request):
         val = get_param(request.GET, "value", "")
         band = Wristband.get_active_by_project(project, reverse_cardkey(val))
         band_err = ""
-        if band != None and band.guest != None:
+        if band == None:
+            band_err = _("Pulsera no encontrada!")
+        elif band.guest == None:
+            band_err = _("Pulsera no asignada!")
+        elif band.is_close:
+            band_err = _("Esta pulsera ya ha sido cerrada!")
+        else:
             gr = band.guest.regimes.first()
             regime = gr.regime if gr != None else None
-        else:
-            band_err = _("This band is not asigned to any guest!")
 
         form = Form.get_totem(project.uuid)
         return render(request, "bookings/totem/view-band.html", {'band':band, 'band_err': band_err, 'form': form, 'project': project})
@@ -68,24 +74,57 @@ def totem_check_band(request):
         print(e)
         return render(request, "error_exception.html", {'exc':show_exc(e)})
 
+def remove_wristband_backup_balance(wbb):
+    for item in wbb.balances.all():
+        item.delete()
 
-#@group_required("waiters")
-def totem_index(request, project_uuid):
+def create_wristband_backup_balance(wb, wbb):
+    for item in wb.balances.all():
+        WristbandBackupBalance.objects.create(date=item.date, amount=item.amount, desc=item.desc, wristband=wbb)
+
+def get_or_update_wristband_backup(wb):
+    wbb = WristbandBackup.objects.filter(code=wb.code, guest_uuid=wb.guest.UUID).first()
+    if wbb == None:
+        wbb = WristbandBackup.objects.create(code=wb.code, guest_uuid=wb.guest.UUID)
+    else:
+        remove_wristband_backup_balance(wbb)
+    wbb.kid = wb.kid
+    wbb.locks = wb.locks
+    wbb.name = wb.name
+    wbb.project_uuid = wb.guest.project_id
+    #wbb.guest_uuid = wb.guest.UUID
+    wbb.guest_name = "{} {}".format(wb.guest.name, wb.guest.surname)
+    wbb.guest_mobile = wb.guest.mobile
+    wbb.guest_email = wb.guest.email
+    wbb.guest_room = wb.guest.room
+    wbb.check_in = wb.guest.check_in
+    wbb.check_out = wb.guest.check_out
+    if wb.type != None:
+        wbb.type = wb.type.name
+    wbb.save()
+    create_wristband_backup_balance(wb, wbb)
+    return wbb
+
+def totem_pay(request):
+    project = get_or_none(Project, request.GET["project"], "uuid")
+    band = get_or_none(Wristband, request.GET["obj_id"])
+    if band == None:
+        return render(request, "bookings/totem/payment-return.html", {'err': _('Pulsera no encontrada'), 'project': project})
+
+    ppu = ProjectPaytefUser.objects.filter(project_uuid=project.uuid).first()
+    if ppu == None or ppu.tcod == "":
+        return render(request, "bookings/totem/payment-return.html", {'err': _('Datafono no encontrado'), 'project': project})
+
     try:
-        project = get_or_none(Project, project_uuid, "uuid")
-
-        form = Form.get_totem(project.uuid)
-
-        context = { 'project_uuid':project.uuid, 'form':form, }
-        return render(request, "bookings/totem/index.html", context)
+        tcod = ppu.tcod
+        payment_ok = manage_transaction(project, band.balance, "Ticket: {}".format(band.id), tcod)
+        if not payment_ok:
+            return render(request, "bookings/totem/payment-return.html", {'err': _('Error procesando el pago'), 'project': project})
     except Exception as e:
         print(e)
-        return render(request, "error_exception.html", {'exc':show_exc(e)})
+        return render(request, "bookings/totem/payment-return.html", {'err': _('Error procesando el pago'), 'project': project})
 
-@group_required("waiters")
-def totem_close(request):
-    auth.logout(request)
-    project_uuid = request.GET["project_uuid"] if "project_uuid" in request.GET else ""
-    return redirect(reverse("totem-access", kwargs = {'project_uuid': project_uuid}))
+    obj = get_or_update_wristband_backup(band)
+    return render(request, "bookings/totem/payment-return.html", {'err': '', 'project': project})
 
-
+ 
