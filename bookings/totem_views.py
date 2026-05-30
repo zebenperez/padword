@@ -13,6 +13,7 @@ from guest.wristband_models import Wristband, WristbandBalance, WristbandBackup,
 from guest.wristband_lib import close_band_by_regime_and_soft_remove
 from connector.models import ProjectPaytefUser
 from .tpv_paytef_lib import manage_transaction
+from .common_lib import user_in_group
 
 from django.conf import settings
 
