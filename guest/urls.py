@@ -36,6 +36,8 @@ urlpatterns = [
     path('guests/project/details/<int:obj_id>/<slug:current_tab>', views.guest_details_by_project, name='guest-details-by-project'),
     path('guests/project/details/', views.guest_details_by_project, name='guest-details-by-project'),
     path('guests/project/soft-remove/by-regime/<slug:code>/', views.guest_soft_remove_by_regime, name='guest-soft-remove-by-regime'),
+    path('guests/project/wristbands-daily-close/', views.guest_wristbands_daily_close, name='guest-wristbands-daily-close'),
+
 
     path('guests/update-code/', views.guest_update_code, name='guest-update-code'),
     path('guests/save-date/', views.guest_save_date, name='guest-save-date'),

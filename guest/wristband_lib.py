@@ -1,19 +1,21 @@
 from datetime import datetime, date, time
 from padword import settings
 from bookings.models import GuestUser
+from datetime import datetime
 from .models import Guest
 
 import os
 
 
 def write_log(result):
-    f = open(os.path.join(settings.BASE_DIR, "bands.log"), "a", encoding='utf-8')
+    band_name = f'{datetime.now().strftime("%Y%m%d_%H%M%S")}_bands.log'
+    f = open(os.path.join(settings.BASE_DIR, "media", "wristbands", "bands.log"), "a", encoding='utf-8')
     f.write("{}\n".format(result))
     f.close()
 
 def close_band_by_regime_and_soft_remove(project, code=""):
     write_log(f"---------------------------------------------")
-    write_log(f"CERRANDO PULSERAS Y BORRADO SOFT {datetime.now()}")
+    write_log(f"CERRANDO PULSERAS {datetime.now()}")
     try:
         today = date.today()
         start = datetime.combine(today, time.min)

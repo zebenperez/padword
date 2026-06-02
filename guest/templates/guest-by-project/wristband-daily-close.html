@@ -1,0 +1,7 @@
+{% extends 'base.html' %}
+{% load i18n padword_tags %}
+
+{% block central_content %}
+    {#{% include "bookings/tpv-orders-daily/search_box.html" %}#}
+    <div class="content mt-4"> <div id="file-list"> {% include "guest-by-project/wristband-daily-close-content.html" %} </div> </div>
+{% endblock central_content %}

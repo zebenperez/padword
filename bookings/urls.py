@@ -282,8 +282,10 @@ urlpatterns = [
  
     #------------- TOTEM --------------#
     path('totem-access/<slug:project_uuid>/', totem.totem_access, name='totem-access'),
+    path('totem-access/<slug:project_uuid>/<slug:code>', totem.totem_access, name='totem-access'),
     path('totem-start/', totem.totem_start, name='totem-start'),
     path('totem-check-band/', totem.totem_check_band, name='totem-check-band'),
     path('totem-pay/', totem.totem_pay, name='totem-pay'),
+    path('totem-view-ticket/', totem.totem_view_ticket, name='totem-view-ticket'),
 ]
 

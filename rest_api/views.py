@@ -338,7 +338,7 @@ class GuestViewSet(viewsets.ModelViewSet):
             band_code = request.POST.get("band_code", "")       #opt
             user_regime = request.POST.get("user_regime", "")   #req
             user_type = request.POST.get("user_type", "")       #opt
-            end_date = request.POST.get('end_date', "")         #opt
+            check_out = request.POST.get('check_out', "")         #opt
 
             #if name == "" or band_code == "" or user_regime == "":
             if name == "" or user_regime == "":
@@ -358,11 +358,14 @@ class GuestViewSet(viewsets.ModelViewSet):
                     return Response({"error": True, 'msg': 'User type not found!'})
                 guest_type = gt.uuid 
 
+            c_out = datetime.strptime(check_out, "%Y-%m-%d %H:%M:%S") if check_out != "" else get_today_end()
+            c_in = pu.project.local_date(datetime.now()).strftime("%Y-%m-%d %H:%M:%S")
             data = { 
                 "UUID": new_ui_slug(Guest, "UUID"), 
                 "name": name, 
                 "surname": surname, 
-                "check_out": datetime.strptime(end_date, "%Y-%m-%d %H:%M:%S") if end_date != "" else get_today_end(),
+                "check_in": c_in,
+                "check_out": c_out,
                 "guest_type": guest_type,
                 "project_id": pu.project_uuid, 
             }

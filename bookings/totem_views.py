@@ -7,7 +7,8 @@ from django.utils.translation import ugettext_lazy as _
 from padword.decorators import group_required
 from padword.commons import show_exc, get_or_none, get_param, get_float, reverse_cardkey
 from web.models import Project
-from bookings.models import Form
+from bookings.models import Form, FormInstance
+from contents.models import ShoppingCart
 from guest.models import Guest
 from guest.wristband_models import Wristband, WristbandBalance, WristbandBackup, WristbandBackupBalance
 from guest.wristband_lib import close_band_by_regime_and_soft_remove
@@ -32,7 +33,7 @@ def check_user(user):
         return False
     return True
 
-def totem_access(request, project_uuid, mobile=""):
+def totem_access(request, project_uuid, code=""):
     project = get_or_none(Project, project_uuid, "uuid")
 
     context = {'project_uuid': project.uuid}
@@ -46,9 +47,9 @@ def totem_access(request, project_uuid, mobile=""):
     context["next_url"] = next_url
     context["form"] = form
     context["cat"] = form.get_category
-    context["mobile"] = mobile
-    if mobile != "":
-        request.session["mobile"] = mobile
+    context["code"] = code
+    if code != "":
+        request.session["code"] = code
     return render(request, 'bookings/totem/totem-welcome.html', context)
 
 def totem_start(request):
@@ -61,11 +62,11 @@ def totem_check_band(request):
         band = Wristband.get_active_by_project(project, reverse_cardkey(val))
         band_err = ""
         if band == None:
-            band_err = _("Pulsera no encontrada!")
+            band_err = _("¡Pulsera no encontrada!")
         elif band.guest == None:
-            band_err = _("Pulsera no asignada!")
+            band_err = _("¡Pulsera no asignada!")
         elif band.is_close:
-            band_err = _("Esta pulsera ya ha sido cerrada!")
+            band_err = _("¡Esta pulsera ya ha sido cerrada!")
         else:
             gr = band.guest.regimes.first()
             regime = gr.regime if gr != None else None
@@ -75,37 +76,6 @@ def totem_check_band(request):
     except Exception as e:
         print(e)
         return render(request, "error_exception.html", {'exc':show_exc(e)})
-
-#def remove_wristband_backup_balance(wbb):
-#    for item in wbb.balances.all():
-#        item.delete()
-#
-#def create_wristband_backup_balance(wb, wbb):
-#    for item in wb.balances.all():
-#        WristbandBackupBalance.objects.create(date=item.date, amount=item.amount, desc=item.desc, wristband=wbb)
-#
-#def get_or_update_wristband_backup(wb):
-#    wbb = WristbandBackup.objects.filter(code=wb.code, guest_uuid=wb.guest.UUID).first()
-#    if wbb == None:
-#        wbb = WristbandBackup.objects.create(code=wb.code, guest_uuid=wb.guest.UUID)
-#    else:
-#        remove_wristband_backup_balance(wbb)
-#    wbb.kid = wb.kid
-#    wbb.locks = wb.locks
-#    wbb.name = wb.name
-#    wbb.project_uuid = wb.guest.project_id
-#    #wbb.guest_uuid = wb.guest.UUID
-#    wbb.guest_name = "{} {}".format(wb.guest.name, wb.guest.surname)
-#    wbb.guest_mobile = wb.guest.mobile
-#    wbb.guest_email = wb.guest.email
-#    wbb.guest_room = wb.guest.room
-#    wbb.check_in = wb.guest.check_in
-#    wbb.check_out = wb.guest.check_out
-#    if wb.type != None:
-#        wbb.type = wb.type.name
-#    wbb.save()
-#    create_wristband_backup_balance(wb, wbb)
-#    return wbb
 
 def totem_pay(request):
     project = get_or_none(Project, request.GET["project"], "uuid")
@@ -118,8 +88,9 @@ def totem_pay(request):
         return render(request, "bookings/totem/payment-return.html", {'err': _('Datafono no encontrado'), 'project': project})
 
     try:
-        tcod = ppu.tcod
-        payment_ok = manage_transaction(project, band.balance, "Ticket: {}".format(band.id), tcod)
+        #tcod = ppu.tcod
+        tcod = request.session["code"] if "code" in request.session else ""
+        payment_ok = manage_transaction(project, -1 * band.balance, "Ticket: {}".format(band.id), tcod)
         if not payment_ok:
             return render(request, "bookings/totem/payment-return.html", {'err': _('Error procesando el pago'), 'project': project})
     except Exception as e:
@@ -132,4 +103,19 @@ def totem_pay(request):
         Wristband.reset_band(band)
     return render(request, "bookings/totem/payment-return.html", {'err': '', 'project': project})
 
- 
+def totem_view_ticket(request):
+    import re
+    try:
+        band = get_or_none(WristbandBalance, get_param(request.GET, "obj_id"))
+        match = re.search(r"data-obj_id='(\d+)'", band.desc)
+        fi_id = match.group(1) if match else None
+
+        fi = FormInstance.objects.get(pk = fi_id)
+        items = ShoppingCart.objects.filter(form_instance_id=fi.pk)
+        context = {'fi': fi, 'index': "0", 'project_uuid': fi.form.project.uuid, 'items':items}
+        return render(request, 'bookings/totem/view-ticket.html', context)
+    except Exception as e:
+        print(e)
+        return render(request, 'error_exception.html', {'exc':show_exc(e)})
+
+

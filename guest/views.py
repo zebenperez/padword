@@ -644,6 +644,32 @@ def guest_soft_remove_by_regime(request, code=""):
         print(e)
         return render(request, 'error_exception.html', {'exc':show_exc(e)})
 
+def getFiles(project_uuid, ext_code=""):
+    import os
+    FILES_DIR = os.path.join(settings.BASE_DIR, "media/wristbands/")
+
+    path = "{}{}/".format(FILES_DIR, project_uuid)
+    file_list = []
+    if os.path.exists(path):
+        if ext_code != "":
+            file_list = [f for f in os.listdir(path) if re.match(r'.*{}*'.format(ext_code), f)]
+        else:
+            file_list = [f for f in os.listdir(path)]
+        file_list.sort(key=str.lower, reverse=True)
+    return file_list
+
+@group_required("projects")
+def guest_wristbands_daily_close(request):
+    try:
+        project = get_or_none(Project, request.project_id)
+        file_list = getFiles(project.uuid)
+        context = {'file_list': file_list, "project_uuid": project.uuid}
+        return render (request, "guest-by-project/wristband-daily-close.html", context)
+    except Exception as e:
+        print (show_exc(e))
+        #logger.error("[bookings-orders_by_project] {}".format(str(e)))
+        return render(request, 'error_exception.html', {'exc':show_exc(e)})
+
 
 '''
     Devices

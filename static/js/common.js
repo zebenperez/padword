@@ -330,6 +330,23 @@ function getPercent(total, percent){
     return Math.round(res * 100) / 100;
 }
 
+function startInactivityTimer(options = {}) {
+    const timeoutSeconds = options.timeoutSeconds || 30;
+    const displaySelector = options.displaySelector || null;
+    const onTimeout = options.onTimeout || function() { location.reload(); };
+
+    let remaining = timeoutSeconds;
+    function updateDisplay() { if (displaySelector) { $(displaySelector).text(remaining); } }
+    function resetTimer() { remaining = timeoutSeconds; updateDisplay(); }
+    setInterval(function() {
+        remaining--;
+        updateDisplay();
+        if (remaining <= 0) { onTimeout(); }
+    }, 1000);
+    $(document).on('mousemove mousedown click scroll keypress touchstart', resetTimer);
+    updateDisplay();
+}
+
 $(document).ready(()=>{
     $("body").on("keyup", ".autosearch", function(e){
         var obj = $(this);

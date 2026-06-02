@@ -1,74 +1,72 @@
 {% load i18n %}
 
 {% if band_err != "" %} 
-    <div class="alert alert-danger">{{band_err}}</div>
-    <a class="btn btn-info" href="{% url "totem-access" project.uuid %}">{% trans "Volver" %}</a>
-{% else %}
-<div class="screen">
-    <div class="hero">
-        <div class="logo">
-            {%if form.logo%}<img src="{{form.logo.url}}" class="Logo Caldea"/>{%endif%} <span>SPA EXPERIENCE</span>
+    <div class="div-error">
+        <div class="error-container">
+            <div class="error-icon"><i class="fa fa-times"></i></div>
+            <h1 class="error-title">{{band_err}}</h1>
+            <p class="error-message">Vuelva a intentarlo y, si el problema persiste, contacte con el personal.</p>
+            <div class="actions">
+                <a class="btn btn btn-back py-3" href="{% url "totem-access" project.uuid %}">{% trans "Volver" %}</a>
+                <a class="btn btn btn-cancel py-3" href="{% url "totem-access" project.uuid %}">{% trans "Cancelar" %}</a>
+            </div>
         </div>
     </div>
+{% else %}
 
-    <div class="content">
-        <!-- SIDEBAR -->
-        <aside class="sidebar">
-            <h2 class="sidebar-title">{{band.name}}</h2>
-            <div class="info-group">
-                <div class="label">Band Code</div>
-                <div class="value">{{band.code}}</div>
+    <div class="screen">
+        <div class="hero">
+            <div class="logo">
+                {%if form.logo%}<img src="{{form.logo.url}}" class="Logo Caldea"/>{%endif%} <span>SPA EXPERIENCE</span>
             </div>
+        </div>
 
-            <div class="info-group">
-                <div class="label">Tipo</div>
-                <div class="value dark">{{band.type.name}}</div>
-            </div>
-        </aside>
-
-        <!-- MAIN -->
-        <main class="main">
-            <section class="table-card"> {% include "bookings/totem/balance.html" %} </section>
-            <!-- BOTTOM -->
-            <section class="bottom">
-                <div class="balance-card"> <h2>BALANCE: {{band.balance}} {{project.currency}}</h2> </div>
-                <button class="pay-btn ark" data-url="{% url "totem-pay" %}" data-target="div-main" data-obj_id="{{band.id}}" 
-                    data-project="{{project.uuid}}"> Pagar </button>
-            </section>
-        </main>
-    </div>
-</div>
-{% endif %}
-            {%comment%}
-            <section class="table-card">
-                <div class="table-header"> CONSUMOS </div>
-                <div class="table-content">
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th>Fecha</th>
-                                <th>Descripción</th>
-                                <th>Importe</th>
-                                <th></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>04/03/2026 16:18:12</td>
-                                <td>Ticket from Pool Bar: 20260001</td>
-                                <td class="amount">-2,25€</td>
-                                <td> <div class="eye">👁</div> </td>
-                            </tr>
-                            <tr>
-                                <td>04/03/2026 16:18:44</td>
-                                <td>Ticket from Pool Bar: 20260002</td>
-                                <td class="amount">-1,80€</td>
-                                <td> <div class="eye">👁</div> </td>
-                            </tr>
-                        </tbody>
-                    </table>
+        <div class="content">
+            <!-- SIDEBAR -->
+            <aside class="sidebar">
+                <h2 class="sidebar-title">{{band.name}}</h2>
+                <div class="info-group">
+                    <div class="label">Band Code</div>
+                    <div class="value">{{band.code}}</div>
                 </div>
-            </section>
-            {%endcomment%}
+
+                <div class="info-group">
+                    <div class="label">Tipo</div>
+                    <div class="value dark">{{band.type.name}}</div>
+                </div>
+            </aside>
+
+            <!-- MAIN -->
+            <main class="main">
+                <section class="table-card"> {% include "bookings/totem/balance.html" %} </section>
+                <!-- BOTTOM -->
+                <section class="bottom">
+                    <div class="balance-card"> <h2>BALANCE: {{band.balance|floatformat:2}} {{project.currency}}</h2> </div>
+                    {% if band.balance == 0 %}
+                        <button class="pay-btn ark" data-url="{% url "totem-pay" %}" data-target="div-main" data-obj_id="{{band.id}}" 
+                            data-project="{{project.uuid}}"> Salir </button>
+                    {% else %}
+                        <button class="pay-btn ark" data-url="{% url "totem-pay" %}" data-target="div-main" data-obj_id="{{band.id}}" 
+                            data-project="{{project.uuid}}"> Pagar </button>
+                    {% endif %}
+                </section>
+            </main>
+        </div>
+
+        <div class="actions pb-3">
+             <a class="btn btn btn-back py-3 mx-4" href="{% url "totem-access" project.uuid %}">{% trans "Volver" %}</a>
+             <a class="btn btn btn-cancel py-3 mx-4" href="{% url "totem-access" project.uuid %}">{% trans "Cancelar" %}</a>
+        </div>
+
+        <div id="contador" class="text-muted"> Redirección en <span id="segundos">30</span>s </div>
+    </div>
+
+    <script>
+        $(function () { 
+            startInactivityTimer({ timeoutSeconds: 60, displaySelector: '#segundos', onTimeout: function() { location.reload(); } }); 
+        });
+    </script>
+{% endif %}
+
 
 
