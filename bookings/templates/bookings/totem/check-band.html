@@ -2,17 +2,15 @@
 
 {% if form.errors %} <p>{% trans "Your username and password didn't match. Please try again." %}</p> {% endif %}
 
-
 <div class="row m-0">
 	<div class="col-8 offset-2 justify-content-center mt-4">
 		<div class="screen_">
-
 			<h1 class="title">Acerque su pulsera al lector</h1>
 			<p class="subtitle">Escanee su acceso para continuar</p>
 
 			<div class="scan-container">
 				<div class="scan-line"></div>
-					<input type="text" id="div-scan" class="form-control scan-input ark_change" name="bans-scan"
+				<input type="text" id="div-scan" class="form-control scan-input ark_change" name="bans-scan"
 					data-url="{% url "totem-check-band" %}" data-target="div-main" data-project="{{project_uuid}}"
 					placeholder="Escaneando..." autofocus />
 			</div>
@@ -22,27 +20,15 @@
 				Sistema listo para lectura
 			</div>
 
+            <div id="contador" class="text-muted"> Redirección en <span id="segundos">30</span>s </div>
 		</div>
 	</div>
 </div>
 
-
-<!--
-<div class="row login" style="border:1px solid red">
-	<div class="col-8 offset-2 login-box justify-content-center mt-4">
-		<div class="panel-login">
-			<div class="toolbar-heading mt-4">{% trans "Acerque su pulsera al lector" %} </div>
-            <div class="panel-body">
-                <div class="d-none d-lg-block" id="block-scan">
-                    <input type="text" id="div-scan" class="form-control ark_change" name="bans-scan"
-                        data-url="{% url "totem-check-band" %}" data-target="div-main" data-project="{{project_uuid}}"
-                        placeholder="Scan band..."/>
-                </div>
-		    </div>
-		</div>
-	</div>
-</div>
--->
-
-<script> $('#sidebar').removeClass('expanded'); $("#div-scan").focus();</script>
+<script> 
+    $('#sidebar').removeClass('expanded'); $("#div-scan").focus();
+    $(function () { 
+        startInactivityTimer({ timeoutSeconds: 60, displaySelector: '#segundos', onTimeout: function() { location.reload(); } }); 
+    });
+</script>
 {% include "autocomplete_off.html" %}

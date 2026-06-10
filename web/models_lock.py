@@ -411,4 +411,18 @@ class LockCron(models.Model):
         return result[:-1]
         #return self.lock_list.split(";")
 
+class LockRecord(models.Model):
+    uuid = models.CharField(max_length=100, verbose_name=_('UUID'), default="")
+    mac = models.CharField(max_length=100, verbose_name=_('MAC'), default="")
+    notify_type = models.CharField(max_length=100, verbose_name=_('Notify type'), default="")
+    record_type = models.CharField(max_length=100, verbose_name=_('Record type'), default="")
+    success = models.CharField(max_length=100, verbose_name=_('Success'), default="")
+    username = models.CharField(max_length=100, verbose_name=_('Username'), default="")
+    keyboard_pwd = models.CharField(max_length=100, verbose_name=_('Keyboard Pwd'), default="")
+    lock_date = models.CharField(max_length=100, verbose_name=_('Lock date'), default="")
+    electric_quantity = models.CharField(max_length=100, verbose_name=_('Electric quantity'), default="")
+    server_date = models.CharField(max_length=100, verbose_name=_('Server date'), default="")
+
+    class Meta:
+        verbose_name = _('Lock Record')
 

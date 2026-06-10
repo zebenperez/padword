@@ -196,6 +196,14 @@ def get_today_end():
     today = now.date()
     return datetime.datetime.combine(today, datetime.time(23, 59, 59))
 
+def get_date_ini(date):
+    d = datetime.datetime.strptime(date, "%Y-%m-%d")
+    return datetime.datetime.combine(d, datetime.time(0, 0, 0))
+
+def get_date_end(date):
+    d = datetime.datetime.strptime(date, "%Y-%m-%d")
+    return datetime.datetime.combine(d, datetime.time(23, 59, 59))
+
 '''
     External scripts
 '''

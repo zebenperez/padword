@@ -7,7 +7,8 @@
             <h1 class="error-title">{{band_err}}</h1>
             <p class="error-message">Vuelva a intentarlo y, si el problema persiste, contacte con el personal.</p>
             <div class="actions">
-                <a class="btn btn btn-back py-3" href="{% url "totem-access" project.uuid %}">{% trans "Volver" %}</a>
+                <a class="btn btn btn-back py-3 mx-4 ark" data-url="{% url "totem-start" %}" data-target="div-main" 
+                    data-project_uuid="{{project.uuid}}">{% trans "Volver" %}</a>
                 <a class="btn btn btn-cancel py-3" href="{% url "totem-access" project.uuid %}">{% trans "Cancelar" %}</a>
             </div>
         </div>
@@ -42,7 +43,7 @@
                 <!-- BOTTOM -->
                 <section class="bottom">
                     <div class="balance-card"> <h2>BALANCE: {{band.balance|floatformat:2}} {{project.currency}}</h2> </div>
-                    {% if band.balance == 0 %}
+                    {% if band.balance == 0 and not band.guest.regime.totem_pay %}
                         <button class="pay-btn ark" data-url="{% url "totem-pay" %}" data-target="div-main" data-obj_id="{{band.id}}" 
                             data-project="{{project.uuid}}"> Salir </button>
                     {% else %}
@@ -54,8 +55,9 @@
         </div>
 
         <div class="actions pb-3">
-             <a class="btn btn btn-back py-3 mx-4" href="{% url "totem-access" project.uuid %}">{% trans "Volver" %}</a>
-             <a class="btn btn btn-cancel py-3 mx-4" href="{% url "totem-access" project.uuid %}">{% trans "Cancelar" %}</a>
+            <a class="btn btn btn-back py-3 mx-4 ark" data-url="{% url "totem-start" %}" data-target="div-main" 
+                data-project_uuid="{{project.uuid}}">{% trans "Volver" %}</a>
+            <a class="btn btn btn-cancel py-3 mx-4" href="{% url "totem-access" project.uuid %}">{% trans "Cancelar" %}</a>
         </div>
 
         <div id="contador" class="text-muted"> Redirección en <span id="segundos">30</span>s </div>

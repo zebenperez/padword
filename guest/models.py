@@ -823,6 +823,7 @@ class SensiboDevice(models.Model):
     Regime
 '''
 class Regime(models.Model):
+    totem_pay = models.BooleanField(verbose_name=_("Pago en totem"), default=False)
     code = models.CharField(max_length=50, verbose_name='Code', default="")
     alt_code = models.CharField(max_length=50, verbose_name='Code', default="")
     name = models.CharField(max_length=255, verbose_name='Name', default="")

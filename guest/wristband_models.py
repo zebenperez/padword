@@ -68,6 +68,9 @@ class Wristband(models.Model):
         self.update_backup_balance(wbb)
         return wbb
 
+    def reset_balance(self, desc):
+        WristbandBalance.objects.create(amount=-1*self.balance, desc=desc, wristband=self)
+
     def can_access_zone(self, zone):
         if self.guest == None:
             return False
@@ -216,6 +219,7 @@ class WristbandBackup(models.Model):
     guest_mobile = models.CharField(max_length=255, verbose_name=_('Guest mobile'), default="")
     guest_email = models.CharField(max_length=255, verbose_name=_('Guest email'), default="")
     guest_room = models.CharField(max_length=255, verbose_name=_('Guest room'), default="")
+    date = models.DateTimeField(verbose_name='Date', default=datetime.datetime.now)
     check_in = models.DateTimeField(verbose_name='Check-In', default=datetime.datetime.now)
     check_out = models.DateTimeField(verbose_name='Check-Out', default=datetime.datetime.now)
     type = models.CharField(max_length=255, verbose_name=_('Name'), default="")

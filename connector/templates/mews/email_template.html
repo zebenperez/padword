@@ -1,0 +1,292 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Información de acceso</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    background:#eef2f7;
+    font-family:Arial, Helvetica, sans-serif;
+    color:#374151;
+    padding:30px 15px;
+}
+
+.email-wrapper{
+    max-width:700px;
+    margin:0 auto;
+    background:#ffffff;
+    border-radius:16px;
+    overflow:hidden;
+    box-shadow:0 8px 30px rgba(0,0,0,.08);
+}
+
+/* Header */
+
+.header{
+    background:#35a8df;
+    color:#ffffff;
+    text-align:center;
+    padding:28px;
+}
+
+.header h1{
+    font-size:24px;
+    font-weight:700;
+    letter-spacing:1px;
+}
+
+.header p{
+    margin-top:8px;
+    opacity:.9;
+    font-size:14px;
+}
+
+/* Content */
+
+.content{
+    padding:45px;
+}
+
+.greeting{
+    font-size:18px;
+    margin-bottom:18px;
+}
+
+.intro{
+    font-size:16px;
+    line-height:1.7;
+    color:#4b5563;
+    margin-bottom:35px;
+}
+
+/* Booking Card */
+
+.booking-box{
+    background:#f8fafc;
+    border:1px solid #e5e7eb;
+    border-radius:12px;
+    padding:25px;
+    margin-bottom:35px;
+}
+
+.booking-title{
+    font-size:18px;
+    font-weight:700;
+    margin-bottom:20px;
+    color:#111827;
+}
+
+.booking-row{
+    display:flex;
+    justify-content:space-between;
+    padding:12px 0;
+    border-bottom:1px solid #e5e7eb;
+}
+
+.booking-row:last-child{
+    border-bottom:none;
+}
+
+.booking-label{
+    color:#6b7280;
+    font-size:15px;
+}
+
+.booking-value{
+    font-weight:600;
+    color:#111827;
+    text-align:right;
+}
+
+.code-label{
+    color:#6b7280;
+    font-size:18px;
+}
+
+/* CTA */
+
+.cta-wrapper{
+    text-align:center;
+    margin:40px 0;
+}
+
+.pwa-button{
+    display:inline-block;
+    margin-bottom:16px;
+    padding:14px 28px;
+    border:2px solid #35a8df;
+    border-radius:10px;
+    color:#35a8df;
+    text-decoration:none;
+    font-weight:600;
+    font-size:15px;
+}
+
+.cta-button{
+    display:inline-block;
+    padding:18px 42px;
+    background:#35a8df;
+    color:#ffffff;
+    text-decoration:none;
+    border-radius:10px;
+    font-weight:700;
+    font-size:18px;
+}
+
+.description{
+    font-size:14px;
+    line-height:1.8;
+    color:#6b7280;
+    background:#f8fafc;
+    padding:20px;
+    border-radius:10px;
+}
+
+hr{
+    border:none;
+    border-top:1px solid #e5e7eb;
+    margin:35px 0;
+}
+
+/* Footer */
+
+.footer{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:20px;
+}
+
+.footer-left{
+    font-size:14px;
+    color:#6b7280;
+}
+
+.footer-left strong{
+    display:block;
+    color:#111827;
+    margin-bottom:6px;
+    font-size:16px;
+}
+
+.footer-left a{
+    color:#35a8df;
+    text-decoration:none;
+}
+
+.logo img{
+    max-width:130px;
+    height:auto;
+}
+
+.text-alert{
+    color: red;
+}
+
+/* Mobile */
+
+@media(max-width:600px){
+
+    .content{
+        padding:25px;
+    }
+
+    .booking-row{
+        flex-direction:column;
+        gap:6px;
+    }
+
+    .booking-value{
+        text-align:left;
+    }
+
+    .cta-button,
+    .pwa-button{
+        width:100%;
+    }
+
+    .footer{
+        flex-direction:column;
+        align-items:flex-start;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="email-wrapper">
+    <div class="header">
+        <h1>Información de acceso</h1>
+        <p>Su estancia comienza próximamente</p>
+    </div>
+
+    <div class="content">
+        <p class="greeting">Estimado/a {{guest.name}} {{guest.surname}}</p>
+
+        <p class="intro">
+            Le facilitamos los datos de acceso de su alojamiento
+            <strong>{{project.name}}</strong>.
+            Revise la información de su reserva y utilice los enlaces inferiores para acceder a la aplicación o consultar su código de acceso.
+        </p>
+
+        <div class="booking-box">
+            <div class="booking-title"> Datos de la reserva </div>
+
+            <div class="booking-row">
+                <span class="booking-label">Referencia</span>
+                <span class="booking-value">{{guest.ext_id}}</span>
+            </div>
+
+            <div class="booking-row">
+                <span class="booking-label">Check-in</span>
+                <span class="booking-value">{{guest.check_in|date:"d-m-Y"}}</span>
+            </div>
+
+            <div class="booking-row">
+                <span class="booking-label">Check-out</span>
+                <span class="booking-value">{{guest.check_out|date:"d-m-Y"}}</span>
+            </div>
+
+            <div class="booking-row">
+                <span class="booking-label">Huéspedes</span>
+                <span class="booking-value"></span>
+            </div>
+        </div>
+
+        <div class="cta-wrapper">
+            <a href="{{guest.pwa_link}}" class="pwa-button"> Abrir aplicación del alojamiento </a> <br/><br/>
+            <span class="code-label"> Código de acceso: {{code}} </span>
+        </div>
+
+        <div class="description">
+            El código de acceso estará operativo únicamente durante el periodo de estancia contratado, desde la hora de check-in hasta la hora de check-out.
+            <br><br>
+            Si necesita asistencia o desea modificar sus datos de acceso, contacte con:
+            <br/>
+            <div style="text-align:center">{{pmu.phone}}</div>
+            <div style="text-align:center">{{pmu.email}}</div>
+            <br>
+            {{pmu.text}}
+        </div>
+
+        <hr>
+
+        <div class="footer">
+            <div class="footer-left"> <strong>{{project.name}}</strong> </div>
+            <div class="logo"> <img src="https://app.padword.com/static/img/logo-padword.png" alt="Logo"> </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

@@ -73,8 +73,12 @@ class ProjectStripeUser(models.Model):
             return None
 
 class ProjectMewsUser(models.Model):
+    send_email = models.BooleanField(verbose_name=_('Enviar email'), default=False)
     hour = models.IntegerField(verbose_name=_('Hour to import'), default=0)
     minute = models.IntegerField(verbose_name=_('Minutes to import'), default=0)
+    phone = models.CharField(max_length=255, verbose_name=_('Teléfono'), default="")
+    email = models.CharField(max_length=255, verbose_name=_('Correo electrónico'), default="")
+    text = models.TextField(verbose_name=_('Texto email'), default="")
     client_token = models.CharField(max_length=255, verbose_name=_('Client Token'), default="")
     access_token = models.CharField(max_length=255, verbose_name=_('Access Token'), default="")
     project_uuid = models.CharField(max_length=255, verbose_name=_('Project UUID'), default="")

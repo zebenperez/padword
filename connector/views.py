@@ -13,7 +13,8 @@ from padword.commons import show_exc, get_or_none, get_param, get_random_digits,
 from padword.email_lib import send_email
 from padword.decorators import group_required
 from contents.models import ItemInCat
-from web.models import Project, ProjectUser
+from web.models import Project, ProjectUser, ProjectAux
+from web.models_lock import LockRecord
 from guest.models import Guest
 from guest.wristband_models import WristbandAccessZone, Wristband, WristbandAccessZoneGuest
 from .models import ProjectAvantioUser, ProjectAvaibookUser, ProjectWinhotelUser, ProjectMewsUser, ProjectCloudbedsUser
@@ -341,6 +342,13 @@ def mews_cancel_booking_list(request, project_uuid):
     except Exception as e:
         print(e)
         return render(request, 'error_exception.html', {'exc':show_exc(e)})
+
+@group_required("admins", "projects")
+def mews_email_template(request, project_uuid):
+    project = get_or_none(Project, project_uuid, "uuid")
+    guest = Guest.objects.filter(project_id=project_uuid).first()
+    pmu = ProjectMewsUser.objects.filter(project_uuid=project_uuid).first()
+    return render(request, 'mews/email_template.html', {'guest': guest, 'project': project, 'pmu': pmu})
 
 '''
     Cloudbeds
@@ -727,6 +735,58 @@ def access_control(request, project, card):
         f.write("\nError: {}".format(e))
     return HttpResponse("")
 
+
+'''
+    TTLOCK
+'''
+@csrf_exempt
+def lock_record_callback(request):
+    if request.method != "POST":
+        return HttpResponse("method not allowed", status=405)
+
+    try:
+        notify_type = get_param(request.POST, "notifyType")
+        lock_id = get_param(request.POST, "lockId")
+        lock_mac = get_param(request.POST, "lockMac")
+
+        # Viene como string JSON
+        records_str = request.POST.get("records", "[]")
+        records = json.loads(records_str)
+
+        #print(f"Lock callback recibido: notifyType={notify_type} lockId={lock_id} lockMac={lock_mac}")
+
+        for record in records:
+            record_type =get_param(record, "recordType")
+            success = get_param(record, "success")
+            username = get_param(record, "username")
+            keyboard_pwd = get_param(record, "keyboardPwd") 
+            electric_quantity = get_param(record, "electricQuantity")
+
+            lock_date_ms = get_param(record, "lockDate")
+            server_date_ms = get_param(record, "serverDate")
+
+            lock_date = (datetime.fromtimestamp(lock_date_ms / 1000) if lock_date_ms else None)
+
+            server_date = (datetime.fromtimestamp(server_date_ms / 1000) if server_date_ms else None)
+
+            #print(f"Record: record_type={record_type} success={success} username={username} keyboard_pwd={keyboard_pwd} electric_quantity={electric_quantity} lock_date={lock_date} server_date={server_date}")
+            LockRecord.objects.create(
+                notify_type = notify_type, 
+                uuid = lock_id, 
+                mac = lock_mac,
+                record_type = record_type,
+                success = success,
+                username = username, 
+                keyboard_pwd = keyboard_pwd, 
+                electric_quantity = electric_quantity,
+                lock_date = lock_date, 
+                server_date = server_date
+            )
+        # El proveedor exige responder exactamente "success"
+        return HttpResponse( "success", content_type="text/plain", status=200,)
+    except Exception as e:
+        print(e)
+        return HttpResponse("error", status=500)
 
 '''
     Cron Logs

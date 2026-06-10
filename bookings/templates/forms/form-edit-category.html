@@ -2,10 +2,13 @@
 
 {% with project=obj.project %}
 <div class="text-end mb-2">
-    <a class="btn btn-sm save" title="{%trans 'QR'%}" href="{% url "guest-access" obj.category %}" target="_blank">
-        <i class="fas fa-qrcode"></i> {%trans "QR"%}</a>  
-    <a class="btn btn-sm save" title="{%trans 'PWA'%}" href="{% url "guest-access" obj.category %}" target="_blank">
-        <i class="fas fa-desktop"></i> {%trans "PWA"%}</a>  
+    {#{% if request.user|in_group:'projects' or request.user|in_group:'projects' %}#}
+    {% if not request.user|in_group:'categories' %}
+        <a class="btn btn-sm save" title="{%trans 'QR'%}" href="{% url "guest-access" obj.category %}" target="_blank">
+            <i class="fas fa-qrcode"></i> {%trans "QR"%}</a>  
+        <a class="btn btn-sm save" title="{%trans 'PWA'%}" href="{% url "guest-access" obj.category %}" target="_blank">
+            <i class="fas fa-desktop"></i> {%trans "PWA"%}</a>  
+    {% endif %}
     {% if obj.form_type.code == "totem" %}
         <a class="btn btn-sm save" title="{%trans 'Totem'%}" href="{% url "totem-access" project.uuid %}" target="_blank">
             <i class="fas fa-calculator"></i> {%trans "Totem"%}</a>  

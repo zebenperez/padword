@@ -67,6 +67,10 @@ class Project(models.Model):
         return self.name
 
     @property
+    def aux(self):
+        return (self.projectaux_set.first())
+
+    @property
     def get_languages(self):
         try:
             #print (self.used_languages)

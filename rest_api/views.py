@@ -81,7 +81,8 @@ class GuestViewSet(viewsets.ModelViewSet):
                 logger.info("[{}]: \"Guest {} {} created\"".format(self.request.user, guest.name, guest.surname))
 
                 guest_data = self.serializer_class(guest).data
-                guest_data["lock_code_err"] = guest.add_all_key_code() if lock_code == "" else guest.add_all_key_code(lock_code)
+                lock_code_err = guest.add_all_key_code() if lock_code == "" else guest.add_all_key_code(lock_code)
+                guest_data["lock_code_err"] = lock_code_err if "error" in lock_code_error.lower() else "" 
                 guest_data["lock_code"] = guest.lock_code 
 
                 #Gestión de matrículas
@@ -160,8 +161,10 @@ class GuestViewSet(viewsets.ModelViewSet):
             guest_data = self.serializer_class(guest).data
             codes_err = ""
             if update_dates:
-                guest_data["lock_card_err"] = guest.change_all_key_card_date()
-                guest_data["lock_code_err"] = guest.change_all_key_code_date()
+                lock_card_err = guest.change_all_key_card_date()
+                lock_code_err = guest.change_all_key_code_date()
+                guest_data["lock_card_err"] = lock_card_err if "error" in lock_card_err.lower() else ""
+                guest_data["lock_code_err"] = lock_code_err if "error" in lock_code_err.lower() else ""
                 codes_err = guest_data["lock_code_err"]
 
             log_str = "[{}]: \"Guest {} {} updated\"".format(self.request.user, guest.name, guest.surname)
@@ -340,6 +343,10 @@ class GuestViewSet(viewsets.ModelViewSet):
             user_type = request.POST.get("user_type", "")       #opt
             check_out = request.POST.get('check_out', "")         #opt
 
+            if pu == None or pu.project == None:
+                logger.error("[{}]: \"Permission denied!\"".format(self.request.user))
+                return Response({"error": True, 'msg': 'Permission denied!'})
+
             #if name == "" or band_code == "" or user_regime == "":
             if name == "" or user_regime == "":
                 logger.error("[{}]: \"name and user_regime are required!\"".format(self.request.user))
@@ -382,6 +389,51 @@ class GuestViewSet(viewsets.ModelViewSet):
                 logger.info("[{}]: \"Band {} created\"".format(self.request.user, guest.name))
 
             return Response(data={'error': 'false', 'msg': "Band added successfully!"}, status=status.HTTP_201_CREATED)
+        except Exception as e:
+            logger.error("[{}]: \"{}\"".format(self.request.user, str(e)))
+            return Response(data={'error': 'true', 'msg': "Bad request!"}, status=status.HTTP_400_BAD_REQUEST)
+
+    @action(detail=False, methods=['get'])
+    def close_bands(self, request):
+        try:
+            from guest.wristband_lib import close_band_by_regime_and_soft_remove
+
+            pu = ProjectUser.objects.get(username=self.request.user.username)
+            if pu == None or pu.project == None:
+                logger.error("[{}]: \"Permission denied!\"".format(self.request.user))
+                return Response({"error": True, 'msg': 'Permission denied!'})
+
+            code = request.GET.get("code", "").replace("/", "")                 #req
+            if code == "":
+                logger.error("[{}]: \"Code field is required!\"".format(self.request.user))
+                return Response({"error": True, 'msg': 'Code field is required!'})
+
+            close_band_by_regime_and_soft_remove(pu.project, code)
+            logger.info("[{}]: \"Bands {} closed\"".format(self.request.user, code))
+            return Response(data={'error': 'false', 'msg': "Bands closed successfully!"}, status=status.HTTP_201_CREATED)
+        except Exception as e:
+            logger.error("[{}]: \"{}\"".format(self.request.user, str(e)))
+            return Response(data={'error': 'true', 'msg': "Bad request!"}, status=status.HTTP_400_BAD_REQUEST)
+
+    @action(detail=False, methods=['get'])
+    def bands_daily(self, request):
+        try:
+            from guest.wristband_lib import get_daily_close_bands
+            date = request.POST.get('date', "")         #req
+            print(date)
+
+            pu = ProjectUser.objects.get(username=self.request.user.username)
+            if pu == None or pu.project == None:
+                logger.error("[{}]: \"Permission denied!\"".format(self.request.user))
+                return Response({"error": True, 'msg': 'Permission denied!'})
+
+            if date == "":
+                logger.error("[{}]: \"Date field is required!\"".format(self.request.user))
+                return Response({"error": True, 'msg': 'Date field is required!'})
+
+            band_list = get_daily_close_bands(date)
+            logger.info("[{}]: \"Bands {} daily\"".format(self.request.user, date))
+            return Response(data={'band_list': band_list,}, status=status.HTTP_201_CREATED)
         except Exception as e:
             logger.error("[{}]: \"{}\"".format(self.request.user, str(e)))
             return Response(data={'error': 'true', 'msg': "Bad request!"}, status=status.HTTP_400_BAD_REQUEST)

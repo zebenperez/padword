@@ -22,6 +22,8 @@ def ticket_to_json(fi, fi_status, resp):
     guest_name = details.client if details != None else ""
     lang = details.lang if details != None else ""
     client_room = details.client_room if details != None else ""
+    band = details.band if details != None else ""
+    band_name = details.band_name if details != None else ""
     payment_type = translate2("es", fi.payment_type.name) if fi.payment_type != None else ""
     date = date_to_local(fi.date, fi.project.time_zone_name)
     st = translate2("es", fi_status.status.name) if fi_status != None else "parcial"
@@ -41,6 +43,8 @@ def ticket_to_json(fi, fi_status, resp):
         'estado': st,
         'tipo de pago': payment_type,
         'habitacion': client_room,
+        'band': band,
+        'band_name': band_name,
         'elementos': []
     }
     for item in fi.get_items:

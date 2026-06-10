@@ -8,10 +8,11 @@ from django.db.models import Q
 import datetime, csv
 
 from .models import *
-from .wristband_models import WristbandAccessZone
+from .wristband_models import WristbandAccessZone, WristbandBackup
 from .wristband_lib import close_band_by_regime_and_soft_remove
 from web.lock_lib import ShLock
-from padword.commons import show_exc, get_or_none, get_float, new_ui_slug, translate, user_in_group, get_param, reverse_cardkey, set_session, get_int
+from padword.commons import show_exc, get_or_none, get_float, new_ui_slug, translate, user_in_group, get_param, reverse_cardkey
+from padword.commons import get_session, set_session, get_int, get_today_ini, get_today_end
 from padword.decorators import group_required
 from bookings.models import GuestUser
 from connector.models import ProjectStripeUser, ProjectCarUser
@@ -643,33 +644,6 @@ def guest_soft_remove_by_regime(request, code=""):
     except Exception as e:
         print(e)
         return render(request, 'error_exception.html', {'exc':show_exc(e)})
-
-def getFiles(project_uuid, ext_code=""):
-    import os
-    FILES_DIR = os.path.join(settings.BASE_DIR, "media/wristbands/")
-
-    path = "{}{}/".format(FILES_DIR, project_uuid)
-    file_list = []
-    if os.path.exists(path):
-        if ext_code != "":
-            file_list = [f for f in os.listdir(path) if re.match(r'.*{}*'.format(ext_code), f)]
-        else:
-            file_list = [f for f in os.listdir(path)]
-        file_list.sort(key=str.lower, reverse=True)
-    return file_list
-
-@group_required("projects")
-def guest_wristbands_daily_close(request):
-    try:
-        project = get_or_none(Project, request.project_id)
-        file_list = getFiles(project.uuid)
-        context = {'file_list': file_list, "project_uuid": project.uuid}
-        return render (request, "guest-by-project/wristband-daily-close.html", context)
-    except Exception as e:
-        print (show_exc(e))
-        #logger.error("[bookings-orders_by_project] {}".format(str(e)))
-        return render(request, 'error_exception.html', {'exc':show_exc(e)})
-
 
 '''
     Devices

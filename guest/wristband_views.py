@@ -10,6 +10,7 @@ from .wristband_models import Wristband, WristbandBalance, WristbandType, Wristb
 from .wristband_models import WristbandAccess, WristbandAccessPoint, WristbandAccessZone, WristbandAccessZoneGuest
 from web.models import Project, Waiter
 from padword.commons import show_exc, get_or_none, get_param, reverse_cardkey, get_float, get_int, update_cron
+from padword.commons import get_session, set_session, get_date_ini, get_date_end
 from padword.decorators import group_required
 from bookings.models import Form
 from bookings.common_lib import user_in_group
@@ -750,5 +751,69 @@ def wristbands_close_print(request, obj_id):
     except Exception as e:
         print(e)
         return render(request, 'error_exception.html', {'exc':show_exc(e)})
+
+@group_required("admins")
+def wristbands_log(request):
+    import os
+
+    f = open(os.path.join(settings.BASE_DIR, "wristbands.log"), "r", encoding='utf-8')
+    text = f.read()
+    try:
+        log_list = [f for f in os.listdir(settings.LOGPATH) if re.match(r'.*wristbands.*', f)]
+    except:
+        log_list = []
+    return render(request, 'cron-log.html', {'text': text.replace("\n", "<br/>"), 'log_list': log_list})
+
+'''
+    DAILY CLOSE
+'''
+def guest_wristbands_daily_items(request):
+    date = get_session(request, "s_wb_daily_date", "")
+    if date == "":
+        date = datetime.today().strftime("%Y-%m-%d")
+    item_list = WristbandBackup.objects.filter(date__range=(get_date_ini(date), get_date_end(date)))
+    return item_list
+
+@group_required("projects")
+def daily_close(request):
+    try:
+        project = get_or_none(Project, request.project_id)
+        item_list = guest_wristbands_daily_items(request)
+        context = {'item_list': item_list, "project_uuid": project.uuid}
+        return render (request, "wristbands/wristband-daily-close.html", context)
+    except Exception as e:
+        print (show_exc(e))
+        #logger.error("[bookings-orders_by_project] {}".format(str(e)))
+        return render(request, 'error_exception.html', {'exc':show_exc(e)})
+
+@group_required("projects")
+def daily_close_search(request):
+    try:
+        project = get_or_none(Project, request.project_id)
+        set_session(request, "s_wb_daily_date", get_param(request.GET, "value"))
+        item_list = guest_wristbands_daily_items(request)
+        context = {'item_list': item_list, "project_uuid": project.uuid}
+        return render (request, "wristbands/wristband-daily-close-content.html", context)
+    except Exception as e:
+        print (show_exc(e))
+        return render(request, 'error_exception.html', {'exc':show_exc(e)})
+
+@group_required("projects")
+def daily_close_csv(request):
+    try:
+        access_list = access_search(request)
+        response = HttpResponse(
+            content_type='text/csv',
+            headers={'Content-Disposition': 'attachment; filename="bands_daily.csv"'},
+        )
+
+        item_list = guest_wristbands_daily_items(request)
+        writer = csv.writer(response)
+        writer.writerow(['Habitación', 'Huésped', 'Fecha de inicio', 'Fecha de fin', 'Nombre', 'Tipo', 'Niños', 'Balance'])
+        for item in item_list:
+            writer.writerow([item.guest_room,item.guest_name,item.check_in,item.check_out,item.name,item.type,item.kid,item.balance])
+        return response
+    except Exception as e:
+        return HttpResponse("Error: {}".format(e))
 
 

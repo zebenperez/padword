@@ -1,8 +1,10 @@
+from django.template.loader import render_to_string
 from django.conf import settings
 from datetime import datetime, timedelta
 from web.models import Room
 from guest.models import Guest
 from padword.commons import new_ui_slug
+from padword.email_lib import send_email
 
 import requests
 import hashlib
@@ -13,8 +15,11 @@ import string
 
 try:
     API_URL = settings.MEWS_API_URL
+    #API_URL = "https://api.mews.com/api/connector/v1/"
+    CLIENT_ID = settings.MEWS_CLIENT_ID
 except:
     API_URL = "https://api.mews.com/api/connector/v1/"
+    CLIENT_ID = "Padword"
     #API_URL = "https://api.mews-demo.com/api/connector/v1/"
 
 BOOKINGS_URL = "reservations/getAll/2023-06-06"
@@ -73,6 +78,7 @@ class Mews():
             #_headers['Authorization'] = 'Basic {}'.format(self.uuid)
             #_headers['Token'] = '{}'.format(self.token)
             _response = requests.post(_url_request, headers=_headers, json=_json)
+            print(_response.text)
             _response.raise_for_status()
             return _response
         except requests.exceptions.HTTPError as errh:
@@ -87,10 +93,11 @@ class Mews():
     def get_bookings(self, state=CONFIRM_STATE):
         try:
             _url_request = "{}{}".format(API_URL, BOOKINGS_URL)
+            print(_url_request)
             params = {
                     "ClientToken": "{}".format(self.client_token),
                     "AccessToken": "{}".format(self.access_token),
-                    "Client": "Padword",
+                    "Client": CLIENT_ID,
                     "Limitation": {
                         #"Cursor": "819e3435-7d5e-441f-bc68-76d89c69b8f5",
                         "Count": 1000
@@ -113,6 +120,7 @@ class Mews():
                     #},
                     #"States": ["Confirmed", "Started"]
             }
+            print(params)
             dic = self.__send_post_request__(_url_request, params).json()
             items = dic["Reservations"]
             return items
@@ -192,10 +200,14 @@ def room_exist(project_uuid, room):
     count = Room.objects.filter(project_uuid=project_uuid, number=room).count()
     return (count > 0)
 
-def send_email_code(email, code):
-    subject = "Códigos de acceso" 
-    body = f'Su código de acceso es {code}' 
-    send_email(subject, body, settings.EMAIL_FROM_DEFAULT, [email])
+def send_email_code(guest, code, pmu):
+    try:
+        subject = "Códigos de acceso" 
+        body = f'Su código de acceso es {code}' 
+        body = render_to_string("mews/email_template.html", {'guest': guest, 'project': guest.project, 'code': code, 'pmu': pmu})
+        send_email(subject, "", settings.EMAIL_FROM_DEFAULT, [guest.email], body)
+    except Exception as e:
+        print(e)
 
 def create_booking(pmu, booking, av):
     checkin = get_date(booking.start)
@@ -233,8 +245,8 @@ def create_booking(pmu, booking, av):
             #lock_code = ''.join([random.choice(string.digits) for i in range(4)])
             lock_code = booking.number
             err = guest.add_all_key_code(lock_code)
-            if guest.email != "":
-                send_email_code(guest.email, lock_code)
+            if guest.email != "" and pmu.send_email:
+                send_email_code(guest, lock_code, pmu)
             #av.send_pwa_link(guest.ext_id, lock_code, guest.pwa_link)
 #
 #        return guest, err

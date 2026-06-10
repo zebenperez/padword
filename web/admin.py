@@ -1,6 +1,6 @@
 from django.contrib import admin
 from .models import ProjectUser, Waiter, Module, Menu, ProjectUserMenu, Thirdpart
-from .models_lock import Lock
+from .models_lock import Lock, LockRecord
 
 
 class ProjectUserMenuTabular(admin.TabularInline):
@@ -36,6 +36,13 @@ class LockAdmin(admin.ModelAdmin):
 	list_filter = ('project_uuid',)
 
 admin.site.register(Lock, LockAdmin)
+
+class LockRecordAdmin(admin.ModelAdmin):
+	list_display = ('uuid', 'mac', 'notify_type', 'record_type', 'success', 'username', 'keyboard_pwd', 'electric_quantity', 'lock_date', 'server_date')
+	search_fields = ['uuid']
+
+admin.site.register(LockRecord, LockRecordAdmin)
+
 
 class ProjectUserMenuAdmin(admin.ModelAdmin):
     list_display = ('project_user', 'menu', 'order')

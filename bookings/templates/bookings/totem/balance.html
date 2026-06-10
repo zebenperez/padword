@@ -17,11 +17,11 @@
                     <small>{{ balance.date|timezone:band.guest.project.time_zone_name|date:'H:i:s' }} </small>
                 </div>
                 <div class="description">
+                    <button class="details-btn ark" data-url="{% url "totem-view-ticket" %}" data-target-modal="common-modal" 
+                        data-obj_id="{{balance.id}}" title="Ver detalle"><i class="fas fa-receipt"></i></button> 
                     <div class="title"> {{ balance.desc|striptags }} </div>
                 </div>
                 <div class="amount negative"> {{ balance.amount|floatformat:2 }} </div>
-                <div><button class="btn ark" data-url="{% url "totem-view-ticket" %}" data-target-modal="common-modal" 
-                    data-obj_id="{{balance.id}}"><i class="fas fa-eye"></i></button> </div>
             </div>
         {% endfor %}
     </div>

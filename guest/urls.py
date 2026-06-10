@@ -36,7 +36,6 @@ urlpatterns = [
     path('guests/project/details/<int:obj_id>/<slug:current_tab>', views.guest_details_by_project, name='guest-details-by-project'),
     path('guests/project/details/', views.guest_details_by_project, name='guest-details-by-project'),
     path('guests/project/soft-remove/by-regime/<slug:code>/', views.guest_soft_remove_by_regime, name='guest-soft-remove-by-regime'),
-    path('guests/project/wristbands-daily-close/', views.guest_wristbands_daily_close, name='guest-wristbands-daily-close'),
 
 
     path('guests/update-code/', views.guest_update_code, name='guest-update-code'),
@@ -86,6 +85,12 @@ urlpatterns = [
     path('wristbands/close/', wristband_views.wristbands_close, name='wristbands-close'),
     path('wristbands/close/balance/', wristband_views.wristbands_close_balance, name='wristbands-close-balance'),
     path('wristbands/close/print/<int:obj_id>/', wristband_views.wristbands_close_print, name='wristbands-close-print'),
+
+    path('wristbands/logs/', wristband_views.wristbands_log, name='wristbands-log'),
+
+    path('wristbands/daily-close/', wristband_views.daily_close, name='wristbands-daily-close'),
+    path('wristbands/daily-close-search/', wristband_views.daily_close_search, name='wristbands-daily-close-search'),
+    path('wristbands/daily-close-csv/', wristband_views.daily_close_csv, name='wristbands-daily-close-csv'),
 
     #--------------------- DEVICES --------------------
     path('', views.index, name='device-index'),

@@ -77,6 +77,11 @@ def totem_check_band(request):
         print(e)
         return render(request, "error_exception.html", {'exc':show_exc(e)})
 
+def add_pay_to_band(band, amount):
+    desc += "Pago realizado a través del Totem de ".format(url, fi.id, fi.get_index)
+    WristbandBalance.objects.create(amount=amount, desc=desc, wristband=band)
+    #WristbandBalance.objects.create(amount=(get_float(fi.amount)*-1), desc=desc, wristband=band)
+
 def totem_pay(request):
     project = get_or_none(Project, request.GET["project"], "uuid")
     band = get_or_none(Wristband, request.GET["obj_id"])
@@ -98,6 +103,8 @@ def totem_pay(request):
         return render(request, "bookings/totem/payment-return.html", {'err': _('Error procesando el pago'), 'project': project})
 
     guest = band.guest
+    desc = f'Totem (code: {tcod}): liquidación de importe pendiente'
+    band.reset_balance(desc)
     obj = band.make_close()
     if guest.regime != None and guest.regime.code != "DAYP":
         Wristband.reset_band(band)

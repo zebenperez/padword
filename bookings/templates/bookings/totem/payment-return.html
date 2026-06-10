@@ -1,7 +1,34 @@
 {% load i18n %}
 
-{% if err and err != "" %} <div class="alert alert-danger">{{err}}</div> 
-{% else %} <div class="alert alert-success">{% trans "Su pago se ha procesado correctamente!" %}</div> 
+{% if err and err != "" %}
+
+    <div class="div-error">
+        <div class="error-container">
+            <div class="error-icon"><i class="fa fa-times"></i></div>
+                <h1 class="error-title">{{band_err}}</h1>
+                <p class="error-message">{{err}}</p>
+                <div class="actions">
+                    <a class="btn btn btn-back py-3 mx-4 ark" data-url="{% url "totem-start" %}" data-target="div-main" 
+                        data-project_uuid="{{project.uuid}}">{% trans "Volver" %}</a>
+                    <a class="btn btn btn-cancel py-3" href="{% url "totem-access" project.uuid %}">{% trans "Cancelar" %}</a>
+            </div>
+        </div>
+    </div>
+
+{% else %}
+
+    <div class="div-success">
+        <div class="success-container">
+            <div class="success-icon"><i class="fa fa-check"></i></div>
+            <h1 class="success-title">{{band_err}}</h1>
+            <p class="success-message">{% trans "Su pago se ha procesado correctamente!" %}</p>
+            <div class="actions">
+                <a class="btn btn btn-back py-3 mx-4 ark" data-url="{% url "totem-start" %}" data-target="div-main" 
+                    data-project_uuid="{{project.uuid}}">{% trans "Volver" %}</a>
+                <a class="btn btn finish-btn py-3" href="{% url "totem-access" project.uuid %}">{% trans "Finalizar" %}</a>
+             </div>
+        </div>
+    </div> 
+
 {% endif %}
 
-<a class="btn btn-info" href="{% url "totem-access" project.uuid %}">{% trans "Volver" %}</a>
