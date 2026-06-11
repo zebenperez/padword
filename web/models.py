@@ -285,6 +285,7 @@ class ProjectAux(models.Model):
  
 class ProjectLockUser(models.Model):
     last_refresh = models.DateTimeField(verbose_name=_('Last Refresh'), default=datetime.datetime.now, null=True)
+    auto_refresh = models.BooleanField(verbose_name=_("Auto Refresh"), default = False)
     username = models.CharField(max_length=255, verbose_name=_('Lock Username'), default="")
     password = models.CharField(max_length=255, verbose_name=_('Lock Password'), default="")
     token = models.CharField(max_length=255, verbose_name=_('Lock Token'), default="")
@@ -309,6 +310,10 @@ class ProjectLockUser(models.Model):
             return datetime.datetime.fromtimestamp(int(self.expire)).strftime("%d-%m-%Y, %I:%M:%S")
         except Exception as e:
             return "--"
+
+    @property
+    def next_refresh(self):
+        return self.last_refresh + datetime.timedelta(days=30)
 
     def get_token(self):
         obj = ShLock()

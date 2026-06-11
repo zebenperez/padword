@@ -210,8 +210,9 @@ def send_email_code(guest, code, pmu):
         print(e)
 
 def create_booking(pmu, booking, av):
-    checkin = get_date(booking.start)
-    checkout = get_date(booking.end)
+    project = pmu.project
+    checkin = project.local_date(get_date(booking.start))
+    checkout = project.local_date(get_date(booking.end))
     #print(checkin)
     #print(checkout)
     room = booking.room.number if booking.room != None else "-1"

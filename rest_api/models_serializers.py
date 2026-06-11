@@ -46,6 +46,7 @@ class GuestSerializer(serializers.HyperlinkedModelSerializer):
 #    #area = AreaSerializer(many=True, read_only=True, source="teacher_area")
     lock_code = serializers.SerializerMethodField()
     plates = serializers.SerializerMethodField()
+    regime = serializers.SerializerMethodField()
 
     def get_lock_code(self, obj):
         return obj.lock_code
@@ -53,9 +54,13 @@ class GuestSerializer(serializers.HyperlinkedModelSerializer):
     def get_plates(self, obj):
         return obj.plates
 
+    def get_regime(self, obj):
+        regime = obj.regime
+        return regime.code if regime != None else ""
+
     class Meta:
         model = Guest
-        fields = ['UUID', 'name', 'surname', 'language', 'mobile', 'email', 'check_in', 'check_out', 'room', 'ext_id', 'pwa_link', 'lock_code', 'plates']
+        fields = ['UUID', 'name', 'surname', 'language', 'mobile', 'email', 'check_in', 'check_out', 'room', 'ext_id', 'pwa_link', 'lock_code', 'plates', 'regime']
 
 class LockSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:

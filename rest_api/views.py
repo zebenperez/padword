@@ -11,7 +11,7 @@ from guest.models import Guest, GuestCar, Regime, GuestRegime, GuestType
 from guest.wristband_models import Wristband, WristbandAccess, WristbandAccessPoint, WristbandAccessZone, WristbandType
 from bookings.models import GuestUser, Form
 #from web.models import ProjectUser, Lock, Room
-from web.models import ProjectUser, Room
+from web.models import ProjectUser, Room, ProjectLockUser
 from web.models_lock import Lock, LockCodeExtId
 from web.lock_lib import get_record_type
 from sensibo.models import ProjectSensiboUser
@@ -69,6 +69,7 @@ class GuestViewSet(viewsets.ModelViewSet):
             #print(data)
             lock_code = request.POST.get("lock_code", "")
             plates = request.POST.get("plates", "")
+            regime = request.POST.get("regime", "")   
 
             if len(data["mobile"]) < 9 and lock_code == "":
                 msg = "Mobile is required and must be at least 9 characters long!"
@@ -82,11 +83,14 @@ class GuestViewSet(viewsets.ModelViewSet):
 
                 guest_data = self.serializer_class(guest).data
                 lock_code_err = guest.add_all_key_code() if lock_code == "" else guest.add_all_key_code(lock_code)
-                guest_data["lock_code_err"] = lock_code_err if "error" in lock_code_error.lower() else "" 
+                guest_data["lock_code_err"] = lock_code_err if "error" in lock_code_err.lower() else "" 
                 guest_data["lock_code"] = guest.lock_code 
 
                 #Gestión de matrículas
                 guest.add_plates(plates)
+
+                #Gestión de régimen
+                guest.update_regime(regime)
 
                 logger.info("[{}]: \"Guest key codes {} {} created\"".format(self.request.user, guest.name, guest.surname))
                 return Response(data=guest_data, status=status.HTTP_201_CREATED)
@@ -158,6 +162,10 @@ class GuestViewSet(viewsets.ModelViewSet):
             if "plates" in request.POST:
                 guest.add_plates(request.POST["plates"])
  
+            #Gestión de matrículas
+            if "regime" in request.POST:
+                guest.update_regime(request.POST["regime"])
+
             guest_data = self.serializer_class(guest).data
             codes_err = ""
             if update_dates:
@@ -722,6 +730,27 @@ class LockViewSet(viewsets.ModelViewSet):
                 return Response({"error": 'false', 'msg': 'The lock {} is open'.format(lock.uuid)}, status=status.HTTP_200_OK)
             logger.info("[{}]: \"The lock {} could not be opened\"".format(self.request.user, lock.uuid))
             return Response({"error": 'true', 'msg': 'The lock {} could not be opened'.format(lock.uuid)})
+        except Exception as e:
+            logger.error("[{}]: \"{}\"".format(self.request.user, str(e)))
+            return Response({"error": 'true', 'msg': 'Bad request!'})
+
+    @action(detail=False, methods=['get'])
+    def refresh_tokens(self, request):
+        from django.utils import timezone
+        try:
+            if not request.user.groups.filter(name='admins').exists():
+                logger.info("[{}]: Permission denied!".format(self.request.user))
+                return Response( {"error": "true", "msg": "Permission denied"}, status=status.HTTP_403_FORBIDDEN)
+    
+            limit = timezone.now() - timedelta(days=30)
+            item_list = ProjectLockUser.objects.filter(last_refresh__lte = limit, auto_refresh=True)
+            result = []
+            for item in item_list:
+                item.get_new_token()
+                result.append(item.project.name)
+
+            logger.info("[{}]: Tokens have been updated!".format(self.request.user))
+            return Response({"updated_projects": result}, status=status.HTTP_200_OK)
         except Exception as e:
             logger.error("[{}]: \"{}\"".format(self.request.user, str(e)))
             return Response({"error": 'true', 'msg': 'Bad request!'})

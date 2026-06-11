@@ -179,6 +179,13 @@ class Guest(models.Model):
 
         return Message.objects.filter(**kwargs)
 
+    def update_regime(self, regime):
+        if regime != "":
+            reg = Regime.objects.filter(code=regime).first()
+            if reg != None:
+                self.regimes.all().delete()
+                GuestRegime.objects.get_or_create(regime=reg, guest=self)
+
     '''
         Locks
     '''
