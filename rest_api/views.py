@@ -367,7 +367,7 @@ class GuestViewSet(viewsets.ModelViewSet):
 
             guest_type = ""
             if user_type != "":
-                gt = GuestType.objects.filter(name=user_type).first()
+                gt = GuestType.objects.filter(code=user_type).first()
                 if gt == None:
                     logger.error("[{}]: \"User type not found!\"".format(self.request.user))
                     return Response({"error": True, 'msg': 'User type not found!'})

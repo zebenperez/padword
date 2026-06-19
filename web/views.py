@@ -13,7 +13,7 @@ from guest.wristband_models import Wristband, WristbandAccessZone, WristbandAcce
 from sensibo.models import ProjectSensiboUser
 from connector.models import ProjectAvantioUser, ProjectAvaibookUser, ProjectWinhotelUser, ProjectStripeUser, ProjectRoomraccoonUser
 from connector.models import ProjectMewsUser, ProjectCarUser, ProjectCloudbedsUser, ProjectPaytefUser, ProjectZktecoUser
-from connector.models import ProjectOctorateUser
+from connector.models import ProjectOctorateUser, ProjectCaldeaUser
 from connector.cloudbeds_lib import set_webhooks, get_webhooks, remove_webhooks
 from contents.models import Category, PointOfSale, PointOfSaleCategory, Table, PosDiscount, PosDiscountItem
 from bookings.models import Form, FormInstance
@@ -144,6 +144,10 @@ def get_or_create_user_octorate(project_uuid):
     obj, created = ProjectOctorateUser.objects.get_or_create(project_uuid = project_uuid)
     return obj 
 
+def get_or_create_user_caldea(project_uuid):
+    obj, created = ProjectCaldeaUser.objects.get_or_create(project_uuid = project_uuid)
+    return obj 
+
 '''
     Projects
 '''
@@ -216,6 +220,7 @@ def project_form(request):
         user_zkteco = get_or_create_user_zkteco(obj.uuid)
         user_roomraccoon = get_or_create_user_roomraccoon(obj.uuid)
         user_octorate = get_or_create_user_octorate(obj.uuid)
+        user_caldea = get_or_create_user_caldea(obj.uuid)
 
         regime_list = Regime.objects.filter(project_uuid="")
         #regime_list_pr = Regime.objects.filter(project_uuid=obj.uuid)
@@ -241,6 +246,7 @@ def project_form(request):
             'user_zkteco': user_zkteco, 
             'user_roomraccoon': user_roomraccoon, 
             'user_octorate': user_octorate, 
+            'user_caldea': user_caldea, 
             'project_regime_list': [item.regime for item in obj.regimes.all()],
             'regime_list': regime_list,
             #'regime_list_pr': regime_list_pr,
@@ -271,6 +277,7 @@ def project_details(request, obj_id, current_tab=""):
         user_zkteco = get_or_create_user_zkteco(obj.uuid)
         user_roomraccoon = get_or_create_user_roomraccoon(obj.uuid)
         user_octorate = get_or_create_user_octorate(obj.uuid)
+        user_caldea = get_or_create_user_caldea(obj.uuid)
 
         regime_list = Regime.objects.filter(project_uuid="")
         #regime_list_pr = Regime.objects.filter(project_uuid=obj.uuid)
@@ -299,6 +306,7 @@ def project_details(request, obj_id, current_tab=""):
             'user_zkteco': user_zkteco, 
             'user_roomraccoon': user_roomraccoon, 
             'user_octorate': user_octorate, 
+            'user_caldea': user_caldea, 
             'project_regime_list': [item.regime for item in obj.regimes.all()],
             'regime_list': regime_list,
             #'regime_list_pr': regime_list_pr,

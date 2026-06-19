@@ -859,6 +859,7 @@ class GuestRegime(models.Model):
 '''
 class GuestType(models.Model):
     uuid = models.CharField(max_length = 255, verbose_name= _('UUID'), default=new_ui_slug)
+    code = models.CharField(max_length=10, verbose_name='Code', default="")
     name = models.CharField(max_length=255, verbose_name='Name', default="")
     discount = models.FloatField(verbose_name='Descuento', default=0.)
     project_uuid = models.CharField(max_length = 255, verbose_name= _('Project UUID'), default='')

@@ -193,4 +193,19 @@ class ProjectOctorateUser(models.Model):
         except:
             return None
 
+class ProjectCaldeaUser(models.Model):
+    #hour = models.IntegerField(verbose_name=_('Hour to import'), default=0)
+    #days = models.IntegerField(verbose_name=_('Days to import'), default=1)
+    client_id = models.CharField(max_length=255, verbose_name=_('Client ID'), default="")
+    secret = models.CharField(max_length=255, verbose_name=_('Client Secret'), default="")
+    token = models.CharField(max_length=255, verbose_name=_('Token'), default="")
+    project_uuid = models.CharField(max_length=255, verbose_name=_('Project UUID'), default="")
+
+    @property
+    def project(self):
+        try:
+            return Project.objects.get(uuid=self.project_uuid)
+        except:
+            return None
+
 

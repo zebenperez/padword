@@ -1,0 +1,52 @@
+{% load i18n padword_tags %}
+
+
+<div class="card mt-2">
+    <div class="card-header toggle-btn" data-target="body-caldea" data-id-change="icon-extra"
+        data-text='<i class="fas fa-plus"></i>' data-text-alt='<i class="fas fa-minus"></i>'>
+        <div class="row w-100">
+            <div class="col-6 text-right" id="icon-extra"><i class="fas fa-plus"></i></div>
+            <div class="col-6 text-left"><strong>{% trans "Caldea" %}</strong></div>
+        </div>
+    </div>
+    <div class="card-body hide" id="body-caldea"> 
+        {%comment%}
+        <div class="row">
+            <div class="col-3 offset-9">
+                <div class="form-check form-switch">
+                    <input class="form-check-input toggleCron" type="checkbox" id="activeCronOctorate" 
+                        data-class-name="caldea-cron" data-fields="caldea-hour" {%if user_caldea.hour > 0%}checked{%endif%}>
+                    <label class="form-check-label" for="activeCronOctorate">Activar planificador</label>
+                </div>
+            </div>
+        </div>
+        {%endcomment%}
+ 
+        <div class="row justify-center">
+            <div class="col-4">
+                <label class="label">{% trans "Client ID" %}:</label>
+                <input type="text" class="form-control autosave input" id="client_id" name="client_id" 
+                    value="{{user_caldea.client_id}}" title="{{user_caldea.client_id}}" 
+                    data-model-name="connector.projectcaldeauser" data-obj-id="{{user_caldea.id}}" 
+                    data-url="{% url "autosave_field" %}" data-target="div-notification"/> 
+                <span id="client_id__msg"></span>	
+            </div>
+            <div class="col-4">
+                <label class="label">{% trans "Client Secret" %}:</label>
+                <input type="text" class="form-control autosave input" id="secret" name="secret" 
+                    value="{{user_caldea.secret}}" data-model-name="connector.projectcaldeauser" 
+                    data-obj-id="{{user_caldea.id}}" data-url="{% url "autosave_field" %}" data-target="div-notification"/> 
+                <span id="secret__msg"></span>	
+            </div>
+            <div class="col-4">
+                <label class="label">{% trans "Token" %}:</label>
+                <input type="text" class="form-control autosave input" id="token" name="token" 
+                    value="{{user_caldea.token}}" title="{{user_caldea.token}}"
+                    data-model-name="connector.projectcaldeauser" data-obj-id="{{user_caldea.id}}" 
+                    data-url="{% url "autosave_field" %}" data-target="div-notification"/> 
+                <span id="token__msg"></span>	
+            </div>
+        </div>		
+    </div>		
+</div>		
+

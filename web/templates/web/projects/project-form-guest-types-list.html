@@ -10,17 +10,24 @@
                         <button class="btn btn-sm ark" id="btn-gtype-remove" data-url="{%url "project-guest-types-remove"%}" 
                             data-target="div-gtype-list" data-obj_id="{{item.id}}"> <i class="fas fa-trash"></i></button>
                     </div>
-                    <div class="col-6">
+                    <div class="col-4">
                         <label class="label">{% trans "Name" %}</label>
                         <input type="text" class="form-control autosave input" id="name" name="name" value="{{item.name}}" 
                             title="{{item.name}}" data-model-name="guest.guesttype" data-obj-id="{{item.id}}" 
                             data-url="{% url "autosave_field" %}" data-target="div-notification"/> <span id="name__msg"></span>	
                     </div>
-                    <div class="col-6">
+                    <div class="col-4">
+                        <label class="label">{% trans "Code" %}</label>
+                        <input type="text" class="form-control autosave input" id="code" name="code" value="{{item.code}}" 
+                            title="{{item.code}}" data-model-name="guest.guesttype" data-obj-id="{{item.id}}" 
+                            data-url="{% url "autosave_field" %}" data-target="div-notification"/> <span id="code__msg"></span>	
+                    </div>
+                    <div class="col-4">
                         <label class="label">{% trans "Discount" %}</label>
-                        <input type="number" step="any" class="form-control autosave input" id="discount" name="discount" value="{{item.discount}}" 
-                            title="{{item.discount}}" data-model-name="guest.guesttype" data-obj-id="{{item.id}}" 
-                            data-url="{% url "autosave_field" %}" data-target="div-notification"/> <span id="discount__msg"></span>	
+                        <input type="number" step="any" class="form-control autosave input" id="discount" name="discount" 
+                            value="{{item.discount}}" title="{{item.discount}}" data-model-name="guest.guesttype" 
+                            data-obj-id="{{item.id}}" data-url="{% url "autosave_field" %}" data-target="div-notification"/> 
+                        <span id="discount__msg"></span>	
                     </div>
                 </div>
             </div>

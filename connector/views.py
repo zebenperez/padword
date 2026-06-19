@@ -214,78 +214,179 @@ def winhotel_get_total_by_source(date, pt, i_list):
     ini = datetime.strptime(f'{d} 00:00:00', "%Y-%m-%d %H:%M:%S")
     end = datetime.strptime(f'{d} 23:59:59', "%Y-%m-%d %H:%M:%S")
     fi_list = FormInstance.objects.filter(date__range=(ini, end), payment_type__code=pt, status_list__isnull=False).values_list('id', flat=True)
-    print("--A--")
-    print(pt)
-    print(date)
-    print(fi_list)
+    #print("--A--")
+    #print(pt)
+    #print(date)
+    #print(fi_list)
     amount = ShoppingCart.objects.filter(form_instance_id__in=fi_list, item__ext_id__in=i_list).aggregate(total_price_sum=Sum('total_price'))
     return amount['total_price_sum'] if amount['total_price_sum'] != None else 0
+
+def winhotel_liq_params(name, code, source, cash_code, total):
+    source_document = f'Punto de venta {name}'
+    date = datetime.today().strftime("%Y-%m-%d")
+    _send_charge_params = {
+        "ExternalCharge": {
+            "CreditContact": {
+                "RoomCode": "",
+                "ContactName": name ,
+                "ContactId": code,
+                "HasCredit": "true",
+            },
+            "Source": source,
+            "SourceDocument": source_document,
+            "Date": date,
+            "TotalAmount": total,
+            "CashCode": cash_code
+        }
+    }
+    return _send_charge_params
 
 @group_required("admins", "projects")
 def winhotel_send_liq(request, project_uuid, pos_code):
     from django.utils import timezone 
     from contents.models import PosCodeItem, PointOfSale
 
-    res = ""
+    res2 = []
     pwu = ProjectWinhotelUser.objects.filter(project_uuid=project_uuid).first()
     pos = get_or_none(PointOfSale, pos_code, "ext_code")
-    print(pwu)
-    res += f"<br/> {pwu.project_uuid}"
-    print(pos_code)
-    res += f"<br/> {pos_code}"
     pci_list = PosCodeItem.objects.filter(project_uuid=project_uuid, pos=pos_code)
-    print(len(pci_list))
     sources = {}
     for item in pci_list:
         if item.code not in sources:
             sources[item.code] = {"name": item.name, "items":[]}
         sources[item.code]["items"].append(item.item_id)
+    total = 0
+    total_cash = 0
+    total_card = 0
     for key in sources.keys():
-        res += f"<hr/>"
-        print(key)
-        res += f"<br/> {key}"
-        print(sources[key])
-        res += f"<br/> {sources[key]}"
-        contact_name = pos.name
-        contact_id = pos.contact_code
-        #contact_id = key
-        #source = f'LIQ-{pos.ext_code}'
-        source = f'LIQ-{key}'
-        source_document = f'Punto de venta {pos.name}'
-        date = datetime.today().strftime("%Y-%m-%d")
-        # CASH
-        # CARD
-        print(f'contact_name = {contact_name}')
-        res += f"<br/> contact_name = {contact_name}"
-        print(f'contact_id = {contact_id}')
-        res += f"<br/> contact_id = {contact_id}"
-        print(f'source = {source}')
-        res += f"<br/> source = {source}"
-        print(f'source_document = Punto de venta {source_document}')
-        res += f"<br/> source_document = Punto de venta {source_document}"
-        print(f'date = {date}')
-        res += f"<br/> date = {date}"
+        ta_cash = winhotel_get_total_by_source(timezone.localdate(), "01", sources[key]['items'])
+        ta_cash_disc = winhotel_get_total_by_source(timezone.localdate(), "0401", sources[key]['items'])
+        ta_card = winhotel_get_total_by_source(timezone.localdate(), "02", sources[key]['items'])
+        ta_card_disc = winhotel_get_total_by_source(timezone.localdate(), "0402", sources[key]['items'])
+        total_a = ta_cash + ta_card + ta_cash_disc + ta_card_disc
 
-        total_amount = winhotel_get_total_by_source(timezone.localdate(), "01", sources[key]['items'])
-        total_amount_disc = winhotel_get_total_by_source(timezone.localdate(), "0401", sources[key]['items'])
-        total_a = total_amount + total_amount_disc
-        cash_code = "CASH"
-        print(f'total_amount = {total_a}')
-        res += f"<br/> total_amount = {total_a}"
-        print(f'cash_code = {cash_code}')
-        res += f"<br/> cash_code = {cash_code}"
+        res2.append(winhotel_liq_params(pos.name, pos.contact_code, f'LIQ-{key}', "COBROS", total_a))
 
-        total_amount = winhotel_get_total_by_source(timezone.localdate(), "02", sources[key]['items'])
-        total_amount_disc = winhotel_get_total_by_source(timezone.localdate(), "0402", sources[key]['items'])
-        total_a = total_amount + total_amount_disc
-        cash_code = "CARD"
-        print(f'total_amount = {total_a}')
-        res += f"<br/> total_amount = {total_a}"
-        print(f'cash_code = {cash_code}')
-        res += f"<br/> cash_code = {cash_code}"
+        total_cash += ta_cash + ta_cash_disc 
+        total_card += ta_card + ta_card_disc
+        total += total_cash + total_card 
 
-        #wh_send_liq(pwu, contact_name, contact_id, source, source_document, date, total_amount, cash_code)
-    return HttpResponse(res)
+    res2.append(winhotel_liq_params(pos.name, pos.contact_code, "TOTAL", "---", total))
+    res2.append(winhotel_liq_params(pos.name, pos.contact_code, "TOTAL CASH", "CASH", total_cash))
+    res2.append(winhotel_liq_params(pos.name, pos.contact_code, "TOTAL CARD", "CARD", total_card))
+    return HttpResponse( "<pre>{}</pre>".format( json.dumps(res2, indent=4, ensure_ascii=False)))
+
+#def winhotel_liq_params(name, code, source, cash_code, total):
+#    res = f"<br/>"
+#    source_document = f'Punto de venta {name}'
+#    date = datetime.today().strftime("%Y-%m-%d")
+#    res += f"<br/> contact_name = {name}"
+#    res += f"<br/> contact_id = {code}"
+#    res += f"<br/> source = {source}"
+#    res += f"<br/> source_document = Punto de venta {source_document}"
+#    res += f"<br/> date = {date}"
+#    res += f"<br/> total_amount = {total}"
+#    res += f"<br/> cash_code = {cash_code}"
+#    #print(f'contact_name = {name}')
+#    #print(f'contact_id = {code}')
+#    #print(f'source = {source}')
+#    #print(f'source_document = Punto de venta {source_document}')
+#    #print(f'date = {date}')
+#    #print(f'total_amount = {total}')
+#    #print(f'cash_code = {cash_code}')
+#    _send_charge_params = {
+#        "ExternalCharge": {
+#            "CreditContact": {
+#                "RoomCode": "",
+#                "ContactName": name ,
+#                "ContactId": code,
+#                "HasCredit": "true",
+#            },
+#            "Source": source,
+#            "SourceDocument": source_document,
+#            "Date": date,
+#            "TotalAmount": total,
+#            "CashCode": cash_code
+#        }
+#    }
+#    res = f"{_send_charge_params}"
+#    return json.dumps(res, indent=4, ensure_ascii=False)
+#    return res
+#
+#
+#@group_required("admins", "projects")
+#def winhotel_send_liq(request, project_uuid, pos_code):
+#    from django.utils import timezone 
+#    from contents.models import PosCodeItem, PointOfSale
+#
+#    res = ""
+#    res2 = []
+#    pwu = ProjectWinhotelUser.objects.filter(project_uuid=project_uuid).first()
+#    pos = get_or_none(PointOfSale, pos_code, "ext_code")
+#    #print(pwu)
+#    res += f"<br/> {pwu.project_uuid}"
+#    #print(pos_code)
+#    res += f"<br/> {pos_code}"
+#    pci_list = PosCodeItem.objects.filter(project_uuid=project_uuid, pos=pos_code)
+#    #print(len(pci_list))
+#    sources = {}
+#    for item in pci_list:
+#        if item.code not in sources:
+#            sources[item.code] = {"name": item.name, "items":[]}
+#        sources[item.code]["items"].append(item.item_id)
+#    total = 0
+#    total_cash = 0
+#    total_card = 0
+#    for key in sources.keys():
+#        ta_cash = winhotel_get_total_by_source(timezone.localdate(), "01", sources[key]['items'])
+#        ta_cash_disc = winhotel_get_total_by_source(timezone.localdate(), "0401", sources[key]['items'])
+#        ta_card = winhotel_get_total_by_source(timezone.localdate(), "02", sources[key]['items'])
+#        ta_card_disc = winhotel_get_total_by_source(timezone.localdate(), "0402", sources[key]['items'])
+#        total_a = ta_cash + ta_card + ta_cash_disc + ta_card_disc
+#
+#        res += f"<hr/>"
+#        #print(key)
+#        res += f"<br/> {key}"
+#        #print(sources[key])
+#        res += f"<br/> {sources[key]}"
+#        res += winhotel_liq_params(pos.name, pos.contact_code, f'LIQ-{key}', "COBROS", total_a)
+#        res2.append(winhotel_liq_params(pos.name, pos.contact_code, f'LIQ-{key}', "COBROS", total_a))
+#
+#        total_cash += ta_cash + ta_cash_disc 
+#        total_card += ta_card + ta_card_disc
+#        total += total_cash + total_card 
+#
+##        total_amount = winhotel_get_total_by_source(timezone.localdate(), "01", sources[key]['items'])
+##        total_amount_disc = winhotel_get_total_by_source(timezone.localdate(), "0401", sources[key]['items'])
+##        total_a = total_amount + total_amount_disc
+##        cash_code = "CASH"
+##        print(f'total_amount = {total_a}')
+##        res += f"<br/> total_amount = {total_a}"
+##        print(f'cash_code = {cash_code}')
+##        res += f"<br/> cash_code = {cash_code}"
+##
+##        total_amount = winhotel_get_total_by_source(timezone.localdate(), "02", sources[key]['items'])
+##        total_amount_disc = winhotel_get_total_by_source(timezone.localdate(), "0402", sources[key]['items'])
+##        total_a = total_amount + total_amount_disc
+##        cash_code = "CARD"
+##        print(f'total_amount = {total_a}')
+##        res += f"<br/> total_amount = {total_a}"
+##        print(f'cash_code = {cash_code}')
+##        res += f"<br/> cash_code = {cash_code}"
+#
+#        #wh_send_liq(pwu, contact_name, contact_id, source, source_document, date, total_amount, cash_code)
+#
+#    res += f"<hr/>"
+#    res += winhotel_liq_params(pos.name, pos.contact_code, "TOTAL", "---", total)
+#    res += f"<hr/>"
+#    res += winhotel_liq_params(pos.name, pos.contact_code, "TOTAL CASH", "CASH", total_cash)
+#    res += f"<hr/>"
+#    res += winhotel_liq_params(pos.name, pos.contact_code, "TOTAL CARD", "CARD", total_card)
+#    res2.append(winhotel_liq_params(pos.name, pos.contact_code, "TOTAL", "---", total))
+#    res2.append(winhotel_liq_params(pos.name, pos.contact_code, "TOTAL CASH", "CASH", total_cash))
+#    res2.append(winhotel_liq_params(pos.name, pos.contact_code, "TOTAL CARD", "CARD", total_card))
+#    return HttpResponse(res2)
+#
 
 @group_required("admins")
 def winhotel_log(request):
