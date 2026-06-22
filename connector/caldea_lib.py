@@ -12,6 +12,8 @@ except:
     API_URL = "http://api-padword.caldea.com"
 
 TOKEN_URL = "/api/auth/token"
+TICKET_URL = "/api/webhooks/padword/tickets"
+PAYMENT_URL = "/api/webhooks/padword/payments"
 
 '''
     COMMONS
@@ -64,7 +66,6 @@ class Caldea():
             _headers['Accept'] = 'application/json'
             #_headers['x-api-key'] = '{}'.format(self.token)
             _headers['Content-Type'] = 'application/json'
-            _headers['User-Agent'] = 'Mozilla/5.0'
             print("--A--")
             print(_url_request)
             print(_headers)
@@ -85,9 +86,16 @@ class Caldea():
     def __send_post_token_request__(self, _url_request, _json):
         try:
             _headers = {}
+            _headers['accept'] = '*/*'
             _headers['Authorization'] = 'Bearer {}'.format(self.token)
             _headers['Content-Type'] = 'application/json'
+            print("--B--")
+            print(self.token)
+            print(_url_request)
+            print(_headers)
+            print(_json)
             _response = requests.patch(_url_request, headers=_headers, data=_json)
+            print(_response.text)
             #print(_response.text)
             #_response.raise_for_status()
             return _response
@@ -107,21 +115,55 @@ class Caldea():
                 "client_id": self.client_id, 
                 "client_secret": self.client_secret,
             }
-            dic = self.__send_post_request__(_url_request, payload).json()
-            items = dic["data"]
-            return items
+            dic = self.__send_post_request__(_url_request, json.dumps(payload)).json()
+            return dic["token"]
         except Exception as err:
             raise CaldeaAPIError(menssage=err)
 
+    def send_ticket(self, payload):
+        try:
+            _url_request = "{}{}".format(API_URL, TICKET_URL)
+            dic = self.__send_post_token_request__(_url_request, payload).json()
+            #dic = self.__send_post_token_request__(_url_request, json.dumps(payload)).json()
+            return dic["token"]
+        except Exception as err:
+            raise CaldeaAPIError(menssage=err)
+
+    def send_payment(self, payload):
+        try:
+            _url_request = "{}{}".format(API_URL, PAYMENT_URL)
+            #dic = self.__send_post_token_request__(_url_request, payload).json()
+            dic = self.__send_post_token_request__(_url_request, json.dumps(payload)).json()
+            return dic["token"]
+        except Exception as err:
+            raise CaldeaAPIError(menssage=err)
 
 '''
     FUNCTIONS
 '''
-#def get_token(pcu):
-def get_token():
-    msg = ""
-    pcu = ProjectCaldeaUser.objects.filter(project_uuid="ccd38078-b710-eb58-b270-5926c27d9077").first()
+def get_token(pcu):
     oc = Caldea(pcu.client_id, pcu.secret, pcu.token)
-    oc.get_token()
-    return ""
+    pcu.token = oc.get_token()
+    pcu.save()
+    return pcu.token
+
+def send_ticket(pcu, ticket):
+    token = get_token(pcu)
+    oc = Caldea(pcu.client_id, pcu.secret, token)
+    oc.send_ticket(ticket)
+
+def send_payment(pcu, band, regime, tickets, total):
+    token = get_token(pcu)
+
+    pay = {
+        "fecha": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+        "id_pulsera": band,
+        "user_regime": regime,
+        "tickets": tickets,
+        "total": total,
+        "estado": "Pagada"
+    }
+
+    oc = Caldea(pcu.client_id, pcu.secret, token)
+    oc.send_payment(pay)
 

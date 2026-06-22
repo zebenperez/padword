@@ -73,6 +73,7 @@ def get_or_create_form_instance_info_client_tpv(fi, client, band, band_name=""):
         fi_info.client_mobile = client.mobile
         fi_info.client_email = client.email
         fi_info.client_room = client.room
+        fi_info.client_regime = client.regime.code if client.regime != None else ""
         fi_info.band = band
         fi_info.band_name = band_name
         fi_info.save() 

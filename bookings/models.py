@@ -67,6 +67,62 @@ def ticket_to_json(fi, fi_status, resp):
         resp["tickets"].append(fi_json)
     return resp
 
+
+def ticket_to_json2(fi): #CALDEA
+    details = fi.details
+    fi_status = fi.get_status
+    pos_name = details.pos if details != None else ""
+    table_name = details.table if details != None else ""
+    guest_name = details.client if details != None else ""
+    lang = details.lang if details != None else ""
+    client_room = details.client_room if details != None else ""
+    client_regime = details.client_regime if details != None else ""
+    band = details.band if details != None else ""
+    band_name = details.band_name if details != None else ""
+    payment_type = translate2("es", fi.payment_type.name) if fi.payment_type != None else ""
+    date = date_to_local(fi.date, fi.project.time_zone_name)
+    st = translate2("es", fi_status.status.name) if fi_status != None else "parcial"
+ 
+    fi_json = {
+        "id": fi.id,
+        "id_pulsera": int(band),
+        "user_regime": client_regime,
+        "ticket numero": fi.index,
+        "fecha": date.strftime("%d-%m-%Y"), 
+        "hora": date.strftime("%H:%M:%S"), 
+        #"subtotal": "{:.2f}".format(fi.get_total), 
+        #"total": "{:.2f}".format(fi.get_total_total), 
+        "subtotal": round(float(fi.get_total), 2), 
+        "total": round(float(fi.get_total_total), 2), 
+        "punto de venta": pos_name, 
+        "mesa": table_name,
+        "cliente": guest_name,
+        "idioma": lang,
+        "estado": st,
+        "tipo de pago": payment_type,
+        "habitacion": client_room,
+        'elementos': []
+    }
+    for item in fi.get_items:
+        item_name = translate2("es", item.name)
+        item_category = translate2("es", item.category)
+        item_json = {
+            "nombre_servicio": item_name,
+            "id_servicio": item.id,
+            "cantidad": 1,
+            "precio_servicio": item.price,
+            "precio_servicio_reducido": item.total_price,
+            "subtotal": 0,
+            "familia": {
+                "additionalProp1": item_category,
+            },
+            "pos_code": item.get_pos_code(fi.pos, fi.project),
+            "comments": item.comments,
+            "id_articulo_pms": 0
+        }
+        fi_json["elementos"].append(item_json)
+    return fi_json
+ 
 def get_int(val):
     try:
         return int(val)
@@ -856,6 +912,9 @@ class FormInstance(models.Model):
                 item.status = 2
                 item.save()
 
+    def to_ticket_caldea(self):
+        return ticket_to_json2(self)
+
 #    def update_items_low_price(self):
 #        band = self.band
 #        if band != None and band.guest != None:
@@ -1024,6 +1083,7 @@ class FormInstanceInfo(models.Model):
     client_mobile = models.CharField(max_length=255, verbose_name=_("Guest mobile"), default="")
     client_email = models.CharField(max_length=255, verbose_name=_("Guest email"), default="")
     client_room = models.CharField(max_length=255, verbose_name=_("Guest room"), default="")
+    client_regime = models.CharField(max_length=255, verbose_name=_("Guest regime"), default="")
     partner = models.CharField(max_length=900, verbose_name=_("Partner"), default="")
     desc = models.CharField(max_length=900, verbose_name=_("Description"), default="")
     fi = models.ForeignKey(FormInstance, on_delete=models.CASCADE, verbose_name=_("Form Instance"), null=True, blank=True, related_name='info')

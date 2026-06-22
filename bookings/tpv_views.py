@@ -12,7 +12,8 @@ from guest.models import Guest
 from guest.wristband_models import Wristband, WristbandBalance
 #from web.lock_lib import ShLock
 from connector.winhotel_lib import send_charge, write_log as wh_write_log
-from connector.models import ProjectWinhotelUser
+from connector.caldea_lib import send_ticket as caldea_send_ticket
+from connector.models import ProjectWinhotelUser, ProjectCaldeaUser
 
 from .common_lib import get_or_create_form_instance_tpv, get_or_create_form_instance_info_tpv
 from .common_lib import user_in_group, get_or_create_form_instance_info_client_tpv
@@ -657,6 +658,9 @@ def tpv_order_send(request):
 
         set_desc(fi, desc)
 
+        #Caldea
+        send_caldea_ticket(project, fi)
+
         context = {'msg': fi.get_status.status.code, 'project_uuid': project.uuid, "mobile": mobile, 'fi': fi}
         #context = {'msg': fi.get_status.status.code, 'project_uuid': fi.form.project.uuid}
         return render(request, 'bookings/tpv/show-msg.html', context)
@@ -812,6 +816,17 @@ def tpv_close(request):
     #return redirect(tpv_access, project_uuid)
     return redirect(reverse("tpv-access", kwargs = {'project_uuid': project_uuid}))
 
+
+'''
+    CALDEA
+'''
+def send_caldea_ticket(project, fi):
+    try:
+        pcu = get_or_none(ProjectCaldeaUser, project.uuid, "project_uuid")
+        if pcu != None and pcu.client_id != "":
+            caldea_send_ticket(pcu, fi.to_ticket_caldea())
+    except Exception as e:
+        print(e)
 
 '''
     WINHOTEL

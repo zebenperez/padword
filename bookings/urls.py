@@ -287,5 +287,6 @@ urlpatterns = [
     path('totem-check-band/', totem.totem_check_band, name='totem-check-band'),
     path('totem-pay/', totem.totem_pay, name='totem-pay'),
     path('totem-view-ticket/', totem.totem_view_ticket, name='totem-view-ticket'),
+    path('totem-print-pay/', totem.totem_print_pay, name='totem-print-pay'),
 ]
 

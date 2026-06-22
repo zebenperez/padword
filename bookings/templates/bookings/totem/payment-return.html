@@ -22,11 +22,15 @@
             <div class="success-icon"><i class="fa fa-check"></i></div>
             <h1 class="success-title">{{band_err}}</h1>
             <p class="success-message">{% trans "Su pago se ha procesado correctamente!" %}</p>
+
             <div class="actions">
-                <a class="btn btn btn-back py-3 mx-4 ark" data-url="{% url "totem-start" %}" data-target="div-main" 
+                <a class="btn btn-back ark" data-url="{% url "totem-start" %}" data-target="div-main" 
                     data-project_uuid="{{project.uuid}}">{% trans "Volver" %}</a>
-                <a class="btn btn finish-btn py-3" href="{% url "totem-access" project.uuid %}">{% trans "Finalizar" %}</a>
+                <a class="btn btn-print ark" data-url="{%url "totem-print-pay"%}" data-target="div-main"
+                    data-project_uuid="{{fi.id}}" data-band="{{band}}" data-total="{{total}}"> {%trans "Imprimir"%}</a>
+                <a class="btn finish-btn" href="{% url "totem-access" project.uuid %}">{% trans "Finalizar" %}</a>
              </div>
+
         </div>
     </div> 
 

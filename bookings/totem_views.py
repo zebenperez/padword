@@ -12,7 +12,8 @@ from contents.models import ShoppingCart
 from guest.models import Guest
 from guest.wristband_models import Wristband, WristbandBalance, WristbandBackup, WristbandBackupBalance
 from guest.wristband_lib import close_band_by_regime_and_soft_remove
-from connector.models import ProjectPaytefUser
+from connector.models import ProjectPaytefUser, ProjectCaldeaUser
+from connector.caldea_lib import send_payment as caldea_send_payment
 from .tpv_paytef_lib import manage_transaction
 from .common_lib import user_in_group
 
@@ -37,11 +38,12 @@ def totem_access(request, project_uuid, code=""):
     project = get_or_none(Project, project_uuid, "uuid")
 
     context = {'project_uuid': project.uuid}
-    if check_user(request.user):
-        next_url = reverse("totem-index", kwargs = context)
-    else:
-        auth.logout(request)
-        next_url = reverse("totem-start")
+    #if check_user(request.user):
+    #    next_url = reverse("totem-index", kwargs = context)
+    #else:
+    #    auth.logout(request)
+    #    next_url = reverse("totem-start")
+    next_url = reverse("totem-start")
 
     form = Form.objects.filter(form_type__code="totem", form_type__project_uuid=project.uuid).first()
     context["next_url"] = next_url
@@ -92,6 +94,7 @@ def totem_pay(request):
     if ppu == None or ppu.tcod == "":
         return render(request, "bookings/totem/payment-return.html", {'err': _('Datafono no encontrado'), 'project': project})
 
+    total = band.balance
     try:
         #tcod = ppu.tcod
         tcod = request.session["code"] if "code" in request.session else ""
@@ -103,12 +106,19 @@ def totem_pay(request):
         return render(request, "bookings/totem/payment-return.html", {'err': _('Error procesando el pago'), 'project': project})
 
     guest = band.guest
+
+    try:
+        send_caldea_payment(project, band, guest)
+    except Exception as e:
+        print(e)
+        return render(request, "bookings/totem/payment-return.html", {'err': _('Error enviando el pago'), 'project': project})
+
     desc = f'Totem (code: {tcod}): liquidación de importe pendiente'
     band.reset_balance(desc)
     obj = band.make_close()
     if guest.regime != None and guest.regime.code != "DAYP":
         Wristband.reset_band(band)
-    return render(request, "bookings/totem/payment-return.html", {'err': '', 'project': project})
+    return render(request, "bookings/totem/payment-return.html", {'err': '', 'project': project, 'band': band.code, 'total': total})
 
 def totem_view_ticket(request):
     import re
@@ -123,6 +133,29 @@ def totem_view_ticket(request):
         return render(request, 'bookings/totem/view-ticket.html', context)
     except Exception as e:
         print(e)
+        return render(request, 'error_exception.html', {'exc':show_exc(e)})
+
+def send_caldea_payment(project, band, guest):
+    pcu = ProjectCaldeaUser.objects.filter(project_uuid=project.uuid).first()
+    if pcu != None and pcu.client_id != "":
+        ticket_ids = []
+        for item in band.balances.all():
+            desc = item.desc.split("#-")
+            if len(desc) > 1:
+                ticket_ids.append(desc[1][:10])
+        reg = guest.regime.code if guest.regime != None else ""
+        caldea_send_payment(pcu, band.code, reg, ticket_ids, band.balance)
+
+def totem_print_pay(request):
+    try:
+        project = get_or_none(Project, get_param(request.GET, "project_uuid"), "uuid")
+        band = get_param(request.GET, "band")
+        total = get_param(request.GET, "total")
+        now = datetime.datetime.now()
+        return render(request, 'bookings/totem/print-pay.html', {'project': project, 'band': band, 'total': total, 'date': now})
+    except Exception as e:
+        print(e)
+        logger.error("[bookings-print-ticket] {}".format(str(e)))
         return render(request, 'error_exception.html', {'exc':show_exc(e)})
 
 

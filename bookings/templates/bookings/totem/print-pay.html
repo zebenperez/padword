@@ -1,0 +1,233 @@
+{% load i18n static%}
+
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Impresión enviada</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+<style>
+
+:root{
+
+    --primary-light:#F5F2EB;
+    --primary-dark:#36454F;
+
+    --green:#20585C;
+    --gold:#D1B26E;
+
+    --purple:#E1C8F0;
+    --coral:#ED827D;
+    --brown:#BA9682;
+    --gray:#B5BFC7;
+
+    --card:#FFFFFF;
+}
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+html,
+body{
+    width:100%;
+    height:100%;
+}
+
+body{
+    font-family:'Inter',sans-serif;
+    justify-content:center;
+    align-items:center;
+    color:var(--primary-dark);
+}
+
+.screen{
+    width:100%;
+    max-width:1200px;
+    margin:auto;
+    padding:40px;
+    display:flex;
+    flex-direction:column;
+    gap:35px;
+}
+
+/* CABECERA */
+
+.top-actions{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+.btn{
+    height:90px;
+    min-width:260px;
+    border-radius:18px;
+    border:none;
+    font-size:34px;
+    font-weight:600;
+    cursor:pointer;
+    transition:.25s;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:14px;
+}
+
+.btn-back{
+    background:white;
+    color:var(--green);
+    border:3px solid var(--green);
+    box-shadow: 0 12px 30px rgba(32,88,92,.12);
+}
+
+.btn-back:hover{
+    transform:translateY(-2px);
+}
+
+.btn-finish{
+    background:var(--green);
+    color:white;
+    box-shadow: 0 12px 30px rgba(32,88,92,.18);
+}
+
+.btn-finish:hover{
+    transform:translateY(-2px);
+}
+
+/* ICONO */
+
+.success{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:25px;
+    margin-top:10px;
+}
+
+.success-circle{
+    width:150px;
+    height:150px;
+    border-radius:50%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background: radial-gradient(circle, rgba(216,232,230,.9), rgba(216,232,230,.4) );
+    border:3px solid rgba(32,88,92,.15);
+}
+
+.success-circle i{
+    font-size:70px;
+    color:var(--green);
+}
+
+.success h1{
+    font-size:54px;
+    font-weight:300;
+}
+
+.success p{
+    font-size:24px;
+    color:#6E7A84;
+}
+
+/* TARJETA */
+
+.ticket-card{
+    background:var(--card);
+    border-radius:28px;
+    padding:40px 50px;
+    box-shadow:     0 15px 35px rgba(0,0,0,.05);
+    border:1px solid rgba(54,69,79,.06);
+}
+
+.ticket-title{
+    text-align:center;
+    font-size:32px;
+    font-weight:600;
+    margin-bottom:35px;
+    color:var(--green);
+}
+
+.ticket-data{
+    display:grid;
+    grid-template-columns:1fr auto;
+    row-gap:26px;
+    column-gap:60px;
+}
+
+.label{
+    font-size:20px;
+    font-weight:400;
+}
+
+.value{
+    font-size:20px;
+    font-weight:700;
+}
+
+.amount{
+    color:var(--green);
+    font-size:22px;
+}
+
+</style>
+</head>
+
+<body>
+
+
+
+<div class="row m-0">
+    <div class="col-12 justify-content-center mt-4">
+    <div id="main" class="screen">
+        <div class="top-actions" id="print-head">
+                <a class="btn btn-back py-3 mx-4 ark" data-url="{% url "totem-start" %}" data-target="div-main"
+                    data-project_uuid="{{project.uuid}}">{% trans "Volver" %}</a>
+                <a class="btn btn-finish py-3 m-4" onclick="window.print()"> &#128424; {% trans "Imprimir" %}</a>
+        </div>
+
+        {% if project.logo %}<img src="{{project.logo.url}}" alt="Logo" width="100px"/><br/>{% endif %} <br/>
+
+        <div class="success">
+            <div class="success-circle">
+                <i class="fa-solid fa-print"></i>
+            </div>
+        </div>
+        
+        <div class="ticket-card">
+            <div class="ticket-title">
+                {% trans 'Pago realizado' %}
+            </div>
+            <div class="ticket-data small">
+                <div class="label text-start">{% trans "Fecha" %}:</div>
+                <div class="value text-end">{{ date|date:'d/m/Y H:i:s' }}</div>
+                <div class="label text-start">{% trans "Pulsera" %}:</div>
+                <div class="value text-end">{{band}}</div>
+                <div class="label text-start">{% trans "Importe pagado" %}:</div>
+                <div class="value amount text-end">{{total}}</div>
+            </div>
+        </div>
+    </div>
+    </div>
+</div>
+
+
+</body>
+</html>
+
+
+<script>
+    window.addEventListener('beforeprint', function () { $('#print-head').hide(); });
+    window.addEventListener('afterprint', function () { $('#print-head').show(); });
+</script>
