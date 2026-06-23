@@ -296,6 +296,7 @@ def tpv_ticket(request):
 @group_required("waiters")
 def tpv_check_band(request):
     try:
+        print("--> Entrando en check band")
         fi = get_or_none(FormInstance, request.GET["obj_id"])
         val = get_param(request.GET, "value", "")
         #band = Wristband.objects.filter(code = reverse_cardkey(val), guest__project_id=fi.form.project.uuid, guest__deleted=False).first()
@@ -303,16 +304,21 @@ def tpv_check_band(request):
         regime = None
         band_err = ""
         if band != None and band.guest != None:
+            print(f"--> Band: {band.code} {band.name}")
             #if band.type != None and band.type.code == "00":
             #    band = None
             #    band_err = _("This band is locked!")
             #else:
             gr = band.guest.regimes.first()
             regime = gr.regime if gr != None else None
+            print(f"--> Regime: {regime}")
             get_or_create_form_instance_info_client_tpv(fi, band.guest, band.code, band.name)
+            print(f"--> Antes de actualizar precios")
             #fi.update_items_low_price()
             fi.update_items_prices()
+            print(f"--> Después de actualizar precios")
         else:
+            print("--> This band is not asigned to any guest!")
             band_err = _("This band is not asigned to any guest!")
 
         return render(request, "bookings/tpv/view-ticket.html", {'fi':fi, 'band_err': band_err})

@@ -24,11 +24,11 @@
             <p class="success-message">{% trans "Su pago se ha procesado correctamente!" %}</p>
 
             <div class="actions">
-                <a class="btn btn-back ark" data-url="{% url "totem-start" %}" data-target="div-main" 
+                <a class="btn btn-back ark w-100" data-url="{% url "totem-start" %}" data-target="div-main" 
                     data-project_uuid="{{project.uuid}}">{% trans "Volver" %}</a>
-                <a class="btn btn-print ark" data-url="{%url "totem-print-pay"%}" data-target="div-main"
+                <a class="btn btn-print ark w-100" data-url="{%url "totem-print-pay"%}" data-target="div-main"
                     data-project_uuid="{{fi.id}}" data-band="{{band}}" data-total="{{total}}"> {%trans "Imprimir"%}</a>
-                <a class="btn finish-btn" href="{% url "totem-access" project.uuid %}">{% trans "Finalizar" %}</a>
+                <a class="btn finish-btn w-100" href="{% url "totem-access" project.uuid %}">{% trans "Finalizar" %}</a>
              </div>
 
         </div>

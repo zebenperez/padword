@@ -98,9 +98,9 @@ def totem_pay(request):
     try:
         #tcod = ppu.tcod
         tcod = request.session["code"] if "code" in request.session else ""
-        #payment_ok = manage_transaction(project, -1 * total, "Ticket: {}".format(band.id), tcod)
-        #if not payment_ok:
-        #    return render(request, "bookings/totem/payment-return.html", {'err': _('Error procesando el pago'), 'project': project})
+        payment_ok = manage_transaction(project, -1 * total, "Ticket: {}".format(band.id), tcod)
+        if not payment_ok:
+            return render(request, "bookings/totem/payment-return.html", {'err': _('Error procesando el pago'), 'project': project})
     except Exception as e:
         print(e)
         return render(request, "bookings/totem/payment-return.html", {'err': _('Error procesando el pago'), 'project': project})
@@ -109,9 +109,9 @@ def totem_pay(request):
 
     desc = f'Totem (code: {tcod}): liquidación de importe pendiente'
     band.reset_balance(desc)
-    obj = band.make_close()
-    if guest.regime != None and guest.regime.code != "DAYP":
-        Wristband.reset_band(band)
+    obj = band.make_new_close()
+    #if guest.regime != None and guest.regime.code != "DAYP":
+    Wristband.reset_band(band)
 
     try:
         send_caldea_payment(project, band, guest, (-1 * total))

@@ -814,20 +814,26 @@ class FormInstance(models.Model):
             return False
 
     def update_item_prices(self, item):
+        print(f"----> Actualización de precios")
         discount = 0
         low_price = item.item.price
         total_price = item.item.price
         guest = None
         details = self.details
+        print(f"----> Low price: {low_price}")
+        print(f"----> Total price: {total_price}")
 
         over_limit = self.check_limit_hour_price()
 
         if not over_limit:
+            print(f"----> No over limit")
             #Pulsera
             if self.band != None and self.band.guest != None:
+                print(f"----> Pulsera, se asigna el guest")
                 guest = self.band.guest
             #Habitación
             elif details != None and details.client_room != "":
+                print(f"----> Habitación")
                 project = self.project
                 if project != None:
                     room = Room.objects.filter(project_uuid=project.uuid, number=details.client_room).first()
@@ -835,24 +841,38 @@ class FormInstance(models.Model):
                         guest = room.current_guest
 
             if guest != None:
+                print(f"----> Se ha detectado guest ({guest.name})")
                 gr = guest.regimes.first()
                 if gr != None and gr.regime != None:
+                    print(f"----> Se ha detectado regimen ({gr.regime.code})")
                     #low_price = item.item.get_price(gr.regime.code)
                     pos = self.pos.uuid if self.pos != None else ""
+                    print(f"----> Se ha detectado pos ({pos})")
                     low_price = item.item.get_pos_price(gr.regime.code, pos)
+                    print(f"----> Low price: ({low_price})")
                     total_price = low_price
                 if guest.guest_type_obj != None:
                     discount = guest.guest_type_obj.discount
+                    print(f"----> Se ha detectado descuento ({discount})")
                     total_price = low_price - (low_price * (discount/100)) if discount > 0 else low_price
+                    print(f"----> Total price: ({total_price})")
 
         if item.discount2 > 0:
+            print(f"----> Se ha detectado descuento2 ({item.discount2})")
             total_price = float(total_price) - (float(total_price) * (item.discount2/100))
+            print(f"----> Total price: ({total_price})")
      
+        print(f"----> Asignación final")
+        print(f"----> Item price: {item.item.price}")
+        print(f"----> Low price: {low_price}")
+        print(f"----> Discount: {discount}")
+        print(f"----> Total price: {total_price}")
         item.price = item.item.price
         item.low_price = low_price
         item.discount = discount
         item.total_price = total_price
         item.save()
+        print(f"----> Saliendo")
 
     def update_item_prices_guest(self, item, guest):
         discount = 0

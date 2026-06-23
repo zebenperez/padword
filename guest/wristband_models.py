@@ -68,6 +68,25 @@ class Wristband(models.Model):
         self.update_backup_balance(wbb)
         return wbb
 
+    def make_new_close(self):
+        wbb = WristbandBackup.objects.create(code=self.code, guest_uuid=self.guest.UUID)
+        wbb.kid = self.kid
+        wbb.locks = self.locks
+        wbb.name = self.name
+        wbb.project_uuid = self.guest.project_id
+        wbb.guest_name = "{} {}".format(self.guest.name, self.guest.surname)
+        wbb.guest_mobile = self.guest.mobile
+        wbb.guest_email = self.guest.email
+        wbb.guest_room = self.guest.room
+        wbb.check_in = self.guest.check_in
+        wbb.check_out = self.guest.check_out
+        if self.type != None:
+            wbb.type = self.type.name
+        wbb.save()
+        self.update_backup_balance(wbb)
+        return wbb
+
+
     def reset_balance(self, desc):
         WristbandBalance.objects.create(amount=-1*self.balance, desc=desc, wristband=self)
 
