@@ -67,8 +67,8 @@ def totem_check_band(request):
             band_err = _("¡Pulsera no encontrada!")
         elif band.guest == None:
             band_err = _("¡Pulsera no asignada!")
-        elif band.is_close:
-            band_err = _("¡Esta pulsera ya ha sido cerrada!")
+        #elif band.is_close:
+        #    band_err = _("¡Esta pulsera ya ha sido cerrada!")
         else:
             gr = band.guest.regimes.first()
             regime = gr.regime if gr != None else None
@@ -98,26 +98,27 @@ def totem_pay(request):
     try:
         #tcod = ppu.tcod
         tcod = request.session["code"] if "code" in request.session else ""
-        payment_ok = manage_transaction(project, -1 * band.balance, "Ticket: {}".format(band.id), tcod)
-        if not payment_ok:
-            return render(request, "bookings/totem/payment-return.html", {'err': _('Error procesando el pago'), 'project': project})
+        #payment_ok = manage_transaction(project, -1 * total, "Ticket: {}".format(band.id), tcod)
+        #if not payment_ok:
+        #    return render(request, "bookings/totem/payment-return.html", {'err': _('Error procesando el pago'), 'project': project})
     except Exception as e:
         print(e)
         return render(request, "bookings/totem/payment-return.html", {'err': _('Error procesando el pago'), 'project': project})
 
     guest = band.guest
 
-    try:
-        send_caldea_payment(project, band, guest)
-    except Exception as e:
-        print(e)
-        return render(request, "bookings/totem/payment-return.html", {'err': _('Error enviando el pago'), 'project': project})
-
     desc = f'Totem (code: {tcod}): liquidación de importe pendiente'
     band.reset_balance(desc)
     obj = band.make_close()
     if guest.regime != None and guest.regime.code != "DAYP":
         Wristband.reset_band(band)
+
+    try:
+        send_caldea_payment(project, band, guest, (-1 * total))
+    except Exception as e:
+        print(e)
+        #return render(request, "bookings/totem/payment-return.html", {'err': _('Error enviando el pago'), 'project': project})
+
     return render(request, "bookings/totem/payment-return.html", {'err': '', 'project': project, 'band': band.code, 'total': total})
 
 def totem_view_ticket(request):
@@ -135,7 +136,7 @@ def totem_view_ticket(request):
         print(e)
         return render(request, 'error_exception.html', {'exc':show_exc(e)})
 
-def send_caldea_payment(project, band, guest):
+def send_caldea_payment(project, band, guest, total):
     pcu = ProjectCaldeaUser.objects.filter(project_uuid=project.uuid).first()
     if pcu != None and pcu.client_id != "":
         ticket_ids = []
@@ -144,7 +145,7 @@ def send_caldea_payment(project, band, guest):
             if len(desc) > 1:
                 ticket_ids.append(desc[1][:10])
         reg = guest.regime.code if guest.regime != None else ""
-        caldea_send_payment(pcu, band.code, reg, ticket_ids, band.balance)
+        caldea_send_payment(pcu, band.code, reg, ticket_ids, total)
 
 def totem_print_pay(request):
     try:

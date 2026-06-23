@@ -64,14 +64,8 @@ class Caldea():
         try:
             _headers = {}
             _headers['Accept'] = 'application/json'
-            #_headers['x-api-key'] = '{}'.format(self.token)
             _headers['Content-Type'] = 'application/json'
-            print("--A--")
-            print(_url_request)
-            print(_headers)
-            print(_json)
             _response = requests.post(_url_request, headers=_headers, data=_json)
-            print(_response.text)
             _response.raise_for_status()
             return _response
         except requests.exceptions.HTTPError as errh:
@@ -94,10 +88,11 @@ class Caldea():
             print(_url_request)
             print(_headers)
             print(_json)
-            _response = requests.patch(_url_request, headers=_headers, data=_json)
+            _response = requests.post(_url_request, headers=_headers, data=_json)
+            print("--C--")
+            print(_response)
             print(_response.text)
-            #print(_response.text)
-            #_response.raise_for_status()
+            _response.raise_for_status()
             return _response
         except requests.exceptions.HTTPError as errh:
             raise CaldeaAPIError(menssage=errh)
@@ -123,18 +118,16 @@ class Caldea():
     def send_ticket(self, payload):
         try:
             _url_request = "{}{}".format(API_URL, TICKET_URL)
-            dic = self.__send_post_token_request__(_url_request, payload).json()
-            #dic = self.__send_post_token_request__(_url_request, json.dumps(payload)).json()
-            return dic["token"]
+            resp = self.__send_post_token_request__(_url_request, json.dumps(payload))
+            return resp
         except Exception as err:
             raise CaldeaAPIError(menssage=err)
 
     def send_payment(self, payload):
         try:
             _url_request = "{}{}".format(API_URL, PAYMENT_URL)
-            #dic = self.__send_post_token_request__(_url_request, payload).json()
-            dic = self.__send_post_token_request__(_url_request, json.dumps(payload)).json()
-            return dic["token"]
+            resp = self.__send_post_token_request__(_url_request, json.dumps(payload))
+            return ""
         except Exception as err:
             raise CaldeaAPIError(menssage=err)
 

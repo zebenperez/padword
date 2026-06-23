@@ -350,6 +350,7 @@ class GuestViewSet(viewsets.ModelViewSet):
             user_regime = request.POST.get("user_regime", "")   #req
             user_type = request.POST.get("user_type", "")       #opt
             check_out = request.POST.get('check_out', "")         #opt
+            band_type = request.POST.get('band_type', "")         #opt
 
             if pu == None or pu.project == None:
                 logger.error("[{}]: \"Permission denied!\"".format(self.request.user))
@@ -391,7 +392,8 @@ class GuestViewSet(viewsets.ModelViewSet):
             logger.info("[{}]: \"Guest Regime {} created\"".format(self.request.user, guest.name))
 
             if band_code != "":
-                bt = WristbandType.objects.filter(code="03").first()
+                #bt = WristbandType.objects.filter(code="03").first()
+                bt = WristbandType.objects.filter(code=band_type).first() if band_type != "" else None
                 datab = { "code": reverse_cardkey(band_code), "name": name, "guest": guest, "type": bt}
                 band = Wristband.objects.create(**datab)
                 logger.info("[{}]: \"Band {} created\"".format(self.request.user, guest.name))
