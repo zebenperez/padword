@@ -21,7 +21,7 @@ from padword.commons import new_ui_slug, reverse_cardkey, timestamp_to_date, get
 from padword.commons import get_today_ini, get_today_end
 from connector.libstripe import ShStripe
 
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, date, time
 
 import logging
 logger = logging.getLogger(__name__)
@@ -403,7 +403,7 @@ class GuestViewSet(viewsets.ModelViewSet):
             logger.error("[{}]: \"{}\"".format(self.request.user, str(e)))
             return Response(data={'error': 'true', 'msg': "Bad request!"}, status=status.HTTP_400_BAD_REQUEST)
 
-    @action(detail=False, methods=['get'])
+    @action(detail=False, methods=['post'])
     def close_bands(self, request):
         try:
             from guest.wristband_lib import close_band_by_regime_and_soft_remove
@@ -413,37 +413,52 @@ class GuestViewSet(viewsets.ModelViewSet):
                 logger.error("[{}]: \"Permission denied!\"".format(self.request.user))
                 return Response({"error": True, 'msg': 'Permission denied!'})
 
-            code = request.GET.get("code", "").replace("/", "")                 #req
-            if code == "":
-                logger.error("[{}]: \"Code field is required!\"".format(self.request.user))
-                return Response({"error": True, 'msg': 'Code field is required!'})
+            start_date = request.POST.get('start_date', "")         
+            end_date = request.POST.get('end_date', "")         
+            today = date.today()
+            if start_date == "":
+                start_date = datetime.combine(today, time.min)
+            if end_date == "":
+                end_date = datetime.combine(today, time.max)
+ 
+            #code = request.GET.get("code", "").replace("/", "")                 #req
+            #if code == "":
+            #    logger.error("[{}]: \"Code field is required!\"".format(self.request.user))
+            #    return Response({"error": True, 'msg': 'Code field is required!'})
 
-            close_band_by_regime_and_soft_remove(pu.project, code)
-            logger.info("[{}]: \"Bands {} closed\"".format(self.request.user, code))
+            #close_band_by_regime_and_soft_remove(pu.project, code)
+            close_band_by_regime_and_soft_remove(pu.project, start_date, end_date)
+            logger.info("[{}]: \"Bands closed {}-{}\"".format(self.request.user, start_date, end_date))
             return Response(data={'error': 'false', 'msg': "Bands closed successfully!"}, status=status.HTTP_201_CREATED)
         except Exception as e:
             logger.error("[{}]: \"{}\"".format(self.request.user, str(e)))
             return Response(data={'error': 'true', 'msg': "Bad request!"}, status=status.HTTP_400_BAD_REQUEST)
 
-    @action(detail=False, methods=['get'])
+    @action(detail=False, methods=['post'])
     def bands_daily(self, request):
         try:
-            from guest.wristband_lib import get_daily_close_bands
-            date = request.POST.get('date', "")         #req
-            print(date)
+            from guest.wristband_lib import get_daily_close_bands, get_daily_open_bands
 
             pu = ProjectUser.objects.get(username=self.request.user.username)
             if pu == None or pu.project == None:
                 logger.error("[{}]: \"Permission denied!\"".format(self.request.user))
                 return Response({"error": True, 'msg': 'Permission denied!'})
 
-            if date == "":
-                logger.error("[{}]: \"Date field is required!\"".format(self.request.user))
-                return Response({"error": True, 'msg': 'Date field is required!'})
+            ini_date = request.POST.get('ini_date', "")         #req
+            end_date = request.POST.get('ini_date', "")         #req
+            today = date.today()
+            if ini_date == "":
+                ini_date = datetime.combine(today, time.min)
+            if end_date == "":
+                end_date = datetime.combine(today, time.max)
+            #if date == "":
+            #    logger.error("[{}]: \"Date field is required!\"".format(self.request.user))
+            #    return Response({"error": True, 'msg': 'Date field is required!'})
 
-            band_list = get_daily_close_bands(date)
-            logger.info("[{}]: \"Bands {} daily\"".format(self.request.user, date))
-            return Response(data={'band_list': band_list,}, status=status.HTTP_201_CREATED)
+            band_list_open = get_daily_open_bands(pu.project_uuid, ini_date, end_date)
+            band_list_close = get_daily_close_bands(pu.project_uuid, ini_date, end_date)
+            logger.info(f"[{self.request.user}]: \"Bands {ini_date}-{end_date} daily\"")
+            return Response(data={'band_list_open':band_list_open, 'band_list_close':band_list_close}, status=status.HTTP_201_CREATED)
         except Exception as e:
             logger.error("[{}]: \"{}\"".format(self.request.user, str(e)))
             return Response(data={'error': 'true', 'msg': "Bad request!"}, status=status.HTTP_400_BAD_REQUEST)
@@ -901,6 +916,28 @@ class TicketViewSet(viewsets.ViewSet):
             logger.error("[{}]: \"{}\"".format(self.request.user, str(e)))
             return Response({"error": True, 'msg': str(e)})
 
+    @action(detail=False, methods=['POST'])
+    def get_tickets3(self, request):
+        try:
+            logger.info("[DEBUG]: ({}) ENTRANDO EN GET TICKETS3: {}".format(request.META.get('REMOTE_ADDR'), request.POST))
+            pu = ProjectUser.objects.get(username=self.request.user.username)
+            start_date = request.POST["start_date"] if "start_date" in request.POST else ""
+            end_date = request.POST["end_date"] if "end_date" in request.POST else ""
+
+            form = Form.objects.filter(form_type__code="tpv", form_type__project_uuid=pu.project.uuid).first()
+            if form != None:
+                logger.info("[DEBUG]: PROCESANDO")
+                res = form.to_tickets3(start_date, end_date)
+                #logger.info(f'[DEBUG]: PROCESADO')
+                #for t in res["tickets"]:
+                #    logger.info(f'[DEBUG]: TICKET {t["ticket numero"]} {t["fecha"]} {t["hora"]}')
+                logger.info("[DEBUG]: PROCESADO {}".format(res["tickets"]))
+                return Response(res)
+            return Response({"error": True, 'msg': 'This project do not have TPV configured!'})
+        except Exception as e:
+            logger.info("[DEBUG]: ERROR {}".format(str(e)))
+            logger.error("[{}]: \"{}\"".format(self.request.user, str(e)))
+            return Response({"error": True, 'msg': str(e)})
 
     @action(detail=False, methods=['POST'])
     def get_tickets_tpv(self, request):

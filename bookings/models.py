@@ -386,6 +386,32 @@ class Form(models.Model):
                 fi.receive_items()
         return resp
 
+    def to_tickets3(self, start_date="", end_date=""):
+        if start_date != "":
+            if (len(start_date) > 16):
+                s_date = date_to_utc(datetime.datetime.strptime(start_date, "%Y-%m-%d_%H:%M:%S"), self.project.time_zone_name)
+            else:
+                s_date = date_to_utc(datetime.datetime.strptime(start_date, "%Y-%m-%d_%H:%M"), self.project.time_zone_name)
+            if end_date != "":
+                if (len(end_date) > 16):
+                    e_date = date_to_utc(datetime.datetime.strptime(end_date, "%Y-%m-%d_%H:%M:%S"), self.project.time_zone_name)
+                else:
+                    e_date = date_to_utc(datetime.datetime.strptime(end_date, "%Y-%m-%d_%H:%M"), self.project.time_zone_name)
+                fi_list = FormInstance.objects.filter(form_uuid=self.uuid, date__range=(s_date, e_date))
+            else:
+                #fi_list = FormInstance.objects.filter(form_uuid=self.uuid, date__gt=s_date).order_by("-date")
+                fi_list = FormInstance.objects.filter(form_uuid=self.uuid, date__gte=s_date).order_by("-date")
+        else:
+            fi_list = FormInstance.objects.filter(form_uuid=self.uuid).order_by("-date")
+        resp = {"tickets": []}
+        for fi in fi_list:
+            fi_status = fi.get_status
+            #Ticker abiertos o enviados
+            if fi_status == None or fi_status.status.code == "01":
+                resp = ticket_to_json2(fi, fi_status, resp)
+                fi.receive_items()
+        return resp
+
     def to_tickets_pos(self, pos, index=""):
         kwargs = {'pos_uuid': pos, 'form_uuid': self.uuid}
         if index != "":
