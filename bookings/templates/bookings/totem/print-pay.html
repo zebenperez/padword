@@ -192,8 +192,11 @@ body{
     <div class="col-12 justify-content-center mt-4">
     <div id="main" class="screen">
         <div class="top-actions" id="print-head">
+            {%comment%}
                 <a class="btn btn-back py-3 mx-4 ark" data-url="{% url "totem-start" %}" data-target="div-main"
                     data-project_uuid="{{project.uuid}}">{% trans "Volver" %}</a>
+            {%endcomment%}
+                <a class="btn btn-back py-3 mx-4" href="{% url "totem-access" project.uuid %}">{% trans "Volver" %}</a>
                 <a class="btn btn-finish py-3 m-4" onclick="window.print()"> &#128424; {% trans "Imprimir" %}</a>
         </div>
 

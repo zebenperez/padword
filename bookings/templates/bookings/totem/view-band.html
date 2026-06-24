@@ -7,9 +7,12 @@
             <h1 class="error-title">{{band_err}}</h1>
             <p class="error-message">Vuelva a intentarlo y, si el problema persiste, contacte con el personal.</p>
             <div class="actions">
+                {%comment%}
                 <a class="btn btn btn-back py-3 mx-4 ark" data-url="{% url "totem-start" %}" data-target="div-main" 
                     data-project_uuid="{{project.uuid}}">{% trans "Volver" %}</a>
                 <a class="btn btn btn-cancel py-3" href="{% url "totem-access" project.uuid %}">{% trans "Cancelar" %}</a>
+                {%endcomment%}
+                <a class="btn btn btn-back py-3" href="{% url "totem-access" project.uuid %}">{% trans "Volver" %}</a>
             </div>
         </div>
     </div>

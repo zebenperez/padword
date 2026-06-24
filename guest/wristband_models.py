@@ -39,6 +39,10 @@ class Wristband(models.Model):
         wb = WristbandBackup.objects.filter(code=self.code, guest_uuid=self.guest.UUID).first()
         return (wb != None)
 
+    def is_close_in_range_date(self, ini_date, end_date):
+        wb = WristbandBackup.objects.filter(code=self.code, guest_uuid=self.guest.UUID, date__range=(ini_date, end_date)).first()
+        return (wb != None)
+
     def get_or_create_backup(self):
         wb = WristbandBackup.objects.filter(code=self.code, guest_uuid=self.guest.UUID).first()
         if wb == None:

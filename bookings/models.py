@@ -9,7 +9,7 @@ from guest.models import Guest
 from guest.wristband_models import Wristband
 
 from .email_lib import send_change_status_email
-from padword.commons import show_exc, translate2, date_to_utc, date_to_local, date_to_utc
+from padword.commons import show_exc, translate2, date_to_utc, date_to_local, date_to_utc, reverse_cardkey, get_int, get_float
 
 import datetime, threading, pytz
 
@@ -77,7 +77,8 @@ def ticket_to_json2(fi): #CALDEA
     lang = details.lang if details != None else ""
     client_room = details.client_room if details != None else ""
     client_regime = details.client_regime if details != None else ""
-    band = details.band if details != None else ""
+    band = get_int(details.band) if details != None else ""
+    band_code = reverse_cardkey(band) if band != "" else ""
     band_name = details.band_name if details != None else ""
     payment_type = translate2("es", fi.payment_type.name) if fi.payment_type != None else ""
     date = date_to_local(fi.date, fi.project.time_zone_name)
@@ -85,15 +86,15 @@ def ticket_to_json2(fi): #CALDEA
  
     fi_json = {
         "id": fi.id,
-        "id_pulsera": int(band),
+        "id_pulsera": band_code,
         "user_regime": client_regime,
         "ticket numero": fi.index,
         "fecha": date.strftime("%d-%m-%Y"), 
         "hora": date.strftime("%H:%M:%S"), 
         #"subtotal": "{:.2f}".format(fi.get_total), 
         #"total": "{:.2f}".format(fi.get_total_total), 
-        "subtotal": round(float(fi.get_total), 2), 
-        "total": round(float(fi.get_total_total), 2), 
+        "subtotal": round(get_float(fi.get_total), 2), 
+        "total": round(get_float(fi.get_total_total), 2), 
         "punto de venta": pos_name, 
         "mesa": table_name,
         "cliente": guest_name,
@@ -408,7 +409,7 @@ class Form(models.Model):
             fi_status = fi.get_status
             #Ticker abiertos o enviados
             if fi_status == None or fi_status.status.code == "01":
-                resp = ticket_to_json2(fi)
+                resp["tickets"].append(ticket_to_json2(fi))
                 fi.receive_items()
         return resp
 

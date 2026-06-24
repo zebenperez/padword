@@ -83,15 +83,15 @@ class Caldea():
             _headers['accept'] = '*/*'
             _headers['Authorization'] = 'Bearer {}'.format(self.token)
             _headers['Content-Type'] = 'application/json'
-            print("--B--")
-            print(self.token)
-            print(_url_request)
-            print(_headers)
-            print(_json)
+            #print("--B--")
+            #print(self.token)
+            #print(_url_request)
+            #print(_headers)
+            #print(_json)
             _response = requests.post(_url_request, headers=_headers, data=_json)
-            print("--C--")
-            print(_response)
-            print(_response.text)
+            #print("--C--")
+            #print(_response)
+            #print(_response.text)
             _response.raise_for_status()
             return _response
         except requests.exceptions.HTTPError as errh:

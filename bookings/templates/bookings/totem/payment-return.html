@@ -8,8 +8,10 @@
                 <h1 class="error-title">{{band_err}}</h1>
                 <p class="error-message">{{err}}</p>
                 <div class="actions">
+                    {%comment%}
                     <a class="btn btn btn-back py-3 mx-4 ark" data-url="{% url "totem-start" %}" data-target="div-main" 
                         data-project_uuid="{{project.uuid}}">{% trans "Volver" %}</a>
+                    {%endcomment%}
                     <a class="btn btn btn-cancel py-3" href="{% url "totem-access" project.uuid %}">{% trans "Cancelar" %}</a>
             </div>
         </div>
@@ -24,8 +26,10 @@
             <p class="success-message">{% trans "Su pago se ha procesado correctamente!" %}</p>
 
             <div class="actions">
+                {%comment%}
                 <a class="btn btn-back ark w-100" data-url="{% url "totem-start" %}" data-target="div-main" 
                     data-project_uuid="{{project.uuid}}">{% trans "Volver" %}</a>
+                {%endcomment%}
                 <a class="btn btn-print ark w-100" data-url="{%url "totem-print-pay"%}" data-target="div-main"
                     data-project_uuid="{{fi.id}}" data-band="{{band}}" data-total="{{total}}"> {%trans "Imprimir"%}</a>
                 <a class="btn finish-btn w-100" href="{% url "totem-access" project.uuid %}">{% trans "Finalizar" %}</a>

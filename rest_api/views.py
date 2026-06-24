@@ -392,9 +392,15 @@ class GuestViewSet(viewsets.ModelViewSet):
             logger.info("[{}]: \"Guest Regime {} created\"".format(self.request.user, guest.name))
 
             if band_code != "":
+                band_code = reverse_cardkey(band_code)
+                band = Wristband.objects.filter(code=band_code).first()
+                if band != None:
+                    logger.error("[{}]: \"Band assignated to another user!\"".format(self.request.user))
+                    return Response({"error": True, 'msg': 'Band assignated to another user!'})
+
                 #bt = WristbandType.objects.filter(code="03").first()
                 bt = WristbandType.objects.filter(code=band_type).first() if band_type != "" else None
-                datab = { "code": reverse_cardkey(band_code), "name": name, "guest": guest, "type": bt}
+                datab = { "code": band_code, "name": name, "guest": guest, "type": bt}
                 band = Wristband.objects.create(**datab)
                 logger.info("[{}]: \"Band {} created\"".format(self.request.user, guest.name))
 
@@ -427,9 +433,10 @@ class GuestViewSet(viewsets.ModelViewSet):
             #    return Response({"error": True, 'msg': 'Code field is required!'})
 
             #close_band_by_regime_and_soft_remove(pu.project, code)
-            close_band_by_regime_and_soft_remove(pu.project, start_date, end_date)
+            resp = close_band_by_regime_and_soft_remove(pu.project, start_date.replace("_"," "), end_date.replace("_"," "))
             logger.info("[{}]: \"Bands closed {}-{}\"".format(self.request.user, start_date, end_date))
-            return Response(data={'error': 'false', 'msg': "Bands closed successfully!"}, status=status.HTTP_201_CREATED)
+            return Response(data={'error': 'false', 'guests_closed': resp}, status=status.HTTP_201_CREATED)
+            #return Response(data={'error': 'false', 'msg': "Bands closed successfully!"}, status=status.HTTP_201_CREATED)
         except Exception as e:
             logger.error("[{}]: \"{}\"".format(self.request.user, str(e)))
             return Response(data={'error': 'true', 'msg': "Bad request!"}, status=status.HTTP_400_BAD_REQUEST)
@@ -931,7 +938,7 @@ class TicketViewSet(viewsets.ViewSet):
                 #logger.info(f'[DEBUG]: PROCESADO')
                 #for t in res["tickets"]:
                 #    logger.info(f'[DEBUG]: TICKET {t["ticket numero"]} {t["fecha"]} {t["hora"]}')
-                logger.info("[DEBUG]: PROCESADO {}".format(res["tickets"]))
+                logger.info("[DEBUG]: PROCESADO {}".format(len(res)))
                 return Response(res)
             return Response({"error": True, 'msg': 'This project do not have TPV configured!'})
         except Exception as e:

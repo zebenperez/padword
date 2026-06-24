@@ -5,35 +5,33 @@
 
 {% block central_content %}
     <div id="div-main" class="welcome-page" {% if cat.image %}style="background-image: url('{{cat.image.url}}')" {% endif %}>
-	    <div class="row m-0">
-            <div class="welcome-inner col-12 justify-content-center menu">
-                <h3> {% trans "Welcome" %} </h3>
-                <!-- {% if cat.name != "" %}<h4> {% padword_translate cat.name %} <h4> {% endif %} -->
-                {% if cat.description != "" %}<h5> {% padword_translate cat.description %} <h5> {% endif %}
+        <div class="welcome-inner col-12 justify-content-center menu">
+            <h3> {% trans "Welcome" %} </h3>
+            <h4> {% trans "Acerque la pulsera al lector" %} </h4>
+
+		    <!-- Selector de idiomas -->
+		    <div class="languages mt-2">
+		        <div class="flag" title="Català (Andorra)"> <img src="https://flagcdn.com/w80/ad.png" alt="Andorra"> </div>
+		        <div class="flag" title="Español"> <img src="https://flagcdn.com/w80/es.png" alt="España"> </div>
+		        <div class="flag" title="Français"> <img src="https://flagcdn.com/w80/fr.png" alt="Francia"> </div>
+		        <div class="flag" title="English"> <img src="https://flagcdn.com/w80/gb.png" alt="Inglaterra"> </div>
+		    </div>
+
+            {# {% if cat.name != "" %}<h4> {% padword_translate cat.name %} <h4> {% endif %} #}
+            {% if cat.description != "" %} {% endif %}
+		    <br/><br/><br/>
+
+            {%comment%}
                 <button class="me-1 w-25 py-5 btn btn-access ark" data-url="{{next_url}}" data-target="div-main" 
                     data-project_uuid="{{project_uuid}}" data-mobile="{{mobile}}"> {%trans "Empezar"%}</button>
-	        </div><br/>
-
- 		<!-- Selector de idiomas -->
-		<div class="col-2 languages mt-2">
-		    <div class="flag" title="Català (Andorra)">
-			<img src="https://flagcdn.com/w80/ad.png" alt="Andorra">
-		    </div>
-
-		    <div class="flag" title="Español">
-			<img src="https://flagcdn.com/w80/es.png" alt="España">
-		    </div>
-
-		    <div class="flag" title="Français">
-			<img src="https://flagcdn.com/w80/fr.png" alt="Francia">
-		    </div>
-
-		    <div class="flag" title="English">
-			<img src="https://flagcdn.com/w80/gb.png" alt="Inglaterra">
-		    </div>
-		</div>
+            {%endcomment%}
 	    </div>
+	<input type="text" id="input-scan" class="ark_change" name="bans-scan" data-url="{% url "totem-check-band" %}" 
+        data-target="div-main" data-project="{{project_uuid}}" autofocus style="position:absolute; left:-9999px;"/>
 	</div>
+    
+
     {% include "common-modal.html" %}
-    <script> $('#sidebar').removeClass('expanded'); </script>
+
+    <script> $('#sidebar').removeClass('expanded'); $("#input-scan").focus();</script>
 {% endblock %}
