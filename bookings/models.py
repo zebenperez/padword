@@ -408,7 +408,7 @@ class Form(models.Model):
             fi_status = fi.get_status
             #Ticker abiertos o enviados
             if fi_status == None or fi_status.status.code == "01":
-                resp = ticket_to_json2(fi, fi_status, resp)
+                resp = ticket_to_json2(fi)
                 fi.receive_items()
         return resp
 

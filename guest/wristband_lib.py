@@ -60,10 +60,7 @@ def get_daily_close_bands(project_uuid, ini_date, end_date):
     return i_list
 
 def get_daily_open_bands(project_uuid, ini_date, end_date):
-    print(ini_date)
-    print(end_date)
     item_list = Wristband.objects.filter(guest__check_out__range=(ini_date, end_date), guest__project_id=project_uuid)
-    print(item_list)
     i_list = []
     for item in item_list:
         btype = item.type.name if item.type != None else ""
