@@ -444,20 +444,20 @@ class GuestViewSet(viewsets.ModelViewSet):
                 logger.error("[{}]: \"Permission denied!\"".format(self.request.user))
                 return Response({"error": True, 'msg': 'Permission denied!'})
 
-            ini_date = request.POST.get('ini_date', "")         #req
-            end_date = request.POST.get('ini_date', "")         #req
+            start_date = request.POST.get('start_date', "")         #req
+            end_date = request.POST.get('end_date', "")         #req
             today = date.today()
-            if ini_date == "":
-                ini_date = datetime.combine(today, time.min)
+            if start_date == "":
+                start_date = datetime.combine(today, time.min)
             if end_date == "":
                 end_date = datetime.combine(today, time.max)
             #if date == "":
             #    logger.error("[{}]: \"Date field is required!\"".format(self.request.user))
             #    return Response({"error": True, 'msg': 'Date field is required!'})
 
-            band_list_open = get_daily_open_bands(pu.project_uuid, ini_date, end_date)
-            band_list_close = get_daily_close_bands(pu.project_uuid, ini_date, end_date)
-            logger.info(f"[{self.request.user}]: \"Bands {ini_date}-{end_date} daily\"")
+            band_list_open = get_daily_open_bands(pu.project_uuid, start_date.replace("_", " "), end_date.replace("_", " "))
+            band_list_close = get_daily_close_bands(pu.project_uuid, start_date.replace("_", " "), end_date.replace("_", " "))
+            logger.info(f"[{self.request.user}]: \"Bands {start_date}-{end_date} daily\"")
             return Response(data={'band_list_open':band_list_open, 'band_list_close':band_list_close}, status=status.HTTP_201_CREATED)
         except Exception as e:
             logger.error("[{}]: \"{}\"".format(self.request.user, str(e)))
