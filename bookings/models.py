@@ -407,10 +407,10 @@ class Form(models.Model):
         resp = {"tickets": []}
         for fi in fi_list:
             fi_status = fi.get_status
-            #Ticker abiertos o enviados
-            #if fi_status == None or fi_status.status.code == "01":
             #Tickets enviados
-            if fi_status.status.code == "01":
+            #if fi_status.status.code == "01":
+            #Ticker abiertos o enviados
+            if fi_status == None or fi_status.status.code == "01":
                 resp["tickets"].append(ticket_to_json2(fi))
                 fi.receive_items()
         return resp
