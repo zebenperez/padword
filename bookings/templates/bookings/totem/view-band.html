@@ -5,7 +5,7 @@
         <div class="error-container">
             <div class="error-icon"><i class="fa fa-times"></i></div>
             <h1 class="error-title">{{band_err}}</h1>
-            <p class="error-message">Vuelva a intentarlo y, si el problema persiste, contacte con el personal.</p>
+            <p class="error-message">{% trans "Vuelva a intentarlo y, si el problema persiste, contacte con el personal." %}</p>
             <div class="actions">
                 {%comment%}
                 <a class="btn btn btn-back py-3 mx-4 ark" data-url="{% url "totem-start" %}" data-target="div-main" 
@@ -21,7 +21,7 @@
     <div class="screen">
         <div class="hero">
             <div class="logo">
-                {%if form.logo%}<img src="{{form.logo.url}}" class="Logo Caldea"/>{%endif%} <span>SPA EXPERIENCE</span>
+                {%if form.logo%}<img src="{{form.logo.url}}" class="Logo Caldea"/>{%endif%} <span>{% trans "SPA EXPERIENCE" %}</span>
             </div>
         </div>
 
@@ -30,12 +30,12 @@
             <aside class="sidebar">
                 <h2 class="sidebar-title">{{band.name}}</h2>
                 <div class="info-group">
-                    <div class="label">Band Code</div>
+                    <div class="label">{% trans "Band Code" %}</div>
                     <div class="value">{{band.code}}</div>
                 </div>
 
                 <div class="info-group">
-                    <div class="label">Tipo</div>
+                    <div class="label">{% trans "Tipo" %}</div>
                     <div class="value dark">{{band.type.name}}</div>
                 </div>
             </aside>
@@ -45,25 +45,28 @@
                 <section class="table-card"> {% include "bookings/totem/balance.html" %} </section>
                 <!-- BOTTOM -->
                 <section class="bottom">
-                    <div class="balance-card"> <h2>BALANCE: {{band.balance|floatformat:2}} {{project.currency}}</h2> </div>
+                    <div class="balance-card"><h2>{%trans "BALANCE"%}: {{band.balance|floatformat:2}} {{project.currency}}</h2> </div>
                     {% if band.balance == 0 and not band.guest.regime.totem_pay %}
+                        <button class="pay-btn" onclick="window.location='{% url "totem-access" project.uuid %}'"> Salir </button>
+                        {%comment%}
                         <button class="pay-btn ark" data-url="{% url "totem-start" %}" data-target="div-main" 
                             data-project_uuid="{{project.uuid}}"> Salir </button>
-                        {%comment%}
                         <button class="pay-btn ark" data-url="{% url "totem-pay" %}" data-target="div-main" data-obj_id="{{band.id}}" 
                             data-project="{{project.uuid}}"> Salir </button>
                         {%endcomment%}
                     {% else %}
                         <button class="pay-btn ark" data-url="{% url "totem-pay" %}" data-target="div-main" data-obj_id="{{band.id}}" 
-                            data-project="{{project.uuid}}"> Pagar </button>
+                            data-project="{{project.uuid}}"> {% trans "Pagar" %} </button>
                     {% endif %}
                 </section>
             </main>
         </div>
 
         <div class="actions pb-3">
+            {%comment%}
             <a class="btn btn btn-back py-3 mx-4 ark" data-url="{% url "totem-start" %}" data-target="div-main" 
                 data-project_uuid="{{project.uuid}}">{% trans "Volver" %}</a>
+            {%endcomment%}
             <a class="btn btn btn-cancel py-3 mx-4" href="{% url "totem-access" project.uuid %}">{% trans "Cancelar" %}</a>
         </div>
 

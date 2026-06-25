@@ -7,7 +7,7 @@ from padword.commons import show_exc, new_ui_slug, get_random_digits, reverse_ca
 from web.models import Project
 from .models import Guest
 
-import datetime, pytz, time
+import datetime, pytz, time, re
 
 
 class WristbandType(models.Model):
@@ -126,6 +126,11 @@ class WristbandBalance(models.Model):
     amount = models.FloatField(verbose_name=_('Amount'), default=0)
     desc = models.TextField(verbose_name=_("Description"), default="", blank=True)
     wristband = models.ForeignKey(Wristband, verbose_name=_("Wristband"), on_delete=models.CASCADE, blank=True, null=True, related_name="balances")
+
+    @property
+    def ticket_id(self):
+        match = re.search(r"data-obj_id='(\d+)'", self.desc)
+        return match.group(1) if match else ""
 
     class Meta:
         verbose_name = _("Wristband balance")

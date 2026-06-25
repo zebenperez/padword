@@ -1,6 +1,6 @@
 {% load i18n padword_tags tz %}
  
-<div class="table-header"> CONSUMOS </div>
+<div class="table-header"> {% trans "CONSUMOS" %} </div>
 <div class="transactions-table">
     <div class="table-head">
         <div> {% trans 'Date' %} </div>
@@ -26,7 +26,7 @@
         {% endfor %}
     </div>
     <div class="scroll-indicator">
-        <span>Más consumos</span>
+        <span>{% trans "Más consumos" %}</span>
         <span class="arrow">↓</span>
     </div>
 </div>

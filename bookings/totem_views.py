@@ -8,7 +8,7 @@ from padword.decorators import group_required
 from padword.commons import show_exc, get_or_none, get_param, get_float, reverse_cardkey
 from web.models import Project
 from bookings.models import Form, FormInstance
-from contents.models import ShoppingCart
+from contents.models import ShoppingCart, PaymentType
 from guest.models import Guest
 from guest.wristband_models import Wristband, WristbandBalance, WristbandBackup, WristbandBackupBalance
 from guest.wristband_lib import close_band_by_regime_and_soft_remove
@@ -63,6 +63,8 @@ def totem_check_band(request):
         val = get_param(request.GET, "value", "")
         band = Wristband.get_active_by_project(project, reverse_cardkey(val))
         band_err = ""
+        #print(f"--> Lectura de pulsera: {val}")
+        #print(f"--> Pulsera: {band}")
         if band == None:
             band_err = _("¡Pulsera no encontrada!")
         elif band.guest == None:
@@ -79,9 +81,9 @@ def totem_check_band(request):
         print(e)
         return render(request, "error_exception.html", {'exc':show_exc(e)})
 
-def add_pay_to_band(band, amount):
-    desc += "Pago realizado a través del Totem de ".format(url, fi.id, fi.get_index)
-    WristbandBalance.objects.create(amount=amount, desc=desc, wristband=band)
+#def add_pay_to_band(band, amount):
+#    desc += "Pago realizado a través del Totem de ".format(url, fi.id, fi.get_index)
+#    WristbandBalance.objects.create(amount=amount, desc=desc, wristband=band)
     #WristbandBalance.objects.create(amount=(get_float(fi.amount)*-1), desc=desc, wristband=band)
 
 def totem_pay(request):
@@ -105,16 +107,18 @@ def totem_pay(request):
         print(e)
         return render(request, "bookings/totem/payment-return.html", {'err': _('Error procesando el pago'), 'project': project})
 
-    guest = band.guest
+    band_code = band.code
+    regime = band.guest.regime.code if band.guest != None and band.guest.regime != None else ""
+    tickets = get_ticket_ids(band)
 
     desc = f'Totem (code: {tcod}): liquidación de importe pendiente'
-    band.reset_balance(desc)
-    obj = band.make_new_close()
-    #if guest.regime != None and guest.regime.code != "DAYP":
-    Wristband.reset_band(band)
+    band.reset_balance(desc)            #Se pone el balance a 0 con cargo
+    obj = band.make_new_close()         #Se cierra la pulsera
+    Wristband.reset_band(band)          #Se le reasigna vacía al huésped
 
     try:
-        send_caldea_payment(project, band, guest, (-1 * total))
+        update_tickets_payment(tickets)
+        send_caldea_payment(project, band_code, regime, tickets, (-1 * total))
     except Exception as e:
         print(e)
         #return render(request, "bookings/totem/payment-return.html", {'err': _('Error enviando el pago'), 'project': project})
@@ -122,30 +126,20 @@ def totem_pay(request):
     return render(request, "bookings/totem/payment-return.html", {'err': '', 'project': project, 'band': band.code, 'total': total})
 
 def totem_view_ticket(request):
-    import re
+    #import re
+        #match = re.search(r"data-obj_id='(\d+)'", band.desc)
+        #fi_id = match.group(1) if match else None
+
+        #fi = FormInstance.objects.get(pk = fi_id)
     try:
         band = get_or_none(WristbandBalance, get_param(request.GET, "obj_id"))
-        match = re.search(r"data-obj_id='(\d+)'", band.desc)
-        fi_id = match.group(1) if match else None
-
-        fi = FormInstance.objects.get(pk = fi_id)
+        fi = FormInstance.objects.get(pk = band.ticket_id)
         items = ShoppingCart.objects.filter(form_instance_id=fi.pk)
         context = {'fi': fi, 'index': "0", 'project_uuid': fi.form.project.uuid, 'items':items}
         return render(request, 'bookings/totem/view-ticket.html', context)
     except Exception as e:
         print(e)
         return render(request, 'error_exception.html', {'exc':show_exc(e)})
-
-def send_caldea_payment(project, band, guest, total):
-    pcu = ProjectCaldeaUser.objects.filter(project_uuid=project.uuid).first()
-    if pcu != None and pcu.client_id != "":
-        ticket_ids = []
-        for item in band.balances.all():
-            desc = item.desc.split("#-")
-            if len(desc) > 1:
-                ticket_ids.append(desc[1][:10])
-        reg = guest.regime.code if guest.regime != None else ""
-        caldea_send_payment(pcu, reverse_cardkey(band.code), reg, ticket_ids, total)
 
 def totem_print_pay(request):
     try:
@@ -158,5 +152,32 @@ def totem_print_pay(request):
         print(e)
         logger.error("[bookings-print-ticket] {}".format(str(e)))
         return render(request, 'error_exception.html', {'exc':show_exc(e)})
+
+'''
+    COMMONS
+'''
+def get_ticket_ids(band):
+    ticket_ids = []
+    for item in band.balances.all():
+        ticket_id = item.ticket_id
+        if ticket_id != "":
+            ticket_ids.append(ticket_id)
+    return ticket_ids
+ 
+def update_tickets_payment(tickets):
+    try:
+        pt = PaymentType.objects.filter(code="09").first() #Pago en totem
+        if pt != None:
+            for ticket in tickets:
+                fi = FormInstance.objects.get(pk = ticket)
+                fi.payment_type = pt
+                fi.save()
+    except Exception as e:
+        print(e)
+
+def send_caldea_payment(project, band_code, regime, tickets, total):
+    pcu = ProjectCaldeaUser.objects.filter(project_uuid=project.uuid).first()
+    if pcu != None and pcu.client_id != "":
+        caldea_send_payment(pcu, reverse_cardkey(band_code), regime, tickets, total)
 
 

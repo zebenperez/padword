@@ -94,8 +94,11 @@ def ticket_to_json2(fi): #CALDEA
         "hora": date.strftime("%H:%M:%S"), 
         #"subtotal": "{:.2f}".format(fi.get_total), 
         #"total": "{:.2f}".format(fi.get_total_total), 
-        "subtotal": round(fi.get_total, 2), 
-        "total": round(fi.get_total_total, 2), 
+        #"subtotal": round(fi.get_total, 2), 
+        #"total": round(fi.get_total_total, 2), 
+        "subtotal": fi.get_total, 
+        "total": fi.get_total_total, 
+        "descuento": fi.discount, 
         "punto de venta": pos_name, 
         "mesa": table_name,
         "cliente": guest_name,
@@ -114,6 +117,7 @@ def ticket_to_json2(fi): #CALDEA
             "cantidad": 1,
             "precio_servicio": item.price,
             "precio_servicio_reducido": item.total_price,
+            "descuento": item.discount2,
             #"subtotal": 0,
             "familia": {
                 "additionalProp1": item_category,
@@ -408,10 +412,8 @@ class Form(models.Model):
         resp = {"tickets": []}
         for fi in fi_list:
             fi_status = fi.get_status
-            #Tickets enviados
-            #if fi_status.status.code == "01":
             #Ticker abiertos o enviados
-            if fi_status == None or fi_status.status.code == "01":
+            if fi_status != None and fi_status.status.code == "01":
                 resp["tickets"].append(ticket_to_json2(fi))
                 fi.receive_items()
         return resp

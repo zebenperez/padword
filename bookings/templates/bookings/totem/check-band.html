@@ -5,8 +5,8 @@
 <div class="row m-0">
 	<div class="col-8 offset-2 justify-content-center mt-4">
 		<div class="screen_">
-			<h1 class="title">Acerque su pulsera al lector</h1>
-			<p class="subtitle">Escanee su acceso para continuar</p>
+            <h1 class="title">{% trans "Acerque su pulsera al lector" %}</h1>
+            <p class="subtitle">{% trans "Escanee su acceso para continuar" %}</p>
 
 			<div class="scan-container">
 				<div class="scan-line"></div>
@@ -17,10 +17,10 @@
 
 			<div class="helper">
 				<div class="dot"></div>
-				Sistema listo para lectura
+                {% trans "Sistema listo para lectura" %}
 			</div>
 
-            <div id="contador" class="text-muted"> Redirección en <span id="segundos">30</span>s </div>
+            <div id="contador" class="text-muted"> {% trans "Redirección en" %} <span id="segundos">30</span>s </div>
 		</div>
 	</div>
 </div>
