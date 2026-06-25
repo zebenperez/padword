@@ -119,7 +119,7 @@ def ticket_to_json2(fi): #CALDEA
             },
             "pos_code": item.get_pos_code(fi.pos, fi.project),
             "comments": item.comments,
-            "id_articulo_pms": 0
+            "id_articulo_pms": 0                             #FIXME: es el de ellos
         }
         fi_json["elementos"].append(item_json)
     return fi_json
@@ -408,7 +408,9 @@ class Form(models.Model):
         for fi in fi_list:
             fi_status = fi.get_status
             #Ticker abiertos o enviados
-            if fi_status == None or fi_status.status.code == "01":
+            #if fi_status == None or fi_status.status.code == "01":
+            #Tickets enviados
+            if fi_status.status.code == "01":
                 resp["tickets"].append(ticket_to_json2(fi))
                 fi.receive_items()
         return resp

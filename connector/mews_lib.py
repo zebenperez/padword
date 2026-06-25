@@ -78,7 +78,7 @@ class Mews():
             #_headers['Authorization'] = 'Basic {}'.format(self.uuid)
             #_headers['Token'] = '{}'.format(self.token)
             _response = requests.post(_url_request, headers=_headers, json=_json)
-            print(_response.text)
+            #print(_response.text)
             _response.raise_for_status()
             return _response
         except requests.exceptions.HTTPError as errh:
@@ -93,7 +93,7 @@ class Mews():
     def get_bookings(self, state=CONFIRM_STATE):
         try:
             _url_request = "{}{}".format(API_URL, BOOKINGS_URL)
-            print(_url_request)
+            #print(_url_request)
             params = {
                     "ClientToken": "{}".format(self.client_token),
                     "AccessToken": "{}".format(self.access_token),
@@ -120,7 +120,7 @@ class Mews():
                     #},
                     #"States": ["Confirmed", "Started"]
             }
-            print(params)
+            #print(params)
             dic = self.__send_post_request__(_url_request, params).json()
             items = dic["Reservations"]
             return items
@@ -279,6 +279,8 @@ def get_booking_list(pmu):
     booking_list = []
     i = 0
     for item in result:
+        #print("--1--")
+        #print(item)
         i += 1
         node = MewsBooking(item)
         booking_list.append(node)

@@ -145,7 +145,7 @@ def send_caldea_payment(project, band, guest, total):
             if len(desc) > 1:
                 ticket_ids.append(desc[1][:10])
         reg = guest.regime.code if guest.regime != None else ""
-        caldea_send_payment(pcu, band.code, reg, ticket_ids, total)
+        caldea_send_payment(pcu, reverse_cardkey(band.code), reg, ticket_ids, total)
 
 def totem_print_pay(request):
     try:
