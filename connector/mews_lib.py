@@ -2,7 +2,7 @@ from django.template.loader import render_to_string
 from django.conf import settings
 from datetime import datetime, timedelta
 from web.models import Room
-from guest.models import Guest
+from guest.models import Guest, KeyCode
 from padword.commons import new_ui_slug
 from padword.email_lib import send_email
 
@@ -196,6 +196,14 @@ def get_ext_id(booking):
 def get_date(date):
     return datetime.strptime("{}".format(date), "%Y-%m-%dT%H:%M:%SZ")
 
+def get_code(project):
+    code = ""
+    kc = 1
+    while kc > 0:
+        code = ''.join([random.choice(string.digits) for i in range(4)]) 
+        kc = KeyCode.objects.filter(guest__project_id=project.uuid, code=code).count()
+    return code
+
 def room_exist(project_uuid, room):
     count = Room.objects.filter(project_uuid=project_uuid, number=room).count()
     return (count > 0)
@@ -244,7 +252,9 @@ def create_booking(pmu, booking, av):
         if booking.created:
             #lock_code = guest.mobile[-4:]
             #lock_code = ''.join([random.choice(string.digits) for i in range(4)])
-            lock_code = booking.number
+            #lock_code = booking.number
+            lock_code = get_code(project)
+
             err = guest.add_all_key_code(lock_code)
             if guest.email != "" and pmu.send_email:
                 send_email_code(guest, lock_code, pmu)
