@@ -84,6 +84,7 @@ def ticket_to_json2(fi): #CALDEA
     date = date_to_local(fi.date, fi.project.time_zone_name)
     st = translate2("es", fi_status.status.name) if fi_status != None else "parcial"
  
+    #FIXME: añadir si el ticket está pagado en el estado
     fi_json = {
         "id": fi.id,
         "id_pulsera": band_code,
@@ -119,7 +120,7 @@ def ticket_to_json2(fi): #CALDEA
             },
             "pos_code": item.get_pos_code(fi.pos, fi.project),
             "comments": item.comments,
-            "id_articulo_pms": 0                             #FIXME: es el de ellos
+            "id_articulo_pms": item.item.ext_id                             #FIXME: es el de ellos
         }
         fi_json["elementos"].append(item_json)
     return fi_json
