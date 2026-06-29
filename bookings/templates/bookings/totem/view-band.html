@@ -12,7 +12,7 @@
                     data-project_uuid="{{project.uuid}}">{% trans "Volver" %}</a>
                 <a class="btn btn btn-cancel py-3" href="{% url "totem-access" project.uuid %}">{% trans "Cancelar" %}</a>
                 {%endcomment%}
-                <a class="btn btn btn-back py-3" href="{% url "totem-access" project.uuid %}">{% trans "Volver" %}</a>
+                <a class="btn btn btn-back py-3" href="{% url "totem-access" project.uuid tcod %}">{% trans "Volver" %}</a>
             </div>
         </div>
     </div>
@@ -47,7 +47,7 @@
                 <section class="bottom">
                     <div class="balance-card"><h2>{%trans "BALANCE"%}: {{band.balance|floatformat:2}} {{project.currency}}</h2> </div>
                     {% if band.balance == 0 and not band.guest.regime.totem_pay %}
-                        <button class="pay-btn" onclick="window.location='{% url "totem-access" project.uuid %}'"> Salir </button>
+                        <button class="pay-btn" onclick="window.location='{% url "totem-access" project.uuid tcod %}'"> Salir </button>
                         {%comment%}
                         <button class="pay-btn ark" data-url="{% url "totem-start" %}" data-target="div-main" 
                             data-project_uuid="{{project.uuid}}"> Salir </button>
@@ -67,7 +67,7 @@
             <a class="btn btn btn-back py-3 mx-4 ark" data-url="{% url "totem-start" %}" data-target="div-main" 
                 data-project_uuid="{{project.uuid}}">{% trans "Volver" %}</a>
             {%endcomment%}
-            <a class="btn btn btn-cancel py-3 mx-4" href="{% url "totem-access" project.uuid %}">{% trans "Cancelar" %}</a>
+            <a class="btn btn btn-cancel py-3 mx-4" href="{% url "totem-access" project.uuid tcod %}">{% trans "Cancelar" %}</a>
         </div>
 
         <div id="contador" class="text-muted"> Redirección en <span id="segundos">30</span>s </div>

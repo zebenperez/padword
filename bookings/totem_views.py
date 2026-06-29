@@ -62,6 +62,7 @@ def totem_check_band(request):
         project = get_or_none(Project, request.GET["project"], "uuid")
         val = get_param(request.GET, "value", "")
         band = Wristband.get_active_by_project(project, reverse_cardkey(val))
+        tcod = request.session["code"] if "code" in request.session else ""
         band_err = ""
         #print(f"--> Lectura de pulsera: {val}")
         #print(f"--> Pulsera: {band}")
@@ -76,7 +77,8 @@ def totem_check_band(request):
             regime = gr.regime if gr != None else None
 
         form = Form.get_totem(project.uuid)
-        return render(request, "bookings/totem/view-band.html", {'band':band, 'band_err': band_err, 'form': form, 'project': project})
+        context = {'band':band, 'band_err': band_err, 'form': form, 'project': project, 'tcod': tcod}
+        return render(request, "bookings/totem/view-band.html", context)
     except Exception as e:
         print(e)
         return render(request, "error_exception.html", {'exc':show_exc(e)})
@@ -88,24 +90,28 @@ def totem_check_band(request):
 
 def totem_pay(request):
     project = get_or_none(Project, request.GET["project"], "uuid")
+    tcod = request.session["code"] if "code" in request.session else ""
+
     band = get_or_none(Wristband, request.GET["obj_id"])
     if band == None:
-        return render(request, "bookings/totem/payment-return.html", {'err': _('Pulsera no encontrada'), 'project': project})
+        context = {'err': _('Pulsera no encontrada'), 'project': project, 'tcod': tcod}
+        return render(request, "bookings/totem/payment-return.html", context)
 
     ppu = ProjectPaytefUser.objects.filter(project_uuid=project.uuid).first()
     if ppu == None or ppu.tcod == "":
-        return render(request, "bookings/totem/payment-return.html", {'err': _('Datafono no encontrado'), 'project': project})
+        context = {'err': _('Datafono no encontrado'), 'project': project, 'tcod': tcod}
+        return render(request, "bookings/totem/payment-return.html", context)
 
     total = band.balance
     try:
-        #tcod = ppu.tcod
-        tcod = request.session["code"] if "code" in request.session else ""
         payment_ok = manage_transaction(project, -1 * total, "Ticket: {}".format(band.id), tcod)
         if not payment_ok:
-            return render(request, "bookings/totem/payment-return.html", {'err': _('Error procesando el pago'), 'project': project})
+            context = {'err': _('Error procesando el pago'), 'project': project, 'tcod': tcod}
+            return render(request, "bookings/totem/payment-return.html", context)
     except Exception as e:
         print(e)
-        return render(request, "bookings/totem/payment-return.html", {'err': _('Error procesando el pago'), 'project': project})
+        context = {'err': _('Error procesando el pago'), 'project': project, 'tcod': tcod}
+        return render(request, "bookings/totem/payment-return.html", context)
 
     band_code = band.code
     regime = band.guest.regime.code if band.guest != None and band.guest.regime != None else ""
@@ -123,7 +129,8 @@ def totem_pay(request):
         print(e)
         #return render(request, "bookings/totem/payment-return.html", {'err': _('Error enviando el pago'), 'project': project})
 
-    return render(request, "bookings/totem/payment-return.html", {'err': '', 'project': project, 'band': band.code, 'total': total})
+    context = {'err': '', 'project': project, 'band': band.code, 'total': total, 'tcod': tcod}
+    return render(request, "bookings/totem/payment-return.html", context)
 
 def totem_view_ticket(request):
     #import re
@@ -146,8 +153,10 @@ def totem_print_pay(request):
         project = get_or_none(Project, get_param(request.GET, "project_uuid"), "uuid")
         band = get_param(request.GET, "band")
         total = get_param(request.GET, "total")
+        tcod = request.session["code"] if "code" in request.session else ""
         now = datetime.datetime.now()
-        return render(request, 'bookings/totem/print-pay.html', {'project': project, 'band': band, 'total': total, 'date': now})
+        context = {'project': project, 'band': band, 'total': total, 'date': now, 'tcod': tcod}
+        return render(request, 'bookings/totem/print-pay.html', context)
     except Exception as e:
         print(e)
         logger.error("[bookings-print-ticket] {}".format(str(e)))

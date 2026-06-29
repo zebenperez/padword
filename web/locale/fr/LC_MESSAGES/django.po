@@ -1,0 +1,3111 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-06-29 12:23+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+#: web/box_views.py:106 web/room_views.py:241 web/room_views.py:331
+msgid "ERROR: Code must not to be empty!"
+msgstr ""
+
+#: web/box_views.py:119
+msgid "Code saved!"
+msgstr ""
+
+#: web/lock_lib.py:269 web/templates/web/locks/record-type.html:4
+msgid "Unlock by app"
+msgstr ""
+
+#: web/lock_lib.py:271 web/templates/web/locks/record-type.html:6
+msgid "Unlock by passcode"
+msgstr ""
+
+#: web/lock_lib.py:273 web/templates/web/locks/record-type.html:8
+msgid "Rise the lock"
+msgstr ""
+
+#: web/lock_lib.py:275 web/templates/web/locks/record-type.html:10
+msgid "Lower the lock"
+msgstr ""
+
+#: web/lock_lib.py:277 web/templates/web/locks/record-type.html:12
+msgid "Unlock by IC card"
+msgstr ""
+
+#: web/lock_lib.py:279 web/templates/web/locks/record-type.html:14
+msgid "Unlock by fingerprint"
+msgstr ""
+
+#: web/lock_lib.py:281 web/templates/web/locks/record-type.html:16
+msgid "Unlock by wrist strap"
+msgstr ""
+
+#: web/lock_lib.py:283 web/templates/web/locks/record-type.html:18
+msgid "Unlock by Mechanical key"
+msgstr ""
+
+#: web/lock_lib.py:285 web/templates/web/locks/record-type.html:20
+msgid "Lock by app"
+msgstr ""
+
+#: web/lock_lib.py:287 web/templates/web/locks/record-type.html:22
+msgid "Unlock by gateway"
+msgstr ""
+
+#: web/lock_lib.py:289 web/templates/web/locks/record-type.html:24
+msgid "Apply some force on the Lock"
+msgstr ""
+
+#: web/lock_lib.py:291 web/templates/web/locks/record-type.html:26
+msgid "Door sensor closed"
+msgstr ""
+
+#: web/lock_lib.py:293 web/templates/web/locks/record-type.html:28
+msgid "Door sensor open"
+msgstr ""
+
+#: web/lock_lib.py:295 web/templates/web/locks/record-type.html:30
+msgid "Open from inside"
+msgstr ""
+
+#: web/lock_lib.py:297 web/templates/web/locks/record-type.html:32
+msgid "Lock by fingerprint"
+msgstr ""
+
+#: web/lock_lib.py:299 web/templates/web/locks/record-type.html:34
+msgid "Lock by passcode"
+msgstr ""
+
+#: web/lock_lib.py:301 web/templates/web/locks/record-type.html:36
+msgid "Lock by IC card"
+msgstr ""
+
+#: web/lock_lib.py:303 web/templates/web/locks/record-type.html:38
+msgid "Lock by Mechanical key"
+msgstr ""
+
+#: web/lock_lib.py:305 web/templates/web/locks/record-type.html:40
+msgid "Remote Control"
+msgstr ""
+
+#: web/lock_lib.py:307 web/templates/web/locks/record-type.html:42
+msgid "Received new local mail"
+msgstr ""
+
+#: web/lock_lib.py:309 web/templates/web/locks/record-type.html:44
+msgid "Received new other cities mail"
+msgstr ""
+
+#: web/lock_lib.py:311 web/templates/web/locks/record-type.html:46
+msgid "Tamper alert"
+msgstr ""
+
+#: web/lock_lib.py:313 web/templates/web/locks/record-type.html:48
+msgid "Auto Lock"
+msgstr ""
+
+#: web/lock_lib.py:315 web/templates/web/locks/record-type.html:50
+msgid "Unlock by unlock key"
+msgstr ""
+
+#: web/lock_lib.py:317 web/templates/web/locks/record-type.html:52
+msgid "Lock by lock key"
+msgstr ""
+
+#: web/lock_lib.py:319 web/templates/web/locks/record-type.html:54
+msgid ""
+"System locked ( Caused by, for example: Using INVALID Passcode/Fingerprint/"
+"Card several times)"
+msgstr ""
+
+#: web/lock_lib.py:321 web/templates/web/locks/record-type.html:56
+msgid "Unlock by hotel card"
+msgstr ""
+
+#: web/lock_lib.py:323 web/templates/web/locks/record-type.html:58
+msgid "Unlocked due to the high temperature"
+msgstr ""
+
+#: web/lock_lib.py:325 web/templates/web/locks/record-type.html:60
+msgid "Dead lock with APP"
+msgstr ""
+
+#: web/lock_lib.py:327 web/templates/web/locks/record-type.html:62
+msgid "Dead lock with passcode"
+msgstr ""
+
+#: web/lock_lib.py:329 web/templates/web/locks/record-type.html:64
+msgid "The car left (for parking lock)"
+msgstr ""
+
+#: web/lock_lib.py:331 web/templates/web/locks/record-type.html:66
+msgid "Unlock with key fob"
+msgstr ""
+
+#: web/lock_lib.py:333 web/templates/web/locks/record-type.html:68
+msgid "Unlock with QR code success"
+msgstr ""
+
+#: web/lock_lib.py:335 web/templates/web/locks/record-type.html:70
+msgid "Unlock with QR code failed, it's expired"
+msgstr ""
+
+#: web/lock_lib.py:337 web/templates/web/locks/record-type.html:72
+msgid "Double locked"
+msgstr ""
+
+#: web/lock_lib.py:339 web/templates/web/locks/record-type.html:74
+msgid "Cancel double lock"
+msgstr ""
+
+#: web/lock_lib.py:341 web/templates/web/locks/record-type.html:76
+msgid "Lock with QR code success"
+msgstr ""
+
+#: web/lock_lib.py:343 web/templates/web/locks/record-type.html:78
+msgid "Lock with QR code failed, the lock is double locked"
+msgstr ""
+
+#: web/lock_lib.py:345 web/templates/web/locks/record-type.html:80
+msgid "Auto unlock at passage mode"
+msgstr ""
+
+#: web/lock_lib.py:347 web/templates/web/locks/record-type.html:82
+msgid "Unknown"
+msgstr ""
+
+#: web/lock_views.py:356
+msgid "Saved!"
+msgstr ""
+
+#: web/lock_views.py:373 web/templates/web/channels/channel-form.html:34
+#: web/templates/web/companies/company-form.html:22
+#: web/templates/web/devices/device-form.html:37
+#: web/templates/web/gateways-by-project/gateway-list.html:32
+#: web/templates/web/gateways/gateway-list.html:30
+#: web/templates/web/locks-by-project/lock-all-records.html:32
+#: web/templates/web/locks/lock-all-records.html:31
+#: web/templates/web/locks/lock-records-print.html:46
+#: web/templates/web/projects-locks/gateway-list.html:30
+#: web/templates/web/projects-locks/lock-all-records.html:29
+#: web/templates/web/projects-manager/companies-form.html:27
+#: web/templates/web/rooms/lock-details-records.html:20
+msgid "Yes"
+msgstr ""
+
+#: web/lock_views.py:373 web/templates/web/channels/channel-form.html:35
+#: web/templates/web/companies/company-form.html:23
+#: web/templates/web/devices/device-form.html:38
+#: web/templates/web/gateways-by-project/gateway-list.html:32
+#: web/templates/web/gateways/gateway-list.html:30
+#: web/templates/web/locks-by-project/lock-all-records.html:32
+#: web/templates/web/locks/lock-all-records.html:31
+#: web/templates/web/locks/lock-records-print.html:46
+#: web/templates/web/projects-locks/gateway-list.html:30
+#: web/templates/web/projects-locks/lock-all-records.html:29
+#: web/templates/web/projects-manager/companies-form.html:28
+#: web/templates/web/rooms/lock-details-records.html:20
+msgid "No"
+msgstr ""
+
+#: web/models.py:19 web/models.py:337 web/models.py:428 web/models.py:502
+#: web/models.py:575 web/models.py:653 web/models.py:675 web/models_lock.py:17
+#: web/models_lock.py:265 web/models_lock.py:272 web/models_lock.py:316
+#: web/models_lock.py:415 web/templates/web/channels/channel-form.html:50
+#: web/templates/web/companies/company-form.html:36
+#: web/templates/web/companies/company-list.html:9
+#: web/templates/web/devices/device-form.html:13
+#: web/templates/web/devices/device-list.html:50
+#: web/templates/web/devices/search_box.html:21
+#: web/templates/web/locks-by-project/lock-list.html:60
+#: web/templates/web/locks-cron-by-project/task-add-locks.html:16
+#: web/templates/web/locks-cron/lock-list.html:25
+#: web/templates/web/locks-groups/lock-group-list.html:41
+#: web/templates/web/locks-users/lock-user-list.html:37
+#: web/templates/web/locks/lock-list.html:29
+#: web/templates/web/projects-admin/project-form-main.html:46
+#: web/templates/web/projects-locks/lock-list.html:14
+#: web/templates/web/projects-manager/companies-list.html:9
+#: web/templates/web/projects-manager/project-form-main.html:68
+#: web/templates/web/projects-manager/project-form-new.html:81
+#: web/templates/web/projects-manager/project-list.html:29
+#: web/templates/web/projects/project-form-avaibook.html:16
+#: web/templates/web/projects/project-form-main.html:80
+#: web/templates/web/projects/project-form-point-of-sales-list.html:79
+#: web/templates/web/rooms/lock-list.html:13
+msgid "UUID"
+msgstr ""
+
+#: web/models.py:20 web/models.py:339 web/models.py:355 web/models.py:677
+#: web/models.py:698 web/models.py:705
+#: web/templates/web/boxes-by-project/box-form.html:62
+#: web/templates/web/channels/channel-form.html:12
+#: web/templates/web/channels/channel-list.html:5
+#: web/templates/web/companies/companies.html:11
+#: web/templates/web/companies/company-form.html:12
+#: web/templates/web/companies/company-list.html:7
+#: web/templates/web/gateways-by-project/gateway-list.html:15
+#: web/templates/web/gateways/gateway-list.html:13
+#: web/templates/web/keycards-by-project/keycard-number-search.html:13
+#: web/templates/web/keycards/keycard-number-search.html:13
+#: web/templates/web/keycards/keycards.html:17
+#: web/templates/web/locks-by-project/lock-add-code.html:23
+#: web/templates/web/locks-by-project/lock-all-cards.html:14
+#: web/templates/web/locks-by-project/lock-all-cards.html:36
+#: web/templates/web/locks-by-project/lock-all-passcodes.html:14
+#: web/templates/web/locks-by-project/lock-all-passcodes.html:47
+#: web/templates/web/locks-cron/lock-add-task.html:21
+#: web/templates/web/locks-groups/lock-group-form.html:14
+#: web/templates/web/locks-groups/lock-group-list.html:12
+#: web/templates/web/locks-groups/lock-group-list.html:42
+#: web/templates/web/locks-groups/locks-groups.html:14
+#: web/templates/web/locks/lock-add-code.html:21
+#: web/templates/web/locks/lock-all-cards.html:19
+#: web/templates/web/locks/lock-all-cards.html:41
+#: web/templates/web/locks/lock-all-passcodes.html:20
+#: web/templates/web/locks/lock-all-passcodes.html:42
+#: web/templates/web/projects-admin/project-form-main.html:20
+#: web/templates/web/projects-admin/project-list.html:6
+#: web/templates/web/projects-locks/gateway-list.html:13
+#: web/templates/web/projects-locks/lock-all-cards.html:14
+#: web/templates/web/projects-locks/lock-all-cards.html:39
+#: web/templates/web/projects-locks/lock-all-passcodes.html:15
+#: web/templates/web/projects-locks/lock-all-passcodes.html:40
+#: web/templates/web/projects-locks/project-form-main.html:20
+#: web/templates/web/projects-locks/project-list.html:6
+#: web/templates/web/projects-manager/companies-form.html:16
+#: web/templates/web/projects-manager/companies-list.html:7
+#: web/templates/web/projects-manager/companies.html:12
+#: web/templates/web/projects-manager/project-form-main.html:22
+#: web/templates/web/projects-manager/project-form-new.html:25
+#: web/templates/web/projects-manager/project-list.html:6
+#: web/templates/web/projects/project-form-access-points-list.html:10
+#: web/templates/web/projects/project-form-access-zones-list.html:21
+#: web/templates/web/projects/project-form-guest-types-list.html:14
+#: web/templates/web/projects/project-form-invitation-list.html:14
+#: web/templates/web/projects/project-form-main.html:33
+#: web/templates/web/projects/project-form-point-of-sales-list.html:24
+#: web/templates/web/projects/project-form-regime-list.html:20
+#: web/templates/web/projects/project-form-table-list.html:8
+#: web/templates/web/projects/project-form-table-list.html:27
+#: web/templates/web/projects/project-form-table-list.html:41
+#: web/templates/web/projects/project-list.html:6
+#: web/templates/web/rooms/lock-details-cards.html:9
+#: web/templates/web/rooms/lock-details-codes-form.html:14
+#: web/templates/web/rooms/lock-details-codes.html:9
+msgid "Name"
+msgstr ""
+
+#: web/models.py:21 web/models.py:340 web/models.py:437 web/models.py:511
+#: web/templates/web/channels/channel-form.html:31
+#: web/templates/web/channels/channel-list.html:8
+#: web/templates/web/companies/company-form.html:19
+#: web/templates/web/companies/company-list.html:8
+#: web/templates/web/devices/device-form.html:34
+#: web/templates/web/devices/device-list.html:77
+#: web/templates/web/projects-admin/project-form-main.html:10
+#: web/templates/web/projects-locks/project-form-main.html:10
+#: web/templates/web/projects-manager/companies-form.html:23
+#: web/templates/web/projects-manager/companies-list.html:8
+#: web/templates/web/projects-manager/project-form-main.html:10
+#: web/templates/web/projects-manager/project-form-new.html:12
+#: web/templates/web/projects/project-form-main.html:10
+msgid "Active"
+msgstr ""
+
+#: web/models.py:22 web/models.py:341 web/models.py:438 web/models.py:512
+#: web/templates/web/channels/channel-form.html:43
+#: web/templates/web/companies/company-form.html:29
+#: web/templates/web/devices/device-form.html:44
+msgid "Created at"
+msgstr ""
+
+#: web/models.py:29 web/templates/web/channels/channel-list.html:7
+#: web/templates/web/projects-admin/project-form-main.html:24
+#: web/templates/web/projects-admin/project-list.html:7
+#: web/templates/web/projects-locks/project-form-main.html:24
+#: web/templates/web/projects-locks/project-list.html:7
+#: web/templates/web/projects-manager/project-form-main.html:28
+#: web/templates/web/projects-manager/project-form-new.html:31
+#: web/templates/web/projects-manager/project-list.html:7
+#: web/templates/web/projects/project-form-main.html:39
+#: web/templates/web/projects/project-form-paytef.html:40
+#: web/templates/web/projects/project-list.html:7
+msgid "Company"
+msgstr ""
+
+#: web/models.py:44
+msgid "Used Languages"
+msgstr ""
+
+#: web/models.py:63 web/models.py:281 web/models.py:343 web/models.py:713
+#: web/models.py:720 web/templates/web/channels/channel-form.html:19
+#: web/templates/web/channels/channel-list.html:6
+#: web/templates/web/devices/device-list.html:51
+#: web/templates/web/keycards/keycard-form.html:28
+#: web/templates/web/keycards/keycard-number-search.html:9
+#: web/templates/web/locks-by-project/lock-list.html:62
+#: web/templates/web/locks-cron-by-project/task-add-locks.html:18
+#: web/templates/web/locks-cron/lock-list.html:27
+#: web/templates/web/locks-groups/lock-group-list.html:45
+#: web/templates/web/locks-users/lock-user-list.html:41
+#: web/templates/web/locks/lock-list.html:31
+#: web/templates/web/projects-locks/lock-list.html:16
+#: web/templates/web/rooms/room-form.html:45
+#: web/templates/web/rooms/room-multiple.html:46
+msgid "Project"
+msgstr ""
+
+#: web/models.py:273 web/templates/web/projects-admin/project-form-main.html:62
+#: web/templates/web/projects-locks/project-form-main.html:49
+#: web/templates/web/projects-manager/project-form-main.html:90
+#: web/templates/web/projects/project-form-main.html:102
+msgid "Contact Name"
+msgstr ""
+
+#: web/models.py:274
+msgid "Contact Email"
+msgstr ""
+
+#: web/models.py:275
+msgid "Contact Phone"
+msgstr ""
+
+#: web/models.py:276 web/templates/web/projects-admin/project-form-main.html:83
+#: web/templates/web/projects-manager/project-form-main.html:111
+#: web/templates/web/projects/project-form-main.html:123
+msgid "Usuario Portal"
+msgstr ""
+
+#: web/models.py:277 web/templates/web/projects-admin/project-form-main.html:89
+#: web/templates/web/projects-manager/project-form-main.html:117
+#: web/templates/web/projects/project-form-main.html:129
+msgid "Usuario API"
+msgstr ""
+
+#: web/models.py:278
+msgid "Fee"
+msgstr ""
+
+#: web/models.py:279
+msgid "Payment Method"
+msgstr ""
+
+#: web/models.py:280
+msgid "Paid"
+msgstr ""
+
+#: web/models.py:284
+msgid "Project Aux"
+msgstr ""
+
+#: web/models.py:287
+#: web/templates/web/projects-admin/project-form-token.html:26
+#: web/templates/web/projects-manager/project-form-token.html:26
+#: web/templates/web/projects-manager/project-token.html:20
+#: web/templates/web/projects/project-token.html:20
+msgid "Last Refresh"
+msgstr ""
+
+#: web/models.py:288
+msgid "Auto Refresh"
+msgstr ""
+
+#: web/models.py:289 web/models_lock.py:273
+msgid "Lock Username"
+msgstr ""
+
+#: web/models.py:290 web/models_lock.py:274
+msgid "Lock Password"
+msgstr ""
+
+#: web/models.py:291
+msgid "Lock Token"
+msgstr ""
+
+#: web/models.py:292
+msgid "Lock Refresh Token"
+msgstr ""
+
+#: web/models.py:293
+msgid "UID"
+msgstr ""
+
+#: web/models.py:294
+msgid "Expire"
+msgstr ""
+
+#: web/models.py:295
+msgid "Time to schedule tasks"
+msgstr ""
+
+#: web/models.py:296
+#: web/templates/web/projects-locks/project-form-main.html:102
+#: web/templates/web/projects-manager/project-form-locks.html:27
+#: web/templates/web/projects/project-form-locks.html:32
+msgid "Report email"
+msgstr ""
+
+#: web/models.py:297 web/models.py:373 web/models.py:514 web/models.py:578
+#: web/models.py:654 web/models.py:676 web/models.py:719 web/models_lock.py:28
+#: web/models_lock.py:29 web/models_lock.py:268 web/models_lock.py:277
+#: web/models_lock.py:320 web/models_lock.py:378 web/models_lock.py:392
+#: web/templates/web/locks-users/lock-user-form.html:23
+#: web/templates/web/locks/lock-form.html:52
+msgid "Project UUID"
+msgstr ""
+
+#: web/models.py:298
+#: web/templates/web/projects-locks/project-form-main.html:126
+#: web/templates/web/projects/project-form-locks.html:70
+msgid "Text to share"
+msgstr ""
+
+#: web/models.py:338 web/templates/web/channels/channel-form.html:57
+msgid "UI-UUID"
+msgstr ""
+
+#: web/models.py:349 web/models.py:442
+#: web/templates/web/devices/device-list.html:52
+msgid "Channel"
+msgstr ""
+
+#: web/models.py:353
+msgid "Promo"
+msgstr ""
+
+#: web/models.py:354 web/models.py:697 web/models_lock.py:375
+#: web/templates/web/boxes-by-project/box-form.html:48
+#: web/templates/web/keycards/keycard-number-search.html:12
+#: web/templates/web/keycards/keycards-add-multiple-step2.html:36
+#: web/templates/web/keycards/keycards-list.html:13
+#: web/templates/web/locks-by-project/lock-add-code.html:12
+#: web/templates/web/locks-by-project/lock-all-passcodes.html:9
+#: web/templates/web/locks-by-project/lock-all-passcodes.html:46
+#: web/templates/web/locks-by-project/lock-all-records.html:23
+#: web/templates/web/locks-by-project/lock-remove-code.html:10
+#: web/templates/web/locks-by-project/lock-search.html:16
+#: web/templates/web/locks-cron/lock-add-task.html:10
+#: web/templates/web/locks-cron/lock-search.html:16
+#: web/templates/web/locks/lock-add-code.html:10
+#: web/templates/web/locks/lock-all-passcodes.html:15
+#: web/templates/web/locks/lock-all-passcodes.html:41
+#: web/templates/web/locks/lock-all-records.html:22
+#: web/templates/web/locks/lock-records-print.html:37
+#: web/templates/web/locks/lock-remove-code.html:9
+#: web/templates/web/locks/lock-search.html:16
+#: web/templates/web/projects-locks/lock-all-passcodes.html:10
+#: web/templates/web/projects-locks/lock-all-passcodes.html:39
+#: web/templates/web/projects-locks/lock-all-records.html:20
+#: web/templates/web/projects/project-form-access-zones-list.html:27
+#: web/templates/web/projects/project-form-cars.html:30
+#: web/templates/web/projects/project-form-guest-types-list.html:20
+#: web/templates/web/projects/project-form-regime-list.html:26
+#: web/templates/web/rooms/lock-details-cards.html:8
+#: web/templates/web/rooms/lock-details-codes.html:8
+#: web/templates/web/rooms/lock-details-records.html:11
+#: web/templates/web/rooms/lock.details-codes.html:11
+msgid "Code"
+msgstr ""
+
+#: web/models.py:356
+msgid "Url"
+msgstr ""
+
+#: web/models.py:357
+msgid "Icono"
+msgstr ""
+
+#: web/models.py:363 web/models.py:416
+msgid "Menu"
+msgstr ""
+
+#: web/models.py:374 web/models.py:655 web/models_lock.py:275
+#: web/models_lock.py:359 web/models_lock.py:420
+#: web/templates/web/locks-by-project/lock-all-records.html:22
+#: web/templates/web/locks-users/lock-user-form.html:9
+#: web/templates/web/locks-users/lock-user-list.html:12
+#: web/templates/web/locks-users/lock-user-list.html:38
+#: web/templates/web/locks/lock-all-records.html:21
+#: web/templates/web/locks/lock-records-print.html:36
+#: web/templates/web/projects-locks/lock-all-records.html:19
+#: web/templates/web/projects/project-form-paytef.html:15
+#: web/templates/web/projects/project-form-roomraccoon.html:15
+#: web/templates/web/rooms/lock-details-records.html:10
+msgid "Username"
+msgstr ""
+
+#: web/models.py:375
+msgid "Menus"
+msgstr ""
+
+#: web/models.py:376
+msgid "Menus Promo"
+msgstr ""
+
+#: web/models.py:384
+msgid "Project user"
+msgstr ""
+
+#: web/models.py:415 web/models.py:574 web/models_lock.py:315
+#: web/templates/web/locks-groups/lock-group-form.html:19
+msgid "Order"
+msgstr ""
+
+#: web/models.py:417
+msgid "ProjectUser"
+msgstr ""
+
+#: web/models.py:423
+msgid "Project User Menu"
+msgstr ""
+
+#: web/models.py:429 web/models.py:503 web/models.py:576 web/models_lock.py:18
+#: web/models_lock.py:317 web/templates/web/devices/device-form.html:20
+#: web/templates/web/devices/search_box.html:39
+#: web/templates/web/locks-by-project/lock-search.html:12
+#: web/templates/web/locks-cron/lock-search.html:12
+#: web/templates/web/locks/lock-form.html:17
+#: web/templates/web/locks/lock-search.html:12
+#: web/templates/web/projects-manager/rooms-form.html:27
+#: web/templates/web/rooms-by-project/room-form.html:16
+#: web/templates/web/rooms/lock-list.html:14
+#: web/templates/web/rooms/room-form.html:26
+msgid "Alias"
+msgstr ""
+
+#: web/models.py:430 web/models.py:504
+#: web/templates/web/devices/device-form.html:27
+#: web/templates/web/devices/search_box.html:34
+msgid "IMEI"
+msgstr ""
+
+#: web/models.py:431 web/models.py:505
+#: web/templates/web/devices/device-form.html:52
+msgid "Net type"
+msgstr ""
+
+#: web/models.py:432 web/models.py:506
+msgid "Mac"
+msgstr ""
+
+#: web/models.py:433 web/models.py:507
+msgid "WiFi Mac"
+msgstr ""
+
+#: web/models.py:434 web/models.py:508 web/models_lock.py:19
+#: web/models_lock.py:318 web/templates/web/boxes-by-project/box-form.html:16
+#: web/templates/web/devices/device-form.html:73
+#: web/templates/web/devices/device-list.html:54
+#: web/templates/web/devices/search_box.html:26
+#: web/templates/web/keycards-by-project/keycard-number-search.html:11
+#: web/templates/web/keycards/keycard-number-search.html:11
+#: web/templates/web/locks-by-project/lock-list.html:64
+#: web/templates/web/locks-cron-by-project/task-add-locks.html:20
+#: web/templates/web/locks-cron/lock-list.html:30
+#: web/templates/web/locks/lock-form.html:24
+#: web/templates/web/locks/lock-list.html:34
+#: web/templates/web/projects-locks/lock-list.html:19
+msgid "Room"
+msgstr ""
+
+#: web/models.py:435 web/models.py:509
+msgid "Android ID"
+msgstr ""
+
+#: web/models.py:436 web/models.py:510
+msgid "Serial Number"
+msgstr ""
+
+#: web/models.py:439
+msgid "Updated at"
+msgstr ""
+
+#: web/models.py:448 web/models.py:522
+msgid "Device"
+msgstr ""
+
+#: web/models.py:513
+msgid "Channel ID"
+msgstr ""
+
+#: web/models.py:577 web/templates/web/projects-manager/rooms-form.html:36
+#: web/templates/web/rooms-by-project/room-form.html:23
+#: web/templates/web/rooms/room-form.html:35
+msgid "Number"
+msgstr ""
+
+#: web/models.py:579
+msgid "Lock Group UUID"
+msgstr ""
+
+#: web/models.py:652
+msgid "Ver Caja"
+msgstr ""
+
+#: web/models.py:658
+msgid "Waiter"
+msgstr ""
+
+#: web/models.py:680
+msgid "Invitation account"
+msgstr ""
+
+#: web/models.py:699 web/models.py:706
+msgid "Description"
+msgstr ""
+
+#: web/models.py:702
+msgid "Module"
+msgstr ""
+
+#: web/models.py:709 web/models.py:712
+#: web/templates/web/projects/project-form-thirdpart-list.html:14
+msgid "Thirdpart"
+msgstr ""
+
+#: web/models.py:716
+msgid "Project Thirdpart"
+msgstr ""
+
+#: web/models.py:733
+msgid "Project Partner"
+msgstr ""
+
+#: web/models_lock.py:13
+#: web/templates/web/locks-cron-by-project/task-add-locks.html:26
+#: web/templates/web/locks-cron/lock-list.html:36
+#: web/templates/web/locks/lock-form.html:38
+#: web/templates/web/locks/lock-list.html:40
+#: web/templates/web/projects-locks/lock-list.html:25
+msgid "Private"
+msgstr ""
+
+#: web/models_lock.py:14
+#: web/templates/web/locks-cron-by-project/task-add-locks.html:25
+#: web/templates/web/locks-cron/lock-list.html:35
+#: web/templates/web/locks/lock-list.html:39
+#: web/templates/web/projects-locks/lock-list.html:24
+msgid "Deposit box"
+msgstr ""
+
+#: web/models_lock.py:15
+#: web/templates/web/projects/project-form-access-zones-list.html:33
+msgid "Default"
+msgstr ""
+
+#: web/models_lock.py:16
+msgid "Last update"
+msgstr ""
+
+#: web/models_lock.py:20
+msgid "Charge cache"
+msgstr ""
+
+#: web/models_lock.py:21
+msgid "State cache"
+msgstr ""
+
+#: web/models_lock.py:22
+msgid "Gateway cache"
+msgstr ""
+
+#: web/models_lock.py:23
+msgid "Wifi cache"
+msgstr ""
+
+#: web/models_lock.py:26
+msgid "Code cache"
+msgstr ""
+
+#: web/models_lock.py:27
+msgid "Card cache"
+msgstr ""
+
+#: web/models_lock.py:54
+msgid "unlock"
+msgstr ""
+
+#: web/models_lock.py:54
+msgid "lock"
+msgstr ""
+
+#: web/models_lock.py:262 web/models_lock.py:269 web/models_lock.py:312
+#: web/templates/web/boxes-by-project/box-form.html:30
+#: web/templates/web/keycards/keycard-card.html:5
+msgid "Lock"
+msgstr ""
+
+#: web/models_lock.py:266 web/templates/web/keycards/keycard-form.html:14
+msgid "Bluetooth Code"
+msgstr ""
+
+#: web/models_lock.py:267 web/templates/web/keycards/keycard-form.html:21
+msgid "Card Reader Code"
+msgstr ""
+
+#: web/models_lock.py:276 web/templates/web/locks-users/lock-user-form.html:16
+#: web/templates/web/projects/project-form-paytef.html:21
+#: web/templates/web/projects/project-form-roomraccoon.html:23
+msgid "Password"
+msgstr ""
+
+#: web/models_lock.py:319
+msgid "Remote Name"
+msgstr ""
+
+#: web/models_lock.py:354
+msgid "Lock group"
+msgstr ""
+
+#: web/models_lock.py:358
+#: web/templates/web/projects-admin/project-form-token.html:23
+#: web/templates/web/projects-locks/project-form-main.html:89
+#: web/templates/web/projects-manager/project-form-token.html:23
+#: web/templates/web/projects-manager/project-token.html:5
+#: web/templates/web/projects/project-form-avaibook.html:22
+#: web/templates/web/projects/project-form-caldea.html:43
+#: web/templates/web/projects/project-form-cloudbeds.html:45
+#: web/templates/web/projects/project-form-octorate.html:40
+#: web/templates/web/projects/project-form-paytef.html:52
+#: web/templates/web/projects/project-form-roomraccoon.html:30
+#: web/templates/web/projects/project-form-zkteco.html:15
+#: web/templates/web/projects/project-token-modal.html:5
+#: web/templates/web/projects/project-token-modal.html:11
+#: web/templates/web/projects/project-token.html:5
+msgid "Token"
+msgstr ""
+
+#: web/models_lock.py:360
+#: web/templates/web/rooms/lock-details-ekey-form.html:16
+#: web/templates/web/rooms/lock-details-ekey-form.html:17
+#: web/templates/web/rooms/lock-details-ekeys.html:10
+msgid "Key name"
+msgstr ""
+
+#: web/models_lock.py:361 web/models_lock.py:376
+msgid "Ekey id"
+msgstr ""
+
+#: web/models_lock.py:362 web/models_lock.py:377
+msgid "lock UUID"
+msgstr ""
+
+#: web/models_lock.py:364
+msgid "Ini date"
+msgstr ""
+
+#: web/models_lock.py:365 web/templates/web/ekeys/ekey-list.html:17
+msgid "End date"
+msgstr ""
+
+#: web/models_lock.py:388
+#: web/templates/web/locks-cron-by-project/task-list.html:11
+#: web/templates/web/locks-cron/lock-task-list.html:12
+msgid "Done"
+msgstr ""
+
+#: web/models_lock.py:389
+#: web/templates/web/locks-cron-by-project/task-list.html:8
+#: web/templates/web/locks-cron/lock-task-list.html:9
+msgid "Task"
+msgstr ""
+
+#: web/models_lock.py:390
+msgid "Lock list"
+msgstr ""
+
+#: web/models_lock.py:391
+#: web/templates/web/locks-cron-by-project/task-list.html:10
+#: web/templates/web/locks-cron/lock-task-list.html:11
+msgid "Params"
+msgstr ""
+
+#: web/models_lock.py:416 web/templates/web/devices/device-form.html:59
+#: web/templates/web/gateways-by-project/gateway-list.html:17
+#: web/templates/web/gateways/gateway-list.html:15
+#: web/templates/web/projects-locks/gateway-list.html:15
+msgid "MAC"
+msgstr ""
+
+#: web/models_lock.py:417
+msgid "Notify type"
+msgstr ""
+
+#: web/models_lock.py:418
+#: web/templates/web/locks-by-project/lock-all-records.html:20
+#: web/templates/web/locks/lock-all-records.html:19
+#: web/templates/web/locks/lock-records-print.html:34
+#: web/templates/web/projects-locks/lock-all-records.html:17
+#: web/templates/web/rooms/lock-details-records.html:8
+msgid "Record type"
+msgstr ""
+
+#: web/models_lock.py:419
+#: web/templates/web/locks-by-project/lock-all-records.html:21
+#: web/templates/web/locks/lock-all-records.html:20
+#: web/templates/web/locks/lock-records-print.html:35
+#: web/templates/web/projects-locks/lock-all-records.html:18
+#: web/templates/web/rooms/lock-details-records.html:9
+msgid "Success"
+msgstr ""
+
+#: web/models_lock.py:421
+msgid "Keyboard Pwd"
+msgstr ""
+
+#: web/models_lock.py:422
+#: web/templates/web/locks-by-project/lock-all-records.html:24
+#: web/templates/web/locks/lock-all-records.html:23
+#: web/templates/web/locks/lock-records-print.html:38
+#: web/templates/web/projects-locks/lock-all-records.html:21
+#: web/templates/web/rooms/lock-details-records.html:12
+msgid "Lock date"
+msgstr ""
+
+#: web/models_lock.py:423
+msgid "Electric quantity"
+msgstr ""
+
+#: web/models_lock.py:424
+#: web/templates/web/locks-by-project/lock-all-records.html:25
+#: web/templates/web/locks/lock-all-records.html:24
+#: web/templates/web/locks/lock-records-print.html:39
+#: web/templates/web/projects-locks/lock-all-records.html:22
+#: web/templates/web/rooms/lock-details-records.html:13
+msgid "Server date"
+msgstr ""
+
+#: web/models_lock.py:427
+msgid "Lock Record"
+msgstr ""
+
+#: web/room_views.py:110
+msgid "Error, room not found!"
+msgstr ""
+
+#: web/templates/logs-menu.html:7 web/templates/logs.html:10
+msgid "Logs"
+msgstr ""
+
+#: web/templates/logs-menu.html:10
+msgid "Schedule"
+msgstr ""
+
+#: web/templates/logs-menu.html:13
+#: web/templates/web/projects/project-form-avantio.html:9
+msgid "Avantio"
+msgstr ""
+
+#: web/templates/logs-menu.html:16
+#: web/templates/web/projects/project-form-avaibook.html:9
+msgid "Avaibook"
+msgstr ""
+
+#: web/templates/logs-menu.html:19
+#: web/templates/web/projects/project-form-winhotel.html:9
+msgid "Winhotel"
+msgstr ""
+
+#: web/templates/logs-menu.html:22
+#: web/templates/web/projects/project-form-cloudbeds.html:9
+msgid "Cloudbeds"
+msgstr ""
+
+#: web/templates/logs-menu.html:25
+#: web/templates/web/projects/project-form-roomraccoon.html:9
+msgid "Roomraccoon"
+msgstr ""
+
+#: web/templates/logs-menu.html:28
+msgid "Bands close"
+msgstr ""
+
+#: web/templates/logs.html:19
+msgid "Current Logs"
+msgstr ""
+
+#: web/templates/web/boxes-by-project/box-form.html:6
+msgid "Deposit box info"
+msgstr ""
+
+#: web/templates/web/boxes-by-project/box-form.html:23
+msgid "Room number"
+msgstr ""
+
+#: web/templates/web/boxes-by-project/box-form.html:46
+#: web/templates/web/locks-by-project/lock-add-code.html:10
+#: web/templates/web/locks-cron/lock-add-task.html:8
+#: web/templates/web/locks/lock-add-code.html:8
+msgid "Fill in the information below and press the save button"
+msgstr ""
+
+#: web/templates/web/boxes-by-project/box-form.html:51
+msgid "Random Code"
+msgstr ""
+
+#: web/templates/web/boxes-by-project/box-form.html:54
+#: web/templates/web/keycards/keycards-add-multiple-step2.html:38
+#: web/templates/web/locks-by-project/lock-add-code.html:15
+#: web/templates/web/locks-by-project/lock-all-cards.html:9
+#: web/templates/web/locks-by-project/lock-all-cards.html:35
+#: web/templates/web/locks-by-project/lock-remove-code.html:13
+#: web/templates/web/locks-cron/lock-add-task.html:13
+#: web/templates/web/locks/lock-add-code.html:13
+#: web/templates/web/locks/lock-all-cards.html:14
+#: web/templates/web/locks/lock-all-cards.html:40
+#: web/templates/web/locks/lock-remove-code.html:12
+#: web/templates/web/projects-locks/lock-all-cards.html:9
+#: web/templates/web/projects-locks/lock-all-cards.html:38
+msgid "Card"
+msgstr ""
+
+#: web/templates/web/boxes-by-project/box-form.html:58
+#: web/templates/web/boxes-by-project/box-form.html:62
+#: web/templates/web/locks-by-project/lock-add-code.html:19
+#: web/templates/web/locks-by-project/lock-add-code.html:23
+#: web/templates/web/locks-by-project/lock-remove-code.html:17
+#: web/templates/web/locks-cron/lock-add-task.html:17
+#: web/templates/web/locks-cron/lock-add-task.html:21
+#: web/templates/web/locks/lock-add-code.html:17
+#: web/templates/web/locks/lock-add-code.html:21
+#: web/templates/web/locks/lock-remove-code.html:16
+msgid "Click and write"
+msgstr ""
+
+#: web/templates/web/boxes-by-project/box-form.html:58
+#: web/templates/web/locks-by-project/lock-add-code.html:19
+#: web/templates/web/locks-by-project/lock-remove-code.html:17
+#: web/templates/web/locks-cron/lock-add-task.html:17
+#: web/templates/web/locks/lock-add-code.html:17
+#: web/templates/web/locks/lock-remove-code.html:16
+msgid "Code or Card number"
+msgstr ""
+
+#: web/templates/web/boxes-by-project/box-form.html:82
+#: web/templates/web/boxes-by-project/deprecated/box-card-form.html:19
+#: web/templates/web/boxes-by-project/deprecated/box-code-form.html:20
+#: web/templates/web/channels/channel-form.html:66
+#: web/templates/web/companies/company-form.html:45
+#: web/templates/web/devices/device-form.html:108
+#: web/templates/web/keycards/keycard-form.html:44
+#: web/templates/web/locks-by-project/lock-add-code.html:39
+#: web/templates/web/locks-cron/lock-add-task.html:37
+#: web/templates/web/locks-groups/lock-group-form.html:35
+#: web/templates/web/locks-users/lock-user-form.html:32
+#: web/templates/web/locks/lock-add-code.html:37
+#: web/templates/web/locks/lock-add-group.html:16
+#: web/templates/web/locks/lock-form.html:100
+#: web/templates/web/projects-admin/project-details.html:12
+#: web/templates/web/projects-manager/companies-form.html:40
+#: web/templates/web/projects-manager/project-details.html:15
+#: web/templates/web/projects-manager/project-form.html:16
+#: web/templates/web/projects-manager/room-multiple.html:48
+#: web/templates/web/projects-manager/rooms-form.html:75
+#: web/templates/web/projects/project-details.html:20
+#: web/templates/web/projects/project-form.html:27
+#: web/templates/web/rooms/lock-details-cards-form.html:33
+#: web/templates/web/rooms/lock-details-codes-form.html:38
+#: web/templates/web/rooms/lock-details-ekey-form.html:42
+#: web/templates/web/rooms/room-import-csv.html:29
+#: web/templates/web/rooms/room-multiple.html:67
+msgid "Save"
+msgstr ""
+
+#: web/templates/web/boxes-by-project/boxes.html:12
+msgid "Caja fuerte"
+msgstr ""
+
+#: web/templates/web/boxes-by-project/boxes.html:18
+msgid "Subir"
+msgstr ""
+
+#: web/templates/web/boxes-by-project/boxes.html:22
+msgid "Bajar"
+msgstr ""
+
+#: web/templates/web/boxes-by-project/boxes.html:28
+msgid "Safe deposit boxes"
+msgstr ""
+
+#: web/templates/web/boxes-by-project/deprecated/box-card-form.html:9
+#: web/templates/web/keycards-by-project/keycard-number.html:11
+#: web/templates/web/keycards/keycard-number.html:12
+#: web/templates/web/rooms/lock-details-cards-form.html:9
+msgid "Card number"
+msgstr ""
+
+#: web/templates/web/boxes-by-project/deprecated/box-card-form.html:19
+#: web/templates/web/boxes-by-project/deprecated/box-code-form.html:20
+#: web/templates/web/projects/project-form-guest-types.html:6
+#: web/templates/web/projects/project-form-invitation.html:6
+#: web/templates/web/projects/project-form-point-of-sales.html:6
+#: web/templates/web/projects/project-form-regime.html:17
+#: web/templates/web/projects/project-form-thirdpart.html:6
+msgid "Add"
+msgstr ""
+
+#: web/templates/web/boxes-by-project/deprecated/box-code-form.html:9
+#: web/templates/web/boxes-by-project/deprecated/box-code-form.html:10
+#: web/templates/web/rooms/lock-details-codes-form.html:9
+#: web/templates/web/rooms/lock-details-codes-form.html:10
+msgid "4-9 Digits code - Empty for random code"
+msgstr ""
+
+#: web/templates/web/channels/channel-form.html:4
+msgid "New Channel"
+msgstr ""
+
+#: web/templates/web/channels/channel-form.html:22
+#: web/templates/web/keycards/keycard-form.html:31
+msgid "-- Select a project"
+msgstr ""
+
+#: web/templates/web/channels/channel-form.html:69
+#: web/templates/web/channels/channel-list.html:27
+#: web/templates/web/companies/company-form.html:48
+#: web/templates/web/companies/company-list.html:29
+#: web/templates/web/devices/device-form.html:111
+#: web/templates/web/devices/device-list.html:79
+#: web/templates/web/keycards/keycard-form.html:47
+#: web/templates/web/keycards/keycards-list.html:26
+#: web/templates/web/locks-by-project/lock-all-cards.html:60
+#: web/templates/web/locks-by-project/lock-all-passcodes.html:72
+#: web/templates/web/locks-cron-by-project/task-list.html:30
+#: web/templates/web/locks-cron/lock-task-list.html:31
+#: web/templates/web/locks-groups/lock-group-form.html:38
+#: web/templates/web/locks-groups/lock-group-list.html:22
+#: web/templates/web/locks-users/lock-user-form.html:35
+#: web/templates/web/locks-users/lock-user-list.html:19
+#: web/templates/web/locks/lock-all-cards.html:65
+#: web/templates/web/locks/lock-all-passcodes.html:68
+#: web/templates/web/locks/lock-form.html:103
+#: web/templates/web/locks/lock-list-row.html:41
+#: web/templates/web/projects-manager/rooms-card.html:24
+#: web/templates/web/projects/project-form.html:30
+#: web/templates/web/projects/project-list.html:56
+#: web/templates/web/rooms/lock-details-cards.html:28
+#: web/templates/web/rooms/lock-details-codes.html:41
+#: web/templates/web/rooms/lock-details-ekeys.html:29
+#: web/templates/web/rooms/lock.details-codes.html:23
+#: web/templates/web/rooms/room-card.html:10
+msgid "Are you sure to remove this element?"
+msgstr ""
+
+#: web/templates/web/channels/channel-form.html:69
+#: web/templates/web/channels/channel-list.html:26
+#: web/templates/web/companies/company-form.html:48
+#: web/templates/web/devices/device-form.html:112
+#: web/templates/web/devices/device-list.html:79
+#: web/templates/web/keycards/keycard-form.html:47
+#: web/templates/web/locks-by-project/lock-remove-code.html:21
+#: web/templates/web/locks-groups/lock-group-form.html:38
+#: web/templates/web/locks-users/lock-user-form.html:35
+#: web/templates/web/locks/lock-form.html:103
+#: web/templates/web/locks/lock-remove-code.html:20
+#: web/templates/web/projects-manager/rooms-card.html:25
+#: web/templates/web/projects/project-form.html:30
+#: web/templates/web/projects/project-list.html:57
+msgid "Remove"
+msgstr ""
+
+#: web/templates/web/channels/channel-list.html:21
+#: web/templates/web/devices/devices.html:27
+#: web/templates/web/second-menu.html:13
+msgid "Devices"
+msgstr ""
+
+#: web/templates/web/channels/channel-list.html:23
+msgid "Edit"
+msgstr ""
+
+#: web/templates/web/channels/channels.html:11
+msgid "Name, Company or Project"
+msgstr ""
+
+#: web/templates/web/channels/channels.html:20
+#: web/templates/web/companies/company-list.html:21
+#: web/templates/web/second-menu.html:12
+msgid "Channels"
+msgstr ""
+
+#: web/templates/web/channels/channels.html:24
+msgid "New channel"
+msgstr ""
+
+#: web/templates/web/companies/companies.html:17
+#: web/templates/web/projects-manager/companies.html:19
+#: web/templates/web/second-menu.html:10
+msgid "Companies"
+msgstr ""
+
+#: web/templates/web/companies/companies.html:18
+#: web/templates/web/companies/company-form.html:4
+#: web/templates/web/projects-manager/companies.html:21
+msgid "New company"
+msgstr ""
+
+#: web/templates/web/companies/company-list.html:19
+#: web/templates/web/projects-admin/projects.html:20
+#: web/templates/web/projects-locks/projects.html:20
+#: web/templates/web/projects-manager/projects.html:18
+#: web/templates/web/projects/projects.html:20
+#: web/templates/web/second-menu.html:11
+msgid "Projects"
+msgstr ""
+
+#: web/templates/web/devices/device-assign.html:3
+msgid "Choose device"
+msgstr ""
+
+#: web/templates/web/devices/device-assign.html:7
+msgid "Assigneds"
+msgstr ""
+
+#: web/templates/web/devices/device-assign.html:18
+msgid "Unassigneds"
+msgstr ""
+
+#: web/templates/web/devices/device-assign.html:30
+#: web/templates/web/locks-by-project/lock-all-cards.html:7
+#: web/templates/web/locks-by-project/lock-all-passcodes.html:6
+#: web/templates/web/locks-by-project/lock-all-passcodes.html:38
+#: web/templates/web/locks-by-project/lock-all-records.html:12
+#: web/templates/web/locks/lock-all-cards.html:12
+#: web/templates/web/locks/lock-all-passcodes.html:12
+#: web/templates/web/locks/lock-all-records.html:11
+#: web/templates/web/projects-locks/lock-all-cards.html:7
+#: web/templates/web/projects-locks/lock-all-passcodes.html:7
+#: web/templates/web/projects-locks/lock-all-records.html:9
+#: web/templates/web/rooms/lock-details.html:28
+#: web/templates/web/rooms/lock-details.html:39
+#: web/templates/web/rooms/lock-details.html:60
+msgid "Close"
+msgstr ""
+
+#: web/templates/web/devices/device-form.html:4
+#: web/templates/web/devices/devices.html:36
+msgid "New device"
+msgstr ""
+
+#: web/templates/web/devices/device-form.html:66
+msgid "WIFI MAC"
+msgstr ""
+
+#: web/templates/web/devices/device-form.html:80
+msgid "Android ID padword"
+msgstr ""
+
+#: web/templates/web/devices/device-form.html:87
+msgid "Serial number"
+msgstr ""
+
+#: web/templates/web/devices/device-form.html:94
+msgid "Channel UUID"
+msgstr ""
+
+#: web/templates/web/devices/device-form.html:97
+msgid "-- Selecciona un proyecto"
+msgstr ""
+
+#: web/templates/web/devices/device-list.html:48
+msgid "IMEI - Serial - Alias"
+msgstr ""
+
+#: web/templates/web/devices/device-list.html:55
+msgid "Android Id"
+msgstr ""
+
+#: web/templates/web/devices/device-list.html:78
+#: web/templates/web/projects-admin/project-list.html:24
+#: web/templates/web/projects-locks/project-list.html:24
+#: web/templates/web/projects-manager/project-list.html:38
+#: web/templates/web/projects/project-list.html:49
+msgid "Details"
+msgstr ""
+
+#: web/templates/web/devices/devices.html:33
+msgid "Assign device"
+msgstr ""
+
+#: web/templates/web/devices/search_box.html:7
+msgid "Project name"
+msgstr ""
+
+#: web/templates/web/devices/search_box.html:13
+msgid "Channel name"
+msgstr ""
+
+#: web/templates/web/devices/search_box.html:44
+msgid "Serial"
+msgstr ""
+
+#: web/templates/web/ekeys/ekey-list.html:7
+msgid "TTLock eKeys"
+msgstr ""
+
+#: web/templates/web/ekeys/ekey-list.html:13
+msgid "eKey"
+msgstr ""
+
+#: web/templates/web/ekeys/ekey-list.html:14
+msgid "Lock Name"
+msgstr ""
+
+#: web/templates/web/ekeys/ekey-list.html:15
+#: web/templates/web/keycards/keycards-list.html:12
+#: web/templates/web/locks-by-project/lock-list.html:61
+#: web/templates/web/locks-cron-by-project/task-add-locks.html:17
+#: web/templates/web/locks-cron/lock-list.html:26
+#: web/templates/web/locks/lock-list.html:30
+#: web/templates/web/projects-locks/lock-list.html:15
+msgid "Lock Alias"
+msgstr ""
+
+#: web/templates/web/ekeys/ekey-list.html:16
+#: web/templates/web/keycards/keycards-add-multiple-step1.html:11
+#: web/templates/web/keycards/keycards-add-multiple-step2.html:10
+#: web/templates/web/keycards/keycards-add-multiple.html:29
+msgid "Start date"
+msgstr ""
+
+#: web/templates/web/ekeys/ekeys.html:21
+#: web/templates/web/projects/project-list.html:29
+#: web/templates/web/rooms/lock-details.html:19
+msgid "eKeys"
+msgstr ""
+
+#: web/templates/web/gateways-by-project/gateway-list.html:16
+#: web/templates/web/gateways/gateway-list.html:14
+#: web/templates/web/projects-locks/gateway-list.html:14
+msgid "Network name"
+msgstr ""
+
+#: web/templates/web/gateways-by-project/gateway-list.html:18
+#: web/templates/web/gateways/gateway-list.html:16
+#: web/templates/web/projects-locks/gateway-list.html:16
+msgid "Version"
+msgstr ""
+
+#: web/templates/web/gateways-by-project/gateway-list.html:19
+#: web/templates/web/gateways/gateway-list.html:17
+#: web/templates/web/projects-locks/gateway-list.html:17
+msgid "Connected locks"
+msgstr ""
+
+#: web/templates/web/gateways-by-project/gateway-list.html:20
+#: web/templates/web/gateways/gateway-list.html:18
+#: web/templates/web/projects-locks/gateway-list.html:18
+msgid "Is online"
+msgstr ""
+
+#: web/templates/web/gateways-by-project/gateways.html:10
+#: web/templates/web/gateways/gateways.html:21
+#: web/templates/web/projects-locks/gateways.html:15
+#: web/templates/web/projects-locks/project-list.html:29
+#: web/templates/web/projects-manager/project-list.html:27
+#: web/templates/web/projects/project-list.html:27
+msgid "Gateways"
+msgstr ""
+
+#: web/templates/web/gateways/gateway-list.html:7
+#: web/templates/web/projects-locks/gateway-list.html:7
+msgid "Gateways Status"
+msgstr ""
+
+#: web/templates/web/index.html:7
+msgid "Section title"
+msgstr ""
+
+#: web/templates/web/keycards-by-project/keycard-number-search.html:4
+#: web/templates/web/keycards/keycard-number-search.html:4
+#: web/templates/web/locks-by-project/lock-all-cards.html:30
+#: web/templates/web/locks/lock-all-cards.html:35
+#: web/templates/web/projects-locks/lock-all-cards.html:33
+msgid "Card list"
+msgstr ""
+
+#: web/templates/web/keycards-by-project/keycard-number-search.html:10
+#: web/templates/web/keycards/keycard-number-search.html:10
+msgid "Lock alias"
+msgstr ""
+
+#: web/templates/web/keycards-by-project/keycard-number-search.html:14
+#: web/templates/web/keycards/keycard-number-search.html:14
+#: web/templates/web/locks-by-project/lock-all-cards.html:37
+#: web/templates/web/locks-by-project/lock-all-passcodes.html:48
+#: web/templates/web/locks/lock-all-cards.html:42
+#: web/templates/web/locks/lock-all-passcodes.html:43
+#: web/templates/web/projects-locks/lock-all-cards.html:40
+#: web/templates/web/projects-locks/lock-all-passcodes.html:41
+#: web/templates/web/rooms/lock-details-cards.html:10
+#: web/templates/web/rooms/lock-details-codes.html:10
+#: web/templates/web/rooms/lock-details-ekeys.html:12
+#: web/templates/web/rooms/lock.details-codes.html:11
+msgid "Start Date"
+msgstr ""
+
+#: web/templates/web/keycards-by-project/keycard-number-search.html:15
+#: web/templates/web/keycards/keycard-number-search.html:15
+#: web/templates/web/locks-by-project/lock-all-cards.html:38
+#: web/templates/web/locks-by-project/lock-all-passcodes.html:49
+#: web/templates/web/locks/lock-all-cards.html:43
+#: web/templates/web/locks/lock-all-passcodes.html:44
+#: web/templates/web/projects-locks/lock-all-cards.html:41
+#: web/templates/web/projects-locks/lock-all-passcodes.html:42
+#: web/templates/web/rooms/lock-details-cards.html:11
+#: web/templates/web/rooms/lock-details-codes.html:11
+#: web/templates/web/rooms/lock-details-ekeys.html:13
+#: web/templates/web/rooms/lock.details-codes.html:11
+msgid "End Date"
+msgstr ""
+
+#: web/templates/web/keycards-by-project/keycard-number-search.html:16
+#: web/templates/web/keycards/keycard-number-search.html:16
+#: web/templates/web/locks-by-project/lock-all-cards.html:19
+#: web/templates/web/locks-by-project/lock-all-cards.html:39
+#: web/templates/web/locks-by-project/lock-all-passcodes.html:19
+#: web/templates/web/locks-by-project/lock-all-passcodes.html:50
+#: web/templates/web/locks/lock-all-cards.html:24
+#: web/templates/web/locks/lock-all-cards.html:44
+#: web/templates/web/locks/lock-all-passcodes.html:25
+#: web/templates/web/locks/lock-all-passcodes.html:45
+#: web/templates/web/projects-locks/lock-all-cards.html:19
+#: web/templates/web/projects-locks/lock-all-cards.html:42
+#: web/templates/web/projects-locks/lock-all-passcodes.html:20
+#: web/templates/web/projects-locks/lock-all-passcodes.html:43
+#: web/templates/web/rooms/lock-details-cards.html:12
+#: web/templates/web/rooms/lock-details-codes.html:12
+#: web/templates/web/rooms/lock.details-codes.html:11
+msgid "Guest"
+msgstr ""
+
+#: web/templates/web/keycards-by-project/keycard-number-search.html:32
+#: web/templates/web/keycards/keycard-number-search.html:32
+msgid "Remove from guest"
+msgstr ""
+
+#: web/templates/web/keycards-by-project/keycard-number.html:14
+#: web/templates/web/keycards/keycard-number.html:15
+msgid "Click here and then place the card on the reader"
+msgstr ""
+
+#: web/templates/web/keycards-by-project/keycard-number.html:20
+#: web/templates/web/keycards/keycard-number.html:30
+msgid "Current card number"
+msgstr ""
+
+#: web/templates/web/keycards/keycard-form.html:4
+msgid "New keycard"
+msgstr ""
+
+#: web/templates/web/keycards/keycards-add-header.html:5
+msgid "Add Code for Group"
+msgstr ""
+
+#: web/templates/web/keycards/keycards-add-header.html:7
+#: web/templates/web/locks-by-project/lock-add-code.html:5
+#: web/templates/web/locks/lock-add-code.html:4
+msgid "Add Master Code"
+msgstr ""
+
+#: web/templates/web/keycards/keycards-add-header.html:9
+msgid "Add Multiple Key Codes"
+msgstr ""
+
+#: web/templates/web/keycards/keycards-add-header.html:13
+msgid "Add Cards for Group"
+msgstr ""
+
+#: web/templates/web/keycards/keycards-add-header.html:15
+msgid "Add Master Cards"
+msgstr ""
+
+#: web/templates/web/keycards/keycards-add-header.html:17
+msgid "Add Multiple Key Cards"
+msgstr ""
+
+#: web/templates/web/keycards/keycards-add-multiple-locks.html:4
+msgid "Select Locks"
+msgstr ""
+
+#: web/templates/web/keycards/keycards-add-multiple-progress.html:4
+msgid "Process complete"
+msgstr ""
+
+#: web/templates/web/keycards/keycards-add-multiple-progress.html:17
+msgid "Back to utils"
+msgstr ""
+
+#: web/templates/web/keycards/keycards-add-multiple-progress.html:18
+#: web/templates/web/keycards/keycards-add-multiple-progress.html:23
+msgid "Add more"
+msgstr ""
+
+#: web/templates/web/keycards/keycards-add-multiple-progress.html:22
+msgid "Back to projects"
+msgstr ""
+
+#: web/templates/web/keycards/keycards-add-multiple-step1.html:7
+#: web/templates/web/keycards/keycards-add-multiple-step2.html:6
+msgid "Number of codes"
+msgstr ""
+
+#: web/templates/web/keycards/keycards-add-multiple-step1.html:9
+#: web/templates/web/keycards/keycards-add-multiple-step2.html:8
+msgid "Number of cards"
+msgstr ""
+
+#: web/templates/web/keycards/keycards-add-multiple-step1.html:27
+msgid "Default locks"
+msgstr ""
+
+#: web/templates/web/keycards/keycards-add-multiple-step1.html:44
+#: web/templates/web/keycards/keycards-add-multiple-step1.html:62
+msgid "Locks selected"
+msgstr ""
+
+#: web/templates/web/keycards/keycards-add-multiple-step1.html:61
+msgid "More locks"
+msgstr ""
+
+#: web/templates/web/keycards/keycards-add-multiple-step2.html:20
+msgid "Add codes"
+msgstr ""
+
+#: web/templates/web/keycards/keycards-add-multiple-step2.html:20
+msgid "Add cards"
+msgstr ""
+
+#: web/templates/web/keycards/keycards-add-multiple-step2.html:55
+msgid "Enter code"
+msgstr ""
+
+#: web/templates/web/keycards/keycards-add-multiple-step2.html:57
+msgid "Scan card"
+msgstr ""
+
+#: web/templates/web/keycards/keycards-add-multiple.html:22
+msgid "Number of code to create"
+msgstr ""
+
+#: web/templates/web/keycards/keycards-add-multiple.html:24
+msgid "Number of cards to create"
+msgstr ""
+
+#: web/templates/web/keycards/keycards-add-multiple.html:41
+msgid "Group name"
+msgstr ""
+
+#: web/templates/web/keycards/keycards-add-path.html:6
+#: web/templates/web/keycards/keycards-add-path.html:17
+msgid "STEP 1"
+msgstr ""
+
+#: web/templates/web/keycards/keycards-add-path.html:6
+msgid "Number of codes and dates"
+msgstr ""
+
+#: web/templates/web/keycards/keycards-add-path.html:9
+#: web/templates/web/keycards/keycards-add-path.html:20
+msgid "STEP 2"
+msgstr ""
+
+#: web/templates/web/keycards/keycards-add-path.html:9
+#: web/templates/web/keycards/keycards-add-path.html:20
+msgid "Locks selection"
+msgstr ""
+
+#: web/templates/web/keycards/keycards-add-path.html:12
+#: web/templates/web/keycards/keycards-add-path.html:23
+msgid "STEP 3"
+msgstr ""
+
+#: web/templates/web/keycards/keycards-add-path.html:12
+msgid "Enter codes"
+msgstr ""
+
+#: web/templates/web/keycards/keycards-add-path.html:17
+msgid "Number of cards and dates"
+msgstr ""
+
+#: web/templates/web/keycards/keycards-add-path.html:23
+msgid "Scan cards"
+msgstr ""
+
+#: web/templates/web/keycards/keycards-list.html:11
+msgid "Card ID"
+msgstr ""
+
+#: web/templates/web/keycards/keycards-list.html:24
+#: web/templates/web/locks-by-project/lock-all-cards.html:59
+#: web/templates/web/locks-by-project/lock-all-cards.html:61
+#: web/templates/web/locks/lock-all-cards.html:64
+#: web/templates/web/locks/lock-all-cards.html:66
+#: web/templates/web/rooms/lock-details-cards.html:27
+#: web/templates/web/rooms/lock-details-cards.html:29
+msgid "Remove card"
+msgstr ""
+
+#: web/templates/web/keycards/keycards.html:8
+msgid "Key Cards"
+msgstr ""
+
+#: web/templates/web/keycards/keycards.html:10
+msgid "Add Multiple Cards"
+msgstr ""
+
+#: web/templates/web/locks-by-project/lock-add-code.html:5
+#: web/templates/web/locks-by-project/lock-remove-code.html:5
+#: web/templates/web/locks/lock-add-code.html:4
+#: web/templates/web/locks/lock-remove-code.html:4
+msgid "Master Card"
+msgstr ""
+
+#: web/templates/web/locks-by-project/lock-add-code.html:35
+#: web/templates/web/locks-cron-by-project/task-add-params.html:23
+#: web/templates/web/locks-cron/lock-add-task.html:33
+#: web/templates/web/locks/lock-add-code.html:33
+#: web/templates/web/rooms/lock-details-cards-form.html:31
+#: web/templates/web/rooms/lock-details-codes-form.html:32
+#: web/templates/web/rooms/lock-details-ekey-form.html:33
+#: web/templatetags/lock_tags.py:24 web/templatetags/lock_tags.py:31
+msgid "Permanent"
+msgstr ""
+
+#: web/templates/web/locks-by-project/lock-all-cards.html:11
+#: web/templates/web/locks/lock-all-cards.html:16
+#: web/templates/web/projects-locks/lock-all-cards.html:11
+msgid "Search for card..."
+msgstr ""
+
+#: web/templates/web/locks-by-project/lock-all-cards.html:16
+#: web/templates/web/locks-by-project/lock-all-cards.html:21
+#: web/templates/web/locks-by-project/lock-all-passcodes.html:16
+#: web/templates/web/locks-by-project/lock-all-passcodes.html:21
+#: web/templates/web/locks/lock-all-cards.html:21
+#: web/templates/web/locks/lock-all-cards.html:26
+#: web/templates/web/locks/lock-all-passcodes.html:22
+#: web/templates/web/locks/lock-all-passcodes.html:27
+#: web/templates/web/projects-locks/lock-all-cards.html:16
+#: web/templates/web/projects-locks/lock-all-cards.html:21
+#: web/templates/web/projects-locks/lock-all-passcodes.html:17
+#: web/templates/web/projects-locks/lock-all-passcodes.html:22
+msgid "Search for name..."
+msgstr ""
+
+#: web/templates/web/locks-by-project/lock-all-cards.html:26
+#: web/templates/web/locks-by-project/lock-all-passcodes.html:26
+#: web/templates/web/locks/lock-all-cards.html:31
+#: web/templates/web/locks/lock-all-passcodes.html:32
+msgid "Delete all"
+msgstr ""
+
+#: web/templates/web/locks-by-project/lock-all-cards.html:40
+#: web/templates/web/locks-by-project/lock-all-passcodes.html:51
+#: web/templates/web/locks/lock-all-cards.html:45
+#: web/templates/web/locks/lock-all-passcodes.html:46
+#: web/templates/web/projects-locks/lock-all-cards.html:43
+#: web/templates/web/projects-locks/lock-all-passcodes.html:44
+#: web/templates/web/rooms/lock-details-cards.html:13
+#: web/templates/web/rooms/lock-details-codes.html:13
+msgid "Type"
+msgstr ""
+
+#: web/templates/web/locks-by-project/lock-all-passcodes.html:11
+#: web/templates/web/locks/lock-all-passcodes.html:17
+#: web/templates/web/projects-locks/lock-all-passcodes.html:12
+msgid "Search for code..."
+msgstr ""
+
+#: web/templates/web/locks-by-project/lock-all-passcodes.html:40
+#: web/templates/web/locks/lock-all-passcodes.html:36
+#: web/templates/web/locks/lock-records-print.html:30
+#: web/templates/web/projects-locks/lock-all-passcodes.html:34
+msgid "Passcode list"
+msgstr ""
+
+#: web/templates/web/locks-by-project/lock-all-passcodes.html:70
+#: web/templates/web/locks-by-project/lock-all-passcodes.html:73
+#: web/templates/web/locks/lock-all-passcodes.html:66
+#: web/templates/web/locks/lock-all-passcodes.html:69
+#: web/templates/web/rooms/lock-details-codes.html:39
+#: web/templates/web/rooms/lock-details-codes.html:41
+#: web/templates/web/rooms/lock-details-ekeys.html:28
+#: web/templates/web/rooms/lock.details-codes.html:21
+#: web/templates/web/rooms/lock.details-codes.html:23
+msgid "Remove code"
+msgstr ""
+
+#: web/templates/web/locks-by-project/lock-all-records.html:5
+#: web/templates/web/locks/lock-all-records.html:4
+msgid "CSV Export"
+msgstr ""
+
+#: web/templates/web/locks-by-project/lock-all-records.html:6
+#: web/templates/web/locks/lock-all-records.html:5
+msgid "PDF Export / Print"
+msgstr ""
+
+#: web/templates/web/locks-by-project/lock-all-records.html:14
+#: web/templates/web/locks/lock-all-records.html:14
+#: web/templates/web/projects-locks/lock-all-records.html:12
+msgid "Access history"
+msgstr ""
+
+#: web/templates/web/locks-by-project/lock-list-row.html:23
+#: web/templates/web/locks/lock-list-row.html:25
+msgid "Open lock"
+msgstr ""
+
+#: web/templates/web/locks-by-project/lock-list-row.html:26
+#: web/templates/web/locks/lock-list-row.html:29
+#: web/templates/web/projects-locks/lock-list-row.html:24
+msgid "Update parameters"
+msgstr ""
+
+#: web/templates/web/locks-by-project/lock-list-row.html:28
+#: web/templates/web/locks/lock-list-row.html:31
+#: web/templates/web/projects-locks/lock-list-row.html:26
+msgid "Get all passcodes"
+msgstr ""
+
+#: web/templates/web/locks-by-project/lock-list-row.html:31
+#: web/templates/web/locks/lock-list-row.html:33
+#: web/templates/web/projects-locks/lock-list-row.html:28
+msgid "Get all cards"
+msgstr ""
+
+#: web/templates/web/locks-by-project/lock-list-row.html:33
+#: web/templates/web/locks/lock-list-row.html:35
+#: web/templates/web/projects-locks/lock-list-row.html:30
+msgid "Get all registers"
+msgstr ""
+
+#: web/templates/web/locks-by-project/lock-list.html:63
+#: web/templates/web/locks-cron-by-project/task-add-locks.html:19
+#: web/templates/web/locks-cron/lock-list.html:29
+#: web/templates/web/locks/lock-list.html:33
+#: web/templates/web/projects-locks/lock-list.html:18
+#: web/templates/web/projects-manager/rooms-form.html:45
+#: web/templates/web/rooms-by-project/room-form.html:37
+#: web/templates/web/rooms/room-form.html:51
+msgid "Group"
+msgstr ""
+
+#: web/templates/web/locks-by-project/lock-list.html:66
+#: web/templates/web/locks-cron-by-project/task-add-locks.html:22
+#: web/templates/web/locks-cron/lock-list.html:32
+#: web/templates/web/locks/lock-list.html:36
+#: web/templates/web/projects-locks/lock-list.html:21
+#: web/templates/web/rooms/lock-list.html:16
+msgid "Charge"
+msgstr ""
+
+#: web/templates/web/locks-by-project/lock-list.html:67
+#: web/templates/web/locks-cron-by-project/task-add-locks.html:23
+#: web/templates/web/locks-cron/lock-list.html:33
+#: web/templates/web/locks/lock-list.html:37
+#: web/templates/web/projects-locks/lock-list.html:22
+msgid "Gateway"
+msgstr ""
+
+#: web/templates/web/locks-by-project/lock-list.html:68
+#: web/templates/web/locks-cron-by-project/task-add-locks.html:24
+#: web/templates/web/locks-cron/lock-list.html:34
+#: web/templates/web/locks/lock-list.html:38
+#: web/templates/web/projects-locks/lock-list.html:23
+msgid "Wifi"
+msgstr ""
+
+#: web/templates/web/locks-by-project/lock-remove-code.html:5
+#: web/templates/web/locks/lock-remove-code.html:4
+msgid "Remove Master Code"
+msgstr ""
+
+#: web/templates/web/locks-by-project/lock-search.html:4
+#: web/templates/web/locks-by-project/lock-search.html:28
+#: web/templates/web/locks-cron/lock-search.html:4
+#: web/templates/web/locks-cron/lock-search.html:29
+#: web/templates/web/locks/lock-search.html:4
+#: web/templates/web/locks/lock-search.html:29
+msgid "Search"
+msgstr ""
+
+#: web/templates/web/locks-by-project/lock-search.html:20
+#: web/templates/web/locks-cron/lock-search.html:20
+#: web/templates/web/locks/lock-search.html:20
+msgid "Card Code"
+msgstr ""
+
+#: web/templates/web/locks-by-project/lock-search.html:24
+#: web/templates/web/locks-cron/lock-search.html:24
+#: web/templates/web/locks/lock-search.html:24
+msgid "Lock Group"
+msgstr ""
+
+#: web/templates/web/locks-by-project/locks-content.html:5
+#: web/templates/web/locks/locks-content.html:6
+msgid "Tareas programadas"
+msgstr ""
+
+#: web/templates/web/locks-by-project/locks-content.html:16
+#: web/templates/web/locks-cron-by-project/task-list.html:9
+#: web/templates/web/locks-cron/lock-task-list.html:10
+#: web/templates/web/locks-cron/locks-content.html:24
+#: web/templates/web/locks/locks-content.html:18
+#: web/templates/web/projects-locks/locks.html:10
+#: web/templates/web/projects-locks/project-form-main.html:71
+#: web/templates/web/projects-locks/project-list.html:27
+#: web/templates/web/projects-manager/project-details-tabs.html:6
+#: web/templates/web/projects-manager/project-list.html:25
+#: web/templates/web/projects/project-details-tabs.html:8
+#: web/templates/web/projects/project-list.html:25
+msgid "Locks"
+msgstr ""
+
+#: web/templates/web/locks-by-project/locks-content.html:17
+#: web/templates/web/locks-cron/locks-content.html:25
+#: web/templates/web/locks/locks-content.html:19
+#: web/templates/web/projects-locks/locks.html:11
+msgid "Last update:"
+msgstr ""
+
+#: web/templates/web/locks-cron-by-project/task-add-end.html:4
+msgid "PASO 4"
+msgstr ""
+
+#: web/templates/web/locks-cron-by-project/task-add-end.html:5
+msgid "Fin del proceso"
+msgstr ""
+
+#: web/templates/web/locks-cron-by-project/task-add-end.html:9
+msgid "La tarea se ha creado con éxito"
+msgstr ""
+
+#: web/templates/web/locks-cron-by-project/task-add-end.html:10
+msgid "Finalizar"
+msgstr ""
+
+#: web/templates/web/locks-cron-by-project/task-add-locks.html:4
+msgid "PASO 3"
+msgstr ""
+
+#: web/templates/web/locks-cron-by-project/task-add-locks.html:5
+msgid "Seleccione la cerradura donde quiere realizar la tarea"
+msgstr ""
+
+#: web/templates/web/locks-cron-by-project/task-add-locks.html:21
+#: web/templates/web/locks-cron/lock-list.html:31
+#: web/templates/web/rooms/lock-list.html:15
+msgid "Status"
+msgstr ""
+
+#: web/templates/web/locks-cron-by-project/task-add-locks.html:51
+#: web/templates/web/locks-cron-by-project/task-add-params.html:32
+msgid "Siguiente paso"
+msgstr ""
+
+#: web/templates/web/locks-cron-by-project/task-add-params.html:4
+msgid "PASO 2"
+msgstr ""
+
+#: web/templates/web/locks-cron-by-project/task-add-params.html:5
+msgid "Añada los parámetros"
+msgstr ""
+
+#: web/templates/web/locks-cron-by-project/task-add-params.html:15
+msgid ""
+"Escriba el código o acerque la tarjeta al lector para realizar la lectura"
+msgstr ""
+
+#: web/templates/web/locks-cron-by-project/task-add-params.html:16
+msgid "Escriba un nombre"
+msgstr ""
+
+#: web/templates/web/locks-cron-by-project/task-add-params.html:17
+msgid "Seleccione periodo de validez"
+msgstr ""
+
+#: web/templates/web/locks-cron-by-project/task-add-type.html:4
+msgid "PASO 1"
+msgstr ""
+
+#: web/templates/web/locks-cron-by-project/task-add-type.html:5
+msgid "¿Qué quieres hacer?"
+msgstr ""
+
+#: web/templates/web/locks-cron-by-project/task-add-type.html:9
+#: web/templates/web/rooms/lock-details.html:28
+#: web/templates/web/rooms/lock.details-codes.html:8
+msgid "Add code"
+msgstr ""
+
+#: web/templates/web/locks-cron-by-project/task-add-type.html:11
+#: web/templates/web/rooms/lock-details.html:38
+#: web/templates/web/rooms/lock-details.html:39
+msgid "Add card"
+msgstr ""
+
+#: web/templates/web/locks-cron-by-project/task-list.html:28
+#: web/templates/web/locks-cron/lock-task-list.html:29
+msgid "Remove task"
+msgstr ""
+
+#: web/templates/web/locks-cron-by-project/tasks.html:10
+#: web/templates/web/locks-cron/lock-add-task.html:4
+msgid "Add Task"
+msgstr ""
+
+#: web/templates/web/locks-cron/lock-set-task.html:5
+msgid "Result"
+msgstr ""
+
+#: web/templates/web/locks-cron/locks-content.html:7
+msgid "Tasks"
+msgstr ""
+
+#: web/templates/web/locks-groups/lock-group-form.html:3
+msgid "New lock group"
+msgstr ""
+
+#: web/templates/web/locks-groups/lock-group-list.html:7
+msgid "TTLock Groups"
+msgstr ""
+
+#: web/templates/web/locks-groups/lock-group-list.html:34
+#: web/templates/web/locks/lock-add-group.html:4
+msgid "Add Group"
+msgstr ""
+
+#: web/templates/web/locks-groups/lock-group-list.html:43
+msgid "TTLock Name"
+msgstr ""
+
+#: web/templates/web/locks-groups/lock-group-list.html:44
+msgid "TTLock Id"
+msgstr ""
+
+#: web/templates/web/locks-groups/lock-group-list.html:46
+#: web/templates/web/projects-manager/rooms-form.html:18
+#: web/templates/web/projects/project-form-point-of-sales-list.html:30
+#: web/templates/web/projects/project-form-table-list.html:26
+#: web/templates/web/rooms/room-form.html:17
+msgid "Orden"
+msgstr ""
+
+#: web/templates/web/locks-groups/locks-groups.html:20
+msgid "Locks Groups"
+msgstr ""
+
+#: web/templates/web/locks-users/lock-user-form.html:3
+msgid "New lock user"
+msgstr ""
+
+#: web/templates/web/locks-users/lock-user-list.html:7
+msgid "TTLock Users"
+msgstr ""
+
+#: web/templates/web/locks-users/lock-user-list.html:30
+msgid "Add User"
+msgstr ""
+
+#: web/templates/web/locks-users/lock-user-list.html:39
+msgid "TTLock username"
+msgstr ""
+
+#: web/templates/web/locks-users/lock-user-list.html:40
+msgid "TTLock password"
+msgstr ""
+
+#: web/templates/web/locks/lock-add-group.html:10
+msgid "Select"
+msgstr ""
+
+#: web/templates/web/locks/lock-add-group.html:10
+msgid "Select group"
+msgstr ""
+
+#: web/templates/web/locks/lock-form.html:3
+msgid "Info lock"
+msgstr ""
+
+#: web/templates/web/locks/lock-form.html:31
+msgid "Deposit Box"
+msgstr ""
+
+#: web/templates/web/locks/lock-form.html:45
+#: web/templates/web/locks/lock-list.html:41
+#: web/templates/web/projects-locks/lock-list.html:26
+msgid "Predeterminada"
+msgstr ""
+
+#: web/templates/web/locks/lock-form.html:59
+msgid "Group UUID"
+msgstr ""
+
+#: web/templates/web/locks/lock-list-row.html:37
+msgid "Edit lock"
+msgstr ""
+
+#: web/templates/web/locks/lock-list-row.html:39
+msgid "Remove lock"
+msgstr ""
+
+#: web/templates/web/locks/lock-open.html:13
+msgid "Apertura Denegada"
+msgstr ""
+
+#: web/templates/web/locks/lock-open.html:15
+msgid "Apertura correcta"
+msgstr ""
+
+#: web/templates/web/locks/lock-records-print.html:29
+msgid "Imprimir"
+msgstr ""
+
+#: web/templates/web/locks/share-modal-body.html:15
+msgid "Share on whatsapp"
+msgstr ""
+
+#: web/templates/web/locks/share-modal-body.html:19
+msgid "Share on telegram"
+msgstr ""
+
+#: web/templates/web/locks/share-modal-body.html:27
+msgid "Datos de interés sobre su reserva"
+msgstr ""
+
+#: web/templates/web/locks/share-modal-body.html:28
+msgid "Send by email"
+msgstr ""
+
+#: web/templates/web/locks/share-modal-body.html:31
+msgid "Copy to clicboard"
+msgstr ""
+
+#: web/templates/web/locks/share-modal-body.html:37
+msgid ""
+"Compruebe que el número esté correcto, debe contener el código del país para "
+"poder ser enviado. Ejemplo: 34666777888"
+msgstr ""
+
+#: web/templates/web/locks/share-modal-body.html:47
+msgid "Send"
+msgstr ""
+
+#: web/templates/web/locks/share-modal.html:9
+msgid "Share"
+msgstr ""
+
+#: web/templates/web/locks/wifi-level.html:6
+msgid "Offline"
+msgstr ""
+
+#: web/templates/web/projects-admin/project-form-main.html:28
+#: web/templates/web/projects-admin/project-list.html:9
+#: web/templates/web/projects-locks/project-form-main.html:28
+#: web/templates/web/projects-locks/project-list.html:9
+#: web/templates/web/projects-manager/project-form-main.html:40
+#: web/templates/web/projects-manager/project-list.html:9
+#: web/templates/web/projects/project-form-main.html:51
+msgid "Cerraduras totales"
+msgstr ""
+
+#: web/templates/web/projects-admin/project-form-main.html:32
+#: web/templates/web/projects-locks/project-form-main.html:32
+#: web/templates/web/projects-manager/project-form-main.html:44
+#: web/templates/web/projects-manager/project-form-new.html:57
+#: web/templates/web/projects/project-form-main.html:55
+msgid "Time zone"
+msgstr ""
+
+#: web/templates/web/projects-admin/project-form-main.html:36
+#: web/templates/web/projects-locks/project-form-main.html:36
+#: web/templates/web/projects-manager/project-form-main.html:54
+#: web/templates/web/projects-manager/project-form-main.html:56
+#: web/templates/web/projects-manager/project-form-new.html:67
+#: web/templates/web/projects-manager/project-form-new.html:69
+#: web/templates/web/projects/project-form-main.html:65
+#: web/templates/web/projects/project-form-main.html:67
+msgid "Time zone name"
+msgstr ""
+
+#: web/templates/web/projects-admin/project-form-main.html:41
+#: web/templates/web/projects-locks/project-form-main.html:41
+#: web/templates/web/projects-manager/project-form-main.html:61
+#: web/templates/web/projects-manager/project-form-new.html:74
+#: web/templates/web/projects/project-form-main.html:73
+msgid "Languages"
+msgstr ""
+
+#: web/templates/web/projects-admin/project-form-main.html:50
+#: web/templates/web/projects-manager/project-form-main.html:74
+#: web/templates/web/projects/project-form-main.html:86
+msgid "Days after checkout to delete guest"
+msgstr ""
+
+#: web/templates/web/projects-admin/project-form-main.html:55
+#: web/templates/web/projects-manager/project-form-main.html:81
+#: web/templates/web/projects-manager/project-form-new.html:87
+#: web/templates/web/projects/project-form-main.html:93
+msgid "Prefix"
+msgstr ""
+
+#: web/templates/web/projects-admin/project-form-main.html:68
+#: web/templates/web/projects-locks/project-form-main.html:54
+#: web/templates/web/projects-manager/project-form-main.html:96
+#: web/templates/web/projects/project-form-main.html:108
+msgid "Email"
+msgstr ""
+
+#: web/templates/web/projects-admin/project-form-main.html:74
+#: web/templates/web/projects-locks/project-form-main.html:59
+#: web/templates/web/projects-manager/project-form-main.html:102
+#: web/templates/web/projects/project-form-main.html:114
+msgid "Phone"
+msgstr ""
+
+#: web/templates/web/projects-admin/project-form-main.html:98
+#: web/templates/web/projects-admin/project-form-main.html:100
+#: web/templates/web/projects-admin/project-list.html:10
+#: web/templates/web/projects-locks/project-list.html:10
+#: web/templates/web/projects-manager/project-form-main.html:126
+#: web/templates/web/projects-manager/project-form-main.html:128
+#: web/templates/web/projects-manager/project-form-new.html:43
+#: web/templates/web/projects-manager/project-form-new.html:45
+#: web/templates/web/projects-manager/project-list.html:10
+#: web/templates/web/projects/project-form-main.html:138
+#: web/templates/web/projects/project-form-main.html:140
+msgid "Licencia hasta"
+msgstr ""
+
+#: web/templates/web/projects-admin/project-form-main.html:105
+#: web/templates/web/projects-manager/project-form-main.html:133
+#: web/templates/web/projects-manager/project-form-new.html:50
+#: web/templates/web/projects/project-form-main.html:145
+msgid "Currency"
+msgstr ""
+
+#: web/templates/web/projects-admin/project-form-main.html:111
+#: web/templates/web/projects-manager/project-form-main.html:139
+#: web/templates/web/projects/project-form-main.html:151
+msgid "Cuota"
+msgstr ""
+
+#: web/templates/web/projects-admin/project-form-main.html:117
+#: web/templates/web/projects-manager/project-form-main.html:145
+#: web/templates/web/projects/project-form-main.html:157
+msgid "Modo de pago"
+msgstr ""
+
+#: web/templates/web/projects-admin/project-form-main.html:123
+#: web/templates/web/projects-manager/project-form-main.html:151
+#: web/templates/web/projects/project-form-main.html:163
+msgid "Abonado"
+msgstr ""
+
+#: web/templates/web/projects-admin/project-form-main.html:132
+#: web/templates/web/projects-manager/project-form-main.html:160
+#: web/templates/web/projects/project-form-main.html:172
+msgid "Terceros"
+msgstr ""
+
+#: web/templates/web/projects-admin/project-form-token.html:3
+#: web/templates/web/projects-manager/project-form-token.html:3
+msgid "Tokens"
+msgstr ""
+
+#: web/templates/web/projects-admin/project-form-token.html:6
+#: web/templates/web/projects-locks/project-form-main.html:77
+#: web/templates/web/projects-manager/project-form-locks.html:24
+#: web/templates/web/projects-manager/project-form-token.html:6
+#: web/templates/web/projects/project-form-locks.html:29
+msgid "TTLock Username"
+msgstr ""
+
+#: web/templates/web/projects-admin/project-form-token.html:7
+#: web/templates/web/projects-locks/project-form-main.html:81
+#: web/templates/web/projects-manager/project-form-locks.html:25
+#: web/templates/web/projects-manager/project-form-token.html:7
+#: web/templates/web/projects/project-form-locks.html:30
+msgid "TTLock Password"
+msgstr ""
+
+#: web/templates/web/projects-admin/project-form-token.html:17
+#: web/templates/web/projects-manager/project-form-locks.html:11
+#: web/templates/web/projects-manager/project-form-token.html:17
+#: web/templates/web/projects/project-form-locks.html:16
+msgid "Refresh token"
+msgstr ""
+
+#: web/templates/web/projects-admin/project-form-token.html:23
+#: web/templates/web/projects-locks/project-form-main.html:89
+#: web/templates/web/projects-manager/project-form-token.html:23
+#: web/templates/web/projects-manager/project-token.html:5
+#: web/templates/web/projects/project-token-modal.html:11
+#: web/templates/web/projects/project-token.html:5
+msgid "expire:"
+msgstr ""
+
+#: web/templates/web/projects-admin/project-form-token.html:25
+#: web/templates/web/projects-locks/project-form-main.html:93
+#: web/templates/web/projects-manager/project-form-token.html:25
+#: web/templates/web/projects-manager/project-token.html:13
+#: web/templates/web/projects/project-form-octorate.html:48
+#: web/templates/web/projects/project-token-modal.html:13
+#: web/templates/web/projects/project-token.html:13
+msgid "Refresh Token"
+msgstr ""
+
+#: web/templates/web/projects-admin/project-list.html:8
+#: web/templates/web/projects-locks/project-list.html:8
+#: web/templates/web/projects-manager/project-list.html:8
+msgid "Cerraduras en uso"
+msgstr ""
+
+#: web/templates/web/projects-admin/projects.html:12
+#: web/templates/web/projects-locks/projects.html:12
+#: web/templates/web/projects-manager/projects.html:10
+#: web/templates/web/projects/projects.html:12
+msgid "Name or company"
+msgstr ""
+
+#: web/templates/web/projects-locks/gateways.html:11
+#: web/templates/web/projects-locks/locks.html:16
+#: web/templates/web/projects-locks/project-details.html:12
+msgid "Back"
+msgstr ""
+
+#: web/templates/web/projects-locks/project-form-main.html:101
+#: web/templates/web/projects-manager/project-form-locks.html:26
+#: web/templates/web/projects/project-form-access-zones-list.html:39
+#: web/templates/web/projects/project-form-locks.html:31
+msgid "Time to execute tasks"
+msgstr ""
+
+#: web/templates/web/projects-manager/categories.html:19
+#: web/templates/web/projects-manager/project-list.html:33
+#: web/templates/web/projects/project-form-point-of-sales-list.html:140
+#: web/templates/web/projects/project-list.html:46
+msgid "Categories"
+msgstr ""
+
+#: web/templates/web/projects-manager/categories.html:29
+#: web/templates/web/projects-manager/categories.html:30
+msgid "PWA"
+msgstr ""
+
+#: web/templates/web/projects-manager/categories.html:37
+msgid "Imágen de fondo"
+msgstr ""
+
+#: web/templates/web/projects-manager/categories.html:41
+msgid "Logo"
+msgstr ""
+
+#: web/templates/web/projects-manager/companies-form.html:4
+#: web/templates/web/projects-manager/project-form.html:4
+#: web/templates/web/projects/cloudbeds-info.html:4
+#: web/templates/web/projects/project-form.html:4
+msgid "New proyect"
+msgstr ""
+
+#: web/templates/web/projects-manager/companies-form.html:36
+#: web/templates/web/projects-manager/project-form.html:13
+#: web/templates/web/projects-manager/rooms-form.html:71
+msgid "Cancelar"
+msgstr ""
+
+#: web/templates/web/projects-manager/companies-form.html:45
+#: web/templates/web/projects-manager/project-form.html:22
+#: web/templates/web/projects-manager/rooms-form.html:80
+msgid "Guardar"
+msgstr ""
+
+#: web/templates/web/projects-manager/project-form-locks.html:7
+#: web/templates/web/projects/project-form-locks.html:7
+msgid "Get token"
+msgstr ""
+
+#: web/templates/web/projects-manager/project-form-main.html:32
+#: web/templates/web/projects-manager/project-form-main.html:48
+#: web/templates/web/projects-manager/project-form-new.html:35
+#: web/templates/web/projects-manager/project-form-new.html:61
+#: web/templates/web/projects/project-form-main.html:43
+#: web/templates/web/projects/project-form-main.html:59
+msgid "-- Select a company"
+msgstr ""
+
+#: web/templates/web/projects-manager/project-form-main.html:63
+#: web/templates/web/projects-manager/project-form-new.html:76
+#: web/templates/web/projects/project-form-main.html:75
+msgid "Languages in project"
+msgstr ""
+
+#: web/templates/web/projects-manager/project-list.html:35
+#: web/templates/web/projects-manager/rooms.html:11
+#: web/templates/web/rooms-by-project/rooms-list.html:5
+#: web/templates/web/rooms-by-project/rooms2.html:11
+#: web/templates/web/rooms/rooms-list.html:5
+msgid "Rooms"
+msgstr ""
+
+#: web/templates/web/projects-manager/projects.html:21
+#: web/templates/web/projects/projects.html:23
+msgid "New project"
+msgstr ""
+
+#: web/templates/web/projects-manager/room-multiple.html:6
+#: web/templates/web/rooms/room-import-csv.html:6
+#: web/templates/web/rooms/room-multiple.html:6
+msgid "Create rooms"
+msgstr ""
+
+#: web/templates/web/projects-manager/room-multiple.html:20
+#: web/templates/web/rooms/room-multiple.html:21
+msgid "Initial order"
+msgstr ""
+
+#: web/templates/web/projects-manager/room-multiple.html:26
+#: web/templates/web/rooms/room-multiple.html:27
+msgid "Common Alias"
+msgstr ""
+
+#: web/templates/web/projects-manager/room-multiple.html:33
+#: web/templates/web/rooms/room-multiple.html:34
+msgid "Initial Number"
+msgstr ""
+
+#: web/templates/web/projects-manager/room-multiple.html:39
+#: web/templates/web/rooms/room-multiple.html:40
+msgid "End Number"
+msgstr ""
+
+#: web/templates/web/projects-manager/room-multiple.html:49
+#: web/templates/web/projects/upload-json.html:14
+#: web/templates/web/rooms/room-import-csv.html:30
+#: web/templates/web/rooms/room-multiple.html:68
+msgid "Cancel"
+msgstr ""
+
+#: web/templates/web/projects-manager/rooms-card.html:24
+#: web/templates/web/rooms/room-card.html:10
+msgid "Delete"
+msgstr ""
+
+#: web/templates/web/projects-manager/rooms-form.html:6
+#: web/templates/web/rooms-by-project/room-form.html:5
+#: web/templates/web/rooms/room-form.html:6
+msgid "Edit room"
+msgstr ""
+
+#: web/templates/web/projects-manager/rooms-form.html:49
+#: web/templates/web/rooms/room-form.html:56
+msgid "-- Select a group"
+msgstr ""
+
+#: web/templates/web/projects-manager/rooms-form.html:60
+#: web/templates/web/rooms/room-form.html:76
+msgid "Timezone"
+msgstr ""
+
+#: web/templates/web/projects-manager/rooms.html:15
+#: web/templates/web/rooms-by-project/rooms2.html:14
+#: web/templates/web/rooms/rooms-list.html:13
+msgid "Room Name"
+msgstr ""
+
+#: web/templates/web/projects-manager/rooms.html:30
+#: web/templates/web/projects-manager/rooms.html:31
+#: web/templates/web/rooms/room-group-list.html:9
+msgid "Add multiple rooms"
+msgstr ""
+
+#: web/templates/web/projects-manager/rooms.html:33
+#: web/templates/web/rooms/room-group-list.html:11
+msgid "Add room"
+msgstr ""
+
+#: web/templates/web/projects/pos-img.html:5
+msgid "Upload File"
+msgstr ""
+
+#: web/templates/web/projects/pos-img.html:12
+#: web/templates/web/projects/project-img.html:11
+msgid "Are you sure to remove this file?"
+msgstr ""
+
+#: web/templates/web/projects/project-details-tabs.html:6
+msgid "Regime"
+msgstr ""
+
+#: web/templates/web/projects/project-details-tabs.html:9
+msgid "Air conditioner"
+msgstr ""
+
+#: web/templates/web/projects/project-details-tabs.html:10
+msgid "Integrations"
+msgstr ""
+
+#: web/templates/web/projects/project-details-tabs.html:11
+msgid "Point of sales"
+msgstr ""
+
+#: web/templates/web/projects/project-details-tabs.html:12
+msgid "Invitations Accounts"
+msgstr ""
+
+#: web/templates/web/projects/project-details-tabs.html:13
+msgid "Guest Types"
+msgstr ""
+
+#: web/templates/web/projects/project-details-tabs.html:14
+msgid "Access Zones"
+msgstr ""
+
+#: web/templates/web/projects/project-details-tabs.html:15
+msgid "Partners"
+msgstr ""
+
+#: web/templates/web/projects/project-form-access-points-list.html:16
+msgid "Entrada"
+msgstr ""
+
+#: web/templates/web/projects/project-form-access-points-list.html:23
+msgid "Cerrado"
+msgstr ""
+
+#: web/templates/web/projects/project-form-access-points-list.html:35
+msgid "Show Link"
+msgstr ""
+
+#: web/templates/web/projects/project-form-access-points-list.html:37
+msgid "Copy Link"
+msgstr ""
+
+#: web/templates/web/projects/project-form-access-points.html:6
+msgid "Add Point"
+msgstr ""
+
+#: web/templates/web/projects/project-form-access-zone-times-list.html:10
+msgid "Hora apertura"
+msgstr ""
+
+#: web/templates/web/projects/project-form-access-zone-times-list.html:17
+msgid "Hora cierre"
+msgstr ""
+
+#: web/templates/web/projects/project-form-access-zone-times.html:6
+msgid "Add Times"
+msgstr ""
+
+#: web/templates/web/projects/project-form-access-zones-list.html:12
+msgid "Close zone"
+msgstr ""
+
+#: web/templates/web/projects/project-form-access-zones-list.html:14
+msgid "Open zone"
+msgstr ""
+
+#: web/templates/web/projects/project-form-access-zones.html:6
+msgid "Add Zone"
+msgstr ""
+
+#: web/templates/web/projects/project-form-avaibook.html:28
+msgid "Owner"
+msgstr ""
+
+#: web/templates/web/projects/project-form-avaibook.html:43
+#: web/templates/web/projects/project-form-avantio.html:48
+#: web/templates/web/projects/project-form-cloudbeds.html:60
+#: web/templates/web/projects/project-form-octorate.html:74
+#: web/templates/web/projects/project-form-winhotel.html:87
+msgid "Días para crear las reservas"
+msgstr ""
+
+#: web/templates/web/projects/project-form-avaibook.html:44
+#: web/templates/web/projects/project-form-avantio.html:49
+#: web/templates/web/projects/project-form-cloudbeds.html:61
+#: web/templates/web/projects/project-form-octorate.html:75
+#: web/templates/web/projects/project-form-winhotel.html:88
+msgid "(se crean aquellas que empiezan entre hoy y el número de días indicado)"
+msgstr ""
+
+#: web/templates/web/projects/project-form-avaibook.html:50
+#: web/templates/web/projects/project-form-cloudbeds.html:68
+#: web/templates/web/projects/project-form-mews.html:39
+#: web/templates/web/projects/project-form-octorate.html:82
+msgid "Cada cuantas hora se realiza la importación"
+msgstr ""
+
+#: web/templates/web/projects/project-form-avaibook.html:51
+#: web/templates/web/projects/project-form-cloudbeds.html:69
+#: web/templates/web/projects/project-form-mews.html:40
+#: web/templates/web/projects/project-form-octorate.html:83
+msgid "(P.E.: si el valor es '1' se importaría cada hora)"
+msgstr ""
+
+#: web/templates/web/projects/project-form-avantio.html:23
+msgid "Nombre de usuario para acceder a la API"
+msgstr ""
+
+#: web/templates/web/projects/project-form-avantio.html:29
+msgid "Contraseña para acceder a la API"
+msgstr ""
+
+#: web/templates/web/projects/project-form-avantio.html:35
+#: web/templates/web/projects/project-form-mews.html:67
+msgid "Correo electrónico"
+msgstr ""
+
+#: web/templates/web/projects/project-form-avantio.html:41
+msgid "Dias para importar las reservas"
+msgstr ""
+
+#: web/templates/web/projects/project-form-avantio.html:42
+msgid "(todas entre hoy y el número de días indicado)"
+msgstr ""
+
+#: web/templates/web/projects/project-form-avantio.html:56
+msgid "Hora a la que se realiza la importación"
+msgstr ""
+
+#: web/templates/web/projects/project-form-avantio.html:57
+msgid "(P.E.: si el valor es '13' se importaría a las 13 horas)"
+msgstr ""
+
+#: web/templates/web/projects/project-form-avantio.html:63
+msgid "Minutos a los que se realiza la importación"
+msgstr ""
+
+#: web/templates/web/projects/project-form-avantio.html:64
+msgid ""
+"(P.E.: si el valor es '30' se importaría a la hora indicada en el minuto 30)"
+msgstr ""
+
+#: web/templates/web/projects/project-form-avantio.html:70
+msgid "Número de horas para revisar notificaciones"
+msgstr ""
+
+#: web/templates/web/projects/project-form-avantio.html:71
+msgid "(P.E.: si el valor es '1' se comprueban las notificaciones cada hora)"
+msgstr ""
+
+#: web/templates/web/projects/project-form-avantio.html:78
+#: web/templates/web/projects/project-form-cloudbeds.html:92
+#: web/templates/web/projects/project-form-octorate.html:89
+msgid ""
+"Si está activo el código asignado a las cerraduras serán los últimos 4 "
+"dígitos del teléfono indicado en la reserva"
+msgstr ""
+
+#: web/templates/web/projects/project-form-caldea.html:9
+msgid "Caldea"
+msgstr ""
+
+#: web/templates/web/projects/project-form-caldea.html:28
+#: web/templates/web/projects/project-form-octorate.html:25
+msgid "Client ID"
+msgstr ""
+
+#: web/templates/web/projects/project-form-caldea.html:36
+#: web/templates/web/projects/project-form-octorate.html:33
+msgid "Client Secret"
+msgstr ""
+
+#: web/templates/web/projects/project-form-cars.html:9
+msgid "Camera"
+msgstr ""
+
+#: web/templates/web/projects/project-form-cars.html:15
+msgid "Header XML"
+msgstr ""
+
+#: web/templates/web/projects/project-form-cars.html:22
+msgid "Header CSV"
+msgstr ""
+
+#: web/templates/web/projects/project-form-cars.html:36
+msgid "List"
+msgstr ""
+
+#: web/templates/web/projects/project-form-cars.html:42
+msgid "Dir Name"
+msgstr ""
+
+#: web/templates/web/projects/project-form-cars.html:48
+msgid "File Name"
+msgstr ""
+
+#: web/templates/web/projects/project-form-cars.html:54
+msgid "FTP"
+msgstr ""
+
+#: web/templates/web/projects/project-form-cars.html:60
+msgid "Días a partir del final de la reserva para importar"
+msgstr ""
+
+#: web/templates/web/projects/project-form-cars.html:73
+msgid "Cada cuantos minutos se realiza la importación"
+msgstr ""
+
+#: web/templates/web/projects/project-form-cars.html:74
+msgid "(P.E.: si el valor es '30' se importaría cada 30 minutos)"
+msgstr ""
+
+#: web/templates/web/projects/project-form-cloudbeds.html:18
+msgid "Realizar conexión"
+msgstr ""
+
+#: web/templates/web/projects/project-form-cloudbeds.html:24
+msgid "Ver webhooks"
+msgstr ""
+
+#: web/templates/web/projects/project-form-cloudbeds.html:31
+msgid "Borrar webhooks"
+msgstr ""
+
+#: web/templates/web/projects/project-form-cloudbeds.html:51
+#: web/templates/web/projects/project-form-octorate.html:56
+msgid "Property ID"
+msgstr ""
+
+#: web/templates/web/projects/project-form-cloudbeds.html:77
+#: web/templates/web/projects/project-form-winhotel.html:47
+msgid "Hora por defecto del Checkin"
+msgstr ""
+
+#: web/templates/web/projects/project-form-cloudbeds.html:84
+#: web/templates/web/projects/project-form-winhotel.html:54
+msgid "Hora por defecto dle Checkout"
+msgstr ""
+
+#: web/templates/web/projects/project-form-guest-types-list.html:26
+msgid "Discount"
+msgstr ""
+
+#: web/templates/web/projects/project-form-mews.html:9
+msgid "Mews"
+msgstr ""
+
+#: web/templates/web/projects/project-form-mews.html:25
+msgid "Client Token"
+msgstr ""
+
+#: web/templates/web/projects/project-form-mews.html:31
+msgid "Access Token"
+msgstr ""
+
+#: web/templates/web/projects/project-form-mews.html:58
+msgid "Datos para la plantilla de correo"
+msgstr ""
+
+#: web/templates/web/projects/project-form-mews.html:61
+msgid "Teléfono"
+msgstr ""
+
+#: web/templates/web/projects/project-form-mews.html:84
+msgid "Información al pie"
+msgstr ""
+
+#: web/templates/web/projects/project-form-octorate.html:9
+msgid "Octorate"
+msgstr ""
+
+#: web/templates/web/projects/project-form-octorate.html:64
+msgid "Meta ID"
+msgstr ""
+
+#: web/templates/web/projects/project-form-partners-list.html:10
+msgid "Partner"
+msgstr ""
+
+#: web/templates/web/projects/project-form-partners.html:6
+msgid "Add Partner"
+msgstr ""
+
+#: web/templates/web/projects/project-form-paytef.html:9
+msgid "Paytef"
+msgstr ""
+
+#: web/templates/web/projects/project-form-paytef.html:27
+msgid "Access Key"
+msgstr ""
+
+#: web/templates/web/projects/project-form-paytef.html:34
+msgid "Secret Key"
+msgstr ""
+
+#: web/templates/web/projects/project-form-paytef.html:46
+msgid "TCOD"
+msgstr ""
+
+#: web/templates/web/projects/project-form-paytef.html:57
+msgid "View Config"
+msgstr ""
+
+#: web/templates/web/projects/project-form-paytef.html:61
+msgid "Pinpad Status"
+msgstr ""
+
+#: web/templates/web/projects/project-form-paytef.html:65
+msgid "Transfer Test"
+msgstr ""
+
+#: web/templates/web/projects/project-form-paytef.html:69
+msgid "Get Token"
+msgstr ""
+
+#: web/templates/web/projects/project-form-point-of-sales-discounts-item.html:15
+msgid "Descuento Items"
+msgstr ""
+
+#: web/templates/web/projects/project-form-point-of-sales-discounts-item.html:20
+#: web/templates/web/projects/project-form-point-of-sales-discounts-item.html:27
+#: web/templates/web/projects/project-form-point-of-sales-discounts.html:19
+#: web/templates/web/projects/project-form-point-of-sales-discounts.html:26
+msgid "Porcentaje"
+msgstr ""
+
+#: web/templates/web/projects/project-form-point-of-sales-discounts.html:14
+msgid "Descuento"
+msgstr ""
+
+#: web/templates/web/projects/project-form-point-of-sales-list.html:18
+msgid "Image"
+msgstr ""
+
+#: web/templates/web/projects/project-form-point-of-sales-list.html:36
+msgid "External Code"
+msgstr ""
+
+#: web/templates/web/projects/project-form-point-of-sales-list.html:43
+msgid "File Suffix"
+msgstr ""
+
+#: web/templates/web/projects/project-form-point-of-sales-list.html:53
+msgid "Code 1 (drink)"
+msgstr ""
+
+#: web/templates/web/projects/project-form-point-of-sales-list.html:59
+msgid "Code 2 (food)"
+msgstr ""
+
+#: web/templates/web/projects/project-form-point-of-sales-list.html:65
+msgid "Code 3 (breakfast)"
+msgstr ""
+
+#: web/templates/web/projects/project-form-point-of-sales-list.html:71
+msgid "Contact ID"
+msgstr ""
+
+#: web/templates/web/projects/project-form-point-of-sales-list.html:85
+msgid "Envíos parciales"
+msgstr ""
+
+#: web/templates/web/projects/project-form-point-of-sales-list.html:93
+msgid "Mostrar Invitaciones"
+msgstr ""
+
+#: web/templates/web/projects/project-form-point-of-sales-list.html:101
+msgid "Escanear habitaciones"
+msgstr ""
+
+#: web/templates/web/projects/project-form-point-of-sales-list.html:109
+msgid "Hora límite"
+msgstr ""
+
+#: web/templates/web/projects/project-form-point-of-sales-list.html:117
+msgid "Regimenes excluidos del cambio de precio después de la hora límite"
+msgstr ""
+
+#: web/templates/web/projects/project-form-point-of-sales-list.html:127
+msgid "Cabecera del ticket"
+msgstr ""
+
+#: web/templates/web/projects/project-form-point-of-sales-list.html:134
+msgid "Pie del ticket"
+msgstr ""
+
+#: web/templates/web/projects/project-form-point-of-sales-list.html:154
+msgid "Descuentos"
+msgstr ""
+
+#: web/templates/web/projects/project-form-point-of-sales-list.html:159
+msgid "Descuentos Items"
+msgstr ""
+
+#: web/templates/web/projects/project-form-point-of-sales-list.html:165
+#: web/templates/web/projects/project-form-tables.html:9
+msgid "Tables"
+msgstr ""
+
+#: web/templates/web/projects/project-form-regime-list.html:32
+msgid "Alt. Code"
+msgstr ""
+
+#: web/templates/web/projects/project-form-regime-list.html:40
+msgid "Totem pay"
+msgstr ""
+
+#: web/templates/web/projects/project-form-roomraccoon.html:47
+msgid "PMS"
+msgstr ""
+
+#: web/templates/web/projects/project-form-roomraccoon.html:54
+msgid "Hotel"
+msgstr ""
+
+#: web/templates/web/projects/project-form-sensibo.html:6
+msgid "PadAir Api Key"
+msgstr ""
+
+#: web/templates/web/projects/project-form-stripe.html:9
+msgid "Stripe"
+msgstr ""
+
+#: web/templates/web/projects/project-form-stripe.html:15
+msgid "API KEY"
+msgstr ""
+
+#: web/templates/web/projects/project-form-table-list.html:10
+msgid "Init value"
+msgstr ""
+
+#: web/templates/web/projects/project-form-table-list.html:12
+msgid "End value"
+msgstr ""
+
+#: web/templates/web/projects/project-form-table-list.html:16
+msgid "Range"
+msgstr ""
+
+#: web/templates/web/projects/project-form-table-list.html:20
+msgid "Table"
+msgstr ""
+
+#: web/templates/web/projects/project-form-thirdpart-list.html:18
+msgid "-- Select thirdpart --"
+msgstr ""
+
+#: web/templates/web/projects/project-form-winhotel.html:23
+msgid "Código de origen del hotel en Winhotel (Source)"
+msgstr ""
+
+#: web/templates/web/projects/project-form-winhotel.html:30
+msgid "Código de destino del hotel en Winhotel (Target)"
+msgstr ""
+
+#: web/templates/web/projects/project-form-winhotel.html:40
+msgid ""
+"Si está activo, omite los datos de entrada y salida del pms y siempre crea "
+"los que están configurados"
+msgstr ""
+
+#: web/templates/web/projects/project-form-winhotel.html:63
+msgid "URL del FTP desde donde descargar la actualización de precios"
+msgstr ""
+
+#: web/templates/web/projects/project-form-winhotel.html:69
+msgid "Nombre del fichero con la actualización de precios"
+msgstr ""
+
+#: web/templates/web/projects/project-form-winhotel.html:80
+msgid ""
+"Si esta activo se actualizan todos los precios asociados al producto, si no "
+"solo se actualiza el principal"
+msgstr ""
+
+#: web/templates/web/projects/project-form-winhotel.html:94
+msgid "Número de horas para importar las reservas"
+msgstr ""
+
+#: web/templates/web/projects/project-form-winhotel.html:95
+msgid "(P.E.: si el valor es '1' se importan las reservas cada hora)"
+msgstr ""
+
+#: web/templates/web/projects/project-form-winhotel.html:101
+msgid "Número de minutos para revisar actualizaciones"
+msgstr ""
+
+#: web/templates/web/projects/project-form-winhotel.html:102
+msgid ""
+"(P.E.: si el valor es '30' se comprueban las actualizaciones cada 30 minutos)"
+msgstr ""
+
+#: web/templates/web/projects/project-form-winhotel.html:108
+msgid "Número de horas para importar la lista de precios"
+msgstr ""
+
+#: web/templates/web/projects/project-form-winhotel.html:109
+msgid "(P.E.: si el valor es '1' se importan la lista de precios cada hora)"
+msgstr ""
+
+#: web/templates/web/projects/project-form-winhotel.html:115
+msgid "Número de horas para cancelar reservas"
+msgstr ""
+
+#: web/templates/web/projects/project-form-winhotel.html:116
+msgid "(P.E.: si el valor es '1' se cancelaran reservas cada hora)"
+msgstr ""
+
+#: web/templates/web/projects/project-form-winhotel.html:122
+msgid "Operador de winhotel utilizado para las fechas"
+msgstr ""
+
+#: web/templates/web/projects/project-form-winhotel.html:123
+msgid ""
+"(0: igual a la fecha indicada, 1: mayor o igual a la fecha indicada, 2: "
+"mayor a la fecha indicada, "
+msgstr ""
+
+#: web/templates/web/projects/project-form-winhotel.html:124
+msgid ""
+"3: menor a la fecha indicada, 4: menor o igual a la fecha indicada, 5: "
+"distinto a la fecha indicada)"
+msgstr ""
+
+#: web/templates/web/projects/project-form-winhotel.html:138
+msgid "Hotel Source Code"
+msgstr ""
+
+#: web/templates/web/projects/project-form-winhotel.html:142
+msgid "Hotel Target Code"
+msgstr ""
+
+#: web/templates/web/projects/project-form-winhotel.html:146
+msgid "Date"
+msgstr ""
+
+#: web/templates/web/projects/project-form-winhotel.html:150
+msgid "Get Bookings"
+msgstr ""
+
+#: web/templates/web/projects/project-form-zkteco.html:9
+msgid "Zkteco"
+msgstr ""
+
+#: web/templates/web/projects/project-form-zkteco.html:21
+msgid "ID Departamento"
+msgstr ""
+
+#: web/templates/web/projects/project-form-zkteco.html:27
+msgid "Dirección Acceso"
+msgstr ""
+
+#: web/templates/web/projects/project-img.html:5
+msgid "Subir Logo"
+msgstr ""
+
+#: web/templates/web/projects/project-img.html:12
+msgid "Delete File"
+msgstr ""
+
+#: web/templates/web/projects/project-list.html:23
+#: web/templates/web/rooms/lock-details.html:18
+msgid "Cards"
+msgstr ""
+
+#: web/templates/web/projects/project-list.html:31
+msgid "Lock groups"
+msgstr ""
+
+#: web/templates/web/projects/project-list.html:34
+msgid "Refrescar Token"
+msgstr ""
+
+#: web/templates/web/projects/project-list.html:36
+msgid "Esta seguro/a de que desea actualizar el token?"
+msgstr ""
+
+#: web/templates/web/projects/project-list.html:39
+msgid "Sensibo device"
+msgstr ""
+
+#: web/templates/web/projects/project-list.html:43
+msgid "Finger print"
+msgstr ""
+
+#: web/templates/web/projects/project-token.html:21
+msgid "Next Refresh"
+msgstr ""
+
+#: web/templates/web/projects/project-token.html:28
+msgid "Auto refresh"
+msgstr ""
+
+#: web/templates/web/projects/upload-json.html:3
+msgid "Upload content"
+msgstr ""
+
+#: web/templates/web/projects/upload-json.html:13
+msgid "Upload"
+msgstr ""
+
+#: web/templates/web/rooms-by-project/room-form.html:30
+msgid "Proyect"
+msgstr ""
+
+#: web/templates/web/rooms-by-project/rooms-list.html:8
+msgid "Buscar por nombre"
+msgstr ""
+
+#: web/templates/web/rooms-by-project/rooms-list.html:16
+#: web/templates/web/rooms-by-project/rooms2.html:23
+msgid "Import avaibook accommodation"
+msgstr ""
+
+#: web/templates/web/rooms-by-project/rooms-list.html:24
+#: web/templates/web/rooms-by-project/rooms2.html:31
+msgid "Import cloudbeds accommodation"
+msgstr ""
+
+#: web/templates/web/rooms-by-project/rooms-list.html:32
+#: web/templates/web/rooms-by-project/rooms2.html:39
+msgid "Import octorate accommodation"
+msgstr ""
+
+#: web/templates/web/rooms-by-project/rooms-list2.html:6
+msgid "hab"
+msgstr ""
+
+#: web/templates/web/rooms-by-project/rooms-list2.html:19
+msgid "Ver mas"
+msgstr ""
+
+#: web/templates/web/rooms/lock-details-cards-form.html:13
+msgid "Card name"
+msgstr ""
+
+#: web/templates/web/rooms/lock-details-codes-form.html:36
+#: web/templatetags/lock_tags.py:22
+msgid "One use"
+msgstr ""
+
+#: web/templates/web/rooms/lock-details-codes.html:34
+#: web/templates/web/rooms/lock-details-codes.html:35
+msgid "Share code"
+msgstr ""
+
+#: web/templates/web/rooms/lock-details-ekey-form.html:12
+#: web/templates/web/rooms/lock-details-ekey-form.html:13
+msgid "User to send"
+msgstr ""
+
+#: web/templates/web/rooms/lock-details-ekeys.html:8
+msgid "User"
+msgstr ""
+
+#: web/templates/web/rooms/lock-details-ekeys.html:11
+msgid "Key id"
+msgstr ""
+
+#: web/templates/web/rooms/lock-details-ekeys.html:14
+msgid "Link"
+msgstr ""
+
+#: web/templates/web/rooms/lock-details-ekeys.html:26
+msgid "Visit link"
+msgstr ""
+
+#: web/templates/web/rooms/lock-details-ekeys.html:30
+msgid "Remove eKey"
+msgstr ""
+
+#: web/templates/web/rooms/lock-details.html:17
+msgid "Passcodes"
+msgstr ""
+
+#: web/templates/web/rooms/lock-details.html:20
+msgid "Records"
+msgstr ""
+
+#: web/templates/web/rooms/lock-details.html:60
+msgid "Add eKey"
+msgstr ""
+
+#: web/templates/web/rooms/lock-list.html:8
+msgid "There are not lock to assign."
+msgstr ""
+
+#: web/templates/web/rooms/lock.details-codes.html:6
+msgid "Passcode List"
+msgstr ""
+
+#: web/templates/web/rooms/room-group-list.html:7
+msgid "Import rooms"
+msgstr ""
+
+#: web/templates/web/rooms/room-import-csv.html:21
+msgid "File"
+msgstr ""
+
+#: web/templates/web/rooms/rooms-list.html:8
+msgid "Project Name"
+msgstr ""
+
+#: web/templates/web/second-menu.html:14
+msgid "Forms"
+msgstr ""
+
+#: web/templates/web/second-menu.html:15
+msgid "Bookings"
+msgstr ""
+
+#: web/templates/web/show-utils.html:18
+msgid "Create Multiple Cards"
+msgstr ""
+
+#: web/templates/web/show-utils.html:24
+msgid "Create Cards for Groups"
+msgstr ""
+
+#: web/templates/web/show-utils.html:30
+msgid "Create Master Cards"
+msgstr ""
+
+#: web/templates/web/show-utils.html:39
+msgid "Create Multiple Codes"
+msgstr ""
+
+#: web/templates/web/show-utils.html:45
+msgid "Create Codes for Groups"
+msgstr ""
+
+#: web/templates/web/show-utils.html:51
+msgid "Create Master Codes"
+msgstr ""
+
+#: web/templates/web/show-utils.html:60
+msgid "Schedule Tasks"
+msgstr ""
+
+#: web/templatetags/lock_tags.py:25 web/templatetags/lock_tags.py:32
+msgid "Period"
+msgstr ""
+
+#: web/views.py:36
+msgid "Category not found!"
+msgstr ""
+
+#: web/views.py:43 web/views.py:61
+msgid "Project not found!"
+msgstr ""
+
+#: web/views.py:83
+msgid "Menu not found!"
+msgstr ""

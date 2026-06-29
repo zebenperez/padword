@@ -3,2041 +3,2072 @@
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
-#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-06-25 15:47+0000\n"
+"POT-Creation-Date: 2026-06-29 12:22+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: \n"
+"Language: ca\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: form_views.py:84 form_views.py:131 views.py:311 views.py:542
+#: bookings/form_views.py:84 bookings/form_views.py:131 bookings/views.py:311
+#: bookings/views.py:542
 msgid "Form not found!"
-msgstr ""
+msgstr "Formulari no trobat!"
 
-#: form_views.py:90 form_views.py:112 views.py:561 views.py:567
+#: bookings/form_views.py:90 bookings/form_views.py:112 bookings/views.py:561
+#: bookings/views.py:567
 msgid "Category not found!"
-msgstr ""
+msgstr "Categoria no trobada!"
 
-#: guest_views.py:228 tpv_mobile_views.py:72 tpv_views.py:87
+#: bookings/guest_views.py:228 bookings/tpv_mobile_views.py:72
+#: bookings/tpv_views.py:87
 msgid "You must to complete username and password!"
-msgstr ""
+msgstr "Heu d'introduir el nom d'usuari i la contrasenya!"
 
-#: guest_views.py:603
+#: bookings/guest_views.py:603
 msgid "Sorry, there was a problem with your booking, please try again!"
 msgstr ""
+"Ho sentim, hi ha hagut un problema amb la vostra reserva, torneu-ho a provar!"
 
-#: guest_views.py:775
+#: bookings/guest_views.py:775
 msgid "- Order {} with current status {}\n"
-msgstr ""
+msgstr "- Comanda {} con l'estat actual {}\n"
 
-#: guest_views.py:776
+#: bookings/guest_views.py:776
 msgid "- Not readed notifications -> {}"
-msgstr ""
+msgstr "- Notificacions no llegides -> {}"
 
-#: guest_views.py:777
+#: bookings/guest_views.py:777
 msgid "You have some news\n"
-msgstr ""
+msgstr "Teniu novetats\n"
 
-#: guest_views.py:831
+#: bookings/guest_views.py:831
 msgid "The lock could not be opened, sorry for the inconvenience."
-msgstr ""
+msgstr "No s'ha pogut obrir el pany, disculpeu les molèsties."
 
-#: models.py:139 models.py:165 models.py:176 models.py:209 models.py:488
-#: models.py:511 models.py:529 models.py:602
-#: templates/forms/form-general.html:32
+#: bookings/models.py:139 bookings/models.py:165 bookings/models.py:176
+#: bookings/models.py:209 bookings/models.py:488 bookings/models.py:511
+#: bookings/models.py:529 bookings/models.py:602
+#: bookings/templates/forms/form-general.html:32
 msgid "Code"
-msgstr ""
+msgstr "Codi"
 
-#: models.py:140 models.py:166 models.py:177 models.py:210 models.py:247
-#: models.py:1196 templates/bookings/guest/bookings-by-guest-actual.html:18
-#: templates/bookings/guest/bookings-by-guest-original.html:12
-#: templates/forms/block-form.html:15 templates/forms/form-general.html:25
-#: templates/forms/form-list.html:8 templates/forms/search_box.html:20
+#: bookings/models.py:140 bookings/models.py:166 bookings/models.py:177
+#: bookings/models.py:210 bookings/models.py:247 bookings/models.py:1196
+#: bookings/templates/bookings/guest/bookings-by-guest-actual.html:18
+#: bookings/templates/bookings/guest/bookings-by-guest-original.html:12
+#: bookings/templates/forms/block-form.html:15
+#: bookings/templates/forms/form-general.html:25
+#: bookings/templates/forms/form-list.html:8
+#: bookings/templates/forms/search_box.html:20
 msgid "Name"
-msgstr ""
+msgstr "Nom"
 
-#: models.py:141 templates/forms/form-qr.html:8
+#: bookings/models.py:141 bookings/templates/forms/form-qr.html:8
 msgid "Color"
-msgstr ""
+msgstr "Color"
 
-#: models.py:147 models.py:148 models.py:1055
-#: templates/bookings/cat-manage/booking-list.html:17
-#: templates/bookings/guest/bookings-by-guest-actual.html:21
-#: templates/bookings/guest/bookings-by-guest-original.html:15
-#: templates/bookings/guest/bookings-by-guest.html:28
-#: templates/bookings/manage/booking-list.html:16
-#: templates/bookings/manage/status-form.html:17
-#: templates/bookings/manage/status-links.html:4
-#: templates/bookings/pr-manage/booking-list.html:16
-#: templates/bookings/pr-manage/status-form.html:17
-#: templates/bookings/pr-manage/status-links.html:4
-#: templates/bookings/tpv-orders/order-list.html:18
-#: templates/bookings/tpv/orders-by-waiter.html:28
+#: bookings/models.py:147 bookings/models.py:148 bookings/models.py:1055
+#: bookings/templates/bookings/cat-manage/booking-list.html:17
+#: bookings/templates/bookings/guest/bookings-by-guest-actual.html:21
+#: bookings/templates/bookings/guest/bookings-by-guest-original.html:15
+#: bookings/templates/bookings/guest/bookings-by-guest.html:28
+#: bookings/templates/bookings/manage/booking-list.html:16
+#: bookings/templates/bookings/manage/status-form.html:17
+#: bookings/templates/bookings/manage/status-links.html:4
+#: bookings/templates/bookings/pr-manage/booking-list.html:16
+#: bookings/templates/bookings/pr-manage/status-form.html:17
+#: bookings/templates/bookings/pr-manage/status-links.html:4
+#: bookings/templates/bookings/tpv-orders/order-list.html:18
+#: bookings/templates/bookings/tpv/orders-by-waiter.html:28
 msgid "Status"
-msgstr ""
+msgstr "Estat"
 
-#: models.py:164
+#: bookings/models.py:164
 msgid "Field type"
-msgstr ""
+msgstr "Tipus de camp"
 
-#: models.py:172 models.py:190 models.py:531
+#: bookings/models.py:172 bookings/models.py:190 bookings/models.py:531
 msgid "Answer type"
-msgstr ""
+msgstr "Tipus de resposta"
 
-#: models.py:173
+#: bookings/models.py:173
 msgid "Answers types"
-msgstr ""
+msgstr "Tipus de respostes"
 
-#: models.py:183 models.py:513 templates/forms/block-form.html:31
+#: bookings/models.py:183 bookings/models.py:513
+#: bookings/templates/forms/block-form.html:31
 msgid "Question type"
-msgstr ""
+msgstr "Tipus de pregunta"
 
-#: models.py:184
+#: bookings/models.py:184
 msgid "Questions types"
-msgstr ""
+msgstr "Tipus de preguntes"
 
-#: models.py:187
+#: bookings/models.py:187
 msgid "Hide"
-msgstr ""
+msgstr "Amagar"
 
-#: models.py:188 models.py:196
+#: bookings/models.py:188 bookings/models.py:196
 msgid "Answer"
-msgstr ""
+msgstr "Resposta"
 
-#: models.py:197
+#: bookings/models.py:197
 msgid "Answers"
-msgstr ""
+msgstr "Respostes"
 
-#: models.py:211 models.py:1197
-#: templates/forms-templates/selected-template.html:5
+#: bookings/models.py:211 bookings/models.py:1197
+#: bookings/templates/forms-templates/selected-template.html:5
 msgid "Template"
-msgstr ""
+msgstr "Plantilla"
 
-#: models.py:212 models.py:1198
-#: templates/forms-templates/selected-template.html:7
+#: bookings/models.py:212 bookings/models.py:1198
+#: bookings/templates/forms-templates/selected-template.html:7
 msgid "Template Base"
-msgstr ""
+msgstr "Plantilla base"
 
-#: models.py:213 models.py:1199
-#: templates/forms-templates/selected-template.html:9
+#: bookings/models.py:213 bookings/models.py:1199
+#: bookings/templates/forms-templates/selected-template.html:9
 msgid "Template Login"
-msgstr ""
+msgstr "Plantilla d'inici de sessió"
 
-#: models.py:214 models.py:1081 models.py:1173
+#: bookings/models.py:214 bookings/models.py:1081 bookings/models.py:1173
 msgid "Project UUID"
-msgstr ""
+msgstr "UUID del projecte"
 
-#: models.py:215 models.py:1200
-#: templates/forms-templates/selected-template.html:11
+#: bookings/models.py:215 bookings/models.py:1200
+#: bookings/templates/forms-templates/selected-template.html:11
 msgid "CSS"
-msgstr ""
+msgstr "CSS"
 
-#: models.py:221 models.py:256
+#: bookings/models.py:221 bookings/models.py:256
 msgid "Form type"
-msgstr ""
+msgstr "Tipus de formulari"
 
-#: models.py:222
+#: bookings/models.py:222
 msgid "Forms type"
-msgstr ""
+msgstr "Tipus de formularis"
 
-#: models.py:244
+#: bookings/models.py:244
 msgid "This form is active for guests"
-msgstr ""
+msgstr "Aquest formulari està actiu per als clients"
 
-#: models.py:245
+#: bookings/models.py:245
 msgid "Show description"
-msgstr ""
+msgstr "Mostrar descripció"
 
-#: models.py:246 templates/forms/form-general.html:106
+#: bookings/models.py:246 bookings/templates/forms/form-general.html:106
 msgid "UUID"
-msgstr ""
+msgstr "UUID"
 
-#: models.py:248 templates/forms/form-list.html:10
+#: bookings/models.py:248 bookings/templates/forms/form-list.html:10
 msgid "Category"
-msgstr ""
+msgstr "Categoria"
 
-#: models.py:252 models.py:1140 templates/bookings/totem/balance.html:7
-#: templates/bookings/tpv/print-ticket.html:131
-#: templates/forms/form-description.html:4 templates/forms/form-general.html:40
-#: templates/forms/timetable.html:9
+#: bookings/models.py:252 bookings/models.py:1140
+#: bookings/templates/bookings/totem/balance.html:7
+#: bookings/templates/bookings/tpv/print-ticket.html:131
+#: bookings/templates/forms/form-description.html:4
+#: bookings/templates/forms/form-general.html:40
+#: bookings/templates/forms/timetable.html:9
 msgid "Description"
-msgstr ""
+msgstr "Descripció"
 
-#: models.py:253
+#: bookings/models.py:253
 msgid "Description Width"
-msgstr ""
+msgstr "Amplada de la descripció"
 
-#: models.py:254
+#: bookings/models.py:254
 msgid "Description out of order"
-msgstr ""
+msgstr "Descripció fora de servei"
 
-#: models.py:481
+#: bookings/models.py:481
 msgid "2.- Form"
-msgstr ""
+msgstr "2.- Formulari"
 
-#: models.py:482
+#: bookings/models.py:482
 msgid "2.- Forms"
-msgstr ""
+msgstr "2.- Formularis"
 
-#: models.py:486
+#: bookings/models.py:486
 msgid "Private"
-msgstr ""
+msgstr "Privat"
 
-#: models.py:487 models.py:509 models.py:528
-#: templates/bookings/tpv/mobile/tpv-tables.html:109
-#: templates/bookings/tpv/tpv-table-info.html:8
-#: templates/bookings/tpv/tpv-tables.html:108 templates/forms/block-form.html:8
+#: bookings/models.py:487 bookings/models.py:509 bookings/models.py:528
+#: bookings/templates/bookings/tpv/mobile/tpv-tables.html:109
+#: bookings/templates/bookings/tpv/tpv-table-info.html:8
+#: bookings/templates/bookings/tpv/tpv-tables.html:108
+#: bookings/templates/forms/block-form.html:8
 msgid "Order"
-msgstr ""
+msgstr "Ordre"
 
-#: models.py:489 models.py:1033 models.py:1054 models.py:1069
+#: bookings/models.py:489 bookings/models.py:1033 bookings/models.py:1054
+#: bookings/models.py:1069
 msgid "Text"
-msgstr ""
+msgstr "Text"
 
-#: models.py:490 models.py:548 models.py:557 models.py:565 models.py:577
-#: models.py:1037
+#: bookings/models.py:490 bookings/models.py:548 bookings/models.py:557
+#: bookings/models.py:565 bookings/models.py:577 bookings/models.py:1037
 msgid "Form"
-msgstr ""
+msgstr "Formulari"
 
-#: models.py:504
+#: bookings/models.py:504
 msgid "3.- Question block"
-msgstr ""
+msgstr "3.- Bloc de preguntes"
 
-#: models.py:505
+#: bookings/models.py:505
 msgid "3.- Questions blocks"
-msgstr ""
+msgstr "3.- Blocs de preguntes"
 
-#: models.py:510
+#: bookings/models.py:510
 msgid "Max number of answers"
-msgstr ""
+msgstr "Nombre màxim de respostes"
 
-#: models.py:512 models.py:530 models.py:532 models.py:1035
+#: bookings/models.py:512 bookings/models.py:530 bookings/models.py:532
+#: bookings/models.py:1035
 msgid "Question"
-msgstr ""
+msgstr "Pregunta"
 
-#: models.py:514
+#: bookings/models.py:514
 msgid "Block"
-msgstr ""
+msgstr "Bloc"
 
-#: models.py:515
+#: bookings/models.py:515
 msgid "Parent"
-msgstr ""
+msgstr "Pare"
 
-#: models.py:521
+#: bookings/models.py:521
 msgid "4.- Question"
-msgstr ""
+msgstr "4.- Pregunta"
 
-#: models.py:522
+#: bookings/models.py:522
 msgid "4.- Questions"
-msgstr ""
+msgstr "4.- Preguntes"
 
-#: models.py:526
+#: bookings/models.py:526
 msgid "Obligatory"
-msgstr ""
+msgstr "Obligatori"
 
-#: models.py:527
+#: bookings/models.py:527
 msgid "Read only"
-msgstr ""
+msgstr "Només lectura"
 
-#: models.py:542 models.py:1036
+#: bookings/models.py:542 bookings/models.py:1036
 msgid "Field"
-msgstr ""
+msgstr "Camp"
 
-#: models.py:543
+#: bookings/models.py:543
 msgid "Fields"
-msgstr ""
+msgstr "Camps"
 
-#: models.py:547
+#: bookings/models.py:547
 msgid "Channel"
-msgstr ""
+msgstr "Canal"
 
-#: models.py:556 templates/bookings/tpv-orders/order-row.html:6
+#: bookings/models.py:556
+#: bookings/templates/bookings/tpv-orders/order-row.html:6
 msgid "Email"
-msgstr ""
+msgstr "Correu electrònic"
 
-#: models.py:560
+#: bookings/models.py:560
 msgid "Email From"
-msgstr ""
+msgstr "Remitent"
 
-#: models.py:561
+#: bookings/models.py:561
 msgid "Subject New"
-msgstr ""
+msgstr "Assumpte nou"
 
-#: models.py:562
+#: bookings/models.py:562
 msgid "Subject Change"
-msgstr ""
+msgstr "Assumpte modificació"
 
-#: models.py:563
+#: bookings/models.py:563
 msgid "Body New"
-msgstr ""
+msgstr "Cos nou"
 
-#: models.py:564
+#: bookings/models.py:564
 msgid "Body Change"
-msgstr ""
+msgstr "Cos modificació"
 
-#: models.py:568 templates/forms/timetable.html:22
+#: bookings/models.py:568 bookings/templates/forms/timetable.html:22
 msgid "Monday"
-msgstr ""
+msgstr "Dilluns"
 
-#: models.py:569 templates/forms/timetable.html:26
+#: bookings/models.py:569 bookings/templates/forms/timetable.html:26
 msgid "Tuesday"
-msgstr ""
+msgstr "Dimarts"
 
-#: models.py:570 templates/forms/timetable.html:30
+#: bookings/models.py:570 bookings/templates/forms/timetable.html:30
 msgid "Wednesday"
-msgstr ""
+msgstr "Dimecres"
 
-#: models.py:571 templates/forms/timetable.html:34
+#: bookings/models.py:571 bookings/templates/forms/timetable.html:34
 msgid "Thursday"
-msgstr ""
+msgstr "Dijous"
 
-#: models.py:572 templates/forms/timetable.html:38
+#: bookings/models.py:572 bookings/templates/forms/timetable.html:38
 msgid "Friday"
-msgstr ""
+msgstr "Divendres"
 
-#: models.py:573 templates/forms/timetable.html:42
+#: bookings/models.py:573 bookings/templates/forms/timetable.html:42
 msgid "Saturday"
-msgstr ""
+msgstr "Dissabte"
 
-#: models.py:574 templates/forms/timetable.html:46
+#: bookings/models.py:574 bookings/templates/forms/timetable.html:46
 msgid "Sunday"
-msgstr ""
+msgstr "Diumenge"
 
-#: models.py:575
+#: bookings/models.py:575
 msgid "Initial Time"
-msgstr ""
+msgstr "Hora inicial"
 
-#: models.py:576
+#: bookings/models.py:576
 msgid "End Time"
-msgstr ""
+msgstr "Hora final"
 
-#: models.py:603
+#: bookings/models.py:603
 msgid "Enviados"
-msgstr ""
+msgstr "Enviats"
 
-#: models.py:604 models.py:1154 models.py:1155
+#: bookings/models.py:604 bookings/models.py:1154 bookings/models.py:1155
 msgid "Creation date"
-msgstr ""
+msgstr "Data de creació"
 
-#: models.py:605
+#: bookings/models.py:605
 msgid "Send date"
-msgstr ""
+msgstr "Data d'enviament"
 
-#: models.py:606 models.py:1080
+#: bookings/models.py:606 bookings/models.py:1080
 msgid "Guest UUID"
-msgstr ""
+msgstr "UUID del client"
 
-#: models.py:607 models.py:1133 models.py:1134
+#: bookings/models.py:607 bookings/models.py:1133 bookings/models.py:1134
 msgid "Guest name"
-msgstr ""
+msgstr "Nom del client"
 
-#: models.py:608
+#: bookings/models.py:608
 msgid "Form UUID"
-msgstr ""
+msgstr "UUID del formulari"
 
-#: models.py:609 models.py:1172
+#: bookings/models.py:609 bookings/models.py:1172
 msgid "Point of sale UUID"
-msgstr ""
+msgstr "UUID del punt de venda"
 
-#: models.py:610
+#: bookings/models.py:610
 msgid "Table UUID"
-msgstr ""
+msgstr "UUID de la taula"
 
-#: models.py:612
+#: bookings/models.py:612
 msgid "Amount to pay"
-msgstr ""
+msgstr "Import a pagar"
 
-#: models.py:614 templates/bookings/cat-manage/booking-list.html:15
-#: templates/bookings/guest/bookings-by-guest-actual.html:22
-#: templates/bookings/manage/booking-list.html:17
-#: templates/bookings/pr-manage/booking-list.html:17
-#: templates/bookings/tpv-orders/order-list.html:19
-#: templates/forms/form-general.html:125
+#: bookings/models.py:614
+#: bookings/templates/bookings/cat-manage/booking-list.html:15
+#: bookings/templates/bookings/guest/bookings-by-guest-actual.html:22
+#: bookings/templates/bookings/manage/booking-list.html:17
+#: bookings/templates/bookings/pr-manage/booking-list.html:17
+#: bookings/templates/bookings/tpv-orders/order-list.html:19
+#: bookings/templates/forms/form-general.html:125
 msgid "Payment Type"
-msgstr ""
+msgstr "Tipus de pagament"
 
-#: models.py:1021
+#: bookings/models.py:1021
 msgid "1.- Form instance"
-msgstr ""
+msgstr "1.- Instància de formulari"
 
-#: models.py:1022
+#: bookings/models.py:1022
 msgid "1.- Form instances"
-msgstr ""
+msgstr "1.- Instàncies de formularis"
 
-#: models.py:1032
+#: bookings/models.py:1032
 msgid "Index"
-msgstr ""
+msgstr "Índex"
 
-#: models.py:1034
+#: bookings/models.py:1034
 msgid "Document"
-msgstr ""
+msgstr "Document"
 
-#: models.py:1047
+#: bookings/models.py:1047
 msgid "Answer instance"
-msgstr ""
+msgstr "Instància de resposta"
 
-#: models.py:1048
+#: bookings/models.py:1048
 msgid "Answer instances"
-msgstr ""
+msgstr "Instàncies de respostes"
 
-#: models.py:1051
+#: bookings/models.py:1051
 msgid "Read"
-msgstr ""
+msgstr "Llegit"
 
-#: models.py:1053 models.py:1068 templates/bookings/tpv-cash/print-z.html:103
-#: templates/bookings/tpv/print-z.html:122
+#: bookings/models.py:1053 bookings/models.py:1068
+#: bookings/templates/bookings/tpv-cash/print-z.html:103
+#: bookings/templates/bookings/tpv/print-z.html:122
 msgid "User"
-msgstr ""
+msgstr "Usuari"
 
-#: models.py:1056 models.py:1070
+#: bookings/models.py:1056 bookings/models.py:1070
 msgid "Form instance"
-msgstr ""
+msgstr "Instància de formulari"
 
-#: models.py:1062 models.py:1063
+#: bookings/models.py:1062 bookings/models.py:1063
 msgid "Form Instance Status"
-msgstr ""
+msgstr "Estat de la instància del formulari"
 
-#: models.py:1076
+#: bookings/models.py:1076
 msgid "Form log"
-msgstr ""
+msgstr "Registre del formulari"
 
-#: models.py:1077
+#: bookings/models.py:1077
 msgid "Form logs"
-msgstr ""
+msgstr "Registres dels formularis"
 
-#: models.py:1082 models.py:1171
+#: bookings/models.py:1082 bookings/models.py:1171
 msgid "Username"
-msgstr ""
+msgstr "Nom d'usuari"
 
-#: models.py:1085
+#: bookings/models.py:1085
 msgid "Guest user"
-msgstr ""
+msgstr "Usuari client"
 
-#: models.py:1129
+#: bookings/models.py:1129
 msgid "Point of service"
-msgstr ""
+msgstr "Punt de servei"
 
-#: models.py:1130
+#: bookings/models.py:1130
 msgid "Table"
-msgstr ""
+msgstr "Taula"
 
-#: models.py:1131 models.py:1132
-#: templates/bookings/tpv-cash/index-content.html:44
-#: templates/bookings/tpv-cash/print-z.html:114
-#: templates/bookings/tpv/print-z.html:133
-#: templates/bookings/tpv/view-guest-info.html:23
+#: bookings/models.py:1131 bookings/models.py:1132
+#: bookings/templates/bookings/tpv-cash/index-content.html:44
+#: bookings/templates/bookings/tpv-cash/print-z.html:114
+#: bookings/templates/bookings/tpv/print-z.html:133
+#: bookings/templates/bookings/tpv/view-guest-info.html:23
 msgid "Band"
-msgstr ""
+msgstr "Polsera"
 
-#: models.py:1135
+#: bookings/models.py:1135
 msgid "Guest mobile"
-msgstr ""
+msgstr "Mòbil del client"
 
-#: models.py:1136
+#: bookings/models.py:1136
 msgid "Guest email"
-msgstr ""
+msgstr "Correu del client"
 
-#: models.py:1137
+#: bookings/models.py:1137
 msgid "Guest room"
-msgstr ""
+msgstr "Habitació del client"
 
-#: models.py:1138
+#: bookings/models.py:1138
 msgid "Guest regime"
-msgstr ""
+msgstr "Règim del client"
 
-#: models.py:1139
+#: bookings/models.py:1139
 msgid "Partner"
-msgstr ""
+msgstr "Soci / Company"
 
-#: models.py:1141
+#: bookings/models.py:1141
 msgid "Form Instance"
-msgstr ""
+msgstr "Instància de formulari"
 
-#: models.py:1152 templates/bookings/ecom/shopping_cart.html:12
-#: templates/bookings/ecom/shopping_cart2.html:13
-#: templates/bookings/ecom/shopping_cart3.html:12
-#: templates/bookings/general/autocomplete_field.html:1
-#: templates/bookings/guest/bookings-by-guest-original.html:42
-#: templates/bookings/guest/notification-view.html:15
-#: templates/bookings/guest/view-booking.html:23
-#: templates/bookings/menus/menu_top.html:61
-#: templates/bookings/menus/menu_top_lanis.html:49
-#: templates/bookings/tpv-cash/index-content.html:48
-#: templates/bookings/tpv-cash/index-content.html:81
-#: templates/bookings/tpv-orders/send-charges.html:7
-#: templates/bookings/tpv-orders/view-order.html:67
-#: templates/bookings/tpv/mobile/tpv-cart-mobile.html:6
-#: templates/bookings/tpv/order-details.html:26
-#: templates/bookings/tpv/tpv-cart.html:7
+#: bookings/models.py:1152
+#: bookings/templates/bookings/ecom/shopping_cart.html:12
+#: bookings/templates/bookings/ecom/shopping_cart2.html:13
+#: bookings/templates/bookings/ecom/shopping_cart3.html:12
+#: bookings/templates/bookings/general/autocomplete_field.html:1
+#: bookings/templates/bookings/guest/bookings-by-guest-original.html:42
+#: bookings/templates/bookings/guest/notification-view.html:15
+#: bookings/templates/bookings/guest/view-booking.html:23
+#: bookings/templates/bookings/menus/menu_top.html:61
+#: bookings/templates/bookings/menus/menu_top_lanis.html:49
+#: bookings/templates/bookings/tpv-cash/index-content.html:48
+#: bookings/templates/bookings/tpv-cash/index-content.html:81
+#: bookings/templates/bookings/tpv-orders/send-charges.html:7
+#: bookings/templates/bookings/tpv-orders/view-order.html:67
+#: bookings/templates/bookings/tpv/mobile/tpv-cart-mobile.html:6
+#: bookings/templates/bookings/tpv/order-details.html:26
+#: bookings/templates/bookings/tpv/tpv-cart.html:7
 msgid "Close"
 msgstr ""
 
-#: models.py:1153
+#: bookings/models.py:1153
 msgid "Zeta"
 msgstr ""
 
-#: models.py:1207
+#: bookings/models.py:1207
 msgid "Form type template"
-msgstr ""
+msgstr "Tipus de formulari"
 
-#: models.py:1208
+#: bookings/models.py:1208
 msgid "Forms type template"
-msgstr ""
+msgstr "Tipus de formularis"
 
-#: templates/bookings/cat-manage/booking-list.html:11
-#: templates/bookings/guest/bookings-by-guest-actual.html:17
-#: templates/bookings/guest/bookings-by-guest-original.html:11
-#: templates/bookings/guest/bookings-by-guest.html:27
-#: templates/bookings/manage/booking-list.html:11
-#: templates/bookings/pr-manage/booking-list.html:10
-#: templates/bookings/pr-manage/booking-list.html:11
-#: templates/bookings/tpv/orders-by-waiter.html:27
+#: bookings/templates/bookings/cat-manage/booking-list.html:11
+#: bookings/templates/bookings/guest/bookings-by-guest-actual.html:17
+#: bookings/templates/bookings/guest/bookings-by-guest-original.html:11
+#: bookings/templates/bookings/guest/bookings-by-guest.html:27
+#: bookings/templates/bookings/manage/booking-list.html:11
+#: bookings/templates/bookings/pr-manage/booking-list.html:10
+#: bookings/templates/bookings/pr-manage/booking-list.html:11
+#: bookings/templates/bookings/tpv/orders-by-waiter.html:27
 msgid "Service"
 msgstr ""
 
-#: templates/bookings/cat-manage/booking-list.html:12
-#: templates/bookings/manage/booking-list.html:12
-#: templates/bookings/pr-manage/booking-list.html:12
-#: templates/bookings/tpv-orders/order-list.html:11
-#: templates/bookings/tpv/view-guest-info.html:7
-#: templates/bookings/tpv/view-guest-info2.html:7
+#: bookings/templates/bookings/cat-manage/booking-list.html:12
+#: bookings/templates/bookings/manage/booking-list.html:12
+#: bookings/templates/bookings/pr-manage/booking-list.html:12
+#: bookings/templates/bookings/tpv-orders/order-list.html:11
+#: bookings/templates/bookings/tpv/view-guest-info.html:7
+#: bookings/templates/bookings/tpv/view-guest-info2.html:7
 msgid "Guest"
-msgstr ""
+msgstr "UUID del client"
 
-#: templates/bookings/cat-manage/booking-list.html:13
-#: templates/bookings/manage/booking-list.html:13
-#: templates/bookings/pr-manage/booking-list.html:13
-#: templates/bookings/tpv-cash/print-z.html:116
-#: templates/bookings/tpv/print-ticket.html:112
-#: templates/bookings/tpv/print-z.html:135
-#: templates/bookings/tpv/view-guest-info.html:8
-#: templates/bookings/tpv/view-guest-info2.html:8
+#: bookings/templates/bookings/cat-manage/booking-list.html:13
+#: bookings/templates/bookings/manage/booking-list.html:13
+#: bookings/templates/bookings/pr-manage/booking-list.html:13
+#: bookings/templates/bookings/tpv-cash/print-z.html:116
+#: bookings/templates/bookings/tpv/print-ticket.html:112
+#: bookings/templates/bookings/tpv/print-z.html:135
+#: bookings/templates/bookings/tpv/view-guest-info.html:8
+#: bookings/templates/bookings/tpv/view-guest-info2.html:8
 msgid "Room"
 msgstr ""
 
-#: templates/bookings/cat-manage/booking-list.html:14
-#: templates/bookings/manage/booking-list.html:15
-#: templates/bookings/pr-manage/booking-list.html:15
-#: templates/bookings/totem/balance.html:6
-#: templates/bookings/tpv-cash/index-content.html:40
-#: templates/bookings/tpv-cash/print-z.html:96
-#: templates/bookings/tpv-orders/order-list.html:17
-#: templates/bookings/tpv/print-ticket.html:108
-#: templates/bookings/tpv/print-z.html:115
+#: bookings/templates/bookings/cat-manage/booking-list.html:14
+#: bookings/templates/bookings/manage/booking-list.html:15
+#: bookings/templates/bookings/pr-manage/booking-list.html:15
+#: bookings/templates/bookings/totem/balance.html:6
+#: bookings/templates/bookings/tpv-cash/index-content.html:40
+#: bookings/templates/bookings/tpv-cash/print-z.html:96
+#: bookings/templates/bookings/tpv-orders/order-list.html:17
+#: bookings/templates/bookings/tpv/print-ticket.html:108
+#: bookings/templates/bookings/tpv/print-z.html:115
 msgid "Date"
 msgstr ""
 
-#: templates/bookings/cat-manage/booking-list.html:16
-#: templates/bookings/guest/bookings-by-guest-actual.html:23
-#: templates/bookings/manage/booking-list.html:18
-#: templates/bookings/pr-manage/booking-list.html:18
-#: templates/bookings/totem/balance.html:8
-#: templates/bookings/tpv-orders/order-list.html:21
-#: templates/bookings/tpv/order-details-list.html:30
+#: bookings/templates/bookings/cat-manage/booking-list.html:16
+#: bookings/templates/bookings/guest/bookings-by-guest-actual.html:23
+#: bookings/templates/bookings/manage/booking-list.html:18
+#: bookings/templates/bookings/pr-manage/booking-list.html:18
+#: bookings/templates/bookings/totem/balance.html:8
+#: bookings/templates/bookings/tpv-orders/order-list.html:21
+#: bookings/templates/bookings/tpv/order-details-list.html:30
 msgid "Amount"
-msgstr ""
+msgstr "Import a pagar"
 
-#: templates/bookings/cat-manage/booking-row.html:17
-#: templates/bookings/manage/booking-logs.html:3
-#: templates/bookings/manage/booking-page-drag.html:27
-#: templates/bookings/manage/booking-row-drag.html:27
-#: templates/bookings/manage/booking-row.html:33
-#: templates/bookings/pr-manage/booking-logs.html:3
-#: templates/bookings/pr-manage/booking-page-drag.html:24
-#: templates/bookings/pr-manage/booking-row.html:20
-#: templates/bookings/tpv-orders/order-row.html:36
+#: bookings/templates/bookings/cat-manage/booking-row.html:17
+#: bookings/templates/bookings/manage/booking-logs.html:3
+#: bookings/templates/bookings/manage/booking-page-drag.html:27
+#: bookings/templates/bookings/manage/booking-row-drag.html:27
+#: bookings/templates/bookings/manage/booking-row.html:33
+#: bookings/templates/bookings/pr-manage/booking-logs.html:3
+#: bookings/templates/bookings/pr-manage/booking-page-drag.html:24
+#: bookings/templates/bookings/pr-manage/booking-row.html:20
+#: bookings/templates/bookings/tpv-orders/order-row.html:36
 msgid "Log"
 msgstr ""
 
-#: templates/bookings/cat-manage/booking-row.html:19
-#: templates/bookings/manage/booking-page-drag.html:29
-#: templates/bookings/manage/booking-row-drag.html:29
-#: templates/bookings/manage/booking-row.html:35
-#: templates/bookings/pr-manage/booking-page-drag.html:26
-#: templates/bookings/pr-manage/booking-row.html:22
-#: templates/bookings/tpv-orders/order-row.html:38
+#: bookings/templates/bookings/cat-manage/booking-row.html:19
+#: bookings/templates/bookings/manage/booking-page-drag.html:29
+#: bookings/templates/bookings/manage/booking-row-drag.html:29
+#: bookings/templates/bookings/manage/booking-row.html:35
+#: bookings/templates/bookings/pr-manage/booking-page-drag.html:26
+#: bookings/templates/bookings/pr-manage/booking-row.html:22
+#: bookings/templates/bookings/tpv-orders/order-row.html:38
 msgid "View"
 msgstr ""
 
-#: templates/bookings/cat-manage/bookings.html:11
-#: templates/bookings/guest/bookings-by-guest-original.html:7
-#: templates/bookings/manage/bookings-drag.html:21
-#: templates/bookings/manage/bookings.html:11
-#: templates/bookings/menus/menu_top.html:24
-#: templates/bookings/menus/menu_top_lanis.html:34
-#: templates/bookings/pr-manage/bookings-drag.html:28
-#: templates/bookings/pr-manage/bookings.html:11
+#: bookings/templates/bookings/cat-manage/bookings.html:11
+#: bookings/templates/bookings/guest/bookings-by-guest-original.html:7
+#: bookings/templates/bookings/manage/bookings-drag.html:21
+#: bookings/templates/bookings/manage/bookings.html:11
+#: bookings/templates/bookings/menus/menu_top.html:24
+#: bookings/templates/bookings/menus/menu_top_lanis.html:34
+#: bookings/templates/bookings/pr-manage/bookings-drag.html:28
+#: bookings/templates/bookings/pr-manage/bookings.html:11
 msgid "Bookings"
 msgstr ""
 
-#: templates/bookings/cat-manage/search_box.html:30
-#: templates/bookings/cat-manage/search_box.html:54
-#: templates/bookings/pr-manage/search_box.html:50
-#: templates/bookings/tpv-cash/search_box.html:35
-#: templates/bookings/tpv-orders-daily/search_box.html:35
-#: templates/bookings/tpv-orders/search_box.html:38
-#: templates/bookings/tpv-orders/search_box.html:47
-#: templates/forms/forms.html:23
+#: bookings/templates/bookings/cat-manage/search_box.html:30
+#: bookings/templates/bookings/cat-manage/search_box.html:54
+#: bookings/templates/bookings/pr-manage/search_box.html:50
+#: bookings/templates/bookings/tpv-cash/search_box.html:35
+#: bookings/templates/bookings/tpv-orders-daily/search_box.html:35
+#: bookings/templates/bookings/tpv-orders/search_box.html:38
+#: bookings/templates/bookings/tpv-orders/search_box.html:47
+#: bookings/templates/forms/forms.html:23
 msgid "All"
 msgstr ""
 
-#: templates/bookings/cat-manage/search_box.html:36
-#: templates/bookings/manage/search_box.html:27
-#: templates/bookings/pr-manage/search_box.html:33
-#: templates/bookings/tpv-orders/search_box.html:21
+#: bookings/templates/bookings/cat-manage/search_box.html:36
+#: bookings/templates/bookings/manage/search_box.html:27
+#: bookings/templates/bookings/pr-manage/search_box.html:33
+#: bookings/templates/bookings/tpv-orders/search_box.html:21
 msgid "Guest Name, Surname, Email, Phone, Room"
 msgstr ""
 
-#: templates/bookings/cat-manage/search_box.html:40
-#: templates/bookings/manage/search_box.html:32
-#: templates/bookings/pr-manage/search_box.html:38
-#: templates/bookings/tpv-orders/search_box.html:26
+#: bookings/templates/bookings/cat-manage/search_box.html:40
+#: bookings/templates/bookings/manage/search_box.html:32
+#: bookings/templates/bookings/pr-manage/search_box.html:38
+#: bookings/templates/bookings/tpv-orders/search_box.html:26
 msgid "Initial date"
-msgstr ""
+msgstr "Hora inicial"
 
-#: templates/bookings/cat-manage/search_box.html:45
-#: templates/bookings/manage/search_box.html:37
-#: templates/bookings/pr-manage/search_box.html:43
-#: templates/bookings/tpv-orders/search_box.html:31
+#: bookings/templates/bookings/cat-manage/search_box.html:45
+#: bookings/templates/bookings/manage/search_box.html:37
+#: bookings/templates/bookings/pr-manage/search_box.html:43
+#: bookings/templates/bookings/tpv-orders/search_box.html:31
 msgid "End date"
-msgstr ""
+msgstr "Data d'enviament"
 
-#: templates/bookings/ecom/band-scan.html:4
+#: bookings/templates/bookings/ecom/band-scan.html:4
 msgid "Your regime is"
-msgstr ""
+msgstr "Règim del client"
 
-#: templates/bookings/ecom/band-scan.html:5
+#: bookings/templates/bookings/ecom/band-scan.html:5
 msgid "Your card number is"
 msgstr ""
 
-#: templates/bookings/ecom/band-scan.html:6
+#: bookings/templates/bookings/ecom/band-scan.html:6
 msgid "Purchase will be load in your card"
 msgstr ""
 
-#: templates/bookings/ecom/items-shop-field.html:44
+#: bookings/templates/bookings/ecom/items-shop-field.html:44
 msgid "Select"
 msgstr ""
 
-#: templates/bookings/ecom/items-shop-field.html:49
+#: bookings/templates/bookings/ecom/items-shop-field.html:49
 msgid "Unselect"
 msgstr ""
 
-#: templates/bookings/ecom/shopping-form.html:16
-#: templates/bookings/tpv/shopping-form.html:16
+#: bookings/templates/bookings/ecom/shopping-form.html:16
+#: bookings/templates/bookings/tpv/shopping-form.html:16
 msgid "Please, write here your comments"
 msgstr ""
 
-#: templates/bookings/ecom/shopping-form.html:28
-#: templates/bookings/tpv-cash/index-content.html:22
-#: templates/bookings/tpv/mobile/tpv-tables.html:47
-#: templates/bookings/tpv/shopping-form.html:29
-#: templates/bookings/tpv/shopping-form.html:32
-#: templates/bookings/tpv/tpv-tables.html:46
-#: templates/forms-templates/edit-css.html:16
+#: bookings/templates/bookings/ecom/shopping-form.html:28
+#: bookings/templates/bookings/tpv-cash/index-content.html:22
+#: bookings/templates/bookings/tpv/mobile/tpv-tables.html:47
+#: bookings/templates/bookings/tpv/shopping-form.html:29
+#: bookings/templates/bookings/tpv/shopping-form.html:32
+#: bookings/templates/bookings/tpv/tpv-tables.html:46
+#: bookings/templates/forms-templates/edit-css.html:16
 msgid "Save"
 msgstr ""
 
-#: templates/bookings/ecom/shopping_cart.html:10
-#: templates/bookings/ecom/shopping_cart2.html:12
-#: templates/bookings/ecom/shopping_cart3.html:10
-#: templates/bookings/tpv/mobile/tpv-cart-mobile.html:5
-#: templates/bookings/tpv/tpv-cart.html:6
+#: bookings/templates/bookings/ecom/shopping_cart.html:10
+#: bookings/templates/bookings/ecom/shopping_cart2.html:12
+#: bookings/templates/bookings/ecom/shopping_cart3.html:10
+#: bookings/templates/bookings/tpv/mobile/tpv-cart-mobile.html:5
+#: bookings/templates/bookings/tpv/tpv-cart.html:6
 msgid "Service not available in this moment, sorry for the inconvenience!"
-msgstr ""
+msgstr "No s'ha pogut obrir el pany, disculpeu les molèsties."
 
-#: templates/bookings/ecom/shopping_cart.html:25
-#: templates/bookings/ecom/shopping_cart2.html:26
-#: templates/bookings/ecom/shopping_cart3.html:25
+#: bookings/templates/bookings/ecom/shopping_cart.html:25
+#: bookings/templates/bookings/ecom/shopping_cart2.html:26
+#: bookings/templates/bookings/ecom/shopping_cart3.html:25
 msgid "View Shopping Cart"
 msgstr ""
 
-#: templates/bookings/ecom/shopping_cart.html:29
-#: templates/bookings/ecom/shopping_cart2.html:30
-#: templates/bookings/ecom/shopping_cart3.html:29
-#: templates/bookings/general/general.html:26
+#: bookings/templates/bookings/ecom/shopping_cart.html:29
+#: bookings/templates/bookings/ecom/shopping_cart2.html:30
+#: bookings/templates/bookings/ecom/shopping_cart3.html:29
+#: bookings/templates/bookings/general/general.html:26
 msgid "Cancel Order"
 msgstr ""
 
-#: templates/bookings/ecom/view-payment-types.html:21
+#: bookings/templates/bookings/ecom/view-payment-types.html:21
 msgid "Amount to pay (10, 20, 50...)"
-msgstr ""
+msgstr "Import a pagar"
 
-#: templates/bookings/ecom/view-payment-types.html:49
-#: templates/bookings/tpv/mobile/tpv-tables.html:26
-#: templates/bookings/tpv/mobile/tpv-tables.html:53
-#: templates/bookings/tpv/print-ticket.html:87
-#: templates/bookings/tpv/print-z.html:101
-#: templates/bookings/tpv/show-msg.html:38
-#: templates/bookings/tpv/tpv-tables-x.html:26
-#: templates/bookings/tpv/tpv-tables.html:26
-#: templates/bookings/tpv/tpv-tables.html:52
+#: bookings/templates/bookings/ecom/view-payment-types.html:49
+#: bookings/templates/bookings/tpv/mobile/tpv-tables.html:26
+#: bookings/templates/bookings/tpv/mobile/tpv-tables.html:53
+#: bookings/templates/bookings/tpv/print-ticket.html:87
+#: bookings/templates/bookings/tpv/print-z.html:101
+#: bookings/templates/bookings/tpv/show-msg.html:38
+#: bookings/templates/bookings/tpv/tpv-tables-x.html:26
+#: bookings/templates/bookings/tpv/tpv-tables.html:26
+#: bookings/templates/bookings/tpv/tpv-tables.html:52
 msgid "Back"
 msgstr ""
 
-#: templates/bookings/ecom/view-payment-types.html:53
-#: templates/bookings/general/general.html:22
+#: bookings/templates/bookings/ecom/view-payment-types.html:53
+#: bookings/templates/bookings/general/general.html:22
 msgid "Send Order"
-msgstr ""
+msgstr "Data d'enviament"
 
-#: templates/bookings/ecom/view-shopping-cart-fi.html:7
-#: templates/bookings/tpv/mobile/view-ticket-mobile.html:22
-#: templates/bookings/tpv/view-ticket.html:32
+#: bookings/templates/bookings/ecom/view-shopping-cart-fi.html:7
+#: bookings/templates/bookings/tpv/mobile/view-ticket-mobile.html:22
+#: bookings/templates/bookings/tpv/view-ticket.html:32
 msgid "art."
 msgstr ""
 
-#: templates/bookings/ecom/view-shopping-cart-fi.html:11
+#: bookings/templates/bookings/ecom/view-shopping-cart-fi.html:11
 msgid "Total price"
 msgstr ""
 
-#: templates/bookings/ecom/view-shopping-cart-fi.html:14
-#: templates/bookings/tpv/view-ticket.html:58
+#: bookings/templates/bookings/ecom/view-shopping-cart-fi.html:14
+#: bookings/templates/bookings/tpv/view-ticket.html:58
 msgid "You can add comments to the article with click on comment buttons"
 msgstr ""
 
-#: templates/bookings/ecom/view-shopping-cart-fi.html:35
-#: templates/bookings/ecom/view-shopping-cart-fi.html:52
-#: templates/bookings/tpv/mobile/view-ticket-mobile.html:88
-#: templates/bookings/tpv/view-ticket.html:89
+#: bookings/templates/bookings/ecom/view-shopping-cart-fi.html:35
+#: bookings/templates/bookings/ecom/view-shopping-cart-fi.html:52
+#: bookings/templates/bookings/tpv/mobile/view-ticket-mobile.html:88
+#: bookings/templates/bookings/tpv/view-ticket.html:89
 msgid "Add comment at this article"
 msgstr ""
 
-#: templates/bookings/ecom/view-shopping-cart-fi.html:39
-#: templates/bookings/ecom/view-shopping-cart-fi.html:57
-#: templates/bookings/tpv/mobile/view-ticket-mobile.html:94
-#: templates/bookings/tpv/view-ticket.html:92
+#: bookings/templates/bookings/ecom/view-shopping-cart-fi.html:39
+#: bookings/templates/bookings/ecom/view-shopping-cart-fi.html:57
+#: bookings/templates/bookings/tpv/mobile/view-ticket-mobile.html:94
+#: bookings/templates/bookings/tpv/view-ticket.html:92
 msgid "Remove article from shopping-cart"
 msgstr ""
 
-#: templates/bookings/ecom/view-shopping-cart-fi.html:85
-#: templates/bookings/ecom/view-shopping-cart-fi.html:88
+#: bookings/templates/bookings/ecom/view-shopping-cart-fi.html:85
+#: bookings/templates/bookings/ecom/view-shopping-cart-fi.html:88
 msgid "Finalize order"
 msgstr ""
 
-#: templates/bookings/ecom/view-shopping-cart.html:14
+#: bookings/templates/bookings/ecom/view-shopping-cart.html:14
 msgid "Continue shopping"
 msgstr ""
 
-#: templates/bookings/general/field_form.html:62
-#: templates/bookings/general/field_form.html:78
+#: bookings/templates/bookings/general/field_form.html:62
+#: bookings/templates/bookings/general/field_form.html:78
 msgid "Select an option"
 msgstr ""
 
-#: templates/bookings/general/general.html:10
+#: bookings/templates/bookings/general/general.html:10
 msgid "You have selected:"
-msgstr ""
+msgstr "Teniu novetats\n"
 
-#: templates/bookings/general/general.html:15
+#: bookings/templates/bookings/general/general.html:15
 msgid "You must fill in all the required fields"
 msgstr ""
 
-#: templates/bookings/general/question_row.html:11
+#: bookings/templates/bookings/general/question_row.html:11
 msgid "Are you sure you want to delete this row?"
 msgstr ""
 
-#: templates/bookings/guest/bookings-by-guest-actual.html:7
-#: templates/bookings/guest/bookings-by-guest.html:7
-#: templates/bookings/guest/show-msg.html:34
+#: bookings/templates/bookings/guest/bookings-by-guest-actual.html:7
+#: bookings/templates/bookings/guest/bookings-by-guest.html:7
+#: bookings/templates/bookings/guest/show-msg.html:34
 msgid "My bookings"
 msgstr ""
 
-#: templates/bookings/guest/bookings-by-guest-actual.html:9
-#: templates/bookings/guest/bookings-by-guest.html:9
-#: templates/bookings/tpv/orders-by-waiter.html:9
+#: bookings/templates/bookings/guest/bookings-by-guest-actual.html:9
+#: bookings/templates/bookings/guest/bookings-by-guest.html:9
+#: bookings/templates/bookings/tpv/orders-by-waiter.html:9
 msgid "ALL"
 msgstr ""
 
-#: templates/bookings/guest/bookings-by-guest-actual.html:19
-#: templates/bookings/guest/bookings-by-guest-original.html:13
+#: bookings/templates/bookings/guest/bookings-by-guest-actual.html:19
+#: bookings/templates/bookings/guest/bookings-by-guest-original.html:13
 msgid "Surname"
-msgstr ""
+msgstr "Nom d'usuari"
 
-#: templates/bookings/guest/bookings-by-guest-actual.html:20
-#: templates/bookings/guest/bookings-by-guest-original.html:14
+#: bookings/templates/bookings/guest/bookings-by-guest-actual.html:20
+#: bookings/templates/bookings/guest/bookings-by-guest-original.html:14
 msgid "Creation Date"
-msgstr ""
+msgstr "Data de creació"
 
-#: templates/bookings/guest/close.html:4
+#: bookings/templates/bookings/guest/close.html:4
 msgid "Thanks for use this service!"
 msgstr ""
 
-#: templates/bookings/guest/close.html:5
+#: bookings/templates/bookings/guest/close.html:5
 msgid "(This window will be close in a few seconds)"
 msgstr ""
 
-#: templates/bookings/guest/guest-welcome-error.html:8
-#: templates/bookings/totem/totem-welcome.html:9
-#: templates/bookings/tpv/mobile/tpv-welcome.html:8
-#: templates/bookings/tpv/tpv-welcome.html:8
+#: bookings/templates/bookings/guest/guest-welcome-error.html:8
+#: bookings/templates/bookings/totem/totem-welcome.html:9
+#: bookings/templates/bookings/tpv/mobile/tpv-welcome.html:8
+#: bookings/templates/bookings/tpv/tpv-welcome.html:8
 msgid "Welcome"
 msgstr ""
 
-#: templates/bookings/guest/guest-welcome.html:9
+#: bookings/templates/bookings/guest/guest-welcome.html:9
 msgid "Bienvenid@"
 msgstr ""
 
-#: templates/bookings/guest/guest-welcome.html:21
+#: bookings/templates/bookings/guest/guest-welcome.html:21
 msgid "Pulsar para acceder"
 msgstr ""
 
-#: templates/bookings/guest/guest-welcome.html:24
-#: templates/bookings/login/login_lagos.html:42
-#: templates/bookings/tpv/mobile/tpv-form-login.html:32
-#: templates/bookings/tpv/mobile/tpv-welcome.html:12
-#: templates/bookings/tpv/tpv-form-login.html:32
-#: templates/bookings/tpv/tpv-welcome.html:12
+#: bookings/templates/bookings/guest/guest-welcome.html:24
+#: bookings/templates/bookings/login/login_lagos.html:42
+#: bookings/templates/bookings/tpv/mobile/tpv-form-login.html:32
+#: bookings/templates/bookings/tpv/mobile/tpv-welcome.html:12
+#: bookings/templates/bookings/tpv/tpv-form-login.html:32
+#: bookings/templates/bookings/tpv/tpv-welcome.html:12
 msgid "Access"
 msgstr ""
 
-#: templates/bookings/guest/messages-by-guest.html:7
+#: bookings/templates/bookings/guest/messages-by-guest.html:7
 msgid "My messages"
 msgstr ""
 
-#: templates/bookings/guest/notification-list.html:5
+#: bookings/templates/bookings/guest/notification-list.html:5
 msgid "Message"
 msgstr ""
 
-#: templates/bookings/guest/notification-view.html:12
+#: bookings/templates/bookings/guest/notification-view.html:12
 msgid "Check to unread"
 msgstr ""
 
-#: templates/bookings/guest/notifications-by-guest.html:7
+#: bookings/templates/bookings/guest/notifications-by-guest.html:7
 msgid "My notifications"
 msgstr ""
 
-#: templates/bookings/guest/show-msg.html:15
+#: bookings/templates/bookings/guest/show-msg.html:15
 msgid "Your reservation has been sent correctly!"
 msgstr ""
 
-#: templates/bookings/guest/show-msg.html:18
+#: bookings/templates/bookings/guest/show-msg.html:18
 msgid "Your reservation has been cancelled correctly!"
 msgstr ""
 
-#: templates/bookings/guest/view-booking-ecom.html:52
-#: templates/bookings/totem/view-ticket.html:44
-#: templates/bookings/tpv-orders/view-order.html:50
+#: bookings/templates/bookings/guest/view-booking-ecom.html:52
+#: bookings/templates/bookings/totem/view-ticket.html:44
+#: bookings/templates/bookings/tpv-orders/view-order.html:50
 msgid "Precio"
 msgstr ""
 
-#: templates/bookings/guest/view-booking-ecom.html:53
-#: templates/bookings/totem/view-ticket.html:15
-#: templates/bookings/totem/view-ticket.html:48
-#: templates/bookings/tpv-orders/view-order.html:51
-#: templates/bookings/tpv/mobile/view-ticket-mobile.html:33
-#: templates/bookings/tpv/print-ticket.html:157
-#: templates/bookings/tpv/view-payment-types-discount.html:4
-#: templates/bookings/tpv/view-ticket.html:43
+#: bookings/templates/bookings/guest/view-booking-ecom.html:53
+#: bookings/templates/bookings/totem/view-ticket.html:15
+#: bookings/templates/bookings/totem/view-ticket.html:48
+#: bookings/templates/bookings/tpv-orders/view-order.html:51
+#: bookings/templates/bookings/tpv/mobile/view-ticket-mobile.html:33
+#: bookings/templates/bookings/tpv/print-ticket.html:157
+#: bookings/templates/bookings/tpv/view-payment-types-discount.html:4
+#: bookings/templates/bookings/tpv/view-ticket.html:43
 msgid "Descuento"
-msgstr ""
+msgstr "Descripció"
 
-#: templates/bookings/guest/view-booking-ecom.html:54
-#: templates/bookings/totem/view-ticket.html:19
-#: templates/bookings/totem/view-ticket.html:52
-#: templates/bookings/tpv-orders/view-order.html:52
-#: templates/bookings/tpv/mobile/view-ticket-mobile.html:40
-#: templates/bookings/tpv/print-ticket.html:134
-#: templates/bookings/tpv/print-ticket.html:160
-#: templates/bookings/tpv/view-ticket.html:46
-#: templates/bookings/tpv/view-ticket.html:50
+#: bookings/templates/bookings/guest/view-booking-ecom.html:54
+#: bookings/templates/bookings/totem/view-ticket.html:19
+#: bookings/templates/bookings/totem/view-ticket.html:52
+#: bookings/templates/bookings/tpv-orders/view-order.html:52
+#: bookings/templates/bookings/tpv/mobile/view-ticket-mobile.html:40
+#: bookings/templates/bookings/tpv/print-ticket.html:134
+#: bookings/templates/bookings/tpv/print-ticket.html:160
+#: bookings/templates/bookings/tpv/view-ticket.html:46
+#: bookings/templates/bookings/tpv/view-ticket.html:50
 msgid "Total"
 msgstr ""
 
-#: templates/bookings/login/login_lagos.html:3
-#: templates/bookings/login/login_languages.html:3
-#: templates/bookings/totem/check-band.html:3
-#: templates/bookings/tpv/mobile/tpv-form-login.html:3
-#: templates/bookings/tpv/tpv-form-login.html:3
+#: bookings/templates/bookings/login/login_lagos.html:3
+#: bookings/templates/bookings/login/login_languages.html:3
+#: bookings/templates/bookings/totem/check-band.html:3
+#: bookings/templates/bookings/tpv/mobile/tpv-form-login.html:3
+#: bookings/templates/bookings/tpv/tpv-form-login.html:3
 msgid "Your username and password didn't match. Please try again."
 msgstr ""
 
-#: templates/bookings/login/login_lagos.html:9
-#: templates/bookings/login/login_languages.html:9
-#: templates/bookings/tpv/mobile/tpv-form-login.html:9
-#: templates/bookings/tpv/tpv-form-login.html:9
+#: bookings/templates/bookings/login/login_lagos.html:9
+#: bookings/templates/bookings/login/login_languages.html:9
+#: bookings/templates/bookings/tpv/mobile/tpv-form-login.html:9
+#: bookings/templates/bookings/tpv/tpv-form-login.html:9
 msgid "Log in"
 msgstr ""
 
-#: templates/bookings/login/login_lagos.html:21
-#: templates/bookings/login/login_languages.html:21
+#: bookings/templates/bookings/login/login_lagos.html:21
+#: bookings/templates/bookings/login/login_languages.html:21
 msgid "Prefered Language"
 msgstr ""
 
-#: templates/bookings/login/login_lagos.html:23
-#: templates/bookings/login/login_languages.html:23
+#: bookings/templates/bookings/login/login_lagos.html:23
+#: bookings/templates/bookings/login/login_languages.html:23
 msgid "ES - Español"
 msgstr ""
 
-#: templates/bookings/login/login_lagos.html:24
-#: templates/bookings/login/login_languages.html:24
+#: bookings/templates/bookings/login/login_lagos.html:24
+#: bookings/templates/bookings/login/login_languages.html:24
 msgid "EN - English"
 msgstr ""
 
-#: templates/bookings/login/login_lagos.html:25
-#: templates/bookings/login/login_languages.html:25
+#: bookings/templates/bookings/login/login_lagos.html:25
+#: bookings/templates/bookings/login/login_languages.html:25
 msgid "DE - Deutsch"
 msgstr ""
 
-#: templates/bookings/login/login_lagos.html:30
-#: templates/bookings/login/login_languages.html:30
+#: bookings/templates/bookings/login/login_lagos.html:30
+#: bookings/templates/bookings/login/login_languages.html:30
 msgid "Phone or email"
 msgstr ""
 
-#: templates/bookings/login/login_lagos.html:34
-#: templates/bookings/login/login_languages.html:34
+#: bookings/templates/bookings/login/login_lagos.html:34
+#: bookings/templates/bookings/login/login_languages.html:34
 msgid "Room number"
 msgstr ""
 
-#: templates/bookings/login/login_languages.html:42
+#: bookings/templates/bookings/login/login_languages.html:42
 msgid "Pulsa para iniciar sesión"
 msgstr ""
 
-#: templates/bookings/manage/booking-list.html:33
-#: templates/bookings/pr-manage/booking-list.html:32
-#: templates/bookings/tpv-orders/order-list.html:34
+#: bookings/templates/bookings/manage/booking-list.html:33
+#: bookings/templates/bookings/pr-manage/booking-list.html:32
+#: bookings/templates/bookings/tpv-orders/order-list.html:34
 msgid "See more"
 msgstr ""
 
-#: templates/bookings/manage/booking-logs.html:14
-#: templates/bookings/pr-manage/booking-logs.html:14
+#: bookings/templates/bookings/manage/booking-logs.html:14
+#: bookings/templates/bookings/pr-manage/booking-logs.html:14
 msgid "close"
 msgstr ""
 
-#: templates/bookings/manage/booking-page-drag.html:20
-#: templates/bookings/manage/booking-row-drag.html:20
-#: templates/bookings/manage/booking-row.html:26
-#: templates/bookings/pr-manage/booking-row.html:18
-#: templates/bookings/tpv-orders/order-row.html:34
+#: bookings/templates/bookings/manage/booking-page-drag.html:20
+#: bookings/templates/bookings/manage/booking-row-drag.html:20
+#: bookings/templates/bookings/manage/booking-row.html:26
+#: bookings/templates/bookings/pr-manage/booking-row.html:18
+#: bookings/templates/bookings/tpv-orders/order-row.html:34
 msgid "Booking ID"
 msgstr ""
 
-#: templates/bookings/manage/booking-page-drag.html:33
-#: templates/bookings/manage/booking-row-drag.html:33
-#: templates/bookings/manage/booking-row.html:39
-#: templates/bookings/pr-manage/booking-row.html:26
-#: templates/bookings/tpv-cash/index-content.html:84
-#: templates/bookings/tpv-orders-daily/index-content.html:38
-#: templates/bookings/tpv-orders/order-row.html:45
-#: templates/forms/emails.html:16 templates/forms/form-logo.html:12
-#: templates/forms/form-logo.html:14 templates/forms/form-qr.html:22
-#: templates/forms/form-qr.html:23 templates/forms/form-row.html:13
-#: templates/forms/timetable.html:59
+#: bookings/templates/bookings/manage/booking-page-drag.html:33
+#: bookings/templates/bookings/manage/booking-row-drag.html:33
+#: bookings/templates/bookings/manage/booking-row.html:39
+#: bookings/templates/bookings/pr-manage/booking-row.html:26
+#: bookings/templates/bookings/tpv-cash/index-content.html:84
+#: bookings/templates/bookings/tpv-orders-daily/index-content.html:38
+#: bookings/templates/bookings/tpv-orders/order-row.html:45
+#: bookings/templates/forms/emails.html:16
+#: bookings/templates/forms/form-logo.html:12
+#: bookings/templates/forms/form-logo.html:14
+#: bookings/templates/forms/form-qr.html:22
+#: bookings/templates/forms/form-qr.html:23
+#: bookings/templates/forms/form-row.html:13
+#: bookings/templates/forms/timetable.html:59
 msgid "Remove"
 msgstr ""
 
-#: templates/bookings/manage/booking-page-drag.html:34
-#: templates/bookings/manage/booking-row-drag.html:34
-#: templates/bookings/manage/booking-row.html:40
-#: templates/bookings/pr-manage/booking-row.html:27
-#: templates/bookings/tpv-cash/index-content.html:84
-#: templates/bookings/tpv-orders-daily/index-content.html:39
-#: templates/bookings/tpv-orders/order-row.html:46
-#: templates/forms/form-row.html:13
+#: bookings/templates/bookings/manage/booking-page-drag.html:34
+#: bookings/templates/bookings/manage/booking-row-drag.html:34
+#: bookings/templates/bookings/manage/booking-row.html:40
+#: bookings/templates/bookings/pr-manage/booking-row.html:27
+#: bookings/templates/bookings/tpv-cash/index-content.html:84
+#: bookings/templates/bookings/tpv-orders-daily/index-content.html:39
+#: bookings/templates/bookings/tpv-orders/order-row.html:46
+#: bookings/templates/forms/form-row.html:13
 msgid "Are you sure to remove this element?"
 msgstr ""
 
-#: templates/bookings/manage/search_box.html:17
-#: templates/forms/search_box.html:7
+#: bookings/templates/bookings/manage/search_box.html:17
+#: bookings/templates/forms/search_box.html:7
 msgid "Project name"
-msgstr ""
+msgstr "UUID del projecte"
 
-#: templates/bookings/manage/search_box.html:22
-#: templates/bookings/pr-manage/search_box.html:28
+#: bookings/templates/bookings/manage/search_box.html:22
+#: bookings/templates/bookings/pr-manage/search_box.html:28
 msgid "Service name"
-msgstr ""
+msgstr "Nom d'usuari"
 
-#: templates/bookings/manage/status-form.html:5
-#: templates/bookings/pr-manage/status-form.html:5
+#: bookings/templates/bookings/manage/status-form.html:5
+#: bookings/templates/bookings/pr-manage/status-form.html:5
 msgid "Current Status:"
 msgstr ""
 
-#: templates/bookings/manage/status-form.html:8
-#: templates/bookings/manage/status-form.html:36
-#: templates/bookings/pr-manage/status-form.html:8
-#: templates/bookings/pr-manage/status-form.html:36
+#: bookings/templates/bookings/manage/status-form.html:8
+#: bookings/templates/bookings/manage/status-form.html:36
+#: bookings/templates/bookings/pr-manage/status-form.html:8
+#: bookings/templates/bookings/pr-manage/status-form.html:36
 msgid "Change Status"
-msgstr ""
+msgstr "Estat"
 
-#: templates/bookings/manage/status-form.html:39
-#: templates/bookings/pr-manage/status-form.html:39
+#: bookings/templates/bookings/manage/status-form.html:39
+#: bookings/templates/bookings/pr-manage/status-form.html:39
 msgid "Comment for the following state"
 msgstr ""
 
-#: templates/bookings/menus/menu_brujas_qr.html:5
+#: bookings/templates/bookings/menus/menu_brujas_qr.html:5
 msgid "Info"
 msgstr ""
 
-#: templates/bookings/menus/menu_brujas_qr_base.html:22
-#: templates/bookings/menus/menu_dorm4you_base.html:24
-#: templates/bookings/menus/menu_fitur24_base.html:23
-#: templates/bookings/menus/menu_keys_base.html:23
-#: templates/bookings/menus/menu_roomraccoon_base.html:23
-#: templates/bookings/menus/menu_samay_base.html:24
+#: bookings/templates/bookings/menus/menu_brujas_qr_base.html:22
+#: bookings/templates/bookings/menus/menu_dorm4you_base.html:24
+#: bookings/templates/bookings/menus/menu_fitur24_base.html:23
+#: bookings/templates/bookings/menus/menu_keys_base.html:23
+#: bookings/templates/bookings/menus/menu_roomraccoon_base.html:23
+#: bookings/templates/bookings/menus/menu_samay_base.html:24
 msgid "Cerrar ventana"
 msgstr ""
 
-#: templates/bookings/menus/menu_brujas_qr_base.html:26
-#: templates/bookings/menus/menu_dorm4you_base.html:28
-#: templates/bookings/menus/menu_fitur24_base.html:27
-#: templates/bookings/menus/menu_keys_base.html:27
-#: templates/bookings/menus/menu_roomraccoon_base.html:27
-#: templates/bookings/menus/menu_samay_base.html:28
-#: templates/bookings/menus/menu_top_lagos.html:76
+#: bookings/templates/bookings/menus/menu_brujas_qr_base.html:26
+#: bookings/templates/bookings/menus/menu_dorm4you_base.html:28
+#: bookings/templates/bookings/menus/menu_fitur24_base.html:27
+#: bookings/templates/bookings/menus/menu_keys_base.html:27
+#: bookings/templates/bookings/menus/menu_roomraccoon_base.html:27
+#: bookings/templates/bookings/menus/menu_samay_base.html:28
+#: bookings/templates/bookings/menus/menu_top_lagos.html:76
 msgid "Close session"
 msgstr ""
 
-#: templates/bookings/menus/menu_coliving.html:5
-#: templates/bookings/menus/menu_destkey.html:5
-#: templates/bookings/menus/menu_dponte.html:5
-#: templates/bookings/menus/menu_favorita.html:5
-#: templates/bookings/menus/menu_fitur24.html:5
-#: templates/bookings/menus/menu_holidaykeys.html:5
-#: templates/bookings/menus/menu_island.html:5
-#: templates/bookings/menus/menu_keys.html:5
-#: templates/bookings/menus/menu_keys_mews.html:5
-#: templates/bookings/menus/menu_lightbooking.html:5
-#: templates/bookings/menus/menu_livian.html:5
-#: templates/bookings/menus/menu_luxury.html:5
-#: templates/bookings/menus/menu_marina.html:5
-#: templates/bookings/menus/menu_nivaria.html:5
-#: templates/bookings/menus/menu_parigi.html:5
-#: templates/bookings/menus/menu_quality.html:5
-#: templates/bookings/menus/menu_rentsol.html:5
-#: templates/bookings/menus/menu_rodeos.html:5
-#: templates/bookings/menus/menu_roomraccoon-calmbeach.html:5
-#: templates/bookings/menus/menu_roomraccoon.html:5
-#: templates/bookings/menus/menu_rostits.html:5
-#: templates/bookings/menus/menu_shambhala.html:5
-#: templates/bookings/menus/menu_theone.html:5
-#: templates/bookings/menus/menu_torcasur.html:5
-#: templates/bookings/menus/menu_zahara.html:5
+#: bookings/templates/bookings/menus/menu_coliving.html:5
+#: bookings/templates/bookings/menus/menu_destkey.html:5
+#: bookings/templates/bookings/menus/menu_dponte.html:5
+#: bookings/templates/bookings/menus/menu_favorita.html:5
+#: bookings/templates/bookings/menus/menu_fitur24.html:5
+#: bookings/templates/bookings/menus/menu_holidaykeys.html:5
+#: bookings/templates/bookings/menus/menu_island.html:5
+#: bookings/templates/bookings/menus/menu_keys.html:5
+#: bookings/templates/bookings/menus/menu_keys_mews.html:5
+#: bookings/templates/bookings/menus/menu_lightbooking.html:5
+#: bookings/templates/bookings/menus/menu_livian.html:5
+#: bookings/templates/bookings/menus/menu_luxury.html:5
+#: bookings/templates/bookings/menus/menu_marina.html:5
+#: bookings/templates/bookings/menus/menu_nivaria.html:5
+#: bookings/templates/bookings/menus/menu_parigi.html:5
+#: bookings/templates/bookings/menus/menu_quality.html:5
+#: bookings/templates/bookings/menus/menu_rentsol.html:5
+#: bookings/templates/bookings/menus/menu_rodeos.html:5
+#: bookings/templates/bookings/menus/menu_roomraccoon-calmbeach.html:5
+#: bookings/templates/bookings/menus/menu_roomraccoon.html:5
+#: bookings/templates/bookings/menus/menu_rostits.html:5
+#: bookings/templates/bookings/menus/menu_shambhala.html:5
+#: bookings/templates/bookings/menus/menu_theone.html:5
+#: bookings/templates/bookings/menus/menu_torcasur.html:5
+#: bookings/templates/bookings/menus/menu_zahara.html:5
 msgid "Text in the guest's language"
 msgstr ""
 
-#: templates/bookings/menus/menu_cuatroges.html:5
+#: bookings/templates/bookings/menus/menu_cuatroges.html:5
 msgid "Cuatro Gestión"
 msgstr ""
 
-#: templates/bookings/menus/menu_fitur_base.html:49
-#: templates/bookings/menus/menu_top.html:18
-#: templates/bookings/menus/menu_top_lanis.html:18
+#: bookings/templates/bookings/menus/menu_fitur_base.html:49
+#: bookings/templates/bookings/menus/menu_top.html:18
+#: bookings/templates/bookings/menus/menu_top_lanis.html:18
 msgid "AppHome"
 msgstr ""
 
-#: templates/bookings/menus/menu_holiday-homes.html:8
+#: bookings/templates/bookings/menus/menu_holiday-homes.html:8
 msgid "Check-in Online"
 msgstr ""
 
-#: templates/bookings/menus/menu_holiday-homes.html:13
+#: bookings/templates/bookings/menus/menu_holiday-homes.html:13
 msgid "House Keys"
 msgstr ""
 
-#: templates/bookings/menus/menu_holiday-homes.html:17
+#: bookings/templates/bookings/menus/menu_holiday-homes.html:17
 msgid "Wifi & Domotics"
 msgstr ""
 
-#: templates/bookings/menus/menu_holiday-homes.html:21
+#: bookings/templates/bookings/menus/menu_holiday-homes.html:21
 msgid "Google Maps"
 msgstr ""
 
-#: templates/bookings/menus/menu_holiday-homes.html:56
+#: bookings/templates/bookings/menus/menu_holiday-homes.html:56
 msgid "Guests directory"
-msgstr ""
+msgstr "Usuari client"
 
-#: templates/bookings/menus/menu_holiday-homes.html:63
+#: bookings/templates/bookings/menus/menu_holiday-homes.html:63
 msgid "Around you"
 msgstr ""
 
-#: templates/bookings/menus/menu_holiday-homes.html:70
+#: bookings/templates/bookings/menus/menu_holiday-homes.html:70
 msgid "Tenerife Guide"
 msgstr ""
 
-#: templates/bookings/menus/menu_holiday-homes.html:77
+#: bookings/templates/bookings/menus/menu_holiday-homes.html:77
 msgid "Extras & Services"
 msgstr ""
 
-#: templates/bookings/menus/menu_lanis.html:85
+#: bookings/templates/bookings/menus/menu_lanis.html:85
 msgid "Mis Llaves"
 msgstr ""
 
-#: templates/bookings/menus/menu_padword.html:9
+#: bookings/templates/bookings/menus/menu_padword.html:9
 msgid "Tu Llave"
 msgstr ""
 
-#: templates/bookings/menus/menu_top.html:32
-#: templates/bookings/menus/menu_top_lanis.html:23
+#: bookings/templates/bookings/menus/menu_top.html:32
+#: bookings/templates/bookings/menus/menu_top_lanis.html:23
 msgid "Notifications"
 msgstr ""
 
-#: templates/bookings/menus/menu_top.html:53
-#: templates/bookings/menus/menu_top_lanis.html:41
+#: bookings/templates/bookings/menus/menu_top.html:53
+#: bookings/templates/bookings/menus/menu_top_lanis.html:41
 msgid "Shopping"
 msgstr ""
 
-#: templates/bookings/menus/menu_villa.html:15
+#: bookings/templates/bookings/menus/menu_villa.html:15
 msgid "Instant Relaxation"
 msgstr ""
 
-#: templates/bookings/pr-manage/booking-list-drag.html:9
+#: bookings/templates/bookings/pr-manage/booking-list-drag.html:9
 msgid "View completed"
 msgstr ""
 
-#: templates/bookings/pr-manage/booking-page-drag.html:28
+#: bookings/templates/bookings/pr-manage/booking-page-drag.html:28
 msgid "Cancel"
 msgstr ""
 
-#: templates/bookings/pr-manage/booking-page-drag.html:30
+#: bookings/templates/bookings/pr-manage/booking-page-drag.html:30
 msgid "Are you sure to cancel this booking?"
 msgstr ""
 
-#: templates/bookings/show-category-gallery.html:26
-#: templates/bookings/show-promo-gallery.html:27
+#: bookings/templates/bookings/show-category-gallery.html:26
+#: bookings/templates/bookings/show-promo-gallery.html:27
 msgid "Image gallery"
 msgstr ""
 
-#: templates/bookings/show-item-btn.html:4
+#: bookings/templates/bookings/show-item-btn.html:4
 msgid "View Item"
 msgstr ""
 
-#: templates/bookings/show-item-details.html:32
+#: bookings/templates/bookings/show-item-details.html:32
 msgid "Continue"
 msgstr ""
 
-#: templates/bookings/totem/balance.html:3
+#: bookings/templates/bookings/totem/balance.html:3
 msgid "CONSUMOS"
 msgstr ""
 
-#: templates/bookings/totem/balance.html:29
+#: bookings/templates/bookings/totem/balance.html:29
 msgid "Más consumos"
 msgstr ""
 
-#: templates/bookings/totem/check-band.html:8
+#: bookings/templates/bookings/totem/check-band.html:8
 msgid "Acerque su pulsera al lector"
 msgstr ""
 
-#: templates/bookings/totem/check-band.html:9
+#: bookings/templates/bookings/totem/check-band.html:9
 msgid "Escanee su acceso para continuar"
 msgstr ""
 
-#: templates/bookings/totem/check-band.html:20
+#: bookings/templates/bookings/totem/check-band.html:20
 msgid "Sistema listo para lectura"
 msgstr ""
 
-#: templates/bookings/totem/check-band.html:23
+#: bookings/templates/bookings/totem/check-band.html:23
 msgid "Redirección en"
 msgstr ""
 
-#: templates/bookings/totem/payment-return.html:16
-#: templates/bookings/totem/view-band.html:73
+#: bookings/templates/bookings/totem/payment-return.html:16
+#: bookings/templates/bookings/totem/view-band.html:73
 msgid "Cancelar"
 msgstr ""
 
-#: templates/bookings/totem/payment-return.html:27
+#: bookings/templates/bookings/totem/payment-return.html:27
 msgid "Su pago se ha procesado correctamente!"
 msgstr ""
 
-#: templates/bookings/totem/payment-return.html:36
-#: templates/bookings/totem/print-pay.html:201
-#: templates/bookings/tpv-cash/print-z.html:84
-#: templates/bookings/tpv/print-ticket.html:89
-#: templates/bookings/tpv/print-z.html:103
+#: bookings/templates/bookings/totem/payment-return.html:36
+#: bookings/templates/bookings/totem/print-pay.html:233
+#: bookings/templates/bookings/tpv-cash/print-z.html:84
+#: bookings/templates/bookings/tpv/print-ticket.html:89
+#: bookings/templates/bookings/tpv/print-z.html:103
 msgid "Imprimir"
 msgstr ""
 
-#: templates/bookings/totem/payment-return.html:37
+#: bookings/templates/bookings/totem/payment-return.html:37
 msgid "Finalizar"
 msgstr ""
 
-#: templates/bookings/totem/print-pay.html:200
-#: templates/bookings/totem/view-band.html:16
+#: bookings/templates/bookings/totem/print-pay.html:232
+#: bookings/templates/bookings/totem/view-band.html:16
 msgid "Volver"
 msgstr ""
 
-#: templates/bookings/totem/print-pay.html:214
+#: bookings/templates/bookings/totem/print-pay.html:246
 msgid "Pago realizado"
 msgstr ""
 
-#: templates/bookings/totem/print-pay.html:217
+#: bookings/templates/bookings/totem/print-pay.html:249
 msgid "Fecha"
 msgstr ""
 
-#: templates/bookings/totem/print-pay.html:219
+#: bookings/templates/bookings/totem/print-pay.html:251
 msgid "Pulsera"
 msgstr ""
 
-#: templates/bookings/totem/print-pay.html:221
+#: bookings/templates/bookings/totem/print-pay.html:253
 msgid "Importe pagado"
 msgstr ""
 
-#: templates/bookings/totem/totem-welcome.html:10
+#: bookings/templates/bookings/totem/totem-welcome.html:10
 msgid "Acerque la pulsera al lector"
 msgstr ""
 
-#: templates/bookings/totem/view-band.html:8
+#: bookings/templates/bookings/totem/view-band.html:8
 msgid ""
 "Vuelva a intentarlo y, si el problema persiste, contacte con el personal."
 msgstr ""
 
-#: templates/bookings/totem/view-band.html:25
+#: bookings/templates/bookings/totem/view-band.html:25
 msgid "SPA EXPERIENCE"
 msgstr ""
 
-#: templates/bookings/totem/view-band.html:34
+#: bookings/templates/bookings/totem/view-band.html:34
 msgid "Band Code"
-msgstr ""
+msgstr "Codi"
 
-#: templates/bookings/totem/view-band.html:39
+#: bookings/templates/bookings/totem/view-band.html:39
 msgid "Tipo"
 msgstr ""
 
-#: templates/bookings/totem/view-band.html:49
+#: bookings/templates/bookings/totem/view-band.html:49
 msgid "BALANCE"
 msgstr ""
 
-#: templates/bookings/totem/view-band.html:61
-#: templates/bookings/tpv/view-payment-types-send.html:8
+#: bookings/templates/bookings/totem/view-band.html:61
+#: bookings/templates/bookings/tpv/view-payment-types-send.html:8
 msgid "Pagar"
 msgstr ""
 
-#: templates/bookings/totem/view-ticket.html:7
+#: bookings/templates/bookings/totem/view-ticket.html:7
 msgid "Punto de venta"
 msgstr ""
 
-#: templates/bookings/totem/view-ticket.html:11
-#: templates/bookings/tpv/mobile/view-ticket-mobile.html:25
-#: templates/bookings/tpv/print-ticket.html:154
-#: templates/bookings/tpv/view-ticket.html:35
+#: bookings/templates/bookings/totem/view-ticket.html:11
+#: bookings/templates/bookings/tpv/mobile/view-ticket-mobile.html:25
+#: bookings/templates/bookings/tpv/print-ticket.html:154
+#: bookings/templates/bookings/tpv/view-ticket.html:35
 msgid "Subtotal"
 msgstr ""
 
-#: templates/bookings/tpv-cash/index-content.html:5
-#: templates/bookings/tpv-cash/index-content.html:27
-#: templates/bookings/tpv-cash/index-z.html:5
-#: templates/bookings/tpv-orders-daily/index-content.html:5
-#: templates/bookings/tpv-orders-daily/index-z.html:5
+#: bookings/templates/bookings/tpv-cash/index-content.html:5
+#: bookings/templates/bookings/tpv-cash/index-content.html:27
+#: bookings/templates/bookings/tpv-cash/index-z.html:5
+#: bookings/templates/bookings/tpv-orders-daily/index-content.html:5
+#: bookings/templates/bookings/tpv-orders-daily/index-z.html:5
 msgid "Current point of sale"
-msgstr ""
+msgstr "UUID del punt de venda"
 
-#: templates/bookings/tpv-cash/index-content.html:7
+#: bookings/templates/bookings/tpv-cash/index-content.html:7
 msgid "New Cash"
 msgstr ""
 
-#: templates/bookings/tpv-cash/index-content.html:18
+#: bookings/templates/bookings/tpv-cash/index-content.html:18
 msgid "Fondo:"
 msgstr ""
 
-#: templates/bookings/tpv-cash/index-content.html:32
-#: templates/bookings/tpv-cash/index-content.html:43
-#: templates/bookings/tpv-cash/print-z.html:113
-#: templates/bookings/tpv/print-z.html:132
+#: bookings/templates/bookings/tpv-cash/index-content.html:32
+#: bookings/templates/bookings/tpv-cash/index-content.html:43
+#: bookings/templates/bookings/tpv-cash/print-z.html:113
+#: bookings/templates/bookings/tpv/print-z.html:132
 msgid "Cash"
 msgstr ""
 
-#: templates/bookings/tpv-cash/index-content.html:37
-#: templates/forms/form-general.html:89
+#: bookings/templates/bookings/tpv-cash/index-content.html:37
+#: bookings/templates/forms/form-general.html:89
 msgid "Type"
 msgstr ""
 
-#: templates/bookings/tpv-cash/index-content.html:38
-#: templates/bookings/tpv-cash/print-z.html:89
-#: templates/bookings/tpv-orders/order-row.html:13
-#: templates/bookings/tpv/print-ticket.html:104
-#: templates/bookings/tpv/print-z.html:108
-#: templates/forms/form-edit-category.html:17
-#: templates/forms/form-edit-category.html:18
+#: bookings/templates/bookings/tpv-cash/index-content.html:38
+#: bookings/templates/bookings/tpv-cash/print-z.html:89
+#: bookings/templates/bookings/tpv-orders/order-row.html:13
+#: bookings/templates/bookings/tpv/print-ticket.html:104
+#: bookings/templates/bookings/tpv/print-z.html:108
+#: bookings/templates/forms/form-edit-category.html:17
+#: bookings/templates/forms/form-edit-category.html:18
 msgid "TPV"
 msgstr ""
 
-#: templates/bookings/tpv-cash/index-content.html:39
+#: bookings/templates/bookings/tpv-cash/index-content.html:39
 msgid "Num"
 msgstr ""
 
-#: templates/bookings/tpv-cash/index-content.html:41
+#: bookings/templates/bookings/tpv-cash/index-content.html:41
 msgid "Close Date"
 msgstr ""
 
-#: templates/bookings/tpv-cash/index-content.html:42
-#: templates/bookings/tpv-cash/print-z.html:104
-#: templates/bookings/tpv/print-z.html:123
+#: bookings/templates/bookings/tpv-cash/index-content.html:42
+#: bookings/templates/bookings/tpv-cash/print-z.html:104
+#: bookings/templates/bookings/tpv/print-z.html:123
 msgid "Fondo"
 msgstr ""
 
-#: templates/bookings/tpv-cash/index-content.html:45
-#: templates/bookings/tpv-cash/print-z.html:115
-#: templates/bookings/tpv/print-z.html:134
+#: bookings/templates/bookings/tpv-cash/index-content.html:45
+#: bookings/templates/bookings/tpv-cash/print-z.html:115
+#: bookings/templates/bookings/tpv/print-z.html:134
 msgid "Card"
 msgstr ""
 
-#: templates/bookings/tpv-cash/index-content.html:46
+#: bookings/templates/bookings/tpv-cash/index-content.html:46
 msgid "Devoluciones"
 msgstr ""
 
-#: templates/bookings/tpv-cash/index-content.html:47
-#: templates/bookings/tpv-cash/print-z.html:126
-#: templates/bookings/tpv/print-z.html:148
+#: bookings/templates/bookings/tpv-cash/index-content.html:47
+#: bookings/templates/bookings/tpv-cash/print-z.html:126
+#: bookings/templates/bookings/tpv/print-z.html:148
 msgid "Invitaciones"
 msgstr ""
 
-#: templates/bookings/tpv-cash/index-content.html:86
+#: bookings/templates/bookings/tpv-cash/index-content.html:86
 msgid "Print"
 msgstr ""
 
-#: templates/bookings/tpv-cash/index-z.html:10
-#: templates/bookings/tpv-orders-daily/index-content.html:10
-#: templates/bookings/tpv-orders-daily/index-z.html:10
+#: bookings/templates/bookings/tpv-cash/index-z.html:10
+#: bookings/templates/bookings/tpv-orders-daily/index-content.html:10
+#: bookings/templates/bookings/tpv-orders-daily/index-z.html:10
 msgid "Generate file"
 msgstr ""
 
-#: templates/bookings/tpv-cash/index-z.html:13
-#: templates/bookings/tpv-orders-daily/index-z.html:13
+#: bookings/templates/bookings/tpv-cash/index-z.html:13
+#: bookings/templates/bookings/tpv-orders-daily/index-z.html:13
 msgid "Generate Z"
 msgstr ""
 
-#: templates/bookings/tpv-cash/index-z.html:19
-#: templates/bookings/tpv-orders-daily/index-z.html:19
-#: templates/bookings/tpv/mobile/tpv-tables.html:80
-#: templates/bookings/tpv/tpv-tables.html:79
+#: bookings/templates/bookings/tpv-cash/index-z.html:19
+#: bookings/templates/bookings/tpv-orders-daily/index-z.html:19
+#: bookings/templates/bookings/tpv/mobile/tpv-tables.html:80
+#: bookings/templates/bookings/tpv/tpv-tables.html:79
 msgid "Z"
 msgstr ""
 
-#: templates/bookings/tpv-cash/print-z.html:90
-#: templates/bookings/tpv/print-ticket.html:150
-#: templates/bookings/tpv/print-z.html:109
+#: bookings/templates/bookings/tpv-cash/print-z.html:90
+#: bookings/templates/bookings/tpv/print-ticket.html:150
+#: bookings/templates/bookings/tpv/print-z.html:109
 msgid "Summary"
 msgstr ""
 
-#: templates/bookings/tpv-cash/print-z.html:93
-#: templates/bookings/tpv/print-z.html:112
+#: bookings/templates/bookings/tpv-cash/print-z.html:93
+#: bookings/templates/bookings/tpv/print-z.html:112
 msgid "Zeta Nº"
 msgstr ""
 
-#: templates/bookings/tpv-cash/print-z.html:93
-#: templates/bookings/tpv/print-z.html:112
+#: bookings/templates/bookings/tpv-cash/print-z.html:93
+#: bookings/templates/bookings/tpv/print-z.html:112
 msgid "Equis Nº"
 msgstr ""
 
-#: templates/bookings/tpv-cash/print-z.html:105
-#: templates/bookings/tpv/print-z.html:124
+#: bookings/templates/bookings/tpv-cash/print-z.html:105
+#: bookings/templates/bookings/tpv/print-z.html:124
 msgid "Total cash"
 msgstr ""
 
-#: templates/bookings/tpv-cash/print-z.html:110
-#: templates/bookings/tpv/print-z.html:129
+#: bookings/templates/bookings/tpv-cash/print-z.html:110
+#: bookings/templates/bookings/tpv/print-z.html:129
 msgid "Billed"
 msgstr ""
 
-#: templates/bookings/tpv-cash/print-z.html:117
-#: templates/bookings/tpv/print-z.html:137
+#: bookings/templates/bookings/tpv-cash/print-z.html:117
+#: bookings/templates/bookings/tpv/print-z.html:137
 msgid "Devoluciones Efectivo"
 msgstr ""
 
-#: templates/bookings/tpv-cash/print-z.html:119
-#: templates/bookings/tpv/print-z.html:139
+#: bookings/templates/bookings/tpv-cash/print-z.html:119
+#: bookings/templates/bookings/tpv/print-z.html:139
 msgid "Devoluciones Tarjeta"
 msgstr ""
 
-#: templates/bookings/tpv-cash/print-z.html:121
-#: templates/bookings/tpv/print-z.html:141
+#: bookings/templates/bookings/tpv-cash/print-z.html:121
+#: bookings/templates/bookings/tpv/print-z.html:141
 msgid "Devoluciones Pulsera"
 msgstr ""
 
-#: templates/bookings/tpv-cash/print-z.html:123
-#: templates/bookings/tpv/print-z.html:143
+#: bookings/templates/bookings/tpv-cash/print-z.html:123
+#: bookings/templates/bookings/tpv/print-z.html:143
 msgid "Devoluciones Habitación"
 msgstr ""
 
-#: templates/bookings/tpv-cash/print-z.html:133
-#: templates/bookings/tpv/print-z.html:155
+#: bookings/templates/bookings/tpv-cash/print-z.html:133
+#: bookings/templates/bookings/tpv/print-z.html:155
 msgid "Nº Tickets"
 msgstr ""
 
-#: templates/bookings/tpv-orders-daily/index-content.html:22
+#: bookings/templates/bookings/tpv-orders-daily/index-content.html:22
 msgid "Orders daily"
 msgstr ""
 
-#: templates/bookings/tpv-orders-daily/index-content.html:27
+#: bookings/templates/bookings/tpv-orders-daily/index-content.html:27
 msgid "File"
 msgstr ""
 
-#: templates/bookings/tpv-orders/order-list.html:10
+#: bookings/templates/bookings/tpv-orders/order-list.html:10
 msgid "Ticket"
 msgstr ""
 
-#: templates/bookings/tpv-orders/order-list.html:12
+#: bookings/templates/bookings/tpv-orders/order-list.html:12
 msgid "Tarjeta"
 msgstr ""
 
-#: templates/bookings/tpv-orders/order-list.html:13
+#: bookings/templates/bookings/tpv-orders/order-list.html:13
 msgid "Camarero/a"
 msgstr ""
 
-#: templates/bookings/tpv-orders/order-row.html:4
-#: templates/bookings/tpv-orders/order-row.html:9
-#: templates/bookings/tpv-orders/order-row.html:12
+#: bookings/templates/bookings/tpv-orders/order-row.html:4
+#: bookings/templates/bookings/tpv-orders/order-row.html:9
+#: bookings/templates/bookings/tpv-orders/order-row.html:12
 msgid "Nombre"
 msgstr ""
 
-#: templates/bookings/tpv-orders/order-row.html:5
+#: bookings/templates/bookings/tpv-orders/order-row.html:5
 msgid "Teléfono"
 msgstr ""
 
-#: templates/bookings/tpv-orders/order-row.html:7
+#: bookings/templates/bookings/tpv-orders/order-row.html:7
 msgid "Habitación"
 msgstr ""
 
-#: templates/bookings/tpv-orders/order-row.html:10
+#: bookings/templates/bookings/tpv-orders/order-row.html:10
 msgid "ID"
-msgstr ""
+msgstr "UUID"
 
-#: templates/bookings/tpv-orders/order-row.html:14
+#: bookings/templates/bookings/tpv-orders/order-row.html:14
 msgid "Mesa"
 msgstr ""
 
-#: templates/bookings/tpv-orders/order-row.html:20
+#: bookings/templates/bookings/tpv-orders/order-row.html:20
 msgid "Tipo pago"
 msgstr ""
 
-#: templates/bookings/tpv-orders/order-row.html:21
+#: bookings/templates/bookings/tpv-orders/order-row.html:21
 msgid "Descripción"
-msgstr ""
+msgstr "Descripció"
 
-#: templates/bookings/tpv-orders/order-row.html:22
-#: templates/bookings/tpv/print-ticket.html:119
+#: bookings/templates/bookings/tpv-orders/order-row.html:22
+#: bookings/templates/bookings/tpv/print-ticket.html:119
 msgid "Hotel"
 msgstr ""
 
-#: templates/bookings/tpv-orders/order-row.html:40
+#: bookings/templates/bookings/tpv-orders/order-row.html:40
 msgid "Send to PMS"
-msgstr ""
+msgstr "Data d'enviament"
 
-#: templates/bookings/tpv-orders/orders.html:11
+#: bookings/templates/bookings/tpv-orders/orders.html:11
 msgid "Tickets"
 msgstr ""
 
-#: templates/bookings/tpv/discount-form.html:11
+#: bookings/templates/bookings/tpv/discount-form.html:11
 msgid "Va a realizar un descuento del:"
 msgstr ""
 
-#: templates/bookings/tpv/discount-form.html:14
+#: bookings/templates/bookings/tpv/discount-form.html:14
 msgid "-- Seleccione un descuento --"
 msgstr ""
 
-#: templates/bookings/tpv/discount-form.html:22
+#: bookings/templates/bookings/tpv/discount-form.html:22
 msgid "Introducir descuento a aplicar:"
 msgstr ""
 
-#: templates/bookings/tpv/discount-form.html:28
-#: templates/bookings/tpv/view-payment-types-aux.html:9
-#: templates/bookings/tpv/view-payment-types-aux.html:43
-#: templates/bookings/tpv/view-payment-types-aux.html:78
-#: templates/bookings/tpv/view-payment-types-aux.html:145
+#: bookings/templates/bookings/tpv/discount-form.html:28
+#: bookings/templates/bookings/tpv/view-payment-types-aux.html:9
+#: bookings/templates/bookings/tpv/view-payment-types-aux.html:43
+#: bookings/templates/bookings/tpv/view-payment-types-aux.html:78
+#: bookings/templates/bookings/tpv/view-payment-types-aux.html:145
 msgid "Cerrar"
 msgstr ""
 
-#: templates/bookings/tpv/discount-form.html:32
+#: bookings/templates/bookings/tpv/discount-form.html:32
 msgid "Guardar"
 msgstr ""
 
-#: templates/bookings/tpv/index.html:7
-#: templates/bookings/tpv/mobile/index.html:14
+#: bookings/templates/bookings/tpv/index.html:7
+#: bookings/templates/bookings/tpv/mobile/index.html:14
 msgid "Usuario"
 msgstr ""
 
-#: templates/bookings/tpv/mobile/index-mobile.html:24
+#: bookings/templates/bookings/tpv/mobile/index-mobile.html:24
 msgid "Products"
 msgstr ""
 
-#: templates/bookings/tpv/mobile/index-mobile.html:46
-#: templates/bookings/tpv/tpv-cart.html:15
+#: bookings/templates/bookings/tpv/mobile/index-mobile.html:46
+#: bookings/templates/bookings/tpv/tpv-cart.html:15
 msgid "Search..."
 msgstr ""
 
-#: templates/bookings/tpv/mobile/index-mobile.html:60
+#: bookings/templates/bookings/tpv/mobile/index-mobile.html:60
 msgid "Consultar Habitación"
 msgstr ""
 
-#: templates/bookings/tpv/mobile/tpv-cart-mobile.html:17
-#: templates/bookings/tpv/tpv-cart.html:19
+#: bookings/templates/bookings/tpv/mobile/tpv-cart-mobile.html:17
+#: bookings/templates/bookings/tpv/tpv-cart.html:19
 msgid "FAVORITOS"
 msgstr ""
 
-#: templates/bookings/tpv/mobile/tpv-cart-mobile.html:44
-#: templates/bookings/tpv/tpv-cart.html:39
+#: bookings/templates/bookings/tpv/mobile/tpv-cart-mobile.html:44
+#: bookings/templates/bookings/tpv/tpv-cart.html:39
 msgid "TOP VENTAS"
 msgstr ""
 
-#: templates/bookings/tpv/mobile/tpv-form-login.html:19
-#: templates/bookings/tpv/tpv-form-login.html:19
+#: bookings/templates/bookings/tpv/mobile/tpv-form-login.html:19
+#: bookings/templates/bookings/tpv/tpv-form-login.html:19
 msgid "Username:"
-msgstr ""
+msgstr "Nom d'usuari"
 
-#: templates/bookings/tpv/mobile/tpv-form-login.html:24
-#: templates/bookings/tpv/tpv-form-login.html:24
+#: bookings/templates/bookings/tpv/mobile/tpv-form-login.html:24
+#: bookings/templates/bookings/tpv/tpv-form-login.html:24
 msgid "Password:"
 msgstr ""
 
-#: templates/bookings/tpv/mobile/tpv-tables.html:5
-#: templates/bookings/tpv/tpv-tables.html:5
+#: bookings/templates/bookings/tpv/mobile/tpv-tables.html:5
+#: bookings/templates/bookings/tpv/tpv-tables.html:5
 msgid "¡TPV Cerrado!"
 msgstr ""
 
-#: templates/bookings/tpv/mobile/tpv-tables.html:37
-#: templates/bookings/tpv/tpv-tables.html:37
+#: bookings/templates/bookings/tpv/mobile/tpv-tables.html:37
+#: bookings/templates/bookings/tpv/tpv-tables.html:37
 msgid "Fondo de caja"
 msgstr ""
 
-#: templates/bookings/tpv/mobile/tpv-tables.html:61
-#: templates/bookings/tpv/tpv-tables.html:60
+#: bookings/templates/bookings/tpv/mobile/tpv-tables.html:61
+#: bookings/templates/bookings/tpv/tpv-tables.html:60
 msgid "Seleccionar mesa a buscar..."
 msgstr ""
 
-#: templates/bookings/tpv/mobile/tpv-tables.html:64
-#: templates/bookings/tpv/tpv-tables.html:63
+#: bookings/templates/bookings/tpv/mobile/tpv-tables.html:64
+#: bookings/templates/bookings/tpv/tpv-tables.html:63
 msgid "Generar caja"
 msgstr ""
 
-#: templates/bookings/tpv/mobile/tpv-tables.html:68
-#: templates/bookings/tpv/tpv-tables.html:67
+#: bookings/templates/bookings/tpv/mobile/tpv-tables.html:68
+#: bookings/templates/bookings/tpv/tpv-tables.html:67
 msgid "Seleccionar TPV"
 msgstr ""
 
-#: templates/bookings/tpv/mobile/tpv-tables.html:80
-#: templates/bookings/tpv/mobile/tpv-tables.html:86
-#: templates/bookings/tpv/tpv-tables.html:79
-#: templates/bookings/tpv/tpv-tables.html:85
+#: bookings/templates/bookings/tpv/mobile/tpv-tables.html:80
+#: bookings/templates/bookings/tpv/mobile/tpv-tables.html:86
+#: bookings/templates/bookings/tpv/tpv-tables.html:79
+#: bookings/templates/bookings/tpv/tpv-tables.html:85
 msgid "Generar"
 msgstr ""
 
-#: templates/bookings/tpv/mobile/tpv-tables.html:86
-#: templates/bookings/tpv/tpv-tables.html:85
+#: bookings/templates/bookings/tpv/mobile/tpv-tables.html:86
+#: bookings/templates/bookings/tpv/tpv-tables.html:85
 msgid "X"
 msgstr ""
 
-#: templates/bookings/tpv/mobile/tpv-tables.html:111
-#: templates/bookings/tpv/tpv-table-info.html:11
-#: templates/bookings/tpv/tpv-tables.html:110
+#: bookings/templates/bookings/tpv/mobile/tpv-tables.html:111
+#: bookings/templates/bookings/tpv/tpv-table-info.html:11
+#: bookings/templates/bookings/tpv/tpv-tables.html:110
 msgid "No order"
-msgstr ""
+msgstr "Ordre"
 
-#: templates/bookings/tpv/mobile/view-payment-types-cancel.html:4
-#: templates/bookings/tpv/view-payment-types-cancel.html:4
+#: bookings/templates/bookings/tpv/mobile/view-payment-types-cancel.html:4
+#: bookings/templates/bookings/tpv/view-payment-types-cancel.html:4
 msgid "Cancelar pedido"
 msgstr ""
 
-#: templates/bookings/tpv/mobile/view-payment-types-free.html:4
-#: templates/bookings/tpv/view-payment-types-free.html:4
+#: bookings/templates/bookings/tpv/mobile/view-payment-types-free.html:4
+#: bookings/templates/bookings/tpv/view-payment-types-free.html:4
 msgid "Invitación"
 msgstr ""
 
-#: templates/bookings/tpv/mobile/view-payment-types-return.html:5
-#: templates/bookings/tpv/view-payment-types-return.html:5
+#: bookings/templates/bookings/tpv/mobile/view-payment-types-return.html:5
+#: bookings/templates/bookings/tpv/view-payment-types-return.html:5
 msgid "Devolución"
 msgstr ""
 
-#: templates/bookings/tpv/mobile/view-ticket-mobile.html:69
-#: templates/bookings/tpv/view-ticket.html:74
+#: bookings/templates/bookings/tpv/mobile/view-ticket-mobile.html:69
+#: bookings/templates/bookings/tpv/view-ticket.html:74
 msgid "Enviado"
-msgstr ""
+msgstr "Enviats"
 
-#: templates/bookings/tpv/mobile/view-ticket-mobile.html:80
-#: templates/bookings/tpv/view-ticket.html:85
+#: bookings/templates/bookings/tpv/mobile/view-ticket-mobile.html:80
+#: bookings/templates/bookings/tpv/view-ticket.html:85
 msgid "Add discount at this article"
 msgstr ""
 
-#: templates/bookings/tpv/mobile/view-ticket-mobile.html:110
+#: bookings/templates/bookings/tpv/mobile/view-ticket-mobile.html:110
 msgid "Realizar Pago"
 msgstr ""
 
-#: templates/bookings/tpv/mobile/view-ticket-mobile.html:116
+#: bookings/templates/bookings/tpv/mobile/view-ticket-mobile.html:116
 msgid "Ver ticket"
 msgstr ""
 
-#: templates/bookings/tpv/orders-by-waiter.html:7
+#: bookings/templates/bookings/tpv/orders-by-waiter.html:7
 msgid "Orders"
-msgstr ""
+msgstr "Ordre"
 
-#: templates/bookings/tpv/print-ticket.html:107
+#: bookings/templates/bookings/tpv/print-ticket.html:107
 msgid "Nº"
 msgstr ""
 
-#: templates/bookings/tpv/print-ticket.html:111
+#: bookings/templates/bookings/tpv/print-ticket.html:111
 msgid "Client"
 msgstr ""
 
-#: templates/bookings/tpv/print-ticket.html:113
+#: bookings/templates/bookings/tpv/print-ticket.html:113
 msgid "Pago"
 msgstr ""
 
-#: templates/bookings/tpv/print-ticket.html:116
+#: bookings/templates/bookings/tpv/print-ticket.html:116
 msgid "Invitado por"
 msgstr ""
 
-#: templates/bookings/tpv/print-ticket.html:126
+#: bookings/templates/bookings/tpv/print-ticket.html:126
 msgid "Items"
 msgstr ""
 
-#: templates/bookings/tpv/print-ticket.html:133
+#: bookings/templates/bookings/tpv/print-ticket.html:133
 msgid "Desc"
 msgstr ""
 
-#: templates/bookings/tpv/print-ticket.html:153
+#: bookings/templates/bookings/tpv/print-ticket.html:153
 msgid "Nº Items"
 msgstr ""
 
-#: templates/bookings/tpv/print-z.html:136
+#: bookings/templates/bookings/tpv/print-z.html:136
 msgid "Cardpay"
 msgstr ""
 
-#: templates/bookings/tpv/print-z.html:145
+#: bookings/templates/bookings/tpv/print-z.html:145
 msgid "Devoluciones Cardpay"
 msgstr ""
 
-#: templates/bookings/tpv/show-msg.html:9
+#: bookings/templates/bookings/tpv/show-msg.html:9
 msgid "Your order has been sent correctly!"
 msgstr ""
 
-#: templates/bookings/tpv/show-msg.html:12
+#: bookings/templates/bookings/tpv/show-msg.html:12
 msgid "Your order could not be sended!"
 msgstr ""
 
-#: templates/bookings/tpv/show-msg.html:15
+#: bookings/templates/bookings/tpv/show-msg.html:15
 msgid "Your order has been cancelled correctly!"
 msgstr ""
 
-#: templates/bookings/tpv/show-msg.html:18
+#: bookings/templates/bookings/tpv/show-msg.html:18
 msgid "Your order could not be sended. Payment Failed!"
 msgstr ""
 
-#: templates/bookings/tpv/show-msg.html:21
+#: bookings/templates/bookings/tpv/show-msg.html:21
 msgid "Your order could not be sended. Reservation not found!"
 msgstr ""
 
-#: templates/bookings/tpv/show-msg.html:29
+#: bookings/templates/bookings/tpv/show-msg.html:29
 msgid "Print Ticket"
 msgstr ""
 
-#: templates/bookings/tpv/tpv-table-info.html:15
+#: bookings/templates/bookings/tpv/tpv-table-info.html:15
 msgid "No orders"
 msgstr ""
 
-#: templates/bookings/tpv/tpv-tables-x.html:5
+#: bookings/templates/bookings/tpv/tpv-tables-x.html:5
 msgid "¡Se ha creado la caja X!"
 msgstr ""
 
-#: templates/bookings/tpv/view-guest-info.html:15
-#: templates/bookings/tpv/view-guest-info2.html:15
+#: bookings/templates/bookings/tpv/view-guest-info.html:15
+#: bookings/templates/bookings/tpv/view-guest-info2.html:15
 msgid "Regime"
 msgstr ""
 
-#: templates/bookings/tpv/view-guest-info.html:16
-#: templates/bookings/tpv/view-guest-info2.html:16
+#: bookings/templates/bookings/tpv/view-guest-info.html:16
+#: bookings/templates/bookings/tpv/view-guest-info2.html:16
 msgid "Level"
 msgstr ""
 
-#: templates/bookings/tpv/view-guest-info.html:24
+#: bookings/templates/bookings/tpv/view-guest-info.html:24
 msgid "Band Type"
-msgstr ""
+msgstr "Tipus de pagament"
 
-#: templates/bookings/tpv/view-guest-info.html:25
+#: bookings/templates/bookings/tpv/view-guest-info.html:25
 msgid "Kid"
 msgstr ""
 
-#: templates/bookings/tpv/view-guest-info.html:31
+#: bookings/templates/bookings/tpv/view-guest-info.html:31
 msgid "Yes"
 msgstr ""
 
-#: templates/bookings/tpv/view-guest-info.html:33
+#: bookings/templates/bookings/tpv/view-guest-info.html:33
 msgid "No"
 msgstr ""
 
-#: templates/bookings/tpv/view-guest-info.html:38
+#: bookings/templates/bookings/tpv/view-guest-info.html:38
 msgid "Balance"
 msgstr ""
 
-#: templates/bookings/tpv/view-payment-types-aux.html:4
+#: bookings/templates/bookings/tpv/view-payment-types-aux.html:4
 msgid "Va a realizar una devolución por un importe de: "
 msgstr ""
 
-#: templates/bookings/tpv/view-payment-types-aux.html:15
-#: templates/bookings/tpv/view-payment-types-aux.html:49
-#: templates/bookings/tpv/view-payment-types-aux.html:82
-#: templates/bookings/tpv/view-payment-types-aux.html:152
+#: bookings/templates/bookings/tpv/view-payment-types-aux.html:15
+#: bookings/templates/bookings/tpv/view-payment-types-aux.html:49
+#: bookings/templates/bookings/tpv/view-payment-types-aux.html:82
+#: bookings/templates/bookings/tpv/view-payment-types-aux.html:152
 msgid "Confirm"
 msgstr ""
 
-#: templates/bookings/tpv/view-payment-types-aux.html:24
+#: bookings/templates/bookings/tpv/view-payment-types-aux.html:24
 msgid "Va a realizar una invitación por un importe de: "
 msgstr ""
 
-#: templates/bookings/tpv/view-payment-types-aux.html:29
+#: bookings/templates/bookings/tpv/view-payment-types-aux.html:29
 msgid "Nombre de la persona realiza la invitación..."
 msgstr ""
 
-#: templates/bookings/tpv/view-payment-types-aux.html:34
-#: templates/bookings/tpv/view-payment-types-aux.html:71
+#: bookings/templates/bookings/tpv/view-payment-types-aux.html:34
+#: bookings/templates/bookings/tpv/view-payment-types-aux.html:71
 msgid "Seleccione una cuenta"
 msgstr ""
 
-#: templates/bookings/tpv/view-payment-types-aux.html:58
+#: bookings/templates/bookings/tpv/view-payment-types-aux.html:58
 msgid "Precio actual del ticket: "
 msgstr ""
 
-#: templates/bookings/tpv/view-payment-types-aux.html:60
+#: bookings/templates/bookings/tpv/view-payment-types-aux.html:60
 msgid "Va a realizar un descuento del: "
 msgstr ""
 
-#: templates/bookings/tpv/view-payment-types-aux.html:67
+#: bookings/templates/bookings/tpv/view-payment-types-aux.html:67
 msgid "Precio final: "
 msgstr ""
 
-#: templates/bookings/tpv/view-payment-types-aux.html:131
+#: bookings/templates/bookings/tpv/view-payment-types-aux.html:131
 msgid "Va a realizar un cargo en habitación por un importe de: "
 msgstr ""
 
-#: templates/bookings/tpv/view-payment-types-aux.html:134
+#: bookings/templates/bookings/tpv/view-payment-types-aux.html:134
 msgid "Seleccione un hotel"
 msgstr ""
 
-#: templates/bookings/tpv/view-payment-types-aux.html:140
+#: bookings/templates/bookings/tpv/view-payment-types-aux.html:140
 msgid "Número de la habitación..."
 msgstr ""
 
-#: templates/bookings/tpv/view-payment-types-band.html:11
+#: bookings/templates/bookings/tpv/view-payment-types-band.html:11
 msgid "Pulsera bloqueada"
 msgstr ""
 
-#: templates/bookings/tpv/view-payment-types-band.html:12
+#: bookings/templates/bookings/tpv/view-payment-types-band.html:12
 msgid "Pulsera sin límite"
 msgstr ""
 
-#: templates/bookings/tpv/view-payment-types-band.html:13
+#: bookings/templates/bookings/tpv/view-payment-types-band.html:13
 msgid "Producto no válido"
 msgstr ""
 
-#: templates/bookings/tpv/view-payment-types-band.html:14
+#: bookings/templates/bookings/tpv/view-payment-types-band.html:14
 msgid "Pulsera sin saldo"
 msgstr ""
 
-#: templates/bookings/tpv/view-payment-types-room.html:4
+#: bookings/templates/bookings/tpv/view-payment-types-room.html:4
 msgid "Cargo Habitación Externa"
 msgstr ""
 
-#: templates/bookings/tpv/view-payment-types-scripts.html:37
+#: bookings/templates/bookings/tpv/view-payment-types-scripts.html:37
 msgid "ADVISE: This band is locked!"
 msgstr ""
 
-#: templates/bookings/tpv/view-payment-types-scripts.html:40
+#: bookings/templates/bookings/tpv/view-payment-types-scripts.html:40
 msgid "ADVISE: You have invalid products, please remove!"
 msgstr ""
 
-#: templates/bookings/tpv/view-payment-types-scripts.html:43
+#: bookings/templates/bookings/tpv/view-payment-types-scripts.html:43
 msgid "<strong>ADVISE:</strong><br />You have not balance, recharge your band!"
 msgstr ""
 
-#: templates/bookings/tpv/view-payment-types-send-part.html:6
+#: bookings/templates/bookings/tpv/view-payment-types-send-part.html:6
 msgid "Envío parcial"
 msgstr ""
 
-#: templates/forms-templates/edit-css.html:4
+#: bookings/templates/forms-templates/edit-css.html:4
 msgid "New guest"
 msgstr ""
 
-#: templates/forms-templates/selected-template.html:14
+#: bookings/templates/forms-templates/selected-template.html:14
 msgid "Demo"
 msgstr ""
 
-#: templates/forms-templates/selected-template.html:18
+#: bookings/templates/forms-templates/selected-template.html:18
 msgid "Asignar"
 msgstr ""
 
-#: templates/forms/block-form.html:24
+#: bookings/templates/forms/block-form.html:24
 msgid "Remove item"
 msgstr ""
 
-#: templates/forms/block-form.html:24 templates/forms/question-form.html:35
+#: bookings/templates/forms/block-form.html:24
+#: bookings/templates/forms/question-form.html:35
 msgid "Are you sure to remove this item?"
 msgstr ""
 
-#: templates/forms/block-form.html:35
+#: bookings/templates/forms/block-form.html:35
 msgid "Select question type"
-msgstr ""
+msgstr "Tipus de pregunta"
 
-#: templates/forms/block-form.html:46 templates/forms/form-edit-content.html:36
-#: templates/forms/question-form.html:35
+#: bookings/templates/forms/block-form.html:46
+#: bookings/templates/forms/form-edit-content.html:36
+#: bookings/templates/forms/question-form.html:35
 msgid "Add item"
 msgstr ""
 
-#: templates/forms/channel-form.html:12
+#: bookings/templates/forms/channel-form.html:12
 msgid "Channel UUID"
-msgstr ""
+msgstr "Canal"
 
-#: templates/forms/emails.html:4
+#: bookings/templates/forms/emails.html:4
 msgid "Add email"
-msgstr ""
+msgstr "Correu del client"
 
-#: templates/forms/emails.html:20
+#: bookings/templates/forms/emails.html:20
 msgid "Email from"
-msgstr ""
+msgstr "Remitent"
 
-#: templates/forms/emails.html:27
+#: bookings/templates/forms/emails.html:27
 msgid "SUBJECT for New order"
 msgstr ""
 
-#: templates/forms/emails.html:34
+#: bookings/templates/forms/emails.html:34
 msgid "BODY for New order"
 msgstr ""
 
-#: templates/forms/emails.html:42
+#: bookings/templates/forms/emails.html:42
 msgid "SUBJECT for Change order status"
 msgstr ""
 
-#: templates/forms/emails.html:50
+#: bookings/templates/forms/emails.html:50
 msgid "BODY for Change order status"
 msgstr ""
 
-#: templates/forms/form-description.html:15
+#: bookings/templates/forms/form-description.html:15
 msgid "Width"
 msgstr ""
 
-#: templates/forms/form-description.html:21
-#: templates/forms/form-general.html:17
+#: bookings/templates/forms/form-description.html:21
+#: bookings/templates/forms/form-general.html:17
 msgid "Show"
 msgstr ""
 
-#: templates/forms/form-document.html:5 templates/forms/form-logo.html:5
+#: bookings/templates/forms/form-document.html:5
+#: bookings/templates/forms/form-logo.html:5
 msgid "Upload File"
 msgstr ""
 
-#: templates/forms/form-document.html:14 templates/forms/form-logo.html:13
-#: templates/forms/form-qr.html:22
+#: bookings/templates/forms/form-document.html:14
+#: bookings/templates/forms/form-logo.html:13
+#: bookings/templates/forms/form-qr.html:22
 msgid "Are you sure to remove this file?"
 msgstr ""
 
-#: templates/forms/form-edit-category.html:7
-#: templates/forms/form-edit-category.html:8 templates/forms/form-edit.html:8
-#: templates/forms/form-qr-block.html:13
+#: bookings/templates/forms/form-edit-category.html:7
+#: bookings/templates/forms/form-edit-category.html:8
+#: bookings/templates/forms/form-edit.html:8
+#: bookings/templates/forms/form-qr-block.html:13
 msgid "QR"
 msgstr ""
 
-#: templates/forms/form-edit-category.html:9
-#: templates/forms/form-edit-category.html:10 templates/forms/form-edit.html:9
+#: bookings/templates/forms/form-edit-category.html:9
+#: bookings/templates/forms/form-edit-category.html:10
+#: bookings/templates/forms/form-edit.html:9
 msgid "PWA"
 msgstr ""
 
-#: templates/forms/form-edit-category.html:13
-#: templates/forms/form-edit-category.html:14
+#: bookings/templates/forms/form-edit-category.html:13
+#: bookings/templates/forms/form-edit-category.html:14
 msgid "Totem"
 msgstr ""
 
-#: templates/forms/form-edit-category.html:19
-#: templates/forms/form-edit-category.html:20
+#: bookings/templates/forms/form-edit-category.html:19
+#: bookings/templates/forms/form-edit-category.html:20
 msgid "TPV MOVIL"
 msgstr ""
 
-#: templates/forms/form-edit-category.html:22
-#: templates/forms/form-edit-category.html:23
+#: bookings/templates/forms/form-edit-category.html:22
+#: bookings/templates/forms/form-edit-category.html:23
 msgid "CREAR TPV"
 msgstr ""
 
-#: templates/forms/form-edit-category.html:26
-#: templates/forms/form-edit-category.html:27
+#: bookings/templates/forms/form-edit-category.html:26
+#: bookings/templates/forms/form-edit-category.html:27
 msgid "Band Pay"
-msgstr ""
+msgstr "Polsera"
 
-#: templates/forms/form-edit-category.html:30
+#: bookings/templates/forms/form-edit-category.html:30
 msgid "Update"
 msgstr ""
 
-#: templates/forms/form-edit-category.html:31
+#: bookings/templates/forms/form-edit-category.html:31
 msgid "update"
 msgstr ""
 
-#: templates/forms/form-edit-category.html:35
+#: bookings/templates/forms/form-edit-category.html:35
 msgid "Create PWA"
 msgstr ""
 
-#: templates/forms/form-edit-content.html:7
+#: bookings/templates/forms/form-edit-content.html:7
 msgid "Change lang"
-msgstr ""
+msgstr "Canal"
 
-#: templates/forms/form-edit-content.html:17
+#: bookings/templates/forms/form-edit-content.html:17
 msgid "Images"
 msgstr ""
 
-#: templates/forms/form-edit-content.html:23
+#: bookings/templates/forms/form-edit-content.html:23
 msgid "Files"
 msgstr ""
 
-#: templates/forms/form-edit-content.html:36
+#: bookings/templates/forms/form-edit-content.html:36
 msgid "Add"
 msgstr ""
 
-#: templates/forms/form-edit.html:10
+#: bookings/templates/forms/form-edit.html:10
 msgid "Preview"
 msgstr ""
 
-#: templates/forms/form-general.html:5
+#: bookings/templates/forms/form-general.html:5
 msgid "General data"
 msgstr ""
 
-#: templates/forms/form-general.html:9
+#: bookings/templates/forms/form-general.html:9
 msgid "Image"
 msgstr ""
 
-#: templates/forms/form-general.html:48
+#: bookings/templates/forms/form-general.html:48
 msgid "URL"
 msgstr ""
 
-#: templates/forms/form-general.html:55
+#: bookings/templates/forms/form-general.html:55
 msgid "Parent Category"
-msgstr ""
+msgstr "Categoria"
 
-#: templates/forms/form-general.html:59
+#: bookings/templates/forms/form-general.html:59
 msgid "Current"
-msgstr ""
+msgstr "Pare"
 
-#: templates/forms/form-general.html:60 templates/forms/form-general.html:67
+#: bookings/templates/forms/form-general.html:60
+#: bookings/templates/forms/form-general.html:67
 msgid "ROOT Category"
-msgstr ""
+msgstr "Categoria"
 
-#: templates/forms/form-general.html:63
+#: bookings/templates/forms/form-general.html:63
 msgid "Level Up"
 msgstr ""
 
-#: templates/forms/form-general.html:80
+#: bookings/templates/forms/form-general.html:80
 msgid "Position"
-msgstr ""
+msgstr "Descripció"
 
-#: templates/forms/form-general.html:92
+#: bookings/templates/forms/form-general.html:92
 msgid "Select form type"
-msgstr ""
+msgstr "Tipus de formulari"
 
-#: templates/forms/form-general.html:114 templates/forms/form-row.html:11
+#: bookings/templates/forms/form-general.html:114
+#: bookings/templates/forms/form-row.html:11
 msgid "Edit"
 msgstr ""
 
-#: templates/forms/form-general.html:119
+#: bookings/templates/forms/form-general.html:119
 msgid "Features"
 msgstr ""
 
-#: templates/forms/form-general.html:131
+#: bookings/templates/forms/form-general.html:131
 msgid "Emails"
-msgstr ""
+msgstr "Correu electrònic"
 
-#: templates/forms/form-general.html:137 templates/forms/timetable.html:18
+#: bookings/templates/forms/form-general.html:137
+#: bookings/templates/forms/timetable.html:18
 msgid "Timetable"
-msgstr ""
+msgstr "Taula"
 
-#: templates/forms/form-list.html:9
+#: bookings/templates/forms/form-list.html:9
 msgid "Project"
-msgstr ""
+msgstr "UUID del projecte"
 
-#: templates/forms/form-qr-block.html:7
+#: bookings/templates/forms/form-qr-block.html:7
 msgid "Logo"
 msgstr ""
 
-#: templates/forms/form-qr.html:5
+#: bookings/templates/forms/form-qr.html:5
 msgid "Generate QR"
 msgstr ""
 
-#: templates/forms/form-qr.html:8
+#: bookings/templates/forms/form-qr.html:8
 msgid "Background"
 msgstr ""
 
-#: templates/forms/form-row.html:8
+#: bookings/templates/forms/form-row.html:8
 msgid "Finger print"
 msgstr ""
 
-#: templates/forms/form-row.html:10
+#: bookings/templates/forms/form-row.html:10
 msgid "New booking"
 msgstr ""
 
-#: templates/forms/form-row.html:12 templates/forms/forms.html:25
+#: bookings/templates/forms/form-row.html:12
+#: bookings/templates/forms/forms.html:25
 msgid "Active"
 msgstr ""
 
-#: templates/forms/forms.html:13
+#: bookings/templates/forms/forms.html:13
 msgid "Forms"
-msgstr ""
+msgstr "Formulari"
 
-#: templates/forms/forms.html:24
+#: bookings/templates/forms/forms.html:24
 msgid "No active"
 msgstr ""
 
-#: templates/forms/forms.html:26
+#: bookings/templates/forms/forms.html:26
 msgid "New form"
 msgstr ""
 
-#: templates/forms/question-form.html:26
+#: bookings/templates/forms/question-form.html:26
 msgid "Select field type"
-msgstr ""
+msgstr "Tipus de camp"
 
-#: templates/forms/search_box.html:14
+#: bookings/templates/forms/search_box.html:14
 msgid "Channel name"
-msgstr ""
+msgstr "Canal"
 
-#: templates/forms/timetable.html:5
+#: bookings/templates/forms/timetable.html:5
 msgid "Add timetable"
 msgstr ""
 
-#: totem_views.py:69
+#: bookings/totem_views.py:69
 msgid "¡Pulsera no encontrada!"
 msgstr ""
 
-#: totem_views.py:71
+#: bookings/totem_views.py:71
 msgid "¡Pulsera no asignada!"
 msgstr ""
 
-#: totem_views.py:93
+#: bookings/totem_views.py:93
 msgid "Pulsera no encontrada"
 msgstr ""
 
-#: totem_views.py:97
+#: bookings/totem_views.py:97
 msgid "Datafono no encontrado"
 msgstr ""
 
-#: totem_views.py:105 totem_views.py:108
+#: bookings/totem_views.py:105 bookings/totem_views.py:108
 msgid "Error procesando el pago"
 msgstr ""
 
-#: tpv_mobile_views.py:79 tpv_views.py:94
+#: bookings/tpv_mobile_views.py:79 bookings/tpv_views.py:94
 msgid "Username or password incorrect!"
 msgstr ""
 
-#: tpv_mobile_views.py:84 tpv_views.py:99
+#: bookings/tpv_mobile_views.py:84 bookings/tpv_views.py:99
 msgid "Waiter not found!"
-msgstr ""
+msgstr "Categoria no trobada!"
 
-#: tpv_mobile_views.py:235 tpv_mobile_views.py:270 tpv_views.py:322
+#: bookings/tpv_mobile_views.py:236 bookings/tpv_mobile_views.py:271
+#: bookings/tpv_views.py:322
 msgid "This band is not asigned to any guest!"
 msgstr ""
 
-#: tpv_mobile_views.py:259
+#: bookings/tpv_mobile_views.py:260
 msgid "Band could not be readed!"
 msgstr ""
 
-#: tpv_mobile_views.py:333 tpv_views.py:341
+#: bookings/tpv_mobile_views.py:334 bookings/tpv_views.py:341
 msgid "Room not found!"
-msgstr ""
+msgstr "Formulari no trobat!"
 
-#: tpv_mobile_views.py:336 tpv_views.py:344
+#: bookings/tpv_mobile_views.py:337 bookings/tpv_views.py:344
 msgid "Guest not found!"
-msgstr ""
+msgstr "Formulari no trobat!"
 
-#: views.py:40
+#: bookings/views.py:40
 msgid "Project not found!"
-msgstr ""
+msgstr "Formulari no trobat!"
 
-#: views.py:42 views.py:48
+#: bookings/views.py:42 bookings/views.py:48
 msgid "User not found!"
-msgstr ""
+msgstr "Formulari no trobat!"
 
-#: views.py:44
+#: bookings/views.py:44
 msgid "Token not found!"
-msgstr ""
+msgstr "Formulari no trobat!"

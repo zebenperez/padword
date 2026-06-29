@@ -1,10 +1,10 @@
-{% load static %}
+{% load i18n static %}
 <!DOCTYPE html>
 <html lang="es">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Información de acceso</title>
+<title>{% trans "Información de acceso" %}</title>
 
 <style>
 *{
@@ -226,52 +226,59 @@ hr{
 
 <div class="email-wrapper">
     <div class="header">
-        <h1>Información de acceso</h1>
-        <p>Su estancia comienza próximamente</p>
+        <h1>{% trans "Información de acceso" %}</h1>
+        <p>{% trans "Su estancia comienza próximamente" %}</p>
     </div>
 
     <div class="content">
-        <p class="greeting">Estimado/a {{guest.name}} {{guest.surname}}</p>
+        <p class="greeting">{% trans "Estimado/a" %} {{guest.name}} {{guest.surname}}</p>
 
         <p class="intro">
-            Le facilitamos los datos de acceso de su alojamiento
+            {% trans "Le facilitamos los datos de acceso de su alojamiento" %}
             <strong>{{project.name}}</strong>.
-            Revise la información de su reserva y utilice los enlaces inferiores para acceder a la aplicación o consultar su código de acceso.
+            {% trans "Revise la información de su reserva y utilice los enlaces inferiores para acceder a la aplicación o consultar su código de acceso." %}
         </p>
 
         <div class="booking-box">
-            <div class="booking-title"> Datos de la reserva </div>
+            <div class="booking-title"> {% trans "Datos de la reserva" %} </div>
 
             <div class="booking-row">
-                <span class="booking-label">Referencia</span>
+                <span class="booking-label">{% trans "Referencia" %}</span>
                 <span class="booking-value">{{guest.ext_id}}</span>
             </div>
 
             <div class="booking-row">
-                <span class="booking-label">Check-in</span>
+                <span class="booking-label">{% trans "Check-in" %}</span>
                 <span class="booking-value">{{guest.check_in|date:"d-m-Y"}}</span>
             </div>
 
             <div class="booking-row">
-                <span class="booking-label">Check-out</span>
+                <span class="booking-label">{% trans "Check-out" %}</span>
                 <span class="booking-value">{{guest.check_out|date:"d-m-Y"}}</span>
             </div>
 
             <div class="booking-row">
+                <span class="booking-label">{% trans "Nº de habitación" %}</span>
+                <span class="booking-value">{{guest.room}}</span>
+            </div>
+
+            {%comment%}
+            <div class="booking-row">
                 <span class="booking-label">Huéspedes</span>
                 <span class="booking-value"></span>
             </div>
+            {%endcomment%}
         </div>
 
         <div class="cta-wrapper">
-            <a href="{{guest.pwa_link}}" class="pwa-button"> Abrir aplicación del alojamiento </a> <br/><br/>
-            <span class="code-label"> Código de acceso: {{code}} </span>
+            <a href="{{guest.pwa_link}}" class="pwa-button">{% trans "Abrir aplicación del alojamiento" %} </a> <br/><br/>
+            <span class="code-label">{% trans "Código de acceso" %}: {{code}} </span>
         </div>
 
         <div class="description">
-            El código de acceso estará operativo únicamente durante el periodo de estancia contratado, desde la hora de check-in hasta la hora de check-out.
+            {% trans "El código de acceso estará operativo únicamente durante el periodo de estancia contratado, desde la hora de check-in hasta la hora de check-out." %}
             <br><br>
-            Si necesita asistencia o desea modificar sus datos de acceso, contacte con:
+            {% trans "Si necesita asistencia o desea modificar sus datos de acceso, contacte con" %}:
             <br/>
             <div style="text-align:center">{{pmu.phone}}</div>
             <div style="text-align:center">{{pmu.email}}</div>

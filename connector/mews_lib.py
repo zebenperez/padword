@@ -1,7 +1,8 @@
 from django.template.loader import render_to_string
 from django.conf import settings
+from django.utils.translation import gettext as _
 from datetime import datetime, timedelta
-from web.models import Room
+from web.models import Room, Project
 from guest.models import Guest, KeyCode
 from padword.commons import new_ui_slug
 from padword.email_lib import send_email
@@ -210,15 +211,15 @@ def room_exist(project_uuid, room):
 
 def send_email_code(guest, code, pmu):
     try:
-        subject = "Códigos de acceso" 
-        body = f'Su código de acceso es {code}' 
+        subject = _("Códigos de acceso")
+        #body = _(f'Su código de acceso es {code}')
         body = render_to_string("mews/email_template.html", {'guest': guest, 'project': guest.project, 'code': code, 'pmu': pmu})
         send_email(subject, "", settings.EMAIL_FROM_DEFAULT, [guest.email], body)
     except Exception as e:
         print(e)
 
 def create_booking(pmu, booking, av):
-    project = pmu.project
+    project = Project.objects.filter(uuid=pmu.project_uuid).first()
     checkin = project.local_date(get_date(booking.start))
     checkout = project.local_date(get_date(booking.end))
     #print(checkin)
@@ -279,8 +280,8 @@ def get_booking_list(pmu):
     booking_list = []
     i = 0
     for item in result:
-        #print("--1--")
-        #print(item)
+        print("--1--")
+        print(item)
         i += 1
         node = MewsBooking(item)
         booking_list.append(node)

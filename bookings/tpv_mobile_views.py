@@ -216,6 +216,7 @@ def tpv_check_band(request):
     try:
         fi = get_or_none(FormInstance, request.GET["obj_id"])
         val = get_param(request.GET, "value", "")
+        val = val.lstrip("0") # Elimina los 0 al principio de la cadena leída
 
         # No coincide la mesa actual con la del ticket
         if fi.table.id != request.session["table"] or fi.get_status != None:

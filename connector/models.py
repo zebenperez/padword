@@ -87,7 +87,8 @@ class ProjectMewsUser(models.Model):
     def project(self):
         try:
             return Project.objects.get(uuid=self.project_uuid)
-        except:
+        except Exception as e:
+            print(e)
             return None
 
 class ProjectCloudbedsUser(models.Model):

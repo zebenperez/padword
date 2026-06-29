@@ -1,0 +1,406 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-06-29 12:22+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+#: contents/models.py:75 contents/templates/contents/category-form.html:54
+msgid "Position"
+msgstr ""
+
+#: contents/models.py:77
+msgid "Show image"
+msgstr ""
+
+#: contents/models.py:78 contents/models.py:175 contents/models.py:263
+#: contents/models.py:386 contents/models.py:468 contents/models.py:553
+#: contents/templates/contents/category-form.html:15
+#: contents/templates/contents/item-form.html:16
+msgid "Image"
+msgstr ""
+
+#: contents/models.py:170 contents/models.py:578
+#: contents/templates/contents/category-form.html:5
+#: contents/templates/contents/category-links.html:4
+msgid "Category"
+msgstr ""
+
+#: contents/models.py:174 contents/models.py:183 contents/models.py:385
+#: contents/models.py:542 contents/models.py:582
+msgid "Order"
+msgstr ""
+
+#: contents/models.py:179
+msgid "Category Image"
+msgstr ""
+
+#: contents/models.py:184
+msgid "File"
+msgstr ""
+
+#: contents/models.py:188
+msgid "Category File"
+msgstr ""
+
+#: contents/models.py:264 contents/templates/contents/item-form.html:45
+#: contents/templates/contents/item-form.html:48
+msgid "Favorite"
+msgstr ""
+
+#: contents/models.py:265 contents/templates/contents/item-form.html:51
+#: contents/templates/contents/item-form.html:54
+msgid "Especial"
+msgstr ""
+
+#: contents/models.py:266 contents/templates/contents/item-form.html:57
+msgid "External ID"
+msgstr ""
+
+#: contents/models.py:345 contents/models.py:387 contents/models.py:398
+#: contents/templates/contents/item-form.html:5
+msgid "Item"
+msgstr ""
+
+#: contents/models.py:354
+msgid "Items in Category"
+msgstr ""
+
+#: contents/models.py:382
+msgid "Options in item"
+msgstr ""
+
+#: contents/models.py:390
+msgid "Item Image"
+msgstr ""
+
+#: contents/models.py:396
+msgid "Status"
+msgstr ""
+
+#: contents/models.py:397
+msgid "Form Instance"
+msgstr ""
+
+#: contents/models.py:399
+msgid "Options"
+msgstr ""
+
+#: contents/models.py:400
+msgid "Comments"
+msgstr ""
+
+#: contents/models.py:423
+msgid "Shopping Cart"
+msgstr ""
+
+#: contents/models.py:466
+msgid "Ini date"
+msgstr ""
+
+#: contents/models.py:467
+msgid "End date"
+msgstr ""
+
+#: contents/models.py:484
+msgid "Regime code"
+msgstr ""
+
+#: contents/models.py:485
+msgid "TPV"
+msgstr ""
+
+#: contents/models.py:493
+msgid "View category"
+msgstr ""
+
+#: contents/models.py:494
+msgid "Remove category"
+msgstr ""
+
+#: contents/models.py:495
+msgid "Category UUID"
+msgstr ""
+
+#: contents/models.py:496
+msgid "Username"
+msgstr ""
+
+#: contents/models.py:499
+msgid "Category user"
+msgstr ""
+
+#: contents/models.py:537
+msgid "Envíos parciales"
+msgstr ""
+
+#: contents/models.py:538
+msgid "Mostrar invitaciones"
+msgstr ""
+
+#: contents/models.py:539
+msgid "Descuentos"
+msgstr ""
+
+#: contents/models.py:540
+msgid "Descuentos Items"
+msgstr ""
+
+#: contents/models.py:541
+msgid "Escanear habitación"
+msgstr ""
+
+#: contents/models.py:543 contents/models.py:583
+msgid "UUID"
+msgstr ""
+
+#: contents/models.py:573 contents/models.py:579 contents/models.py:586
+#: contents/models.py:628 contents/models.py:639
+msgid "Point of sale"
+msgstr ""
+
+#: contents/models.py:574
+msgid "Points of sales"
+msgstr ""
+
+#: contents/models.py:584 contents/models.py:608
+#: contents/templates/contents/categories.html:12
+#: contents/templates/contents/category-form.html:25
+#: contents/templates/contents/item-form.html:21
+msgid "Name"
+msgstr ""
+
+#: contents/models.py:585
+msgid "Current Total"
+msgstr ""
+
+#: contents/models.py:601
+msgid "Table"
+msgstr ""
+
+#: contents/models.py:602
+msgid "Tables"
+msgstr ""
+
+#: contents/models.py:606
+msgid "Item Id"
+msgstr ""
+
+#: contents/models.py:607
+msgid "Code"
+msgstr ""
+
+#: contents/models.py:609
+msgid "Point of Sale"
+msgstr ""
+
+#: contents/models.py:634 contents/models.py:645
+msgid "Descuento del punto de venta"
+msgstr ""
+
+#: contents/models.py:635 contents/models.py:646
+msgid "Descuentos del punto de venta"
+msgstr ""
+
+#: contents/templates/contents/cat-user/categories-list.html:6
+#: contents/templates/contents/categories-list.html:7
+msgid "Deactivate"
+msgstr ""
+
+#: contents/templates/contents/cat-user/categories-list.html:6
+#: contents/templates/contents/categories-list.html:7
+msgid "Activate"
+msgstr ""
+
+#: contents/templates/contents/cat-user/categories-list.html:9
+#: contents/templates/contents/categories-list.html:10
+#: contents/templates/contents/categories.html:27
+msgid "Add category"
+msgstr ""
+
+#: contents/templates/contents/cat-user/categories-list.html:10
+#: contents/templates/contents/categories-list.html:11
+msgid "Add item"
+msgstr ""
+
+#: contents/templates/contents/cat-user/categories-list.html:13
+#: contents/templates/contents/categories-list.html:17
+msgid "Clone this category in other project"
+msgstr ""
+
+#: contents/templates/contents/cat-user/categories-list.html:15
+#: contents/templates/contents/categories-list.html:19
+msgid "Delete"
+msgstr ""
+
+#: contents/templates/contents/cat-user/categories-list.html:15
+#: contents/templates/contents/categories-list.html:19
+#: contents/templates/contents/category-form.html:85
+#: contents/templates/contents/item-form.html:104
+msgid "Are you sure to remove this element?"
+msgstr ""
+
+#: contents/templates/contents/cat-user/categories.html:15
+#: contents/templates/contents/categories.html:23
+msgid "Categories"
+msgstr ""
+
+#: contents/templates/contents/categories.html:28
+msgid "New category"
+msgstr ""
+
+#: contents/templates/contents/category-clone.html:5
+msgid "You are cloning te category "
+msgstr ""
+
+#: contents/templates/contents/category-clone.html:5
+msgid "Please, choose the target project"
+msgstr ""
+
+#: contents/templates/contents/category-clone.html:16
+msgid "Clone other category from this project"
+msgstr ""
+
+#: contents/templates/contents/category-clone.html:19
+msgid "Go to the target project"
+msgstr ""
+
+#: contents/templates/contents/category-files.html:6
+#: contents/templates/contents/category-gallery.html:6
+#: contents/templates/contents/category-img.html:5
+#: contents/templates/contents/item-gallery.html:18
+#: contents/templates/contents/item-img.html:5
+#: contents/templates/contents/promos.html:36
+msgid "Upload File"
+msgstr ""
+
+#: contents/templates/contents/category-files.html:22
+#: contents/templates/contents/category-gallery.html:16
+#: contents/templates/contents/category-img.html:14
+#: contents/templates/contents/item-gallery.html:8
+#: contents/templates/contents/item-img.html:13
+#: contents/templates/contents/promos.html:45
+msgid "Are you sure to remove this file?"
+msgstr ""
+
+#: contents/templates/contents/category-form.html:9
+msgid "Modify this category"
+msgstr ""
+
+#: contents/templates/contents/category-form.html:30
+#: contents/templates/contents/item-form.html:64
+msgid "Description"
+msgstr ""
+
+#: contents/templates/contents/category-form.html:36
+msgid "Parent Category"
+msgstr ""
+
+#: contents/templates/contents/category-form.html:38
+msgid "Current"
+msgstr ""
+
+#: contents/templates/contents/category-form.html:38
+#: contents/templates/contents/category-form.html:40
+msgid "ROOT Category"
+msgstr ""
+
+#: contents/templates/contents/category-form.html:40
+msgid "Level Up"
+msgstr ""
+
+#: contents/templates/contents/category-form.html:61
+msgid "Created at"
+msgstr ""
+
+#: contents/templates/contents/category-form.html:81
+#: contents/templates/contents/category-form.html:83
+#: contents/templates/contents/item-form.html:100
+msgid "Save"
+msgstr ""
+
+#: contents/templates/contents/category-form.html:85
+#: contents/templates/contents/category-img.html:13
+#: contents/templates/contents/category-img.html:15
+#: contents/templates/contents/extras.html:15
+#: contents/templates/contents/item-form.html:104
+#: contents/templates/contents/promos.html:31
+msgid "Remove"
+msgstr ""
+
+#: contents/templates/contents/category-links.html:19
+msgid "Close"
+msgstr ""
+
+#: contents/templates/contents/extras.html:4
+msgid "Add extra"
+msgstr ""
+
+#: contents/templates/contents/item-form.html:9
+msgid "Modify this item"
+msgstr ""
+
+#: contents/templates/contents/item-form.html:28
+#: contents/templates/contents/item-form.html:30
+msgid "Price"
+msgstr ""
+
+#: contents/templates/contents/item-form.html:34
+msgid "Active"
+msgstr ""
+
+#: contents/templates/contents/item-form.html:38
+msgid "Yes"
+msgstr ""
+
+#: contents/templates/contents/item-form.html:39
+msgid "No"
+msgstr ""
+
+#: contents/templates/contents/item-form.html:75
+msgid "Prices"
+msgstr ""
+
+#: contents/templates/contents/item-form.html:79
+msgid "Allergens"
+msgstr ""
+
+#: contents/templates/contents/item-form.html:83
+msgid "Extras"
+msgstr ""
+
+#: contents/templates/contents/item-form.html:87
+msgid "Promos"
+msgstr ""
+
+#: contents/templates/contents/item-form.html:91
+msgid "Images"
+msgstr ""
+
+#: contents/templates/contents/items-list.html:6
+msgid "Edit item"
+msgstr ""
+
+#: contents/templates/contents/prices.html:4
+msgid "Regime"
+msgstr ""
+
+#: contents/templates/contents/prices.html:5
+msgid "Default"
+msgstr ""
+
+#: contents/templates/contents/promos.html:4
+msgid "Add promo"
+msgstr ""

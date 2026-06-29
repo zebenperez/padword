@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-11-30 10:54+0000\n"
+"POT-Creation-Date: 2026-06-29 12:22+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,858 +17,1561 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: models.py:372 models.py:385 models.py:462 models.py:486 models.py:498
-#: models.py:510 models.py:520 models.py:533 models.py:553 models.py:600
-#: templates/device/device-list.html:7 templates/guest/second_menu.html:3
-#: templates/wristbands-by-project/wristbands-search.html:10
-#: templates/wristbands/wristbands-search.html:10
+#: guest/models.py:496 guest/models.py:509 guest/models.py:586
+#: guest/models.py:610 guest/models.py:622 guest/models.py:634
+#: guest/models.py:644 guest/models.py:657 guest/models.py:855
+#: guest/models.py:877 guest/models.py:885 guest/models.py:925
+#: guest/templates/device/device-list.html:7
+#: guest/templates/guest/second_menu.html:3
+#: guest/templates/wristbands-by-project/wristbands-backup-search.html:10
+#: guest/templates/wristbands-by-project/wristbands-search.html:10
+#: guest/templates/wristbands/wristband-daily-close-content.html:13
+#: guest/templates/wristbands/wristbands-search.html:10
+#: guest/wristband_models.py:26 guest/wristband_models.py:199
 msgid "Guest"
 msgstr ""
 
-#: models.py:375 models.py:528 models.py:542 models.py:552
-#: templates/guest-by-project/guest-list.html:13
-#: templates/guest/bands/guest-details-bands-form.html:21
-#: templates/guest/bands/guest-details-bands-list.html:6
-#: templates/guest/guest-form-main.html:6
-#: templates/guest/guest-form-simple.html:10 templates/guest/guest-list.html:11
+#: guest/models.py:499 guest/models.py:652
+#: guest/templates/guest-by-project/guest-list.html:12
+#: guest/templates/guest/bands/balance-print.html:76
+#: guest/templates/guest/bands/guest-details-bands-form.html:24
+#: guest/templates/guest/bands/wristbands-close-balances.html:94
+#: guest/templates/guest/bands/wristbands-close-balances.html:111
+#: guest/templates/guest/bands/wristbands-close-main.html:42
+#: guest/templates/guest/bands/wristbands-close-main.html:59
+#: guest/templates/guest/guest-form-main.html:7
+#: guest/templates/guest/guest-form-simple.html:10
+#: guest/templates/guest/guest-list.html:16
+#: guest/templates/wristbands-by-project/wristbands-backup-search.html:13
+#: guest/templates/wristbands-by-project/wristbands-search.html:13
+#: guest/templates/wristbands/wristband-daily-close-content.html:16
+#: guest/templates/wristbands/wristbands-search.html:13
+#: guest/wristband_models.py:15 guest/wristband_models.py:25
+#: guest/wristband_models.py:243 guest/wristband_models.py:253
 msgid "Name"
 msgstr ""
 
-#: models.py:376 models.py:507 models.py:517 models.py:541 models.py:551
+#: guest/models.py:500 guest/models.py:631 guest/models.py:641
+#: guest/templates/guest/bands/balance-print.html:75
+#: guest/templates/guest/bands/wristbands-close-balances.html:93
+#: guest/templates/guest/bands/wristbands-close-main.html:41
+#: guest/wristband_models.py:14 guest/wristband_models.py:24
+#: guest/wristband_models.py:198 guest/wristband_models.py:242
 msgid "Code"
 msgstr ""
 
-#: models.py:377
+#: guest/models.py:501
 msgid "Created at"
 msgstr ""
 
-#: models.py:378
+#: guest/models.py:502
 msgid "Updated at"
 msgstr ""
 
-#: models.py:466 templates/guest/notifications/notification-form.html:48
+#: guest/models.py:590
+#: guest/templates/guest/notifications/notification-form.html:48
 msgid "All users"
 msgstr ""
 
-#: models.py:467
+#: guest/models.py:591
 msgid "Public"
 msgstr ""
 
-#: models.py:469 templates/guest/notifications/notification-form.html:66
-#: templates/guest/notifications/notification-list.html:14
+#: guest/models.py:593
+#: guest/templates/guest/notifications/notification-form.html:66
+#: guest/templates/guest/notifications/notification-list.html:14
 msgid "Subject"
 msgstr ""
 
-#: models.py:470 models.py:497
-#: templates/guest/notifications/notification-form.html:73
-#: templates/guest/notifications/notification-list.html:15
+#: guest/models.py:594 guest/models.py:621
+#: guest/templates/guest/notifications/notification-form.html:73
+#: guest/templates/guest/notifications/notification-list.html:15
 msgid "Message"
 msgstr ""
 
-#: models.py:481 models.py:487
+#: guest/models.py:605 guest/models.py:611
 msgid "Notification"
 msgstr ""
 
-#: models.py:485
+#: guest/models.py:609
 msgid "Read"
 msgstr ""
 
-#: models.py:490
+#: guest/models.py:614
 msgid "Guest notification"
 msgstr ""
 
-#: models.py:493
+#: guest/models.py:617
 msgid "Guest Readed"
 msgstr ""
 
-#: models.py:494
+#: guest/models.py:618
 msgid "Sender Readed"
 msgstr ""
 
-#: models.py:495
+#: guest/models.py:619
 msgid "Guest Message"
 msgstr ""
 
-#: models.py:502 models.py:503 templates/guest-by-project/guest-row.html:12
-#: templates/guest/guest-row.html:13
+#: guest/models.py:626 guest/models.py:627
+#: guest/templates/guest/guest-row.html:13
 msgid "Chat"
 msgstr ""
 
-#: models.py:508
+#: guest/models.py:632
 msgid "Code Id"
 msgstr ""
 
-#: models.py:509 models.py:519
+#: guest/models.py:633 guest/models.py:643
 msgid "Lock"
 msgstr ""
 
-#: models.py:513 models.py:523
+#: guest/models.py:637 guest/models.py:647
 msgid "Key"
 msgstr ""
 
-#: models.py:514 models.py:524
+#: guest/models.py:638 guest/models.py:648
 msgid "Keys"
 msgstr ""
 
-#: models.py:518
+#: guest/models.py:642
 msgid "Card Id"
 msgstr ""
 
-#: models.py:527 templates/guest/guest-form-admin.html:6
+#: guest/models.py:651 guest/models.py:861
+#: guest/templates/guest/bands/wristbands-close-balances.html:110
+#: guest/templates/guest/bands/wristbands-close-main.html:58
+#: guest/templates/guest/guest-form-admin.html:6 guest/wristband_models.py:151
+#: guest/wristband_models.py:180
 msgid "UUID"
 msgstr ""
 
-#: models.py:529
+#: guest/models.py:653
 msgid "Start Time"
 msgstr ""
 
-#: models.py:530 templates/guest/sensibo/guest-sensibo-form.html:15
+#: guest/models.py:654 guest/templates/guest/sensibo/guest-sensibo-form.html:15
 msgid "Mode"
 msgstr ""
 
-#: models.py:531
+#: guest/models.py:655
 msgid "Temp"
 msgstr ""
 
-#: models.py:532 templates/guest/sensibo/guest-sensibo-form.html:37
+#: guest/models.py:656 guest/templates/guest/sensibo/guest-sensibo-form.html:37
 msgid "Level"
 msgstr ""
 
-#: models.py:536
+#: guest/models.py:660
 msgid "Sensibo device"
 msgstr ""
 
-#: models.py:537
+#: guest/models.py:661
 msgid "Sensibo devices"
 msgstr ""
 
-#: models.py:545
-msgid "Wristband type"
+#: guest/models.py:833
+msgid "Pago en totem"
 msgstr ""
 
-#: models.py:546
-msgid "Wristbands type"
-msgstr ""
-
-#: models.py:549 templates/wristbands-by-project/wristbands-search.html:13
-#: templates/wristbands/wristbands-search.html:13
-msgid "Kid"
-msgstr ""
-
-#: models.py:550 templates/guest-by-project/guest-form.html:35
-#: templates/guest/bands/guest-details-bands-list.html:8
-#: templates/guest/guest-details-tabs.html:5 templates/guest/guest-form.html:35
-msgid "Locks"
-msgstr ""
-
-#: models.py:554 templates/guest/bands/guest-details-bands-form.html:34
-#: templates/guest/bands/guest-details-bands-list.html:7
-msgid "Type"
-msgstr ""
-
-#: models.py:570 models.py:577
-msgid "Wristband"
-msgstr ""
-
-#: models.py:571
-msgid "Wristbands"
-msgstr ""
-
-#: models.py:574 templates/guest/bands/balance-form.html:15
-#: templates/guest/bands/balance.html:17
-#: templates/guest/bands/guest-details-bands-info.html:36
-#: templates/guest/notifications/notification-list.html:12
-msgid "Date"
-msgstr ""
-
-#: models.py:575 templates/guest/bands/balance-form.html:8
-#: templates/guest/bands/balance.html:19
-#: templates/guest/bands/guest-details-bands-info.html:36
-msgid "Amount"
-msgstr ""
-
-#: models.py:576 templates/guest/bands/balance-form.html:22
-#: templates/guest/bands/balance.html:18
-#: templates/guest/bands/guest-details-bands-info.html:36
-msgid "Description"
-msgstr ""
-
-#: models.py:580 templates/guest/bands/bands.html:4
-msgid "Wristband balance"
-msgstr ""
-
-#: models.py:581
-msgid "Wristbands balance"
-msgstr ""
-
-#: models.py:592 models.py:595 models.py:599
-#: templates/guest/guest-form-main.html:103
-msgid "Regime"
-msgstr ""
-
-#: models.py:596 templates/guest/notifications/notification-list.html:10
-#: templates/wristbands-by-project/wristbands-search.html:9
-#: templates/wristbands/wristbands-search.html:9
-msgid "Project"
-msgstr ""
-
-#: templates/device/device-form.html:3 templates/device/device-room.html:3
-#: templates/guest-by-project/guest-form.html:5
-#: templates/guest-by-project/guests.html:20
-#: templates/guest/guest-form-simple.html:3 templates/guest/guest-form.html:5
-#: templates/guest/guests.html:39
-msgid "New guest"
-msgstr ""
-
-#: templates/device/device-form.html:10 templates/device/device-list.html:5
-msgid "Alias"
-msgstr ""
-
-#: templates/device/device-form.html:19 templates/device/device-room.html:25
-#: templates/guest-by-project/guest-details-by-project.html:22
-#: templates/guest-by-project/guest-form.html:66
-#: templates/guest-by-project/guest-form.html:67
-#: templates/guest/bands/balance-form.html:30
-#: templates/guest/bands/guest-details-bands-edit-form.html:38
-#: templates/guest/guest-details.html:23
-#: templates/guest/guest-form-simple.html:226
-#: templates/guest/guest-form.html:105 templates/guest/guest-form.html:107
-#: templates/guest/notifications/notification-form.html:87
-msgid "Save"
-msgstr ""
-
-#: templates/device/device-list.html:6 templates/device/device-room.html:11
-#: templates/guest-by-project/guest-list.html:10
-#: templates/guest/guest-form-main.html:95
-#: templates/guest/guest-form-simple.html:101 templates/guest/guest-list.html:8
-msgid "Room"
-msgstr ""
-
-#: templates/device/device-list.html:8
-msgid "IMEI"
-msgstr ""
-
-#: templates/device/device-list.html:9
-msgid "Wifi MAC"
-msgstr ""
-
-#: templates/device/device-list.html:10
-msgid "Channel"
-msgstr ""
-
-#: templates/device/device-list.html:11
-msgid "Active"
-msgstr ""
-
-#: templates/device/device-list.html:12
-msgid "Date of update"
-msgstr ""
-
-#: templates/device/device-page.html:20
-#: templates/guest-by-project/guest-details-by-project.html:25
-#: templates/guest-by-project/guest-form.html:70
-#: templates/guest-by-project/guest-row.html:18
-#: templates/guest/bands/balance.html:33 templates/guest/guest-details.html:26
-#: templates/guest/guest-form-simple.html:229
-#: templates/guest/guest-form.html:110 templates/guest/guest-row.html:18
-#: templates/guest/guest-row.html:21
-#: templates/guest/keys/guest-key-cards.html:27
-#: templates/guest/notifications/notification-form.html:89
-#: templates/guest/notifications/notification-row.html:26
-msgid "Are you sure to remove this element?"
-msgstr ""
-
-#: templates/device/device-room.html:14
-msgid "-- Select room --"
-msgstr ""
-
-#: templates/device/devices.html:9
-msgid "Alias, IMEI"
-msgstr ""
-
-#: templates/device/devices.html:23
-msgid "Tablets"
-msgstr ""
-
-#: templates/guest-by-project/guest-details-by-project.html:10
-#: templates/guest-by-project/guest-form.html:12
-#: templates/guest/guest-details.html:10 templates/guest/guest-form.html:12
-msgid "Main"
-msgstr ""
-
-#: templates/guest-by-project/guest-details-by-project.html:19
-#: templates/guest-by-project/guest-form.html:61
-#: templates/guest-by-project/guest-row.html:20
-#: templates/guest/guest-details.html:20 templates/guest/guest-form.html:95
-#: templates/guest/guest-row.html:23
-msgid "Share code"
-msgstr ""
-
-#: templates/guest-by-project/guest-details-by-project.html:20
-#: templates/guest-by-project/guest-form.html:62
-#: templates/guest/guest-details.html:21 templates/guest/guest-form.html:96
-msgid "Share"
-msgstr ""
-
-#: templates/guest-by-project/guest-details-by-project.html:25
-#: templates/guest-by-project/guest-form.html:71
-#: templates/guest-by-project/guest-row.html:17
-#: templates/guest/bands/balance.html:34 templates/guest/guest-details.html:26
-#: templates/guest/guest-form-simple.html:229
-#: templates/guest/guest-form.html:110 templates/guest/guest-row.html:20
-#: templates/guest/notifications/notification-form.html:90
-msgid "Remove"
-msgstr ""
-
-#: templates/guest-by-project/guest-details-by-project.html:41
-#: templates/guest-by-project/guest-form.html:76
-#: templates/guest/guest-details.html:42 templates/guest/guest-form.html:115
-msgid "You must choose a valid room number or empty"
-msgstr ""
-
-#: templates/guest-by-project/guest-form.html:22
-#: templates/guest/guest-form.html:22
-msgid "Extra"
-msgstr ""
-
-#: templates/guest-by-project/guest-form.html:49
-#: templates/guest/guest-details-tabs.html:10
-#: templates/guest/guest-form.html:66
-msgid "Air aconditioner"
-msgstr ""
-
-#: templates/guest-by-project/guest-list.html:11
-#: templates/guest/guest-list.html:9
-msgid "Check in"
-msgstr ""
-
-#: templates/guest-by-project/guest-list.html:12
-#: templates/guest/guest-list.html:10
-msgid "Check out"
-msgstr ""
-
-#: templates/guest-by-project/guest-list.html:14
-#: templates/guest/guest-form-main.html:30 templates/guest/guest-list.html:12
-msgid "External ID"
-msgstr ""
-
-#: templates/guest-by-project/guest-list.html:15
-#: templates/guest/guest-form-main.html:20
-msgid "Language"
-msgstr ""
-
-#: templates/guest-by-project/guest-list.html:15
-msgid "Options"
-msgstr ""
-
-#: templates/guest-by-project/guest-list.html:25
-#: templates/guest/guest-list.html:23
-msgid "See more"
-msgstr ""
-
-#: templates/guest-by-project/guest-row.html:15
-#: templates/guest/guest-row.html:15
-msgid "Details"
-msgstr ""
-
-#: templates/guest-by-project/guests.html:11 templates/guest/guests.html:17
-msgid "Name, Surname, Email, Phone or Room"
-msgstr ""
-
-#: templates/guest-by-project/guests.html:19 templates/guest/guests.html:31
-#: templates/guest/notifications/notification-list.html:13
-msgid "Guests"
-msgstr ""
-
-#: templates/guest-by-project/guests.html:27
-msgid "Remove clients with checkout previous to"
-msgstr ""
-
-#: templates/guest-by-project/guests.html:33
-msgid "Import winhotel bookings"
-msgstr ""
-
-#: templates/guest-by-project/guests.html:39
-msgid "Import avaibook bookings"
-msgstr ""
-
-#: templates/guest-by-project/guests.html:43
-msgid "Import avaibook accommodation"
-msgstr ""
-
-#: templates/guest-by-project/guests.html:49
-msgid "Import avantio bookings"
-msgstr ""
-
-#: templates/guest-by-project/guests.html:51
-msgid "Avantio notifications"
-msgstr ""
-
-#: templates/guest/bands/balance.html:5
-#: templates/guest/bands/guest-details-bands-info.html:27
-msgid "Balance:"
-msgstr ""
-
-#: templates/guest/bands/balance.html:8
-msgid "Añadir Saldo"
-msgstr ""
-
-#: templates/guest/bands/balance.html:31
-msgid "Edit"
-msgstr ""
-
-#: templates/guest/bands/guest-details-bands-edit-form.html:5
-msgid "Edit band"
-msgstr ""
-
-#: templates/guest/bands/guest-details-bands-edit-form.html:25
-#: templates/guest/bands/guest-details-bands-form.html:44
-msgid "(Only for All Inclusive Regime)"
-msgstr ""
-
-#: templates/guest/bands/guest-details-bands-edit-form.html:33
-#: templates/guest/bands/guest-details-bands-info.html:13
-#: templates/guest/bands/guest-details-bands-list.html:9
-msgid "Kids"
-msgstr ""
-
-#: templates/guest/bands/guest-details-bands-form.html:5
-msgid "There are another user with this band:"
-msgstr ""
-
-#: templates/guest/bands/guest-details-bands-form.html:13
-msgid "Scan band"
-msgstr ""
-
-#: templates/guest/bands/guest-details-bands-form.html:15
-msgid "Acercar la tarjeta al lector"
-msgstr ""
-
-#: templates/guest/bands/guest-details-bands-form.html:26
-msgid "Nombre de la tarjeta"
-msgstr ""
-
-#: templates/guest/bands/guest-details-bands-form.html:39
-msgid "Select type"
-msgstr ""
-
-#: templates/guest/bands/guest-details-bands-form.html:55
-msgid "Add band to locks?"
-msgstr ""
-
-#: templates/guest/bands/guest-details-bands-form.html:64
-#: templates/guest/bands/guest-details-bands-form.html:67
-#: templates/guest/bands/guest-details-bands-form.html:84
-#: templates/guest/bands/guest-details-bands-form.html:87
-#: templates/guest/bands/guest-details-bands-info.html:13
-#: templates/guest/bands/guest-details-bands-list.html:9
-#: templates/wristbands-by-project/wristbands-search.html:31
-#: templates/wristbands/wristbands-search.html:31
-msgid "Yes"
-msgstr ""
-
-#: templates/guest/bands/guest-details-bands-form.html:64
-#: templates/guest/bands/guest-details-bands-form.html:69
-#: templates/guest/bands/guest-details-bands-form.html:84
-#: templates/guest/bands/guest-details-bands-form.html:89
-#: templates/guest/bands/guest-details-bands-form.html:107
-#: templates/guest/bands/guest-details-bands-info.html:13
-#: templates/guest/bands/guest-details-bands-list.html:9
-#: templates/wristbands-by-project/wristbands-search.html:31
-#: templates/wristbands/wristbands-search.html:31
-msgid "No"
-msgstr ""
-
-#: templates/guest/bands/guest-details-bands-form.html:75
-msgid "This band is for kid?"
-msgstr ""
-
-#: templates/guest/bands/guest-details-bands-form.html:95
-msgid "Add balance"
-msgstr ""
-
-#: templates/guest/bands/guest-details-bands-form.html:103
-#: templates/guest/keys/guest-bands.html:9
-msgid "Add"
-msgstr ""
-
-#: templates/guest/bands/guest-details-bands-info.html:4
-#: templates/guest/bands/guest-details-bands.html:4
-#: templates/guest/keys/guest-bands.html:4
-msgid "Wristbands assigned"
-msgstr ""
-
-#: templates/guest/bands/guest-details-bands-info.html:20
-#: templates/guest/bands/guest-details-bands-list.html:10
-#: templates/guest/bands/guest-details-bands-list.html:23
-msgid "Balance"
-msgstr ""
-
-#: templates/guest/bands/guest-details-bands-list.html:5
-msgid "Band Code"
-msgstr ""
-
-#: templates/guest/bands/guest-details-bands.html:10
-#: templates/guest/bands/guest-details-bands.html:14
-msgid "Añadir Pulsera"
-msgstr ""
-
-#: templates/guest/bands/guest-details-bands.html:12
-msgid "Debe seleccionar un régimen antes de asignar la pulsera"
-msgstr ""
-
-#: templates/guest/guest-details-tabs.html:7
-msgid "Pulseras"
-msgstr ""
-
-#: templates/guest/guest-details-tabs.html:8
-msgid "Extras"
-msgstr ""
-
-#: templates/guest/guest-details-tabs.html:14
-msgid "Administrator"
-msgstr ""
-
-#: templates/guest/guest-form-admin.html:13
-msgid "PID"
-msgstr ""
-
-#: templates/guest/guest-form-admin.html:21
-#: templates/guest/notifications/notification-form.html:19
+#: guest/models.py:837 guest/models.py:865 guest/models.py:893
+#: guest/templates/guest/guest-form-admin.html:21
+#: guest/templates/guest/notifications/notification-form.html:19
+#: guest/wristband_models.py:154 guest/wristband_models.py:244
 msgid "Project UUID"
 msgstr ""
 
-#: templates/guest/guest-form-admin.html:28
+#: guest/models.py:847 guest/models.py:850 guest/models.py:854
+#: guest/templates/guest/guest-form-main.html:126
+msgid "Regime"
+msgstr ""
+
+#: guest/models.py:851
+#: guest/templates/guest/notifications/notification-list.html:10
+msgid "Project"
+msgstr ""
+
+#: guest/models.py:868
+msgid "Tipo de huésped"
+msgstr ""
+
+#: guest/models.py:880 guest/models.py:888
+msgid "Card guest"
+msgstr ""
+
+#: guest/models.py:891 guest/templates/guest/bands/balance-form.html:15
+#: guest/templates/guest/bands/balance-print.html:94
+#: guest/templates/guest/bands/balance.html:22
+#: guest/templates/guest/bands/guest-details-bands-info.html:36
+#: guest/templates/guest/bands/log.html:5
+#: guest/templates/guest/bands/wristbands-close-balances.html:131
+#: guest/templates/guest/bands/wristbands-close-main.html:79
+#: guest/templates/guest/notifications/notification-list.html:12
+#: guest/templates/wristbands-by-project/access/wristbands-list.html:11
+#: guest/templates/wristbands-by-project/wristbands-backup-balance.html:12
+#: guest/templates/wristbands/access/wristbands-list.html:11
+#: guest/wristband_models.py:125 guest/wristband_models.py:140
+#: guest/wristband_models.py:208 guest/wristband_models.py:268
+msgid "Date"
+msgstr ""
+
+#: guest/models.py:892
+msgid "lock UUID"
+msgstr ""
+
+#: guest/models.py:940
+msgid "Guest Car"
+msgstr ""
+
+#: guest/templates/device/device-form.html:3
+#: guest/templates/device/device-room.html:3
+#: guest/templates/guest-by-project/guest-form.html:5
+#: guest/templates/guest-by-project/guests.html:13
+#: guest/templates/guest/guest-form-simple.html:3
+#: guest/templates/guest/guest-form.html:5 guest/templates/guest/guests.html:25
+msgid "New guest"
+msgstr ""
+
+#: guest/templates/device/device-form.html:10
+#: guest/templates/device/device-list.html:5
+msgid "Alias"
+msgstr ""
+
+#: guest/templates/device/device-form.html:19
+#: guest/templates/device/device-room.html:25
+#: guest/templates/guest-by-project/guest-details-by-project.html:22
+#: guest/templates/guest-by-project/guest-form.html:66
+#: guest/templates/guest-by-project/guest-form.html:67
+#: guest/templates/guest/bands/balance-form.html:30
+#: guest/templates/guest/bands/guest-details-bands-edit-form.html:38
+#: guest/templates/guest/bands/wristbands-close-main.html:30
+#: guest/templates/guest/guest-details.html:22
+#: guest/templates/guest/guest-form-simple.html:226
+#: guest/templates/guest/guest-form.html:105
+#: guest/templates/guest/guest-form.html:107
+#: guest/templates/guest/notifications/notification-form.html:87
+msgid "Save"
+msgstr ""
+
+#: guest/templates/device/device-list.html:6
+#: guest/templates/device/device-room.html:11
+#: guest/templates/guest-by-project/guest-list.html:9
+#: guest/templates/guest-by-project/guests-search.html:23
+#: guest/templates/guest/bands/wristbands-close-balances.html:113
+#: guest/templates/guest/bands/wristbands-close-main.html:61
+#: guest/templates/guest/guest-form-main.html:112
+#: guest/templates/guest/guest-form-simple.html:101
+#: guest/templates/guest/guest-list.html:8
+#: guest/templates/guest/guests-search.html:23
+#: guest/templates/wristbands-by-project/wristbands-backup-search.html:9
+#: guest/templates/wristbands-by-project/wristbands-search.html:9
+#: guest/templates/wristbands/wristband-daily-close-content.html:12
+#: guest/templates/wristbands/wristbands-search.html:9
+msgid "Room"
+msgstr ""
+
+#: guest/templates/device/device-list.html:8
+msgid "IMEI"
+msgstr ""
+
+#: guest/templates/device/device-list.html:9
+msgid "Wifi MAC"
+msgstr ""
+
+#: guest/templates/device/device-list.html:10
+msgid "Channel"
+msgstr ""
+
+#: guest/templates/device/device-list.html:11
+msgid "Active"
+msgstr ""
+
+#: guest/templates/device/device-list.html:12
+msgid "Date of update"
+msgstr ""
+
+#: guest/templates/device/device-page.html:20
+#: guest/templates/guest-by-project/guest-details-by-project.html:33
+#: guest/templates/guest-by-project/guest-form.html:70
+#: guest/templates/guest-by-project/guest-row.html:36
+#: guest/templates/guest/bands/balance.html:42
+#: guest/templates/guest/guest-form-simple.html:229
+#: guest/templates/guest/guest-form.html:110
+#: guest/templates/guest/guest-row.html:21
+#: guest/templates/guest/guest-row.html:24
+#: guest/templates/guest/keys/guest-key-cards.html:27
+#: guest/templates/guest/notifications/notification-form.html:89
+#: guest/templates/guest/notifications/notification-row.html:26
+msgid "Are you sure to remove this element?"
+msgstr ""
+
+#: guest/templates/device/device-room.html:14
+msgid "-- Select room --"
+msgstr ""
+
+#: guest/templates/device/devices.html:9
+msgid "Alias, IMEI"
+msgstr ""
+
+#: guest/templates/device/devices.html:23
+msgid "Tablets"
+msgstr ""
+
+#: guest/templates/guest-by-project/guest-details-by-project.html:10
+#: guest/templates/guest-by-project/guest-form.html:12
+#: guest/templates/guest/guest-details.html:10
+#: guest/templates/guest/guest-form.html:12
+msgid "Main"
+msgstr ""
+
+#: guest/templates/guest-by-project/guest-details-by-project.html:19
+#: guest/templates/guest-by-project/guest-form.html:61
+#: guest/templates/guest-by-project/guest-row.html:39
+#: guest/templates/guest/guest-details.html:19
+#: guest/templates/guest/guest-form.html:95
+#: guest/templates/guest/guest-row.html:31
+msgid "Share code"
+msgstr ""
+
+#: guest/templates/guest-by-project/guest-details-by-project.html:20
+#: guest/templates/guest-by-project/guest-form.html:62
+#: guest/templates/guest/guest-details.html:20
+#: guest/templates/guest/guest-form.html:96
+msgid "Share"
+msgstr ""
+
+#: guest/templates/guest-by-project/guest-details-by-project.html:28
+#: guest/templates/guest/guest-details.html:28
+msgid "Sync & Save"
+msgstr ""
+
+#: guest/templates/guest-by-project/guest-details-by-project.html:33
+#: guest/templates/guest-by-project/guest-form.html:71
+#: guest/templates/guest-by-project/guest-row.html:35
+#: guest/templates/guest/bands/balance.html:43
+#: guest/templates/guest/bands/guest-details-bands-list.html:54
+#: guest/templates/guest/guest-form-simple.html:229
+#: guest/templates/guest/guest-form.html:110
+#: guest/templates/guest/guest-row.html:23
+#: guest/templates/guest/notifications/notification-form.html:90
+msgid "Remove"
+msgstr ""
+
+#: guest/templates/guest-by-project/guest-details-by-project.html:44
+#: guest/templates/guest-by-project/guest-form.html:76
+#: guest/templates/guest/guest-details.html:48
+#: guest/templates/guest/guest-form.html:115
+msgid "You must choose a valid room number or empty"
+msgstr ""
+
+#: guest/templates/guest-by-project/guest-form.html:22
+#: guest/templates/guest/guest-form.html:22
+msgid "Extra"
+msgstr ""
+
+#: guest/templates/guest-by-project/guest-form.html:35
+#: guest/templates/guest/bands/balance-print.html:74
+#: guest/templates/guest/bands/guest-details-bands-list.html:36
+#: guest/templates/guest/bands/wristbands-close-balances.html:92
+#: guest/templates/guest/bands/wristbands-close-main.html:40
+#: guest/templates/guest/guest-access.html:25
+#: guest/templates/guest/guest-details-tabs.html:6
+#: guest/templates/guest/guest-form.html:35
+#: guest/templates/wristbands-by-project/wristbands-backup-search.html:17
+#: guest/templates/wristbands-by-project/wristbands-search.html:17
+#: guest/templates/wristbands/wristbands-search.html:17
+#: guest/wristband_models.py:23 guest/wristband_models.py:241
+msgid "Locks"
+msgstr ""
+
+#: guest/templates/guest-by-project/guest-form.html:49
+#: guest/templates/guest/guest-details-tabs.html:11
+#: guest/templates/guest/guest-form.html:66
+msgid "Air aconditioner"
+msgstr ""
+
+#: guest/templates/guest-by-project/guest-list-btns.html:7
+msgid "Remove clients with checkout previous to"
+msgstr ""
+
+#: guest/templates/guest-by-project/guest-list-btns.html:13
+msgid "Import winhotel bookings"
+msgstr ""
+
+#: guest/templates/guest-by-project/guest-list-btns.html:19
+msgid "Import avaibook bookings"
+msgstr ""
+
+#: guest/templates/guest-by-project/guest-list-btns.html:32
+msgid "Import avantio bookings"
+msgstr ""
+
+#: guest/templates/guest-by-project/guest-list-btns.html:34
+msgid "Avantio notifications"
+msgstr ""
+
+#: guest/templates/guest-by-project/guest-list-btns.html:40
+msgid "Import mews bookings"
+msgstr ""
+
+#: guest/templates/guest-by-project/guest-list-btns.html:42
+msgid "Cancel mews bookings"
+msgstr ""
+
+#: guest/templates/guest-by-project/guest-list-btns.html:48
+msgid "Import cloudbeds bookings"
+msgstr ""
+
+#: guest/templates/guest-by-project/guest-list-btns.html:54
+msgid "Import octorate bookings"
+msgstr ""
+
+#: guest/templates/guest-by-project/guest-list-btns.html:60
+msgid "Cerrar Daypass"
+msgstr ""
+
+#: guest/templates/guest-by-project/guest-list.html:13
+#: guest/templates/guest/guest-form-main.html:39
+#: guest/templates/guest/guest-list.html:17
+msgid "External ID"
+msgstr ""
+
+#: guest/templates/guest-by-project/guest-list.html:14
+#: guest/templates/guest-by-project/guests-search.html:30
+#: guest/templates/guest/guest-form-main.html:29
+#: guest/templates/guest/guests-search.html:30
+msgid "Language"
+msgstr ""
+
+#: guest/templates/guest-by-project/guest-list.html:15
+msgid "T. Pensión"
+msgstr ""
+
+#: guest/templates/guest-by-project/guest-list.html:16
+msgid "Options"
+msgstr ""
+
+#: guest/templates/guest-by-project/guest-row.html:24
+msgid "Add Card"
+msgstr ""
+
+#: guest/templates/guest-by-project/guest-row.html:28
+#: guest/templates/guest/guest-row.html:15
+msgid "Cashless Band Pay"
+msgstr ""
+
+#: guest/templates/guest-by-project/guest-row.html:31
+#: guest/templates/guest/guest-row.html:18
+msgid "Details"
+msgstr ""
+
+#: guest/templates/guest-by-project/guests-search.html:5
+#: guest/templates/guest/guests-search.html:5
+msgid "Filters"
+msgstr ""
+
+#: guest/templates/guest-by-project/guests-search.html:16
+#: guest/templates/guest/guests-search.html:16
+msgid "Name, Surname, Email or Phone"
+msgstr ""
+
+#: guest/templates/guest-by-project/guests-search.html:37
+#: guest/templates/guest/guests-search.html:37
+msgid "ID External"
+msgstr ""
+
+#: guest/templates/guest-by-project/guests-search.html:47
+#: guest/templates/guest-by-project/guests-search.html:63
+#: guest/templates/guest/guests-search.html:59
+#: guest/templates/guest/guests-search.html:75
+msgid "Desde"
+msgstr ""
+
+#: guest/templates/guest-by-project/guests-search.html:55
+#: guest/templates/guest-by-project/guests-search.html:71
+#: guest/templates/guest/guests-search.html:67
+#: guest/templates/guest/guests-search.html:83
+msgid "Hasta"
+msgstr ""
+
+#: guest/templates/guest-by-project/guests-search.html:80
+#: guest/templates/guest/guests-search.html:93
+#: guest/templates/wristbands-by-project/access/wristbands.html:29
+#: guest/templates/wristbands/access/wristbands.html:40
+msgid "Search"
+msgstr ""
+
+#: guest/templates/guest-by-project/guests.html:11
+#: guest/templates/guest/guests.html:17
+#: guest/templates/guest/notifications/notification-list.html:13
+msgid "Guests"
+msgstr ""
+
+#: guest/templates/guest/bands/access-points.html:7
+#: guest/templates/guest/guest-access-points.html:10
+msgid "Quitar acceso de todas las zonas"
+msgstr ""
+
+#: guest/templates/guest/bands/access-points.html:10
+#: guest/templates/guest/guest-access-points.html:13
+msgid "Dar acceso de todas las zonas"
+msgstr ""
+
+#: guest/templates/guest/bands/balance-form.html:8
+#: guest/templates/guest/bands/balance-print.html:96
+#: guest/templates/guest/bands/balance.html:24
+#: guest/templates/guest/bands/guest-details-bands-info.html:38
+#: guest/templates/guest/bands/wristbands-close-balances.html:133
+#: guest/templates/guest/bands/wristbands-close-main.html:81
+#: guest/templates/wristbands-by-project/wristbands-backup-balance.html:13
+#: guest/wristband_models.py:126 guest/wristband_models.py:269
+msgid "Amount"
+msgstr ""
+
+#: guest/templates/guest/bands/balance-form.html:22
+#: guest/templates/guest/bands/balance-print.html:95
+#: guest/templates/guest/bands/balance.html:23
+#: guest/templates/guest/bands/guest-details-bands-info.html:37
+#: guest/templates/guest/bands/log.html:5
+#: guest/templates/guest/bands/wristbands-close-balances.html:132
+#: guest/templates/guest/bands/wristbands-close-main.html:80
+#: guest/templates/wristbands-by-project/wristbands-backup-balance.html:14
+#: guest/wristband_models.py:127 guest/wristband_models.py:141
+#: guest/wristband_models.py:270
+msgid "Description"
+msgstr ""
+
+#: guest/templates/guest/bands/balance-print.html:58
+#: guest/templates/guest/bands/wristbands-close-balances.html:64
+msgid "Salir"
+msgstr ""
+
+#: guest/templates/guest/bands/balance-print.html:62
+#: guest/templates/guest/bands/wristbands-close-balances.html:67
+#: guest/templates/wristbands/pay-result-success.html:28
+msgid "Imprimir"
+msgstr ""
+
+#: guest/templates/guest/bands/balance-print.html:67
+#: guest/templates/guest/bands/wristbands-close-balances.html:85
+msgid "TPV"
+msgstr ""
+
+#: guest/templates/guest/bands/balance-print.html:70
+#: guest/templates/guest/bands/wristbands-close-balances.html:88
+#: guest/templates/guest/bands/wristbands-close-main.html:36
+msgid "Band Info"
+msgstr ""
+
+#: guest/templates/guest/bands/balance-print.html:73
+#: guest/templates/guest/bands/guest-details-bands-edit-form.html:33
+#: guest/templates/guest/bands/guest-details-bands-info.html:13
+#: guest/templates/guest/bands/guest-details-bands-list.html:38
+#: guest/templates/guest/bands/wristbands-close-balances.html:91
+#: guest/templates/guest/bands/wristbands-close-main.html:39
+#: guest/templates/guest/guest-access.html:27
+msgid "Kids"
+msgstr ""
+
+#: guest/templates/guest/bands/balance-print.html:77
+#: guest/templates/guest/bands/guest-details-bands-form.html:37
+#: guest/templates/guest/bands/guest-details-bands-list.html:34
+#: guest/templates/guest/bands/wristbands-close-balances.html:95
+#: guest/templates/guest/bands/wristbands-close-main.html:43
+#: guest/templates/guest/guest-access.html:23
+#: guest/templates/wristbands-by-project/wristbands-backup-search.html:14
+#: guest/templates/wristbands-by-project/wristbands-search.html:14
+#: guest/templates/wristbands/wristband-daily-close-content.html:17
+#: guest/templates/wristbands/wristbands-search.html:14
+#: guest/wristband_models.py:27
+msgid "Type"
+msgstr ""
+
+#: guest/templates/guest/bands/balance-print.html:91
+#: guest/templates/guest/bands/wristbands-close-balances.html:128
+#: guest/templates/guest/bands/wristbands-close-main.html:76
+msgid "Balances"
+msgstr ""
+
+#: guest/templates/guest/bands/balance.html:6
+#: guest/templates/guest/bands/guest-details-bands-info.html:27
+msgid "Balance:"
+msgstr ""
+
+#: guest/templates/guest/bands/balance.html:9
+msgid "Imprimir balance"
+msgstr ""
+
+#: guest/templates/guest/bands/balance.html:13
+msgid "Añadir Saldo"
+msgstr ""
+
+#: guest/templates/guest/bands/balance.html:39
+#: guest/templates/guest/bands/guest-details-bands-list.html:48
+#: guest/templates/guest/notifications/notification-row.html:23
+msgid "Edit"
+msgstr ""
+
+#: guest/templates/guest/bands/bands.html:4 guest/wristband_models.py:136
+msgid "Wristband balance"
+msgstr ""
+
+#: guest/templates/guest/bands/guest-details-bands-edit-form.html:5
+msgid "Edit band"
+msgstr ""
+
+#: guest/templates/guest/bands/guest-details-bands-edit-form.html:25
+#: guest/templates/guest/bands/guest-details-bands-form.html:47
+msgid "(Only for All Inclusive Regime)"
+msgstr ""
+
+#: guest/templates/guest/bands/guest-details-bands-form.html:5
+msgid "There are another user with this band:"
+msgstr ""
+
+#: guest/templates/guest/bands/guest-details-bands-form.html:16
+msgid "Scan band"
+msgstr ""
+
+#: guest/templates/guest/bands/guest-details-bands-form.html:18
+msgid "Acercar la tarjeta al lector"
+msgstr ""
+
+#: guest/templates/guest/bands/guest-details-bands-form.html:29
+msgid "Nombre de la tarjeta"
+msgstr ""
+
+#: guest/templates/guest/bands/guest-details-bands-form.html:42
+msgid "Select type"
+msgstr ""
+
+#: guest/templates/guest/bands/guest-details-bands-form.html:58
+msgid "Add band to locks?"
+msgstr ""
+
+#: guest/templates/guest/bands/guest-details-bands-form.html:67
+#: guest/templates/guest/bands/guest-details-bands-form.html:70
+#: guest/templates/guest/bands/guest-details-bands-form.html:87
+#: guest/templates/guest/bands/guest-details-bands-form.html:90
+#: guest/templates/guest/bands/guest-details-bands-info.html:13
+#: guest/templates/guest/bands/guest-details-bands-list.html:40
+#: guest/templates/guest/guest-access.html:29
+#: guest/templates/wristbands-by-project/wristbands-backup-search.html:31
+#: guest/templates/wristbands-by-project/wristbands-backup-search.html:33
+#: guest/templates/wristbands-by-project/wristbands-search.html:38
+#: guest/templates/wristbands/wristband-daily-close-content.html:31
+#: guest/templates/wristbands/wristbands-search.html:38
+msgid "Yes"
+msgstr ""
+
+#: guest/templates/guest/bands/guest-details-bands-form.html:67
+#: guest/templates/guest/bands/guest-details-bands-form.html:72
+#: guest/templates/guest/bands/guest-details-bands-form.html:87
+#: guest/templates/guest/bands/guest-details-bands-form.html:92
+#: guest/templates/guest/bands/guest-details-bands-form.html:110
+#: guest/templates/guest/bands/guest-details-bands-info.html:13
+#: guest/templates/guest/bands/guest-details-bands-list.html:40
+#: guest/templates/guest/guest-access.html:29
+#: guest/templates/wristbands-by-project/wristbands-backup-search.html:31
+#: guest/templates/wristbands-by-project/wristbands-backup-search.html:33
+#: guest/templates/wristbands-by-project/wristbands-search.html:38
+#: guest/templates/wristbands-by-project/wristbands-search.html:40
+#: guest/templates/wristbands/wristband-daily-close-content.html:31
+#: guest/templates/wristbands/wristbands-search.html:38
+#: guest/templates/wristbands/wristbands-search.html:40
+msgid "No"
+msgstr ""
+
+#: guest/templates/guest/bands/guest-details-bands-form.html:78
+msgid "This band is for kid?"
+msgstr ""
+
+#: guest/templates/guest/bands/guest-details-bands-form.html:98
+msgid "Add balance"
+msgstr ""
+
+#: guest/templates/guest/bands/guest-details-bands-form.html:106
+#: guest/templates/guest/keys/guest-bands.html:9
+#: guest/templates/guest/keys/guest-keys-all.html:24
+msgid "Add"
+msgstr ""
+
+#: guest/templates/guest/bands/guest-details-bands-info.html:4
+#: guest/templates/guest/bands/guest-details-bands.html:4
+#: guest/templates/guest/keys/guest-bands.html:4
+msgid "Wristbands assigned"
+msgstr ""
+
+#: guest/templates/guest/bands/guest-details-bands-info.html:20
+#: guest/templates/guest/bands/guest-details-bands-list.html:41
+#: guest/templates/guest/bands/guest-details-bands-list.html:66
+#: guest/templates/wristbands-by-project/wristbands-backup-search.html:16
+#: guest/templates/wristbands-by-project/wristbands-search.html:16
+#: guest/templates/wristbands/wristband-daily-close-content.html:19
+#: guest/templates/wristbands/wristbands-search.html:16
+msgid "Balance"
+msgstr ""
+
+#: guest/templates/guest/bands/guest-details-bands-list.html:9
+msgid "Band Code"
+msgstr ""
+
+#: guest/templates/guest/bands/guest-details-bands-list.html:13
+msgid "Imprimir cierre"
+msgstr ""
+
+#: guest/templates/guest/bands/guest-details-bands-list.html:16
+#: guest/templates/guest/bands/guest-details-bands-list.html:21
+msgid "Are you sure to close this band?"
+msgstr ""
+
+#: guest/templates/guest/bands/guest-details-bands-list.html:17
+msgid "Nuevo cierre"
+msgstr ""
+
+#: guest/templates/guest/bands/guest-details-bands-list.html:22
+msgid "Cerrar Pulsera"
+msgstr ""
+
+#: guest/templates/guest/bands/guest-details-bands-list.html:77
+msgid "Log"
+msgstr ""
+
+#: guest/templates/guest/bands/guest-details-bands.html:10
+#: guest/templates/guest/bands/guest-details-bands.html:15
+msgid "Añadir Pulsera"
+msgstr ""
+
+#: guest/templates/guest/bands/guest-details-bands.html:12
+msgid "Debe seleccionar un régimen antes de asignar la pulsera"
+msgstr ""
+
+#: guest/templates/guest/bands/wristbands-close-balances.html:107
+#: guest/templates/guest/bands/wristbands-close-main.html:55
+msgid "Guest Info"
+msgstr ""
+
+#: guest/templates/guest/bands/wristbands-close-balances.html:112
+#: guest/templates/guest/bands/wristbands-close-main.html:60
+msgid "Mobile - Email"
+msgstr ""
+
+#: guest/templates/guest/bands/wristbands-close-balances.html:114
+#: guest/templates/guest/bands/wristbands-close-main.html:62
+msgid "Checkin"
+msgstr ""
+
+#: guest/templates/guest/bands/wristbands-close-balances.html:115
+#: guest/templates/guest/bands/wristbands-close-main.html:63
+msgid "Checkout"
+msgstr ""
+
+#: guest/templates/guest/bands/wristbands-close-main.html:4
+msgid "BALANCE ACTUAL"
+msgstr ""
+
+#: guest/templates/guest/bands/wristbands-close-main.html:9
+msgid "Realizar devolución"
+msgstr ""
+
+#: guest/templates/guest/bands/wristbands-close-main.html:12
+msgid "Efectivo / Tarjeta"
+msgstr ""
+
+#: guest/templates/guest/bands/wristbands-close-main.html:14
+msgid "Efectivo"
+msgstr ""
+
+#: guest/templates/guest/bands/wristbands-close-main.html:15
+msgid "Tarjeta"
+msgstr ""
+
+#: guest/templates/guest/bands/wristbands-close-main.html:21
+msgid "Observaciones:"
+msgstr ""
+
+#: guest/templates/guest/bands/wristbands-close-main.html:31
+#: guest/templates/guest/keys/guest-keys-all.html:25
+msgid "Cancel"
+msgstr ""
+
+#: guest/templates/guest/bands/wristbands-close.html:4
+#: guest/wristband_models.py:264
+msgid "Wristband backup"
+msgstr ""
+
+#: guest/templates/guest/guest-access-points.html:7
+msgid "Sync"
+msgstr ""
+
+#: guest/templates/guest/guest-access.html:11
+msgid "Bands"
+msgstr ""
+
+#: guest/templates/guest/guest-access.html:21
+#: guest/templates/guest/guest-access.html:58
+msgid "Number"
+msgstr ""
+
+#: guest/templates/guest/guest-access.html:38
+#: guest/templates/guest/guest-access.html:68
+#: guest/templates/guest/guest-details-tabs.html:19
+msgid "Access Points"
+msgstr ""
+
+#: guest/templates/guest/guest-access.html:49
+msgid "Cards"
+msgstr ""
+
+#: guest/templates/guest/guest-cars-form.html:6
+msgid "Car Number"
+msgstr ""
+
+#: guest/templates/guest/guest-cars.html:4
+msgid "Car assigned"
+msgstr ""
+
+#: guest/templates/guest/guest-cars.html:9
+msgid "Añadir Matrícula"
+msgstr ""
+
+#: guest/templates/guest/guest-cars.html:15
+msgid "Matrícula"
+msgstr ""
+
+#: guest/templates/guest/guest-details-tabs.html:8
+#: guest/templates/wristbands-by-project/wristbands-backup-search.html:4
+#: guest/templates/wristbands-by-project/wristbands-search.html:4
+#: guest/templates/wristbands/wristbands-search.html:4
+msgid "Pulseras"
+msgstr ""
+
+#: guest/templates/guest/guest-details-tabs.html:9
+msgid "Extras"
+msgstr ""
+
+#: guest/templates/guest/guest-details-tabs.html:15
+msgid "Administrator"
+msgstr ""
+
+#: guest/templates/guest/guest-details-tabs.html:17
+msgid "Credit Card"
+msgstr ""
+
+#: guest/templates/guest/guest-details-tabs.html:18
+msgid "Matrículas"
+msgstr ""
+
+#: guest/templates/guest/guest-form-admin.html:13
+#: guest/templates/guest/guest-form-main.html:73
+msgid "PID"
+msgstr ""
+
+#: guest/templates/guest/guest-form-admin.html:28
 msgid "Deleted"
 msgstr ""
 
-#: templates/guest/guest-form-admin.html:31
-#: templates/guest/guest-form-extra.html:15
-#: templates/guest/guest-form-extra.html:31
+#: guest/templates/guest/guest-form-admin.html:31
+#: guest/templates/guest/guest-form-extra.html:15
+#: guest/templates/guest/guest-form-extra.html:31
 msgid "NO"
 msgstr ""
 
-#: templates/guest/guest-form-admin.html:32
-#: templates/guest/guest-form-extra.html:16
-#: templates/guest/guest-form-extra.html:32
+#: guest/templates/guest/guest-form-admin.html:32
+#: guest/templates/guest/guest-form-extra.html:16
+#: guest/templates/guest/guest-form-extra.html:32
 msgid "YES"
 msgstr ""
 
-#: templates/guest/guest-form-extra.html:5
+#: guest/templates/guest/guest-form-card.html:5
+msgid "Card Number"
+msgstr ""
+
+#: guest/templates/guest/guest-form-card.html:11
+msgid "Expire Date"
+msgstr ""
+
+#: guest/templates/guest/guest-form-card.html:17
+msgid "CVC"
+msgstr ""
+
+#: guest/templates/guest/guest-form-card.html:26
+msgid "Stripe ID"
+msgstr ""
+
+#: guest/templates/guest/guest-form-card.html:30
+msgid "Payment Method"
+msgstr ""
+
+#: guest/templates/guest/guest-form-card.html:34
+msgid "Alta Stripe Data"
+msgstr ""
+
+#: guest/templates/guest/guest-form-extra.html:5
 msgid "Born date"
 msgstr ""
 
-#: templates/guest/guest-form-extra.html:12
+#: guest/templates/guest/guest-form-extra.html:12
 msgid "Married"
 msgstr ""
 
-#: templates/guest/guest-form-extra.html:21
+#: guest/templates/guest/guest-form-extra.html:21
 msgid "Adults"
 msgstr ""
 
-#: templates/guest/guest-form-extra.html:28
-#: templates/guest/guest-form-extra.html:37
+#: guest/templates/guest/guest-form-extra.html:28
+#: guest/templates/guest/guest-form-extra.html:37
 msgid "Children"
 msgstr ""
 
-#: templates/guest/guest-form-extra.html:44
+#: guest/templates/guest/guest-form-extra.html:44
 msgid "Babies"
 msgstr ""
 
-#: templates/guest/guest-form-main.html:8
-#: templates/guest/guest-form-main.html:15
-#: templates/guest/guest-form-main.html:65
-#: templates/guest/guest-form-main.html:73
-#: templates/guest/guest-form-main.html:81
-#: templates/guest/guest-form-main.html:89
-#: templates/guest/guest-form-simple.html:12
-#: templates/guest/guest-form-simple.html:19
-#: templates/guest/guest-form-simple.html:34
-#: templates/guest/guest-form-simple.html:41
-#: templates/guest/guest-form-simple.html:48
-#: templates/guest/guest-form-simple.html:55
-#: templates/guest/guest-form-simple.html:109
+#: guest/templates/guest/guest-form-main.html:10
+#: guest/templates/guest/guest-form-main.html:21
+#: guest/templates/guest/guest-form-main.html:82
+#: guest/templates/guest/guest-form-main.html:90
+#: guest/templates/guest/guest-form-main.html:98
+#: guest/templates/guest/guest-form-main.html:106
+#: guest/templates/guest/guest-form-simple.html:12
+#: guest/templates/guest/guest-form-simple.html:19
+#: guest/templates/guest/guest-form-simple.html:34
+#: guest/templates/guest/guest-form-simple.html:41
+#: guest/templates/guest/guest-form-simple.html:48
+#: guest/templates/guest/guest-form-simple.html:55
+#: guest/templates/guest/guest-form-simple.html:109
 msgid "This field is required"
 msgstr ""
 
-#: templates/guest/guest-form-main.html:13
-#: templates/guest/guest-form-simple.html:17
+#: guest/templates/guest/guest-form-main.html:18
+#: guest/templates/guest/guest-form-simple.html:17
 msgid "Surname"
 msgstr ""
 
-#: templates/guest/guest-form-main.html:37
-#: templates/guest/guest-form-simple.html:24
+#: guest/templates/guest/guest-form-main.html:46
+#: guest/templates/guest/guest-form-simple.html:24
 msgid "Mobile phone"
 msgstr ""
 
-#: templates/guest/guest-form-main.html:40
-#: templates/guest/guest-form-simple.html:26
+#: guest/templates/guest/guest-form-main.html:49
+#: guest/templates/guest/guest-form-simple.html:26
 msgid "Please enter valid phone number"
 msgstr ""
 
-#: templates/guest/guest-form-main.html:44
+#: guest/templates/guest/guest-form-main.html:53
 msgid "Generate random number"
 msgstr ""
 
-#: templates/guest/guest-form-main.html:44
+#: guest/templates/guest/guest-form-main.html:53
 msgid "Are you sure to modify the mobile phone?."
 msgstr ""
 
-#: templates/guest/guest-form-main.html:50
+#: guest/templates/guest/guest-form-main.html:59
 msgid "Update code locks"
 msgstr ""
 
-#: templates/guest/guest-form-main.html:50
+#: guest/templates/guest/guest-form-main.html:60
 msgid "Code will be updated with last four digits of mobile phone."
 msgstr ""
 
-#: templates/guest/guest-form-main.html:55
+#: guest/templates/guest/guest-form-main.html:65
 msgid "Email"
 msgstr ""
 
-#: templates/guest/guest-form-main.html:57
+#: guest/templates/guest/guest-form-main.html:67
 msgid "Please enter valid email"
 msgstr ""
 
-#: templates/guest/guest-form-main.html:63
-#: templates/guest/guest-form-simple.html:32
+#: guest/templates/guest/guest-form-main.html:80
+#: guest/templates/guest/guest-form-simple.html:32
 msgid "Check-in date"
 msgstr ""
 
-#: templates/guest/guest-form-main.html:71
-#: templates/guest/guest-form-simple.html:39
+#: guest/templates/guest/guest-form-main.html:88
+#: guest/templates/guest/guest-form-simple.html:39
 msgid "Check-in time"
 msgstr ""
 
-#: templates/guest/guest-form-main.html:79
-#: templates/guest/guest-form-simple.html:46
+#: guest/templates/guest/guest-form-main.html:96
+#: guest/templates/guest/guest-form-simple.html:46
 msgid "Check-out date"
 msgstr ""
 
-#: templates/guest/guest-form-main.html:87
-#: templates/guest/guest-form-simple.html:53
+#: guest/templates/guest/guest-form-main.html:104
+#: guest/templates/guest/guest-form-simple.html:53
 msgid "Check-out time"
 msgstr ""
 
-#: templates/guest/guest-form-main.html:106
+#: guest/templates/guest/guest-form-main.html:129
 msgid "Select regime"
 msgstr ""
 
-#: templates/guest/guest-form-main.html:127
+#: guest/templates/guest/guest-form-main.html:139
+msgid "Guest Type"
+msgstr ""
+
+#: guest/templates/guest/guest-form-main.html:142
+msgid "Select guest type"
+msgstr ""
+
+#: guest/templates/guest/guest-form-main.html:158
 msgid "Checkout can not be less than checkin"
 msgstr ""
 
-#: templates/guest/guest-form.html:81
+#: guest/templates/guest/guest-form.html:81
 msgid "Admin"
 msgstr ""
 
-#: templates/guest/guest-row.html:17
+#: guest/templates/guest/guest-row.html:20
 msgid " Soft Remove"
 msgstr ""
 
-#: templates/guest/guests.html:23
+#: guest/templates/guest/guests-search.html:44
 msgid "-- Select project ---"
 msgstr ""
 
-#: templates/guest/guests.html:33
+#: guest/templates/guest/guests-search.html:54
+msgid "Fecha de Entrada"
+msgstr ""
+
+#: guest/templates/guest/guests-search.html:55
+msgid "Fecha de Salida"
+msgstr ""
+
+#: guest/templates/guest/guests.html:19
 msgid "Show all"
 msgstr ""
 
-#: templates/guest/guests.html:35
+#: guest/templates/guest/guests.html:21
 msgid "Show active"
 msgstr ""
 
-#: templates/guest/guests.html:37
+#: guest/templates/guest/guests.html:23
 msgid "Show deleted"
 msgstr ""
 
-#: templates/guest/keys/guest-bands.html:15
+#: guest/templates/guest/keys/guest-bands.html:15
 msgid "Band code"
 msgstr ""
 
-#: templates/guest/keys/guest-bands.html:19
+#: guest/templates/guest/keys/guest-bands.html:19
 msgid "Add/Remove to locks"
 msgstr ""
 
-#: templates/guest/keys/guest-details-keys.html:4
-#: templates/guest/keys/guest-keys.html:4
+#: guest/templates/guest/keys/guest-details-keys.html:4
+#: guest/templates/guest/keys/guest-keys.html:4
 msgid "Locks assigned"
 msgstr ""
 
-#: templates/guest/keys/guest-details-keys.html:18
-#: templates/guest/keys/guest-keys.html:20
+#: guest/templates/guest/keys/guest-details-keys.html:18
+#: guest/templates/guest/keys/guest-keys.html:20
 msgid "Open lock"
 msgstr ""
 
-#: templates/guest/keys/guest-key-cards.html:4
+#: guest/templates/guest/keys/guest-key-cards.html:4
 msgid "Card numbers"
 msgstr ""
 
-#: templates/guest/keys/guest-key-cards.html:10
+#: guest/templates/guest/keys/guest-key-cards.html:10
+#: guest/templates/guest/keys/guest-keys-all.html:7
 msgid "Add card"
 msgstr ""
 
-#: templates/guest/keys/guest-key-cards.html:17
+#: guest/templates/guest/keys/guest-key-cards.html:17
 msgid "Hold the card close to the reader"
 msgstr ""
 
-#: templates/guest/keys/guest-key-cards.html:26
+#: guest/templates/guest/keys/guest-key-cards.html:26
 msgid "Remove card"
 msgstr ""
 
-#: templates/guest/keys/guest-key-codes.html:5
+#: guest/templates/guest/keys/guest-key-codes-show.html:5
+#: guest/templates/guest/keys/guest-key-codes.html:5
 msgid "Manual code"
 msgstr ""
 
-#: templates/guest/keys/guest-key-codes.html:9
+#: guest/templates/guest/keys/guest-key-codes.html:9
 msgid "Change code"
 msgstr ""
 
-#: templates/guest/keys/guest-key-codes.html:21
+#: guest/templates/guest/keys/guest-key-codes.html:21
 msgid "Change"
 msgstr ""
 
-#: templates/guest/notifications/guest-list.html:12
+#: guest/templates/guest/keys/guest-keys-all.html:16
+msgid "Card number"
+msgstr ""
+
+#: guest/templates/guest/notifications/guest-list.html:12
 msgid "Select"
 msgstr ""
 
-#: templates/guest/notifications/notification-form.html:7
-#: templates/guest/notifications/notifications.html:22
+#: guest/templates/guest/notifications/notification-form.html:7
+#: guest/templates/guest/notifications/notifications.html:22
 msgid "New notification"
 msgstr ""
 
-#: templates/guest/notifications/notification-form.html:26
+#: guest/templates/guest/notifications/notification-form.html:26
 msgid "Published"
 msgstr ""
 
-#: templates/guest/notifications/notification-form.html:34
+#: guest/templates/guest/notifications/notification-form.html:34
 msgid "Search guests"
 msgstr ""
 
-#: templates/guest/notifications/notification-form.html:42
+#: guest/templates/guest/notifications/notification-form.html:42
 msgid "Send to guests"
 msgstr ""
 
-#: templates/guest/notifications/notification-form.html:85
+#: guest/templates/guest/notifications/notification-form.html:85
 msgid "Send"
 msgstr ""
 
-#: templates/guest/notifications/notification-row.html:8
+#: guest/templates/guest/notifications/notification-row.html:8
 msgid "ALL"
 msgstr ""
 
-#: templates/guest/notifications/notifications.html:14
+#: guest/templates/guest/notifications/notification-row.html:26
+msgid "Delete"
+msgstr ""
+
+#: guest/templates/guest/notifications/notifications.html:14
 msgid "Guest name or room"
 msgstr ""
 
-#: templates/guest/notifications/notifications.html:20
+#: guest/templates/guest/notifications/notifications.html:20
 msgid "Notifications"
 msgstr ""
 
-#: templates/guest/room-list.html:12
+#: guest/templates/guest/room-list.html:13
 msgid "Not assign"
 msgstr ""
 
-#: templates/guest/sensibo/guest-sensibo-devices.html:4
+#: guest/templates/guest/sensibo/guest-sensibo-devices.html:4
 msgid "Air aconditioner assigned"
 msgstr ""
 
-#: templates/guest/sensibo/guest-sensibo-form.html:8
+#: guest/templates/guest/sensibo/guest-sensibo-form.html:8
 msgid "Time to start (previous checkin)"
 msgstr ""
 
-#: templates/guest/sensibo/guest-sensibo-form.html:18
+#: guest/templates/guest/sensibo/guest-sensibo-form.html:18
 msgid "Cool"
 msgstr ""
 
-#: templates/guest/sensibo/guest-sensibo-form.html:19
+#: guest/templates/guest/sensibo/guest-sensibo-form.html:19
 msgid "Heat"
 msgstr ""
 
-#: templates/guest/sensibo/guest-sensibo-form.html:20
+#: guest/templates/guest/sensibo/guest-sensibo-form.html:20
 msgid "Fan"
 msgstr ""
 
-#: templates/guest/sensibo/guest-sensibo-form.html:21
+#: guest/templates/guest/sensibo/guest-sensibo-form.html:21
 msgid "Dry"
 msgstr ""
 
-#: templates/guest/sensibo/guest-sensibo-form.html:22
-#: templates/guest/sensibo/guest-sensibo-form.html:43
+#: guest/templates/guest/sensibo/guest-sensibo-form.html:22
+#: guest/templates/guest/sensibo/guest-sensibo-form.html:43
 msgid "Auto"
 msgstr ""
 
-#: templates/guest/sensibo/guest-sensibo-form.html:27
+#: guest/templates/guest/sensibo/guest-sensibo-form.html:27
 msgid "Temperature"
 msgstr ""
 
-#: templates/guest/sensibo/guest-sensibo-form.html:40
+#: guest/templates/guest/sensibo/guest-sensibo-form.html:40
 msgid "Low"
 msgstr ""
 
-#: templates/guest/sensibo/guest-sensibo-form.html:41
+#: guest/templates/guest/sensibo/guest-sensibo-form.html:41
 msgid "Medium"
 msgstr ""
 
-#: templates/guest/sensibo/guest-sensibo-form.html:42
+#: guest/templates/guest/sensibo/guest-sensibo-form.html:42
 msgid "High"
 msgstr ""
 
-#: templates/wristbands-by-project/wristbands-search.html:4
-#: templates/wristbands/wristbands-search.html:4
-msgid "Card list"
+#: guest/templates/wristbands-by-project/access/wristbands-list.html:5
+#: guest/templates/wristbands/access/wristbands-list.html:5
+msgid "Accesos"
 msgstr ""
 
-#: templates/wristbands-by-project/wristbands-search.html:11
-#: templates/wristbands/wristbands-search.html:11
-msgid "Start Date"
+#: guest/templates/wristbands-by-project/access/wristbands-list.html:6
+#: guest/templates/wristbands/access/wristbands-list.html:6
+msgid "Export CSV"
 msgstr ""
 
-#: templates/wristbands-by-project/wristbands-search.html:12
-#: templates/wristbands/wristbands-search.html:12
-msgid "End Date"
+#: guest/templates/wristbands-by-project/access/wristbands-list.html:12
+#: guest/templates/wristbands/access/wristbands-list.html:12
+msgid "Band"
 msgstr ""
 
-#: templates/wristbands-by-project/wristbands-search.html:42
-#: templates/wristbands/wristbands-search.html:42
-msgid "Remove from guest"
+#: guest/templates/wristbands-by-project/access/wristbands-list.html:13
+#: guest/templates/wristbands/access/wristbands-list.html:13
+msgid "User"
 msgstr ""
 
-#: templates/wristbands-by-project/wristbands.html:11
-#: templates/wristbands/wristbands.html:12
-msgid "Band number"
+#: guest/templates/wristbands-by-project/access/wristbands-list.html:14
+#: guest/templates/wristbands/access/wristbands-list.html:14
+#: guest/wristband_models.py:171 guest/wristband_models.py:182
+#: guest/wristband_models.py:200
+msgid "Zone"
 msgstr ""
 
-#: templates/wristbands-by-project/wristbands.html:14
-#: templates/wristbands/wristbands.html:15
+#: guest/templates/wristbands-by-project/access/wristbands-list.html:15
+#: guest/templates/wristbands/access/wristbands-list.html:15
+#: guest/wristband_models.py:207
+msgid "Inside"
+msgstr ""
+
+#: guest/templates/wristbands-by-project/access/wristbands-list.html:27
+#: guest/templates/wristbands/access/wristbands-list.html:27
+msgid "Entrada"
+msgstr ""
+
+#: guest/templates/wristbands-by-project/access/wristbands-list.html:27
+#: guest/templates/wristbands/access/wristbands-list.html:27
+msgid "Salida"
+msgstr ""
+
+#: guest/templates/wristbands-by-project/access/wristbands.html:16
+#: guest/templates/wristbands-by-project/wristbands.html:14
+#: guest/templates/wristbands-by-project/wristbands.html:22
+#: guest/templates/wristbands/access/wristbands.html:27
+#: guest/templates/wristbands/wristbands.html:15
 msgid "Click here and then place the card on the reader"
 msgstr ""
 
-#: templates/wristbands-by-project/wristbands.html:19
-#: templates/wristbands/wristbands.html:20
+#: guest/templates/wristbands-by-project/wristbands-backup-search.html:11
+#: guest/templates/wristbands-by-project/wristbands-search.html:11
+#: guest/templates/wristbands/wristband-daily-close-content.html:14
+#: guest/templates/wristbands/wristbands-search.html:11
+msgid "Start Date"
+msgstr ""
+
+#: guest/templates/wristbands-by-project/wristbands-backup-search.html:12
+#: guest/templates/wristbands-by-project/wristbands-search.html:12
+#: guest/templates/wristbands/wristband-daily-close-content.html:15
+#: guest/templates/wristbands/wristbands-search.html:12
+msgid "End Date"
+msgstr ""
+
+#: guest/templates/wristbands-by-project/wristbands-backup-search.html:15
+#: guest/templates/wristbands-by-project/wristbands-search.html:15
+#: guest/templates/wristbands/wristband-daily-close-content.html:18
+#: guest/templates/wristbands/wristbands-search.html:15
+#: guest/wristband_models.py:22 guest/wristband_models.py:240
+msgid "Kid"
+msgstr ""
+
+#: guest/templates/wristbands-by-project/wristbands-search.html:52
+#: guest/templates/wristbands/wristbands-search.html:52
+msgid "Remove from guest"
+msgstr ""
+
+#: guest/templates/wristbands-by-project/wristbands.html:11
+#: guest/templates/wristbands/wristbands.html:12
+msgid "Band number"
+msgstr ""
+
+#: guest/templates/wristbands-by-project/wristbands.html:19
+msgid "Band backup"
+msgstr ""
+
+#: guest/templates/wristbands-by-project/wristbands.html:28
+#: guest/templates/wristbands/wristbands.html:20
 msgid "Current band number"
 msgstr ""
 
-#: views.py:195 views.py:234 views.py:262
+#: guest/templates/wristbands/access/index.html:26
+msgid "ACCEDER"
+msgstr ""
+
+#: guest/templates/wristbands/access/result.html:5
+msgid "Acceso denegado"
+msgstr ""
+
+#: guest/templates/wristbands/access/result.html:7
+msgid "Acceso permitido"
+msgstr ""
+
+#: guest/templates/wristbands/access/wristbands.html:15
+msgid "-- Select project --"
+msgstr ""
+
+#: guest/templates/wristbands/pay-form-login.html:3
+msgid "Your username and password didn't match. Please try again."
+msgstr ""
+
+#: guest/templates/wristbands/pay-form-login.html:9
+msgid "Log in"
+msgstr ""
+
+#: guest/templates/wristbands/pay-form-login.html:19
+msgid "Username:"
+msgstr ""
+
+#: guest/templates/wristbands/pay-form-login.html:24
+msgid "Password:"
+msgstr ""
+
+#: guest/templates/wristbands/pay-form-login.html:32
+#: guest/templates/wristbands/pay-welcome.html:14
+msgid "Access"
+msgstr ""
+
+#: guest/templates/wristbands/pay-index.html:10
+msgid "COBRAR"
+msgstr ""
+
+#: guest/templates/wristbands/pay-index.html:43
+msgid "Debe indicar un importe!"
+msgstr ""
+
+#: guest/templates/wristbands/pay-result-success.html:12
+msgid "PAGO REALIZADO"
+msgstr ""
+
+#: guest/templates/wristbands/pay-welcome.html:10
+msgid "Welcome"
+msgstr ""
+
+#: guest/templates/wristbands/wristband-daily-close-content.html:4
+msgid "Cierres pulsera"
+msgstr ""
+
+#: guest/templates/wristbands/wristband-daily-close-content.html:6
+msgid "Exportar a CSV"
+msgstr ""
+
+#: guest/views.py:287 guest/views.py:326 guest/views.py:354
 msgid "Guest not found!"
 msgstr ""
 
-#: views.py:245
+#: guest/views.py:337
 msgid "Checkout can not be less than checkin!"
 msgstr ""
 
-#: views.py:474
+#: guest/views.py:656
 msgid "Project not found!"
 msgstr ""
 
-#: views.py:480
+#: guest/views.py:662
 msgid "This user have not permission for this section!"
 msgstr ""
 
-#: views.py:514 views.py:524
+#: guest/views.py:696 guest/views.py:706
 msgid "Object not found!"
 msgstr ""
 
-#: wristband_views.py:103
+#: guest/views.py:982 guest/views.py:1011
+msgid "Tarjeta añadida correctamente!"
+msgstr ""
+
+#: guest/wristband_models.py:18
+msgid "Wristband type"
+msgstr ""
+
+#: guest/wristband_models.py:19
+msgid "Wristbands type"
+msgstr ""
+
+#: guest/wristband_models.py:121 guest/wristband_models.py:128
+#: guest/wristband_models.py:142 guest/wristband_models.py:209
+#: guest/wristband_models.py:271
+msgid "Wristband"
+msgstr ""
+
+#: guest/wristband_models.py:122
+msgid "Wristbands"
+msgstr ""
+
+#: guest/wristband_models.py:137
+msgid "Wristbands balance"
+msgstr ""
+
+#: guest/wristband_models.py:145
+msgid "Wristband log"
+msgstr ""
+
+#: guest/wristband_models.py:146
+msgid "Wristbands log"
+msgstr ""
+
+#: guest/wristband_models.py:149
+msgid "Default"
+msgstr ""
+
+#: guest/wristband_models.py:150
+msgid "Reset Time"
+msgstr ""
+
+#: guest/wristband_models.py:164
+msgid "Wristband Access Zone"
+msgstr ""
+
+#: guest/wristband_models.py:165
+msgid "Wristbands Access Zones"
+msgstr ""
+
+#: guest/wristband_models.py:169
+msgid "Initial Time"
+msgstr ""
+
+#: guest/wristband_models.py:170
+msgid "End Time"
+msgstr ""
+
+#: guest/wristband_models.py:174 guest/wristband_models.py:194
+msgid "Wristband Access Point"
+msgstr ""
+
+#: guest/wristband_models.py:175 guest/wristband_models.py:195
+msgid "Wristbands Access Points"
+msgstr ""
+
+#: guest/wristband_models.py:178
+msgid "In point"
+msgstr ""
+
+#: guest/wristband_models.py:179
+msgid "Close"
+msgstr ""
+
+#: guest/wristband_models.py:203
+msgid "Wristband Access Zone Guest"
+msgstr ""
+
+#: guest/wristband_models.py:204
+msgid "Wristbands Access Zone Guest"
+msgstr ""
+
+#: guest/wristband_models.py:210
+msgid "Access Point"
+msgstr ""
+
+#: guest/wristband_models.py:235
+msgid "Wristband access"
+msgstr ""
+
+#: guest/wristband_models.py:236
+msgid "Wristbands access"
+msgstr ""
+
+#: guest/wristband_models.py:245
+msgid "Guest UUID"
+msgstr ""
+
+#: guest/wristband_models.py:246
+msgid "Guest name"
+msgstr ""
+
+#: guest/wristband_models.py:247
+msgid "Guest mobile"
+msgstr ""
+
+#: guest/wristband_models.py:248
+msgid "Guest email"
+msgstr ""
+
+#: guest/wristband_models.py:249
+msgid "Guest room"
+msgstr ""
+
+#: guest/wristband_models.py:265
+msgid "Wristbands backups"
+msgstr ""
+
+#: guest/wristband_models.py:274
+msgid "Wristband backup balance"
+msgstr ""
+
+#: guest/wristband_models.py:275
+msgid "Wristbands backup balance"
+msgstr ""
+
+#: guest/wristband_views.py:122
 msgid "Init charge"
+msgstr ""
+
+#: guest/wristband_views.py:386
+msgid "Error!, No tiene permisos para acceder a esta zona"
+msgstr ""
+
+#: guest/wristband_views.py:392 guest/wristband_views.py:403
+msgid ""
+"Error!, Este es un punto de salida y no se ha registrado ninguna entrada"
+msgstr ""
+
+#: guest/wristband_views.py:395 guest/wristband_views.py:407
+msgid "Ha entrado correctamente!"
+msgstr ""
+
+#: guest/wristband_views.py:414
+msgid "Ha salido correctamente!"
+msgstr ""
+
+#: guest/wristband_views.py:419
+msgid ""
+"Error!, Este es un punto de entrada y no se ha registrado ninguna salida"
+msgstr ""
+
+#: guest/wristband_views.py:434
+msgid "Error!, No se encuentra el punto de acceso"
+msgstr ""
+
+#: guest/wristband_views.py:439 guest/wristband_views.py:606
+msgid ""
+"Error!, Por favor revise que:<br/>- La pulsera está dada de alta<br/>- Las "
+"fechas de uso son correctas"
+msgstr ""
+
+#: guest/wristband_views.py:556
+msgid "You must to complete username and password!"
+msgstr ""
+
+#: guest/wristband_views.py:563
+msgid "Username or password incorrect!"
+msgstr ""
+
+#: guest/wristband_views.py:568
+msgid "Waiter not found!"
+msgstr ""
+
+#: guest/wristband_views.py:601
+msgid "Error: No ha introducido un importe!"
+msgstr ""
+
+#: guest/wristband_views.py:620
+msgid "No se ha encontrado la Api Key!"
+msgstr ""
+
+#: guest/wristband_views.py:630
+msgid "Error procesando el pago!"
+msgstr ""
+
+#: guest/wristband_views.py:665
+msgid "Pago directo con tarjeta del huésped {} por un importe de {} euros"
+msgstr ""
+
+#: guest/wristband_views.py:729
+msgid "Pago realizado "
+msgstr ""
+
+#: guest/wristband_views.py:731
+msgid "Devolución realizada "
+msgstr ""
+
+#: guest/wristband_views.py:733
+msgid "en efectivo. "
+msgstr ""
+
+#: guest/wristband_views.py:735
+msgid "con tarjera. "
+msgstr ""
+
+#: guest/wristband_views.py:736
+msgid "Observaciones: {}"
 msgstr ""

@@ -39,6 +39,7 @@ urlpatterns = [
     path('pwa/', include('guestpwa.urls')),
     path('sw.js', ServiceWorker, name="sw"),
     path('serviceworker.js', ServiceWorker, name="serviceworker"),
+    path("i18n/", include("django.conf.urls.i18n")),
 ]
 
 from django.conf import settings

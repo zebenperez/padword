@@ -2,6 +2,7 @@ from django.conf import settings
 from django.http import HttpResponse, HttpResponseForbidden, JsonResponse
 from django.shortcuts import render, redirect
 from django.template.loader import render_to_string
+from django.utils import translation
 from django.utils.translation import ugettext_lazy as _ 
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
@@ -445,10 +446,13 @@ def mews_cancel_booking_list(request, project_uuid):
         return render(request, 'error_exception.html', {'exc':show_exc(e)})
 
 @group_required("admins", "projects")
-def mews_email_template(request, project_uuid):
+def mews_email_template(request, project_uuid, guest_uuid):
     project = get_or_none(Project, project_uuid, "uuid")
-    guest = Guest.objects.filter(project_id=project_uuid).first()
+    #guest = Guest.objects.filter(project_id=project_uuid).first()
+    guest = get_or_none(Guest, guest_uuid, "UUID")
     pmu = ProjectMewsUser.objects.filter(project_uuid=project_uuid).first()
+    lang = guest.language or "es"
+    translation.activate(lang)
     return render(request, 'mews/email_template.html', {'guest': guest, 'project': project, 'pmu': pmu})
 
 '''

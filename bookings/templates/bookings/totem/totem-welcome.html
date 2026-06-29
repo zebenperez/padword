@@ -10,12 +10,15 @@
             <h4> {% trans "Acerque la pulsera al lector" %} </h4>
 
 		    <!-- Selector de idiomas -->
+            {% include "bookings/totem/totem-languajes.html" %}
+            {%comment%}
 		    <div class="languages mt-2">
 		        <div class="flag" title="Català (Andorra)"> <img src="https://flagcdn.com/w80/ad.png" alt="Andorra"> </div>
 		        <div class="flag" title="Español"> <img src="https://flagcdn.com/w80/es.png" alt="España"> </div>
 		        <div class="flag" title="Français"> <img src="https://flagcdn.com/w80/fr.png" alt="Francia"> </div>
 		        <div class="flag" title="English"> <img src="https://flagcdn.com/w80/gb.png" alt="Inglaterra"> </div>
 		    </div>
+            {%endcomment%}
 
             {# {% if cat.name != "" %}<h4> {% padword_translate cat.name %} <h4> {% endif %} #}
             {% if cat.description != "" %} {% endif %}
@@ -33,5 +36,7 @@
 
     {% include "common-modal.html" %}
 
-    <script> $('#sidebar').removeClass('expanded'); $("#input-scan").val(""); $("#input-scan").focus();</script>
+    <script> $('#sidebar').removeClass('expanded'); $("#input-scan").val(""); $("#input-scan").focus();
+        {#console.log($("#input-scan").val());#}
+    </script>
 {% endblock %}
