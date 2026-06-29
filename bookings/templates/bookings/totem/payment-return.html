@@ -31,7 +31,8 @@
                     data-project_uuid="{{project.uuid}}">{% trans "Volver" %}</a>
                 {%endcomment%}
                 <a class="btn btn-print ark w-100" data-url="{%url "totem-print-pay"%}" data-target="div-main"
-                    data-project_uuid="{{project.uuid}}" data-band="{{band}}" data-total="{{total}}"> {%trans "Imprimir"%}</a>
+                    data-project_uuid="{{project.uuid}}" data-band="{{band}}" data-total="{{total}}" data-band_close="{{band_close}}"> 
+                    {%trans "Imprimir"%}</a>
                 <a class="btn finish-btn w-100" href="{% url "totem-access" project.uuid tcod %}">{% trans "Finalizar" %}</a>
              </div>
 

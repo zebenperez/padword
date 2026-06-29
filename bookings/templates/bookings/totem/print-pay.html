@@ -1,4 +1,4 @@
-{% load i18n static%}
+{% load i18n static tz %}
 
 
 <!DOCTYPE html>
@@ -241,9 +241,8 @@
                 </div>
                 
                 <div class="ticket-card">
-                    <div class="ticket-title">
-                        {% trans 'Pago realizado' %}
-                    </div>
+                    <div class="trade-name text-center">{{pcu.ticket_head|safe}} </div>
+                    <div class="ticket-title"> {% trans 'Pago realizado' %} </div>
                     <div class="ticket-data small">
                         <div class="label text-start">{% trans "Fecha" %}:</div>
                         <div class="value text-end">{{ date|date:'d/m/Y H:i:s' }}</div>
@@ -252,7 +251,30 @@
                         <div class="label text-start">{% trans "Importe pagado" %}:</div>
                         <div class="value amount text-end">{{total}}</div>
                     </div>
+
+                    <div> {% trans "CONSUMOS" %} </div>
+                    <div class="transactions-table-">
+                    <div class="table-head">
+                        <div> {% trans 'Date' %} </div>
+                        <div> {% trans 'Description' %} </div>
+                        <div class="text-end"> {% trans 'Amount' %} </div>
+                    </div>
+                    <div>
+                        <!-- ITEM -->
+                        {% for balance in balances %}
+                            <div class="small guest-row transaction-item">
+                                <div class="date">
+                                    <small>{{ balance.date|timezone:project.time_zone_name|date:'d/m/Y' }} </small>
+                                    <small>{{ balance.date|timezone:project.time_zone_name|date:'H:i:s' }} </small>
+                                </div>
+                                <div> {{ balance.desc|striptags }} </div>
+                                <div class="amount negative"> {{ balance.amount|floatformat:2 }} </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                    <div class="trade-name text-center">{{pcu.ticket_footer|safe}} </div>
                 </div>
+
             </div>
             </div>
         </div>

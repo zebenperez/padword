@@ -46,6 +46,18 @@
                     data-url="{% url "autosave_field" %}" data-target="div-notification"/> 
                 <span id="token__msg"></span>	
             </div>
+            <div class="col-12">
+                <label class="label">{% trans "Ticket Head" %}:</label>
+                <textarea type="text" class="form-control autosave input" id="ticket_head" name="ticket_head" 
+                    data-model-name="connector.projectcaldeauser" data-obj-id="{{user_caldea.id}}" 
+                    data-url="{% url "autosave_field" %}" data-target="div-notification"> {{user_caldea.ticket_head}} </textarea>
+            </div>
+            <div class="col-12">
+                <label class="label">{% trans "Ticket Footer" %}:</label>
+                <textarea type="text" class="form-control autosave input" id="ticket_footer" name="ticket_footer" 
+                    data-model-name="connector.projectcaldeauser" data-obj-id="{{user_caldea.id}}" 
+                    data-url="{% url "autosave_field" %}" data-target="div-notification"> {{user_caldea.ticket_footer}} </textarea>
+            </div>
         </div>		
     </div>		
 </div>		

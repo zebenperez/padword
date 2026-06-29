@@ -59,13 +59,13 @@ def totem_start(request):
 
 def totem_check_band(request):
     try:
-        project = get_or_none(Project, request.GET["project"], "uuid")
+        project = get_or_none(Project, get_param(request.GET, "project"), "uuid")
         val = get_param(request.GET, "value", "")
         band = Wristband.get_active_by_project(project, reverse_cardkey(val))
         tcod = request.session["code"] if "code" in request.session else ""
         band_err = ""
-        #print(f"--> Lectura de pulsera: {val}")
-        #print(f"--> Pulsera: {band}")
+        print(f"--> Lectura de pulsera: {val}")
+        print(f"--> Pulsera: {band}")
         if band == None:
             band_err = _("¡Pulsera no encontrada!")
         elif band.guest == None:
@@ -104,6 +104,7 @@ def totem_pay(request):
 
     total = band.balance
     try:
+        #print("--1--")
         payment_ok = manage_transaction(project, -1 * total, "Ticket: {}".format(band.id), tcod)
         if not payment_ok:
             context = {'err': _('Error procesando el pago'), 'project': project, 'tcod': tcod}
@@ -121,15 +122,17 @@ def totem_pay(request):
     band.reset_balance(desc)            #Se pone el balance a 0 con cargo
     obj = band.make_new_close()         #Se cierra la pulsera
     Wristband.reset_band(band)          #Se le reasigna vacía al huésped
+    band_close = obj.id if obj != None else "" #Se pasa la copia para recuperar luego los balances
 
     try:
+        #print("--2--")
         update_tickets_payment(tickets)
         send_caldea_payment(project, band_code, regime, tickets, (-1 * total))
     except Exception as e:
         print(e)
         #return render(request, "bookings/totem/payment-return.html", {'err': _('Error enviando el pago'), 'project': project})
 
-    context = {'err': '', 'project': project, 'band': band.code, 'total': total, 'tcod': tcod}
+    context = {'err': '', 'project': project, 'band': band.code, 'total': total, 'band_close': band_close, 'tcod': tcod}
     return render(request, "bookings/totem/payment-return.html", context)
 
 def totem_view_ticket(request):
@@ -151,11 +154,17 @@ def totem_view_ticket(request):
 def totem_print_pay(request):
     try:
         project = get_or_none(Project, get_param(request.GET, "project_uuid"), "uuid")
+        band_close = get_or_none(WristbandBackup, get_param(request.GET, "band_close"))
         band = get_param(request.GET, "band")
         total = get_param(request.GET, "total")
         tcod = request.session["code"] if "code" in request.session else ""
+
         now = datetime.datetime.now()
-        context = {'project': project, 'band': band, 'total': total, 'date': now, 'tcod': tcod}
+        balances = band_close.balances.all()
+        #b = Wristband.objects.filter(code=band).first()
+        #balances = b.balances.all()
+        pcu = ProjectCaldeaUser.objects.filter(project_uuid=project.uuid).first()
+        context = {'project': project, 'band': band, 'total': total, 'date': now, 'balances': balances, 'pcu': pcu, 'tcod': tcod}
         return render(request, 'bookings/totem/print-pay.html', context)
     except Exception as e:
         print(e)

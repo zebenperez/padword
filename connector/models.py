@@ -200,6 +200,8 @@ class ProjectCaldeaUser(models.Model):
     client_id = models.CharField(max_length=255, verbose_name=_('Client ID'), default="")
     secret = models.CharField(max_length=255, verbose_name=_('Client Secret'), default="")
     token = models.CharField(max_length=255, verbose_name=_('Token'), default="")
+    ticket_head = models.TextField(verbose_name=_('Ticket Head'), default="")
+    ticket_footer = models.TextField(verbose_name=_('Ticket Footer'), default="")
     project_uuid = models.CharField(max_length=255, verbose_name=_('Project UUID'), default="")
 
     @property
