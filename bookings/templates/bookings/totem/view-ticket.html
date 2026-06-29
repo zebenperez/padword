@@ -4,19 +4,19 @@
             <button class="close" data-bs-dismiss="modal"><i class="fas fa-times"></i></button>
 	    	<div class="summary">
 		        <div class="summary-item">
-                    <div class="label">{% trans "Punto de venta" %}</div>
+                    <div class="label_">{% trans "Punto de venta" %}</div>
 		            <div class="value">{% padword_translate fi.form.get_category.name %}</div>
     		    </div>
 	    	    <div class="summary-item">
-                    <div class="label">{% trans "Subtotal" %}</div>
+                    <div class="label_">{% trans "Subtotal" %}</div>
                     <div class="value"> {{fi.get_total|stringformat:".2f"}} {{fi.currency}}</div>
     		    </div>
 	    	    <div class="summary-item">
-                    <div class="label">{% trans "Descuento" %}</div>
+                    <div class="label_">{% trans "Descuento" %}</div>
 		            <div class="value">{{fi.discount|stringformat:".2f"}} %</div>
     		    </div>
 	    	    <div class="summary-item">
-                    <div class="label">{% trans "Total" %}</div>
+                    <div class="label_">{% trans "Total" %}</div>
 		            <div class="value total">{{fi.get_total_total|stringformat:".2f"}} {{fi.currency}}</div>
     		    </div>
 	    	</div>
