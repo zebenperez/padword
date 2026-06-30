@@ -232,15 +232,10 @@
                         <a class="btn btn-finish py-3 m-4" onclick="window.print()"> &#128424; {% trans "Imprimir" %}</a>
                 </div>
 
-                {% if project.logo %}<img src="{{project.logo.url}}" alt="Logo" width="100px"/><br/>{% endif %} <br/>
-
-                <div class="success">
-                    <div class="success-circle">
-                        <i class="fa-solid fa-print"></i>
-                    </div>
-                </div>
+                <div class="success"> <div class="success-circle"> <i class="fa-solid fa-print"></i> </div> </div>
                 
                 <div class="ticket-card">
+                    {% if project.logo %}<img src="{{project.logo.url}}" alt="Logo" width="100px"/><br/>{% endif %} <br/>
                     <div class="trade-name text-center">{{pcu.ticket_head|safe}} </div>
                     <div class="ticket-title"> {% trans 'Pago realizado' %} </div>
                     <div class="ticket-data small">

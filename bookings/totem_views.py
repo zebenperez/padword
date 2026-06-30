@@ -64,8 +64,8 @@ def totem_check_band(request):
         band = Wristband.get_active_by_project(project, reverse_cardkey(val))
         tcod = request.session["code"] if "code" in request.session else ""
         band_err = ""
-        print(f"--> Lectura de pulsera: {val}")
-        print(f"--> Pulsera: {band}")
+        #print(f"--> Lectura de pulsera: {val}")
+        #print(f"--> Pulsera: {band}")
         if band == None:
             band_err = _("¡Pulsera no encontrada!")
         elif band.guest == None:
