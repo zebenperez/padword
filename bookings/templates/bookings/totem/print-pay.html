@@ -179,8 +179,19 @@
                 color:var(--green);
                 font-size:22px;
             }
+           .table-head,
+           .transaction-item {
+               display:grid;
+               grid-template-columns: 20% 60% 20%;
+           }
 
             @media print {
+
+                .ticket-card {
+                    width: 80mm;
+                    margin: 0;
+                    padding: 0;
+                }
 
                 /* Oculta todo */
                 body * {
@@ -188,6 +199,7 @@
                 }
 
                 /* Muestra solo el ticket */
+           
                 .ticket-card,
                 .ticket-card * {
                     visibility: visible;
