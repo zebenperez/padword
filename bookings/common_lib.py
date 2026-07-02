@@ -67,6 +67,9 @@ def get_or_create_form_instance_info_tpv(fi, pos, table):
 
 def get_or_create_form_instance_info_client_tpv(fi, client, band, band_name=""):
     if fi.form.form_type.order:
+        fi_list = FormInstanceInfo.objects.filter(fi=fi)
+        if len(fi_list) > 1:
+            fi_list.delete()
         fi_info, created = FormInstanceInfo.objects.get_or_create(fi=fi)
         fi_info.client = "{} {}".format(client.name, client.surname)
         fi_info.client_id = client.id
