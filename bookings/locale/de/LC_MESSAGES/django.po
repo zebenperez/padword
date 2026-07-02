@@ -741,7 +741,7 @@ msgstr "Eine Option auswählen"
 #: templates/bookings/general/general.html:10
 #| msgid "You have some news\n"
 msgid "You have selected:"
-msgstr "Sie haben Neuigkeiten"
+msgstr "Sie haben Neuigkeiten\n"
 
 #: templates/bookings/general/general.html:15
 msgid "You must fill in all the required fields"
@@ -1198,8 +1198,7 @@ msgid "Acerque la pulsera al lector"
 msgstr "Halten Sie das Armband an den Leser"
 
 #: templates/bookings/totem/view-band.html:8
-msgid ""
-"Vuelva a intentarlo y, si el problema persiste, contacte con el personal."
+msgid "Vuelva a intentarlo y, si el problema persiste, contacte con el personal."
 msgstr "Versuchen Sie es erneut, und wenden Sie sich an das Personal, falls das "
 "Problem weiterhin besteht."
 

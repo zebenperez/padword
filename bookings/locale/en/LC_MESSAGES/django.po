@@ -93,7 +93,7 @@ msgstr "Answer type"
 
 #: models.py:173
 msgid "Answers types"
-msgstr "Answer types"
+msgstr "Answers types"
 
 #: models.py:183 models.py:513 templates/forms/block-form.html:31
 msgid "Question type"

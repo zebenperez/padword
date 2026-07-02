@@ -602,7 +602,7 @@ msgstr "Nombre de huésped, Apellido, Email, Teléfono, Habitación"
 msgid "Initial date"
 msgstr "Fecha inicial"
 
-#: templates/bookings/cat-manage/search_box.html:45
+#: templates/bookings/cat-manage/search_box.html:45precio
 #: templates/bookings/manage/search_box.html:37
 #: templates/bookings/pr-manage/search_box.html:43
 #: templates/bookings/tpv-orders/search_box.html:31

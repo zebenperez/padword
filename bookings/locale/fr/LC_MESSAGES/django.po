@@ -543,7 +543,7 @@ msgstr "Date"
 #: templates/bookings/tpv/order-details-list.html:30
 #| msgid "Amount to pay"
 msgid "Amount"
-msgstr "Montant à payer"
+msgstr "Montant"
 
 #: templates/bookings/cat-manage/booking-row.html:17
 #: templates/bookings/manage/booking-logs.html:3
@@ -602,7 +602,7 @@ msgstr "Nom du client, Prénom, E-mail, Téléphone, Chambre"
 #: templates/bookings/tpv-orders/search_box.html:26
 #| msgid "Initial Time"
 msgid "Initial date"
-msgstr "Heure de début"
+msgstr "Date de début"
 
 #: templates/bookings/cat-manage/search_box.html:45
 #: templates/bookings/manage/search_box.html:37
@@ -610,12 +610,12 @@ msgstr "Heure de début"
 #: templates/bookings/tpv-orders/search_box.html:31
 #| msgid "Send date"
 msgid "End date"
-msgstr "Date d'envoi"
+msgstr "Date de fin"
 
 #: templates/bookings/ecom/band-scan.html:4
 #| msgid "Guest regime"
 msgid "Your regime is"
-msgstr "Régime du client"
+msgstr "Votre régime est"
 
 #: templates/bookings/ecom/band-scan.html:5
 msgid "Your card number is"
@@ -655,7 +655,7 @@ msgstr "Enregistrer"
 #: templates/bookings/tpv/tpv-cart.html:6
 #| msgid "The lock could not be opened, sorry for the inconvenience."
 msgid "Service not available in this moment, sorry for the inconvenience!"
-msgstr "La serrure n'a pas pu être ouverte, désolé pour le désagrément."
+msgstr "Service non disponible pour le moment, désolé pour le désagrément !"
 
 #: templates/bookings/ecom/shopping_cart.html:25
 #: templates/bookings/ecom/shopping_cart2.html:26
@@ -673,7 +673,7 @@ msgstr "Annuler la commande"
 #: templates/bookings/ecom/view-payment-types.html:21
 #| msgid "Amount to pay"
 msgid "Amount to pay (10, 20, 50...)"
-msgstr "Montant à payer"
+msgstr "Montant à payer (10, 20, 50...)"
 
 #: templates/bookings/ecom/view-payment-types.html:49
 #: templates/bookings/tpv/mobile/tpv-tables.html:26
@@ -691,7 +691,7 @@ msgstr "Retour"
 #: templates/bookings/general/general.html:22
 #| msgid "Send date"
 msgid "Send Order"
-msgstr "Date d'envoi"
+msgstr "Envoyer la commande"
 
 #: templates/bookings/ecom/view-shopping-cart-fi.html:7
 #: templates/bookings/tpv/mobile/view-ticket-mobile.html:22
@@ -740,7 +740,7 @@ msgstr "Sélectionner une option"
 #: templates/bookings/general/general.html:10
 #| msgid "You have some news\n"
 msgid "You have selected:"
-msgstr "Vous avez des nouveautés"
+msgstr "Vous avez sélectionné :"
 
 #: templates/bookings/general/general.html:15
 msgid "You must fill in all the required fields"
@@ -766,7 +766,7 @@ msgstr "TOUT"
 #: templates/bookings/guest/bookings-by-guest-original.html:13
 #| msgid "Username"
 msgid "Surname"
-msgstr "Nom d'utilisateur"
+msgstr "Nom de famille"
 
 #: templates/bookings/guest/bookings-by-guest-actual.html:20
 #: templates/bookings/guest/bookings-by-guest-original.html:14
@@ -846,7 +846,7 @@ msgstr "Prix"
 #: templates/bookings/tpv/view-ticket.html:43
 #| msgid "Description"
 msgid "Descuento"
-msgstr "Description"
+msgstr "Remise"
 
 #: templates/bookings/guest/view-booking-ecom.html:54
 #: templates/bookings/totem/view-ticket.html:19
@@ -959,13 +959,13 @@ msgstr "Êtes-vous sûr de vouloir retirer cet élément ?"
 #: templates/forms/search_box.html:7
 #| msgid "Project UUID"
 msgid "Project name"
-msgstr "UUID du projet"
+msgstr "Nom du projet"
 
 #: templates/bookings/manage/search_box.html:22
 #: templates/bookings/pr-manage/search_box.html:28
 #| msgid "Service"
 msgid "Service name"
-msgstr "Service"
+msgstr "Nom du service"
 
 #: templates/bookings/manage/status-form.html:5
 #: templates/bookings/pr-manage/status-form.html:5
@@ -978,7 +978,7 @@ msgstr "Statut actuel :"
 #: templates/bookings/pr-manage/status-form.html:36
 #| msgid "Status"
 msgid "Change Status"
-msgstr "Statut"
+msgstr "Changer le statut"
 
 #: templates/bookings/manage/status-form.html:39
 #: templates/bookings/pr-manage/status-form.html:39
@@ -1065,7 +1065,7 @@ msgstr "Google Maps"
 #: templates/bookings/menus/menu_holiday-homes.html:56
 #| msgid "Guest user"
 msgid "Guests directory"
-msgstr "Client utilisateur"
+msgstr "Répertoire des clients"
 
 #: templates/bookings/menus/menu_holiday-homes.html:63
 msgid "Around you"
@@ -1208,7 +1208,7 @@ msgstr "EXPÉRIENCE SPA"
 #: templates/bookings/totem/view-band.html:34
 #| msgid "Code"
 msgid "Band Code"
-msgstr "Code"
+msgstr "Code du bracelet"
 
 #: templates/bookings/totem/view-band.html:39
 msgid "Tipo"
@@ -1241,7 +1241,7 @@ msgstr "Sous-total"
 #: templates/bookings/tpv-orders-daily/index-z.html:5
 #| msgid "Point of sale UUID"
 msgid "Current point of sale"
-msgstr "UUID du point de vente"
+msgstr "Point de vente actuel"
 
 #: templates/bookings/tpv-cash/index-content.html:7
 msgid "New Cash"
@@ -1280,7 +1280,7 @@ msgstr "Num"
 #: templates/bookings/tpv-cash/index-content.html:41
 #| msgid "Close"
 msgid "Close Date"
-msgstr "Fermer"
+msgstr "Date de fermeture"
 
 #: templates/bookings/tpv-cash/index-content.html:42
 #: templates/bookings/tpv-cash/print-z.html:104
@@ -1336,7 +1336,7 @@ msgstr "Résumé"
 #: templates/bookings/tpv/print-z.html:112
 #| msgid "Zeta"
 msgid "Zeta Nº"
-msgstr "Zeta"
+msgstr "Zeta N°"
 
 #: templates/bookings/tpv-cash/print-z.html:93
 #: templates/bookings/tpv/print-z.html:112
@@ -1415,7 +1415,7 @@ msgstr "Chambre"
 #: templates/bookings/tpv-orders/order-row.html:10
 #| msgid "UUID"
 msgid "ID"
-msgstr "UUID"
+msgstr "ID"
 
 #: templates/bookings/tpv-orders/order-row.html:14
 msgid "Mesa"
@@ -1438,7 +1438,7 @@ msgstr "Hôtel"
 #: templates/bookings/tpv-orders/order-row.html:40
 #| msgid "Send date"
 msgid "Send to PMS"
-msgstr "Date d'envoi"
+msgstr "Envoyer au PMS"
 
 #: templates/bookings/tpv-orders/orders.html:11
 msgid "Tickets"
@@ -1500,7 +1500,7 @@ msgstr "MEILLEURES VENTES"
 #: templates/bookings/tpv/tpv-form-login.html:19
 #| msgid "Username"
 msgid "Username:"
-msgstr "Nom d'utilisateur"
+msgstr "Nom d'utilisateur :"
 
 #: templates/bookings/tpv/mobile/tpv-form-login.html:24
 #: templates/bookings/tpv/tpv-form-login.html:24
@@ -1549,7 +1549,7 @@ msgstr "X"
 #: templates/bookings/tpv/tpv-tables.html:110
 #| msgid "Order"
 msgid "No order"
-msgstr "Ordre"
+msgstr "Aucune commande"
 
 #: templates/bookings/tpv/mobile/view-payment-types-cancel.html:4
 #: templates/bookings/tpv/view-payment-types-cancel.html:4
@@ -1570,7 +1570,7 @@ msgstr "Remboursement"
 #: templates/bookings/tpv/view-ticket.html:74
 #| msgid "Enviados"
 msgid "Enviado"
-msgstr "Envoyés"
+msgstr "Envoyé"
 
 #: templates/bookings/tpv/mobile/view-ticket-mobile.html:80
 #: templates/bookings/tpv/view-ticket.html:85
@@ -1588,7 +1588,7 @@ msgstr "Voir le ticket"
 #: templates/bookings/tpv/orders-by-waiter.html:7
 #| msgid "Order"
 msgid "Orders"
-msgstr "Ordre"
+msgstr "Commandes"
 
 #: templates/bookings/tpv/print-ticket.html:107
 msgid "Nº"
@@ -1671,7 +1671,7 @@ msgstr "Niveau"
 #: templates/bookings/tpv/view-guest-info.html:24
 #| msgid "Payment Type"
 msgid "Band Type"
-msgstr "Type de paiement"
+msgstr "Type de bracelet"
 
 #: templates/bookings/tpv/view-guest-info.html:25
 msgid "Kid"
@@ -1797,7 +1797,7 @@ msgstr "Êtes-vous sûr de vouloir retirer cet article ?"
 #: templates/forms/block-form.html:35
 #| msgid "Question type"
 msgid "Select question type"
-msgstr "Type de question"
+msgstr "Sélectionner le type de question"
 
 #: templates/forms/block-form.html:46 templates/forms/form-edit-content.html:36
 #: templates/forms/question-form.html:35
@@ -1807,12 +1807,12 @@ msgstr "Ajouter un article"
 #: templates/forms/channel-form.html:12
 #| msgid "Channel"
 msgid "Channel UUID"
-msgstr "Canal"
+msgstr "UUID du canal"
 
 #: templates/forms/emails.html:4
 #| msgid "Guest email"
 msgid "Add email"
-msgstr "E-mail du client"
+msgstr "Ajouter un e-mail"
 
 #: templates/forms/emails.html:20
 #| msgid "Email From"
@@ -1883,7 +1883,7 @@ msgstr "CRÉER TPV"
 #: templates/forms/form-edit-category.html:27
 #| msgid "Band"
 msgid "Band Pay"
-msgstr "Bracelet"
+msgstr "Paiement par bracelet"
 
 #: templates/forms/form-edit-category.html:30
 msgid "Update"
@@ -1900,7 +1900,7 @@ msgstr "Créer PWA"
 #: templates/forms/form-edit-content.html:7
 #| msgid "Channel"
 msgid "Change lang"
-msgstr "Canal"
+msgstr "Changer la langue"
 
 #: templates/forms/form-edit-content.html:17
 msgid "Images"
@@ -1933,17 +1933,17 @@ msgstr "URL"
 #: templates/forms/form-general.html:55
 #| msgid "Category"
 msgid "Parent Category"
-msgstr "Catégorie"
+msgstr "Catégorie parente"
 
 #: templates/forms/form-general.html:59
 #| msgid "Parent"
 msgid "Current"
-msgstr "Parent"
+msgstr "Actuel"
 
 #: templates/forms/form-general.html:60 templates/forms/form-general.html:67
 #| msgid "Category"
 msgid "ROOT Category"
-msgstr "Catégorie"
+msgstr "Catégorie racine"
 
 #: templates/forms/form-general.html:63
 msgid "Level Up"
@@ -1952,12 +1952,12 @@ msgstr "Monter de niveau"
 #: templates/forms/form-general.html:80
 #| msgid "Description"
 msgid "Position"
-msgstr "Description"
+msgstr "Position"
 
 #: templates/forms/form-general.html:92
 #| msgid "Form type"
 msgid "Select form type"
-msgstr "Type de formulaire"
+msgstr "Sélectionner le type de formulaire"
 
 #: templates/forms/form-general.html:114 templates/forms/form-row.html:11
 msgid "Edit"
@@ -1970,17 +1970,17 @@ msgstr "Fonctionnalités"
 #: templates/forms/form-general.html:131
 #| msgid "Email"
 msgid "Emails"
-msgstr "E-mail"
+msgstr "E-mails"
 
 #: templates/forms/form-general.html:137 templates/forms/timetable.html:18
 #| msgid "Table"
 msgid "Timetable"
-msgstr "Table"
+msgstr "Horaire"
 
 #: templates/forms/form-list.html:9
 #| msgid "Project UUID"
 msgid "Project"
-msgstr "UUID du projet"
+msgstr "Projet"
 
 #: templates/forms/form-qr-block.html:7
 msgid "Logo"
@@ -2009,7 +2009,7 @@ msgstr "Actif"
 #: templates/forms/forms.html:13
 #| msgid "Form"
 msgid "Forms"
-msgstr "Formulaire"
+msgstr "Formulaires"
 
 #: templates/forms/forms.html:24
 msgid "No active"
@@ -2022,12 +2022,12 @@ msgstr "Nouveau formulaire"
 #: templates/forms/question-form.html:26
 #| msgid "Field type"
 msgid "Select field type"
-msgstr "Type de champ"
+msgstr "Sélectionner le type de champ"
 
 #: templates/forms/search_box.html:14
 #| msgid "Channel"
 msgid "Channel name"
-msgstr "Canal"
+msgstr "Nom du canal"
 
 #: templates/forms/timetable.html:5
 msgid "Add timetable"
@@ -2060,7 +2060,7 @@ msgstr "Nom d'utilisateur ou mot de passe incorrect !"
 #: tpv_mobile_views.py:84 tpv_views.py:99
 #| msgid "Category not found!"
 msgid "Waiter not found!"
-msgstr "Catégorie introuvable !"
+msgstr "Serveur introuvable !"
 
 #: tpv_mobile_views.py:235 tpv_mobile_views.py:270 tpv_views.py:322
 msgid "This band is not asigned to any guest!"
@@ -2073,24 +2073,24 @@ msgstr "Le bracelet n'a pas pu être lu !"
 #: tpv_mobile_views.py:333 tpv_views.py:341
 #| msgid "Form not found!"
 msgid "Room not found!"
-msgstr "Formulaire introuvable !"
+msgstr "Chambre introuvable !"
 
 #: tpv_mobile_views.py:336 tpv_views.py:344
 #| msgid "Form not found!"
 msgid "Guest not found!"
-msgstr "Formulaire introuvable !"
+msgstr "Client introuvable !"
 
 #: views.py:40
 #| msgid "Form not found!"
 msgid "Project not found!"
-msgstr "Formulaire introuvable !"
+msgstr "Projet introuvable !"
 
 #: views.py:42 views.py:48
 #| msgid "Form not found!"
 msgid "User not found!"
-msgstr "Formulaire introuvable !"
+msgstr "Utilisateur introuvable !"
 
 #: views.py:44
 #| msgid "Form not found!"
 msgid "Token not found!"
-msgstr "Formulaire introuvable !"
+msgstr "Jeton introuvable !"

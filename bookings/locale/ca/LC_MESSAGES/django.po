@@ -32,11 +32,10 @@ msgstr "Heu d'introduir el nom d'usuari i la contrasenya!"
 #: guest_views.py:603
 msgid "Sorry, there was a problem with your booking, please try again!"
 msgstr "Ho sentim, hi ha hagut un problema amb la vostra reserva, torneu-ho a provar!"
-"Ho sentim, hi ha hagut un problema amb la vostra reserva, torneu-ho a provar!"
 
 #: guest_views.py:775
 msgid "- Order {} with current status {}\n"
-msgstr "- Comanda {} con l'estat actual {}\n"
+msgstr "- Comanda {} amb l'estat actual {}\n"
 
 #: guest_views.py:776
 msgid "- Not readed notifications -> {}"
@@ -743,7 +742,7 @@ msgstr "Seleccionar una opció"
 #: templates/bookings/general/general.html:10
 #| msgid "You have some news\n"
 msgid "You have selected:"
-msgstr "Teniu novetats"
+msgstr "Heu seleccionat:"
 
 #: templates/bookings/general/general.html:15
 msgid "You must fill in all the required fields"
@@ -849,7 +848,7 @@ msgstr "Preu"
 #: templates/bookings/tpv/view-ticket.html:43
 #| msgid "Description"
 msgid "Descuento"
-msgstr "Descripció"
+msgstr "Descompte"
 
 #: templates/bookings/guest/view-booking-ecom.html:54
 #: templates/bookings/totem/view-ticket.html:19
@@ -1208,7 +1207,7 @@ msgstr "SPA EXPERIENCE"
 #: templates/bookings/totem/view-band.html:34
 #| msgid "Code"
 msgid "Band Code"
-msgstr "Codi"
+msgstr "Codi de polsera"
 
 #: templates/bookings/totem/view-band.html:39
 msgid "Tipo"
