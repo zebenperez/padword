@@ -1451,7 +1451,10 @@ from django.http import FileResponse
 def download_log(request):
     try:    
         name = request.GET["name"]
-        response = FileResponse(open(os.path.join(settings.LOGPATH, name), 'rb'))
+        if name == "logs.txt": 
+            response = FileResponse(open(os.path.join(settings.BASE_DIR, "logs.txt"), "rb"))
+        else:
+            response = FileResponse(open(os.path.join(settings.LOGPATH, name), 'rb'))
         return response
     except Exception as e:
         return render(request, 'error_exception.html', {'exc': show_exc(e)})
