@@ -226,18 +226,11 @@ class Octorate():
                 "metaData": meta_data,
                 "status": "CONFIRMED"
             }
-            #params = {
-                ##"roomCode": {"code":, "rfcTagId": "", "locked": "true"},
-                #"roomCode": {"code": code},
-                #"metaData": [{"labelText":"DigitalKey", "metaKey":"PadwordKey", "metaDataType":"LINK", "value": link}],
-                #"status": "CONFIRMED"
-            #}
             msg = f"\n SEND CODE URL: {_url_request}"
             msg += f"\n SEND CODE PARAMS: {params}"
             #print("--1--")
             #print(_url_request)
             #print(params)
-            #print(self.token)
             dic = self.__send_patch_request__(_url_request, json.dumps(params)).json()
             #print(dic)
             return dic, msg
@@ -262,7 +255,7 @@ class Octorate():
             raise OctorateAPIError(menssage=err)
 
 
-class CloudbedsBooking():
+class OctorateBooking():
     def __init__(self, dic, guest):
         self.id = "{}_{}".format(get_param(dic, "id"), get_param(dic, "refer"))
         self.status = get_param(dic, "status")
@@ -393,9 +386,11 @@ def get_booking_list(pou):
     write_log(f"---------------------------------------------")
     write_log(f"CREANDO RESERVAS {datetime.now()}")
     for item in result:
+        print(item)
+        print("--------------")
         i += 1
         guest = item["guests"][0] if "guests" in item and len(item["guests"]) > 0 else []
-        node = CloudbedsBooking(item, guest)
+        node = OctorateBooking(item, guest)
         msg = create_booking(pou, node, oc)
         booking_list.append(node)
         write_log(f"{msg}")

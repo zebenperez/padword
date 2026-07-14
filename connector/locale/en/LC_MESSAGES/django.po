@@ -686,7 +686,7 @@ msgstr ""
 
 #: connector/templates/mews/email_template.html:234
 msgid "Estimado/a"
-msgstr ""
+msgstr "Dear"
 
 #: connector/templates/mews/email_template.html:237
 msgid "Le facilitamos los datos de acceso de su alojamiento"

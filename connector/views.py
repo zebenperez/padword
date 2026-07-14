@@ -26,6 +26,7 @@ from .winhotel_lib import get_booking_list as wh_get_booking_list, import_item_p
 from .winhotel_lib import get_booking_new_list as wh_get_booking_new_list, get_booking_day_list as wh_get_booking_day_list
 from .winhotel_lib import get_booking_range_list as wh_get_booking_range_list, send_liq as wh_send_liq
 from .mews_lib import get_booking_list as mw_get_booking_list, cancel_booking_list as mw_cancel_booking_list
+from .mews_lib import get_room_list as mw_get_room_list
 from .cloudbeds_lib import get_booking_list as cb_get_booking_list, get_room_list as cb_get_room_list
 from .cloudbeds_lib import set_webhooks as cb_set_webhooks, manage_webhook_actions as cb_manage_webhook_actions
 from .octorate_lib import get_booking_list as oc_get_booking_list, get_room_list as oc_get_room_list
@@ -446,14 +447,29 @@ def mews_cancel_booking_list(request, project_uuid):
         return render(request, 'error_exception.html', {'exc':show_exc(e)})
 
 @group_required("admins", "projects")
+def mews_get_room_list(request, project_uuid):
+    try:
+        pmu = get_or_none(ProjectMewsUser, project_uuid, "project_uuid")
+        room_list = mw_get_room_list(pmu)
+        return render(request, 'mews/room-list.html', {'item_list': room_list})
+    except Exception as e:
+        print(e)
+        return render(request, 'error_exception.html', {'exc':show_exc(e)})
+
+
+@group_required("admins", "projects")
 def mews_email_template(request, project_uuid, guest_uuid):
+    from .mews_lib import send_email_code
+
     project = get_or_none(Project, project_uuid, "uuid")
     #guest = Guest.objects.filter(project_id=project_uuid).first()
     guest = get_or_none(Guest, guest_uuid, "UUID")
     pmu = ProjectMewsUser.objects.filter(project_uuid=project_uuid).first()
-    lang = guest.language or "es"
-    translation.activate(lang)
-    return render(request, 'mews/email_template.html', {'guest': guest, 'project': project, 'pmu': pmu})
+    email = send_email_code(guest, "1234", pmu)
+    return HttpResponse(email)
+    #lang = guest.language or "es"
+    #translation.activate(lang)
+    #return render(request, 'mews/email_template.html', {'guest': guest, 'project': project, 'pmu': pmu})
 
 '''
     Cloudbeds

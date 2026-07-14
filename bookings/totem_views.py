@@ -59,6 +59,7 @@ def totem_start(request):
 
 def totem_check_band(request):
     try:
+        print(request.GET)
         project = get_or_none(Project, get_param(request.GET, "project"), "uuid")
         val = get_param(request.GET, "value", "")
         band = Wristband.get_active_by_project(project, reverse_cardkey(val))

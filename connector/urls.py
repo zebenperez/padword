@@ -21,6 +21,7 @@ urlpatterns = [
     #--------------------- MEWS --------------------
     path('mews/get-booking-list/<slug:project_uuid>/', views.mews_get_booking_list, name='mews-get-booking-list'),
     path('mews/cancel-booking-list/<slug:project_uuid>/', views.mews_cancel_booking_list, name='mews-cancel-booking-list'),
+    path('mews/get-room-list/<slug:project_uuid>/', views.mews_get_room_list, name='mews-get-room-list'),
     path('mews/email-template/<slug:project_uuid>/<slug:guest_uuid>/', views.mews_email_template, name='mews-email-template'),
 
     #--------------------- CLOUDBEDS --------------------

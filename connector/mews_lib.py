@@ -27,7 +27,9 @@ BOOKINGS_URL = "reservations/getAll/2023-06-06"
 CUSTOMERS_URL = "customers/getAll"
 RESOURCES_URL = "resources/getAll"
 CONFIRM_STATE = "Confirmed"
+STARTED_STATE = "Started"
 CANCELED_STATE = "Canceled"
+INSPECTED_STATE = "Inspected"
 #BOOKINGS_URL = "configuration/get"
 #ACCOMMODATIONS_URL = "accommodations"
 #SEND_LINK_URL = "booking/checkin/register-access-data"
@@ -91,7 +93,7 @@ class Mews():
         except requests.exceptions.RequestException as err:
             raise MewsAPIError(menssage=err)
 
-    def get_bookings(self, state=CONFIRM_STATE):
+    def get_bookings(self, state=STARTED_STATE):
         try:
             _url_request = "{}{}".format(API_URL, BOOKINGS_URL)
             #print(_url_request)
@@ -158,6 +160,20 @@ class Mews():
         except Exception as err:
             raise MewsAPIError(menssage=err)
 
+    def get_resources(self):
+        try:
+            _url_request = "{}{}".format(API_URL, RESOURCES_URL)
+            params = {
+                    "ClientToken": "{}".format(self.client_token),
+                    "AccessToken": "{}".format(self.access_token),
+                    "Client": "Padword",
+            }
+            dic = self.__send_post_request__(_url_request, params).json()
+            items = dic["Resources"]
+            return items
+        except Exception as err:
+            raise MewsAPIError(menssage=err)
+
 
 class MewsBooking():
     def __init__(self, dic):
@@ -187,6 +203,7 @@ class MewsResource():
     def __init__(self, dic):
         self.id = get_param(dic, "Id")
         self.number = get_param(dic, "Name")
+        self.state = get_param(dic, "State")
 
 '''
     FUNCTIONS
@@ -210,13 +227,17 @@ def room_exist(project_uuid, room):
     return (count > 0)
 
 def send_email_code(guest, code, pmu):
+    from django.utils import translation
+
     try:
         subject = _("Códigos de acceso")
-        #body = _(f'Su código de acceso es {code}')
-        body = render_to_string("mews/email_template.html", {'guest': guest, 'project': guest.project, 'code': code, 'pmu': pmu})
+        body = ""
+        with translation.override(guest.language.lower()):
+            body = render_to_string("mews/email_template.html", {'guest': guest, 'project': guest.project, 'code': code, 'pmu': pmu})
         send_email(subject, "", settings.EMAIL_FROM_DEFAULT, [guest.email], body)
     except Exception as e:
         print(e)
+    return body
 
 def create_booking(pmu, booking, av):
     project = Project.objects.filter(uuid=pmu.project_uuid).first()
@@ -225,13 +246,14 @@ def create_booking(pmu, booking, av):
     #print(checkin)
     #print(checkout)
     room = booking.room.number if booking.room != None else "-1"
+    room_inspected = True if booking.room != None and booking.room.state == INSPECTED_STATE else False
     room_ex = room_exist(pmu.project_uuid, room)
     err = ""
 
     #if room_ex and (("Z" in room) or ("Y" in room)):
     #print("----")
     #print("{} {}".format(booking.id, booking.number))
-    if room_ex:
+    if room_ex and room_inspected: # Si el huésped tiene habitación asignada y está "Inspected"
         #print("--ENTRA--")
         ext_id = get_ext_id(booking)
         guest = Guest.objects.filter(ext_id=ext_id, project_id=pmu.project_uuid, deleted=0).first()
@@ -273,6 +295,11 @@ def delete_booking(pwu, booking):
     if guest != None:
         guest.delete()
 
+def create_room(pmu, room, i):
+    r = Room.objects.get_or_create(project_uuid=pmu.project_uuid, number=room.number).first()
+    if r == None:
+        r = Room.objects.create(project_uuid=pmu.project_uuid, number=room.number, alias=room.number, order=i, uuid=new_ui_slug(Room))
+
 def get_booking_list(pmu):
     av = Mews(pmu.client_token, pmu.access_token)
     result = av.get_bookings()
@@ -280,8 +307,8 @@ def get_booking_list(pmu):
     booking_list = []
     i = 0
     for item in result:
-        print("--1--")
-        print(item)
+        #print("--1--")
+        #print(item)
         i += 1
         node = MewsBooking(item)
         booking_list.append(node)
@@ -319,4 +346,17 @@ def cancel_booking_list(pmu):
         booking_list.append(node)
         delete_booking(pmu, node)
     return booking_list
+
+def get_room_list(pmu):
+    av = Mews(pmu.client_token, pmu.access_token)
+    result = av.get_resources()
+    room_list = []
+    i = 0
+    for item in result:
+        #print(item)
+        room = MewsResource(item)
+        room_list.append(room)
+        create_room(pmu, room, i)
+        i += 1
+    return room_list
 
