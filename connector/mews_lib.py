@@ -296,7 +296,7 @@ def delete_booking(pwu, booking):
         guest.delete()
 
 def create_room(pmu, room, i):
-    r = Room.objects.get_or_create(project_uuid=pmu.project_uuid, number=room.number).first()
+    r = Room.objects.filter(project_uuid=pmu.project_uuid, number=room.number).first()
     if r == None:
         r = Room.objects.create(project_uuid=pmu.project_uuid, number=room.number, alias=room.number, order=i, uuid=new_ui_slug(Room))
 
