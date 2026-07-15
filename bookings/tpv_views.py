@@ -216,6 +216,7 @@ def tpv_index(request, project_uuid):
             return render(request, "bookings/tpv/index.html", context)
     except Exception as e:
         print(e)
+        logger.error("[bookings-tpv_index] {}".format(str(e)))
         return render(request, "error_exception.html", {'exc':show_exc(e)})
 
 @group_required("waiters")
@@ -226,6 +227,7 @@ def tpv_set_pos(request):
         return redirect(reverse("tpv-index", kwargs = {'project_uuid': pos.project_uuid}))
     except Exception as e:
         print(e)
+        logger.error("[bookings-tpv_set_pos] {}".format(str(e)))
         return render(request, "error_exception.html", {'exc':show_exc(e)})
 
 @group_required("waiters")
@@ -236,6 +238,7 @@ def tpv_change_pos(request):
         return redirect(reverse("tpv-index", kwargs = {'project_uuid': request.GET["project_uuid"]}))
     except Exception as e:
         print(e)
+        logger.error("[bookings-tpv_change_pos] {}".format(str(e)))
         return render(request, "error_exception.html", {'exc':show_exc(e)})
 
 @group_required("waiters")
@@ -246,6 +249,7 @@ def tpv_set_table(request):
         return redirect(reverse(request.GET["index"], kwargs = {'project_uuid': table.point_of_sale.project_uuid}))
     except Exception as e:
         print(e)
+        logger.error("[bookings-tpv_set_table] {}".format(str(e)))
         return render(request, "error_exception.html", {'exc':show_exc(e)})
 
 @group_required("waiters")
@@ -264,6 +268,7 @@ def tpv_change_table(request):
         return redirect(reverse("tpv-index", kwargs = {'project_uuid': request.GET["project_uuid"]}))
     except Exception as e:
         print(e)
+        logger.error("[bookings-tpv_change_table] {}".format(str(e)))
         return render(request, "error_exception.html", {'exc':show_exc(e)})
 
 @group_required("waiters")
@@ -275,6 +280,7 @@ def tpv_set_cash(request):
         return redirect(reverse(request.GET["index"], kwargs = {'project_uuid': cash.project_uuid}))
     except Exception as e:
         print(e)
+        logger.error("[bookings-tpv_set_cash] {}".format(str(e)))
         return render(request, "error_exception.html", {'exc':show_exc(e)})
 
 @group_required("waiters")
@@ -291,6 +297,7 @@ def tpv_ticket(request):
         return render(request, "bookings/tpv/view-ticket.html", {'fi':fi,})
     except Exception as e:
         print(e)
+        logger.error("[bookings-tpv_ticket] {}".format(str(e)))
         return render(request, "error_exception.html", {'exc':show_exc(e)})
 
 @group_required("waiters")
@@ -327,6 +334,7 @@ def tpv_check_band(request):
         #return render(request, "bookings/tpv/view-guest-info.html", {'fi':fi, 'band': band, 'regime': regime})
     except Exception as e:
         print(e)
+        logger.error("[bookings-tpv_check_band] {}".format(str(e)))
         return render(request, "error_exception.html", {'exc':show_exc(e)})
 
 @group_required("waiters")
@@ -348,6 +356,7 @@ def tpv_check_room(request):
         return render(request, "bookings/tpv/view-ticket.html", {'fi':fi, 'band_err': "", "guest": guest})
     except Exception as e:
         print(e)
+        logger.error("[bookings-tpv_check_room] {}".format(str(e)))
         return render(request, "error_exception.html", {'exc':show_exc(e)})
 
 @group_required("waiters")
@@ -383,6 +392,7 @@ def tpv_add_item(request):
         #return render(request, "bookings/tpv/show-instance-result.html", {'fi':instance,'item':item,'items':items})
     except Exception as e:
         print(e)
+        logger.error("[bookings-tpv_add_item] {}".format(str(e)))
         return render(request, "error_exception.html", {'exc':show_exc(e)})
 
 @group_required("waiters")
@@ -405,6 +415,7 @@ def tpv_set_discount(request):
         #return render(request, "bookings/tpv/view-ticket.html", {'fi':fi,})
     except Exception as e:
         print(e)
+        logger.error("[bookings-tpv_set_discount] {}".format(str(e)))
         return render(request, "error_exception.html", {'exc':show_exc(e)})
 
 
@@ -422,7 +433,8 @@ def tpv_order_remove(request):
 
         #Limpiamos cache de la mesa y limpiamos la mesa seleccionada
         t = get_or_none(Table, request.session["table"])
-        t.set_current_total(None)
+        if t != None:
+            t.set_current_total(None)
         request.session["table"] = ""
 
         mobile = get_param(request.GET, "mobile")
@@ -462,6 +474,7 @@ def tpv_order_item_remove(request):
         #return render(request, "bookings/tpv/{}".format(temp), {'fi':fi,})
     except Exception as e:
         print(e)
+        logger.error("[bookings-tpv_order_item_remove] {}".format(str(e)))
         return render(request, "error_exception.html", {'exc':show_exc(e)})
 
 @group_required("waiters")
@@ -489,6 +502,7 @@ def tpv_order_item_comment(request):
         #return render(request, "bookings/tpv/shopping-form.html", {'obj':obj, 'form_id':form_id})
     except Exception as e:
         print(e)
+        logger.error("[bookings-tpv_order_item_comment] {}".format(str(e)))
         return render(request, "error_exception.html", {'exc':show_exc(e)})
 
 @group_required("waiters")
@@ -508,6 +522,7 @@ def tpv_order_item_discount(request):
         return render(request, "bookings/tpv/discount-form.html", {'obj':obj, 'form_id':form_id, 'mobile': mobile, 'fi': fi})
     except Exception as e:
         print(e)
+        logger.error("[bookings-tpv_order_item_discount] {}".format(str(e)))
         return render(request, "error_exception.html", {'exc':show_exc(e)})
 
 def add_balance_to_band(pos, fi, band):

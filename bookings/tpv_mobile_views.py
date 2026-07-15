@@ -88,7 +88,7 @@ def tpv_login(request):
 
         return redirect(reverse("tpv-mob-index", kwargs = {'project_uuid': project_uuid}))
     except Exception as e:
-        logger.error("[tpv-login] {}".format(str(e)))
+        logger.error("[bookings-tpv_mobile_login] {}".format(str(e)))
         return render(request, 'error_exception.html', {'exc':show_exc(e)})
 
 @group_required("waiters")
@@ -137,6 +137,7 @@ def tpv_index(request, project_uuid):
             return render(request, "bookings/tpv/mobile/index.html", context)
     except Exception as e:
         print(e)
+        logger.error("[bookings-tpv_mobile_index] {}".format(str(e)))
         return render(request, "error_exception.html", {'exc':show_exc(e)})
 
 @group_required("waiters")
@@ -148,6 +149,7 @@ def tpv_set_pos(request):
         return redirect(reverse("tpv-mob-index", kwargs = {'project_uuid': pos.project_uuid}))
     except Exception as e:
         print(e)
+        logger.error("[bookings-tpv_mobile_set_pos] {}".format(str(e)))
         return render(request, "error_exception.html", {'exc':show_exc(e)})
 
 @group_required("waiters")
@@ -159,6 +161,7 @@ def tpv_change_pos(request):
         return redirect(reverse("tpv-mob-index", kwargs = {'project_uuid': request.GET["project_uuid"]}))
     except Exception as e:
         print(e)
+        logger.error("[bookings-tpv_mobile_change_pos] {}".format(str(e)))
         return render(request, "error_exception.html", {'exc':show_exc(e)})
 
 @group_required("waiters")
@@ -169,6 +172,7 @@ def tpv_set_table(request):
         return redirect(reverse("tpv-mob-index", kwargs = {'project_uuid': table.point_of_sale.project_uuid}))
     except Exception as e:
         print(e)
+        logger.error("[bookings-tpv_mobile_set_table] {}".format(str(e)))
         return render(request, "error_exception.html", {'exc':show_exc(e)})
 
 @group_required("waiters")
@@ -186,6 +190,7 @@ def tpv_change_table(request):
         return redirect(reverse("tpv-mob-index", kwargs = {'project_uuid': request.GET["project_uuid"]}))
     except Exception as e:
         print(e)
+        logger.error("[bookings-tpv_mobile_change_table] {}".format(str(e)))
         return render(request, "error_exception.html", {'exc':show_exc(e)})
 
 #@group_required("waiters")
@@ -209,11 +214,14 @@ def tpv_ticket(request):
         return render(request, "bookings/tpv/mobile/view-ticket.html", {'fi':fi,})
     except Exception as e:
         print(e)
+        logger.error("[bookings-tpv_mobile_ticket] {}".format(str(e)))
         return render(request, "error_exception.html", {'exc':show_exc(e)})
 
 @group_required("waiters")
 def tpv_check_band(request):
     try:
+        logger.info(f"[bookings_tpv_mobile_check_band] --> Entrando en check band mobile")
+
         fi = get_or_none(FormInstance, request.GET["obj_id"])
         val = get_param(request.GET, "value", "")
         val = val.lstrip("0") # Elimina los 0 al principio de la cadena leída
@@ -227,6 +235,8 @@ def tpv_check_band(request):
         regime = None
         band_err = ""
         if band != None and band.guest != None:
+            logger.info(f"[bookings_tpv_mobile_check_band] --> Band: {band.code} {band.name}")
+
             gr = band.guest.regimes.first()
             regime = gr.regime if gr != None else None
             get_or_create_form_instance_info_client_tpv(fi, band.guest, band.code, band.name)
@@ -240,7 +250,7 @@ def tpv_check_band(request):
         #return render(request, "bookings/tpv/mobile/view-ticket-mobile.html", {'fi':fi, 'band': band, 'regime': regime, 'band_err': band_err})
     except Exception as e:
         print(e)
-        logger.error("[bookings-check_band] {}".format(str(e)))
+        logger.error("[bookings-tpv_mobile_check_band] {}".format(str(e)))
         return render(request, "error_exception.html", {'exc':show_exc(e)})
 
 @group_required("waiters")
@@ -272,7 +282,7 @@ def tpv_check_band_paytef(request):
         return render(request, "bookings/tpv/mobile/view-ticket-mobile.html", {'fi':fi, 'band_err': band_err})
     except Exception as e:
         print(e)
-        logger.error("[bookings-check_band] {}".format(str(e)))
+        logger.error("[bookings-tpv_mobile_check_band_paytef] {}".format(str(e)))
         return render(request, "error_exception.html", {'exc':show_exc(e)})
 
 
@@ -300,6 +310,7 @@ def tpv_item_add(request):
         return render(request, "bookings/tpv/mobile/view-ticket-mobile.html", {'fi':instance,})
     except Exception as e:
         print(e)
+        logger.error("[bookings-tpv_mobile_item_add] {}".format(str(e)))
         return render(request, "error_exception.html", {'exc':show_exc(e)})
 
 
@@ -320,6 +331,7 @@ def tpv_item_remove(request):
         return render(request, "bookings/tpv/mobile/view-ticket-mobile.html", {'fi':fi,})
     except Exception as e:
         print(e)
+        logger.error("[bookings-tpv_mobile_item_remove] {}".format(str(e)))
         return render(request, "error_exception.html", {'exc':show_exc(e)})
 
 @group_required("waiters")
@@ -341,6 +353,7 @@ def tpv_check_room(request):
         return render(request, "bookings/tpv/mobile/view-ticket-mobile.html", {'fi':fi, 'band_err': "", "guest": guest})
     except Exception as e:
         print(e)
+        logger.error("[bookings-tpv_mobile_check_room] {}".format(str(e)))
         return render(request, "error_exception.html", {'exc':show_exc(e)})
 
 
