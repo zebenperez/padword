@@ -3,8 +3,11 @@
 <div class="row w-100 common-modal-head m-0 p-0">
     <div class="col-11"><h2>{% trans 'Mews booking list' %}</h2></div>
     <div class="col-1">
+        {%comment%}
         <button type="button" class="btn btn-sm ark" data-bs-dismiss="modal" data-url="{% url "guest-search-by-project" %}" 
-        data-target="guest-list"><i class="fas fa-times"></i></button> </div>
+            data-target="guest-list"><i class="fas fa-times"></i></button> </div>
+        {%endcomment%}
+        <button type="button" class="btn btn-sm" data-bs-dismiss="modal"><i class="fas fa-times"></i></button> </div>
 </div>
 
 {% if error and error != "" %} <div class="alert alert-danger">{{error|safe}}</div> {% endif %}
@@ -61,8 +64,8 @@
                 <div class="row">
                     <div class="col-2">{% trans 'Room' %}</div>
                     <div class="col-4">{{item.room.number}}</div>
-                    <div class="col-2"></div>
-                    <div class="col-4"></div>
+                    <div class="col-2">{% trans 'Room State' %}</div>
+                    <div class="col-4">{{item.room.state}}</div>
                 </div>
                 <hr/>
             {% endfor %}

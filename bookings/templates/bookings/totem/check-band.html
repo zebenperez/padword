@@ -20,15 +20,17 @@
                 {% trans "Sistema listo para lectura" %}
 			</div>
 
-            <div id="contador" class="text-muted"> {% trans "Redirección en" %} <span id="segundos">30</span>s </div>
+            {#<div id="contador" class="text-muted"> {% trans "Redirección en" %} <span id="segundos">30</span>s </div>#}
 		</div>
 	</div>
 </div>
 
 <script> 
     $('#sidebar').removeClass('expanded'); $("#div-scan").focus();
+    {%comment%}
     $(function () { 
         startInactivityTimer({ timeoutSeconds: 60, displaySelector: '#segundos', onTimeout: function() { location.reload(); } }); 
     });
+    {%endcomment%}
 </script>
 {% include "autocomplete_off.html" %}

@@ -228,6 +228,8 @@ hr{
     <div class="header">
         <h1>{% trans "Información de acceso" %}</h1>
         <p>{% trans "Su estancia comienza próximamente" %}</p>
+        {% get_current_language as LANGUAGE_CODE %}
+        Idioma actual: {{ LANGUAGE_CODE }}
     </div>
 
     <div class="content">

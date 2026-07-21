@@ -70,14 +70,16 @@
             <a class="btn btn btn-cancel py-3 mx-4" href="{% url "totem-access" project.uuid tcod %}">{% trans "Cancelar" %}</a>
         </div>
 
-        <div id="contador" class="text-muted"> Redirección en <span id="segundos">30</span>s </div>
+        {#<div id="contador" class="text-muted"> Redirección en <span id="segundos">30</span>s </div>#}
     </div>
 
+    {%comment%}
     <script>
         $(function () { 
             startInactivityTimer({ timeoutSeconds: 60, displaySelector: '#segundos', onTimeout: function() { location.reload(); } }); 
         });
     </script>
+    {%endcomment%}
 {% endif %}
 
 

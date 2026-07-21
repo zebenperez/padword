@@ -16,12 +16,10 @@ import string
 
 try:
     API_URL = settings.MEWS_API_URL
-    #API_URL = "https://api.mews.com/api/connector/v1/"
     CLIENT_ID = settings.MEWS_CLIENT_ID
 except:
     API_URL = "https://api.mews.com/api/connector/v1/"
     CLIENT_ID = "Padword"
-    #API_URL = "https://api.mews-demo.com/api/connector/v1/"
 
 BOOKINGS_URL = "reservations/getAll/2023-06-06"
 CUSTOMERS_URL = "customers/getAll"
@@ -30,9 +28,6 @@ CONFIRM_STATE = "Confirmed"
 STARTED_STATE = "Started"
 CANCELED_STATE = "Canceled"
 INSPECTED_STATE = "Inspected"
-#BOOKINGS_URL = "configuration/get"
-#ACCOMMODATIONS_URL = "accommodations"
-#SEND_LINK_URL = "booking/checkin/register-access-data"
 
 def get_param(dic, key):
     return dic[key] if key in dic else ""
@@ -50,15 +45,11 @@ class Mews():
         self.access_token = access_token
         self.ini_date = datetime.now().strftime("%Y-%m-%dT00:00:00Z")
         self.end_date = datetime.now().strftime("%Y-%m-%dT23:59:59Z")
-        #self.ini_date = "2024-10-01T00:00:00Z"
-        #self.end_date = "2024-10-31T23:59:59Z"
     
     def __send_request__(self, _url_request, _params=""):
         try:
             _headers = {}
             _headers['Accept'] = 'application/json'
-            #_headers['Authorization'] = 'Basic {}'.format(self.uuid)
-            #_headers['Token'] = '{}'.format(self.token)
             if _params != "":
                 _response = requests.get(_url_request, headers=_headers, params=_params)
             else:
@@ -78,10 +69,7 @@ class Mews():
         try:
             _headers = {}
             _headers['Accept'] = 'application/json'
-            #_headers['Authorization'] = 'Basic {}'.format(self.uuid)
-            #_headers['Token'] = '{}'.format(self.token)
             _response = requests.post(_url_request, headers=_headers, json=_json)
-            #print(_response.text)
             _response.raise_for_status()
             return _response
         except requests.exceptions.HTTPError as errh:
@@ -102,7 +90,6 @@ class Mews():
                     "AccessToken": "{}".format(self.access_token),
                     "Client": CLIENT_ID,
                     "Limitation": {
-                        #"Cursor": "819e3435-7d5e-441f-bc68-76d89c69b8f5",
                         "Count": 1000
                     },
                     "CreatedUtc": {
@@ -110,18 +97,6 @@ class Mews():
                         "EndUtc": self.end_date
                     },
                     "States": [state]
-                    #"AccountIds": [
-                    #    "1b768e9c-ffdd-485c-95e8-3c96d3f9c4cc"
-                    #],
-                    #"ScheduleStartUtc": {
-                    #    "StartUtc": "2024-03-12T00:00:00Z",
-                    #    "EndUtc": "2024-03-15T00:00:00Z"
-                    #},
-                    #"UpdatedUtc": {
-                    #    "StartUtc": "2023-04-01T00:00:00Z",
-                    #    "EndUtc": "2023-05-05T00:00:00Z"
-                    #},
-                    #"States": ["Confirmed", "Started"]
             }
             #print(params)
             dic = self.__send_post_request__(_url_request, params).json()
@@ -198,6 +173,7 @@ class MewsCustomer():
         self.name = "{} {}".format(get_param(dic, "FirstName"), get_param(dic, "LastName"))
         self.phone = get_param(dic, "Phone")
         self.email = get_param(dic, "Email")
+        self.language = get_param(dic, "LanguageCode")
 
 class MewsResource():
     def __init__(self, dic):
@@ -243,14 +219,11 @@ def create_booking(pmu, booking, av):
     project = Project.objects.filter(uuid=pmu.project_uuid).first()
     checkin = project.local_date(get_date(booking.start))
     checkout = project.local_date(get_date(booking.end))
-    #print(checkin)
-    #print(checkout)
     room = booking.room.number if booking.room != None else "-1"
     room_inspected = True if booking.room != None and booking.room.state == INSPECTED_STATE else False
     room_ex = room_exist(pmu.project_uuid, room)
     err = ""
 
-    #if room_ex and (("Z" in room) or ("Y" in room)):
     #print("----")
     #print("{} {}".format(booking.id, booking.number))
     if room_ex and room_inspected: # Si el huésped tiene habitación asignada y está "Inspected"
@@ -266,6 +239,7 @@ def create_booking(pmu, booking, av):
             guest.name = booking.customer.name
             guest.mobile = booking.customer.phone if booking.customer.phone != None else ""
             guest.email = booking.customer.email if booking.customer.email != None else ""
+            guest.language = booking.customer.language.split("-")[0] if booking.customer.language != None else ""
         
         guest.check_in = checkin
         guest.check_out = checkout
@@ -273,20 +247,11 @@ def create_booking(pmu, booking, av):
         guest.save()
 
         if booking.created:
-            #lock_code = guest.mobile[-4:]
-            #lock_code = ''.join([random.choice(string.digits) for i in range(4)])
-            #lock_code = booking.number
             lock_code = get_code(project)
 
             err = guest.add_all_key_code(lock_code)
             if guest.email != "" and pmu.send_email:
                 send_email_code(guest, lock_code, pmu)
-            #av.send_pwa_link(guest.ext_id, lock_code, guest.pwa_link)
-#
-#        return guest, err
-#        #else:
-        #    if guest != None:
-        #        guest.delete()
     return None, err
 
 def delete_booking(pwu, booking):
@@ -327,10 +292,6 @@ def get_booking_list(pmu):
                 break
 
         create_booking(pmu, node, av)
-        #if node.status == "CONFIRMED":
-        #    guest, err = create_booking(pau, node, av)
-        #elif node.status == "CANCELLED":
-        #    delete_booking(pau, node)
     #print("Total: {}".format(i))
     return booking_list
 

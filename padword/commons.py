@@ -144,7 +144,7 @@ def get_items_per_page():
     except:
         return 20
 
-def reverse_cardkey(cardReader_value):
+def reverse_cardkey_impar(cardReader_value):
     try:
         n = 2
         hex_value   = str(hex(int(cardReader_value)))
@@ -156,6 +156,22 @@ def reverse_cardkey(cardReader_value):
         return (int(reverse_hex, 16))
     except:
         return (0)
+
+def reverse_cardkey(cardReader_value):
+    try:
+        # Convertir a hexadecimal sin el prefijo "0x"
+        h = f"{int(cardReader_value):x}"
+        # Asegurar que haya un número par de caracteres (bytes completos)
+        if len(h) % 2:
+            h = "0" + h
+        # Dividir en bytes
+        bytes_ = [h[i:i+2] for i in range(0, len(h), 2)]
+        # Invertir el orden de los bytes
+        h = "".join(reversed(bytes_))
+        # Convertir de nuevo a entero
+        return int(h, 16)
+    except (ValueError, TypeError):
+        return 0
 
 def set_session(request, key, default=""):
     request.session[key] = request.GET[key] if key in request.GET else default

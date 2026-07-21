@@ -3,12 +3,12 @@
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
-#, fuzzy
+
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-06-29 12:22+0000\n"
+"POT-Creation-Date: 2026-07-20 09:26+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,1030 +17,1008 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-#: connector/mews_lib.py:214
+
+#: mews_lib.py:209
 msgid "Códigos de acceso"
-msgstr ""
+msgstr "Códigos de acceso"
 
-#: connector/models.py:7 connector/models.py:95 connector/models.py:178
+#: models.py:7 models.py:95 models.py:178
 msgid "Get code from mobile"
-msgstr ""
+msgstr "Consigue el código desde tu móvil"
 
-#: connector/models.py:8 connector/models.py:26 connector/models.py:43
-#: connector/models.py:98 connector/models.py:119 connector/models.py:181
+#: models.py:8 models.py:26 models.py:43 models.py:98 models.py:119
+#: models.py:181
 msgid "Days to import"
-msgstr ""
+msgstr "Días para la importación"
 
-#: connector/models.py:9
+#: models.py:9
 msgid "Days to create"
-msgstr ""
+msgstr "Días para crear"
 
-#: connector/models.py:10 connector/models.py:27 connector/models.py:77
-#: connector/models.py:96 connector/models.py:179
+#: models.py:10 models.py:27 models.py:77 models.py:96 models.py:179
 msgid "Hour to import"
-msgstr ""
+msgstr "Hora de importación"
 
-#: connector/models.py:11 connector/models.py:78 connector/models.py:97
-#: connector/models.py:118
+#: models.py:11 models.py:78 models.py:97 models.py:118
 msgid "Minutes to import"
-msgstr ""
+msgstr "Minutos para importar"
 
-#: connector/models.py:12
+#: models.py:12
 msgid "Hour to import notifications"
-msgstr ""
+msgstr "Hora de las notificaciones de importación"
 
-#: connector/models.py:13 connector/models.py:133 connector/models.py:163
+#: models.py:13 models.py:133 models.py:163
 msgid "Username"
-msgstr ""
+msgstr "Nombre de usuario"
 
-#: connector/models.py:14 connector/models.py:134 connector/models.py:164
+#: models.py:14 models.py:134 models.py:164
 msgid "Password"
-msgstr ""
+msgstr "Contraseña"
 
-#: connector/models.py:15 connector/templates/avantio/booking-list.html:79
-#: connector/templates/mews/booking-list.html:58
-#: connector/templates/octorate/booking-list.html:41
-#: connector/templates/winhotel/booking-list.html:251
+#: models.py:15 templates/avantio/booking-list.html:79
+#: templates/mews/booking-list.html:62 templates/octorate/booking-list.html:41
+#: templates/winhotel/booking-list.html:251
 msgid "Email"
-msgstr ""
+msgstr "Correo electrónico"
 
-#: connector/models.py:16 connector/models.py:31 connector/models.py:55
-#: connector/models.py:66 connector/models.py:84 connector/models.py:103
-#: connector/models.py:123 connector/models.py:140 connector/models.py:153
-#: connector/models.py:168 connector/models.py:188 connector/models.py:203
+#: models.py:16 models.py:31 models.py:55 models.py:66 models.py:84
+#: models.py:103 models.py:123 models.py:140 models.py:153 models.py:168
+#: models.py:188 models.py:205
 msgid "Project UUID"
-msgstr ""
+msgstr "UUID del proyecto"
 
-#: connector/models.py:28
+#: models.py:28
 msgid "UUID"
-msgstr ""
+msgstr "UUID"
 
-#: connector/models.py:29 connector/models.py:99 connector/models.py:137
-#: connector/models.py:150 connector/models.py:165 connector/models.py:185
-#: connector/models.py:202
+#: models.py:29 models.py:99 models.py:137 models.py:150 models.py:165
+#: models.py:185 models.py:202
 msgid "Token"
-msgstr ""
+msgstr "Token"
 
-#: connector/models.py:30
+#: models.py:30
 msgid "Owner"
-msgstr ""
+msgstr "Propietario"
 
-#: connector/models.py:41
+#: models.py:41
 msgid "Update all prices"
-msgstr ""
+msgstr "Actualizar todos los precios"
 
-#: connector/models.py:42
+#: models.py:42
 msgid "Update checkin"
-msgstr ""
+msgstr "Comprobación de entradas"
 
-#: connector/models.py:44
+#: models.py:44
 msgid "Hours to import"
-msgstr ""
+msgstr "Horas para importar"
 
-#: connector/models.py:45
+#: models.py:45
 msgid "Hours to import prices"
-msgstr ""
+msgstr "Horas para importar los precios"
 
-#: connector/models.py:46
+#: models.py:46
 msgid "Hours to cancel"
-msgstr ""
+msgstr "Plazo para cancelar"
 
-#: connector/models.py:47
+#: models.py:47
 msgid "Minutes to import notifications"
-msgstr ""
+msgstr "Minutos para importar notificaciones"
 
-#: connector/models.py:48
+#: models.py:48
 msgid "Import operator"
-msgstr ""
+msgstr "Importar operador"
 
-#: connector/models.py:49
+#: models.py:49
 msgid "Source code"
-msgstr ""
+msgstr "Código fuente"
 
-#: connector/models.py:50
+#: models.py:50
 msgid "Target code"
-msgstr ""
+msgstr "Código de destino"
 
-#: connector/models.py:51 connector/models.py:115
+#: models.py:51 models.py:115
 msgid "FTP"
-msgstr ""
+msgstr "FTP"
 
-#: connector/models.py:52
+#: models.py:52
 msgid "FTP Filename"
-msgstr ""
+msgstr "Nombre del archivo FTP"
 
-#: connector/models.py:53 connector/models.py:100
+#: models.py:53 models.py:100
 msgid "Initial Time"
-msgstr ""
+msgstr "Hora inicial"
 
-#: connector/models.py:54 connector/models.py:101
+#: models.py:54 models.py:101
 msgid "End Time"
-msgstr ""
+msgstr "Hora final"
 
-#: connector/models.py:65
+#: models.py:65
 msgid "Api Key"
-msgstr ""
+msgstr "Api Key"
 
-#: connector/models.py:76
+#: models.py:76
 msgid "Enviar email"
-msgstr ""
+msgstr "Enviar email"
 
-#: connector/models.py:79
+#: models.py:79
 msgid "Teléfono"
-msgstr ""
+msgstr "Teléfono"
 
-#: connector/models.py:80
+#: models.py:80
 msgid "Correo electrónico"
-msgstr ""
+msgstr "Correo electrónico"
 
-#: connector/models.py:81
+#: models.py:81
 msgid "Texto email"
-msgstr ""
+msgstr "Texto email"
 
-#: connector/models.py:82
+#: models.py:82
 msgid "Client Token"
-msgstr ""
+msgstr "Token del cliente"
 
-#: connector/models.py:83
+#: models.py:83
 msgid "Access Token"
-msgstr ""
+msgstr "Token de acceso"
 
-#: connector/models.py:102
+#: models.py:102
 msgid "Property ID"
-msgstr ""
+msgstr "ID de la propiedad"
 
-#: connector/models.py:113 connector/templates/winhotel/booking-list.html:24
-#: connector/templates/winhotel/booking-list.html:149
-#: connector/templates/winhotel/booking-list.html:154
+#: models.py:113 templates/winhotel/booking-list.html:24
+#: templates/winhotel/booking-list.html:149
+#: templates/winhotel/booking-list.html:154
 msgid "Code"
-msgstr ""
+msgstr "Código"
 
-#: connector/models.py:114 connector/templates/cloudbeds/room-list.html:23
-#: connector/templates/winhotel/booking-list.html:114
+#: models.py:114 templates/cloudbeds/room-list.html:23
+#: templates/winhotel/booking-list.html:114
 msgid "Description"
-msgstr ""
+msgstr "Descripción"
 
-#: connector/models.py:116
+#: models.py:116
 msgid "File Name"
-msgstr ""
+msgstr "Nombre del fichero"
 
-#: connector/models.py:117
+#: models.py:117
 msgid "Dir Name"
-msgstr ""
+msgstr "Nombre del directorio"
 
-#: connector/models.py:120
+#: models.py:120
 msgid "Header XML"
-msgstr ""
+msgstr "Encabezado XML"
 
-#: connector/models.py:121
+#: models.py:121
 msgid "Header CSV"
-msgstr ""
+msgstr "Encabezado CSV"
 
-#: connector/models.py:135
+#: models.py:135
 msgid "accessKey"
-msgstr ""
+msgstr "accessKey"
 
-#: connector/models.py:136
+#: models.py:136
 msgid "secretKey"
-msgstr ""
+msgstr "secretKey"
 
-#: connector/models.py:138
+#: models.py:138
 msgid "TCOD"
-msgstr ""
+msgstr "TCOD"
 
-#: connector/models.py:139
+#: models.py:139
 msgid "Company"
-msgstr ""
+msgstr "Compañía"
 
-#: connector/models.py:151
+#: models.py:151
 msgid "Department"
-msgstr ""
+msgstr "Departamento"
 
-#: connector/models.py:152
+#: models.py:152
 msgid "Server"
-msgstr ""
+msgstr "Servidor"
 
-#: connector/models.py:166
+#: models.py:166
 msgid "PMS"
-msgstr ""
+msgstr "PMS"
 
-#: connector/models.py:167
+#: models.py:167
 msgid "Hotel"
-msgstr ""
+msgstr "Hotel"
 
-#: connector/models.py:182 connector/models.py:200
+#: models.py:182 models.py:200
 msgid "Client ID"
-msgstr ""
+msgstr "ID del cliente"
 
-#: connector/models.py:183
+#: models.py:183
 msgid "Meta ID"
-msgstr ""
+msgstr "ID meta"
 
-#: connector/models.py:184 connector/models.py:201
+#: models.py:184 models.py:201
 msgid "Client Secret"
-msgstr ""
+msgstr "Confidencialidad del cliente"
 
-#: connector/models.py:186
+#: models.py:186
 msgid "Refresh Token"
-msgstr ""
+msgstr "Actualizar Token"
 
-#: connector/models.py:187
+#: models.py:187
 msgid "Property id"
+msgstr "ID de la propiedad"
+
+#: models.py:203
+msgid "Ticket Head"
 msgstr ""
 
-#: connector/templates/avaibook/accommodation-list.html:4
-#: connector/templates/avaibook/booking-list.html:4
+#: models.py:204
+msgid "Ticket Footer"
+msgstr ""
+
+#: templates/avaibook/accommodation-list.html:4
+#: templates/avaibook/booking-list.html:4
 msgid "Avaibook booking list"
-msgstr ""
+msgstr "Lista de reservas de Avaibook"
 
-#: connector/templates/avaibook/accommodation-list.html:16
-#: connector/templates/avaibook/accommodation-list.html:44
-#: connector/templates/avaibook/booking-list.html:16
-#: connector/templates/cloudbeds/booking-list.html:17
-#: connector/templates/cloudbeds/booking-list.html:61
-#: connector/templates/cloudbeds/room-list.html:16
-#: connector/templates/mews/booking-list.html:17
-#: connector/templates/octorate/booking-list.html:17
-#: connector/templates/octorate/room-list.html:16
-#: connector/templates/winhotel/booking-list.html:22
+#: templates/avaibook/accommodation-list.html:16
+#: templates/avaibook/accommodation-list.html:44
+#: templates/avaibook/booking-list.html:16
+#: templates/cloudbeds/booking-list.html:17
+#: templates/cloudbeds/booking-list.html:61
+#: templates/cloudbeds/room-list.html:16 templates/mews/booking-list.html:21
+#: templates/mews/room-list.html:16 templates/octorate/booking-list.html:17
+#: templates/octorate/room-list.html:16 templates/winhotel/booking-list.html:22
 msgid "Id"
-msgstr ""
+msgstr "Id"
 
-#: connector/templates/avaibook/accommodation-list.html:18
-#: connector/templates/avaibook/accommodation-list.html:46
-#: connector/templates/avaibook/booking-log.html:2
-#: connector/templates/avantio/booking-list.html:24
-#: connector/templates/avantio/booking-log.html:2
-#: connector/templates/cloudbeds/booking-list.html:63
-#: connector/templates/cloudbeds/booking-log.html:2
-#: connector/templates/cloudbeds/room-list.html:18
-#: connector/templates/mews/booking-list.html:54
-#: connector/templates/mews/booking-log.html:2
-#: connector/templates/octorate/booking-list.html:23
-#: connector/templates/octorate/booking-log.html:2
-#: connector/templates/octorate/room-list.html:18
-#: connector/templates/winhotel/booking-list.html:151
-#: connector/templates/winhotel/booking-list.html:161
+#: templates/avaibook/accommodation-list.html:18
+#: templates/avaibook/accommodation-list.html:46
+#: templates/avaibook/booking-log.html:2 templates/avantio/booking-list.html:24
+#: templates/avantio/booking-log.html:2
+#: templates/cloudbeds/booking-list.html:63
+#: templates/cloudbeds/booking-log.html:2 templates/cloudbeds/room-list.html:18
+#: templates/mews/booking-list.html:58 templates/mews/booking-log.html:2
+#: templates/mews/room-list.html:18 templates/octorate/booking-list.html:23
+#: templates/octorate/booking-log.html:2 templates/octorate/room-list.html:18
+#: templates/winhotel/booking-list.html:151
+#: templates/winhotel/booking-list.html:161
 msgid "Name"
-msgstr ""
+msgstr "Nombre"
 
-#: connector/templates/avaibook/accommodation-list.html:20
+#: templates/avaibook/accommodation-list.html:20
 msgid "Rental type"
-msgstr ""
+msgstr "Tipo de alquiler"
 
-#: connector/templates/avaibook/accommodation-list.html:23
+#: templates/avaibook/accommodation-list.html:23
 msgid "Aaddress"
-msgstr ""
+msgstr "Dirección"
 
-#: connector/templates/avaibook/accommodation-list.html:25
+#: templates/avaibook/accommodation-list.html:25
 msgid "Zip code"
-msgstr ""
+msgstr "Código postal"
 
-#: connector/templates/avaibook/accommodation-list.html:28
-#: connector/templates/avantio/booking-list.html:54
-#: connector/templates/winhotel/booking-list.html:219
+#: templates/avaibook/accommodation-list.html:28
+#: templates/avantio/booking-list.html:54
+#: templates/winhotel/booking-list.html:219
 msgid "City"
-msgstr ""
+msgstr "Ciudad"
 
-#: connector/templates/avaibook/accommodation-list.html:30
+#: templates/avaibook/accommodation-list.html:30
 msgid "Region"
-msgstr ""
+msgstr "Región"
 
-#: connector/templates/avaibook/accommodation-list.html:33
-#: connector/templates/avantio/booking-list.html:59
+#: templates/avaibook/accommodation-list.html:33
+#: templates/avantio/booking-list.html:59
 msgid "Country"
-msgstr ""
+msgstr "País"
 
-#: connector/templates/avaibook/accommodation-list.html:35
+#: templates/avaibook/accommodation-list.html:35
 msgid "Area"
-msgstr ""
+msgstr "Área"
 
-#: connector/templates/avaibook/accommodation-list.html:38
+#: templates/avaibook/accommodation-list.html:38
 msgid "Longitude"
-msgstr ""
+msgstr "Longitud"
 
-#: connector/templates/avaibook/accommodation-list.html:40
+#: templates/avaibook/accommodation-list.html:40
 msgid "Latitude"
-msgstr ""
+msgstr "Latitud"
 
-#: connector/templates/avaibook/booking-list.html:18
-#: connector/templates/cloudbeds/booking-list.html:53
-#: connector/templates/cloudbeds/booking-list.html:65
-#: connector/templates/octorate/booking-list.html:19
+#: templates/avaibook/booking-list.html:18
+#: templates/cloudbeds/booking-list.html:53
+#: templates/cloudbeds/booking-list.html:65
+#: templates/octorate/booking-list.html:19
 msgid "Status"
-msgstr ""
+msgstr "Estado"
 
-#: connector/templates/avaibook/booking-list.html:21
+#: templates/avaibook/booking-list.html:21
 msgid "Accommodation ID"
-msgstr ""
+msgstr "ID del alojamiento"
 
-#: connector/templates/avaibook/booking-list.html:23
+#: templates/avaibook/booking-list.html:23
 msgid "Unit ID"
-msgstr ""
+msgstr "ID de la unidad"
 
-#: connector/templates/avaibook/booking-list.html:26
+#: templates/avaibook/booking-list.html:26
 msgid "Check in date"
-msgstr ""
+msgstr "Fecha de llegada"
 
-#: connector/templates/avaibook/booking-list.html:28
+#: templates/avaibook/booking-list.html:28
 msgid "Check out date"
-msgstr ""
+msgstr "Fecha de salida"
 
-#: connector/templates/avaibook/booking-list.html:31
+#: templates/avaibook/booking-list.html:31
 msgid "Check in time"
-msgstr ""
+msgstr "Hora de llegada"
 
-#: connector/templates/avaibook/booking-list.html:33
+#: templates/avaibook/booking-list.html:33
 msgid "Check out time"
-msgstr ""
+msgstr "Hora de salida"
 
-#: connector/templates/avaibook/booking-list.html:36
+#: templates/avaibook/booking-list.html:36
 msgid "Night of stay"
-msgstr ""
+msgstr "Noche de estancia"
 
-#: connector/templates/avaibook/booking-list.html:38
+#: templates/avaibook/booking-list.html:38
 msgid "Created at"
-msgstr ""
+msgstr "Creado en"
 
-#: connector/templates/avaibook/booking-list.html:41
-#: connector/templates/winhotel/booking-list.html:106
+#: templates/avaibook/booking-list.html:41
+#: templates/winhotel/booking-list.html:106
 msgid "Price"
-msgstr ""
+msgstr "Precio"
 
-#: connector/templates/avaibook/booking-list.html:43
+#: templates/avaibook/booking-list.html:43
 msgid "Number of guests"
-msgstr ""
+msgstr "Número de huéspedes"
 
-#: connector/templates/avaibook/booking-list.html:46
+#: templates/avaibook/booking-list.html:46
 msgid "Default invite email"
 msgstr ""
 
-#: connector/templates/avaibook/booking-list.html:48
+#: templates/avaibook/booking-list.html:48
 msgid "Default leader full name"
-msgstr ""
+msgstr "Correo electrónico de invitación predeterminado"
 
-#: connector/templates/avaibook/booking-list.html:51
+#: templates/avaibook/booking-list.html:51
 msgid "Default leader phone"
-msgstr ""
+msgstr "Teléfono predeterminado del responsable"
 
-#: connector/templates/avaibook/booking-list.html:53
+#: templates/avaibook/booking-list.html:53
 msgid "Source"
-msgstr ""
+msgstr "Origen"
 
-#: connector/templates/avaibook/booking-list.html:56
+#: templates/avaibook/booking-list.html:56
 msgid "Partner name"
-msgstr ""
+msgstr "Nombre del socio"
 
-#: connector/templates/avaibook/booking-log.html:2
-#: connector/templates/avantio/booking-log.html:2
-#: connector/templates/cloudbeds/booking-log.html:2
-#: connector/templates/mews/booking-log.html:2
-#: connector/templates/octorate/booking-log.html:2
-#: connector/templates/winhotel/booking-log.html:2
+#: templates/avaibook/booking-log.html:2 templates/avantio/booking-log.html:2
+#: templates/cloudbeds/booking-log.html:2 templates/mews/booking-log.html:2
+#: templates/octorate/booking-log.html:2 templates/winhotel/booking-log.html:2
 msgid "Booking Code"
-msgstr ""
+msgstr "Código de la reserva"
 
-#: connector/templates/avaibook/booking-log.html:2
-#: connector/templates/avantio/booking-log.html:2
-#: connector/templates/cloudbeds/booking-log.html:2
-#: connector/templates/mews/booking-log.html:2
-#: connector/templates/octorate/booking-log.html:2
-#: connector/templates/winhotel/booking-list.html:37
+#: templates/avaibook/booking-log.html:2 templates/avantio/booking-log.html:2
+#: templates/cloudbeds/booking-log.html:2 templates/mews/booking-log.html:2
+#: templates/octorate/booking-log.html:2
+#: templates/winhotel/booking-list.html:37
 msgid "Start Date"
-msgstr ""
+msgstr "Fecha de inicio"
 
-#: connector/templates/avaibook/booking-log.html:2
-#: connector/templates/avantio/booking-log.html:2
-#: connector/templates/cloudbeds/booking-log.html:2
-#: connector/templates/mews/booking-log.html:2
-#: connector/templates/octorate/booking-log.html:2
-#: connector/templates/winhotel/booking-list.html:39
+#: templates/avaibook/booking-log.html:2 templates/avantio/booking-log.html:2
+#: templates/cloudbeds/booking-log.html:2 templates/mews/booking-log.html:2
+#: templates/octorate/booking-log.html:2
+#: templates/winhotel/booking-list.html:39
 msgid "End Date"
-msgstr ""
+msgstr "Fecha de fin"
 
-#: connector/templates/avaibook/booking-log.html:2
-#: connector/templates/avantio/booking-log.html:2
-#: connector/templates/cloudbeds/booking-log.html:2
-#: connector/templates/mews/booking-log.html:2
-#: connector/templates/octorate/booking-log.html:2
+#: templates/avaibook/booking-log.html:2 templates/avantio/booking-log.html:2
+#: templates/cloudbeds/booking-log.html:2 templates/mews/booking-log.html:2
+#: templates/octorate/booking-log.html:2
 msgid "Room Code"
-msgstr ""
+msgstr "Código de habitación"
 
-#: connector/templates/avantio/booking-list.html:10
+#: templates/avantio/booking-list.html:10
 msgid "Avantio booking list"
-msgstr ""
+msgstr "Lista de reservas de Avantio"
 
-#: connector/templates/avantio/booking-list.html:22
-#: connector/templates/winhotel/booking-list.html:109
+#: templates/avantio/booking-list.html:22
+#: templates/winhotel/booking-list.html:109
 msgid "Start date"
-msgstr ""
+msgstr "Fecha de inicio"
 
-#: connector/templates/avantio/booking-list.html:27
-#: connector/templates/winhotel/booking-list.html:111
+#: templates/avantio/booking-list.html:27
+#: templates/winhotel/booking-list.html:111
 msgid "End date"
-msgstr ""
+msgstr "Fecha de fin"
 
-#: connector/templates/avantio/booking-list.html:29
-#: connector/templates/avantio/booking-log.html:2
-#: connector/templates/octorate/booking-list.html:25
-#: connector/templates/winhotel/booking-list.html:164
+#: templates/avantio/booking-list.html:29 templates/avantio/booking-log.html:2
+#: templates/octorate/booking-list.html:25
+#: templates/winhotel/booking-list.html:164
 msgid "Surname"
-msgstr ""
+msgstr "Apellido"
 
-#: connector/templates/avantio/booking-list.html:32
+#: templates/avantio/booking-list.html:32
 msgid "Booking date"
-msgstr ""
+msgstr "Fecha de la reserva"
 
-#: connector/templates/avantio/booking-list.html:34
-#: connector/templates/avantio/booking-log.html:2
+#: templates/avantio/booking-list.html:34 templates/avantio/booking-log.html:2
 msgid "DNI"
-msgstr ""
+msgstr "DNI"
 
-#: connector/templates/avantio/booking-list.html:37
-#: connector/templates/avantio/booking-notif-log.html:3
-#: connector/templates/avantio/booking-notif.html:15
+#: templates/avantio/booking-list.html:37
+#: templates/avantio/booking-notif-log.html:3
+#: templates/avantio/booking-notif.html:15
 msgid "Booking code"
-msgstr ""
+msgstr "Código de la reserva"
 
-#: connector/templates/avantio/booking-list.html:39
+#: templates/avantio/booking-list.html:39
 msgid "Address"
-msgstr ""
+msgstr "Dirección"
 
-#: connector/templates/avantio/booking-list.html:42
-#: connector/templates/avantio/booking-notif-log.html:3
-#: connector/templates/avantio/booking-notif.html:18
+#: templates/avantio/booking-list.html:42
+#: templates/avantio/booking-notif-log.html:3
+#: templates/avantio/booking-notif.html:18
 msgid "Localizator"
-msgstr ""
+msgstr "Localizador"
 
-#: connector/templates/avantio/booking-list.html:44
+#: templates/avantio/booking-list.html:44
 msgid "Locality"
-msgstr ""
+msgstr "Localidad"
 
-#: connector/templates/avantio/booking-list.html:47
+#: templates/avantio/booking-list.html:47
 msgid "Accommodation code"
-msgstr ""
+msgstr "Código de alojamiento"
 
-#: connector/templates/avantio/booking-list.html:49
-#: connector/templates/winhotel/booking-list.html:217
+#: templates/avantio/booking-list.html:49
+#: templates/winhotel/booking-list.html:217
 msgid "Post code"
-msgstr ""
+msgstr "Código postal"
 
-#: connector/templates/avantio/booking-list.html:52
+#: templates/avantio/booking-list.html:52
 msgid "User code"
-msgstr ""
+msgstr "Código de usuario"
 
-#: connector/templates/avantio/booking-list.html:64
+#: templates/avantio/booking-list.html:64
 msgid "ISO Country code"
-msgstr ""
+msgstr "Código ISO del país"
 
-#: connector/templates/avantio/booking-list.html:69
-#: connector/templates/mews/booking-list.html:56
-#: connector/templates/octorate/booking-list.html:43
+#: templates/avantio/booking-list.html:69 templates/mews/booking-list.html:60
+#: templates/octorate/booking-list.html:43
 msgid "Phone"
-msgstr ""
+msgstr "Teléfono"
 
-#: connector/templates/avantio/booking-list.html:74
+#: templates/avantio/booking-list.html:74
 msgid "Phone 2"
-msgstr ""
+msgstr "Teléfono 2"
 
-#: connector/templates/avantio/booking-log.html:2
+#: templates/avantio/booking-log.html:2
 msgid "Booking Date"
-msgstr ""
+msgstr "Fecha de la reseva"
 
-#: connector/templates/avantio/booking-notif.html:4
+#: templates/avantio/booking-notif.html:4
 msgid "Avantio notifications"
-msgstr ""
+msgstr "Notificaciones de Avantio"
 
-#: connector/templates/avantio/booking-notif.html:30
-#: connector/templates/zkteco/result.html:23
+#: templates/avantio/booking-notif.html:30 templates/zkteco/result.html:23
 msgid "Close"
-msgstr ""
+msgstr "Cerrar"
 
-#: connector/templates/cloudbeds/booking-list.html:4
-#: connector/templates/paytef/config.html:4
-#: connector/templates/paytef/transfer.html:4
+#: templates/cloudbeds/booking-list.html:4 templates/paytef/config.html:4
+#: templates/paytef/transfer.html:4
 msgid "Cloudbeds booking list"
-msgstr ""
+msgstr "Lista de reservas de Cloudbeds"
 
-#: connector/templates/cloudbeds/booking-list.html:19
+#: templates/cloudbeds/booking-list.html:19
 msgid "Property"
-msgstr ""
+msgstr "Propiedad"
 
-#: connector/templates/cloudbeds/booking-list.html:23
+#: templates/cloudbeds/booking-list.html:23
 msgid "Source Id"
-msgstr ""
+msgstr "Id origen"
 
-#: connector/templates/cloudbeds/booking-list.html:25
+#: templates/cloudbeds/booking-list.html:25
 msgid "Source Name"
-msgstr ""
+msgstr "Nombre origen"
 
-#: connector/templates/cloudbeds/booking-list.html:29
-#: connector/templates/cloudbeds/booking-list.html:81
+#: templates/cloudbeds/booking-list.html:29
+#: templates/cloudbeds/booking-list.html:81
 msgid "Guest Id"
-msgstr ""
+msgstr "Id del huésped"
 
-#: connector/templates/cloudbeds/booking-list.html:31
+#: templates/cloudbeds/booking-list.html:31
 msgid "Guest Name"
-msgstr ""
+msgstr "Nombre del huésped"
 
-#: connector/templates/cloudbeds/booking-list.html:35
-#: connector/templates/mews/booking-list.html:29
+#: templates/cloudbeds/booking-list.html:35 templates/mews/booking-list.html:33
 msgid "Start"
-msgstr ""
+msgstr "Inicio"
 
-#: connector/templates/cloudbeds/booking-list.html:37
-#: connector/templates/mews/booking-list.html:31
+#: templates/cloudbeds/booking-list.html:37 templates/mews/booking-list.html:35
 msgid "End"
-msgstr ""
+msgstr "Fin"
 
-#: connector/templates/cloudbeds/booking-list.html:41
-#: connector/templates/mews/booking-list.html:35
+#: templates/cloudbeds/booking-list.html:41 templates/mews/booking-list.html:39
 msgid "Created"
-msgstr ""
+msgstr "Creado"
 
-#: connector/templates/cloudbeds/booking-list.html:43
-#: connector/templates/mews/booking-list.html:37
+#: templates/cloudbeds/booking-list.html:43 templates/mews/booking-list.html:41
 msgid "Updated"
-msgstr ""
+msgstr "Actualizado"
 
-#: connector/templates/cloudbeds/booking-list.html:47
-#: connector/templates/cloudbeds/booking-list.html:87
+#: templates/cloudbeds/booking-list.html:47
+#: templates/cloudbeds/booking-list.html:87
 msgid "Adults"
-msgstr ""
+msgstr "Adultos"
 
-#: connector/templates/cloudbeds/booking-list.html:49
-#: connector/templates/cloudbeds/booking-list.html:89
+#: templates/cloudbeds/booking-list.html:49
+#: templates/cloudbeds/booking-list.html:89
 msgid "Children"
-msgstr ""
+msgstr "Niños"
 
-#: connector/templates/cloudbeds/booking-list.html:55
+#: templates/cloudbeds/booking-list.html:55
 msgid "Balance"
-msgstr ""
+msgstr "Balance"
 
-#: connector/templates/cloudbeds/booking-list.html:58
+#: templates/cloudbeds/booking-list.html:58
 msgid "Rooms"
-msgstr ""
+msgstr "Habitaciones"
 
-#: connector/templates/cloudbeds/booking-list.html:69
+#: templates/cloudbeds/booking-list.html:69
 msgid "Check in"
-msgstr ""
+msgstr "Llegada"
 
-#: connector/templates/cloudbeds/booking-list.html:71
+#: templates/cloudbeds/booking-list.html:71
 msgid "Check out"
-msgstr ""
+msgstr "Salida"
 
-#: connector/templates/cloudbeds/booking-list.html:75
+#: templates/cloudbeds/booking-list.html:75
 msgid "Tipo Id"
 msgstr ""
 
-#: connector/templates/cloudbeds/booking-list.html:77
+#: templates/cloudbeds/booking-list.html:77
 msgid "Tipo"
 msgstr ""
 
-#: connector/templates/cloudbeds/booking-list.html:83
+#: templates/cloudbeds/booking-list.html:83
 msgid "Guest"
-msgstr ""
+msgstr "Huésped"
 
-#: connector/templates/cloudbeds/room-list.html:4
-#: connector/templates/octorate/room-list.html:4
+#: templates/cloudbeds/room-list.html:4 templates/mews/room-list.html:4
+#: templates/octorate/room-list.html:4
 msgid "Accommodations list"
-msgstr ""
+msgstr "Lista de alojamientos"
 
-#: connector/templates/cloudbeds/room-list.html:20
+#: templates/cloudbeds/room-list.html:20
 msgid "Max Guests"
-msgstr ""
+msgstr "Númer máximo de huéspedes"
 
-#: connector/templates/cloudbeds/room-list.html:26
+#: templates/cloudbeds/room-list.html:26
 msgid "Is private"
-msgstr ""
+msgstr "¿Es privado?"
 
-#: connector/templates/cloudbeds/room-list.html:28
+#: templates/cloudbeds/room-list.html:28
 msgid "Is virtual"
-msgstr ""
+msgstr "¿Es virtual?"
 
-#: connector/templates/cloudbeds/room-list.html:30
+#: templates/cloudbeds/room-list.html:30
 msgid "Blocked"
-msgstr ""
+msgstr "Bloqueado"
 
-#: connector/templates/cloudbeds/room-list.html:33
+#: templates/cloudbeds/room-list.html:33
 msgid "Type id"
-msgstr ""
+msgstr "Tipo de ID"
 
-#: connector/templates/cloudbeds/room-list.html:35
+#: templates/cloudbeds/room-list.html:35
 msgid "Type Name"
-msgstr ""
+msgstr "Tipo de nombre"
 
-#: connector/templates/cloudbeds/room-list.html:37
+#: templates/cloudbeds/room-list.html:37
 msgid "Type Name Short"
-msgstr ""
+msgstr "Tipo de nombre corto"
 
-#: connector/templates/cron-log.html:10
+#: templates/cron-log.html:10
 msgid "Logs"
-msgstr ""
+msgstr "Registros"
 
-#: connector/templates/cron-log.html:18
+#: templates/cron-log.html:18
 msgid "Schedule logs"
-msgstr ""
+msgstr "Registros de calendario"
 
-#: connector/templates/mews/booking-list.html:4
+#: templates/mews/booking-list.html:4
 msgid "Mews booking list"
-msgstr ""
+msgstr "Lista de reservas de Mews"
 
-#: connector/templates/mews/booking-list.html:19
+#: templates/mews/booking-list.html:23
 msgid "Service"
-msgstr ""
+msgstr "Servicio"
 
-#: connector/templates/mews/booking-list.html:23
+#: templates/mews/booking-list.html:27
 msgid "Account"
-msgstr ""
+msgstr "Cuenta"
 
-#: connector/templates/mews/booking-list.html:25
+#: templates/mews/booking-list.html:29
 msgid "Booker"
-msgstr ""
+msgstr "Booker"
 
-#: connector/templates/mews/booking-list.html:41
+#: templates/mews/booking-list.html:45
 msgid "Number"
-msgstr ""
+msgstr "Número"
 
-#: connector/templates/mews/booking-list.html:43
-#: connector/templates/winhotel/booking-list.html:222
+#: templates/mews/booking-list.html:47 templates/mews/room-list.html:20
+#: templates/winhotel/booking-list.html:222
 msgid "State"
-msgstr ""
+msgstr "Estado"
 
-#: connector/templates/mews/booking-list.html:47
+#: templates/mews/booking-list.html:51
 msgid "Resource"
-msgstr ""
+msgstr "Origen"
 
-#: connector/templates/mews/booking-list.html:62
-#: connector/templates/octorate/booking-list.html:35
+#: templates/mews/booking-list.html:66 templates/octorate/booking-list.html:35
 msgid "Room"
-msgstr ""
+msgstr "Habitación"
 
-#: connector/templates/mews/email_template.html:7
-#: connector/templates/mews/email_template.html:229
-msgid "Información de acceso"
-msgstr ""
-
-#: connector/templates/mews/email_template.html:230
-msgid "Su estancia comienza próximamente"
-msgstr ""
-
-#: connector/templates/mews/email_template.html:234
-msgid "Estimado/a"
-msgstr ""
-
-#: connector/templates/mews/email_template.html:237
-msgid "Le facilitamos los datos de acceso de su alojamiento"
-msgstr ""
-
-#: connector/templates/mews/email_template.html:239
-msgid ""
-"Revise la información de su reserva y utilice los enlaces inferiores para "
-"acceder a la aplicación o consultar su código de acceso."
-msgstr ""
-
-#: connector/templates/mews/email_template.html:243
-msgid "Datos de la reserva"
-msgstr ""
-
-#: connector/templates/mews/email_template.html:246
-msgid "Referencia"
-msgstr ""
-
-#: connector/templates/mews/email_template.html:251
-msgid "Check-in"
-msgstr ""
-
-#: connector/templates/mews/email_template.html:256
-msgid "Check-out"
-msgstr ""
-
-#: connector/templates/mews/email_template.html:261
-msgid "Nº de habitación"
-msgstr ""
-
-#: connector/templates/mews/email_template.html:275
-msgid "Abrir aplicación del alojamiento"
-msgstr ""
-
-#: connector/templates/mews/email_template.html:276
-msgid "Código de acceso"
-msgstr ""
-
-#: connector/templates/mews/email_template.html:280
-msgid ""
-"El código de acceso estará operativo únicamente durante el periodo de "
-"estancia contratado, desde la hora de check-in hasta la hora de check-out."
-msgstr ""
-
-#: connector/templates/mews/email_template.html:282
-msgid ""
-"Si necesita asistencia o desea modificar sus datos de acceso, contacte con"
-msgstr ""
-
-#: connector/templates/octorate/booking-list.html:4
-msgid "Octorate booking list"
-msgstr ""
-
-#: connector/templates/octorate/booking-list.html:29
-msgid "Checkin"
-msgstr ""
-
-#: connector/templates/octorate/booking-list.html:31
-msgid "Checkout"
-msgstr ""
-
-#: connector/templates/winhotel/booking-list.html:10
-msgid "Winhotel booking list"
-msgstr ""
-
-#: connector/templates/winhotel/booking-list.html:27
+#: templates/mews/booking-list.html:68
 msgid "Booking State"
-msgstr ""
+msgstr "Estado de la reserva"
 
-#: connector/templates/winhotel/booking-list.html:29
+#: templates/mews/email_template.html:7 templates/mews/email_template.html:229
+msgid "Información de acceso"
+msgstr "Información de acceso"
+
+#: templates/mews/email_template.html:230
+msgid "Su estancia comienza próximamente"
+msgstr "Su estancia comienza próximamente"
+
+#: templates/mews/email_template.html:237
+msgid "Estimado/a"
+msgstr "Estimado/a"
+
+#: templates/mews/email_template.html:240
+msgid "Le facilitamos los datos de acceso de su alojamiento"
+msgstr "Le facilitamos los datos de acceso de su alojamiento"
+
+#: templates/mews/email_template.html:242
+msgid "Revise la información de su reserva y utilice los enlaces inferiores para "
+"acceder a la aplicación o consultar su código de acceso."
+msgstr "Revise la información de su reserva y utilice los enlaces inferiores para "
+"acceder a la aplicación o consultar su código de acceso."
+
+#: templates/mews/email_template.html:246
+msgid "Datos de la reserva"
+msgstr "atos de la reserva"
+
+#: templates/mews/email_template.html:249
+msgid "Referencia"
+msgstr "Referencia"
+
+#: templates/mews/email_template.html:254
+msgid "Check-in"
+msgstr "Fecha de llegada"
+
+#: templates/mews/email_template.html:259
+msgid "Check-out"
+msgstr "Fecha de salida"
+
+#: templates/mews/email_template.html:264
+msgid "Nº de habitación"
+msgstr "Nº de habitación"
+
+#: templates/mews/email_template.html:278
+msgid "Abrir aplicación del alojamiento"
+msgstr "Abrir aplicación del alojamiento"
+
+#: templates/mews/email_template.html:279
+msgid "Código de acceso"
+msgstr "Código de acceso"
+
+#: templates/mews/email_template.html:283
+msgid "El código de acceso estará operativo únicamente durante el periodo de "
+"estancia contratado, desde la hora de check-in hasta la hora de check-out."
+msgstr "El código de acceso estará operativo únicamente durante el periodo de "
+"estancia contratado, desde la hora de check-in hasta la hora de check-out."
+
+#: templates/mews/email_template.html:285
+msgid "Si necesita asistencia o desea modificar sus datos de acceso, contacte con"
+msgstr "Si necesita asistencia o desea modificar sus datos de acceso, contacte con"
+
+#: templates/octorate/booking-list.html:4
+msgid "Octorate booking list"
+msgstr "Lista de reservas de Octorate"
+
+#: templates/octorate/booking-list.html:29
+msgid "Checkin"
+msgstr "Llegada"
+
+#: templates/octorate/booking-list.html:31
+msgid "Checkout"
+msgstr "Salida"
+
+#: templates/winhotel/booking-list.html:10
+msgid "Winhotel booking list"
+msgstr "Lista de reservas de Winhotel"
+
+#: templates/winhotel/booking-list.html:29
 msgid "Stay State"
-msgstr ""
+msgstr "Estado de la estancia"
 
-#: connector/templates/winhotel/booking-list.html:32
+#: templates/winhotel/booking-list.html:32
 msgid "Check State"
-msgstr ""
+msgstr "Comprobar el estado"
 
-#: connector/templates/winhotel/booking-list.html:34
+#: templates/winhotel/booking-list.html:34
 msgid "Check State Date"
-msgstr ""
+msgstr "Comprobar la fecha del estado"
 
-#: connector/templates/winhotel/booking-list.html:42
+#: templates/winhotel/booking-list.html:42
 msgid "CheckIn Date"
-msgstr ""
+msgstr "Fecha de llegada"
 
-#: connector/templates/winhotel/booking-list.html:44
+#: templates/winhotel/booking-list.html:44
 msgid "CheckOut Date"
-msgstr ""
+msgstr "Fecha de salida"
 
-#: connector/templates/winhotel/booking-list.html:47
+#: templates/winhotel/booking-list.html:47
 msgid "Booker code"
-msgstr ""
+msgstr "Código del Booker"
 
-#: connector/templates/winhotel/booking-list.html:49
+#: templates/winhotel/booking-list.html:49
 msgid "Booker name"
-msgstr ""
+msgstr "Nombre del Booker"
 
-#: connector/templates/winhotel/booking-list.html:52
+#: templates/winhotel/booking-list.html:52
 msgid "Board type"
-msgstr ""
+msgstr "Tipo de tabla"
 
-#: connector/templates/winhotel/booking-list.html:57
+#: templates/winhotel/booking-list.html:57
 msgid "Room type code"
-msgstr ""
+msgstr "Código del tipo de habitación"
 
-#: connector/templates/winhotel/booking-list.html:59
+#: templates/winhotel/booking-list.html:59
 msgid "Room type name"
-msgstr ""
+msgstr "Nombre del tipo de habitación"
 
-#: connector/templates/winhotel/booking-list.html:63
+#: templates/winhotel/booking-list.html:63
 msgid "Rate type code"
-msgstr ""
+msgstr "Código del tipo de tarifa"
 
-#: connector/templates/winhotel/booking-list.html:65
+#: templates/winhotel/booking-list.html:65
 msgid "Rate type name"
-msgstr ""
+msgstr "Nombre del tipo de tarifa"
 
-#: connector/templates/winhotel/booking-list.html:70
+#: templates/winhotel/booking-list.html:70
 msgid "Localizer type"
-msgstr ""
+msgstr "Tipo de localizador"
 
-#: connector/templates/winhotel/booking-list.html:72
+#: templates/winhotel/booking-list.html:72
 msgid "Localizer code"
-msgstr ""
+msgstr "Código del localizador"
 
-#: connector/templates/winhotel/booking-list.html:77
+#: templates/winhotel/booking-list.html:77
 msgid "Guest type code"
-msgstr ""
+msgstr "Código del tipo de huésped"
 
-#: connector/templates/winhotel/booking-list.html:79
+#: templates/winhotel/booking-list.html:79
 msgid "Guest type name"
-msgstr ""
+msgstr "Nombre del tipo de huésped"
 
-#: connector/templates/winhotel/booking-list.html:82
+#: templates/winhotel/booking-list.html:82
 msgid "Boar type code"
-msgstr ""
+msgstr "Código del tipo de tabla"
 
-#: connector/templates/winhotel/booking-list.html:84
+#: templates/winhotel/booking-list.html:84
 msgid "Boar type name"
-msgstr ""
+msgstr "Nombre del tipo de tabla"
 
-#: connector/templates/winhotel/booking-list.html:87
+#: templates/winhotel/booking-list.html:87
 msgid "Boar type real code"
-msgstr ""
+msgstr "Código real del tipo de tabla"
 
-#: connector/templates/winhotel/booking-list.html:89
+#: templates/winhotel/booking-list.html:89
 msgid "Boar type real name"
-msgstr ""
+msgstr "Nombre real del tipo de tabla"
 
-#: connector/templates/winhotel/booking-list.html:92
+#: templates/winhotel/booking-list.html:92
 msgid "Quantity"
-msgstr ""
+msgstr "Cantidad"
 
-#: connector/templates/winhotel/booking-list.html:99
+#: templates/winhotel/booking-list.html:99
 msgid "Product code"
-msgstr ""
+msgstr "Códig del producto"
 
-#: connector/templates/winhotel/booking-list.html:101
+#: templates/winhotel/booking-list.html:101
 msgid "Quantiy"
-msgstr ""
+msgstr "Cantidad"
 
-#: connector/templates/winhotel/booking-list.html:104
+#: templates/winhotel/booking-list.html:104
 msgid "Date"
-msgstr ""
+msgstr "Fecha"
 
-#: connector/templates/winhotel/booking-list.html:118
+#: templates/winhotel/booking-list.html:118
 msgid "Remarks"
-msgstr ""
+msgstr "Observaciones"
 
-#: connector/templates/winhotel/booking-list.html:121
+#: templates/winhotel/booking-list.html:121
 msgid "Room code"
-msgstr ""
+msgstr "Códig de habitación"
 
-#: connector/templates/winhotel/booking-list.html:123
+#: templates/winhotel/booking-list.html:123
 msgid "Room card"
-msgstr ""
+msgstr "Tarjeta de la habitación"
 
-#: connector/templates/winhotel/booking-list.html:126
+#: templates/winhotel/booking-list.html:126
 msgid "Allotment code"
-msgstr ""
+msgstr "Código de asignación"
 
-#: connector/templates/winhotel/booking-list.html:131
+#: templates/winhotel/booking-list.html:131
 msgid "Partner code 1"
-msgstr ""
+msgstr "Código de socio 1"
 
-#: connector/templates/winhotel/booking-list.html:133
+#: templates/winhotel/booking-list.html:133
 msgid "Partner code 2"
-msgstr ""
+msgstr "Código de socio 2"
 
-#: connector/templates/winhotel/booking-list.html:136
+#: templates/winhotel/booking-list.html:136
 msgid "Partner code 3"
-msgstr ""
+msgstr "Código de socio 3"
 
-#: connector/templates/winhotel/booking-list.html:138
+#: templates/winhotel/booking-list.html:138
 msgid "Partner code 4"
-msgstr ""
+msgstr "Código de socio 4"
 
-#: connector/templates/winhotel/booking-list.html:141
-#: connector/templates/winhotel/booking-list.html:143
+#: templates/winhotel/booking-list.html:141
+#: templates/winhotel/booking-list.html:143
 msgid "Partner code 5"
-msgstr ""
+msgstr "Código de socio 5"
 
-#: connector/templates/winhotel/booking-list.html:156
+#: templates/winhotel/booking-list.html:156
 msgid "Fidelity code"
-msgstr ""
+msgstr "Código de fidelidad"
 
-#: connector/templates/winhotel/booking-list.html:159
+#: templates/winhotel/booking-list.html:159
 msgid "Contact name"
-msgstr ""
+msgstr "Nombre de contacto"
 
-#: connector/templates/winhotel/booking-list.html:166
+#: templates/winhotel/booking-list.html:166
 msgid "Second surname"
-msgstr ""
+msgstr "Segundo apellido"
 
-#: connector/templates/winhotel/booking-list.html:169
+#: templates/winhotel/booking-list.html:169
 msgid "Father name"
-msgstr ""
+msgstr "Nombre del padre"
 
-#: connector/templates/winhotel/booking-list.html:171
+#: templates/winhotel/booking-list.html:171
 msgid "Mother name"
-msgstr ""
+msgstr "Nombre de la madre"
 
-#: connector/templates/winhotel/booking-list.html:174
+#: templates/winhotel/booking-list.html:174
 msgid "Title"
-msgstr ""
+msgstr "Título"
 
-#: connector/templates/winhotel/booking-list.html:176
+#: templates/winhotel/booking-list.html:176
 msgid "Gender"
-msgstr ""
+msgstr "Género"
 
-#: connector/templates/winhotel/booking-list.html:179
-#: connector/templates/winhotel/booking-list.html:263
+#: templates/winhotel/booking-list.html:179
+#: templates/winhotel/booking-list.html:263
 msgid "Birth date"
-msgstr ""
+msgstr "Fecha de nacimiento"
 
-#: connector/templates/winhotel/booking-list.html:181
+#: templates/winhotel/booking-list.html:181
 msgid "Financials society"
-msgstr ""
+msgstr "Sociedad financiera"
 
-#: connector/templates/winhotel/booking-list.html:184
+#: templates/winhotel/booking-list.html:184
 msgid "Preference"
-msgstr ""
+msgstr "Preferencia"
 
-#: connector/templates/winhotel/booking-list.html:186
+#: templates/winhotel/booking-list.html:186
 msgid "Repeat guest"
-msgstr ""
+msgstr "Cliente habitual"
 
-#: connector/templates/winhotel/booking-list.html:189
+#: templates/winhotel/booking-list.html:189
 msgid "Data validated"
-msgstr ""
+msgstr "Información validada"
 
-#: connector/templates/winhotel/booking-list.html:191
+#: templates/winhotel/booking-list.html:191
 msgid "ID"
-msgstr ""
+msgstr "ID"
 
-#: connector/templates/winhotel/booking-list.html:194
-#: connector/templates/winhotel/booking-list.html:273
+#: templates/winhotel/booking-list.html:194
+#: templates/winhotel/booking-list.html:273
 msgid "Nationality code"
-msgstr ""
+msgstr "Código de nacionalidad"
 
-#: connector/templates/winhotel/booking-list.html:196
-#: connector/templates/winhotel/booking-list.html:275
+#: templates/winhotel/booking-list.html:196
+#: templates/winhotel/booking-list.html:275
 msgid "Nationality name"
-msgstr ""
+msgstr "Nombre de nacionalidad"
 
-#: connector/templates/winhotel/booking-list.html:199
+#: templates/winhotel/booking-list.html:199
 msgid "Nationality code iso"
-msgstr ""
+msgstr "Código ISO de nacionalidad"
 
-#: connector/templates/winhotel/booking-list.html:205
+#: templates/winhotel/booking-list.html:205
 msgid "Remark"
-msgstr ""
+msgstr "Observación"
 
-#: connector/templates/winhotel/booking-list.html:212
+#: templates/winhotel/booking-list.html:212
 msgid "Address line 1"
-msgstr ""
+msgstr "Línea 1 de dirección"
 
-#: connector/templates/winhotel/booking-list.html:214
+#: templates/winhotel/booking-list.html:214
 msgid "Address line 2"
-msgstr ""
+msgstr "Línea 2 de dirección"
 
-#: connector/templates/winhotel/booking-list.html:224
+#: templates/winhotel/booking-list.html:224
 msgid "Address type"
-msgstr ""
+msgstr "Tipo de dirección"
 
-#: connector/templates/winhotel/booking-list.html:227
+#: templates/winhotel/booking-list.html:227
 msgid "Country code"
-msgstr ""
+msgstr "Código del país"
 
-#: connector/templates/winhotel/booking-list.html:229
+#: templates/winhotel/booking-list.html:229
 msgid "Country name"
-msgstr ""
+msgstr "Nombre del país"
 
-#: connector/templates/winhotel/booking-list.html:234
+#: templates/winhotel/booking-list.html:234
 msgid "Phone type"
-msgstr ""
+msgstr "Tipo de teléfono"
 
-#: connector/templates/winhotel/booking-list.html:236
+#: templates/winhotel/booking-list.html:236
 msgid "Phone area"
-msgstr ""
+msgstr "Área de telefonía"
 
-#: connector/templates/winhotel/booking-list.html:239
+#: templates/winhotel/booking-list.html:239
 msgid "Phone number"
-msgstr ""
+msgstr "Númer de teléfono"
 
-#: connector/templates/winhotel/booking-list.html:245
+#: templates/winhotel/booking-list.html:245
 msgid "Language code"
-msgstr ""
+msgstr "Código del idioma"
 
-#: connector/templates/winhotel/booking-list.html:247
+#: templates/winhotel/booking-list.html:247
 msgid "Language name"
-msgstr ""
+msgstr "Nombre del idioma"
 
-#: connector/templates/winhotel/booking-list.html:258
+#: templates/winhotel/booking-list.html:258
 msgid "Identity type"
-msgstr ""
+msgstr "Tipo de indentificación"
 
-#: connector/templates/winhotel/booking-list.html:260
+#: templates/winhotel/booking-list.html:260
 msgid "Number ID"
-msgstr ""
+msgstr "ID número"
 
-#: connector/templates/winhotel/booking-list.html:268
+#: templates/winhotel/booking-list.html:268
 msgid "Expedition date"
-msgstr ""
+msgstr "Fecha de expedición"
 
-#: connector/templates/winhotel/booking-list.html:270
+#: templates/winhotel/booking-list.html:270
 msgid "Expiration date"
-msgstr ""
+msgstr "Fecha de expiración"
 
-#: connector/templates/winhotel/booking-list.html:278
+#: templates/winhotel/booking-list.html:278
 msgid "Nationality code ISO"
-msgstr ""
+msgstr "Código ISO de nacionalidad"
 
-#: connector/templates/winhotel/booking-log.html:2
+#: templates/winhotel/booking-log.html:2
 msgid "Booking Id"
-msgstr ""
+msgstr "ID de la reserva"
 
-#: connector/templates/winhotel/booking-log.html:2
+#: templates/winhotel/booking-log.html:2
 msgid "Checkin Date"
-msgstr ""
+msgstr "Fecha de llegada"
 
-#: connector/templates/winhotel/booking-log.html:2
+#: templates/winhotel/booking-log.html:2
 msgid "Checkout Date"
-msgstr ""
+msgstr "Fecha de salida"
 
-#: connector/templates/winhotel/booking-log.html:2
+#: templates/winhotel/booking-log.html:2
 msgid "Regime"
-msgstr ""
+msgstr "Régimen"
 
-#: connector/templates/winhotel/items-import.html:9
+#: templates/winhotel/items-import.html:9
 msgid "Winhotel import file"
-msgstr ""
+msgstr "Archivo de importación de Winhotel"
 
-#: connector/templates/zkteco/result.html:4
+#: templates/zkteco/result.html:4
 msgid "Operation Result"
-msgstr ""
+msgstr "Resultado de la operación"
+

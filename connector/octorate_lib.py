@@ -2,7 +2,7 @@ from django.conf import settings
 from datetime import datetime, timedelta
 from web.models import Room
 from guest.models import Guest
-from padword.commons import new_ui_slug
+from padword.commons import new_ui_slug, get_today_ini
 
 import requests
 import hashlib
@@ -38,6 +38,42 @@ def write_log(result):
     f.write("{}\n".format(result))
     f.close()
 
+def code_payload(booking, meta_id, link):
+    return {
+        "status": "CONFIRMED",
+        "guests": [
+            {
+                "id": 123123,
+                "type": booking.guest.type,                        
+                "givenName": booking.guest.given_name,
+                "familyName": booking.guest.family_name,
+                "customerName": booking.guest.customer_name,
+                "checkin": booking.guest.checkin,
+                "checkout": booking.guest.checkout
+                #"sex": "MALE",
+            }
+        ],
+        "channelId": booking.channel_id,                           
+        "product": booking.product,
+        "checkin": booking.checkin,
+        "checkout": booking.checkout,
+        "createTime": booking.create_time,
+        "updateTime": booking.update_time,
+        "roomGross": booking.room_gross,
+        "totalGuest": booking.total_guest,
+        "totalChildren": booking.total_children,
+        "totalInfants": booking.total_infants,
+        "metaData": [
+            {
+                "id": meta_id,
+                "labelText": "DigitalKey",
+                "metaKey": "PadwordKey",
+                "metaDataType": "LINK",
+                "value": link
+            }
+        ],
+    }
+
 class OctorateAPIError(Exception):
     def __init__(self, menssage='Invalid Parameter'):
         self.menssage=menssage
@@ -52,18 +88,14 @@ class Octorate():
         self.refresh_token = refresh_token
         self.token = token
         self.ids = ""
-        #self.codes = ""
-        #self.links = ""
     
     def __send_request__(self, _url_request, _params=""):
         try:
             _headers = {}
             _headers['Accept'] = 'application/json'
             _headers['Authorization'] = 'Bearer {}'.format(self.token)
-            #_headers['x-api-key'] = '{}'.format(self.token)
             if _params != "":
                 _response = requests.get(_url_request, headers=_headers, params=_params)
-                #print(_response.text)
             else:
                 _response = requests.get(_url_request, headers=_headers)
             _response.raise_for_status()
@@ -80,8 +112,6 @@ class Octorate():
     def __send_post_request__(self, _url_request, _json):
         try:
             _headers = {}
-            #_headers['Accept'] = 'application/json'
-            #_headers['x-api-key'] = '{}'.format(self.token)
             _headers['Content-Type'] = 'application/x-www-form-urlencoded'
             _response = requests.post(_url_request, headers=_headers, data=_json)
             _response.raise_for_status()
@@ -101,8 +131,6 @@ class Octorate():
             _headers['Authorization'] = 'Bearer {}'.format(self.token)
             _headers['Content-Type'] = 'application/json'
             _response = requests.patch(_url_request, headers=_headers, data=_json)
-            #print(_response.text)
-            #_response.raise_for_status()
             return _response
         except requests.exceptions.HTTPError as errh:
             raise OctorateAPIError(menssage=errh)
@@ -116,13 +144,9 @@ class Octorate():
     def __send_put_request__(self, _url_request, _json):
         try:
             _headers = {}
-            #_headers['Accept'] = 'application/json'
-            #_headers['x-api-key'] = '{}'.format(self.token)
             _headers['Authorization'] = 'Bearer {}'.format(self.token)
-            #_headers['Content-Type'] = 'application/x-www-form-urlencoded'
             _headers['Content-Type'] = 'application/json'
             _response = requests.put(_url_request, headers=_headers, data=_json)
-            #_response.raise_for_status()
             return _response
         except requests.exceptions.HTTPError as errh:
             raise OctorateAPIError(menssage=errh)
@@ -136,12 +160,9 @@ class Octorate():
     def __send_patch_request__(self, _url_request, _json):
         try:
             _headers = {}
-            #_headers['Content-Type'] = 'application/x-www-form-urlencoded'
             _headers['Authorization'] = 'Bearer {}'.format(self.token)
             _headers['Content-Type'] = 'application/json'
             _response = requests.patch(_url_request, headers=_headers, data=_json)
-            #print(_response.text)
-            #_response.raise_for_status()
             return _response
         except requests.exceptions.HTTPError as errh:
             raise OctorateAPIError(menssage=errh)
@@ -160,7 +181,6 @@ class Octorate():
                 "startDate": i_date.strftime("%Y-%m-%d"),
                 "endDate": e_date.strftime("%Y-%m-%d"),
                 "type": "CHECKIN",
-                #"type": "NEXT7ARRIVALS",
                 "status": "CONFIRMED"
             }
             dic = self.__send_request__(_url_request, params).json()
@@ -171,7 +191,6 @@ class Octorate():
 
     def get_rooms(self, property_id):
         try:
-            #_url_request = f'{API_URL}{ROOMS_URL}/{property_id}'
             _url_request = f'{API_URL}{ROOMS_URL}'
             params = {}
             dic = self.__send_request__(_url_request, params).json()
@@ -183,8 +202,6 @@ class Octorate():
 
     def get_token(self, redirect_uri, code):
         try:
-            #_url_request = "{}{}".format(API_URL, LOGIN_URL)
-            #dic = self.__send_post_request__(_url_request, {"client_id":client_id, "client_secret":client_secret}).json()
             _url_request = "{}{}".format(API_URL, TOKEN_URL)
             payload = {
                 "client_id": self.client_id, 
@@ -213,19 +230,21 @@ class Octorate():
             print(err)
             raise OctorateAPIError(menssage=err)
 
-    def send_code(self, property_id, booking_id, meta_id, code, link):
+    def send_code(self, property_id, booking, meta_id, code, link):
         try:
+            booking_id = booking.id.split("_")[0]
             _url_request = f'{API_URL}{BOOKINGS_URL}/{property_id}/{booking_id}'
-            today = datetime.today()
-            if meta_id != "":
-                meta_data = [{"id":meta_id, "labelText":"DigitalKey", "metaKey":"PadwordKey", "metaDataType":"LINK", "value": link}]
-            else:
-                meta_data = [{"labelText":"DigitalKey", "metaKey":"PadwordKey", "metaDataType":"LINK", "value": link}]
-            params = {
-                "roomCode": {"code": code},
-                "metaData": meta_data,
-                "status": "CONFIRMED"
-            }
+            #today = datetime.today()
+            #if meta_id != "":
+            #    meta_data = [{"id":meta_id, "labelText":"DigitalKey", "metaKey":"PadwordKey", "metaDataType":"LINK", "value": link}]
+            #else:
+            #    meta_data = [{"labelText":"DigitalKey", "metaKey":"PadwordKey", "metaDataType":"LINK", "value": link}]
+            #params = {
+            #    "roomCode": {"code": code},
+            #    "metaData": meta_data,
+            #    "status": "CONFIRMED"
+            #}
+            params = code_payload(booking, meta_id, link)
             msg = f"\n SEND CODE URL: {_url_request}"
             msg += f"\n SEND CODE PARAMS: {params}"
             #print("--1--")
@@ -254,7 +273,16 @@ class Octorate():
         except Exception as err:
             raise OctorateAPIError(menssage=err)
 
-
+class OctorateGuest():
+    def __init__(self, dic):
+        self.type = get_param(dic, "type")
+        self.given_name = get_param(dic, "givenName")
+        self.family_name = get_param(dic, "familyName")
+        self.customer_name = get_param(dic, "customerName")
+        self.checkin = get_param(dic, "checkin")
+        self.checkout = get_param(dic, "checkout")
+        #self.sex = get_param(dic, "sex")
+ 
 class OctorateBooking():
     def __init__(self, dic, guest):
         self.id = "{}_{}".format(get_param(dic, "id"), get_param(dic, "refer"))
@@ -263,12 +291,25 @@ class OctorateBooking():
         self.surname = get_param(dic, "lastName")
         self.checkin = get_param(dic, "checkin").replace("T", " ").split("Z")[0]
         self.checkout = get_param(dic, "checkout").replace("T", " ").split("Z")[0]
-        #self.room = get_param(dic, "product")
         self.room = get_param(dic, "pmsProduct")
+
         self.email = get_param(guest, "email")
         self.phone = get_param(guest, "phone")
         self.language = get_param(guest, "language")
+
+        self.channel_id = get_param(dic, "channelId")
+        self.product = get_param(dic, "product")
+        self.create_time = get_param(dic, "createTime")
+        self.update_time = get_param(dic, "updateTime")
+        self.room_gross = get_param(dic, "roomGross")
+        self.total_guest = get_param(dic, "totalGuest")
+        self.total_children = get_param(dic, "totalChildren")
+        self.total_infants = get_param(dic, "totalInfants")
+
+        self.guest = OctorateGuest(guest)
+
         self.created = False
+
 
 class OctorateRoom():
     def __init__(self, dic):
@@ -312,15 +353,13 @@ def set_meta_id(pou, dic):
 def create_booking(pou, booking, oc):
     checkin = get_date(booking.checkin)
     checkout = get_date(booking.checkout)
-    today = datetime.today()
+    #today = datetime.today()
+    today = get_today_ini()
     e_date = today + timedelta(pou.days)
-    #checkin = booking.checkin
-    #checkout = booking.checkout
     room_ex = room_exist(pou.project_uuid, booking.room)
     err = ""
     msg = ""
 
-    #if room_ex and booking.status == "CONFIRMED":
     if room_ex and booking.status == "CONFIRMED" and checkin <= e_date and checkin >= today:
         msg += "\n Entrando"
         #ext_id = get_ext_id(booking, bguest, room)
@@ -349,7 +388,8 @@ def create_booking(pou, booking, oc):
             #print(lock_code)
             err = guest.add_all_key_code(lock_code)
             msg += "\n {}".format(err)
-            res, msg2 = oc.send_code(pou.property_id, booking.id.split("_")[0], pou.meta_id, lock_code, guest.pwa_link)
+            #res, msg2 = oc.send_code(pou.property_id, booking.id.split("_")[0], pou.meta_id, lock_code, guest.pwa_link)
+            res, msg2 = oc.send_code(pou.property_id, booking, pou.meta_id, lock_code, guest.pwa_link)
             msg += "\n {}".format(msg2)
             msg += "\n {}".format(res)
             err = set_meta_id(pou, res)
@@ -367,9 +407,6 @@ def get_token(pcu, ext_id):
     redirect_uri = "http%3A%2F%2Fpaddev.shidix.es%2Fconnector%2Foctorate%2Fupdate-token%2F'" 
     code = "487165"
     oc.get_token(redirect_uri, code)
-    #av = Octorate(pcu.token)
-    #booking = av.get_booking(ext_id)
-    #print(booking)
     return ""
 
 
@@ -386,8 +423,8 @@ def get_booking_list(pou):
     write_log(f"---------------------------------------------")
     write_log(f"CREANDO RESERVAS {datetime.now()}")
     for item in result:
-        print(item)
-        print("--------------")
+        #print(item)
+        #print("--------------")
         i += 1
         guest = item["guests"][0] if "guests" in item and len(item["guests"]) > 0 else []
         node = OctorateBooking(item, guest)
@@ -399,7 +436,6 @@ def get_booking_list(pou):
 def get_room_list(pou):
     oc = Octorate(pou.client_id, pou.secret, pou.token, pou.refresh)
     result = oc.get_rooms(pou.property_id)
-    #result = oc.get_rooms(pcu.property_id)
     room_list = []
     i = 0
     for item in result:

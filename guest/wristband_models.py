@@ -39,6 +39,10 @@ class Wristband(models.Model):
         wb = WristbandBackup.objects.filter(code=self.code, guest_uuid=self.guest.UUID).first()
         return (wb != None)
 
+    @property
+    def reverse_code(self):
+        return reverse_cardkey(self.code)
+
     def is_close_in_range_date(self, ini_date, end_date):
         wb = WristbandBackup.objects.filter(code=self.code, guest_uuid=self.guest.UUID, date__range=(ini_date, end_date)).first()
         return (wb != None)

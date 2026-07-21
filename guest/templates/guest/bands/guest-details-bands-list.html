@@ -6,7 +6,7 @@
     <div class="card mb-4">
         <div class="card-header bg-white p-4">
             <div class="row w-100">
-                <div class="col-6"> <h2 class="mt-2">{% trans "Band Code" %}: {{item.code}}</h2> </div>
+                <div class="col-6"> <h2 class="mt-2">{% trans "Band Code" %}: {{item.code}} (ID: {{item.reverse_code}})</h2> </div>
                 <div class="col-6 text-end p-0">
                     {% if item.is_close %}
                         <a class="btn btn-outline-primary btn-sm" href="{% url "wristbands-close-print" item.id %}" target="_blank"> 
