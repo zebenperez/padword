@@ -60,6 +60,8 @@ urlpatterns = [
     path('winhotel-log/', views.winhotel_log, name='winhotel-log'),
     path('cloudbeds-log/', views.cloudbeds_log, name='cloudbeds-log'),
     path('roomraccoon-log/', views.roomraccoon_log, name='roomraccoon-log'),
+    path('octorate-log/', views.octorate_log, name='octorate-log'),
+    path('mews-log/', views.mews_log, name='mews-log'),
 
     #--------------------- CAMERA --------------------
     path('car/plates/<slug:project_uuid>/', camera_views.car_plates, name='car_plates'),

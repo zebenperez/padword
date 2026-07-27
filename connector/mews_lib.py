@@ -13,6 +13,7 @@ import urllib
 import json
 import random
 import string
+import os
 
 try:
     API_URL = settings.MEWS_API_URL
@@ -31,6 +32,11 @@ INSPECTED_STATE = "Inspected"
 
 def get_param(dic, key):
     return dic[key] if key in dic else ""
+
+def write_log(result):
+    f = open(os.path.join(settings.BASE_DIR, "mews.log"), "a", encoding='utf-8')
+    f.write("{}\n".format(result))
+    f.close()
 
 class MewsAPIError(Exception):
     def __init__(self, menssage='Invalid Parameter'):
@@ -156,10 +162,16 @@ class MewsBooking():
         self.service_id = get_param(dic, "ServiceId")
         self.account_id = get_param(dic, "AccountId")
         self.booker_id = get_param(dic, "BookerId")
-        self.start = get_param(dic, "StartUtc")
-        self.end = get_param(dic, "EndUtc")
-        self.created = get_param(dic, "CreatedUtc")
-        self.updated = get_param(dic, "UpdatedUtc")
+        #self.start = get_param(dic, "StartUtc")
+        #self.end = get_param(dic, "EndUtc")
+        self.start = get_param(dic, "ActualStartUtc")
+        if self.start is None:
+            self.start = get_param(dic, "ScheduledStartUtc")
+        self.end = get_param(dic, "ActualEndUtc")
+        if self.end is None:
+            self.end = get_param(dic, "ScheduledEndUtc")
+        self.create_date = get_param(dic, "CreatedUtc")
+        self.update_date = get_param(dic, "UpdatedUtc")
         self.number = get_param(dic, "Number")
         self.state = get_param(dic, "State")
         self.resource_id = get_param(dic, "AssignedResourceId")
@@ -219,19 +231,22 @@ def create_booking(pmu, booking, av):
     project = Project.objects.filter(uuid=pmu.project_uuid).first()
     checkin = project.local_date(get_date(booking.start))
     checkout = project.local_date(get_date(booking.end))
+    #checkin = get_date(booking.start)
+    #checkout = get_date(booking.end)
     room = booking.room.number if booking.room != None else "-1"
     room_inspected = True if booking.room != None and booking.room.state == INSPECTED_STATE else False
     room_ex = room_exist(pmu.project_uuid, room)
     err = ""
 
-    #print("----")
-    #print("{} {}".format(booking.id, booking.number))
+    write_log("---- CREANDO RESERVA MEWS")
+    write_log(f"ID: {booking.id} - Número:{booking.number} - Checkin:{checkin} - Checkout:{checkout}")
+
     if room_ex and room_inspected: # Si el huésped tiene habitación asignada y está "Inspected"
-        #print("--ENTRA--")
+        write_log("--Reserva con habitación 'inspeccionada'")
         ext_id = get_ext_id(booking)
         guest = Guest.objects.filter(ext_id=ext_id, project_id=pmu.project_uuid, deleted=0).first()
         if guest == None:
-            #print("--CREA--")
+            write_log("--Reserva CREADA")
             guest = Guest(UUID = new_ui_slug(Guest, "UUID"), ext_id=ext_id, project_id=pmu.project_uuid)
             booking.created = True
         
@@ -241,8 +256,8 @@ def create_booking(pmu, booking, av):
             guest.email = booking.customer.email if booking.customer.email != None else ""
             guest.language = booking.customer.language.split("-")[0] if booking.customer.language != None else ""
         
-        guest.check_in = checkin
-        guest.check_out = checkout
+        guest.check_in = checkin.strftime("%Y-%m-%d %H:%M:%S")
+        guest.check_out = checkout.strftime("%Y-%m-%d %H:%M:%S")
         guest.room = room
         guest.save()
 
@@ -252,7 +267,7 @@ def create_booking(pmu, booking, av):
             err = guest.add_all_key_code(lock_code)
             if guest.email != "" and pmu.send_email:
                 send_email_code(guest, lock_code, pmu)
-    return None, err
+    return booking, err
 
 def delete_booking(pwu, booking):
     ext_id = get_ext_id(booking)
@@ -271,12 +286,13 @@ def get_booking_list(pmu):
     #print(result)
     booking_list = []
     i = 0
+    write_log("--- GET BOOKING LIST")
     for item in result:
-        #print("--1--")
-        #print(item)
+        print("--1--")
+        print(item)
+        write_log(item)
         i += 1
         node = MewsBooking(item)
-        booking_list.append(node)
 
         customers = av.get_customer(node.account_id)
         for customer in customers:
@@ -291,7 +307,8 @@ def get_booking_list(pmu):
                 node.room = node_r
                 break
 
-        create_booking(pmu, node, av)
+        node, err = create_booking(pmu, node, av)
+        booking_list.append(node)
     #print("Total: {}".format(i))
     return booking_list
 

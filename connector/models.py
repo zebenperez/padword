@@ -85,6 +85,7 @@ class ProjectMewsUser(models.Model):
 
     @property
     def project(self):
+        from web.models import Project
         try:
             return Project.objects.get(uuid=self.project_uuid)
         except Exception as e:

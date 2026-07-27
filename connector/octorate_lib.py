@@ -38,34 +38,53 @@ def write_log(result):
     f.write("{}\n".format(result))
     f.close()
 
-def code_payload(booking, meta_id, link):
+#def code_payload(booking, meta_id, code, link):
+#    return {
+#        "status": "CONFIRMED",
+#        "guests": [
+#            {
+#                #"id": 123123,
+#                "type": booking.guest.type,                        
+#                "givenName": booking.guest.given_name,
+#                "familyName": booking.guest.family_name,
+#                "customerName": booking.guest.customer_name,
+#                "checkin": booking.guest.checkin,
+#                "checkout": booking.guest.checkout
+#                #"sex": "MALE",
+#            }
+#        ],
+#        "channelId": booking.channel_id,                           
+#        "product": booking.product,
+#        "checkin": f'{booking.checkin.replace(" ", "T")}Z',
+#        "checkout": f'{booking.checkout.replace(" ", "T")}Z',
+#        #"createTime": booking.create_time,
+#        #"updateTime": booking.update_time,
+#        "roomGross": booking.room_gross,
+#        "totalGuest": booking.total_guest,
+#        "totalChildren": booking.total_children,
+#        "totalInfants": booking.total_infants,
+#        "roomCode": {"code": code},
+#        "metaData": [
+#            {
+#                "id": meta_id,
+#                "labelText": "DigitalKey",
+#                "metaKey": "PadwordKey",
+#                "metaDataType": "LINK",
+#                "value": link
+#            }
+#        ],
+#    }
+
+def code_payload(booking, meta_id, code, link):
     return {
         "status": "CONFIRMED",
-        "guests": [
-            {
-                "id": 123123,
-                "type": booking.guest.type,                        
-                "givenName": booking.guest.given_name,
-                "familyName": booking.guest.family_name,
-                "customerName": booking.guest.customer_name,
-                "checkin": booking.guest.checkin,
-                "checkout": booking.guest.checkout
-                #"sex": "MALE",
-            }
-        ],
         "channelId": booking.channel_id,                           
         "product": booking.product,
-        "checkin": booking.checkin,
-        "checkout": booking.checkout,
-        "createTime": booking.create_time,
-        "updateTime": booking.update_time,
-        "roomGross": booking.room_gross,
-        "totalGuest": booking.total_guest,
-        "totalChildren": booking.total_children,
-        "totalInfants": booking.total_infants,
+        "checkin": f'{booking.checkin.replace(" ", "T")}Z',
+        "checkout": f'{booking.checkout.replace(" ", "T")}Z',
+        "roomCode": {"code": code},
         "metaData": [
             {
-                "id": meta_id,
                 "labelText": "DigitalKey",
                 "metaKey": "PadwordKey",
                 "metaDataType": "LINK",
@@ -244,7 +263,8 @@ class Octorate():
             #    "metaData": meta_data,
             #    "status": "CONFIRMED"
             #}
-            params = code_payload(booking, meta_id, link)
+            c = booking.room_code if booking.room_code != "" else code
+            params = code_payload(booking, meta_id, c, link)
             msg = f"\n SEND CODE URL: {_url_request}"
             msg += f"\n SEND CODE PARAMS: {params}"
             #print("--1--")
@@ -284,7 +304,7 @@ class OctorateGuest():
         #self.sex = get_param(dic, "sex")
  
 class OctorateBooking():
-    def __init__(self, dic, guest):
+    def __init__(self, dic, guest, room_code):
         self.id = "{}_{}".format(get_param(dic, "id"), get_param(dic, "refer"))
         self.status = get_param(dic, "status")
         self.name = get_param(dic, "firstName")
@@ -292,6 +312,7 @@ class OctorateBooking():
         self.checkin = get_param(dic, "checkin").replace("T", " ").split("Z")[0]
         self.checkout = get_param(dic, "checkout").replace("T", " ").split("Z")[0]
         self.room = get_param(dic, "pmsProduct")
+        self.room_code = room_code
 
         self.email = get_param(guest, "email")
         self.phone = get_param(guest, "phone")
@@ -424,10 +445,17 @@ def get_booking_list(pou):
     write_log(f"CREANDO RESERVAS {datetime.now()}")
     for item in result:
         #print(item)
+        write_log(f"{item}")
         #print("--------------")
         i += 1
         guest = item["guests"][0] if "guests" in item and len(item["guests"]) > 0 else []
-        node = OctorateBooking(item, guest)
+        room_code = item["roomCode"]["code"] if "roomCode" in item  and "code" in item["roomCode"] else ""
+        write_log(f"ROOM CODE: {room_code}")
+        if "roomCode" in item:
+            write_log(f"ROOM CODE 111: {item['roomCode']}")
+            if "code" in item["roomCode"]:
+                write_log(f"ROOM CODE 222: {item['roomCode']['code']}")
+        node = OctorateBooking(item, guest, room_code)
         msg = create_booking(pou, node, oc)
         booking_list.append(node)
         write_log(f"{msg}")

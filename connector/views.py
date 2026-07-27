@@ -426,11 +426,22 @@ def winhotel_log(request):
 '''
     Mews
 '''
+def mews_write_log(result):
+    f = open(os.path.join(settings.BASE_DIR, "mews.log"), "a", encoding='utf-8')
+    f.write(result)
+    f.close()
+
 @group_required("admins", "projects")
 def mews_get_booking_list(request, project_uuid):
     try:
         pmu = get_or_none(ProjectMewsUser, project_uuid, "project_uuid")
+        result = "Importación Manual {} {}\n".format(pmu.project.name, datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
+        result += "-----------------------------------------------------"
+
         booking_list = mw_get_booking_list(pmu)
+
+        result += render_to_string('mews/booking-log.html', {'booking_list': reversed(booking_list),})
+        mews_write_log(result)
         return render(request, 'mews/booking-list.html', {'booking_list': booking_list})
     except Exception as e:
         print(e)
@@ -470,6 +481,17 @@ def mews_email_template(request, project_uuid, guest_uuid):
     #lang = guest.language or "es"
     #translation.activate(lang)
     #return render(request, 'mews/email_template.html', {'guest': guest, 'project': project, 'pmu': pmu})
+
+@group_required("admins")
+def mews_log(request):
+    f = open(os.path.join(settings.BASE_DIR, "mews.log"), "r", encoding='utf-8')
+    text = f.read()
+    try:
+        log_list = [f for f in os.listdir(settings.LOGPATH) if re.match(r'.*mews.*', f)]
+    except:
+        log_list = []
+    return render(request, 'cron-log.html', {'text': text.replace("\n", "<br/>"), 'log_list': log_list})
+
 
 '''
     Cloudbeds
@@ -608,6 +630,17 @@ def octorate_update_token(request):
     #f.write(str(request.GET))
     f.write(str(request.POST))
     return HttpResponse("OK")
+
+@group_required("admins")
+def octorate_log(request):
+    f = open(os.path.join(settings.BASE_DIR, "octorate.log"), "r", encoding='utf-8')
+    text = f.read()
+    try:
+        log_list = [f for f in os.listdir(settings.LOGPATH) if re.match(r'.*octorate.*', f)]
+    except:
+        log_list = []
+    return render(request, 'cron-log.html', {'text': text.replace("\n", "<br/>"), 'log_list': log_list})
+
 
 '''
     Paytef
