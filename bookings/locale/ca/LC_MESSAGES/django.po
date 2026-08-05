@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-06-26 08:28+0000\n"
+"POT-Creation-Date: 2026-08-05 22:52+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -31,7 +31,8 @@ msgstr "Heu d'introduir el nom d'usuari i la contrasenya!"
 
 #: guest_views.py:603
 msgid "Sorry, there was a problem with your booking, please try again!"
-msgstr "Ho sentim, hi ha hagut un problema amb la vostra reserva, torneu-ho a provar!"
+msgstr ""
+"Ho sentim, hi ha hagut un problema amb la vostra reserva, torneu-ho a provar!"
 
 #: guest_views.py:775
 msgid "- Order {} with current status {}\n"
@@ -164,6 +165,7 @@ msgid "Category"
 msgstr "Categoria"
 
 #: models.py:252 models.py:1140 templates/bookings/totem/balance.html:7
+#: templates/bookings/totem/print-pay.html:260
 #: templates/bookings/tpv/print-ticket.html:131
 #: templates/forms/form-description.html:4 templates/forms/form-general.html:40
 #: templates/forms/timetable.html:9
@@ -484,12 +486,10 @@ msgid "Zeta"
 msgstr "Zeta"
 
 #: models.py:1207
-#| msgid "Form type"
 msgid "Form type template"
 msgstr "Tipus de formulari"
 
 #: models.py:1208
-#| msgid "Forms type"
 msgid "Forms type template"
 msgstr "Tipus de formularis"
 
@@ -510,7 +510,6 @@ msgstr "Servei"
 #: templates/bookings/tpv-orders/order-list.html:11
 #: templates/bookings/tpv/view-guest-info.html:7
 #: templates/bookings/tpv/view-guest-info2.html:7
-#| msgid "Guest UUID"
 msgid "Guest"
 msgstr "Client"
 
@@ -529,6 +528,7 @@ msgstr "Habitació"
 #: templates/bookings/manage/booking-list.html:15
 #: templates/bookings/pr-manage/booking-list.html:15
 #: templates/bookings/totem/balance.html:6
+#: templates/bookings/totem/print-pay.html:259
 #: templates/bookings/tpv-cash/index-content.html:40
 #: templates/bookings/tpv-cash/print-z.html:96
 #: templates/bookings/tpv-orders/order-list.html:17
@@ -542,9 +542,9 @@ msgstr "Data"
 #: templates/bookings/manage/booking-list.html:18
 #: templates/bookings/pr-manage/booking-list.html:18
 #: templates/bookings/totem/balance.html:8
+#: templates/bookings/totem/print-pay.html:261
 #: templates/bookings/tpv-orders/order-list.html:21
 #: templates/bookings/tpv/order-details-list.html:30
-#| msgid "Amount to pay"
 msgid "Amount"
 msgstr "Import"
 
@@ -603,7 +603,6 @@ msgstr "Nom del client, Cognom, Correu, Telèfon, Habitació"
 #: templates/bookings/manage/search_box.html:32
 #: templates/bookings/pr-manage/search_box.html:38
 #: templates/bookings/tpv-orders/search_box.html:26
-#| msgid "Initial Time"
 msgid "Initial date"
 msgstr "Data inicial"
 
@@ -611,12 +610,10 @@ msgstr "Data inicial"
 #: templates/bookings/manage/search_box.html:37
 #: templates/bookings/pr-manage/search_box.html:43
 #: templates/bookings/tpv-orders/search_box.html:31
-#| msgid "Send date"
 msgid "End date"
 msgstr "Data final"
 
 #: templates/bookings/ecom/band-scan.html:4
-#| msgid "Guest regime"
 msgid "Your regime is"
 msgstr "El vostre règim és"
 
@@ -656,9 +653,9 @@ msgstr "Desar"
 #: templates/bookings/ecom/shopping_cart3.html:10
 #: templates/bookings/tpv/mobile/tpv-cart-mobile.html:5
 #: templates/bookings/tpv/tpv-cart.html:6
-#| msgid "The lock could not be opened, sorry for the inconvenience."
 msgid "Service not available in this moment, sorry for the inconvenience!"
-msgstr "El servei no està disponible en aquest moment, disculpeu les molèsties!"
+msgstr ""
+"El servei no està disponible en aquest moment, disculpeu les molèsties!"
 
 #: templates/bookings/ecom/shopping_cart.html:25
 #: templates/bookings/ecom/shopping_cart2.html:26
@@ -674,7 +671,6 @@ msgid "Cancel Order"
 msgstr "Cancel·lar comanda"
 
 #: templates/bookings/ecom/view-payment-types.html:21
-#| msgid "Amount to pay"
 msgid "Amount to pay (10, 20, 50...)"
 msgstr "Import a pagar (10, 20, 50...)"
 
@@ -692,7 +688,6 @@ msgstr "Tornar"
 
 #: templates/bookings/ecom/view-payment-types.html:53
 #: templates/bookings/general/general.html:22
-#| msgid "Send date"
 msgid "Send Order"
 msgstr "Enviar comanda"
 
@@ -740,7 +735,6 @@ msgid "Select an option"
 msgstr "Seleccionar una opció"
 
 #: templates/bookings/general/general.html:10
-#| msgid "You have some news\n"
 msgid "You have selected:"
 msgstr "Heu seleccionat:"
 
@@ -766,13 +760,11 @@ msgstr "TOTS"
 
 #: templates/bookings/guest/bookings-by-guest-actual.html:19
 #: templates/bookings/guest/bookings-by-guest-original.html:13
-#| msgid "Username"
 msgid "Surname"
 msgstr "Cognom"
 
 #: templates/bookings/guest/bookings-by-guest-actual.html:20
 #: templates/bookings/guest/bookings-by-guest-original.html:14
-#| msgid "Creation date"
 msgid "Creation Date"
 msgstr "Data de creació"
 
@@ -846,7 +838,6 @@ msgstr "Preu"
 #: templates/bookings/tpv/print-ticket.html:157
 #: templates/bookings/tpv/view-payment-types-discount.html:4
 #: templates/bookings/tpv/view-ticket.html:43
-#| msgid "Description"
 msgid "Descuento"
 msgstr "Descompte"
 
@@ -868,7 +859,8 @@ msgstr "Total"
 #: templates/bookings/tpv/mobile/tpv-form-login.html:3
 #: templates/bookings/tpv/tpv-form-login.html:3
 msgid "Your username and password didn't match. Please try again."
-msgstr "El nom d'usuari o la contrasenya no coincideixen. Torneu-ho a intentar."
+msgstr ""
+"El nom d'usuari o la contrasenya no coincideixen. Torneu-ho a intentar."
 
 #: templates/bookings/login/login_lagos.html:9
 #: templates/bookings/login/login_languages.html:9
@@ -957,13 +949,11 @@ msgstr "Esteu segurs que voleu eliminar aquest element?"
 
 #: templates/bookings/manage/search_box.html:17
 #: templates/forms/search_box.html:7
-#| msgid "Project UUID"
 msgid "Project name"
 msgstr "Nom del projecte"
 
 #: templates/bookings/manage/search_box.html:22
 #: templates/bookings/pr-manage/search_box.html:28
-#| msgid "Username"
 msgid "Service name"
 msgstr "Nom del servei"
 
@@ -976,7 +966,6 @@ msgstr "Estat actual:"
 #: templates/bookings/manage/status-form.html:36
 #: templates/bookings/pr-manage/status-form.html:8
 #: templates/bookings/pr-manage/status-form.html:36
-#| msgid "Status"
 msgid "Change Status"
 msgstr "Canviar estat"
 
@@ -1063,7 +1052,6 @@ msgid "Google Maps"
 msgstr "Google Maps"
 
 #: templates/bookings/menus/menu_holiday-homes.html:56
-#| msgid "Guest user"
 msgid "Guests directory"
 msgstr "Directori de clients"
 
@@ -1127,6 +1115,7 @@ msgid "Continue"
 msgstr "Continuar"
 
 #: templates/bookings/totem/balance.html:3
+#: templates/bookings/totem/print-pay.html:256
 msgid "CONSUMOS"
 msgstr "CONSUMS"
 
@@ -1146,12 +1135,7 @@ msgstr "Escanegeu el vostre accés per continuar"
 msgid "Sistema listo para lectura"
 msgstr "Sistema llest per a lectura"
 
-#: templates/bookings/totem/check-band.html:23
-msgid "Redirección en"
-msgstr "Redirecció en"
-
 #: templates/bookings/totem/payment-return.html:16
-#: templates/bookings/totem/view-band.html:73
 msgid "Cancelar"
 msgstr "Cancel·lar"
 
@@ -1159,36 +1143,36 @@ msgstr "Cancel·lar"
 msgid "Su pago se ha procesado correctamente!"
 msgstr "El vostre pagament s'ha processat correctament!"
 
-#: templates/bookings/totem/payment-return.html:36
-#: templates/bookings/totem/print-pay.html:201
+#: templates/bookings/totem/payment-return.html:37
+#: templates/bookings/totem/print-pay.html:238
 #: templates/bookings/tpv-cash/print-z.html:84
 #: templates/bookings/tpv/print-ticket.html:89
 #: templates/bookings/tpv/print-z.html:103
 msgid "Imprimir"
 msgstr "Imprimir"
 
-#: templates/bookings/totem/payment-return.html:37
+#: templates/bookings/totem/payment-return.html:38
 msgid "Finalizar"
 msgstr "Finalitzar"
 
-#: templates/bookings/totem/print-pay.html:200
+#: templates/bookings/totem/print-pay.html:235
 #: templates/bookings/totem/view-band.html:16
 msgid "Volver"
 msgstr "Tornar"
 
-#: templates/bookings/totem/print-pay.html:214
+#: templates/bookings/totem/print-pay.html:246
 msgid "Pago realizado"
 msgstr "Pagament realitzat"
 
-#: templates/bookings/totem/print-pay.html:217
+#: templates/bookings/totem/print-pay.html:248
 msgid "Fecha"
 msgstr "Data"
 
-#: templates/bookings/totem/print-pay.html:219
+#: templates/bookings/totem/print-pay.html:250
 msgid "Pulsera"
 msgstr "Polsera"
 
-#: templates/bookings/totem/print-pay.html:221
+#: templates/bookings/totem/print-pay.html:252
 msgid "Importe pagado"
 msgstr "Import pagat"
 
@@ -1197,27 +1181,24 @@ msgid "Acerque la pulsera al lector"
 msgstr "Acosteu la polsera al lector"
 
 #: templates/bookings/totem/view-band.html:8
-msgid "Vuelva a intentarlo y, si el problema persiste, contacte con el personal."
-msgstr "Torneu-ho a intentar i, si el problema persisteix, contacteu amb el personal."
+msgid ""
+"Vuelva a intentarlo y, si el problema persiste, contacte con el personal."
+msgstr ""
+"Torneu-ho a intentar i, si el problema persisteix, contacteu amb el personal."
 
 #: templates/bookings/totem/view-band.html:25
 msgid "SPA EXPERIENCE"
 msgstr "SPA EXPERIENCE"
 
-#: templates/bookings/totem/view-band.html:34
-#| msgid "Code"
-msgid "Band Code"
-msgstr "Codi de polsera"
-
-#: templates/bookings/totem/view-band.html:39
-msgid "Tipo"
-msgstr "Tipus"
-
-#: templates/bookings/totem/view-band.html:49
+#: templates/bookings/totem/view-band.html:53
 msgid "BALANCE"
 msgstr "SALDO"
 
-#: templates/bookings/totem/view-band.html:61
+#: templates/bookings/totem/view-band.html:56
+msgid "Salir"
+msgstr "Tanca la sessió"
+
+#: templates/bookings/totem/view-band.html:66
 #: templates/bookings/tpv/view-payment-types-send.html:8
 msgid "Pagar"
 msgstr "Pagar"
@@ -1238,7 +1219,6 @@ msgstr "Subtotal"
 #: templates/bookings/tpv-cash/index-z.html:5
 #: templates/bookings/tpv-orders-daily/index-content.html:5
 #: templates/bookings/tpv-orders-daily/index-z.html:5
-#| msgid "Point of sale UUID"
 msgid "Current point of sale"
 msgstr "Punt de venda actual"
 
@@ -1410,7 +1390,6 @@ msgid "Habitación"
 msgstr "Habitació"
 
 #: templates/bookings/tpv-orders/order-row.html:10
-#| msgid "UUID"
 msgid "ID"
 msgstr "UUID"
 
@@ -1423,7 +1402,6 @@ msgid "Tipo pago"
 msgstr "Tipus de pagament"
 
 #: templates/bookings/tpv-orders/order-row.html:21
-#| msgid "Description"
 msgid "Descripción"
 msgstr "Descripció"
 
@@ -1433,11 +1411,16 @@ msgid "Hotel"
 msgstr "Hotel"
 
 #: templates/bookings/tpv-orders/order-row.html:40
-#| msgid "Send date"
 msgid "Send to PMS"
 msgstr "Enviar al PMS"
 
-#: templates/bookings/tpv-orders/orders.html:11
+#: templates/bookings/tpv-orders/orders.html:14
+#, fuzzy
+#| msgid "Invitaciones"
+msgid "Enviar liquidaciones"
+msgstr "Invitacions"
+
+#: templates/bookings/tpv-orders/orders.html:22
 msgid "Tickets"
 msgstr "Tiquets"
 
@@ -1495,7 +1478,6 @@ msgstr "TOP VENDES"
 
 #: templates/bookings/tpv/mobile/tpv-form-login.html:19
 #: templates/bookings/tpv/tpv-form-login.html:19
-#| msgid "Username"
 msgid "Username:"
 msgstr "Nom d'usuari:"
 
@@ -1544,7 +1526,6 @@ msgstr "X"
 #: templates/bookings/tpv/mobile/tpv-tables.html:111
 #: templates/bookings/tpv/tpv-table-info.html:11
 #: templates/bookings/tpv/tpv-tables.html:110
-#| msgid "Order"
 msgid "No order"
 msgstr "Sense comanda"
 
@@ -1565,7 +1546,6 @@ msgstr "Devolució"
 
 #: templates/bookings/tpv/mobile/view-ticket-mobile.html:69
 #: templates/bookings/tpv/view-ticket.html:74
-#| msgid "Enviados"
 msgid "Enviado"
 msgstr "Enviat"
 
@@ -1583,7 +1563,6 @@ msgid "Ver ticket"
 msgstr "Veure tiquet"
 
 #: templates/bookings/tpv/orders-by-waiter.html:7
-#| msgid "Order"
 msgid "Orders"
 msgstr "Comandes"
 
@@ -1666,7 +1645,6 @@ msgid "Level"
 msgstr "Nivell"
 
 #: templates/bookings/tpv/view-guest-info.html:24
-#| msgid "Payment Type"
 msgid "Band Type"
 msgstr "Tipus de polsera"
 
@@ -1764,7 +1742,8 @@ msgstr "AVÍS: Teniu productes no vàlids, si us plau elimineu-los!"
 
 #: templates/bookings/tpv/view-payment-types-scripts.html:43
 msgid "<strong>ADVISE:</strong><br />You have not balance, recharge your band!"
-msgstr "<strong>AVÍS:</strong><br />No teniu saldo, recarregueu la vostra polsera!"
+msgstr ""
+"<strong>AVÍS:</strong><br />No teniu saldo, recarregueu la vostra polsera!"
 
 #: templates/bookings/tpv/view-payment-types-send-part.html:6
 msgid "Envío parcial"
@@ -1791,7 +1770,6 @@ msgid "Are you sure to remove this item?"
 msgstr "Esteu segurs que voleu eliminar aquest element?"
 
 #: templates/forms/block-form.html:35
-#| msgid "Question type"
 msgid "Select question type"
 msgstr "Seleccionar tipus de pregunta"
 
@@ -1801,17 +1779,14 @@ msgid "Add item"
 msgstr "Afegir element"
 
 #: templates/forms/channel-form.html:12
-#| msgid "Channel"
 msgid "Channel UUID"
 msgstr "UUID del canal"
 
 #: templates/forms/emails.html:4
-#| msgid "Guest email"
 msgid "Add email"
 msgstr "Afegir correu electrònic"
 
 #: templates/forms/emails.html:20
-#| msgid "Email From"
 msgid "Email from"
 msgstr "Remitent"
 
@@ -1877,7 +1852,6 @@ msgstr "CREAR TPV"
 
 #: templates/forms/form-edit-category.html:26
 #: templates/forms/form-edit-category.html:27
-#| msgid "Band"
 msgid "Band Pay"
 msgstr "Pagament amb polsera"
 
@@ -1894,7 +1868,6 @@ msgid "Create PWA"
 msgstr "Crear PWA"
 
 #: templates/forms/form-edit-content.html:7
-#| msgid "Channel"
 msgid "Change lang"
 msgstr "Canviar idioma"
 
@@ -1927,17 +1900,14 @@ msgid "URL"
 msgstr "URL"
 
 #: templates/forms/form-general.html:55
-#| msgid "Category"
 msgid "Parent Category"
 msgstr "Categoria pare"
 
 #: templates/forms/form-general.html:59
-#| msgid "Parent"
 msgid "Current"
 msgstr "Actual"
 
 #: templates/forms/form-general.html:60 templates/forms/form-general.html:67
-#| msgid "Category"
 msgid "ROOT Category"
 msgstr "Categoria arrel"
 
@@ -1946,12 +1916,10 @@ msgid "Level Up"
 msgstr "Pujar nivell"
 
 #: templates/forms/form-general.html:80
-#| msgid "Description"
 msgid "Position"
 msgstr "Posició"
 
 #: templates/forms/form-general.html:92
-#| msgid "Form type"
 msgid "Select form type"
 msgstr "Seleccionar tipus de formulari"
 
@@ -1964,17 +1932,14 @@ msgid "Features"
 msgstr "Característiques"
 
 #: templates/forms/form-general.html:131
-#| msgid "Email"
 msgid "Emails"
 msgstr "Correus electrònics"
 
 #: templates/forms/form-general.html:137 templates/forms/timetable.html:18
-#| msgid "Table"
 msgid "Timetable"
 msgstr "Horari"
 
 #: templates/forms/form-list.html:9
-#| msgid "Project UUID"
 msgid "Project"
 msgstr "Projecte"
 
@@ -2003,7 +1968,6 @@ msgid "Active"
 msgstr "Actiu"
 
 #: templates/forms/forms.html:13
-#| msgid "Form"
 msgid "Forms"
 msgstr "Formularis"
 
@@ -2016,12 +1980,10 @@ msgid "New form"
 msgstr "Nou formulari"
 
 #: templates/forms/question-form.html:26
-#| msgid "Field type"
 msgid "Select field type"
 msgstr "Seleccionar tipus de camp"
 
 #: templates/forms/search_box.html:14
-#| msgid "Channel"
 msgid "Channel name"
 msgstr "Nom del canal"
 
@@ -2029,24 +1991,30 @@ msgstr "Nom del canal"
 msgid "Add timetable"
 msgstr "Afegir horari"
 
-#: totem_views.py:69
+#: totem_views.py:71
 msgid "¡Pulsera no encontrada!"
 msgstr "¡Polsera no trobada!"
 
-#: totem_views.py:71
+#: totem_views.py:73
 msgid "¡Pulsera no asignada!"
 msgstr "¡Polsera no assignada!"
 
-#: totem_views.py:93
+#: totem_views.py:98
 msgid "Pulsera no encontrada"
 msgstr "Polsera no trobada"
 
-#: totem_views.py:97
+#: totem_views.py:103
 msgid "Datafono no encontrado"
 msgstr "Datàfon no trobat"
 
-#: totem_views.py:105 totem_views.py:108
+#: totem_views.py:111 totem_views.py:115
 msgid "Error procesando el pago"
+msgstr "Error processant el pagament"
+
+#: totem_views.py:135
+#, fuzzy
+#| msgid "Error procesando el pago"
+msgid "Error enviando el pago"
 msgstr "Error processant el pagament"
 
 #: tpv_mobile_views.py:79 tpv_views.py:94
@@ -2054,39 +2022,43 @@ msgid "Username or password incorrect!"
 msgstr "Nom d'usuari o contrasenya incorrectes!"
 
 #: tpv_mobile_views.py:84 tpv_views.py:99
-#| msgid "Category not found!"
 msgid "Waiter not found!"
 msgstr "Cambrer/a no trobat/da!"
 
-#: tpv_mobile_views.py:235 tpv_mobile_views.py:270 tpv_views.py:322
+#: tpv_mobile_views.py:246 tpv_mobile_views.py:281 tpv_views.py:329
 msgid "This band is not asigned to any guest!"
 msgstr "Aquesta polsera no està assignada a cap client!"
 
-#: tpv_mobile_views.py:259
+#: tpv_mobile_views.py:270
 msgid "Band could not be readed!"
 msgstr "La polsera no s'ha pogut llegir!"
 
-#: tpv_mobile_views.py:333 tpv_views.py:341
-#| msgid "Form not found!"
+#: tpv_mobile_views.py:346 tpv_views.py:349
 msgid "Room not found!"
 msgstr "Habitació no trobada!"
 
-#: tpv_mobile_views.py:336 tpv_views.py:344
-#| msgid "Form not found!"
+#: tpv_mobile_views.py:349 tpv_views.py:352
 msgid "Guest not found!"
 msgstr "Client no trobat!"
 
 #: views.py:40
-#| msgid "Form not found!"
 msgid "Project not found!"
 msgstr "Projecte no trobat!"
 
 #: views.py:42 views.py:48
-#| msgid "Form not found!"
 msgid "User not found!"
 msgstr "Usuari no trobat!"
 
 #: views.py:44
-#| msgid "Form not found!"
 msgid "Token not found!"
 msgstr "Token no trobat!"
+
+#~ msgid "Redirección en"
+#~ msgstr "Redirecció en"
+
+#~| msgid "Code"
+#~ msgid "Band Code"
+#~ msgstr "Codi de polsera"
+
+#~ msgid "Tipo"
+#~ msgstr "Tipus"

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-06-26 08:28+0000\n"
+"POT-Creation-Date: 2026-08-05 22:53+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -31,7 +31,8 @@ msgstr "¡Debe introducir el nombre de usuario y la contraseña!"
 
 #: guest_views.py:603
 msgid "Sorry, there was a problem with your booking, please try again!"
-msgstr "Lo sentimos, hubo un problema con su reserva. ¡Por favor, inténtelo de nuevo!"
+msgstr ""
+"Lo sentimos, hubo un problema con su reserva. ¡Por favor, inténtelo de nuevo!"
 
 #: guest_views.py:775
 msgid "- Order {} with current status {}\n"
@@ -164,6 +165,7 @@ msgid "Category"
 msgstr "Categoría"
 
 #: models.py:252 models.py:1140 templates/bookings/totem/balance.html:7
+#: templates/bookings/totem/print-pay.html:260
 #: templates/bookings/tpv/print-ticket.html:131
 #: templates/forms/form-description.html:4 templates/forms/form-general.html:40
 #: templates/forms/timetable.html:9
@@ -526,6 +528,7 @@ msgstr "Habitación"
 #: templates/bookings/manage/booking-list.html:15
 #: templates/bookings/pr-manage/booking-list.html:15
 #: templates/bookings/totem/balance.html:6
+#: templates/bookings/totem/print-pay.html:259
 #: templates/bookings/tpv-cash/index-content.html:40
 #: templates/bookings/tpv-cash/print-z.html:96
 #: templates/bookings/tpv-orders/order-list.html:17
@@ -539,6 +542,7 @@ msgstr "Fecha"
 #: templates/bookings/manage/booking-list.html:18
 #: templates/bookings/pr-manage/booking-list.html:18
 #: templates/bookings/totem/balance.html:8
+#: templates/bookings/totem/print-pay.html:261
 #: templates/bookings/tpv-orders/order-list.html:21
 #: templates/bookings/tpv/order-details-list.html:30
 msgid "Amount"
@@ -602,7 +606,7 @@ msgstr "Nombre de huésped, Apellido, Email, Teléfono, Habitación"
 msgid "Initial date"
 msgstr "Fecha inicial"
 
-#: templates/bookings/cat-manage/search_box.html:45precio
+#: templates/bookings/cat-manage/search_box.html:45
 #: templates/bookings/manage/search_box.html:37
 #: templates/bookings/pr-manage/search_box.html:43
 #: templates/bookings/tpv-orders/search_box.html:31
@@ -699,7 +703,8 @@ msgstr "Precio total"
 #: templates/bookings/ecom/view-shopping-cart-fi.html:14
 #: templates/bookings/tpv/view-ticket.html:58
 msgid "You can add comments to the article with click on comment buttons"
-msgstr "Puede añadir comentarios al artículo haciendo clic en los botones de "
+msgstr ""
+"Puede añadir comentarios al artículo haciendo clic en los botones de "
 "comentario"
 
 #: templates/bookings/ecom/view-shopping-cart-fi.html:35
@@ -855,7 +860,8 @@ msgstr "Total"
 #: templates/bookings/tpv/mobile/tpv-form-login.html:3
 #: templates/bookings/tpv/tpv-form-login.html:3
 msgid "Your username and password didn't match. Please try again."
-msgstr "El usuario o la contraseña no coinciden. Por favor, inténtelo de nuevo."
+msgstr ""
+"El usuario o la contraseña no coinciden. Por favor, inténtelo de nuevo."
 
 #: templates/bookings/login/login_lagos.html:9
 #: templates/bookings/login/login_languages.html:9
@@ -1110,6 +1116,7 @@ msgid "Continue"
 msgstr "Continuar"
 
 #: templates/bookings/totem/balance.html:3
+#: templates/bookings/totem/print-pay.html:256
 msgid "CONSUMOS"
 msgstr "CONSUMOS"
 
@@ -1129,12 +1136,7 @@ msgstr "Escanee su acceso para continuar"
 msgid "Sistema listo para lectura"
 msgstr "Sistema listo para lectura"
 
-#: templates/bookings/totem/check-band.html:23
-msgid "Redirección en"
-msgstr "Redirección en"
-
 #: templates/bookings/totem/payment-return.html:16
-#: templates/bookings/totem/view-band.html:73
 msgid "Cancelar"
 msgstr "Cancelar"
 
@@ -1142,36 +1144,36 @@ msgstr "Cancelar"
 msgid "Su pago se ha procesado correctamente!"
 msgstr "Su pago se ha procesado correctamente!"
 
-#: templates/bookings/totem/payment-return.html:36
-#: templates/bookings/totem/print-pay.html:201
+#: templates/bookings/totem/payment-return.html:37
+#: templates/bookings/totem/print-pay.html:238
 #: templates/bookings/tpv-cash/print-z.html:84
 #: templates/bookings/tpv/print-ticket.html:89
 #: templates/bookings/tpv/print-z.html:103
 msgid "Imprimir"
 msgstr "Imprimir"
 
-#: templates/bookings/totem/payment-return.html:37
+#: templates/bookings/totem/payment-return.html:38
 msgid "Finalizar"
 msgstr "Finalizar"
 
-#: templates/bookings/totem/print-pay.html:200
+#: templates/bookings/totem/print-pay.html:235
 #: templates/bookings/totem/view-band.html:16
 msgid "Volver"
 msgstr "Volver"
 
-#: templates/bookings/totem/print-pay.html:214
+#: templates/bookings/totem/print-pay.html:246
 msgid "Pago realizado"
 msgstr "Pago realizado"
 
-#: templates/bookings/totem/print-pay.html:217
+#: templates/bookings/totem/print-pay.html:248
 msgid "Fecha"
 msgstr "Fecha"
 
-#: templates/bookings/totem/print-pay.html:219
+#: templates/bookings/totem/print-pay.html:250
 msgid "Pulsera"
 msgstr "Pulsera"
 
-#: templates/bookings/totem/print-pay.html:221
+#: templates/bookings/totem/print-pay.html:252
 msgid "Importe pagado"
 msgstr "Importe pagado"
 
@@ -1182,25 +1184,22 @@ msgstr "Acerque la pulsera al lector"
 #: templates/bookings/totem/view-band.html:8
 msgid ""
 "Vuelva a intentarlo y, si el problema persiste, contacte con el personal."
-msgstr "Vuelva a intentarlo y, si el problema persiste, contacte con el personal."
+msgstr ""
+"Vuelva a intentarlo y, si el problema persiste, contacte con el personal."
 
 #: templates/bookings/totem/view-band.html:25
 msgid "SPA EXPERIENCE"
 msgstr "SPA EXPERIENCE"
 
-#: templates/bookings/totem/view-band.html:34
-msgid "Band Code"
-msgstr "Código de pulsera"
-
-#: templates/bookings/totem/view-band.html:39
-msgid "Tipo"
-msgstr "Tipo"
-
-#: templates/bookings/totem/view-band.html:49
+#: templates/bookings/totem/view-band.html:53
 msgid "BALANCE"
 msgstr "BALANCE"
 
-#: templates/bookings/totem/view-band.html:61
+#: templates/bookings/totem/view-band.html:56
+msgid "Salir"
+msgstr ""
+
+#: templates/bookings/totem/view-band.html:66
 #: templates/bookings/tpv/view-payment-types-send.html:8
 msgid "Pagar"
 msgstr "Pagar"
@@ -1434,7 +1433,13 @@ msgstr "Hotel"
 msgid "Send to PMS"
 msgstr "Fecha de envío"
 
-#: templates/bookings/tpv-orders/orders.html:11
+#: templates/bookings/tpv-orders/orders.html:14
+#, fuzzy
+#| msgid "Invitaciones"
+msgid "Enviar liquidaciones"
+msgstr "Invitaciones"
+
+#: templates/bookings/tpv-orders/orders.html:22
 msgid "Tickets"
 msgstr "Tickets"
 
@@ -2072,24 +2077,30 @@ msgstr "Canal"
 msgid "Add timetable"
 msgstr "Añadir horario"
 
-#: totem_views.py:69
+#: totem_views.py:71
 msgid "¡Pulsera no encontrada!"
 msgstr "¡Pulsera no encontrada!"
 
-#: totem_views.py:71
+#: totem_views.py:73
 msgid "¡Pulsera no asignada!"
 msgstr "¡Pulsera no asignada!"
 
-#: totem_views.py:93
+#: totem_views.py:98
 msgid "Pulsera no encontrada"
 msgstr "Pulsera no encontrada"
 
-#: totem_views.py:97
+#: totem_views.py:103
 msgid "Datafono no encontrado"
 msgstr "Datáfono no encontrado"
 
-#: totem_views.py:105 totem_views.py:108
+#: totem_views.py:111 totem_views.py:115
 msgid "Error procesando el pago"
+msgstr "Error procesando el pago"
+
+#: totem_views.py:135
+#, fuzzy
+#| msgid "Error procesando el pago"
+msgid "Error enviando el pago"
 msgstr "Error procesando el pago"
 
 #: tpv_mobile_views.py:79 tpv_views.py:94
@@ -2102,21 +2113,21 @@ msgstr "¡Usuario o contraseña incorrectos!"
 msgid "Waiter not found!"
 msgstr "¡Categoría no encontrada!"
 
-#: tpv_mobile_views.py:235 tpv_mobile_views.py:270 tpv_views.py:322
+#: tpv_mobile_views.py:246 tpv_mobile_views.py:281 tpv_views.py:329
 msgid "This band is not asigned to any guest!"
 msgstr "¡Esta pulsera no está asignada a ningún huésped!"
 
-#: tpv_mobile_views.py:259
+#: tpv_mobile_views.py:270
 msgid "Band could not be readed!"
 msgstr "¡No se ha podido leer la pulsera!"
 
-#: tpv_mobile_views.py:333 tpv_views.py:341
+#: tpv_mobile_views.py:346 tpv_views.py:349
 #, fuzzy
 #| msgid "Form not found!"
 msgid "Room not found!"
 msgstr "¡Formulario no encontrado!"
 
-#: tpv_mobile_views.py:336 tpv_views.py:344
+#: tpv_mobile_views.py:349 tpv_views.py:352
 #, fuzzy
 #| msgid "Form not found!"
 msgid "Guest not found!"
@@ -2139,3 +2150,12 @@ msgstr "¡Formulario no encontrado!"
 #| msgid "Form not found!"
 msgid "Token not found!"
 msgstr "¡Formulario no encontrado!"
+
+#~ msgid "Redirección en"
+#~ msgstr "Redirección en"
+
+#~ msgid "Band Code"
+#~ msgstr "Código de pulsera"
+
+#~ msgid "Tipo"
+#~ msgstr "Tipo"
