@@ -50,7 +50,8 @@
                 <section class="bottom">
                     <div class="balance-card"><h2>{%trans "BALANCE"%}: {{band.balance|floatformat:2}} {{project.currency}}</h2> </div>
                     {% if band.balance == 0 and not band.guest.regime.totem_pay %}
-                        <button class="pay-btn" onclick="window.location='{% url "totem-access" project.uuid tcod %}'"> Salir </button>
+                        <button class="pay-btn" onclick="window.location='{% url "totem-access" project.uuid tcod %}'">
+                            {%trans "Salir"%} </button>
                         {%comment%}
                         <button class="pay-btn ark" data-url="{% url "totem-start" %}" data-target="div-main" 
                             data-project_uuid="{{project.uuid}}"> Salir </button>
