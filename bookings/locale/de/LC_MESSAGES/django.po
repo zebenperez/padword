@@ -1204,7 +1204,7 @@ msgstr "SALDO"
 
 #: templates/bookings/totem/view-band.html:56
 msgid "Salir"
-msgstr ""
+msgstr "Zurück"
 
 #: templates/bookings/totem/view-band.html:66
 #: templates/bookings/tpv/view-payment-types-send.html:8
