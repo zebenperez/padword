@@ -26,6 +26,8 @@
         </div>
 
         <div class="content">
+
+        {%comment%}
             <!-- SIDEBAR -->
             <aside class="sidebar">
                 <h2 class="sidebar-title">{{band.name}}</h2>
@@ -39,6 +41,7 @@
                     <div class="value dark">{{band.type.name}}</div>
                 </div>
             </aside>
+         {%endcomment%}
 
             <!-- MAIN -->
             <main class="main">
@@ -67,7 +70,9 @@
             <a class="btn btn btn-back py-3 mx-4 ark" data-url="{% url "totem-start" %}" data-target="div-main" 
                 data-project_uuid="{{project.uuid}}">{% trans "Volver" %}</a>
             {%endcomment%}
+            {%comment%}
             <a class="btn btn btn-cancel py-3 mx-4" href="{% url "totem-access" project.uuid tcod %}">{% trans "Cancelar" %}</a>
+            {%endcomment%}
         </div>
 
         {#<div id="contador" class="text-muted"> Redirección en <span id="segundos">30</span>s </div>#}

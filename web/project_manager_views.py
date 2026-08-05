@@ -91,7 +91,8 @@ def project_user_refresh_token(request):
     user_lock = project.lock_user
     if user_lock != None:
         user_lock.get_new_token()
-    return render(request, "web/projects-manager/project-form-token.html", {'obj': project, 'user_lock': user_lock,})
+    return render(request, "web/projects-manager/project-token.html", {'user_lock':user_lock,})
+    #return render(request, "web/projects-manager/project-form-token.html", {'obj': project, 'user_lock': user_lock,})
 
 @group_required("project_manager")
 def categories_by_project(request, project_id):
@@ -116,10 +117,11 @@ def categories_by_project(request, project_id):
                 template = "bookings/menus/menu_keys.html",
                 template_base = "bookings/menus/menu_keys_base.html",
                 template_login = "bookings/login/login_languages.html",
-                project_uuid = project.uuid)
-    f = Form.objects.filter(category=cat).first()
+                project_uuid = project.uuid, 
+                main = True)
+    f = Form.objects.filter(category=cat.uuid).first()
     if f == None:
-        f = Form.objects.create(category=cat, form_type=ft, uuid=new_ui_slug(Form))
+        f = Form.objects.create(category=cat.uuid, form_type=ft, uuid=new_ui_slug(Form))
     return render(request, "web/projects-manager/categories.html", {'project':project, 'item':cat, 'obj': f})
 
 '''

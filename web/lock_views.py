@@ -357,7 +357,7 @@ def lock_set_group(request):
     except Exception as e:
         return HttpResponse("Error: {}".format(e))
 
-@group_required("admins", "projects", "project_manager")
+@group_required("admins", "projects", "project_manager", "project_subadmin", "project_satadmin")
 def lock_export_csv(request, lock_id):
     try:
         lock = get_or_none(Lock, lock_id)
@@ -378,7 +378,7 @@ def lock_export_csv(request, lock_id):
     except Exception as e:
         return HttpResponse("Error: {}".format(e))
 
-@group_required("admins", "projects", "project_manager")
+@group_required("admins", "projects", "project_manager", "project_subadmin", "project_satadmin")
 def lock_export_pdf(request, lock_id):
     try:
         lock = get_or_none(Lock, lock_id)
@@ -537,7 +537,7 @@ def locks_update_info(request, code):
         t.start()
     return HttpResponse("--OK--")
 
-@group_required("admins", "projects", "project_manager")
+@group_required("admins", "projects", "project_manager", "project_subadmin", "project_satadmin")
 def locks_open(request):
     lock = get_or_none(Lock, request.GET["obj_id"])
     msg = lock.open_lock()

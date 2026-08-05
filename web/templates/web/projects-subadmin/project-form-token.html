@@ -1,0 +1,33 @@
+{% load i18n %}
+
+<label class="label">{% trans "Tokens" %}:</label>
+
+<div class="row justify-center m-4">
+    <div class="col-3"> <label class="label">{% trans "TTLock Username" %}: <strong>{{user_lock.username}}</strong></label> </div>
+    <div class="col-3"> <label class="label">{% trans "TTLock Password" %}: <strong>{{user_lock.password}}</strong></label> </div>
+    <div class="col-2">
+        <div class="form-check form-switch">
+            <input class="form-check-input toggleCronLock autosave" type="checkbox" id="auto_refresh" name="auto_refresh"
+                data-model-name="web.projectlockuser" data-obj-id="{{user_lock.id}}" data-url="{%url "autosave_field"%}"
+                data-target="div-notification" data-bool="True" {% if user_lock.auto_refresh %} checked {% endif %}>
+            <label class="form-check-label" for="auto_refresh"> {% trans "Auto refresh" %} {{user_lock.auto_refresh}}</label>
+        </div>
+    </div>
+    <div class="col-2 text-end">
+        <a class="btn btn-primary pointer ark" data-url="{% url "project-subadmin-user-token" %}" data-target="span-token" 
+            data-obj_id="{{user_lock.id}}"> {% trans "Get token" %}</a>
+    </div>
+    <div class="col-2 text-end">
+        <a class="btn btn-primary pointer ark" data-url="{%url "project-subadmin-user-refresh-token"%}" data-target="project-token" 
+            data-obj_id="{{obj.id}}"> {% trans "Refresh token" %}</a>
+    </div>
+</div>		
+
+<div class="row justify-center m-4">
+    <div class="col-5"> <label class="label">
+        {% trans "Token" %} ({% trans "expire:" %} {{user_lock.expire_date}}): <strong>{{user_lock.token}}</strong></label>
+    </div>
+    <div class="col-5"> <label class="label">{% trans "Refresh Token" %}: <strong>{{user_lock.refresh_token}}</strong></label> </div>
+    <div class="col-2"> <label class="label">
+        {% trans "Last Refresh" %}: <strong>{{user_lock.last_refresh|date:"d-m-Y"}}</strong></label> </div>
+</div>		

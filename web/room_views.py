@@ -376,7 +376,7 @@ def room_list_by_project(request):
         return render(request, "error_exception.html", {'exc':show_exc(e)})
 
 @group_required("admins", "projects")
-def rooms_search_by_project (request):
+def rooms_search_by_project(request):
     try:
         project = get_or_none(Project, request.project_id)
         set_session(request, "room_search_name")
@@ -413,13 +413,13 @@ def get_rooms(request):
         if name != "":
             kwargs['alias__icontains'] = name
         r_list = Room.objects.filter(**kwargs)
-        item_list[group.name] = [r_list[:5], len(r_list)]
+        item_list[group.name] = [r_list[:6], len(r_list)]
 
     kwargs = {'project_uuid': project.uuid, 'lock_group_uuid': ""}
     if name != "":
         kwargs['alias__icontains'] = name
-    r_list = Room.objects.filter(**kwargs)
-    item_list["-"] = [r_list[:5], len(r_list)]
+    r_list = Room.objects.filter(**kwargs).order_by("order")
+    item_list["-"] = [r_list[:6], len(r_list)]
 
     return item_list
 

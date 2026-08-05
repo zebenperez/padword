@@ -1,0 +1,43 @@
+{% load i18n padword_tags lock_tags %}
+
+
+{% if msg and msg != "" %} <div class="alert alert-danger">{{msg}}</div> {% endif %}
+
+<div class="d-flex menu-actions-blue">
+    <div class="flex-grow-1 p-2"><span class="bg-ico-bar"><i class="fas fa-lock"></i></span>&nbsp; Vista general</div>
+</div>
+
+<table class="table table-striped table-hover mt-3" id="main-table">
+    <thead>
+        <tr class="small small">
+            <th><input type="checkbox" name="ch_0" id="check-all"/></th>
+            <th> {% trans 'UUID' %} <i class="fas fa-sort"></i> </th>
+            <th> {% trans 'Lock Alias' %} <i class="fas fa-sort"></i> </th>
+            <th> {% trans 'Project' %} <i class="fas fa-sort"></i> </th>
+            <th> {% trans 'Group' %} <i class="fas fa-sort"></i> </th>
+            <th> {% trans 'Room' %} <i class="fas fa-sort"></i> </th>
+            <th> {% trans 'Charge' %} <i class="fas fa-sort"></i> </th>
+            <th> {% trans 'Gateway' %} <i class="fas fa-sort"></i> </th>
+            <th> {% trans 'Wifi' %} <i class="fas fa-sort"></i> </th>
+            <th> {% trans 'Deposit box' %} <i class="fas fa-sort"></i> </th>
+            <th> {% trans 'Private' %} <i class="fas fa-sort"></i> </th>
+            <th> {% trans 'Predeterminada' %} <i class="fas fa-sort"></i> </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for item in items %}
+        <tr class="small load-row" id="row_{{item.id}}" data-obj_id="{{item.id}}">
+            {% include "web/projects-satadmin/lock-list-row.html" %}
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<script>
+    $("#main-table").tablesorter();
+    $('#items-counter').html('{{items|length}}');
+    $('#check-all').click(function(){ $('input:checkbox').not(this).prop('checked', this.checked); });
+    $(document).ready(function(){$(window).keydown(function(event){if(event.keyCode == 13){event.preventDefault();return false;}});});
+</script>
+

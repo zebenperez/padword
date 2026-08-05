@@ -26,7 +26,7 @@ import os, re, requests, time, datetime, csv
 
 
 
-@group_required("admins", "projects", "categories", "guests", "project_admin", "project_locks", "project_manager")
+@group_required("admins", "projects", "categories", "guests", "project_admin", "project_locks", "project_manager", "project_subadmin", "project_satadmin")
 def index(request, chk=None):
     if request.user.groups.filter(name='guests').exists():
         return redirect('pwa-index')
@@ -46,6 +46,12 @@ def index(request, chk=None):
 
     if request.user.groups.filter(name='project_admin').exists():
         return redirect('projects-admin')
+
+    if request.user.groups.filter(name='project_subadmin').exists():
+        return redirect('projects-subadmin')
+
+    if request.user.groups.filter(name='project_satadmin').exists():
+        return redirect('projects-satadmin')
 
     if request.user.groups.filter(name='project_manager').exists():
         return redirect('projects-manager')
@@ -686,7 +692,7 @@ def project_set_winhotel_schedule(request):
         print (show_exc(e))
         return HttpResponse("Error!")
 
-@group_required("admins", "project_admin")
+@group_required("admins", "project_admin", "project_manager")
 def project_set_lock_schedule(request):
     try:
         user_lock = get_or_none(ProjectLockUser, get_param(request.GET, "obj_id"))
@@ -844,7 +850,7 @@ def project_remove_cloudbeds_webhooks(request):
         return HttpResponse("Error!")
 
 
-@group_required("admins")
+@group_required("admins", "project_manager")
 def project_add_logo(request):
     try:
         project = get_or_none(Project, request.POST["obj_id"])
@@ -858,7 +864,7 @@ def project_add_logo(request):
         print(e)
         return render(request, 'error_exception.html', {'msg': str(e)})
 
-@group_required("admins", "projects", "categories")
+@group_required("admins", "projects", "categories", "project_manager")
 def project_remove_logo(request):
     try:
         obj = get_or_none(Project, request.GET["obj_id"]) 

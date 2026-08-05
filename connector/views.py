@@ -220,16 +220,17 @@ def winhotel_get_total_by_source(date, pt, i_list):
     #print(pt)
     #print(date)
     #print(fi_list)
+    #print(i_list)
     amount = ShoppingCart.objects.filter(form_instance_id__in=fi_list, item__ext_id__in=i_list).aggregate(total_price_sum=Sum('total_price'))
     return amount['total_price_sum'] if amount['total_price_sum'] != None else 0
 
 def winhotel_liq_params(name, code, source, cash_code, total):
-    source_document = f'Punto de venta {name}'
+    source_document = f'LIQUIDACIÓN {name}'
     date = datetime.today().strftime("%Y-%m-%d")
     _send_charge_params = {
         "ExternalCharge": {
             "CreditContact": {
-                "RoomCode": "",
+                "RoomCode": "ZTPV",
                 "ContactName": name ,
                 "ContactId": code,
                 "HasCredit": "true",
@@ -250,7 +251,7 @@ def winhotel_send_liq(request, project_uuid, pos_code):
 
     res2 = []
     pwu = ProjectWinhotelUser.objects.filter(project_uuid=project_uuid).first()
-    pos = get_or_none(PointOfSale, pos_code, "ext_code")
+    pos = PointOfSale.objects.filter(ext_code=pos_code, project_uuid=project_uuid).first()
     pci_list = PosCodeItem.objects.filter(project_uuid=project_uuid, pos=pos_code)
     sources = {}
     for item in pci_list:
@@ -261,22 +262,37 @@ def winhotel_send_liq(request, project_uuid, pos_code):
     total_cash = 0
     total_card = 0
     for key in sources.keys():
+        #print(f"Source: {key} - Items: {sources[key]['items']}")
         ta_cash = winhotel_get_total_by_source(timezone.localdate(), "01", sources[key]['items'])
         ta_cash_disc = winhotel_get_total_by_source(timezone.localdate(), "0401", sources[key]['items'])
         ta_card = winhotel_get_total_by_source(timezone.localdate(), "02", sources[key]['items'])
         ta_card_disc = winhotel_get_total_by_source(timezone.localdate(), "0402", sources[key]['items'])
+        #print(f"Res: {ta_cash} {ta_cash_disc} {ta_card} {ta_card_disc}")
         total_a = ta_cash + ta_card + ta_cash_disc + ta_card_disc
 
-        res2.append(winhotel_liq_params(pos.name, pos.contact_code, f'LIQ-{key}', "COBROS", total_a))
+        dic = winhotel_liq_params(pos.name, pos.contact_code, f'LIQ-{key}', "COBROS", total_a)
+        res2.append(dic)
+        wh_send_liq(pwu, dic)
 
         total_cash += ta_cash + ta_cash_disc 
         total_card += ta_card + ta_card_disc
-        total += total_cash + total_card 
+        #total += total_cash + total_card 
+        total += total_a
+        #print(f"Source: {key} -Total: {total} {total_cash} {total_card}")
 
-    res2.append(winhotel_liq_params(pos.name, pos.contact_code, "TOTAL", "---", total))
-    res2.append(winhotel_liq_params(pos.name, pos.contact_code, "TOTAL CASH", "CASH", total_cash))
-    res2.append(winhotel_liq_params(pos.name, pos.contact_code, "TOTAL CARD", "CARD", total_card))
-    return HttpResponse( "<pre>{}</pre>".format( json.dumps(res2, indent=4, ensure_ascii=False)))
+    dic = winhotel_liq_params(pos.name, pos.contact_code, "TOTAL", "---", total)
+    res2.append(dic)
+    wh_send_liq(pwu, dic)
+    dic = winhotel_liq_params(pos.name, pos.contact_code, "TOTAL CASH", "CASH", total_cash)
+    res2.append(dic)
+    wh_send_liq(pwu, dic)
+    dic = winhotel_liq_params(pos.name, pos.contact_code, "TOTAL CARD", "CARD", total_card)
+    res2.append(dic)
+    wh_send_liq(pwu, dic)
+
+    liq_list = "<pre>{}</pre>".format(json.dumps(res2, indent=4, ensure_ascii=False))
+    return render(request, 'winhotel/booking-liq.html', {'liq_list': liq_list})
+    #return HttpResponse( "<pre>{}</pre>".format( json.dumps(res2, indent=4, ensure_ascii=False)))
 
 #def winhotel_liq_params(name, code, source, cash_code, total):
 #    res = f"<br/>"

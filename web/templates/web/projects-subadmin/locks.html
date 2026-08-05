@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% load i18n padword_tags %}
+
+{% block second_menu %}{% get_second_menu request.user %} {% endblock second_menu %}
+
+{% block central_content %} 
+    <div id="locks-content"> 
+        <div class="content mt-3 m-0">
+            <div class="toolbar-content">
+                <h2 class="b-right">{% trans 'Locks' %} (<span id="items-counter">{{items|length}}</span>)</h2>
+                <span class="b-right"><small>{% trans 'Last update:' %} {{items.0.last_update|date:"d-m-Y H:i"}}</small></span>
+                {% include "common-modal.html" %}
+            </div>
+
+            <div class="row mb-3"><div class="col-11 text-end">
+                <a href="{% url "projects-subadmin" %}" class="btn btn-primary">{% trans "Back" %}</a>
+            </div></div>
+
+            <div id="lock-list">{% include "web/projects-subadmin/lock-list.html" %}</div>
+        </div>
+    </div> 
+{% endblock central_content %}

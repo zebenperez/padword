@@ -1,0 +1,69 @@
+{% load i18n padword_tags %}
+
+<h2 class="common-modal-head">{% trans 'Info lock' %}</h2>
+
+<span id="div-notification"></span><br/>
+
+<div class="row">
+    <div class="col-12 d-flex justify-content-end">
+        {% for lang in obj.project.get_languages %}
+            <a class="btn btn-{% is_current_lang lang 'primary' 'secondary'%} ark ms-2 me-2 pointer" data-url="{% url "lock-form" %}" 
+                data-target-modal="common-modal" data-lang="{{lang}}" data-obj_id="{{obj.id}}">{{lang}}</a>
+        {%endfor%}
+    </div>
+</div>
+<div class="row justify-center">
+	<div class="col-sm-3 col-md-3 col-12">
+		<label class="label">{% trans "Alias" %}:</label>
+        <input type="text" class="form-control autosave input mb-4" id="alias" name="alias" value="{% padword_translate obj.alias %}" 
+            title="{{obj.alias}}" data-lang="{% current_lang %}" data-model-name="web.lock" data-obj-id="{{obj.id}}" 
+            data-url="{% url "autosave_field" %}" data-target="div-notification"/> <span id="alias__msg"></span>
+	</div>
+
+	<div class="col-sm-3 col-md-3 col-12">
+		<label class="label">{% trans "Room" %}:</label>
+        <input type="text" class="form-control autosave input mb-4" id="room" name="room" value="{{obj.room}}" title="{{obj.room}}" 
+			data-model-name="web.lock" data-obj-id="{{obj.id}}" data-url="{% url "autosave_field" %}" data-target="div-notification"/>
+			<span id="room__msg"></span>
+	</div>
+
+	<div class="col-sm-2 col-md-2 col-12">
+		<label class="label">{% trans "Deposit Box" %}:</label>
+        <input type="checkbox" class="autosave input mb-4" id="box" name="box" value="{{obj.box}}" 
+			data-model-name="web.lock" data-obj-id="{{obj.id}}" data-url="{% url "autosave_field" %}" data-target="div-notification" 
+            data-bool="True" {%if obj.box%}checked{%endif%}/> <span id="box__msg"></span>
+	</div>
+
+	<div class="col-sm-2 col-md-2 col-12">
+		<label class="label">{% trans "Private" %}:</label>
+        <input type="checkbox" class="autosave input mb-4" id="private" name="private" value="{{obj.private}}" 
+			data-model-name="web.lock" data-obj-id="{{obj.id}}" data-url="{% url "autosave_field" %}" data-target="div-notification" 
+            data-bool="True" {%if obj.private%}checked{%endif%}/> <span id="private__msg"></span>
+	</div>
+
+	<div class="col-sm-2 col-md-2 col-12">
+		<label class="label">{% trans "Predeterminada" %}:</label>
+        <input type="checkbox" class="autosave input mb-4" id="default" name="default" value="{{obj.default}}" 
+			data-model-name="web.lock" data-obj-id="{{obj.id}}" data-url="{% url "autosave_field" %}" data-target="div-notification" 
+            data-bool="True" {%if obj.default%}checked{%endif%}/> <span id="default__msg"></span>
+	</div>
+
+	<div class="col-sm-6 col-md-6 col-12">
+    	<label class="label">{% trans "Project UUID" %}:</label>
+		<input type="text" class="form-control autosave input mb-4" id="project_uuid" name="project_uuid" value="{{obj.project_uuid}}" 
+            title="{{obj.project_uuid}}" data-model-name="web.lock" data-obj-id="{{obj.id}}" data-url="{% url "autosave_field" %}" 
+            data-target="div-notification"/> <span id="project_uuid__msg"></span>
+	</div>
+
+	<div class="col-sm-6 col-md-6 col-12">
+    	<label class="label">{% trans "Group UUID" %}:</label>
+		<input type="text" class="form-control input mb-4 ark_change" id="group_uuid" name="group_uuid" value="{{obj.group_uuid}}" 
+            title="{{obj.group_uuid}}" data-obj_id="{{obj.id}}" data-url="{% url "lock-set-group" %}" 
+            data-target="div-notification"/> <span id="group_uuid__msg"></span>
+	</div>
+</div>
+
+<div class="d-flex justify-content-end p-2">
+    <a class="btn btn-primary m-2" href="{% url "projects-satadmin-locks-by-project" obj.project.id %}"> {% trans "Save" %}</a>
+</div>
+

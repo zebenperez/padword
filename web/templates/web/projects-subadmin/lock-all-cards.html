@@ -1,0 +1,55 @@
+{% load i18n padword_tags lock_tags %}
+
+{% if err and err != "" %} <div class="alert alert-danger">{{err|safe}}</div> {% endif %}
+
+<div class="row p-3 m-0 lock-sticky-top">
+    <div class="d-flex justify-content-end pb-2">
+	    <button type="button" class="btn" data-bs-dismiss="modal" title="{% trans "Close" %}"><i class="fas fa-times"></i> </button>
+    </div>  
+    <div class="col-1 small"><strong>{% trans "Card" %}</strong></div>
+    <div class="col-2">
+        <input type="text" class="form-control sp-search" id="search" placeholder="{% trans "Search for card..." %}" 
+            data-search-class="search-code" data-search-prefix="tr-"/>
+    </div>
+    <div class="col-1 small"><strong>{% trans "Name" %}</strong></div>
+    <div class="col-2">
+        <input type="text" class="form-control sp-search" id="search" placeholder="{% trans "Search for name..." %}" 
+            data-search-class="search-name" data-search-prefix="tr-"/>
+    </div>
+    <div class="col-1 small"><strong>{% trans "Guest" %}</strong></div>
+    <div class="col-2">
+        <input type="text" class="form-control sp-search" id="search" placeholder="{% trans "Search for name..." %}" 
+            data-search-class="search-guest" data-search-prefix="tr-"/>
+    </div>
+    <div class="col-3"> </div>
+</div>
+
+<h2 class="common-modal-head">{% trans 'Card list' %}</h2>
+
+<table class="table table-hover table-striped">
+    <thead>
+        <tr> 
+            <th>{%trans 'Card'%}</th> 
+            <th>{%trans 'Name'%}</th> 
+            <th>{%trans 'Start Date'%}</th> 
+            <th>{%trans 'End Date'%}</th> 
+            <th>{%trans 'Guest'%}</th> 
+            <th>{%trans 'Type'%}</th> 
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for item in obj.get_all_cards %}
+            <tr id="tr-{{item.cardId}}">
+                <td class="search-code" data-id="{{item.cardId}}"> {{item.cardNumber}} ({{item.cardId}})</td> 
+                <td class="search-name" data-id="{{item.cardId}}"> {{item.cardName}}</td> 
+                <td> {{item.startDate|lock_date_to_local:obj}} (Local) <br/>{{item.startDate|str_to_date}} (GMT) </td> 
+                <td> {{item.endDate|lock_date_to_local:obj}} (Local) <br/>{{item.endDate|str_to_date}} (GMT) </td> 
+                <td class="search-guest" data-id="{{item.cardId}}"> {{obj|get_card_guest:item.cardNumber}} </td> 
+                <td> {{item.endDate|get_card_type}} </td> 
+                <td class="text-end"> </td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+

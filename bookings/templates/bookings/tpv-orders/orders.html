@@ -5,7 +5,18 @@
 
 {% block central_content %}
     {% include "bookings/tpv-orders/search_box.html" %}
-
+    
+    <div class="row m-4">
+        {% for item in pos_list %}
+            {% if item.project.winhotel_user != None and item.project.winhotel_user.source_code != "" and item.ext_code != "" %}
+                <div class="col-1">
+                    <a class="btn btn-primary ark" data-url="{% url "winhotel-send-liq" item.project.uuid item.ext_code %}" 
+                        data-target-modal="common-modal"> {%trans "Enviar liquidaciones"%} <br/> {{item.name}}</a>  
+                </div>
+            {% endif %}
+        {% endfor %}
+    </div>
+ 
     <div class="content mt-4">
         <div class="toolbar-content">
             <h2 class="b-right">{% trans 'Tickets' %} (<span id="total-items">{{total_items}}</span>)</h2>

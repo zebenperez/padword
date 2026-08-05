@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% load i18n padword_tags %}
+
+{% block second_menu %}{% get_second_menu request.user %} {% endblock second_menu %}
+
+{% block central_content %}
+
+    <h4>{{project.name}}</h4>
+
+    <div class="row"><div class="col-11 text-end">
+        <a href="{% url "projects-subadmin" %}" class="btn btn-primary">{% trans "Back" %}</a>
+    </div></div>
+    <div class="content">
+        <div class="toolbar-content">
+            <h2 class="b-right">{% trans 'Gateways' %} (<span id="items-counter">{{gateway_list|length}}</span>)</h2>
+            {% include "common-modal.html" %}
+        </div>
+        <div id="lock-list">{% include "web/projects-subadmin/gateway-list.html" %}</div>
+    </div>
+
+{% endblock central_content %}

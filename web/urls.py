@@ -3,6 +3,7 @@
 from django.urls import path
 from . import views, auto_views, room_views, card_views, lock_views, lock_user_views, lock_group_views 
 from . import gateway_views, ekey_views, box_views, lock_cron_views, project_admin_views, project_lock_views, project_manager_views
+from . import project_subadmin_views, project_satadmin_views
 
 urlpatterns = [ 
     #path('index/<slug:chk>/', views.index, name='web-index-new'),
@@ -82,8 +83,37 @@ urlpatterns = [
     path('projects-admin/', project_admin_views.projects, name='projects-admin'),
     path('projects-admin/search/', project_admin_views.projects_search, name='projects-admin-search'),
     path('projects-admin/details/<int:obj_id>/', project_admin_views.projects_details, name='projects-admin-details'),
-    path('projects-admin/user-refresh-token/', project_admin_views.project_user_refresh_token, name='project-admin-user-refresh-token'),
+    path('projects-admin/user-refresh-token/', project_admin_views.project_user_refresh_token,name='project-admin-user-refresh-token'),
  
+    #--------------------- Projects SubAdmin--------------------
+    path('projects-subadmin/', project_subadmin_views.projects, name='projects-subadmin'),
+    path('projects-subadmin/search/', project_subadmin_views.projects_search, name='projects-subadmin-search'),
+    path('projects-subadmin/details/<int:obj_id>/', project_subadmin_views.projects_details, name='projects-subadmin-details'),
+    path('projects-subadmin/user-token/', project_subadmin_views.project_user_token, name='project-subadmin-user-token'),
+    path('projects-subadmin/user-refresh-token/', project_subadmin_views.project_user_refresh_token, name='project-subadmin-user-refresh-token'),
+    path('projects-subadmin/locks-by-project/<int:project_id>/', project_subadmin_views.locks_by_project, name='projects-subadmin-locks-by-project'),
+    path('projects-subadmin/locks-update-params/', project_subadmin_views.lock_update_params, name='projects-subadmin-locks-update-params'),
+    path('projects-subadmin/locks-get-all-passcodes/', project_subadmin_views.lock_get_all_passcodes, name='projects-subadmin-locks-get-all-passcodes'),
+    path('projects-subadmin/locks-get-all-cards/', project_subadmin_views.lock_get_all_cards, name='projects-subadmin-locks-get-all-cards'),
+    path('projects-subadmin/locks-get-all-records/', project_subadmin_views.lock_get_all_records, name='projects-subadmin-locks-get-all-records'),
+    path('projects-subadmin/locks/form/', project_subadmin_views.lock_form, name='projects-subadmin-lock-form'),
+    path('projects-subadmin/gateways-by-project/<int:project_id>/', project_subadmin_views.gateways_by_project, name='projects-subadmin-gateways-by-project'),
+
+    #--------------------- Projects SatAdmin--------------------
+    path('projects-satadmin/', project_satadmin_views.projects, name='projects-satadmin'),
+    path('projects-satadmin/search/', project_satadmin_views.projects_search, name='projects-satadmin-search'),
+    path('projects-satadmin/details/<int:obj_id>/', project_satadmin_views.projects_details, name='projects-satadmin-details'),
+    #path('projects-satadmin/user-token/', project_satadmin_views.project_user_token, name='project-satadmin-user-token'),
+    path('projects-satadmin/user-refresh-token/', project_satadmin_views.project_user_refresh_token, name='project-satadmin-user-refresh-token'),
+    path('projects-satadmin/locks-by-project/<int:project_id>/', project_satadmin_views.locks_by_project, name='projects-satadmin-locks-by-project'),
+    path('projects-satadmin/locks-update-params/', project_satadmin_views.lock_update_params, name='projects-satadmin-locks-update-params'),
+    path('projects-satadmin/locks-get-all-passcodes/', project_satadmin_views.lock_get_all_passcodes, name='projects-satadmin-locks-get-all-passcodes'),
+    path('projects-satadmin/locks-get-all-cards/', project_satadmin_views.lock_get_all_cards, name='projects-satadmin-locks-get-all-cards'),
+    path('projects-satadmin/locks-get-all-records/', project_satadmin_views.lock_get_all_records, name='projects-satadmin-locks-get-all-records'),
+    path('projects-satadmin/locks/form/', project_satadmin_views.lock_form, name='projects-satadmin-lock-form'),
+    path('projects-satadmin/gateways-by-project/<int:project_id>/', project_satadmin_views.gateways_by_project, name='projects-satadmin-gateways-by-project'),
+
+
     #--------------------- Projects Manager--------------------
     path('projects-manager/', project_manager_views.projects, name='projects-manager'),
     path('projects-manager/search/', project_manager_views.projects_search, name='projects-manager-search'),

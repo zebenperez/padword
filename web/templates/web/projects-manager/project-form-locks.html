@@ -53,5 +53,23 @@
     </div>
 </div>
 
+<div class="row justify-center m-0 p-0">
+    <div class="col-12 d-flex justify-content-end">
+        {% for lang in obj.get_languages %}
+            <a class="btn btn-{% is_current_lang lang 'primary' 'secondary'%} ms-2 me-2 pointer" 
+                href="{% url "projects-manager-details" obj.id %}?lang={{lang}}"> {{lang}}</a>
+        {%endfor%}
+    </div>
+
+    <div class="col-12">
+        <label class="label">{% trans "Text to share" %}:</label>
+        <textarea class="form-control autosave input mb-4" id="text_to_share" name="text_to_share" rows="10" 
+            data-lang="{% current_lang %}" title="{{user_lock.text_to_share}}" data-model-name="web.projectlockuser" 
+            data-obj-id="{{user_lock.id}}" data-url="{% url "autosave_field" %}" data-target="div-notification">
+            {% padword_translate user_lock.text_to_share %}</textarea> <span id="lock_username__msg"></span>	
+    </div>
+</div>
+
+
 
 

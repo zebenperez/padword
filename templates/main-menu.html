@@ -268,6 +268,12 @@
     {% elif menu == "project_admin" %}
         <li class="nav-item"><a class="nav-link {%if active == "projects"%}active{%endif%}" href="{% url "projects-admin" %}">
             <i class="far fa-folder-open"></i> {% trans "Projects" %} </a> </li>
+    {% elif menu == "project_subadmin" %}
+        <li class="nav-item"><a class="nav-link {%if active == "projects"%}active{%endif%}" href="{% url "projects-subadmin" %}">
+            <i class="far fa-folder-open"></i> {% trans "Projects" %} </a> </li>
+    {% elif menu == "project_satadmin" %}
+        <li class="nav-item"><a class="nav-link {%if active == "projects"%}active{%endif%}" href="{% url "projects-satadmin" %}">
+            <i class="far fa-folder-open"></i> {% trans "Projects" %} </a> </li>
     {% elif menu == "project_manager" %}
         <li class="nav-item"><a class="nav-link {%if active == "projects"%}active{%endif%}" href="{% url "projects-manager" %}">
             <i class="far fa-folder-open"></i> {% trans "Projects" %} </a> </li>

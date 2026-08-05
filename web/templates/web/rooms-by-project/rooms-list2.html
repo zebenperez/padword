@@ -13,7 +13,7 @@
                 <span id="total-cards-{{group_name}}" class="d-flex flex-wrap pl-2"></span>
            </div>
         </div>
-        {% if rooms.1 > 5 %}
+        {% if rooms.1 > 6 %}
             <button class="btn btn-border-info ark" data-url="{% url "rooms2-get-all-cards" %}" 
                 data-target="total-cards-{{group_name}}" data-project_uuid="{{project.uuid}}" data-group="{{group_name}}" 
                 onclick="$(this).hide();"> {% trans "Ver mas" %}</button>

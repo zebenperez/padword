@@ -104,7 +104,8 @@ class Mews():
                     },
                     "States": [state]
             }
-            #print(params)
+            print(_url_request)
+            print(params)
             dic = self.__send_post_request__(_url_request, params).json()
             items = dic["Reservations"]
             return items
@@ -288,8 +289,10 @@ def get_booking_list(pmu):
     i = 0
     write_log("--- GET BOOKING LIST")
     for item in result:
-        print("--1--")
+        #print("--1--")
         print(item)
+        write_log("------------------------------------------------------")
+        write_log("SIGUIENTE RESERVA:")
         write_log(item)
         i += 1
         node = MewsBooking(item)
