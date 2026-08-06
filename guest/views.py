@@ -114,8 +114,10 @@ def guests(request):
             end_date = datetime.datetime.now() + datetime.timedelta(days=7)
             request.session["gs_end_date"] = end_date.strftime('%Y-%m-%d')
            
-        items, total_count = get_guest_items(request)
+        #items, total_count = get_guest_items(request)
         #total_count = items.count()
+        items = []
+        total_count = 0
 
         project_list = Project.objects.filter(active=1).order_by('name')
         context = {
