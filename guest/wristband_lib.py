@@ -21,10 +21,9 @@ def close_band_by_regime_and_soft_remove(project, start_date, end_date):
     t0 = time.time()
     try:
         guest_list = Guest.objects.filter(project_id=project.uuid, deleted=0, check_out__range=(start_date,end_date))
-        msg = ""
         for guest in guest_list:
             t1 = time.time()
-            msg += "Deleting guest: {} {}\n".format(guest.name, guest.surname)
+            msg = "Deleting guest: {} {}\n".format(guest.name, guest.surname)
             band_list = []
             for band in guest.bands.all():
                 msg += "Deleting band: {} {}\n".format(band.name, band.code)
@@ -34,9 +33,9 @@ def close_band_by_regime_and_soft_remove(project, start_date, end_date):
             GuestUser.delete_by_guest(guest.UUID)
             msg += guest.delete_soft()
             resp.append({'guest': f"{guest.name} {guest.surname}", 'bands': band_list})
-            write_log(project.uuid, f"{msg}")
             t2 = time.time()
-            write_log(project.uuid, f" ---> Tiempo borrado reserva: {t2-t1}")
+            msg += f" ---> Tiempo borrado reserva: {t2-t1}"
+            write_log(project.uuid, f"{msg}")
     except Exception as e:
         print(e)
         write_log(project.uuid, f"{e}")
