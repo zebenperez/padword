@@ -427,16 +427,9 @@ class GuestViewSet(viewsets.ModelViewSet):
             if end_date == "":
                 end_date = datetime.combine(today, time.max)
  
-            #code = request.GET.get("code", "").replace("/", "")                 #req
-            #if code == "":
-            #    logger.error("[{}]: \"Code field is required!\"".format(self.request.user))
-            #    return Response({"error": True, 'msg': 'Code field is required!'})
-
-            #close_band_by_regime_and_soft_remove(pu.project, code)
             resp = close_band_by_regime_and_soft_remove(pu.project, start_date.replace("_"," "), end_date.replace("_"," "))
             logger.info("[{}]: \"Bands closed {}-{}\"".format(self.request.user, start_date, end_date))
             return Response(data={'error': 'false', 'guests_closed': resp}, status=status.HTTP_201_CREATED)
-            #return Response(data={'error': 'false', 'msg': "Bands closed successfully!"}, status=status.HTTP_201_CREATED)
         except Exception as e:
             logger.error("[{}]: \"{}\"".format(self.request.user, str(e)))
             return Response(data={'error': 'true', 'msg': "Bad request!"}, status=status.HTTP_400_BAD_REQUEST)
