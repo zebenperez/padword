@@ -65,8 +65,9 @@
         <label class="label">{% trans "Text to share" %}:</label>
         <textarea class="form-control autosave input mb-4" id="text_to_share" name="text_to_share" rows="10" 
             data-lang="{% current_lang %}" title="{{user_lock.text_to_share}}" data-model-name="web.projectlockuser" 
-            data-obj-id="{{user_lock.id}}" data-url="{% url "autosave_field" %}" data-target="div-notification">
-            {% padword_translate user_lock.text_to_share %}</textarea> <span id="lock_username__msg"></span>	
+            data-obj-id="{{user_lock.id}}" data-url="{% url "autosave_field" %}" 
+            data-target="div-notification">{% padword_translate user_lock.text_to_share %}</textarea> 
+        <span id="lock_username__msg"></span>	
     </div>
 </div>
 

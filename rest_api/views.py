@@ -374,6 +374,13 @@ class GuestViewSet(viewsets.ModelViewSet):
                     return Response({"error": True, 'msg': 'User type not found!'})
                 guest_type = gt.uuid 
 
+            b_code = reverse_cardkey(band_code)
+            if band_code != "":
+                band = Wristband.objects.filter(code=b_code).first()
+                if band != None:
+                    logger.error("[{}]: \"Band {} assignated to another user!\"".format(self.request.user, band_code))
+                    return Response({"error": True, 'msg': f'Band {band_code} assignated to another user!'})
+
             c_out = datetime.strptime(check_out, "%Y-%m-%d %H:%M:%S") if check_out != "" else get_today_end()
             c_in = pu.project.local_date(datetime.now()).strftime("%Y-%m-%d %H:%M:%S")
             data = { 
@@ -391,18 +398,11 @@ class GuestViewSet(viewsets.ModelViewSet):
             gr, created = GuestRegime.objects.get_or_create(regime=reg, guest=guest)
             logger.info("[{}]: \"Guest Regime {} created\"".format(self.request.user, guest.name))
 
-            if band_code != "":
-                b_code = reverse_cardkey(band_code)
-                band = Wristband.objects.filter(code=b_code).first()
-                if band != None:
-                    logger.error("[{}]: \"Band assignated to another user!\"".format(self.request.user))
-                    return Response({"error": True, 'msg': 'Band assignated to another user!'})
-
-                #bt = WristbandType.objects.filter(code="03").first()
-                bt = WristbandType.objects.filter(code=band_type).first() if band_type != "" else None
-                datab = {"code": b_code, "name": name, "guest": guest, "type": bt}
-                band = Wristband.objects.create(**datab)
-                logger.info("[{}]: \"Band {}: {} (reverse: {})created\"".format(self.request.user, guest.name, band_code, b_code))
+            #bt = WristbandType.objects.filter(code="03").first()
+            bt = WristbandType.objects.filter(code=band_type).first() if band_type != "" else None
+            datab = {"code": b_code, "name": name, "guest": guest, "type": bt}
+            band = Wristband.objects.create(**datab)
+            logger.info("[{}]: \"Band {}: {} (reverse: {})created\"".format(self.request.user, guest.name, band_code, b_code))
 
             return Response(data={'error': 'false', 'msg': "Band added successfully!"}, status=status.HTTP_201_CREATED)
         except Exception as e:

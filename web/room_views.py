@@ -95,7 +95,7 @@ def room_remove(request):
     #return render (request, "web/rooms/rooms-list.html", {'list_rooms':list_rooms})
     return render (request, "web/rooms/rooms-list.html", {'list_projects': get_projects(request)})
 
-@group_required("admins")
+@group_required("admins", "project_manager")
 def room_set_group(request):
     try:
         obj = get_or_none(Room, request.GET["obj_id"])
@@ -447,10 +447,10 @@ def rooms2_get_all_cards(request):
 
     if group_name != "-":
         group = LockGroup.objects.filter(project_uuid=project_uuid, name=group_name).first()
-        r_list = Room.objects.filter(project_uuid=project_uuid, lock_group_uuid=group.uuid)[5:]
+        r_list = Room.objects.filter(project_uuid=project_uuid, lock_group_uuid=group.uuid)[6:]
     else:
-        r_list = Room.objects.filter(project_uuid=project_uuid, lock_group_uuid="")[5:]
-        print(r_list)
+        r_list = Room.objects.filter(project_uuid=project_uuid, lock_group_uuid="")[6:]
+        #print(r_list)
     return render (request, "web/rooms-by-project/rooms-list2-cards.html", {"room_list": r_list,})
 
 @group_required("admins", "projects")

@@ -36,7 +36,7 @@ def projects_search(request):
         name = get_param(request.GET, "s-name")
         kwargs = {'manager': request.user}
         if name != "":
-            kwargs["name_icontains"] = name
+            kwargs["name__icontains"] = name
         items = Project.objects.filter(**kwargs)
         return render(request, "web/projects-manager/project-list.html", {'items': items,})
     except Exception as e:
@@ -204,6 +204,15 @@ def rooms_form(request):
         group_list = LockGroup.objects.filter(project_uuid = project.uuid)
         context = {'project': project, 'obj':obj, 'uuid':uuid, 'group_list':group_list}
         return render(request, "web/projects-manager/rooms-form.html", context)
+    except Exception as e:
+        print(e)
+        return render(request, 'error_exception.html', {'exc':show_exc(e)})
+
+@group_required("project_manager")
+def rooms_update(request):
+    try:
+        obj = get_or_none(Room, get_param(request.GET, "obj_id")) 
+        return render(request, "web/projects-manager/rooms-card.html", {"item": obj})
     except Exception as e:
         print(e)
         return render(request, 'error_exception.html', {'exc':show_exc(e)})

@@ -130,6 +130,7 @@ urlpatterns = [
     path('projects-manager/rooms/project-<slug:project_uuid>/', project_manager_views.rooms, name='projects-manager-rooms'),
     path('projects-manager/rooms/search/', project_manager_views.rooms_search, name='projects-manager-rooms-search'),
     path('projects-manager/rooms/form/', project_manager_views.rooms_form, name='projects-manager-rooms-form'),
+    path('projects-manager/rooms/update/', project_manager_views.rooms_update, name='projects-manager-rooms-update'),
     path('projects-manager/rooms/remove/', project_manager_views.rooms_remove, name='projects-manager-rooms-remove'),
     path('projects-manager/rooms/multiple/', project_manager_views.rooms_multiple, name='projects-manager-rooms-multiple'),
     path('projects-manager/rooms/multiple-save/', project_manager_views.rooms_multiple_save, name='projects-manager-rooms-multiple-save'),

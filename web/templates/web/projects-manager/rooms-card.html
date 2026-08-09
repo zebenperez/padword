@@ -1,6 +1,5 @@
 {% load i18n padword_tags rooms_tags %}
 
-<div class="col-2">
     <div class="card ark" data-url="{%url "projects-manager-rooms-form"%}" data-target-modal="common-modal" data-obj_id="{{item.id}}" 
         data-project="{{item.project_uuid}}">
         <div class="row lock-box">
@@ -24,6 +23,5 @@
             data-confirm="{%trans "Are you sure to remove this element?"%}" title="{%trans "Delete" %}">
             <i class="far fa-window-close"></i> {% trans "Remove" %}</a>
     </div>
-</div>
 
 
