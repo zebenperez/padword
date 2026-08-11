@@ -385,7 +385,8 @@ class GuestViewSet(viewsets.ModelViewSet):
             if check_out != "":
                 c_out = datetime.strptime(check_out, "%Y-%m-%d %H:%M:%S")
             else:
-                c_out = get_today_end() + datetime.timedelta(hours=1, seconds=1)
+                c_out = get_today_end() 
+                c_out = (c_out + timedelta(days=1)).replace(hour=1, minute=0, second=0, microsecond=0)
             c_in = pu.project.local_date(datetime.now()).strftime("%Y-%m-%d %H:%M:%S")
             data = { 
                 "UUID": new_ui_slug(Guest, "UUID"), 
