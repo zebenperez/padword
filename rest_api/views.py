@@ -425,7 +425,8 @@ class GuestViewSet(viewsets.ModelViewSet):
             if start_date == "":
                 start_date = datetime.combine(today, time.min)
             if end_date == "":
-                end_date = datetime.combine(today, time.max)
+                end_date = datetime.combine(today + timedelta(days=1), time(hour=1))
+                #end_date = datetime.combine(today, time.max)
  
             resp = close_band_by_regime_and_soft_remove(pu.project, start_date.replace("_"," "), end_date.replace("_"," "))
             logger.info("[{}]: \"Bands closed {}-{}\"".format(self.request.user, start_date, end_date))
