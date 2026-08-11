@@ -381,7 +381,11 @@ class GuestViewSet(viewsets.ModelViewSet):
                     logger.error("[{}]: \"Band {} assignated to another user!\"".format(self.request.user, band_code))
                     return Response({"error": True, 'msg': f'Band {band_code} assignated to another user!'})
 
-            c_out = datetime.strptime(check_out, "%Y-%m-%d %H:%M:%S") if check_out != "" else get_today_end()
+            #c_out = datetime.strptime(check_out, "%Y-%m-%d %H:%M:%S") if check_out != "" else get_today_end()
+            if check_out != "":
+                c_out = datetime.strptime(check_out, "%Y-%m-%d %H:%M:%S")
+            else:
+                c_out = get_today_end() + datetime.timedelta(hours=1, seconds=1)
             c_in = pu.project.local_date(datetime.now()).strftime("%Y-%m-%d %H:%M:%S")
             data = { 
                 "UUID": new_ui_slug(Guest, "UUID"), 
@@ -425,8 +429,8 @@ class GuestViewSet(viewsets.ModelViewSet):
             if start_date == "":
                 start_date = datetime.combine(today, time.min)
             if end_date == "":
-                end_date = datetime.combine(today + timedelta(days=1), time(hour=1))
-                #end_date = datetime.combine(today, time.max)
+                end_date = datetime.combine(today, time.max)
+                #end_date = datetime.combine(today + timedelta(days=1), time(hour=1))
  
             resp = close_band_by_regime_and_soft_remove(pu.project, start_date.replace("_"," "), end_date.replace("_"," "))
             logger.info("[{}]: \"Bands closed {}-{}\"".format(self.request.user, start_date, end_date))
