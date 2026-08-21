@@ -59,14 +59,20 @@ def totem_start(request):
 
 def totem_check_band(request):
     try:
-        print(request.GET)
+        #print(request.GET)
         project = get_or_none(Project, get_param(request.GET, "project"), "uuid")
         val = get_param(request.GET, "value", "")
         band = Wristband.get_active_by_project(project, reverse_cardkey(val))
         tcod = request.session["code"] if "code" in request.session else ""
         band_err = ""
+
+        #FIXME: traza para eliminar
+        now = project.local_date(timezone.now())
+        now = now.strftime("%Y-%m-%d %H:%M:%S")
+        logger.info(f"[totem_check_band] Hora de la consulta: {now} - Valor leído: {val} - Pulsera encontrada: {band}")
         #print(f"--> Lectura de pulsera: {val}")
         #print(f"--> Pulsera: {band}")
+
         if band == None:
             band_err = _("¡Pulsera no encontrada!")
         elif band.guest == None:
