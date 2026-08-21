@@ -12,7 +12,11 @@ from web.models import Channel, Project, Room
 from web.models_lock import Lock
 from sensibo.models import SensiboDevice as AdminSensiboDevice
 
-import datetime, pytz, time
+import datetime, pytz, time, uuid
+
+
+def new_background_job_uuid():
+    return str(uuid.uuid4())
 
 
 class Guest(models.Model):
@@ -939,4 +943,45 @@ class GuestCar(models.Model):
     class Meta:
         verbose_name = _('Guest Car')
 
+
+class BackgroundJob(models.Model):
+    TYPE_CLOSE_BANDS = 'close_bands'
+
+    STATUS_PENDING = 'pending'
+    STATUS_RUNNING = 'running'
+    STATUS_SUCCESS = 'success'
+    STATUS_ERROR = 'error'
+
+    JOB_TYPES = (
+        (TYPE_CLOSE_BANDS, 'Close bands'),
+    )
+
+    STATUSES = (
+        (STATUS_PENDING, 'Pending'),
+        (STATUS_RUNNING, 'Running'),
+        (STATUS_SUCCESS, 'Success'),
+        (STATUS_ERROR, 'Error'),
+    )
+
+    uuid = models.CharField(max_length=36, verbose_name='UUID', default=new_background_job_uuid, unique=True, db_index=True)
+    job_type = models.CharField(max_length=50, verbose_name='Job type', choices=JOB_TYPES)
+    status = models.CharField(max_length=20, verbose_name='Status', choices=STATUSES, default=STATUS_PENDING, db_index=True)
+    project_uuid = models.CharField(max_length=255, verbose_name='Project UUID', default='', db_index=True)
+    username = models.CharField(max_length=255, verbose_name='Username', default='', blank=True)
+    params = models.JSONField(verbose_name='Params', default=dict, blank=True)
+    result = models.JSONField(verbose_name='Result', default=dict, blank=True)
+    error_message = models.TextField(verbose_name='Error message', default='', blank=True)
+    attempts = models.PositiveIntegerField(verbose_name='Attempts', default=0)
+    started_at = models.DateTimeField(verbose_name='Started at', null=True, blank=True)
+    finished_at = models.DateTimeField(verbose_name='Finished at', null=True, blank=True)
+    created_at = models.DateTimeField(verbose_name='Created at', auto_now_add=True)
+    updated_at = models.DateTimeField(verbose_name='Updated at', auto_now=True)
+
+    class Meta:
+        verbose_name = _('Background job')
+        verbose_name_plural = _('Background jobs')
+        ordering = ['-created_at']
+
+    def __str__(self):
+        return '{} {} {}'.format(self.id, self.job_type, self.status)
 

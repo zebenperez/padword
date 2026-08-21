@@ -10,6 +10,14 @@ from .models import Guest
 import datetime, pytz, time, re
 
 
+def get_aware_datetime(value):
+    if value is None or not isinstance(value, datetime.datetime):
+        return value
+    if timezone.is_naive(value):
+        return timezone.make_aware(value, timezone.get_current_timezone())
+    return value
+
+
 class WristbandType(models.Model):
     code = models.CharField(max_length=50, verbose_name=_("Code"), default="", blank=True)
     name = models.CharField(max_length=255, verbose_name=_("Name"), default="", blank=True)
@@ -56,7 +64,7 @@ class Wristband(models.Model):
     def update_backup_balance(self, wbb):
         wbb.balances.all().delete()
         for item in self.balances.all():
-            WristbandBackupBalance.objects.create(date=item.date, amount=item.amount, desc=item.desc, wristband=wbb)
+            WristbandBackupBalance.objects.create(date=get_aware_datetime(item.date), amount=item.amount, desc=item.desc, wristband=wbb)
 
     def make_close(self):
         wbb = self.get_or_create_backup()
@@ -68,8 +76,8 @@ class Wristband(models.Model):
         wbb.guest_mobile = self.guest.mobile
         wbb.guest_email = self.guest.email
         wbb.guest_room = self.guest.room
-        wbb.check_in = self.guest.check_in
-        wbb.check_out = self.guest.check_out
+        wbb.check_in = get_aware_datetime(self.guest.check_in)
+        wbb.check_out = get_aware_datetime(self.guest.check_out)
         if self.type != None:
             wbb.type = self.type.name
         wbb.save()
@@ -86,8 +94,8 @@ class Wristband(models.Model):
         wbb.guest_mobile = self.guest.mobile
         wbb.guest_email = self.guest.email
         wbb.guest_room = self.guest.room
-        wbb.check_in = self.guest.check_in
-        wbb.check_out = self.guest.check_out
+        wbb.check_in = get_aware_datetime(self.guest.check_in)
+        wbb.check_out = get_aware_datetime(self.guest.check_out)
         if self.type != None:
             wbb.type = self.type.name
         wbb.save()
@@ -251,9 +259,9 @@ class WristbandBackup(models.Model):
     guest_mobile = models.CharField(max_length=255, verbose_name=_('Guest mobile'), default="")
     guest_email = models.CharField(max_length=255, verbose_name=_('Guest email'), default="")
     guest_room = models.CharField(max_length=255, verbose_name=_('Guest room'), default="")
-    date = models.DateTimeField(verbose_name='Date', default=datetime.datetime.now)
-    check_in = models.DateTimeField(verbose_name='Check-In', default=datetime.datetime.now)
-    check_out = models.DateTimeField(verbose_name='Check-Out', default=datetime.datetime.now)
+    date = models.DateTimeField(verbose_name='Date', default=timezone.now)
+    check_in = models.DateTimeField(verbose_name='Check-In', default=timezone.now)
+    check_out = models.DateTimeField(verbose_name='Check-Out', default=timezone.now)
     type = models.CharField(max_length=255, verbose_name=_('Name'), default="")
 
     @property
@@ -269,7 +277,7 @@ class WristbandBackup(models.Model):
         verbose_name_plural = _("Wristbands backups")
 
 class WristbandBackupBalance(models.Model):
-    date = models.DateTimeField(verbose_name=_('Date'), default=datetime.datetime.now)
+    date = models.DateTimeField(verbose_name=_('Date'), default=timezone.now)
     amount = models.FloatField(verbose_name=_('Amount'), default=0)
     desc = models.TextField(verbose_name=_("Description"), default="", blank=True)
     wristband = models.ForeignKey(WristbandBackup, verbose_name=_("Wristband"), on_delete=models.CASCADE, blank=True, null=True, related_name="balances")
@@ -277,7 +285,6 @@ class WristbandBackupBalance(models.Model):
     class Meta:
         verbose_name = _("Wristband backup balance")
         verbose_name_plural = _("Wristbands backup balance")
-
 
 
 
