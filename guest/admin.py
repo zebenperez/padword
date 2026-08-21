@@ -25,6 +25,12 @@ class WristbandAccessZoneAdmin(admin.ModelAdmin):
 class WristbandTypeAdmin(admin.ModelAdmin):
     list_display = ('code', 'name')
 
+class BackgroundJobAdmin(admin.ModelAdmin):
+    list_display = ('id', 'job_type', 'status', 'project_uuid', 'username', 'attempts', 'created_at', 'started_at', 'finished_at')
+    list_filter = ('job_type', 'status')
+    search_fields = ('uuid', 'project_uuid', 'username')
+    readonly_fields = ('uuid', 'created_at', 'updated_at', 'started_at', 'finished_at')
+
 admin.site.register(Regime, RegimeAdmin)
 admin.site.register(ProjectRegime, ProjectRegimeAdmin)
 admin.site.register(Wristband, WristbandAdmin)
@@ -32,3 +38,4 @@ admin.site.register(WristbandAccess, WristbandAccessAdmin)
 admin.site.register(WristbandAccessPoint, WristbandAccessPointAdmin)
 admin.site.register(WristbandAccessZone, WristbandAccessZoneAdmin)
 admin.site.register(WristbandType, WristbandTypeAdmin)
+admin.site.register(BackgroundJob, BackgroundJobAdmin)

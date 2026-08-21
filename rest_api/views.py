@@ -7,7 +7,8 @@ from django.urls import reverse
 
 from .models_serializers import GuestSerializer, LockSerializer, RoomSerializer, GuestCarSerializer, WristbandAccessSerializer
 
-from guest.models import Guest, GuestCar, Regime, GuestRegime, GuestType
+from guest.models import BackgroundJob, Guest, GuestCar, Regime, GuestRegime, GuestType
+from guest.background_jobs import create_close_bands_job
 from guest.wristband_models import Wristband, WristbandAccess, WristbandAccessPoint, WristbandAccessZone, WristbandType
 from bookings.models import GuestUser, Form
 #from web.models import ProjectUser, Lock, Room
@@ -436,6 +437,83 @@ class GuestViewSet(viewsets.ModelViewSet):
             resp = close_band_by_regime_and_soft_remove(pu.project, start_date.replace("_"," "), end_date.replace("_"," "))
             logger.info("[{}]: \"Bands closed {}-{}\"".format(self.request.user, start_date, end_date))
             return Response(data={'error': 'false', 'guests_closed': resp}, status=status.HTTP_201_CREATED)
+        except Exception as e:
+            logger.error("[{}]: \"{}\"".format(self.request.user, str(e)))
+            return Response(data={'error': 'true', 'msg': "Bad request!"}, status=status.HTTP_400_BAD_REQUEST)
+
+    @action(detail=False, methods=['post'])
+    def close_bands_async(self, request):
+        try:
+            pu = ProjectUser.objects.get(username=self.request.user.username)
+            if pu == None or pu.project == None:
+                logger.error("[{}]: \"Permission denied!\"".format(self.request.user))
+                return Response({"error": True, 'msg': 'Permission denied!'})
+
+            start_date = request.data.get('start_date', "")
+            end_date = request.data.get('end_date', "")
+
+            job = create_close_bands_job(
+                pu.project,
+                self.request.user.username,
+                start_date,
+                end_date,
+            )
+            logger.info("[{}]: \"Close bands job {} created\"".format(self.request.user, job.id))
+            return Response(
+                data={
+                    'error': 'false',
+                    'msg': 'Job created',
+                    'job_id': job.id,
+                    'job_uuid': job.uuid,
+                    'status': job.status,
+                },
+                status=status.HTTP_202_ACCEPTED,
+            )
+        except ValueError as e:
+            logger.error("[{}]: \"{}\"".format(self.request.user, str(e)))
+            return Response(data={'error': 'true', 'msg': str(e)}, status=status.HTTP_400_BAD_REQUEST)
+        except Exception as e:
+            logger.error("[{}]: \"{}\"".format(self.request.user, str(e)))
+            return Response(data={'error': 'true', 'msg': "Bad request!"}, status=status.HTTP_400_BAD_REQUEST)
+
+    @action(detail=False, methods=['get'])
+    def background_job_status(self, request):
+        try:
+            pu = ProjectUser.objects.get(username=self.request.user.username)
+            if pu == None or pu.project == None:
+                logger.error("[{}]: \"Permission denied!\"".format(self.request.user))
+                return Response({"error": True, 'msg': 'Permission denied!'})
+
+            job_id = request.GET.get('job_id', "")
+            if job_id == "":
+                return Response(data={'error': 'true', 'msg': "job_id is required!"}, status=status.HTTP_400_BAD_REQUEST)
+
+            jobs = BackgroundJob.objects.filter(project_uuid=pu.project_uuid)
+            if job_id.isdigit():
+                job = jobs.filter(id=int(job_id)).first()
+            else:
+                job = jobs.filter(uuid=job_id).first()
+
+            if job == None:
+                return Response(data={'error': 'true', 'msg': "Job not found!"}, status=status.HTTP_404_NOT_FOUND)
+
+            return Response(
+                data={
+                    'error': 'false',
+                    'job_id': job.id,
+                    'job_uuid': job.uuid,
+                    'job_type': job.job_type,
+                    'status': job.status,
+                    'params': job.params,
+                    'result': job.result,
+                    'error_message': job.error_message,
+                    'attempts': job.attempts,
+                    'created_at': job.created_at,
+                    'started_at': job.started_at,
+                    'finished_at': job.finished_at,
+                },
+                status=status.HTTP_200_OK,
+            )
         except Exception as e:
             logger.error("[{}]: \"{}\"".format(self.request.user, str(e)))
             return Response(data={'error': 'true', 'msg': "Bad request!"}, status=status.HTTP_400_BAD_REQUEST)
@@ -1309,5 +1387,4 @@ class AccessZoneViewSet(viewsets.ViewSet):
         except Exception as e:
             logger.error("[{}]: \"{}\"".format(self.request.user, str(e)))
             return Response({"error": True, 'msg': 'Bad request!'})
-
 
