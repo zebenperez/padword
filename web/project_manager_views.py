@@ -172,6 +172,8 @@ def get_rooms(request):
         item_list[group.name] = Room.objects.filter(**kwargs)
 
     kwargs = {'project_uuid': project_uuid}
+    # A room already assigned to a lock group must not also be shown as ungrouped.
+    kwargs['lock_group_uuid'] = ""
     if name != "":
         kwargs['alias__icontains'] = name
     item_list["Sin grupo"] = Room.objects.filter(**kwargs)
@@ -211,8 +213,9 @@ def rooms_form(request):
 @group_required("project_manager")
 def rooms_update(request):
     try:
-        obj = get_or_none(Room, get_param(request.GET, "obj_id")) 
-        return render(request, "web/projects-manager/rooms-card.html", {"item": obj})
+        # A room may have moved to another group, so its original card container
+        # is no longer necessarily the right place to render the response.
+        return render(request, "web/projects-manager/rooms-list.html", {"item_list": get_rooms(request)})
     except Exception as e:
         print(e)
         return render(request, 'error_exception.html', {'exc':show_exc(e)})
@@ -257,6 +260,4 @@ def rooms_multiple_save(request):
     except Exception as e:
         print(e)
         return render(request, 'error_exception.html', {'exc':show_exc(e)})
-
-
 

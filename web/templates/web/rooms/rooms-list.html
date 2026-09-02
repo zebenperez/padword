@@ -4,24 +4,18 @@
     <div class="row m-0 p-2 align-items-center"> 
         <div class="col-lg-1 col-2"><h2 class="m-0">{% trans 'Rooms' %} </h2> {% include "common-modal.html" %}</div>
         <div class="col-lg-6 col-5">
-                <input type="text" class="autosearch form-control form-control-dark w-100 input-blue" name="project_search_name" id="project_search_name" 
-                    placeholder="{% trans 'Project Name' %}" data-url="{% url "rooms-search" %}" data-target="room-list"
-                    data-related="project_search_name,room_search_name" value="{{request.session.project_search_name}}"/>
+            <input type="text" class="autosearch form-control form-control-dark w-100 input-blue" name="project_search_name" 
+                id="project_search_name" placeholder="{% trans 'Project Name' %}" data-url="{% url "rooms-search" %}" 
+                data-target="room-list" data-related="project_search_name,room_search_name" 
+                value="{{request.session.project_search_name}}"/>
         </div>
         <div class="col-lg-5 col-5">
-                <input type="text" class="autosearch form-control form-control-dark w-100 input-blue" name="room_search_name" id="room_search_name" 
-                    placeholder="{% trans 'Room Name' %}" data-url="{% url "rooms-search" %}" data-target="room-list" 
-                    data-related="project_search_name,room_search_name" value="{{request.session.room_search_name}}"/>
+            <input type="text" class="autosearch form-control form-control-dark w-100 input-blue" name="room_search_name" 
+                id="room_search_name" placeholder="{%trans 'Room Name'%}" data-url="{%url "rooms-search"%}" data-target="room-list" 
+                data-related="project_search_name,room_search_name" value="{{request.session.room_search_name}}"/>
         </div>
     </div>
 
-    {%comment%}
-    {% for row in list_rooms %}
-        {% with items=row.1 project=row.0 %}
-            <div id="room-list-{{project.uuid}}" class="mb-2">{% include "web/rooms/rooms-list-details.html" with project=project items=items %}</div>
-        {% endwith %}
-    {%endfor%}
-    {%endcomment%}
     {% for project in list_projects %}
         <div id="room-list-{{project.uuid}}" class="mb-2">{% room_group_list project request.session.room_search_name %}</div>
     {%endfor%}

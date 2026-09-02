@@ -352,7 +352,7 @@ $(document).ready(()=>{
         var obj = $(this);
         setTimeout(function(){
             autoSearch(obj);
-        }, 1000);
+        }, 2000);
         e.preventDefault();
     });
 

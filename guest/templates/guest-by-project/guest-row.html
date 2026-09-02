@@ -18,7 +18,8 @@
 
 
     {% if item.get_locks|length > 0 %}
-        <a id="btn-code" class="btn" data-title="Code: {{item.keycodes.first.code}}"><i class="fas fa-eye"></i></a>
+        {% guest_keycodes_status item as keycodes_status %}
+        <a id="btn-code" class="btn" data-title="Codes: {{ keycodes_status.codes }}"><i class="fas fa-eye {% if keycodes_status.has_empty_code %}text-danger{% else %}text-success{% endif %}"></i></a>
 
         <a class="btn btn-sm ark" title="{%trans "Add Card"%}" data-url="{% url "guest-key-card-all" %}" data-obj_id="{{item.id}}" 
             data-target-modal="common-modal"><i class="fas fa-credit-card"></i></a>
@@ -38,4 +39,3 @@
     <a class="btn btn-sm ark" title="{%trans "Share code"%}" data-url="{% url "lock-share-code-guest" %}" data-obj_id="{{item.id}}" 
         data-target-modal="share-modal"><i class="fas fa-share-alt"></i></a>
 </td>
-

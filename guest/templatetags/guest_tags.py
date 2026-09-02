@@ -16,6 +16,16 @@ def have_open_band(guest):
             return True
     return False
 
+
+@register.simple_tag
+def guest_keycodes_status(guest):
+    """Return the codes to display and whether any assigned code is empty."""
+    codes = [str(keycode.code or "").strip() for keycode in guest.keycodes.all()]
+    return {
+        "codes": ", ".join(code or "—" for code in codes) or "—",
+        "has_empty_code": not codes or any(not code for code in codes),
+    }
+
 '''
     Inclusion Tags
 '''
@@ -53,4 +63,3 @@ def guest_access_points(guest, band, card=""):
 def guest_zone_active(guest, zone, band, card):
     active = WristbandAccessZoneGuest.objects.filter(guest=guest, zone=zone, code=band.code).first() != None
     return {'obj': guest, 'zone': zone, 'band': band, 'card': card, 'active': active}
-

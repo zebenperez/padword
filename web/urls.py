@@ -25,6 +25,8 @@ urlpatterns = [
     path('projects/company-<int:company_id>/', views.projects, name='projects-by-company'),
     path('projects/project-<slug:project_id>/', views.projects, name='projects-by-uuid'),
     path('projects/', views.projects, name='projects'),
+    path('projects/page-rows/<int:page>/', views.projects_page_rows, name='projects-page-rows'),
+    path('projects/page-rows/<int:page>/<int:rows>', views.projects_page_rows, name='projects-page-rows'),
     path('projects/search/', views.project_search, name='project-search'),
     path('projects/form/', views.project_form, name='project-form'),
     path('projects/details/<int:obj_id>/', views.project_details, name='project-details'),
@@ -262,6 +264,7 @@ urlpatterns = [
     #path('rooms/floors/', room_views.room_floors, name='room-floors'),
     path('rooms/list/', room_views.room_list, name='room-status-list'),
     path('rooms/form/', room_views.room_form, name='room-form'),
+    path('rooms/save/', room_views.room_save, name='room-save'),
     path('rooms/remove/', room_views.room_remove, name='room-remove'),
     path('rooms/search/', room_views.rooms_search, name='rooms-search'),
     path('rooms/lock-details/', room_views.room_lock_details, name='room-lock-details'),
@@ -348,4 +351,3 @@ urlpatterns = [
     path('autosave_fields/', auto_views.autosave_fields, name='autosave_fields'),
     path('autoremove_obj/', auto_views.autoremove_obj, name='autoremove_obj'),
 ]
-

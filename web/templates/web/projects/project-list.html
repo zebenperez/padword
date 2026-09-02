@@ -67,8 +67,8 @@
         {% endfor %}
     </tbody>
 </table>
+{% include "foot_paginator.html" with items=items page_url=page_url rows=items.paginator.per_page columns=3 %}
 <script>
     $("#main-table").tablesorter();
-    $('#items-counter').html('{{items|length}}');
+    $('#items-counter').html('{{items.paginator.count}}');
 </script>
-

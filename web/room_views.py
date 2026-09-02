@@ -21,9 +21,6 @@ def get_projects(request):
     search_value = request.session["project_search_name"] if "project_search_name" in request.session else ""
     list_rooms = []
     projects = Project.objects.filter(name__icontains=search_value) if search_value != "" else Project.objects.all()
-    #for project in projects:
-    #    list_rooms.append([project, Room.objects.filter(parent__isnull = True, project_uuid = project.uuid)])
-    #return list_rooms
     return projects
 
 def search_rooms(request):
@@ -35,10 +32,6 @@ def search_rooms(request):
 
 @group_required("admins")
 def rooms (request):
-    #list_rooms = get_room_items(request)
-    #list_projects = get_projects(request)
-    #if len(list_projects) > 0:
-    #    set_session(request, "room_search_name", list_projects[0].name)
     return render (request, "web/rooms/rooms.html", {'list_projects': [], 'active': 'rooms'})
 
 @group_required("admins")
@@ -49,25 +42,7 @@ def room_list (request):
 def rooms_search (request):
     set_session(request, "project_search_name")
     set_session(request, "room_search_name")
-    #list_rooms = get_room_items(request)
-    #return render (request, "web/rooms/rooms-list.html", {'list_rooms':list_rooms})
     return render (request, "web/rooms/rooms-list.html", {'list_projects': get_projects(request)})
-
-#@group_required("admins")
-#def room_form(request):
-#    try:
-#        project = get_or_none(Project, request.GET["project"], field='uuid') if "project" in request.GET else None
-#        #obj = get_or_none(Room, request.GET["obj_id"]) if "obj_id" in request.GET else Room.objects.create(uuid = new_ui_slug(Room))
-#        obj = get_or_none(Room, request.GET["obj_id"]) if "obj_id" in request.GET else Room.objects.create(uuid = new_ui_slug(Room), project_uuid=project.uuid)
-#        obj.save()
-#        if project is None:
-#            project = Project.objects.get(uuid=obj.project_uuid)
-#        projects = Project.objects.filter(pk=project.pk)
-#        floors = Room.objects.filter(parent = None, project_uuid = project.uuid).exclude(pk=obj.pk)
-#
-#        return render(request, "web/rooms/room-form.html", {'obj': obj, 'projects':projects, 'floors':floors})
-#    except Exception as e:
-#        return render(request, 'error_exception.html', {'exc':show_exc(e)})
 
 @group_required("admins")
 def room_form(request):
@@ -85,14 +60,20 @@ def room_form(request):
         return render(request, 'error_exception.html', {'exc':show_exc(e)})
 
 @group_required("admins")
+def room_save(request):
+    try:
+        obj = get_or_none(Room, request.GET["obj_id"])  
+        return render(request, "web/rooms/room-card.html", {'item': obj,})
+    except Exception as e:
+        return render(request, 'error_exception.html', {'exc':show_exc(e)})
+
+@group_required("admins")
 def room_remove(request):
     obj = get_or_none(Room, request.GET["obj_id"]) if "obj_id" in request.GET else None
     if obj != None:
         lock_list = Lock.get_locks_by_room(obj)
         obj.unassign_locks(lock_list)
         obj.delete()
-    #list_rooms = get_room_items(request)
-    #return render (request, "web/rooms/rooms-list.html", {'list_rooms':list_rooms})
     return render (request, "web/rooms/rooms-list.html", {'list_projects': get_projects(request)})
 
 @group_required("admins", "project_manager")
@@ -172,27 +153,6 @@ def room_import(request):
         return render(request, 'error_exception.html', {'exc':show_exc(e)})
 
 
-#@group_required("admins")
-#def room_floors(request):
-#    project_uuid = request.GET["project"]
-#    project = Project.objects.get(uuid=project_uuid)
-#    items = Room.objects.filter(parent__isnull = True, project_uuid=project_uuid)
-#    return render(request, "web/rooms/rooms-list-details.html", {'items': items,'project':project})
-
-#@group_required("admins")
-#def room_search(request):
-#    try:
-#        filters_to_search = ["alias__icontains", ]
-#        items = Room.objects.none()
-#        for myfilter in filters_to_search:
-#            kwargs = {}
-#            if "s-alias" in request.GET and request.GET["s-alias"] != "":
-#                kwargs[myfilter] = request.GET["s-alias"]
-#            items = items.union(Room.objects.filter(**kwargs))
-#        return render(request, "web/rooms/rooms-list-details.html", {'items': items,})
-#    except Exception as e:
-#        return render(request, 'error_exception.html', {'exc':show_exc(e)})
-#
 '''
     Locks
 '''

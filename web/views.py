@@ -1,5 +1,6 @@
 from django.contrib.auth.decorators import login_required
 from django.core import serializers
+from django.core.paginator import Paginator
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, redirect
 from django.urls import reverse
@@ -154,6 +155,13 @@ def get_or_create_user_caldea(project_uuid):
     obj, created = ProjectCaldeaUser.objects.get_or_create(project_uuid = project_uuid)
     return obj 
 
+
+def paginate_projects(request, items):
+    rows = request.session.get("projects_rows", 10)
+    page = request.session.get("projects_page", 1)
+    paginator = Paginator(items, rows)
+    return paginator.get_page(page), paginator.count
+
 '''
     Projects
 '''
@@ -165,6 +173,11 @@ def set_project(request, uuid=None):
 @group_required("admins")
 def projects(request, company_id=None, project_id=None):
     try:
+        if "projects_page" not in request.session:
+            request.session["projects_page"] = 1
+        if "projects_rows" not in request.session:
+            request.session["projects_rows"] = 10
+
         company = None
         if project_id is not None:
             project = get_or_none(Project, project_id, 'uuid')
@@ -174,12 +187,33 @@ def projects(request, company_id=None, project_id=None):
             items = Project.objects.all() if company is None else Project.objects.filter(company = company)
         else:
             items = Project.objects.all()
-        return render(request, "web/projects/projects.html", {'items':items, 'company': company, 'active': 'projects'})
+
+        items, total_items = paginate_projects(request, items)
+        context = {
+            'items': items,
+            'total_items': total_items,
+            'company': company,
+            'page_url': 'projects-page-rows',
+            'active': 'projects',
+        }
+        return render(request, "web/projects/projects.html", context)
     except Exception as e:
         print (show_exc(e))
         company = None
         items = Project.objects.all()
-        return render(request, "web/projects/projects.html", {'items':items, 'company': company})
+        items, total_items = paginate_projects(request, items)
+        return render(request, "web/projects/projects.html", {
+            'items': items,
+            'total_items': total_items,
+            'company': company,
+            'page_url': 'projects-page-rows',
+        })
+
+@group_required("admins")
+def projects_page_rows(request, page=1, rows=10):
+    request.session["projects_page"] = page
+    request.session["projects_rows"] = rows
+    return redirect(request.META.get('HTTP_REFERER') or reverse('projects'))
 
 @group_required("admins")
 def project_search(request):
@@ -195,7 +229,13 @@ def project_search(request):
             if name != "":
                 kwargs[myfilter] = name
             items = items.union(Project.objects.filter(**kwargs))
-        return render(request, "web/projects/project-list.html", {'items': items, 'company_id': company_id,})
+        items, total_items = paginate_projects(request, items)
+        return render(request, "web/projects/project-list.html", {
+            'items': items,
+            'total_items': total_items,
+            'company_id': company_id,
+            'page_url': 'projects-page-rows',
+        })
     except Exception as e:
         print (show_exc(e))
         return JsonResponse({'results':[], 'error':1, 'error-msg':show_exc(e)})
@@ -339,7 +379,13 @@ def project_remove(request):
 
     company = get_or_none(Company, company_id)
     items = Project.objects.all() if company is None else Project.objects.filter(company = company)
-    return render(request, "web/projects/project-list.html", {'items':items, 'company': company})
+    items, total_items = paginate_projects(request, items)
+    return render(request, "web/projects/project-list.html", {
+        'items': items,
+        'total_items': total_items,
+        'company': company,
+        'page_url': 'projects-page-rows',
+    })
 
 @group_required("admins")
 def project_upload_json(request):

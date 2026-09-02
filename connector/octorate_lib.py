@@ -263,8 +263,8 @@ class Octorate():
             #    "metaData": meta_data,
             #    "status": "CONFIRMED"
             #}
-            c = booking.room_code if booking.room_code != "" else code
-            params = code_payload(booking, meta_id, c, link)
+            #c = booking.room_code if booking.room_code != "" else code
+            params = code_payload(booking, meta_id, code, link)
             msg = f"\n SEND CODE URL: {_url_request}"
             msg += f"\n SEND CODE PARAMS: {params}"
             #print("--1--")
@@ -404,7 +404,8 @@ def create_booking(pou, booking, oc):
 
         if booking.created:
             msg += "\n CREADA: {}".format(guest.ext_id)
-            lock_code = get_code(pou, guest.mobile)
+            #lock_code = get_code(pou, guest.mobile)
+            lock_code = booking.room_code if booking.room_code != "" else get_code(pou, guest.mobile)
             msg += "-- CODE: {} - mobile {} - code mobile{}".format(lock_code, guest.mobile, pou.code_mobile)
             #print(lock_code)
             err = guest.add_all_key_code(lock_code)

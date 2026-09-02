@@ -1,3 +1,7 @@
 {% load i18n %}
 
-{% for room in room_list %} {% include "web/rooms/room-card.html" with item=room %} {% endfor %}
+{% for room in room_list %} 
+    <div class="col-2">
+        <div id="room-{{room.id}}" class="w-100">{% include "web/rooms/room-card.html" with item=room %} </div>
+    </div>
+{% endfor %}

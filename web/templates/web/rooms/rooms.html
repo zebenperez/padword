@@ -4,27 +4,6 @@
 {% block second_menu %}{% get_second_menu request.user %} {% endblock second_menu %}
 
 {% block central_content %}
-
     {% if msg and msg != "" %} <div class="alert alert-danger">{{msg}}</div> {% endif %}
-
-    {%comment%}
-    <div class="toolbar-search rooms p-2">
-        <div class="text-center"><i class="fas fa-search"></i></div>
-        <div class="row">
-            <div class="col-5">
-                <input type="text" class="autosearch form-control form-control-dark w-100" name="project_search_name" id="project_search_name" 
-                    placeholder="{% trans 'Project Name' %}" data-url="{% url "rooms-search" %}" data-target="room-list"
-                    data-related="project_search_name,room_search_name" value="{{request.session.project_search_name}}"/>
-            </div>
-            <div class="col-5">
-                <input type="text" class="autosearch form-control form-control-dark w-100" name="room_search_name" id="room_search_name" 
-                    placeholder="{% trans 'Room Name' %}" data-url="{% url "rooms-search" %}" data-target="room-list" 
-                    data-related="project_search_name,room_search_name" value="{{request.session.room_search_name}}"/>
-            </div>
-        </div>
-    </div>
-    {%endcomment%}
-
     <div class="mt-1" id="room-list">{% include "web/rooms/rooms-list.html" %}</div>
-
 {% endblock central_content %}

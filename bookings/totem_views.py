@@ -58,6 +58,8 @@ def totem_start(request):
     return render(request, "bookings/totem/check-band.html", {'project_uuid': request.GET["project_uuid"], 'error': ''})
 
 def totem_check_band(request):
+    from django.utils import timezone
+
     try:
         #print(request.GET)
         project = get_or_none(Project, get_param(request.GET, "project"), "uuid")
@@ -69,7 +71,7 @@ def totem_check_band(request):
         #FIXME: traza para eliminar
         now = project.local_date(timezone.now())
         now = now.strftime("%Y-%m-%d %H:%M:%S")
-        logger.info(f"[totem_check_band] Hora de la consulta: {now} - Valor leído: {val} - Pulsera encontrada: {band}")
+        logger.info(f"[totem_check_band] Hora consulta (GMT): {now} - Valor leído: {val} - Pulsera encontrada: {band}")
         #print(f"--> Lectura de pulsera: {val}")
         #print(f"--> Pulsera: {band}")
 

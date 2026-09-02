@@ -71,7 +71,7 @@
     <button type="button" class="btn btn-primary m-2" data-bs-dismiss="modal">{% trans "Cancelar" %}</button>
     {% if obj %}
         <button type="button" class="btn btn-primary ark m-2" data-bs-dismiss="modal" 
-            data-url="{%url "projects-manager-rooms-update"%}" data-target="room-card-{{obj.id}}" data-obj_id="{{obj.id}}">
+            data-url="{%url "projects-manager-rooms-update"%}" data-target="room-list" data-obj_id="{{obj.id}}">
             {% trans "Save" %}</button>
         {%comment%}
         <button type="button" class="btn btn-primary ark m-2" data-bs-dismiss="modal" 
@@ -87,4 +87,3 @@
 </div>
 
 {%if obj%}<div class="row justify-center pt-0 mt-3"><div id="lock-list">{%include "web/rooms/lock-card.html"%}</div></div>{%endif%}
-
