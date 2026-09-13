@@ -6,6 +6,13 @@
 <td> {{item.name}} 
     {{item.surname}} {%if request.user|in_group:'admins' or request.user.is_staff%}<br><small>{{item.project.name}}</small>{%endif%}</td>
 <td> {{ item.ext_id }}</td>
+{% if show_in_house %}
+<td class="text-center">
+    {% with in_house=item.in_house %}
+        {% if in_house %}<i class="fas fa-check text-success" style="font-size: 1.5rem;" aria-label="In house"></i><br><small>{{ in_house.date }}</small>{% endif %}
+    {% endwith %}
+</td>
+{% endif %}
 <td> {{ item.language }}</td>
 <td> {{ item.regime.name|default:"" }}</td>
 <td class="text-end">

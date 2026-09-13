@@ -398,5 +398,3 @@ def save_css(request):
     except Exception as e:
         return HttpResponse("Error! {}".format(e))
         #return render(request, "error_exception.html", {'exc': show_exc(e)})
-
-

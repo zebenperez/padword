@@ -289,4 +289,3 @@ urlpatterns = [
     path('totem-view-ticket/', totem.totem_view_ticket, name='totem-view-ticket'),
     path('totem-print-pay/', totem.totem_print_pay, name='totem-print-pay'),
 ]
-

@@ -49,6 +49,7 @@ class Project(models.Model):
     radius = models.IntegerField(verbose_name='Radio (Km)', default=100)
     active = models.IntegerField(verbose_name='Active', default=1)
     guest_delete = models.IntegerField(verbose_name='Delete guest after', default=90)
+    show_in_house = models.BooleanField(verbose_name=_('Show In house column'), default=False)
     created_at = models.DateTimeField(verbose_name='Created at', default=datetime.datetime.now)
     expiration = models.DateTimeField(verbose_name='Expiration', default=datetime.datetime.now)
 

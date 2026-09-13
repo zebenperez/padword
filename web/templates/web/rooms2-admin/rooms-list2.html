@@ -1,0 +1,19 @@
+{% load i18n %}
+<div class="content">
+    {% for group_name, rooms in item_list.items %}
+        <div class="div-rooms-content">
+            <div class="locks-head">{{ group_name }} ({{ rooms.1 }} {% trans 'hab' %})</div>
+            <div class="locks-group d-flex flex-wrap pl-2">
+                {% for item in rooms.0 %}
+                    <span id="card-{{ item.id }}"></span>
+                    <script>ajaxGet("{% url 'rooms2-admin-get-card' project.uuid %}", {"obj_id": "{{ item.id }}"}, "card-{{ item.id }}", "");</script>
+                {% endfor %}
+                <span id="total-cards-{{ forloop.counter }}" class="d-flex flex-wrap pl-2"></span>
+            </div>
+        </div>
+        {% if rooms.1 > 6 %}
+            <button class="btn btn-border-info ark" data-url="{% url 'rooms2-admin-get-all-cards' project.uuid %}"
+                data-target="total-cards-{{ forloop.counter }}" data-group="{{ group_name }}" onclick="$(this).hide();">{% trans 'Ver mas' %}</button>
+        {% endif %}
+    {% endfor %}
+</div>

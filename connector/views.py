@@ -15,7 +15,7 @@ from padword.email_lib import send_email
 from padword.decorators import group_required
 from contents.models import ItemInCat
 from web.models import Project, ProjectUser, ProjectAux
-from web.models_lock import LockRecord
+from web.models_lock import Lock, LockRecord
 from guest.models import Guest
 from guest.wristband_models import WristbandAccessZone, Wristband, WristbandAccessZoneGuest
 from .models import ProjectAvantioUser, ProjectAvaibookUser, ProjectWinhotelUser, ProjectMewsUser, ProjectCloudbedsUser
@@ -909,12 +909,18 @@ def access_control(request, project, card):
 '''
     TTLOCK
 '''
+def ttlock_write_log(result):
+    f = open(os.path.join(settings.BASE_DIR, "ttlock.log"), "a", encoding='utf-8')
+    f.write(result)
+    f.close()
+
 @csrf_exempt
 def lock_record_callback(request):
     if request.method != "POST":
         return HttpResponse("method not allowed", status=405)
 
     try:
+        #ttlock_write_log(f"\n-- REGISTRO DE TTLOCK ({datetime.now().strftime('%Y-%m-%d %H:%M:%S')}) --\n")
         notify_type = get_param(request.POST, "notifyType")
         lock_id = get_param(request.POST, "lockId")
         lock_mac = get_param(request.POST, "lockMac")
@@ -924,8 +930,12 @@ def lock_record_callback(request):
         records = json.loads(records_str)
 
         #print(f"Lock callback recibido: notifyType={notify_type} lockId={lock_id} lockMac={lock_mac}")
+        lock_exists = Lock.objects.filter(uuid=lock_id).exclude(room__in=["", "*"]).exists()
+        #ttlock_write_log(json.dumps(records))
+        #ttlock_write_log("\n")
 
         for record in records:
+            #ttlock_write_log(json.dumps(record))
             record_type =get_param(record, "recordType")
             success = get_param(record, "success")
             username = get_param(record, "username")
@@ -940,18 +950,20 @@ def lock_record_callback(request):
             server_date = (datetime.fromtimestamp(server_date_ms / 1000) if server_date_ms else None)
 
             #print(f"Record: record_type={record_type} success={success} username={username} keyboard_pwd={keyboard_pwd} electric_quantity={electric_quantity} lock_date={lock_date} server_date={server_date}")
-            LockRecord.objects.create(
-                notify_type = notify_type, 
-                uuid = lock_id, 
-                mac = lock_mac,
-                record_type = record_type,
-                success = success,
-                username = username, 
-                keyboard_pwd = keyboard_pwd, 
-                electric_quantity = electric_quantity,
-                lock_date = lock_date, 
-                server_date = server_date
-            )
+            if lock_exists and not LockRecord.objects.filter(uuid=lock_id, username=username, keyboard_pwd=keyboard_pwd).exists():
+                #ttlock_write_log("\n--> Creando registro\n")
+                LockRecord.objects.create(
+                    notify_type = notify_type,
+                    uuid = lock_id,
+                    mac = lock_mac,
+                    record_type = record_type,
+                    success = success,
+                    username = username,
+                    keyboard_pwd = keyboard_pwd,
+                    electric_quantity = electric_quantity,
+                    lock_date = lock_date,
+                    server_date = server_date
+                )
         # El proveedor exige responder exactamente "success"
         return HttpResponse( "success", content_type="text/plain", status=200,)
     except Exception as e:

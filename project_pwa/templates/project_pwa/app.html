@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="{{ language }}">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{{ pwa.name }}</title>
+    <link rel="manifest" href="{% url 'project-pwa-manifest' pwa.uuid %}">
+    <style>
+        :root { --header-bg: {{ config.header_bg }}; --header-border: {{ config.header_border }}; --menu-color: {{ config.menu_color }}; --header-size: {{ config.header_size }}px; --room-color: {{ config.room_color }}; --room-size: {{ config.room_size }}px; --button-border: {{ config.button_border }}; --button-bg: {{ config.button_bg }}; --lock-text: {{ config.lock_text }}; --lock-size: {{ config.lock_size }}px; --footer-border: {{ config.footer_border }}; --footer-text: {{ config.footer_color }}; --footer-size: {{ config.footer_size }}px; --footer-bg: {{ config.footer_bg }}; }
+        * { box-sizing: border-box; } body { margin: 0; font-family: Arial, sans-serif; color: #111827; } header { display: grid; grid-template-columns:1fr auto 1fr; align-items:center; min-height:88px; padding:1rem 1.5rem; background:var(--header-bg); border-bottom:3px solid var(--header-border); color:var(--menu-color); } header strong { font-size:var(--header-size); text-align:center; } header img { max-height:52px; max-width:160px; object-fit:contain; } header form { justify-self:end; } .pwa-logout { margin:0; padding:.5rem .75rem; border:1px solid currentColor; border-radius:.5rem; background:transparent; color:var(--menu-color); font-size:.9rem; cursor:pointer; } main { display:flex; flex-direction:column; min-height:calc(100vh - 88px); padding:5rem 1.5rem; text-align:center; } main .pwa-main-text, h1 { color:var(--room-color); font-size:var(--room-size); text-align:center; } h1 { margin:0; } main button { margin:2rem 0; padding:1rem 1.5rem; border:1px solid var(--button-border); border-radius:.75rem; background:var(--button-bg); color:var(--lock-text); font-size:var(--lock-size); } footer { display:flex; align-items:center; justify-content:center; min-height:3rem; margin-top:auto; border-top:1px solid var(--footer-border); padding:.5rem 1rem; background:var(--footer-bg); color:var(--footer-text); font-size:var(--footer-size); text-align:center; }
+    </style>
+</head>
+<body>
+    <header><span></span>{% if pwa.logo %}<img src="{{ pwa.logo.url }}" alt="{{ pwa.name }}">{% else %}<strong>{{ pwa.name }}</strong>{% endif %}<form method="post" action="{% url 'project-pwa-logout' pwa.uuid %}">{% csrf_token %}<button type="submit" class="pwa-logout">Salir</button></form></header>
+    <main{% if pwa.background %} style="background: url('{{ pwa.background.url }}') center / cover"{% endif %}>
+        <p class="pwa-main-text">{{ content.room_title|default:pwa.name }}</p>
+        <h1>{{ guest_data.room_name }}</h1>
+        {% for lock in guest_data.locks %}<button>{{ lock.name }}</button>{% empty %}<p>No hay cerraduras disponibles.</p>{% endfor %}
+        <footer>{{ content.footer_text }}</footer>
+    </main>
+    <script>if ('serviceWorker' in navigator) navigator.serviceWorker.register('{% url "project-pwa-service-worker" pwa.uuid %}');</script>
+</body>
+</html>

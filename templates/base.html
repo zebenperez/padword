@@ -43,48 +43,675 @@
         <!-- Favicons -->
         <meta name="theme-color" content="#7952b3">
 
+
+<style>
+
+        /* =====================================================
+           HEADER
+           ===================================================== */
+
+        .header {
+            width: 100%;
+            height: 56px;
+            min-height: 56px;
+
+            display: flex;
+            align-items: center;
+
+            padding: 0 16px 0 10px;
+
+            background: #ffffff;
+
+            border-bottom: 1px solid #009fe3;
+
+            box-sizing: border-box;
+
+            position: sticky;
+            top: 0;
+
+            z-index: 9999;
+        }
+
+
+        /* =====================================================
+           IZQUIERDA
+           HAMBURGUESA + LOGO
+           ===================================================== */
+
+        .header-left {
+            height: 100%;
+
+            display: flex;
+            align-items: center;
+
+            gap: 16px;
+
+            flex-shrink: 0;
+        }
+
+
+        /* =====================================================
+           HAMBURGUESA
+           ===================================================== */
+
+        .menu-btn {
+            width: 30px;
+            height: 40px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            color: #164b67;
+
+            text-decoration: none;
+
+            cursor: pointer;
+
+            flex-shrink: 0;
+        }
+
+        .menu-btn i {
+            font-size: 16px;
+        }
+
+        .menu-btn:hover {
+            color: #009fe3;
+        }
+
+
+        /* =====================================================
+           LOGO
+           ===================================================== */
+
+        .logo-link {
+            height: 100%;
+
+            display: flex;
+            align-items: center;
+
+            text-decoration: none;
+        }
+
+        .img-project {
+            display: block;
+
+            width: auto;
+            height: auto;
+
+            max-width: 150px;
+            max-height: 44px;
+
+            object-fit: contain;
+        }
+
+
+        /* =====================================================
+           PARTE DERECHA
+           ===================================================== */
+
+        .header-right {
+            height: 100%;
+
+            margin-left: auto;
+
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+
+            gap: 22px;
+
+            min-width: 0;
+        }
+
+
+        /* =====================================================
+           MENÚ DEL PROYECTO
+           ===================================================== */
+
+        .project-menu {
+            display: flex;
+            align-items: center;
+
+            white-space: nowrap;
+
+            min-width: 0;
+        }
+
+        .project-menu ul {
+            display: flex;
+            align-items: center;
+
+            margin: 0;
+            padding: 0;
+
+            list-style: none;
+        }
+
+        .project-menu li {
+            margin: 0;
+            padding: 0;
+        }
+
+
+        /* =====================================================
+           ICONOS
+           ===================================================== */
+
+        .contact-icons {
+            height: 100%;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            gap: 18px;
+
+            flex-shrink: 0;
+        }
+
+
+        .contact-icons a {
+            width: 24px;
+            height: 40px;
+
+            display: flex !important;
+            align-items: center;
+            justify-content: center;
+
+            color: #164b67 !important;
+
+            text-decoration: none !important;
+
+            font-size: 15px;
+
+            flex-shrink: 0;
+
+            visibility: visible !important;
+            opacity: 1 !important;
+        }
+
+
+        .contact-icons a i {
+            display: inline-block !important;
+
+            font-size: 15px;
+
+            visibility: visible !important;
+            opacity: 1 !important;
+        }
+
+
+        .contact-icons a:hover {
+            color: #009fe3 !important;
+        }
+
+
+        /* =====================================================
+           SALUDO + PROYECTO
+           ===================================================== */
+
+        .project-name {
+            display: flex;
+            flex-direction: column;
+
+            align-items: flex-end;
+            justify-content: center;
+
+            min-width: 80px;
+
+            text-align: right;
+
+            white-space: nowrap;
+
+            line-height: 1.2;
+
+            font-size: 12px;
+        }
+
+
+        .project-name span {
+            font-size: 12px;
+        }
+
+
+        .project-name strong {
+            font-size: 12px;
+
+            max-width: 150px;
+
+            overflow: hidden;
+
+            text-overflow: ellipsis;
+        }
+
+
+        /* =====================================================
+           BOTÓN SALIR
+           ===================================================== */
+
+        .button-logout {
+            height: 40px;
+
+            padding: 0 12px;
+
+            display: flex !important;
+            align-items: center;
+            justify-content: center;
+
+            gap: 6px;
+
+            border-radius: 16px;
+
+            background: #f9eeee;
+
+            color: #ff3b20 !important;
+
+            text-decoration: none !important;
+
+            font-size: 13px;
+
+            white-space: nowrap;
+
+            flex-shrink: 0;
+        }
+
+
+        .button-logout i {
+            font-size: 15px;
+        }
+
+
+        .button-logout:hover {
+            background: #f5e2e2;
+        }
+
+
+        /* =====================================================
+           TABLET
+           ===================================================== */
+
+        @media (max-width: 1200px) {
+
+            .header-right {
+                gap: 14px;
+            }
+
+            .contact-icons {
+                gap: 12px;
+            }
+        }
+
+
+        /* =====================================================
+           TABLET PEQUEÑA
+           ===================================================== */
+
+        @media (max-width: 992px) {
+
+            .header-left {
+                gap: 12px;
+            }
+
+            .img-project {
+                max-width: 130px;
+            }
+
+            .project-menu {
+                max-width: 250px;
+
+                overflow: hidden;
+            }
+
+            .project-name {
+                min-width: 60px;
+            }
+        }
+
+
+        /* =====================================================
+           MÓVIL
+           ===================================================== */
+
+        @media (max-width: 768px) {
+
+            .header {
+                height: 54px;
+                min-height: 54px;
+
+                padding: 0 10px;
+            }
+
+
+            .header-left {
+                gap: 8px;
+            }
+
+
+            .img-project {
+                max-width: 115px;
+                max-height: 40px;
+            }
+
+
+            /* Ocultar menú del proyecto */
+
+            .project-menu {
+                display: none !important;
+            }
+
+
+            /* Ocultar saludo */
+
+            .project-name {
+                display: none !important;
+            }
+
+
+            /* Los iconos permanecen visibles */
+
+            .contact-icons {
+                display: flex !important;
+
+                gap: 7px;
+            }
+
+
+            .contact-icons a {
+                display: flex !important;
+
+                width: 21px;
+                height: 36px;
+
+                font-size: 14px !important;
+            }
+
+
+            .contact-icons a i {
+                display: inline-block !important;
+
+                font-size: 14px !important;
+            }
+
+
+            /* Botón salir solo con icono */
+
+            .button-logout {
+                width: 40px;
+                min-width: 40px;
+
+                height: 36px;
+
+                padding: 0;
+
+                border-radius: 12px;
+            }
+
+
+            .button-logout span {
+                display: none;
+            }
+
+        }
+
+
+        /* =====================================================
+           MÓVIL PEQUEÑO
+           ===================================================== */
+
+        @media (max-width: 576px) {
+
+            .header {
+                padding: 0 8px;
+            }
+
+
+            .img-project {
+                max-width: 105px;
+            }
+
+
+            .contact-icons {
+                gap: 5px;
+            }
+
+
+            .contact-icons a {
+                width: 20px;
+            }
+
+        }
+
+
+        /* =====================================================
+           TELÉFONOS MUY PEQUEÑOS
+           ===================================================== */
+
+        @media (max-width: 400px) {
+
+            .img-project {
+                max-width: 95px;
+            }
+
+
+            /*
+             * Quitamos algunos iconos si el teléfono
+             * es demasiado estrecho.
+             */
+
+            .contact-icons a:nth-child(2),
+            .contact-icons a:nth-child(4) {
+                display: none !important;
+            }
+
+        }
+
+    </style>
+
+
+
     </head>
 
     <body>
+
+{% comment %}
         <div id="main-layout-container">
             {% if request.user.is_authenticated %}
 
+{% endcomment %}
+
+
+	<header id="main" class="header">
+            {% if request.user.is_authenticated %}
+
+
+	    <!-- =====================================================
+		 IZQUIERDA
+		 ===================================================== -->
+
+	    <div class="header-left">
+
+
+		<!-- MENÚ HAMBURGUESA -->
+
+		<a href="#"
+		   class="menu-btn"
+		   title="Menú"
+		   aria-label="Menú">
+
+		    <i class="fas fa-bars"></i>
+
+		</a>
+
+
+		<!-- LOGO -->
+
+		<a href="/guest/guests/project/"
+		   class="logo-link">
+
+		    <img src="{% get_logo %}"
+			 class="img-project"
+			 alt="PADWORD">
+
+		</a>
+
+	    </div>
+
+
+
+	    <!-- =====================================================
+		 DERECHA
+		 ===================================================== -->
+
+	    <div class="header-right">
+
+
+		<!-- =================================================
+		     MENÚ DEL PROYECTO
+		     ================================================= -->
+
+		<nav class="project-menu">
+
+		    {% get_project_menu request.user %}
+
+		</nav>
+
+
+
+		<!-- =================================================
+		     ICONOS
+		     ================================================= -->
+
+		<div class="contact-icons">
+
+
+		    <!-- EMAIL -->
+
+		    <a href="mailto:info@padword.es"
+		       title="info@padword.es">
+
+			<i class="fas fa-envelope"></i>
+
+		    </a>
+
+
+		    <!-- CONSULTAS -->
+
+		    <a href="https://www.padword.com/consultanos"
+		       title="Consúltanos"
+		       target="_blank"
+		       rel="noopener">
+
+			<i class="fas fa-edit"></i>
+
+		    </a>
+
+
+		    <!-- TELÉFONO -->
+
+		    <a href="tel:+34922100710"
+		       title="+34922100710">
+
+			<i class="fas fa-phone"></i>
+
+		    </a>
+
+
+		    <!-- WEB -->
+
+		    <a href="https://www.padword.com/"
+		       title="www.padword.com"
+		       target="_blank"
+		       rel="noopener">
+
+			<i class="fas fa-globe"></i>
+
+		    </a>
+
+
+		    <!-- NOTIFICACIONES -->
+
+		    <a href="https://www.padword.com/"
+		       title="Notificaciones">
+
+			<i class="fas fa-bell"></i>
+
+		    </a>
+
+		</div>
+
+
+		<!-- =================================================
+		     SALIR
+		     ================================================= -->
+
+		<a href="{% url 'auth_logout' %}"
+		   class="button-logout"
+		   title="{% trans "Log out" %}">
+
+		    <i class="fas fa-power-off"></i>
+		</a>
+
+
+		<!-- =================================================
+		     SALUDO
+		     ================================================= -->
+
+		<div class="project-name">
+
+		    <span>
+			{% trans "Hola" %},
+		    </span>
+
+		    <strong>
+			{{ project.name }}
+		    </strong>
+
+		</div>
+
+
+
+	    </div>
+
+	</header>
+
+
+
+{% comment %}
             <div id="main" class="row m-0 header sticky-top">
-                    <div class="col-lg-1 col-1 px-4"><a href="#" class="menu-btn"><i class="fas fa-bars menu"></i></a></div>
-                    <div class="col-lg-2 col-4 text-start">
-                        <a href="/guest/guests/project/"><img src="{% get_logo %}" class="img-project"></a>
-                    </div>
-                    <div class="col-lg-6 col-5 project-menu"> {% get_project_menu request.user %}</div>
-                    <div class="col-lg-2 col-1 project-name text-end d-none d-lg-block"> {% trans "Hola" %}, <strong>{{project.name}} </strong></div>
-                    <div class="col-lg-1 col-1 project-name text-end">
-                        <div class="d-lg-none project-name"><strong>{{project.name}}</strong></div>
-                            <a href="{%url 'auth_logout'%}" title="{%trans "Log out"%}"><i class="fas fa-power-off"></i></a><br />
-                    </div>
+	    	<div class="col-lg-1 col-1 icon-btn pt-2"><a href="#" class="menu-btn"><i class="fas fa-bars menu" style="font-size: 16px;"></i></a></div>
+
+                <div class="col-lg-2 col-4 text-start" tyle="border:1px solid red">
+                    <a href="/guest/guests/project/"><img src="{% get_logo %}" class="img-project"></a>
+                </div>
+
+                <div class="col-lg-5 col-5 project-menu" tyle="border:1px solid red"> {% get_project_menu request.user %}</div>
+   
+		<div class="col-lg-2 col-4" tyle="border:1px solid red">
+			<div class="row contact text-center m-0">
+				<div class="col-12"><div class="license p-2"><strong>Licencia Activa</strong><br /> <div class="validation pt-2 pb-2 mt-2">Válida hasta el 20 de abril de 2025</div></div></div>
+				<div class="col-lg-2 col-2 icon-btn pt-2 mx-1"><a href="mailto:info@padword.es" title="inf@padword.es"><i class="fa fa-envelope"></i></a></div>
+				<div class="col-lg-2 col-2 icon-btn pt-2 mx-1"><a href="https://www.padword.com/consultanos" title="Consúltanos" target="_blank"><i class="fas fa-edit"></i></a></div>
+				<div class="col-lg-2 col-2 icon-btn pt-2 mx-1"><a href="tel:+34922100710" title="+34922100710"><i class="fa fa-phone"></i></a></div>
+				<div class="col-lg-2 col-2 icon-btn pt-2 mx-1"><a href="https://www.padword.com/" title="www.padword.com" target="_blank"><i class="fa fa-globe"></i></a></div>
+				<div class="col-lg-2 col-2 icon-btn pt-2 mx-1"><a href="https://www.padword.com/" title=""><i class="fa fa-bell"></i></a></div>
+	                     </div>
+
+                </div>
+                    
+		<div class="col-lg-1 col-1 project-name text-end" tyle="border:1px solid red"> {% trans "Hola" %},<br /> <strong>{{project.name}} </strong></div>
+
+                <div class="col-lg-1 col-1 text-end" tyle="border:1px solid red">
+                      <a href="{%url 'auth_logout'%}" class="button-logout text-center" title="{%trans "Log out"%}"><i class="fas fa-power-off"></i> {%trans "Salir"%}</a>
+                </div>
             </div>
 
+{% endcomment %}
      {% endif %}
 
             <main id="main-content">
                 <aside id="sidebar" class="bg-light closed">
                     <div id="side_menu"> {% get_main_menu request.user request.path active %} </div>
-                    <div class="row contact text-center m-0">
-                        <div class="col-12 my-2"><div class="license p-2"><strong>Licencia Activa</strong><br /> <div class="validation pt-2 pb-2 mt-2">Válida hasta el 20 de abril de 2025</div></div></div>
-                        {%comment%}
-                        <div class="col-12 my-2"><div class="license p-2">
-                            <strong>Licencia Activa</strong><br /> 
-                            <div class="validation pt-2 pb-2 mt-2">
-                                Válida hasta el {{ request.user|project_expiration }} {#30 de enero de 2025#}</div>
-                        </div></div>
-                        {%endcomment%}
-                        <div class="col-lg-3 col-3"><a href="mailto:info@padword.es" title="inf@padword.es">
-                            <img src="/static/img/email.png" width="20px"></a></div>
-                        <div class="col-lg-3 col-3"><a href="https://www.padword.com/consultanos" title="Consúltanos" target="_blank">
-                            <img src="/static/img/contact.png" width="20px"></a></div>
-                        <div class="col-lg-3 col-3"><a href="tel:+34922100710" title="+34922100710">
-                            <img src="/static/img/phone.png" width="20px"></a></div>
-                        <div class="col-lg-3 col-3"><a href="https://www.padword.com/" title="www.padword.com" target="_blank">
-                            <img src="/static/img/web.png" width="20px"></a></div>
-                     </div>
                 </aside>
                 <section id="content-section" class="ml-3"> {% block central_content %}{% endblock central_content %} </section>
             </main>

@@ -396,7 +396,10 @@ def rooms2_by_project(request):
 
 @group_required("admins", "projects")
 def rooms2_search_by_project(request):
-    name = set_session(request, get_param(request.GET, "room_search_name"))
+    # Store the search under the same session key consumed by get_rooms().
+    # Passing the search value as the key created a different session entry,
+    # leaving room_search_name unchanged and therefore never filtering.
+    set_session(request, "room_search_name")
     item_list = get_rooms(request)
     return render (request, "web/rooms-by-project/rooms-list2.html", {"item_list": item_list})
 
@@ -419,3 +422,107 @@ def rooms2_get_card(request):
     return render (request, "web/rooms-by-project/room-card2.html", {"item": item})
 
 
+def get_rooms_for_project(project, name=""):
+    """Return the Rooms 2 groups for an explicitly selected project."""
+    item_list = {}
+    for group in LockGroup.objects.filter(project_uuid=project.uuid):
+        kwargs = {'project_uuid': project.uuid, 'lock_group_uuid': group.uuid}
+        if name:
+            kwargs['alias__icontains'] = name
+        rooms = Room.objects.filter(**kwargs)
+        item_list[group.name] = [rooms[:6], len(rooms)]
+
+    kwargs = {'project_uuid': project.uuid, 'lock_group_uuid': ''}
+    if name:
+        kwargs['alias__icontains'] = name
+    rooms = Room.objects.filter(**kwargs).order_by('order')
+    item_list['-'] = [rooms[:6], len(rooms)]
+    return item_list
+
+
+def get_rooms2_admin_recent_projects(request):
+    """Return the projects most recently opened in Rooms 2 by this browser."""
+    project_uuids = request.session.get('rooms2_admin_recent_projects', [])
+    projects_by_uuid = {
+        project.uuid: project
+        for project in Project.objects.filter(uuid__in=project_uuids).select_related('company')
+    }
+    return [projects_by_uuid[uuid] for uuid in project_uuids if uuid in projects_by_uuid]
+
+
+def remember_rooms2_admin_project(request, project_uuid):
+    project_uuids = request.session.get('rooms2_admin_recent_projects', [])
+    project_uuids = [uuid for uuid in project_uuids if uuid != project_uuid]
+    request.session['rooms2_admin_recent_projects'] = [project_uuid] + project_uuids[:4]
+
+
+@group_required("admins")
+def rooms2_admin_projects(request):
+    return render(request, "web/rooms2-admin/projects.html", {
+        'projects': get_rooms2_admin_recent_projects(request),
+        'active': 'rooms2',
+    })
+
+
+@group_required("admins")
+def rooms2_admin_projects_search(request):
+    name = get_param(request.GET, 'project_search_name').strip()
+    projects = Project.objects.filter(name__icontains=name).select_related('company')[:15] if len(name) >= 3 else []
+    return render(request, "web/rooms2-admin/projects-list.html", {
+        'projects': projects,
+        'searching': True,
+        'minimum_characters': len(name) < 3,
+    })
+
+
+@group_required("admins")
+def rooms2_admin_by_project(request, project_uuid):
+    project = get_or_none(Project, project_uuid, 'uuid')
+    if project is None:
+        return render(request, 'error_exception.html', {'exc': 'Project not found'})
+    remember_rooms2_admin_project(request, project.uuid)
+    name = get_session(request, 'rooms2_admin_search_name')
+    return render(request, "web/rooms2-admin/rooms2.html", {
+        'item_list': get_rooms_for_project(project, name),
+        'project': project,
+        'active': 'rooms2',
+    })
+
+
+@group_required("admins")
+def rooms2_admin_search_by_project(request, project_uuid):
+    project = get_or_none(Project, project_uuid, 'uuid')
+    if project is None:
+        return HttpResponse('Project not found', status=404)
+    set_session(request, 'rooms2_admin_search_name')
+    name = get_session(request, 'rooms2_admin_search_name')
+    return render(request, "web/rooms2-admin/rooms-list2.html", {
+        'item_list': get_rooms_for_project(project, name),
+        'project': project,
+    })
+
+
+@group_required("admins")
+def rooms2_admin_get_all_cards(request, project_uuid):
+    project = get_or_none(Project, project_uuid, 'uuid')
+    if project is None:
+        return HttpResponse('Project not found', status=404)
+    group_name = get_param(request.GET, 'group')
+    if group_name == '-':
+        rooms = Room.objects.filter(project_uuid=project.uuid, lock_group_uuid='').order_by('order')[6:]
+    else:
+        group = LockGroup.objects.filter(project_uuid=project.uuid, name=group_name).first()
+        rooms = Room.objects.filter(project_uuid=project.uuid, lock_group_uuid=group.uuid)[6:] if group else []
+    return render(request, "web/rooms2-admin/rooms-list2-cards.html", {
+        'room_list': rooms,
+        'project': project,
+    })
+
+
+@group_required("admins")
+def rooms2_admin_get_card(request, project_uuid):
+    project = get_or_none(Project, project_uuid, 'uuid')
+    item = get_or_none(Room, get_param(request.GET, 'obj_id'))
+    if project is None or item is None or item.project_uuid != project.uuid:
+        return HttpResponse('Room not found', status=404)
+    return render(request, "web/rooms2-admin/room-card2.html", {'item': item})

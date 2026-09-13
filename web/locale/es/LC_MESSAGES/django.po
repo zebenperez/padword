@@ -1821,7 +1821,10 @@ msgstr "Wifi"
 #: web/templates/web/locks-by-project/lock-remove-code.html:5
 #: web/templates/web/locks/lock-remove-code.html:4
 msgid "Remove Master Code"
-msgstr "Eliminar tarjeta"
+msgstr "Eliminar código maestro"
+
+msgid "Remove Master Card"
+msgstr "Eliminar tarjeta maestra"
 
 #: web/templates/web/locks-by-project/lock-search.html:4
 #: web/templates/web/locks-by-project/lock-search.html:28

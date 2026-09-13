@@ -1,0 +1,29 @@
+{% load i18n %}
+
+<div class="card">
+    <div class="card-header text-center pointer" onclick="$('#card-subadmin-search').toggle()">
+        {% trans "Search" %}
+    </div>
+    <div class="card-body hide" id="card-subadmin-search">
+        <div class="mb-2">
+            <input type="text" class="form-control" name="lock_search_alias"
+                placeholder="{% trans 'Alias' %}" value="{{ lock_search_alias }}">
+        </div>
+        <div class="mb-2">
+            <input type="text" class="form-control" name="lock_search_passcode"
+                placeholder="{% trans 'Code' %}" value="{{ lock_search_passcode }}">
+        </div>
+        <div class="mb-2">
+            <input type="text" class="form-control" name="lock_search_cardcode"
+                placeholder="{% trans 'Card Code' %}" value="{{ lock_search_cardcode }}">
+        </div>
+        <div class="mb-3">
+            <input type="text" class="form-control" name="lock_search_group"
+                placeholder="{% trans 'Lock Group' %}" value="{{ lock_search_group }}">
+        </div>
+        <button type="submit" class="btn btn-primary w-100"><i class="fas fa-search"></i> {% trans "Search" %}</button>
+        {% if lock_search_alias or lock_search_passcode or lock_search_cardcode or lock_search_group %}
+        <a href="{% url 'projects-subadmin-locks-by-project' project.id %}" class="btn btn-secondary py-1 w-100 mt-2">{% trans "Clear" %}</a>
+        {% endif %}
+    </div>
+</div>

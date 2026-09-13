@@ -54,7 +54,9 @@ def get_lock_items(request, project_uuid, public=False):
         lg_list = LockGroup.objects.filter(project_uuid=project_uuid, name__icontains=request.session["lock_search_group"]).values_list('uuid', flat=True)
         kwargs["group_uuid__in"] = lg_list
 
+    print(kwargs)
     lock_list = list(Lock.objects.filter(**kwargs))
+    print(lock_list)
 
     if "lock_search_passcode" in request.session and request.session["lock_search_passcode"] != "":
         lock_code = []

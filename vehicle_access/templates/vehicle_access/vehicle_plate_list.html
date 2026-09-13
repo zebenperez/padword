@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+{% load i18n padword_tags %}
+
+{% block second_menu %}{% get_second_menu request.user %}{% endblock second_menu %}
+
+{% block central_content %}
+<div class="content mt-3">
+    <div class="toolbar-content">
+        <h2 class="b-right">{% trans "Matrículas de vehículos" %} · {{ project.name }}</h2>
+    </div>
+
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-{{ message.tags|default:'info' }}">{{ message }}</div>
+        {% endfor %}
+    {% endif %}
+
+    <div class="card mb-4">
+        <div class="card-body">
+            <h5 class="card-title">{% trans "Registrar matrícula" %}</h5>
+            {% if has_plate_types %}
+                <form method="post" class="row align-items-end">
+                    {% csrf_token %}
+                    <div class="col-md-6 mb-2">
+                        <label for="{{ form.plate.id_for_label }}">{{ form.plate.label }}</label>
+                        {{ form.plate }}
+                        {{ form.plate.errors }}
+                    </div>
+                    <div class="col-md-4 mb-2">
+                        <label for="{{ form.plate_type.id_for_label }}">{{ form.plate_type.label }}</label>
+                        {{ form.plate_type }}
+                        {{ form.plate_type.errors }}
+                    </div>
+                    <div class="col-md-2 mb-2">
+                        <button class="btn btn-primary w-100" type="submit">{% trans "Añadir" %}</button>
+                    </div>
+                    {{ form.non_field_errors }}
+                </form>
+            {% else %}
+                <div class="alert alert-warning mb-0">
+                    {% trans "Antes debes crear al menos un tipo de matrícula en el administrador." %}
+                </div>
+            {% endif %}
+        </div>
+    </div>
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>{% trans "Matrícula" %}</th>
+                <th>{% trans "Tipo" %}</th>
+                <th class="text-right"></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for vehicle_plate in vehicle_plate_list %}
+                <tr>
+                    <td>{{ vehicle_plate.plate }}</td>
+                    <td>{{ vehicle_plate.plate_type }}</td>
+                    <td class="text-right">
+                        <form method="post" action="{% url 'vehicle_access:vehicle-plate-remove' vehicle_plate.id %}">
+                            {% csrf_token %}
+                            <button class="btn btn-sm btn-danger" type="submit">{% trans "Eliminar" %}</button>
+                        </form>
+                    </td>
+                </tr>
+            {% empty %}
+                <tr>
+                    <td colspan="3">{% trans "No hay matrículas registradas para este proyecto." %}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock central_content %}

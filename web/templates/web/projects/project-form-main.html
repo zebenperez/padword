@@ -93,7 +93,15 @@
             <input type="text" class="form-control autosave input mb-4" id="prefix" name="prefix" value="{{obj.prefix}}" 
                title="{{obj.prefix}}" data-model-name="web.project" data-obj-id="{{obj.id}}" 
                data-url="{% url "autosave_field" %}" data-target="div-notification"/> <span id="prefix__msg"></span>
-        </div>        
+        </div>
+        <div class="col-2">
+            <label class="label" for="show_in_house">{% trans "Show In house column" %}:</label>
+            <div class="form-check form-switch mt-2">
+                <input class="form-check-input autosave" type="checkbox" id="show_in_house" name="show_in_house"
+                    {% if obj.show_in_house %}checked{% endif %} data-bool="True" data-model-name="web.project"
+                    data-obj-id="{{obj.id}}" data-url="{% url "autosave_field" %}" data-target="div-notification"/>
+            </div>
+        </div>
     </div>
     
     <div class="row m-0 mt-3 card-info">

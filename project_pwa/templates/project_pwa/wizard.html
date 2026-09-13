@@ -1,0 +1,133 @@
+{% extends 'base.html' %}
+{% load i18n %}
+
+{% block extrahead %}
+<style>
+    .pwa-wizard { --header-bg: {{ config.header_bg }}; --header-border: {{ config.header_border }}; --menu-color: {{ config.menu_color }}; --header-size: {{ config.header_size }}px; --room-color: {{ config.room_color }}; --room-size: {{ config.room_size }}px; --button-border: {{ config.button_border }}; --button-bg: {{ config.button_bg }}; --lock-text: {{ config.lock_text }}; --lock-size: {{ config.lock_size }}px; --footer-border: {{ config.footer_border }}; --footer-text: {{ config.footer_color }}; --footer-size: {{ config.footer_size }}px; --footer-bg: {{ config.footer_bg }}; }
+    .pwa-wizard .card { border: 0; border-radius: 1rem; box-shadow: 0 .25rem 1rem rgba(15, 23, 42, .08); }
+    .pwa-config-section + .pwa-config-section { border-top: 1px solid #e2e8f0; margin-top: 1.75rem; padding-top: 1.75rem; }
+    .pwa-config-section-title { color: #334155; font-size: 1rem; font-weight: 700; }
+    .pwa-status { display: inline-block; border-radius: 999px; padding: .2rem .6rem; font-size: .75rem; font-weight: 700; line-height: 1.2; text-decoration: none; text-transform: uppercase; }
+    .pwa-status--published { background: #dcfce7; color: #166534; }
+    .pwa-status--draft { background: #e2e8f0; color: #475569; }
+    .pwa-actions { display: flex; flex-wrap: wrap; gap: .5rem; align-items: center; padding: .5rem; border: 1px solid #e2e8f0; border-radius: .9rem; background: #fff; box-shadow: 0 .2rem .75rem rgba(15, 23, 42, .06); }
+    .pwa-actions form { display: flex; margin: 0; }
+    .pwa-actions .btn { display: inline-flex; align-items: center; justify-content: center; gap: .45rem; min-height: 2.5rem; border-radius: .65rem; padding: .5rem .85rem; font-size: .9rem; font-weight: 700; }
+    .pwa-actions .btn-outline-secondary { border-color: #cbd5e1; color: #334155; }
+    .pwa-actions .btn-outline-danger { border-color: #fecaca; color: #b91c1c; }
+    .pwa-actions .btn-primary { box-shadow: 0 .2rem .45rem rgba(37, 99, 235, .2); }
+    @media (max-width: 575.98px) {
+        .pwa-actions { width: 100%; }
+        .pwa-actions form, .pwa-actions .btn { flex: 1 1 100%; width: 100%; }
+    }
+    .pwa-config-column, .pwa-preview-column { display: flex; }
+    .pwa-config-column .card, .pwa-preview-column .pwa-preview { flex: 1; width: 100%; }
+    .pwa-preview-column .pwa-preview { display: flex; flex-direction: column; }
+    .pwa-wizard label { font-weight: 600; font-size: .9rem; }
+    .pwa-preview { overflow: hidden; border: 1px solid #dbe2ea; border-radius: 1.5rem; background: #fff; }
+    .pwa-preview-header { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; min-height: 92px; padding: 1rem; background: var(--header-bg); border-bottom: 3px solid var(--header-border); color: var(--menu-color); }
+    .pwa-preview-header strong { font-size: var(--header-size); text-align: center; }
+    .pwa-preview-logo { max-height: 52px; max-width: 130px; object-fit: contain; }
+    .pwa-preview-menu { justify-self: end; font-size: 1.5rem; }
+    .pwa-preview-body { display: flex; flex: 1; flex-direction: column; min-height: 520px; padding: 4rem 2rem; text-align: center; }
+    .pwa-preview-room { color: var(--room-color); font-size: var(--room-size); font-weight: 700; }
+    .pwa-preview-lock { margin: 2rem 0; border: 1px solid var(--button-border); background: var(--button-bg); color: var(--lock-text); font-size: var(--lock-size); padding: 1rem 1.5rem; border-radius: .75rem; }
+    .pwa-preview-footer { display: flex; align-items: center; justify-content: center; width: 100%; min-height: 3rem; margin-top: auto; border-top: 1px solid var(--footer-border); padding: .5rem 1rem; background: var(--footer-bg); color: var(--footer-text); font-size: var(--footer-size); text-align: center; }
+</style>
+{% endblock extrahead %}
+
+{% block central_content %}
+<div class="container-fluid pwa-wizard py-4">
+    <div class="d-flex flex-wrap justify-content-between align-items-center mb-4 gap-3">
+        <div>
+            <h2 class="mb-0">{% trans 'PWA Wizard' %}: {{ pwa.name }}</h2>
+            <div class="mt-2"><span class="pwa-status {% if pwa.status == 'published' %}pwa-status--published{% else %}pwa-status--draft{% endif %}">{{ pwa.get_status_display }}</span></div>
+        </div>
+        <div class="pwa-actions">
+            {% if pwa.status == 'published' %}
+                <form method="post" action="{% url 'project-pwa-unpublish' pwa.project_uuid pwa.uuid %}">
+                    {% csrf_token %}
+                    <button class="btn btn-outline-danger" type="submit"><i class="fas fa-eye-slash"></i> Despublicar</button>
+                </form>
+            {% endif %}
+            <button class="btn btn-outline-secondary" type="submit" form="pwa-form"><i class="fas fa-save"></i> Guardar</button>
+            {% if pwa.status == 'published' %}
+                <a class="btn btn-primary" href="{% url 'project-pwa-public' pwa.uuid %}" target="_blank"><i class="fas fa-external-link-alt"></i> Abrir</a>
+            {% else %}
+                <button class="btn btn-primary" type="submit" form="pwa-form" formaction="{% url 'project-pwa-publish' pwa.project_uuid pwa.uuid %}"><i class="fas fa-upload"></i> Publicar</button>
+            {% endif %}
+        </div>
+    </div>
+
+    <form id="pwa-form" method="post" enctype="multipart/form-data" action="{% url 'project-pwa-edit' pwa.project_uuid pwa.uuid %}">
+        {% csrf_token %}
+        <div class="row g-4">
+            <div class="col-xl-6 pwa-config-column">
+                <div class="card"><div class="card-body p-4">
+                    <h4 class="mb-4">{% trans 'Configuration' %}</h4>
+                    <section class="pwa-config-section">
+                        <h5 class="pwa-config-section-title mb-3">Logo y fondo</h5>
+                        <div class="row g-3">
+                            <div class="col-md-6"><label for="logo">{% trans 'Logo' %}</label><input class="form-control" type="file" id="logo" name="logo" accept="image/*"></div>
+                            <div class="col-md-6"><label for="background">Fondo de la PWA y del acceso</label><input class="form-control" type="file" id="background" name="background" accept="image/*"></div>
+                        </div>
+                    </section>
+                    <section class="pwa-config-section">
+                        <h5 class="pwa-config-section-title mb-3">Cabecera</h5>
+                        <div class="row row-cols-1 row-cols-md-2 row-cols-xl-5 g-3">
+                            <div class="col"><label for="name">Texto cabecera</label><input class="form-control" id="name" name="name" value="{{ pwa.name }}"></div>
+                            <div class="col"><label>Color de texto</label><input class="form-control form-control-color" type="color" name="menu_color" value="{{ config.menu_color }}"></div>
+                            <div class="col"><label>Tamaño</label><input class="form-range" type="range" name="header_size" min="14" max="42" value="{{ config.header_size }}"></div>
+                            <div class="col"><label>Color de borde</label><input class="form-control form-control-color" type="color" name="header_border" value="{{ config.header_border }}"></div>
+                            <div class="col"><label>Color de fondo</label><input class="form-control form-control-color" type="color" name="header_bg" value="{{ config.header_bg }}"></div>
+                        </div>
+                    </section>
+                    <section class="pwa-config-section">
+                        <h5 class="pwa-config-section-title mb-3">Cuerpo</h5>
+                        <div class="row row-cols-1 row-cols-md-3 g-3 mb-3">
+                            <div class="col"><label>Texto principal</label><input class="form-control" name="room_title" value="{{ content.room_title|default:'Bienvenid@' }}"></div>
+                            <div class="col"><label>Color de texto</label><input class="form-control form-control-color" type="color" name="room_color" value="{{ config.room_color }}"></div>
+                            <div class="col"><label>Tamaño</label><input class="form-range" type="range" name="room_size" min="18" max="42" value="{{ config.room_size }}"></div>
+                        </div>
+                        <div class="row row-cols-1 row-cols-md-3 g-3 mb-3">
+                            <div class="col"><label>Color de borde del botón</label><input class="form-control form-control-color" type="color" name="button_border" value="{{ config.button_border }}"></div>
+                            <div class="col"><label>Color de fondo del botón</label><input class="form-control form-control-color" type="color" name="button_bg" value="{{ config.button_bg }}"></div>
+                            <div class="col"><label>Tamaño del texto del botón</label><input class="form-range" type="range" name="lock_size" min="14" max="32" value="{{ config.lock_size }}"></div>
+                        </div>
+                    </section>
+                    <section class="pwa-config-section">
+                        <h5 class="pwa-config-section-title mb-3">Pie</h5>
+                        <div class="row row-cols-1 row-cols-md-2 row-cols-xl-5 g-3">
+                            <div class="col"><label>Texto del pie</label><input class="form-control" name="footer_text" value="{{ content.footer_text|default:'Footer información de la PWA' }}"></div>
+                            <div class="col"><label>Color del texto</label><input class="form-control form-control-color" type="color" name="footer_color" value="{{ config.footer_color }}"></div>
+                            <div class="col"><label>Tamaño del texto</label><input class="form-range" type="range" name="footer_size" min="10" max="24" value="{{ config.footer_size }}"></div>
+                            <div class="col"><label>Color del borde</label><input class="form-control form-control-color" type="color" name="footer_border" value="{{ config.footer_border }}"></div>
+                            <div class="col"><label>Color del fondo</label><input class="form-control form-control-color" type="color" name="footer_bg" value="{{ config.footer_bg }}"></div>
+                        </div>
+                    </section>
+                </div></div>
+            </div>
+            <div class="col-xl-6 pwa-preview-column">
+                <div class="pwa-preview">
+                    <div class="pwa-preview-header"><span></span><strong id="preview-header-text"{% if pwa.logo %} hidden{% endif %}>{{ pwa.name }}</strong><img id="preview-logo" class="pwa-preview-logo"{% if pwa.logo %} src="{{ pwa.logo.url }}"{% else %} hidden{% endif %} alt="Logo"><i class="fas fa-bars pwa-preview-menu"></i></div>
+                    <div id="preview-background" class="pwa-preview-body"{% if pwa.background %} style="background: url('{{ pwa.background.url }}') center / cover"{% endif %}><div class="pwa-preview-room" data-preview="room_title"></div><button type="button" class="pwa-preview-lock"><i class="fas fa-lock"></i> Cerradura</button><div class="pwa-preview-footer" data-preview="footer_text"></div></div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+<script>
+(() => {
+    const root = document.querySelector('.pwa-wizard');
+    const form = document.getElementById('pwa-form');
+    const variables = {header_bg:'--header-bg', header_border:'--header-border', menu_color:'--menu-color', header_size:'--header-size', room_color:'--room-color', room_size:'--room-size', button_border:'--button-border', button_bg:'--button-bg', lock_size:'--lock-size', footer_border:'--footer-border', footer_color:'--footer-text', footer_size:'--footer-size', footer_bg:'--footer-bg'};
+    Object.entries(variables).forEach(([name, variable]) => { const input = form.querySelector(`[name="${name}"]`); input.addEventListener('input', () => root.style.setProperty(variable, input.value + (name.endsWith('_size') ? 'px' : ''))); });
+    ['room_title', 'footer_text'].forEach(name => { const input = form.querySelector(`[name="${name}"]`); const preview = document.querySelector(`[data-preview="${name}"]`); const refresh = () => preview.textContent = input.value; input.addEventListener('input', refresh); refresh(); });
+    const headerText = form.querySelector('[name="name"]');
+    const headerPreview = document.getElementById('preview-header-text');
+    if (headerPreview) headerText.addEventListener('input', () => headerPreview.textContent = headerText.value);
+    form.querySelector('[name="logo"]').addEventListener('change', event => { const file = event.target.files[0]; if (file) { const logoPreview = document.getElementById('preview-logo'); logoPreview.src = URL.createObjectURL(file); logoPreview.hidden = false; headerPreview.hidden = true; } });
+    form.querySelector('[name="background"]').addEventListener('change', event => { const file = event.target.files[0]; if (file) document.getElementById('preview-background').style.background = `url(${URL.createObjectURL(file)}) center / cover`; });
+})();
+</script>
+{% endblock central_content %}

@@ -12,11 +12,28 @@
                 {% include "common-modal.html" %}
             </div>
 
-            <div class="row mb-3"><div class="col-11 text-end">
-                <a href="{% url "projects-subadmin" %}" class="btn btn-primary">{% trans "Back" %}</a>
-            </div></div>
+            <div class="row mb-3">
+                <form method="get" class="col-lg-3 col-md-4 col-12 mb-2 mb-lg-0">
+                    {% include "web/projects-subadmin/lock-search.html" %}
+                </form>
+                <div class="col-lg-3 col-md-4 col-12 mb-2 mb-lg-0">
+                    {% include "web/projects-subadmin/lock-add-group.html" %}
+                </div>
+                <div class="col text-md-end me-md-3">
+                    <a href="{% url "projects-subadmin" %}" class="btn btn-primary">{% trans "Back" %}</a>
+                </div>
+            </div>
 
-            <div id="lock-list">{% include "web/projects-subadmin/lock-list.html" %}</div>
+            <form id="form-lock-actions" method="post" action="{% url 'projects-subadmin-locks-set-group' %}">
+                {% csrf_token %}
+                <input type="hidden" name="project_uuid" value="{{ project.uuid }}">
+                <div id="lock-list">{% include "web/projects-subadmin/lock-list.html" %}</div>
+            </form>
         </div>
     </div> 
+    <script>
+        $(".toggle-main").click(function(){
+            $("#" + $(this).data("toggle")).toggle();
+        });
+    </script>
 {% endblock central_content %}

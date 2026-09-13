@@ -71,7 +71,7 @@ urlpatterns = [
     path('access-control/<slug:project>/<slug:card>/', views.access_control, name='access-control'),
 
     #--------------------- TTLOCK  --------------------
-    path('lockRecord/callback/', views.lock_record_callback, name="lock-record-callback"),
+    path('lockRecord/callback2/', views.lock_record_callback, name="lock-record-callback"),
 
     #--------------------- TEST --------------------
     path('test-email/', views.test_email, name='test-email'),

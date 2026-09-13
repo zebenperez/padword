@@ -9,10 +9,10 @@ from django.contrib.auth.models import User
 from padword.commons import show_exc, new_ui_slug
 #from web.models import Channel, Project, Lock, Room
 from web.models import Channel, Project, Room
-from web.models_lock import Lock
+from web.models_lock import Lock, LockRecord
 from sensibo.models import SensiboDevice as AdminSensiboDevice
 
-import datetime, pytz, time, uuid
+import datetime, pytz, time, unicodedata, uuid
 
 
 def new_background_job_uuid():
@@ -45,6 +45,45 @@ class Guest(models.Model):
     balance = models.FloatField(verbose_name='Balance', default=0.)
     deleted = models.IntegerField(verbose_name='Deleted', default=0)
     ext_id = models.CharField(max_length=255, verbose_name='External ID', default="", blank=True, null=True)
+
+    @staticmethod
+    def _normalized_name(value):
+        value = unicodedata.normalize("NFKD", value or "")
+        value = "".join(char for char in value if not unicodedata.combining(char))
+        return " ".join(value.casefold().split())
+
+    @staticmethod
+    def _format_in_house_date(value):
+        return value.strftime("%Y-%m-%d %H:%M:%S") if hasattr(value, "strftime") else str(value)[:19]
+
+    @property
+    def full_name(self):
+        return " ".join(part for part in [self.name, self.surname] if part)
+
+    @property
+    def in_house(self):
+        lock = Lock.objects.filter(
+            room=self.room, project_uuid=self.project_id
+        ).order_by("id").first()
+        if not lock:
+            return ""
+
+        name = self._normalized_name(self.name)
+        surname = self._normalized_name(self.surname)
+        guest_names = {name, surname, f"{name} {surname}".strip(), f"{surname} {name}".strip()}
+        guest_names.discard("")
+
+        lock_records = LockRecord.objects.filter(
+            uuid=lock.uuid, success="1"
+        ).exclude(lock_date="").order_by("lock_date", "id")
+        for lock_record in lock_records:
+            if self._normalized_name(lock_record.username) in guest_names:
+                return {
+                    "name": self.full_name,
+                    "date": self._format_in_house_date(lock_record.lock_date),
+                }
+
+        return None
 
     @property
     def project(self):
@@ -984,4 +1023,3 @@ class BackgroundJob(models.Model):
 
     def __str__(self):
         return '{} {} {}'.format(self.id, self.job_type, self.status)
-

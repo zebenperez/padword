@@ -44,6 +44,8 @@
                     <a class="btn btn-xs" href="{% url 'categories-by-project' item.uuid|slugify %}" title="{% trans 'Categories' %}">
                         <i class="fas fa-project-diagram"></i></a>
                 {% endif %}
+                <a class="btn btn-xs" href="{% url 'project-pwa-list' item.uuid %}" title="{% trans 'Create PWA' %}">
+                    <i class="fas fa-wrench"></i></a>
                 <a class="btn btn-sm" href="{% url "project-details" item.id %}" title="{% trans "Details" %}"> <i class="fas fa-edit"></i></a>  
                 {%comment%}
                 <a class="btn btn-xs ark" data-url="{% url "project-form" %}" data-target-modal="common-modal" 

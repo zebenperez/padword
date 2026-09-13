@@ -1490,6 +1490,64 @@ img.img-project {
     final estilo NUEVO project-menu
 ***************************************/
 
+/***************************************
+    Boton Menu Hamb estilo NUEVO
+***************************************/
+
+
+/***************************************
+    Botones Header estilo NUEVO
+***************************************/
+
+.icon-btn {
+    width: 38px;
+    height: 38px;
+    border: none;
+ /*   border-radius: 14px;
+    background: #f4f8fb;*/
+    cursor: pointer;
+    position: relative;
+    transition: .25s;
+}
+/*
+.icon-btn:hover {
+    background: #eaf6fc;
+}
+*/
+
+.icon-btn i {
+    color: #143e53;
+    font-size: 15px;
+}
+
+.fa-regular {
+    font-weight: 400;
+}
+
+/***************************************
+    Boton Salir estilo NUEVO
+***************************************/
+
+.button-logout {
+    border: none;
+    background: rgba(233,66,28,.08);
+    color: #e9421c;
+    padding: 12px 18px;
+    border-radius: 14px;
+    cursor: pointer;
+    align-items: center;
+    gap: 10px;
+    font-size: 13px;
+    font-weight: 600;
+    transition: .25s;
+    text-decoration: none;
+}
+
+a.button-logout:hover, 
+i.fas.fa-power-off {
+    color: #e9421c;
+}
+
 /*******************************************
     estilo cards info dentro del proyecto
 *******************************************/
@@ -1502,9 +1560,7 @@ img.img-project {
 } 
 
 
-.header i { font-size: 17px; font-weight: light !important; }
-i.fas.fa-bars.menu { color: #143e53 !important; }
-i.fas.fa-power-off { color: #143e53 !important; }
+/*.header i { font-size: 17px; font-weight: light !important; }*/
 i.fas.fa-user-circle, i.fas.fa-sign-out-alt.text-white { color: #5b7898 !important; }
 a.dropdown-toggle { color: #37a6de !important; }
 a.dropdown-toggle { font-size: 1.6rem !important; }
@@ -1788,19 +1844,25 @@ i.fas.fa-check-square {
 .validation {
     font-size: 0.8rem;
 }
+/* para cuando estaba debajo de la culumna de menu
 
 .row.contact { 
     background-color: #143e53;
     color: #fff;
-/*    position:fixed;*/
     bottom: 30px;
     width: 230px;
 }
+*/
 
 .row.contact .cont-title {
     border-bottom:1px solid #385c6e;
     letter-spacing: 0;
 }
+
+.row.contact a { 
+    color: #143e53;
+}
+
 
 
 /************* User dropdown options   ***************/

@@ -19,11 +19,12 @@ def have_open_band(guest):
 
 @register.simple_tag
 def guest_keycodes_status(guest):
-    """Return the codes to display and whether any assigned code is empty."""
-    codes = [str(keycode.code or "").strip() for keycode in guest.keycodes.all()]
+    """Return one assigned code to display and its availability."""
+    keycode = guest.keycodes.first()
+    code = str(keycode.code or "").strip() if keycode else ""
     return {
-        "codes": ", ".join(code or "—" for code in codes) or "—",
-        "has_empty_code": not codes or any(not code for code in codes),
+        "codes": code or "—",
+        "has_empty_code": not code,
     }
 
 '''

@@ -41,4 +41,19 @@
     </div>
 </div>
 
+<script>
+    $('#card-add-code .saveform').on('click', function(e) {
+        const lockCheckboxes = $('#form-actions #main-table tbody input[type="checkbox"]');
 
+        if (!lockCheckboxes.filter(':checked').length) {
+            if (!confirm('No hay cerraduras seleccionadas. ¿Quieres seleccionar todas las cerraduras antes de guardar?')) {
+                e.preventDefault();
+                e.stopImmediatePropagation();
+                return false;
+            }
+
+            lockCheckboxes.prop('checked', true);
+            $('#form-actions #check-all').prop('checked', true);
+        }
+    });
+</script>

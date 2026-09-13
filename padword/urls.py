@@ -30,12 +30,14 @@ urlpatterns = [
     path('user_remote/', include('user_remote.urls')),
     path('sensibo/', include('sensibo.urls'), name="sensibo"),
     path('connector/', include('connector.urls'), name="connector"),
+    path('vehicle-access/', include('vehicle_access.urls')),
     path('rest-api/', include('rest_api.urls'), name="rest_api"),
 #    path('chat/', include('chat.urls')),
 
     path('accounts/login/<slug:chk>/', auth_views.LoginView.as_view(template_name='login.html'), name='auth_login'),
     path('accounts/login/', auth_views.LoginView.as_view(template_name='login.html'), name='auth_login'),
     path('logout/', auth_views.LogoutView.as_view(next_page='/web/thanks/'), name='auth_logout'),
+    path('pwa/', include('project_pwa.public_urls')),
     path('pwa/', include('guestpwa.urls')),
     path('sw.js', ServiceWorker, name="sw"),
     path('serviceworker.js', ServiceWorker, name="serviceworker"),
@@ -48,4 +50,3 @@ from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 if settings.DEBUG == True:
     urlpatterns += staticfiles_urlpatterns()
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
-

@@ -222,7 +222,7 @@ def category_add_image(request):
         #logger.error("[bookings-form_add_image]" + str(e))
         return render(request, 'error_exception.html', {'msg': str(e)})
 
-@group_required("admins", "projects")
+@group_required("admins", "projects", "project_manager")
 def category_remove_image(request):
     try:
         obj_id = request.GET["obj_id"]

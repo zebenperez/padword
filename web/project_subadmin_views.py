@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.urls import reverse
 from django.utils.translation import ugettext_lazy as _ 
 
-from padword.commons import show_exc, get_or_none, get_param, new_ui_slug, set_session, get_int
+from padword.commons import show_exc, get_or_none, get_param, new_ui_slug, set_session, get_int, reverse_cardkey
 from padword.decorators import group_required
 from .models import *
 from .models_lock import Lock, LockGroup
@@ -91,15 +91,74 @@ def project_user_refresh_token(request):
 
 @group_required("project_subadmin")
 def locks_by_project(request, project_id):
+    from .lock_views import update_locks
+
+    msg = ""
     project = get_or_none(Project, project_id)
     try:
+        update_locks(project)
+    except Exception as e:
+        print(e)
+        msg = e
+
+    try:
         lock_list = Lock.objects.filter(project_uuid=project.uuid)
+        alias = get_param(request.GET, "lock_search_alias")
+        passcode = get_param(request.GET, "lock_search_passcode")
+        cardcode = get_param(request.GET, "lock_search_cardcode")
+        group_name = get_param(request.GET, "lock_search_group")
+        if alias:
+            lock_list = lock_list.filter(alias__icontains=alias)
+        if group_name:
+            group_uuids = LockGroup.objects.filter(
+                project_uuid=project.uuid,
+                name__icontains=group_name,
+            ).values_list("uuid", flat=True)
+            lock_list = lock_list.filter(group_uuid__in=group_uuids)
+        lock_list = list(lock_list)
+        if passcode:
+            lock_list = [lock for lock in lock_list if passcode in lock.code_cache]
+        if cardcode:
+            card_number = str(reverse_cardkey(cardcode))
+            lock_list = [lock for lock in lock_list if card_number in lock.card_cache]
         lg_list = LockGroup.objects.filter(project_uuid=project.uuid)
-        context = {"project": project, "msg": "", "items": lock_list, "lock_group_list": lg_list}
+        context = {
+            "project": project,
+            "msg": msg,
+            "items": lock_list,
+            "lock_group_list": lg_list,
+            "lock_search_alias": alias,
+            "lock_search_passcode": passcode,
+            "lock_search_cardcode": cardcode,
+            "lock_search_group": group_name,
+        }
         return render(request, "web/projects-subadmin/locks.html", context)
     except Exception as e:
         print(e)
         return render(request, 'error_exception.html', {'exc':show_exc(e)})
+
+@group_required("project_subadmin")
+def lock_set_group(request):
+    project = get_or_none(Project, get_param(request.POST, "project_uuid"), "uuid")
+    group_uuid = get_param(request.POST, "lock_group")
+
+    if project is None:
+        return render(request, 'error_exception.html', {'exc': 'Project not found!'})
+
+    group = None
+    if group_uuid:
+        group = LockGroup.objects.filter(uuid=group_uuid, project_uuid=project.uuid).first()
+    if group_uuid and group is None:
+        return render(request, 'error_exception.html', {'exc': 'Lock group not found!'})
+
+    lock_ids = [key.removeprefix("ch_") for key in request.POST if key.startswith("ch_")]
+    locks = Lock.objects.filter(id__in=lock_ids, project_uuid=project.uuid)
+    for lock in locks:
+        lock.group_uuid = group.uuid if group else ""
+        lock.save()
+        lock.set_group()
+
+    return redirect('projects-subadmin-locks-by-project', project_id=project.id)
 
 @group_required("project_subadmin")
 def lock_update_params(request):
@@ -142,5 +201,3 @@ def gateways_by_project(request, project_id):
         return render (request, "web/projects-subadmin/gateways.html", {'project': project, 'gateway_list': project.gateway_list()})
     except Exception as e:
         return render(request, 'error_exception.html', {'exc':show_exc(e)})
-
-

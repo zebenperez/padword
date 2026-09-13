@@ -1,0 +1,19 @@
+{% load i18n %}
+<div class="row m-0 p-2">
+    {% for project in projects %}
+        <div class="col-lg-3 col-md-4 col-sm-6 p-1">
+            <a class="btn btn-outline-primary w-100 text-start" href="{% url 'rooms2-admin-by-project' project.uuid %}">
+                <i class="fas fa-hotel"></i> {{ project.name }}
+                {% if project.company %}<small class="d-block ms-4" style="color: #6c757d; text-decoration: none;">{{ project.company.name }}</small>{% endif %}
+            </a>
+        </div>
+    {% empty %}
+        {% if minimum_characters %}
+            <div class="col-12 text-muted">{% trans 'Enter at least 3 characters to search projects.' %}</div>
+        {% elif searching %}
+            <div class="col-12 text-muted">{% trans 'No projects found.' %}</div>
+        {% else %}
+            <div class="col-12 text-muted">{% trans 'Search for a project to begin.' %}</div>
+        {% endif %}
+    {% endfor %}
+</div>

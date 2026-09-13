@@ -10,6 +10,7 @@ from web.models_lock import Lock
 from contents.models import Allergen, Category, CategoryUser, Feature, ItemPromo, PaymentType
 
 from datetime import datetime
+import ast
 import string, random, json, os
 
 register = template.Library()
@@ -295,9 +296,30 @@ def padword_translate(context, json_str):
 def padword_translate_menu(json_str, lang):
     try:
         json_dict = json.loads(json_str)
-        return mark_safe(json_dict[lang.upper()])
-    except Exception as e:
-        print(e)
+        # Algunos nombres históricos se guardaron como JSON serializado dos
+        # veces. Decodificamos el segundo nivel si fuera necesario.
+        if isinstance(json_dict, str):
+            json_dict = json.loads(json_dict)
+    except (TypeError, ValueError):
+        try:
+            # Admite el formato de diccionario que suele pegarse desde Python:
+            # {'ES': 'Matrículas'}.
+            json_dict = ast.literal_eval(json_str)
+        except (TypeError, ValueError, SyntaxError):
+            return json_str
+
+    try:
+        if not isinstance(json_dict, dict):
+            return json_str
+
+        language_code = str(lang or "").split("-")[0].upper()
+        value = json_dict.get(language_code)
+        if value is None:
+            value = json_dict.get("ES")
+        if value is None and json_dict:
+            value = next(iter(json_dict.values()))
+        return mark_safe(value or "")
+    except (AttributeError, TypeError, ValueError):
         return json_str
 
 #@register.simple_tag(takes_context=True)
@@ -513,4 +535,3 @@ def show_timetable(obj):
 @register.inclusion_tag('project-menu.html')
 def show_timetable(project_user):
     return {'project_user': project_user,}
-

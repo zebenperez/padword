@@ -1,0 +1,5 @@
+{% load i18n %}
+{% for item in room_list %}
+    <span id="card-{{ item.id }}"></span>
+    <script>ajaxGet("{% url 'rooms2-admin-get-card' project.uuid %}", {"obj_id": "{{ item.id }}"}, "card-{{ item.id }}", "");</script>
+{% endfor %}

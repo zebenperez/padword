@@ -15,6 +15,9 @@
         <li class="nav-item"><a class="nav-link {%if active == "rooms"%}active{%endif%}" href="{% url "rooms" %}">
             <i class="fas fa-bed"></i> {% trans "Rooms" %} </a> </li>
         <hr/>
+        <li class="nav-item"><a class="nav-link {%if active == "rooms2"%}active{%endif%}" href="{% url "rooms2-admin-projects" %}">
+            <i class="fas fa-bed"></i> {% trans "Rooms 2" %} </a> </li>
+        <hr/>
         <li class="nav-item"><a class="nav-link {%if active == "devices"%}active{%endif%}" href="{% url "devices" %}">
             <i class="fas fa-tablet-alt"></i> {% trans "Tablets" %} </a> </li>
         <hr/>
@@ -284,4 +287,3 @@
     </ul>
 {% else %}
 {% endif %}
-

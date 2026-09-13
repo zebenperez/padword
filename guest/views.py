@@ -479,6 +479,7 @@ def guests_by_project(request):
             'total_items': total_count, 
             'items': page_obj, 
             'project': project, 
+            'show_in_house': project.show_in_house,
             'limit': limit, 
             'rows': request.session["b_rows"], 
             'page_url': 'guests-by-project-page-rows', 
@@ -1069,5 +1070,3 @@ def guest_car_list(request, project_uuid):
     except Exception as e:
         #return HttpResponse("Error: {}".format(e))
         return render(request, "error_exception.html", {'exc':show_exc(e)})
-
-
