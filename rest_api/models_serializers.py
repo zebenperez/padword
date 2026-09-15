@@ -3,6 +3,7 @@ from guest.models import Guest, GuestCar
 from guest.wristband_models import WristbandAccess
 from web.models import Room
 from web.models_lock import Lock
+from vehicle_access.models import PlateType, VehiclePlate, normalize_plate
 
 
 #class ActivitySerializer(serializers.ModelSerializer):
@@ -76,6 +77,43 @@ class GuestCarSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = GuestCar
         fields = ['number', 'guest_name', 'date_in', 'date_out']
+
+
+class VehiclePlateSerializer(serializers.ModelSerializer):
+    plate_type = serializers.CharField(source='plate_type.name', read_only=True)
+    plate_type_id = serializers.PrimaryKeyRelatedField(
+        source='plate_type',
+        queryset=PlateType.objects.all(),
+        write_only=True,
+    )
+
+    def validate(self, attrs):
+        plate = attrs.get('plate', self.instance.plate if self.instance else '')
+        normalized_plate = normalize_plate(plate)
+        if not normalized_plate:
+            raise serializers.ValidationError({
+                'plate': 'Introduce una matrícula válida.'
+            })
+
+        project_uuid = self.context.get('project_uuid')
+        if project_uuid:
+            existing_plates = VehiclePlate.objects.filter(
+                project_id=project_uuid,
+                plate_normalized=normalized_plate,
+            )
+            if self.instance:
+                existing_plates = existing_plates.exclude(pk=self.instance.pk)
+            if existing_plates.exists():
+                raise serializers.ValidationError({
+                    'plate': 'Esta matrícula ya está registrada en el proyecto.'
+                })
+
+        return attrs
+
+    class Meta:
+        model = VehiclePlate
+        fields = ['id', 'plate', 'plate_type', 'plate_type_id']
+
 
 class WristbandAccessSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:

@@ -44,12 +44,12 @@ class VehiclePlate(models.Model):
         verbose_name = _("Matrícula de vehículo")
         verbose_name_plural = _("Matrículas de vehículos")
         ordering = ["project", "plate_normalized"]
-        constraints = [
-            models.UniqueConstraint(
-                fields=["project", "plate_normalized"],
-                name="vehicle_access_unique_plate_project",
-            )
-        ]
+        #constraints = [
+        #    models.UniqueConstraint(
+        #        fields=["project", "plate_normalized"],
+        #        name="vehicle_access_unique_plate_project",
+        #    )
+        #]
 
     def __str__(self):
         return self.plate

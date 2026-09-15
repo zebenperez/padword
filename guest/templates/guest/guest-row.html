@@ -12,6 +12,7 @@
         {% if in_house %}<i class="fas fa-check text-success" style="font-size: 1.5rem;" aria-label="In house"></i><br><small>{{ in_house.date }}</small>{% endif %}
     {% endwith %}
 </td>
+<td>{{ item.regime.name|default:"" }}</td>
 <td class="text-end">
     {{item.language}} &nbsp;
     <a class="btn ark" href="#" data-url="{% url "show-chat" %}" data-target="div-chat" data-guest="{{item.id}}" data-guest_msg="False"

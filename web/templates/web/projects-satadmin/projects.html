@@ -17,7 +17,7 @@
         <div class="toolbar-content">
 			<h2 class="pathway b-right">
                 {% if company %}<a href="{%url "companies"%}">{{company.name}}</a> <i class="fas fa-angle-double-right"></i>{%endif%}
-                {% trans 'Projects' %} (<span id="items-counter">{{items|length}}</span>)</h2>
+                {% trans 'Projects' %} (<span id="items-counter">{{total_items}}</span>)</h2>
             {% include "common-modal.html" %}
         </div>
         <div id="project-list">{% include "web/projects-satadmin/project-list.html" %}</div>

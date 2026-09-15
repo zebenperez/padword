@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect
+from django.core.paginator import Paginator
 from django.urls import reverse
 from django.utils.translation import ugettext_lazy as _ 
 
@@ -15,12 +16,24 @@ def get_or_create_projectaux(project):
     obj, created = ProjectAux.objects.get_or_create(project = project)
     return obj 
 
+
+def paginate_projects(request, items):
+    rows = request.session.get("projects_satadmin_rows", 10)
+    page = request.session.get("projects_satadmin_page", 1)
+    paginator = Paginator(items, rows)
+    return paginator.get_page(page), paginator.count
+
 '''
     Projects
 '''
 @group_required("project_satadmin")
 def projects(request, company_id=None, project_id=None):
     try:
+        if "projects_satadmin_page" not in request.session:
+            request.session["projects_satadmin_page"] = 1
+        if "projects_satadmin_rows" not in request.session:
+            request.session["projects_satadmin_rows"] = 10
+
         company = None
         if project_id is not None:
             project = get_or_none(Project, project_id, 'uuid')
@@ -30,12 +43,32 @@ def projects(request, company_id=None, project_id=None):
             items = Project.objects.all() if company is None else Project.objects.filter(company = company)
         else:
             items = Project.objects.all()
-        return render(request, "web/projects-satadmin/projects.html", {'items':items, 'company': company, 'active': 'projects'})
+        items, total_items = paginate_projects(request, items)
+        return render(request, "web/projects-satadmin/projects.html", {
+            'items': items,
+            'total_items': total_items,
+            'company': company,
+            'page_url': 'projects-satadmin-page-rows',
+            'active': 'projects',
+        })
     except Exception as e:
         print (show_exc(e))
         company = None
         items = Project.objects.all()
-        return render(request, "web/projects-satadmin/projects.html", {'items':items, 'company': company})
+        items, total_items = paginate_projects(request, items)
+        return render(request, "web/projects-satadmin/projects.html", {
+            'items': items,
+            'total_items': total_items,
+            'company': company,
+            'page_url': 'projects-satadmin-page-rows',
+        })
+
+
+@group_required("project_satadmin")
+def projects_page_rows(request, page=1, rows=10):
+    request.session["projects_satadmin_page"] = page
+    request.session["projects_satadmin_rows"] = rows
+    return redirect(request.META.get('HTTP_REFERER') or reverse('projects-satadmin'))
 
 @group_required("project_satadmin")
 def projects_search(request):
@@ -51,7 +84,13 @@ def projects_search(request):
             if name != "":
                 kwargs[myfilter] = name
             items = items.union(Project.objects.filter(**kwargs))
-        return render(request, "web/projects-satadmin/project-list.html", {'items': items, 'company_id': company_id,})
+        items, total_items = paginate_projects(request, items)
+        return render(request, "web/projects-satadmin/project-list.html", {
+            'items': items,
+            'total_items': total_items,
+            'company_id': company_id,
+            'page_url': 'projects-satadmin-page-rows',
+        })
     except Exception as e:
         print (show_exc(e))
         return render(request, 'error_exception.html', {'exc':show_exc(e)})
@@ -141,7 +180,7 @@ def lock_set_group(request):
     if group_uuid and group is None:
         return render(request, 'error_exception.html', {'exc': 'Lock group not found!'})
 
-    lock_ids = [key.removeprefix("ch_") for key in request.POST if key.startswith("ch_")]
+    lock_ids = [key[len("ch_"):] for key in request.POST if key.startswith("ch_")]
     locks = Lock.objects.filter(id__in=lock_ids, project_uuid=project.uuid)
     for lock in locks:
         lock.group_uuid = group.uuid if group else ""

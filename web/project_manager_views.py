@@ -51,12 +51,15 @@ def projects_details(request, obj_id, current_tab=""):
             return render(request, 'error_exception.html', {'exc': 'Permission denied!'})
 
         aux = get_or_create_projectaux(obj)
+        # Projects managed outside the admin form may not yet have TTLock
+        # credentials.  The autosave inputs require a persisted object ID.
+        user_lock, _ = ProjectLockUser.objects.get_or_create(project_uuid=obj.uuid)
         context = {
             'obj': obj, 
             'aux': aux, 
             'companies': Company.objects.all(), 
             'thirdpart_list': Thirdpart.objects.all(), 
-            'user_lock': ProjectLockUser.objects.filter(project_uuid = obj.uuid).first()
+            'user_lock': user_lock,
         }
         return render(request, "web/projects-manager/project-details.html", context)
     except Exception as e:
@@ -141,7 +144,7 @@ def companies_search(request):
         name = get_param(request.GET, "s-name")
         kwargs = {'manager': request.user}
         if name != "":
-            kwargs["name_icontains"] = name
+            kwargs["name__icontains"] = name
         items = Company.objects.filter(**kwargs)
         return render(request, "web/projects-manager/companies-list.html", {'items': items,})
     except Exception as e:
@@ -260,4 +263,3 @@ def rooms_multiple_save(request):
     except Exception as e:
         print(e)
         return render(request, 'error_exception.html', {'exc':show_exc(e)})
-

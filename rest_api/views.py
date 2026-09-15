@@ -2,10 +2,11 @@ from rest_framework import viewsets, permissions, status
 from rest_framework.decorators import action
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
+from rest_framework.exceptions import PermissionDenied
 
 from django.urls import reverse
 
-from .models_serializers import GuestSerializer, LockSerializer, RoomSerializer, GuestCarSerializer, WristbandAccessSerializer
+from .models_serializers import GuestSerializer, LockSerializer, RoomSerializer, GuestCarSerializer, VehiclePlateSerializer, WristbandAccessSerializer
 
 from guest.models import BackgroundJob, Guest, GuestCar, Regime, GuestRegime, GuestType
 from guest.background_jobs import create_close_bands_job
@@ -18,6 +19,7 @@ from web.lock_lib import get_record_type
 from sensibo.models import ProjectSensiboUser
 from contents.models import PointOfSale
 from connector.models import ProjectStripeUser, ProjectCarUser
+from vehicle_access.models import VehiclePlate
 from padword.commons import new_ui_slug, reverse_cardkey, timestamp_to_date, get_float, get_int, get_or_none
 from padword.commons import get_today_ini, get_today_end
 from connector.libstripe import ShStripe
@@ -202,6 +204,48 @@ class GuestViewSet(viewsets.ModelViewSet):
         except Exception as e:
             logger.error("[{}]: \"{}\"".format(self.request.user, str(e)))
             return Response({"error": 'true', 'msg': 'Bad request!'})
+
+    @action(detail=False, methods=['get'])
+    def get_in_house(self, request):
+        try:
+            guest = self.get_queryset().get(UUID=request.GET["UUID"])
+            logger.info("[{}]: \"Get in-house status of guest {} {}\"".format(
+                self.request.user, guest.name, guest.surname
+            ))
+            return Response({"in_house": guest.in_house}, status=status.HTTP_200_OK)
+        except Guest.DoesNotExist:
+            return Response(
+                {"error": True, "msg": "Guest not found!"},
+                status=status.HTTP_404_NOT_FOUND,
+            )
+        except Exception as e:
+            logger.error("[{}]: \"{}\"".format(self.request.user, str(e)))
+            return Response(
+                {"error": True, "msg": "Bad request!"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+    @action(detail=False, methods=['get'])
+    def get_keycodes_status(self, request):
+        try:
+            guest = self.get_queryset().get(UUID=request.GET["UUID"])
+            keycodes_status = guest.keycodes_status
+            keycodes_status["has_code"] = not keycodes_status["has_empty_code"]
+            logger.info("[{}]: \"Get key code status of guest {} {}\"".format(
+                self.request.user, guest.name, guest.surname
+            ))
+            return Response(keycodes_status, status=status.HTTP_200_OK)
+        except Guest.DoesNotExist:
+            return Response(
+                {"error": True, "msg": "Guest not found!"},
+                status=status.HTTP_404_NOT_FOUND,
+            )
+        except Exception as e:
+            logger.error("[{}]: \"{}\"".format(self.request.user, str(e)))
+            return Response(
+                {"error": True, "msg": "Bad request!"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
 
     @action(detail=False, methods=['post'])
     def update_lock_code(self, request):
@@ -1284,6 +1328,36 @@ class GuestCarViewSet(viewsets.ModelViewSet):
         return Response(response, status=status.HTTP_403_FORBIDDEN)
 
 
+class VehiclePlateViewSet(viewsets.ModelViewSet):
+    """Manage vehicle plates belonging to the authenticated user's project."""
+    queryset = VehiclePlate.objects.none()
+    serializer_class = VehiclePlateSerializer
+    permission_classes = [IsAuthenticated,]
+
+    def get_project_uuid(self):
+        try:
+            return ProjectUser.objects.get(
+                username=self.request.user.username
+            ).project_uuid
+        except ProjectUser.DoesNotExist:
+            raise PermissionDenied('The authenticated user has no project assigned.')
+
+    def get_serializer_context(self):
+        context = super().get_serializer_context()
+        context['project_uuid'] = self.get_project_uuid()
+        return context
+
+    def get_queryset(self):
+        project_uuid = self.get_project_uuid()
+        logger.info("[{}]: \"Vehicle plate list\"".format(self.request.user))
+        return VehiclePlate.objects.filter(
+            project_id=project_uuid
+        ).select_related("plate_type")
+
+    def perform_create(self, serializer):
+        serializer.save(project_id=self.get_project_uuid())
+
+
 class AccessZoneViewSet(viewsets.ViewSet):
     """
     A simple ViewSet for access zones.
@@ -1387,4 +1461,3 @@ class AccessZoneViewSet(viewsets.ViewSet):
         except Exception as e:
             logger.error("[{}]: \"{}\"".format(self.request.user, str(e)))
             return Response({"error": True, 'msg': 'Bad request!'})
-

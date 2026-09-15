@@ -19,6 +19,10 @@ def new_background_job_uuid():
     return str(uuid.uuid4())
 
 
+def default_guest_check_out():
+    return datetime.datetime.now() + datetime.timedelta(days=1)
+
+
 class Guest(models.Model):
     PID = models.IntegerField(verbose_name='PID', default=0)
     UUID = models.CharField(max_length=255, verbose_name='UUID', default="")
@@ -31,7 +35,7 @@ class Guest(models.Model):
     language = models.CharField(max_length=255, verbose_name='Language', default="")
     birthdate = models.DateField(verbose_name='Birthdate', default=datetime.date.today)
     check_in = models.DateTimeField(verbose_name='Check-In', default=datetime.datetime.now)
-    check_out = models.DateTimeField(verbose_name='Check-Out', default=datetime.datetime.now)
+    check_out = models.DateTimeField(verbose_name='Check-Out', default=default_guest_check_out)
     language = models.CharField(max_length=255, verbose_name='Language', default="es")
     country = models.CharField(max_length=255, verbose_name='Country', default="es")
     pin = models.CharField(max_length=255, verbose_name='PIN', default="0000000")
@@ -158,6 +162,16 @@ class Guest(models.Model):
     def lock_code(self):
         key_code = self.keycodes.all().first() 
         return key_code.code if key_code != None else ""
+
+    @property
+    def keycodes_status(self):
+        """Return the code displayed for this guest and whether it is missing."""
+        keycode = self.keycodes.first()
+        code = str(keycode.code or "").strip() if keycode else ""
+        return {
+            "codes": code or "—",
+            "has_empty_code": not code,
+        }
 
     @property
     def pax(self):

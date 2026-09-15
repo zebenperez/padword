@@ -19,13 +19,7 @@ def have_open_band(guest):
 
 @register.simple_tag
 def guest_keycodes_status(guest):
-    """Return one assigned code to display and its availability."""
-    keycode = guest.keycodes.first()
-    code = str(keycode.code or "").strip() if keycode else ""
-    return {
-        "codes": code or "—",
-        "has_empty_code": not code,
-    }
+    return guest.keycodes_status
 
 '''
     Inclusion Tags

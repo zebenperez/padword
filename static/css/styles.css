@@ -1503,18 +1503,10 @@ img.img-project {
     width: 38px;
     height: 38px;
     border: none;
- /*   border-radius: 14px;
-    background: #f4f8fb;*/
     cursor: pointer;
     position: relative;
     transition: .25s;
 }
-/*
-.icon-btn:hover {
-    background: #eaf6fc;
-}
-*/
-
 .icon-btn i {
     color: #143e53;
     font-size: 15px;
@@ -1547,6 +1539,497 @@ a.button-logout:hover,
 i.fas.fa-power-off {
     color: #e9421c;
 }
+
+
+/***************************************
+***************************************
+
+***************************************
+***************************************/
+
+
+
+        /* =====================================================
+           HEADER
+           ===================================================== */
+
+        .header {
+            width: 100%;
+            height: 56px;
+            min-height: 56px;
+
+            display: flex;
+            align-items: center;
+
+            padding: 0 16px 0 10px;
+
+            background: #ffffff;
+
+            border-bottom: 1px solid #009fe3;
+
+            box-sizing: border-box;
+
+            position: sticky;
+            top: 0;
+
+            z-index: 9999;
+        }
+
+
+        /* =====================================================
+           IZQUIERDA
+           HAMBURGUESA + LOGO
+           ===================================================== */
+
+        .header-left {
+            height: 100%;
+
+            display: flex;
+            align-items: center;
+
+            gap: 16px;
+
+            flex-shrink: 0;
+        }
+
+
+        /* =====================================================
+           HAMBURGUESA
+           ===================================================== */
+
+        .menu-btn {
+            width: 30px;
+            height: 40px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            color: #164b67;
+
+            text-decoration: none;
+
+            cursor: pointer;
+
+            flex-shrink: 0;
+        }
+
+        .menu-btn i {
+            font-size: 16px;
+        }
+
+        .menu-btn:hover {
+            color: #009fe3;
+        }
+
+
+        /* =====================================================
+           LOGO
+           ===================================================== */
+
+        .logo-link {
+            height: 100%;
+
+            display: flex;
+            align-items: center;
+
+            text-decoration: none;
+        }
+
+        .img-project {
+            display: block;
+
+            width: auto;
+            height: auto;
+
+            max-width: 150px;
+            max-height: 44px;
+
+            object-fit: contain;
+        }
+
+
+        /* =====================================================
+           PARTE DERECHA
+           ===================================================== */
+
+        .header-right {
+            height: 100%;
+
+            margin-left: auto;
+
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+
+            gap: 22px;
+
+            min-width: 0;
+        }
+
+
+        /* =====================================================
+           MENÚ DEL PROYECTO
+           ===================================================== */
+
+        .project-menu {
+            display: flex;
+            align-items: center;
+
+            white-space: nowrap;
+
+            min-width: 0;
+        }
+
+        .project-menu ul {
+            display: flex;
+            align-items: center;
+
+            margin: 0;
+            padding: 0;
+
+            list-style: none;
+        }
+
+        .project-menu li {
+            margin: 0;
+            padding: 0;
+        }
+
+
+        /* =====================================================
+           ICONOS
+           ===================================================== */
+
+        .contact-icons {
+            height: 100%;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            gap: 18px;
+
+            flex-shrink: 0;
+        }
+
+
+        .contact-icons a {
+            width: 24px;
+            height: 40px;
+
+            display: flex !important;
+            align-items: center;
+            justify-content: center;
+
+            color: #164b67 !important;
+
+            text-decoration: none !important;
+
+            font-size: 15px;
+
+            flex-shrink: 0;
+
+            visibility: visible !important;
+            opacity: 1 !important;
+        }
+
+
+        .contact-icons a i {
+            display: inline-block !important;
+
+            font-size: 15px;
+
+            visibility: visible !important;
+            opacity: 1 !important;
+        }
+
+
+        .contact-icons a:hover {
+            color: #009fe3 !important;
+        }
+
+
+        /* =====================================================
+           SALUDO + PROYECTO
+           ===================================================== */
+
+        .project-name {
+            display: flex;
+            flex-direction: column;
+
+            align-items: flex-end;
+            justify-content: center;
+
+            min-width: 80px;
+
+            text-align: right;
+
+            white-space: nowrap;
+
+            line-height: 1.2;
+
+            font-size: 12px;
+        }
+
+
+        .project-name span {
+            font-size: 12px;
+        }
+
+
+        .project-name strong {
+            font-size: 12px;
+
+            max-width: 150px;
+
+            overflow: hidden;
+
+            text-overflow: ellipsis;
+        }
+
+
+        /* =====================================================
+           BOTÓN SALIR
+           ===================================================== */
+
+        .button-logout {
+            height: 40px;
+
+            padding: 0 12px;
+
+            display: flex !important;
+            align-items: center;
+            justify-content: center;
+
+            gap: 6px;
+
+            border-radius: 16px;
+
+            background: #f9eeee;
+
+            color: #ff3b20 !important;
+
+            text-decoration: none !important;
+
+            font-size: 13px;
+
+            white-space: nowrap;
+
+            flex-shrink: 0;
+        }
+
+
+        .button-logout i {
+            font-size: 15px;
+        }
+
+
+        .button-logout:hover {
+            background: #f5e2e2;
+        }
+
+
+        /* =====================================================
+           TABLET
+           ===================================================== */
+
+        @media (max-width: 1200px) {
+
+            .header-right {
+                gap: 14px;
+            }
+
+            .contact-icons {
+                gap: 12px;
+            }
+        }
+
+
+        /* =====================================================
+           TABLET PEQUEÑA
+           ===================================================== */
+
+        @media (max-width: 992px) {
+
+            .header-left {
+                gap: 12px;
+            }
+
+            .img-project {
+                max-width: 130px;
+            }
+
+            .project-menu {
+                max-width: 250px;
+
+                overflow: hidden;
+            }
+
+            .project-name {
+                min-width: 60px;
+            }
+        }
+
+
+        /* =====================================================
+           MÓVIL
+           ===================================================== */
+
+        @media (max-width: 768px) {
+
+            .header {
+                height: 54px;
+                min-height: 54px;
+
+                padding: 0 10px;
+            }
+
+
+            .header-left {
+                gap: 8px;
+            }
+
+
+            .img-project {
+                max-width: 115px;
+                max-height: 40px;
+            }
+
+
+            /* Ocultar menú del proyecto */
+
+            .project-menu {
+                display: none !important;
+            }
+
+
+            /* Ocultar saludo */
+
+            .project-name {
+                display: none !important;
+            }
+
+
+            /* Los iconos permanecen visibles */
+
+            .contact-icons {
+                display: flex !important;
+
+                gap: 7px;
+            }
+
+
+            .contact-icons a {
+                display: flex !important;
+
+                width: 21px;
+                height: 36px;
+
+                font-size: 14px !important;
+            }
+
+
+            .contact-icons a i {
+                display: inline-block !important;
+
+                font-size: 14px !important;
+            }
+
+
+            /* Botón salir solo con icono */
+
+            .button-logout {
+                width: 40px;
+                min-width: 40px;
+
+                height: 36px;
+
+                padding: 0;
+
+                border-radius: 12px;
+            }
+
+
+            .button-logout span {
+                display: none;
+            }
+
+        }
+
+
+        /* =====================================================
+           MÓVIL PEQUEÑO
+           ===================================================== */
+
+        @media (max-width: 576px) {
+
+            .header {
+                padding: 0 8px;
+            }
+
+
+            .img-project {
+                max-width: 105px;
+            }
+
+
+            .contact-icons {
+                gap: 5px;
+            }
+
+
+            .contact-icons a {
+                width: 20px;
+            }
+
+        }
+
+
+        /* =====================================================
+           TELÉFONOS MUY PEQUEÑOS
+           ===================================================== */
+
+        @media (max-width: 400px) {
+
+            .img-project {
+                max-width: 95px;
+            }
+
+
+            /*
+             * Quitamos algunos iconos si el teléfono
+             * es demasiado estrecho.
+             */
+
+            .contact-icons a:nth-child(2),
+            .contact-icons a:nth-child(4) {
+                display: none !important;
+            }
+
+        }
+
+
+
+/***************************************
+***************************************
+
+***************************************
+***************************************/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 /*******************************************
     estilo cards info dentro del proyecto

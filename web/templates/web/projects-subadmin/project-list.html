@@ -25,6 +25,11 @@
                     <i class="fas fa-key"></i></a>
                 <a class="btn btn-xs" href="{% url "projects-subadmin-gateways-by-project" item.id %}" title="{% trans 'Gateways' %}">
                     <i class="fas fa-signal"></i></a>
+                {% if item.lock_access_token != "" %}
+                    <a class="btn btn-xs pointer ark" title="{% trans "Refrescar Token" %}" data-modal="True"
+                        data-url="{% url "project-subadmin-user-refresh-token" %}" data-target-modal="common-modal" data-obj_id="{{ item.id }}"
+                        data-confirm="{% trans "Esta seguro/a de que desea actualizar el token?" %}"><i class="fas fa-sync"></i></a>
+                {% endif %}
                 <a class="btn btn-sm" href="{% url "projects-subadmin-details" item.id %}" title="{% trans "Details" %}"> 
                     <i class="fas fa-edit"></i></a>  
             </td>
@@ -32,8 +37,8 @@
         {% endfor %}
     </tbody>
 </table>
+{% include "foot_paginator.html" with items=items page_url=page_url rows=items.paginator.per_page columns=6 %}
 <script>
     $("#main-table").tablesorter();
-    $('#items-counter').html('{{items|length}}');
+    $('#items-counter').html('{{items.paginator.count}}');
 </script>
-

@@ -90,6 +90,8 @@ urlpatterns = [
  
     #--------------------- Projects SubAdmin--------------------
     path('projects-subadmin/', project_subadmin_views.projects, name='projects-subadmin'),
+    path('projects-subadmin/page-rows/<int:page>/', project_subadmin_views.projects_page_rows, name='projects-subadmin-page-rows'),
+    path('projects-subadmin/page-rows/<int:page>/<int:rows>', project_subadmin_views.projects_page_rows, name='projects-subadmin-page-rows'),
     path('projects-subadmin/search/', project_subadmin_views.projects_search, name='projects-subadmin-search'),
     path('projects-subadmin/details/<int:obj_id>/', project_subadmin_views.projects_details, name='projects-subadmin-details'),
     path('projects-subadmin/user-token/', project_subadmin_views.project_user_token, name='project-subadmin-user-token'),
@@ -105,6 +107,8 @@ urlpatterns = [
 
     #--------------------- Projects SatAdmin--------------------
     path('projects-satadmin/', project_satadmin_views.projects, name='projects-satadmin'),
+    path('projects-satadmin/page-rows/<int:page>/', project_satadmin_views.projects_page_rows, name='projects-satadmin-page-rows'),
+    path('projects-satadmin/page-rows/<int:page>/<int:rows>', project_satadmin_views.projects_page_rows, name='projects-satadmin-page-rows'),
     path('projects-satadmin/search/', project_satadmin_views.projects_search, name='projects-satadmin-search'),
     path('projects-satadmin/details/<int:obj_id>/', project_satadmin_views.projects_details, name='projects-satadmin-details'),
     #path('projects-satadmin/user-token/', project_satadmin_views.project_user_token, name='project-satadmin-user-token'),

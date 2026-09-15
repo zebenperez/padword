@@ -1,9 +1,9 @@
 *.pyc
 migrations
-!project_pwa/migrations/
-!project_pwa/migrations/*.py
-!vehicle_access/migrations/
-!vehicle_access/migrations/*.py
+project_pwa/migrations/
+project_pwa/migrations/*.py
+vehicle_access/migrations/
+vehicle_access/migrations/*.py
 collect_static
 get_static.sh
 viewlog.sh
