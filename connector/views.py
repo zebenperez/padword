@@ -34,7 +34,10 @@ from .paytef_lib import get_config as pay_get_config, get_status as pay_get_stat
 from .zkteco_lib import add_person as zk_add_person
 from .roomraccoon import roomraccoon_get_soap_response, roomraccoon_get_soap_header, roomraccoon_get_soap_body, roomraccoon_parse_soap_reservation, roomraccoon_manage_booking
 
-import json, os, csv, re, threading 
+import json, os, csv, re, threading, logging
+
+
+logger = logging.getLogger("padword.connector.ttlock")
 
 
 '''
@@ -919,15 +922,23 @@ def lock_record_callback(request):
     if request.method != "POST":
         return HttpResponse("method not allowed", status=405)
 
+    payload = {}
     try:
-        #ttlock_write_log(f"\n-- REGISTRO DE TTLOCK ({datetime.now().strftime('%Y-%m-%d %H:%M:%S')}) --\n")
-        notify_type = get_param(request.POST, "notifyType")
-        lock_id = get_param(request.POST, "lockId")
-        lock_mac = get_param(request.POST, "lockMac")
+        payload = request.POST.dict()
+        if not payload and request.content_type == "application/json":
+            payload = json.loads(request.body.decode("utf-8"))
+
+        logger.info("TTLock callback recibido: %s", payload)
+
+        notify_type = get_param(payload, "notifyType")
+        lock_id = get_param(payload, "lockId")
+        lock_mac = get_param(payload, "lockMac")
 
         # Viene como string JSON
-        records_str = request.POST.get("records", "[]")
-        records = json.loads(records_str)
+        records_data = payload.get("records", "[]")
+        records = json.loads(records_data) if isinstance(records_data, str) else records_data
+        if not isinstance(records, list):
+            raise ValueError("El campo records de TTLock debe ser una lista")
 
         #print(f"Lock callback recibido: notifyType={notify_type} lockId={lock_id} lockMac={lock_mac}")
         lock_exists = Lock.objects.filter(uuid=lock_id).exclude(room__in=["", "*"]).exists()
@@ -966,8 +977,8 @@ def lock_record_callback(request):
                 )
         # El proveedor exige responder exactamente "success"
         return HttpResponse( "success", content_type="text/plain", status=200,)
-    except Exception as e:
-        print(e)
+    except Exception:
+        logger.exception("Error procesando callback de TTLock. Payload: %s", payload)
         return HttpResponse("error", status=500)
 
 '''
