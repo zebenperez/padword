@@ -360,7 +360,7 @@ def send_lock_code(pcu, guest, booking_id):
 def create_booking(pcu, room, booking, bguest, av, ev=""):
     checkin = get_date(booking.start, pcu.ini_time.hour, pcu.ini_time.minute)
     checkout = get_date(booking.end, pcu.end_time.hour, pcu.end_time.minute)
-    today = datetime.today()
+    today = datetime.today().replace(hour=0, minute=0, second=0, microsecond=0)
     e_date = today + timedelta(pcu.days)
     r = room.id if room != None else "-1"
     room_ex = room_exist(pcu.project_uuid, r)
@@ -662,4 +662,3 @@ def send_booking_codes(pcu, av, booking_id, data_list):
             av.set_booking_code(booking_id, "lockLink", links)
             msg += "\n -- Códigos enviados"
     return msg
-
