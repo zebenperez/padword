@@ -80,12 +80,11 @@ class GuestCarSerializer(serializers.HyperlinkedModelSerializer):
 
 
 class VehiclePlateSerializer(serializers.ModelSerializer):
-    plate_type = serializers.CharField(source='plate_type.name', read_only=True)
-    plate_type_id = serializers.PrimaryKeyRelatedField(
-        source='plate_type',
+    plate_type = serializers.SlugRelatedField(
+        slug_field='uuid',
         queryset=PlateType.objects.all(),
-        write_only=True,
     )
+    plate_type_name = serializers.CharField(source='plate_type.name', read_only=True)
 
     def validate(self, attrs):
         plate = attrs.get('plate', self.instance.plate if self.instance else '')
@@ -112,7 +111,13 @@ class VehiclePlateSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = VehiclePlate
-        fields = ['id', 'plate', 'plate_type', 'plate_type_id']
+        fields = ['uuid', 'plate', 'plate_type', 'plate_type_name']
+
+
+class PlateTypeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = PlateType
+        fields = ['uuid', 'name']
 
 
 class WristbandAccessSerializer(serializers.HyperlinkedModelSerializer):

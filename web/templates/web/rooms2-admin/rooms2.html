@@ -7,15 +7,23 @@
 <div class="row m-0 p-2 align-items-center">
     <div class="col-lg-3 col-12"><h2 class="m-0">{% trans 'Rooms' %}: {{ project.name }}</h2></div>
     <div class="col-lg-9 col-12">
-        <input type="text" class="autosearch form-control form-control-dark w-100 input-blue"
-            name="rooms2_admin_search_name" id="room_search_name" placeholder="{% trans 'Room Name' %}"
-            data-url="{% url 'rooms2-admin-search-by-project' project.uuid %}" data-target="room-list"
-            data-related="room_search_name" value="{{ request.session.rooms2_admin_search_name }}" />
+        <div class="input-group">
+            <input type="text" class="form-control form-control-dark input-blue"
+                name="rooms2_admin_search_name" id="room_search_name" placeholder="{% trans 'Room Name' %}"
+                value="{{ request.session.rooms2_admin_search_name }}" />
+            <button type="button" class="btn btn-primary" data-url="{% url 'rooms2-admin-search-by-project' project.uuid %}"
+                data-target="room-list" data-related="room_search_name"
+                onclick="autoSearch($(this));"><i class="fas fa-search"></i> {% trans 'Search' %}</button>
+        </div>
     </div>
 </div>
 <div class="d-flex menu-actions-blue">
     <div class="flex-grow-1 p-2 mt-1"><span class="bg-ico-bar"><i class="fas fa-home hotel"></i></span>&nbsp; Floors in {{ project.name }}</div>
-    <div class="action p-2"><a class="btn btn-sm btn-outline-light" href="{% url 'rooms2-admin-projects' %}">{% trans 'Change project' %}</a></div>
+    <div class="action p-2">
+        <a class="btn btn-sm btn-outline-light" href="{% url 'rooms2-admin-projects' %}">{% trans 'Change project' %}</a>
+        <a class="btn btn-sm btn-outline-light ark" data-url="{% url 'rooms2-admin-room-form' project.uuid %}"
+            data-target-modal="common-modal"><i class="fas fa-bed"></i> {% trans 'Add room' %}</a>
+    </div>
 </div>
 <div class="mt-1" id="room-list">{% include 'web/rooms2-admin/rooms-list2.html' %}</div>
 {% include 'common-modal.html' %}

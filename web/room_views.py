@@ -503,18 +503,85 @@ def rooms2_admin_search_by_project(request, project_uuid):
 
 
 @group_required("admins")
+def rooms2_admin_room_list(request, project_uuid):
+    project = get_or_none(Project, project_uuid, 'uuid')
+    if project is None:
+        return HttpResponse('Project not found', status=404)
+    return render(request, 'web/rooms2-admin/rooms-list2.html', {
+        'item_list': get_rooms_for_project(project, get_session(request, 'rooms2_admin_search_name')),
+        'project': project,
+    })
+
+
+@group_required("admins")
+def rooms2_admin_room_form(request, project_uuid):
+    """Open the standard room editor, constrained to the selected project."""
+    project = get_or_none(Project, project_uuid, 'uuid')
+    if project is None:
+        return HttpResponse('Project not found', status=404)
+
+    room_id = get_param(request.GET, 'obj_id')
+    if room_id:
+        obj = get_or_none(Room, room_id)
+        if obj is None or obj.project_uuid != project.uuid:
+            return HttpResponse('Room not found', status=404)
+    else:
+        obj = Room.objects.create(uuid=new_ui_slug(Room), project_uuid=project.uuid)
+
+    return render(request, 'web/rooms/room-form.html', {
+        'obj': obj,
+        'project': project,
+        'group_list': LockGroup.objects.filter(project_uuid=project.uuid),
+        'rooms2_admin': True,
+    })
+
+
+@group_required("admins")
+def rooms2_admin_room_remove(request, project_uuid):
+    project = get_or_none(Project, project_uuid, 'uuid')
+    room = get_or_none(Room, get_param(request.GET, 'obj_id'))
+    if project is None:
+        return HttpResponse('Project not found', status=404)
+    if room is None or room.project_uuid != project.uuid:
+        return HttpResponse('Room not found', status=404)
+
+    lock_list = Lock.get_locks_by_room(room)
+    room.unassign_locks(lock_list)
+    room.delete()
+    return render(request, 'web/rooms2-admin/rooms-list2.html', {
+        'item_list': get_rooms_for_project(project, get_session(request, 'rooms2_admin_search_name')),
+        'project': project,
+    })
+
+
+@group_required("admins")
 def rooms2_admin_get_all_cards(request, project_uuid):
     project = get_or_none(Project, project_uuid, 'uuid')
     if project is None:
         return HttpResponse('Project not found', status=404)
     group_name = get_param(request.GET, 'group')
+    try:
+        offset = max(0, int(get_param(request.GET, 'offset', '6')))
+    except (TypeError, ValueError):
+        offset = 6
+    # Do not allow this endpoint to be used to request an arbitrarily large
+    # response.  Fetch one extra row to know whether to keep the button.
+    page_size = 20
+    name = get_session(request, 'rooms2_admin_search_name')
     if group_name == '-':
-        rooms = Room.objects.filter(project_uuid=project.uuid, lock_group_uuid='').order_by('order')[6:]
+        rooms = Room.objects.filter(project_uuid=project.uuid, lock_group_uuid='')
     else:
         group = LockGroup.objects.filter(project_uuid=project.uuid, name=group_name).first()
-        rooms = Room.objects.filter(project_uuid=project.uuid, lock_group_uuid=group.uuid)[6:] if group else []
+        rooms = Room.objects.filter(project_uuid=project.uuid, lock_group_uuid=group.uuid) if group else Room.objects.none()
+    if name:
+        rooms = rooms.filter(alias__icontains=name)
+    rooms = list(rooms.order_by('order')[offset:offset + page_size + 1])
     return render(request, "web/rooms2-admin/rooms-list2-cards.html", {
-        'room_list': rooms,
+        'room_list': rooms[:page_size],
+        'has_more': len(rooms) > page_size,
+        'next_offset': offset + page_size,
+        'target': get_param(request.GET, 'target'),
+        'group_name': group_name,
         'project': project,
     })
 

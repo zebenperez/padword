@@ -4,8 +4,9 @@
 <h2 class="common-modal-head">
     <div class="row">
         <div class="col-11"><h2>{% trans 'Edit room' %}</h2></div>
-        <div class="col-1"><button type="button" class="btn btn-sm ark" data-bs-dismiss="modal" data-url="{%url "room-save"%}" 
-            data-target="room-{{obj.id}}" data-obj_id="{{obj.id}}"><i class="fas fa-times"></i></button></div>
+        <div class="col-1"><button type="button" class="btn btn-sm ark" data-bs-dismiss="modal"
+            {% if rooms2_admin %}data-url="{% url 'rooms2-admin-room-list' project.uuid %}" data-target="room-list"
+            {% else %}data-url="{% url 'room-save' %}" data-target="room-{{obj.id}}" data-obj_id="{{obj.id}}"{% endif %}><i class="fas fa-times"></i></button></div>
         {%comment%}
         <div class="col-1"><button type="button" class="btn btn-sm ark" data-bs-dismiss="modal" data-url="{%url "room-status-list"%}" 
             data-target="room-list"><i class="fas fa-times"></i></button></div>
@@ -83,4 +84,3 @@
 </div>
 
 <div class="row justify-center pt-0 mt-3"> <div id="lock-list">{% include "web/rooms/lock-card.html" %}</div> </div>
-

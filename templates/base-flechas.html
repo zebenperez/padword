@@ -43,6 +43,447 @@
         <!-- Favicons -->
         <meta name="theme-color" content="#7952b3">
 
+<style>
+
+    /* =====================================================
+       HEADER
+       ===================================================== */
+
+    .header {
+        width: 100%;
+        height: 56px;
+        min-height: 56px;
+
+        display: flex;
+        align-items: center;
+
+        padding: 0 16px 0 10px;
+
+        background: #fff;
+
+        border-bottom: 1px solid #009fe3;
+
+        box-sizing: border-box;
+
+        position: sticky;
+        top: 0;
+        z-index: 9999;
+    }
+
+
+    /* =====================================================
+       IZQUIERDA
+       ===================================================== */
+
+    .header-left {
+        height: 100%;
+
+        display: flex;
+        align-items: center;
+
+        gap: 16px;
+
+        flex: 0 0 auto;
+    }
+
+
+    .menu-btn {
+        width: 30px;
+        height: 40px;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        color: #164b67;
+
+        text-decoration: none;
+
+        flex-shrink: 0;
+    }
+
+
+    .logo-link {
+        height: 100%;
+
+        display: flex;
+        align-items: center;
+
+        flex-shrink: 0;
+    }
+
+
+    .img-project {
+        display: block;
+
+        width: auto;
+        max-width: 150px;
+        max-height: 44px;
+
+        object-fit: contain;
+    }
+
+
+    /* =====================================================
+       DERECHA
+       ===================================================== */
+
+    .header-right {
+        height: 100%;
+
+        margin-left: auto;
+
+        display: flex;
+        align-items: center;
+
+        /*
+         * MUY IMPORTANTE:
+         * permite que el contenido pueda reducir
+         * su espacio sin provocar overflow del header.
+         */
+        min-width: 0;
+
+        flex: 1 1 auto;
+
+        gap: 15px;
+    }
+
+
+
+
+
+
+
+.project-menu {
+    position: relative;
+    flex: 1 1 auto;
+    min-width: 0;
+    height: 60px;
+}
+
+
+/* CONTENEDOR DESPLAZABLE */
+.div-menu-project {
+    display: flex !important;
+    flex-direction: row !important;
+    flex-wrap: nowrap !important;
+
+    width: 100%;
+    height: 60px;
+
+    overflow-x: auto !important;
+    overflow-y: hidden;
+
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+
+    padding: 0 40px !important;
+}
+
+.div-menu-project::-webkit-scrollbar {
+    display: none;
+}
+
+
+/* ELEMENTOS */
+.div-menu-project > .menu-project-tab {
+    flex: 0 0 90px !important;
+    width: 90px;
+    min-width: 90px;
+    max-width: 90px;
+}
+
+
+/* =========================================
+   FLECHAS
+   ========================================= */
+
+.menu-scroll-button {
+    position: absolute !important;
+
+    top: 5px !important;
+
+    width: 32px !important;
+    height: 50px !important;
+
+    display: flex !important;
+
+    align-items: center !important;
+    justify-content: center !important;
+
+    padding: 0 !important;
+    margin: 0 !important;
+
+    border: none !important;
+    border-radius: 4px !important;
+
+    background: #333 !important;
+    color: #fff !important;
+
+    font-size: 32px !important;
+    line-height: 1 !important;
+
+    z-index: 10000 !important;
+
+    opacity: 1 !important;
+
+    visibility: visible !important;
+
+    cursor: pointer;
+}
+
+.menu-scroll-left {
+    left: 0 !important;
+}
+
+.menu-scroll-right {
+    right: 0 !important;
+}
+
+.menu-scroll-button span {
+    color: #fff !important;
+    font-size: 32px !important;
+    line-height: 32px !important;
+}
+
+
+/* Cuando no se puede seguir desplazando,
+   la flecha se ve pero atenuada */
+.menu-scroll-button.disabled {
+    opacity: 0.25 !important;
+    visibility: visible !important;
+    pointer-events: none;
+}
+
+
+
+
+
+
+
+
+
+    /* =====================================================
+       ICONOS
+       ===================================================== */
+
+    .contact-icons {
+
+        height: 100%;
+
+        display: flex;
+
+        align-items: center;
+
+        gap: 15px;
+
+        flex: 0 0 auto;
+    }
+
+
+    .contact-icons a {
+
+        width: 24px;
+        height: 40px;
+
+        display: flex !important;
+
+        align-items: center;
+        justify-content: center;
+
+        color: #164b67 !important;
+
+        text-decoration: none !important;
+
+        flex-shrink: 0;
+    }
+
+
+    .contact-icons a i {
+        font-size: 15px;
+
+        display: inline-block !important;
+    }
+
+
+    .contact-icons a:hover {
+        color: #009fe3 !important;
+    }
+
+
+    /* =====================================================
+       SALUDO
+       ===================================================== */
+
+    .project-name {
+
+        display: flex;
+
+        flex-direction: column;
+
+        align-items: flex-end;
+
+        justify-content: center;
+
+        min-width: 90px;
+
+        flex: 0 0 auto;
+
+        text-align: right;
+
+        white-space: nowrap;
+
+        line-height: 1.2;
+
+        font-size: 12px;
+    }
+
+
+    .project-name strong {
+
+        max-width: 150px;
+
+        overflow: hidden;
+
+        text-overflow: ellipsis;
+    }
+
+
+    /* =====================================================
+       SALIR
+       ===================================================== */
+
+    .button-logout {
+
+        width: 45px;
+        height: 40px;
+
+        flex: 0 0 auto;
+
+        display: flex !important;
+
+        align-items: center;
+        justify-content: center;
+
+        border-radius: 16px;
+
+        background: #f9eeee;
+
+        color: #ff3b20 !important;
+
+        text-decoration: none !important;
+    }
+
+
+    /* =====================================================
+       TABLET
+       ===================================================== */
+
+    @media (max-width: 1200px) {
+
+        .header-right {
+            gap: 10px;
+        }
+
+        .contact-icons {
+            gap: 10px;
+        }
+
+        .project-name {
+            min-width: 75px;
+        }
+    }
+
+
+    /* =====================================================
+       TABLET PEQUEÑA
+       ===================================================== */
+
+    @media (max-width: 992px) {
+
+        .header-left {
+            gap: 10px;
+        }
+
+        .img-project {
+            max-width: 120px;
+        }
+
+        .project-name {
+            min-width: 70px;
+        }
+
+        .contact-icons {
+            gap: 7px;
+        }
+    }
+
+
+    /* =====================================================
+       MÓVIL
+       ===================================================== */
+
+    @media (max-width: 768px) {
+
+        .header {
+
+            height: 54px;
+            min-height: 54px;
+
+            padding: 0 8px;
+        }
+
+
+        .header-left {
+            gap: 7px;
+        }
+
+
+        .img-project {
+            max-width: 105px;
+            max-height: 40px;
+        }
+
+
+        /*
+         * En móvil quitamos el menú de proyecto
+         * si quieres que solamente aparezca
+         * hamburguesa + logo + iconos.
+         */
+
+        .project-menu {
+            display: none;
+        }
+
+
+        .project-name {
+            display: none;
+        }
+
+
+        .contact-icons {
+            gap: 5px;
+        }
+
+
+        .contact-icons a {
+            width: 20px;
+        }
+
+
+        .button-logout {
+            width: 38px;
+            height: 36px;
+        }
+    }
+
+</style>
+
+
+
     </head>
 
     <body>
@@ -103,21 +544,26 @@
 		     MENÚ DEL PROYECTO
 		     ================================================= -->
 
-		<nav class="project-menu" aria-label="{% trans 'Projects' %}">
 
-		    <button type="button" class="menu-scroll-button menu-scroll-left"
-			    aria-label="{% trans 'Previous projects' %}" hidden>
-			<i class="fas fa-chevron-left" aria-hidden="true"></i>
-		    </button>
+<nav class="project-menu">
 
-		    {% get_project_menu request.user %}
+    <button type="button"
+            class="menu-scroll-button menu-scroll-left"
+            aria-label="Anterior">
+        <span>&lsaquo;</span>
+    </button>
 
-		    <button type="button" class="menu-scroll-button menu-scroll-right"
-			    aria-label="{% trans 'Next projects' %}" hidden>
-			<i class="fas fa-chevron-right" aria-hidden="true"></i>
-		    </button>
+    <div class="div-menu-project m-0">
+        {% get_project_menu request.user %}
+    </div>
 
-		</nav>
+    <button type="button"
+            class="menu-scroll-button menu-scroll-right"
+            aria-label="Siguiente">
+        <span>&rsaquo;</span>
+    </button>
+
+</nav>
 
 
 
@@ -184,6 +630,8 @@
 		</div>
 
 
+
+
 		<!-- =================================================
 		     SALIR
 		     ================================================= -->
@@ -217,6 +665,7 @@
 	    </div>
 
 	</header>
+
 
 
 
@@ -269,6 +718,11 @@
 
             <div class="overlay"></div>
 
+
+
+
+
+
             <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" 
                 integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
             <script src="https://cdn.jsdelivr.net/npm/feather-icons@4.28.0/dist/feather.min.js" 
@@ -313,46 +767,138 @@
             </script>
             <script src="{% static "js/layout.js" %}"></script>
 
-            <script>
-                document.addEventListener("DOMContentLoaded", function () {
-                    document.querySelectorAll(".project-menu").forEach(function (projectMenu) {
-                        const scrollArea = projectMenu.querySelector(":scope > .div-menu-project");
-                        const previousButton = projectMenu.querySelector(".menu-scroll-left");
-                        const nextButton = projectMenu.querySelector(".menu-scroll-right");
 
-                        if (!scrollArea || !previousButton || !nextButton) {
-                            return;
-                        }
+<script>
+document.addEventListener("DOMContentLoaded", function () {
 
-                        function updateControls() {
-                            const maxScroll = scrollArea.scrollWidth - scrollArea.clientWidth;
-                            const hasOverflow = maxScroll > 1;
+    const menu = document.querySelector(".div-menu-project");
+    const left = document.querySelector(".menu-scroll-left");
+    const right = document.querySelector(".menu-scroll-right");
 
-                            previousButton.hidden = !hasOverflow;
-                            nextButton.hidden = !hasOverflow;
-                            previousButton.disabled = !hasOverflow || scrollArea.scrollLeft <= 1;
-                            nextButton.disabled = !hasOverflow || scrollArea.scrollLeft >= maxScroll - 1;
-                        }
+    if (!menu || !left || !right) {
+        return;
+    }
 
-                        function scrollMenu(direction) {
-                            scrollArea.scrollBy({
-                                left: direction * Math.max(scrollArea.clientWidth * 0.75, 160),
-                                behavior: "smooth"
-                            });
-                        }
 
-                        previousButton.addEventListener("click", function () { scrollMenu(-1); });
-                        nextButton.addEventListener("click", function () { scrollMenu(1); });
-                        scrollArea.addEventListener("scroll", updateControls, { passive: true });
-                        window.addEventListener("resize", updateControls);
+    function actualizarFlechas() {
 
-                        if (window.ResizeObserver) {
-                            new ResizeObserver(updateControls).observe(scrollArea);
-                        }
+        const scrollActual = menu.scrollLeft;
 
-                        updateControls();
-                    });
-                });
-            </script>
+        const anchoVisible = menu.clientWidth;
+
+        const anchoTotal = menu.scrollWidth;
+
+        const maxScroll = anchoTotal - anchoVisible;
+
+
+        /*
+         * Si no hay contenido que desbordar,
+         * ocultamos las dos flechas.
+         */
+        if (maxScroll <= 5) {
+
+            left.style.display = "none";
+            right.style.display = "none";
+
+            return;
+        }
+
+
+        /*
+         * Sí hay scroll.
+         * Mostramos las dos flechas.
+         */
+        left.style.display = "flex";
+        right.style.display = "flex";
+
+
+        /*
+         * Estamos al principio
+         */
+        if (scrollActual <= 5) {
+            left.classList.add("disabled");
+        } else {
+            left.classList.remove("disabled");
+        }
+
+
+        /*
+         * Estamos al final
+         */
+        if (scrollActual >= maxScroll - 5) {
+            right.classList.add("disabled");
+        } else {
+            right.classList.remove("disabled");
+        }
+    }
+
+
+    /*
+     * BOTÓN IZQUIERDO
+     */
+    left.addEventListener("click", function () {
+
+        menu.scrollBy({
+            left: -250,
+            behavior: "smooth"
+        });
+
+    });
+
+
+    /*
+     * BOTÓN DERECHO
+     */
+    right.addEventListener("click", function () {
+
+        menu.scrollBy({
+            left: 250,
+            behavior: "smooth"
+        });
+
+    });
+
+
+    /*
+     * Al hacer scroll
+     */
+    menu.addEventListener("scroll", actualizarFlechas);
+
+
+    /*
+     * Al cambiar el tamaño de ventana
+     */
+    window.addEventListener("resize", actualizarFlechas);
+
+
+    /*
+     * MUY IMPORTANTE:
+     * Esperamos a que todo esté cargado.
+     */
+    window.addEventListener("load", function () {
+
+        actualizarFlechas();
+
+        /*
+         * Segundo cálculo por si algún elemento
+         * tarda en modificar el ancho.
+         */
+        setTimeout(actualizarFlechas, 300);
+
+        setTimeout(actualizarFlechas, 1000);
+
+    });
+
+
+    /*
+     * Primer cálculo
+     */
+    actualizarFlechas();
+
+});
+</script>
+
+
+
     </body>
 </html>

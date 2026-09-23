@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% load i18n %}
+
+{% block central_content %}
+<div class="content mt-4">
+    <div class="card">
+        <div class="card-body p-4">
+            <h2>{% trans 'Delete PWA' %}</h2>
+            <p>{% blocktrans with name=pwa.name %}Are you sure you want to permanently delete "{{ name }}"?{% endblocktrans %}</p>
+            {% if pwa.status == 'published' %}
+                <div class="alert alert-warning" role="alert">
+                    {% trans 'This PWA is published. Its public link will stop working immediately.' %}
+                </div>
+            {% endif %}
+            <form method="post" action="{% url 'project-pwa-delete' project_uuid pwa.uuid %}">
+                {% csrf_token %}
+                <a class="btn btn-secondary" href="{% url 'project-pwa-list' project_uuid %}">{% trans 'Cancel' %}</a>
+                <button class="btn btn-danger" type="submit"><i class="fas fa-trash"></i> {% trans 'Delete permanently' %}</button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock central_content %}

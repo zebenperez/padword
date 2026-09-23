@@ -7,6 +7,9 @@
 <div class="content mt-3">
     <div class="toolbar-content">
         <h2 class="b-right">{% trans "Matrículas de vehículos" %} · {{ project.name }}</h2>
+        {% if admin_mode %}
+            <a class="btn btn-outline-secondary" href="{% url 'vehicle_access:admin-projects' %}">{% trans "Cambiar proyecto" %}</a>
+        {% endif %}
     </div>
 
     {% if messages %}
@@ -58,7 +61,7 @@
                     <td>{{ vehicle_plate.plate }}</td>
                     <td>{{ vehicle_plate.plate_type }}</td>
                     <td class="text-right">
-                        <form method="post" action="{% url 'vehicle_access:vehicle-plate-remove' vehicle_plate.id %}">
+                        <form method="post" action="{% if admin_mode %}{% url 'vehicle_access:admin-vehicle-plate-remove' project.uuid vehicle_plate.id %}{% else %}{% url 'vehicle_access:vehicle-plate-remove' vehicle_plate.id %}{% endif %}">
                             {% csrf_token %}
                             <button class="btn btn-sm btn-danger" type="submit">{% trans "Eliminar" %}</button>
                         </form>

@@ -1,5 +1,12 @@
 {% load i18n %}
 {% for item in room_list %}
-    <span id="card-{{ item.id }}"></span>
-    <script>ajaxGet("{% url 'rooms2-admin-get-card' project.uuid %}", {"obj_id": "{{ item.id }}"}, "card-{{ item.id }}", "");</script>
+    {% include 'web/rooms2-admin/room-card2.html' with item=item %}
 {% endfor %}
+{% if has_more %}
+    <span id="{{ target }}-{{ next_offset }}" class="rooms2-admin-card-slot"></span>
+    <div class="rooms2-admin-more">
+        <button class="btn btn-primary ark" data-url="{% url 'rooms2-admin-get-all-cards' project.uuid %}"
+            data-target="{{ target }}-{{ next_offset }}" data-group="{{ group_name }}" data-offset="{{ next_offset }}"
+            onclick="$(this).hide();"><i class="fas fa-chevron-down"></i> {% trans 'Ver mas' %}</button>
+    </div>
+{% endif %}

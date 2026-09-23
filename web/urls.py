@@ -9,6 +9,7 @@ urlpatterns = [
     #path('index/<slug:chk>/', views.index, name='web-index-new'),
     path('index/', views.index, name='web-index-new'),
     path('', views.index, name='web-index'),
+    path('dashboard/', views.dashboard, name='dashboard'),
     path('set-project/<slug:uuid>/', views.set_project, name='set-project'),
     path('get-menus/', views.get_menus, name='get-menus'), #REMOVE
     path('set-menus/', views.set_menus, name='set-menus'), #REMOVE
@@ -125,6 +126,8 @@ urlpatterns = [
 
     #--------------------- Projects Manager--------------------
     path('projects-manager/', project_manager_views.projects, name='projects-manager'),
+    path('projects-manager/page-rows/<int:page>/', project_manager_views.projects_page_rows, name='projects-manager-page-rows'),
+    path('projects-manager/page-rows/<int:page>/<int:rows>', project_manager_views.projects_page_rows, name='projects-manager-page-rows'),
     path('projects-manager/search/', project_manager_views.projects_search, name='projects-manager-search'),
     path('projects-manager/details/<int:obj_id>/', project_manager_views.projects_details, name='projects-manager-details'),
     path('projects-manager/form/', project_manager_views.projects_form, name='projects-manager-form'),
@@ -307,6 +310,9 @@ urlpatterns = [
     path('rooms2/admin/search/', room_views.rooms2_admin_projects_search, name='rooms2-admin-projects-search'),
     path('rooms2/admin/<slug:project_uuid>/', room_views.rooms2_admin_by_project, name='rooms2-admin-by-project'),
     path('rooms2/admin/<slug:project_uuid>/search/', room_views.rooms2_admin_search_by_project, name='rooms2-admin-search-by-project'),
+    path('rooms2/admin/<slug:project_uuid>/list/', room_views.rooms2_admin_room_list, name='rooms2-admin-room-list'),
+    path('rooms2/admin/<slug:project_uuid>/form/', room_views.rooms2_admin_room_form, name='rooms2-admin-room-form'),
+    path('rooms2/admin/<slug:project_uuid>/remove/', room_views.rooms2_admin_room_remove, name='rooms2-admin-room-remove'),
     path('rooms2/admin/<slug:project_uuid>/get-card/', room_views.rooms2_admin_get_card, name='rooms2-admin-get-card'),
     path('rooms2/admin/<slug:project_uuid>/get-all-cards/', room_views.rooms2_admin_get_all_cards, name='rooms2-admin-get-all-cards'),
 

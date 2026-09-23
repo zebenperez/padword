@@ -9,4 +9,5 @@ urlpatterns = [
     path('projects/<slug:project_uuid>/pwas/<uuid:pwa_uuid>/edit/', views.edit, name='project-pwa-edit'),
     path('projects/<slug:project_uuid>/pwas/<uuid:pwa_uuid>/publish/', views.publish, name='project-pwa-publish'),
     path('projects/<slug:project_uuid>/pwas/<uuid:pwa_uuid>/unpublish/', views.unpublish, name='project-pwa-unpublish'),
+    path('projects/<slug:project_uuid>/pwas/<uuid:pwa_uuid>/delete/', views.delete, name='project-pwa-delete'),
 ]

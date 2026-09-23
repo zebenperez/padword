@@ -4,6 +4,9 @@ project_pwa/migrations/
 project_pwa/migrations/*.py
 vehicle_access/migrations/
 vehicle_access/migrations/*.py
+!vehicle_access/migrations/
+!vehicle_access/migrations/0002_platetype_uuid.py
+!vehicle_access/migrations/0003_vehicleplate_uuid.py
 collect_static
 get_static.sh
 viewlog.sh

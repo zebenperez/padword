@@ -18,13 +18,14 @@
                         <td class="text-end">
                             {% if pwa.status == 'published' %}<a class="btn btn-xs" href="{% url 'project-pwa-public' pwa.uuid %}" target="_blank" title="{% trans 'Open PWA' %}"><i class="fas fa-external-link-alt"></i></a>{% endif %}
                             <a class="btn btn-xs" href="{% url 'project-pwa-edit' project.uuid pwa.uuid %}" title="{% trans 'Edit' %}"><i class="fas fa-edit"></i></a>
+                            <a class="btn btn-xs text-danger" href="{% url 'project-pwa-delete' project.uuid pwa.uuid %}" title="{% trans 'Delete' %}"><i class="fas fa-trash"></i></a>
                         </td>
                     </tr>
                     {% endfor %}
                 </tbody>
             </table>
         {% else %}
-            <p class="text-muted">{% trans 'There are no PWAs for this project yet.' %}</p>
+	    <div class="alert alert-info text-muted" role="alert">{% trans 'There are no PWAs for this project yet.' %}</div>
         {% endif %}
     </div>
 </div>

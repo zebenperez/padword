@@ -1,4 +1,5 @@
 import re
+import uuid
 
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
@@ -9,6 +10,7 @@ def normalize_plate(value):
 
 
 class PlateType(models.Model):
+    uuid = models.UUIDField(default=uuid.uuid4, unique=True, editable=False)
     name = models.CharField(_("Nombre"), max_length=100, unique=True)
 
     class Meta:
@@ -21,6 +23,7 @@ class PlateType(models.Model):
 
 
 class VehiclePlate(models.Model):
+    uuid = models.UUIDField(default=uuid.uuid4, unique=True, editable=False)
     plate = models.CharField(_("Matrícula"), max_length=20)
     plate_normalized = models.CharField(
         _("Matrícula normalizada"), max_length=20, editable=False
@@ -44,12 +47,12 @@ class VehiclePlate(models.Model):
         verbose_name = _("Matrícula de vehículo")
         verbose_name_plural = _("Matrículas de vehículos")
         ordering = ["project", "plate_normalized"]
-        #constraints = [
-        #    models.UniqueConstraint(
-        #        fields=["project", "plate_normalized"],
-        #        name="vehicle_access_unique_plate_project",
-        #    )
-        #]
+        constraints = [
+            models.UniqueConstraint(
+                fields=["project", "plate_normalized"],
+                name="vehicle_access_unique_plate_project",
+            )
+        ]
 
     def __str__(self):
         return self.plate

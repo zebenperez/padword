@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+{% load i18n padword_tags %}
+
+{% block second_menu %}{% get_second_menu request.user %}{% endblock second_menu %}
+
+{% block central_content %}
+<style>
+    .dashboard { max-width: 1500px; margin: 0 auto; padding: 2rem; color: #182334; }
+    .dashboard-header { display:flex; justify-content:space-between; gap:1rem; align-items:flex-start; margin-bottom:1.5rem; }
+    .dashboard h1 { font-size:1.8rem; font-weight:700; margin:0; }
+    .dashboard-subtitle { color:#718096; margin:.35rem 0 0; }
+    .mockup-badge { border-radius:999px; background:#fff4df; color:#a66000; font-size:.85rem; font-weight:600; padding:.45rem .8rem; white-space:nowrap; }
+    .metrics-grid { display:grid; grid-template-columns:repeat(5, minmax(0, 1fr)); gap:1rem; margin-bottom:1.5rem; }
+    .dashboard-card { border:0; border-radius:1rem; background:#fff; box-shadow:0 .4rem 1.3rem rgba(31, 52, 78, .08); }
+    .metric-card { min-height:154px; padding:1.35rem; position:relative; overflow:hidden; }
+    .metric-label { color:#495567; font-size:1rem; }
+    .metric-value { font-size:2rem; font-weight:700; letter-spacing:-.04em; line-height:1.2; margin-top:.8rem; }
+    .metric-detail { color:#8491a3; font-size:.9rem; margin-top:.25rem; }
+    .metric-icon { position:absolute; top:1.25rem; right:1.25rem; font-size:1.6rem; }
+    .blue { color:#27aee4; } .lime { color:#95c11f; } .cyan { color:#25b7dc; } .orange { color:#e56721; } .purple { color:#7954c7; }
+    .dashboard-main { display:grid; grid-template-columns:minmax(280px, 1fr) minmax(450px, 2.1fr); gap:1rem; margin-bottom:1.5rem; }
+    .panel { padding:1.5rem; min-height:255px; }
+    .panel h2 { font-size:1.1rem; font-weight:700; margin:0 0 1.15rem; }
+    .activity-item { display:flex; gap:.8rem; align-items:flex-start; margin:1rem 0; }
+    .activity-dot { width:.7rem; height:.7rem; border-radius:50%; background:#9bc51e; margin-top:.34rem; flex:0 0 auto; }
+    .activity-title { font-weight:600; line-height:1.1; } .activity-time { color:#8a96a6; font-size:.88rem; margin-top:.2rem; }
+    .summary-grid { display:grid; grid-template-columns:repeat(3, 1fr); gap:1rem; margin-bottom:1.5rem; }
+    .summary-card { padding:1.45rem; text-align:center; } .summary-value { font-size:1.8rem; font-weight:700; line-height:1.2; } .summary-label { color:#667386; margin-top:.45rem; }
+    .summary-card:nth-child(1) .summary-value { color:#95c11f; } .summary-card:nth-child(2) .summary-value { color:#27aee4; } .summary-card:nth-child(3) .summary-value { color:#7954c7; }
+    .projects-panel { overflow:hidden; padding:0; } .projects-panel h2 { padding:1.5rem 1.5rem 0; }
+    .dashboard-table { margin:0; } .dashboard-table th { background:#f4f9fc; border:0; color:#25a7d8; font-weight:600; padding:1rem 1.5rem; } .dashboard-table td { border-color:#eef2f6; padding:1rem 1.5rem; vertical-align:middle; }
+    .status { border-radius:999px; display:inline-block; font-size:.8rem; font-weight:600; padding:.28rem .65rem; } .status-active { color:#6f9711; background:#eff8d8; } .status-pending { color:#ad710c; background:#fff3da; }
+    @media (max-width:1200px) { .metrics-grid { grid-template-columns:repeat(3, 1fr); } } @media (max-width:800px) { .dashboard { padding:1rem; } .dashboard-main { grid-template-columns:1fr; } .metrics-grid, .summary-grid { grid-template-columns:repeat(2, 1fr); } .dashboard-table th:nth-child(2), .dashboard-table td:nth-child(2) { display:none; } } @media (max-width:480px) { .metrics-grid, .summary-grid { grid-template-columns:1fr; } .dashboard-header { flex-direction:column; } }
+</style>
+
+<div class="dashboard">
+    <div class="dashboard-header">
+        <div><h1>{% trans 'Dashboard' %}</h1><p class="dashboard-subtitle">{% trans 'Resumen general de la plataforma' %}</p></div>
+        {% if is_mockup %}<span class="mockup-badge"><i class="fas fa-flask"></i> {% trans 'Métricas y actividad reales · otros bloques de ejemplo' %}</span>{% endif %}
+    </div>
+
+    <div class="metrics-grid">
+        {% for metric in metrics %}
+            <article class="dashboard-card metric-card"><span class="metric-label">{{ metric.label }}</span><i class="fas {{ metric.icon }} metric-icon {{ metric.tone }}"></i><div class="metric-value">{{ metric.value }}</div><div class="metric-detail">{{ metric.detail }}</div></article>
+        {% endfor %}
+    </div>
+
+    <div class="dashboard-main">
+        <section class="dashboard-card panel"><h2>{% trans 'Actividad reciente' %}</h2>{% for item in activity %}<div class="activity-item"><span class="activity-dot"></span><div><div class="activity-title">{{ item.title }}</div><div class="activity-time">{{ item.time }}</div></div></div>{% empty %}<p class="dashboard-subtitle">{% trans 'Todavía no hay actividad registrada.' %}</p>{% endfor %}</section>
+        <section class="dashboard-card panel"><h2>{% trans 'Estado de la plataforma' %}</h2><div class="summary-grid">{% for metric in status_metrics %}<div class="dashboard-card summary-card"><div class="summary-value {{ metric.tone }}">{{ metric.value }}</div><div class="summary-label">{{ metric.label }}</div><div class="metric-detail">{{ metric.detail }}</div></div>{% endfor %}</div></section>
+    </div>
+
+    <section class="dashboard-card projects-panel"><h2>{% trans 'Últimos proyectos' %}</h2><div class="table-responsive"><table class="table dashboard-table"><thead><tr><th>{% trans 'Proyecto' %}</th><th>{% trans 'Empresa' %}</th><th>{% trans 'Estado' %}</th><th>{% trans 'Creado' %}</th></tr></thead><tbody>{% for project in projects %}<tr><td>{{ project.name }}</td><td>{{ project.company }}</td><td><span class="status {% if project.status == 'Activo' %}status-active{% else %}status-pending{% endif %}">{{ project.status }}</span></td><td>{{ project.created }}</td></tr>{% empty %}<tr><td colspan="4" class="text-muted">{% trans 'No hay proyectos registrados.' %}</td></tr>{% endfor %}</tbody></table></div></section>
+</div>
+{% endblock central_content %}

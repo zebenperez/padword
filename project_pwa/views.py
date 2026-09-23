@@ -27,6 +27,7 @@ DEFAULT_CONFIG = {
     'footer_color': '#6b7280',
     'footer_size': 14,
     'footer_bg': '#ffffff',
+    'login_logo_size': 65,
 }
 
 
@@ -47,6 +48,16 @@ def _get_config(pwa):
     return config
 
 
+def _get_content(pwa):
+    return {
+        'room_title': '',
+        'footer_text': '',
+        'login_title': 'Bienvenid@ a {}'.format(pwa.name),
+        'login_subtitle': 'Introduce tus datos de acceso.',
+        **(pwa.content or {}),
+    }
+
+
 def _save_wizard_data(request, pwa):
     config = _get_config(pwa)
     for key in DEFAULT_CONFIG:
@@ -60,12 +71,14 @@ def _save_wizard_data(request, pwa):
             else:
                 config[key] = value
 
-    pwa.name = request.POST.get('name', pwa.name).strip() or pwa.name
+    if 'name' in request.POST:
+        pwa.name = request.POST.get('name', pwa.name).strip() or pwa.name
     pwa.config = config
-    pwa.content = {
-        'room_title': request.POST.get('room_title', ''),
-        'footer_text': request.POST.get('footer_text', ''),
-    }
+    content = pwa.content.copy() if pwa.content else {}
+    for key in ('room_title', 'footer_text', 'login_title', 'login_subtitle'):
+        if key in request.POST:
+            content[key] = request.POST[key]
+    pwa.content = content
     if request.FILES.get('logo'):
         pwa.logo = request.FILES['logo']
     if request.FILES.get('background'):
@@ -178,14 +191,21 @@ def create(request, project_uuid):
 @group_required('admins')
 def edit(request, project_uuid, pwa_uuid):
     pwa = _get_pwa(project_uuid, pwa_uuid)
+    step = request.GET.get('step', request.POST.get('step', 'login'))
+    if step not in ('login', 'app'):
+        step = 'login'
     if request.method == 'POST':
         _save_wizard_data(request, pwa)
-        messages.success(request, 'PWA saved as draft.')
-        return redirect('project-pwa-edit', project_uuid=project_uuid, pwa_uuid=pwa.uuid)
+        messages.success(request, 'PWA saved.')
+        return redirect('{}?step={}'.format(
+            reverse('project-pwa-edit', kwargs={'project_uuid': project_uuid, 'pwa_uuid': pwa.uuid}),
+            step,
+        ))
     return render(request, 'project_pwa/wizard.html', {
         'pwa': pwa,
         'config': _get_config(pwa),
-        'content': pwa.content or {},
+        'content': _get_content(pwa),
+        'step': step,
     })
 
 
@@ -198,7 +218,11 @@ def publish(request, project_uuid, pwa_uuid):
     pwa.published_at = timezone.now()
     pwa.save(update_fields=['status', 'published_at', 'updated_at'])
     messages.success(request, 'PWA published.')
-    return redirect('project-pwa-edit', project_uuid=project_uuid, pwa_uuid=pwa.uuid)
+    step = request.POST.get('step', 'login')
+    return redirect('{}?step={}'.format(
+        reverse('project-pwa-edit', kwargs={'project_uuid': project_uuid, 'pwa_uuid': pwa.uuid}),
+        step if step in ('login', 'app') else 'login',
+    ))
 
 
 @require_POST
@@ -212,6 +236,28 @@ def unpublish(request, project_uuid, pwa_uuid):
     return redirect('project-pwa-edit', project_uuid=project_uuid, pwa_uuid=pwa.uuid)
 
 
+@group_required('admins')
+def delete(request, project_uuid, pwa_uuid):
+    pwa = _get_pwa(project_uuid, pwa_uuid)
+    if request.method != 'POST':
+        return render(request, 'project_pwa/delete_confirm.html', {
+            'pwa': pwa,
+            'project_uuid': project_uuid,
+        })
+
+    # FileField.delete() removes the storage objects without saving the model;
+    # retain them here so deleting the database row does not leave uploads behind.
+    logo = pwa.logo
+    background = pwa.background
+    pwa.delete()
+    if logo:
+        logo.delete(save=False)
+    if background:
+        background.delete(save=False)
+    messages.success(request, 'PWA deleted.')
+    return redirect('project-pwa-list', project_uuid=project_uuid)
+
+
 def public(request, pwa_uuid):
     pwa = _published_pwa(pwa_uuid)
     guest = _current_guest(request, pwa)
@@ -221,7 +267,7 @@ def public(request, pwa_uuid):
         'guest': guest,
         'languages': _get_languages(pwa),
         'language': _get_language(request, pwa, guest),
-        'content': pwa.content or {},
+        'content': _get_content(pwa),
         'guest_data': _guest_pwa_data(guest) if guest else None,
     })
 
@@ -246,6 +292,7 @@ def access(request, pwa_uuid):
             'guest': None,
             'languages': _get_languages(pwa),
             'language': language if language in _get_languages(pwa) else _get_languages(pwa)[0],
+            'content': _get_content(pwa),
             'error': 'Los datos no son válidos o no tienes una reserva activa.',
         }, status=401)
 
@@ -282,7 +329,7 @@ def app(request, pwa_uuid):
     return render(request, 'project_pwa/app.html', {
         'pwa': pwa,
         'config': _get_config(pwa),
-        'content': pwa.content or {},
+        'content': _get_content(pwa),
         'guest': guest,
         'language': _get_language(request, pwa, guest),
         'guest_data': _guest_pwa_data(guest),

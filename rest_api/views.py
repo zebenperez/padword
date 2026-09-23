@@ -5,8 +5,10 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.exceptions import PermissionDenied
 
 from django.urls import reverse
+from django.utils import timezone
+from django.utils.dateparse import parse_date, parse_datetime
 
-from .models_serializers import GuestSerializer, LockSerializer, RoomSerializer, GuestCarSerializer, VehiclePlateSerializer, WristbandAccessSerializer
+from .models_serializers import GuestSerializer, LockSerializer, RoomSerializer, GuestCarSerializer, VehiclePlateSerializer, PlateTypeSerializer, WristbandAccessSerializer
 
 from guest.models import BackgroundJob, Guest, GuestCar, Regime, GuestRegime, GuestType
 from guest.background_jobs import create_close_bands_job
@@ -19,7 +21,7 @@ from web.lock_lib import get_record_type
 from sensibo.models import ProjectSensiboUser
 from contents.models import PointOfSale
 from connector.models import ProjectStripeUser, ProjectCarUser
-from vehicle_access.models import VehiclePlate
+from vehicle_access.models import PlateType, VehiclePlate
 from padword.commons import new_ui_slug, reverse_cardkey, timestamp_to_date, get_float, get_int, get_or_none
 from padword.commons import get_today_ini, get_today_end
 from connector.libstripe import ShStripe
@@ -194,6 +196,72 @@ class GuestViewSet(viewsets.ModelViewSet):
         logger.error("[{}]: \"Partial update function is not offered in this path.\"".format(self.request.user))
         response = {'message': 'Update function is not offered in this path.'}
         return Response(response, status=status.HTTP_403_FORBIDDEN)
+
+    @action(detail=False, methods=['post'])
+    def soft_delete_before_checkout(self, request):
+        """Soft-delete this project's active guests checked out before a date."""
+        try:
+            value = request.data.get('check_out_before', request.data.get('date', ''))
+            if not value:
+                return Response(
+                    {'error': True, 'msg': 'check_out_before is required!'},
+                    status=status.HTTP_400_BAD_REQUEST,
+                )
+
+            cutoff = parse_datetime(str(value).replace('_', ' '))
+            if cutoff is None:
+                parsed_date = parse_date(str(value))
+                if parsed_date is None:
+                    return Response(
+                        {'error': True, 'msg': 'Invalid check_out_before date!'},
+                        status=status.HTTP_400_BAD_REQUEST,
+                    )
+                cutoff = datetime.combine(parsed_date, time.min)
+            if timezone.is_naive(cutoff):
+                cutoff = timezone.make_aware(cutoff, timezone.get_current_timezone())
+
+            project_user = ProjectUser.objects.get(username=request.user.username)
+            guests = Guest.objects.filter(
+                project_id=project_user.project_uuid,
+                deleted=False,
+                check_out__lt=cutoff,
+            )
+            deleted_count = 0
+            deleted_guests = []
+            for guest in guests:
+                guest_data = self.serializer_class(guest).data
+                delete_log = guest.delete_soft()
+                guest_data['deleted'] = True
+                guest_data['delete_soft_log'] = delete_log
+                deleted_guests.append(guest_data)
+                deleted_count += 1
+
+            logger.info(
+                "[{}]: \"Soft-deleted {} guests checked out before {}\"".format(
+                    request.user, deleted_count, cutoff.isoformat()
+                )
+            )
+            return Response(
+                {
+                    'error': False,
+                    'guests_deleted': deleted_count,
+                    'deleted_guests': deleted_guests,
+                    'check_out_before': cutoff.isoformat(),
+                },
+                status=status.HTTP_200_OK,
+            )
+        except ProjectUser.DoesNotExist:
+            logger.error("[{}]: \"Project user not found!\"".format(request.user))
+            return Response(
+                {'error': True, 'msg': 'Permission denied!'},
+                status=status.HTTP_403_FORBIDDEN,
+            )
+        except Exception as e:
+            logger.error("[{}]: \"{}\"".format(request.user, str(e)))
+            return Response(
+                {'error': True, 'msg': 'Bad request!'},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
 
     @action(detail=False, methods=['get'])
     def get_locks(self, request):
@@ -1333,6 +1401,7 @@ class VehiclePlateViewSet(viewsets.ModelViewSet):
     queryset = VehiclePlate.objects.none()
     serializer_class = VehiclePlateSerializer
     permission_classes = [IsAuthenticated,]
+    lookup_field = 'uuid'
 
     def get_project_uuid(self):
         try:
@@ -1356,6 +1425,14 @@ class VehiclePlateViewSet(viewsets.ModelViewSet):
 
     def perform_create(self, serializer):
         serializer.save(project_id=self.get_project_uuid())
+
+    @action(detail=False, methods=['GET'], url_path='plate-types')
+    def plate_types(self, request):
+        # Keep this endpoint scoped to accounts with a project, just like the
+        # plate CRUD endpoints, even though types themselves are global.
+        self.get_project_uuid()
+        plate_types = PlateType.objects.all().order_by('name')
+        return Response(PlateTypeSerializer(plate_types, many=True).data)
 
 
 class AccessZoneViewSet(viewsets.ViewSet):

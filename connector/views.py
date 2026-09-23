@@ -821,29 +821,21 @@ def roomraccoon_write_log(xml_body):
     f.write("\n{} - Recibida reserva de roomraccoon".format(datetime.now().strftime("%Y-%m-%d %H:%M:%S")))
     f.write("\n{}".format(xml_body))
 
+def roomraccoon_manage_webhook(request):
+    f = open(os.path.join(settings.BASE_DIR, "roomraccoon.log"), "a", encoding='utf-8')
+    f.write("\n[LOG]: CONTENIDO")
+    content = roomraccoon_parse_soap_reservation(request.body.decode("utf-8"))
+    f.write("\n[LOG]: PROYECTO (HOTEL): {}".format(content["hotel_code"]))
+    pru = get_or_none(ProjectRoomraccoonUser, content["hotel_code"], "hotel")
+    f.write("\n[LOG]: PROYECTO: {}".format(pru.project_uuid))
+    err = roomraccoon_manage_booking(pru, content, f)
+    soap_response = roomraccoon_get_soap_response() # Resuesta SOAP
+    f.write("\n[LOG]: RESPONSE: {}".format(soap_response))
+
 @csrf_exempt  # SOAP no maneja CSRF tokens
 def roomraccoon_get_booking(request):
     if request.method != "POST":
         return HttpResponse("Método no permitido", status=405)
-
-#    auth_header = request.META.get("HTTP_AUTHORIZATION")
-#    if not auth_header or not auth_header.startswith("Basic "):
-#        response = HttpResponse("No autorizado", status=401)
-#        response["WWW-Authenticate"] = 'Basic realm="SOAP API"'
-#        return response
-#
-#    try:
-#        encoded = auth_header.split(" ")[1]
-#        decoded = base64.b64decode(encoded).decode("utf-8")
-#        username, password = decoded.split(":")
-#    except Exception:
-#        return HttpResponse("Credenciales inválidas", status=400)
-#
-#    user = authenticate(username=username, password=password)
-#    if user == None:
-#        response = HttpResponse("No autorizado", status=401)
-#        response["WWW-Authenticate"] = 'Basic realm="SOAP API"'
-#        return response
 
     f = open(os.path.join(settings.BASE_DIR, "roomraccoon.log"), "a", encoding='utf-8')
     f.write("\n[LOG]: ENTRA")
@@ -863,18 +855,17 @@ def roomraccoon_get_booking(request):
         return response
 
     try:
-        f.write("\n[LOG]: CONTENIDO")
-        #contenido = roomraccoon_get_soap_body(request.body.decode("utf-8"))
-        #pu = get_or_none(ProjectUser, user.username, "username")
-        #pru = get_or_none(ProjectRoomraccoonUser, pu.project_uuid, "project_uuid")
-        content = roomraccoon_parse_soap_reservation(request.body.decode("utf-8"))
-        f.write("\n[LOG]: PROYECTO (HOTEL): {}".format(content["hotel_code"]))
-        #print(content)
-        pru = get_or_none(ProjectRoomraccoonUser, content["hotel_code"], "hotel")
-        f.write("\n[LOG]: PROYECTO: {}".format(pru.project_uuid))
-        err = roomraccoon_manage_booking(pru, content, f)
-        soap_response = roomraccoon_get_soap_response() # Resuesta SOAP
-        return HttpResponse(soap_response, content_type="text/xml")
+#        f.write("\n[LOG]: CONTENIDO")
+#        content = roomraccoon_parse_soap_reservation(request.body.decode("utf-8"))
+#        f.write("\n[LOG]: PROYECTO (HOTEL): {}".format(content["hotel_code"]))
+#        pru = get_or_none(ProjectRoomraccoonUser, content["hotel_code"], "hotel")
+#        f.write("\n[LOG]: PROYECTO: {}".format(pru.project_uuid))
+#        err = roomraccoon_manage_booking(pru, content, f)
+#        soap_response = roomraccoon_get_soap_response() # Resuesta SOAP
+#        return HttpResponse(soap_response, content_type="text/xml")
+        t = threading.Thread(target=roomraccoon_manage_webhook, args=[request], daemon=True)
+        t.start()
+        return JsonResponse({"status": "OK"}, status=200)
     except Exception as e:
         f.write("\n[LOG]: ERROR: {}".format(str(e)))
         print("❌ Error procesando SOAP:", e)

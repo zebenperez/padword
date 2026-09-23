@@ -4,6 +4,7 @@ from django.core.paginator import Paginator
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, redirect
 from django.urls import reverse
+from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _ 
 from django.views.decorators.csrf import csrf_exempt
 
@@ -19,6 +20,7 @@ from connector.cloudbeds_lib import set_webhooks, get_webhooks, remove_webhooks
 from contents.models import Category, PointOfSale, PointOfSaleCategory, Table, PosDiscount, PosDiscountItem
 from bookings.models import Form, FormInstance
 from .models import *
+from .models_lock import Lock
 #from .lock_lib import ShLock
 
 
@@ -61,6 +63,128 @@ def index(request, chk=None):
         return redirect('projects-locks')
 
     return redirect('projects')
+
+
+def _dashboard_time_ago(value, now):
+    if timezone.is_naive(value) and timezone.is_aware(now):
+        value = timezone.make_aware(value, timezone.get_current_timezone())
+    elif timezone.is_aware(value) and timezone.is_naive(now):
+        now = timezone.make_aware(now, timezone.get_current_timezone())
+
+    seconds = max(0, int((now - value).total_seconds()))
+    if seconds < 60:
+        return "Ahora"
+    if seconds < 3600:
+        return "Hace {} min".format(seconds // 60)
+    if seconds < 86400:
+        return "Hace {} h".format(seconds // 3600)
+    return "Hace {} d".format(seconds // 86400)
+
+
+def _dashboard_recent_activity():
+    now = timezone.now()
+    activity = []
+
+    for project in Project.objects.exclude(created_at__isnull=True).order_by("-created_at")[:5]:
+        activity.append({
+            "title": "Proyecto creado: {}".format(project.name),
+            "time": _dashboard_time_ago(project.created_at, now),
+            "timestamp": project.created_at,
+        })
+
+    for guest in Guest.objects.filter(deleted=0, check_in__lte=now).order_by("-check_in")[:5]:
+        activity.append({
+            "title": "Entrada de huésped: {}".format(guest.full_name or guest.name),
+            "time": _dashboard_time_ago(guest.check_in, now),
+            "timestamp": guest.check_in,
+        })
+
+    for order in FormInstance.objects.exclude(date__isnull=True).order_by("-date")[:5]:
+        activity.append({
+            "title": "Pedido registrado: {}".format(order.code or "#{}".format(order.id)),
+            "time": _dashboard_time_ago(order.date, now),
+            "timestamp": order.date,
+        })
+
+    for lock in Lock.objects.exclude(last_update__isnull=True).order_by("-last_update")[:5]:
+        activity.append({
+            "title": "Cerradura actualizada: {}".format(lock.alias or lock.uuid),
+            "time": _dashboard_time_ago(lock.last_update, now),
+            "timestamp": lock.last_update,
+        })
+
+    return sorted(activity, key=lambda item: item["timestamp"], reverse=True)[:5]
+
+
+def _dashboard_status_metrics():
+    now = timezone.now()
+    locks_total = Lock.objects.count()
+    rooms_total = Room.objects.count()
+    return [
+        {
+            "label": "Proyectos activos",
+            "value": Project.objects.filter(active=1).count(),
+            "detail": "de {} proyectos".format(Project.objects.count()),
+            "tone": "lime",
+        },
+        {
+            "label": "Ocupación actual",
+            "value": Guest.objects.filter(
+                deleted=0,
+                room__gt="",
+                check_in__lte=now,
+                check_out__gte=now,
+            ).values("project_id", "room").distinct().count(),
+            "detail": "de {} habitaciones".format(rooms_total),
+            "tone": "cyan",
+        },
+        {
+            "label": "Cerraduras sincronizadas",
+            "value": Lock.objects.filter(last_update__gte=now - datetime.timedelta(minutes=15)).count(),
+            "detail": "de {} en los últimos 15 min".format(locks_total),
+            "tone": "purple",
+        },
+        {
+            "label": "Pedidos recientes",
+            "value": FormInstance.objects.filter(date__gte=now - datetime.timedelta(hours=24)).count(),
+            "detail": "en las últimas 24 h",
+            "tone": "orange",
+        },
+    ]
+
+
+def _dashboard_recent_projects():
+    now = timezone.now()
+    projects = Project.objects.select_related("company").exclude(
+        created_at__isnull=True
+    ).order_by("-created_at")[:5]
+    return [
+        {
+            "name": project.name,
+            "company": project.company.name if project.company else "—",
+            "status": "Activo" if project.active == 1 else "Inactivo",
+            "created": _dashboard_time_ago(project.created_at, now),
+        }
+        for project in projects
+    ]
+
+
+@group_required("admins")
+def dashboard(request):
+    """Read-only admin dashboard."""
+    return render(request, "web/dashboard.html", {
+        "active": "dashboard",
+        "metrics": [
+            {"label": "Proyectos", "value": Project.objects.count(), "detail": "Total registrados", "icon": "fa-folder", "tone": "blue"},
+            {"label": "Huéspedes", "value": Guest.objects.filter(deleted=0).count(), "detail": "No eliminados", "icon": "fa-users", "tone": "lime"},
+            {"label": "Habitaciones", "value": Room.objects.count(), "detail": "Total registradas", "icon": "fa-bed", "tone": "cyan"},
+            {"label": "Pedidos", "value": FormInstance.objects.count(), "detail": "Total registrados", "icon": "fa-shopping-cart", "tone": "orange"},
+            {"label": "Cerraduras", "value": Lock.objects.count(), "detail": "Total registradas", "icon": "fa-key", "tone": "purple"},
+        ],
+        "activity": _dashboard_recent_activity(),
+        "status_metrics": _dashboard_status_metrics(),
+        "projects": _dashboard_recent_projects(),
+    })
 
 def redirect_project_user(request):
     project = get_or_none(Project, request.project_id)

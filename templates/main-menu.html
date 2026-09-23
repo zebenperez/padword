@@ -3,6 +3,9 @@
 {% if user.is_authenticated %}
     <ul class="left-menu">
     {% if menu == "admins" %}
+        <li class="nav-item"><a class="nav-link {%if active == "dashboard"%}active{%endif%}" href="{% url "dashboard" %}">
+            <i class="fas fa-chart-line"></i> {% trans "Dashboard" %} </a> </li>
+        <hr/>
         <li class="nav-item"><a class="nav-link {%if active == "projects"%}active{%endif%}" href="{% url "projects" %}">
             <i class="far fa-folder-open"></i> {% trans "Projects" %} </a> </li>
         <hr/>
@@ -17,6 +20,9 @@
         <hr/>
         <li class="nav-item"><a class="nav-link {%if active == "rooms2"%}active{%endif%}" href="{% url "rooms2-admin-projects" %}">
             <i class="fas fa-bed"></i> {% trans "Rooms 2" %} </a> </li>
+        <hr/>
+        <li class="nav-item"><a class="nav-link {%if active == "vehicle-access"%}active{%endif%}" href="{% url "vehicle_access:vehicle-plates" %}">
+            <i class="fas fa-car"></i> {% trans "Acceso de vehículos" %} </a> </li>
         <hr/>
         <li class="nav-item"><a class="nav-link {%if active == "devices"%}active{%endif%}" href="{% url "devices" %}">
             <i class="fas fa-tablet-alt"></i> {% trans "Tablets" %} </a> </li>

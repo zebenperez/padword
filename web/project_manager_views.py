@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect
+from django.core.paginator import Paginator
 from django.urls import reverse
 from django.utils.translation import ugettext_lazy as _ 
 
@@ -18,14 +19,32 @@ def get_or_create_projectaux(project):
     obj, created = ProjectAux.objects.get_or_create(project = project)
     return obj 
 
+
+def paginate_projects(request, items):
+    rows = request.session.get("projects_manager_rows", 10)
+    page = request.session.get("projects_manager_page", 1)
+    paginator = Paginator(items, rows)
+    return paginator.get_page(page), paginator.count
+
 '''
     Projects
 '''
 @group_required("project_manager")
 def projects(request):
     try:
+        if "projects_manager_page" not in request.session:
+            request.session["projects_manager_page"] = 1
+        if "projects_manager_rows" not in request.session:
+            request.session["projects_manager_rows"] = 10
+
         items = Project.objects.filter(manager=request.user)
-        return render(request, "web/projects-manager/projects.html", {'items':items, 'active': 'projects'})
+        items, total_items = paginate_projects(request, items)
+        return render(request, "web/projects-manager/projects.html", {
+            'items': items,
+            'total_items': total_items,
+            'page_url': 'projects-manager-page-rows',
+            'active': 'projects',
+        })
     except Exception as e:
         print(e)
         return render(request, 'error_exception.html', {'exc':show_exc(e)})
@@ -38,10 +57,22 @@ def projects_search(request):
         if name != "":
             kwargs["name__icontains"] = name
         items = Project.objects.filter(**kwargs)
-        return render(request, "web/projects-manager/project-list.html", {'items': items,})
+        items, total_items = paginate_projects(request, items)
+        return render(request, "web/projects-manager/project-list.html", {
+            'items': items,
+            'total_items': total_items,
+            'page_url': 'projects-manager-page-rows',
+        })
     except Exception as e:
         print (show_exc(e))
         return render(request, 'error_exception.html', {'exc':show_exc(e)})
+
+
+@group_required("project_manager")
+def projects_page_rows(request, page=1, rows=10):
+    request.session["projects_manager_page"] = page
+    request.session["projects_manager_rows"] = rows
+    return redirect(request.META.get('HTTP_REFERER') or reverse('projects-manager'))
 
 @group_required("project_manager")
 def projects_details(request, obj_id, current_tab=""):
