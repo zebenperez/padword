@@ -57,8 +57,18 @@ class Guest(models.Model):
         return " ".join(value.casefold().split())
 
     @staticmethod
-    def _format_in_house_date(value):
-        return value.strftime("%Y-%m-%d %H:%M:%S") if hasattr(value, "strftime") else str(value)[:19]
+    def _format_in_house_date(value, project, room=None):
+        """Format the server-side lock date in the project's local timezone."""
+        raw_value = str(value)
+        try:
+            server_date = datetime.datetime.strptime(raw_value[:19], "%Y-%m-%d %H:%M:%S")
+            server_date = timezone.make_aware(
+                server_date, timezone.get_default_timezone()
+            )
+            return project.local_date(server_date, room).strftime("%Y-%m-%d %H:%M:%S")
+        except (TypeError, ValueError, OverflowError):
+            # Preserve the previous display behavior for malformed legacy values.
+            return raw_value[:19]
 
     @property
     def full_name(self):
@@ -84,7 +94,9 @@ class Guest(models.Model):
             if self._normalized_name(lock_record.username) in guest_names:
                 return {
                     "name": self.full_name,
-                    "date": self._format_in_house_date(lock_record.lock_date),
+                    "date": self._format_in_house_date(
+                        lock_record.lock_date, self.project, self.room_obj
+                    ),
                 }
 
         return None
