@@ -12,6 +12,10 @@ def pwa_background_path(instance, filename):
     return 'project_pwa/{}/background/{}'.format(instance.uuid, filename)
 
 
+def pwa_app_background_path(instance, filename):
+    return 'project_pwa/{}/app-background/{}'.format(instance.uuid, filename)
+
+
 class ProjectPWA(models.Model):
     class Status(models.TextChoices):
         DRAFT = 'draft', _('Draft')
@@ -29,6 +33,7 @@ class ProjectPWA(models.Model):
     )
     logo = models.ImageField(upload_to=pwa_logo_path, blank=True, null=True)
     background = models.ImageField(upload_to=pwa_background_path, blank=True, null=True)
+    app_background = models.ImageField(upload_to=pwa_app_background_path, blank=True, null=True)
     config = models.JSONField(default=dict, blank=True)
     content = models.JSONField(default=dict, blank=True)
     published_at = models.DateTimeField(null=True, blank=True)

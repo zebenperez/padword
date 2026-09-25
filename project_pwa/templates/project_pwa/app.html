@@ -12,7 +12,7 @@
 </head>
 <body>
     <header><span></span>{% if pwa.logo %}<img src="{{ pwa.logo.url }}" alt="{{ pwa.name }}">{% else %}<strong>{{ pwa.name }}</strong>{% endif %}<form method="post" action="{% url 'project-pwa-logout' pwa.uuid %}">{% csrf_token %}<button type="submit" class="pwa-logout">Salir</button></form></header>
-    <main{% if pwa.background %} style="background: url('{{ pwa.background.url }}') center / cover"{% endif %}>
+    <main{% if pwa.app_background %} style="background: url('{{ pwa.app_background.url }}') center / cover"{% endif %}>
         <p class="pwa-main-text">{{ content.room_title|default:pwa.name }}</p>
         <h1>{{ guest_data.room_name }}</h1>
         {% for lock in guest_data.locks %}<button>{{ lock.name }}</button>{% empty %}<p>No hay cerraduras disponibles.</p>{% endfor %}

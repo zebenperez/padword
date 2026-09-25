@@ -337,6 +337,7 @@ def lock_share_code_guest(request):
         text = plu.text_to_share.replace("__CODE__",code).replace("__ROOM__",guest.room).replace("__ALIAS__",alias).replace("__PHONE__",guest.mobile).replace("__NAME__",guest.name).replace("__SURNAME__",guest.surname)
         pwa_url = request.build_absolute_uri(reverse("guest-access-auto", kwargs = {'guest_uuid': guest.UUID}))
         text = text.replace("__URLPWA__", pwa_url)
+        text = text.replace("__URLPWA2__", guest.pwa_link2)
         return render(request, "web/locks/share-modal-body.html", {"guest": guest, "text": text})
     except Exception as e:
         return render(request, "error_exception.html", {'exc':show_exc(e)})
@@ -591,4 +592,3 @@ def locks_open(request):
 #    page = client.get(URL3)
 #    return render (request, "web/ekeys.html", {'page': page.text.replace('src="js/', 'src="https://app.millaveonline.com/js/')})
 #
-

@@ -163,6 +163,27 @@ class Guest(models.Model):
             return reverse("guest-access-auto", kwargs = {'guest_uuid': self.UUID})
 
     @property
+    def pwa_link2(self):
+        """Direct link to the newest published project PWA for this guest."""
+        from project_pwa.models import ProjectPWA
+
+        pwa = ProjectPWA.objects.filter(
+            project_uuid=self.project_id,
+            status=ProjectPWA.Status.PUBLISHED,
+        ).order_by('-updated_at').first()
+        if not pwa:
+            return ""
+
+        url = reverse('project-pwa-access-auto', kwargs={
+            'pwa_uuid': pwa.uuid,
+            'guest_uuid': self.UUID,
+        })
+        try:
+            return "{}{}".format(settings.MAIN_URL, url)
+        except Exception:
+            return url
+
+    @property
     def card(self):
         return self.cards.first() if self.cards.count() > 0 else GuestCard.objects.create(guest=self)
 

@@ -11,7 +11,6 @@
     <div class="col-12 actions file-remove text-center">
         <button type="button" class="btn btn-primary ark pointer" id="btn-logo-{{obj.pk}}" title="{% trans "Remove"%}" 
             data-confirm="{% trans "Are you sure to remove this file?" %}" data-url="{% url "form-remove-logo" %}" data-target="div-logo" data-obj_id="{{obj.id}}" 
-            data-field="logo"> <i class="fas fa-trash"></i> {% trans "Remove"%}</button>
+            data-field="logo" data-method="post" data-csrf-token="{{csrf_token}}"> <i class="fas fa-trash"></i> {% trans "Remove"%}</button>
     </div>
 {% endif %}
-

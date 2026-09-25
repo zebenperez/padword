@@ -35,7 +35,7 @@
     </section>
     <section id="pwa-app" class="pwa-app" hidden>
         <header class="pwa-app-header"><span></span>{% if pwa.logo %}<img src="{{ pwa.logo.url }}" alt="{{ pwa.name }}">{% else %}<strong>{{ pwa.name }}</strong>{% endif %}<form method="post" action="{% url 'project-pwa-logout' pwa.uuid %}">{% csrf_token %}<button type="submit" class="pwa-logout">Salir</button></form></header>
-        <main class="pwa-app-main"{% if pwa.background %} style="background: url('{{ pwa.background.url }}') center / cover"{% endif %}>
+        <main class="pwa-app-main"{% if pwa.app_background %} style="background: url('{{ pwa.app_background.url }}') center / cover"{% endif %}>
             <p class="pwa-main-text">{{ content.room_title|default:pwa.name }}</p>
             <h1 id="pwa-room-name">{% if guest_data %}{{ guest_data.room_name }}{% endif %}</h1>
             <div id="pwa-lock-list">{% if guest_data %}{% for lock in guest_data.locks %}<button>{{ lock.name }}</button>{% empty %}<p>No hay cerraduras disponibles.</p>{% endfor %}{% endif %}</div>

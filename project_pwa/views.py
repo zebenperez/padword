@@ -83,6 +83,8 @@ def _save_wizard_data(request, pwa):
         pwa.logo = request.FILES['logo']
     if request.FILES.get('background'):
         pwa.background = request.FILES['background']
+    if request.FILES.get('app_background'):
+        pwa.app_background = request.FILES['app_background']
     pwa.save()
 
 
@@ -123,6 +125,17 @@ def _guest_is_valid_for_pwa(guest, pwa):
         )
     except Exception:
         return False
+
+
+def _grant_guest_pwa_access(request, pwa, guest, language=None):
+    """Store a validated guest in the PWA session."""
+    request.session.cycle_key()
+    request.session[_guest_session_key(pwa)] = guest.UUID
+    request.session.pop(_logged_out_session_key(pwa), None)
+    if language in _get_languages(pwa):
+        request.session[_language_session_key(pwa)] = language
+        guest.language = language
+        guest.save(update_fields=['language'])
 
 
 def _current_guest(request, pwa):
@@ -249,11 +262,14 @@ def delete(request, project_uuid, pwa_uuid):
     # retain them here so deleting the database row does not leave uploads behind.
     logo = pwa.logo
     background = pwa.background
+    app_background = pwa.app_background
     pwa.delete()
     if logo:
         logo.delete(save=False)
     if background:
         background.delete(save=False)
+    if app_background:
+        app_background.delete(save=False)
     messages.success(request, 'PWA deleted.')
     return redirect('project-pwa-list', project_uuid=project_uuid)
 
@@ -296,19 +312,37 @@ def access(request, pwa_uuid):
             'error': 'Los datos no son válidos o no tienes una reserva activa.',
         }, status=401)
 
-    request.session.cycle_key()
-    request.session[_guest_session_key(pwa)] = guest.UUID
-    request.session.pop(_logged_out_session_key(pwa), None)
-    if language in _get_languages(pwa):
-        request.session[_language_session_key(pwa)] = language
-        guest.language = language
-        guest.save(update_fields=['language'])
+    _grant_guest_pwa_access(request, pwa, guest, language)
     if request.headers.get('x-requested-with') == 'XMLHttpRequest':
         return JsonResponse({
             'ok': True,
             'app_url': reverse('project-pwa-app', kwargs={'pwa_uuid': pwa.uuid}),
             'guest_data': _guest_pwa_data(guest),
         })
+    return redirect('project-pwa-app', pwa_uuid=pwa.uuid)
+
+
+def access_auto(request, pwa_uuid, guest_uuid):
+    """Open a PWA directly from a guest-specific booking link."""
+    pwa = _published_pwa(pwa_uuid)
+    guest = Guest.objects.filter(UUID=guest_uuid, project_id=pwa.project_uuid).first()
+
+    # The URL itself is the credential, but it is only valid while the guest's
+    # booking is active and for the PWA's own project.
+    if not _guest_is_valid_for_pwa(guest, pwa):
+        return render(request, 'project_pwa/public.html', {
+            'pwa': pwa,
+            'config': _get_config(pwa),
+            'guest': None,
+            'languages': _get_languages(pwa),
+            'language': _get_language(request, pwa),
+            'content': _get_content(pwa),
+            'error': 'El enlace no es válido o la reserva ya no está activa.',
+        }, status=403)
+
+    languages = _get_languages(pwa)
+    language = (guest.language or '').lower()
+    _grant_guest_pwa_access(request, pwa, guest, language if language in languages else languages[0])
     return redirect('project-pwa-app', pwa_uuid=pwa.uuid)
 
 

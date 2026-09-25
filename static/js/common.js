@@ -30,6 +30,33 @@ function ajaxGet(url, datas, target, modal_target)
     });
 };
 
+function ajaxPost(url, datas, target, modal_target)
+{
+    setWait();
+    $.ajax({
+        url : url,
+        type : 'POST',
+        data : datas,
+        cache : false,
+        dataType : 'html',
+        beforeSend : function(){},
+        success : function(data){
+            if (modal_target != "")
+            {
+                if (data != "")
+                {
+                    $('#'+modal_target+"-body").html(data);
+                    $('#'+modal_target).modal('show');
+                }
+            }
+            else if (target != "")
+                $('#'+target).html(data);
+        },
+        error : function(e){alert("Error: "+e.responseText);},
+        complete : function(){unsetWait();}
+    });
+};
+
 function ajaxGetMute(url, datas, target, modal_target)
 {
     $.ajax({
@@ -377,9 +404,15 @@ $(document).ready(()=>{
             var datas = {};
             var args = obj.data();
             for(var i in args)
-                if (i != "url")
+                if (i != "url" && i != "method" && i != "csrfToken")
                     datas[i] = args[i]
-            ajaxGet(url, datas, target, target_modal);
+            if (obj.data("method") == "post")
+            {
+                datas["csrfmiddlewaretoken"] = obj.data("csrf-token");
+                ajaxPost(url, datas, target, target_modal);
+            }
+            else
+                ajaxGet(url, datas, target, target_modal);
             if (obj.data("show"))
                 $("#" + obj.data("show")).show();
             if (obj.data("hide"))
@@ -1056,5 +1089,4 @@ $(document).ready(()=>{
     });
 
 });
-
 

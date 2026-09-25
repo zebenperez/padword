@@ -3,6 +3,7 @@ from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.urls import reverse
 from django.utils.translation import ugettext_lazy as _ 
+from django.views.decorators.http import require_POST
 
 from padword.decorators import group_required
 from padword.commons import show_exc, get_or_none, get_param, get_float, get_bool, new_ui_slug, get_random_str
@@ -28,6 +29,20 @@ def get_edit_context(obj):
         'answer_type_list': AnswerType.objects.all(),
         'question_type_list': QuestionType.objects.all()
     }
+
+
+def _can_manage_form_logo(request, form):
+    """Allow global admins, project owners, or users assigned to its project."""
+    if form is None or form.project is None:
+        return False
+    if request.user.is_superuser or request.user.groups.filter(name='admins').exists():
+        return True
+    if form.project.manager_id == request.user.id:
+        return True
+    return ProjectUser.objects.filter(
+        project_uuid=form.project.uuid,
+        username=request.user.username,
+    ).exists()
 
 @group_required("admins", "projects")
 def forms(request):
@@ -182,27 +197,34 @@ def form_remove_image(request):
         logger.error("[remove_file]" + str(e))
         return render(request, 'error_exception.html', {'msg': str(e)})
 
+@require_POST
+@group_required("admins", "projects", "managers", "project_manager")
 def form_add_logo(request):
     try:
         obj_id = request.POST["obj_id"]
         image = request.FILES["file"]
 
         form = get_or_none(Form, obj_id)
-        if form != None:
-            form.logo = image
-            form.save()
+        if not _can_manage_form_logo(request, form):
+            return HttpResponse(_('You do not have permission to modify this form.'), status=403)
+        form.logo = image
+        form.save()
         return render(request, "forms/form-logo.html", {"obj": form,})
     except Exception as e:
         logger.error("[bookings-form_add_image]" + str(e))
         return render(request, 'error_exception.html', {'msg': str(e)})
 
-@group_required("admins", "projects")
+@require_POST
+@group_required("admins", "projects", "managers", "project_manager")
 def form_remove_logo(request):
     try:
-        obj_id = request.GET["obj_id"]
-        obj = get_or_none(Form, obj_id) 
-        obj.logo.delete(save=True)
-        return render(request, "forms/form-document.html", {"obj": obj,})
+        obj_id = request.POST["obj_id"]
+        obj = get_or_none(Form, obj_id)
+        if not _can_manage_form_logo(request, obj):
+            return HttpResponse(_('You do not have permission to modify this form.'), status=403)
+        if obj.logo:
+            obj.logo.delete(save=True)
+        return render(request, "forms/form-logo.html", {"obj": obj,})
     except Exception as e:
         logger.error("[remove_file]" + str(e))
         return render(request, 'error_exception.html', {'msg': str(e)})
