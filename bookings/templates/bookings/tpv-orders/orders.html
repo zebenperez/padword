@@ -6,6 +6,7 @@
 {% block central_content %}
     {% include "bookings/tpv-orders/search_box.html" %}
     
+    {%comment%}
     <div class="row m-4">
         {% for item in pos_list %}
             {% if item.project.winhotel_user != None and item.project.winhotel_user.source_code != "" and item.ext_code != "" %}
@@ -16,6 +17,7 @@
             {% endif %}
         {% endfor %}
     </div>
+    {%endcomment%}
  
     <div class="content mt-4">
         <div class="toolbar-content">
