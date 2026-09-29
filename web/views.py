@@ -169,6 +169,45 @@ def _dashboard_recent_projects():
     ]
 
 
+def _dashboard_expiring_lock_tokens(days=7):
+    now = timezone.now()
+    deadline = now + datetime.timedelta(days=days)
+    lock_users = ProjectLockUser.objects.exclude(
+        token=""
+    ).exclude(
+        expire=""
+    ).exclude(
+        last_refresh__isnull=True
+    )
+    projects = {
+        project["uuid"]: project
+        for project in Project.objects.filter(
+            uuid__in=lock_users.values_list("project_uuid", flat=True)
+        ).values("id", "uuid", "name")
+    }
+    tokens = []
+
+    for lock_user in lock_users:
+        expires_at = lock_user.expire_date
+        if expires_at is None:
+            continue
+        if timezone.is_naive(expires_at) and timezone.is_aware(now):
+            expires_at = timezone.make_aware(expires_at, timezone.get_current_timezone())
+
+        if not now <= expires_at <= deadline or lock_user.project_uuid not in projects:
+            continue
+
+        remaining_hours = max(0, int((expires_at - now).total_seconds() // 3600))
+        tokens.append({
+            "project_id": projects[lock_user.project_uuid]["id"],
+            "project_name": projects[lock_user.project_uuid]["name"],
+            "expires_at": expires_at,
+            "remaining": "{} d {} h".format(remaining_hours // 24, remaining_hours % 24),
+        })
+
+    return sorted(tokens, key=lambda token: token["expires_at"])
+
+
 @group_required("admins")
 def dashboard(request):
     """Read-only admin dashboard."""
@@ -184,6 +223,7 @@ def dashboard(request):
         "activity": _dashboard_recent_activity(),
         "status_metrics": _dashboard_status_metrics(),
         "projects": _dashboard_recent_projects(),
+        "expiring_lock_tokens": _dashboard_expiring_lock_tokens(),
     })
 
 def redirect_project_user(request):

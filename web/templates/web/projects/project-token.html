@@ -1,32 +1,55 @@
 {% load i18n padword_tags %}
 
-<div class="row justify-center m-0 p-0">
-    <div class="col-4">
-        <label class="label">{% trans "Token" %} ({% trans "expire:" %} {{user_lock.expire_date}}):</label>
-        <input type="text" class="form-control autosave input mb-4" id="token" name="token" value="{{user_lock.token}}" 
-            title="{{user_lock.token}}" data-model-name="web.projectlockuser" data-obj-id="{{user_lock.id}}" 
-            data-url="{% url "autosave_field" %}" data-target="div-notification" 
-            {%if not request.user|in_group:"admins"%}readonly{%endif%}/> <span id="lock_token__msg"></span>
-    </div>
+<div class="row g-3 m-0 p-0">
+    <div class="col-md-6">
+        <div class="card h-100">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h5 class="card-title mb-0">{% trans "Token" %}</h5>
+                    <a class="btn btn-primary pointer ark" data-url="{% url "project-user-token" %}" data-target="span-token"
+                        data-obj_id="{{user_lock.id}}">{% trans "Get token" %}</a>
+                </div>
+                <label class="label">{% trans "Token" %}:</label>
+                <input type="text" class="form-control autosave input mb-3" id="token" name="token" value="{{user_lock.token}}"
+                    title="{{user_lock.token}}" data-model-name="web.projectlockuser" data-obj-id="{{user_lock.id}}"
+                    data-url="{% url "autosave_field" %}" data-target="div-notification"
+                    {%if not request.user|in_group:"admins"%}readonly{%endif%}/>
+                <span id="lock_token__msg"></span>
 
-    <div class="col-4">
-        <label class="label">{% trans "Refresh Token" %}:</label>
-        <input type="text" class="form-control autosave input mb-4" id="refresh_token" name="refresh_token" 
-            value="{{user_lock.refresh_token}}" title="{{user_lock.refresh_token}}" data-model-name="web.projectlockuser" 
-            data-obj-id="{{user_lock.id}}" data-url="{%url "autosave_field"%}" data-target="div-notification" 
-            {%if not request.user|in_group:"admins"%}readonly{%endif%}/> <span id="lock_refresh_token__msg"></span>
-    </div>
-    <div class="col-2">
-        <label class="label">{% trans "Last Refresh" %}: <strong>{{user_lock.last_refresh|date:"d-m-Y"}}</strong></label>
-        <label class="label">{% trans "Next Refresh" %}: <strong>{{user_lock.next_refresh|date:"d-m-Y"}}</strong></label>
-    </div>
-    <div class="col-2">
-        <div class="form-check form-switch">
-            <input class="form-check-input toggleCronLock autosave" type="checkbox" id="auto_refresh" name="auto_refresh" 
-                data-model-name="web.projectlockuser" data-obj-id="{{user_lock.id}}" data-url="{%url "autosave_field"%}" 
-                data-target="div-notification" data-bool="True" {% if user_lock.auto_refresh %} checked {% endif %}>
-            <label class="form-check-label" for="auto_refresh"> {% trans "Auto refresh" %} {{user_lock.auto_refresh}}</label>
+                <label class="label">{% trans "Expiration date" %}:</label>
+                <p class="mb-3">{{user_lock.expire_date|date:"d-m-Y H:i"|default:"--"}}</p>
+                <label class="label">{% trans "Created" %}:</label>
+                <p class="mb-0">{{user_lock.created|date:"d-m-Y H:i"|default:"--"}}</p>
+            </div>
         </div>
     </div>
 
-</div>		
+    <div class="col-md-6">
+        <div class="card h-100">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-start mb-3">
+                    <h5 class="card-title mb-0">{% trans "Refresh Token" %}</h5>
+                    <div class="text-end">
+                        <a class="btn btn-primary pointer ark" data-url="{% url "project-user-refresh-token" %}" data-target="span-token"
+                            data-obj_id="{{user_lock.project.id}}">{% trans "Refresh token" %}</a>
+                        <div class="form-check form-switch d-flex justify-content-end mt-2">
+                            <input class="form-check-input toggleCronLock autosave me-2" type="checkbox" id="auto_refresh" name="auto_refresh"
+                                data-model-name="web.projectlockuser" data-obj-id="{{user_lock.id}}" data-url="{%url "autosave_field"%}"
+                                data-target="div-notification" data-bool="True" {% if user_lock.auto_refresh %} checked {% endif %}>
+                            <label class="form-check-label" for="auto_refresh">{% trans "Auto refresh" %}</label>
+                        </div>
+                    </div>
+                </div>
+                <label class="label">{% trans "Refresh Token" %}:</label>
+                <input type="text" class="form-control autosave input mb-3" id="refresh_token" name="refresh_token"
+                    value="{{user_lock.refresh_token}}" title="{{user_lock.refresh_token}}" data-model-name="web.projectlockuser"
+                    data-obj-id="{{user_lock.id}}" data-url="{%url "autosave_field"%}" data-target="div-notification"
+                    {%if not request.user|in_group:"admins"%}readonly{%endif%}/>
+                <span id="lock_refresh_token__msg"></span>
+
+                <label class="label">{% trans "Last Refresh" %}:</label>
+                <p class="mb-3">{{user_lock.last_refresh|date:"d-m-Y H:i"|default:"--"}}</p>
+            </div>
+        </div>
+    </div>
+</div>

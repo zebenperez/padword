@@ -955,10 +955,18 @@ class LockViewSet(viewsets.ModelViewSet):
                 logger.info("[{}]: Permission denied!".format(self.request.user))
                 return Response( {"error": "true", "msg": "Permission denied"}, status=status.HTTP_403_FORBIDDEN)
     
-            limit = timezone.now() - timedelta(days=30)
-            item_list = ProjectLockUser.objects.filter(last_refresh__lte = limit, auto_refresh=True)
+            now = timezone.now()
+            item_list = ProjectLockUser.objects.filter(auto_refresh=True)
             result = []
             for item in item_list:
+                expire_date = item.expire_date
+                if expire_date is None:
+                    continue
+                if timezone.is_naive(expire_date) and timezone.is_aware(now):
+                    expire_date = timezone.make_aware(expire_date, timezone.get_current_timezone())
+                if expire_date > now:
+                    continue
+
                 item.get_new_token()
                 result.append(item.project.name)
 
