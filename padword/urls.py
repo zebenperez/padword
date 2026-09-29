@@ -18,6 +18,7 @@ from django.contrib.auth import views as auth_views
 from django.urls import path, include
 from django.views.generic import RedirectView
 from web.views import ServiceWorker
+from padword.views import preview_server_error
 
 
 urlpatterns = [
@@ -42,11 +43,10 @@ urlpatterns = [
     path('sw.js', ServiceWorker, name="sw"),
     path('serviceworker.js', ServiceWorker, name="serviceworker"),
     path("i18n/", include("django.conf.urls.i18n")),
+    path('_preview/error-500/', preview_server_error, name='preview-error-500'),
 ]
 
 from django.conf import settings
 from django.conf.urls.static import static
-from django.contrib.staticfiles.urls import staticfiles_urlpatterns
-if settings.DEBUG == True:
-    urlpatterns += staticfiles_urlpatterns()
+if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

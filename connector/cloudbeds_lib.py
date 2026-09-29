@@ -31,6 +31,17 @@ END_POINT_URL = "{}/connector/cloudbeds/webhook/".format(settings.MAIN_URL)
 def get_param(dic, key):
     return dic[key] if key in dic else ""
 
+def get_plates(dic):
+    """Return the vehicle plates stored in a Cloudbeds custom-fields node."""
+    plate = ""
+    plate2 = ""
+    for custom_field in get_param(dic, "customFields") or []:
+        if custom_field.get("customFieldName") == "Matricula":
+            plate = custom_field.get("customFieldValue", "")
+        elif custom_field.get("customFieldName") == "Matricula Extra":
+            plate2 = custom_field.get("customFieldValue", "")
+    return plate, plate2
+
 class CloudbedsAPIError(Exception):
     def __init__(self, menssage='Invalid Parameter'):
         self.menssage=menssage
@@ -247,17 +258,7 @@ class CloudbedsBooking():
         #self.customer = None
         self.rooms = []
         self.created = False
-        self.plate = ""
-        self.plate2 = ""
-        custom_fields = get_param(dic, "customFields")
-        try:
-            for cf in custom_fields:
-                if cf["customFieldName"] == "Matricula":
-                    self.plate = cf["customFieldValue"]
-                if cf["customFieldName"] == "Matricula Extra":
-                    self.plate2 = cf["customFieldValue"]
-        except:
-            pass
+        self.plate, self.plate2 = get_plates(dic)
 
 class CloudbedsBookingRoom():
     def __init__(self, dic):
@@ -283,6 +284,7 @@ class CloudbedsGuest():
         self.phone = get_param(dic, "phone")
         self.cell_phone = get_param(dic, "cellPhone")
         self.country = get_param(dic, "country")
+        self.plate, self.plate2 = get_plates(dic)
 
 class CloudbedsGuest2():
     def __init__(self, dic):
@@ -293,6 +295,7 @@ class CloudbedsGuest2():
         self.phone = get_param(dic, "guestPhone")
         self.cell_phone = get_param(dic, "guestCellPhone")
         self.country = get_param(dic, "guestCountry")
+        self.plate, self.plate2 = get_plates(dic)
 
 class CloudbedsRoom():
     def __init__(self, dic):
@@ -406,10 +409,15 @@ def create_booking(pcu, room, booking, bguest, av, ev=""):
             guest.save()
             msg += f"\n [5] Asignando: {guest.room} ({guest.name}) {booking.created} {change_booking}"
 
-            if booking.plate != "":
-                guest.add_plate(booking.plate)
-            if booking.plate2 != "":
-                guest.add_plate(booking.plate2)
+            # Cloudbeds can place these custom fields on either the booking
+            # or the guest. Prefer the guest value because it belongs to the
+            # guest being created or updated.
+            plate = bguest.plate or booking.plate
+            plate2 = bguest.plate2 or booking.plate2
+            if plate != "":
+                guest.add_plate(plate)
+            if plate2 != "":
+                guest.add_plate(plate2)
 
             if booking.created:
                 msg += "\n [6.1] CREADA: {}".format(guest.ext_id)

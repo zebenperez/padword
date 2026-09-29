@@ -1,0 +1,35 @@
+{% load i18n %}
+
+<section class="dashboard-card tokens-panel">
+    <h2><i class="fas fa-key orange"></i> {% trans 'Tokens TTLock que vencen en los próximos 7 días' %}</h2>
+    <div class="table-responsive">
+        <table class="table dashboard-table">
+            <thead><tr><th>{% trans 'Proyecto' %}</th><th>{% trans 'Expira' %}</th><th>{% trans 'Tiempo restante' %}</th><th>{% trans 'Acciones' %}</th></tr></thead>
+            <tbody>{% for token in expiring_lock_tokens %}
+                <tr>
+                    <td><a href="{% url 'project-details' token.project_id 'locks' %}">{{ token.project_name }}</a></td>
+                    <td>{{ token.expires_at|date:"d-m-Y H:i" }}</td>
+                    <td><span class="status status-pending">{{ token.remaining }}</span></td>
+                    <td><a class="btn btn-primary btn-sm pointer ark" data-url="{% url 'project-user-refresh-token' %}" data-target="dashboard-lock-tokens" data-dashboard="True" data-obj_id="{{ token.project_id }}">{% trans 'Refresh token' %}</a></td>
+                </tr>
+            {% empty %}<tr><td colspan="4" class="empty-message">{% trans 'No hay tokens TTLock que venzan durante la próxima semana.' %}</td></tr>{% endfor %}</tbody>
+        </table>
+    </div>
+</section>
+
+<section class="dashboard-card tokens-panel">
+    <h2><i class="fas fa-key orange"></i> {% trans 'Tokens TTLock caducados' %}</h2>
+    <div class="table-responsive">
+        <table class="table dashboard-table">
+            <thead><tr><th>{% trans 'Proyecto' %}</th><th>{% trans 'Expiró' %}</th><th>{% trans 'Estado' %}</th><th>{% trans 'Acciones' %}</th></tr></thead>
+            <tbody>{% for token in expired_lock_tokens %}
+                <tr>
+                    <td><a href="{% url 'project-details' token.project_id 'locks' %}">{{ token.project_name }}</a></td>
+                    <td>{{ token.expires_at|date:"d-m-Y H:i" }}</td>
+                    <td><span class="status status-pending">{% trans 'Caducado' %}</span></td>
+                    <td><a class="btn btn-primary btn-sm pointer ark" data-url="{% url 'project-user-refresh-token' %}" data-target="dashboard-lock-tokens" data-dashboard="True" data-obj_id="{{ token.project_id }}">{% trans 'Refresh token' %}</a></td>
+                </tr>
+            {% empty %}<tr><td colspan="4" class="empty-message">{% trans 'No hay tokens TTLock caducados.' %}</td></tr>{% endfor %}</tbody>
+        </table>
+    </div>
+</section>

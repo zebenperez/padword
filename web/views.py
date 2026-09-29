@@ -169,7 +169,7 @@ def _dashboard_recent_projects():
     ]
 
 
-def _dashboard_expiring_lock_tokens(days=7):
+def _dashboard_lock_tokens(status, days=7):
     now = timezone.now()
     deadline = now + datetime.timedelta(days=days)
     lock_users = ProjectLockUser.objects.exclude(
@@ -194,7 +194,12 @@ def _dashboard_expiring_lock_tokens(days=7):
         if timezone.is_naive(expires_at) and timezone.is_aware(now):
             expires_at = timezone.make_aware(expires_at, timezone.get_current_timezone())
 
-        if not now <= expires_at <= deadline or lock_user.project_uuid not in projects:
+        if lock_user.project_uuid not in projects:
+            continue
+
+        if status == "expiring" and not now <= expires_at <= deadline:
+            continue
+        if status == "expired" and not expires_at < now:
             continue
 
         remaining_hours = max(0, int((expires_at - now).total_seconds() // 3600))
@@ -205,7 +210,22 @@ def _dashboard_expiring_lock_tokens(days=7):
             "remaining": "{} d {} h".format(remaining_hours // 24, remaining_hours % 24),
         })
 
-    return sorted(tokens, key=lambda token: token["expires_at"])
+    return sorted(tokens, key=lambda token: token["expires_at"], reverse=status == "expired")
+
+
+def _dashboard_expiring_lock_tokens(days=7):
+    return _dashboard_lock_tokens("expiring", days)
+
+
+def _dashboard_expired_lock_tokens():
+    return _dashboard_lock_tokens("expired")
+
+
+def _dashboard_lock_tokens_context():
+    return {
+        "expiring_lock_tokens": _dashboard_expiring_lock_tokens(),
+        "expired_lock_tokens": _dashboard_expired_lock_tokens(),
+    }
 
 
 @group_required("admins")
@@ -223,7 +243,7 @@ def dashboard(request):
         "activity": _dashboard_recent_activity(),
         "status_metrics": _dashboard_status_metrics(),
         "projects": _dashboard_recent_projects(),
-        "expiring_lock_tokens": _dashboard_expiring_lock_tokens(),
+        **_dashboard_lock_tokens_context(),
     })
 
 def redirect_project_user(request):
@@ -326,6 +346,39 @@ def paginate_projects(request, items):
     paginator = Paginator(items, rows)
     return paginator.get_page(page), paginator.count
 
+
+def _add_lock_token_validity(projects):
+    """Attach TTLock token expiration data to the current projects page."""
+    projects = list(projects)
+    lock_users = {}
+    for lock_user in ProjectLockUser.objects.filter(
+        project_uuid__in=[project.uuid for project in projects]
+    ).order_by("pk"):
+        # This mirrors Project.lock_user, which uses the first matching record.
+        lock_users.setdefault(lock_user.project_uuid, lock_user)
+
+    now = timezone.now()
+    for project in projects:
+        expires_at = None
+        lock_user = lock_users.get(project.uuid)
+        if lock_user and lock_user.token:
+            expires_at = lock_user.expire_date
+            if expires_at and timezone.is_naive(expires_at) and timezone.is_aware(now):
+                expires_at = timezone.make_aware(expires_at, timezone.get_current_timezone())
+
+        project.lock_token_expires_at = expires_at
+        project.lock_token_validity_class = ""
+        if expires_at:
+            remaining = expires_at - now
+            if remaining < datetime.timedelta(days=7):
+                project.lock_token_validity_class = "text-danger"
+            elif remaining <= datetime.timedelta(days=15):
+                project.lock_token_validity_class = "text-warning"
+            else:
+                project.lock_token_validity_class = "text-success"
+
+    return projects
+
 '''
     Projects
 '''
@@ -353,6 +406,7 @@ def projects(request, company_id=None, project_id=None):
             items = Project.objects.all()
 
         items, total_items = paginate_projects(request, items)
+        _add_lock_token_validity(items)
         context = {
             'items': items,
             'total_items': total_items,
@@ -366,6 +420,7 @@ def projects(request, company_id=None, project_id=None):
         company = None
         items = Project.objects.all()
         items, total_items = paginate_projects(request, items)
+        _add_lock_token_validity(items)
         return render(request, "web/projects/projects.html", {
             'items': items,
             'total_items': total_items,
@@ -394,6 +449,7 @@ def project_search(request):
                 kwargs[myfilter] = name
             items = items.union(Project.objects.filter(**kwargs))
         items, total_items = paginate_projects(request, items)
+        _add_lock_token_validity(items)
         return render(request, "web/projects/project-list.html", {
             'items': items,
             'total_items': total_items,
@@ -571,6 +627,9 @@ def project_user_refresh_token(request):
     obj = project.lock_user
     if obj != None:
         obj.get_new_token()
+
+    if get_param(request.GET, "dashboard") == "True":
+        return render(request, "web/dashboard-lock-tokens.html", _dashboard_lock_tokens_context())
 
     modal = get_param(request.GET, "modal")
     if modal == "True":
