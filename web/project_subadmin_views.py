@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from django.core.paginator import Paginator
 from django.urls import reverse
+from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _ 
 
 from padword.commons import show_exc, get_or_none, get_param, new_ui_slug, set_session, get_int, reverse_cardkey
@@ -23,6 +24,39 @@ def paginate_projects(request, items):
     paginator = Paginator(items, rows)
     return paginator.get_page(page), paginator.count
 
+
+def _add_lock_token_validity(projects):
+    """Attach TTLock token expiration data to the current projects page."""
+    projects = list(projects)
+    lock_users = {}
+    for lock_user in ProjectLockUser.objects.filter(
+        project_uuid__in=[project.uuid for project in projects]
+    ).order_by("pk"):
+        # This mirrors Project.lock_user, which uses the first matching record.
+        lock_users.setdefault(lock_user.project_uuid, lock_user)
+
+    now = timezone.now()
+    for project in projects:
+        expires_at = None
+        lock_user = lock_users.get(project.uuid)
+        if lock_user and lock_user.token:
+            expires_at = lock_user.expire_date
+            if expires_at and timezone.is_naive(expires_at) and timezone.is_aware(now):
+                expires_at = timezone.make_aware(expires_at, timezone.get_current_timezone())
+
+        project.lock_token_expires_at = expires_at
+        project.lock_token_validity_class = ""
+        if expires_at:
+            remaining = expires_at - now
+            if remaining < datetime.timedelta(days=7):
+                project.lock_token_validity_class = "text-danger"
+            elif remaining <= datetime.timedelta(days=15):
+                project.lock_token_validity_class = "text-warning"
+            else:
+                project.lock_token_validity_class = "text-success"
+
+    return projects
+
 '''
     Projects
 '''
@@ -44,6 +78,7 @@ def projects(request, company_id=None, project_id=None):
         else:
             items = Project.objects.all()
         items, total_items = paginate_projects(request, items)
+        _add_lock_token_validity(items)
         return render(request, "web/projects-subadmin/projects.html", {
             'items': items,
             'total_items': total_items,
@@ -56,6 +91,7 @@ def projects(request, company_id=None, project_id=None):
         company = None
         items = Project.objects.all()
         items, total_items = paginate_projects(request, items)
+        _add_lock_token_validity(items)
         return render(request, "web/projects-subadmin/projects.html", {
             'items': items,
             'total_items': total_items,
@@ -85,6 +121,7 @@ def projects_search(request):
                 kwargs[myfilter] = name
             items = items.union(Project.objects.filter(**kwargs))
         items, total_items = paginate_projects(request, items)
+        _add_lock_token_validity(items)
         return render(request, "web/projects-subadmin/project-list.html", {
             'items': items,
             'total_items': total_items,

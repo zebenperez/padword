@@ -5,6 +5,7 @@
         <tr class="small small">
             <th> {% trans 'Name' %} <i class="fas fa-sort"></i> </th>
             <th> {% trans 'Company' %} <i class="fas fa-sort"></i> </th>
+            <th>{% trans 'Validez token' %}</th>
             <th> {% trans 'Cerraduras en uso' %} <i class="fas fa-sort"></i> </th>
             <th> {% trans 'Cerraduras totales' %} <i class="fas fa-sort"></i> </th>
             <th> {% trans 'Licencia hasta' %} <i class="fas fa-sort"></i> </th>
@@ -17,6 +18,15 @@
             <td> {% if item.active == 1 %}<i class="text-success fas fa-check-circle"></i>
                 {% else %}<i class="text-danger fas fa-times-circle"></i>{% endif%}&nbsp;{{ item.name }}</td>
             <td>{{ item.company.name }}</td>
+            <td>
+                {% if item.lock_token_expires_at %}
+                    <span class="{{ item.lock_token_validity_class }}">
+                        {{ item.lock_token_expires_at|date:"d-m-Y H:i" }}
+                    </span>
+                {% else %}
+                    <span class="text-muted">—</span>
+                {% endif %}
+            </td>
             <td>{{ item|get_assigned_locks_number }}</td>
             <td>{{ item|get_locks_number }}</td>
             <td>{{ item.expiration}}</td>
@@ -37,7 +47,7 @@
         {% endfor %}
     </tbody>
 </table>
-{% include "foot_paginator.html" with items=items page_url=page_url rows=items.paginator.per_page columns=6 %}
+{% include "foot_paginator.html" with items=items page_url=page_url rows=items.paginator.per_page columns=7 %}
 <script>
     $("#main-table").tablesorter();
     $('#items-counter').html('{{items.paginator.count}}');
