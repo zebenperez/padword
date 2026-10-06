@@ -50,7 +50,6 @@ def _get_config(pwa):
 
 def _get_content(pwa):
     return {
-        'room_title': '',
         'footer_text': '',
         'login_title': 'Bienvenid@ a {}'.format(pwa.name),
         'login_subtitle': 'Introduce tus datos de acceso.',
@@ -75,7 +74,10 @@ def _save_wizard_data(request, pwa):
         pwa.name = request.POST.get('name', pwa.name).strip() or pwa.name
     pwa.config = config
     content = pwa.content.copy() if pwa.content else {}
-    for key in ('room_title', 'footer_text', 'login_title', 'login_subtitle'):
+    # The main body text is always the guest's room, so it is no longer
+    # configurable. Remove any value saved by older versions of the wizard.
+    content.pop('room_title', None)
+    for key in ('footer_text', 'login_title', 'login_subtitle'):
         if key in request.POST:
             content[key] = request.POST[key]
     pwa.content = content

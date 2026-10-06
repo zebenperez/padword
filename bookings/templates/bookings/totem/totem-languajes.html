@@ -7,39 +7,14 @@
 <p>Idioma actual: {{ LANGUAGE_CODE }}</p>
 
 <div class="languages mt-2 d-flex gap-2">
+    {% for language in totem_languages %}
     <form action="{% url 'set_language' %}" method="post">
         {% csrf_token %}
-        <input type="hidden" name="next" value="{{ request.get_full_path }}">
-        <input type="hidden" name="language" value="ca">
-        <button type="submit" class="flag border-0 bg-transparent p-0" title="Català">
-            <img src="https://flagcdn.com/w80/ad.png" alt="Català">
+        <input type="hidden" name="next" value="{{ request.path }}?totem_language_selected=1">
+        <input type="hidden" name="language" value="{{ language.code }}">
+        <button type="submit" class="flag border-0 bg-transparent p-0" title="{{ language.name }}">
+            <img src="https://flagcdn.com/w80/{{ language.flag }}.png" alt="{{ language.name }}">
         </button>
     </form>
-
-    <form action="{% url 'set_language' %}" method="post">
-        {% csrf_token %}
-        <input type="hidden" name="next" value="{{ request.get_full_path }}">
-        <input type="hidden" name="language" value="es">
-        <button type="submit" class="flag border-0 bg-transparent p-0" title="Español">
-            <img src="https://flagcdn.com/w80/es.png" alt="Español">
-        </button>
-    </form>
-
-    <form action="{% url 'set_language' %}" method="post">
-        {% csrf_token %}
-        <input type="hidden" name="next" value="{{ request.get_full_path }}">
-        <input type="hidden" name="language" value="fr">
-        <button type="submit" class="flag border-0 bg-transparent p-0" title="Français">
-            <img src="https://flagcdn.com/w80/fr.png" alt="Français">
-        </button>
-    </form>
-
-    <form action="{% url 'set_language' %}" method="post">
-        {% csrf_token %}
-        <input type="hidden" name="next" value="{{ request.get_full_path }}">
-        <input type="hidden" name="language" value="en">
-        <button type="submit" class="flag border-0 bg-transparent p-0" title="English">
-            <img src="https://flagcdn.com/w80/gb.png" alt="English">
-        </button>
-    </form>
+    {% endfor %}
 </div>

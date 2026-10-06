@@ -3,6 +3,7 @@ from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.urls import reverse
 from django.utils.translation import ugettext_lazy as _ 
+from django.utils import translation
 
 from padword.decorators import group_required
 from padword.commons import show_exc, get_or_none, get_param, get_float, reverse_cardkey
@@ -23,6 +24,21 @@ import datetime, time
 import logging
 logger = logging.getLogger(__name__)
 
+TOTEM_LANGUAGE_NAMES = {
+    'ca': 'Català',
+    'de': 'Deutsch',
+    'en': 'English',
+    'es': 'Español',
+    'fr': 'Français',
+    'it': 'Italiano',
+    'pt': 'Português',
+    'ru': 'Русский',
+}
+TOTEM_LANGUAGE_FLAGS = {
+    'ca': 'ad',
+    'en': 'gb',
+}
+
 
 '''
     Bookings client methods
@@ -34,8 +50,41 @@ def check_user(user):
         return False
     return True
 
+
+def _totem_default_language(project):
+    """Return the first language configured for a project's totem."""
+    languages = _totem_languages(project)
+    return languages[0]['code'] if languages else None
+
+
+def _totem_languages(project):
+    """Build the language selector from the project's configured languages."""
+    languages = []
+    seen = set()
+    for language in project.get_languages or []:
+        code = language.lower()
+        if not code or code in seen:
+            continue
+        seen.add(code)
+        base_code = code.split('-', 1)[0]
+        languages.append({
+            'code': code,
+            'name': TOTEM_LANGUAGE_NAMES.get(base_code, code.upper()),
+            'flag': TOTEM_LANGUAGE_FLAGS.get(base_code, base_code),
+        })
+    return languages
+
+
 def totem_access(request, project_uuid, code=""):
     project = get_or_none(Project, project_uuid, "uuid")
+    selected_language = request.GET.get('totem_language_selected') == '1'
+    default_language = _totem_default_language(project)
+
+    # Opening the totem always starts in the project's first configured
+    # language. A language explicitly selected on this screen is preserved.
+    if default_language and not selected_language:
+        translation.activate(default_language)
+        request.LANGUAGE_CODE = default_language
 
     context = {'project_uuid': project.uuid}
     #if check_user(request.user):
@@ -50,9 +99,14 @@ def totem_access(request, project_uuid, code=""):
     context["form"] = form
     context["cat"] = form.get_category
     context["code"] = code
+    context["totem_languages"] = _totem_languages(project)
     if code != "":
         request.session["code"] = code
-    return render(request, 'bookings/totem/totem-welcome.html', context)
+    response = render(request, 'bookings/totem/totem-welcome.html', context)
+    if default_language and not selected_language:
+        # LocaleMiddleware will use this in the following totem requests.
+        response.set_cookie(settings.LANGUAGE_COOKIE_NAME, default_language)
+    return response
 
 def totem_start(request):
     return render(request, "bookings/totem/check-band.html", {'project_uuid': request.GET["project_uuid"], 'error': ''})
@@ -207,5 +261,3 @@ def send_caldea_payment(project, band_code, regime, tickets, total):
     pcu = ProjectCaldeaUser.objects.filter(project_uuid=project.uuid).first()
     if pcu != None and pcu.client_id != "":
         caldea_send_payment(pcu, reverse_cardkey(band_code), regime, tickets, total)
-
-

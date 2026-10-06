@@ -198,12 +198,64 @@ class Guest(models.Model):
 
     @property
     def keycodes_status(self):
-        """Return the code displayed for this guest and whether it is missing."""
-        keycode = self.keycodes.first()
-        code = str(keycode.code or "").strip() if keycode else ""
+        """Return the assignment status of the codes for the guest's locks.
+
+        A guest can have more than one applicable lock (room, group and global
+        locks).  The list view must therefore not infer the state from an
+        arbitrary ``KeyCode`` row.
+        """
+        locks = list(self.get_locks())
+        if not locks:
+            return {
+                "status": "empty",
+                "css_class": "text-danger",
+                "tooltip": "",
+                # Kept for consumers of the existing REST endpoint.
+                "has_empty_code": True,
+                "codes": "—",
+            }
+
+        codes_by_lock = {}
+        for keycode in self.keycodes.filter(lock__in=locks):
+            code = str(keycode.code or "").strip()
+            if code:
+                codes_by_lock.setdefault(keycode.lock_id, []).append(code)
+
+        assigned_locks = [lock for lock in locks if codes_by_lock.get(lock.id)]
+        if len(assigned_locks) == len(locks):
+            return {
+                "status": "complete",
+                "css_class": "text-success",
+                "tooltip": "",
+                "has_empty_code": False,
+                "codes": " · ".join(
+                    code for lock in locks for code in codes_by_lock[lock.id]
+                ),
+            }
+        if not assigned_locks:
+            return {
+                "status": "empty",
+                "css_class": "text-danger",
+                "tooltip": "",
+                "has_empty_code": True,
+                "codes": "—",
+            }
+
+        lock_details = []
+        for lock in locks:
+            lock_name = lock.alias or lock.room or lock.uuid
+            codes = codes_by_lock.get(lock.id, [])
+            value = ", ".join(codes) if codes else _("No code")
+            lock_details.append("{}: {}".format(lock_name, value))
+
         return {
-            "codes": code or "—",
-            "has_empty_code": not code,
+            "status": "partial",
+            "css_class": "text-orange",
+            "tooltip": "{}: {}".format(_("Codes"), " · ".join(lock_details)),
+            "has_empty_code": True,
+            "codes": " · ".join(
+                code for lock in assigned_locks for code in codes_by_lock[lock.id]
+            ),
         }
 
     @property

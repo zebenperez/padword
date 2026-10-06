@@ -551,6 +551,10 @@ input.input-blue {
   /*margin-top: 20px;*/
 }
 
+.text-orange {
+  color: orange;
+}
+
 #btn-code[data-title]:hover:after{
     content: attr(data-title);
     position: absolute;
