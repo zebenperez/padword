@@ -98,7 +98,7 @@ class Mews():
                     "Limitation": {
                         "Count": 1000
                     },
-                    "CreatedUtc": {
+                    "ScheduledStartUtc": {
                         "StartUtc": self.ini_date,
                         "EndUtc": self.end_date
                     },
