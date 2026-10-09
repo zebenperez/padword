@@ -33,6 +33,28 @@ INSPECTED_STATE = "Inspected"
 def get_param(dic, key):
     return dic[key] if key in dic else ""
 
+def get_reservation_date(dic, actual_key, scheduled_key):
+    """Return an actual reservation date only when MEWS has populated it.
+
+    MEWS can return its epoch sentinel (1970-01-01) for an actual date that
+    has not been set yet.  Such a value must not replace the scheduled stay
+    dates used to create the guest reservation.
+    """
+    actual_date = get_param(dic, actual_key)
+    if actual_date:
+        try:
+            if datetime.strptime(actual_date, "%Y-%m-%dT%H:%M:%SZ").year > 1970:
+                return actual_date
+        except (TypeError, ValueError):
+            pass
+    return get_param(dic, scheduled_key)
+
+def get_timestamp(value):
+    try:
+        return int(round(value.timestamp() * 1000))
+    except (AttributeError, TypeError, ValueError, OverflowError):
+        return None
+
 def write_log(result):
     f = open(os.path.join(settings.BASE_DIR, "mews.log"), "a", encoding='utf-8')
     f.write("{}\n".format(result))
@@ -51,6 +73,7 @@ class Mews():
         self.access_token = access_token
         self.ini_date = datetime.now().strftime("%Y-%m-%dT00:00:00Z")
         self.end_date = datetime.now().strftime("%Y-%m-%dT23:59:59Z")
+        #self.end_date = (datetime.now() + timedelta(days=1)).strftime("%Y-%m-%dT23:59:59Z")
     
     def __send_request__(self, _url_request, _params=""):
         try:
@@ -163,14 +186,8 @@ class MewsBooking():
         self.service_id = get_param(dic, "ServiceId")
         self.account_id = get_param(dic, "AccountId")
         self.booker_id = get_param(dic, "BookerId")
-        #self.start = get_param(dic, "StartUtc")
-        #self.end = get_param(dic, "EndUtc")
-        self.start = get_param(dic, "ActualStartUtc")
-        if self.start is None:
-            self.start = get_param(dic, "ScheduledStartUtc")
-        self.end = get_param(dic, "ActualEndUtc")
-        if self.end is None:
-            self.end = get_param(dic, "ScheduledEndUtc")
+        self.start = get_reservation_date(dic, "ActualStartUtc", "ScheduledStartUtc")
+        self.end = get_reservation_date(dic, "ActualEndUtc", "ScheduledEndUtc")
         self.create_date = get_param(dic, "CreatedUtc")
         self.update_date = get_param(dic, "UpdatedUtc")
         self.number = get_param(dic, "Number")
@@ -221,8 +238,19 @@ def send_email_code(guest, code, pmu):
     try:
         subject = _("Códigos de acceso")
         body = ""
+        project = guest.project
+        check_in = project.local_date(guest.check_in)
+        check_out = project.local_date(guest.check_out)
         with translation.override(guest.language.lower()):
-            body = render_to_string("mews/email_template.html", {'guest': guest, 'project': guest.project, 'code': code, 'pmu': pmu})
+            body = render_to_string("mews/email_template.html", {
+                'guest': guest,
+                'project': project,
+                'code': code,
+                'pmu': pmu,
+                'check_in': check_in,
+                'check_out': check_out,
+            })
+        #write_log(f"---- CORREO - Checkin: {guest.check_in} - Checkout: {guest.check_out} - Guest: {guest.id}")
         send_email(subject, "", settings.EMAIL_FROM_DEFAULT, [guest.email], body)
     except Exception as e:
         print(e)
@@ -257,16 +285,32 @@ def create_booking(pmu, booking, av):
             guest.email = booking.customer.email if booking.customer.email != None else ""
             guest.language = booking.customer.language.split("-")[0] if booking.customer.language != None else ""
         
-        guest.check_in = checkin.strftime("%Y-%m-%d %H:%M:%S")
-        guest.check_out = checkout.strftime("%Y-%m-%d %H:%M:%S")
+        # Store the project's wall-clock time while keeping datetime objects
+        # for the lock-code creation that happens immediately after save().
+        guest.check_in = checkin.replace(tzinfo=None)
+        guest.check_out = checkout.replace(tzinfo=None)
         guest.room = room
         guest.save()
 
         if booking.created:
             lock_code = get_code(project)
 
+            #lock_checkin = guest.check_in_gmt
+            #lock_checkout = guest.check_out_gmt
+            #write_log(
+            #    "-- CÓDIGO CERRADURA MEWS: "
+            #    f"Guest:{guest.id} "
+            #    f"Checkin:{guest.check_in!r} ({type(guest.check_in).__name__}) "
+            #    f"Checkout:{guest.check_out!r} ({type(guest.check_out).__name__}) "
+            #    f"CheckinGMT:{lock_checkin!r} "
+            #    f"CheckoutGMT:{lock_checkout!r} "
+            #    f"CheckinTimestamp:{get_timestamp(lock_checkin)} "
+            #    f"CheckoutTimestamp:{get_timestamp(lock_checkout)}"
+            #)
             err = guest.add_all_key_code(lock_code)
+            write_log(f"-- RESULTADO CÓDIGO CERRADURA MEWS: Guest:{guest.id} Error:{err!r}")
             if guest.email != "" and pmu.send_email:
+                #write_log(f"--Enviando correo. Checkin: {guest.check_in} - Checkout: {guest.check_out}")
                 send_email_code(guest, lock_code, pmu)
     return booking, err
 
@@ -340,4 +384,3 @@ def get_room_list(pmu):
         create_room(pmu, room, i)
         i += 1
     return room_list
-

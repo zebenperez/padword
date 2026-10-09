@@ -226,7 +226,9 @@ class Guest(models.Model):
             return {
                 "status": "complete",
                 "css_class": "text-success",
-                "tooltip": "",
+                "tooltip": "{}: {}".format(
+                    _("Code"), codes_by_lock[locks[0].id][0]
+                ),
                 "has_empty_code": False,
                 "codes": " · ".join(
                     code for lock in locks for code in codes_by_lock[lock.id]
@@ -241,17 +243,10 @@ class Guest(models.Model):
                 "codes": "—",
             }
 
-        lock_details = []
-        for lock in locks:
-            lock_name = lock.alias or lock.room or lock.uuid
-            codes = codes_by_lock.get(lock.id, [])
-            value = ", ".join(codes) if codes else _("No code")
-            lock_details.append("{}: {}".format(lock_name, value))
-
         return {
             "status": "partial",
             "css_class": "text-orange",
-            "tooltip": "{}: {}".format(_("Codes"), " · ".join(lock_details)),
+            "tooltip": "",
             "has_empty_code": True,
             "codes": " · ".join(
                 code for lock in assigned_locks for code in codes_by_lock[lock.id]

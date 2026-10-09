@@ -47,16 +47,15 @@ class KeycodesStatusTests(SimpleTestCase):
 
         self.assertEqual(status["status"], "complete")
         self.assertEqual(status["css_class"], "text-success")
-        self.assertEqual(status["tooltip"], "")
+        self.assertEqual(status["tooltip"], "Code: 1234")
         self.assertFalse(status["has_empty_code"])
 
-    def test_is_partial_and_identifies_each_lock_when_one_code_is_missing(self):
+    def test_is_partial_when_one_lock_is_missing_a_code(self):
         status = self.status_for(("1234", ""))
 
         self.assertEqual(status["status"], "partial")
         self.assertEqual(status["css_class"], "text-orange")
-        self.assertIn("Habitación: 1234", status["tooltip"])
-        self.assertIn("Entrada: No code", status["tooltip"])
+        self.assertEqual(status["tooltip"], "")
         self.assertTrue(status["has_empty_code"])
 
     def test_is_empty_when_no_lock_has_a_code(self):

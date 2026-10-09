@@ -251,12 +251,12 @@ hr{
 
             <div class="booking-row">
                 <span class="booking-label">{% trans "Check-in" %}</span>
-                <span class="booking-value">{{guest.check_in|date:"d-m-Y"}}</span>
+                <span class="booking-value">{{check_in|date:"d-m-Y H:i"}}</span>
             </div>
 
             <div class="booking-row">
                 <span class="booking-label">{% trans "Check-out" %}</span>
-                <span class="booking-value">{{guest.check_out|date:"d-m-Y"}}</span>
+                <span class="booking-value">{{check_out|date:"d-m-Y H:i"}}</span>
             </div>
 
             <div class="booking-row">
@@ -274,7 +274,7 @@ hr{
 
         <div class="cta-wrapper">
             <a href="{{guest.pwa_link}}" class="pwa-button">{% trans "Abrir aplicación del alojamiento" %} </a> <br/><br/>
-            <span class="code-label">{% trans "Código de acceso" %}: {{code}} </span>
+            <span class="code-label">{% trans "Código de acceso" %}: {{code}}#</span>
         </div>
 
         <div class="description">

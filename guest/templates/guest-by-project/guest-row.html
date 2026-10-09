@@ -26,7 +26,7 @@
 
     {% if item.get_locks|length > 0 %}
         {% guest_keycodes_status item as keycodes_status %}
-        <a id="btn-code" class="btn"{% if keycodes_status.tooltip %} data-title="{{ keycodes_status.tooltip }}"{% endif %}><i class="fas fa-eye {{ keycodes_status.css_class }}"></i></a>
+        <a id="btn-code" class="btn"{% if keycodes_status.tooltip %} data-title="{{ keycodes_status.tooltip }}"{% endif %}><i class="fas fa-eye {{ keycodes_status.css_class }}"{% if keycodes_status.status == "partial" %} style="color: orange !important;"{% endif %}></i></a>
 
         <a class="btn btn-sm ark" title="{%trans "Add Card"%}" data-url="{% url "guest-key-card-all" %}" data-obj_id="{{item.id}}" 
             data-target-modal="common-modal"><i class="fas fa-credit-card"></i></a>

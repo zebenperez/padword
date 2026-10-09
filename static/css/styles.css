@@ -552,7 +552,7 @@ input.input-blue {
 }
 
 .text-orange {
-  color: orange;
+  color: orange !important;
 }
 
 #btn-code[data-title]:hover:after{
