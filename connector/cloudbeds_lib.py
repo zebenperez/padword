@@ -31,17 +31,6 @@ END_POINT_URL = "{}/connector/cloudbeds/webhook/".format(settings.MAIN_URL)
 def get_param(dic, key):
     return dic[key] if key in dic else ""
 
-def get_plates(dic):
-    """Return the vehicle plates stored in a Cloudbeds custom-fields node."""
-    plate = ""
-    plate2 = ""
-    for custom_field in get_param(dic, "customFields") or []:
-        if custom_field.get("customFieldName") == "Matricula":
-            plate = custom_field.get("customFieldValue", "")
-        elif custom_field.get("customFieldName") == "Matricula Extra":
-            plate2 = custom_field.get("customFieldValue", "")
-    return plate, plate2
-
 class CloudbedsAPIError(Exception):
     def __init__(self, menssage='Invalid Parameter'):
         self.menssage=menssage
@@ -247,8 +236,11 @@ class CloudbedsBooking():
         self.source_name = get_param(dic, "sourceName")
         self.guest_id = get_param(dic, "guestID")
         self.guest_name = get_param(dic, "guestName")
-        self.start = get_param(dic, "startDate")
-        self.end = get_param(dic, "endDate")
+        self.reservation_start = get_param(dic, "startDate")
+        self.reservation_end = get_param(dic, "endDate")
+        self.start = self.reservation_start
+        self.end = self.reservation_end
+        self.assigned = get_param(dic, "assigned") or []
         self.created = get_param(dic, "dateCreated")
         self.updated = get_param(dic, "dateModified")
         self.status = get_param(dic, "status")
@@ -258,7 +250,29 @@ class CloudbedsBooking():
         #self.customer = None
         self.rooms = []
         self.created = False
-        self.plate, self.plate2 = get_plates(dic)
+        self.trace = ""
+        self.plate, self.plate2 = self.get_plates(dic)
+
+    @staticmethod
+    def get_plates(dic):
+        """Return vehicle plates from a Cloudbeds custom-fields node."""
+        plate = ""
+        plate2 = ""
+        for custom_field in get_param(dic, "customFields") or []:
+            if custom_field.get("customFieldName") == "Matricula":
+                plate = custom_field.get("customFieldValue", "")
+            elif custom_field.get("customFieldName") == "Matricula Extra":
+                plate2 = custom_field.get("customFieldValue", "")
+        return plate, plate2
+
+    def get_subreservation_dates(self, sub_id):
+        for assignment in self.assigned:
+            if get_param(assignment, "subReservationID") == sub_id:
+                return (
+                    get_param(assignment, "startDate"),
+                    get_param(assignment, "endDate"),
+                )
+        return self.reservation_start, self.reservation_end
 
 class CloudbedsBookingRoom():
     def __init__(self, dic):
@@ -284,7 +298,7 @@ class CloudbedsGuest():
         self.phone = get_param(dic, "phone")
         self.cell_phone = get_param(dic, "cellPhone")
         self.country = get_param(dic, "country")
-        self.plate, self.plate2 = get_plates(dic)
+        self.plate, self.plate2 = CloudbedsBooking.get_plates(dic)
 
 class CloudbedsGuest2():
     def __init__(self, dic):
@@ -295,7 +309,7 @@ class CloudbedsGuest2():
         self.phone = get_param(dic, "guestPhone")
         self.cell_phone = get_param(dic, "guestCellPhone")
         self.country = get_param(dic, "guestCountry")
-        self.plate, self.plate2 = get_plates(dic)
+        self.plate, self.plate2 = CloudbedsBooking.get_plates(dic)
 
 class CloudbedsRoom():
     def __init__(self, dic):
@@ -414,10 +428,7 @@ def create_booking(pcu, room, booking, bguest, av, ev=""):
             # guest being created or updated.
             plate = bguest.plate or booking.plate
             plate2 = bguest.plate2 or booking.plate2
-            if plate != "":
-                guest.add_plate(plate)
-            if plate2 != "":
-                guest.add_plate(plate2)
+            guest.sync_cloudbeds_plates(plate, plate2)
 
             if booking.created:
                 msg += "\n [6.1] CREADA: {}".format(guest.ext_id)
@@ -459,17 +470,22 @@ def get_booking_list(pcu):
     for item in result:
         i += 1
         node = CloudbedsBooking(item)
+        node.trace += "\n -- [1] Estado: {}".format(node.status)
+        node.trace += "\n -- [1] Reserva: {}".format(node.id)
         room_list = get_param(item, "rooms")
         data_list = []
         for room in room_list:
             room_node = CloudbedsBookingRoom(room)
             guest = av.get_guest(room_node.guest_id)
             guest_node = CloudbedsGuest(guest)
-            create_booking(pcu, room_node, node, guest_node, av, "reservation/created")
+            # A reservation can have different dates per subreservation.
+            # Keep the scheduled import aligned with webhook processing.
+            node.start, node.end = node.get_subreservation_dates(room_node.subreservation_id)
+            node.trace += create_booking(pcu, room_node, node, guest_node, av, "reservation/created")
             node.rooms.append(room_node)
             data_list.append(f"{room_node.name}:{room_node.subreservation_id}")
+        node.trace += send_booking_codes(pcu, av, node.id, data_list)
         booking_list.append(node)
-        send_booking_codes(pcu, av, node.id, data_list)
     return booking_list
 
 def get_room_list(pcu):
@@ -510,6 +526,12 @@ def set_webhooks(pcu):
     result += "Adding reservation/accommodation_changed webhook <br/>"
     result += av.set_webhook("reservation", "accommodation_changed", pcu.property_id)
     result += "<br/>"
+    result += "Adding reservation/custom_fields_changed webhook <br/>"
+    result += av.set_webhook("reservation", "custom_fields_changed", pcu.property_id)
+    result += "<br/>"
+    result += "Adding guest/details_changed webhook <br/>"
+    result += av.set_webhook("guest", "details_changed", pcu.property_id)
+    result += "<br/>"
     result += "Adding reservation/deleted webhook <br/>"
     result += av.set_webhook("reservation", "deleted", pcu.property_id)
     result += "<br/>"
@@ -547,6 +569,14 @@ def manage_webhook_actions(pcu, obj):
         msg = "\n-- Modificada la habitación de la reserva en cloudbeds {}".format(obj["reservationId"])
         msg += get_or_create_booking(pcu, obj["reservationId"], obj["event"])
 
+    if obj["event"] == "reservation/custom_fields_changed":
+        msg = "\n-- Modificados los campos personalizados de la reserva en cloudbeds {}".format(obj["reservationId"])
+        msg += get_or_create_booking(pcu, obj["reservationId"], obj["event"])
+
+    if obj["event"] == "guest/details_changed":
+        msg = "\n-- Modificados los datos del huésped en cloudbeds {}".format(obj["reservationId"])
+        msg += get_or_create_booking(pcu, obj["reservationId"], obj["event"])
+
     if obj["event"] == "reservation/deleted":
         msg = "\n-- Eliminada la reserva en cloudbeds {}".format(obj["reservationId"])
         msg += reservation_delete(pcu, obj)
@@ -559,13 +589,6 @@ def manage_webhook_actions(pcu, obj):
         disabled_connection(pcu, obj)
         msg = "\n-- Desconectada la propiedad {}".format(obj["propertyId"])
     return msg
-
-def get_subreservation_dates(booking, sub_id):
-    if "assigned" in booking:
-        for node in booking["assigned"]:
-            if node["subReservationID"] == sub_id:
-                return node["startDate"], node["endDate"]
-    return booking["startDate"], booking["endDate"]
 
 def get_or_create_booking(pcu, ext_id, ev):
     if pcu == None:
@@ -598,7 +621,7 @@ def get_or_create_booking(pcu, ext_id, ev):
             room_list = get_param(datas, "rooms")
             msg += "\n --[3] Habitaciones (cloudbeds): {}".format(room_list)
             for room_data in room_list:
-                node.start, node.end = get_subreservation_dates(booking, room_data["subReservationID"])
+                node.start, node.end = node.get_subreservation_dates(room_data["subReservationID"])
                 room_node = CloudbedsRoom2(room_data)
                 msg_g = create_booking(pcu, room_node, node, guest_node, av, ev)
                 msg += "\n {}".format(msg_g)

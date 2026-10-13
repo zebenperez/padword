@@ -1,4 +1,5 @@
 from django.contrib import messages
+from django.core.exceptions import PermissionDenied
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
@@ -37,6 +38,19 @@ def _get_pwa(project_uuid, pwa_uuid):
         uuid=pwa_uuid,
         project_uuid=project_uuid,
     )
+
+
+def _get_project_for_pwa_management(request, project_uuid):
+    """Return a project only when the user can manage its PWAs.
+
+    Project managers must be limited to projects assigned to them; admins and
+    superusers retain their existing global access.
+    """
+    project = get_object_or_404(Project, uuid=project_uuid)
+    is_admin = request.user.is_superuser or request.user.groups.filter(name='admins').exists()
+    if not is_admin and project.manager_id != request.user.id:
+        raise PermissionDenied
+    return project
 
 
 def _get_config(pwa):
@@ -187,24 +201,25 @@ def _guest_pwa_data(guest):
         return {'room_name': guest.room, 'locks': []}
 
 
-@group_required('admins')
+@group_required('admins', 'project_manager')
 def list(request, project_uuid):
-    project = get_object_or_404(Project, uuid=project_uuid)
+    project = _get_project_for_pwa_management(request, project_uuid)
     return render(request, 'project_pwa/list.html', {
         'project': project,
         'pwas': ProjectPWA.objects.filter(project_uuid=project.uuid),
     })
 
 
-@group_required('admins')
+@group_required('admins', 'project_manager')
 def create(request, project_uuid):
-    project = get_object_or_404(Project, uuid=project_uuid)
+    project = _get_project_for_pwa_management(request, project_uuid)
     pwa = ProjectPWA.objects.create(project_uuid=project.uuid, name=project.name, config=DEFAULT_CONFIG)
     return redirect('project-pwa-edit', project_uuid=project.uuid, pwa_uuid=pwa.uuid)
 
 
-@group_required('admins')
+@group_required('admins', 'project_manager')
 def edit(request, project_uuid, pwa_uuid):
+    _get_project_for_pwa_management(request, project_uuid)
     pwa = _get_pwa(project_uuid, pwa_uuid)
     step = request.GET.get('step', request.POST.get('step', 'login'))
     if step not in ('login', 'app'):
@@ -225,8 +240,9 @@ def edit(request, project_uuid, pwa_uuid):
 
 
 @require_POST
-@group_required('admins')
+@group_required('admins', 'project_manager')
 def publish(request, project_uuid, pwa_uuid):
+    _get_project_for_pwa_management(request, project_uuid)
     pwa = _get_pwa(project_uuid, pwa_uuid)
     _save_wizard_data(request, pwa)
     pwa.status = ProjectPWA.Status.PUBLISHED
@@ -241,8 +257,9 @@ def publish(request, project_uuid, pwa_uuid):
 
 
 @require_POST
-@group_required('admins')
+@group_required('admins', 'project_manager')
 def unpublish(request, project_uuid, pwa_uuid):
+    _get_project_for_pwa_management(request, project_uuid)
     pwa = _get_pwa(project_uuid, pwa_uuid)
     pwa.status = ProjectPWA.Status.DRAFT
     pwa.published_at = None
@@ -251,8 +268,9 @@ def unpublish(request, project_uuid, pwa_uuid):
     return redirect('project-pwa-edit', project_uuid=project_uuid, pwa_uuid=pwa.uuid)
 
 
-@group_required('admins')
+@group_required('admins', 'project_manager')
 def delete(request, project_uuid, pwa_uuid):
+    _get_project_for_pwa_management(request, project_uuid)
     pwa = _get_pwa(project_uuid, pwa_uuid)
     if request.method != 'POST':
         return render(request, 'project_pwa/delete_confirm.html', {

@@ -543,6 +543,35 @@ class Guest(models.Model):
         for number in plates.split(","):
             GuestCar.objects.get_or_create(number=number, guest=self)
 
+    def sync_cloudbeds_plates(self, plate="", plate2=""):
+        """Make this guest's vehicle plates match Cloudbeds exactly.
+
+        ``GuestCar`` does not have separate fields for Cloudbeds' primary and
+        extra plate, so the two non-empty values are stored as the guest's
+        complete set of cars.  This also removes stale values when a custom
+        field is changed or cleared in Cloudbeds.
+        """
+        plates = []
+        for number in (plate, plate2):
+            number = (number or "").strip()
+            if number and number not in plates:
+                plates.append(number)
+
+        cars = self.cars
+        if plates:
+            cars.exclude(number__in=plates).delete()
+        else:
+            cars.all().delete()
+
+        for number in plates:
+            matching_cars = cars.filter(number=number).order_by('id')
+            car = matching_cars.first()
+            if car is None:
+                GuestCar.objects.create(number=number, guest=self)
+            else:
+                # Remove legacy duplicates while retaining the oldest row.
+                matching_cars.exclude(pk=car.pk).delete()
+
     def manage_plates(self, plates):
         current_plates = GuestCar.objects.all().delete()
         for number in plates.split(","):

@@ -55,6 +55,12 @@
                     <div class="col-2">{% trans 'Balance' %}</div>
                     <div class="col-4">{{item.balance}}</div>
                 </div>
+                {% if item.trace %}
+                    <div class="alert alert-secondary mt-2 mb-2">
+                        <strong>{% trans 'Trace' %}</strong>
+                        <pre class="mb-0 text-wrap">{{ item.trace }}</pre>
+                    </div>
+                {% endif %}
                 <div class="alert alert-info">{% trans "Rooms" %}</div>
                 {% for room in item.rooms %}
                     <div class="row">
