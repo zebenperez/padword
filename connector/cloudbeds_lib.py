@@ -11,6 +11,7 @@ import json
 import random
 import string
 import time
+import os
 
 try:
     API_URL = settings.CLOUDBEDS_API_URL
@@ -259,9 +260,10 @@ class CloudbedsBooking():
         plate = ""
         plate2 = ""
         for custom_field in get_param(dic, "customFields") or []:
-            if custom_field.get("customFieldName") == "Matricula":
+            field_name = (custom_field.get("customFieldName") or "").strip().casefold()
+            if field_name == "matricula":
                 plate = custom_field.get("customFieldValue", "")
-            elif custom_field.get("customFieldName") == "Matricula Extra":
+            elif field_name == "matricula extra":
                 plate2 = custom_field.get("customFieldValue", "")
         return plate, plate2
 
@@ -428,6 +430,7 @@ def create_booking(pcu, room, booking, bguest, av, ev=""):
             # guest being created or updated.
             plate = bguest.plate or booking.plate
             plate2 = bguest.plate2 or booking.plate2
+            msg += f"\n [5.1] Matrículas: {plate} {plate2}"
             guest.sync_cloudbeds_plates(plate, plate2)
 
             if booking.created:
@@ -459,35 +462,56 @@ def create_room(pcu, room, index):
     r.save()
 
 def get_booking_list(pcu):
-    #get_or_create_booking(pcu, "8990638557302")
-    #return []
+    av = Cloudbeds(pcu.token)
     i_date = datetime.today()
     e_date = i_date + timedelta(pcu.days)
-    av = Cloudbeds(pcu.token)
     result = av.get_bookings(i_date.strftime("%Y-%m-%d"), e_date.strftime("%Y-%m-%d"))
     booking_list = []
-    i = 0
+    msg = "[0] IMPORTACIÓN MANUAL O CRON"
     for item in result:
-        i += 1
+        msg += get_or_create_booking(pcu, item["reservationID"], "reservation/created")
         node = CloudbedsBooking(item)
-        node.trace += "\n -- [1] Estado: {}".format(node.status)
-        node.trace += "\n -- [1] Reserva: {}".format(node.id)
-        room_list = get_param(item, "rooms")
-        data_list = []
-        for room in room_list:
-            room_node = CloudbedsBookingRoom(room)
-            guest = av.get_guest(room_node.guest_id)
-            guest_node = CloudbedsGuest(guest)
-            # A reservation can have different dates per subreservation.
-            # Keep the scheduled import aligned with webhook processing.
-            node.start, node.end = node.get_subreservation_dates(room_node.subreservation_id)
-            node.trace += create_booking(pcu, room_node, node, guest_node, av, "reservation/created")
-            node.rooms.append(room_node)
-            data_list.append(f"{room_node.name}:{room_node.subreservation_id}")
-        node.trace += send_booking_codes(pcu, av, node.id, data_list)
         booking_list.append(node)
+    f = open(os.path.join(settings.BASE_DIR, "cloudbeds.log"), "a", encoding='utf-8')
+    f.write(msg)
+    f.close()
     return booking_list
 
+#def get_booking_list(pcu):
+#    #get_or_create_booking(pcu, "8990638557302")
+#    #return []
+#    i_date = datetime.today()
+#    e_date = i_date + timedelta(pcu.days)
+#    av = Cloudbeds(pcu.token)
+#    result = av.get_bookings(i_date.strftime("%Y-%m-%d"), e_date.strftime("%Y-%m-%d"))
+#    booking_list = []
+#    i = 0
+#    for item in result:
+#        i += 1
+#        node = CloudbedsBooking(item)
+#        node.trace += f"\n -- [0] {item}"
+#        node.trace += "\n -- [1] Estado: {}".format(node.status)
+#        node.trace += "\n -- [1] Reserva: {}".format(node.id)
+#        room_list = get_param(item, "rooms")
+#        data_list = []
+#        for room in room_list:
+#            room_node = CloudbedsBookingRoom(room)
+#            guest = av.get_guest(room_node.guest_id)
+#            node.trace += f"\n -- [1.1] GUEST: {guest}"
+#            guest_node = CloudbedsGuest(guest)
+#            # A reservation can have different dates per subreservation.
+#            # Keep the scheduled import aligned with webhook processing.
+#            node.start, node.end = node.get_subreservation_dates(room_node.subreservation_id)
+#            node.trace += create_booking(pcu, room_node, node, guest_node, av, "reservation/created")
+#            node.rooms.append(room_node)
+#            data_list.append(f"{room_node.name}:{room_node.subreservation_id}")
+#        node.trace += send_booking_codes(pcu, av, node.id, data_list)
+#        booking_list.append(node)
+#    f = open(os.path.join(settings.BASE_DIR, "cloudbeds.log"), "a", encoding='utf-8')
+#    f.write(node.trace)
+#    f.close()
+#    return booking_list
+#
 def get_room_list(pcu):
     av = Cloudbeds(pcu.token)
     result = av.get_rooms(pcu.property_id)
@@ -529,9 +553,9 @@ def set_webhooks(pcu):
     result += "Adding reservation/custom_fields_changed webhook <br/>"
     result += av.set_webhook("reservation", "custom_fields_changed", pcu.property_id)
     result += "<br/>"
-    result += "Adding guest/details_changed webhook <br/>"
-    result += av.set_webhook("guest", "details_changed", pcu.property_id)
-    result += "<br/>"
+    #result += "Adding guest/details_changed webhook <br/>"
+    #result += av.set_webhook("guest", "details_changed", pcu.property_id)
+    #result += "<br/>"
     result += "Adding reservation/deleted webhook <br/>"
     result += av.set_webhook("reservation", "deleted", pcu.property_id)
     result += "<br/>"
@@ -570,12 +594,12 @@ def manage_webhook_actions(pcu, obj):
         msg += get_or_create_booking(pcu, obj["reservationId"], obj["event"])
 
     if obj["event"] == "reservation/custom_fields_changed":
-        msg = "\n-- Modificados los campos personalizados de la reserva en cloudbeds {}".format(obj["reservationId"])
-        msg += get_or_create_booking(pcu, obj["reservationId"], obj["event"])
+        msg = "\n-- Modificados los campos personalizados de la reserva en cloudbeds {}".format(obj["reservationID"])
+        msg += get_or_create_booking(pcu, obj["reservationID"], obj["event"])
 
-    if obj["event"] == "guest/details_changed":
-        msg = "\n-- Modificados los datos del huésped en cloudbeds {}".format(obj["reservationId"])
-        msg += get_or_create_booking(pcu, obj["reservationId"], obj["event"])
+    #if obj["event"] == "guest/details_changed":
+    #    msg = "\n-- Modificados los datos del huésped en cloudbeds {}".format(obj["reservationId"])
+    #    msg += get_or_create_booking(pcu, obj["reservationId"], obj["event"])
 
     if obj["event"] == "reservation/deleted":
         msg = "\n-- Eliminada la reserva en cloudbeds {}".format(obj["reservationId"])
