@@ -33,6 +33,7 @@ urlpatterns = [
     path('projects/form/', views.project_form, name='project-form'),
     path('projects/details/<int:obj_id>/', views.project_details, name='project-details'),
     path('projects/details/<int:obj_id>/<slug:current_tab>/', views.project_details, name='project-details'),
+    path('projects/<int:obj_id>/provision-integrations/', views.project_provision_integrations, name='project-provision-integrations'),
     path('projects/remove/', views.project_remove, name='project-remove'),
     path('projects/upload-json/', views.project_upload_json, name='project-upload-json'),
     path('projects/user-token/', views.project_user_token, name='project-user-token'),

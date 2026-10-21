@@ -164,18 +164,17 @@ class Guest(models.Model):
 
     @property
     def pwa_link2(self):
-        """Direct link to the newest published project PWA for this guest."""
+        """Stable guest link that resolves the project's published PWA."""
         from project_pwa.models import ProjectPWA
 
-        pwa = ProjectPWA.objects.filter(
+        if not ProjectPWA.objects.filter(
             project_uuid=self.project_id,
             status=ProjectPWA.Status.PUBLISHED,
-        ).order_by('-updated_at').first()
-        if not pwa:
+        ).exists():
             return ""
 
-        url = reverse('project-pwa-access-auto', kwargs={
-            'pwa_uuid': pwa.uuid,
+        url = reverse('project-pwa-project-access-auto', kwargs={
+            'project_uuid': self.project_id,
             'guest_uuid': self.UUID,
         })
         try:

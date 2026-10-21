@@ -6,6 +6,14 @@
 {% block central_content %}
     <span id="div-notification"></span>
 
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert {% if message.tags == 'error' %}alert-danger{% else %}alert-success{% endif %}" role="alert">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endif %}
+
     <div class="card pb-3 b-none">
         {% comment %}<div class="card-header"><h2>{% trans "Main" %}</h2></div> {% endcomment %}
         <div class="card-body">
@@ -16,6 +24,13 @@
     </div>
 
     <div class="d-flex justify-content-end p-2">
+        <form method="post" action="{% url 'project-provision-integrations' obj.id %}" class="m-2">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-outline-primary"
+                onclick="return confirm('{% trans "Create or update this project in Padword Integrations?" %}')">
+                <i class="fas fa-plug"></i> {% trans "Create in Integrations" %}
+            </button>
+        </form>
         <a type="button" id="btn-save" class="btn btn-primary m-2" href="{% url "projects" %}"> {%trans "Save"%}</a>
         {%comment%}
         <a type="button" id="btn-remove" class="btn btn-danger m-2" href="{% url "guest-remove" obj.id %}" 

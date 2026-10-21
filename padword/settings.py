@@ -169,6 +169,11 @@ REST_FRAMEWORK = {
     ],
 }
 
+# Server-to-server provisioning of projects in Padword Integrations.  Set both
+# values in the deployment environment; never commit the shared secret.
+PADWORD_INTEGRATIONS_PROVISION_URL = os.environ.get('PADWORD_INTEGRATIONS_PROVISION_URL', '')
+PADWORD_INTEGRATIONS_SHARED_SECRET = os.environ.get('PADWORD_INTEGRATIONS_SHARED_SECRET', '')
+
 try:
     from .local_settings import *
 except Exception:

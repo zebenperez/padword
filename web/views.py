@@ -1,12 +1,16 @@
+from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import Group, User
 from django.core import serializers
 from django.core.paginator import Paginator
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, redirect
 from django.urls import reverse
 from django.utils import timezone
+from django.utils.text import slugify
 from django.utils.translation import ugettext_lazy as _ 
 from django.views.decorators.csrf import csrf_exempt
+from django.views.decorators.http import require_POST
 
 from padword.commons import show_exc, get_or_none, get_param, new_ui_slug, translate, set_session, update_cron, get_int, translate2, get_random_str
 from padword.decorators import group_required
@@ -25,7 +29,12 @@ from .models_lock import Lock
 
 
 from django.conf import settings
-import os, re, requests, time, datetime, csv
+import os, re, requests, time, datetime, csv, base64, hashlib, hmac, json, logging, secrets
+
+from cryptography.fernet import Fernet, InvalidToken
+
+
+logger = logging.getLogger(__name__)
 
 
 
@@ -587,6 +596,167 @@ def project_details(request, obj_id, current_tab=""):
         return render(request, "web/projects/project-details.html", context)
     except Exception as e:
         return render(request, 'error_exception.html', {'exc':show_exc(e)})
+
+
+def _integration_provision_payload(project):
+    """Return the public project fields accepted by Integrations."""
+    return {
+        'source': 'padword',
+        'source_project_uuid': project.uuid,
+        'name': project.name,
+        'prefix': project.prefix,
+        # Integrations accepts either an IANA zone (for example,
+        # ``Europe/Madrid``) or an offset.  Prefer the IANA value when the
+        # Padword project has one.
+        'timezone': project.time_zone_name or project.time_zone,
+        'default_language': project.default_language,
+        'languages': project.get_languages,
+        'currency': project.currency,
+        'company': project.company.name if project.company else '',
+    }
+
+
+def _integration_credential_cipher():
+    """Cipher for the retry-only copy of a project's Padword API password."""
+    key = base64.urlsafe_b64encode(
+        hashlib.sha256(settings.SECRET_KEY.encode('utf-8')).digest()
+    )
+    return Fernet(key)
+
+
+def _integration_api_username(project, link):
+    if link.api_username:
+        return link.api_username
+
+    base = slugify(project.name) or 'project-{}'.format(project.id)
+    username = '{}-api-user'.format(base)[:150]
+    # Do not take over an unrelated existing account with the same name.
+    if User.objects.filter(username=username).exists():
+        suffix = '-{}-api-user'.format(project.id)
+        username = '{}{}'.format(base[:150 - len(suffix)], suffix)
+    return username
+
+
+def _get_or_create_integration_api_credentials(project, link):
+    """Create one least-privilege API user and recover its retry credential.
+
+    The API account also needs a project membership: the Padword REST API
+    resolves a caller's project through ``ProjectUser``.  ``get_or_create``
+    keeps provisioning retries from adding duplicate memberships.
+    """
+    username = _integration_api_username(project, link)
+    user = User.objects.filter(username=username).first()
+    password = ''
+    if link.encrypted_api_password:
+        try:
+            password = _integration_credential_cipher().decrypt(
+                link.encrypted_api_password.encode('utf-8')
+            ).decode('utf-8')
+        except (InvalidToken, UnicodeDecodeError):
+            logger.warning('Resetting unreadable integration API credential for project %s', project.uuid)
+
+    if user is None:
+        user = User(username=username)
+
+    if not password:
+        password = secrets.token_urlsafe(32)
+        user.set_password(password)
+        link.encrypted_api_password = _integration_credential_cipher().encrypt(
+            password.encode('utf-8')
+        ).decode('utf-8')
+
+    user.is_active = True
+    user.save()
+    api_group, _ = Group.objects.get_or_create(name='api')
+    user.groups.add(api_group)
+    ProjectUser.objects.get_or_create(
+        project_uuid=project.uuid,
+        username=user.username,
+    )
+    link.api_username = username
+    link.save(update_fields=['api_username', 'encrypted_api_password', 'updated_at'])
+    return username, password
+
+
+@group_required("admins")
+@require_POST
+def project_provision_integrations(request, obj_id):
+    """Create (or retrieve) this project in Padword Integrations.
+
+    The destination must treat ``source_project_uuid`` as unique.  Therefore a
+    retry after a network failure cannot create a duplicate remote project.
+    """
+    project = get_or_none(Project, obj_id)
+    if project is None:
+        messages.error(request, _('Project not found.'))
+        return redirect('projects')
+
+    link, link_created = IntegrationProjectLink.objects.get_or_create(project=project)
+    endpoint = getattr(settings, 'PADWORD_INTEGRATIONS_PROVISION_URL', '')
+    shared_secret = getattr(settings, 'PADWORD_INTEGRATIONS_SHARED_SECRET', '')
+    if not endpoint or not shared_secret:
+        link.status = 'configuration_error'
+        link.last_error = 'Padword Integrations is not configured.'
+        link.save(update_fields=['status', 'last_error', 'updated_at'])
+        messages.error(request, _('Padword Integrations is not configured.'))
+        return redirect('project-details', obj_id=project.id, current_tab='integrations')
+
+    api_username, api_password = _get_or_create_integration_api_credentials(project, link)
+    payload = _integration_provision_payload(project)
+    payload.update({
+        'remote_user': api_username,
+        'remote_password': api_password,
+    })
+    body = json.dumps(payload, separators=(',', ':'), sort_keys=True).encode('utf-8')
+    timestamp = str(int(time.time()))
+    signature = hmac.new(
+        shared_secret.encode('utf-8'),
+        timestamp.encode('utf-8') + b'.' + body,
+        hashlib.sha256,
+    ).hexdigest()
+    headers = {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'X-Padword-Source': 'padword',
+        'X-Padword-Timestamp': timestamp,
+        'X-Padword-Signature': signature,
+        # v2 adds the per-project Padword API credential to provisioning.  A
+        # project created by the earlier payload can therefore be completed
+        # without conflicting with its original immutable idempotency record.
+        'Idempotency-Key': 'padword-project-{}-v2'.format(project.uuid),
+    }
+
+    link.status = 'pending'
+    link.last_error = ''
+    link.save(update_fields=['status', 'last_error', 'updated_at'])
+    try:
+        response = requests.post(endpoint, data=body, headers=headers, timeout=(5, 20))
+        response.raise_for_status()
+        response_data = response.json()
+        remote_project = response_data.get('project', response_data)
+        remote_id = str(remote_project.get('id', ''))
+        remote_uuid = str(remote_project.get('uuid', ''))
+        if not remote_id and not remote_uuid:
+            raise ValueError('Provision response did not include a project identifier.')
+    except (requests.RequestException, ValueError, TypeError, json.JSONDecodeError) as exc:
+        link.status = 'error'
+        link.last_error = str(exc)[:2000]
+        link.save(update_fields=['status', 'last_error', 'updated_at'])
+        logger.warning('Integrations provisioning failed for project %s: %s', project.uuid, exc)
+        messages.error(request, _('The project could not be created in Padword Integrations. You can retry.'))
+        return redirect('project-details', obj_id=project.id, current_tab='integrations')
+
+    link.remote_project_id = remote_id
+    link.remote_project_uuid = remote_uuid
+    link.status = 'ready'
+    link.last_error = ''
+    link.last_synced_at = timezone.now()
+    link.save(update_fields=[
+        'remote_project_id', 'remote_project_uuid', 'status', 'last_error',
+        'last_synced_at', 'updated_at',
+    ])
+    messages.success(request, _('Project created in Padword Integrations.'))
+    return redirect('project-details', obj_id=project.id, current_tab='integrations')
 
 
 @group_required("admins")

@@ -4,6 +4,7 @@ project_pwa/migrations/
 !project_pwa/migrations/
 project_pwa/migrations/*.py
 !project_pwa/migrations/0003_projectpwa_app_background.py
+!project_pwa/migrations/0004_projectpwa_app_logo.py
 vehicle_access/migrations/
 vehicle_access/migrations/*.py
 !vehicle_access/migrations/

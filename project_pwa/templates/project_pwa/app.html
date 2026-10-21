@@ -6,17 +6,119 @@
     <title>{{ pwa.name }}</title>
     <link rel="manifest" href="{% url 'project-pwa-manifest' pwa.uuid %}">
     <style>
-        :root { --header-bg: {{ config.header_bg }}; --header-border: {{ config.header_border }}; --menu-color: {{ config.menu_color }}; --header-size: {{ config.header_size }}px; --room-color: {{ config.room_color }}; --room-size: {{ config.room_size }}px; --button-border: {{ config.button_border }}; --button-bg: {{ config.button_bg }}; --lock-text: {{ config.lock_text }}; --lock-size: {{ config.lock_size }}px; --footer-border: {{ config.footer_border }}; --footer-text: {{ config.footer_color }}; --footer-size: {{ config.footer_size }}px; --footer-bg: {{ config.footer_bg }}; }
-        * { box-sizing: border-box; } body { margin: 0; font-family: Arial, sans-serif; color: #111827; } header { display: grid; grid-template-columns:1fr auto 1fr; align-items:center; min-height:88px; padding:1rem 1.5rem; background:var(--header-bg); border-bottom:3px solid var(--header-border); color:var(--menu-color); } header strong { font-size:var(--header-size); text-align:center; } header img { max-height:52px; max-width:160px; object-fit:contain; } header form { justify-self:end; } .pwa-logout { margin:0; padding:.5rem .75rem; border:1px solid currentColor; border-radius:.5rem; background:transparent; color:var(--menu-color); font-size:.9rem; cursor:pointer; } main { display:flex; flex-direction:column; min-height:calc(100vh - 88px); padding:5rem 1.5rem; text-align:center; } main .pwa-main-text, h1 { color:var(--room-color); font-size:var(--room-size); text-align:center; } h1 { margin:0; } main button { margin:2rem 0; padding:1rem 1.5rem; border:1px solid var(--button-border); border-radius:.75rem; background:var(--button-bg); color:var(--lock-text); font-size:var(--lock-size); } footer { display:flex; align-items:center; justify-content:center; min-height:3rem; margin-top:auto; border-top:1px solid var(--footer-border); padding:.5rem 1rem; background:var(--footer-bg); color:var(--footer-text); font-size:var(--footer-size); text-align:center; }
+        :root { 
+	--header-bg: {{ config.header_bg }}; 
+	--header-border: {{ config.header_border }}; 
+	--menu-color: {{ config.menu_color }}; 
+	--header-size: {{ config.header_size }}px; 
+	--room-color: {{ config.room_color }}; 
+	--room-size: {{ config.room_size }}px; 
+	--button-border: {{ config.button_border }}; 
+	--button-bg: {{ config.button_bg }}; 
+	--lock-text: {{ config.lock_text }}; 
+	--lock-size: {{ config.lock_size }}px; 
+	--footer-border: {{ config.footer_border }}; 
+	--footer-text: {{ config.footer_color }}; 
+	--footer-size: {{ config.footer_size }}px; 
+	--footer-bg: {{ config.footer_bg }};
+	}
+	* { box-sizing: border-box; } 
+	html { min-height: 100%;}
+	body { margin: 0;
+    min-height: 100vh;
+    min-height: 100dvh;
+    display: flex;
+    flex-direction: column;
+    font-family: Arial, sans-serif;
+    color: #111827; } 
+	header { display: grid; grid-template-columns:1fr auto 1fr; align-items:center; min-height:88px; padding:1rem 1.5rem; background:var(--header-bg); border-bottom:3px solid var(--header-border); color:var(--menu-color); 
+ flex-shrink: 0;} 
+	header strong { font-size:var(--header-size); text-align:center; } 
+	header img { max-height:52px; max-width:160px; object-fit:contain; } 
+	header form { justify-self:end; } .pwa-logout { margin:0; padding:.5rem .75rem; border:1px solid currentColor; border-radius:.5rem; background:transparent; color:var(--menu-color); font-size:.9rem; cursor:pointer; } 
+	main {  display: flex;
+    flex-direction: column;
+    flex: 1;
+    padding: 5rem 1.5rem;
+    text-align: center;
+    padding-bottom: 6rem;
+
+ } 
+	main .pwa-main-text, h1 { color:var(--room-color); font-size:var(--room-size); text-align:center; } 
+	h1 { margin:0; } 
+	main button { margin:2rem 0; padding:1rem 1.5rem; border:1px solid var(--button-border); border-radius:.75rem; background:var(--button-bg); color:var(--lock-text); font-size:var(--lock-size); } 
+	.pwa-lock:disabled { cursor:wait; opacity:.7; }
+	.pwa-lock.is-opening::before { display:inline-block; width:1em; height:1em; margin-right:.55em; border:2px solid currentColor; border-right-color:transparent; border-radius:50%; content:''; vertical-align:-.12em; animation:pwa-spin .7s linear infinite; }
+	.pwa-lock.is-opened { background:#dcfce7; border-color:#16a34a; color:#166534; }
+	@keyframes pwa-spin { to { transform:rotate(360deg); } }
+
+footer {
+ position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 3rem;
+    padding: .5rem 1rem;
+
+    border-top: 1px solid var(--footer-border);
+    background: var(--footer-bg);
+    color: var(--footer-text);
+    font-size: var(--footer-size);
+    text-align: center;
+}
+
+
     </style>
 </head>
 <body>
-    <header><span></span>{% if pwa.logo %}<img src="{{ pwa.logo.url }}" alt="{{ pwa.name }}">{% else %}<strong>{{ pwa.name }}</strong>{% endif %}<form method="post" action="{% url 'project-pwa-logout' pwa.uuid %}">{% csrf_token %}<button type="submit" class="pwa-logout">Salir</button></form></header>
+    <header><span></span>{% if pwa.app_logo %}<img src="{{ pwa.app_logo.url }}" alt="{{ pwa.name }}">{% elif pwa.logo %}<img src="{{ pwa.logo.url }}" alt="{{ pwa.name }}">{% else %}<strong>{{ pwa.name }}</strong>{% endif %}<form method="post" action="{% url 'project-pwa-logout' pwa.uuid %}">{% csrf_token %}<button type="submit" class="pwa-logout">Salir</button></form></header>
     <main{% if pwa.app_background %} style="background: url('{{ pwa.app_background.url }}') center / cover"{% endif %}>
         <h1>Habitación {{ guest_data.room_name }}</h1>
-        {% for lock in guest_data.locks %}<button>{{ lock.name }}</button>{% empty %}<p>No hay cerraduras disponibles.</p>{% endfor %}
-        <footer>{{ content.footer_text }}</footer>
+        {% for lock in guest_data.locks %}<button type="button" class="pwa-lock" data-open-url="{% url 'project-pwa-open-lock' pwa.uuid lock.id %}">{{ lock.name }}</button>{% empty %}<p>No hay cerraduras disponibles.</p>{% endfor %}
     </main>
-    <script>if ('serviceWorker' in navigator) navigator.serviceWorker.register('{% url "project-pwa-service-worker" pwa.uuid %}');</script>
+        {% if content.footer_text %}<footer>{{ content.footer_text }}</footer>{% endif %}
+    <script>
+        function csrfToken() { return document.cookie.match(/(?:^|; )csrftoken=([^;]+)/)?.[1] || ''; }
+        function restoreLockButton(button) {
+            button.classList.remove('is-opening', 'is-opened');
+            button.removeAttribute('aria-busy');
+            button.textContent = button.dataset.label;
+            button.disabled = false;
+        }
+        document.addEventListener('click', async event => {
+            const button = event.target.closest('.pwa-lock');
+            if (!button || button.disabled) return;
+            button.dataset.label = button.textContent;
+            button.disabled = true;
+            button.setAttribute('aria-busy', 'true');
+            button.classList.add('is-opening');
+            button.textContent = 'Abriendo…';
+            try {
+                const response = await fetch(button.dataset.openUrl, {
+                    method: 'POST', credentials: 'same-origin',
+                    headers: {'X-CSRFToken': decodeURIComponent(csrfToken())},
+                });
+                const data = await response.json();
+                if (!data.ok) {
+                    alert(data.error || 'La cerradura no se ha podido abrir.');
+                    restoreLockButton(button);
+                    return;
+                }
+                button.classList.replace('is-opening', 'is-opened');
+                button.removeAttribute('aria-busy');
+                button.textContent = 'Abierta ✓';
+                setTimeout(() => restoreLockButton(button), 1800);
+            } catch (_) {
+                alert('La cerradura no se ha podido abrir. Comprueba tu conexión.');
+                restoreLockButton(button);
+            }
+        });
+        if ('serviceWorker' in navigator) navigator.serviceWorker.register('{% url "project-pwa-service-worker" pwa.uuid %}');
+    </script>
 </body>
 </html>

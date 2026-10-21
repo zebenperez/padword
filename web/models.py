@@ -283,6 +283,32 @@ class ProjectAux(models.Model):
 
     class Meta:
         verbose_name = _('Project Aux')
+
+
+class IntegrationProjectLink(models.Model):
+    """Local record of the project provisioned in Padword Integrations.
+
+    The remote API uses the Padword project UUID as its idempotency key.  This
+    table stores remote identifiers, status, and an encrypted retry copy of
+    the per-project API password used by Integrations to call Padword.
+    """
+    project = models.OneToOneField(Project, on_delete=models.CASCADE)
+    remote_project_id = models.CharField(max_length=255, default="", blank=True)
+    remote_project_uuid = models.CharField(max_length=255, default="", blank=True)
+    api_username = models.CharField(max_length=150, default="", blank=True)
+    encrypted_api_password = models.TextField(default="", blank=True)
+    status = models.CharField(max_length=32, default="pending")
+    last_error = models.TextField(default="", blank=True)
+    last_synced_at = models.DateTimeField(null=True, blank=True)
+    created_at = models.DateTimeField(default=datetime.datetime.now)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        # This legacy application has no model migrations.  The accompanying
+        # SQL migration creates this small, standalone table.
+        managed = False
+        db_table = 'integration_project_links'
+        verbose_name = _('Integration project link')
  
 class ProjectLockUser(models.Model):
     created = models.DateTimeField(verbose_name=_('Created'), default=datetime.date.min, null=True)

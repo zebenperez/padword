@@ -1,14 +1,16 @@
 from django.contrib import messages
 from django.core.exceptions import PermissionDenied
-from django.http import HttpResponse, JsonResponse
+from django.db import transaction
+from django.http import Http404, HttpResponse, JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
 from django.utils import timezone
 from django.views.decorators.http import require_POST
 
-from guest.models import Guest
+from guest.models import Guest, GuestLockLog
 from padword.decorators import group_required
 from web.models import Project
+from web.models_lock import Lock
 
 from .models import ProjectPWA
 
@@ -29,6 +31,21 @@ DEFAULT_CONFIG = {
     'footer_size': 14,
     'footer_bg': '#ffffff',
     'login_logo_size': 65,
+    'login_form_bg': '#ffffff',
+    'login_title_color': '#111827',
+    'login_title_size': 24,
+    'login_subtitle_color': '#64748b',
+    'login_subtitle_size': 14,
+    'login_field_border': '#dbe2ea',
+    'login_field_border_width': 1,
+    'login_field_bg': '#ffffff',
+    'login_field_text': '#111827',
+    'login_field_size': 17,
+    'login_button_border': '#d1d5db',
+    'login_button_border_width': 1,
+    'login_button_bg': '#ffffff',
+    'login_button_text': '#111827',
+    'login_button_size': 18,
 }
 
 
@@ -63,12 +80,20 @@ def _get_config(pwa):
 
 
 def _get_content(pwa):
-    return {
+    content = {
         'footer_text': '',
         'login_title': 'Bienvenid@ a {}'.format(pwa.name),
         'login_subtitle': 'Introduce tus datos de acceso.',
+        'access_blocked_title': 'Acceso no disponible',
+        'access_blocked_message': (
+            'Lo sentimos, no dispone de permisos para acceder en este momento. '
+            'Consulte los datos del check-in o contacte con el alojamiento.'
+        ),
         **(pwa.content or {}),
     }
+    # An empty footer is intentional: do not reserve space for it in the app.
+    content['footer_text'] = (content.get('footer_text') or '').strip()
+    return content
 
 
 def _save_wizard_data(request, pwa):
@@ -76,7 +101,7 @@ def _save_wizard_data(request, pwa):
     for key in DEFAULT_CONFIG:
         value = request.POST.get(key)
         if value is not None:
-            if key.endswith('_size'):
+            if key.endswith(('_size', '_width')):
                 try:
                     config[key] = int(value)
                 except (TypeError, ValueError):
@@ -91,9 +116,12 @@ def _save_wizard_data(request, pwa):
     # The main body text is always the guest's room, so it is no longer
     # configurable. Remove any value saved by older versions of the wizard.
     content.pop('room_title', None)
-    for key in ('footer_text', 'login_title', 'login_subtitle'):
+    for key in (
+        'footer_text', 'login_title', 'login_subtitle',
+        'access_blocked_title', 'access_blocked_message',
+    ):
         if key in request.POST:
-            content[key] = request.POST[key]
+            content[key] = request.POST[key].strip() if key == 'footer_text' else request.POST[key]
     pwa.content = content
     if request.FILES.get('logo'):
         pwa.logo = request.FILES['logo']
@@ -101,6 +129,8 @@ def _save_wizard_data(request, pwa):
         pwa.background = request.FILES['background']
     if request.FILES.get('app_background'):
         pwa.app_background = request.FILES['app_background']
+    if request.FILES.get('app_logo'):
+        pwa.app_logo = request.FILES['app_logo']
     pwa.save()
 
 
@@ -194,7 +224,7 @@ def _guest_pwa_data(guest):
         room_name = room.alias if room and room.alias else guest.room
         locks = [
             {'id': lock.id, 'name': lock.alias or lock.room}
-            for lock in guest.get_locks
+            for lock in guest.get_locks()
         ]
         return {'room_name': room_name, 'locks': locks}
     except Exception:
@@ -222,7 +252,7 @@ def edit(request, project_uuid, pwa_uuid):
     _get_project_for_pwa_management(request, project_uuid)
     pwa = _get_pwa(project_uuid, pwa_uuid)
     step = request.GET.get('step', request.POST.get('step', 'login'))
-    if step not in ('login', 'app'):
+    if step not in ('login', 'app', 'blocked'):
         step = 'login'
     if request.method == 'POST':
         _save_wizard_data(request, pwa)
@@ -245,14 +275,24 @@ def publish(request, project_uuid, pwa_uuid):
     _get_project_for_pwa_management(request, project_uuid)
     pwa = _get_pwa(project_uuid, pwa_uuid)
     _save_wizard_data(request, pwa)
-    pwa.status = ProjectPWA.Status.PUBLISHED
-    pwa.published_at = timezone.now()
-    pwa.save(update_fields=['status', 'published_at', 'updated_at'])
+    # A project has one public PWA at a time.  Keep draft configurations
+    # intact, but take all other public ones offline as part of this publish.
+    with transaction.atomic():
+        ProjectPWA.objects.filter(
+            project_uuid=pwa.project_uuid,
+            status=ProjectPWA.Status.PUBLISHED,
+        ).exclude(pk=pwa.pk).update(
+            status=ProjectPWA.Status.DRAFT,
+            published_at=None,
+        )
+        pwa.status = ProjectPWA.Status.PUBLISHED
+        pwa.published_at = timezone.now()
+        pwa.save(update_fields=['status', 'published_at', 'updated_at'])
     messages.success(request, 'PWA published.')
     step = request.POST.get('step', 'login')
     return redirect('{}?step={}'.format(
         reverse('project-pwa-edit', kwargs={'project_uuid': project_uuid, 'pwa_uuid': pwa.uuid}),
-        step if step in ('login', 'app') else 'login',
+        step if step in ('login', 'app', 'blocked') else 'login',
     ))
 
 
@@ -283,6 +323,7 @@ def delete(request, project_uuid, pwa_uuid):
     logo = pwa.logo
     background = pwa.background
     app_background = pwa.app_background
+    app_logo = pwa.app_logo
     pwa.delete()
     if logo:
         logo.delete(save=False)
@@ -290,6 +331,8 @@ def delete(request, project_uuid, pwa_uuid):
         background.delete(save=False)
     if app_background:
         app_background.delete(save=False)
+    if app_logo:
+        app_logo.delete(save=False)
     messages.success(request, 'PWA deleted.')
     return redirect('project-pwa-list', project_uuid=project_uuid)
 
@@ -358,12 +401,29 @@ def access_auto(request, pwa_uuid, guest_uuid):
             'language': _get_language(request, pwa),
             'content': _get_content(pwa),
             'error': 'El enlace no es válido o la reserva ya no está activa.',
+            # A guest-specific link must not fall back to the public login
+            # form when the booking has not started or has already ended.
+            'access_blocked': True,
         }, status=403)
 
     languages = _get_languages(pwa)
     language = (guest.language or '').lower()
     _grant_guest_pwa_access(request, pwa, guest, language if language in languages else languages[0])
-    return redirect('project-pwa-app', pwa_uuid=pwa.uuid)
+    # Fullscreen requests are only accepted by browsers from a user gesture.
+    # Render the already-authenticated welcome screen so its Access button can
+    # make that request before revealing the guest's locks.
+    return public(request, pwa.uuid)
+
+
+def project_access_auto(request, project_uuid, guest_uuid):
+    """Send a stable guest link to the PWA currently published for a project."""
+    pwa = ProjectPWA.objects.filter(
+        project_uuid=project_uuid,
+        status=ProjectPWA.Status.PUBLISHED,
+    ).order_by('-updated_at').first()
+    if pwa is None:
+        raise Http404
+    return redirect('project-pwa-access-auto', pwa_uuid=pwa.uuid, guest_uuid=guest_uuid)
 
 
 @require_POST
@@ -388,6 +448,32 @@ def app(request, pwa_uuid):
         'language': _get_language(request, pwa, guest),
         'guest_data': _guest_pwa_data(guest),
     })
+
+
+@require_POST
+def open_lock(request, pwa_uuid, lock_id):
+    """Open a lock assigned to the current PWA guest.
+
+    PWA access is session-based rather than a Django ``guests`` group login,
+    so it cannot use the legacy bookings endpoint.  Check the PWA session and
+    the guest's lock assignment before contacting the lock provider.
+    """
+    pwa = _published_pwa(pwa_uuid)
+    guest = _current_guest(request, pwa)
+    if guest is None:
+        return JsonResponse({'ok': False, 'error': 'La sesión ha caducado.'}, status=403)
+
+    lock = Lock.objects.filter(id=lock_id, project_uuid=pwa.project_uuid).first()
+    if lock is None or not guest.can_open_lock(lock):
+        return JsonResponse({'ok': False, 'error': 'No tienes acceso a esta cerradura.'}, status=403)
+
+    if lock.open_lock() is True:
+        GuestLockLog.objects.create(lock_uuid=lock.uuid, guest_uuid=guest.UUID)
+        return JsonResponse({'ok': True})
+    return JsonResponse({
+        'ok': False,
+        'error': 'La cerradura no se ha podido abrir. Inténtalo de nuevo.',
+    }, status=502)
 
 
 def manifest(request, pwa_uuid):
